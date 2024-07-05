@@ -1,46 +1,40 @@
-
   x HTML start tag "p" in a foreign namespace context
-    ,-[$DIR/tests/recovery/element/svg-4/input.html:10:1]
+    ,-[$DIR/tests/recovery/element/svg-4/input.html:11:1]
  10 | <body>
  11 | <svg><p>test</p></svg>
     :      ^^^
  12 | <svg><p>test</svg>
     `----
-
   x Stray end tag "svg"
-    ,-[$DIR/tests/recovery/element/svg-4/input.html:10:1]
+    ,-[$DIR/tests/recovery/element/svg-4/input.html:11:1]
  10 | <body>
  11 | <svg><p>test</p></svg>
     :                 ^^^^^^
  12 | <svg><p>test</svg>
     `----
-
   x HTML start tag "p" in a foreign namespace context
-    ,-[$DIR/tests/recovery/element/svg-4/input.html:11:1]
+    ,-[$DIR/tests/recovery/element/svg-4/input.html:12:1]
  11 | <svg><p>test</p></svg>
  12 | <svg><p>test</svg>
     :      ^^^
  13 | <svg>test</p></svg>
     `----
-
   x Stray end tag "svg"
-    ,-[$DIR/tests/recovery/element/svg-4/input.html:11:1]
+    ,-[$DIR/tests/recovery/element/svg-4/input.html:12:1]
  11 | <svg><p>test</p></svg>
  12 | <svg><p>test</svg>
     :             ^^^^^^
  13 | <svg>test</p></svg>
     `----
-
   x End tag "p" did not match the name of the current open element ("svg")
-    ,-[$DIR/tests/recovery/element/svg-4/input.html:12:1]
+    ,-[$DIR/tests/recovery/element/svg-4/input.html:13:1]
  12 | <svg><p>test</svg>
  13 | <svg>test</p></svg>
     :          ^^^^
  14 | </body>
     `----
-
   x Stray end tag "svg"
-    ,-[$DIR/tests/recovery/element/svg-4/input.html:12:1]
+    ,-[$DIR/tests/recovery/element/svg-4/input.html:13:1]
  12 | <svg><p>test</svg>
  13 | <svg>test</p></svg>
     :              ^^^^^^

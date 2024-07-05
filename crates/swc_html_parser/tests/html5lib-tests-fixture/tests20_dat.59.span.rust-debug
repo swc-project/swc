@@ -1,50 +1,40 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.59.html:1:1]
  1 | <math><annotation-xml encoding=" text/html "><div>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.59.html:1:1]
  1 | <math><annotation-xml encoding=" text/html "><div>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.59.html:1:1]
  1 | <math><annotation-xml encoding=" text/html "><div>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.59.html:1:1]
  1 | <math><annotation-xml encoding=" text/html "><div>
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.59.html:1:1]
  1 | <math><annotation-xml encoding=" text/html "><div>
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.59.html:1:1]
  1 | <math><annotation-xml encoding=" text/html "><div>
    :                       ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.59.html:1:1]
  1 | <math><annotation-xml encoding=" text/html "><div>
    :                                              ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.59.html:1:1]
  1 | <math><annotation-xml encoding=" text/html "><div>

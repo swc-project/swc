@@ -1,20 +1,15 @@
-
   x Document
    ,-[$DIR/tests/recovery/text/empty-entities/input.html:1:1]
  1 | &# &#;
    : ^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/text/empty-entities/input.html:1:1]
  1 | &# &#;
    : ^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/text/empty-entities/input.html:1:1]
  1 | &# &#;

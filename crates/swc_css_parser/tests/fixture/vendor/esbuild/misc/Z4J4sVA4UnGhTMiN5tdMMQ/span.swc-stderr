@@ -1,142 +1,118 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    : ^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    : ^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    : ^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    : ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    : ^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    : ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    :   ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    :   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    :     ^^^^^^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    :     ^^^^^^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    :     ^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    :     ^^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    :              ^
    `----
-
   x Integer
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    :              ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    :                ^
    `----
-
   x Integer
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    :                ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    :                  ^
    `----
-
   x Integer
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    :                  ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }
    :                    ^
    `----
-
   x Integer
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }

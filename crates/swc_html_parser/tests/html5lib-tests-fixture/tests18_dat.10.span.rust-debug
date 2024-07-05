@@ -1,68 +1,55 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.10.html:1:1]
  1 | <!doctype html><table><td><plaintext></plaintext>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.10.html:1:1]
  1 | <!doctype html><table><td><plaintext></plaintext>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.10.html:1:1]
  1 | <!doctype html><table><td><plaintext></plaintext>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.10.html:1:1]
  1 | <!doctype html><table><td><plaintext></plaintext>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.10.html:1:1]
  1 | <!doctype html><table><td><plaintext></plaintext>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.10.html:1:1]
  1 | <!doctype html><table><td><plaintext></plaintext>
    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.10.html:1:1]
  1 | <!doctype html><table><td><plaintext></plaintext>
    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.10.html:1:1]
  1 | <!doctype html><table><td><plaintext></plaintext>
    :                           ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.10.html:1:1]
  1 | <!doctype html><table><td><plaintext></plaintext>
    :                           ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.10.html:1:1]
  1 | <!doctype html><table><td><plaintext></plaintext>
    :                                      ^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.10.html:1:1]
  1 | <!doctype html><table><td><plaintext></plaintext>

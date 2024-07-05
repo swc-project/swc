@@ -13,16 +13,16 @@ var _b = {
 var __ = {
     writable: true,
     value: (()=>{
-        ({ e: [_init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initStatic]  } = _apply_decs_2203_r(Foo, [
+        ({ e: [_init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initStatic] } = _apply_decs_2203_r(Foo, [
             [
                 dec,
                 6,
                 "a",
                 function() {
-                    return _class_static_private_field_spec_get(this, Foo, ___a);
+                    return _class_static_private_field_spec_get(this, Foo, ___a_1);
                 },
                 function(_v) {
-                    _class_static_private_field_spec_set(this, Foo, ___a, _v);
+                    _class_static_private_field_spec_set(this, Foo, ___a_1, _v);
                 }
             ],
             [
@@ -30,21 +30,21 @@ var __ = {
                 6,
                 "b",
                 function() {
-                    return _class_static_private_field_spec_get(this, Foo, ___b);
+                    return _class_static_private_field_spec_get(this, Foo, ___b_2);
                 },
                 function(_v) {
-                    _class_static_private_field_spec_set(this, Foo, ___b, _v);
+                    _class_static_private_field_spec_set(this, Foo, ___b_2, _v);
                 }
             ]
         ], []));
         _initStatic(Foo);
     })()
 };
-var ___a = {
+var ___a_1 = {
     writable: true,
     value: _init_a(Foo)
 };
-var ___b = {
+var ___b_2 = {
     writable: true,
     value: _init_b(Foo, 123)
 };

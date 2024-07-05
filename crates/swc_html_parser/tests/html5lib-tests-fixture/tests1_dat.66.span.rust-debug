@@ -1,68 +1,55 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
  1 | <DIV> abc <B> def <I>
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
  1 | <DIV> abc <B> def <I>
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
  1 | <DIV> abc <B> def <I>
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
  1 | <DIV> abc <B> def <I>
    :      ^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
  1 | <DIV> abc <B> def <I>
    :      ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
  1 | <DIV> abc <B> def <I>
    :           ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
  1 | <DIV> abc <B> def <I>
    :           ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
  1 | <DIV> abc <B> def <I>
    :              ^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
  1 | <DIV> abc <B> def <I>
    :              ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
  1 | <DIV> abc <B> def <I>
    :                   ^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
  1 | <DIV> abc <B> def <I>

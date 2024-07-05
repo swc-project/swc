@@ -1,16 +1,14 @@
-
   x Unexpected token `!`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
-   ,-[$DIR/tests/typescript-errors/issue-3712/input.ts:7:1]
- 7 | 		<>
- 8 | 			< !doctype html >
-   :      ^
- 9 | 			<html lang='en-US' charSet='UTF-8'>
+   ,-[$DIR/tests/typescript-errors/issue-3712/input.ts:8:1]
+ 7 |         <>
+ 8 |             < !doctype html >
+   :               ^
+ 9 |             <html lang='en-US' charSet='UTF-8'>
    `----
-
   x Expression expected
-   ,-[$DIR/tests/typescript-errors/issue-3712/input.ts:6:1]
+   ,-[$DIR/tests/typescript-errors/issue-3712/input.ts:7:1]
  6 | export const pageLayout = ()=>jsx(
- 7 | 		<>
-   :    ^
- 8 | 			< !doctype html >
+ 7 |         <>
+   :          ^
+ 8 |             < !doctype html >
    `----

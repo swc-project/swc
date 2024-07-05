@@ -1,4 +1,3 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
  1 | ,-> <html>
@@ -7,7 +6,6 @@
  4 | |   <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | `-> <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
  1 | ,-> <html>
@@ -16,7 +14,6 @@
  4 | |   <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | `-> <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
  1 | ,-> <html>
@@ -25,544 +22,474 @@
  4 | |   <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | `-> <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
  1 | <html>
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
  1 | <html>
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    `----
-
   x Attribute
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
  1 | <html>
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
    :       ^^^^^^^^^
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
  1 | <html>
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
    :                 ^^^^^^^^^^^^^^^^^
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
  1 | <html>
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
    :                 ^^^^^^^^^^^^^^^^^
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
  1 | <html>
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
    :                    ^^^^^^^^^^^^^^
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
  1 | <html>
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
    :                    ^^^^^^^^^^^^^^
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
  1 | <html>
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
  1 | <html>
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
  1 | <html>
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
    :                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
  1 | <html>
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
    :                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
  1 | <html>
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
    :                                     ^^^^^^^^^^^^^^^^^^^^^^
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
  1 | <html>
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
    :                                     ^^^^^^^^^^^^^^^^^^^^^^
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
  1 | <html>
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
    :                                     ^^^^^^^^^^^^^^^
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
  1 | <html>
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
    :                                     ^^^^^^^^^^^^^^^
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
  1 | <html>
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
    :                                                           ^^^^^^^^^^^^^
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
  1 | <html>
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
    :                                                           ^^^^^^^^^^^^^
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
  1 | <html>
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
    :                                                                            ^^^^^^^^^^^^^
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
  1 | <html>
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
    :                                                                            ^^^^^^^^^^^^^
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
  1 | <html>
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
    :                                                                                             ^^^^^^^
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
  1 | <html>
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
    :                                                                                             ^^^^^^^
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    :    ^^^^^^^^^^^^^^^^^^^^^
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    :    ^^^^^^^^^^^^^^^^^^^^^
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    `----
-
   x Attribute
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    :                               ^^^^^^^^^
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    :                                         ^^^^^
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    :                                         ^^^^^
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    :                                              ^^^^^^^^^^^^^^^^^^
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    :                                              ^^^^^^^^^^^^^^^^^^
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    :                                                 ^^^^^^^^^^^^^^^
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    :                                                 ^^^^^^^^^^^^^^^
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    :                                              ^^^^^^^^^^^^^^^^^^^^^^^
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    :                                              ^^^^^^^^^^^^^^^^^^^^^^^
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    :                                                                    ^
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
  2 | <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
    :                                                                    ^
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    :    ^^^^^^^^^^^^^^^^^^^^
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    :    ^^^^^^^^^^^^^^^^^^^^
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    :    ^^^^^^^^^^^^^^^^
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    :    ^^^^^^^^^^^^^^^^
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    :                        ^^^^^
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    :                        ^^^^^
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    :                                    ^^^^^^^^^^^^^^^^^^^^^
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    :                                    ^^^^^^^^^^^^^^^^^^^^^
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    :                                                             ^
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
  3 | <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
    :                                                             ^
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:5:1]
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:5:1]
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:5:1]
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    :    ^^^^^
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:5:1]
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    :    ^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:5:1]
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    :         ^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:5:1]
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    :         ^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:5:1]
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    :            ^^^^^^^^^^^^^^^
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:5:1]
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    :            ^^^^^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:5:1]
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:5:1]
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:5:1]
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    :                               ^^^^^^^^^^^^^
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:5:1]
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    :                               ^^^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:5:1]
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    :                                                ^^^^^^
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:4:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.1.html:5:1]
  4 | <p>Italic and red. </i> Red.</font> I should not be red.</p>
  5 | <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
    :                                                ^^^^^^

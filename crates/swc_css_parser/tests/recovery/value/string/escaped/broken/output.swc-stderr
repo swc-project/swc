@@ -1,12 +1,10 @@
-
   x Unexpected end of file, but expected '}'
    ,-[$DIR/tests/recovery/value/string/escaped/broken/input.css:1:1]
  1 | ,-> a {
  2 | `->     prop: "test\\
    `----
-
   x Unterminated string
-   ,-[$DIR/tests/recovery/value/string/escaped/broken/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/string/escaped/broken/input.css:2:1]
  1 | a {
  2 |     prop: "test\\
    `----

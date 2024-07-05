@@ -1,6 +1,5 @@
-
   x Expected a semicolon
-   ,-[$DIR/tests/typescript-errors/deno-10112/case1/input.ts:2:1]
+   ,-[$DIR/tests/typescript-errors/deno-10112/case1/input.ts:3:1]
  2 |     try { }
  3 | }
    : ^

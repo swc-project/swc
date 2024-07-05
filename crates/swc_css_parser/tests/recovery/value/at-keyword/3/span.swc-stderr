@@ -1,106 +1,88 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/value/at-keyword/3/input.css:1:1]
  1 | a { value: @k\65yword }
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/value/at-keyword/3/input.css:1:1]
  1 | a { value: @k\65yword }
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/value/at-keyword/3/input.css:1:1]
  1 | a { value: @k\65yword }
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/value/at-keyword/3/input.css:1:1]
  1 | a { value: @k\65yword }
    : ^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/value/at-keyword/3/input.css:1:1]
  1 | a { value: @k\65yword }
    : ^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/value/at-keyword/3/input.css:1:1]
  1 | a { value: @k\65yword }
    : ^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/recovery/value/at-keyword/3/input.css:1:1]
  1 | a { value: @k\65yword }
    : ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/recovery/value/at-keyword/3/input.css:1:1]
  1 | a { value: @k\65yword }
    : ^
    `----
-
   x WqName
    ,-[$DIR/tests/recovery/value/at-keyword/3/input.css:1:1]
  1 | a { value: @k\65yword }
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/value/at-keyword/3/input.css:1:1]
  1 | a { value: @k\65yword }
    : ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/value/at-keyword/3/input.css:1:1]
  1 | a { value: @k\65yword }
    :   ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/value/at-keyword/3/input.css:1:1]
  1 | a { value: @k\65yword }
    :   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/value/at-keyword/3/input.css:1:1]
  1 | a { value: @k\65yword }
    :     ^^^^^^^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/recovery/value/at-keyword/3/input.css:1:1]
  1 | a { value: @k\65yword }
    :     ^^^^^^^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/recovery/value/at-keyword/3/input.css:1:1]
  1 | a { value: @k\65yword }
    :     ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/value/at-keyword/3/input.css:1:1]
  1 | a { value: @k\65yword }
    :     ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/value/at-keyword/3/input.css:1:1]
  1 | a { value: @k\65yword }
    :            ^^^^^^^^^^
    `----
-
   x AtKeyword { value: "keyword", raw: "k\\65yword" }
    ,-[$DIR/tests/recovery/value/at-keyword/3/input.css:1:1]
  1 | a { value: @k\65yword }

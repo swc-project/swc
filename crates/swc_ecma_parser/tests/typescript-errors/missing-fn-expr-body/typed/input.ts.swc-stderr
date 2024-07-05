@@ -1,6 +1,5 @@
-
   x Unexpected eof
-   ,-[$DIR/tests/typescript-errors/missing-fn-expr-body/typed/input.ts:1:1]
+   ,-[$DIR/tests/typescript-errors/missing-fn-expr-body/typed/input.ts:2:1]
  1 | // return type is `{}`
  2 | let f = function (): {}
    :                        ^

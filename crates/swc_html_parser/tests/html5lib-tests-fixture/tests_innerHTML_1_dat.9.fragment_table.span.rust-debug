@@ -1,10 +1,7 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.9.fragment_table.html:1:1]
  1 | </table><tr>
    : ^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element

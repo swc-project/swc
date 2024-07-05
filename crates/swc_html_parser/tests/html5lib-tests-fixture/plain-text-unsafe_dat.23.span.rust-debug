@@ -1,50 +1,41 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/plain-text-unsafe_dat.23.html:1:1]
  1 | ,-> <!DOCTYPE html><pre>
  2 | |   
  3 | `-> A</pre>
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/plain-text-unsafe_dat.23.html:1:1]
  1 | <!DOCTYPE html><pre>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/plain-text-unsafe_dat.23.html:1:1]
  1 | <!DOCTYPE html><pre>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/plain-text-unsafe_dat.23.html:1:1]
  1 | ,-> <!DOCTYPE html><pre>
  2 | |   
  3 | `-> A</pre>
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/plain-text-unsafe_dat.23.html:1:1]
  1 | ,-> <!DOCTYPE html><pre>
  2 | |   
  3 | `-> A</pre>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/plain-text-unsafe_dat.23.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/plain-text-unsafe_dat.23.html:2:1]
  1 |     <!DOCTYPE html><pre>
  2 | ,-> 
  3 | `-> A</pre>
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/plain-text-unsafe_dat.23.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/plain-text-unsafe_dat.23.html:2:1]
  1 |     <!DOCTYPE html><pre>
  2 | ,-> 
  3 | `-> A</pre>

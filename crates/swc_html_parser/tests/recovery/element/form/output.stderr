@@ -1,14 +1,12 @@
-
   x Saw a "form" start tag, but there was already an active "form" element, nested forms are not allowed
-   ,-[$DIR/tests/recovery/element/form/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/form/input.html:8:1]
  7 | <form action="test">
  8 |     <form action="test"></form>
    :     ^^^^^^^^^^^^^^^^^^^^
  9 | </form>
    `----
-
   x Stray end tag "form"
-    ,-[$DIR/tests/recovery/element/form/input.html:8:1]
+    ,-[$DIR/tests/recovery/element/form/input.html:9:1]
   8 |     <form action="test"></form>
   9 | </form>
     : ^^^^^^^

@@ -1,6 +1,5 @@
-
   x Merge conflict marker encountered.
-   ,-[$DIR/tests/errors/conflict_marker_trivia_3/input.tsx:1:1]
+   ,-[$DIR/tests/errors/conflict_marker_trivia_3/input.tsx:2:1]
  1 | const x = <div/>;
  2 | <<<<<<< HEAD
    : ^^^^^^^

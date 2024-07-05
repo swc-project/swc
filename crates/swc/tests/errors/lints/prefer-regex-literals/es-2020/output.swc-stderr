@@ -1,4 +1,3 @@
-
   x Use a regular expression literal instead of the 'RegExp' constructor
    ,-[1:1]
  1 | new globalThis.RegExp("a", "b");
@@ -6,17 +5,15 @@
  2 | new globalThis["RegExp"]("a", "b");
  3 | globalThis.RegExp("a", "b");
    `----
-
   x Use a regular expression literal instead of the 'RegExp' constructor
-   ,-[1:1]
+   ,-[2:1]
  1 | new globalThis.RegExp("a", "b");
  2 | new globalThis["RegExp"]("a", "b");
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | globalThis.RegExp("a", "b");
    `----
-
   x Use a regular expression literal instead of the 'RegExp' constructor
-   ,-[1:1]
+   ,-[3:1]
  1 | new globalThis.RegExp("a", "b");
  2 | new globalThis["RegExp"]("a", "b");
  3 | globalThis.RegExp("a", "b");

@@ -1,112 +1,93 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:1]
  1 | [a|b |= "c"]{}
    : ^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:1]
  1 | [a|b |= "c"]{}
    : ^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:1]
  1 | [a|b |= "c"]{}
    : ^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:1]
  1 | [a|b |= "c"]{}
    : ^^^^^^^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:1]
  1 | [a|b |= "c"]{}
    : ^^^^^^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:1]
  1 | [a|b |= "c"]{}
    : ^^^^^^^^^^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:1]
  1 | [a|b |= "c"]{}
    : ^^^^^^^^^^^^
    `----
-
   x AttributeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:1]
  1 | [a|b |= "c"]{}
    : ^^^^^^^^^^^^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:1]
  1 | [a|b |= "c"]{}
    :  ^^^
    `----
-
   x NamespacePrefix
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:1]
  1 | [a|b |= "c"]{}
    :  ^^
    `----
-
   x Namespace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:1]
  1 | [a|b |= "c"]{}
    :  ^
    `----
-
   x NamedNamespace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:1]
  1 | [a|b |= "c"]{}
    :  ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:1]
  1 | [a|b |= "c"]{}
    :  ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:1]
  1 | [a|b |= "c"]{}
    :    ^
    `----
-
   x AttributeSelectorMatcher
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:1]
  1 | [a|b |= "c"]{}
    :      ^^
    `----
-
   x AttributeSelectorValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:1]
  1 | [a|b |= "c"]{}
    :         ^^^
    `----
-
   x Str
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:1]
  1 | [a|b |= "c"]{}
    :         ^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:1]
  1 | [a|b |= "c"]{}
    :             ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:1]
  1 | [a|b |= "c"]{}

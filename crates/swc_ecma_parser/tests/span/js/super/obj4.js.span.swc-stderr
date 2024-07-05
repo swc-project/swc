@@ -1,6 +1,5 @@
-
   x Invalid access to super
-   ,-[$DIR/tests/span/js/super/obj4.js:4:1]
+   ,-[$DIR/tests/span/js/super/obj4.js:5:1]
  4 |             b: function b(){
  5 |                 super.b
    :                       ^

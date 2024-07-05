@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.5.html:1:1]
  1 | <table></body></caption></col></colgroup></html></tbody></td></tfoot></th></thead></tr><td>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.5.html:1:1]
  1 | <table></body></caption></col></colgroup></html></tbody></td></tfoot></th></thead></tr><td>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.5.html:1:1]
  1 | <table></body></caption></col></colgroup></html></tbody></td></tfoot></th></thead></tr><td>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.5.html:1:1]
  1 | <table></body></caption></col></colgroup></html></tbody></td></tfoot></th></thead></tr><td>
    :                                                                                        ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.5.html:1:1]
  1 | <table></body></caption></col></colgroup></html></tbody></td></tfoot></th></thead></tr><td>

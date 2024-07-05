@@ -1,7 +1,6 @@
 //// [await_unaryExpression_es2017_2.ts]
-//! 
 //!   x The operand of a delete operator must be a property reference.
-//!    ,-[1:1]
+//!    ,-[3:1]
 //!  1 | 
 //!  2 | async function bar1() {
 //!  3 |     delete await 42;
@@ -10,9 +9,8 @@
 //!  5 | 
 //!  6 | async function bar2() {
 //!    `----
-//! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[4:1]
+//!     ,-[7:1]
 //!   4 | }
 //!   5 | 
 //!   6 | async function bar2() {

@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.44.html:1:1]
  1 | <svg><em><desc></em>
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.44.html:1:1]
  1 | <svg><em><desc></em>
    : ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.44.html:1:1]
  1 | <svg><em><desc></em>
    : ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.44.html:1:1]
  1 | <svg><em><desc></em>
    :      ^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.44.html:1:1]
  1 | <svg><em><desc></em>
    :      ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.44.html:1:1]
  1 | <svg><em><desc></em>
    :          ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.44.html:1:1]
  1 | <svg><em><desc></em>

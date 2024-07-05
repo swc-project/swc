@@ -1,4 +1,3 @@
-
   x Identifier cannot follow number
    ,-[$DIR/tests/test262-parser/fail/35e93eb65d07f8e8.js:1:1]
  1 | 3x

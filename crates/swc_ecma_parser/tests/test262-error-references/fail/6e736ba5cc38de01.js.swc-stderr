@@ -1,4 +1,3 @@
-
   x Unterminated string constant
    ,-[$DIR/tests/test262-parser/fail/6e736ba5cc38de01.js:1:1]
  1 | '\x12  

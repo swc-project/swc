@@ -1,4 +1,3 @@
-
   x Non-space character after body
    ,-[$DIR/tests/recovery/element/body-2/input.html:1:1]
  1 | <!DOCTYPE html>X</body>A

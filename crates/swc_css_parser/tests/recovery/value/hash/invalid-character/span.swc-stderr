@@ -1,106 +1,88 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/value/hash/invalid-character/input.css:1:1]
  1 | a { value: #\30hash }
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/value/hash/invalid-character/input.css:1:1]
  1 | a { value: #\30hash }
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/value/hash/invalid-character/input.css:1:1]
  1 | a { value: #\30hash }
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/value/hash/invalid-character/input.css:1:1]
  1 | a { value: #\30hash }
    : ^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/value/hash/invalid-character/input.css:1:1]
  1 | a { value: #\30hash }
    : ^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/value/hash/invalid-character/input.css:1:1]
  1 | a { value: #\30hash }
    : ^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/recovery/value/hash/invalid-character/input.css:1:1]
  1 | a { value: #\30hash }
    : ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/recovery/value/hash/invalid-character/input.css:1:1]
  1 | a { value: #\30hash }
    : ^
    `----
-
   x WqName
    ,-[$DIR/tests/recovery/value/hash/invalid-character/input.css:1:1]
  1 | a { value: #\30hash }
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/value/hash/invalid-character/input.css:1:1]
  1 | a { value: #\30hash }
    : ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/value/hash/invalid-character/input.css:1:1]
  1 | a { value: #\30hash }
    :   ^^^^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/value/hash/invalid-character/input.css:1:1]
  1 | a { value: #\30hash }
    :   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/value/hash/invalid-character/input.css:1:1]
  1 | a { value: #\30hash }
    :     ^^^^^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/recovery/value/hash/invalid-character/input.css:1:1]
  1 | a { value: #\30hash }
    :     ^^^^^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/recovery/value/hash/invalid-character/input.css:1:1]
  1 | a { value: #\30hash }
    :     ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/value/hash/invalid-character/input.css:1:1]
  1 | a { value: #\30hash }
    :     ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/value/hash/invalid-character/input.css:1:1]
  1 | a { value: #\30hash }
    :            ^^^^^^^^
    `----
-
   x Hash { is_id: true, value: "0hash", raw: "\\30hash" }
    ,-[$DIR/tests/recovery/value/hash/invalid-character/input.css:1:1]
  1 | a { value: #\30hash }

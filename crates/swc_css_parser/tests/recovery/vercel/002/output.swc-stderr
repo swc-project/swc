@@ -1,6 +1,5 @@
-
   x Expected 'e', 'pi', 'infinity', '-infinity' or 'NaN', ident tokens
-   ,-[$DIR/tests/recovery/vercel/002/input.css:3:1]
+   ,-[$DIR/tests/recovery/vercel/002/input.css:4:1]
  3 |     height: __styled-jsx-placeholder__7px;
  4 |     margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
    :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

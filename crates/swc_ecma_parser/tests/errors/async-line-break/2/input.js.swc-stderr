@@ -1,6 +1,5 @@
-
   x Expected ident
-   ,-[$DIR/tests/errors/async-line-break/2/input.js:1:1]
+   ,-[$DIR/tests/errors/async-line-break/2/input.js:2:1]
  1 | foo = async
  2 | function() {
    :         ^

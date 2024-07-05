@@ -1,4 +1,3 @@
-
   x Expected 'from', got '/'
    ,-[$DIR/tests/test262-parser/fail/ec34d41ac5849c84.module.js:1:1]
  1 | import / as a from 'a'

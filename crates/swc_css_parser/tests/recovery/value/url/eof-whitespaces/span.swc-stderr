@@ -1,124 +1,103 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   
    : ^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   
    : ^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   
    : ^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   
    : ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   
    : ^
    `----
-
   x WqName
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   
    : ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   
    :   ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   
    :   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   
    :     ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   
    :     ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   
    :     ^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   
    :     ^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   
    :           ^^^^^^^^^^^^^^
    `----
-
   x Url
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   
    :           ^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   
    :           ^^^
    `----
-
   x UrlValue
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   
    :               ^^^^^^^^^
    `----
-
   x UrlValueRaw
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   

@@ -1,8 +1,7 @@
 //// [esDecorators-classExpression-namedEvaluation.8.ts]
 //// [a.ts]
-//! 
 //!   x Expression expected
-//!    ,-[3:1]
+//!    ,-[6:1]
 //!  3 | // 16.2.3.7 RS: Evaluation
 //!  4 | //   ExportDeclaration : `export` `default` AssignmentExpression `;` 
 //!  5 | 
@@ -11,9 +10,8 @@
 //!  7 | 
 //!    `----
 //// [b.ts]
-//! 
 //!   x Unexpected token `@`. Expected identifier, string literal, numeric literal or [ for the computed key
-//!    ,-[3:1]
+//!    ,-[6:1]
 //!  3 | // 16.2.3.7 RS: Evaluation
 //!  4 | //   ExportDeclaration : `export` `default` AssignmentExpression `;` 
 //!  5 | 

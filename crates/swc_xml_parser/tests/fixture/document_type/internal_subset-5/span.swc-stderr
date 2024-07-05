@@ -1,4 +1,3 @@
-
   x Document
    ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:1:1]
  1 | ,-> <!DOCTYPE svg [
@@ -9,7 +8,6 @@
  6 | |   ]>
  7 | `-> <root>test</root>
    `----
-
   x Child
    ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:1:1]
  1 | ,-> <!DOCTYPE svg [
@@ -20,7 +18,6 @@
  6 | `-> ]>
  7 |     <root>test</root>
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:1:1]
  1 | ,-> <!DOCTYPE svg [
@@ -31,30 +28,26 @@
  6 | `-> ]>
  7 |     <root>test</root>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:6:1]
+   ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:7:1]
  6 | ]>
  7 | <root>test</root>
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:6:1]
+   ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:7:1]
  6 | ]>
  7 | <root>test</root>
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:6:1]
+   ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:7:1]
  6 | ]>
  7 | <root>test</root>
    :       ^^^^
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:6:1]
+   ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:7:1]
  6 | ]>
  7 | <root>test</root>
    :       ^^^^

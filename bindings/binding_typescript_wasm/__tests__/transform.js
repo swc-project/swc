@@ -6,7 +6,7 @@ it("properly reports error", function () {
     }).toThrow();
 });
 
-describe("trannsform", () => {
+describe("transform", () => {
     it("should strip types", async () => {
         const { code } = await swc.transform(
             `
@@ -15,26 +15,36 @@ describe("trannsform", () => {
     `,
             {}
         );
-        expect(code).toMatchInlineSnapshot(`
-            "export const foo = 1;
-            "
-        `);
+        expect(code).toMatchSnapshot();
     });
 
-    it("should preserve enum", async () => {
-        const { code } = await swc.transform(
-            `
-            enum Foo {
-                Bar
-            }
-                `,
-            {}
-        );
-        await expect(code).toMatchInlineSnapshot(`
-            "enum Foo {
-                Bar
-            }
-            "
-        `);
+    describe("in strip-only mode", () => {
+        it("should throw an error when it encounters an enum", async () => {
+            await expect(
+                swc.transform("enum Foo {}", {
+                    mode: "strip-only",
+                })
+            ).rejects.toMatchSnapshot();
+        });
+
+        it('should throw an error with a descriptive message when it encounters a decorator', async () => {
+            await expect(
+                swc.transform("class Foo { @decorator foo() {} }", {
+                    mode: "strip-only",
+                })
+            ).rejects.toMatchSnapshot();
+        })
+    });
+
+    describe("in transform mode", () => {
+        it("should transpile enum", async () => {
+            const { code } = await swc.transform("enum Foo {}", {
+                mode: "transform",
+            });
+
+            expect(code).toMatchSnapshot();
+        });
+
+
     });
 });

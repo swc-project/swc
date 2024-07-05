@@ -1,20 +1,15 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.12.fragment_math_annotation-xml.html:1:1]
  1 | </annotation-xml>X
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.12.fragment_math_annotation-xml.html:1:1]
  1 | </annotation-xml>X
    :                  ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.12.fragment_math_annotation-xml.html:1:1]
  1 | </annotation-xml>X

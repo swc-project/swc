@@ -1,67 +1,58 @@
-
   x Not a pattern
    ,-[$DIR/tests/errors/arrow-function-member-as-binding-identifier/input.js:1:1]
  1 | ({a: b.c })=>{};
    :      ^^^
  2 | ([a.b])=>{};
    `----
-
   x Not a pattern
-   ,-[$DIR/tests/errors/arrow-function-member-as-binding-identifier/input.js:1:1]
+   ,-[$DIR/tests/errors/arrow-function-member-as-binding-identifier/input.js:2:1]
  1 | ({a: b.c })=>{};
  2 | ([a.b])=>{};
    :   ^^^
  3 | (a.b)=>{};
    `----
-
   x Not a pattern
-   ,-[$DIR/tests/errors/arrow-function-member-as-binding-identifier/input.js:2:1]
+   ,-[$DIR/tests/errors/arrow-function-member-as-binding-identifier/input.js:3:1]
  2 | ([a.b])=>{};
  3 | (a.b)=>{};
    :  ^^^
    `----
-
   x Not a pattern
-   ,-[$DIR/tests/errors/arrow-function-member-as-binding-identifier/input.js:4:1]
+   ,-[$DIR/tests/errors/arrow-function-member-as-binding-identifier/input.js:5:1]
  4 | 
  5 | (_, {a: b.c })=>{};
    :         ^^^
  6 | (_, [a.b])=>{};
    `----
-
   x Not a pattern
-   ,-[$DIR/tests/errors/arrow-function-member-as-binding-identifier/input.js:5:1]
+   ,-[$DIR/tests/errors/arrow-function-member-as-binding-identifier/input.js:6:1]
  5 | (_, {a: b.c })=>{};
  6 | (_, [a.b])=>{};
    :      ^^^
  7 | (_, a.b)=>{};
    `----
-
   x Not a pattern
-   ,-[$DIR/tests/errors/arrow-function-member-as-binding-identifier/input.js:6:1]
+   ,-[$DIR/tests/errors/arrow-function-member-as-binding-identifier/input.js:7:1]
  6 | (_, [a.b])=>{};
  7 | (_, a.b)=>{};
    :     ^^^
    `----
-
   x Not a pattern
-    ,-[$DIR/tests/errors/arrow-function-member-as-binding-identifier/input.js:8:1]
+    ,-[$DIR/tests/errors/arrow-function-member-as-binding-identifier/input.js:9:1]
   8 | 
   9 | (...a.b)=>{};
     :     ^^^
  10 | ([...a.b])=>{};
     `----
-
   x Not a pattern
-    ,-[$DIR/tests/errors/arrow-function-member-as-binding-identifier/input.js:9:1]
+    ,-[$DIR/tests/errors/arrow-function-member-as-binding-identifier/input.js:10:1]
   9 | (...a.b)=>{};
  10 | ([...a.b])=>{};
     :      ^^^
  11 | ({...a.b})=>{};
     `----
-
   x `...` must be followed by an identifier in declaration contexts
-    ,-[$DIR/tests/errors/arrow-function-member-as-binding-identifier/input.js:10:1]
+    ,-[$DIR/tests/errors/arrow-function-member-as-binding-identifier/input.js:11:1]
  10 | ([...a.b])=>{};
  11 | ({...a.b})=>{};
     :   ^^^^^^

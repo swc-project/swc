@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.29.html:1:1]
  1 | <div><svg><path></svg><path>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.29.html:1:1]
  1 | <div><svg><path></svg><path>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.29.html:1:1]
  1 | <div><svg><path></svg><path>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.29.html:1:1]
  1 | <div><svg><path></svg><path>
    :      ^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.29.html:1:1]
  1 | <div><svg><path></svg><path>
    :      ^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.29.html:1:1]
  1 | <div><svg><path></svg><path>
    :           ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.29.html:1:1]
  1 | <div><svg><path></svg><path>
    :           ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.29.html:1:1]
  1 | <div><svg><path></svg><path>
    :                       ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.29.html:1:1]
  1 | <div><svg><path></svg><path>

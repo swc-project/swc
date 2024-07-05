@@ -1,4 +1,3 @@
-
   x Invalid selector
    ,-[$DIR/tests/recovery/selector/pseudo-element/after/input.css:1:1]
  1 | :: foo {

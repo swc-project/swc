@@ -1,4 +1,3 @@
-
   x Unexpected tokens in at-rule prelude
    ,-[$DIR/tests/recovery/at-rule/import/unknown/input.css:1:1]
  1 | @import url("./test.css") unknown(default) unknown(display: flex) unknown;

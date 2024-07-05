@@ -1,112 +1,93 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/7YGXOizztR38f8fGB1DRaQ/input.css:1:1]
  1 | a { width: -.00%; }
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/7YGXOizztR38f8fGB1DRaQ/input.css:1:1]
  1 | a { width: -.00%; }
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/7YGXOizztR38f8fGB1DRaQ/input.css:1:1]
  1 | a { width: -.00%; }
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/7YGXOizztR38f8fGB1DRaQ/input.css:1:1]
  1 | a { width: -.00%; }
    : ^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/7YGXOizztR38f8fGB1DRaQ/input.css:1:1]
  1 | a { width: -.00%; }
    : ^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/7YGXOizztR38f8fGB1DRaQ/input.css:1:1]
  1 | a { width: -.00%; }
    : ^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/7YGXOizztR38f8fGB1DRaQ/input.css:1:1]
  1 | a { width: -.00%; }
    : ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/7YGXOizztR38f8fGB1DRaQ/input.css:1:1]
  1 | a { width: -.00%; }
    : ^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/7YGXOizztR38f8fGB1DRaQ/input.css:1:1]
  1 | a { width: -.00%; }
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/7YGXOizztR38f8fGB1DRaQ/input.css:1:1]
  1 | a { width: -.00%; }
    : ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/7YGXOizztR38f8fGB1DRaQ/input.css:1:1]
  1 | a { width: -.00%; }
    :   ^^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/7YGXOizztR38f8fGB1DRaQ/input.css:1:1]
  1 | a { width: -.00%; }
    :   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/7YGXOizztR38f8fGB1DRaQ/input.css:1:1]
  1 | a { width: -.00%; }
    :     ^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/7YGXOizztR38f8fGB1DRaQ/input.css:1:1]
  1 | a { width: -.00%; }
    :     ^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/7YGXOizztR38f8fGB1DRaQ/input.css:1:1]
  1 | a { width: -.00%; }
    :     ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/7YGXOizztR38f8fGB1DRaQ/input.css:1:1]
  1 | a { width: -.00%; }
    :     ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/7YGXOizztR38f8fGB1DRaQ/input.css:1:1]
  1 | a { width: -.00%; }
    :            ^^^^^
    `----
-
   x Percentage
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/7YGXOizztR38f8fGB1DRaQ/input.css:1:1]
  1 | a { width: -.00%; }
    :            ^^^^^
    `----
-
   x Number
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/7YGXOizztR38f8fGB1DRaQ/input.css:1:1]
  1 | a { width: -.00%; }

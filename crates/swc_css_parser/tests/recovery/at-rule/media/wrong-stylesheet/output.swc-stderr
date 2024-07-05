@@ -1,6 +1,5 @@
-
   x Expected function or ident tokens
-   ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:1:1]
+   ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:1]
  1 | @media print {
  2 |     color: teal;
    :           ^

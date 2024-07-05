@@ -1,92 +1,75 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.6.html:1:1]
  1 | <table><tr><p><a><p>You should see this text.
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.6.html:1:1]
  1 | <table><tr><p><a><p>You should see this text.
    :            ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.6.html:1:1]
  1 | <table><tr><p><a><p>You should see this text.
    :            ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.6.html:1:1]
  1 | <table><tr><p><a><p>You should see this text.
    :               ^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.6.html:1:1]
  1 | <table><tr><p><a><p>You should see this text.
    :               ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.6.html:1:1]
  1 | <table><tr><p><a><p>You should see this text.
    :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.6.html:1:1]
  1 | <table><tr><p><a><p>You should see this text.
    :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.6.html:1:1]
  1 | <table><tr><p><a><p>You should see this text.
    :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.6.html:1:1]
  1 | <table><tr><p><a><p>You should see this text.
    :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.6.html:1:1]
  1 | <table><tr><p><a><p>You should see this text.
    :                     ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.6.html:1:1]
  1 | <table><tr><p><a><p>You should see this text.
    :                     ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.6.html:1:1]
  1 | <table><tr><p><a><p>You should see this text.
    : ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.6.html:1:1]
  1 | <table><tr><p><a><p>You should see this text.
    : ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.6.html:1:1]
  1 | <table><tr><p><a><p>You should see this text.
    :        ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.6.html:1:1]
  1 | <table><tr><p><a><p>You should see this text.

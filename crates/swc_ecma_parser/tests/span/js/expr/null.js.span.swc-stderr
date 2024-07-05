@@ -1,64 +1,53 @@
-
   x Module
    ,-[$DIR/tests/span/js/expr/null.js:1:1]
  1 | let a = null
    : ^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/expr/null.js:1:1]
  1 | let a = null
    : ^^^^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/expr/null.js:1:1]
  1 | let a = null
    : ^^^^^^^^^^^^
    `----
-
   x Decl
    ,-[$DIR/tests/span/js/expr/null.js:1:1]
  1 | let a = null
    : ^^^^^^^^^^^^
    `----
-
   x VarDecl
    ,-[$DIR/tests/span/js/expr/null.js:1:1]
  1 | let a = null
    : ^^^^^^^^^^^^
    `----
-
   x VarDeclarator
    ,-[$DIR/tests/span/js/expr/null.js:1:1]
  1 | let a = null
    :     ^^^^^^^^
    `----
-
   x Pat
    ,-[$DIR/tests/span/js/expr/null.js:1:1]
  1 | let a = null
    :     ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/null.js:1:1]
  1 | let a = null
    :     ^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/null.js:1:1]
  1 | let a = null
    :         ^^^^
    `----
-
   x Lit
    ,-[$DIR/tests/span/js/expr/null.js:1:1]
  1 | let a = null
    :         ^^^^
    `----
-
   x Null
    ,-[$DIR/tests/span/js/expr/null.js:1:1]
  1 | let a = null

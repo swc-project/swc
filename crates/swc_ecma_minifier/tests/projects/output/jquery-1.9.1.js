@@ -36,7 +36,7 @@
                 }
                 return !context || context.jquery ? (context || rootjQuery).find(selector) : this.constructor(context).find(selector);
             }
-            return selector.nodeType ? (this.context = this[0] = selector, this.length = 1, this) : jQuery.isFunction(selector) ? rootjQuery.ready(selector) : (undefined !== selector.selector && (this.selector = selector.selector, this.context = selector.context), jQuery.makeArray(selector, this));
+            return selector.nodeType ? (this.context = this[0] = selector, this.length = 1, this) : jQuery.isFunction(selector) ? rootjQuery.ready(selector) : (selector.selector !== undefined && (this.selector = selector.selector, this.context = selector.context), jQuery.makeArray(selector, this));
         },
         selector: "",
         length: 0,
@@ -206,7 +206,7 @@
         merge: function(first, second) {
             var l = second.length, i = first.length, j = 0;
             if ("number" == typeof l) for(; j < l; j++)first[i++] = second[j];
-            else for(; undefined !== second[j];)first[i++] = second[j++];
+            else for(; second[j] !== undefined;)first[i++] = second[j++];
             return first.length = i, first;
         },
         grep: function(elems, callback, inv) {
@@ -223,9 +223,9 @@
         guid: 1,
         proxy: function(fn, context) {
             var args, proxy, tmp;
-            if ("string" == typeof context && (tmp = fn[context], context = fn, fn = tmp), jQuery.isFunction(fn)) return args = core_slice.call(arguments, 2), (proxy = function() {
+            return ("string" == typeof context && (tmp = fn[context], context = fn, fn = tmp), jQuery.isFunction(fn)) ? (args = core_slice.call(arguments, 2), (proxy = function() {
                 return fn.apply(context || this, args.concat(core_slice.call(arguments)));
-            }).guid = fn.guid = fn.guid || jQuery.guid++, proxy;
+            }).guid = fn.guid = fn.guid || jQuery.guid++, proxy) : undefined;
         },
         access: function(elems, fn, key, value, chainable, emptyGet, raw) {
             var i = 0, length = elems.length, bulk = null == key;
@@ -641,12 +641,12 @@
         },
         val: function(value) {
             var ret, hooks, isFunction, elem = this[0];
-            if (!arguments.length) return elem ? (hooks = jQuery.valHooks[elem.type] || jQuery.valHooks[elem.nodeName.toLowerCase()]) && "get" in hooks && undefined !== (ret = hooks.get(elem, "value")) ? ret : "string" == typeof (ret = elem.value) ? ret.replace(rreturn, "") : null == ret ? "" : ret : void 0;
+            if (!arguments.length) return elem ? (hooks = jQuery.valHooks[elem.type] || jQuery.valHooks[elem.nodeName.toLowerCase()]) && "get" in hooks && (ret = hooks.get(elem, "value")) !== undefined ? ret : "string" == typeof (ret = elem.value) ? ret.replace(rreturn, "") : null == ret ? "" : ret : void 0;
             return isFunction = jQuery.isFunction(value), this.each(function(i) {
                 var val, self = jQuery(this);
                 1 === this.nodeType && (null == (val = isFunction ? value.call(this, i, self.val()) : value) ? val = "" : "number" == typeof val ? val += "" : jQuery.isArray(val) && (val = jQuery.map(val, function(value) {
                     return null == value ? "" : value + "";
-                })), (hooks = jQuery.valHooks[this.type] || jQuery.valHooks[this.nodeName.toLowerCase()]) && "set" in hooks && undefined !== hooks.set(this, val, "value") || (this.value = val));
+                })), (hooks = jQuery.valHooks[this.type] || jQuery.valHooks[this.nodeName.toLowerCase()]) && "set" in hooks && hooks.set(this, val, "value") !== undefined || (this.value = val));
             });
         }
     }), jQuery.extend({
@@ -679,7 +679,7 @@
                 if (typeof elem.getAttribute === core_strundefined) return jQuery.prop(elem, name1, value);
                 if ((notxml = 1 !== nType || !jQuery.isXMLDoc(elem)) && (name1 = name1.toLowerCase(), hooks = jQuery.attrHooks[name1] || (rboolean.test(name1) ? boolHook : nodeHook)), undefined !== value) {
                     if (null === value) jQuery.removeAttr(elem, name1);
-                    else if (hooks && notxml && "set" in hooks && undefined !== (ret = hooks.set(elem, value, name1))) return ret;
+                    else if (hooks && notxml && "set" in hooks && (ret = hooks.set(elem, value, name1)) !== undefined) return ret;
                     else return elem.setAttribute(name1, value + ""), value;
                 } else if (hooks && notxml && "get" in hooks && null !== (ret = hooks.get(elem, name1))) return ret;
                 else return typeof elem.getAttribute !== core_strundefined && (ret = elem.getAttribute(name1)), null == ret ? undefined : ret;
@@ -715,7 +715,7 @@
         },
         prop: function(elem, name1, value) {
             var ret, hooks, nType = elem.nodeType;
-            if (elem && 3 !== nType && 8 !== nType && 2 !== nType) return (1 === nType && jQuery.isXMLDoc(elem) || (name1 = jQuery.propFix[name1] || name1, hooks = jQuery.propHooks[name1]), undefined !== value) ? hooks && "set" in hooks && undefined !== (ret = hooks.set(elem, value, name1)) ? ret : elem[name1] = value : hooks && "get" in hooks && null !== (ret = hooks.get(elem, name1)) ? ret : elem[name1];
+            if (elem && 3 !== nType && 8 !== nType && 2 !== nType) return (1 === nType && jQuery.isXMLDoc(elem) || (name1 = jQuery.propFix[name1] || name1, hooks = jQuery.propHooks[name1]), undefined !== value) ? hooks && "set" in hooks && (ret = hooks.set(elem, value, name1)) !== undefined ? ret : elem[name1] = value : hooks && "get" in hooks && null !== (ret = hooks.get(elem, name1)) ? ret : elem[name1];
         },
         propHooks: {
             tabIndex: {
@@ -900,7 +900,7 @@
             var sel, handleObj, matches, i, handlerQueue = [], delegateCount = handlers.delegateCount, cur = event.target;
             if (delegateCount && cur.nodeType && (!event.button || "click" !== event.type)) {
                 for(; cur != this; cur = cur.parentNode || this)if (1 === cur.nodeType && (!0 !== cur.disabled || "click" !== event.type)) {
-                    for(i = 0, matches = []; i < delegateCount; i++)undefined === matches[sel = (handleObj = handlers[i]).selector + " "] && (matches[sel] = handleObj.needsContext ? jQuery(sel, this).index(cur) >= 0 : jQuery.find(sel, this, null, [
+                    for(i = 0, matches = []; i < delegateCount; i++)matches[sel = (handleObj = handlers[i]).selector + " "] === undefined && (matches[sel] = handleObj.needsContext ? jQuery(sel, this).index(cur) >= 0 : jQuery.find(sel, this, null, [
                         cur
                     ]).length), matches[sel] && matches.push(handleObj);
                     matches.length && handlerQueue.push({
@@ -960,7 +960,7 @@
             },
             beforeunload: {
                 postDispatch: function(event) {
-                    undefined !== event.result && (event.originalEvent.returnValue = event.result);
+                    event.result !== undefined && (event.originalEvent.returnValue = event.result);
                 }
             }
         },
@@ -2196,9 +2196,9 @@
         style: function(elem, name1, value, extra) {
             if (elem && 3 !== elem.nodeType && 8 !== elem.nodeType && elem.style) {
                 var ret, type, hooks, origName = jQuery.camelCase(name1), style = elem.style;
-                if (name1 = jQuery.cssProps[origName] || (jQuery.cssProps[origName] = vendorPropName(style, origName)), hooks = jQuery.cssHooks[name1] || jQuery.cssHooks[origName], undefined === value) return hooks && "get" in hooks && undefined !== (ret = hooks.get(elem, !1, extra)) ? ret : style[name1];
+                if (name1 = jQuery.cssProps[origName] || (jQuery.cssProps[origName] = vendorPropName(style, origName)), hooks = jQuery.cssHooks[name1] || jQuery.cssHooks[origName], undefined === value) return hooks && "get" in hooks && (ret = hooks.get(elem, !1, extra)) !== undefined ? ret : style[name1];
                 if ("string" == (type = typeof value) && (ret = rrelNum.exec(value)) && (value = (ret[1] + 1) * ret[2] + parseFloat(jQuery.css(elem, name1)), type = "number"), !(null == value || "number" === type && isNaN(value))) {
-                    if ("number" !== type || jQuery.cssNumber[origName] || (value += "px"), jQuery.support.clearCloneStyle || "" !== value || 0 !== name1.indexOf("background") || (style[name1] = "inherit"), !hooks || !("set" in hooks) || undefined !== (value = hooks.set(elem, value, extra))) try {
+                    if ("number" !== type || jQuery.cssNumber[origName] || (value += "px"), jQuery.support.clearCloneStyle || "" !== value || 0 !== name1.indexOf("background") || (style[name1] = "inherit"), !hooks || !("set" in hooks) || (value = hooks.set(elem, value, extra)) !== undefined) try {
                         style[name1] = value;
                     } catch (e) {}
                 }
@@ -2359,7 +2359,7 @@
     }
     function ajaxExtend(target, src) {
         var deep, key, flatOptions = jQuery.ajaxSettings.flatOptions || {};
-        for(key in src)undefined !== src[key] && ((flatOptions[key] ? target : deep || (deep = {}))[key] = src[key]);
+        for(key in src)src[key] !== undefined && ((flatOptions[key] ? target : deep || (deep = {}))[key] = src[key]);
         return deep && jQuery.extend(!0, target, deep), target;
     }
     ajaxLocParts = rurl.exec(ajaxLocation.toLowerCase()) || [], jQuery.fn.load = function(url, params, callback) {
@@ -2603,7 +2603,7 @@
             }
         }
     }), jQuery.ajaxPrefilter("script", function(s) {
-        undefined === s.cache && (s.cache = !1), s.crossDomain && (s.type = "GET", s.global = !1);
+        s.cache === undefined && (s.cache = !1), s.crossDomain && (s.type = "GET", s.global = !1);
     }), jQuery.ajaxTransport("script", function(s) {
         if (s.crossDomain) {
             var script, head = document.head || jQuery("head")[0] || document.documentElement;

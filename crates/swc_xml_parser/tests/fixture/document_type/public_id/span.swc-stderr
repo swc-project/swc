@@ -1,47 +1,40 @@
-
   x Document
    ,-[$DIR/tests/fixture/document_type/public_id/input.xml:1:1]
  1 | ,-> <!DOCTYPE greeting PUBLIC "hello.dtd" "goodbye.dtd">
  2 | `-> <root>test</root>
    `----
-
   x Child
    ,-[$DIR/tests/fixture/document_type/public_id/input.xml:1:1]
  1 | <!DOCTYPE greeting PUBLIC "hello.dtd" "goodbye.dtd">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | <root>test</root>
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/document_type/public_id/input.xml:1:1]
  1 | <!DOCTYPE greeting PUBLIC "hello.dtd" "goodbye.dtd">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | <root>test</root>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/document_type/public_id/input.xml:1:1]
+   ,-[$DIR/tests/fixture/document_type/public_id/input.xml:2:1]
  1 | <!DOCTYPE greeting PUBLIC "hello.dtd" "goodbye.dtd">
  2 | <root>test</root>
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/document_type/public_id/input.xml:1:1]
+   ,-[$DIR/tests/fixture/document_type/public_id/input.xml:2:1]
  1 | <!DOCTYPE greeting PUBLIC "hello.dtd" "goodbye.dtd">
  2 | <root>test</root>
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/document_type/public_id/input.xml:1:1]
+   ,-[$DIR/tests/fixture/document_type/public_id/input.xml:2:1]
  1 | <!DOCTYPE greeting PUBLIC "hello.dtd" "goodbye.dtd">
  2 | <root>test</root>
    :       ^^^^
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/document_type/public_id/input.xml:1:1]
+   ,-[$DIR/tests/fixture/document_type/public_id/input.xml:2:1]
  1 | <!DOCTYPE greeting PUBLIC "hello.dtd" "goodbye.dtd">
  2 | <root>test</root>
    :       ^^^^

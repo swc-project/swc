@@ -1,42 +1,36 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/attribute/missing-value/input.html:1:1]
  1 | <div>test</div>
    : ^^^^^
  2 | <a a=>
    `----
-
   x Missing attribute value
-   ,-[$DIR/tests/recovery/attribute/missing-value/input.html:1:1]
+   ,-[$DIR/tests/recovery/attribute/missing-value/input.html:2:1]
  1 | <div>test</div>
  2 | <a a=>
    :      ^
  3 | <div>test</div>
    `----
-
   x Unexpected equals sign before attribute name
-   ,-[$DIR/tests/recovery/attribute/missing-value/input.html:3:1]
+   ,-[$DIR/tests/recovery/attribute/missing-value/input.html:4:1]
  3 | <div>test</div>
  4 | <z ====>
    :    ^
    `----
-
   x Unexpected character in unquoted attribute value
-   ,-[$DIR/tests/recovery/attribute/missing-value/input.html:3:1]
+   ,-[$DIR/tests/recovery/attribute/missing-value/input.html:4:1]
  3 | <div>test</div>
  4 | <z ====>
    :      ^
    `----
-
   x Unexpected character in unquoted attribute value
-   ,-[$DIR/tests/recovery/attribute/missing-value/input.html:3:1]
+   ,-[$DIR/tests/recovery/attribute/missing-value/input.html:4:1]
  3 | <div>test</div>
  4 | <z ====>
    :       ^
    `----
-
   x End of file seen and there were open elements
-   ,-[$DIR/tests/recovery/attribute/missing-value/input.html:3:1]
+   ,-[$DIR/tests/recovery/attribute/missing-value/input.html:4:1]
  3 | <div>test</div>
  4 | <z ====>
    `----

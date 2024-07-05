@@ -1,4 +1,3 @@
-
   x Document
     ,-[$DIR/tests/fixture/element/headings/input.html:1:1]
   1 | ,-> <!DOCTYPE html>
@@ -15,23 +14,20 @@
  12 | |   </body>
  13 | `-> </html>
     `----
-
   x Child
    ,-[$DIR/tests/fixture/element/headings/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
  2 | <html>
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/element/headings/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
  2 | <html>
    `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/headings/input.html:1:1]
+    ,-[$DIR/tests/fixture/element/headings/input.html:2:1]
   1 |     <!DOCTYPE html>
   2 | ,-> <html>
   3 | |   <body>
@@ -46,9 +42,8 @@
  12 | |   </body>
  13 | `-> </html>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/headings/input.html:1:1]
+    ,-[$DIR/tests/fixture/element/headings/input.html:2:1]
   1 |     <!DOCTYPE html>
   2 | ,-> <html>
   3 | |   <body>
@@ -63,13 +58,10 @@
  12 | |   </body>
  13 | `-> </html>
     `----
-
   x Child
-
   x Element
-
   x Child
-    ,-[$DIR/tests/fixture/element/headings/input.html:2:1]
+    ,-[$DIR/tests/fixture/element/headings/input.html:3:1]
   2 |     <html>
   3 | ,-> <body>
   4 | |   
@@ -83,9 +75,8 @@
  12 | |   </body>
  13 | `-> </html>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/headings/input.html:2:1]
+    ,-[$DIR/tests/fixture/element/headings/input.html:3:1]
   2 |     <html>
   3 | ,-> <body>
   4 | |   
@@ -99,312 +90,274 @@
  12 | |   </body>
  13 | `-> </html>
     `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/headings/input.html:2:1]
+   ,-[$DIR/tests/fixture/element/headings/input.html:3:1]
  2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <h1>This is heading 1</h1>
  6 |     <h2>This is heading 2</h2>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/headings/input.html:2:1]
+   ,-[$DIR/tests/fixture/element/headings/input.html:3:1]
  2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <h1>This is heading 1</h1>
  6 |     <h2>This is heading 2</h2>
    `----
-
-  x Child
-   ,-[$DIR/tests/fixture/element/headings/input.html:4:1]
- 4 | 
- 5 | <h1>This is heading 1</h1>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 6 | <h2>This is heading 2</h2>
-   `----
-
-  x Element
-   ,-[$DIR/tests/fixture/element/headings/input.html:4:1]
- 4 | 
- 5 | <h1>This is heading 1</h1>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 6 | <h2>This is heading 2</h2>
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/element/headings/input.html:4:1]
- 4 | 
- 5 | <h1>This is heading 1</h1>
-   :     ^^^^^^^^^^^^^^^^^
- 6 | <h2>This is heading 2</h2>
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/element/headings/input.html:4:1]
- 4 | 
- 5 | <h1>This is heading 1</h1>
-   :     ^^^^^^^^^^^^^^^^^
- 6 | <h2>This is heading 2</h2>
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/element/headings/input.html:4:1]
- 4 | 
- 5 | <h1>This is heading 1</h1>
-   :                           ^
- 6 | <h2>This is heading 2</h2>
- 7 | <h3>This is heading 3</h3>
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/element/headings/input.html:4:1]
- 4 | 
- 5 | <h1>This is heading 1</h1>
-   :                           ^
- 6 | <h2>This is heading 2</h2>
- 7 | <h3>This is heading 3</h3>
-   `----
-
   x Child
    ,-[$DIR/tests/fixture/element/headings/input.html:5:1]
+ 4 | 
  5 | <h1>This is heading 1</h1>
- 6 | <h2>This is heading 2</h2>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 7 | <h3>This is heading 3</h3>
+ 6 | <h2>This is heading 2</h2>
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/headings/input.html:5:1]
+ 4 | 
  5 | <h1>This is heading 1</h1>
- 6 | <h2>This is heading 2</h2>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 7 | <h3>This is heading 3</h3>
+ 6 | <h2>This is heading 2</h2>
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/headings/input.html:5:1]
+ 4 | 
  5 | <h1>This is heading 1</h1>
- 6 | <h2>This is heading 2</h2>
    :     ^^^^^^^^^^^^^^^^^
- 7 | <h3>This is heading 3</h3>
+ 6 | <h2>This is heading 2</h2>
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/headings/input.html:5:1]
+ 4 | 
  5 | <h1>This is heading 1</h1>
- 6 | <h2>This is heading 2</h2>
    :     ^^^^^^^^^^^^^^^^^
- 7 | <h3>This is heading 3</h3>
+ 6 | <h2>This is heading 2</h2>
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/headings/input.html:5:1]
+ 4 | 
  5 | <h1>This is heading 1</h1>
- 6 | <h2>This is heading 2</h2>
    :                           ^
+ 6 | <h2>This is heading 2</h2>
  7 | <h3>This is heading 3</h3>
- 8 | <h4>This is heading 4</h4>
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/headings/input.html:5:1]
+ 4 | 
  5 | <h1>This is heading 1</h1>
- 6 | <h2>This is heading 2</h2>
    :                           ^
+ 6 | <h2>This is heading 2</h2>
  7 | <h3>This is heading 3</h3>
- 8 | <h4>This is heading 4</h4>
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/headings/input.html:6:1]
+ 5 | <h1>This is heading 1</h1>
  6 | <h2>This is heading 2</h2>
- 7 | <h3>This is heading 3</h3>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 8 | <h4>This is heading 4</h4>
+ 7 | <h3>This is heading 3</h3>
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/headings/input.html:6:1]
+ 5 | <h1>This is heading 1</h1>
  6 | <h2>This is heading 2</h2>
- 7 | <h3>This is heading 3</h3>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 8 | <h4>This is heading 4</h4>
+ 7 | <h3>This is heading 3</h3>
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/headings/input.html:6:1]
+ 5 | <h1>This is heading 1</h1>
  6 | <h2>This is heading 2</h2>
- 7 | <h3>This is heading 3</h3>
    :     ^^^^^^^^^^^^^^^^^
- 8 | <h4>This is heading 4</h4>
+ 7 | <h3>This is heading 3</h3>
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/headings/input.html:6:1]
+ 5 | <h1>This is heading 1</h1>
  6 | <h2>This is heading 2</h2>
- 7 | <h3>This is heading 3</h3>
    :     ^^^^^^^^^^^^^^^^^
- 8 | <h4>This is heading 4</h4>
+ 7 | <h3>This is heading 3</h3>
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/headings/input.html:6:1]
+ 5 | <h1>This is heading 1</h1>
  6 | <h2>This is heading 2</h2>
- 7 | <h3>This is heading 3</h3>
    :                           ^
+ 7 | <h3>This is heading 3</h3>
  8 | <h4>This is heading 4</h4>
- 9 | <h5>This is heading 5</h5>
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/headings/input.html:6:1]
+ 5 | <h1>This is heading 1</h1>
  6 | <h2>This is heading 2</h2>
- 7 | <h3>This is heading 3</h3>
    :                           ^
+ 7 | <h3>This is heading 3</h3>
  8 | <h4>This is heading 4</h4>
- 9 | <h5>This is heading 5</h5>
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/headings/input.html:7:1]
+ 6 | <h2>This is heading 2</h2>
  7 | <h3>This is heading 3</h3>
- 8 | <h4>This is heading 4</h4>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 9 | <h5>This is heading 5</h5>
+ 8 | <h4>This is heading 4</h4>
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/headings/input.html:7:1]
+ 6 | <h2>This is heading 2</h2>
+ 7 | <h3>This is heading 3</h3>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 8 | <h4>This is heading 4</h4>
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/headings/input.html:7:1]
+ 6 | <h2>This is heading 2</h2>
+ 7 | <h3>This is heading 3</h3>
+   :     ^^^^^^^^^^^^^^^^^
+ 8 | <h4>This is heading 4</h4>
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/element/headings/input.html:7:1]
+ 6 | <h2>This is heading 2</h2>
+ 7 | <h3>This is heading 3</h3>
+   :     ^^^^^^^^^^^^^^^^^
+ 8 | <h4>This is heading 4</h4>
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/headings/input.html:7:1]
+ 6 | <h2>This is heading 2</h2>
+ 7 | <h3>This is heading 3</h3>
+   :                           ^
+ 8 | <h4>This is heading 4</h4>
+ 9 | <h5>This is heading 5</h5>
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/element/headings/input.html:7:1]
+ 6 | <h2>This is heading 2</h2>
+ 7 | <h3>This is heading 3</h3>
+   :                           ^
+ 8 | <h4>This is heading 4</h4>
+ 9 | <h5>This is heading 5</h5>
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/headings/input.html:8:1]
  7 | <h3>This is heading 3</h3>
  8 | <h4>This is heading 4</h4>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  9 | <h5>This is heading 5</h5>
    `----
-
+  x Element
+   ,-[$DIR/tests/fixture/element/headings/input.html:8:1]
+ 7 | <h3>This is heading 3</h3>
+ 8 | <h4>This is heading 4</h4>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | <h5>This is heading 5</h5>
+   `----
   x Child
-   ,-[$DIR/tests/fixture/element/headings/input.html:7:1]
+   ,-[$DIR/tests/fixture/element/headings/input.html:8:1]
  7 | <h3>This is heading 3</h3>
  8 | <h4>This is heading 4</h4>
    :     ^^^^^^^^^^^^^^^^^
  9 | <h5>This is heading 5</h5>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/headings/input.html:7:1]
+   ,-[$DIR/tests/fixture/element/headings/input.html:8:1]
  7 | <h3>This is heading 3</h3>
  8 | <h4>This is heading 4</h4>
    :     ^^^^^^^^^^^^^^^^^
  9 | <h5>This is heading 5</h5>
    `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/headings/input.html:7:1]
+    ,-[$DIR/tests/fixture/element/headings/input.html:8:1]
   7 | <h3>This is heading 3</h3>
   8 | <h4>This is heading 4</h4>
     :                           ^
   9 | <h5>This is heading 5</h5>
  10 | <h6>This is heading 6</h6>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/headings/input.html:7:1]
+    ,-[$DIR/tests/fixture/element/headings/input.html:8:1]
   7 | <h3>This is heading 3</h3>
   8 | <h4>This is heading 4</h4>
     :                           ^
   9 | <h5>This is heading 5</h5>
  10 | <h6>This is heading 6</h6>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/headings/input.html:8:1]
+    ,-[$DIR/tests/fixture/element/headings/input.html:9:1]
   8 | <h4>This is heading 4</h4>
   9 | <h5>This is heading 5</h5>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 | <h6>This is heading 6</h6>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/headings/input.html:8:1]
+    ,-[$DIR/tests/fixture/element/headings/input.html:9:1]
   8 | <h4>This is heading 4</h4>
   9 | <h5>This is heading 5</h5>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 | <h6>This is heading 6</h6>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/headings/input.html:8:1]
+    ,-[$DIR/tests/fixture/element/headings/input.html:9:1]
   8 | <h4>This is heading 4</h4>
   9 | <h5>This is heading 5</h5>
     :     ^^^^^^^^^^^^^^^^^
  10 | <h6>This is heading 6</h6>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/headings/input.html:8:1]
+    ,-[$DIR/tests/fixture/element/headings/input.html:9:1]
   8 | <h4>This is heading 4</h4>
   9 | <h5>This is heading 5</h5>
     :     ^^^^^^^^^^^^^^^^^
  10 | <h6>This is heading 6</h6>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/headings/input.html:8:1]
+    ,-[$DIR/tests/fixture/element/headings/input.html:9:1]
   8 | <h4>This is heading 4</h4>
   9 | <h5>This is heading 5</h5>
     :                           ^
  10 | <h6>This is heading 6</h6>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/headings/input.html:8:1]
+    ,-[$DIR/tests/fixture/element/headings/input.html:9:1]
   8 | <h4>This is heading 4</h4>
   9 | <h5>This is heading 5</h5>
     :                           ^
  10 | <h6>This is heading 6</h6>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/headings/input.html:9:1]
+    ,-[$DIR/tests/fixture/element/headings/input.html:10:1]
   9 | <h5>This is heading 5</h5>
  10 | <h6>This is heading 6</h6>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/headings/input.html:9:1]
+    ,-[$DIR/tests/fixture/element/headings/input.html:10:1]
   9 | <h5>This is heading 5</h5>
  10 | <h6>This is heading 6</h6>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/headings/input.html:9:1]
+    ,-[$DIR/tests/fixture/element/headings/input.html:10:1]
   9 | <h5>This is heading 5</h5>
  10 | <h6>This is heading 6</h6>
     :     ^^^^^^^^^^^^^^^^^
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/headings/input.html:9:1]
+    ,-[$DIR/tests/fixture/element/headings/input.html:10:1]
   9 | <h5>This is heading 5</h5>
  10 | <h6>This is heading 6</h6>
     :     ^^^^^^^^^^^^^^^^^
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/headings/input.html:9:1]
+    ,-[$DIR/tests/fixture/element/headings/input.html:10:1]
   9 |     <h5>This is heading 5</h5>
  10 | ,-> <h6>This is heading 6</h6>
  11 | |   
  12 | |   </body>
  13 | `-> </html>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/headings/input.html:9:1]
+    ,-[$DIR/tests/fixture/element/headings/input.html:10:1]
   9 |     <h5>This is heading 5</h5>
  10 | ,-> <h6>This is heading 6</h6>
  11 | |   

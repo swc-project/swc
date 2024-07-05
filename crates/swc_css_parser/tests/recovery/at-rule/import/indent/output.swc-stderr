@@ -1,4 +1,3 @@
-
   x Expected string, url or function token
    ,-[$DIR/tests/recovery/at-rule/import/indent/input.css:1:1]
  1 | @import foo-bar;

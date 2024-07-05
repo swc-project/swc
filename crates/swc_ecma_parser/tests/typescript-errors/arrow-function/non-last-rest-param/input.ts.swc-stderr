@@ -1,4 +1,3 @@
-
   x A rest parameter must be last in a parameter list
    ,-[$DIR/tests/typescript-errors/arrow-function/non-last-rest-param/input.ts:1:1]
  1 | (...a: any, b:any,) => {};

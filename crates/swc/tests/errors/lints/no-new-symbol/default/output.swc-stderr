@@ -1,4 +1,3 @@
-
   x `Symbol` cannot be called as a constructor
    ,-[1:1]
  1 | new Symbol();
@@ -6,9 +5,8 @@
  2 | 
  3 | new A(new Symbol())
    `----
-
   x `Symbol` cannot be called as a constructor
-   ,-[1:1]
+   ,-[3:1]
  1 | new Symbol();
  2 | 
  3 | new A(new Symbol())

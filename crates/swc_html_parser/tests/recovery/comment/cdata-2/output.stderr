@@ -1,16 +1,13 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/comment/cdata-2/input.html:1:1]
  1 | <div><![CDATA[foo]]>
    : ^^^^^
    `----
-
   x Cdata in html content
    ,-[$DIR/tests/recovery/comment/cdata-2/input.html:1:1]
  1 | <div><![CDATA[foo]]>
    :              ^
    `----
-
   x End of file seen and there were open elements
    ,-[$DIR/tests/recovery/comment/cdata-2/input.html:1:1]
  1 | <div><![CDATA[foo]]>

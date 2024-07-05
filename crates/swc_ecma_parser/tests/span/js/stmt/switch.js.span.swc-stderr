@@ -1,4 +1,3 @@
-
   x Module
     ,-[$DIR/tests/span/js/stmt/switch.js:1:1]
   1 | ,-> switch (foo()) {
@@ -13,7 +12,6 @@
  10 | |           foo()
  11 | `-> }
     `----
-
   x ModuleItem
     ,-[$DIR/tests/span/js/stmt/switch.js:1:1]
   1 | ,-> switch (foo()) {
@@ -28,7 +26,6 @@
  10 | |           foo()
  11 | `-> }
     `----
-
   x Stmt
     ,-[$DIR/tests/span/js/stmt/switch.js:1:1]
   1 | ,-> switch (foo()) {
@@ -43,7 +40,6 @@
  10 | |           foo()
  11 | `-> }
     `----
-
   x SwitchStmt
     ,-[$DIR/tests/span/js/stmt/switch.js:1:1]
   1 | ,-> switch (foo()) {
@@ -58,276 +54,241 @@
  10 | |           foo()
  11 | `-> }
     `----
-
   x Expr
    ,-[$DIR/tests/span/js/stmt/switch.js:1:1]
  1 | switch (foo()) {
    :         ^^^^^
  2 |     case 1:
    `----
-
   x CallExpr
    ,-[$DIR/tests/span/js/stmt/switch.js:1:1]
  1 | switch (foo()) {
    :         ^^^^^
  2 |     case 1:
    `----
-
   x Callee
    ,-[$DIR/tests/span/js/stmt/switch.js:1:1]
  1 | switch (foo()) {
    :         ^^^
  2 |     case 1:
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/stmt/switch.js:1:1]
  1 | switch (foo()) {
    :         ^^^
  2 |     case 1:
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/stmt/switch.js:1:1]
  1 | switch (foo()) {
    :         ^^^
  2 |     case 1:
    `----
-
   x SwitchCase
-   ,-[$DIR/tests/span/js/stmt/switch.js:1:1]
+   ,-[$DIR/tests/span/js/stmt/switch.js:2:1]
  1 | switch (foo()) {
  2 |     case 1:
    :     ^^^^^^^
  3 |     case 'a':
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/stmt/switch.js:1:1]
- 1 | switch (foo()) {
- 2 |     case 1:
-   :          ^
- 3 |     case 'a':
-   `----
-
-  x Lit
-   ,-[$DIR/tests/span/js/stmt/switch.js:1:1]
- 1 | switch (foo()) {
- 2 |     case 1:
-   :          ^
- 3 |     case 'a':
-   `----
-
-  x Number
-   ,-[$DIR/tests/span/js/stmt/switch.js:1:1]
- 1 | switch (foo()) {
- 2 |     case 1:
-   :          ^
- 3 |     case 'a':
-   `----
-
-  x SwitchCase
    ,-[$DIR/tests/span/js/stmt/switch.js:2:1]
+ 1 | switch (foo()) {
+ 2 |     case 1:
+   :          ^
+ 3 |     case 'a':
+   `----
+  x Lit
+   ,-[$DIR/tests/span/js/stmt/switch.js:2:1]
+ 1 | switch (foo()) {
+ 2 |     case 1:
+   :          ^
+ 3 |     case 'a':
+   `----
+  x Number
+   ,-[$DIR/tests/span/js/stmt/switch.js:2:1]
+ 1 | switch (foo()) {
+ 2 |     case 1:
+   :          ^
+ 3 |     case 'a':
+   `----
+  x SwitchCase
+   ,-[$DIR/tests/span/js/stmt/switch.js:3:1]
  2 |         case 1:
  3 | ,->     case 'a':
  4 | `->         break;
  5 |         case 3: break;
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/stmt/switch.js:2:1]
+   ,-[$DIR/tests/span/js/stmt/switch.js:3:1]
  2 |     case 1:
  3 |     case 'a':
    :          ^^^
  4 |         break;
    `----
-
   x Lit
-   ,-[$DIR/tests/span/js/stmt/switch.js:2:1]
+   ,-[$DIR/tests/span/js/stmt/switch.js:3:1]
  2 |     case 1:
  3 |     case 'a':
    :          ^^^
  4 |         break;
    `----
-
   x Str
-   ,-[$DIR/tests/span/js/stmt/switch.js:2:1]
+   ,-[$DIR/tests/span/js/stmt/switch.js:3:1]
  2 |     case 1:
  3 |     case 'a':
    :          ^^^
  4 |         break;
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/switch.js:3:1]
- 3 |     case 'a':
- 4 |         break;
-   :         ^^^^^^
- 5 |     case 3: break;
-   `----
-
-  x BreakStmt
-   ,-[$DIR/tests/span/js/stmt/switch.js:3:1]
- 3 |     case 'a':
- 4 |         break;
-   :         ^^^^^^
- 5 |     case 3: break;
-   `----
-
-  x SwitchCase
    ,-[$DIR/tests/span/js/stmt/switch.js:4:1]
+ 3 |     case 'a':
+ 4 |         break;
+   :         ^^^^^^
+ 5 |     case 3: break;
+   `----
+  x BreakStmt
+   ,-[$DIR/tests/span/js/stmt/switch.js:4:1]
+ 3 |     case 'a':
+ 4 |         break;
+   :         ^^^^^^
+ 5 |     case 3: break;
+   `----
+  x SwitchCase
+   ,-[$DIR/tests/span/js/stmt/switch.js:5:1]
  4 |         break;
  5 |     case 3: break;
    :     ^^^^^^^^^^^^^^
  6 |     case 4: {
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/stmt/switch.js:4:1]
+   ,-[$DIR/tests/span/js/stmt/switch.js:5:1]
  4 |         break;
  5 |     case 3: break;
    :          ^
  6 |     case 4: {
    `----
-
   x Lit
-   ,-[$DIR/tests/span/js/stmt/switch.js:4:1]
+   ,-[$DIR/tests/span/js/stmt/switch.js:5:1]
  4 |         break;
  5 |     case 3: break;
    :          ^
  6 |     case 4: {
    `----
-
   x Number
-   ,-[$DIR/tests/span/js/stmt/switch.js:4:1]
+   ,-[$DIR/tests/span/js/stmt/switch.js:5:1]
  4 |         break;
  5 |     case 3: break;
    :          ^
  6 |     case 4: {
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/switch.js:4:1]
+   ,-[$DIR/tests/span/js/stmt/switch.js:5:1]
  4 |         break;
  5 |     case 3: break;
    :             ^^^^^^
  6 |     case 4: {
    `----
-
   x BreakStmt
-   ,-[$DIR/tests/span/js/stmt/switch.js:4:1]
+   ,-[$DIR/tests/span/js/stmt/switch.js:5:1]
  4 |         break;
  5 |     case 3: break;
    :             ^^^^^^
  6 |     case 4: {
    `----
-
   x SwitchCase
-   ,-[$DIR/tests/span/js/stmt/switch.js:5:1]
+   ,-[$DIR/tests/span/js/stmt/switch.js:6:1]
  5 |         case 3: break;
  6 | ,->     case 4: {
  7 | |   
  8 | `->     }
  9 |         default:
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/stmt/switch.js:5:1]
+   ,-[$DIR/tests/span/js/stmt/switch.js:6:1]
  5 |     case 3: break;
  6 |     case 4: {
    :          ^
    `----
-
   x Lit
-   ,-[$DIR/tests/span/js/stmt/switch.js:5:1]
+   ,-[$DIR/tests/span/js/stmt/switch.js:6:1]
  5 |     case 3: break;
  6 |     case 4: {
    :          ^
    `----
-
   x Number
-   ,-[$DIR/tests/span/js/stmt/switch.js:5:1]
+   ,-[$DIR/tests/span/js/stmt/switch.js:6:1]
  5 |     case 3: break;
  6 |     case 4: {
    :          ^
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/switch.js:5:1]
+   ,-[$DIR/tests/span/js/stmt/switch.js:6:1]
  5 |         case 3: break;
  6 | ,->     case 4: {
  7 | |   
  8 | `->     }
  9 |         default:
    `----
-
   x BlockStmt
-   ,-[$DIR/tests/span/js/stmt/switch.js:5:1]
+   ,-[$DIR/tests/span/js/stmt/switch.js:6:1]
  5 |         case 3: break;
  6 | ,->     case 4: {
  7 | |   
  8 | `->     }
  9 |         default:
    `----
-
   x SwitchCase
-    ,-[$DIR/tests/span/js/stmt/switch.js:8:1]
+    ,-[$DIR/tests/span/js/stmt/switch.js:9:1]
   8 |         }
   9 | ,->     default:
  10 | `->         foo()
  11 |     }
     `----
-
   x Stmt
-    ,-[$DIR/tests/span/js/stmt/switch.js:9:1]
+    ,-[$DIR/tests/span/js/stmt/switch.js:10:1]
   9 |     default:
  10 |         foo()
     :         ^^^^^
  11 | }
     `----
-
   x ExprStmt
-    ,-[$DIR/tests/span/js/stmt/switch.js:9:1]
+    ,-[$DIR/tests/span/js/stmt/switch.js:10:1]
   9 |     default:
  10 |         foo()
     :         ^^^^^
  11 | }
     `----
-
   x Expr
-    ,-[$DIR/tests/span/js/stmt/switch.js:9:1]
+    ,-[$DIR/tests/span/js/stmt/switch.js:10:1]
   9 |     default:
  10 |         foo()
     :         ^^^^^
  11 | }
     `----
-
   x CallExpr
-    ,-[$DIR/tests/span/js/stmt/switch.js:9:1]
+    ,-[$DIR/tests/span/js/stmt/switch.js:10:1]
   9 |     default:
  10 |         foo()
     :         ^^^^^
  11 | }
     `----
-
   x Callee
-    ,-[$DIR/tests/span/js/stmt/switch.js:9:1]
+    ,-[$DIR/tests/span/js/stmt/switch.js:10:1]
   9 |     default:
  10 |         foo()
     :         ^^^
  11 | }
     `----
-
   x Expr
-    ,-[$DIR/tests/span/js/stmt/switch.js:9:1]
+    ,-[$DIR/tests/span/js/stmt/switch.js:10:1]
   9 |     default:
  10 |         foo()
     :         ^^^
  11 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/span/js/stmt/switch.js:9:1]
+    ,-[$DIR/tests/span/js/stmt/switch.js:10:1]
   9 |     default:
  10 |         foo()
     :         ^^^

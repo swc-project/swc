@@ -1,4 +1,3 @@
-
   x The CSS-wide keywords are not valid custom ident, found 'inherit'
    ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-2/input.css:1:1]
  1 | @keyframes inherit {}

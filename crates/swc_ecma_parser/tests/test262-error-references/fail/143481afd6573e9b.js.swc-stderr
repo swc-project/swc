@@ -1,4 +1,3 @@
-
   x Expected ',', got '.'
    ,-[$DIR/tests/test262-parser/fail/143481afd6573e9b.js:1:1]
  1 | function* a({e: a.b}) {}

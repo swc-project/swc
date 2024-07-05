@@ -1,4 +1,3 @@
-
   x Expected ',', got '{'
    ,-[$DIR/tests/test262-parser/fail/9c9196e04a0615c0.js:1:1]
  1 | ({ get: g(d) { } })

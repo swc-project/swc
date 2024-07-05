@@ -1,38 +1,30 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.1.fragment_svg_path.html:1:1]
  1 | <font color></font>X
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.1.fragment_svg_path.html:1:1]
  1 | <font color></font>X
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.1.fragment_svg_path.html:1:1]
  1 | <font color></font>X
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.1.fragment_svg_path.html:1:1]
  1 | <font color></font>X
    :       ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.1.fragment_svg_path.html:1:1]
  1 | <font color></font>X
    :                    ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.1.fragment_svg_path.html:1:1]
  1 | <font color></font>X

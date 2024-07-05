@@ -1,50 +1,40 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.0.html:1:1]
  1 | <!doctype html><math><mn DefinitionUrl="foo">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.0.html:1:1]
  1 | <!doctype html><math><mn DefinitionUrl="foo">
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.0.html:1:1]
  1 | <!doctype html><math><mn DefinitionUrl="foo">
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.0.html:1:1]
  1 | <!doctype html><math><mn DefinitionUrl="foo">
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.0.html:1:1]
  1 | <!doctype html><math><mn DefinitionUrl="foo">
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.0.html:1:1]
  1 | <!doctype html><math><mn DefinitionUrl="foo">
    :                      ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.0.html:1:1]
  1 | <!doctype html><math><mn DefinitionUrl="foo">
    :                      ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.0.html:1:1]
  1 | <!doctype html><math><mn DefinitionUrl="foo">

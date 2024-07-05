@@ -1,54 +1,47 @@
-
   x Abrupt closing of empty comment
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:3:1]
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:4:1]
  3 | <foo>
  4 |     <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
    :                              ^
  5 | ']]&gt;'</rhs>
    `----
-
   x Opening and ending tag mismatch
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:3:1]
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:4:1]
  3 | <foo>
  4 |     <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
    :                                   ^^^^^
  5 | ']]&gt;'</rhs>
    `----
-
   x Opening and ending tag mismatch
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:4:1]
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:5:1]
  4 |     <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
  5 | ']]&gt;'</rhs>
    :         ^^^^^^
  6 | <com>CDATA sections</com>
    `----
-
   x Invalid entity character
-    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:13:1]
+    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:14:1]
  13 | <prod id="NT-simpleDTD"><lhs>simpleDTD</lhs>
  14 | <rhs>'&lt;!&como;'
     :             ^
  15 | (<nt def='NT-Char'>Char</nt>* -
     `----
-
   x Invalid entity character
-    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:15:1]
+    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:16:1]
  15 | (<nt def='NT-Char'>Char</nt>* -
  16 | (<nt def='NT-Char'>Char</nt>* '&comc;' <nt def='NT-Char'>Char</nt>*))
     :                                 ^
  17 | '&comc;&gt;'</rhs>-->
     `----
-
   x Invalid entity character
-    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:16:1]
+    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:17:1]
  16 | (<nt def='NT-Char'>Char</nt>* '&comc;' <nt def='NT-Char'>Char</nt>*))
  17 | '&comc;&gt;'</rhs>-->
     :   ^
  18 | </foo>
     `----
-
   x Opening and ending tag mismatch
-    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:17:1]
+    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:18:1]
  17 | '&comc;&gt;'</rhs>-->
  18 | </foo>
     : ^^^^^^

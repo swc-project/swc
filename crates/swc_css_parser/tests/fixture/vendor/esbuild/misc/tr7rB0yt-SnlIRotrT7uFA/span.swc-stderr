@@ -1,70 +1,58 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1]
  1 | \2d 123 {}
    : ^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1]
  1 | \2d 123 {}
    : ^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1]
  1 | \2d 123 {}
    : ^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1]
  1 | \2d 123 {}
    : ^^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1]
  1 | \2d 123 {}
    : ^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1]
  1 | \2d 123 {}
    : ^^^^^^^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1]
  1 | \2d 123 {}
    : ^^^^^^^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1]
  1 | \2d 123 {}
    : ^^^^^^^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1]
  1 | \2d 123 {}
    : ^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1]
  1 | \2d 123 {}
    : ^^^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1]
  1 | \2d 123 {}
    :         ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1]
  1 | \2d 123 {}

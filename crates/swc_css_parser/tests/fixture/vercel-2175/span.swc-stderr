@@ -1,219 +1,190 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
  1 | ,-> .test {
  2 | |       border-color: hsla(var(--ds-gray-200-value), 1);
  3 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
  1 | ,-> .test {
  2 | |       border-color: hsla(var(--ds-gray-200-value), 1);
  3 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
  1 | ,-> .test {
  2 | |       border-color: hsla(var(--ds-gray-200-value), 1);
  3 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
  1 | .test {
    : ^^^^^
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
  1 | .test {
    : ^^^^^
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
  1 | .test {
    : ^^^^^
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
  1 | .test {
    : ^^^^^
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    `----
-
   x ClassSelector
    ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
  1 | .test {
    : ^^^^^
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
  1 | .test {
    :  ^^^^
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
  1 | ,-> .test {
  2 | |       border-color: hsla(var(--ds-gray-200-value), 1);
  3 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
  1 | .test {
    :       ^
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
+   ,-[$DIR/tests/fixture/vercel-2175/input.css:2:1]
  1 | .test {
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
+   ,-[$DIR/tests/fixture/vercel-2175/input.css:2:1]
  1 | .test {
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
+   ,-[$DIR/tests/fixture/vercel-2175/input.css:2:1]
  1 | .test {
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    :     ^^^^^^^^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
+   ,-[$DIR/tests/fixture/vercel-2175/input.css:2:1]
  1 | .test {
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    :     ^^^^^^^^^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
+   ,-[$DIR/tests/fixture/vercel-2175/input.css:2:1]
  1 | .test {
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x Color
-   ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
+   ,-[$DIR/tests/fixture/vercel-2175/input.css:2:1]
  1 | .test {
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x Function
-   ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
+   ,-[$DIR/tests/fixture/vercel-2175/input.css:2:1]
  1 | .test {
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
+   ,-[$DIR/tests/fixture/vercel-2175/input.css:2:1]
  1 | .test {
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    :                   ^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
+   ,-[$DIR/tests/fixture/vercel-2175/input.css:2:1]
  1 | .test {
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    :                        ^^^^^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x Function
-   ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
+   ,-[$DIR/tests/fixture/vercel-2175/input.css:2:1]
  1 | .test {
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    :                        ^^^^^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
+   ,-[$DIR/tests/fixture/vercel-2175/input.css:2:1]
  1 | .test {
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    :                        ^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
+   ,-[$DIR/tests/fixture/vercel-2175/input.css:2:1]
  1 | .test {
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    :                            ^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
+   ,-[$DIR/tests/fixture/vercel-2175/input.css:2:1]
  1 | .test {
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    :                            ^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
+   ,-[$DIR/tests/fixture/vercel-2175/input.css:2:1]
  1 | .test {
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    :                                                ^
  3 | }
    `----
-
   x Delimiter
-   ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
+   ,-[$DIR/tests/fixture/vercel-2175/input.css:2:1]
  1 | .test {
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    :                                                ^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
+   ,-[$DIR/tests/fixture/vercel-2175/input.css:2:1]
  1 | .test {
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    :                                                  ^
  3 | }
    `----
-
   x AlphaValue
-   ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
+   ,-[$DIR/tests/fixture/vercel-2175/input.css:2:1]
  1 | .test {
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    :                                                  ^
  3 | }
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/vercel-2175/input.css:1:1]
+   ,-[$DIR/tests/fixture/vercel-2175/input.css:2:1]
  1 | .test {
  2 |     border-color: hsla(var(--ds-gray-200-value), 1);
    :                                                  ^

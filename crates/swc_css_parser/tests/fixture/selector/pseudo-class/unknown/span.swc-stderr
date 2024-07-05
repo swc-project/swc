@@ -1,4 +1,3 @@
-
   x Stylesheet
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
   1 | ,-> :unknown {}
@@ -22,2476 +21,2164 @@
  19 | |   :unknown(;) {}
  20 | `-> 
     `----
-
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
  1 | :unknown {}
    : ^^^^^^^^^^^
  2 | :unknown() {}
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
  1 | :unknown {}
    : ^^^^^^^^^^^
  2 | :unknown() {}
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
  1 | :unknown {}
    : ^^^^^^^^
  2 | :unknown() {}
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
  1 | :unknown {}
    : ^^^^^^^^
  2 | :unknown() {}
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
  1 | :unknown {}
    : ^^^^^^^^
  2 | :unknown() {}
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
  1 | :unknown {}
    : ^^^^^^^^
  2 | :unknown() {}
    `----
-
   x PseudoClassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
  1 | :unknown {}
    : ^^^^^^^^
  2 | :unknown() {}
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
  1 | :unknown {}
    :  ^^^^^^^
  2 | :unknown() {}
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
  1 | :unknown {}
    :          ^^
  2 | :unknown() {}
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
  1 | :unknown {}
    :          ^
  2 | :unknown() {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
  1 | :unknown {}
  2 | :unknown() {}
    : ^^^^^^^^^^^^^
  3 | :unknown(foo) {}
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
  1 | :unknown {}
  2 | :unknown() {}
    : ^^^^^^^^^^^^^
  3 | :unknown(foo) {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
  1 | :unknown {}
  2 | :unknown() {}
    : ^^^^^^^^^^
  3 | :unknown(foo) {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
  1 | :unknown {}
  2 | :unknown() {}
    : ^^^^^^^^^^
  3 | :unknown(foo) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
  1 | :unknown {}
  2 | :unknown() {}
    : ^^^^^^^^^^
  3 | :unknown(foo) {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
  1 | :unknown {}
  2 | :unknown() {}
    : ^^^^^^^^^^
  3 | :unknown(foo) {}
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
  1 | :unknown {}
  2 | :unknown() {}
    : ^^^^^^^^^^
  3 | :unknown(foo) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
  1 | :unknown {}
  2 | :unknown() {}
    :  ^^^^^^^
  3 | :unknown(foo) {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
  1 | :unknown {}
  2 | :unknown() {}
    :            ^^
  3 | :unknown(foo) {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
  1 | :unknown {}
  2 | :unknown() {}
    :            ^
  3 | :unknown(foo) {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
  2 | :unknown() {}
  3 | :unknown(foo) {}
    : ^^^^^^^^^^^^^^^^
  4 | :unknown(foo bar) {}
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
  2 | :unknown() {}
  3 | :unknown(foo) {}
    : ^^^^^^^^^^^^^^^^
  4 | :unknown(foo bar) {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
  2 | :unknown() {}
  3 | :unknown(foo) {}
    : ^^^^^^^^^^^^^
  4 | :unknown(foo bar) {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
  2 | :unknown() {}
  3 | :unknown(foo) {}
    : ^^^^^^^^^^^^^
  4 | :unknown(foo bar) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
  2 | :unknown() {}
  3 | :unknown(foo) {}
    : ^^^^^^^^^^^^^
  4 | :unknown(foo bar) {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
  2 | :unknown() {}
  3 | :unknown(foo) {}
    : ^^^^^^^^^^^^^
  4 | :unknown(foo bar) {}
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
  2 | :unknown() {}
  3 | :unknown(foo) {}
    : ^^^^^^^^^^^^^
  4 | :unknown(foo bar) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
  2 | :unknown() {}
  3 | :unknown(foo) {}
    :  ^^^^^^^
  4 | :unknown(foo bar) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
  2 | :unknown() {}
  3 | :unknown(foo) {}
    :          ^^^
  4 | :unknown(foo bar) {}
    `----
-
   x Ident { value: "foo", raw: "foo" }
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
  2 | :unknown() {}
  3 | :unknown(foo) {}
    :          ^^^
  4 | :unknown(foo bar) {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
  2 | :unknown() {}
  3 | :unknown(foo) {}
    :               ^^
  4 | :unknown(foo bar) {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
  2 | :unknown() {}
  3 | :unknown(foo) {}
    :               ^
  4 | :unknown(foo bar) {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
  3 | :unknown(foo) {}
  4 | :unknown(foo bar) {}
    : ^^^^^^^^^^^^^^^^^^^^
  5 | :unknown(foo, bar) {}
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
  3 | :unknown(foo) {}
  4 | :unknown(foo bar) {}
    : ^^^^^^^^^^^^^^^^^^^^
  5 | :unknown(foo, bar) {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
  3 | :unknown(foo) {}
  4 | :unknown(foo bar) {}
    : ^^^^^^^^^^^^^^^^^
  5 | :unknown(foo, bar) {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
  3 | :unknown(foo) {}
  4 | :unknown(foo bar) {}
    : ^^^^^^^^^^^^^^^^^
  5 | :unknown(foo, bar) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
  3 | :unknown(foo) {}
  4 | :unknown(foo bar) {}
    : ^^^^^^^^^^^^^^^^^
  5 | :unknown(foo, bar) {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
  3 | :unknown(foo) {}
  4 | :unknown(foo bar) {}
    : ^^^^^^^^^^^^^^^^^
  5 | :unknown(foo, bar) {}
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
  3 | :unknown(foo) {}
  4 | :unknown(foo bar) {}
    : ^^^^^^^^^^^^^^^^^
  5 | :unknown(foo, bar) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
  3 | :unknown(foo) {}
  4 | :unknown(foo bar) {}
    :  ^^^^^^^
  5 | :unknown(foo, bar) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
  3 | :unknown(foo) {}
  4 | :unknown(foo bar) {}
    :          ^^^
  5 | :unknown(foo, bar) {}
    `----
-
   x Ident { value: "foo", raw: "foo" }
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
  3 | :unknown(foo) {}
  4 | :unknown(foo bar) {}
    :          ^^^
  5 | :unknown(foo, bar) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
  3 | :unknown(foo) {}
  4 | :unknown(foo bar) {}
    :             ^
  5 | :unknown(foo, bar) {}
    `----
-
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
  3 | :unknown(foo) {}
  4 | :unknown(foo bar) {}
    :             ^
  5 | :unknown(foo, bar) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
  3 | :unknown(foo) {}
  4 | :unknown(foo bar) {}
    :              ^^^
  5 | :unknown(foo, bar) {}
    `----
-
   x Ident { value: "bar", raw: "bar" }
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
  3 | :unknown(foo) {}
  4 | :unknown(foo bar) {}
    :              ^^^
  5 | :unknown(foo, bar) {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
  3 | :unknown(foo) {}
  4 | :unknown(foo bar) {}
    :                   ^^
  5 | :unknown(foo, bar) {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
  3 | :unknown(foo) {}
  4 | :unknown(foo bar) {}
    :                   ^
  5 | :unknown(foo, bar) {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  4 | :unknown(foo bar) {}
  5 | :unknown(foo, bar) {}
    : ^^^^^^^^^^^^^^^^^^^^^
  6 | :unknown([foo]) {}
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  4 | :unknown(foo bar) {}
  5 | :unknown(foo, bar) {}
    : ^^^^^^^^^^^^^^^^^^^^^
  6 | :unknown([foo]) {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  4 | :unknown(foo bar) {}
  5 | :unknown(foo, bar) {}
    : ^^^^^^^^^^^^^^^^^^
  6 | :unknown([foo]) {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  4 | :unknown(foo bar) {}
  5 | :unknown(foo, bar) {}
    : ^^^^^^^^^^^^^^^^^^
  6 | :unknown([foo]) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  4 | :unknown(foo bar) {}
  5 | :unknown(foo, bar) {}
    : ^^^^^^^^^^^^^^^^^^
  6 | :unknown([foo]) {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  4 | :unknown(foo bar) {}
  5 | :unknown(foo, bar) {}
    : ^^^^^^^^^^^^^^^^^^
  6 | :unknown([foo]) {}
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  4 | :unknown(foo bar) {}
  5 | :unknown(foo, bar) {}
    : ^^^^^^^^^^^^^^^^^^
  6 | :unknown([foo]) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  4 | :unknown(foo bar) {}
  5 | :unknown(foo, bar) {}
    :  ^^^^^^^
  6 | :unknown([foo]) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  4 | :unknown(foo bar) {}
  5 | :unknown(foo, bar) {}
    :          ^^^
  6 | :unknown([foo]) {}
    `----
-
   x Ident { value: "foo", raw: "foo" }
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  4 | :unknown(foo bar) {}
  5 | :unknown(foo, bar) {}
    :          ^^^
  6 | :unknown([foo]) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  4 | :unknown(foo bar) {}
  5 | :unknown(foo, bar) {}
    :             ^
  6 | :unknown([foo]) {}
    `----
-
   x Comma
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  4 | :unknown(foo bar) {}
  5 | :unknown(foo, bar) {}
    :             ^
  6 | :unknown([foo]) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  4 | :unknown(foo bar) {}
  5 | :unknown(foo, bar) {}
    :              ^
  6 | :unknown([foo]) {}
    `----
-
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  4 | :unknown(foo bar) {}
  5 | :unknown(foo, bar) {}
    :              ^
  6 | :unknown([foo]) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  4 | :unknown(foo bar) {}
  5 | :unknown(foo, bar) {}
    :               ^^^
  6 | :unknown([foo]) {}
    `----
-
   x Ident { value: "bar", raw: "bar" }
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  4 | :unknown(foo bar) {}
  5 | :unknown(foo, bar) {}
    :               ^^^
  6 | :unknown([foo]) {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  4 | :unknown(foo bar) {}
  5 | :unknown(foo, bar) {}
    :                    ^^
  6 | :unknown([foo]) {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  4 | :unknown(foo bar) {}
  5 | :unknown(foo, bar) {}
    :                    ^
  6 | :unknown([foo]) {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
  5 | :unknown(foo, bar) {}
  6 | :unknown([foo]) {}
    : ^^^^^^^^^^^^^^^^^^
  7 | :unknown((foo bar)) {}
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
  5 | :unknown(foo, bar) {}
  6 | :unknown([foo]) {}
    : ^^^^^^^^^^^^^^^^^^
  7 | :unknown((foo bar)) {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
  5 | :unknown(foo, bar) {}
  6 | :unknown([foo]) {}
    : ^^^^^^^^^^^^^^^
  7 | :unknown((foo bar)) {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
  5 | :unknown(foo, bar) {}
  6 | :unknown([foo]) {}
    : ^^^^^^^^^^^^^^^
  7 | :unknown((foo bar)) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
  5 | :unknown(foo, bar) {}
  6 | :unknown([foo]) {}
    : ^^^^^^^^^^^^^^^
  7 | :unknown((foo bar)) {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
  5 | :unknown(foo, bar) {}
  6 | :unknown([foo]) {}
    : ^^^^^^^^^^^^^^^
  7 | :unknown((foo bar)) {}
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
  5 | :unknown(foo, bar) {}
  6 | :unknown([foo]) {}
    : ^^^^^^^^^^^^^^^
  7 | :unknown((foo bar)) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
  5 | :unknown(foo, bar) {}
  6 | :unknown([foo]) {}
    :  ^^^^^^^
  7 | :unknown((foo bar)) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
  5 | :unknown(foo, bar) {}
  6 | :unknown([foo]) {}
    :          ^
  7 | :unknown((foo bar)) {}
    `----
-
   x LBracket
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
  5 | :unknown(foo, bar) {}
  6 | :unknown([foo]) {}
    :          ^
  7 | :unknown((foo bar)) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
  5 | :unknown(foo, bar) {}
  6 | :unknown([foo]) {}
    :           ^^^
  7 | :unknown((foo bar)) {}
    `----
-
   x Ident { value: "foo", raw: "foo" }
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
  5 | :unknown(foo, bar) {}
  6 | :unknown([foo]) {}
    :           ^^^
  7 | :unknown((foo bar)) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
  5 | :unknown(foo, bar) {}
  6 | :unknown([foo]) {}
    :              ^
  7 | :unknown((foo bar)) {}
    `----
-
   x RBracket
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
  5 | :unknown(foo, bar) {}
  6 | :unknown([foo]) {}
    :              ^
  7 | :unknown((foo bar)) {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
  5 | :unknown(foo, bar) {}
  6 | :unknown([foo]) {}
    :                 ^^
  7 | :unknown((foo bar)) {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
  5 | :unknown(foo, bar) {}
  6 | :unknown([foo]) {}
    :                 ^
  7 | :unknown((foo bar)) {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  6 | :unknown([foo]) {}
  7 | :unknown((foo bar)) {}
    : ^^^^^^^^^^^^^^^^^^^^^^
  8 | :unknown(((foo bar))) {}
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  6 | :unknown([foo]) {}
  7 | :unknown((foo bar)) {}
    : ^^^^^^^^^^^^^^^^^^^^^^
  8 | :unknown(((foo bar))) {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  6 | :unknown([foo]) {}
  7 | :unknown((foo bar)) {}
    : ^^^^^^^^^^^^^^^^^^^
  8 | :unknown(((foo bar))) {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  6 | :unknown([foo]) {}
  7 | :unknown((foo bar)) {}
    : ^^^^^^^^^^^^^^^^^^^
  8 | :unknown(((foo bar))) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  6 | :unknown([foo]) {}
  7 | :unknown((foo bar)) {}
    : ^^^^^^^^^^^^^^^^^^^
  8 | :unknown(((foo bar))) {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  6 | :unknown([foo]) {}
  7 | :unknown((foo bar)) {}
    : ^^^^^^^^^^^^^^^^^^^
  8 | :unknown(((foo bar))) {}
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  6 | :unknown([foo]) {}
  7 | :unknown((foo bar)) {}
    : ^^^^^^^^^^^^^^^^^^^
  8 | :unknown(((foo bar))) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  6 | :unknown([foo]) {}
  7 | :unknown((foo bar)) {}
    :  ^^^^^^^
  8 | :unknown(((foo bar))) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  6 | :unknown([foo]) {}
  7 | :unknown((foo bar)) {}
    :          ^
  8 | :unknown(((foo bar))) {}
    `----
-
   x LParen
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  6 | :unknown([foo]) {}
  7 | :unknown((foo bar)) {}
    :          ^
  8 | :unknown(((foo bar))) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  6 | :unknown([foo]) {}
  7 | :unknown((foo bar)) {}
    :           ^^^
  8 | :unknown(((foo bar))) {}
    `----
-
   x Ident { value: "foo", raw: "foo" }
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  6 | :unknown([foo]) {}
  7 | :unknown((foo bar)) {}
    :           ^^^
  8 | :unknown(((foo bar))) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  6 | :unknown([foo]) {}
  7 | :unknown((foo bar)) {}
    :              ^
  8 | :unknown(((foo bar))) {}
    `----
-
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  6 | :unknown([foo]) {}
  7 | :unknown((foo bar)) {}
    :              ^
  8 | :unknown(((foo bar))) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  6 | :unknown([foo]) {}
  7 | :unknown((foo bar)) {}
    :               ^^^
  8 | :unknown(((foo bar))) {}
    `----
-
   x Ident { value: "bar", raw: "bar" }
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  6 | :unknown([foo]) {}
  7 | :unknown((foo bar)) {}
    :               ^^^
  8 | :unknown(((foo bar))) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  6 | :unknown([foo]) {}
  7 | :unknown((foo bar)) {}
    :                  ^
  8 | :unknown(((foo bar))) {}
    `----
-
   x RParen
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  6 | :unknown([foo]) {}
  7 | :unknown((foo bar)) {}
    :                  ^
  8 | :unknown(((foo bar))) {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  6 | :unknown([foo]) {}
  7 | :unknown((foo bar)) {}
    :                     ^^
  8 | :unknown(((foo bar))) {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  6 | :unknown([foo]) {}
  7 | :unknown((foo bar)) {}
    :                     ^
  8 | :unknown(((foo bar))) {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^
  9 | :unknown({foo: bar}) {}
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^
  9 | :unknown({foo: bar}) {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    : ^^^^^^^^^^^^^^^^^^^^^
  9 | :unknown({foo: bar}) {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    : ^^^^^^^^^^^^^^^^^^^^^
  9 | :unknown({foo: bar}) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    : ^^^^^^^^^^^^^^^^^^^^^
  9 | :unknown({foo: bar}) {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    : ^^^^^^^^^^^^^^^^^^^^^
  9 | :unknown({foo: bar}) {}
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    : ^^^^^^^^^^^^^^^^^^^^^
  9 | :unknown({foo: bar}) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    :  ^^^^^^^
  9 | :unknown({foo: bar}) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    :          ^
  9 | :unknown({foo: bar}) {}
    `----
-
   x LParen
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    :          ^
  9 | :unknown({foo: bar}) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    :           ^
  9 | :unknown({foo: bar}) {}
    `----
-
   x LParen
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    :           ^
  9 | :unknown({foo: bar}) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    :            ^^^
  9 | :unknown({foo: bar}) {}
    `----
-
   x Ident { value: "foo", raw: "foo" }
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    :            ^^^
  9 | :unknown({foo: bar}) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    :               ^
  9 | :unknown({foo: bar}) {}
    `----
-
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    :               ^
  9 | :unknown({foo: bar}) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    :                ^^^
  9 | :unknown({foo: bar}) {}
    `----
-
   x Ident { value: "bar", raw: "bar" }
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    :                ^^^
  9 | :unknown({foo: bar}) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    :                   ^
  9 | :unknown({foo: bar}) {}
    `----
-
   x RParen
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    :                   ^
  9 | :unknown({foo: bar}) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    :                    ^
  9 | :unknown({foo: bar}) {}
    `----
-
   x RParen
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    :                    ^
  9 | :unknown({foo: bar}) {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    :                       ^^
  9 | :unknown({foo: bar}) {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  7 | :unknown((foo bar)) {}
  8 | :unknown(((foo bar))) {}
    :                       ^
  9 | :unknown({foo: bar}) {}
    `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     : ^^^^^^^^^^^^^^^^^^^^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     : ^^^^^^^^^^^^^^^^^^^^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     : ^^^^^^^^^^^^^^^^^^^^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     : ^^^^^^^^^^^^^^^^^^^^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     : ^^^^^^^^^^^^^^^^^^^^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     :  ^^^^^^^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     :          ^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     :          ^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     :           ^^^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x Ident { value: "foo", raw: "foo" }
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     :           ^^^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     :              ^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x Colon
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     :              ^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     :               ^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     :               ^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     :                ^^^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x Ident { value: "bar", raw: "bar" }
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     :                ^^^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     :                   ^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x RBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     :                   ^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     :                      ^^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
   8 | :unknown(((foo bar))) {}
   9 | :unknown({foo: bar}) {}
     :                      ^
  10 | :unknown({{foo: bar}}) {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     :  ^^^^^^^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     :          ^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     :          ^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     :           ^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     :           ^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     :            ^^^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x Ident { value: "foo", raw: "foo" }
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     :            ^^^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     :               ^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x Colon
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     :               ^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     :                ^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     :                ^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     :                 ^^^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x Ident { value: "bar", raw: "bar" }
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     :                 ^^^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     :                    ^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x RBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     :                    ^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     :                     ^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x RBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     :                     ^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     :                        ^^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
   9 | :unknown({foo: bar}) {}
  10 | :unknown({{foo: bar}}) {}
     :                        ^
  11 | :unknown({foo: bar !important}) {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | :unknown("string") {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | :unknown("string") {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | :unknown("string") {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | :unknown("string") {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | :unknown("string") {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | :unknown("string") {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | :unknown("string") {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     :  ^^^^^^^
  12 | :unknown("string") {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     :          ^
  12 | :unknown("string") {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     :          ^
  12 | :unknown("string") {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     :           ^^^
  12 | :unknown("string") {}
     `----
-
   x Ident { value: "foo", raw: "foo" }
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     :           ^^^
  12 | :unknown("string") {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     :              ^
  12 | :unknown("string") {}
     `----
-
   x Colon
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     :              ^
  12 | :unknown("string") {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     :               ^
  12 | :unknown("string") {}
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     :               ^
  12 | :unknown("string") {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     :                ^^^
  12 | :unknown("string") {}
     `----
-
   x Ident { value: "bar", raw: "bar" }
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     :                ^^^
  12 | :unknown("string") {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     :                   ^
  12 | :unknown("string") {}
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     :                   ^
  12 | :unknown("string") {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     :                    ^
  12 | :unknown("string") {}
     `----
-
   x Delim { value: '!' }
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     :                    ^
  12 | :unknown("string") {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     :                     ^^^^^^^^^
  12 | :unknown("string") {}
     `----
-
   x Ident { value: "important", raw: "important" }
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     :                     ^^^^^^^^^
  12 | :unknown("string") {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     :                              ^
  12 | :unknown("string") {}
     `----
-
   x RBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     :                              ^
  12 | :unknown("string") {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     :                                 ^^
  12 | :unknown("string") {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  10 | :unknown({{foo: bar}}) {}
  11 | :unknown({foo: bar !important}) {}
     :                                 ^
  12 | :unknown("string") {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
  11 | :unknown({foo: bar !important}) {}
  12 | :unknown("string") {}
     : ^^^^^^^^^^^^^^^^^^^^^
  13 | :unknown("string", foo) {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
  11 | :unknown({foo: bar !important}) {}
  12 | :unknown("string") {}
     : ^^^^^^^^^^^^^^^^^^^^^
  13 | :unknown("string", foo) {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
  11 | :unknown({foo: bar !important}) {}
  12 | :unknown("string") {}
     : ^^^^^^^^^^^^^^^^^^
  13 | :unknown("string", foo) {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
  11 | :unknown({foo: bar !important}) {}
  12 | :unknown("string") {}
     : ^^^^^^^^^^^^^^^^^^
  13 | :unknown("string", foo) {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
  11 | :unknown({foo: bar !important}) {}
  12 | :unknown("string") {}
     : ^^^^^^^^^^^^^^^^^^
  13 | :unknown("string", foo) {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
  11 | :unknown({foo: bar !important}) {}
  12 | :unknown("string") {}
     : ^^^^^^^^^^^^^^^^^^
  13 | :unknown("string", foo) {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
  11 | :unknown({foo: bar !important}) {}
  12 | :unknown("string") {}
     : ^^^^^^^^^^^^^^^^^^
  13 | :unknown("string", foo) {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
  11 | :unknown({foo: bar !important}) {}
  12 | :unknown("string") {}
     :  ^^^^^^^
  13 | :unknown("string", foo) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
  11 | :unknown({foo: bar !important}) {}
  12 | :unknown("string") {}
     :          ^^^^^^^^
  13 | :unknown("string", foo) {}
     `----
-
   x String { value: "string", raw: "\"string\"" }
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
  11 | :unknown({foo: bar !important}) {}
  12 | :unknown("string") {}
     :          ^^^^^^^^
  13 | :unknown("string", foo) {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
  11 | :unknown({foo: bar !important}) {}
  12 | :unknown("string") {}
     :                    ^^
  13 | :unknown("string", foo) {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
  11 | :unknown({foo: bar !important}) {}
  12 | :unknown("string") {}
     :                    ^
  13 | :unknown("string", foo) {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  12 | :unknown("string") {}
  13 | :unknown("string", foo) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | :unknown('string') {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  12 | :unknown("string") {}
  13 | :unknown("string", foo) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | :unknown('string') {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  12 | :unknown("string") {}
  13 | :unknown("string", foo) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^
  14 | :unknown('string') {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  12 | :unknown("string") {}
  13 | :unknown("string", foo) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^
  14 | :unknown('string') {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  12 | :unknown("string") {}
  13 | :unknown("string", foo) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^
  14 | :unknown('string') {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  12 | :unknown("string") {}
  13 | :unknown("string", foo) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^
  14 | :unknown('string') {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  12 | :unknown("string") {}
  13 | :unknown("string", foo) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^
  14 | :unknown('string') {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  12 | :unknown("string") {}
  13 | :unknown("string", foo) {}
     :  ^^^^^^^
  14 | :unknown('string') {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  12 | :unknown("string") {}
  13 | :unknown("string", foo) {}
     :          ^^^^^^^^
  14 | :unknown('string') {}
     `----
-
   x String { value: "string", raw: "\"string\"" }
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  12 | :unknown("string") {}
  13 | :unknown("string", foo) {}
     :          ^^^^^^^^
  14 | :unknown('string') {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  12 | :unknown("string") {}
  13 | :unknown("string", foo) {}
     :                  ^
  14 | :unknown('string') {}
     `----
-
   x Comma
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  12 | :unknown("string") {}
  13 | :unknown("string", foo) {}
     :                  ^
  14 | :unknown('string') {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  12 | :unknown("string") {}
  13 | :unknown("string", foo) {}
     :                   ^
  14 | :unknown('string') {}
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  12 | :unknown("string") {}
  13 | :unknown("string", foo) {}
     :                   ^
  14 | :unknown('string') {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  12 | :unknown("string") {}
  13 | :unknown("string", foo) {}
     :                    ^^^
  14 | :unknown('string') {}
     `----
-
   x Ident { value: "foo", raw: "foo" }
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  12 | :unknown("string") {}
  13 | :unknown("string", foo) {}
     :                    ^^^
  14 | :unknown('string') {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  12 | :unknown("string") {}
  13 | :unknown("string", foo) {}
     :                         ^^
  14 | :unknown('string') {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  12 | :unknown("string") {}
  13 | :unknown("string", foo) {}
     :                         ^
  14 | :unknown('string') {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
  13 | :unknown("string", foo) {}
  14 | :unknown('string') {}
     : ^^^^^^^^^^^^^^^^^^^^^
  15 | :unknown(url(foo.png)) {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
  13 | :unknown("string", foo) {}
  14 | :unknown('string') {}
     : ^^^^^^^^^^^^^^^^^^^^^
  15 | :unknown(url(foo.png)) {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
  13 | :unknown("string", foo) {}
  14 | :unknown('string') {}
     : ^^^^^^^^^^^^^^^^^^
  15 | :unknown(url(foo.png)) {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
  13 | :unknown("string", foo) {}
  14 | :unknown('string') {}
     : ^^^^^^^^^^^^^^^^^^
  15 | :unknown(url(foo.png)) {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
  13 | :unknown("string", foo) {}
  14 | :unknown('string') {}
     : ^^^^^^^^^^^^^^^^^^
  15 | :unknown(url(foo.png)) {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
  13 | :unknown("string", foo) {}
  14 | :unknown('string') {}
     : ^^^^^^^^^^^^^^^^^^
  15 | :unknown(url(foo.png)) {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
  13 | :unknown("string", foo) {}
  14 | :unknown('string') {}
     : ^^^^^^^^^^^^^^^^^^
  15 | :unknown(url(foo.png)) {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
  13 | :unknown("string", foo) {}
  14 | :unknown('string') {}
     :  ^^^^^^^
  15 | :unknown(url(foo.png)) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
  13 | :unknown("string", foo) {}
  14 | :unknown('string') {}
     :          ^^^^^^^^
  15 | :unknown(url(foo.png)) {}
     `----
-
   x String { value: "string", raw: "'string'" }
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
  13 | :unknown("string", foo) {}
  14 | :unknown('string') {}
     :          ^^^^^^^^
  15 | :unknown(url(foo.png)) {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
  13 | :unknown("string", foo) {}
  14 | :unknown('string') {}
     :                    ^^
  15 | :unknown(url(foo.png)) {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
  13 | :unknown("string", foo) {}
  14 | :unknown('string') {}
     :                    ^
  15 | :unknown(url(foo.png)) {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
  14 | :unknown('string') {}
  15 | :unknown(url(foo.png)) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
  16 | :unknown({!}) {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
  14 | :unknown('string') {}
  15 | :unknown(url(foo.png)) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
  16 | :unknown({!}) {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
  14 | :unknown('string') {}
  15 | :unknown(url(foo.png)) {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  16 | :unknown({!}) {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
  14 | :unknown('string') {}
  15 | :unknown(url(foo.png)) {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  16 | :unknown({!}) {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
  14 | :unknown('string') {}
  15 | :unknown(url(foo.png)) {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  16 | :unknown({!}) {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
  14 | :unknown('string') {}
  15 | :unknown(url(foo.png)) {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  16 | :unknown({!}) {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
  14 | :unknown('string') {}
  15 | :unknown(url(foo.png)) {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  16 | :unknown({!}) {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
  14 | :unknown('string') {}
  15 | :unknown(url(foo.png)) {}
     :  ^^^^^^^
  16 | :unknown({!}) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
  14 | :unknown('string') {}
  15 | :unknown(url(foo.png)) {}
     :          ^^^^^^^^^^^^
  16 | :unknown({!}) {}
     `----
-
   x Url { value: "foo.png", raw: UrlKeyValue("url", "foo.png") }
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
  14 | :unknown('string') {}
  15 | :unknown(url(foo.png)) {}
     :          ^^^^^^^^^^^^
  16 | :unknown({!}) {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
  14 | :unknown('string') {}
  15 | :unknown(url(foo.png)) {}
     :                        ^^
  16 | :unknown({!}) {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
  14 | :unknown('string') {}
  15 | :unknown(url(foo.png)) {}
     :                        ^
  16 | :unknown({!}) {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
  15 | :unknown(url(foo.png)) {}
  16 | :unknown({!}) {}
     : ^^^^^^^^^^^^^^^^
  17 | :unknown(!) {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
  15 | :unknown(url(foo.png)) {}
  16 | :unknown({!}) {}
     : ^^^^^^^^^^^^^^^^
  17 | :unknown(!) {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
  15 | :unknown(url(foo.png)) {}
  16 | :unknown({!}) {}
     : ^^^^^^^^^^^^^
  17 | :unknown(!) {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
  15 | :unknown(url(foo.png)) {}
  16 | :unknown({!}) {}
     : ^^^^^^^^^^^^^
  17 | :unknown(!) {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
  15 | :unknown(url(foo.png)) {}
  16 | :unknown({!}) {}
     : ^^^^^^^^^^^^^
  17 | :unknown(!) {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
  15 | :unknown(url(foo.png)) {}
  16 | :unknown({!}) {}
     : ^^^^^^^^^^^^^
  17 | :unknown(!) {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
  15 | :unknown(url(foo.png)) {}
  16 | :unknown({!}) {}
     : ^^^^^^^^^^^^^
  17 | :unknown(!) {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
  15 | :unknown(url(foo.png)) {}
  16 | :unknown({!}) {}
     :  ^^^^^^^
  17 | :unknown(!) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
  15 | :unknown(url(foo.png)) {}
  16 | :unknown({!}) {}
     :          ^
  17 | :unknown(!) {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
  15 | :unknown(url(foo.png)) {}
  16 | :unknown({!}) {}
     :          ^
  17 | :unknown(!) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
  15 | :unknown(url(foo.png)) {}
  16 | :unknown({!}) {}
     :           ^
  17 | :unknown(!) {}
     `----
-
   x Delim { value: '!' }
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
  15 | :unknown(url(foo.png)) {}
  16 | :unknown({!}) {}
     :           ^
  17 | :unknown(!) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
  15 | :unknown(url(foo.png)) {}
  16 | :unknown({!}) {}
     :            ^
  17 | :unknown(!) {}
     `----
-
   x RBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
  15 | :unknown(url(foo.png)) {}
  16 | :unknown({!}) {}
     :            ^
  17 | :unknown(!) {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
  15 | :unknown(url(foo.png)) {}
  16 | :unknown({!}) {}
     :               ^^
  17 | :unknown(!) {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
  15 | :unknown(url(foo.png)) {}
  16 | :unknown({!}) {}
     :               ^
  17 | :unknown(!) {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
  16 | :unknown({!}) {}
  17 | :unknown(!) {}
     : ^^^^^^^^^^^^^^
  18 | :unknown({;}) {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
  16 | :unknown({!}) {}
  17 | :unknown(!) {}
     : ^^^^^^^^^^^^^^
  18 | :unknown({;}) {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
  16 | :unknown({!}) {}
  17 | :unknown(!) {}
     : ^^^^^^^^^^^
  18 | :unknown({;}) {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
  16 | :unknown({!}) {}
  17 | :unknown(!) {}
     : ^^^^^^^^^^^
  18 | :unknown({;}) {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
  16 | :unknown({!}) {}
  17 | :unknown(!) {}
     : ^^^^^^^^^^^
  18 | :unknown({;}) {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
  16 | :unknown({!}) {}
  17 | :unknown(!) {}
     : ^^^^^^^^^^^
  18 | :unknown({;}) {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
  16 | :unknown({!}) {}
  17 | :unknown(!) {}
     : ^^^^^^^^^^^
  18 | :unknown({;}) {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
  16 | :unknown({!}) {}
  17 | :unknown(!) {}
     :  ^^^^^^^
  18 | :unknown({;}) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
  16 | :unknown({!}) {}
  17 | :unknown(!) {}
     :          ^
  18 | :unknown({;}) {}
     `----
-
   x Delim { value: '!' }
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
  16 | :unknown({!}) {}
  17 | :unknown(!) {}
     :          ^
  18 | :unknown({;}) {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
  16 | :unknown({!}) {}
  17 | :unknown(!) {}
     :             ^^
  18 | :unknown({;}) {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
  16 | :unknown({!}) {}
  17 | :unknown(!) {}
     :             ^
  18 | :unknown({;}) {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
  17 | :unknown(!) {}
  18 | :unknown({;}) {}
     : ^^^^^^^^^^^^^^^^
  19 | :unknown(;) {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
  17 | :unknown(!) {}
  18 | :unknown({;}) {}
     : ^^^^^^^^^^^^^^^^
  19 | :unknown(;) {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
  17 | :unknown(!) {}
  18 | :unknown({;}) {}
     : ^^^^^^^^^^^^^
  19 | :unknown(;) {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
  17 | :unknown(!) {}
  18 | :unknown({;}) {}
     : ^^^^^^^^^^^^^
  19 | :unknown(;) {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
  17 | :unknown(!) {}
  18 | :unknown({;}) {}
     : ^^^^^^^^^^^^^
  19 | :unknown(;) {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
  17 | :unknown(!) {}
  18 | :unknown({;}) {}
     : ^^^^^^^^^^^^^
  19 | :unknown(;) {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
  17 | :unknown(!) {}
  18 | :unknown({;}) {}
     : ^^^^^^^^^^^^^
  19 | :unknown(;) {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
  17 | :unknown(!) {}
  18 | :unknown({;}) {}
     :  ^^^^^^^
  19 | :unknown(;) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
  17 | :unknown(!) {}
  18 | :unknown({;}) {}
     :          ^
  19 | :unknown(;) {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
  17 | :unknown(!) {}
  18 | :unknown({;}) {}
     :          ^
  19 | :unknown(;) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
  17 | :unknown(!) {}
  18 | :unknown({;}) {}
     :           ^
  19 | :unknown(;) {}
     `----
-
   x Semi
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
  17 | :unknown(!) {}
  18 | :unknown({;}) {}
     :           ^
  19 | :unknown(;) {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
  17 | :unknown(!) {}
  18 | :unknown({;}) {}
     :            ^
  19 | :unknown(;) {}
     `----
-
   x RBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
  17 | :unknown(!) {}
  18 | :unknown({;}) {}
     :            ^
  19 | :unknown(;) {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
  17 | :unknown(!) {}
  18 | :unknown({;}) {}
     :               ^^
  19 | :unknown(;) {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
  17 | :unknown(!) {}
  18 | :unknown({;}) {}
     :               ^
  19 | :unknown(;) {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:19:1]
  18 | :unknown({;}) {}
  19 | :unknown(;) {}
     : ^^^^^^^^^^^^^^
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:19:1]
  18 | :unknown({;}) {}
  19 | :unknown(;) {}
     : ^^^^^^^^^^^^^^
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:19:1]
  18 | :unknown({;}) {}
  19 | :unknown(;) {}
     : ^^^^^^^^^^^
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:19:1]
  18 | :unknown({;}) {}
  19 | :unknown(;) {}
     : ^^^^^^^^^^^
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:19:1]
  18 | :unknown({;}) {}
  19 | :unknown(;) {}
     : ^^^^^^^^^^^
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:19:1]
  18 | :unknown({;}) {}
  19 | :unknown(;) {}
     : ^^^^^^^^^^^
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:19:1]
  18 | :unknown({;}) {}
  19 | :unknown(;) {}
     : ^^^^^^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:19:1]
  18 | :unknown({;}) {}
  19 | :unknown(;) {}
     :  ^^^^^^^
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:19:1]
  18 | :unknown({;}) {}
  19 | :unknown(;) {}
     :          ^
     `----
-
   x Semi
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:19:1]
  18 | :unknown({;}) {}
  19 | :unknown(;) {}
     :          ^
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:19:1]
  18 | :unknown({;}) {}
  19 | :unknown(;) {}
     :             ^^
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:19:1]
  18 | :unknown({;}) {}
  19 | :unknown(;) {}
     :             ^

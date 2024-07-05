@@ -1,86 +1,70 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.1.script_on.html:1:1]
  1 | <p id="status"><noscript><strong>A</strong></noscript><span>B</span></p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.1.script_on.html:1:1]
  1 | <p id="status"><noscript><strong>A</strong></noscript><span>B</span></p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.1.script_on.html:1:1]
  1 | <p id="status"><noscript><strong>A</strong></noscript><span>B</span></p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.1.script_on.html:1:1]
  1 | <p id="status"><noscript><strong>A</strong></noscript><span>B</span></p>
    :    ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.1.script_on.html:1:1]
  1 | <p id="status"><noscript><strong>A</strong></noscript><span>B</span></p>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.1.script_on.html:1:1]
  1 | <p id="status"><noscript><strong>A</strong></noscript><span>B</span></p>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.1.script_on.html:1:1]
  1 | <p id="status"><noscript><strong>A</strong></noscript><span>B</span></p>
    :                          ^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.1.script_on.html:1:1]
  1 | <p id="status"><noscript><strong>A</strong></noscript><span>B</span></p>
    :                          ^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.1.script_on.html:1:1]
  1 | <p id="status"><noscript><strong>A</strong></noscript><span>B</span></p>
    :                                  ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.1.script_on.html:1:1]
  1 | <p id="status"><noscript><strong>A</strong></noscript><span>B</span></p>
    :                                  ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.1.script_on.html:1:1]
  1 | <p id="status"><noscript><strong>A</strong></noscript><span>B</span></p>
    :                                                       ^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.1.script_on.html:1:1]
  1 | <p id="status"><noscript><strong>A</strong></noscript><span>B</span></p>
    :                                                       ^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.1.script_on.html:1:1]
  1 | <p id="status"><noscript><strong>A</strong></noscript><span>B</span></p>
    :                                                             ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.1.script_on.html:1:1]
  1 | <p id="status"><noscript><strong>A</strong></noscript><span>B</span></p>

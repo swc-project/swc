@@ -1,4 +1,3 @@
-
   x Stylesheet
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
   1 | ,-> @supports (--element(".minwidth", { "minWidth": 300 })) {
@@ -27,7 +26,6 @@
  24 | |       * { background: red; }
  25 | `-> }
     `----
-
   x Rule
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | ,-> @supports (--element(".minwidth", { "minWidth": 300 })) {
@@ -36,7 +34,6 @@
  4 | |       }
  5 | `-> }
    `----
-
   x AtRule
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | ,-> @supports (--element(".minwidth", { "minWidth": 300 })) {
@@ -45,210 +42,180 @@
  4 | |       }
  5 | `-> }
    `----
-
   x AtRuleName
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :  ^^^^^^^^
  2 |     [--self] {
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :  ^^^^^^^^
  2 |     [--self] {
    `----
-
   x SupportsCondition
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 |     [--self] {
    `----
-
   x SupportsConditionType
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 |     [--self] {
    `----
-
   x SupportsInParens
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 |     [--self] {
    `----
-
   x SupportsCondition
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 |     [--self] {
    `----
-
   x Function
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 |     [--self] {
    `----
-
   x DashedIdent
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :            ^^^^^^^^^
  2 |     [--self] {
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                      ^^^^^^^^^^^
  2 |     [--self] {
    `----
-
   x String { value: ".minwidth", raw: "\".minwidth\"" }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                      ^^^^^^^^^^^
  2 |     [--self] {
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                 ^
  2 |     [--self] {
    `----
-
   x Comma
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                 ^
  2 |     [--self] {
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                  ^
  2 |     [--self] {
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                  ^
  2 |     [--self] {
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                   ^^^^^^^^^^^^^^^^^^^
  2 |     [--self] {
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                   ^^^^^^^^^^^^^^^^^^^
  2 |     [--self] {
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                   ^
  2 |     [--self] {
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                    ^
  2 |     [--self] {
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                    ^
  2 |     [--self] {
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                     ^^^^^^^^^^
  2 |     [--self] {
    `----
-
   x String { value: "minWidth", raw: "\"minWidth\"" }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                     ^^^^^^^^^^
  2 |     [--self] {
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                               ^
  2 |     [--self] {
    `----
-
   x Colon
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                               ^
  2 |     [--self] {
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                                ^
  2 |     [--self] {
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                                ^
  2 |     [--self] {
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                                 ^^^
  2 |     [--self] {
    `----
-
   x Number { value: 300.0, raw: "300", type_flag: Integer }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                                 ^^^
  2 |     [--self] {
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                                    ^
  2 |     [--self] {
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                                    ^
  2 |     [--self] {
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | ,-> @supports (--element(".minwidth", { "minWidth": 300 })) {
@@ -257,1875 +224,1641 @@
  4 | |       }
  5 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                                         ^
  2 |     [--self] {
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:2:1]
  1 |     @supports (--element(".minwidth", { "minWidth": 300 })) {
  2 | ,->     [--self] {
  3 | |           background: greenyellow;
  4 | `->     }
  5 |     }
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:2:1]
  1 |     @supports (--element(".minwidth", { "minWidth": 300 })) {
  2 | ,->     [--self] {
  3 | |           background: greenyellow;
  4 | `->     }
  5 |     }
    `----
-
   x SelectorList
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:2:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
  2 |     [--self] {
    :     ^^^^^^^^
  3 |         background: greenyellow;
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:2:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
  2 |     [--self] {
    :     ^^^^^^^^
  3 |         background: greenyellow;
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:2:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
  2 |     [--self] {
    :     ^^^^^^^^
  3 |         background: greenyellow;
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:2:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
  2 |     [--self] {
    :     ^^^^^^^^
  3 |         background: greenyellow;
    `----
-
   x AttributeSelector
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:2:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
  2 |     [--self] {
    :     ^^^^^^^^
  3 |         background: greenyellow;
    `----
-
   x WqName
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:2:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
  2 |     [--self] {
    :      ^^^^^^
  3 |         background: greenyellow;
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:2:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
  2 |     [--self] {
    :      ^^^^^^
  3 |         background: greenyellow;
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:2:1]
  1 |     @supports (--element(".minwidth", { "minWidth": 300 })) {
  2 | ,->     [--self] {
  3 | |           background: greenyellow;
  4 | `->     }
  5 |     }
    `----
-
   x LBrace
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:2:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
  2 |     [--self] {
    :              ^
  3 |         background: greenyellow;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:3:1]
  2 |     [--self] {
  3 |         background: greenyellow;
    :         ^^^^^^^^^^^^^^^^^^^^^^^
  4 |     }
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:3:1]
  2 |     [--self] {
  3 |         background: greenyellow;
    :         ^^^^^^^^^^^^^^^^^^^^^^^
  4 |     }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:3:1]
  2 |     [--self] {
  3 |         background: greenyellow;
    :         ^^^^^^^^^^
  4 |     }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:3:1]
  2 |     [--self] {
  3 |         background: greenyellow;
    :         ^^^^^^^^^^
  4 |     }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:3:1]
  2 |     [--self] {
  3 |         background: greenyellow;
    :                     ^^^^^^^^^^^
  4 |     }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:3:1]
  2 |     [--self] {
  3 |         background: greenyellow;
    :                     ^^^^^^^^^^^
  4 |     }
    `----
-
   x Rule
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 |     
  7 | ,-> @supports ({"example": 1}) {
  8 | |       * { background: red; }
  9 | `-> }
    `----
-
   x AtRule
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 |     
  7 | ,-> @supports ({"example": 1}) {
  8 | |       * { background: red; }
  9 | `-> }
    `----
-
   x AtRuleName
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :  ^^^^^^^^
  8 |     * { background: red; }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :  ^^^^^^^^
  8 |     * { background: red; }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :          ^
  8 |     * { background: red; }
    `----
-
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :          ^
  8 |     * { background: red; }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :           ^^^^^^^^^^^^^^^^
  8 |     * { background: red; }
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :           ^^^^^^^^^^^^^^^^
  8 |     * { background: red; }
    `----
-
   x LParen
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :           ^
  8 |     * { background: red; }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :            ^^^^^^^^^^^^^^
  8 |     * { background: red; }
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :            ^^^^^^^^^^^^^^
  8 |     * { background: red; }
    `----
-
   x LBrace
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :            ^
  8 |     * { background: red; }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :             ^^^^^^^^^
  8 |     * { background: red; }
    `----
-
   x String { value: "example", raw: "\"example\"" }
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :             ^^^^^^^^^
  8 |     * { background: red; }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :                      ^
  8 |     * { background: red; }
    `----
-
   x Colon
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :                      ^
  8 |     * { background: red; }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :                       ^
  8 |     * { background: red; }
    `----
-
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :                       ^
  8 |     * { background: red; }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :                        ^
  8 |     * { background: red; }
    `----
-
   x Number { value: 1.0, raw: "1", type_flag: Integer }
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :                        ^
  8 |     * { background: red; }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :                           ^
  8 |     * { background: red; }
    `----
-
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :                           ^
  8 |     * { background: red; }
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 |     
  7 | ,-> @supports ({"example": 1}) {
  8 | |       * { background: red; }
  9 | `-> }
    `----
-
   x LBrace
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :                            ^
  8 |     * { background: red; }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:8:1]
  7 | @supports ({"example": 1}) {
  8 |     * { background: red; }
    :     ^^^^^^^^^^^^^^^^^^^^^^
  9 | }
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:8:1]
  7 | @supports ({"example": 1}) {
  8 |     * { background: red; }
    :     ^^^^^^^^^^^^^^^^^^^^^^
  9 | }
    `----
-
   x SelectorList
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:8:1]
  7 | @supports ({"example": 1}) {
  8 |     * { background: red; }
    :     ^
  9 | }
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:8:1]
  7 | @supports ({"example": 1}) {
  8 |     * { background: red; }
    :     ^
  9 | }
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:8:1]
  7 | @supports ({"example": 1}) {
  8 |     * { background: red; }
    :     ^
  9 | }
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:8:1]
  7 | @supports ({"example": 1}) {
  8 |     * { background: red; }
    :     ^
  9 | }
    `----
-
   x UniversalSelector
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:8:1]
  7 | @supports ({"example": 1}) {
  8 |     * { background: red; }
    :     ^
  9 | }
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:8:1]
  7 | @supports ({"example": 1}) {
  8 |     * { background: red; }
    :       ^^^^^^^^^^^^^^^^^^^^
  9 | }
    `----
-
   x LBrace
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:8:1]
  7 | @supports ({"example": 1}) {
  8 |     * { background: red; }
    :       ^
  9 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:8:1]
  7 | @supports ({"example": 1}) {
  8 |     * { background: red; }
    :         ^^^^^^^^^^^^^^^
  9 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:8:1]
  7 | @supports ({"example": 1}) {
  8 |     * { background: red; }
    :         ^^^^^^^^^^^^^^^
  9 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:8:1]
  7 | @supports ({"example": 1}) {
  8 |     * { background: red; }
    :         ^^^^^^^^^^
  9 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:8:1]
  7 | @supports ({"example": 1}) {
  8 |     * { background: red; }
    :         ^^^^^^^^^^
  9 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:8:1]
  7 | @supports ({"example": 1}) {
  8 |     * { background: red; }
    :                     ^^^
  9 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:8:1]
  7 | @supports ({"example": 1}) {
  8 |     * { background: red; }
    :                     ^^^
  9 | }
    `----
-
   x Rule
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 |     
  11 | ,-> @supports (("example": 1)) {
  12 | |       * { background: red; }
  13 | `-> }
     `----
-
   x AtRule
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 |     
  11 | ,-> @supports (("example": 1)) {
  12 | |       * { background: red; }
  13 | `-> }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :  ^^^^^^^^
  12 |     * { background: red; }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :  ^^^^^^^^
  12 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :          ^
  12 |     * { background: red; }
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :          ^
  12 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :           ^^^^^^^^^^^^^^^^
  12 |     * { background: red; }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :           ^^^^^^^^^^^^^^^^
  12 |     * { background: red; }
     `----
-
   x LParen
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :           ^
  12 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :            ^^^^^^^^^^^^^^
  12 |     * { background: red; }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :            ^^^^^^^^^^^^^^
  12 |     * { background: red; }
     `----
-
   x LParen
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :            ^
  12 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :             ^^^^^^^^^
  12 |     * { background: red; }
     `----
-
   x String { value: "example", raw: "\"example\"" }
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :             ^^^^^^^^^
  12 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :                      ^
  12 |     * { background: red; }
     `----
-
   x Colon
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :                      ^
  12 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :                       ^
  12 |     * { background: red; }
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :                       ^
  12 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :                        ^
  12 |     * { background: red; }
     `----
-
   x Number { value: 1.0, raw: "1", type_flag: Integer }
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :                        ^
  12 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :                           ^
  12 |     * { background: red; }
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :                           ^
  12 |     * { background: red; }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 |     
  11 | ,-> @supports (("example": 1)) {
  12 | |       * { background: red; }
  13 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :                            ^
  12 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:12:1]
  11 | @supports (("example": 1)) {
  12 |     * { background: red; }
     :     ^^^^^^^^^^^^^^^^^^^^^^
  13 | }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:12:1]
  11 | @supports (("example": 1)) {
  12 |     * { background: red; }
     :     ^^^^^^^^^^^^^^^^^^^^^^
  13 | }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:12:1]
  11 | @supports (("example": 1)) {
  12 |     * { background: red; }
     :     ^
  13 | }
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:12:1]
  11 | @supports (("example": 1)) {
  12 |     * { background: red; }
     :     ^
  13 | }
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:12:1]
  11 | @supports (("example": 1)) {
  12 |     * { background: red; }
     :     ^
  13 | }
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:12:1]
  11 | @supports (("example": 1)) {
  12 |     * { background: red; }
     :     ^
  13 | }
     `----
-
   x UniversalSelector
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:12:1]
  11 | @supports (("example": 1)) {
  12 |     * { background: red; }
     :     ^
  13 | }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:12:1]
  11 | @supports (("example": 1)) {
  12 |     * { background: red; }
     :       ^^^^^^^^^^^^^^^^^^^^
  13 | }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:12:1]
  11 | @supports (("example": 1)) {
  12 |     * { background: red; }
     :       ^
  13 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:12:1]
  11 | @supports (("example": 1)) {
  12 |     * { background: red; }
     :         ^^^^^^^^^^^^^^^
  13 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:12:1]
  11 | @supports (("example": 1)) {
  12 |     * { background: red; }
     :         ^^^^^^^^^^^^^^^
  13 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:12:1]
  11 | @supports (("example": 1)) {
  12 |     * { background: red; }
     :         ^^^^^^^^^^
  13 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:12:1]
  11 | @supports (("example": 1)) {
  12 |     * { background: red; }
     :         ^^^^^^^^^^
  13 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:12:1]
  11 | @supports (("example": 1)) {
  12 |     * { background: red; }
     :                     ^^^
  13 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:12:1]
  11 | @supports (("example": 1)) {
  12 |     * { background: red; }
     :                     ^^^
  13 | }
     `----
-
   x Rule
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:14:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  14 |     
  15 | ,-> @supports ([]) {
  16 | |       * { background: red; }
  17 | `-> }
     `----
-
   x AtRule
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:14:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  14 |     
  15 | ,-> @supports ([]) {
  16 | |       * { background: red; }
  17 | `-> }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:14:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  14 | 
  15 | @supports ([]) {
     :  ^^^^^^^^
  16 |     * { background: red; }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:14:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  14 | 
  15 | @supports ([]) {
     :  ^^^^^^^^
  16 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:14:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  14 | 
  15 | @supports ([]) {
     :          ^
  16 |     * { background: red; }
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:14:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  14 | 
  15 | @supports ([]) {
     :          ^
  16 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:14:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  14 | 
  15 | @supports ([]) {
     :           ^^^^
  16 |     * { background: red; }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:14:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  14 | 
  15 | @supports ([]) {
     :           ^^^^
  16 |     * { background: red; }
     `----
-
   x LParen
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:14:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  14 | 
  15 | @supports ([]) {
     :           ^
  16 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:14:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  14 | 
  15 | @supports ([]) {
     :            ^^
  16 |     * { background: red; }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:14:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  14 | 
  15 | @supports ([]) {
     :            ^^
  16 |     * { background: red; }
     `----
-
   x LBracket
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:14:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  14 | 
  15 | @supports ([]) {
     :            ^
  16 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:14:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  14 | 
  15 | @supports ([]) {
     :               ^
  16 |     * { background: red; }
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:14:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  14 | 
  15 | @supports ([]) {
     :               ^
  16 |     * { background: red; }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:14:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  14 |     
  15 | ,-> @supports ([]) {
  16 | |       * { background: red; }
  17 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:14:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  14 | 
  15 | @supports ([]) {
     :                ^
  16 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:16:1]
  15 | @supports ([]) {
  16 |     * { background: red; }
     :     ^^^^^^^^^^^^^^^^^^^^^^
  17 | }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:16:1]
  15 | @supports ([]) {
  16 |     * { background: red; }
     :     ^^^^^^^^^^^^^^^^^^^^^^
  17 | }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:16:1]
  15 | @supports ([]) {
  16 |     * { background: red; }
     :     ^
  17 | }
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:16:1]
  15 | @supports ([]) {
  16 |     * { background: red; }
     :     ^
  17 | }
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:16:1]
  15 | @supports ([]) {
  16 |     * { background: red; }
     :     ^
  17 | }
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:16:1]
  15 | @supports ([]) {
  16 |     * { background: red; }
     :     ^
  17 | }
     `----
-
   x UniversalSelector
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:16:1]
  15 | @supports ([]) {
  16 |     * { background: red; }
     :     ^
  17 | }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:16:1]
  15 | @supports ([]) {
  16 |     * { background: red; }
     :       ^^^^^^^^^^^^^^^^^^^^
  17 | }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:16:1]
  15 | @supports ([]) {
  16 |     * { background: red; }
     :       ^
  17 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:16:1]
  15 | @supports ([]) {
  16 |     * { background: red; }
     :         ^^^^^^^^^^^^^^^
  17 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:16:1]
  15 | @supports ([]) {
  16 |     * { background: red; }
     :         ^^^^^^^^^^^^^^^
  17 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:16:1]
  15 | @supports ([]) {
  16 |     * { background: red; }
     :         ^^^^^^^^^^
  17 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:16:1]
  15 | @supports ([]) {
  16 |     * { background: red; }
     :         ^^^^^^^^^^
  17 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:16:1]
  15 | @supports ([]) {
  16 |     * { background: red; }
     :                     ^^^
  17 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:16:1]
  15 | @supports ([]) {
  16 |     * { background: red; }
     :                     ^^^
  17 | }
     `----
-
   x Rule
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 |     
  19 | ,-> @supports ([color: red]) {
  20 | |       * { background: red; }
  21 | `-> }
     `----
-
   x AtRule
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 |     
  19 | ,-> @supports ([color: red]) {
  20 | |       * { background: red; }
  21 | `-> }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :  ^^^^^^^^
  20 |     * { background: red; }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :  ^^^^^^^^
  20 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :          ^
  20 |     * { background: red; }
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :          ^
  20 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :           ^^^^^^^^^^^^^^
  20 |     * { background: red; }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :           ^^^^^^^^^^^^^^
  20 |     * { background: red; }
     `----
-
   x LParen
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :           ^
  20 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :            ^^^^^^^^^^^^
  20 |     * { background: red; }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :            ^^^^^^^^^^^^
  20 |     * { background: red; }
     `----
-
   x LBracket
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :            ^
  20 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :             ^^^^^
  20 |     * { background: red; }
     `----
-
   x Ident { value: "color", raw: "color" }
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :             ^^^^^
  20 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :                  ^
  20 |     * { background: red; }
     `----
-
   x Colon
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :                  ^
  20 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :                   ^
  20 |     * { background: red; }
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :                   ^
  20 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :                    ^^^
  20 |     * { background: red; }
     `----
-
   x Ident { value: "red", raw: "red" }
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :                    ^^^
  20 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :                         ^
  20 |     * { background: red; }
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :                         ^
  20 |     * { background: red; }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 |     
  19 | ,-> @supports ([color: red]) {
  20 | |       * { background: red; }
  21 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :                          ^
  20 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:20:1]
  19 | @supports ([color: red]) {
  20 |     * { background: red; }
     :     ^^^^^^^^^^^^^^^^^^^^^^
  21 | }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:20:1]
  19 | @supports ([color: red]) {
  20 |     * { background: red; }
     :     ^^^^^^^^^^^^^^^^^^^^^^
  21 | }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:20:1]
  19 | @supports ([color: red]) {
  20 |     * { background: red; }
     :     ^
  21 | }
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:20:1]
  19 | @supports ([color: red]) {
  20 |     * { background: red; }
     :     ^
  21 | }
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:20:1]
  19 | @supports ([color: red]) {
  20 |     * { background: red; }
     :     ^
  21 | }
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:20:1]
  19 | @supports ([color: red]) {
  20 |     * { background: red; }
     :     ^
  21 | }
     `----
-
   x UniversalSelector
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:20:1]
  19 | @supports ([color: red]) {
  20 |     * { background: red; }
     :     ^
  21 | }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:20:1]
  19 | @supports ([color: red]) {
  20 |     * { background: red; }
     :       ^^^^^^^^^^^^^^^^^^^^
  21 | }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:20:1]
  19 | @supports ([color: red]) {
  20 |     * { background: red; }
     :       ^
  21 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:20:1]
  19 | @supports ([color: red]) {
  20 |     * { background: red; }
     :         ^^^^^^^^^^^^^^^
  21 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:20:1]
  19 | @supports ([color: red]) {
  20 |     * { background: red; }
     :         ^^^^^^^^^^^^^^^
  21 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:20:1]
  19 | @supports ([color: red]) {
  20 |     * { background: red; }
     :         ^^^^^^^^^^
  21 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:20:1]
  19 | @supports ([color: red]) {
  20 |     * { background: red; }
     :         ^^^^^^^^^^
  21 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:20:1]
  19 | @supports ([color: red]) {
  20 |     * { background: red; }
     :                     ^^^
  21 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:20:1]
  19 | @supports ([color: red]) {
  20 |     * { background: red; }
     :                     ^^^
  21 | }
     `----
-
   x Rule
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 |     
  23 | ,-> @supports ([[[[[{ --func(color: { red }) }]]]]]) {
  24 | |       * { background: red; }
  25 | `-> }
     `----
-
   x AtRule
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 |     
  23 | ,-> @supports ([[[[[{ --func(color: { red }) }]]]]]) {
  24 | |       * { background: red; }
  25 | `-> }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :  ^^^^^^^^
  24 |     * { background: red; }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :  ^^^^^^^^
  24 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :          ^
  24 |     * { background: red; }
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :          ^
  24 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  24 |     * { background: red; }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  24 |     * { background: red; }
     `----
-
   x LParen
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :           ^
  24 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  24 |     * { background: red; }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  24 |     * { background: red; }
     `----
-
   x LBracket
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :            ^
  24 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  24 |     * { background: red; }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  24 |     * { background: red; }
     `----
-
   x LBracket
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :             ^
  24 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  24 |     * { background: red; }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  24 |     * { background: red; }
     `----
-
   x LBracket
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :              ^
  24 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  24 |     * { background: red; }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  24 |     * { background: red; }
     `----
-
   x LBracket
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :               ^
  24 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  24 |     * { background: red; }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  24 |     * { background: red; }
     `----
-
   x LBracket
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                ^
  24 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
  24 |     * { background: red; }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
  24 |     * { background: red; }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                 ^
  24 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                  ^
  24 |     * { background: red; }
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                  ^
  24 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                   ^^^^^^^^^^^^^^^^^^^^^^
  24 |     * { background: red; }
     `----
-
   x Function
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                   ^^^^^^^^^^^^^^^^^^^^^^
  24 |     * { background: red; }
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                   ^^^^^^
  24 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                          ^^^^^
  24 |     * { background: red; }
     `----
-
   x Ident { value: "color", raw: "color" }
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                          ^^^^^
  24 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                               ^
  24 |     * { background: red; }
     `----
-
   x Colon
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                               ^
  24 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                                ^
  24 |     * { background: red; }
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                                ^
  24 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                                 ^^^^^^^
  24 |     * { background: red; }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                                 ^^^^^^^
  24 |     * { background: red; }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                                 ^
  24 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                                  ^
  24 |     * { background: red; }
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                                  ^
  24 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                                   ^^^
  24 |     * { background: red; }
     `----
-
   x Ident { value: "red", raw: "red" }
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                                   ^^^
  24 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                                      ^
  24 |     * { background: red; }
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                                      ^
  24 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                                         ^
  24 |     * { background: red; }
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                                         ^
  24 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                                                 ^
  24 |     * { background: red; }
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                                                 ^
  24 |     * { background: red; }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 |     
  23 | ,-> @supports ([[[[[{ --func(color: { red }) }]]]]]) {
  24 | |       * { background: red; }
  25 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                                                  ^
  24 |     * { background: red; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:24:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
  24 |     * { background: red; }
     :     ^^^^^^^^^^^^^^^^^^^^^^
  25 | }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:24:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
  24 |     * { background: red; }
     :     ^^^^^^^^^^^^^^^^^^^^^^
  25 | }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:24:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
  24 |     * { background: red; }
     :     ^
  25 | }
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:24:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
  24 |     * { background: red; }
     :     ^
  25 | }
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:24:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
  24 |     * { background: red; }
     :     ^
  25 | }
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:24:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
  24 |     * { background: red; }
     :     ^
  25 | }
     `----
-
   x UniversalSelector
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:24:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
  24 |     * { background: red; }
     :     ^
  25 | }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:24:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
  24 |     * { background: red; }
     :       ^^^^^^^^^^^^^^^^^^^^
  25 | }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:24:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
  24 |     * { background: red; }
     :       ^
  25 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:24:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
  24 |     * { background: red; }
     :         ^^^^^^^^^^^^^^^
  25 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:24:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
  24 |     * { background: red; }
     :         ^^^^^^^^^^^^^^^
  25 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:24:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
  24 |     * { background: red; }
     :         ^^^^^^^^^^
  25 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:24:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
  24 |     * { background: red; }
     :         ^^^^^^^^^^
  25 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:24:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
  24 |     * { background: red; }
     :                     ^^^
  25 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:24:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
  24 |     * { background: red; }
     :                     ^^^

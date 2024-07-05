@@ -1,6 +1,5 @@
-
   x Expected ';', '}' or <eof>
-   ,-[$DIR/tests/test262-parser/fail/03d335d8e007f61e.js:1:1]
+   ,-[$DIR/tests/test262-parser/fail/03d335d8e007f61e.js:2:1]
  1 | x 
  2 |  is y
    :  ^| ^

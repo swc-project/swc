@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.47.fragment_svg_svg.html:1:1]
  1 | <div><h1>X</h1></div>
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.47.fragment_svg_svg.html:1:1]
  1 | <div><h1>X</h1></div>
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.47.fragment_svg_svg.html:1:1]
  1 | <div><h1>X</h1></div>
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.47.fragment_svg_svg.html:1:1]
  1 | <div><h1>X</h1></div>
    :      ^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.47.fragment_svg_svg.html:1:1]
  1 | <div><h1>X</h1></div>
    :      ^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.47.fragment_svg_svg.html:1:1]
  1 | <div><h1>X</h1></div>
    :          ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.47.fragment_svg_svg.html:1:1]
  1 | <div><h1>X</h1></div>

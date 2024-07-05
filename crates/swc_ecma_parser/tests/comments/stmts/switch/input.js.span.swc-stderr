@@ -1,4 +1,3 @@
-
   x Module
    ,-[$DIR/tests/comments/stmts/switch/input.js:1:1]
  1 | ,-> switch (1) {
@@ -7,7 +6,6 @@
  4 | |       // 4
  5 | `-> }
    `----
-
   x ModuleItem
    ,-[$DIR/tests/comments/stmts/switch/input.js:1:1]
  1 | ,-> switch (1) {
@@ -16,7 +14,6 @@
  4 | |       // 4
  5 | `-> }
    `----
-
   x Stmt
    ,-[$DIR/tests/comments/stmts/switch/input.js:1:1]
  1 | ,-> switch (1) {
@@ -25,7 +22,6 @@
  4 | |       // 4
  5 | `-> }
    `----
-
   x SwitchStmt
    ,-[$DIR/tests/comments/stmts/switch/input.js:1:1]
  1 | ,-> switch (1) {
@@ -34,94 +30,82 @@
  4 | |       // 4
  5 | `-> }
    `----
-
   x Expr
    ,-[$DIR/tests/comments/stmts/switch/input.js:1:1]
  1 | switch (1) {
    :         ^
  2 |     case 2:
    `----
-
   x Lit
    ,-[$DIR/tests/comments/stmts/switch/input.js:1:1]
  1 | switch (1) {
    :         ^
  2 |     case 2:
    `----
-
   x Number
    ,-[$DIR/tests/comments/stmts/switch/input.js:1:1]
  1 | switch (1) {
    :         ^
  2 |     case 2:
    `----
-
   x SwitchCase
-   ,-[$DIR/tests/comments/stmts/switch/input.js:1:1]
+   ,-[$DIR/tests/comments/stmts/switch/input.js:2:1]
  1 |     switch (1) {
  2 | ,->     case 2:
  3 | `->         3;
  4 |         // 4
    `----
-
   x Expr
-   ,-[$DIR/tests/comments/stmts/switch/input.js:1:1]
+   ,-[$DIR/tests/comments/stmts/switch/input.js:2:1]
  1 | switch (1) {
  2 |     case 2:
    :          ^
  3 |         3;
    `----
-
   x Lit
-   ,-[$DIR/tests/comments/stmts/switch/input.js:1:1]
+   ,-[$DIR/tests/comments/stmts/switch/input.js:2:1]
  1 | switch (1) {
  2 |     case 2:
    :          ^
  3 |         3;
    `----
-
   x Number
-   ,-[$DIR/tests/comments/stmts/switch/input.js:1:1]
+   ,-[$DIR/tests/comments/stmts/switch/input.js:2:1]
  1 | switch (1) {
  2 |     case 2:
    :          ^
  3 |         3;
    `----
-
   x Stmt
-   ,-[$DIR/tests/comments/stmts/switch/input.js:2:1]
+   ,-[$DIR/tests/comments/stmts/switch/input.js:3:1]
  2 |     case 2:
  3 |         3;
    :         ^^
  4 |     // 4
    `----
-
   x ExprStmt
-   ,-[$DIR/tests/comments/stmts/switch/input.js:2:1]
+   ,-[$DIR/tests/comments/stmts/switch/input.js:3:1]
  2 |     case 2:
  3 |         3;
    :         ^^
  4 |     // 4
    `----
-
   x Expr
-   ,-[$DIR/tests/comments/stmts/switch/input.js:2:1]
+   ,-[$DIR/tests/comments/stmts/switch/input.js:3:1]
  2 |     case 2:
  3 |         3;
    :         ^
  4 |     // 4
    `----
-
   x Lit
-   ,-[$DIR/tests/comments/stmts/switch/input.js:2:1]
+   ,-[$DIR/tests/comments/stmts/switch/input.js:3:1]
  2 |     case 2:
  3 |         3;
    :         ^
  4 |     // 4
    `----
-
   x Number
-   ,-[$DIR/tests/comments/stmts/switch/input.js:2:1]
+   ,-[$DIR/tests/comments/stmts/switch/input.js:3:1]
  2 |     case 2:
  3 |         3;
    :         ^

@@ -1,4 +1,3 @@
-
   x Unexpected token in start phase
    ,-[$DIR/tests/recovery/cdata-before/input.xml:1:1]
  1 | <![CDATA[content]]>

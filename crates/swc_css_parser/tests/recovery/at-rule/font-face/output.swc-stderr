@@ -1,43 +1,37 @@
-
   x Expected ":"
-   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:3:1]
  2 |     invalid
  3 | }
    : ^
    `----
-
   x Expected ":"
-   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:5:1]
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:6:1]
  5 | @font-face {
  6 |     invalid;
    :            ^
  7 | }
    `----
-
   x Expected '{' token
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:16:1]
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
  16 | 
  17 | @font-face foo {}
     :            ^^^
     `----
-
   x Expected '{' token
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:19:1]
  18 | 
  19 | @font-face foo;
     :            ^^^
     `----
-
   x Expected whitespace, ';', '@', ident or EOF
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:10:1]
   9 | @font-face {
  10 |     123
     :     ^^^
  11 | }
     `----
-
   x Expected whitespace, ';', '@', ident or EOF
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:13:1]
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:14:1]
  13 | @font-face {
  14 |     123;
     :     ^^^

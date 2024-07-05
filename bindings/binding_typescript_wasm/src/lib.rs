@@ -2,11 +2,14 @@ use anyhow::{Context, Error};
 use serde::{Deserialize, Serialize};
 use swc_core::{
     common::{
-        comments::SingleThreadedComments, errors::ColorConfig, source_map::SourceMapGenConfig,
-        sync::Lrc, FileName, Mark, SourceMap, GLOBALS,
+        comments::SingleThreadedComments,
+        errors::{ColorConfig, HANDLER},
+        source_map::SourceMapGenConfig,
+        sync::Lrc,
+        FileName, Mark, SourceMap, Spanned, GLOBALS,
     },
     ecma::{
-        ast::{EsVersion, Program},
+        ast::{Decorator, EsVersion, Program, TsEnumDecl, TsParamPropParam},
         codegen::text_writer::JsWriter,
         parser::{
             parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
@@ -18,9 +21,9 @@ use swc_core::{
                 hygiene::hygiene,
                 resolver,
             },
-            typescript::strip_type,
+            typescript::{strip_type, typescript},
         },
-        visit::VisitMutWith,
+        visit::{Visit, VisitMutWith, VisitWith},
     },
 };
 use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
@@ -46,7 +49,7 @@ pub struct Options {
     #[serde(default)]
     pub filename: Option<String>,
 
-    #[serde(default)]
+    #[serde(default = "default_ts_syntax")]
     pub parser: TsSyntax,
 
     #[serde(default)]
@@ -55,10 +58,29 @@ pub struct Options {
     #[serde(default)]
     pub source_maps: bool,
 
-    // #[serde(default)]
-    // pub transform: swc_core::ecma::transforms::typescript::Config,
+    #[serde(default)]
+    pub mode: Mode,
+
+    #[serde(default)]
+    pub transform: Option<swc_core::ecma::transforms::typescript::Config>,
+
     #[serde(default)]
     pub codegen: swc_core::ecma::codegen::Config,
+}
+
+fn default_ts_syntax() -> TsSyntax {
+    TsSyntax {
+        decorators: true,
+        ..Default::default()
+    }
+}
+
+#[derive(Clone, Copy, Default, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum Mode {
+    #[default]
+    StripOnly,
+    Transform,
 }
 
 #[derive(Serialize)]
@@ -142,7 +164,6 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
 
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
-
             HELPERS.set(&Helpers::new(options.external_helpers), || {
                 // Apply resolver
 
@@ -150,7 +171,19 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
 
                 // Strip typescript types
 
-                program.visit_mut_with(&mut strip_type());
+                program.visit_with(&mut Validator { mode: options.mode });
+
+                match options.mode {
+                    Mode::StripOnly => {
+                        program.visit_mut_with(&mut strip_type());
+                    }
+                    Mode::Transform => {
+                        program.visit_mut_with(&mut typescript(
+                            options.transform.unwrap_or_default(),
+                            top_level_mark,
+                        ));
+                    }
+                }
 
                 // Apply external helpers
 
@@ -215,5 +248,45 @@ struct TsSourceMapGenConfig;
 impl SourceMapGenConfig for TsSourceMapGenConfig {
     fn file_name_to_source(&self, f: &FileName) -> String {
         f.to_string()
+    }
+}
+
+struct Validator {
+    mode: Mode,
+}
+
+impl Visit for Validator {
+    fn visit_decorator(&mut self, n: &Decorator) {
+        HANDLER.with(|handler| {
+            handler.span_err(n.span, "Decorators are not supported");
+        });
+    }
+
+    fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl) {
+        if matches!(self.mode, Mode::StripOnly) {
+            HANDLER.with(|handler| {
+                handler.span_err(
+                    e.span,
+                    "TypeScript enum is not supported in strip-only mode",
+                );
+            });
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_ts_param_prop_param(&mut self, n: &TsParamPropParam) {
+        if matches!(self.mode, Mode::StripOnly) {
+            HANDLER.with(|handler| {
+                handler.span_err(
+                    n.span(),
+                    "TypeScript parameter property is not supported in strip-only mode",
+                );
+            });
+            return;
+        }
+
+        n.visit_children_with(self);
     }
 }

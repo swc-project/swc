@@ -1,146 +1,126 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
  1 | ,-> a {
  2 | |       func(20px);
  3 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
  1 | ,-> a {
  2 | |       func(20px);
  3 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
  1 | ,-> a {
  2 | |       func(20px);
  3 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
  1 | a {
    : ^
  2 |     func(20px);
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
  1 | a {
    : ^
  2 |     func(20px);
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
  1 | a {
    : ^
  2 |     func(20px);
    `----
-
   x TypeSelector
    ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
  1 | a {
    : ^
  2 |     func(20px);
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
  1 | a {
    : ^
  2 |     func(20px);
    `----
-
   x WqName
    ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
  1 | a {
    : ^
  2 |     func(20px);
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
  1 | a {
    : ^
  2 |     func(20px);
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
  1 | ,-> a {
  2 | |       func(20px);
  3 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
  1 | a {
    :   ^
  2 |     func(20px);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:2:1]
  1 | a {
  2 |     func(20px);
    :     ^^^^^^^^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:2:1]
  1 | a {
  2 |     func(20px);
    :     ^^^^^^^^^^
  3 | }
    `----
-
   x Function
-   ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:2:1]
  1 | a {
  2 |     func(20px);
    :     ^^^^^^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:2:1]
  1 | a {
  2 |     func(20px);
    :     ^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:2:1]
  1 | a {
  2 |     func(20px);
    :          ^^^^
  3 | }
    `----
-
   x Dimension(DimensionToken { value: 20.0, raw_value: "20", unit: "px", type_flag: Integer, raw_unit: "px" })
-   ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:2:1]
  1 | a {
  2 |     func(20px);
    :          ^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:2:1]
  1 | a {
  2 |     func(20px);
    :               ^
  3 | }
    `----
-
   x Semi
-   ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:2:1]
  1 | a {
  2 |     func(20px);
    :               ^

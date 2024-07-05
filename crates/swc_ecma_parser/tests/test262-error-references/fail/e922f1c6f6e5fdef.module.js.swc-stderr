@@ -1,4 +1,3 @@
-
   x Expected '(', got '<eof>'
    ,-[$DIR/tests/test262-parser/fail/e922f1c6f6e5fdef.module.js:1:1]
  1 | export default function

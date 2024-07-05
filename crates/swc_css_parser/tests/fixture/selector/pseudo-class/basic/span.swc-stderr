@@ -1,4 +1,3 @@
-
   x Stylesheet
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
   1 | ,-> :root {}
@@ -21,2744 +20,2398 @@
  18 | |   a:hOvEr {}
  19 | `-> :-webkit-full-screen a {}
     `----
-
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
  1 | :root {}
    : ^^^^^^^^
  2 | :any-link {}
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
  1 | :root {}
    : ^^^^^^^^
  2 | :any-link {}
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
  1 | :root {}
    : ^^^^^
  2 | :any-link {}
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
  1 | :root {}
    : ^^^^^
  2 | :any-link {}
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
  1 | :root {}
    : ^^^^^
  2 | :any-link {}
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
  1 | :root {}
    : ^^^^^
  2 | :any-link {}
    `----
-
   x PseudoClassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
  1 | :root {}
    : ^^^^^
  2 | :any-link {}
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
  1 | :root {}
    :  ^^^^
  2 | :any-link {}
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
  1 | :root {}
    :       ^^
  2 | :any-link {}
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
  1 | :root {}
    :       ^
  2 | :any-link {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
  1 | :root {}
  2 | :any-link {}
    : ^^^^^^^^^^^^
  3 | button:hover {}
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
  1 | :root {}
  2 | :any-link {}
    : ^^^^^^^^^^^^
  3 | button:hover {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
  1 | :root {}
  2 | :any-link {}
    : ^^^^^^^^^
  3 | button:hover {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
  1 | :root {}
  2 | :any-link {}
    : ^^^^^^^^^
  3 | button:hover {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
  1 | :root {}
  2 | :any-link {}
    : ^^^^^^^^^
  3 | button:hover {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
  1 | :root {}
  2 | :any-link {}
    : ^^^^^^^^^
  3 | button:hover {}
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
  1 | :root {}
  2 | :any-link {}
    : ^^^^^^^^^
  3 | button:hover {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
  1 | :root {}
  2 | :any-link {}
    :  ^^^^^^^^
  3 | button:hover {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
  1 | :root {}
  2 | :any-link {}
    :           ^^
  3 | button:hover {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
  1 | :root {}
  2 | :any-link {}
    :           ^
  3 | button:hover {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
  2 | :any-link {}
  3 | button:hover {}
    : ^^^^^^^^^^^^^^^
  4 | div\:before {}
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
  2 | :any-link {}
  3 | button:hover {}
    : ^^^^^^^^^^^^^^^
  4 | div\:before {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
  2 | :any-link {}
  3 | button:hover {}
    : ^^^^^^^^^^^^
  4 | div\:before {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
  2 | :any-link {}
  3 | button:hover {}
    : ^^^^^^^^^^^^
  4 | div\:before {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
  2 | :any-link {}
  3 | button:hover {}
    : ^^^^^^^^^^^^
  4 | div\:before {}
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
  2 | :any-link {}
  3 | button:hover {}
    : ^^^^^^
  4 | div\:before {}
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
  2 | :any-link {}
  3 | button:hover {}
    : ^^^^^^
  4 | div\:before {}
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
  2 | :any-link {}
  3 | button:hover {}
    : ^^^^^^
  4 | div\:before {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
  2 | :any-link {}
  3 | button:hover {}
    : ^^^^^^
  4 | div\:before {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
  2 | :any-link {}
  3 | button:hover {}
    :       ^^^^^^
  4 | div\:before {}
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
  2 | :any-link {}
  3 | button:hover {}
    :       ^^^^^^
  4 | div\:before {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
  2 | :any-link {}
  3 | button:hover {}
    :        ^^^^^
  4 | div\:before {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
  2 | :any-link {}
  3 | button:hover {}
    :              ^^
  4 | div\:before {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
  2 | :any-link {}
  3 | button:hover {}
    :              ^
  4 | div\:before {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
  3 | button:hover {}
  4 | div\:before {}
    : ^^^^^^^^^^^^^^
  5 | div\::before {}
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
  3 | button:hover {}
  4 | div\:before {}
    : ^^^^^^^^^^^^^^
  5 | div\::before {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
  3 | button:hover {}
  4 | div\:before {}
    : ^^^^^^^^^^^
  5 | div\::before {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
  3 | button:hover {}
  4 | div\:before {}
    : ^^^^^^^^^^^
  5 | div\::before {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
  3 | button:hover {}
  4 | div\:before {}
    : ^^^^^^^^^^^
  5 | div\::before {}
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
  3 | button:hover {}
  4 | div\:before {}
    : ^^^^^^^^^^^
  5 | div\::before {}
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
  3 | button:hover {}
  4 | div\:before {}
    : ^^^^^^^^^^^
  5 | div\::before {}
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
  3 | button:hover {}
  4 | div\:before {}
    : ^^^^^^^^^^^
  5 | div\::before {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
  3 | button:hover {}
  4 | div\:before {}
    : ^^^^^^^^^^^
  5 | div\::before {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
  3 | button:hover {}
  4 | div\:before {}
    :             ^^
  5 | div\::before {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
  3 | button:hover {}
  4 | div\:before {}
    :             ^
  5 | div\::before {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
  4 | div\:before {}
  5 | div\::before {}
    : ^^^^^^^^^^^^^^^
  6 | iNpUt {}
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
  4 | div\:before {}
  5 | div\::before {}
    : ^^^^^^^^^^^^^^^
  6 | iNpUt {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
  4 | div\:before {}
  5 | div\::before {}
    : ^^^^^^^^^^^^
  6 | iNpUt {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
  4 | div\:before {}
  5 | div\::before {}
    : ^^^^^^^^^^^^
  6 | iNpUt {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
  4 | div\:before {}
  5 | div\::before {}
    : ^^^^^^^^^^^^
  6 | iNpUt {}
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
  4 | div\:before {}
  5 | div\::before {}
    : ^^^^^
  6 | iNpUt {}
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
  4 | div\:before {}
  5 | div\::before {}
    : ^^^^^
  6 | iNpUt {}
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
  4 | div\:before {}
  5 | div\::before {}
    : ^^^^^
  6 | iNpUt {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
  4 | div\:before {}
  5 | div\::before {}
    : ^^^^^
  6 | iNpUt {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
  4 | div\:before {}
  5 | div\::before {}
    :      ^^^^^^^
  6 | iNpUt {}
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
  4 | div\:before {}
  5 | div\::before {}
    :      ^^^^^^^
  6 | iNpUt {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
  4 | div\:before {}
  5 | div\::before {}
    :       ^^^^^^
  6 | iNpUt {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
  4 | div\:before {}
  5 | div\::before {}
    :              ^^
  6 | iNpUt {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
  4 | div\:before {}
  5 | div\::before {}
    :              ^
  6 | iNpUt {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
  5 | div\::before {}
  6 | iNpUt {}
    : ^^^^^^^^
  7 | :matches(section, article, aside, nav) h1 {}
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
  5 | div\::before {}
  6 | iNpUt {}
    : ^^^^^^^^
  7 | :matches(section, article, aside, nav) h1 {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
  5 | div\::before {}
  6 | iNpUt {}
    : ^^^^^
  7 | :matches(section, article, aside, nav) h1 {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
  5 | div\::before {}
  6 | iNpUt {}
    : ^^^^^
  7 | :matches(section, article, aside, nav) h1 {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
  5 | div\::before {}
  6 | iNpUt {}
    : ^^^^^
  7 | :matches(section, article, aside, nav) h1 {}
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
  5 | div\::before {}
  6 | iNpUt {}
    : ^^^^^
  7 | :matches(section, article, aside, nav) h1 {}
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
  5 | div\::before {}
  6 | iNpUt {}
    : ^^^^^
  7 | :matches(section, article, aside, nav) h1 {}
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
  5 | div\::before {}
  6 | iNpUt {}
    : ^^^^^
  7 | :matches(section, article, aside, nav) h1 {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
  5 | div\::before {}
  6 | iNpUt {}
    : ^^^^^
  7 | :matches(section, article, aside, nav) h1 {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
  5 | div\::before {}
  6 | iNpUt {}
    :       ^^
  7 | :matches(section, article, aside, nav) h1 {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
  5 | div\::before {}
  6 | iNpUt {}
    :       ^
  7 | :matches(section, article, aside, nav) h1 {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :  ^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :          ^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :          ^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :          ^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :          ^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :          ^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :          ^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                   ^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                   ^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                   ^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                   ^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                   ^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                   ^^^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                            ^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                            ^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                            ^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                            ^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                            ^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                            ^^^^^
  8 | input:not([type='submit']) {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                                   ^^^
  8 | input:not([type='submit']) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                                   ^^^
  8 | input:not([type='submit']) {}
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                                   ^^^
  8 | input:not([type='submit']) {}
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                                   ^^^
  8 | input:not([type='submit']) {}
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                                   ^^^
  8 | input:not([type='submit']) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                                   ^^^
  8 | input:not([type='submit']) {}
    `----
-
   x Combinator
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                                       ^
  8 | input:not([type='submit']) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                                        ^^
  8 | input:not([type='submit']) {}
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                                        ^^
  8 | input:not([type='submit']) {}
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                                        ^^
  8 | input:not([type='submit']) {}
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                                        ^^
  8 | input:not([type='submit']) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                                        ^^
  8 | input:not([type='submit']) {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                                           ^^
  8 | input:not([type='submit']) {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
  6 | iNpUt {}
  7 | :matches(section, article, aside, nav) h1 {}
    :                                           ^
  8 | input:not([type='submit']) {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    : ^^^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    : ^^^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    : ^^^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    : ^^^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    :      ^^^^^^^^^^^^^^^^^^^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    :      ^^^^^^^^^^^^^^^^^^^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    :       ^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    :           ^^^^^^^^^^^^^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    :           ^^^^^^^^^^^^^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    :           ^^^^^^^^^^^^^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    :           ^^^^^^^^^^^^^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    :           ^^^^^^^^^^^^^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x AttributeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    :           ^^^^^^^^^^^^^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    :            ^^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    :            ^^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x AttributeSelectorMatcher
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    :                ^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x AttributeSelectorValue
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    :                 ^^^^^^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x Str
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    :                 ^^^^^^^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    :                            ^^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
  8 | input:not([type='submit']) {}
    :                            ^
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     : ^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     : ^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     : ^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     : ^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :    ^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :    ^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :     ^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :            ^^^^^^^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :            ^^^^^^^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :             ^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                 ^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x ForgivingRelativeSelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                 ^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x RelativeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                 ^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                 ^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                 ^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                 ^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x UniversalSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                 ^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                  ^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                  ^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                   ^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                             ^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x AnPlusB
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                             ^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                             ^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                ^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                ^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                 ^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                     ^^^^^^^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                     ^^^^^^^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                     ^^^^^^^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                     ^^^^^^^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                     ^^^^^^^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                     ^^^^^^^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                      ^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                          ^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x ForgivingRelativeSelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                          ^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x RelativeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                          ^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                          ^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                          ^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                          ^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x UniversalSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                          ^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                           ^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                           ^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                            ^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                                      ^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x AnPlusB
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                                      ^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                                      ^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                                           ^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
   8 | input:not([type='submit']) {}
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                                           ^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     :   ^^^^^^^^^^^^^^^^^^^^^^^
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     :                          ^^^^^^^^^^^^^^^^
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     :                          ^^^^^^^^^^^^^^^^
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     :                           ^^^^^^^^^^^^^^^
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     :                                           ^^
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     :                                           ^
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     :   ^^^^^^^^^^^^^^^^^^^^^^^^
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     :                           ^^^^^^^^^^^
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     :                           ^^^^^^^^^^^
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     :                            ^^^^^^^^^^
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     :                                      ^^^^^^^^^^
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     :                                      ^^^^^^^^^^
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     :                                       ^^^^^^^^^
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     :                                                 ^^
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     :                                                 ^
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 | *:is(*) {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 | *:is(*) {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 | *:is(*) {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 | *:is(*) {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 | *:is(*) {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     : ^^^^^
  13 | *:is(*) {}
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     : ^^^^^
  13 | *:is(*) {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     :  ^^^^
  13 | *:is(*) {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     :      ^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 | *:is(*) {}
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     :      ^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 | *:is(*) {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     :        ^^^^^^^^^^^^^^^^^^^^^^^^
  13 | *:is(*) {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     :                                ^^^^^^^^^^^
  13 | *:is(*) {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     :                                ^^^^^^^^^^^
  13 | *:is(*) {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     :                                 ^^^^^^^^^^
  13 | *:is(*) {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     :                                           ^^^^^^^^^^
  13 | *:is(*) {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     :                                           ^^^^^^^^^^
  13 | *:is(*) {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     :                                            ^^^^^^^^^
  13 | *:is(*) {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     :                                                      ^^
  13 | *:is(*) {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     :                                                      ^
  13 | *:is(*) {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
  13 | *:is(*) {}
     : ^^^^^^^^^^
  14 | :--heading {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
  13 | *:is(*) {}
     : ^^^^^^^^^^
  14 | :--heading {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
  13 | *:is(*) {}
     : ^^^^^^^
  14 | :--heading {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
  13 | *:is(*) {}
     : ^^^^^^^
  14 | :--heading {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
  13 | *:is(*) {}
     : ^^^^^^^
  14 | :--heading {}
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
  13 | *:is(*) {}
     : ^
  14 | :--heading {}
     `----
-
   x UniversalSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
  13 | *:is(*) {}
     : ^
  14 | :--heading {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
  13 | *:is(*) {}
     :  ^^^^^^
  14 | :--heading {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
  13 | *:is(*) {}
     :  ^^^^^^
  14 | :--heading {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
  13 | *:is(*) {}
     :   ^^
  14 | :--heading {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
  13 | *:is(*) {}
     :      ^
  14 | :--heading {}
     `----
-
   x ForgivingSelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
  13 | *:is(*) {}
     :      ^
  14 | :--heading {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
  13 | *:is(*) {}
     :      ^
  14 | :--heading {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
  13 | *:is(*) {}
     :      ^
  14 | :--heading {}
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
  13 | *:is(*) {}
     :      ^
  14 | :--heading {}
     `----
-
   x UniversalSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
  13 | *:is(*) {}
     :      ^
  14 | :--heading {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
  13 | *:is(*) {}
     :         ^^
  14 | :--heading {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
  13 | *:is(*) {}
     :         ^
  14 | :--heading {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
  13 | *:is(*) {}
  14 | :--heading {}
     : ^^^^^^^^^^^^^
  15 | a:-moz-placeholder {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
  13 | *:is(*) {}
  14 | :--heading {}
     : ^^^^^^^^^^^^^
  15 | a:-moz-placeholder {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
  13 | *:is(*) {}
  14 | :--heading {}
     : ^^^^^^^^^^
  15 | a:-moz-placeholder {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
  13 | *:is(*) {}
  14 | :--heading {}
     : ^^^^^^^^^^
  15 | a:-moz-placeholder {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
  13 | *:is(*) {}
  14 | :--heading {}
     : ^^^^^^^^^^
  15 | a:-moz-placeholder {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
  13 | *:is(*) {}
  14 | :--heading {}
     : ^^^^^^^^^^
  15 | a:-moz-placeholder {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
  13 | *:is(*) {}
  14 | :--heading {}
     : ^^^^^^^^^^
  15 | a:-moz-placeholder {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
  13 | *:is(*) {}
  14 | :--heading {}
     :  ^^^^^^^^^
  15 | a:-moz-placeholder {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
  13 | *:is(*) {}
  14 | :--heading {}
     :            ^^
  15 | a:-moz-placeholder {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
  13 | *:is(*) {}
  14 | :--heading {}
     :            ^
  15 | a:-moz-placeholder {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
  14 | :--heading {}
  15 | a:-moz-placeholder {}
     : ^^^^^^^^^^^^^^^^^^^^^
  16 | a:hover::before {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
  14 | :--heading {}
  15 | a:-moz-placeholder {}
     : ^^^^^^^^^^^^^^^^^^^^^
  16 | a:hover::before {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
  14 | :--heading {}
  15 | a:-moz-placeholder {}
     : ^^^^^^^^^^^^^^^^^^
  16 | a:hover::before {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
  14 | :--heading {}
  15 | a:-moz-placeholder {}
     : ^^^^^^^^^^^^^^^^^^
  16 | a:hover::before {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
  14 | :--heading {}
  15 | a:-moz-placeholder {}
     : ^^^^^^^^^^^^^^^^^^
  16 | a:hover::before {}
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
  14 | :--heading {}
  15 | a:-moz-placeholder {}
     : ^
  16 | a:hover::before {}
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
  14 | :--heading {}
  15 | a:-moz-placeholder {}
     : ^
  16 | a:hover::before {}
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
  14 | :--heading {}
  15 | a:-moz-placeholder {}
     : ^
  16 | a:hover::before {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
  14 | :--heading {}
  15 | a:-moz-placeholder {}
     : ^
  16 | a:hover::before {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
  14 | :--heading {}
  15 | a:-moz-placeholder {}
     :  ^^^^^^^^^^^^^^^^^
  16 | a:hover::before {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
  14 | :--heading {}
  15 | a:-moz-placeholder {}
     :  ^^^^^^^^^^^^^^^^^
  16 | a:hover::before {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
  14 | :--heading {}
  15 | a:-moz-placeholder {}
     :   ^^^^^^^^^^^^^^^^
  16 | a:hover::before {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
  14 | :--heading {}
  15 | a:-moz-placeholder {}
     :                    ^^
  16 | a:hover::before {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
  14 | :--heading {}
  15 | a:-moz-placeholder {}
     :                    ^
  16 | a:hover::before {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
  15 | a:-moz-placeholder {}
  16 | a:hover::before {}
     : ^^^^^^^^^^^^^^^^^^
  17 | div :nth-child(2) {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
  15 | a:-moz-placeholder {}
  16 | a:hover::before {}
     : ^^^^^^^^^^^^^^^^^^
  17 | div :nth-child(2) {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
  15 | a:-moz-placeholder {}
  16 | a:hover::before {}
     : ^^^^^^^^^^^^^^^
  17 | div :nth-child(2) {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
  15 | a:-moz-placeholder {}
  16 | a:hover::before {}
     : ^^^^^^^^^^^^^^^
  17 | div :nth-child(2) {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
  15 | a:-moz-placeholder {}
  16 | a:hover::before {}
     : ^^^^^^^^^^^^^^^
  17 | div :nth-child(2) {}
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
  15 | a:-moz-placeholder {}
  16 | a:hover::before {}
     : ^
  17 | div :nth-child(2) {}
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
  15 | a:-moz-placeholder {}
  16 | a:hover::before {}
     : ^
  17 | div :nth-child(2) {}
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
  15 | a:-moz-placeholder {}
  16 | a:hover::before {}
     : ^
  17 | div :nth-child(2) {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
  15 | a:-moz-placeholder {}
  16 | a:hover::before {}
     : ^
  17 | div :nth-child(2) {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
  15 | a:-moz-placeholder {}
  16 | a:hover::before {}
     :  ^^^^^^
  17 | div :nth-child(2) {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
  15 | a:-moz-placeholder {}
  16 | a:hover::before {}
     :  ^^^^^^
  17 | div :nth-child(2) {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
  15 | a:-moz-placeholder {}
  16 | a:hover::before {}
     :   ^^^^^
  17 | div :nth-child(2) {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
  15 | a:-moz-placeholder {}
  16 | a:hover::before {}
     :        ^^^^^^^^
  17 | div :nth-child(2) {}
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
  15 | a:-moz-placeholder {}
  16 | a:hover::before {}
     :        ^^^^^^^^
  17 | div :nth-child(2) {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
  15 | a:-moz-placeholder {}
  16 | a:hover::before {}
     :          ^^^^^^
  17 | div :nth-child(2) {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
  15 | a:-moz-placeholder {}
  16 | a:hover::before {}
     :                 ^^
  17 | div :nth-child(2) {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
  15 | a:-moz-placeholder {}
  16 | a:hover::before {}
     :                 ^
  17 | div :nth-child(2) {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
  16 | a:hover::before {}
  17 | div :nth-child(2) {}
     : ^^^^^^^^^^^^^^^^^^^^
  18 | a:hOvEr {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
  16 | a:hover::before {}
  17 | div :nth-child(2) {}
     : ^^^^^^^^^^^^^^^^^^^^
  18 | a:hOvEr {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
  16 | a:hover::before {}
  17 | div :nth-child(2) {}
     : ^^^^^^^^^^^^^^^^^
  18 | a:hOvEr {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
  16 | a:hover::before {}
  17 | div :nth-child(2) {}
     : ^^^^^^^^^^^^^^^^^
  18 | a:hOvEr {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
  16 | a:hover::before {}
  17 | div :nth-child(2) {}
     : ^^^
  18 | a:hOvEr {}
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
  16 | a:hover::before {}
  17 | div :nth-child(2) {}
     : ^^^
  18 | a:hOvEr {}
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
  16 | a:hover::before {}
  17 | div :nth-child(2) {}
     : ^^^
  18 | a:hOvEr {}
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
  16 | a:hover::before {}
  17 | div :nth-child(2) {}
     : ^^^
  18 | a:hOvEr {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
  16 | a:hover::before {}
  17 | div :nth-child(2) {}
     : ^^^
  18 | a:hOvEr {}
     `----
-
   x Combinator
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
  16 | a:hover::before {}
  17 | div :nth-child(2) {}
     :    ^
  18 | a:hOvEr {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
  16 | a:hover::before {}
  17 | div :nth-child(2) {}
     :     ^^^^^^^^^^^^^
  18 | a:hOvEr {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
  16 | a:hover::before {}
  17 | div :nth-child(2) {}
     :     ^^^^^^^^^^^^^
  18 | a:hOvEr {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
  16 | a:hover::before {}
  17 | div :nth-child(2) {}
     :     ^^^^^^^^^^^^^
  18 | a:hOvEr {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
  16 | a:hover::before {}
  17 | div :nth-child(2) {}
     :      ^^^^^^^^^
  18 | a:hOvEr {}
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
  16 | a:hover::before {}
  17 | div :nth-child(2) {}
     :                ^
  18 | a:hOvEr {}
     `----
-
   x AnPlusB
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
  16 | a:hover::before {}
  17 | div :nth-child(2) {}
     :                ^
  18 | a:hOvEr {}
     `----
-
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
  16 | a:hover::before {}
  17 | div :nth-child(2) {}
     :                ^
  18 | a:hOvEr {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
  16 | a:hover::before {}
  17 | div :nth-child(2) {}
     :                   ^^
  18 | a:hOvEr {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
  16 | a:hover::before {}
  17 | div :nth-child(2) {}
     :                   ^
  18 | a:hOvEr {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
  17 | div :nth-child(2) {}
  18 | a:hOvEr {}
     : ^^^^^^^^^^
  19 | :-webkit-full-screen a {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
  17 | div :nth-child(2) {}
  18 | a:hOvEr {}
     : ^^^^^^^^^^
  19 | :-webkit-full-screen a {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
  17 | div :nth-child(2) {}
  18 | a:hOvEr {}
     : ^^^^^^^
  19 | :-webkit-full-screen a {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
  17 | div :nth-child(2) {}
  18 | a:hOvEr {}
     : ^^^^^^^
  19 | :-webkit-full-screen a {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
  17 | div :nth-child(2) {}
  18 | a:hOvEr {}
     : ^^^^^^^
  19 | :-webkit-full-screen a {}
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
  17 | div :nth-child(2) {}
  18 | a:hOvEr {}
     : ^
  19 | :-webkit-full-screen a {}
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
  17 | div :nth-child(2) {}
  18 | a:hOvEr {}
     : ^
  19 | :-webkit-full-screen a {}
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
  17 | div :nth-child(2) {}
  18 | a:hOvEr {}
     : ^
  19 | :-webkit-full-screen a {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
  17 | div :nth-child(2) {}
  18 | a:hOvEr {}
     : ^
  19 | :-webkit-full-screen a {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
  17 | div :nth-child(2) {}
  18 | a:hOvEr {}
     :  ^^^^^^
  19 | :-webkit-full-screen a {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
  17 | div :nth-child(2) {}
  18 | a:hOvEr {}
     :  ^^^^^^
  19 | :-webkit-full-screen a {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
  17 | div :nth-child(2) {}
  18 | a:hOvEr {}
     :   ^^^^^
  19 | :-webkit-full-screen a {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
  17 | div :nth-child(2) {}
  18 | a:hOvEr {}
     :         ^^
  19 | :-webkit-full-screen a {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
  17 | div :nth-child(2) {}
  18 | a:hOvEr {}
     :         ^
  19 | :-webkit-full-screen a {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:19:1]
  18 | a:hOvEr {}
  19 | :-webkit-full-screen a {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:19:1]
  18 | a:hOvEr {}
  19 | :-webkit-full-screen a {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:19:1]
  18 | a:hOvEr {}
  19 | :-webkit-full-screen a {}
     : ^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:19:1]
  18 | a:hOvEr {}
  19 | :-webkit-full-screen a {}
     : ^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:19:1]
  18 | a:hOvEr {}
  19 | :-webkit-full-screen a {}
     : ^^^^^^^^^^^^^^^^^^^^
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:19:1]
  18 | a:hOvEr {}
  19 | :-webkit-full-screen a {}
     : ^^^^^^^^^^^^^^^^^^^^
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:19:1]
  18 | a:hOvEr {}
  19 | :-webkit-full-screen a {}
     : ^^^^^^^^^^^^^^^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:19:1]
  18 | a:hOvEr {}
  19 | :-webkit-full-screen a {}
     :  ^^^^^^^^^^^^^^^^^^^
     `----
-
   x Combinator
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:19:1]
  18 | a:hOvEr {}
  19 | :-webkit-full-screen a {}
     :                     ^
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:19:1]
  18 | a:hOvEr {}
  19 | :-webkit-full-screen a {}
     :                      ^
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:19:1]
  18 | a:hOvEr {}
  19 | :-webkit-full-screen a {}
     :                      ^
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:19:1]
  18 | a:hOvEr {}
  19 | :-webkit-full-screen a {}
     :                      ^
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:19:1]
  18 | a:hOvEr {}
  19 | :-webkit-full-screen a {}
     :                      ^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:19:1]
  18 | a:hOvEr {}
  19 | :-webkit-full-screen a {}
     :                      ^
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:19:1]
  18 | a:hOvEr {}
  19 | :-webkit-full-screen a {}
     :                        ^^
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:19:1]
  18 | a:hOvEr {}
  19 | :-webkit-full-screen a {}
     :                        ^

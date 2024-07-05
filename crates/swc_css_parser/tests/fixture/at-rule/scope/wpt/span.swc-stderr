@@ -1,4 +1,3 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:1:1]
  1 | ,-> @scope (#inner) {
@@ -10,7 +9,6 @@
  7 | |   }
  8 | `-> 
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:1:1]
  1 | ,-> @scope (#inner) {
@@ -21,7 +19,6 @@
  6 | |       }
  7 | `-> }
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:1:1]
  1 | ,-> @scope (#inner) {
@@ -32,63 +29,54 @@
  6 | |       }
  7 | `-> }
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:1:1]
  1 | @scope (#inner) {
    :  ^^^^^
  2 |     @keyframes --my-anim {
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:1:1]
  1 | @scope (#inner) {
    :  ^^^^^
  2 |     @keyframes --my-anim {
    `----
-
   x ForgivingSelectorList
    ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:1:1]
  1 | @scope (#inner) {
    :         ^^^^^^
  2 |     @keyframes --my-anim {
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:1:1]
  1 | @scope (#inner) {
    :         ^^^^^^
  2 |     @keyframes --my-anim {
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:1:1]
  1 | @scope (#inner) {
    :         ^^^^^^
  2 |     @keyframes --my-anim {
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:1:1]
  1 | @scope (#inner) {
    :         ^^^^^^
  2 |     @keyframes --my-anim {
    `----
-
   x IdSelector
    ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:1:1]
  1 | @scope (#inner) {
    :         ^^^^^^
  2 |     @keyframes --my-anim {
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:1:1]
  1 | @scope (#inner) {
    :         ^^^^^^
  2 |     @keyframes --my-anim {
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:1:1]
  1 | ,-> @scope (#inner) {
@@ -99,16 +87,14 @@
  6 | |       }
  7 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:1:1]
  1 | @scope (#inner) {
    :                 ^
  2 |     @keyframes --my-anim {
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:2:1]
  1 |     @scope (#inner) {
  2 | ,->     @keyframes --my-anim {
  3 | |           to {
@@ -117,9 +103,8 @@
  6 | `->     }
  7 |     }
    `----
-
   x AtRule
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:2:1]
  1 |     @scope (#inner) {
  2 | ,->     @keyframes --my-anim {
  3 | |           to {
@@ -128,33 +113,29 @@
  6 | `->     }
  7 |     }
    `----
-
   x AtRuleName
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:2:1]
  1 | @scope (#inner) {
  2 |     @keyframes --my-anim {
    :      ^^^^^^^^^
  3 |         to {
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:2:1]
  1 | @scope (#inner) {
  2 |     @keyframes --my-anim {
    :      ^^^^^^^^^
  3 |         to {
    `----
-
   x CustomIdent
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:2:1]
  1 | @scope (#inner) {
  2 |     @keyframes --my-anim {
    :                ^^^^^^^^^
  3 |         to {
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:2:1]
  1 |     @scope (#inner) {
  2 | ,->     @keyframes --my-anim {
  3 | |           to {
@@ -163,187 +144,164 @@
  6 | `->     }
  7 |     }
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:2:1]
  1 | @scope (#inner) {
  2 |     @keyframes --my-anim {
    :                          ^
  3 |         to {
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
  2 |         @keyframes --my-anim {
  3 | ,->         to {
  4 | |               background-color: rgb(0, 0, 255);
  5 | `->         }
  6 |         }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
  2 |     @keyframes --my-anim {
  3 |         to {
    :         ^^
  4 |             background-color: rgb(0, 0, 255);
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
  2 |         @keyframes --my-anim {
  3 | ,->         to {
  4 | |               background-color: rgb(0, 0, 255);
  5 | `->         }
  6 |         }
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
  2 |     @keyframes --my-anim {
  3 |         to {
    :            ^
  4 |             background-color: rgb(0, 0, 255);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:4:1]
  3 |         to {
  4 |             background-color: rgb(0, 0, 255);
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 |         }
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:4:1]
  3 |         to {
  4 |             background-color: rgb(0, 0, 255);
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 |         }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:4:1]
  3 |         to {
  4 |             background-color: rgb(0, 0, 255);
    :             ^^^^^^^^^^^^^^^^
  5 |         }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:4:1]
  3 |         to {
  4 |             background-color: rgb(0, 0, 255);
    :             ^^^^^^^^^^^^^^^^
  5 |         }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:4:1]
  3 |         to {
  4 |             background-color: rgb(0, 0, 255);
    :                               ^^^^^^^^^^^^^^
  5 |         }
    `----
-
   x Color
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:4:1]
  3 |         to {
  4 |             background-color: rgb(0, 0, 255);
    :                               ^^^^^^^^^^^^^^
  5 |         }
    `----
-
   x Function
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:4:1]
  3 |         to {
  4 |             background-color: rgb(0, 0, 255);
    :                               ^^^^^^^^^^^^^^
  5 |         }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:4:1]
  3 |         to {
  4 |             background-color: rgb(0, 0, 255);
    :                               ^^^
  5 |         }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:4:1]
  3 |         to {
  4 |             background-color: rgb(0, 0, 255);
    :                                   ^
  5 |         }
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:4:1]
  3 |         to {
  4 |             background-color: rgb(0, 0, 255);
    :                                   ^
  5 |         }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:4:1]
  3 |         to {
  4 |             background-color: rgb(0, 0, 255);
    :                                    ^
  5 |         }
    `----
-
   x Delimiter
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:4:1]
  3 |         to {
  4 |             background-color: rgb(0, 0, 255);
    :                                    ^
  5 |         }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:4:1]
  3 |         to {
  4 |             background-color: rgb(0, 0, 255);
    :                                      ^
  5 |         }
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:4:1]
  3 |         to {
  4 |             background-color: rgb(0, 0, 255);
    :                                      ^
  5 |         }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:4:1]
  3 |         to {
  4 |             background-color: rgb(0, 0, 255);
    :                                       ^
  5 |         }
    `----
-
   x Delimiter
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:4:1]
  3 |         to {
  4 |             background-color: rgb(0, 0, 255);
    :                                       ^
  5 |         }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:4:1]
  3 |         to {
  4 |             background-color: rgb(0, 0, 255);
    :                                         ^^^
  5 |         }
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/wpt/input.css:4:1]
  3 |         to {
  4 |             background-color: rgb(0, 0, 255);
    :                                         ^^^

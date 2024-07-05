@@ -1,64 +1,53 @@
-
   x Module
    ,-[$DIR/tests/span/ts/issue-8856/var-decl.ts:1:1]
  1 | const a: number
    : ^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/ts/issue-8856/var-decl.ts:1:1]
  1 | const a: number
    : ^^^^^^^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/ts/issue-8856/var-decl.ts:1:1]
  1 | const a: number
    : ^^^^^^^^^^^^^^^
    `----
-
   x Decl
    ,-[$DIR/tests/span/ts/issue-8856/var-decl.ts:1:1]
  1 | const a: number
    : ^^^^^^^^^^^^^^^
    `----
-
   x VarDecl
    ,-[$DIR/tests/span/ts/issue-8856/var-decl.ts:1:1]
  1 | const a: number
    : ^^^^^^^^^^^^^^^
    `----
-
   x VarDeclarator
    ,-[$DIR/tests/span/ts/issue-8856/var-decl.ts:1:1]
  1 | const a: number
    :       ^^^^^^^^^
    `----
-
   x Pat
    ,-[$DIR/tests/span/ts/issue-8856/var-decl.ts:1:1]
  1 | const a: number
    :       ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/issue-8856/var-decl.ts:1:1]
  1 | const a: number
    :       ^
    `----
-
   x TsTypeAnn
    ,-[$DIR/tests/span/ts/issue-8856/var-decl.ts:1:1]
  1 | const a: number
    :        ^^^^^^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/issue-8856/var-decl.ts:1:1]
  1 | const a: number
    :          ^^^^^^
    `----
-
   x TsKeywordType
    ,-[$DIR/tests/span/ts/issue-8856/var-decl.ts:1:1]
  1 | const a: number

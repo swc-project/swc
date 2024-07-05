@@ -1,117 +1,101 @@
-
   x Module
    ,-[$DIR/tests/span/js/stmt/if.js:1:1]
  1 | ,-> if (true) {
  2 | |       foo()
  3 | `-> }
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/stmt/if.js:1:1]
  1 | ,-> if (true) {
  2 | |       foo()
  3 | `-> }
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/stmt/if.js:1:1]
  1 | ,-> if (true) {
  2 | |       foo()
  3 | `-> }
    `----
-
   x IfStmt
    ,-[$DIR/tests/span/js/stmt/if.js:1:1]
  1 | ,-> if (true) {
  2 | |       foo()
  3 | `-> }
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/stmt/if.js:1:1]
  1 | if (true) {
    :     ^^^^
  2 |     foo()
    `----
-
   x Lit
    ,-[$DIR/tests/span/js/stmt/if.js:1:1]
  1 | if (true) {
    :     ^^^^
  2 |     foo()
    `----
-
   x Bool
    ,-[$DIR/tests/span/js/stmt/if.js:1:1]
  1 | if (true) {
    :     ^^^^
  2 |     foo()
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/stmt/if.js:1:1]
  1 | ,-> if (true) {
  2 | |       foo()
  3 | `-> }
    `----
-
   x BlockStmt
    ,-[$DIR/tests/span/js/stmt/if.js:1:1]
  1 | ,-> if (true) {
  2 | |       foo()
  3 | `-> }
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+   ,-[$DIR/tests/span/js/stmt/if.js:2:1]
  1 | if (true) {
  2 |     foo()
    :     ^^^^^
  3 | }
    `----
-
   x ExprStmt
-   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+   ,-[$DIR/tests/span/js/stmt/if.js:2:1]
  1 | if (true) {
  2 |     foo()
    :     ^^^^^
  3 | }
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+   ,-[$DIR/tests/span/js/stmt/if.js:2:1]
  1 | if (true) {
  2 |     foo()
    :     ^^^^^
  3 | }
    `----
-
   x CallExpr
-   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+   ,-[$DIR/tests/span/js/stmt/if.js:2:1]
  1 | if (true) {
  2 |     foo()
    :     ^^^^^
  3 | }
    `----
-
   x Callee
-   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+   ,-[$DIR/tests/span/js/stmt/if.js:2:1]
  1 | if (true) {
  2 |     foo()
    :     ^^^
  3 | }
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+   ,-[$DIR/tests/span/js/stmt/if.js:2:1]
  1 | if (true) {
  2 |     foo()
    :     ^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+   ,-[$DIR/tests/span/js/stmt/if.js:2:1]
  1 | if (true) {
  2 |     foo()
    :     ^^^

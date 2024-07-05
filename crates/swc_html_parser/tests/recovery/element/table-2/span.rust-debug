@@ -1,4 +1,3 @@
-
   x Document
     ,-[$DIR/tests/recovery/element/table-2/input.html:1:1]
   1 | ,-> <!doctype html>
@@ -20,23 +19,20 @@
  17 | |   </body>
  18 | `-> </html>
     `----
-
   x Child
    ,-[$DIR/tests/recovery/element/table-2/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
    `----
-
   x DocumentType
    ,-[$DIR/tests/recovery/element/table-2/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
    `----
-
   x Child
-    ,-[$DIR/tests/recovery/element/table-2/input.html:1:1]
+    ,-[$DIR/tests/recovery/element/table-2/input.html:2:1]
   1 |     <!doctype html>
   2 | ,-> <html lang="en">
   3 | |   <head>
@@ -56,9 +52,8 @@
  17 | |   </body>
  18 | `-> </html>
     `----
-
   x Element
-    ,-[$DIR/tests/recovery/element/table-2/input.html:1:1]
+    ,-[$DIR/tests/recovery/element/table-2/input.html:2:1]
   1 |     <!doctype html>
   2 | ,-> <html lang="en">
   3 | |   <head>
@@ -78,119 +73,105 @@
  17 | |   </body>
  18 | `-> </html>
     `----
-
   x Attribute
-   ,-[$DIR/tests/recovery/element/table-2/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/table-2/input.html:2:1]
  1 | <!doctype html>
  2 | <html lang="en">
    :       ^^^^^^^^^
  3 | <head>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/table-2/input.html:2:1]
+   ,-[$DIR/tests/recovery/element/table-2/input.html:3:1]
  2 |     <html lang="en">
  3 | ,-> <head>
  4 | |       <title>Document</title>
  5 | `-> </head>
  6 |     <body>
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/table-2/input.html:2:1]
+   ,-[$DIR/tests/recovery/element/table-2/input.html:3:1]
  2 |     <html lang="en">
  3 | ,-> <head>
  4 | |       <title>Document</title>
  5 | `-> </head>
  6 |     <body>
    `----
-
-  x Child
-   ,-[$DIR/tests/recovery/element/table-2/input.html:2:1]
- 2 |     <html lang="en">
- 3 | ,-> <head>
- 4 | `->     <title>Document</title>
- 5 |     </head>
-   `----
-
-  x Text
-   ,-[$DIR/tests/recovery/element/table-2/input.html:2:1]
- 2 |     <html lang="en">
- 3 | ,-> <head>
- 4 | `->     <title>Document</title>
- 5 |     </head>
-   `----
-
   x Child
    ,-[$DIR/tests/recovery/element/table-2/input.html:3:1]
+ 2 |     <html lang="en">
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+ 5 |     </head>
+   `----
+  x Text
+   ,-[$DIR/tests/recovery/element/table-2/input.html:3:1]
+ 2 |     <html lang="en">
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+ 5 |     </head>
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/table-2/input.html:4:1]
  3 | <head>
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/table-2/input.html:3:1]
+   ,-[$DIR/tests/recovery/element/table-2/input.html:4:1]
  3 | <head>
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/table-2/input.html:3:1]
+   ,-[$DIR/tests/recovery/element/table-2/input.html:4:1]
  3 | <head>
  4 |     <title>Document</title>
    :            ^^^^^^^^
  5 | </head>
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/element/table-2/input.html:3:1]
+   ,-[$DIR/tests/recovery/element/table-2/input.html:4:1]
  3 | <head>
  4 |     <title>Document</title>
    :            ^^^^^^^^
  5 | </head>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/table-2/input.html:3:1]
+   ,-[$DIR/tests/recovery/element/table-2/input.html:4:1]
  3 | <head>
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/element/table-2/input.html:3:1]
+   ,-[$DIR/tests/recovery/element/table-2/input.html:4:1]
  3 | <head>
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/table-2/input.html:4:1]
+   ,-[$DIR/tests/recovery/element/table-2/input.html:5:1]
  4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
  7 | <table>
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/element/table-2/input.html:4:1]
+   ,-[$DIR/tests/recovery/element/table-2/input.html:5:1]
  4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
  7 | <table>
    `----
-
   x Child
-    ,-[$DIR/tests/recovery/element/table-2/input.html:5:1]
+    ,-[$DIR/tests/recovery/element/table-2/input.html:6:1]
   5 |     </head>
   6 | ,-> <body>
   7 | |   <table>
@@ -206,9 +187,8 @@
  17 | `-> </body>
  18 |     </html>
     `----
-
   x Element
-    ,-[$DIR/tests/recovery/element/table-2/input.html:5:1]
+    ,-[$DIR/tests/recovery/element/table-2/input.html:6:1]
   5 |     </head>
   6 | ,-> <body>
   7 | |   <table>
@@ -224,177 +204,154 @@
  17 | `-> </body>
  18 |     </html>
     `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/table-2/input.html:5:1]
+   ,-[$DIR/tests/recovery/element/table-2/input.html:6:1]
  5 | </head>
  6 | <body>
    :       ^
  7 | <table>
  8 |     <table>
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/element/table-2/input.html:5:1]
+   ,-[$DIR/tests/recovery/element/table-2/input.html:6:1]
  5 | </head>
  6 | <body>
    :       ^
  7 | <table>
  8 |     <table>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/table-2/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/table-2/input.html:7:1]
  6 |     <body>
  7 | ,-> <table>
  8 | `->     <table>
  9 |     </table>
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/table-2/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/table-2/input.html:7:1]
  6 |     <body>
  7 | ,-> <table>
  8 | `->     <table>
  9 |     </table>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/table-2/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/table-2/input.html:7:1]
  6 |     <body>
  7 | ,-> <table>
  8 | `->     <table>
  9 |     </table>
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/element/table-2/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/table-2/input.html:7:1]
  6 |     <body>
  7 | ,-> <table>
  8 | `->     <table>
  9 |     </table>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/table-2/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/table-2/input.html:8:1]
  7 |     <table>
  8 | ,->     <table>
  9 | `-> </table>
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/table-2/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/table-2/input.html:8:1]
  7 |     <table>
  8 | ,->     <table>
  9 | `-> </table>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/table-2/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/table-2/input.html:8:1]
  7 | <table>
  8 |     <table>
    :            ^
  9 | </table>
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/element/table-2/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/table-2/input.html:8:1]
  7 | <table>
  8 |     <table>
    :            ^
  9 | </table>
    `----
-
   x Child
-    ,-[$DIR/tests/recovery/element/table-2/input.html:8:1]
+    ,-[$DIR/tests/recovery/element/table-2/input.html:9:1]
   8 |         <table>
   9 | ,-> </table>
  10 | `-> 
  11 |     <table>
  12 |         <tr>
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/element/table-2/input.html:8:1]
+    ,-[$DIR/tests/recovery/element/table-2/input.html:9:1]
   8 |         <table>
   9 | ,-> </table>
  10 | `-> 
  11 |     <table>
  12 |         <tr>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/element/table-2/input.html:10:1]
+    ,-[$DIR/tests/recovery/element/table-2/input.html:11:1]
  10 |     
  11 | ,-> <table>
  12 | |       <tr>
  13 | `->         </table>
  14 |         </tr>
     `----
-
   x Element
-    ,-[$DIR/tests/recovery/element/table-2/input.html:10:1]
+    ,-[$DIR/tests/recovery/element/table-2/input.html:11:1]
  10 |     
  11 | ,-> <table>
  12 | |       <tr>
  13 | `->         </table>
  14 |         </tr>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/element/table-2/input.html:10:1]
+    ,-[$DIR/tests/recovery/element/table-2/input.html:11:1]
  10 |     
  11 | ,-> <table>
  12 | `->     <tr>
  13 |             </table>
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/element/table-2/input.html:10:1]
+    ,-[$DIR/tests/recovery/element/table-2/input.html:11:1]
  10 |     
  11 | ,-> <table>
  12 | `->     <tr>
  13 |             </table>
     `----
-
   x Child
-
   x Element
-
-  x Child
-    ,-[$DIR/tests/recovery/element/table-2/input.html:11:1]
- 11 |     <table>
- 12 | ,->     <tr>
- 13 | `->         </table>
- 14 |         </tr>
-    `----
-
-  x Element
-    ,-[$DIR/tests/recovery/element/table-2/input.html:11:1]
- 11 |     <table>
- 12 | ,->     <tr>
- 13 | `->         </table>
- 14 |         </tr>
-    `----
-
-  x Child
-    ,-[$DIR/tests/recovery/element/table-2/input.html:11:1]
- 11 |     <table>
- 12 | ,->     <tr>
- 13 | `->         </table>
- 14 |         </tr>
-    `----
-
-  x Text
-    ,-[$DIR/tests/recovery/element/table-2/input.html:11:1]
- 11 |     <table>
- 12 | ,->     <tr>
- 13 | `->         </table>
- 14 |         </tr>
-    `----
-
   x Child
     ,-[$DIR/tests/recovery/element/table-2/input.html:12:1]
+ 11 |     <table>
+ 12 | ,->     <tr>
+ 13 | `->         </table>
+ 14 |         </tr>
+    `----
+  x Element
+    ,-[$DIR/tests/recovery/element/table-2/input.html:12:1]
+ 11 |     <table>
+ 12 | ,->     <tr>
+ 13 | `->         </table>
+ 14 |         </tr>
+    `----
+  x Child
+    ,-[$DIR/tests/recovery/element/table-2/input.html:12:1]
+ 11 |     <table>
+ 12 | ,->     <tr>
+ 13 | `->         </table>
+ 14 |         </tr>
+    `----
+  x Text
+    ,-[$DIR/tests/recovery/element/table-2/input.html:12:1]
+ 11 |     <table>
+ 12 | ,->     <tr>
+ 13 | `->         </table>
+ 14 |         </tr>
+    `----
+  x Child
+    ,-[$DIR/tests/recovery/element/table-2/input.html:13:1]
  12 |         <tr>
  13 | ,->         </table>
  14 | |       </tr>
@@ -403,9 +360,8 @@
  17 | `-> </body>
  18 |     </html>
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/element/table-2/input.html:12:1]
+    ,-[$DIR/tests/recovery/element/table-2/input.html:13:1]
  12 |         <tr>
  13 | ,->         </table>
  14 | |       </tr>

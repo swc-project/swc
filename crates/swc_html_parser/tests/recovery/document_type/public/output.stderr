@@ -1,4 +1,3 @@
-
   x Non conforming doctype
    ,-[$DIR/tests/recovery/document_type/public/input.html:1:1]
  1 | <!DOCTYPE HTML public "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">

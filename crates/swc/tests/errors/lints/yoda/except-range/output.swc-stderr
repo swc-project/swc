@@ -1,4 +1,3 @@
-
   x Expected literal to be on the right side of >
    ,-[1:1]
  1 | if (10 > a) {}
@@ -6,9 +5,8 @@
  2 | 
  3 | if (10 < a && a > 30) {}
    `----
-
   x Expected literal to be on the right side of <
-   ,-[4:1]
+   ,-[7:1]
  4 | 
  5 | if (c && (10 < a && a > 30)) {}
  6 | 

@@ -445,10 +445,11 @@ jobs:
       - name: Set release name
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
-      - name: Tag npm release (default, latest)
+      - name: Tag npm release
         run: |
-          echo "NPM_TAG=latest" >> $GITHUB_ENV
-          if [[ $GITHUB_REF == *"nightly"* ]]; then
+          if [[ $GITHUB_REF != *"nightly"* ]]; then
+            echo "NPM_TAG=latest" >> $GITHUB_ENV
+          else
             echo "NPM_TAG=nightly" >> $GITHUB_ENV
           fi
 
@@ -506,6 +507,8 @@ jobs:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     name: Build - wasm (${{ matrix.settings.npm }}) for node.js
     runs-on: ubuntu-latest
+    env:
+      CARGO_PROFILE_RELEASE_LTO: "fat"
     strategy:
       fail-fast: false
       matrix:
@@ -525,10 +528,11 @@ jobs:
       - name: Corepack
         run: corepack enable
 
-      - name: Tag npm release (default, latest)
+      - name: Tag npm release
         run: |
-          echo "NPM_TAG=latest" >> $GITHUB_ENV
-          if [[ $GITHUB_REF == *"nightly"* ]]; then
+          if [[ $GITHUB_REF != *"nightly"* ]]; then
+            echo "NPM_TAG=latest" >> $GITHUB_ENV
+          else
             echo "NPM_TAG=nightly" >> $GITHUB_ENV
           fi
 
@@ -554,13 +558,20 @@ jobs:
       - name: Build
         working-directory: bindings/${{ matrix.settings.crate }}
         run: |
-          wasm-pack build --out-name wasm --release --scope=swc --target ${{ matrix.settings.target }}
+          # If scripts/build.sh exists, apply it
+          if [ -f scripts/build.sh ]; then
+            scripts/build.sh
+          else
+            wasm-pack build --out-name wasm --release --scope=swc --target ${{ matrix.settings.target }}
+          fi
           sed -i -e 's/"name": "@swc\/${{ matrix.settings.crate }}"/"name": "${{ matrix.settings.npm }}"/g' pkg/package.json
 
       - name: Publish
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         run: |
-          (cd bindings/${{ matrix.settings.crate }}/pkg && yarn npm publish --access public --tag $NPM_TAG)
+          npm config set provenance true
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+          (cd bindings/${{ matrix.settings.crate }}/pkg && npm publish --access public --tag $NPM_TAG)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

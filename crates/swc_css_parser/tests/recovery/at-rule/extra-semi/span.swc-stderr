@@ -1,4 +1,3 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
  1 | ,-> @import "x.css";;
@@ -7,37 +6,31 @@
  4 | |       color: red;
  5 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
  1 | @import "x.css";;
    : ^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
  1 | @import "x.css";;
    : ^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
  1 | @import "x.css";;
    :  ^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
  1 | @import "x.css";;
    :  ^^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
  1 | @import "x.css";;
    :         ^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
  1 | ,-> @import "x.css";;
@@ -46,7 +39,6 @@
  4 | |       color: red;
  5 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
  1 | ,-> @import "x.css";;
@@ -55,19 +47,16 @@
  4 | |       color: red;
  5 | `-> }
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
  1 | @import "x.css";;
    :                 ^
    `----
-
   x Semi
    ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
  1 | @import "x.css";;
    :                 ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
  1 | ,-> @import "x.css";;
@@ -75,7 +64,6 @@
  3 |     .color {
  4 |         color: red;
    `----
-
   x WhiteSpace { value: "\n\n" }
    ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
  1 | ,-> @import "x.css";;
@@ -83,113 +71,99 @@
  3 |     .color {
  4 |         color: red;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
  2 | 
  3 | .color {
    : ^
  4 |     color: red;
    `----
-
   x Delim { value: '.' }
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
  2 | 
  3 | .color {
    : ^
  4 |     color: red;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
  2 | 
  3 | .color {
    :  ^^^^^
  4 |     color: red;
    `----
-
   x Ident { value: "color", raw: "color" }
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
  2 | 
  3 | .color {
    :  ^^^^^
  4 |     color: red;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
  2 | 
  3 | .color {
    :       ^
  4 |     color: red;
    `----
-
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
  2 | 
  3 | .color {
    :       ^
  4 |     color: red;
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
  2 |     
  3 | ,-> .color {
  4 | |       color: red;
  5 | `-> }
    `----
-
   x LBrace
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
  2 | 
  3 | .color {
    :        ^
  4 |     color: red;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:1]
  3 | .color {
  4 |     color: red;
    :     ^^^^^^^^^^
  5 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:1]
  3 | .color {
  4 |     color: red;
    :     ^^^^^^^^^^
  5 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:1]
  3 | .color {
  4 |     color: red;
    :     ^^^^^
  5 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:1]
  3 | .color {
  4 |     color: red;
    :     ^^^^^
  5 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:1]
  3 | .color {
  4 |     color: red;
    :            ^^^
  5 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:1]
  3 | .color {
  4 |     color: red;
    :            ^^^

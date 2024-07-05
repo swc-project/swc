@@ -1,122 +1,100 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.110.html:1:1]
  1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.110.html:1:1]
  1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.110.html:1:1]
  1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.110.html:1:1]
  1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.110.html:1:1]
  1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x DocumentFragment
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.110.html:1:1]
  1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.110.html:1:1]
  1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
    :                          ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.110.html:1:1]
  1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
    :                          ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.110.html:1:1]
  1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
    :                           ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.110.html:1:1]
  1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
    :                           ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.110.html:1:1]
  1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
    :                               ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.110.html:1:1]
  1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
    :                               ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.110.html:1:1]
  1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
    :                                ^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.110.html:1:1]
  1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
    :                                ^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.110.html:1:1]
  1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
    :                                    ^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.110.html:1:1]
  1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
    :                                    ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.110.html:1:1]
  1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
    :                                             ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.110.html:1:1]
  1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
    :                                             ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.110.html:1:1]
  1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
    :                                                   ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.110.html:1:1]
  1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>

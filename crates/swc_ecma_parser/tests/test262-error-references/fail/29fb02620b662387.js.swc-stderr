@@ -1,4 +1,3 @@
-
   x Destructuring bindings require initializers
    ,-[$DIR/tests/test262-parser/fail/29fb02620b662387.js:1:1]
  1 | for(let [let];;);

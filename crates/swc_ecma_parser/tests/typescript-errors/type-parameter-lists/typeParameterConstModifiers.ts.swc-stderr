@@ -1,13 +1,11 @@
-
   x 'const' modifier can only appear on a type parameter of a function, method or class
-    ,-[$DIR/tests/typescript-errors/type-parameter-lists/typeParameterConstModifiers.ts:44:1]
+    ,-[$DIR/tests/typescript-errors/type-parameter-lists/typeParameterConstModifiers.ts:45:1]
  44 | 
  45 | interface I1<const T> { x: T }  // Error
     :              ^^^^^
     `----
-
   x 'const' modifier can only appear on a type parameter of a function, method or class
-    ,-[$DIR/tests/typescript-errors/type-parameter-lists/typeParameterConstModifiers.ts:50:1]
+    ,-[$DIR/tests/typescript-errors/type-parameter-lists/typeParameterConstModifiers.ts:51:1]
  50 | 
  51 | type T1<const T> = T;  // Error
     :         ^^^^^

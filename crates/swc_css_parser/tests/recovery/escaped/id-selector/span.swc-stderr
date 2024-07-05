@@ -1,52 +1,43 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/escaped/id-selector/input.css:1:1]
  1 | #0\2chash {}
    : ^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/escaped/id-selector/input.css:1:1]
  1 | #0\2chash {}
    : ^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/escaped/id-selector/input.css:1:1]
  1 | #0\2chash {}
    : ^^^^^^^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/escaped/id-selector/input.css:1:1]
  1 | #0\2chash {}
    : ^^^^^^^^^
    `----
-
   x Hash { is_id: false, value: "0,hash", raw: "0\\2chash" }
    ,-[$DIR/tests/recovery/escaped/id-selector/input.css:1:1]
  1 | #0\2chash {}
    : ^^^^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/escaped/id-selector/input.css:1:1]
  1 | #0\2chash {}
    :          ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/escaped/id-selector/input.css:1:1]
  1 | #0\2chash {}
    :          ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/escaped/id-selector/input.css:1:1]
  1 | #0\2chash {}
    :           ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/escaped/id-selector/input.css:1:1]
  1 | #0\2chash {}

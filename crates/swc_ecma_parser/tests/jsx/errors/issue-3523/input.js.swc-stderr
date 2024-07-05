@@ -1,6 +1,5 @@
-
   x Rest element must be final element
-   ,-[$DIR/tests/jsx/errors/issue-3523/input.js:2:1]
+   ,-[$DIR/tests/jsx/errors/issue-3523/input.js:3:1]
  2 | 
  3 | for ({...rest, b} of [{}
    :       ^^^^^^^

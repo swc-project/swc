@@ -1,10 +1,8 @@
-
   x Not a pattern
    ,-[$DIR/tests/test262-parser/fail/ebd282af4fda397d.js:1:1]
  1 | (10, 20) => 0
    :  ^^
    `----
-
   x Not a pattern
    ,-[$DIR/tests/test262-parser/fail/ebd282af4fda397d.js:1:1]
  1 | (10, 20) => 0

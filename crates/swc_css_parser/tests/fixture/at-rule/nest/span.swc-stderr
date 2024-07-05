@@ -1,4 +1,3 @@
-
   x Stylesheet
     ,-[$DIR/tests/fixture/at-rule/nest/input.css:1:1]
   1 | ,-> .foo {
@@ -33,7 +32,6 @@
  30 | |       }
  31 | `-> }
     `----
-
   x Rule
    ,-[$DIR/tests/fixture/at-rule/nest/input.css:1:1]
  1 | ,-> .foo {
@@ -43,7 +41,6 @@
  5 | |       }
  6 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/at-rule/nest/input.css:1:1]
  1 | ,-> .foo {
@@ -53,49 +50,42 @@
  5 | |       }
  6 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/at-rule/nest/input.css:1:1]
  1 | .foo {
    : ^^^^
  2 |     color: red;
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/at-rule/nest/input.css:1:1]
  1 | .foo {
    : ^^^^
  2 |     color: red;
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/at-rule/nest/input.css:1:1]
  1 | .foo {
    : ^^^^
  2 |     color: red;
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/at-rule/nest/input.css:1:1]
  1 | .foo {
    : ^^^^
  2 |     color: red;
    `----
-
   x ClassSelector
    ,-[$DIR/tests/fixture/at-rule/nest/input.css:1:1]
  1 | .foo {
    : ^^^^
  2 |     color: red;
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/at-rule/nest/input.css:1:1]
  1 | .foo {
    :  ^^^
  2 |     color: red;
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/at-rule/nest/input.css:1:1]
  1 | ,-> .foo {
@@ -105,235 +95,206 @@
  5 | |       }
  6 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/at-rule/nest/input.css:1:1]
  1 | .foo {
    :      ^
  2 |     color: red;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:2:1]
  1 | .foo {
  2 |     color: red;
    :     ^^^^^^^^^^
  3 |     @nest & > .bar {
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:2:1]
  1 | .foo {
  2 |     color: red;
    :     ^^^^^^^^^^
  3 |     @nest & > .bar {
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:2:1]
  1 | .foo {
  2 |     color: red;
    :     ^^^^^
  3 |     @nest & > .bar {
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:2:1]
  1 | .foo {
  2 |     color: red;
    :     ^^^^^
  3 |     @nest & > .bar {
    `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:1:1]
- 1 | .foo {
- 2 |     color: red;
-   :            ^^^
- 3 |     @nest & > .bar {
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:1:1]
- 1 | .foo {
- 2 |     color: red;
-   :            ^^^
- 3 |     @nest & > .bar {
-   `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/nest/input.css:2:1]
+ 1 | .foo {
+ 2 |     color: red;
+   :            ^^^
+ 3 |     @nest & > .bar {
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:2:1]
+ 1 | .foo {
+ 2 |     color: red;
+   :            ^^^
+ 3 |     @nest & > .bar {
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:1]
  2 |         color: red;
  3 | ,->     @nest & > .bar {
  4 | |           color: blue;
  5 | `->     }
  6 |     }
    `----
-
   x AtRule
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:1]
  2 |         color: red;
  3 | ,->     @nest & > .bar {
  4 | |           color: blue;
  5 | `->     }
  6 |     }
    `----
-
   x AtRuleName
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:1]
  2 |     color: red;
  3 |     @nest & > .bar {
    :      ^^^^
  4 |         color: blue;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:1]
  2 |     color: red;
  3 |     @nest & > .bar {
    :      ^^^^
  4 |         color: blue;
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:1]
  2 |     color: red;
  3 |     @nest & > .bar {
    :           ^^^^^^^^
  4 |         color: blue;
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:1]
  2 |     color: red;
  3 |     @nest & > .bar {
    :           ^^^^^^^^
  4 |         color: blue;
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:1]
  2 |     color: red;
  3 |     @nest & > .bar {
    :           ^
  4 |         color: blue;
    `----
-
   x NestingSelector
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:1]
  2 |     color: red;
  3 |     @nest & > .bar {
    :           ^
  4 |         color: blue;
    `----
-
   x Combinator
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:1]
  2 |     color: red;
  3 |     @nest & > .bar {
    :             ^
  4 |         color: blue;
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:1]
  2 |     color: red;
  3 |     @nest & > .bar {
    :               ^^^^
  4 |         color: blue;
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:1]
  2 |     color: red;
  3 |     @nest & > .bar {
    :               ^^^^
  4 |         color: blue;
    `----
-
   x ClassSelector
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:1]
  2 |     color: red;
  3 |     @nest & > .bar {
    :               ^^^^
  4 |         color: blue;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:1]
  2 |     color: red;
  3 |     @nest & > .bar {
    :                ^^^
  4 |         color: blue;
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:1]
  2 |         color: red;
  3 | ,->     @nest & > .bar {
  4 | |           color: blue;
  5 | `->     }
  6 |     }
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:1]
  2 |     color: red;
  3 |     @nest & > .bar {
    :                    ^
  4 |         color: blue;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:4:1]
  3 |     @nest & > .bar {
  4 |         color: blue;
    :         ^^^^^^^^^^^
  5 |     }
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:4:1]
  3 |     @nest & > .bar {
  4 |         color: blue;
    :         ^^^^^^^^^^^
  5 |     }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:4:1]
  3 |     @nest & > .bar {
  4 |         color: blue;
    :         ^^^^^
  5 |     }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:4:1]
  3 |     @nest & > .bar {
  4 |         color: blue;
    :         ^^^^^
  5 |     }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:4:1]
  3 |     @nest & > .bar {
  4 |         color: blue;
    :                ^^^^
  5 |     }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:4:1]
  3 |     @nest & > .bar {
  4 |         color: blue;
    :                ^^^^
  5 |     }
    `----
-
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:7:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:8:1]
   7 |     
   8 | ,-> .foo {
   9 | |       color: red;
@@ -342,9 +303,8 @@
  12 | |       }
  13 | `-> }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:7:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:8:1]
   7 |     
   8 | ,-> .foo {
   9 | |       color: red;
@@ -353,57 +313,50 @@
  12 | |       }
  13 | `-> }
     `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:8:1]
  7 | 
  8 | .foo {
    : ^^^^
  9 |     color: red;
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:8:1]
  7 | 
  8 | .foo {
    : ^^^^
  9 |     color: red;
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:8:1]
  7 | 
  8 | .foo {
    : ^^^^
  9 |     color: red;
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:8:1]
  7 | 
  8 | .foo {
    : ^^^^
  9 |     color: red;
    `----
-
   x ClassSelector
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:8:1]
  7 | 
  8 | .foo {
    : ^^^^
  9 |     color: red;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:8:1]
  7 | 
  8 | .foo {
    :  ^^^
  9 |     color: red;
    `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:7:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:8:1]
   7 |     
   8 | ,-> .foo {
   9 | |       color: red;
@@ -412,236 +365,207 @@
  12 | |       }
  13 | `-> }
     `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/at-rule/nest/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:8:1]
  7 | 
  8 | .foo {
    :      ^
  9 |     color: red;
    `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:8:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:9:1]
   8 | .foo {
   9 |     color: red;
     :     ^^^^^^^^^^
  10 |     @nest .parent & {
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:8:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:9:1]
   8 | .foo {
   9 |     color: red;
     :     ^^^^^^^^^^
  10 |     @nest .parent & {
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:8:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:9:1]
   8 | .foo {
   9 |     color: red;
     :     ^^^^^
  10 |     @nest .parent & {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:8:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:9:1]
   8 | .foo {
   9 |     color: red;
     :     ^^^^^
  10 |     @nest .parent & {
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:8:1]
-  8 | .foo {
-  9 |     color: red;
-    :            ^^^
- 10 |     @nest .parent & {
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:8:1]
-  8 | .foo {
-  9 |     color: red;
-    :            ^^^
- 10 |     @nest .parent & {
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/nest/input.css:9:1]
+  8 | .foo {
+  9 |     color: red;
+    :            ^^^
+ 10 |     @nest .parent & {
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:9:1]
+  8 | .foo {
+  9 |     color: red;
+    :            ^^^
+ 10 |     @nest .parent & {
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:1]
   9 |         color: red;
  10 | ,->     @nest .parent & {
  11 | |           color: blue;
  12 | `->     }
  13 |     }
     `----
-
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:9:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:1]
   9 |         color: red;
  10 | ,->     @nest .parent & {
  11 | |           color: blue;
  12 | `->     }
  13 |     }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:9:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:1]
   9 |     color: red;
  10 |     @nest .parent & {
     :      ^^^^
  11 |         color: blue;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:9:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:1]
   9 |     color: red;
  10 |     @nest .parent & {
     :      ^^^^
  11 |         color: blue;
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:9:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:1]
   9 |     color: red;
  10 |     @nest .parent & {
     :           ^^^^^^^^^
  11 |         color: blue;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:9:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:1]
   9 |     color: red;
  10 |     @nest .parent & {
     :           ^^^^^^^^^
  11 |         color: blue;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:9:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:1]
   9 |     color: red;
  10 |     @nest .parent & {
     :           ^^^^^^^
  11 |         color: blue;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:9:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:1]
   9 |     color: red;
  10 |     @nest .parent & {
     :           ^^^^^^^
  11 |         color: blue;
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:9:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:1]
   9 |     color: red;
  10 |     @nest .parent & {
     :           ^^^^^^^
  11 |         color: blue;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:9:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:1]
   9 |     color: red;
  10 |     @nest .parent & {
     :            ^^^^^^
  11 |         color: blue;
     `----
-
   x Combinator
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:9:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:1]
   9 |     color: red;
  10 |     @nest .parent & {
     :                  ^
  11 |         color: blue;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:9:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:1]
   9 |     color: red;
  10 |     @nest .parent & {
     :                   ^
  11 |         color: blue;
     `----
-
   x NestingSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:9:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:1]
   9 |     color: red;
  10 |     @nest .parent & {
     :                   ^
  11 |         color: blue;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:9:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:1]
   9 |         color: red;
  10 | ,->     @nest .parent & {
  11 | |           color: blue;
  12 | `->     }
  13 |     }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:9:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:1]
   9 |     color: red;
  10 |     @nest .parent & {
     :                     ^
  11 |         color: blue;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:11:1]
  10 |     @nest .parent & {
  11 |         color: blue;
     :         ^^^^^^^^^^^
  12 |     }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:11:1]
  10 |     @nest .parent & {
  11 |         color: blue;
     :         ^^^^^^^^^^^
  12 |     }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:11:1]
  10 |     @nest .parent & {
  11 |         color: blue;
     :         ^^^^^
  12 |     }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:11:1]
  10 |     @nest .parent & {
  11 |         color: blue;
     :         ^^^^^
  12 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:11:1]
  10 |     @nest .parent & {
  11 |         color: blue;
     :                ^^^^
  12 |     }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:11:1]
  10 |     @nest .parent & {
  11 |         color: blue;
     :                ^^^^
  12 |     }
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:14:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:15:1]
  14 |     
  15 | ,-> .foo {
  16 | |       color: red;
@@ -650,9 +574,8 @@
  19 | |       }
  20 | `-> }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:14:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:15:1]
  14 |     
  15 | ,-> .foo {
  16 | |       color: red;
@@ -661,57 +584,50 @@
  19 | |       }
  20 | `-> }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:14:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:15:1]
  14 | 
  15 | .foo {
     : ^^^^
  16 |     color: red;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:14:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:15:1]
  14 | 
  15 | .foo {
     : ^^^^
  16 |     color: red;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:14:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:15:1]
  14 | 
  15 | .foo {
     : ^^^^
  16 |     color: red;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:14:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:15:1]
  14 | 
  15 | .foo {
     : ^^^^
  16 |     color: red;
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:14:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:15:1]
  14 | 
  15 | .foo {
     : ^^^^
  16 |     color: red;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:14:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:15:1]
  14 | 
  15 | .foo {
     :  ^^^
  16 |     color: red;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:14:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:15:1]
  14 |     
  15 | ,-> .foo {
  16 | |       color: red;
@@ -720,252 +636,221 @@
  19 | |       }
  20 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:14:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:15:1]
  14 | 
  15 | .foo {
     :      ^
  16 |     color: red;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:15:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
  15 | .foo {
  16 |     color: red;
     :     ^^^^^^^^^^
  17 |     @nest :not(&) {
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:15:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
  15 | .foo {
  16 |     color: red;
     :     ^^^^^^^^^^
  17 |     @nest :not(&) {
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:15:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
  15 | .foo {
  16 |     color: red;
     :     ^^^^^
  17 |     @nest :not(&) {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:15:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
  15 | .foo {
  16 |     color: red;
     :     ^^^^^
  17 |     @nest :not(&) {
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:15:1]
- 15 | .foo {
- 16 |     color: red;
-    :            ^^^
- 17 |     @nest :not(&) {
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:15:1]
- 15 | .foo {
- 16 |     color: red;
-    :            ^^^
- 17 |     @nest :not(&) {
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
+ 15 | .foo {
+ 16 |     color: red;
+    :            ^^^
+ 17 |     @nest :not(&) {
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
+ 15 | .foo {
+ 16 |     color: red;
+    :            ^^^
+ 17 |     @nest :not(&) {
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
  16 |         color: red;
  17 | ,->     @nest :not(&) {
  18 | |           color: blue;
  19 | `->     }
  20 |     }
     `----
-
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
  16 |         color: red;
  17 | ,->     @nest :not(&) {
  18 | |           color: blue;
  19 | `->     }
  20 |     }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
  16 |     color: red;
  17 |     @nest :not(&) {
     :      ^^^^
  18 |         color: blue;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
  16 |     color: red;
  17 |     @nest :not(&) {
     :      ^^^^
  18 |         color: blue;
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
  16 |     color: red;
  17 |     @nest :not(&) {
     :           ^^^^^^^
  18 |         color: blue;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
  16 |     color: red;
  17 |     @nest :not(&) {
     :           ^^^^^^^
  18 |         color: blue;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
  16 |     color: red;
  17 |     @nest :not(&) {
     :           ^^^^^^^
  18 |         color: blue;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
  16 |     color: red;
  17 |     @nest :not(&) {
     :           ^^^^^^^
  18 |         color: blue;
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
  16 |     color: red;
  17 |     @nest :not(&) {
     :           ^^^^^^^
  18 |         color: blue;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
  16 |     color: red;
  17 |     @nest :not(&) {
     :            ^^^
  18 |         color: blue;
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
  16 |     color: red;
  17 |     @nest :not(&) {
     :                ^
  18 |         color: blue;
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
  16 |     color: red;
  17 |     @nest :not(&) {
     :                ^
  18 |         color: blue;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
  16 |     color: red;
  17 |     @nest :not(&) {
     :                ^
  18 |         color: blue;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
  16 |     color: red;
  17 |     @nest :not(&) {
     :                ^
  18 |         color: blue;
     `----
-
   x NestingSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
  16 |     color: red;
  17 |     @nest :not(&) {
     :                ^
  18 |         color: blue;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
  16 |         color: red;
  17 | ,->     @nest :not(&) {
  18 | |           color: blue;
  19 | `->     }
  20 |     }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
  16 |     color: red;
  17 |     @nest :not(&) {
     :                   ^
  18 |         color: blue;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:18:1]
  17 |     @nest :not(&) {
  18 |         color: blue;
     :         ^^^^^^^^^^^
  19 |     }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:18:1]
  17 |     @nest :not(&) {
  18 |         color: blue;
     :         ^^^^^^^^^^^
  19 |     }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:18:1]
  17 |     @nest :not(&) {
  18 |         color: blue;
     :         ^^^^^
  19 |     }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:18:1]
  17 |     @nest :not(&) {
  18 |         color: blue;
     :         ^^^^^
  19 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:18:1]
  17 |     @nest :not(&) {
  18 |         color: blue;
     :                ^^^^
  19 |     }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:18:1]
  17 |     @nest :not(&) {
  18 |         color: blue;
     :                ^^^^
  19 |     }
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:22:1]
  21 |     
  22 | ,-> .foo {
  23 | |       color: blue;
@@ -978,9 +863,8 @@
  30 | |       }
  31 | `-> }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:22:1]
  21 |     
  22 | ,-> .foo {
  23 | |       color: blue;
@@ -993,57 +877,50 @@
  30 | |       }
  31 | `-> }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:22:1]
  21 | 
  22 | .foo {
     : ^^^^
  23 |     color: blue;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:22:1]
  21 | 
  22 | .foo {
     : ^^^^
  23 |     color: blue;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:22:1]
  21 | 
  22 | .foo {
     : ^^^^
  23 |     color: blue;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:22:1]
  21 | 
  22 | .foo {
     : ^^^^
  23 |     color: blue;
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:22:1]
  21 | 
  22 | .foo {
     : ^^^^
  23 |     color: blue;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:22:1]
  21 | 
  22 | .foo {
     :  ^^^
  23 |     color: blue;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:22:1]
  21 |     
  22 | ,-> .foo {
  23 | |       color: blue;
@@ -1056,59 +933,51 @@
  30 | |       }
  31 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:22:1]
  21 | 
  22 | .foo {
     :      ^
  23 |     color: blue;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:23:1]
  22 | .foo {
  23 |     color: blue;
     :     ^^^^^^^^^^^
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:23:1]
  22 | .foo {
  23 |     color: blue;
     :     ^^^^^^^^^^^
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:23:1]
  22 | .foo {
  23 |     color: blue;
     :     ^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:23:1]
  22 | .foo {
  23 |     color: blue;
     :     ^^^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:23:1]
  22 | .foo {
  23 |     color: blue;
     :            ^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:23:1]
  22 | .foo {
  23 |     color: blue;
     :            ^^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:1]
  24 |     
  25 | ,->     @nest .bar & {
  26 | |           color: red;
@@ -1118,9 +987,8 @@
  30 | `->     }
  31 |     }
     `----
-
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:1]
  24 |     
  25 | ,->     @nest .bar & {
  26 | |           color: red;
@@ -1130,97 +998,85 @@
  30 | `->     }
  31 |     }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:1]
  24 | 
  25 |     @nest .bar & {
     :      ^^^^
  26 |         color: red;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:1]
  24 | 
  25 |     @nest .bar & {
     :      ^^^^
  26 |         color: red;
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:1]
  24 | 
  25 |     @nest .bar & {
     :           ^^^^^^
  26 |         color: red;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:1]
  24 | 
  25 |     @nest .bar & {
     :           ^^^^^^
  26 |         color: red;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:1]
  24 | 
  25 |     @nest .bar & {
     :           ^^^^
  26 |         color: red;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:1]
  24 | 
  25 |     @nest .bar & {
     :           ^^^^
  26 |         color: red;
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:1]
  24 | 
  25 |     @nest .bar & {
     :           ^^^^
  26 |         color: red;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:1]
  24 | 
  25 |     @nest .bar & {
     :            ^^^
  26 |         color: red;
     `----
-
   x Combinator
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:1]
  24 | 
  25 |     @nest .bar & {
     :               ^
  26 |         color: red;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:1]
  24 | 
  25 |     @nest .bar & {
     :                ^
  26 |         color: red;
     `----
-
   x NestingSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:1]
  24 | 
  25 |     @nest .bar & {
     :                ^
  26 |         color: red;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:1]
  24 |     
  25 | ,->     @nest .bar & {
  26 | |           color: red;
@@ -1230,204 +1086,179 @@
  30 | `->     }
  31 |     }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:1]
  24 | 
  25 |     @nest .bar & {
     :                  ^
  26 |         color: red;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:26:1]
  25 |     @nest .bar & {
  26 |         color: red;
     :         ^^^^^^^^^^
  27 |         &.baz {
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:26:1]
  25 |     @nest .bar & {
  26 |         color: red;
     :         ^^^^^^^^^^
  27 |         &.baz {
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:26:1]
  25 |     @nest .bar & {
  26 |         color: red;
     :         ^^^^^
  27 |         &.baz {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:26:1]
  25 |     @nest .bar & {
  26 |         color: red;
     :         ^^^^^
  27 |         &.baz {
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:1]
- 25 |     @nest .bar & {
- 26 |         color: red;
-    :                ^^^
- 27 |         &.baz {
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:1]
- 25 |     @nest .bar & {
- 26 |         color: red;
-    :                ^^^
- 27 |         &.baz {
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/nest/input.css:26:1]
+ 25 |     @nest .bar & {
+ 26 |         color: red;
+    :                ^^^
+ 27 |         &.baz {
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:26:1]
+ 25 |     @nest .bar & {
+ 26 |         color: red;
+    :                ^^^
+ 27 |         &.baz {
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:27:1]
  26 |             color: red;
  27 | ,->         &.baz {
  28 | |               color: green;
  29 | `->         }
  30 |         }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:27:1]
  26 |             color: red;
  27 | ,->         &.baz {
  28 | |               color: green;
  29 | `->         }
  30 |         }
     `----
-
   x RelativeSelectorList
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:27:1]
  26 |         color: red;
  27 |         &.baz {
     :         ^^^^^
  28 |             color: green;
     `----
-
   x RelativeSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:27:1]
  26 |         color: red;
  27 |         &.baz {
     :         ^^^^^
  28 |             color: green;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:27:1]
  26 |         color: red;
  27 |         &.baz {
     :         ^^^^^
  28 |             color: green;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:27:1]
  26 |         color: red;
  27 |         &.baz {
     :         ^^^^^
  28 |             color: green;
     `----
-
   x NestingSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:27:1]
  26 |         color: red;
  27 |         &.baz {
     :         ^
  28 |             color: green;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:27:1]
  26 |         color: red;
  27 |         &.baz {
     :          ^^^^
  28 |             color: green;
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:27:1]
  26 |         color: red;
  27 |         &.baz {
     :          ^^^^
  28 |             color: green;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:27:1]
  26 |         color: red;
  27 |         &.baz {
     :           ^^^
  28 |             color: green;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:27:1]
  26 |             color: red;
  27 | ,->         &.baz {
  28 | |               color: green;
  29 | `->         }
  30 |         }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:27:1]
  26 |         color: red;
  27 |         &.baz {
     :               ^
  28 |             color: green;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:28:1]
  27 |         &.baz {
  28 |             color: green;
     :             ^^^^^^^^^^^^
  29 |         }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:28:1]
  27 |         &.baz {
  28 |             color: green;
     :             ^^^^^^^^^^^^
  29 |         }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:28:1]
  27 |         &.baz {
  28 |             color: green;
     :             ^^^^^
  29 |         }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:28:1]
  27 |         &.baz {
  28 |             color: green;
     :             ^^^^^
  29 |         }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:28:1]
  27 |         &.baz {
  28 |             color: green;
     :                    ^^^^^
  29 |         }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/nest/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:28:1]
  27 |         &.baz {
  28 |             color: green;
     :                    ^^^^^

@@ -1,9 +1,8 @@
 //// [esDecorators-classDeclaration-commentPreservation.ts]
 "use strict";
 //// [file1.ts]
-//! 
 //!   x Expression expected
-//!    ,-[2:1]
+//!    ,-[5:1]
 //!  2 | declare var dec: any;
 //!  3 | 
 //!  4 | /*1*/
@@ -14,9 +13,8 @@
 //!  8 | /*3*/
 //!    `----
 //// [file2.ts]
-//! 
 //!   x Expression expected
-//!    ,-[1:1]
+//!    ,-[3:1]
 //!  1 | 
 //!  2 | /*34*/
 //!  3 | @dec
@@ -26,9 +24,8 @@
 //!  6 | /*36*/
 //!    `----
 //// [file3.ts]
-//! 
 //!   x Expected '{', got '@'
-//!    ,-[2:1]
+//!    ,-[5:1]
 //!  2 | /*40*/
 //!  3 | export
 //!  4 | /*41*/

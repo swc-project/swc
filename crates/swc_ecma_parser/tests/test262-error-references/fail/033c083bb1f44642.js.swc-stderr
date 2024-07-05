@@ -1,10 +1,8 @@
-
   x Expected unicode escape
    ,-[$DIR/tests/test262-parser/fail/033c083bb1f44642.js:1:1]
  1 | \uD800\x62
    :       ^
    `----
-
   x Invalid character in identifier
    ,-[$DIR/tests/test262-parser/fail/033c083bb1f44642.js:1:1]
  1 | \uD800\x62

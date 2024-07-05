@@ -1,10 +1,8 @@
-
   x Invalid assignment target
    ,-[$DIR/tests/test262-parser/fail/a8beb1480f385441.js:1:1]
  1 | func() = 4
    : ^^^^^^
    `----
-
   x The left-hand side of an assignment expression must be a variable or a property access.
    ,-[$DIR/tests/test262-parser/fail/a8beb1480f385441.js:1:1]
  1 | func() = 4

@@ -1,207 +1,178 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | ,-> :global(.foo + a) {
  2 | |       color: red;
  3 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | ,-> :global(.foo + a) {
  2 | |       color: red;
  3 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | ,-> :global(.foo + a) {
  2 | |       color: red;
  3 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    : ^^^^^^^^^^^^^^^^^
  2 |     color: red;
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    : ^^^^^^^^^^^^^^^^^
  2 |     color: red;
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    : ^^^^^^^^^^^^^^^^^
  2 |     color: red;
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    : ^^^^^^^^^^^^^^^^^
  2 |     color: red;
    `----
-
   x PseudoClassSelector
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    : ^^^^^^^^^^^^^^^^^
  2 |     color: red;
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :  ^^^^^^
  2 |     color: red;
    `----
-
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :         ^
  2 |     color: red;
    `----
-
   x Delim { value: '.' }
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :         ^
  2 |     color: red;
    `----
-
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :          ^^^
  2 |     color: red;
    `----
-
   x Ident { value: "foo", raw: "foo" }
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :          ^^^
  2 |     color: red;
    `----
-
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :             ^
  2 |     color: red;
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :             ^
  2 |     color: red;
    `----
-
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :              ^
  2 |     color: red;
    `----
-
   x Delim { value: '+' }
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :              ^
  2 |     color: red;
    `----
-
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :               ^
  2 |     color: red;
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :               ^
  2 |     color: red;
    `----
-
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :                ^
  2 |     color: red;
    `----
-
   x Ident { value: "a", raw: "a" }
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :                ^
  2 |     color: red;
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | ,-> :global(.foo + a) {
  2 | |       color: red;
  3 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :                   ^
  2 |     color: red;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
  1 | :global(.foo + a) {
  2 |     color: red;
    :     ^^^^^^^^^^
  3 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
  1 | :global(.foo + a) {
  2 |     color: red;
    :     ^^^^^^^^^^
  3 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
  1 | :global(.foo + a) {
  2 |     color: red;
    :     ^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
  1 | :global(.foo + a) {
  2 |     color: red;
    :     ^^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
  1 | :global(.foo + a) {
  2 |     color: red;
    :            ^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
  1 | :global(.foo + a) {
  2 |     color: red;
    :            ^^^

@@ -1,148 +1,123 @@
-
   x Module
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Decl
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x VarDecl
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x VarDeclarator
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Pat
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    :       ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    :       ^
    `----
-
   x Expr
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    :           ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ArrowExpr
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    :           ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Pat
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    :               ^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    :               ^^^^^^^^
    `----
-
   x TsTypeAnn
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    :                    ^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    :                      ^
    `----
-
   x TsTypeRef
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    :                      ^
    `----
-
   x TsEntityName
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    :                      ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    :                      ^
    `----
-
   x BlockStmtOrExpr
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    :                                 ^^
    `----
-
   x BlockStmt
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    :                                 ^^
    `----
-
   x TsTypeParamDecl
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    :           ^^^
    `----
-
   x TsTypeParam
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    :            ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    :            ^
    `----
-
   x TsTypeAnn
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    :                        ^^^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};
    :                          ^^^
    `----
-
   x TsKeywordType
    ,-[$DIR/tests/span/ts/expr/arrow-type-params.ts:1:1]
  1 | const a = <T>(value: T): any => {};

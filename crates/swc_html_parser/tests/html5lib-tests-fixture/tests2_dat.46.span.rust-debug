@@ -1,128 +1,107 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.46.html:1:1]
  1 | ,-> <!DOCTYPE html><body><title>X</title><meta name=z><link rel=foo><style>
  2 | `-> x { content:"</style" } </style>
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.46.html:1:1]
  1 | <!DOCTYPE html><body><title>X</title><meta name=z><link rel=foo><style>
    : ^^^^^^^^^^^^^^^
  2 | x { content:"</style" } </style>
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.46.html:1:1]
  1 | <!DOCTYPE html><body><title>X</title><meta name=z><link rel=foo><style>
    : ^^^^^^^^^^^^^^^
  2 | x { content:"</style" } </style>
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.46.html:1:1]
  1 | ,-> <!DOCTYPE html><body><title>X</title><meta name=z><link rel=foo><style>
  2 | `-> x { content:"</style" } </style>
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.46.html:1:1]
  1 | ,-> <!DOCTYPE html><body><title>X</title><meta name=z><link rel=foo><style>
  2 | `-> x { content:"</style" } </style>
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.46.html:1:1]
  1 | <!DOCTYPE html><body><title>X</title><meta name=z><link rel=foo><style>
    :                      ^^^^^^^^^^^^^^^^
  2 | x { content:"</style" } </style>
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.46.html:1:1]
  1 | <!DOCTYPE html><body><title>X</title><meta name=z><link rel=foo><style>
    :                      ^^^^^^^^^^^^^^^^
  2 | x { content:"</style" } </style>
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.46.html:1:1]
  1 | <!DOCTYPE html><body><title>X</title><meta name=z><link rel=foo><style>
    :                             ^
  2 | x { content:"</style" } </style>
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.46.html:1:1]
  1 | <!DOCTYPE html><body><title>X</title><meta name=z><link rel=foo><style>
    :                             ^
  2 | x { content:"</style" } </style>
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.46.html:1:1]
  1 | <!DOCTYPE html><body><title>X</title><meta name=z><link rel=foo><style>
    :                                      ^^^^^^^^^^^^^
  2 | x { content:"</style" } </style>
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.46.html:1:1]
  1 | <!DOCTYPE html><body><title>X</title><meta name=z><link rel=foo><style>
    :                                      ^^^^^^^^^^^^^
  2 | x { content:"</style" } </style>
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.46.html:1:1]
  1 | <!DOCTYPE html><body><title>X</title><meta name=z><link rel=foo><style>
    :                                            ^^^^^^
  2 | x { content:"</style" } </style>
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.46.html:1:1]
  1 | <!DOCTYPE html><body><title>X</title><meta name=z><link rel=foo><style>
    :                                                   ^^^^^^^^^^^^^^
  2 | x { content:"</style" } </style>
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.46.html:1:1]
  1 | <!DOCTYPE html><body><title>X</title><meta name=z><link rel=foo><style>
    :                                                   ^^^^^^^^^^^^^^
  2 | x { content:"</style" } </style>
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.46.html:1:1]
  1 | <!DOCTYPE html><body><title>X</title><meta name=z><link rel=foo><style>
    :                                                         ^^^^^^^
  2 | x { content:"</style" } </style>
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.46.html:1:1]
  1 | ,-> <!DOCTYPE html><body><title>X</title><meta name=z><link rel=foo><style>
  2 | `-> x { content:"</style" } </style>
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.46.html:1:1]
  1 | ,-> <!DOCTYPE html><body><title>X</title><meta name=z><link rel=foo><style>
  2 | `-> x { content:"</style" } </style>
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.46.html:1:1]
  1 | ,-> <!DOCTYPE html><body><title>X</title><meta name=z><link rel=foo><style>
  2 | `-> x { content:"</style" } </style>
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.46.html:1:1]
  1 | ,-> <!DOCTYPE html><body><title>X</title><meta name=z><link rel=foo><style>

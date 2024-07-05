@@ -1,6 +1,5 @@
-
   x Expected Declaration value
-   ,-[$DIR/tests/recovery/number/input.css:2:1]
+   ,-[$DIR/tests/recovery/number/input.css:3:1]
  2 |     prop: 10.10px
  3 |     prop1: 10px
    :          ^

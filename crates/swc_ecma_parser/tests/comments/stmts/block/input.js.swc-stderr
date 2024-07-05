@@ -1,9 +1,7 @@
-
   > Leading (hi)
 
-Advice: 
-  >  test
-   ,-[$DIR/tests/comments/stmts/block/input.js:2:1]
+Advice:   >  test
+   ,-[$DIR/tests/comments/stmts/block/input.js:3:1]
  2 |     /* test */
  3 | }
    : ^

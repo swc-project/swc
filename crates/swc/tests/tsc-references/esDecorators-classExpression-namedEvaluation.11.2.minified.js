@@ -1,7 +1,6 @@
 //// [esDecorators-classExpression-namedEvaluation.11.ts]
-//! 
 //!   x Expression expected
-//!    ,-[3:1]
+//!    ,-[6:1]
 //!  3 | 
 //!  4 | // No NamedEvaluation, no class name
 //!  5 | 

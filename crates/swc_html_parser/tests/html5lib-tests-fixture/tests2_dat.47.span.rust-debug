@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.47.html:1:1]
  1 | <!DOCTYPE html><select><optgroup></optgroup></select>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.47.html:1:1]
  1 | <!DOCTYPE html><select><optgroup></optgroup></select>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.47.html:1:1]
  1 | <!DOCTYPE html><select><optgroup></optgroup></select>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.47.html:1:1]
  1 | <!DOCTYPE html><select><optgroup></optgroup></select>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.47.html:1:1]
  1 | <!DOCTYPE html><select><optgroup></optgroup></select>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.47.html:1:1]
  1 | <!DOCTYPE html><select><optgroup></optgroup></select>
    :                        ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.47.html:1:1]
  1 | <!DOCTYPE html><select><optgroup></optgroup></select>

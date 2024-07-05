@@ -1,28 +1,24 @@
-
   x Expected alpha channel in '#fff'.
    ,-[$DIR/tests/rules/fail/color-hex-alpha/always/input.css:1:1]
  1 | a { color: #fff; }
    :            ^^^^
  2 | a { color: #ffffff; }
    `----
-
   x Expected alpha channel in '#ffffff'.
-   ,-[$DIR/tests/rules/fail/color-hex-alpha/always/input.css:1:1]
+   ,-[$DIR/tests/rules/fail/color-hex-alpha/always/input.css:2:1]
  1 | a { color: #fff; }
  2 | a { color: #ffffff; }
    :            ^^^^^^^
  3 | a { background: linear-gradient(to left, #fff, #000000 100%); }
    `----
-
   x Expected alpha channel in '#fff'.
-   ,-[$DIR/tests/rules/fail/color-hex-alpha/always/input.css:2:1]
+   ,-[$DIR/tests/rules/fail/color-hex-alpha/always/input.css:3:1]
  2 | a { color: #ffffff; }
  3 | a { background: linear-gradient(to left, #fff, #000000 100%); }
    :                                          ^^^^
    `----
-
   x Expected alpha channel in '#000000'.
-   ,-[$DIR/tests/rules/fail/color-hex-alpha/always/input.css:2:1]
+   ,-[$DIR/tests/rules/fail/color-hex-alpha/always/input.css:3:1]
  2 | a { color: #ffffff; }
  3 | a { background: linear-gradient(to left, #fff, #000000 100%); }
    :                                                ^^^^^^^

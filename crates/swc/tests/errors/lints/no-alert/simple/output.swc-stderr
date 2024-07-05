@@ -1,6 +1,5 @@
-
   x Unexpected alert
-   ,-[1:1]
+   ,-[3:1]
  1 | // Test cases taken form https://github.com/eslint/eslint/blob/5769cc23eca7197bb5993a0201cc269a056d4dfd/tests/lib/rules/no-alert.js
  2 | 
  3 | alert();
@@ -9,9 +8,8 @@
  5 | window["alert"]();
  6 | confirm();
    `----
-
   x Unexpected alert
-   ,-[1:1]
+   ,-[4:1]
  1 | // Test cases taken form https://github.com/eslint/eslint/blob/5769cc23eca7197bb5993a0201cc269a056d4dfd/tests/lib/rules/no-alert.js
  2 | 
  3 | alert();
@@ -21,9 +19,8 @@
  6 | confirm();
  7 | window.confirm();
    `----
-
   x Unexpected alert
-   ,-[2:1]
+   ,-[5:1]
  2 | 
  3 | alert();
  4 | window.alert();
@@ -33,9 +30,8 @@
  7 | window.confirm();
  8 | window["confirm"]();
    `----
-
   x Unexpected confirm
-   ,-[3:1]
+   ,-[6:1]
  3 | alert();
  4 | window.alert();
  5 | window["alert"]();
@@ -45,9 +41,8 @@
  8 | window["confirm"]();
  9 | prompt();
    `----
-
   x Unexpected confirm
-    ,-[4:1]
+    ,-[7:1]
   4 | window.alert();
   5 | window["alert"]();
   6 | confirm();
@@ -57,9 +52,8 @@
   9 | prompt();
  10 | window.prompt();
     `----
-
   x Unexpected confirm
-    ,-[5:1]
+    ,-[8:1]
   5 | window["alert"]();
   6 | confirm();
   7 | window.confirm();
@@ -69,9 +63,8 @@
  10 | window.prompt();
  11 | window["prompt"]();
     `----
-
   x Unexpected prompt
-    ,-[6:1]
+    ,-[9:1]
   6 | confirm();
   7 | window.confirm();
   8 | window["confirm"]();
@@ -81,9 +74,8 @@
  11 | window["prompt"]();
  12 | function foo1(alert) {
     `----
-
   x Unexpected prompt
-    ,-[7:1]
+    ,-[10:1]
   7 | window.confirm();
   8 | window["confirm"]();
   9 | prompt();
@@ -93,9 +85,8 @@
  12 | function foo1(alert) {
  13 |     window.alert();
     `----
-
   x Unexpected prompt
-    ,-[8:1]
+    ,-[11:1]
   8 | window["confirm"]();
   9 | prompt();
  10 | window.prompt();
@@ -105,9 +96,8 @@
  13 |     window.alert();
  14 | }
     `----
-
   x Unexpected alert
-    ,-[10:1]
+    ,-[13:1]
  10 | window.prompt();
  11 | window["prompt"]();
  12 | function foo1(alert) {
@@ -117,9 +107,8 @@
  15 | function foo2() {
  16 |     alert();
     `----
-
   x Unexpected alert
-    ,-[13:1]
+    ,-[16:1]
  13 |     window.alert();
  14 | }
  15 | function foo2() {
@@ -129,9 +118,8 @@
  18 | function foo3() {
  19 |     var alert = function () {};
     `----
-
   x Unexpected alert
-    ,-[18:1]
+    ,-[21:1]
  18 | function foo3() {
  19 |     var alert = function () {};
  20 | }
@@ -141,9 +129,8 @@
  23 | // currently unsupported
  24 | // this.alert(foo)
     `----
-
   x Unexpected alert
-    ,-[28:1]
+    ,-[31:1]
  28 |     var window = bar;
  29 |     window.alert();
  30 | }
@@ -153,9 +140,8 @@
  33 | function foo5() {
  34 |     alert();
     `----
-
   x Unexpected alert
-    ,-[35:1]
+    ,-[38:1]
  35 |     const alert = () => {};
  36 | }
  37 | 
@@ -165,9 +151,8 @@
  40 | (() => {
  41 |     const obj = {
     `----
-
   x Unexpected alert
-    ,-[35:1]
+    ,-[38:1]
  35 |     const alert = () => {};
  36 | }
  37 | 
@@ -177,9 +162,8 @@
  40 | (() => {
  41 |     const obj = {
     `----
-
   x Unexpected alert
-    ,-[51:1]
+    ,-[54:1]
  51 |     console.log(alert);
  52 | })();
  53 | 

@@ -1,6 +1,5 @@
-
   x the name `foo` is defined multiple times
-   ,-[1:1]
+   ,-[2:1]
  1 | try {
  2 | } catch (foo) {
    :          ^|^

@@ -1,62 +1,50 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.18.html:1:1]
  1 | <!doctype html><table>  <input type='hidDEN'></table>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.18.html:1:1]
  1 | <!doctype html><table>  <input type='hidDEN'></table>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.18.html:1:1]
  1 | <!doctype html><table>  <input type='hidDEN'></table>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.18.html:1:1]
  1 | <!doctype html><table>  <input type='hidDEN'></table>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.18.html:1:1]
  1 | <!doctype html><table>  <input type='hidDEN'></table>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.18.html:1:1]
  1 | <!doctype html><table>  <input type='hidDEN'></table>
    :                       ^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.18.html:1:1]
  1 | <!doctype html><table>  <input type='hidDEN'></table>
    :                       ^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.18.html:1:1]
  1 | <!doctype html><table>  <input type='hidDEN'></table>
    :                         ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.18.html:1:1]
  1 | <!doctype html><table>  <input type='hidDEN'></table>
    :                         ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.18.html:1:1]
  1 | <!doctype html><table>  <input type='hidDEN'></table>

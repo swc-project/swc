@@ -1,52 +1,43 @@
-
   x Module
    ,-[$DIR/tests/span/js/decl/import-string-names-1.js:1:1]
  1 | import { "str" as foo } from "mod"
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/decl/import-string-names-1.js:1:1]
  1 | import { "str" as foo } from "mod"
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleDecl
    ,-[$DIR/tests/span/js/decl/import-string-names-1.js:1:1]
  1 | import { "str" as foo } from "mod"
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ImportDecl
    ,-[$DIR/tests/span/js/decl/import-string-names-1.js:1:1]
  1 | import { "str" as foo } from "mod"
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ImportSpecifier
    ,-[$DIR/tests/span/js/decl/import-string-names-1.js:1:1]
  1 | import { "str" as foo } from "mod"
    :          ^^^^^^^^^^^^
    `----
-
   x ImportNamedSpecifier
    ,-[$DIR/tests/span/js/decl/import-string-names-1.js:1:1]
  1 | import { "str" as foo } from "mod"
    :          ^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/decl/import-string-names-1.js:1:1]
  1 | import { "str" as foo } from "mod"
    :                   ^^^
    `----
-
   x Str
    ,-[$DIR/tests/span/js/decl/import-string-names-1.js:1:1]
  1 | import { "str" as foo } from "mod"
    :          ^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/span/js/decl/import-string-names-1.js:1:1]
  1 | import { "str" as foo } from "mod"

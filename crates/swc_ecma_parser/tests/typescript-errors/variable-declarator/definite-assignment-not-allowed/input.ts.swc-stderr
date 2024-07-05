@@ -1,4 +1,3 @@
-
   x Destructuring bindings require initializers
    ,-[$DIR/tests/typescript-errors/variable-declarator/definite-assignment-not-allowed/input.ts:1:1]
  1 | let {}! = {};

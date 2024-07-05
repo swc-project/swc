@@ -1,6 +1,5 @@
-
   x Assignment to function parameter 'a'
-   ,-[1:1]
+   ,-[2:1]
  1 | function f(a, b) {
  2 |     a = 1;
    :     ^

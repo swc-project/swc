@@ -1,4 +1,3 @@
-
   x Document
     ,-[$DIR/tests/fixture/comments/input.xml:1:1]
   1 | ,-> <?xml version="1.0" encoding="UTF-8"?>
@@ -29,39 +28,34 @@
  26 | |   </root>
  27 | `-> 
     `----
-
   x Child
    ,-[$DIR/tests/fixture/comments/input.xml:1:1]
  1 | <?xml version="1.0" encoding="UTF-8"?>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | <!-- My Comment -->
    `----
-
   x ProcessingInstruction
    ,-[$DIR/tests/fixture/comments/input.xml:1:1]
  1 | <?xml version="1.0" encoding="UTF-8"?>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | <!-- My Comment -->
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/comments/input.xml:1:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:2:1]
  1 | <?xml version="1.0" encoding="UTF-8"?>
  2 | <!-- My Comment -->
    : ^^^^^^^^^^^^^^^^^^^
  3 | <root>
    `----
-
   x Comment
-   ,-[$DIR/tests/fixture/comments/input.xml:1:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:2:1]
  1 | <?xml version="1.0" encoding="UTF-8"?>
  2 | <!-- My Comment -->
    : ^^^^^^^^^^^^^^^^^^^
  3 | <root>
    `----
-
   x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:2:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:3:1]
   2 |     <!-- My Comment -->
   3 | ,-> <root>
   4 | |       <!--comment-->
@@ -88,9 +82,8 @@
  25 | |       </DocumentElement>
  26 | `-> </root>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/comments/input.xml:2:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:3:1]
   2 |     <!-- My Comment -->
   3 | ,-> <root>
   4 | |       <!--comment-->
@@ -117,441 +110,386 @@
  25 | |       </DocumentElement>
  26 | `-> </root>
     `----
-
   x Child
-   ,-[$DIR/tests/fixture/comments/input.xml:2:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:3:1]
  2 |     <!-- My Comment -->
  3 | ,-> <root>
  4 | `->     <!--comment-->
  5 |         <!--<head>-->
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/comments/input.xml:2:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:3:1]
  2 |     <!-- My Comment -->
  3 | ,-> <root>
  4 | `->     <!--comment-->
  5 |         <!--<head>-->
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/comments/input.xml:3:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:4:1]
  3 | <root>
  4 |     <!--comment-->
    :     ^^^^^^^^^^^^^^
  5 |     <!--<head>-->
    `----
-
   x Comment
-   ,-[$DIR/tests/fixture/comments/input.xml:3:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:4:1]
  3 | <root>
  4 |     <!--comment-->
    :     ^^^^^^^^^^^^^^
  5 |     <!--<head>-->
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/comments/input.xml:3:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:4:1]
  3 |     <root>
  4 | ,->     <!--comment-->
  5 | `->     <!--<head>-->
  6 |         <!--<!-x-->
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/comments/input.xml:3:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:4:1]
  3 |     <root>
  4 | ,->     <!--comment-->
  5 | `->     <!--<head>-->
  6 |         <!--<!-x-->
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/comments/input.xml:4:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:5:1]
  4 |     <!--comment-->
  5 |     <!--<head>-->
    :     ^^^^^^^^^^^^^
  6 |     <!--<!-x-->
    `----
-
   x Comment
-   ,-[$DIR/tests/fixture/comments/input.xml:4:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:5:1]
  4 |     <!--comment-->
  5 |     <!--<head>-->
    :     ^^^^^^^^^^^^^
  6 |     <!--<!-x-->
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/comments/input.xml:4:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:5:1]
  4 |         <!--comment-->
  5 | ,->     <!--<head>-->
  6 | `->     <!--<!-x-->
  7 |         <!--<!x-->
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/comments/input.xml:4:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:5:1]
  4 |         <!--comment-->
  5 | ,->     <!--<head>-->
  6 | `->     <!--<!-x-->
  7 |         <!--<!x-->
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/comments/input.xml:5:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:6:1]
  5 |     <!--<head>-->
  6 |     <!--<!-x-->
    :     ^^^^^^^^^^^
  7 |     <!--<!x-->
    `----
-
   x Comment
-   ,-[$DIR/tests/fixture/comments/input.xml:5:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:6:1]
  5 |     <!--<head>-->
  6 |     <!--<!-x-->
    :     ^^^^^^^^^^^
  7 |     <!--<!x-->
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/comments/input.xml:5:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:6:1]
  5 |         <!--<head>-->
  6 | ,->     <!--<!-x-->
  7 | `->     <!--<!x-->
  8 |         <!--<<!x-->
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/comments/input.xml:5:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:6:1]
  5 |         <!--<head>-->
  6 | ,->     <!--<!-x-->
  7 | `->     <!--<!x-->
  8 |         <!--<<!x-->
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/comments/input.xml:6:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:7:1]
  6 |     <!--<!-x-->
  7 |     <!--<!x-->
    :     ^^^^^^^^^^
  8 |     <!--<<!x-->
    `----
-
   x Comment
-   ,-[$DIR/tests/fixture/comments/input.xml:6:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:7:1]
  6 |     <!--<!-x-->
  7 |     <!--<!x-->
    :     ^^^^^^^^^^
  8 |     <!--<<!x-->
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/comments/input.xml:6:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:7:1]
  6 |         <!--<!-x-->
  7 | ,->     <!--<!x-->
  8 | `->     <!--<<!x-->
  9 |         <!--<<!-x-->
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/comments/input.xml:6:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:7:1]
  6 |         <!--<!-x-->
  7 | ,->     <!--<!x-->
  8 | `->     <!--<<!x-->
  9 |         <!--<<!-x-->
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/comments/input.xml:7:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:8:1]
  7 |     <!--<!x-->
  8 |     <!--<<!x-->
    :     ^^^^^^^^^^^
  9 |     <!--<<!-x-->
    `----
-
   x Comment
-   ,-[$DIR/tests/fixture/comments/input.xml:7:1]
+   ,-[$DIR/tests/fixture/comments/input.xml:8:1]
  7 |     <!--<!x-->
  8 |     <!--<<!x-->
    :     ^^^^^^^^^^^
  9 |     <!--<<!-x-->
    `----
-
   x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:7:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:8:1]
   7 |         <!--<!x-->
   8 | ,->     <!--<<!x-->
   9 | `->     <!--<<!-x-->
  10 |         <!--<x-->
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/comments/input.xml:7:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:8:1]
   7 |         <!--<!x-->
   8 | ,->     <!--<<!x-->
   9 | `->     <!--<<!-x-->
  10 |         <!--<x-->
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:8:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:9:1]
   8 |     <!--<<!x-->
   9 |     <!--<<!-x-->
     :     ^^^^^^^^^^^^
  10 |     <!--<x-->
     `----
-
   x Comment
-    ,-[$DIR/tests/fixture/comments/input.xml:8:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:9:1]
   8 |     <!--<<!x-->
   9 |     <!--<<!-x-->
     :     ^^^^^^^^^^^^
  10 |     <!--<x-->
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:8:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:9:1]
   8 |         <!--<<!x-->
   9 | ,->     <!--<<!-x-->
  10 | `->     <!--<x-->
  11 |         <!--<>-->
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/comments/input.xml:8:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:9:1]
   8 |         <!--<<!x-->
   9 | ,->     <!--<<!-x-->
  10 | `->     <!--<x-->
  11 |         <!--<>-->
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:9:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:10:1]
   9 |     <!--<<!-x-->
  10 |     <!--<x-->
     :     ^^^^^^^^^
  11 |     <!--<>-->
     `----
-
   x Comment
-    ,-[$DIR/tests/fixture/comments/input.xml:9:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:10:1]
   9 |     <!--<<!-x-->
  10 |     <!--<x-->
     :     ^^^^^^^^^
  11 |     <!--<>-->
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:9:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:10:1]
   9 |         <!--<<!-x-->
  10 | ,->     <!--<x-->
  11 | `->     <!--<>-->
  12 |         <!--<-->
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/comments/input.xml:9:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:10:1]
   9 |         <!--<<!-x-->
  10 | ,->     <!--<x-->
  11 | `->     <!--<>-->
  12 |         <!--<-->
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:10:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:11:1]
  10 |     <!--<x-->
  11 |     <!--<>-->
     :     ^^^^^^^^^
  12 |     <!--<-->
     `----
-
   x Comment
-    ,-[$DIR/tests/fixture/comments/input.xml:10:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:11:1]
  10 |     <!--<x-->
  11 |     <!--<>-->
     :     ^^^^^^^^^
  12 |     <!--<-->
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:10:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:11:1]
  10 |         <!--<x-->
  11 | ,->     <!--<>-->
  12 | `->     <!--<-->
  13 |         <!--<!-->
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/comments/input.xml:10:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:11:1]
  10 |         <!--<x-->
  11 | ,->     <!--<>-->
  12 | `->     <!--<-->
  13 |         <!--<!-->
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:11:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:12:1]
  11 |     <!--<>-->
  12 |     <!--<-->
     :     ^^^^^^^^
  13 |     <!--<!-->
     `----
-
   x Comment
-    ,-[$DIR/tests/fixture/comments/input.xml:11:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:12:1]
  11 |     <!--<>-->
  12 |     <!--<-->
     :     ^^^^^^^^
  13 |     <!--<!-->
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:11:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:12:1]
  11 |         <!--<>-->
  12 | ,->     <!--<-->
  13 | `->     <!--<!-->
  14 |         <!---->
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/comments/input.xml:11:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:12:1]
  11 |         <!--<>-->
  12 | ,->     <!--<-->
  13 | `->     <!--<!-->
  14 |         <!---->
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:12:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:13:1]
  12 |     <!--<-->
  13 |     <!--<!-->
     :     ^^^^^^^^^
  14 |     <!---->
     `----
-
   x Comment
-    ,-[$DIR/tests/fixture/comments/input.xml:12:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:13:1]
  12 |     <!--<-->
  13 |     <!--<!-->
     :     ^^^^^^^^^
  14 |     <!---->
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:12:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:13:1]
  12 |         <!--<-->
  13 | ,->     <!--<!-->
  14 | `->     <!---->
  15 |         <!---a->-a-->
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/comments/input.xml:12:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:13:1]
  12 |         <!--<-->
  13 | ,->     <!--<!-->
  14 | `->     <!---->
  15 |         <!---a->-a-->
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:13:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:14:1]
  13 |     <!--<!-->
  14 |     <!---->
     :     ^^^^^^^
  15 |     <!---a->-a-->
     `----
-
   x Comment
-    ,-[$DIR/tests/fixture/comments/input.xml:13:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:14:1]
  13 |     <!--<!-->
  14 |     <!---->
     :     ^^^^^^^
  15 |     <!---a->-a-->
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:13:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:14:1]
  13 |         <!--<!-->
  14 | ,->     <!---->
  15 | `->     <!---a->-a-->
  16 |         <!---<!-test->-->
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/comments/input.xml:13:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:14:1]
  13 |         <!--<!-->
  14 | ,->     <!---->
  15 | `->     <!---a->-a-->
  16 |         <!---<!-test->-->
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:14:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:15:1]
  14 |     <!---->
  15 |     <!---a->-a-->
     :     ^^^^^^^^^^^^^
  16 |     <!---<!-test->-->
     `----
-
   x Comment
-    ,-[$DIR/tests/fixture/comments/input.xml:14:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:15:1]
  14 |     <!---->
  15 |     <!---a->-a-->
     :     ^^^^^^^^^^^^^
  16 |     <!---<!-test->-->
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:14:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:15:1]
  14 |         <!---->
  15 | ,->     <!---a->-a-->
  16 | `->     <!---<!-test->-->
  17 |         <DocumentElement myAttribute="myAttributeValue">
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/comments/input.xml:14:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:15:1]
  14 |         <!---->
  15 | ,->     <!---a->-a-->
  16 | `->     <!---<!-test->-->
  17 |         <DocumentElement myAttribute="myAttributeValue">
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:15:1]
- 15 |     <!---a->-a-->
- 16 |     <!---<!-test->-->
-    :     ^^^^^^^^^^^^^^^^^
- 17 |     <DocumentElement myAttribute="myAttributeValue">
-    `----
-
-  x Comment
-    ,-[$DIR/tests/fixture/comments/input.xml:15:1]
- 15 |     <!---a->-a-->
- 16 |     <!---<!-test->-->
-    :     ^^^^^^^^^^^^^^^^^
- 17 |     <DocumentElement myAttribute="myAttributeValue">
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:15:1]
- 15 |         <!---a->-a-->
- 16 | ,->     <!---<!-test->-->
- 17 | `->     <DocumentElement myAttribute="myAttributeValue">
- 18 |             <!-- My Comment -->
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/comments/input.xml:15:1]
- 15 |         <!---a->-a-->
- 16 | ,->     <!---<!-test->-->
- 17 | `->     <DocumentElement myAttribute="myAttributeValue">
- 18 |             <!-- My Comment -->
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/comments/input.xml:16:1]
+ 15 |     <!---a->-a-->
+ 16 |     <!---<!-test->-->
+    :     ^^^^^^^^^^^^^^^^^
+ 17 |     <DocumentElement myAttribute="myAttributeValue">
+    `----
+  x Comment
+    ,-[$DIR/tests/fixture/comments/input.xml:16:1]
+ 15 |     <!---a->-a-->
+ 16 |     <!---<!-test->-->
+    :     ^^^^^^^^^^^^^^^^^
+ 17 |     <DocumentElement myAttribute="myAttributeValue">
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:16:1]
+ 15 |         <!---a->-a-->
+ 16 | ,->     <!---<!-test->-->
+ 17 | `->     <DocumentElement myAttribute="myAttributeValue">
+ 18 |             <!-- My Comment -->
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/comments/input.xml:16:1]
+ 15 |         <!---a->-a-->
+ 16 | ,->     <!---<!-test->-->
+ 17 | `->     <DocumentElement myAttribute="myAttributeValue">
+ 18 |             <!-- My Comment -->
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:17:1]
  16 |         <!---<!-test->-->
  17 | ,->     <DocumentElement myAttribute="myAttributeValue">
  18 | |           <!-- My Comment -->
@@ -559,9 +497,8 @@
  20 | `->     </DocumentElement>
  21 |         <DocumentElement myAttribute="my Attribute Value">
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/comments/input.xml:16:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:17:1]
  16 |         <!---<!-test->-->
  17 | ,->     <DocumentElement myAttribute="myAttributeValue">
  18 | |           <!-- My Comment -->
@@ -569,123 +506,107 @@
  20 | `->     </DocumentElement>
  21 |         <DocumentElement myAttribute="my Attribute Value">
     `----
-
   x Attribute
-
-  x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:16:1]
- 16 |         <!---<!-test->-->
- 17 | ,->     <DocumentElement myAttribute="myAttributeValue">
- 18 | `->         <!-- My Comment -->
- 19 |             <ChildElement>Element Value</ChildElement>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/comments/input.xml:16:1]
- 16 |         <!---<!-test->-->
- 17 | ,->     <DocumentElement myAttribute="myAttributeValue">
- 18 | `->         <!-- My Comment -->
- 19 |             <ChildElement>Element Value</ChildElement>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/comments/input.xml:17:1]
+ 16 |         <!---<!-test->-->
+ 17 | ,->     <DocumentElement myAttribute="myAttributeValue">
+ 18 | `->         <!-- My Comment -->
+ 19 |             <ChildElement>Element Value</ChildElement>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/comments/input.xml:17:1]
+ 16 |         <!---<!-test->-->
+ 17 | ,->     <DocumentElement myAttribute="myAttributeValue">
+ 18 | `->         <!-- My Comment -->
+ 19 |             <ChildElement>Element Value</ChildElement>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:18:1]
  17 |     <DocumentElement myAttribute="myAttributeValue">
  18 |         <!-- My Comment -->
     :         ^^^^^^^^^^^^^^^^^^^
  19 |         <ChildElement>Element Value</ChildElement>
     `----
-
   x Comment
-    ,-[$DIR/tests/fixture/comments/input.xml:17:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:18:1]
  17 |     <DocumentElement myAttribute="myAttributeValue">
  18 |         <!-- My Comment -->
     :         ^^^^^^^^^^^^^^^^^^^
  19 |         <ChildElement>Element Value</ChildElement>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:17:1]
- 17 |         <DocumentElement myAttribute="myAttributeValue">
- 18 | ,->         <!-- My Comment -->
- 19 | `->         <ChildElement>Element Value</ChildElement>
- 20 |         </DocumentElement>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/comments/input.xml:17:1]
- 17 |         <DocumentElement myAttribute="myAttributeValue">
- 18 | ,->         <!-- My Comment -->
- 19 | `->         <ChildElement>Element Value</ChildElement>
- 20 |         </DocumentElement>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/comments/input.xml:18:1]
+ 17 |         <DocumentElement myAttribute="myAttributeValue">
+ 18 | ,->         <!-- My Comment -->
+ 19 | `->         <ChildElement>Element Value</ChildElement>
+ 20 |         </DocumentElement>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/comments/input.xml:18:1]
+ 17 |         <DocumentElement myAttribute="myAttributeValue">
+ 18 | ,->         <!-- My Comment -->
+ 19 | `->         <ChildElement>Element Value</ChildElement>
+ 20 |         </DocumentElement>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:19:1]
  18 |         <!-- My Comment -->
  19 |         <ChildElement>Element Value</ChildElement>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  20 |     </DocumentElement>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/comments/input.xml:18:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:19:1]
  18 |         <!-- My Comment -->
  19 |         <ChildElement>Element Value</ChildElement>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  20 |     </DocumentElement>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:18:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:19:1]
  18 |         <!-- My Comment -->
  19 |         <ChildElement>Element Value</ChildElement>
     :                       ^^^^^^^^^^^^^
  20 |     </DocumentElement>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/comments/input.xml:18:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:19:1]
  18 |         <!-- My Comment -->
  19 |         <ChildElement>Element Value</ChildElement>
     :                       ^^^^^^^^^^^^^
  20 |     </DocumentElement>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:18:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:19:1]
  18 |             <!-- My Comment -->
  19 | ,->         <ChildElement>Element Value</ChildElement>
  20 | `->     </DocumentElement>
  21 |         <DocumentElement myAttribute="my Attribute Value">
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/comments/input.xml:18:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:19:1]
  18 |             <!-- My Comment -->
  19 | ,->         <ChildElement>Element Value</ChildElement>
  20 | `->     </DocumentElement>
  21 |         <DocumentElement myAttribute="my Attribute Value">
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:19:1]
- 19 |             <ChildElement>Element Value</ChildElement>
- 20 | ,->     </DocumentElement>
- 21 | `->     <DocumentElement myAttribute="my Attribute Value">
- 22 |             <ChildElement>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/comments/input.xml:19:1]
- 19 |             <ChildElement>Element Value</ChildElement>
- 20 | ,->     </DocumentElement>
- 21 | `->     <DocumentElement myAttribute="my Attribute Value">
- 22 |             <ChildElement>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/comments/input.xml:20:1]
+ 19 |             <ChildElement>Element Value</ChildElement>
+ 20 | ,->     </DocumentElement>
+ 21 | `->     <DocumentElement myAttribute="my Attribute Value">
+ 22 |             <ChildElement>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/comments/input.xml:20:1]
+ 19 |             <ChildElement>Element Value</ChildElement>
+ 20 | ,->     </DocumentElement>
+ 21 | `->     <DocumentElement myAttribute="my Attribute Value">
+ 22 |             <ChildElement>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:21:1]
  20 |         </DocumentElement>
  21 | ,->     <DocumentElement myAttribute="my Attribute Value">
  22 | |           <ChildElement>
@@ -694,9 +615,8 @@
  25 | `->     </DocumentElement>
  26 |     </root>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/comments/input.xml:20:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:21:1]
  20 |         </DocumentElement>
  21 | ,->     <DocumentElement myAttribute="my Attribute Value">
  22 | |           <ChildElement>
@@ -705,115 +625,101 @@
  25 | `->     </DocumentElement>
  26 |     </root>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:20:1]
- 20 |         </DocumentElement>
- 21 | ,->     <DocumentElement myAttribute="my Attribute Value">
- 22 | `->         <ChildElement>
- 23 |             Element <!-- My Comment --> Value
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/comments/input.xml:20:1]
- 20 |         </DocumentElement>
- 21 | ,->     <DocumentElement myAttribute="my Attribute Value">
- 22 | `->         <ChildElement>
- 23 |             Element <!-- My Comment --> Value
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/comments/input.xml:21:1]
+ 20 |         </DocumentElement>
+ 21 | ,->     <DocumentElement myAttribute="my Attribute Value">
+ 22 | `->         <ChildElement>
+ 23 |             Element <!-- My Comment --> Value
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/comments/input.xml:21:1]
+ 20 |         </DocumentElement>
+ 21 | ,->     <DocumentElement myAttribute="my Attribute Value">
+ 22 | `->         <ChildElement>
+ 23 |             Element <!-- My Comment --> Value
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:22:1]
  21 |         <DocumentElement myAttribute="my Attribute Value">
  22 | ,->         <ChildElement>
  23 | |           Element <!-- My Comment --> Value
  24 | `->         </ChildElement>
  25 |         </DocumentElement>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/comments/input.xml:21:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:22:1]
  21 |         <DocumentElement myAttribute="my Attribute Value">
  22 | ,->         <ChildElement>
  23 | |           Element <!-- My Comment --> Value
  24 | `->         </ChildElement>
  25 |         </DocumentElement>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:21:1]
- 21 |         <DocumentElement myAttribute="my Attribute Value">
- 22 | ,->         <ChildElement>
- 23 | `->         Element <!-- My Comment --> Value
- 24 |             </ChildElement>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/comments/input.xml:21:1]
- 21 |         <DocumentElement myAttribute="my Attribute Value">
- 22 | ,->         <ChildElement>
- 23 | `->         Element <!-- My Comment --> Value
- 24 |             </ChildElement>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/comments/input.xml:22:1]
+ 21 |         <DocumentElement myAttribute="my Attribute Value">
+ 22 | ,->         <ChildElement>
+ 23 | `->         Element <!-- My Comment --> Value
+ 24 |             </ChildElement>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/comments/input.xml:22:1]
+ 21 |         <DocumentElement myAttribute="my Attribute Value">
+ 22 | ,->         <ChildElement>
+ 23 | `->         Element <!-- My Comment --> Value
+ 24 |             </ChildElement>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:23:1]
  22 |         <ChildElement>
  23 |         Element <!-- My Comment --> Value
     :                 ^^^^^^^^^^^^^^^^^^^
  24 |         </ChildElement>
     `----
-
   x Comment
-    ,-[$DIR/tests/fixture/comments/input.xml:22:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:23:1]
  22 |         <ChildElement>
  23 |         Element <!-- My Comment --> Value
     :                 ^^^^^^^^^^^^^^^^^^^
  24 |         </ChildElement>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:22:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:23:1]
  22 |             <ChildElement>
  23 | ,->         Element <!-- My Comment --> Value
  24 | `->         </ChildElement>
  25 |         </DocumentElement>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/comments/input.xml:22:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:23:1]
  22 |             <ChildElement>
  23 | ,->         Element <!-- My Comment --> Value
  24 | `->         </ChildElement>
  25 |         </DocumentElement>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/comments/input.xml:23:1]
- 23 |             Element <!-- My Comment --> Value
- 24 | ,->         </ChildElement>
- 25 | `->     </DocumentElement>
- 26 |     </root>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/comments/input.xml:23:1]
- 23 |             Element <!-- My Comment --> Value
- 24 | ,->         </ChildElement>
- 25 | `->     </DocumentElement>
- 26 |     </root>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/comments/input.xml:24:1]
+ 23 |             Element <!-- My Comment --> Value
+ 24 | ,->         </ChildElement>
+ 25 | `->     </DocumentElement>
+ 26 |     </root>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/comments/input.xml:24:1]
+ 23 |             Element <!-- My Comment --> Value
+ 24 | ,->         </ChildElement>
+ 25 | `->     </DocumentElement>
+ 26 |     </root>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:25:1]
  24 |         </ChildElement>
  25 |     </DocumentElement>
     :                       ^
  26 | </root>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/comments/input.xml:24:1]
+    ,-[$DIR/tests/fixture/comments/input.xml:25:1]
  24 |         </ChildElement>
  25 |     </DocumentElement>
     :                       ^

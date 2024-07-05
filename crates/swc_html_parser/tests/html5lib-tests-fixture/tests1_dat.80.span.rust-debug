@@ -1,104 +1,85 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.80.html:1:1]
  1 | <a href=a>aa<marquee>aa<a href=b>bb</marquee>aa
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.80.html:1:1]
  1 | <a href=a>aa<marquee>aa<a href=b>bb</marquee>aa
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.80.html:1:1]
  1 | <a href=a>aa<marquee>aa<a href=b>bb</marquee>aa
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.80.html:1:1]
  1 | <a href=a>aa<marquee>aa<a href=b>bb</marquee>aa
    :    ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.80.html:1:1]
  1 | <a href=a>aa<marquee>aa<a href=b>bb</marquee>aa
    :           ^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.80.html:1:1]
  1 | <a href=a>aa<marquee>aa<a href=b>bb</marquee>aa
    :           ^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.80.html:1:1]
  1 | <a href=a>aa<marquee>aa<a href=b>bb</marquee>aa
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.80.html:1:1]
  1 | <a href=a>aa<marquee>aa<a href=b>bb</marquee>aa
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.80.html:1:1]
  1 | <a href=a>aa<marquee>aa<a href=b>bb</marquee>aa
    :                      ^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.80.html:1:1]
  1 | <a href=a>aa<marquee>aa<a href=b>bb</marquee>aa
    :                      ^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.80.html:1:1]
  1 | <a href=a>aa<marquee>aa<a href=b>bb</marquee>aa
    :                        ^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.80.html:1:1]
  1 | <a href=a>aa<marquee>aa<a href=b>bb</marquee>aa
    :                        ^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.80.html:1:1]
  1 | <a href=a>aa<marquee>aa<a href=b>bb</marquee>aa
    :                           ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.80.html:1:1]
  1 | <a href=a>aa<marquee>aa<a href=b>bb</marquee>aa
    :                                  ^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.80.html:1:1]
  1 | <a href=a>aa<marquee>aa<a href=b>bb</marquee>aa
    :                                  ^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.80.html:1:1]
  1 | <a href=a>aa<marquee>aa<a href=b>bb</marquee>aa
    :                                              ^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.80.html:1:1]
  1 | <a href=a>aa<marquee>aa<a href=b>bb</marquee>aa

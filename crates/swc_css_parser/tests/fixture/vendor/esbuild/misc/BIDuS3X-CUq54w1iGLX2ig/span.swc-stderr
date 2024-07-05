@@ -1,76 +1,63 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:1]
  1 | @import url("foo.css") print;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:1]
  1 | @import url("foo.css") print;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:1]
  1 | @import url("foo.css") print;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:1]
  1 | @import url("foo.css") print;
    :  ^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:1]
  1 | @import url("foo.css") print;
    :  ^^^^^^
    `----
-
   x Url
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:1]
  1 | @import url("foo.css") print;
    :         ^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:1]
  1 | @import url("foo.css") print;
    :         ^^^
    `----
-
   x UrlValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:1]
  1 | @import url("foo.css") print;
    :             ^^^^^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:1]
  1 | @import url("foo.css") print;
    :             ^^^^^^^^^
    `----
-
   x MediaQueryList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:1]
  1 | @import url("foo.css") print;
    :                        ^^^^^
    `----
-
   x MediaQuery
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:1]
  1 | @import url("foo.css") print;
    :                        ^^^^^
    `----
-
   x MediaType
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:1]
  1 | @import url("foo.css") print;
    :                        ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:1]
  1 | @import url("foo.css") print;

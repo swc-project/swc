@@ -1,4 +1,3 @@
-
   x Unexpected end of file, but expected '{'
    ,-[$DIR/tests/recovery/comments/bad-comment-1/input.css:1:1]
  1 | // comment

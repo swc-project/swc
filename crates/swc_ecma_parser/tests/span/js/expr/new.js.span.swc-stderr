@@ -1,159 +1,136 @@
-
   x Module
    ,-[$DIR/tests/span/js/expr/new.js:1:1]
  1 | ,-> new Date();
  2 | `-> (new Date).toString()
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/expr/new.js:1:1]
  1 | new Date();
    : ^^^^^^^^^^^
  2 | (new Date).toString()
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/expr/new.js:1:1]
  1 | new Date();
    : ^^^^^^^^^^^
  2 | (new Date).toString()
    `----
-
   x ExprStmt
    ,-[$DIR/tests/span/js/expr/new.js:1:1]
  1 | new Date();
    : ^^^^^^^^^^^
  2 | (new Date).toString()
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/new.js:1:1]
  1 | new Date();
    : ^^^^^^^^^^
  2 | (new Date).toString()
    `----
-
   x NewExpr
    ,-[$DIR/tests/span/js/expr/new.js:1:1]
  1 | new Date();
    : ^^^^^^^^^^
  2 | (new Date).toString()
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/new.js:1:1]
  1 | new Date();
    :     ^^^^
  2 | (new Date).toString()
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/new.js:1:1]
  1 | new Date();
    :     ^^^^
  2 | (new Date).toString()
    `----
-
   x ModuleItem
-   ,-[$DIR/tests/span/js/expr/new.js:1:1]
+   ,-[$DIR/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/js/expr/new.js:1:1]
+   ,-[$DIR/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ExprStmt
-   ,-[$DIR/tests/span/js/expr/new.js:1:1]
+   ,-[$DIR/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/new.js:1:1]
+   ,-[$DIR/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x CallExpr
-   ,-[$DIR/tests/span/js/expr/new.js:1:1]
+   ,-[$DIR/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Callee
-   ,-[$DIR/tests/span/js/expr/new.js:1:1]
+   ,-[$DIR/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/new.js:1:1]
+   ,-[$DIR/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x MemberExpr
-   ,-[$DIR/tests/span/js/expr/new.js:1:1]
+   ,-[$DIR/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/new.js:1:1]
+   ,-[$DIR/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    : ^^^^^^^^^^
    `----
-
   x ParenExpr
-   ,-[$DIR/tests/span/js/expr/new.js:1:1]
+   ,-[$DIR/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    : ^^^^^^^^^^
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/new.js:1:1]
+   ,-[$DIR/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    :  ^^^^^^^^
    `----
-
   x NewExpr
-   ,-[$DIR/tests/span/js/expr/new.js:1:1]
+   ,-[$DIR/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    :  ^^^^^^^^
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/new.js:1:1]
+   ,-[$DIR/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    :      ^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/span/js/expr/new.js:1:1]
+   ,-[$DIR/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    :      ^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/span/js/expr/new.js:1:1]
+   ,-[$DIR/tests/span/js/expr/new.js:2:1]
  1 | new Date();
  2 | (new Date).toString()
    :            ^^^^^^^^

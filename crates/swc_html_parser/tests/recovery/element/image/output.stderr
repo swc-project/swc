@@ -1,6 +1,5 @@
-
   x Saw a start tag "image", "img" element is outdated
-   ,-[$DIR/tests/recovery/element/image/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/image/input.html:7:1]
  6 | <body>
  7 | <image src="test.png">
    : ^^^^^^^^^^^^^^^^^^^^^^

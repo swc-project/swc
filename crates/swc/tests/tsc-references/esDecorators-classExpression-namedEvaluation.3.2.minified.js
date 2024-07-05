@@ -1,7 +1,6 @@
 //// [esDecorators-classExpression-namedEvaluation.3.ts]
-//! 
 //!   x Expression expected
-//!    ,-[3:1]
+//!    ,-[6:1]
 //!  3 | // 14.3.1.2 RS: Evaluation
 //!  4 | //   LexicalBinding : BindingIdentifier Initializer
 //!  5 | 

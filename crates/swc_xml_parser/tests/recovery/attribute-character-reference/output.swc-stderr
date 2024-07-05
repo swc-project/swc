@@ -1,6 +1,5 @@
-
   x Invalid entity character
-   ,-[$DIR/tests/recovery/attribute-character-reference/input.xml:1:1]
+   ,-[$DIR/tests/recovery/attribute-character-reference/input.xml:2:1]
  1 | <root>
  2 |     <foo bar="&"></foo>
    :                ^

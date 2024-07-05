@@ -1,92 +1,75 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.26.html:1:1]
  1 | <!doctype html><p>foo<footer>bar<p>baz
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.26.html:1:1]
  1 | <!doctype html><p>foo<footer>bar<p>baz
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.26.html:1:1]
  1 | <!doctype html><p>foo<footer>bar<p>baz
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.26.html:1:1]
  1 | <!doctype html><p>foo<footer>bar<p>baz
    :                ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.26.html:1:1]
  1 | <!doctype html><p>foo<footer>bar<p>baz
    :                ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.26.html:1:1]
  1 | <!doctype html><p>foo<footer>bar<p>baz
    :                   ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.26.html:1:1]
  1 | <!doctype html><p>foo<footer>bar<p>baz
    :                   ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.26.html:1:1]
  1 | <!doctype html><p>foo<footer>bar<p>baz
    :                      ^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.26.html:1:1]
  1 | <!doctype html><p>foo<footer>bar<p>baz
    :                      ^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.26.html:1:1]
  1 | <!doctype html><p>foo<footer>bar<p>baz
    :                              ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.26.html:1:1]
  1 | <!doctype html><p>foo<footer>bar<p>baz
    :                              ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.26.html:1:1]
  1 | <!doctype html><p>foo<footer>bar<p>baz
    :                                 ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.26.html:1:1]
  1 | <!doctype html><p>foo<footer>bar<p>baz
    :                                 ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.26.html:1:1]
  1 | <!doctype html><p>foo<footer>bar<p>baz
    :                                    ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.26.html:1:1]
  1 | <!doctype html><p>foo<footer>bar<p>baz

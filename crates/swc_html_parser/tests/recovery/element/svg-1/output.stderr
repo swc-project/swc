@@ -1,13 +1,11 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/svg-1/input.html:1:1]
  1 | <svg><![CDATA[foo
    : ^^^^^
  2 | bar]]>
    `----
-
   x End of file seen and there were open elements
-   ,-[$DIR/tests/recovery/element/svg-1/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/svg-1/input.html:2:1]
  1 | <svg><![CDATA[foo
  2 | bar]]>
    `----

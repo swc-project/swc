@@ -1,121 +1,103 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
  1 | ,-> div {
  2 | `->   prop: "string
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
  1 | ,-> div {
  2 | `->   prop: "string
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
  1 | ,-> div {
  2 | `->   prop: "string
    `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
  1 | div {
    : ^^^
  2 |   prop: "string
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
  1 | div {
    : ^^^
  2 |   prop: "string
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
  1 | div {
    : ^^^
  2 |   prop: "string
    `----
-
   x TypeSelector
    ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
  1 | div {
    : ^^^
  2 |   prop: "string
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
  1 | div {
    : ^^^
  2 |   prop: "string
    `----
-
   x WqName
    ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
  1 | div {
    : ^^^
  2 |   prop: "string
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
  1 | div {
    : ^^^
  2 |   prop: "string
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
  1 | ,-> div {
  2 | `->   prop: "string
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
  1 | div {
    :     ^
  2 |   prop: "string
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:2:1]
  1 | div {
  2 |   prop: "string
    :   ^^^^^^^^^^^^^
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:2:1]
  1 | div {
  2 |   prop: "string
    :   ^^^^^^^^^^^^^
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:2:1]
  1 | div {
  2 |   prop: "string
    :   ^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:2:1]
  1 | div {
  2 |   prop: "string
    :   ^^^^
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:2:1]
  1 | div {
  2 |   prop: "string
    :         ^^^^^^^
    `----
-
   x Str
-   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:2:1]
  1 | div {
  2 |   prop: "string
    :         ^^^^^^^

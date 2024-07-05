@@ -1,13 +1,11 @@
-
   x Stray end tag "unknown"
-    ,-[$DIR/tests/recovery/element/unknown/input.html:10:1]
+    ,-[$DIR/tests/recovery/element/unknown/input.html:11:1]
  10 | <body>
  11 |     </unknown>
     :     ^^^^^^^^^^
     `----
-
   x Stray end tag "test"
-    ,-[$DIR/tests/recovery/element/unknown/input.html:12:1]
+    ,-[$DIR/tests/recovery/element/unknown/input.html:13:1]
  12 | 
  13 |     <unknown>Test</test>Test</unknown>
     :                  ^^^^^^^

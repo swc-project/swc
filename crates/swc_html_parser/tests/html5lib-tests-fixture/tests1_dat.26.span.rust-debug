@@ -1,80 +1,65 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.26.html:1:1]
  1 | <script><div></script></div><title><p></title><p><p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.26.html:1:1]
  1 | <script><div></script></div><title><p></title><p><p>
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.26.html:1:1]
  1 | <script><div></script></div><title><p></title><p><p>
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.26.html:1:1]
  1 | <script><div></script></div><title><p></title><p><p>
    :         ^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.26.html:1:1]
  1 | <script><div></script></div><title><p></title><p><p>
    :         ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.26.html:1:1]
  1 | <script><div></script></div><title><p></title><p><p>
    :                             ^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.26.html:1:1]
  1 | <script><div></script></div><title><p></title><p><p>
    :                             ^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.26.html:1:1]
  1 | <script><div></script></div><title><p></title><p><p>
    :                                    ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.26.html:1:1]
  1 | <script><div></script></div><title><p></title><p><p>
    :                                    ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.26.html:1:1]
  1 | <script><div></script></div><title><p></title><p><p>
    :                                               ^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.26.html:1:1]
  1 | <script><div></script></div><title><p></title><p><p>
    :                                               ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.26.html:1:1]
  1 | <script><div></script></div><title><p></title><p><p>
    :                                                  ^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.26.html:1:1]
  1 | <script><div></script></div><title><p></title><p><p>

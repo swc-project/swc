@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.91.html:1:1]
  1 | <!doctype html><textarea><!--<textarea></textarea>--></textarea>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.91.html:1:1]
  1 | <!doctype html><textarea><!--<textarea></textarea>--></textarea>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.91.html:1:1]
  1 | <!doctype html><textarea><!--<textarea></textarea>--></textarea>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.91.html:1:1]
  1 | <!doctype html><textarea><!--<textarea></textarea>--></textarea>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.91.html:1:1]
  1 | <!doctype html><textarea><!--<textarea></textarea>--></textarea>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.91.html:1:1]
  1 | <!doctype html><textarea><!--<textarea></textarea>--></textarea>
    :                          ^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.91.html:1:1]
  1 | <!doctype html><textarea><!--<textarea></textarea>--></textarea>
    :                          ^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.91.html:1:1]
  1 | <!doctype html><textarea><!--<textarea></textarea>--></textarea>
    :                                                   ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.91.html:1:1]
  1 | <!doctype html><textarea><!--<textarea></textarea>--></textarea>

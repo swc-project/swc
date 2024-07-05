@@ -1,4 +1,3 @@
-
   x Stylesheet
     ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:1:1]
   1 | ,-> @scope {
@@ -47,7 +46,6 @@
  44 | |       }
  45 | `-> }
     `----
-
   x Rule
    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:1:1]
  1 | ,-> @scope {
@@ -58,7 +56,6 @@
  6 | |       }
  7 | `-> }
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:1:1]
  1 | ,-> @scope {
@@ -69,19 +66,16 @@
  6 | |       }
  7 | `-> }
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:1:1]
  1 | @scope {
    :  ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:1:1]
  1 | @scope {
    :  ^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:1:1]
  1 | ,-> @scope {
@@ -92,154 +86,135 @@
  6 | |       }
  7 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:1:1]
  1 | @scope {
    :        ^
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:4:1]
  3 |         /* Only match links inside a light-scheme */
  4 | ,->     a {
  5 | |           color: darkmagenta;
  6 | `->     }
  7 |     }
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:4:1]
  3 |         /* Only match links inside a light-scheme */
  4 | ,->     a {
  5 | |           color: darkmagenta;
  6 | `->     }
  7 |     }
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:4:1]
  3 |     /* Only match links inside a light-scheme */
  4 |     a {
    :     ^
  5 |         color: darkmagenta;
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:4:1]
  3 |     /* Only match links inside a light-scheme */
  4 |     a {
    :     ^
  5 |         color: darkmagenta;
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:4:1]
  3 |     /* Only match links inside a light-scheme */
  4 |     a {
    :     ^
  5 |         color: darkmagenta;
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:4:1]
  3 |     /* Only match links inside a light-scheme */
  4 |     a {
    :     ^
  5 |         color: darkmagenta;
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:4:1]
  3 |     /* Only match links inside a light-scheme */
  4 |     a {
    :     ^
  5 |         color: darkmagenta;
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:4:1]
  3 |     /* Only match links inside a light-scheme */
  4 |     a {
    :     ^
  5 |         color: darkmagenta;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:4:1]
  3 |     /* Only match links inside a light-scheme */
  4 |     a {
    :     ^
  5 |         color: darkmagenta;
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:4:1]
  3 |         /* Only match links inside a light-scheme */
  4 | ,->     a {
  5 | |           color: darkmagenta;
  6 | `->     }
  7 |     }
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:4:1]
  3 |     /* Only match links inside a light-scheme */
  4 |     a {
    :       ^
  5 |         color: darkmagenta;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:5:1]
  4 |     a {
  5 |         color: darkmagenta;
    :         ^^^^^^^^^^^^^^^^^^
  6 |     }
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:5:1]
  4 |     a {
  5 |         color: darkmagenta;
    :         ^^^^^^^^^^^^^^^^^^
  6 |     }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:5:1]
  4 |     a {
  5 |         color: darkmagenta;
    :         ^^^^^
  6 |     }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:5:1]
  4 |     a {
  5 |         color: darkmagenta;
    :         ^^^^^
  6 |     }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:5:1]
  4 |     a {
  5 |         color: darkmagenta;
    :                ^^^^^^^^^^^
  6 |     }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:5:1]
  4 |     a {
  5 |         color: darkmagenta;
    :                ^^^^^^^^^^^
  6 |     }
    `----
-
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:9:1]
   8 |     
   9 | ,-> @scope (.light-scheme) {
  10 | |   
@@ -249,9 +224,8 @@
  14 | |       }
  15 | `-> }
     `----
-
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:9:1]
   8 |     
   9 | ,-> @scope (.light-scheme) {
  10 | |   
@@ -261,65 +235,56 @@
  14 | |       }
  15 | `-> }
     `----
-
   x AtRuleName
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:8:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:9:1]
  8 | 
  9 | @scope (.light-scheme) {
    :  ^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:8:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:9:1]
  8 | 
  9 | @scope (.light-scheme) {
    :  ^^^^^
    `----
-
   x ForgivingSelectorList
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:8:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:9:1]
  8 | 
  9 | @scope (.light-scheme) {
    :         ^^^^^^^^^^^^^
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:8:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:9:1]
  8 | 
  9 | @scope (.light-scheme) {
    :         ^^^^^^^^^^^^^
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:8:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:9:1]
  8 | 
  9 | @scope (.light-scheme) {
    :         ^^^^^^^^^^^^^
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:8:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:9:1]
  8 | 
  9 | @scope (.light-scheme) {
    :         ^^^^^^^^^^^^^
    `----
-
   x ClassSelector
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:8:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:9:1]
  8 | 
  9 | @scope (.light-scheme) {
    :         ^^^^^^^^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:8:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:9:1]
  8 | 
  9 | @scope (.light-scheme) {
    :          ^^^^^^^^^^^^
    `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:9:1]
   8 |     
   9 | ,-> @scope (.light-scheme) {
  10 | |   
@@ -329,155 +294,136 @@
  14 | |       }
  15 | `-> }
     `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:8:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:9:1]
  8 | 
  9 | @scope (.light-scheme) {
    :                        ^
    `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:12:1]
  11 |         /* Only match links inside a light-scheme */
  12 | ,->     a {
  13 | |           color: darkmagenta;
  14 | `->     }
  15 |     }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:12:1]
  11 |         /* Only match links inside a light-scheme */
  12 | ,->     a {
  13 | |           color: darkmagenta;
  14 | `->     }
  15 |     }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:12:1]
  11 |     /* Only match links inside a light-scheme */
  12 |     a {
     :     ^
  13 |         color: darkmagenta;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:12:1]
  11 |     /* Only match links inside a light-scheme */
  12 |     a {
     :     ^
  13 |         color: darkmagenta;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:12:1]
  11 |     /* Only match links inside a light-scheme */
  12 |     a {
     :     ^
  13 |         color: darkmagenta;
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:12:1]
  11 |     /* Only match links inside a light-scheme */
  12 |     a {
     :     ^
  13 |         color: darkmagenta;
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:12:1]
  11 |     /* Only match links inside a light-scheme */
  12 |     a {
     :     ^
  13 |         color: darkmagenta;
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:12:1]
  11 |     /* Only match links inside a light-scheme */
  12 |     a {
     :     ^
  13 |         color: darkmagenta;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:12:1]
  11 |     /* Only match links inside a light-scheme */
  12 |     a {
     :     ^
  13 |         color: darkmagenta;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:12:1]
  11 |         /* Only match links inside a light-scheme */
  12 | ,->     a {
  13 | |           color: darkmagenta;
  14 | `->     }
  15 |     }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:12:1]
  11 |     /* Only match links inside a light-scheme */
  12 |     a {
     :       ^
  13 |         color: darkmagenta;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:13:1]
  12 |     a {
  13 |         color: darkmagenta;
     :         ^^^^^^^^^^^^^^^^^^
  14 |     }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:13:1]
  12 |     a {
  13 |         color: darkmagenta;
     :         ^^^^^^^^^^^^^^^^^^
  14 |     }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:13:1]
  12 |     a {
  13 |         color: darkmagenta;
     :         ^^^^^
  14 |     }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:13:1]
  12 |     a {
  13 |         color: darkmagenta;
     :         ^^^^^
  14 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:13:1]
  12 |     a {
  13 |         color: darkmagenta;
     :                ^^^^^^^^^^^
  14 |     }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:13:1]
  12 |     a {
  13 |         color: darkmagenta;
     :                ^^^^^^^^^^^
  14 |     }
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
  16 |     
  17 | ,-> @scope to (.content > *) {
  18 | |       img {
@@ -489,9 +435,8 @@
  24 | |       }
  25 | `-> }
     `----
-
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
  16 |     
  17 | ,-> @scope to (.content > *) {
  18 | |       img {
@@ -503,105 +448,92 @@
  24 | |       }
  25 | `-> }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
  16 | 
  17 | @scope to (.content > *) {
     :  ^^^^^
  18 |     img {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
  16 | 
  17 | @scope to (.content > *) {
     :  ^^^^^
  18 |     img {
     `----
-
   x ForgivingSelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
  16 | 
  17 | @scope to (.content > *) {
     :            ^^^^^^^^^^^^
  18 |     img {
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
  16 | 
  17 | @scope to (.content > *) {
     :            ^^^^^^^^^^^^
  18 |     img {
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
  16 | 
  17 | @scope to (.content > *) {
     :            ^^^^^^^^
  18 |     img {
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
  16 | 
  17 | @scope to (.content > *) {
     :            ^^^^^^^^
  18 |     img {
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
  16 | 
  17 | @scope to (.content > *) {
     :            ^^^^^^^^
  18 |     img {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
  16 | 
  17 | @scope to (.content > *) {
     :             ^^^^^^^
  18 |     img {
     `----
-
   x Combinator
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
  16 | 
  17 | @scope to (.content > *) {
     :                     ^
  18 |     img {
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
  16 | 
  17 | @scope to (.content > *) {
     :                       ^
  18 |     img {
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
  16 | 
  17 | @scope to (.content > *) {
     :                       ^
  18 |     img {
     `----
-
   x UniversalSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
  16 | 
  17 | @scope to (.content > *) {
     :                       ^
  18 |     img {
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
  16 |     
  17 | ,-> @scope to (.content > *) {
  18 | |       img {
@@ -613,316 +545,277 @@
  24 | |       }
  25 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
  16 | 
  17 | @scope to (.content > *) {
     :                          ^
  18 |     img {
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:18:1]
  17 |     @scope to (.content > *) {
  18 | ,->     img {
  19 | |           border-radius: 50%;
  20 | `->     }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:18:1]
  17 |     @scope to (.content > *) {
  18 | ,->     img {
  19 | |           border-radius: 50%;
  20 | `->     }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:18:1]
  17 | @scope to (.content > *) {
  18 |     img {
     :     ^^^
  19 |         border-radius: 50%;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:18:1]
  17 | @scope to (.content > *) {
  18 |     img {
     :     ^^^
  19 |         border-radius: 50%;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:18:1]
  17 | @scope to (.content > *) {
  18 |     img {
     :     ^^^
  19 |         border-radius: 50%;
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:18:1]
  17 | @scope to (.content > *) {
  18 |     img {
     :     ^^^
  19 |         border-radius: 50%;
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:18:1]
  17 | @scope to (.content > *) {
  18 |     img {
     :     ^^^
  19 |         border-radius: 50%;
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:18:1]
  17 | @scope to (.content > *) {
  18 |     img {
     :     ^^^
  19 |         border-radius: 50%;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:18:1]
  17 | @scope to (.content > *) {
  18 |     img {
     :     ^^^
  19 |         border-radius: 50%;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:18:1]
  17 |     @scope to (.content > *) {
  18 | ,->     img {
  19 | |           border-radius: 50%;
  20 | `->     }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:18:1]
  17 | @scope to (.content > *) {
  18 |     img {
     :         ^
  19 |         border-radius: 50%;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:19:1]
  18 |     img {
  19 |         border-radius: 50%;
     :         ^^^^^^^^^^^^^^^^^^
  20 |     }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:19:1]
  18 |     img {
  19 |         border-radius: 50%;
     :         ^^^^^^^^^^^^^^^^^^
  20 |     }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:19:1]
  18 |     img {
  19 |         border-radius: 50%;
     :         ^^^^^^^^^^^^^
  20 |     }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:19:1]
  18 |     img {
  19 |         border-radius: 50%;
     :         ^^^^^^^^^^^^^
  20 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:19:1]
  18 |     img {
  19 |         border-radius: 50%;
     :                        ^^^
  20 |     }
     `----
-
   x Percentage
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:19:1]
  18 |     img {
  19 |         border-radius: 50%;
     :                        ^^^
  20 |     }
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:19:1]
  18 |     img {
  19 |         border-radius: 50%;
     :                        ^^
  20 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:22:1]
  21 |     
  22 | ,->     .content {
  23 | |           padding: 1em;
  24 | `->     }
  25 |     }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:22:1]
  21 |     
  22 | ,->     .content {
  23 | |           padding: 1em;
  24 | `->     }
  25 |     }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:22:1]
  21 | 
  22 |     .content {
     :     ^^^^^^^^
  23 |         padding: 1em;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:22:1]
  21 | 
  22 |     .content {
     :     ^^^^^^^^
  23 |         padding: 1em;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:22:1]
  21 | 
  22 |     .content {
     :     ^^^^^^^^
  23 |         padding: 1em;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:22:1]
  21 | 
  22 |     .content {
     :     ^^^^^^^^
  23 |         padding: 1em;
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:22:1]
  21 | 
  22 |     .content {
     :     ^^^^^^^^
  23 |         padding: 1em;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:22:1]
  21 | 
  22 |     .content {
     :      ^^^^^^^
  23 |         padding: 1em;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:22:1]
  21 |     
  22 | ,->     .content {
  23 | |           padding: 1em;
  24 | `->     }
  25 |     }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:22:1]
  21 | 
  22 |     .content {
     :              ^
  23 |         padding: 1em;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:23:1]
  22 |     .content {
  23 |         padding: 1em;
     :         ^^^^^^^^^^^^
  24 |     }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:23:1]
  22 |     .content {
  23 |         padding: 1em;
     :         ^^^^^^^^^^^^
  24 |     }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:23:1]
  22 |     .content {
  23 |         padding: 1em;
     :         ^^^^^^^
  24 |     }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:23:1]
  22 |     .content {
  23 |         padding: 1em;
     :         ^^^^^^^
  24 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:23:1]
  22 |     .content {
  23 |         padding: 1em;
     :                  ^^^
  24 |     }
     `----
-
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:23:1]
  22 |     .content {
  23 |         padding: 1em;
     :                  ^^^
  24 |     }
     `----
-
   x Length
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:23:1]
  22 |     .content {
  23 |         padding: 1em;
     :                  ^^^
  24 |     }
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:23:1]
  22 |     .content {
  23 |         padding: 1em;
     :                  ^
  24 |     }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:23:1]
  22 |     .content {
  23 |         padding: 1em;
     :                   ^^
  24 |     }
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 |     
  27 | ,-> @scope (.media-object) to (.content > *) {
  28 | |       img {
@@ -934,9 +827,8 @@
  34 | |       }
  35 | `-> }
     `----
-
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 |     
  27 | ,-> @scope (.media-object) to (.content > *) {
  28 | |       img {
@@ -948,153 +840,134 @@
  34 | |       }
  35 | `-> }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 | 
  27 | @scope (.media-object) to (.content > *) {
     :  ^^^^^
  28 |     img {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 | 
  27 | @scope (.media-object) to (.content > *) {
     :  ^^^^^
  28 |     img {
     `----
-
   x ForgivingSelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 | 
  27 | @scope (.media-object) to (.content > *) {
     :         ^^^^^^^^^^^^^
  28 |     img {
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 | 
  27 | @scope (.media-object) to (.content > *) {
     :         ^^^^^^^^^^^^^
  28 |     img {
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 | 
  27 | @scope (.media-object) to (.content > *) {
     :         ^^^^^^^^^^^^^
  28 |     img {
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 | 
  27 | @scope (.media-object) to (.content > *) {
     :         ^^^^^^^^^^^^^
  28 |     img {
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 | 
  27 | @scope (.media-object) to (.content > *) {
     :         ^^^^^^^^^^^^^
  28 |     img {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 | 
  27 | @scope (.media-object) to (.content > *) {
     :          ^^^^^^^^^^^^
  28 |     img {
     `----
-
   x ForgivingSelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 | 
  27 | @scope (.media-object) to (.content > *) {
     :                            ^^^^^^^^^^^^
  28 |     img {
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 | 
  27 | @scope (.media-object) to (.content > *) {
     :                            ^^^^^^^^^^^^
  28 |     img {
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 | 
  27 | @scope (.media-object) to (.content > *) {
     :                            ^^^^^^^^
  28 |     img {
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 | 
  27 | @scope (.media-object) to (.content > *) {
     :                            ^^^^^^^^
  28 |     img {
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 | 
  27 | @scope (.media-object) to (.content > *) {
     :                            ^^^^^^^^
  28 |     img {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 | 
  27 | @scope (.media-object) to (.content > *) {
     :                             ^^^^^^^
  28 |     img {
     `----
-
   x Combinator
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 | 
  27 | @scope (.media-object) to (.content > *) {
     :                                     ^
  28 |     img {
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 | 
  27 | @scope (.media-object) to (.content > *) {
     :                                       ^
  28 |     img {
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 | 
  27 | @scope (.media-object) to (.content > *) {
     :                                       ^
  28 |     img {
     `----
-
   x UniversalSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 | 
  27 | @scope (.media-object) to (.content > *) {
     :                                       ^
  28 |     img {
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 |     
  27 | ,-> @scope (.media-object) to (.content > *) {
  28 | |       img {
@@ -1106,316 +979,277 @@
  34 | |       }
  35 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
  26 | 
  27 | @scope (.media-object) to (.content > *) {
     :                                          ^
  28 |     img {
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:28:1]
  27 |     @scope (.media-object) to (.content > *) {
  28 | ,->     img {
  29 | |           border-radius: 50%;
  30 | `->     }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:28:1]
  27 |     @scope (.media-object) to (.content > *) {
  28 | ,->     img {
  29 | |           border-radius: 50%;
  30 | `->     }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:28:1]
  27 | @scope (.media-object) to (.content > *) {
  28 |     img {
     :     ^^^
  29 |         border-radius: 50%;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:28:1]
  27 | @scope (.media-object) to (.content > *) {
  28 |     img {
     :     ^^^
  29 |         border-radius: 50%;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:28:1]
  27 | @scope (.media-object) to (.content > *) {
  28 |     img {
     :     ^^^
  29 |         border-radius: 50%;
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:28:1]
  27 | @scope (.media-object) to (.content > *) {
  28 |     img {
     :     ^^^
  29 |         border-radius: 50%;
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:28:1]
  27 | @scope (.media-object) to (.content > *) {
  28 |     img {
     :     ^^^
  29 |         border-radius: 50%;
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:28:1]
  27 | @scope (.media-object) to (.content > *) {
  28 |     img {
     :     ^^^
  29 |         border-radius: 50%;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:28:1]
  27 | @scope (.media-object) to (.content > *) {
  28 |     img {
     :     ^^^
  29 |         border-radius: 50%;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:28:1]
  27 |     @scope (.media-object) to (.content > *) {
  28 | ,->     img {
  29 | |           border-radius: 50%;
  30 | `->     }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:28:1]
  27 | @scope (.media-object) to (.content > *) {
  28 |     img {
     :         ^
  29 |         border-radius: 50%;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:28:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:29:1]
  28 |     img {
  29 |         border-radius: 50%;
     :         ^^^^^^^^^^^^^^^^^^
  30 |     }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:28:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:29:1]
  28 |     img {
  29 |         border-radius: 50%;
     :         ^^^^^^^^^^^^^^^^^^
  30 |     }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:28:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:29:1]
  28 |     img {
  29 |         border-radius: 50%;
     :         ^^^^^^^^^^^^^
  30 |     }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:28:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:29:1]
  28 |     img {
  29 |         border-radius: 50%;
     :         ^^^^^^^^^^^^^
  30 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:28:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:29:1]
  28 |     img {
  29 |         border-radius: 50%;
     :                        ^^^
  30 |     }
     `----
-
   x Percentage
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:28:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:29:1]
  28 |     img {
  29 |         border-radius: 50%;
     :                        ^^^
  30 |     }
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:28:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:29:1]
  28 |     img {
  29 |         border-radius: 50%;
     :                        ^^
  30 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:32:1]
  31 |     
  32 | ,->     .content {
  33 | |           padding: 1em;
  34 | `->     }
  35 |     }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:32:1]
  31 |     
  32 | ,->     .content {
  33 | |           padding: 1em;
  34 | `->     }
  35 |     }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:32:1]
  31 | 
  32 |     .content {
     :     ^^^^^^^^
  33 |         padding: 1em;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:32:1]
  31 | 
  32 |     .content {
     :     ^^^^^^^^
  33 |         padding: 1em;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:32:1]
  31 | 
  32 |     .content {
     :     ^^^^^^^^
  33 |         padding: 1em;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:32:1]
  31 | 
  32 |     .content {
     :     ^^^^^^^^
  33 |         padding: 1em;
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:32:1]
  31 | 
  32 |     .content {
     :     ^^^^^^^^
  33 |         padding: 1em;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:32:1]
  31 | 
  32 |     .content {
     :      ^^^^^^^
  33 |         padding: 1em;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:32:1]
  31 |     
  32 | ,->     .content {
  33 | |           padding: 1em;
  34 | `->     }
  35 |     }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:32:1]
  31 | 
  32 |     .content {
     :              ^
  33 |         padding: 1em;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:33:1]
  32 |     .content {
  33 |         padding: 1em;
     :         ^^^^^^^^^^^^
  34 |     }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:33:1]
  32 |     .content {
  33 |         padding: 1em;
     :         ^^^^^^^^^^^^
  34 |     }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:33:1]
  32 |     .content {
  33 |         padding: 1em;
     :         ^^^^^^^
  34 |     }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:33:1]
  32 |     .content {
  33 |         padding: 1em;
     :         ^^^^^^^
  34 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:33:1]
  32 |     .content {
  33 |         padding: 1em;
     :                  ^^^
  34 |     }
     `----
-
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:33:1]
  32 |     .content {
  33 |         padding: 1em;
     :                  ^^^
  34 |     }
     `----
-
   x Length
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:33:1]
  32 |     .content {
  33 |         padding: 1em;
     :                  ^^^
  34 |     }
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:33:1]
  32 |     .content {
  33 |         padding: 1em;
     :                  ^
  34 |     }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:33:1]
  32 |     .content {
  33 |         padding: 1em;
     :                   ^^
  34 |     }
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
  36 |     
  37 | ,-> @scope TO (.content > *) {
  38 | |       img {
@@ -1427,9 +1261,8 @@
  44 | |       }
  45 | `-> }
     `----
-
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
  36 |     
  37 | ,-> @scope TO (.content > *) {
  38 | |       img {
@@ -1441,105 +1274,92 @@
  44 | |       }
  45 | `-> }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
  36 | 
  37 | @scope TO (.content > *) {
     :  ^^^^^
  38 |     img {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
  36 | 
  37 | @scope TO (.content > *) {
     :  ^^^^^
  38 |     img {
     `----
-
   x ForgivingSelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
  36 | 
  37 | @scope TO (.content > *) {
     :            ^^^^^^^^^^^^
  38 |     img {
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
  36 | 
  37 | @scope TO (.content > *) {
     :            ^^^^^^^^^^^^
  38 |     img {
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
  36 | 
  37 | @scope TO (.content > *) {
     :            ^^^^^^^^
  38 |     img {
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
  36 | 
  37 | @scope TO (.content > *) {
     :            ^^^^^^^^
  38 |     img {
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
  36 | 
  37 | @scope TO (.content > *) {
     :            ^^^^^^^^
  38 |     img {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
  36 | 
  37 | @scope TO (.content > *) {
     :             ^^^^^^^
  38 |     img {
     `----
-
   x Combinator
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
  36 | 
  37 | @scope TO (.content > *) {
     :                     ^
  38 |     img {
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
  36 | 
  37 | @scope TO (.content > *) {
     :                       ^
  38 |     img {
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
  36 | 
  37 | @scope TO (.content > *) {
     :                       ^
  38 |     img {
     `----
-
   x UniversalSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
  36 | 
  37 | @scope TO (.content > *) {
     :                       ^
  38 |     img {
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
  36 |     
  37 | ,-> @scope TO (.content > *) {
  38 | |       img {
@@ -1551,308 +1371,270 @@
  44 | |       }
  45 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
  36 | 
  37 | @scope TO (.content > *) {
     :                          ^
  38 |     img {
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:38:1]
  37 |     @scope TO (.content > *) {
  38 | ,->     img {
  39 | |           border-radius: 50%;
  40 | `->     }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:38:1]
  37 |     @scope TO (.content > *) {
  38 | ,->     img {
  39 | |           border-radius: 50%;
  40 | `->     }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:38:1]
  37 | @scope TO (.content > *) {
  38 |     img {
     :     ^^^
  39 |         border-radius: 50%;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:38:1]
  37 | @scope TO (.content > *) {
  38 |     img {
     :     ^^^
  39 |         border-radius: 50%;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:38:1]
  37 | @scope TO (.content > *) {
  38 |     img {
     :     ^^^
  39 |         border-radius: 50%;
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:38:1]
  37 | @scope TO (.content > *) {
  38 |     img {
     :     ^^^
  39 |         border-radius: 50%;
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:38:1]
  37 | @scope TO (.content > *) {
  38 |     img {
     :     ^^^
  39 |         border-radius: 50%;
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:38:1]
  37 | @scope TO (.content > *) {
  38 |     img {
     :     ^^^
  39 |         border-radius: 50%;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:38:1]
  37 | @scope TO (.content > *) {
  38 |     img {
     :     ^^^
  39 |         border-radius: 50%;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:38:1]
  37 |     @scope TO (.content > *) {
  38 | ,->     img {
  39 | |           border-radius: 50%;
  40 | `->     }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:37:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:38:1]
  37 | @scope TO (.content > *) {
  38 |     img {
     :         ^
  39 |         border-radius: 50%;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:39:1]
  38 |     img {
  39 |         border-radius: 50%;
     :         ^^^^^^^^^^^^^^^^^^
  40 |     }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:39:1]
  38 |     img {
  39 |         border-radius: 50%;
     :         ^^^^^^^^^^^^^^^^^^
  40 |     }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:39:1]
  38 |     img {
  39 |         border-radius: 50%;
     :         ^^^^^^^^^^^^^
  40 |     }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:39:1]
  38 |     img {
  39 |         border-radius: 50%;
     :         ^^^^^^^^^^^^^
  40 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:39:1]
  38 |     img {
  39 |         border-radius: 50%;
     :                        ^^^
  40 |     }
     `----
-
   x Percentage
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:39:1]
  38 |     img {
  39 |         border-radius: 50%;
     :                        ^^^
  40 |     }
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:39:1]
  38 |     img {
  39 |         border-radius: 50%;
     :                        ^^
  40 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:41:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:42:1]
  41 |     
  42 | ,->     .content {
  43 | |           padding: 1em;
  44 | `->     }
  45 |     }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:41:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:42:1]
  41 |     
  42 | ,->     .content {
  43 | |           padding: 1em;
  44 | `->     }
  45 |     }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:41:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:42:1]
  41 | 
  42 |     .content {
     :     ^^^^^^^^
  43 |         padding: 1em;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:41:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:42:1]
  41 | 
  42 |     .content {
     :     ^^^^^^^^
  43 |         padding: 1em;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:41:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:42:1]
  41 | 
  42 |     .content {
     :     ^^^^^^^^
  43 |         padding: 1em;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:41:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:42:1]
  41 | 
  42 |     .content {
     :     ^^^^^^^^
  43 |         padding: 1em;
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:41:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:42:1]
  41 | 
  42 |     .content {
     :     ^^^^^^^^
  43 |         padding: 1em;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:41:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:42:1]
  41 | 
  42 |     .content {
     :      ^^^^^^^
  43 |         padding: 1em;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:41:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:42:1]
  41 |     
  42 | ,->     .content {
  43 | |           padding: 1em;
  44 | `->     }
  45 |     }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:41:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:42:1]
  41 | 
  42 |     .content {
     :              ^
  43 |         padding: 1em;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:43:1]
  42 |     .content {
  43 |         padding: 1em;
     :         ^^^^^^^^^^^^
  44 |     }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:43:1]
  42 |     .content {
  43 |         padding: 1em;
     :         ^^^^^^^^^^^^
  44 |     }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:43:1]
  42 |     .content {
  43 |         padding: 1em;
     :         ^^^^^^^
  44 |     }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:43:1]
  42 |     .content {
  43 |         padding: 1em;
     :         ^^^^^^^
  44 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:43:1]
  42 |     .content {
  43 |         padding: 1em;
     :                  ^^^
  44 |     }
     `----
-
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:43:1]
  42 |     .content {
  43 |         padding: 1em;
     :                  ^^^
  44 |     }
     `----
-
   x Length
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:43:1]
  42 |     .content {
  43 |         padding: 1em;
     :                  ^^^
  44 |     }
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:43:1]
  42 |     .content {
  43 |         padding: 1em;
     :                  ^
  44 |     }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/basic/input.css:43:1]
  42 |     .content {
  43 |         padding: 1em;
     :                   ^^

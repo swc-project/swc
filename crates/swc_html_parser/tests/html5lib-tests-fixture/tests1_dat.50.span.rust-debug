@@ -1,68 +1,55 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.50.html:1:1]
  1 | <!DOCTYPE html><script> <!-- </script> --> </script> EOF
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.50.html:1:1]
  1 | <!DOCTYPE html><script> <!-- </script> --> </script> EOF
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.50.html:1:1]
  1 | <!DOCTYPE html><script> <!-- </script> --> </script> EOF
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.50.html:1:1]
  1 | <!DOCTYPE html><script> <!-- </script> --> </script> EOF
    :                ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.50.html:1:1]
  1 | <!DOCTYPE html><script> <!-- </script> --> </script> EOF
    :                ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.50.html:1:1]
  1 | <!DOCTYPE html><script> <!-- </script> --> </script> EOF
    :                        ^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.50.html:1:1]
  1 | <!DOCTYPE html><script> <!-- </script> --> </script> EOF
    :                        ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.50.html:1:1]
  1 | <!DOCTYPE html><script> <!-- </script> --> </script> EOF
    :                                       ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.50.html:1:1]
  1 | <!DOCTYPE html><script> <!-- </script> --> </script> EOF
    :                                       ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.50.html:1:1]
  1 | <!DOCTYPE html><script> <!-- </script> --> </script> EOF
    :                                        ^^^^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.50.html:1:1]
  1 | <!DOCTYPE html><script> <!-- </script> --> </script> EOF

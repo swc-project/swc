@@ -1,106 +1,88 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/value/at-keyword/4/input.css:1:1]
  1 | a { value: @\2cx }
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/value/at-keyword/4/input.css:1:1]
  1 | a { value: @\2cx }
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/value/at-keyword/4/input.css:1:1]
  1 | a { value: @\2cx }
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/value/at-keyword/4/input.css:1:1]
  1 | a { value: @\2cx }
    : ^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/value/at-keyword/4/input.css:1:1]
  1 | a { value: @\2cx }
    : ^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/value/at-keyword/4/input.css:1:1]
  1 | a { value: @\2cx }
    : ^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/recovery/value/at-keyword/4/input.css:1:1]
  1 | a { value: @\2cx }
    : ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/recovery/value/at-keyword/4/input.css:1:1]
  1 | a { value: @\2cx }
    : ^
    `----
-
   x WqName
    ,-[$DIR/tests/recovery/value/at-keyword/4/input.css:1:1]
  1 | a { value: @\2cx }
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/value/at-keyword/4/input.css:1:1]
  1 | a { value: @\2cx }
    : ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/value/at-keyword/4/input.css:1:1]
  1 | a { value: @\2cx }
    :   ^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/value/at-keyword/4/input.css:1:1]
  1 | a { value: @\2cx }
    :   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/value/at-keyword/4/input.css:1:1]
  1 | a { value: @\2cx }
    :     ^^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/recovery/value/at-keyword/4/input.css:1:1]
  1 | a { value: @\2cx }
    :     ^^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/recovery/value/at-keyword/4/input.css:1:1]
  1 | a { value: @\2cx }
    :     ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/value/at-keyword/4/input.css:1:1]
  1 | a { value: @\2cx }
    :     ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/value/at-keyword/4/input.css:1:1]
  1 | a { value: @\2cx }
    :            ^^^^^
    `----
-
   x AtKeyword { value: ",x", raw: "\\2cx" }
    ,-[$DIR/tests/recovery/value/at-keyword/4/input.css:1:1]
  1 | a { value: @\2cx }
