@@ -1,5 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`transform in strip-only mode should throw an error when it encounters a module 1`] = `
+"
+  x TypeScript namespace declaration is not supported in strip-only mode
+   ,----
+ 1 | module 'foo' {}
+   : ^^^^^^^^^^^^^^^
+   \`----
+"
+`;
+
+exports[`transform in strip-only mode should throw an error when it encounters a namespace 1`] = `
+"
+  x TypeScript namespace declaration is not supported in strip-only mode
+   ,----
+ 1 | namespace Foo {}
+   : ^^^^^^^^^^^^^^^^
+   \`----
+"
+`;
+
 exports[`transform in strip-only mode should throw an error when it encounters an enum 1`] = `
 "
   x TypeScript enum is not supported in strip-only mode
