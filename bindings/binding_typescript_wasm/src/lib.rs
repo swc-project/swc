@@ -1,32 +1,19 @@
-use anyhow::{Context, Error};
-use serde::{Deserialize, Serialize};
+use anyhow::Error;
+use serde::Deserialize;
 use swc_core::{
     common::{
         comments::SingleThreadedComments,
         errors::{ColorConfig, HANDLER},
         source_map::SourceMapGenConfig,
         sync::Lrc,
-        FileName, Mark, SourceMap, Spanned, GLOBALS,
+        BytePos, FileName, Mark, SourceMap, Spanned, GLOBALS,
     },
     ecma::{
-        ast::{
-            Decorator, EsVersion, Program, TsEnumDecl, TsModuleDecl, TsNamespaceDecl,
-            TsParamPropParam,
-        },
-        codegen::text_writer::JsWriter,
+        ast::{Decorator, EsVersion, Program, TsEnumDecl, TsParamPropParam},
         parser::{
             parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
         },
-        transforms::{
-            base::{
-                fixer::fixer,
-                helpers::{inject_helpers, Helpers, HELPERS},
-                hygiene::hygiene,
-                resolver,
-            },
-            typescript::{strip_type, typescript},
-        },
-        visit::{Visit, VisitMutWith, VisitWith},
+        visit::{Visit, VisitWith},
     },
 };
 use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
@@ -63,12 +50,6 @@ pub struct Options {
 
     #[serde(default)]
     pub mode: Mode,
-
-    #[serde(default)]
-    pub transform: Option<swc_core::ecma::transforms::typescript::Config>,
-
-    #[serde(default)]
-    pub codegen: swc_core::ecma::codegen::Config,
 }
 
 fn default_ts_syntax() -> TsSyntax {
@@ -83,13 +64,6 @@ fn default_ts_syntax() -> TsSyntax {
 pub enum Mode {
     #[default]
     StripOnly,
-    Transform,
-}
-
-#[derive(Serialize)]
-pub struct TransformOutput {
-    code: String,
-    map: Option<String>,
 }
 
 #[wasm_bindgen]
@@ -110,7 +84,7 @@ pub fn transform_sync(input: JsString, options: JsValue) -> Result<JsValue, JsVa
     Ok(serde_wasm_bindgen::to_value(&result)?)
 }
 
-fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
+fn operate(input: String, options: Options) -> Result<String, Error> {
     let cm = Lrc::new(SourceMap::default());
 
     try_with_handler(
@@ -144,7 +118,7 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
                 None => parse_file_as_program(&fm, syntax, target, Some(&comments), &mut errors),
             };
 
-            let mut program = match program {
+            let program = match program {
                 Ok(program) => program,
                 Err(err) => {
                     err.into_diagnostic(handler).emit();
@@ -165,79 +139,22 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
                 return Err(anyhow::anyhow!("failed to parse"));
             }
 
-            let unresolved_mark = Mark::new();
-            let top_level_mark = Mark::new();
-            HELPERS.set(&Helpers::new(options.external_helpers), || {
-                // Apply resolver
-
-                program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, true));
-
-                // Strip typescript types
-
-                program.visit_with(&mut Validator { mode: options.mode });
-
-                match options.mode {
-                    Mode::StripOnly => {
-                        program.visit_mut_with(&mut strip_type());
-                    }
-                    Mode::Transform => {
-                        program.visit_mut_with(&mut typescript(
-                            options.transform.unwrap_or_default(),
-                            top_level_mark,
-                        ));
-                    }
-                }
-
-                // Apply external helpers
-
-                program.visit_mut_with(&mut inject_helpers(unresolved_mark));
-
-                // Apply hygiene
-
-                program.visit_mut_with(&mut hygiene());
-
-                // Apply fixer
-
-                program.visit_mut_with(&mut fixer(Some(&comments)));
+            let mut replacements = vec![];
+            // Strip typescript types
+            program.visit_with(&mut TsStrip {
+                mode: options.mode,
+                replacements: &mut replacements,
             });
 
-            // Generate code
+            let mut code = String::with_capacity(fm.src.len());
+            let mut index = 0;
 
-            let mut buf = vec![];
-            let mut src_map_buf = if options.source_maps {
-                Some(vec![])
-            } else {
-                None
-            };
-
-            {
-                let wr = JsWriter::new(cm.clone(), "\n", &mut buf, src_map_buf.as_mut());
-                let mut emitter = swc_core::ecma::codegen::Emitter {
-                    cfg: options.codegen,
-                    cm: cm.clone(),
-                    comments: Some(&comments),
-                    wr,
-                };
-
-                emitter.emit_program(&program).unwrap();
+            for r in replacements {
+                code.push_str(&fm.src[index..r.0 .0 as usize]);
+                index = r.1 .0 as usize;
             }
 
-            let code = String::from_utf8(buf).context("generated code is not utf-8")?;
-
-            let map = if let Some(src_map_buf) = src_map_buf {
-                let mut wr = vec![];
-                let map = cm.build_source_map_with_config(&src_map_buf, None, TsSourceMapGenConfig);
-
-                map.to_writer(&mut wr)
-                    .context("failed to write source map")?;
-
-                let map = String::from_utf8(wr).context("source map is not utf-8")?;
-                Some(map)
-            } else {
-                None
-            };
-
-            Ok(TransformOutput { code, map })
+            Ok(code)
         },
     )
 }
@@ -246,19 +163,12 @@ pub fn convert_err(err: Error) -> wasm_bindgen::prelude::JsValue {
     format!("{:?}", err).into()
 }
 
-struct TsSourceMapGenConfig;
-
-impl SourceMapGenConfig for TsSourceMapGenConfig {
-    fn file_name_to_source(&self, f: &FileName) -> String {
-        f.to_string()
-    }
-}
-
-struct Validator {
+struct TsStrip<'a> {
     mode: Mode,
+    replacements: &'a Vec<(BytePos, BytePos)>,
 }
 
-impl Visit for Validator {
+impl Visit for TsStrip<'_> {
     fn visit_decorator(&mut self, n: &Decorator) {
         HANDLER.with(|handler| {
             handler.span_err(n.span, "Decorators are not supported");
@@ -266,10 +176,6 @@ impl Visit for Validator {
     }
 
     fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl) {
-        if e.declare {
-            return;
-        }
-
         if matches!(self.mode, Mode::StripOnly) {
             HANDLER.with(|handler| {
                 handler.span_err(
@@ -281,42 +187,6 @@ impl Visit for Validator {
         }
 
         e.visit_children_with(self);
-    }
-
-    fn visit_ts_module_decl(&mut self, n: &TsModuleDecl) {
-        if n.declare {
-            return;
-        }
-
-        if matches!(self.mode, Mode::StripOnly) {
-            HANDLER.with(|handler| {
-                handler.span_err(
-                    n.span(),
-                    "TypeScript namespace declaration is not supported in strip-only mode",
-                );
-            });
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
-    fn visit_ts_namespace_decl(&mut self, n: &TsNamespaceDecl) {
-        if n.declare {
-            return;
-        }
-
-        if matches!(self.mode, Mode::StripOnly) {
-            HANDLER.with(|handler| {
-                handler.span_err(
-                    n.span(),
-                    "TypeScript module declaration is not supported in strip-only mode",
-                );
-            });
-            return;
-        }
-
-        n.visit_children_with(self);
     }
 
     fn visit_ts_param_prop_param(&mut self, n: &TsParamPropParam) {
