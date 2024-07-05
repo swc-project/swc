@@ -277,6 +277,7 @@ export var OneSnippet = /*#__PURE__*/ function() {
                             for(var _iterator1 = placeholdersWithEqualIndex[Symbol.iterator](), _step1; !(_iteratorNormalCompletion1 = (_step1 = _iterator1.next()).done); _iteratorNormalCompletion1 = true){
                                 var placeholder = _step1.value;
                                 if (placeholder.isFinalTabstop) {
+                                    // ignore those
                                     break;
                                 }
                                 if (!ranges) {
