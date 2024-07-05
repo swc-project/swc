@@ -86,25 +86,21 @@ pub fn operate(
     let mut ts_strip = TsStrip::default();
     program.visit_with(&mut ts_strip);
 
-    let mut replacements = ts_strip.replacements;
+    let replacements = ts_strip.replacements;
 
     if replacements.is_empty() {
         return Ok(fm.src.to_string());
     }
 
-    replacements.sort();
-
-    let mut code = String::with_capacity(fm.src.len());
-    let mut index = 0;
+    let mut code = <std::string::String as Clone>::clone(&fm.src).into_bytes();
 
     for r in replacements {
-        code.push_str(&fm.src[index..(r.0 .0 - 1) as usize]);
-        index = (r.1 .0 - 1) as usize;
+        code[(r.0 .0 - 1) as usize..(r.1 .0 - 1) as usize]
+            .iter_mut()
+            .for_each(|b| *b = b' ');
     }
 
-    code.push_str(&fm.src[index..]);
-
-    Ok(code)
+    String::from_utf8(code).map_err(|_| anyhow::anyhow!("failed to convert to utf-8"))
 }
 
 #[derive(Default)]
