@@ -256,7 +256,7 @@ impl Options {
             experimental,
             lints,
             preserve_all_comments,
-            blank_space_mode,
+            blank_space_codegen,
             ..
         } = cfg.jsc;
         let loose = loose.into_bool();
@@ -784,7 +784,7 @@ impl Options {
                 .emit_assert_for_import_attributes
                 .into_bool(),
             emit_isolated_dts: experimental.emit_isolated_dts.into_bool(),
-            blank_space_mode: blank_space_mode.into_bool(),
+            blank_space_codegen: blank_space_codegen.into_bool(),
         })
     }
 }
@@ -1093,7 +1093,7 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
     pub emit_assert_for_import_attributes: bool,
 
     pub emit_isolated_dts: bool,
-    pub blank_space_mode: bool,
+    pub blank_space_codegen: bool,
 }
 
 impl<P> BuiltInput<P>
@@ -1124,7 +1124,7 @@ where
             output: self.output,
             emit_assert_for_import_attributes: self.emit_assert_for_import_attributes,
             emit_isolated_dts: self.emit_isolated_dts,
-            blank_space_mode: self.blank_space_mode,
+            blank_space_codegen: self.blank_space_codegen,
         }
     }
 }
@@ -1176,7 +1176,7 @@ pub struct JscConfig {
     pub output: JscOutputConfig,
 
     #[serde(default)]
-    pub blank_space_mode: BoolConfig<false>,
+    pub blank_space_codegen: BoolConfig<false>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
