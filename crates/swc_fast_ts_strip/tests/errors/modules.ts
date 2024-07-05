@@ -1,1 +1,1 @@
-module 'foo' { }
+module aModuleKeywordNamespace { }

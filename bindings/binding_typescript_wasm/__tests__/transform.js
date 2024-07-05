@@ -133,7 +133,7 @@ describe("transform", () => {
 
         it("should throw an error when it encounters a module", async () => {
             await expect(
-                swc.transform("module 'foo' {}", {
+                swc.transform("module foo {}", {
                     mode: "strip-only",
                 })
             ).rejects.toMatchSnapshot();

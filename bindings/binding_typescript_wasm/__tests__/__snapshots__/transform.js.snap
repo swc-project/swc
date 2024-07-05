@@ -1,51 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`transform in strip-only mode should remove declare enum 1`] = `""`;
+exports[`transform in strip-only mode should remove declare enum 1`] = `"                   "`;
 
-exports[`transform in strip-only mode should remove declare enum 2`] = `""`;
+exports[`transform in strip-only mode should remove declare enum 2`] = `"                                                          "`;
 
-exports[`transform in strip-only mode should remove declare enum 3`] = `""`;
+exports[`transform in strip-only mode should remove declare enum 3`] = `"                                                                                          "`;
 
 exports[`transform in strip-only mode should strip complex expressions 1`] = `
 "const foo = {
-                        foo: 1,
-                        bar: "bar",
-                    };
+                        foo: 1          ,
+                        bar: "bar"                 ,
+                    }                 ;
                     const bar = "bar";"
 `;
 
 exports[`transform in strip-only mode should strip nonnull assertions 1`] = `
-"const foo = 1;
+"const foo = 1 ;
                     const bar = "bar";"
 `;
 
 exports[`transform in strip-only mode should strip satisfies 1`] = `
-"const foo = 1;
+"const foo = 1                 ;
                     const bar = "bar";"
 `;
 
 exports[`transform in strip-only mode should strip type annotations 1`] = `
 "const foo = 1;
-                    const bar = "bar";"
+                    const bar      = "bar";"
 `;
 
 exports[`transform in strip-only mode should strip type assertions 1`] = `
-"const foo = 1;
+"const foo = 1          ;
                     const bar = "bar";"
 `;
 
 exports[`transform in strip-only mode should strip type declarations 1`] = `
 "const foo = 1;
-                    
-                    
-                    const bar = "bar";"
+                                      
+                                      
+                    const bar      = "bar";"
 `;
 
 exports[`transform in strip-only mode should throw an error when it encounters a module 1`] = `
 "  x TypeScript namespace declaration is not supported in strip-only mode
    ,----
- 1 | module 'foo' {}
-   : ^^^^^^^^^^^^^^^
+ 1 | module foo {}
+   : ^^^^^^^^^^^^^
    \`----
 "
 `;
@@ -79,7 +79,7 @@ exports[`transform in strip-only mode should throw an error with a descriptive m
 
 exports[`transform should strip types 1`] = `
 "
-        export const foo = 1;
-        
+        export const foo         = 1;
+                          
     "
 `;

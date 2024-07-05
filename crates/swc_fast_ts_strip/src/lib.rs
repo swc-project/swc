@@ -8,8 +8,8 @@ use swc_common::{
 };
 use swc_ecma_ast::{
     BindingIdent, Decorator, EsVersion, Ident, Param, Pat, Program, TsAsExpr, TsConstAssertion,
-    TsEnumDecl, TsInstantiation, TsModuleDecl, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam,
-    TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
+    TsEnumDecl, TsInstantiation, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr,
+    TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
 };
 use swc_ecma_parser::{
     parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
@@ -154,7 +154,7 @@ impl Visit for TsStrip {
     }
 
     fn visit_ts_module_decl(&mut self, n: &TsModuleDecl) {
-        if n.declare {
+        if n.declare || matches!(n.id, TsModuleName::Str(..)) {
             self.add_replacement(n.span);
             return;
         }
