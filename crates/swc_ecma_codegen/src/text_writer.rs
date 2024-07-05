@@ -49,6 +49,7 @@ pub trait WriteJs {
         false
     }
 
+    fn force_write_line(&mut self, n: usize) -> Result;
     fn cur_line(&self) -> usize;
 }
 
@@ -154,6 +155,11 @@ where
     fn cur_line(&self) -> usize {
         (**self).cur_line()
     }
+
+    #[inline(always)]
+    fn force_write_line(&mut self, n: usize) -> Result {
+        (**self).force_write_line(n)
+    }
 }
 
 impl<W> WriteJs for &'_ mut W
@@ -258,5 +264,10 @@ where
     #[inline(always)]
     fn cur_line(&self) -> usize {
         (**self).cur_line()
+    }
+
+    #[inline(always)]
+    fn force_write_line(&mut self, n: usize) -> Result {
+        (**self).force_write_line(n)
     }
 }

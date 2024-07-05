@@ -306,6 +306,24 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     fn cur_line(&self) -> usize {
         self.line_count
     }
+
+    fn force_write_line(&mut self, n: usize) -> Result {
+        for _ in 0..n {
+            let pending = self.pending_srcmap.take();
+
+            self.raw_write(self.new_line)?;
+            if self.srcmap.is_some() {
+                self.line_count += 1;
+                self.line_pos = 0;
+            }
+            self.line_start = true;
+
+            if let Some(pending) = pending {
+                self.srcmap(pending)
+            }
+        }
+        Ok(())
+    }
 }
 
 #[derive(Debug)]

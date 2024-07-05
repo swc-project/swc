@@ -135,4 +135,11 @@ impl WriteJs for &mut Hasher<'_> {
     fn cur_line(&self) -> usize {
         0
     }
+
+    fn force_write_line(&mut self, n: usize) -> swc_ecma_codegen::Result {
+        for _ in 0..n {
+            self.write_line()?;
+        }
+        Ok(())
+    }
 }

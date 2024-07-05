@@ -107,4 +107,9 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
     fn cur_line(&self) -> usize {
         self.inner.cur_line()
     }
+
+    #[inline(always)]
+    fn force_write_line(&mut self, n: usize) -> Result {
+        self.inner.force_write_line(n)
+    }
 }
