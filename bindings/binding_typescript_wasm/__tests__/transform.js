@@ -22,7 +22,7 @@ describe("transform", () => {
         it("should remove declare enum", async () => {
             await expect(
                 swc.transform(`declare enum Foo {}`, {})
-            ).resolves.toMatchInlineSnapshot(`""`);
+            ).resolves.toMatchSnapshot();
             await expect(
                 swc.transform(
                     `declare enum Foo {
@@ -30,7 +30,7 @@ describe("transform", () => {
                 }`,
                     {}
                 )
-            ).resolves.toMatchInlineSnapshot(`""`);
+            ).resolves.toMatchSnapshot();
             expect(
                 swc.transform(
                     `declare enum Foo {
@@ -39,7 +39,7 @@ describe("transform", () => {
                     }`,
                     {}
                 )
-            ).resolves.toMatchInlineSnapshot(`""`);
+            ).resolves.toMatchSnapshot();
         });
 
         it.only("should strip type declarations", async () => {
@@ -51,12 +51,7 @@ describe("transform", () => {
                     const bar: Bar = "bar";`,
                     {}
                 )
-            ).resolves.toMatchInlineSnapshot(`
-                "const foo = 1;
-                                    
-                                    
-                                    const bar = "bar";"
-            `);
+            ).resolves.toMatchSnapshot();
         });
 
         it("should throw an error when it encounters an enum", async () => {
