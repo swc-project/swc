@@ -4,9 +4,8 @@ use swc_core::{
     common::{
         comments::SingleThreadedComments,
         errors::{ColorConfig, HANDLER},
-        source_map::SourceMapGenConfig,
         sync::Lrc,
-        BytePos, FileName, Mark, SourceMap, Span, Spanned, GLOBALS,
+        BytePos, FileName, SourceMap, Span, Spanned, GLOBALS,
     },
     ecma::{
         ast::{
@@ -132,12 +131,16 @@ fn operate(input: String, options: Options) -> Result<String, Error> {
                 replacements: &mut replacements,
             });
 
+            if replacements.is_empty() {
+                return Ok(fm.src.to_string());
+            }
+
             let mut code = String::with_capacity(fm.src.len());
             let mut index = 0;
 
             for r in replacements {
-                code.push_str(&fm.src[index..r.0 .0 as usize]);
-                index = r.1 .0 as usize;
+                code.push_str(&fm.src[index..(r.0 .0 - 1) as usize]);
+                index = (r.1 .0 - 1) as usize;
             }
 
             Ok(code)
@@ -215,6 +218,5 @@ impl Visit for TsStrip<'_> {
                 "TypeScript parameter property is not supported in strip-only mode",
             );
         });
-        return;
     }
 }
