@@ -95,6 +95,8 @@ pub fn operate(
         return Ok(fm.src.to_string());
     }
 
+    replacements.sort();
+
     let mut code = String::with_capacity(fm.src.len());
     let mut index = 0;
 
