@@ -1390,8 +1390,6 @@ where
     #[emitter]
     #[tracing::instrument(skip_all)]
     fn emit_class_member(&mut self, node: &ClassMember) -> Result {
-        self.adjust_line_for_retain_lines(node.span().lo)?;
-
         match *node {
             ClassMember::Constructor(ref n) => emit!(n),
             ClassMember::ClassProp(ref n) => emit!(n),
@@ -1408,6 +1406,8 @@ where
     #[emitter]
     fn emit_auto_accessor(&mut self, n: &AutoAccessor) -> Result {
         self.emit_list(n.span, Some(&n.decorators), ListFormat::Decorators)?;
+
+        self.adjust_line_for_retain_lines(n.span().lo)?;
 
         self.emit_accessibility(n.accessibility)?;
 
@@ -1462,6 +1462,8 @@ where
     fn emit_private_method(&mut self, n: &PrivateMethod) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
+        self.adjust_line_for_retain_lines(n.span().lo)?;
+
         srcmap!(n, true);
 
         if n.is_static {
@@ -1513,6 +1515,8 @@ where
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         self.emit_leading_comments_of_span(n.key.span(), false)?;
+
+        self.adjust_line_for_retain_lines(n.span().lo)?;
 
         srcmap!(n, true);
 
@@ -1623,6 +1627,8 @@ where
     fn emit_private_prop(&mut self, n: &PrivateProp) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
+        self.adjust_line_for_retain_lines(n.span().lo)?;
+
         srcmap!(n, true);
 
         self.emit_list(n.span, Some(&n.decorators), ListFormat::Decorators)?;
@@ -1681,6 +1687,9 @@ where
     #[emitter]
     fn emit_class_prop(&mut self, n: &ClassProp) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
+
+        self.adjust_line_for_retain_lines(n.span().lo)?;
+
         srcmap!(n, true);
 
         for dec in &n.decorators {
@@ -1787,6 +1796,8 @@ where
     #[emitter]
     fn emit_static_block(&mut self, n: &StaticBlock) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
+
+        self.adjust_line_for_retain_lines(n.span().lo)?;
 
         srcmap!(n, true);
 
@@ -3626,7 +3637,6 @@ where
             let src_line = self.cm.lookup_char_pos(lo).line;
             let cur_line = self.wr.cur_line();
 
-            dbg!(src_line, cur_line);
             self.wr.force_write_line(src_line - cur_line)?;
         }
 
