@@ -1,24 +1,20 @@
 use anyhow::Error;
 use serde::Deserialize;
-use swc_core::{
-    common::{
-        comments::SingleThreadedComments,
-        errors::{Handler, HANDLER},
-        sync::Lrc,
-        BytePos, FileName, SourceMap, Span, Spanned,
-    },
-    ecma::{
-        ast::{
-            BindingIdent, Decorator, EsVersion, Program, TsAsExpr, TsConstAssertion, TsEnumDecl,
-            TsInstantiation, TsModuleDecl, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam,
-            TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
-        },
-        parser::{
-            parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
-        },
-        visit::{Visit, VisitWith},
-    },
+use swc_common::{
+    comments::SingleThreadedComments,
+    errors::{Handler, HANDLER},
+    sync::Lrc,
+    BytePos, FileName, SourceMap, Span, Spanned,
 };
+use swc_ecma_ast::{
+    BindingIdent, Decorator, EsVersion, Program, TsAsExpr, TsConstAssertion, TsEnumDecl,
+    TsInstantiation, TsModuleDecl, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam,
+    TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
+};
+use swc_ecma_parser::{
+    parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
+};
+use swc_ecma_visit::{Visit, VisitWith};
 
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]

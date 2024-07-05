@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use swc_core::ecma::parser::TsSyntax;
+use swc_ecma_parser::TsSyntax;
 use swc_fast_ts_strip::{operate, Options};
 use testing::NormalizedOutput;
 
