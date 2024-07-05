@@ -242,12 +242,16 @@ where
                     emit!(dec);
                 }
 
+                self.adjust_line_for_retain_lines(decl.span().lo)?;
+
                 keyword!("export");
 
                 space!();
                 self.emit_class_decl_inner(decl, false, true)?;
             }
             _ => {
+                self.adjust_line_for_retain_lines(n.span.lo)?;
+
                 keyword!("export");
 
                 space!();
