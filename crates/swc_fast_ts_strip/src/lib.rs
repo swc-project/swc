@@ -8,9 +8,9 @@ use swc_common::{
 };
 use swc_ecma_ast::{
     BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, Decorator, EsVersion, FnDecl, Ident,
-    ImportDecl, ImportSpecifier, Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl,
-    TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr,
-    TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
+    ImportDecl, ImportSpecifier, MethodKind, Param, Pat, Program, TsAsExpr, TsConstAssertion,
+    TsEnumDecl, TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName, TsNamespaceDecl,
+    TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
     TsTypeParamDecl,
 };
 use swc_ecma_parser::{
@@ -151,12 +151,26 @@ impl Visit for TsStrip {
             return;
         }
 
-        let hi = if n.is_static {
-            self.cm
-                .span_extend_to_next_str(span(n.span.lo, n.span.lo), "static", false)
-                .hi
-        } else {
-            n.key.span().lo
+        let hi = match n.kind {
+            MethodKind::Method => {
+                if n.is_static {
+                    self.cm
+                        .span_extend_to_next_str(span(n.span.lo, n.span.lo), "static", false)
+                        .hi
+                } else {
+                    n.key.span().lo
+                }
+            }
+            MethodKind::Getter => {
+                self.cm
+                    .span_extend_to_next_str(span(n.span.lo, n.span.lo), "get", false)
+                    .hi
+            }
+            MethodKind::Setter => {
+                self.cm
+                    .span_extend_to_next_str(span(n.span.lo, n.span.lo), "set", false)
+                    .hi
+            }
         };
 
         self.add_replacement(span(n.span.lo, hi));
