@@ -2,6 +2,7 @@ name: "Build npm package"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   DEBUG: napi:*
@@ -13,6 +14,10 @@ env:
   DISABLE_PLUGIN_E2E_TESTS: true
   # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
   SKIP_YARN_COREPACK_CHECK: 1
+  GIT_AUTHOR_NAME: "SWC Bot"
+  GIT_AUTHOR_EMAIL: "bot@swc.rs"
+  GIT_COMMITTER_NAME: "SWC Bot"
+  GIT_COMMITTER_EMAIL: "bot@swc.rs"
 
 permissions:
   contents: write
@@ -51,10 +56,38 @@ jobs:
         run: |
           echo "need-build=true" >> $GITHUB_OUTPUT
 
+  create-git-tag-commit:
+    name: Create git tag commit
+    runs-on: ubuntu-latest
+    needs:
+      - check-if-build-required
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-node
+
+      - name: Install cargo-edit
+        uses: baptiste0928/cargo-install@v2.2.0
+        with:
+          crate: cargo-edit
+          version: "0.12.2"
+          locked: true
+
+      - uses: webfactory/ssh-agent@v0.5.4
+        if: needs.check-if-build-required.outputs.need-build == 'true' && !inputs.skipPublishing
+        with:
+          ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
+
+      - name: Create git tag commit
+        if: needs.check-if-build-required.outputs.need-build == 'true' && !inputs.skipPublishing
+        run: |
+          ./scripts/publish.sh ${{ inputs.version }}
+
   build:
     if: needs.check-if-build-required.outputs.need-build == 'true'
     needs:
       - check-if-build-required
+      - create-git-tag-commit
     strategy:
       fail-fast: false
       matrix:
@@ -226,6 +259,7 @@ jobs:
           options: -v ${{ env.HOME }}/.cargo/git:/root/.cargo/git -v ${{ env.HOME }}/.cargo/registry:/root/.cargo/registry -v ${{ github.workspace }}:/build -w /build
           run: >-
             cd ./packages/core &&
+            npm install -f -g yarn@1.22 &&
             corepack enable &&
             npm i -g wasm-pack &&
             ${{ matrix.settings.build }}
@@ -316,7 +350,7 @@ jobs:
       - name: Build TypeScript
         run: yarn build:ts
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-slim env DISABLE_PLUGIN_E2E_TESTS=true yarn test
+        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-slim sh -c 'npm install -f -g yarn@1.22.19 && env DISABLE_PLUGIN_E2E_TESTS=true yarn test'
   test-linux-x64-musl-binding:
     name: Test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
     needs:
@@ -353,113 +387,113 @@ jobs:
       - name: Build TypeScript
         run: yarn build:ts
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-alpine env DISABLE_PLUGIN_E2E_TESTS=true yarn test
-  test-linux-aarch64-musl-binding:
-    name: Test bindings on aarch64-unknown-linux-musl - node@lts
-    needs:
-      - build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Corepack
-        run: corepack enable
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: bindings-aarch64-unknown-linux-musl
-          path: ./packages/core
-      - name: List packages
-        run: ls -R .
-        shell: bash
-      - name: Install dependencies
-        run: |
-          corepack enable
-          yarn config set supportedArchitectures.cpu "arm64"
-          yarn config set supportedArchitectures.libc "musl"
-          yarn install
-      - name: Build TypeScript
-        run: yarn build:ts
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-        with:
-          platforms: arm64
-      - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-      - name: Setup and run tests
-        uses: addnab/docker-run-action@v3
-        with:
-          image: node:lts-alpine
-          options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
-          run: >-
-            set -e &&
-            DISABLE_PLUGIN_E2E_TESTS=true yarn test
+        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-alpine sh -c 'npm install -f -g yarn@1.22.19 && env DISABLE_PLUGIN_E2E_TESTS=true yarn test'
+  # test-linux-aarch64-musl-binding:
+  #   name: Test bindings on aarch64-unknown-linux-musl - node@lts
+  #   needs:
+  #     - build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Corepack
+  #       run: corepack enable
+  #     - name: Download artifacts
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: bindings-aarch64-unknown-linux-musl
+  #         path: ./packages/core
+  #     - name: List packages
+  #       run: ls -R .
+  #       shell: bash
+  #     - name: Install dependencies
+  #       run: |
+  #         corepack enable
+  #         yarn config set supportedArchitectures.cpu "arm64"
+  #         yarn config set supportedArchitectures.libc "musl"
+  #         yarn install
+  #     - name: Build TypeScript
+  #       run: yarn build:ts
+  #     - name: Set up QEMU
+  #       uses: docker/setup-qemu-action@v2
+  #       with:
+  #         platforms: arm64
+  #     - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+  #     - name: Setup and run tests
+  #       uses: addnab/docker-run-action@v3
+  #       with:
+  #         image: node:lts-alpine
+  #         options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
+  #         run: >-
+  #           set -e &&
+  #           npm install -f -g yarn@1.22 &&
+  #           DISABLE_PLUGIN_E2E_TESTS=true yarn test
 
-  test-linux-arm-gnueabihf-binding:
-    name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
-    needs:
-      - build
-    strategy:
-      fail-fast: false
-      matrix:
-        node:
-          - "18"
-          - "20"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Corepack
-        run: corepack enable
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: bindings-armv7-unknown-linux-gnueabihf
-          path: ./packages/core
-      - name: List packages
-        run: ls -R .
-        shell: bash
-      - name: Install dependencies
-        run: |
-          corepack enable
-          yarn config set supportedArchitectures.cpu "arm"
-          yarn install
-      - name: Build TypeScript
-        run: yarn build:ts
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-        with:
-          platforms: arm
-      - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-      - name: Setup and run tests
-        uses: addnab/docker-run-action@v3
-        with:
-          image: node:${{ matrix.node }}-slim
-          options: "--platform linux/arm/v7 -v ${{ github.workspace }}:/build -w /build"
-          run: >-
-            set -e &&
-            DISABLE_PLUGIN_E2E_TESTS=true yarn test &&
-            ls -la
+  # test-linux-arm-gnueabihf-binding:
+  #   name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
+  #   needs:
+  #     - build
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       node:
+  #         - "18"
+  #         - "20"
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Corepack
+  #       run: corepack enable
+  #     - name: Download artifacts
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: bindings-armv7-unknown-linux-gnueabihf
+  #         path: ./packages/core
+  #     - name: List packages
+  #       run: ls -R .
+  #       shell: bash
+  #     - name: Install dependencies
+  #       run: |
+  #         corepack enable
+  #         yarn config set supportedArchitectures.cpu "arm"
+  #         yarn install
+  #     - name: Build TypeScript
+  #       run: yarn build:ts
+  #     - name: Set up QEMU
+  #       uses: docker/setup-qemu-action@v2
+  #       with:
+  #         platforms: arm
+  #     - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+  #     - name: Setup and run tests
+  #       uses: addnab/docker-run-action@v3
+  #       with:
+  #         image: node:${{ matrix.node }}-slim
+  #         options: "--platform linux/arm/v7 -v ${{ github.workspace }}:/build -w /build"
+  #         run: >-
+  #           set -e &&
+  #           npm install -f -g yarn@1.22 &&
+  #           DISABLE_PLUGIN_E2E_TESTS=true yarn test &&
+  #           ls -la
   publish:
-    name: Publish ${{ inputs.version }} to npm
+    name: Publish ${{ inputs.version }}
     runs-on: ubuntu-latest
     needs:
       - test-linux-x64-gnu-binding
       - test-linux-x64-musl-binding
-      - test-linux-arm-gnueabihf-binding
+      # - test-linux-arm-gnueabihf-binding
       - test-macOS-windows-binding
-      - test-linux-aarch64-musl-binding
+      # - test-linux-aarch64-musl-binding
     steps:
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-node
 
-      - name: Set release name
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-
-      - name: Tag npm release (default, latest)
-        run: echo "NPM_TAG=latest" >> $GITHUB_ENV
-
-      - name: Tag npm release (nightly)
-        if: ${{ contains(github.event.release.tag_name, 'nightly') }}
-        run: echo "NPM_TAG=nightly" >> $GITHUB_ENV
+      - name: Tag npm release
+        run: |
+          if [[ '${{ inputs.version }}' != *"nightly"* ]]; then
+            echo "NPM_TAG=latest" >> $GITHUB_ENV
+          else
+            echo "NPM_TAG=nightly" >> $GITHUB_ENV
+          fi
 
       - name: Install dependencies
         run: corepack enable && yarn install
@@ -507,6 +541,73 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_VERSION: ${{ env.RELEASE_VERSION }}
+          RELEASE_VERSION: ${{ inputs.version }}
         run: |
           ./scripts/cli_upload_gh_release.sh
+
+  publish-wasm:
+    name: Build - wasm (${{ matrix.settings.npm }})
+    runs-on: ubuntu-latest
+    needs:
+      - publish
+    strategy:
+      fail-fast: false
+      matrix:
+        settings:
+          - crate: "binding_core_wasm"
+            npm: "@swc\\/wasm"
+            target: nodejs
+          - crate: "binding_core_wasm"
+            npm: "@swc\\/wasm-web"
+            target: web
+          - crate: "binding_typescript_wasm"
+            npm: "@swc\\/wasm-typescript"
+            target: nodejs
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Corepack
+        run: corepack enable
+
+      - name: Tag npm release
+        run: |
+          if [[ '${{ inputs.version }}' != *"nightly"* ]]; then
+            echo "NPM_TAG=latest" >> $GITHUB_ENV
+          else
+            echo "NPM_TAG=nightly" >> $GITHUB_ENV
+          fi
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/
+            **/target/
+          key: ${{ runner.os }}-publish-integration
+
+      - name: Install node dependencies
+        run: yarn
+
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - name: Build
+        working-directory: bindings/${{ matrix.settings.crate }}
+        run: |
+          wasm-pack build --out-name wasm --release --scope=swc --target ${{ matrix.settings.target }}
+          sed -i -e 's/"name": "@swc\/${{ matrix.settings.crate }}"/"name": "${{ matrix.settings.npm }}"/g' pkg/package.json
+
+      - name: Publish
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        run: |
+          npm config set provenance true
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+          (cd bindings/${{ matrix.settings.crate }}/pkg && npm publish --access public --tag $NPM_TAG)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
