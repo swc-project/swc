@@ -292,7 +292,7 @@ impl Visit for Validator {
             HANDLER.with(|handler| {
                 handler.span_err(
                     n.span(),
-                    "TypeScript module declaration is not supported in strip-only mode",
+                    "TypeScript namespace declaration is not supported in strip-only mode",
                 );
             });
             return;
@@ -310,7 +310,7 @@ impl Visit for Validator {
             HANDLER.with(|handler| {
                 handler.span_err(
                     n.span(),
-                    "TypeScript namespace declaration is not supported in strip-only mode",
+                    "TypeScript module declaration is not supported in strip-only mode",
                 );
             });
             return;
