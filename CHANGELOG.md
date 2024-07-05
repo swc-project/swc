@@ -8,6 +8,9 @@
 - **(ci)** Restore disabled CI checks ([#9002](https://github.com/swc-project/swc/issues/9002)) ([cdfd4c8](https://github.com/swc-project/swc/commit/cdfd4c85e42e912767893d1f3c1ed5d4867a51af))
 
 
+- **(es/decorators)** Fix bugs of `2022-03` implementation ([#9145](https://github.com/swc-project/swc/issues/9145)) ([8a3ae44](https://github.com/swc-project/swc/commit/8a3ae4437096d23aeeabadaefb5416f7a6a94644))
+
+
 - **(es/loader)** Exclude `.json` from default extension list ([#9134](https://github.com/swc-project/swc/issues/9134)) ([e94e5e7](https://github.com/swc-project/swc/commit/e94e5e70c377fae13cd5575f7d4ce84d9d5f10f7))
 
 

@@ -3600,7 +3600,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.279.0"
+version = "0.279.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4676,7 +4676,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.174.2"
+version = "0.174.3"
 dependencies = [
  "either",
  "rustc-hash",
