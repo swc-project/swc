@@ -15,6 +15,10 @@ pub(super) struct BenchCmd {
     #[clap(long)]
     debug: bool,
 
+    /// Template to use while instrumenting
+    #[clap(short = 't')]
+    template: Option<String>,
+
     #[clap(long)]
     no_lib: bool,
 
@@ -50,7 +54,8 @@ impl BenchCmd {
             // ddt profile instruments cargo -t time
             let mut cmd = Command::new("ddt");
             cmd.arg("profile").arg("instruments").arg("cargo");
-            cmd.arg("-t").arg("time");
+            cmd.arg("-t")
+                .arg(self.template.as_deref().unwrap_or("time"));
 
             if !self.debug {
                 cmd.arg("--release");

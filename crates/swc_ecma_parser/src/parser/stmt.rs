@@ -519,7 +519,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let cons = {
             // Prevent stack overflow
-            crate::maybe_grow(512 * 1024, 2 * 1024 * 1024, || {
+            crate::maybe_grow(256 * 1024, 1024 * 1024, || {
                 // Annex B
                 if !self.ctx().strict && is!(self, "function") {
                     // TODO: report error?
@@ -551,15 +551,13 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 if !is!(self, "if") {
-                    // As we eat `else` above, we need to parse statement once.
-                    let last = crate::maybe_grow(512 * 1024, 2 * 1024 * 1024, || {
-                        let ctx = Context {
-                            ignore_else_clause: false,
-                            ..self.ctx()
-                        };
+                    let ctx = Context {
+                        ignore_else_clause: false,
+                        ..self.ctx()
+                    };
 
-                        self.with_ctx(ctx).parse_stmt(false)
-                    })?;
+                    // As we eat `else` above, we need to parse statement once.
+                    let last = self.with_ctx(ctx).parse_stmt(false)?;
                     break Some(last);
                 }
 
