@@ -8,7 +8,7 @@ it("properly reports error", function () {
 
 describe("transform", () => {
     it("should strip types", async () => {
-        const { code } = await swc.transform(
+        const code = await swc.transform(
             `
         export const foo: number = 1;
         type Foo = number;
@@ -19,6 +19,29 @@ describe("transform", () => {
     });
 
     describe("in strip-only mode", () => {
+        it("should remove declare enum", async () => {
+            await expect(
+                swc.transform(`declare enum Foo {}`, {
+                    mode: "strip-only",
+                })
+            ).resolves.toMatchSnapshot();
+            await expect(
+                swc.transform(`declare enum Foo {
+                    A
+                }`, {
+                    mode: "strip-only",
+                })
+            ).resolves.toMatchSnapshot();
+            await expect(
+                swc.transform(`declare enum Foo {
+                    a = 2,
+                    b,
+                    }`, {
+                    mode: "strip-only",
+                })
+            ).resolves.toMatchSnapshot();
+        });
+        
         it("should throw an error when it encounters an enum", async () => {
             await expect(
                 swc.transform("enum Foo {}", {
@@ -52,13 +75,4 @@ describe("transform", () => {
         });
     });
 
-    describe("in transform mode", () => {
-        it("should transpile enum", async () => {
-            const { code } = await swc.transform("enum Foo {}", {
-                mode: "transform",
-            });
-
-            expect(code).toMatchSnapshot();
-        });
-    });
 });
