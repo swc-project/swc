@@ -64,6 +64,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: ./.github/actions/setup-node
+
       - uses: webfactory/ssh-agent@v0.5.4
         if: needs.check-if-build-required.outputs.need-build == 'true' && !inputs.skipPublishing
         with:
