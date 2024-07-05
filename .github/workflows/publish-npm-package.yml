@@ -63,6 +63,12 @@ jobs:
       - check-if-build-required
     steps:
       - uses: actions/checkout@v4
+
+      - uses: webfactory/ssh-agent@v0.5.4
+        if: needs.check-if-build-required.outputs.need-build == 'true' && !inputs.skipPublishing
+        with:
+          ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
+
       - name: Create git tag commit
         if: needs.check-if-build-required.outputs.need-build == 'true' && !inputs.skipPublishing
         run: |
