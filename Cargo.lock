@@ -4911,6 +4911,7 @@ dependencies = [
  "anyhow",
  "serde",
  "swc_core",
+ "testing",
 ]
 
 [[package]]
