@@ -43,12 +43,6 @@ pub struct Options {
     pub parser: TsSyntax,
 
     #[serde(default)]
-    pub external_helpers: bool,
-
-    #[serde(default)]
-    pub source_maps: bool,
-
-    #[serde(default)]
     pub mode: Mode,
 }
 
