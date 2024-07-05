@@ -1019,6 +1019,10 @@ where
             emit!(self, type_args);
         }
 
+        if self.cfg.blank_space_mode {
+            self.adjust_space_for_blank(node.callee.span().hi, '(')?;
+        }
+
         if let Some(ref args) = node.args {
             if !(self.cfg.minify && args.is_empty() && should_ignore_empty_args) {
                 punct!(self, "(");
@@ -3636,6 +3640,19 @@ where
             let cur_line = self.wr.cur_line();
 
             self.wr.force_write_line(src_line - cur_line)?;
+        }
+
+        Ok(())
+    }
+
+    /// Insert space between the `lo` and the first `punct` after `lo`.
+    fn adjust_space_for_blank(&mut self, lo: BytePos, punct: char) -> Result {
+        let args_span = self
+            .cm
+            .span_extend_to_next_char(Span::new(lo, lo, Default::default()), punct);
+
+        for _ in 0..(args_span.hi.0 - args_span.lo.0) {
+            self.wr.write_space()?;
         }
 
         Ok(())
