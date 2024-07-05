@@ -12,7 +12,9 @@ fn test(input: PathBuf) {
     testing::run_test(false, |cm, handler| {
         let code = operate(&cm, handler, input_code, opts()).expect("should not return Err()");
 
-        NormalizedOutput::new_raw(code).compare_to_file(output_file);
+        NormalizedOutput::new_raw(code)
+            .compare_to_file(output_file)
+            .unwrap();
 
         Ok(())
     })
@@ -30,7 +32,8 @@ fn error(input: PathBuf) {
         Err::<(), _>(())
     })
     .expect_err("should fail")
-    .compare_to_file(output_file);
+    .compare_to_file(output_file)
+    .unwrap();
 }
 
 fn opts() -> Options {
