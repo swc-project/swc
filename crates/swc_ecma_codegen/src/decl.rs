@@ -20,7 +20,9 @@ where
             Decl::Class(ref n) => {
                 self.emit_class_decl_inner(n, is_stmt, false)?;
             }
-            Decl::Fn(ref n) => emit!(self, n),
+            Decl::Fn(ref n) => {
+                self.emit_fn_decl_inner(n, is_stmt)?;
+            }
 
             Decl::Var(ref n) => {
                 self.emit_var_decl_inner(n, is_stmt)?;
@@ -105,35 +107,43 @@ where
 
     #[emitter]
     fn emit_fn_decl(&mut self, node: &FnDecl) -> Result {
+        self.emit_fn_decl_inner(node, false)?;
+    }
+
+    fn emit_fn_decl_inner(&mut self, node: &FnDecl, is_stmt: bool) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        self.adjust_line_for_retain_lines(node.span().lo)?;
+        if is_stmt {
+            self.adjust_line_for_retain_lines(node.span().lo)?;
+        }
 
         self.wr.commit_pending_semi()?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         if node.declare {
-            keyword!("declare");
-            space!();
+            keyword!(self, "declare");
+            space!(self);
         }
 
         if node.function.is_async {
-            keyword!("async");
-            space!();
+            keyword!(self, "async");
+            space!(self);
         }
 
-        keyword!("function");
+        keyword!(self, "function");
         if node.function.is_generator {
-            punct!("*");
-            formatting_space!();
+            punct!(self, "*");
+            formatting_space!(self);
         } else {
-            space!();
+            space!(self);
         }
 
-        emit!(node.ident);
+        emit!(self, node.ident);
 
         self.emit_fn_trailing(&node.function)?;
+
+        Ok(())
     }
 
     #[emitter]
