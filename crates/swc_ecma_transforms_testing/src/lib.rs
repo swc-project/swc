@@ -7,7 +7,7 @@ use std::{
     env,
     fs::{self, create_dir_all, read_to_string, OpenOptions},
     io::Write,
-    mem::take,
+    mem::{take, transmute},
     panic,
     path::{Path, PathBuf},
     process::Command,
@@ -21,7 +21,7 @@ use serde::de::DeserializeOwned;
 use sha2::{Digest, Sha256};
 use swc_common::{
     chain,
-    comments::SingleThreadedComments,
+    comments::{Comments, SingleThreadedComments},
     errors::{Handler, HANDLER},
     source_map::SourceMapGenConfig,
     sync::Lrc,
@@ -63,13 +63,22 @@ impl<'a> Tester<'a> {
     where
         F: FnOnce(&mut Tester<'_>) -> Result<Ret, ()>,
     {
+        let comments = Rc::new(SingleThreadedComments::default());
+
         let out = ::testing::run_test(false, |cm, handler| {
             HANDLER.set(handler, || {
                 HELPERS.set(&Default::default(), || {
-                    op(&mut Tester {
-                        cm,
-                        handler,
-                        comments: Default::default(),
+                    let cmts = comments.clone();
+                    let c = Box::new(unsafe {
+                        // Safety: This is unsafe but it's used only for testing.
+                        transmute::<&dyn Comments, &'static dyn Comments>(&*cmts)
+                    }) as Box<dyn Comments>;
+                    swc_common::comments::COMMENTS.set(&c, || {
+                        op(&mut Tester {
+                            cm,
+                            handler,
+                            comments,
+                        })
                     })
                 })
             })
