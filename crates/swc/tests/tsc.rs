@@ -400,6 +400,7 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                                 ..Default::default()
                             })
                             .into(),
+                            retain_lines: true,
                             ..Default::default()
                         },
                         module: Some(module.into()),

@@ -1042,7 +1042,8 @@ impl Compiler {
                         )
                         .with_emit_assert_for_import_attributes(
                             config.emit_assert_for_import_attributes,
-                        ),
+                        )
+                        .with_retain_lines(config.retain_lines),
                     output: if output.is_empty() {
                         None
                     } else {
