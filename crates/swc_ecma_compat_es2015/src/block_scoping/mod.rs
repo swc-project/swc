@@ -99,6 +99,8 @@ impl BlockScoping {
     }
 
     fn mark_as_used(&mut self, i: Id) {
+        // Only consider the variable used in a non-ScopeKind::Loop, which means it is
+        // captured in a closure
         for scope in self
             .scope
             .iter_mut()
@@ -127,16 +129,6 @@ impl BlockScoping {
     fn handle_capture_of_vars(&mut self, body: &mut Box<Stmt>) {
         let body_stmt = &mut **body;
 
-        // {
-        //     let mut v = FunctionFinder { found: false };
-        //     body_stmt.visit_with(&mut v);
-        //     if !v.found {
-        //         self.scope.pop();
-        //         return;
-        //     }
-        // }
-
-        //
         if let Some(ScopeKind::Loop {
             args,
             used,
