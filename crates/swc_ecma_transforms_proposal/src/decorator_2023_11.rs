@@ -200,7 +200,7 @@ impl Decorator202311 {
             .into(),
             right: Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: helper!(apply_decs_2203_r),
+                callee: helper!(apply_decs_2311),
                 args: combined_args,
                 type_args: Default::default(),
             })),
