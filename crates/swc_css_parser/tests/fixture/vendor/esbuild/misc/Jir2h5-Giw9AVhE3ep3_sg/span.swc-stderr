@@ -1,64 +1,53 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Jir2h5-Giw9AVhE3ep3_sg/input.css:1:1]
  1 | #\2chash {}
    : ^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Jir2h5-Giw9AVhE3ep3_sg/input.css:1:1]
  1 | #\2chash {}
    : ^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Jir2h5-Giw9AVhE3ep3_sg/input.css:1:1]
  1 | #\2chash {}
    : ^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Jir2h5-Giw9AVhE3ep3_sg/input.css:1:1]
  1 | #\2chash {}
    : ^^^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Jir2h5-Giw9AVhE3ep3_sg/input.css:1:1]
  1 | #\2chash {}
    : ^^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Jir2h5-Giw9AVhE3ep3_sg/input.css:1:1]
  1 | #\2chash {}
    : ^^^^^^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Jir2h5-Giw9AVhE3ep3_sg/input.css:1:1]
  1 | #\2chash {}
    : ^^^^^^^^
    `----
-
   x IdSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Jir2h5-Giw9AVhE3ep3_sg/input.css:1:1]
  1 | #\2chash {}
    : ^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Jir2h5-Giw9AVhE3ep3_sg/input.css:1:1]
  1 | #\2chash {}
    : ^^^^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Jir2h5-Giw9AVhE3ep3_sg/input.css:1:1]
  1 | #\2chash {}
    :          ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Jir2h5-Giw9AVhE3ep3_sg/input.css:1:1]
  1 | #\2chash {}

@@ -1,4 +1,3 @@
-
   x Expression expected
    ,-[$DIR/tests/test262-parser/fail/a3710b36f9b97324.js:1:1]
  1 | f(....g);

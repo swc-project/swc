@@ -1,37 +1,32 @@
-
   x Stray end tag "td"
-    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:10:1]
+    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:11:1]
  10 |             <table>
  11 |         </td>
     :         ^^^^^
  12 |     </tr>
     `----
-
   x Stray end tag "tr"
-    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:11:1]
+    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:12:1]
  11 |         </td>
  12 |     </tr>
     :     ^^^^^
  13 | </table>
     `----
-
   x Stray end tag "body"
-    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:13:1]
+    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:14:1]
  13 | </table>
  14 | </body>
     : ^^^^^^^
  15 | </html>
     `----
-
   x Stray end tag "html"
-    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:14:1]
+    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:15:1]
  14 | </body>
  15 | </html>
     : ^^^^^^^
     `----
-
   x End of file seen and there were open elements
-    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:14:1]
+    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:15:1]
  14 | </body>
  15 | </html>
     `----

@@ -1,7 +1,6 @@
 //// [classAbstractMergedDeclaration.ts]
-//! 
 //!   x the name `CC1` is defined multiple times
-//!     ,-[10:1]
+//!     ,-[13:1]
 //!  10 | interface IC {}
 //!  11 | abstract class IC {}
 //!  12 | 
@@ -15,9 +14,8 @@
 //!  16 | class CC2 {}
 //!  17 | abstract class CC2 {}
 //!     `----
-//! 
 //!   x the name `CC2` is defined multiple times
-//!     ,-[13:1]
+//!     ,-[16:1]
 //!  13 | abstract class CC1 {}
 //!  14 | class CC1 {}
 //!  15 | 

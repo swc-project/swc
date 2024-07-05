@@ -1,128 +1,105 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.20.html:1:1]
  1 | <i>A<b>B<p></i>C</b>D
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.20.html:1:1]
  1 | <i>A<b>B<p></i>C</b>D
    : ^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.20.html:1:1]
  1 | <i>A<b>B<p></i>C</b>D
    : ^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.20.html:1:1]
  1 | <i>A<b>B<p></i>C</b>D
    :    ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.20.html:1:1]
  1 | <i>A<b>B<p></i>C</b>D
    :    ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.20.html:1:1]
  1 | <i>A<b>B<p></i>C</b>D
    :     ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.20.html:1:1]
  1 | <i>A<b>B<p></i>C</b>D
    :     ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.20.html:1:1]
  1 | <i>A<b>B<p></i>C</b>D
    :        ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.20.html:1:1]
  1 | <i>A<b>B<p></i>C</b>D
    :        ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.20.html:1:1]
  1 | <i>A<b>B<p></i>C</b>D
    :     ^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.20.html:1:1]
  1 | <i>A<b>B<p></i>C</b>D
    :     ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.20.html:1:1]
  1 | <i>A<b>B<p></i>C</b>D
    :         ^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.20.html:1:1]
  1 | <i>A<b>B<p></i>C</b>D
    :         ^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.20.html:1:1]
  1 | <i>A<b>B<p></i>C</b>D
    :            ^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.20.html:1:1]
  1 | <i>A<b>B<p></i>C</b>D
    :            ^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.20.html:1:1]
  1 | <i>A<b>B<p></i>C</b>D
    :            ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.20.html:1:1]
  1 | <i>A<b>B<p></i>C</b>D
    :            ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.20.html:1:1]
  1 | <i>A<b>B<p></i>C</b>D
    :                ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.20.html:1:1]
  1 | <i>A<b>B<p></i>C</b>D
    :                ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.20.html:1:1]
  1 | <i>A<b>B<p></i>C</b>D
    :                     ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.20.html:1:1]
  1 | <i>A<b>B<p></i>C</b>D

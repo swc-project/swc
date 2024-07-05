@@ -1,4 +1,3 @@
-
   x Unexpected initializer in for in/of loop
    ,-[$DIR/tests/test262-parser/fail/4e2cce832b4449f1.js:1:1]
  1 | for(let x=1 of [1,2,3]) 0

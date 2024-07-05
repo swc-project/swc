@@ -1,4 +1,3 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
  1 | ,-> div {
@@ -7,7 +6,6 @@
  4 | |       color: red;
  5 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
  1 | ,-> div {
@@ -16,7 +14,6 @@
  4 | |       color: red;
  5 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
  1 | ,-> div {
@@ -25,56 +22,48 @@
  4 | |       color: red;
  5 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
  1 | div {
    : ^^^
  2 |     background: url(image.
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
  1 | div {
    : ^^^
  2 |     background: url(image.
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
  1 | div {
    : ^^^
  2 |     background: url(image.
    `----
-
   x TypeSelector
    ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
  1 | div {
    : ^^^
  2 |     background: url(image.
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
  1 | div {
    : ^^^
  2 |     background: url(image.
    `----
-
   x WqName
    ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
  1 | div {
    : ^^^
  2 |     background: url(image.
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
  1 | div {
    : ^^^
  2 |     background: url(image.
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
  1 | ,-> div {
@@ -83,104 +72,91 @@
  4 | |       color: red;
  5 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
  1 | div {
    :     ^
  2 |     background: url(image.
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:2:1]
  1 |     div {
  2 | ,->     background: url(image.
  3 | `->     png);
  4 |         color: red;
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:2:1]
  1 |     div {
  2 | ,->     background: url(image.
  3 | `->     png);
  4 |         color: red;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:2:1]
  1 | div {
  2 |     background: url(image.
    :     ^^^^^^^^^^
  3 |     png);
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:2:1]
  1 | div {
  2 |     background: url(image.
    :     ^^^^^^^^^^
  3 |     png);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:2:1]
  1 |     div {
  2 | ,->     background: url(image.
  3 | `->     png);
  4 |         color: red;
    `----
-
   x BadUrl { raw: "url(image.\n    png)" }
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:2:1]
  1 |     div {
  2 | ,->     background: url(image.
  3 | `->     png);
  4 |         color: red;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:3:1]
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:4:1]
  3 |     png);
  4 |     color: red;
    :     ^^^^^^^^^^
  5 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:3:1]
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:4:1]
  3 |     png);
  4 |     color: red;
    :     ^^^^^^^^^^
  5 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:3:1]
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:4:1]
  3 |     png);
  4 |     color: red;
    :     ^^^^^
  5 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:3:1]
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:4:1]
  3 |     png);
  4 |     color: red;
    :     ^^^^^
  5 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:3:1]
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:4:1]
  3 |     png);
  4 |     color: red;
    :            ^^^
  5 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:3:1]
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:4:1]
  3 |     png);
  4 |     color: red;
    :            ^^^

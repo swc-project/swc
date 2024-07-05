@@ -1,112 +1,93 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1]
  1 | @page { color: red; @top-left {} }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1]
  1 | @page { color: red; @top-left {} }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1]
  1 | @page { color: red; @top-left {} }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1]
  1 | @page { color: red; @top-left {} }
    :  ^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1]
  1 | @page { color: red; @top-left {} }
    :  ^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1]
  1 | @page { color: red; @top-left {} }
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1]
  1 | @page { color: red; @top-left {} }
    :       ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1]
  1 | @page { color: red; @top-left {} }
    :         ^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1]
  1 | @page { color: red; @top-left {} }
    :         ^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1]
  1 | @page { color: red; @top-left {} }
    :         ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1]
  1 | @page { color: red; @top-left {} }
    :         ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1]
  1 | @page { color: red; @top-left {} }
    :                ^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1]
  1 | @page { color: red; @top-left {} }
    :                ^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1]
  1 | @page { color: red; @top-left {} }
    :                     ^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1]
  1 | @page { color: red; @top-left {} }
    :                     ^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1]
  1 | @page { color: red; @top-left {} }
    :                      ^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1]
  1 | @page { color: red; @top-left {} }
    :                      ^^^^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1]
  1 | @page { color: red; @top-left {} }
    :                               ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:1]
  1 | @page { color: red; @top-left {} }

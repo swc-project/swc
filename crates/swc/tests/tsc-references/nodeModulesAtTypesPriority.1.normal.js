@@ -1,8 +1,7 @@
 //// [nodeModulesAtTypesPriority.ts]
 //// [/node_modules/@types/react/index.d.ts]
-//! 
 //!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
-//!    ,-[1:1]
+//!    ,-[2:1]
 //!  1 | declare const React: any;
 //!  2 | export = React;
 //!    : ^^^^^^^^^^^^^^^

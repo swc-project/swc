@@ -1,49 +1,40 @@
-
   x Document
    ,-[$DIR/tests/fixture/element/pre-2/input.html:1:1]
  1 | ,-> <!DOCTYPE html><pre>
  2 | `-> A</pre>
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/pre-2/input.html:1:1]
  1 | <!DOCTYPE html><pre>
    : ^^^^^^^^^^^^^^^
  2 | A</pre>
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/element/pre-2/input.html:1:1]
  1 | <!DOCTYPE html><pre>
    : ^^^^^^^^^^^^^^^
  2 | A</pre>
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/fixture/element/pre-2/input.html:1:1]
  1 | ,-> <!DOCTYPE html><pre>
  2 | `-> A</pre>
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/pre-2/input.html:1:1]
  1 | ,-> <!DOCTYPE html><pre>
  2 | `-> A</pre>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/pre-2/input.html:1:1]
+   ,-[$DIR/tests/fixture/element/pre-2/input.html:2:1]
  1 | <!DOCTYPE html><pre>
  2 | A</pre>
    : ^
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/pre-2/input.html:1:1]
+   ,-[$DIR/tests/fixture/element/pre-2/input.html:2:1]
  1 | <!DOCTYPE html><pre>
  2 | A</pre>
    : ^

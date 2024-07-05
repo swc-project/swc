@@ -1,50 +1,40 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.54.html:1:1]
  1 | <math><annotation-xml encoding="application/svg+xml"><div>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.54.html:1:1]
  1 | <math><annotation-xml encoding="application/svg+xml"><div>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.54.html:1:1]
  1 | <math><annotation-xml encoding="application/svg+xml"><div>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.54.html:1:1]
  1 | <math><annotation-xml encoding="application/svg+xml"><div>
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.54.html:1:1]
  1 | <math><annotation-xml encoding="application/svg+xml"><div>
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.54.html:1:1]
  1 | <math><annotation-xml encoding="application/svg+xml"><div>
    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.54.html:1:1]
  1 | <math><annotation-xml encoding="application/svg+xml"><div>
    :                                                      ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.54.html:1:1]
  1 | <math><annotation-xml encoding="application/svg+xml"><div>

@@ -1,80 +1,65 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.7.html:1:1]
  1 | <b><a><b><p></a>
    : ^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.7.html:1:1]
  1 | <b><a><b><p></a>
    : ^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.7.html:1:1]
  1 | <b><a><b><p></a>
    : ^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.7.html:1:1]
  1 | <b><a><b><p></a>
    :    ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.7.html:1:1]
  1 | <b><a><b><p></a>
    :    ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.7.html:1:1]
  1 | <b><a><b><p></a>
    :       ^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.7.html:1:1]
  1 | <b><a><b><p></a>
    :       ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.7.html:1:1]
  1 | <b><a><b><p></a>
    :       ^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.7.html:1:1]
  1 | <b><a><b><p></a>
    :       ^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.7.html:1:1]
  1 | <b><a><b><p></a>
    :          ^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.7.html:1:1]
  1 | <b><a><b><p></a>
    :          ^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.7.html:1:1]
  1 | <b><a><b><p></a>
    :             ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.7.html:1:1]
  1 | <b><a><b><p></a>

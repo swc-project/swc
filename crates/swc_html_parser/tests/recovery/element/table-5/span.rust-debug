@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/recovery/element/table-5/input.html:1:1]
  1 | <!doctype html><table> x </table>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/table-5/input.html:1:1]
  1 | <!doctype html><table> x </table>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/recovery/element/table-5/input.html:1:1]
  1 | <!doctype html><table> x </table>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/element/table-5/input.html:1:1]
  1 | <!doctype html><table> x </table>
    :                       ^^^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/element/table-5/input.html:1:1]
  1 | <!doctype html><table> x </table>
    :                       ^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/table-5/input.html:1:1]
  1 | <!doctype html><table> x </table>
    :                ^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/table-5/input.html:1:1]
  1 | <!doctype html><table> x </table>

@@ -1,152 +1,125 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    :      ^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    :      ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    :           ^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    :           ^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    :              ^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    :              ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    :                   ^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    :                   ^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    :                      ^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    :                      ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    :                   ^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    :                   ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    :                           ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    :                           ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    :                              ^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    :                              ^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    :                              ^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    :                              ^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    :                              ^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    :                              ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>
    :                                       ^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.72.html:1:1]
  1 | <DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>

@@ -1,4 +1,3 @@
-
   x Stylesheet
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:1:1]
   1 | ,-> .removed-214123 {
@@ -26,7 +25,6 @@
  23 | |       }
  24 | `->   }
     `----
-
   x Rule
    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:1:1]
  1 | ,-> .removed-214123 {
@@ -35,7 +33,6 @@
  4 | |       box-sizing: border-box;
  5 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:1:1]
  1 | ,-> .removed-214123 {
@@ -44,49 +41,42 @@
  4 | |       box-sizing: border-box;
  5 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:1:1]
  1 | .removed-214123 {
    : ^^^^^^^^^^^^^^^
  2 |     flex-wrap: wrap;
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:1:1]
  1 | .removed-214123 {
    : ^^^^^^^^^^^^^^^
  2 |     flex-wrap: wrap;
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:1:1]
  1 | .removed-214123 {
    : ^^^^^^^^^^^^^^^
  2 |     flex-wrap: wrap;
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:1:1]
  1 | .removed-214123 {
    : ^^^^^^^^^^^^^^^
  2 |     flex-wrap: wrap;
    `----
-
   x ClassSelector
    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:1:1]
  1 | .removed-214123 {
    : ^^^^^^^^^^^^^^^
  2 |     flex-wrap: wrap;
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:1:1]
  1 | .removed-214123 {
    :  ^^^^^^^^^^^^^^
  2 |     flex-wrap: wrap;
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:1:1]
  1 | ,-> .removed-214123 {
@@ -95,160 +85,140 @@
  4 | |       box-sizing: border-box;
  5 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:1:1]
  1 | .removed-214123 {
    :                 ^
  2 |     flex-wrap: wrap;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:1:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:2:1]
  1 | .removed-214123 {
  2 |     flex-wrap: wrap;
    :     ^^^^^^^^^^^^^^^
  3 |     margin: __styled-jsx-placeholder__0;
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:1:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:2:1]
  1 | .removed-214123 {
  2 |     flex-wrap: wrap;
    :     ^^^^^^^^^^^^^^^
  3 |     margin: __styled-jsx-placeholder__0;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:1:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:2:1]
  1 | .removed-214123 {
  2 |     flex-wrap: wrap;
    :     ^^^^^^^^^
  3 |     margin: __styled-jsx-placeholder__0;
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:1:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:2:1]
  1 | .removed-214123 {
  2 |     flex-wrap: wrap;
    :     ^^^^^^^^^
  3 |     margin: __styled-jsx-placeholder__0;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:1:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:2:1]
  1 | .removed-214123 {
  2 |     flex-wrap: wrap;
    :                ^^^^
  3 |     margin: __styled-jsx-placeholder__0;
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:1:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:2:1]
  1 | .removed-214123 {
  2 |     flex-wrap: wrap;
    :                ^^^^
  3 |     margin: __styled-jsx-placeholder__0;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:2:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:3:1]
  2 |     flex-wrap: wrap;
  3 |     margin: __styled-jsx-placeholder__0;
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     box-sizing: border-box;
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:2:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:3:1]
  2 |     flex-wrap: wrap;
  3 |     margin: __styled-jsx-placeholder__0;
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     box-sizing: border-box;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:2:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:3:1]
  2 |     flex-wrap: wrap;
  3 |     margin: __styled-jsx-placeholder__0;
    :     ^^^^^^
  4 |     box-sizing: border-box;
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:2:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:3:1]
  2 |     flex-wrap: wrap;
  3 |     margin: __styled-jsx-placeholder__0;
    :     ^^^^^^
  4 |     box-sizing: border-box;
    `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:2:1]
- 2 |     flex-wrap: wrap;
- 3 |     margin: __styled-jsx-placeholder__0;
-   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 4 |     box-sizing: border-box;
-   `----
-
-  x Ident
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:2:1]
- 2 |     flex-wrap: wrap;
- 3 |     margin: __styled-jsx-placeholder__0;
-   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 4 |     box-sizing: border-box;
-   `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:3:1]
+ 2 |     flex-wrap: wrap;
+ 3 |     margin: __styled-jsx-placeholder__0;
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 4 |     box-sizing: border-box;
+   `----
+  x Ident
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:3:1]
+ 2 |     flex-wrap: wrap;
+ 3 |     margin: __styled-jsx-placeholder__0;
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 4 |     box-sizing: border-box;
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:4:1]
  3 |     margin: __styled-jsx-placeholder__0;
  4 |     box-sizing: border-box;
    :     ^^^^^^^^^^^^^^^^^^^^^^
  5 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:3:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:4:1]
  3 |     margin: __styled-jsx-placeholder__0;
  4 |     box-sizing: border-box;
    :     ^^^^^^^^^^^^^^^^^^^^^^
  5 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:3:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:4:1]
  3 |     margin: __styled-jsx-placeholder__0;
  4 |     box-sizing: border-box;
    :     ^^^^^^^^^^
  5 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:3:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:4:1]
  3 |     margin: __styled-jsx-placeholder__0;
  4 |     box-sizing: border-box;
    :     ^^^^^^^^^^
  5 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:3:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:4:1]
  3 |     margin: __styled-jsx-placeholder__0;
  4 |     box-sizing: border-box;
    :                 ^^^^^^^^^^
  5 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:3:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:4:1]
  3 |     margin: __styled-jsx-placeholder__0;
  4 |     box-sizing: border-box;
    :                 ^^^^^^^^^^
  5 | }
    `----
-
   x Rule
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
   6 |     
   7 | ,-> .removed-214123 :global(> .removed-214123-item) {
   8 | |       padding: __styled-jsx-placeholder__1;
@@ -257,9 +227,8 @@
  11 | |       min-width: 0;
  12 | `-> }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
   6 |     
   7 | ,-> .removed-214123 :global(> .removed-214123-item) {
   8 | |       padding: __styled-jsx-placeholder__1;
@@ -268,161 +237,141 @@
  11 | |       min-width: 0;
  12 | `-> }
     `----
-
   x SelectorList
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     padding: __styled-jsx-placeholder__1;
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     padding: __styled-jsx-placeholder__1;
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
    : ^^^^^^^^^^^^^^^
  8 |     padding: __styled-jsx-placeholder__1;
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
    : ^^^^^^^^^^^^^^^
  8 |     padding: __styled-jsx-placeholder__1;
    `----
-
   x ClassSelector
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
    : ^^^^^^^^^^^^^^^
  8 |     padding: __styled-jsx-placeholder__1;
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
    :  ^^^^^^^^^^^^^^
  8 |     padding: __styled-jsx-placeholder__1;
    `----
-
   x Combinator
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
    :                ^
  8 |     padding: __styled-jsx-placeholder__1;
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     padding: __styled-jsx-placeholder__1;
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     padding: __styled-jsx-placeholder__1;
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     padding: __styled-jsx-placeholder__1;
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
    :                  ^^^^^^
  8 |     padding: __styled-jsx-placeholder__1;
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
    :                         ^
  8 |     padding: __styled-jsx-placeholder__1;
    `----
-
   x Delim { value: '>' }
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
    :                         ^
  8 |     padding: __styled-jsx-placeholder__1;
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
    :                          ^
  8 |     padding: __styled-jsx-placeholder__1;
    `----
-
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
    :                          ^
  8 |     padding: __styled-jsx-placeholder__1;
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
    :                           ^
  8 |     padding: __styled-jsx-placeholder__1;
    `----
-
   x Delim { value: '.' }
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
    :                           ^
  8 |     padding: __styled-jsx-placeholder__1;
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
    :                            ^^^^^^^^^^^^^^^^^^^
  8 |     padding: __styled-jsx-placeholder__1;
    `----
-
   x Ident { value: "removed-214123-item", raw: "removed-214123-item" }
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
    :                            ^^^^^^^^^^^^^^^^^^^
  8 |     padding: __styled-jsx-placeholder__1;
    `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
   6 |     
   7 | ,-> .removed-214123 :global(> .removed-214123-item) {
   8 | |       padding: __styled-jsx-placeholder__1;
@@ -431,225 +380,197 @@
  11 | |       min-width: 0;
  12 | `-> }
     `----
-
   x LBrace
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
    :                                                 ^
  8 |     padding: __styled-jsx-placeholder__1;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:8:1]
  7 | .removed-214123 :global(> .removed-214123-item) {
  8 |     padding: __styled-jsx-placeholder__1;
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  9 |     flex-grow: 0;
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:8:1]
  7 | .removed-214123 :global(> .removed-214123-item) {
  8 |     padding: __styled-jsx-placeholder__1;
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  9 |     flex-grow: 0;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:8:1]
  7 | .removed-214123 :global(> .removed-214123-item) {
  8 |     padding: __styled-jsx-placeholder__1;
    :     ^^^^^^^
  9 |     flex-grow: 0;
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:8:1]
  7 | .removed-214123 :global(> .removed-214123-item) {
  8 |     padding: __styled-jsx-placeholder__1;
    :     ^^^^^^^
  9 |     flex-grow: 0;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:8:1]
  7 | .removed-214123 :global(> .removed-214123-item) {
  8 |     padding: __styled-jsx-placeholder__1;
    :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  9 |     flex-grow: 0;
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
+   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:8:1]
  7 | .removed-214123 :global(> .removed-214123-item) {
  8 |     padding: __styled-jsx-placeholder__1;
    :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  9 |     flex-grow: 0;
    `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:8:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:9:1]
   8 |     padding: __styled-jsx-placeholder__1;
   9 |     flex-grow: 0;
     :     ^^^^^^^^^^^^
  10 |     flex-basis: __styled-jsx-placeholder__2%;
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:8:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:9:1]
   8 |     padding: __styled-jsx-placeholder__1;
   9 |     flex-grow: 0;
     :     ^^^^^^^^^^^^
  10 |     flex-basis: __styled-jsx-placeholder__2%;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:8:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:9:1]
   8 |     padding: __styled-jsx-placeholder__1;
   9 |     flex-grow: 0;
     :     ^^^^^^^^^
  10 |     flex-basis: __styled-jsx-placeholder__2%;
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:8:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:9:1]
   8 |     padding: __styled-jsx-placeholder__1;
   9 |     flex-grow: 0;
     :     ^^^^^^^^^
  10 |     flex-basis: __styled-jsx-placeholder__2%;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:8:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:9:1]
   8 |     padding: __styled-jsx-placeholder__1;
   9 |     flex-grow: 0;
     :                ^
  10 |     flex-basis: __styled-jsx-placeholder__2%;
     `----
-
   x Integer
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:8:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:9:1]
   8 |     padding: __styled-jsx-placeholder__1;
   9 |     flex-grow: 0;
     :                ^
  10 |     flex-basis: __styled-jsx-placeholder__2%;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:9:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:10:1]
   9 |     flex-grow: 0;
  10 |     flex-basis: __styled-jsx-placeholder__2%;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 |     min-width: 0;
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:9:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:10:1]
   9 |     flex-grow: 0;
  10 |     flex-basis: __styled-jsx-placeholder__2%;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 |     min-width: 0;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:9:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:10:1]
   9 |     flex-grow: 0;
  10 |     flex-basis: __styled-jsx-placeholder__2%;
     :     ^^^^^^^^^^
  11 |     min-width: 0;
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:9:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:10:1]
   9 |     flex-grow: 0;
  10 |     flex-basis: __styled-jsx-placeholder__2%;
     :     ^^^^^^^^^^
  11 |     min-width: 0;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:9:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:10:1]
   9 |     flex-grow: 0;
  10 |     flex-basis: __styled-jsx-placeholder__2%;
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 |     min-width: 0;
     `----
-
   x Ident { value: "__styled-jsx-placeholder__2", raw: "__styled-jsx-placeholder__2" }
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:9:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:10:1]
   9 |     flex-grow: 0;
  10 |     flex-basis: __styled-jsx-placeholder__2%;
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 |     min-width: 0;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:9:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:10:1]
   9 |     flex-grow: 0;
  10 |     flex-basis: __styled-jsx-placeholder__2%;
     :                                            ^
  11 |     min-width: 0;
     `----
-
   x Delim { value: '%' }
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:9:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:10:1]
   9 |     flex-grow: 0;
  10 |     flex-basis: __styled-jsx-placeholder__2%;
     :                                            ^
  11 |     min-width: 0;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:10:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:11:1]
  10 |     flex-basis: __styled-jsx-placeholder__2%;
  11 |     min-width: 0;
     :     ^^^^^^^^^^^^
  12 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:10:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:11:1]
  10 |     flex-basis: __styled-jsx-placeholder__2%;
  11 |     min-width: 0;
     :     ^^^^^^^^^^^^
  12 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:10:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:11:1]
  10 |     flex-basis: __styled-jsx-placeholder__2%;
  11 |     min-width: 0;
     :     ^^^^^^^^^
  12 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:10:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:11:1]
  10 |     flex-basis: __styled-jsx-placeholder__2%;
  11 |     min-width: 0;
     :     ^^^^^^^^^
  12 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:10:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:11:1]
  10 |     flex-basis: __styled-jsx-placeholder__2%;
  11 |     min-width: 0;
     :                ^
  12 | }
     `----
-
   x Integer
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:10:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:11:1]
  10 |     flex-basis: __styled-jsx-placeholder__2%;
  11 |     min-width: 0;
     :                ^
  12 | }
     `----
-
   x Rule
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:13:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
  13 |     
  14 | ,-> @media screen {
  15 | |       .removed-214123 :global(> .removed-214123-item) {
@@ -657,9 +578,8 @@
  17 | |       }
  18 | `-> }
     `----
-
   x AtRule
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:13:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
  13 |     
  14 | ,-> @media screen {
  15 | |       .removed-214123 :global(> .removed-214123-item) {
@@ -667,57 +587,50 @@
  17 | |       }
  18 | `-> }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:13:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
  13 | 
  14 | @media screen {
     :  ^^^^^
  15 |     .removed-214123 :global(> .removed-214123-item) {
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:13:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
  13 | 
  14 | @media screen {
     :  ^^^^^
  15 |     .removed-214123 :global(> .removed-214123-item) {
     `----
-
   x MediaQueryList
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:13:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
  13 | 
  14 | @media screen {
     :        ^^^^^^
  15 |     .removed-214123 :global(> .removed-214123-item) {
     `----
-
   x MediaQuery
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:13:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
  13 | 
  14 | @media screen {
     :        ^^^^^^
  15 |     .removed-214123 :global(> .removed-214123-item) {
     `----
-
   x MediaType
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:13:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
  13 | 
  14 | @media screen {
     :        ^^^^^^
  15 |     .removed-214123 :global(> .removed-214123-item) {
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:13:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
  13 | 
  14 | @media screen {
     :        ^^^^^^
  15 |     .removed-214123 :global(> .removed-214123-item) {
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:13:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
  13 |     
  14 | ,-> @media screen {
  15 | |       .removed-214123 :global(> .removed-214123-item) {
@@ -725,268 +638,235 @@
  17 | |       }
  18 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:13:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
  13 | 
  14 | @media screen {
     :               ^
  15 |     .removed-214123 :global(> .removed-214123-item) {
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 |     @media screen {
  15 | ,->     .removed-214123 :global(> .removed-214123-item) {
  16 | |           flex-basis: __styled-jsx-placeholder__3%;
  17 | `->     }
  18 |     }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 |     @media screen {
  15 | ,->     .removed-214123 :global(> .removed-214123-item) {
  16 | |           flex-basis: __styled-jsx-placeholder__3%;
  17 | `->     }
  18 |     }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
     :     ^^^^^^^^^^^^^^^
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
     :     ^^^^^^^^^^^^^^^
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
     :     ^^^^^^^^^^^^^^^
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
     :      ^^^^^^^^^^^^^^
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
-
   x Combinator
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
     :                    ^
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
     :                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
     :                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
     :                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
     :                      ^^^^^^
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
     :                             ^
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
-
   x Delim { value: '>' }
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
     :                             ^
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
     :                              ^
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
     :                              ^
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
     :                               ^
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
-
   x Delim { value: '.' }
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
     :                               ^
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
     :                                ^^^^^^^^^^^^^^^^^^^
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
-
   x Ident { value: "removed-214123-item", raw: "removed-214123-item" }
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
     :                                ^^^^^^^^^^^^^^^^^^^
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 |     @media screen {
  15 | ,->     .removed-214123 :global(> .removed-214123-item) {
  16 | |           flex-basis: __styled-jsx-placeholder__3%;
  17 | `->     }
  18 |     }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
     :                                                     ^
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:16:1]
  15 |     .removed-214123 :global(> .removed-214123-item) {
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  17 |     }
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:16:1]
  15 |     .removed-214123 :global(> .removed-214123-item) {
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  17 |     }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:16:1]
  15 |     .removed-214123 :global(> .removed-214123-item) {
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     :         ^^^^^^^^^^
  17 |     }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:16:1]
  15 |     .removed-214123 :global(> .removed-214123-item) {
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     :         ^^^^^^^^^^
  17 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:16:1]
  15 |     .removed-214123 :global(> .removed-214123-item) {
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     :                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  17 |     }
     `----
-
   x Ident { value: "__styled-jsx-placeholder__3", raw: "__styled-jsx-placeholder__3" }
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:16:1]
  15 |     .removed-214123 :global(> .removed-214123-item) {
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     :                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  17 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:16:1]
  15 |     .removed-214123 :global(> .removed-214123-item) {
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     :                                                ^
  17 |     }
     `----
-
   x Delim { value: '%' }
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:16:1]
  15 |     .removed-214123 :global(> .removed-214123-item) {
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     :                                                ^
  17 |     }
     `----
-
   x Rule
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:19:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
  19 |     
  20 | ,-> @media screen {
  21 | |       .removed-214123 :global(> .removed-214123-item) {
@@ -994,9 +874,8 @@
  23 | |       }
  24 | `->   }
     `----
-
   x AtRule
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:19:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
  19 |     
  20 | ,-> @media screen {
  21 | |       .removed-214123 :global(> .removed-214123-item) {
@@ -1004,57 +883,50 @@
  23 | |       }
  24 | `->   }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:19:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
  19 | 
  20 | @media screen {
     :  ^^^^^
  21 |     .removed-214123 :global(> .removed-214123-item) {
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:19:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
  19 | 
  20 | @media screen {
     :  ^^^^^
  21 |     .removed-214123 :global(> .removed-214123-item) {
     `----
-
   x MediaQueryList
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:19:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
  19 | 
  20 | @media screen {
     :        ^^^^^^
  21 |     .removed-214123 :global(> .removed-214123-item) {
     `----
-
   x MediaQuery
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:19:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
  19 | 
  20 | @media screen {
     :        ^^^^^^
  21 |     .removed-214123 :global(> .removed-214123-item) {
     `----
-
   x MediaType
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:19:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
  19 | 
  20 | @media screen {
     :        ^^^^^^
  21 |     .removed-214123 :global(> .removed-214123-item) {
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:19:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
  19 | 
  20 | @media screen {
     :        ^^^^^^
  21 |     .removed-214123 :global(> .removed-214123-item) {
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:19:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
  19 |     
  20 | ,-> @media screen {
  21 | |       .removed-214123 :global(> .removed-214123-item) {
@@ -1062,260 +934,228 @@
  23 | |       }
  24 | `->   }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:19:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
  19 | 
  20 | @media screen {
     :               ^
  21 |     .removed-214123 :global(> .removed-214123-item) {
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 |     @media screen {
  21 | ,->     .removed-214123 :global(> .removed-214123-item) {
  22 | |           flex-basis: __styled-jsx-placeholder__4%;
  23 | `->     }
  24 |       }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 |     @media screen {
  21 | ,->     .removed-214123 :global(> .removed-214123-item) {
  22 | |           flex-basis: __styled-jsx-placeholder__4%;
  23 | `->     }
  24 |       }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {
     :     ^^^^^^^^^^^^^^^
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {
     :     ^^^^^^^^^^^^^^^
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {
     :     ^^^^^^^^^^^^^^^
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {
     :      ^^^^^^^^^^^^^^
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
-
   x Combinator
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {
     :                    ^
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {
     :                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {
     :                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {
     :                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {
     :                      ^^^^^^
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {
     :                             ^
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
-
   x Delim { value: '>' }
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {
     :                             ^
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {
     :                              ^
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {
     :                              ^
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {
     :                               ^
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
-
   x Delim { value: '.' }
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {
     :                               ^
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {
     :                                ^^^^^^^^^^^^^^^^^^^
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
-
   x Ident { value: "removed-214123-item", raw: "removed-214123-item" }
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {
     :                                ^^^^^^^^^^^^^^^^^^^
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 |     @media screen {
  21 | ,->     .removed-214123 :global(> .removed-214123-item) {
  22 | |           flex-basis: __styled-jsx-placeholder__4%;
  23 | `->     }
  24 |       }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {
     :                                                     ^
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:22:1]
  21 |     .removed-214123 :global(> .removed-214123-item) {
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  23 |     }
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:22:1]
  21 |     .removed-214123 :global(> .removed-214123-item) {
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  23 |     }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:22:1]
  21 |     .removed-214123 :global(> .removed-214123-item) {
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     :         ^^^^^^^^^^
  23 |     }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:22:1]
  21 |     .removed-214123 :global(> .removed-214123-item) {
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     :         ^^^^^^^^^^
  23 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:22:1]
  21 |     .removed-214123 :global(> .removed-214123-item) {
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     :                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  23 |     }
     `----
-
   x Ident { value: "__styled-jsx-placeholder__4", raw: "__styled-jsx-placeholder__4" }
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:22:1]
  21 |     .removed-214123 :global(> .removed-214123-item) {
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     :                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  23 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:22:1]
  21 |     .removed-214123 :global(> .removed-214123-item) {
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     :                                                ^
  23 |     }
     `----
-
   x Delim { value: '%' }
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:22:1]
  21 |     .removed-214123 :global(> .removed-214123-item) {
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     :                                                ^

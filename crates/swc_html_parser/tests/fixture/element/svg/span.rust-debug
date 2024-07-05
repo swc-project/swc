@@ -1,4 +1,3 @@
-
   x Document
      ,-[$DIR/tests/fixture/element/svg/input.html:1:1]
    1 | ,-> <!doctype html><html xmlns="http://www.w3.org/1999/xhtml">
@@ -129,21 +128,18 @@
  126 | |   </body>
  127 | `-> </html>
      `----
-
   x Child
    ,-[$DIR/tests/fixture/element/svg/input.html:1:1]
  1 | <!doctype html><html xmlns="http://www.w3.org/1999/xhtml">
    : ^^^^^^^^^^^^^^^
  2 | <head>
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/element/svg/input.html:1:1]
  1 | <!doctype html><html xmlns="http://www.w3.org/1999/xhtml">
    : ^^^^^^^^^^^^^^^
  2 | <head>
    `----
-
   x Child
      ,-[$DIR/tests/fixture/element/svg/input.html:1:1]
    1 | ,-> <!doctype html><html xmlns="http://www.w3.org/1999/xhtml">
@@ -274,7 +270,6 @@
  126 | |   </body>
  127 | `-> </html>
      `----
-
   x Element
      ,-[$DIR/tests/fixture/element/svg/input.html:1:1]
    1 | ,-> <!doctype html><html xmlns="http://www.w3.org/1999/xhtml">
@@ -405,16 +400,14 @@
  126 | |   </body>
  127 | `-> </html>
      `----
-
   x Attribute
    ,-[$DIR/tests/fixture/element/svg/input.html:1:1]
  1 | <!doctype html><html xmlns="http://www.w3.org/1999/xhtml">
    :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | <head>
    `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:1:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:2:1]
   1 |     <!doctype html><html xmlns="http://www.w3.org/1999/xhtml">
   2 | ,-> <head>
   3 | |       <title>XTech SVG Demo</title>
@@ -433,9 +426,8 @@
  16 | `-> </head>
  17 |     <body id="body"
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:1:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:2:1]
   1 |     <!doctype html><html xmlns="http://www.w3.org/1999/xhtml">
   2 | ,-> <head>
   3 | |       <title>XTech SVG Demo</title>
@@ -454,73 +446,64 @@
  16 | `-> </head>
  17 |     <body id="body"
     `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/svg/input.html:1:1]
+   ,-[$DIR/tests/fixture/element/svg/input.html:2:1]
  1 |     <!doctype html><html xmlns="http://www.w3.org/1999/xhtml">
  2 | ,-> <head>
  3 | `->     <title>XTech SVG Demo</title>
  4 |         <style>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/svg/input.html:1:1]
+   ,-[$DIR/tests/fixture/element/svg/input.html:2:1]
  1 |     <!doctype html><html xmlns="http://www.w3.org/1999/xhtml">
  2 | ,-> <head>
  3 | `->     <title>XTech SVG Demo</title>
  4 |         <style>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/svg/input.html:2:1]
+   ,-[$DIR/tests/fixture/element/svg/input.html:3:1]
  2 | <head>
  3 |     <title>XTech SVG Demo</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     <style>
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/element/svg/input.html:2:1]
+   ,-[$DIR/tests/fixture/element/svg/input.html:3:1]
  2 | <head>
  3 |     <title>XTech SVG Demo</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     <style>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/svg/input.html:2:1]
+   ,-[$DIR/tests/fixture/element/svg/input.html:3:1]
  2 | <head>
  3 |     <title>XTech SVG Demo</title>
    :            ^^^^^^^^^^^^^^
  4 |     <style>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/svg/input.html:2:1]
+   ,-[$DIR/tests/fixture/element/svg/input.html:3:1]
  2 | <head>
  3 |     <title>XTech SVG Demo</title>
    :            ^^^^^^^^^^^^^^
  4 |     <style>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/svg/input.html:2:1]
+   ,-[$DIR/tests/fixture/element/svg/input.html:3:1]
  2 |     <head>
  3 | ,->     <title>XTech SVG Demo</title>
  4 | `->     <style>
  5 |             stop.begin { stop-color:yellow; }
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/svg/input.html:2:1]
+   ,-[$DIR/tests/fixture/element/svg/input.html:3:1]
  2 |     <head>
  3 | ,->     <title>XTech SVG Demo</title>
  4 | `->     <style>
  5 |             stop.begin { stop-color:yellow; }
    `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:3:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:4:1]
   3 |         <title>XTech SVG Demo</title>
   4 | ,->     <style>
   5 | |           stop.begin { stop-color:yellow; }
@@ -531,9 +514,8 @@
  10 | `->     </style>
  11 |         <script>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:3:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:4:1]
   3 |         <title>XTech SVG Demo</title>
   4 | ,->     <style>
   5 | |           stop.begin { stop-color:yellow; }
@@ -544,9 +526,8 @@
  10 | `->     </style>
  11 |         <script>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:3:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:4:1]
   3 |         <title>XTech SVG Demo</title>
   4 | ,->     <style>
   5 | |           stop.begin { stop-color:yellow; }
@@ -557,9 +538,8 @@
  10 | `->     </style>
  11 |         <script>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:3:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:4:1]
   3 |         <title>XTech SVG Demo</title>
   4 | ,->     <style>
   5 | |           stop.begin { stop-color:yellow; }
@@ -570,25 +550,22 @@
  10 | `->     </style>
  11 |         <script>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:9:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:10:1]
   9 |             body.invalid #err { display:inline; }
  10 | ,->     </style>
  11 | `->     <script>
  12 |             function signalError() {
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:9:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:10:1]
   9 |             body.invalid #err { display:inline; }
  10 | ,->     </style>
  11 | `->     <script>
  12 |             function signalError() {
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:11:1]
  10 |         </style>
  11 | ,->     <script>
  12 | |           function signalError() {
@@ -597,9 +574,8 @@
  15 | `->     </script>
  16 |     </head>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:11:1]
  10 |         </style>
  11 | ,->     <script>
  12 | |           function signalError() {
@@ -608,9 +584,8 @@
  15 | `->     </script>
  16 |     </head>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:11:1]
  10 |         </style>
  11 | ,->     <script>
  12 | |           function signalError() {
@@ -619,9 +594,8 @@
  15 | `->     </script>
  16 |     </head>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:11:1]
  10 |         </style>
  11 | ,->     <script>
  12 | |           function signalError() {
@@ -630,311 +604,300 @@
  15 | `->     </script>
  16 |     </head>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:14:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:15:1]
  14 |         }
  15 |     </script>
     :              ^
  16 | </head>
  17 | <body id="body"
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:14:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:15:1]
  14 |         }
  15 |     </script>
     :              ^
  16 | </head>
  17 | <body id="body"
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:15:1]
- 15 |     </script>
- 16 | </head>
-    :        ^
- 17 | <body id="body"
- 18 |       style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:15:1]
- 15 |     </script>
- 16 | </head>
-    :        ^
- 17 | <body id="body"
- 18 |       style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
-    `----
-
-  x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:16:1]
-  16 |     </head>
-  17 | ,-> <body id="body"
-  18 | |         style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
-  19 | |   <form>
-  20 | |       <fieldset>
-  21 | |           <legend>HTML Form</legend>
-  22 | |           <p><label>Введите что-нибудь:</label>
-  23 | |               <input type="text"/>
-  24 | |               <span id="err">Incorrect value!</span></p>
-  25 | |           <p><input type="button" value="Activate!" onclick="signalError();" /></p>
-  26 | |       </fieldset>
-  27 | |   </form>
-  28 | |   
-  29 | |   <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
-  30 | |        viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
-  31 | |        style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;" baseProfile="test">
-  32 | |       <linearGradient id="gradient">
-  33 | |           <stop class="begin" offset="0%"/>
-  34 | |           <stop class="end" offset="100%"/>
-  35 | |       </linearGradient>
-  36 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
-  37 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
-  38 | |   </svg>
-  39 | |   
-  40 | |   <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
-  41 | |       <filter id="noise1" x="0" y="0" width="100%" height="100%">
-  42 | |           <feTurbulence baseFrequency="0.025" />
-  43 | |       </filter>
-  44 | |       <filter id="noise2" x="0" y="0" width="100%" height="100%">
-  45 | |           <feTurbulence baseFrequency="0.05" />
-  46 | |       </filter>
-  47 | |   
-  48 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
-  49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
-  50 | |   </svg>
-  51 | |   
-  52 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
-  53 | |       <text xml:lang="en-US">This is some English text</text>
-  54 | |   </svg>
-  55 | |   
-  56 | |   <svg version="1.1"
-  57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  58 | |        width="200" height="200">
-  59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
-  60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
-  61 | |   </svg>
-  62 | |   
-  63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
-  64 | |       <text y="20" xml:space="default">Default   spacing</text>
-  65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
-  66 | |   </svg>
-  67 | |   
-  68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
-  69 | |       <text xml:lang="en-US">This is some English text</text>
-  70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
-  71 | |           <text x="10" y="25" >An example link.</text>
-  72 | |       </a>
-  73 | |   </svg>
-  74 | |   
-  75 | |   <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-  76 | |       <style>
-  77 | |           div {
-  78 | |               color: white;
-  79 | |               font: 18px serif;
-  80 | |               height: 100%;
-  81 | |               overflow: auto;
-  82 | |           }
-  83 | |       </style>
-  84 | |   
-  85 | |       <polygon points="5,5 195,10 185,185 10,195" />
-  86 | |   
-  87 | |       <!-- Common use case: embed HTML text into SVG -->
-  88 | |       <foreignObject x="20" y="20" width="160" height="160">
-  89 | |           <!--
-  90 | |             In the context of SVG embedded in an HTML document, the XHTML
-  91 | |             namespace could be omitted, but it is mandatory in the
-  92 | |             context of an SVG document
-  93 | |           -->
-  94 | |           <div xmlns="http://www.w3.org/1999/xhtml">
-  95 | |               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  96 | |               Sed mollis mollis mi ut ultricies. Nullam magna ipsum,
-  97 | |               porta vel dui convallis, rutrum imperdiet eros. Aliquam
-  98 | |               erat volutpat.
-  99 | |           </div>
- 100 | |       </foreignObject>
- 101 | |   </svg>
- 102 | |   
- 103 | |   <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
- 104 | |       <g transform="translate(10,80)">
- 105 | |           <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
- 106 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
- 107 | |                 fill="none" stroke="black"></path>
- 108 | |           <text transform="translate(10,20)">1</text>
- 109 | |           <switch transform="translate(35,-40)">
- 110 | |               <foreignObject width="200" height="50"
- 111 | |                              requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 112 | |                   <math>
- 113 | |                       <msqrt>
- 114 | |                           <mn>2</mn>
- 115 | |                           <mi>r</mi>
- 116 | |                           <mo>−</mo>
- 117 | |                           <mn>1</mn>
- 118 | |                       </msqrt>
- 119 | |                   </math>
- 120 | |               </foreignObject>
- 121 | |               <text>\sqrt{2r - 1}</text>
- 122 | |           </switch>
- 123 | |       </g>
- 124 | |   </svg>
- 125 | |   
- 126 | `-> </body>
- 127 |     </html>
-     `----
-
-  x Element
-     ,-[$DIR/tests/fixture/element/svg/input.html:16:1]
-  16 |     </head>
-  17 | ,-> <body id="body"
-  18 | |         style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
-  19 | |   <form>
-  20 | |       <fieldset>
-  21 | |           <legend>HTML Form</legend>
-  22 | |           <p><label>Введите что-нибудь:</label>
-  23 | |               <input type="text"/>
-  24 | |               <span id="err">Incorrect value!</span></p>
-  25 | |           <p><input type="button" value="Activate!" onclick="signalError();" /></p>
-  26 | |       </fieldset>
-  27 | |   </form>
-  28 | |   
-  29 | |   <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
-  30 | |        viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
-  31 | |        style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;" baseProfile="test">
-  32 | |       <linearGradient id="gradient">
-  33 | |           <stop class="begin" offset="0%"/>
-  34 | |           <stop class="end" offset="100%"/>
-  35 | |       </linearGradient>
-  36 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
-  37 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
-  38 | |   </svg>
-  39 | |   
-  40 | |   <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
-  41 | |       <filter id="noise1" x="0" y="0" width="100%" height="100%">
-  42 | |           <feTurbulence baseFrequency="0.025" />
-  43 | |       </filter>
-  44 | |       <filter id="noise2" x="0" y="0" width="100%" height="100%">
-  45 | |           <feTurbulence baseFrequency="0.05" />
-  46 | |       </filter>
-  47 | |   
-  48 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
-  49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
-  50 | |   </svg>
-  51 | |   
-  52 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
-  53 | |       <text xml:lang="en-US">This is some English text</text>
-  54 | |   </svg>
-  55 | |   
-  56 | |   <svg version="1.1"
-  57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  58 | |        width="200" height="200">
-  59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
-  60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
-  61 | |   </svg>
-  62 | |   
-  63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
-  64 | |       <text y="20" xml:space="default">Default   spacing</text>
-  65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
-  66 | |   </svg>
-  67 | |   
-  68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
-  69 | |       <text xml:lang="en-US">This is some English text</text>
-  70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
-  71 | |           <text x="10" y="25" >An example link.</text>
-  72 | |       </a>
-  73 | |   </svg>
-  74 | |   
-  75 | |   <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-  76 | |       <style>
-  77 | |           div {
-  78 | |               color: white;
-  79 | |               font: 18px serif;
-  80 | |               height: 100%;
-  81 | |               overflow: auto;
-  82 | |           }
-  83 | |       </style>
-  84 | |   
-  85 | |       <polygon points="5,5 195,10 185,185 10,195" />
-  86 | |   
-  87 | |       <!-- Common use case: embed HTML text into SVG -->
-  88 | |       <foreignObject x="20" y="20" width="160" height="160">
-  89 | |           <!--
-  90 | |             In the context of SVG embedded in an HTML document, the XHTML
-  91 | |             namespace could be omitted, but it is mandatory in the
-  92 | |             context of an SVG document
-  93 | |           -->
-  94 | |           <div xmlns="http://www.w3.org/1999/xhtml">
-  95 | |               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  96 | |               Sed mollis mollis mi ut ultricies. Nullam magna ipsum,
-  97 | |               porta vel dui convallis, rutrum imperdiet eros. Aliquam
-  98 | |               erat volutpat.
-  99 | |           </div>
- 100 | |       </foreignObject>
- 101 | |   </svg>
- 102 | |   
- 103 | |   <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
- 104 | |       <g transform="translate(10,80)">
- 105 | |           <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
- 106 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
- 107 | |                 fill="none" stroke="black"></path>
- 108 | |           <text transform="translate(10,20)">1</text>
- 109 | |           <switch transform="translate(35,-40)">
- 110 | |               <foreignObject width="200" height="50"
- 111 | |                              requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 112 | |                   <math>
- 113 | |                       <msqrt>
- 114 | |                           <mn>2</mn>
- 115 | |                           <mi>r</mi>
- 116 | |                           <mo>−</mo>
- 117 | |                           <mn>1</mn>
- 118 | |                       </msqrt>
- 119 | |                   </math>
- 120 | |               </foreignObject>
- 121 | |               <text>\sqrt{2r - 1}</text>
- 122 | |           </switch>
- 123 | |       </g>
- 124 | |   </svg>
- 125 | |   
- 126 | `-> </body>
- 127 |     </html>
-     `----
-
-  x Attribute
     ,-[$DIR/tests/fixture/element/svg/input.html:16:1]
+ 15 |     </script>
+ 16 | </head>
+    :        ^
+ 17 | <body id="body"
+ 18 |       style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:16:1]
+ 15 |     </script>
+ 16 | </head>
+    :        ^
+ 17 | <body id="body"
+ 18 |       style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
+    `----
+  x Child
+     ,-[$DIR/tests/fixture/element/svg/input.html:17:1]
+  16 |     </head>
+  17 | ,-> <body id="body"
+  18 | |         style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
+  19 | |   <form>
+  20 | |       <fieldset>
+  21 | |           <legend>HTML Form</legend>
+  22 | |           <p><label>Введите что-нибудь:</label>
+  23 | |               <input type="text"/>
+  24 | |               <span id="err">Incorrect value!</span></p>
+  25 | |           <p><input type="button" value="Activate!" onclick="signalError();" /></p>
+  26 | |       </fieldset>
+  27 | |   </form>
+  28 | |   
+  29 | |   <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+  30 | |        viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
+  31 | |        style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;" baseProfile="test">
+  32 | |       <linearGradient id="gradient">
+  33 | |           <stop class="begin" offset="0%"/>
+  34 | |           <stop class="end" offset="100%"/>
+  35 | |       </linearGradient>
+  36 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+  37 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+  38 | |   </svg>
+  39 | |   
+  40 | |   <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
+  41 | |       <filter id="noise1" x="0" y="0" width="100%" height="100%">
+  42 | |           <feTurbulence baseFrequency="0.025" />
+  43 | |       </filter>
+  44 | |       <filter id="noise2" x="0" y="0" width="100%" height="100%">
+  45 | |           <feTurbulence baseFrequency="0.05" />
+  46 | |       </filter>
+  47 | |   
+  48 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
+  49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
+  50 | |   </svg>
+  51 | |   
+  52 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+  53 | |       <text xml:lang="en-US">This is some English text</text>
+  54 | |   </svg>
+  55 | |   
+  56 | |   <svg version="1.1"
+  57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  58 | |        width="200" height="200">
+  59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+  60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+  61 | |   </svg>
+  62 | |   
+  63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+  64 | |       <text y="20" xml:space="default">Default   spacing</text>
+  65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+  66 | |   </svg>
+  67 | |   
+  68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+  69 | |       <text xml:lang="en-US">This is some English text</text>
+  70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+  71 | |           <text x="10" y="25" >An example link.</text>
+  72 | |       </a>
+  73 | |   </svg>
+  74 | |   
+  75 | |   <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  76 | |       <style>
+  77 | |           div {
+  78 | |               color: white;
+  79 | |               font: 18px serif;
+  80 | |               height: 100%;
+  81 | |               overflow: auto;
+  82 | |           }
+  83 | |       </style>
+  84 | |   
+  85 | |       <polygon points="5,5 195,10 185,185 10,195" />
+  86 | |   
+  87 | |       <!-- Common use case: embed HTML text into SVG -->
+  88 | |       <foreignObject x="20" y="20" width="160" height="160">
+  89 | |           <!--
+  90 | |             In the context of SVG embedded in an HTML document, the XHTML
+  91 | |             namespace could be omitted, but it is mandatory in the
+  92 | |             context of an SVG document
+  93 | |           -->
+  94 | |           <div xmlns="http://www.w3.org/1999/xhtml">
+  95 | |               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  96 | |               Sed mollis mollis mi ut ultricies. Nullam magna ipsum,
+  97 | |               porta vel dui convallis, rutrum imperdiet eros. Aliquam
+  98 | |               erat volutpat.
+  99 | |           </div>
+ 100 | |       </foreignObject>
+ 101 | |   </svg>
+ 102 | |   
+ 103 | |   <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 104 | |       <g transform="translate(10,80)">
+ 105 | |           <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 106 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 107 | |                 fill="none" stroke="black"></path>
+ 108 | |           <text transform="translate(10,20)">1</text>
+ 109 | |           <switch transform="translate(35,-40)">
+ 110 | |               <foreignObject width="200" height="50"
+ 111 | |                              requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 112 | |                   <math>
+ 113 | |                       <msqrt>
+ 114 | |                           <mn>2</mn>
+ 115 | |                           <mi>r</mi>
+ 116 | |                           <mo>−</mo>
+ 117 | |                           <mn>1</mn>
+ 118 | |                       </msqrt>
+ 119 | |                   </math>
+ 120 | |               </foreignObject>
+ 121 | |               <text>\sqrt{2r - 1}</text>
+ 122 | |           </switch>
+ 123 | |       </g>
+ 124 | |   </svg>
+ 125 | |   
+ 126 | `-> </body>
+ 127 |     </html>
+     `----
+  x Element
+     ,-[$DIR/tests/fixture/element/svg/input.html:17:1]
+  16 |     </head>
+  17 | ,-> <body id="body"
+  18 | |         style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
+  19 | |   <form>
+  20 | |       <fieldset>
+  21 | |           <legend>HTML Form</legend>
+  22 | |           <p><label>Введите что-нибудь:</label>
+  23 | |               <input type="text"/>
+  24 | |               <span id="err">Incorrect value!</span></p>
+  25 | |           <p><input type="button" value="Activate!" onclick="signalError();" /></p>
+  26 | |       </fieldset>
+  27 | |   </form>
+  28 | |   
+  29 | |   <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+  30 | |        viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
+  31 | |        style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;" baseProfile="test">
+  32 | |       <linearGradient id="gradient">
+  33 | |           <stop class="begin" offset="0%"/>
+  34 | |           <stop class="end" offset="100%"/>
+  35 | |       </linearGradient>
+  36 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+  37 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+  38 | |   </svg>
+  39 | |   
+  40 | |   <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
+  41 | |       <filter id="noise1" x="0" y="0" width="100%" height="100%">
+  42 | |           <feTurbulence baseFrequency="0.025" />
+  43 | |       </filter>
+  44 | |       <filter id="noise2" x="0" y="0" width="100%" height="100%">
+  45 | |           <feTurbulence baseFrequency="0.05" />
+  46 | |       </filter>
+  47 | |   
+  48 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
+  49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
+  50 | |   </svg>
+  51 | |   
+  52 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+  53 | |       <text xml:lang="en-US">This is some English text</text>
+  54 | |   </svg>
+  55 | |   
+  56 | |   <svg version="1.1"
+  57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  58 | |        width="200" height="200">
+  59 | |       <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+  60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+  61 | |   </svg>
+  62 | |   
+  63 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+  64 | |       <text y="20" xml:space="default">Default   spacing</text>
+  65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+  66 | |   </svg>
+  67 | |   
+  68 | |   <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+  69 | |       <text xml:lang="en-US">This is some English text</text>
+  70 | |       <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+  71 | |           <text x="10" y="25" >An example link.</text>
+  72 | |       </a>
+  73 | |   </svg>
+  74 | |   
+  75 | |   <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  76 | |       <style>
+  77 | |           div {
+  78 | |               color: white;
+  79 | |               font: 18px serif;
+  80 | |               height: 100%;
+  81 | |               overflow: auto;
+  82 | |           }
+  83 | |       </style>
+  84 | |   
+  85 | |       <polygon points="5,5 195,10 185,185 10,195" />
+  86 | |   
+  87 | |       <!-- Common use case: embed HTML text into SVG -->
+  88 | |       <foreignObject x="20" y="20" width="160" height="160">
+  89 | |           <!--
+  90 | |             In the context of SVG embedded in an HTML document, the XHTML
+  91 | |             namespace could be omitted, but it is mandatory in the
+  92 | |             context of an SVG document
+  93 | |           -->
+  94 | |           <div xmlns="http://www.w3.org/1999/xhtml">
+  95 | |               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  96 | |               Sed mollis mollis mi ut ultricies. Nullam magna ipsum,
+  97 | |               porta vel dui convallis, rutrum imperdiet eros. Aliquam
+  98 | |               erat volutpat.
+  99 | |           </div>
+ 100 | |       </foreignObject>
+ 101 | |   </svg>
+ 102 | |   
+ 103 | |   <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+ 104 | |       <g transform="translate(10,80)">
+ 105 | |           <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 106 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+ 107 | |                 fill="none" stroke="black"></path>
+ 108 | |           <text transform="translate(10,20)">1</text>
+ 109 | |           <switch transform="translate(35,-40)">
+ 110 | |               <foreignObject width="200" height="50"
+ 111 | |                              requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 112 | |                   <math>
+ 113 | |                       <msqrt>
+ 114 | |                           <mn>2</mn>
+ 115 | |                           <mi>r</mi>
+ 116 | |                           <mo>−</mo>
+ 117 | |                           <mn>1</mn>
+ 118 | |                       </msqrt>
+ 119 | |                   </math>
+ 120 | |               </foreignObject>
+ 121 | |               <text>\sqrt{2r - 1}</text>
+ 122 | |           </switch>
+ 123 | |       </g>
+ 124 | |   </svg>
+ 125 | |   
+ 126 | `-> </body>
+ 127 |     </html>
+     `----
+  x Attribute
+    ,-[$DIR/tests/fixture/element/svg/input.html:17:1]
  16 | </head>
  17 | <body id="body"
     :       ^^^^^^^^^
  18 |       style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:17:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:18:1]
  17 | <body id="body"
  18 |       style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
     :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  19 | <form>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:17:1]
- 17 | <body id="body"
- 18 |       style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
-    :                                                                                                             ^
- 19 | <form>
- 20 |     <fieldset>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:17:1]
- 17 | <body id="body"
- 18 |       style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
-    :                                                                                                             ^
- 19 | <form>
- 20 |     <fieldset>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/element/svg/input.html:18:1]
+ 17 | <body id="body"
+ 18 |       style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
+    :                                                                                                             ^
+ 19 | <form>
+ 20 |     <fieldset>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:18:1]
+ 17 | <body id="body"
+ 18 |       style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
+    :                                                                                                             ^
+ 19 | <form>
+ 20 |     <fieldset>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:19:1]
  18 |           style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
  19 | ,-> <form>
  20 | |       <fieldset>
@@ -946,9 +909,8 @@
  26 | |       </fieldset>
  27 | `-> </form>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:18:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:19:1]
  18 |           style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
  19 | ,-> <form>
  20 | |       <fieldset>
@@ -960,25 +922,22 @@
  26 | |       </fieldset>
  27 | `-> </form>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:18:1]
- 18 |           style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
- 19 | ,-> <form>
- 20 | `->     <fieldset>
- 21 |             <legend>HTML Form</legend>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:18:1]
- 18 |           style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
- 19 | ,-> <form>
- 20 | `->     <fieldset>
- 21 |             <legend>HTML Form</legend>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/element/svg/input.html:19:1]
+ 18 |           style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
+ 19 | ,-> <form>
+ 20 | `->     <fieldset>
+ 21 |             <legend>HTML Form</legend>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:19:1]
+ 18 |           style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;">
+ 19 | ,-> <form>
+ 20 | `->     <fieldset>
+ 21 |             <legend>HTML Form</legend>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:20:1]
  19 |     <form>
  20 | ,->     <fieldset>
  21 | |           <legend>HTML Form</legend>
@@ -989,9 +948,8 @@
  26 | `->     </fieldset>
  27 |     </form>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:19:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:20:1]
  19 |     <form>
  20 | ,->     <fieldset>
  21 | |           <legend>HTML Form</legend>
@@ -1002,341 +960,299 @@
  26 | `->     </fieldset>
  27 |     </form>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:19:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:20:1]
  19 |     <form>
  20 | ,->     <fieldset>
  21 | `->         <legend>HTML Form</legend>
  22 |             <p><label>Введите что-нибудь:</label>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:19:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:20:1]
  19 |     <form>
  20 | ,->     <fieldset>
  21 | `->         <legend>HTML Form</legend>
  22 |             <p><label>Введите что-нибудь:</label>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:20:1]
- 20 |     <fieldset>
- 21 |         <legend>HTML Form</legend>
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 22 |         <p><label>Введите что-нибудь:</label>
-    `----
-
-  x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:20:1]
- 20 |     <fieldset>
- 21 |         <legend>HTML Form</legend>
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 22 |         <p><label>Введите что-нибудь:</label>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:20:1]
- 20 |     <fieldset>
- 21 |         <legend>HTML Form</legend>
-    :                 ^^^^^^^^^
- 22 |         <p><label>Введите что-нибудь:</label>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:20:1]
- 20 |     <fieldset>
- 21 |         <legend>HTML Form</legend>
-    :                 ^^^^^^^^^
- 22 |         <p><label>Введите что-нибудь:</label>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:20:1]
- 20 |         <fieldset>
- 21 | ,->         <legend>HTML Form</legend>
- 22 | `->         <p><label>Введите что-нибудь:</label>
- 23 |                 <input type="text"/>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:20:1]
- 20 |         <fieldset>
- 21 | ,->         <legend>HTML Form</legend>
- 22 | `->         <p><label>Введите что-нибудь:</label>
- 23 |                 <input type="text"/>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/element/svg/input.html:21:1]
+ 20 |     <fieldset>
+ 21 |         <legend>HTML Form</legend>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 22 |         <p><label>Введите что-нибудь:</label>
+    `----
+  x Element
+    ,-[$DIR/tests/fixture/element/svg/input.html:21:1]
+ 20 |     <fieldset>
+ 21 |         <legend>HTML Form</legend>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 22 |         <p><label>Введите что-нибудь:</label>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:21:1]
+ 20 |     <fieldset>
+ 21 |         <legend>HTML Form</legend>
+    :                 ^^^^^^^^^
+ 22 |         <p><label>Введите что-нибудь:</label>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:21:1]
+ 20 |     <fieldset>
+ 21 |         <legend>HTML Form</legend>
+    :                 ^^^^^^^^^
+ 22 |         <p><label>Введите что-нибудь:</label>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:21:1]
+ 20 |         <fieldset>
+ 21 | ,->         <legend>HTML Form</legend>
+ 22 | `->         <p><label>Введите что-нибудь:</label>
+ 23 |                 <input type="text"/>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:21:1]
+ 20 |         <fieldset>
+ 21 | ,->         <legend>HTML Form</legend>
+ 22 | `->         <p><label>Введите что-нибудь:</label>
+ 23 |                 <input type="text"/>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:22:1]
  21 |             <legend>HTML Form</legend>
  22 | ,->         <p><label>Введите что-нибудь:</label>
  23 | |               <input type="text"/>
  24 | `->             <span id="err">Incorrect value!</span></p>
  25 |             <p><input type="button" value="Activate!" onclick="signalError();" /></p>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:21:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:22:1]
  21 |             <legend>HTML Form</legend>
  22 | ,->         <p><label>Введите что-нибудь:</label>
  23 | |               <input type="text"/>
  24 | `->             <span id="err">Incorrect value!</span></p>
  25 |             <p><input type="button" value="Activate!" onclick="signalError();" /></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:21:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:22:1]
  21 |         <legend>HTML Form</legend>
  22 |         <p><label>Введите что-нибудь:</label>
-    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  23 |             <input type="text"/>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:21:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:22:1]
  21 |         <legend>HTML Form</legend>
  22 |         <p><label>Введите что-нибудь:</label>
-    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  23 |             <input type="text"/>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:21:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:22:1]
  21 |         <legend>HTML Form</legend>
  22 |         <p><label>Введите что-нибудь:</label>
-    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                   ^^^^^^^^^^^^^^^^^^^
  23 |             <input type="text"/>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:21:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:22:1]
  21 |         <legend>HTML Form</legend>
  22 |         <p><label>Введите что-нибудь:</label>
-    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                   ^^^^^^^^^^^^^^^^^^^
  23 |             <input type="text"/>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:21:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:22:1]
  21 |             <legend>HTML Form</legend>
  22 | ,->         <p><label>Введите что-нибудь:</label>
  23 | `->             <input type="text"/>
  24 |                 <span id="err">Incorrect value!</span></p>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:21:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:22:1]
  21 |             <legend>HTML Form</legend>
  22 | ,->         <p><label>Введите что-нибудь:</label>
  23 | `->             <input type="text"/>
  24 |                 <span id="err">Incorrect value!</span></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:22:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:23:1]
  22 |         <p><label>Введите что-нибудь:</label>
  23 |             <input type="text"/>
     :             ^^^^^^^^^^^^^^^^^^^^
  24 |             <span id="err">Incorrect value!</span></p>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:22:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:23:1]
  22 |         <p><label>Введите что-нибудь:</label>
  23 |             <input type="text"/>
     :             ^^^^^^^^^^^^^^^^^^^^
  24 |             <span id="err">Incorrect value!</span></p>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:22:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:23:1]
  22 |         <p><label>Введите что-нибудь:</label>
  23 |             <input type="text"/>
     :                    ^^^^^^^^^^^
  24 |             <span id="err">Incorrect value!</span></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:22:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:23:1]
  22 |             <p><label>Введите что-нибудь:</label>
  23 | ,->             <input type="text"/>
  24 | `->             <span id="err">Incorrect value!</span></p>
  25 |             <p><input type="button" value="Activate!" onclick="signalError();" /></p>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:22:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:23:1]
  22 |             <p><label>Введите что-нибудь:</label>
  23 | ,->             <input type="text"/>
  24 | `->             <span id="err">Incorrect value!</span></p>
  25 |             <p><input type="button" value="Activate!" onclick="signalError();" /></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:23:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:24:1]
  23 |             <input type="text"/>
  24 |             <span id="err">Incorrect value!</span></p>
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  25 |         <p><input type="button" value="Activate!" onclick="signalError();" /></p>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:23:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:24:1]
  23 |             <input type="text"/>
  24 |             <span id="err">Incorrect value!</span></p>
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  25 |         <p><input type="button" value="Activate!" onclick="signalError();" /></p>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:23:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:24:1]
  23 |             <input type="text"/>
  24 |             <span id="err">Incorrect value!</span></p>
     :                   ^^^^^^^^
  25 |         <p><input type="button" value="Activate!" onclick="signalError();" /></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:23:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:24:1]
  23 |             <input type="text"/>
  24 |             <span id="err">Incorrect value!</span></p>
     :                            ^^^^^^^^^^^^^^^^
  25 |         <p><input type="button" value="Activate!" onclick="signalError();" /></p>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:23:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:24:1]
  23 |             <input type="text"/>
  24 |             <span id="err">Incorrect value!</span></p>
     :                            ^^^^^^^^^^^^^^^^
  25 |         <p><input type="button" value="Activate!" onclick="signalError();" /></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:23:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:24:1]
  23 |                 <input type="text"/>
  24 | ,->             <span id="err">Incorrect value!</span></p>
  25 | `->         <p><input type="button" value="Activate!" onclick="signalError();" /></p>
  26 |         </fieldset>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:23:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:24:1]
  23 |                 <input type="text"/>
  24 | ,->             <span id="err">Incorrect value!</span></p>
  25 | `->         <p><input type="button" value="Activate!" onclick="signalError();" /></p>
  26 |         </fieldset>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:24:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:25:1]
  24 |             <span id="err">Incorrect value!</span></p>
  25 |         <p><input type="button" value="Activate!" onclick="signalError();" /></p>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  26 |     </fieldset>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:24:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:25:1]
  24 |             <span id="err">Incorrect value!</span></p>
  25 |         <p><input type="button" value="Activate!" onclick="signalError();" /></p>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  26 |     </fieldset>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:24:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:25:1]
  24 |             <span id="err">Incorrect value!</span></p>
  25 |         <p><input type="button" value="Activate!" onclick="signalError();" /></p>
     :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  26 |     </fieldset>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:24:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:25:1]
  24 |             <span id="err">Incorrect value!</span></p>
  25 |         <p><input type="button" value="Activate!" onclick="signalError();" /></p>
     :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  26 |     </fieldset>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:24:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:25:1]
  24 |             <span id="err">Incorrect value!</span></p>
  25 |         <p><input type="button" value="Activate!" onclick="signalError();" /></p>
     :                   ^^^^^^^^^^^^^
  26 |     </fieldset>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:24:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:25:1]
  24 |             <span id="err">Incorrect value!</span></p>
  25 |         <p><input type="button" value="Activate!" onclick="signalError();" /></p>
     :                                 ^^^^^^^^^^^^^^^^^
  26 |     </fieldset>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:24:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:25:1]
  24 |             <span id="err">Incorrect value!</span></p>
  25 |         <p><input type="button" value="Activate!" onclick="signalError();" /></p>
     :                                                   ^^^^^^^^^^^^^^^^^^^^^^^^
  26 |     </fieldset>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:24:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:25:1]
  24 |                 <span id="err">Incorrect value!</span></p>
  25 | ,->         <p><input type="button" value="Activate!" onclick="signalError();" /></p>
  26 | `->     </fieldset>
  27 |     </form>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:24:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:25:1]
  24 |                 <span id="err">Incorrect value!</span></p>
  25 | ,->         <p><input type="button" value="Activate!" onclick="signalError();" /></p>
  26 | `->     </fieldset>
  27 |     </form>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:25:1]
- 25 |         <p><input type="button" value="Activate!" onclick="signalError();" /></p>
- 26 |     </fieldset>
-    :                ^
- 27 | </form>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:25:1]
- 25 |         <p><input type="button" value="Activate!" onclick="signalError();" /></p>
- 26 |     </fieldset>
-    :                ^
- 27 | </form>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/element/svg/input.html:26:1]
+ 25 |         <p><input type="button" value="Activate!" onclick="signalError();" /></p>
+ 26 |     </fieldset>
+    :                ^
+ 27 | </form>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:26:1]
+ 25 |         <p><input type="button" value="Activate!" onclick="signalError();" /></p>
+ 26 |     </fieldset>
+    :                ^
+ 27 | </form>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:27:1]
  26 |         </fieldset>
  27 | ,-> </form>
  28 | `-> 
  29 |     <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
  30 |          viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:26:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:27:1]
  26 |         </fieldset>
  27 | ,-> </form>
  28 | `-> 
  29 |     <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
  30 |          viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:28:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:29:1]
  28 |     
  29 | ,-> <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
  30 | |        viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
@@ -1349,9 +1265,8 @@
  37 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
  38 | `-> </svg>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:28:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:29:1]
  28 |     
  29 | ,-> <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
  30 | |        viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
@@ -1364,73 +1279,64 @@
  37 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
  38 | `-> </svg>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:28:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:29:1]
  28 | 
  29 | <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
     :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  30 |      viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:28:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:29:1]
  28 | 
  29 | <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
     :                                         ^^^^^^^^^^^^^
  30 |      viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:29:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:30:1]
  29 | <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
  30 |      viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
     :      ^^^^^^^^^^^^^^^^^^^^^
  31 |      style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;" baseProfile="test">
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:29:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:30:1]
  29 | <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
  30 |      viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
     :                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  31 |      style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;" baseProfile="test">
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:30:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:31:1]
  30 |      viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
  31 |      style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;" baseProfile="test">
     :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  32 |     <linearGradient id="gradient">
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:30:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:31:1]
  30 |      viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
  31 |      style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;" baseProfile="test">
     :                                                                                     ^^^^^^^^^^^^^^^^^^
  32 |     <linearGradient id="gradient">
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:30:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:31:1]
  30 |          viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
  31 | ,->      style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;" baseProfile="test">
  32 | `->     <linearGradient id="gradient">
  33 |             <stop class="begin" offset="0%"/>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:30:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:31:1]
  30 |          viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"
  31 | ,->      style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;" baseProfile="test">
  32 | `->     <linearGradient id="gradient">
  33 |             <stop class="begin" offset="0%"/>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:31:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:32:1]
  31 |          style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;" baseProfile="test">
  32 | ,->     <linearGradient id="gradient">
  33 | |           <stop class="begin" offset="0%"/>
@@ -1438,9 +1344,8 @@
  35 | `->     </linearGradient>
  36 |         <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:31:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:32:1]
  31 |          style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;" baseProfile="test">
  32 | ,->     <linearGradient id="gradient">
  33 | |           <stop class="begin" offset="0%"/>
@@ -1448,299 +1353,262 @@
  35 | `->     </linearGradient>
  36 |         <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:31:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:32:1]
  31 |      style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;" baseProfile="test">
  32 |     <linearGradient id="gradient">
     :                     ^^^^^^^^^^^^^
  33 |         <stop class="begin" offset="0%"/>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:31:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:32:1]
  31 |          style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;" baseProfile="test">
  32 | ,->     <linearGradient id="gradient">
  33 | `->         <stop class="begin" offset="0%"/>
  34 |             <stop class="end" offset="100%"/>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:31:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:32:1]
  31 |          style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;" baseProfile="test">
  32 | ,->     <linearGradient id="gradient">
  33 | `->         <stop class="begin" offset="0%"/>
  34 |             <stop class="end" offset="100%"/>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:32:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:33:1]
  32 |     <linearGradient id="gradient">
  33 |         <stop class="begin" offset="0%"/>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  34 |         <stop class="end" offset="100%"/>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:32:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:33:1]
  32 |     <linearGradient id="gradient">
  33 |         <stop class="begin" offset="0%"/>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  34 |         <stop class="end" offset="100%"/>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:32:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:33:1]
  32 |     <linearGradient id="gradient">
  33 |         <stop class="begin" offset="0%"/>
     :               ^^^^^^^^^^^^^
  34 |         <stop class="end" offset="100%"/>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:32:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:33:1]
  32 |     <linearGradient id="gradient">
  33 |         <stop class="begin" offset="0%"/>
     :                             ^^^^^^^^^^^
  34 |         <stop class="end" offset="100%"/>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:32:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:33:1]
  32 |         <linearGradient id="gradient">
  33 | ,->         <stop class="begin" offset="0%"/>
  34 | `->         <stop class="end" offset="100%"/>
  35 |         </linearGradient>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:32:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:33:1]
  32 |         <linearGradient id="gradient">
  33 | ,->         <stop class="begin" offset="0%"/>
  34 | `->         <stop class="end" offset="100%"/>
  35 |         </linearGradient>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:33:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:34:1]
  33 |         <stop class="begin" offset="0%"/>
  34 |         <stop class="end" offset="100%"/>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  35 |     </linearGradient>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:33:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:34:1]
  33 |         <stop class="begin" offset="0%"/>
  34 |         <stop class="end" offset="100%"/>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  35 |     </linearGradient>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:33:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:34:1]
  33 |         <stop class="begin" offset="0%"/>
  34 |         <stop class="end" offset="100%"/>
     :               ^^^^^^^^^^^
  35 |     </linearGradient>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:33:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:34:1]
  33 |         <stop class="begin" offset="0%"/>
  34 |         <stop class="end" offset="100%"/>
     :                           ^^^^^^^^^^^^^
  35 |     </linearGradient>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:33:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:34:1]
  33 |             <stop class="begin" offset="0%"/>
  34 | ,->         <stop class="end" offset="100%"/>
  35 | `->     </linearGradient>
  36 |         <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:33:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:34:1]
  33 |             <stop class="begin" offset="0%"/>
  34 | ,->         <stop class="end" offset="100%"/>
  35 | `->     </linearGradient>
  36 |         <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:34:1]
- 34 |             <stop class="end" offset="100%"/>
- 35 | ,->     </linearGradient>
- 36 | `->     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
- 37 |         <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:34:1]
- 34 |             <stop class="end" offset="100%"/>
- 35 | ,->     </linearGradient>
- 36 | `->     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
- 37 |         <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/element/svg/input.html:35:1]
+ 34 |             <stop class="end" offset="100%"/>
+ 35 | ,->     </linearGradient>
+ 36 | `->     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 37 |         <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:35:1]
+ 34 |             <stop class="end" offset="100%"/>
+ 35 | ,->     </linearGradient>
+ 36 | `->     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 37 |         <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:36:1]
  35 |     </linearGradient>
  36 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  37 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:35:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:36:1]
  35 |     </linearGradient>
  36 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  37 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:35:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:36:1]
  35 |     </linearGradient>
  36 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
     :           ^^^^^
  37 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:35:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:36:1]
  35 |     </linearGradient>
  36 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
     :                 ^^^^^
  37 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:35:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:36:1]
  35 |     </linearGradient>
  36 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
     :                       ^^^^^^^^^^^
  37 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:35:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:36:1]
  35 |     </linearGradient>
  36 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
     :                                   ^^^^^^^^^^^^
  37 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:35:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:36:1]
  35 |     </linearGradient>
  36 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
     :                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  37 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:35:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:36:1]
  35 |         </linearGradient>
  36 | ,->     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  37 | `->     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
  38 |     </svg>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:35:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:36:1]
  35 |         </linearGradient>
  36 | ,->     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  37 | `->     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
  38 |     </svg>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:36:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:37:1]
  36 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  37 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  38 | </svg>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:36:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:37:1]
  36 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  37 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  38 | </svg>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:36:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:37:1]
  36 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  37 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
     :             ^^^^^^^
  38 | </svg>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:36:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:37:1]
  36 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  37 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
     :                     ^^^^^^^
  38 | </svg>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:36:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:37:1]
  36 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  37 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
     :                             ^^^^^^
  38 | </svg>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:36:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:37:1]
  36 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  37 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
     :                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  38 | </svg>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:36:1]
- 36 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
- 37 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
-    :                                                                  ^
- 38 | </svg>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:36:1]
- 36 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
- 37 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
-    :                                                                  ^
- 38 | </svg>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/element/svg/input.html:37:1]
+ 36 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 37 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+    :                                                                  ^
+ 38 | </svg>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:37:1]
+ 36 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 37 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+    :                                                                  ^
+ 38 | </svg>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:38:1]
  37 |         <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
  38 | ,-> </svg>
  39 | `-> 
  40 |     <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
  41 |         <filter id="noise1" x="0" y="0" width="100%" height="100%">
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:37:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:38:1]
  37 |         <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
  38 | ,-> </svg>
  39 | `-> 
  40 |     <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
  41 |         <filter id="noise1" x="0" y="0" width="100%" height="100%">
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:39:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:40:1]
  39 |     
  40 | ,-> <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
  41 | |       <filter id="noise1" x="0" y="0" width="100%" height="100%">
@@ -1754,9 +1622,8 @@
  49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 | `-> </svg>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:39:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:40:1]
  39 |     
  40 | ,-> <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
  41 | |       <filter id="noise1" x="0" y="0" width="100%" height="100%">
@@ -1770,583 +1637,511 @@
  49 | |       <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 | `-> </svg>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:39:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:40:1]
  39 | 
  40 | <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
     :      ^^^^^^^^^^^^^^^^^^^^^
  41 |     <filter id="noise1" x="0" y="0" width="100%" height="100%">
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:39:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:40:1]
  39 | 
  40 | <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
     :                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  41 |     <filter id="noise1" x="0" y="0" width="100%" height="100%">
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:39:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:40:1]
  39 |     
  40 | ,-> <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
  41 | `->     <filter id="noise1" x="0" y="0" width="100%" height="100%">
  42 |             <feTurbulence baseFrequency="0.025" />
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:39:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:40:1]
  39 |     
  40 | ,-> <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
  41 | `->     <filter id="noise1" x="0" y="0" width="100%" height="100%">
  42 |             <feTurbulence baseFrequency="0.025" />
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:40:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:41:1]
  40 |     <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
  41 | ,->     <filter id="noise1" x="0" y="0" width="100%" height="100%">
  42 | |           <feTurbulence baseFrequency="0.025" />
  43 | `->     </filter>
  44 |         <filter id="noise2" x="0" y="0" width="100%" height="100%">
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:40:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:41:1]
  40 |     <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
  41 | ,->     <filter id="noise1" x="0" y="0" width="100%" height="100%">
  42 | |           <feTurbulence baseFrequency="0.025" />
  43 | `->     </filter>
  44 |         <filter id="noise2" x="0" y="0" width="100%" height="100%">
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:40:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:41:1]
  40 | <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
  41 |     <filter id="noise1" x="0" y="0" width="100%" height="100%">
     :             ^^^^^^^^^^^
  42 |         <feTurbulence baseFrequency="0.025" />
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:40:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:41:1]
  40 | <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
  41 |     <filter id="noise1" x="0" y="0" width="100%" height="100%">
     :                         ^^^^^
  42 |         <feTurbulence baseFrequency="0.025" />
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:40:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:41:1]
  40 | <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
  41 |     <filter id="noise1" x="0" y="0" width="100%" height="100%">
     :                               ^^^^^
  42 |         <feTurbulence baseFrequency="0.025" />
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:40:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:41:1]
  40 | <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
  41 |     <filter id="noise1" x="0" y="0" width="100%" height="100%">
     :                                     ^^^^^^^^^^^^
  42 |         <feTurbulence baseFrequency="0.025" />
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:40:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:41:1]
  40 | <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
  41 |     <filter id="noise1" x="0" y="0" width="100%" height="100%">
     :                                                  ^^^^^^^^^^^^^
  42 |         <feTurbulence baseFrequency="0.025" />
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:40:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:41:1]
  40 |     <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
  41 | ,->     <filter id="noise1" x="0" y="0" width="100%" height="100%">
  42 | `->         <feTurbulence baseFrequency="0.025" />
  43 |         </filter>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:40:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:41:1]
  40 |     <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
  41 | ,->     <filter id="noise1" x="0" y="0" width="100%" height="100%">
  42 | `->         <feTurbulence baseFrequency="0.025" />
  43 |         </filter>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:41:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:42:1]
  41 |     <filter id="noise1" x="0" y="0" width="100%" height="100%">
  42 |         <feTurbulence baseFrequency="0.025" />
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  43 |     </filter>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:41:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:42:1]
  41 |     <filter id="noise1" x="0" y="0" width="100%" height="100%">
  42 |         <feTurbulence baseFrequency="0.025" />
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  43 |     </filter>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:41:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:42:1]
  41 |     <filter id="noise1" x="0" y="0" width="100%" height="100%">
  42 |         <feTurbulence baseFrequency="0.025" />
     :                       ^^^^^^^^^^^^^^^^^^^^^
  43 |     </filter>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:41:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:42:1]
  41 |         <filter id="noise1" x="0" y="0" width="100%" height="100%">
  42 | ,->         <feTurbulence baseFrequency="0.025" />
  43 | `->     </filter>
  44 |         <filter id="noise2" x="0" y="0" width="100%" height="100%">
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:41:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:42:1]
  41 |         <filter id="noise1" x="0" y="0" width="100%" height="100%">
  42 | ,->         <feTurbulence baseFrequency="0.025" />
  43 | `->     </filter>
  44 |         <filter id="noise2" x="0" y="0" width="100%" height="100%">
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:42:1]
- 42 |             <feTurbulence baseFrequency="0.025" />
- 43 | ,->     </filter>
- 44 | `->     <filter id="noise2" x="0" y="0" width="100%" height="100%">
- 45 |             <feTurbulence baseFrequency="0.05" />
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:42:1]
- 42 |             <feTurbulence baseFrequency="0.025" />
- 43 | ,->     </filter>
- 44 | `->     <filter id="noise2" x="0" y="0" width="100%" height="100%">
- 45 |             <feTurbulence baseFrequency="0.05" />
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/element/svg/input.html:43:1]
+ 42 |             <feTurbulence baseFrequency="0.025" />
+ 43 | ,->     </filter>
+ 44 | `->     <filter id="noise2" x="0" y="0" width="100%" height="100%">
+ 45 |             <feTurbulence baseFrequency="0.05" />
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:43:1]
+ 42 |             <feTurbulence baseFrequency="0.025" />
+ 43 | ,->     </filter>
+ 44 | `->     <filter id="noise2" x="0" y="0" width="100%" height="100%">
+ 45 |             <feTurbulence baseFrequency="0.05" />
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:44:1]
  43 |         </filter>
  44 | ,->     <filter id="noise2" x="0" y="0" width="100%" height="100%">
  45 | |           <feTurbulence baseFrequency="0.05" />
  46 | `->     </filter>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:43:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:44:1]
  43 |         </filter>
  44 | ,->     <filter id="noise2" x="0" y="0" width="100%" height="100%">
  45 | |           <feTurbulence baseFrequency="0.05" />
  46 | `->     </filter>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:43:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:44:1]
  43 |     </filter>
  44 |     <filter id="noise2" x="0" y="0" width="100%" height="100%">
     :             ^^^^^^^^^^^
  45 |         <feTurbulence baseFrequency="0.05" />
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:43:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:44:1]
  43 |     </filter>
  44 |     <filter id="noise2" x="0" y="0" width="100%" height="100%">
     :                         ^^^^^
  45 |         <feTurbulence baseFrequency="0.05" />
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:43:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:44:1]
  43 |     </filter>
  44 |     <filter id="noise2" x="0" y="0" width="100%" height="100%">
     :                               ^^^^^
  45 |         <feTurbulence baseFrequency="0.05" />
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:43:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:44:1]
  43 |     </filter>
  44 |     <filter id="noise2" x="0" y="0" width="100%" height="100%">
     :                                     ^^^^^^^^^^^^
  45 |         <feTurbulence baseFrequency="0.05" />
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:43:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:44:1]
  43 |     </filter>
  44 |     <filter id="noise2" x="0" y="0" width="100%" height="100%">
     :                                                  ^^^^^^^^^^^^^
  45 |         <feTurbulence baseFrequency="0.05" />
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:43:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:44:1]
  43 |         </filter>
  44 | ,->     <filter id="noise2" x="0" y="0" width="100%" height="100%">
  45 | `->         <feTurbulence baseFrequency="0.05" />
  46 |         </filter>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:43:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:44:1]
  43 |         </filter>
  44 | ,->     <filter id="noise2" x="0" y="0" width="100%" height="100%">
  45 | `->         <feTurbulence baseFrequency="0.05" />
  46 |         </filter>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:44:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:45:1]
  44 |     <filter id="noise2" x="0" y="0" width="100%" height="100%">
  45 |         <feTurbulence baseFrequency="0.05" />
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  46 |     </filter>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:44:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:45:1]
  44 |     <filter id="noise2" x="0" y="0" width="100%" height="100%">
  45 |         <feTurbulence baseFrequency="0.05" />
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  46 |     </filter>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:44:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:45:1]
  44 |     <filter id="noise2" x="0" y="0" width="100%" height="100%">
  45 |         <feTurbulence baseFrequency="0.05" />
     :                       ^^^^^^^^^^^^^^^^^^^^
  46 |     </filter>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:44:1]
- 44 |         <filter id="noise2" x="0" y="0" width="100%" height="100%">
- 45 | ,->         <feTurbulence baseFrequency="0.05" />
- 46 | `->     </filter>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:44:1]
- 44 |         <filter id="noise2" x="0" y="0" width="100%" height="100%">
- 45 | ,->         <feTurbulence baseFrequency="0.05" />
- 46 | `->     </filter>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/element/svg/input.html:45:1]
+ 44 |         <filter id="noise2" x="0" y="0" width="100%" height="100%">
+ 45 | ,->         <feTurbulence baseFrequency="0.05" />
+ 46 | `->     </filter>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:45:1]
+ 44 |         <filter id="noise2" x="0" y="0" width="100%" height="100%">
+ 45 | ,->         <feTurbulence baseFrequency="0.05" />
+ 46 | `->     </filter>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:46:1]
  45 |             <feTurbulence baseFrequency="0.05" />
  46 | ,->     </filter>
  47 | |   
  48 | `->     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
  49 |         <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:45:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:46:1]
  45 |             <feTurbulence baseFrequency="0.05" />
  46 | ,->     </filter>
  47 | |   
  48 | `->     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
  49 |         <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:47:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:48:1]
  47 | 
  48 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  49 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:47:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:48:1]
  47 | 
  48 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  49 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:47:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:48:1]
  47 | 
  48 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
     :           ^^^^^
  49 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:47:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:48:1]
  47 | 
  48 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
     :                 ^^^^^
  49 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:47:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:48:1]
  47 | 
  48 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
     :                       ^^^^^^^^^^^
  49 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:47:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:48:1]
  47 | 
  48 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
     :                                   ^^^^^^^^^^^^
  49 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:47:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:48:1]
  47 | 
  48 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
     :                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  49 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:47:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:48:1]
  47 |     
  48 | ,->     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
  49 | `->     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 |     </svg>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:47:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:48:1]
  47 |     
  48 | ,->     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
  49 | `->     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 |     </svg>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:48:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:49:1]
  48 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
  49 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  50 | </svg>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:48:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:49:1]
  48 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
  49 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  50 | </svg>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:48:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:49:1]
  48 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
  49 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
     :           ^^^^^
  50 | </svg>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:48:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:49:1]
  48 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
  49 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
     :                 ^^^^^
  50 | </svg>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:48:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:49:1]
  48 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
  49 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
     :                       ^^^^^^^^^^^
  50 | </svg>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:48:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:49:1]
  48 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
  49 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
     :                                   ^^^^^^^^^^^^
  50 | </svg>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:48:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:49:1]
  48 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
  49 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
     :                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  50 | </svg>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:48:1]
- 48 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
- 49 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
-    :                                                                                                              ^
- 50 | </svg>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:48:1]
- 48 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
- 49 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
-    :                                                                                                              ^
- 50 | </svg>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/element/svg/input.html:49:1]
+ 48 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
+ 49 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
+    :                                                                                                              ^
+ 50 | </svg>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:49:1]
+ 48 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise1);" />
+ 49 |     <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
+    :                                                                                                              ^
+ 50 | </svg>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:50:1]
  49 |         <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 | ,-> </svg>
  51 | `-> 
  52 |     <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
  53 |         <text xml:lang="en-US">This is some English text</text>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:49:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:50:1]
  49 |         <rect x="0" y="0" width="200" height="200" style="filter: url(#noise2); transform: translateX(220px);" />
  50 | ,-> </svg>
  51 | `-> 
  52 |     <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
  53 |         <text xml:lang="en-US">This is some English text</text>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:51:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:52:1]
  51 |     
  52 | ,-> <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
  53 | |       <text xml:lang="en-US">This is some English text</text>
  54 | `-> </svg>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:51:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:52:1]
  51 |     
  52 | ,-> <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
  53 | |       <text xml:lang="en-US">This is some English text</text>
  54 | `-> </svg>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:51:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:52:1]
  51 | 
  52 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
     :      ^^^^^^^^^^^^^^^^^^^^^
  53 |     <text xml:lang="en-US">This is some English text</text>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:51:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:52:1]
  51 | 
  52 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
     :                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  53 |     <text xml:lang="en-US">This is some English text</text>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:51:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:52:1]
  51 |     
  52 | ,-> <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
  53 | `->     <text xml:lang="en-US">This is some English text</text>
  54 |     </svg>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:51:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:52:1]
  51 |     
  52 | ,-> <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
  53 | `->     <text xml:lang="en-US">This is some English text</text>
  54 |     </svg>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:52:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:53:1]
  52 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
  53 |     <text xml:lang="en-US">This is some English text</text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  54 | </svg>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:52:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:53:1]
  52 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
  53 |     <text xml:lang="en-US">This is some English text</text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  54 | </svg>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:52:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:53:1]
  52 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
  53 |     <text xml:lang="en-US">This is some English text</text>
     :           ^^^^^^^^^^^^^^^^
  54 | </svg>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:52:1]
- 52 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
- 53 |     <text xml:lang="en-US">This is some English text</text>
-    :                            ^^^^^^^^^^^^^^^^^^^^^^^^^
- 54 | </svg>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:52:1]
- 52 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
- 53 |     <text xml:lang="en-US">This is some English text</text>
-    :                            ^^^^^^^^^^^^^^^^^^^^^^^^^
- 54 | </svg>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:52:1]
- 52 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
- 53 |     <text xml:lang="en-US">This is some English text</text>
-    :                                                            ^
- 54 | </svg>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:52:1]
- 52 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
- 53 |     <text xml:lang="en-US">This is some English text</text>
-    :                                                            ^
- 54 | </svg>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/element/svg/input.html:53:1]
+ 52 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 |     <text xml:lang="en-US">This is some English text</text>
+    :                            ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 54 | </svg>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:53:1]
+ 52 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 |     <text xml:lang="en-US">This is some English text</text>
+    :                            ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 54 | </svg>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:53:1]
+ 52 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 |     <text xml:lang="en-US">This is some English text</text>
+    :                                                            ^
+ 54 | </svg>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:53:1]
+ 52 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 53 |     <text xml:lang="en-US">This is some English text</text>
+    :                                                            ^
+ 54 | </svg>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:54:1]
  53 |         <text xml:lang="en-US">This is some English text</text>
  54 | ,-> </svg>
  55 | `-> 
  56 |     <svg version="1.1"
  57 |          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:53:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:54:1]
  53 |         <text xml:lang="en-US">This is some English text</text>
  54 | ,-> </svg>
  55 | `-> 
  56 |     <svg version="1.1"
  57 |          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:55:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:56:1]
  55 |     
  56 | ,-> <svg version="1.1"
  57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -2355,9 +2150,8 @@
  60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
  61 | `-> </svg>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:55:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:56:1]
  55 |     
  56 | ,-> <svg version="1.1"
  57 | |        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -2366,359 +2160,315 @@
  60 | |              xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
  61 | `-> </svg>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:55:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:56:1]
  55 | 
  56 | <svg version="1.1"
     :      ^^^^^^^^^^^^^
  57 |      xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:56:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:57:1]
  56 | <svg version="1.1"
  57 |      xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
     :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  58 |      width="200" height="200">
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:56:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:57:1]
  56 | <svg version="1.1"
  57 |      xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
     :                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  58 |      width="200" height="200">
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:57:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:58:1]
  57 |      xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
  58 |      width="200" height="200">
     :      ^^^^^^^^^^^
  59 |     <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:57:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:58:1]
  57 |      xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
  58 |      width="200" height="200">
     :                  ^^^^^^^^^^^^
  59 |     <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:57:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:58:1]
  57 |          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
  58 | ,->      width="200" height="200">
  59 | `->     <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
  60 |                xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:57:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:58:1]
  57 |          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
  58 | ,->      width="200" height="200">
  59 | `->     <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
  60 |                xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:58:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:59:1]
  58 |          width="200" height="200">
  59 | ,->     <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
  60 | `->            xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
  61 |     </svg>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:58:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:59:1]
  58 |          width="200" height="200">
  59 | ,->     <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
  60 | `->            xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
  61 |     </svg>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:58:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:59:1]
  58 |      width="200" height="200">
  59 |     <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
     :            ^^^^^^
  60 |            xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:58:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:59:1]
  58 |      width="200" height="200">
  59 |     <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
     :                   ^^^^^^^
  60 |            xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:58:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:59:1]
  58 |      width="200" height="200">
  59 |     <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
     :                           ^^^^^^^^^^^
  60 |            xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:58:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:59:1]
  58 |      width="200" height="200">
  59 |     <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
     :                                       ^^^^^^^^^^^^
  60 |            xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:58:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:59:1]
  58 |      width="200" height="200">
  59 |     <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
     :                                                    ^^^^^^^^^^^^^^^^^^^^^^
  60 |            xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:59:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:60:1]
  59 |     <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
  60 |            xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
     :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  61 | </svg>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:59:1]
- 59 |     <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
- 60 |            xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
-    :                                                                                                                 ^
- 61 | </svg>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:59:1]
- 59 |     <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
- 60 |            xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
-    :                                                                                                                 ^
- 61 | </svg>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/element/svg/input.html:60:1]
+ 59 |     <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 |            xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+    :                                                                                                                 ^
+ 61 | </svg>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:60:1]
+ 59 |     <image x="90" y="-65" width="128" height="146" transform="rotate(45)"
+ 60 |            xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
+    :                                                                                                                 ^
+ 61 | </svg>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:61:1]
  60 |                xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
  61 | ,-> </svg>
  62 | `-> 
  63 |     <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
  64 |         <text y="20" xml:space="default">Default   spacing</text>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:60:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:61:1]
  60 |                xlink:href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"/>
  61 | ,-> </svg>
  62 | `-> 
  63 |     <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
  64 |         <text y="20" xml:space="default">Default   spacing</text>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:62:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:63:1]
  62 |     
  63 | ,-> <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
  64 | |       <text y="20" xml:space="default">Default   spacing</text>
  65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
  66 | `-> </svg>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:62:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:63:1]
  62 |     
  63 | ,-> <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
  64 | |       <text y="20" xml:space="default">Default   spacing</text>
  65 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
  66 | `-> </svg>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:62:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:63:1]
  62 | 
  63 | <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
     :      ^^^^^^^^^^^^^^^^^^^^
  64 |     <text y="20" xml:space="default">Default   spacing</text>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:62:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:63:1]
  62 | 
  63 | <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
     :                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  64 |     <text y="20" xml:space="default">Default   spacing</text>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:62:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:63:1]
  62 |     
  63 | ,-> <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
  64 | `->     <text y="20" xml:space="default">Default   spacing</text>
  65 |         <text y="40" xml:space="preserve">Preserved   spacing</text>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:62:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:63:1]
  62 |     
  63 | ,-> <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
  64 | `->     <text y="20" xml:space="default">Default   spacing</text>
  65 |         <text y="40" xml:space="preserve">Preserved   spacing</text>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:63:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:64:1]
  63 | <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
  64 |     <text y="20" xml:space="default">Default   spacing</text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  65 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:63:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:64:1]
  63 | <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
  64 |     <text y="20" xml:space="default">Default   spacing</text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  65 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:63:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:64:1]
  63 | <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
  64 |     <text y="20" xml:space="default">Default   spacing</text>
     :           ^^^^^^
  65 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:63:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:64:1]
  63 | <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
  64 |     <text y="20" xml:space="default">Default   spacing</text>
     :                  ^^^^^^^^^^^^^^^^^^^
  65 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:63:1]
- 63 | <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
- 64 |     <text y="20" xml:space="default">Default   spacing</text>
-    :                                      ^^^^^^^^^^^^^^^^^
- 65 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:63:1]
- 63 | <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
- 64 |     <text y="20" xml:space="default">Default   spacing</text>
-    :                                      ^^^^^^^^^^^^^^^^^
- 65 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:63:1]
- 63 |     <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
- 64 | ,->     <text y="20" xml:space="default">Default   spacing</text>
- 65 | `->     <text y="40" xml:space="preserve">Preserved   spacing</text>
- 66 |     </svg>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:63:1]
- 63 |     <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
- 64 | ,->     <text y="20" xml:space="default">Default   spacing</text>
- 65 | `->     <text y="40" xml:space="preserve">Preserved   spacing</text>
- 66 |     </svg>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/element/svg/input.html:64:1]
+ 63 | <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 |     <text y="20" xml:space="default">Default   spacing</text>
+    :                                      ^^^^^^^^^^^^^^^^^
+ 65 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:64:1]
+ 63 | <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 |     <text y="20" xml:space="default">Default   spacing</text>
+    :                                      ^^^^^^^^^^^^^^^^^
+ 65 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:64:1]
+ 63 |     <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | ,->     <text y="20" xml:space="default">Default   spacing</text>
+ 65 | `->     <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 |     </svg>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:64:1]
+ 63 |     <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 64 | ,->     <text y="20" xml:space="default">Default   spacing</text>
+ 65 | `->     <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 66 |     </svg>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:65:1]
  64 |     <text y="20" xml:space="default">Default   spacing</text>
  65 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  66 | </svg>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:64:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:65:1]
  64 |     <text y="20" xml:space="default">Default   spacing</text>
  65 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  66 | </svg>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:64:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:65:1]
  64 |     <text y="20" xml:space="default">Default   spacing</text>
  65 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     :           ^^^^^^
  66 | </svg>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:64:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:65:1]
  64 |     <text y="20" xml:space="default">Default   spacing</text>
  65 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     :                  ^^^^^^^^^^^^^^^^^^^^
  66 | </svg>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:64:1]
- 64 |     <text y="20" xml:space="default">Default   spacing</text>
- 65 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
-    :                                       ^^^^^^^^^^^^^^^^^^^
- 66 | </svg>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:64:1]
- 64 |     <text y="20" xml:space="default">Default   spacing</text>
- 65 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
-    :                                       ^^^^^^^^^^^^^^^^^^^
- 66 | </svg>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:64:1]
- 64 |     <text y="20" xml:space="default">Default   spacing</text>
- 65 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
-    :                                                                 ^
- 66 | </svg>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:64:1]
- 64 |     <text y="20" xml:space="default">Default   spacing</text>
- 65 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
-    :                                                                 ^
- 66 | </svg>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/element/svg/input.html:65:1]
+ 64 |     <text y="20" xml:space="default">Default   spacing</text>
+ 65 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
+    :                                       ^^^^^^^^^^^^^^^^^^^
+ 66 | </svg>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:65:1]
+ 64 |     <text y="20" xml:space="default">Default   spacing</text>
+ 65 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
+    :                                       ^^^^^^^^^^^^^^^^^^^
+ 66 | </svg>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:65:1]
+ 64 |     <text y="20" xml:space="default">Default   spacing</text>
+ 65 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
+    :                                                                 ^
+ 66 | </svg>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:65:1]
+ 64 |     <text y="20" xml:space="default">Default   spacing</text>
+ 65 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
+    :                                                                 ^
+ 66 | </svg>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:66:1]
  65 |         <text y="40" xml:space="preserve">Preserved   spacing</text>
  66 | ,-> </svg>
  67 | `-> 
  68 |     <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
  69 |         <text xml:lang="en-US">This is some English text</text>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:65:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:66:1]
  65 |         <text y="40" xml:space="preserve">Preserved   spacing</text>
  66 | ,-> </svg>
  67 | `-> 
  68 |     <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
  69 |         <text xml:lang="en-US">This is some English text</text>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:67:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:68:1]
  67 |     
  68 | ,-> <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
  69 | |       <text xml:lang="en-US">This is some English text</text>
@@ -2727,9 +2477,8 @@
  72 | |       </a>
  73 | `-> </svg>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:67:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:68:1]
  67 |     
  68 | ,-> <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
  69 | |       <text xml:lang="en-US">This is some English text</text>
@@ -2738,245 +2487,215 @@
  72 | |       </a>
  73 | `-> </svg>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:67:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:68:1]
  67 | 
  68 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
     :      ^^^^^^^^^^^^^^^^^^^^^
  69 |     <text xml:lang="en-US">This is some English text</text>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:67:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:68:1]
  67 | 
  68 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
     :                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  69 |     <text xml:lang="en-US">This is some English text</text>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:67:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:68:1]
  67 |     
  68 | ,-> <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
  69 | `->     <text xml:lang="en-US">This is some English text</text>
  70 |         <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:67:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:68:1]
  67 |     
  68 | ,-> <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
  69 | `->     <text xml:lang="en-US">This is some English text</text>
  70 |         <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:68:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:69:1]
  68 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
  69 |     <text xml:lang="en-US">This is some English text</text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  70 |     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:68:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:69:1]
  68 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
  69 |     <text xml:lang="en-US">This is some English text</text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  70 |     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:68:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:69:1]
  68 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
  69 |     <text xml:lang="en-US">This is some English text</text>
     :           ^^^^^^^^^^^^^^^^
  70 |     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:68:1]
- 68 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
- 69 |     <text xml:lang="en-US">This is some English text</text>
-    :                            ^^^^^^^^^^^^^^^^^^^^^^^^^
- 70 |     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:68:1]
- 68 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
- 69 |     <text xml:lang="en-US">This is some English text</text>
-    :                            ^^^^^^^^^^^^^^^^^^^^^^^^^
- 70 |     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:68:1]
- 68 |     <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
- 69 | ,->     <text xml:lang="en-US">This is some English text</text>
- 70 | `->     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
- 71 |             <text x="10" y="25" >An example link.</text>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:68:1]
- 68 |     <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
- 69 | ,->     <text xml:lang="en-US">This is some English text</text>
- 70 | `->     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
- 71 |             <text x="10" y="25" >An example link.</text>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/element/svg/input.html:69:1]
+ 68 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 |     <text xml:lang="en-US">This is some English text</text>
+    :                            ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 70 |     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:69:1]
+ 68 | <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 |     <text xml:lang="en-US">This is some English text</text>
+    :                            ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 70 |     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:69:1]
+ 68 |     <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | ,->     <text xml:lang="en-US">This is some English text</text>
+ 70 | `->     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 |             <text x="10" y="25" >An example link.</text>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:69:1]
+ 68 |     <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+ 69 | ,->     <text xml:lang="en-US">This is some English text</text>
+ 70 | `->     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
+ 71 |             <text x="10" y="25" >An example link.</text>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:70:1]
  69 |         <text xml:lang="en-US">This is some English text</text>
  70 | ,->     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
  71 | |           <text x="10" y="25" >An example link.</text>
  72 | `->     </a>
  73 |     </svg>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:69:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:70:1]
  69 |         <text xml:lang="en-US">This is some English text</text>
  70 | ,->     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
  71 | |           <text x="10" y="25" >An example link.</text>
  72 | `->     </a>
  73 |     </svg>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:69:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:70:1]
  69 |     <text xml:lang="en-US">This is some English text</text>
  70 |     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  71 |         <text x="10" y="25" >An example link.</text>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:69:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:70:1]
  69 |     <text xml:lang="en-US">This is some English text</text>
  70 |     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
     :                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  71 |         <text x="10" y="25" >An example link.</text>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:69:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:70:1]
  69 |         <text xml:lang="en-US">This is some English text</text>
  70 | ,->     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
  71 | `->         <text x="10" y="25" >An example link.</text>
  72 |         </a>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:69:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:70:1]
  69 |         <text xml:lang="en-US">This is some English text</text>
  70 | ,->     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
  71 | `->         <text x="10" y="25" >An example link.</text>
  72 |         </a>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:70:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:71:1]
  70 |     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
  71 |         <text x="10" y="25" >An example link.</text>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  72 |     </a>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:70:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:71:1]
  70 |     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
  71 |         <text x="10" y="25" >An example link.</text>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  72 |     </a>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:70:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:71:1]
  70 |     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
  71 |         <text x="10" y="25" >An example link.</text>
     :               ^^^^^^
  72 |     </a>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:70:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:71:1]
  70 |     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
  71 |         <text x="10" y="25" >An example link.</text>
     :                      ^^^^^^
  72 |     </a>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:70:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:71:1]
  70 |     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
  71 |         <text x="10" y="25" >An example link.</text>
     :                              ^^^^^^^^^^^^^^^^
  72 |     </a>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:70:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:71:1]
  70 |     <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
  71 |         <text x="10" y="25" >An example link.</text>
     :                              ^^^^^^^^^^^^^^^^
  72 |     </a>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:70:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:71:1]
  70 |         <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
  71 | ,->         <text x="10" y="25" >An example link.</text>
  72 | `->     </a>
  73 |     </svg>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:70:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:71:1]
  70 |         <a xlink:href= "http://example.com/link/" xlink:title="The link leads to an example page that is of little interest">
  71 | ,->         <text x="10" y="25" >An example link.</text>
  72 | `->     </a>
  73 |     </svg>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:71:1]
- 71 |         <text x="10" y="25" >An example link.</text>
- 72 |     </a>
-    :         ^
- 73 | </svg>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:71:1]
- 71 |         <text x="10" y="25" >An example link.</text>
- 72 |     </a>
-    :         ^
- 73 | </svg>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/element/svg/input.html:72:1]
+ 71 |         <text x="10" y="25" >An example link.</text>
+ 72 |     </a>
+    :         ^
+ 73 | </svg>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:72:1]
+ 71 |         <text x="10" y="25" >An example link.</text>
+ 72 |     </a>
+    :         ^
+ 73 | </svg>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:73:1]
  72 |         </a>
  73 | ,-> </svg>
  74 | `-> 
  75 |     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
  76 |         <style>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:72:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:73:1]
  72 |         </a>
  73 | ,-> </svg>
  74 | `-> 
  75 |     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
  76 |         <style>
     `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:74:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:75:1]
   74 |     
   75 | ,-> <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
   76 | |       <style>
@@ -3006,9 +2725,8 @@
  100 | |       </foreignObject>
  101 | `-> </svg>
      `----
-
   x Element
-     ,-[$DIR/tests/fixture/element/svg/input.html:74:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:75:1]
   74 |     
   75 | ,-> <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
   76 | |       <style>
@@ -3038,41 +2756,36 @@
  100 | |       </foreignObject>
  101 | `-> </svg>
      `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:74:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:75:1]
  74 | 
  75 | <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
     :      ^^^^^^^^^^^^^^^^^^^^^
  76 |     <style>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:74:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:75:1]
  74 | 
  75 | <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
     :                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  76 |     <style>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:74:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:75:1]
  74 |     
  75 | ,-> <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
  76 | `->     <style>
  77 |             div {
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:74:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:75:1]
  74 |     
  75 | ,-> <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
  76 | `->     <style>
  77 |             div {
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:75:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:76:1]
  75 |     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
  76 | ,->     <style>
  77 | |           div {
@@ -3083,9 +2796,8 @@
  82 | |           }
  83 | `->     </style>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:75:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:76:1]
  75 |     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
  76 | ,->     <style>
  77 | |           div {
@@ -3096,9 +2808,8 @@
  82 | |           }
  83 | `->     </style>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:75:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:76:1]
  75 |     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
  76 | ,->     <style>
  77 | |           div {
@@ -3109,9 +2820,8 @@
  82 | |           }
  83 | `->     </style>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:75:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:76:1]
  75 |     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
  76 | ,->     <style>
  77 | |           div {
@@ -3122,182 +2832,162 @@
  82 | |           }
  83 | `->     </style>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:82:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:83:1]
  82 |             }
  83 | ,->     </style>
  84 | |   
  85 | `->     <polygon points="5,5 195,10 185,185 10,195" />
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:82:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:83:1]
  82 |             }
  83 | ,->     </style>
  84 | |   
  85 | `->     <polygon points="5,5 195,10 185,185 10,195" />
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:84:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:85:1]
  84 | 
  85 |     <polygon points="5,5 195,10 185,185 10,195" />
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/svg/input.html:84:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:85:1]
  84 | 
  85 |     <polygon points="5,5 195,10 185,185 10,195" />
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:84:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:85:1]
  84 | 
  85 |     <polygon points="5,5 195,10 185,185 10,195" />
     :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:84:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:85:1]
  84 |     
  85 | ,->     <polygon points="5,5 195,10 185,185 10,195" />
  86 | |   
  87 | `->     <!-- Common use case: embed HTML text into SVG -->
  88 |         <foreignObject x="20" y="20" width="160" height="160">
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:84:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:85:1]
  84 |     
  85 | ,->     <polygon points="5,5 195,10 185,185 10,195" />
  86 | |   
  87 | `->     <!-- Common use case: embed HTML text into SVG -->
  88 |         <foreignObject x="20" y="20" width="160" height="160">
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:86:1]
- 86 | 
- 87 |     <!-- Common use case: embed HTML text into SVG -->
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 88 |     <foreignObject x="20" y="20" width="160" height="160">
-    `----
-
-  x Comment
-    ,-[$DIR/tests/fixture/element/svg/input.html:86:1]
- 86 | 
- 87 |     <!-- Common use case: embed HTML text into SVG -->
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 88 |     <foreignObject x="20" y="20" width="160" height="160">
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:86:1]
- 86 |     
- 87 | ,->     <!-- Common use case: embed HTML text into SVG -->
- 88 | `->     <foreignObject x="20" y="20" width="160" height="160">
- 89 |             <!--
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:86:1]
- 86 |     
- 87 | ,->     <!-- Common use case: embed HTML text into SVG -->
- 88 | `->     <foreignObject x="20" y="20" width="160" height="160">
- 89 |             <!--
-    `----
-
-  x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:87:1]
-  87 |         <!-- Common use case: embed HTML text into SVG -->
-  88 | ,->     <foreignObject x="20" y="20" width="160" height="160">
-  89 | |           <!--
-  90 | |             In the context of SVG embedded in an HTML document, the XHTML
-  91 | |             namespace could be omitted, but it is mandatory in the
-  92 | |             context of an SVG document
-  93 | |           -->
-  94 | |           <div xmlns="http://www.w3.org/1999/xhtml">
-  95 | |               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  96 | |               Sed mollis mollis mi ut ultricies. Nullam magna ipsum,
-  97 | |               porta vel dui convallis, rutrum imperdiet eros. Aliquam
-  98 | |               erat volutpat.
-  99 | |           </div>
- 100 | `->     </foreignObject>
- 101 |     </svg>
-     `----
-
-  x Element
-     ,-[$DIR/tests/fixture/element/svg/input.html:87:1]
-  87 |         <!-- Common use case: embed HTML text into SVG -->
-  88 | ,->     <foreignObject x="20" y="20" width="160" height="160">
-  89 | |           <!--
-  90 | |             In the context of SVG embedded in an HTML document, the XHTML
-  91 | |             namespace could be omitted, but it is mandatory in the
-  92 | |             context of an SVG document
-  93 | |           -->
-  94 | |           <div xmlns="http://www.w3.org/1999/xhtml">
-  95 | |               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  96 | |               Sed mollis mollis mi ut ultricies. Nullam magna ipsum,
-  97 | |               porta vel dui convallis, rutrum imperdiet eros. Aliquam
-  98 | |               erat volutpat.
-  99 | |           </div>
- 100 | `->     </foreignObject>
- 101 |     </svg>
-     `----
-
-  x Attribute
     ,-[$DIR/tests/fixture/element/svg/input.html:87:1]
+ 86 | 
+ 87 |     <!-- Common use case: embed HTML text into SVG -->
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 88 |     <foreignObject x="20" y="20" width="160" height="160">
+    `----
+  x Comment
+    ,-[$DIR/tests/fixture/element/svg/input.html:87:1]
+ 86 | 
+ 87 |     <!-- Common use case: embed HTML text into SVG -->
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 88 |     <foreignObject x="20" y="20" width="160" height="160">
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:87:1]
+ 86 |     
+ 87 | ,->     <!-- Common use case: embed HTML text into SVG -->
+ 88 | `->     <foreignObject x="20" y="20" width="160" height="160">
+ 89 |             <!--
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:87:1]
+ 86 |     
+ 87 | ,->     <!-- Common use case: embed HTML text into SVG -->
+ 88 | `->     <foreignObject x="20" y="20" width="160" height="160">
+ 89 |             <!--
+    `----
+  x Child
+     ,-[$DIR/tests/fixture/element/svg/input.html:88:1]
+  87 |         <!-- Common use case: embed HTML text into SVG -->
+  88 | ,->     <foreignObject x="20" y="20" width="160" height="160">
+  89 | |           <!--
+  90 | |             In the context of SVG embedded in an HTML document, the XHTML
+  91 | |             namespace could be omitted, but it is mandatory in the
+  92 | |             context of an SVG document
+  93 | |           -->
+  94 | |           <div xmlns="http://www.w3.org/1999/xhtml">
+  95 | |               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  96 | |               Sed mollis mollis mi ut ultricies. Nullam magna ipsum,
+  97 | |               porta vel dui convallis, rutrum imperdiet eros. Aliquam
+  98 | |               erat volutpat.
+  99 | |           </div>
+ 100 | `->     </foreignObject>
+ 101 |     </svg>
+     `----
+  x Element
+     ,-[$DIR/tests/fixture/element/svg/input.html:88:1]
+  87 |         <!-- Common use case: embed HTML text into SVG -->
+  88 | ,->     <foreignObject x="20" y="20" width="160" height="160">
+  89 | |           <!--
+  90 | |             In the context of SVG embedded in an HTML document, the XHTML
+  91 | |             namespace could be omitted, but it is mandatory in the
+  92 | |             context of an SVG document
+  93 | |           -->
+  94 | |           <div xmlns="http://www.w3.org/1999/xhtml">
+  95 | |               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  96 | |               Sed mollis mollis mi ut ultricies. Nullam magna ipsum,
+  97 | |               porta vel dui convallis, rutrum imperdiet eros. Aliquam
+  98 | |               erat volutpat.
+  99 | |           </div>
+ 100 | `->     </foreignObject>
+ 101 |     </svg>
+     `----
+  x Attribute
+    ,-[$DIR/tests/fixture/element/svg/input.html:88:1]
  87 |     <!-- Common use case: embed HTML text into SVG -->
  88 |     <foreignObject x="20" y="20" width="160" height="160">
     :                    ^^^^^^
  89 |         <!--
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:87:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:88:1]
  87 |     <!-- Common use case: embed HTML text into SVG -->
  88 |     <foreignObject x="20" y="20" width="160" height="160">
     :                           ^^^^^^
  89 |         <!--
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:87:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:88:1]
  87 |     <!-- Common use case: embed HTML text into SVG -->
  88 |     <foreignObject x="20" y="20" width="160" height="160">
     :                                  ^^^^^^^^^^^
  89 |         <!--
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/svg/input.html:87:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:88:1]
  87 |     <!-- Common use case: embed HTML text into SVG -->
  88 |     <foreignObject x="20" y="20" width="160" height="160">
     :                                              ^^^^^^^^^^^^
  89 |         <!--
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:87:1]
- 87 |         <!-- Common use case: embed HTML text into SVG -->
- 88 | ,->     <foreignObject x="20" y="20" width="160" height="160">
- 89 | `->         <!--
- 90 |               In the context of SVG embedded in an HTML document, the XHTML
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:87:1]
- 87 |         <!-- Common use case: embed HTML text into SVG -->
- 88 | ,->     <foreignObject x="20" y="20" width="160" height="160">
- 89 | `->         <!--
- 90 |               In the context of SVG embedded in an HTML document, the XHTML
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/element/svg/input.html:88:1]
+ 87 |         <!-- Common use case: embed HTML text into SVG -->
+ 88 | ,->     <foreignObject x="20" y="20" width="160" height="160">
+ 89 | `->         <!--
+ 90 |               In the context of SVG embedded in an HTML document, the XHTML
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:88:1]
+ 87 |         <!-- Common use case: embed HTML text into SVG -->
+ 88 | ,->     <foreignObject x="20" y="20" width="160" height="160">
+ 89 | `->         <!--
+ 90 |               In the context of SVG embedded in an HTML document, the XHTML
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/svg/input.html:89:1]
  88 |         <foreignObject x="20" y="20" width="160" height="160">
  89 | ,->         <!--
  90 | |             In the context of SVG embedded in an HTML document, the XHTML
@@ -3306,9 +2996,8 @@
  93 | `->         -->
  94 |             <div xmlns="http://www.w3.org/1999/xhtml">
     `----
-
   x Comment
-    ,-[$DIR/tests/fixture/element/svg/input.html:88:1]
+    ,-[$DIR/tests/fixture/element/svg/input.html:89:1]
  88 |         <foreignObject x="20" y="20" width="160" height="160">
  89 | ,->         <!--
  90 | |             In the context of SVG embedded in an HTML document, the XHTML
@@ -3317,57 +3006,51 @@
  93 | `->         -->
  94 |             <div xmlns="http://www.w3.org/1999/xhtml">
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/svg/input.html:92:1]
- 92 |               context of an SVG document
- 93 | ,->         -->
- 94 | `->         <div xmlns="http://www.w3.org/1999/xhtml">
- 95 |                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/svg/input.html:92:1]
- 92 |               context of an SVG document
- 93 | ,->         -->
- 94 | `->         <div xmlns="http://www.w3.org/1999/xhtml">
- 95 |                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    `----
-
-  x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:93:1]
-  93 |             -->
-  94 | ,->         <div xmlns="http://www.w3.org/1999/xhtml">
-  95 | |               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  96 | |               Sed mollis mollis mi ut ultricies. Nullam magna ipsum,
-  97 | |               porta vel dui convallis, rutrum imperdiet eros. Aliquam
-  98 | |               erat volutpat.
-  99 | `->         </div>
- 100 |         </foreignObject>
-     `----
-
-  x Element
-     ,-[$DIR/tests/fixture/element/svg/input.html:93:1]
-  93 |             -->
-  94 | ,->         <div xmlns="http://www.w3.org/1999/xhtml">
-  95 | |               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  96 | |               Sed mollis mollis mi ut ultricies. Nullam magna ipsum,
-  97 | |               porta vel dui convallis, rutrum imperdiet eros. Aliquam
-  98 | |               erat volutpat.
-  99 | `->         </div>
- 100 |         </foreignObject>
-     `----
-
-  x Attribute
     ,-[$DIR/tests/fixture/element/svg/input.html:93:1]
+ 92 |               context of an SVG document
+ 93 | ,->         -->
+ 94 | `->         <div xmlns="http://www.w3.org/1999/xhtml">
+ 95 |                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/svg/input.html:93:1]
+ 92 |               context of an SVG document
+ 93 | ,->         -->
+ 94 | `->         <div xmlns="http://www.w3.org/1999/xhtml">
+ 95 |                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    `----
+  x Child
+     ,-[$DIR/tests/fixture/element/svg/input.html:94:1]
+  93 |             -->
+  94 | ,->         <div xmlns="http://www.w3.org/1999/xhtml">
+  95 | |               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  96 | |               Sed mollis mollis mi ut ultricies. Nullam magna ipsum,
+  97 | |               porta vel dui convallis, rutrum imperdiet eros. Aliquam
+  98 | |               erat volutpat.
+  99 | `->         </div>
+ 100 |         </foreignObject>
+     `----
+  x Element
+     ,-[$DIR/tests/fixture/element/svg/input.html:94:1]
+  93 |             -->
+  94 | ,->         <div xmlns="http://www.w3.org/1999/xhtml">
+  95 | |               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  96 | |               Sed mollis mollis mi ut ultricies. Nullam magna ipsum,
+  97 | |               porta vel dui convallis, rutrum imperdiet eros. Aliquam
+  98 | |               erat volutpat.
+  99 | `->         </div>
+ 100 |         </foreignObject>
+     `----
+  x Attribute
+    ,-[$DIR/tests/fixture/element/svg/input.html:94:1]
  93 |         -->
  94 |         <div xmlns="http://www.w3.org/1999/xhtml">
     :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  95 |             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:93:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:94:1]
   93 |             -->
   94 | ,->         <div xmlns="http://www.w3.org/1999/xhtml">
   95 | |               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -3377,9 +3060,8 @@
   99 | `->         </div>
  100 |         </foreignObject>
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:93:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:94:1]
   93 |             -->
   94 | ,->         <div xmlns="http://www.w3.org/1999/xhtml">
   95 | |               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -3389,59 +3071,52 @@
   99 | `->         </div>
  100 |         </foreignObject>
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:98:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:99:1]
   98 |                 erat volutpat.
   99 | ,->         </div>
  100 | `->     </foreignObject>
  101 |     </svg>
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:98:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:99:1]
   98 |                 erat volutpat.
   99 | ,->         </div>
  100 | `->     </foreignObject>
  101 |     </svg>
      `----
-
-  x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:99:1]
-  99 |         </div>
- 100 |     </foreignObject>
-     :                     ^
- 101 | </svg>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:99:1]
-  99 |         </div>
- 100 |     </foreignObject>
-     :                     ^
- 101 | </svg>
-     `----
-
   x Child
      ,-[$DIR/tests/fixture/element/svg/input.html:100:1]
+  99 |         </div>
+ 100 |     </foreignObject>
+     :                     ^
+ 101 | </svg>
+     `----
+  x Text
+     ,-[$DIR/tests/fixture/element/svg/input.html:100:1]
+  99 |         </div>
+ 100 |     </foreignObject>
+     :                     ^
+ 101 | </svg>
+     `----
+  x Child
+     ,-[$DIR/tests/fixture/element/svg/input.html:101:1]
  100 |         </foreignObject>
  101 | ,-> </svg>
  102 | `-> 
  103 |     <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
  104 |         <g transform="translate(10,80)">
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:100:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:101:1]
  100 |         </foreignObject>
  101 | ,-> </svg>
  102 | `-> 
  103 |     <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
  104 |         <g transform="translate(10,80)">
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:102:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:103:1]
  102 |     
  103 | ,-> <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
  104 | |       <g transform="translate(10,80)">
@@ -3466,9 +3141,8 @@
  123 | |       </g>
  124 | `-> </svg>
      `----
-
   x Element
-     ,-[$DIR/tests/fixture/element/svg/input.html:102:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:103:1]
  102 |     
  103 | ,-> <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
  104 | |       <g transform="translate(10,80)">
@@ -3493,57 +3167,50 @@
  123 | |       </g>
  124 | `-> </svg>
      `----
-
   x Attribute
-     ,-[$DIR/tests/fixture/element/svg/input.html:102:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:103:1]
  102 | 
  103 | <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
      :      ^^^^^^^^^^^^^^^^^^^^^^^
  104 |     <g transform="translate(10,80)">
      `----
-
   x Attribute
-     ,-[$DIR/tests/fixture/element/svg/input.html:102:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:103:1]
  102 | 
  103 | <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
      :                              ^^^^^^^^^^^^^
  104 |     <g transform="translate(10,80)">
      `----
-
   x Attribute
-     ,-[$DIR/tests/fixture/element/svg/input.html:102:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:103:1]
  102 | 
  103 | <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
      :                                            ^^^^^^^^^^^^^^
  104 |     <g transform="translate(10,80)">
      `----
-
   x Attribute
-     ,-[$DIR/tests/fixture/element/svg/input.html:102:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:103:1]
  102 | 
  103 | <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
      :                                                           ^^^^^^^^^^^^^^^^^^^^^
  104 |     <g transform="translate(10,80)">
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:102:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:103:1]
  102 |     
  103 | ,-> <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
  104 | `->     <g transform="translate(10,80)">
  105 |             <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:102:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:103:1]
  102 |     
  103 | ,-> <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
  104 | `->     <g transform="translate(10,80)">
  105 |             <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:103:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:104:1]
  103 |     <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
  104 | ,->     <g transform="translate(10,80)">
  105 | |           <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
@@ -3567,9 +3234,8 @@
  123 | `->     </g>
  124 |     </svg>
      `----
-
   x Element
-     ,-[$DIR/tests/fixture/element/svg/input.html:103:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:104:1]
  103 |     <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
  104 | ,->     <g transform="translate(10,80)">
  105 | |           <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
@@ -3593,147 +3259,129 @@
  123 | `->     </g>
  124 |     </svg>
      `----
-
   x Attribute
-     ,-[$DIR/tests/fixture/element/svg/input.html:103:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:104:1]
  103 | <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
  104 |     <g transform="translate(10,80)">
      :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  105 |         <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:103:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:104:1]
  103 |     <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
  104 | ,->     <g transform="translate(10,80)">
  105 | `->         <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
  106 |                  M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:103:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:104:1]
  103 |     <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
  104 | ,->     <g transform="translate(10,80)">
  105 | `->         <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
  106 |                  M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:104:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:105:1]
  104 |         <g transform="translate(10,80)">
  105 | ,->         <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
  106 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
  107 | `->               fill="none" stroke="black"></path>
  108 |             <text transform="translate(10,20)">1</text>
      `----
-
   x Element
-     ,-[$DIR/tests/fixture/element/svg/input.html:104:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:105:1]
  104 |         <g transform="translate(10,80)">
  105 | ,->         <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
  106 | |                M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
  107 | `->               fill="none" stroke="black"></path>
  108 |             <text transform="translate(10,20)">1</text>
      `----
-
   x Attribute
-     ,-[$DIR/tests/fixture/element/svg/input.html:104:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:105:1]
  104 |         <g transform="translate(10,80)">
  105 | ,->         <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
  106 | `->              M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
  107 |                   fill="none" stroke="black"></path>
      `----
-
   x Attribute
-     ,-[$DIR/tests/fixture/element/svg/input.html:106:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:107:1]
  106 |              M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
  107 |               fill="none" stroke="black"></path>
      :               ^^^^^^^^^^^
  108 |         <text transform="translate(10,20)">1</text>
      `----
-
   x Attribute
-     ,-[$DIR/tests/fixture/element/svg/input.html:106:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:107:1]
  106 |              M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
  107 |               fill="none" stroke="black"></path>
      :                           ^^^^^^^^^^^^^^
  108 |         <text transform="translate(10,20)">1</text>
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:106:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:107:1]
  106 |                  M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
  107 | ,->               fill="none" stroke="black"></path>
  108 | `->         <text transform="translate(10,20)">1</text>
  109 |             <switch transform="translate(35,-40)">
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:106:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:107:1]
  106 |                  M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
  107 | ,->               fill="none" stroke="black"></path>
  108 | `->         <text transform="translate(10,20)">1</text>
  109 |             <switch transform="translate(35,-40)">
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:107:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:108:1]
  107 |               fill="none" stroke="black"></path>
  108 |         <text transform="translate(10,20)">1</text>
      :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  109 |         <switch transform="translate(35,-40)">
      `----
-
   x Element
-     ,-[$DIR/tests/fixture/element/svg/input.html:107:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:108:1]
  107 |               fill="none" stroke="black"></path>
  108 |         <text transform="translate(10,20)">1</text>
      :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  109 |         <switch transform="translate(35,-40)">
      `----
-
   x Attribute
-     ,-[$DIR/tests/fixture/element/svg/input.html:107:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:108:1]
  107 |               fill="none" stroke="black"></path>
  108 |         <text transform="translate(10,20)">1</text>
      :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  109 |         <switch transform="translate(35,-40)">
      `----
-
-  x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:107:1]
- 107 |               fill="none" stroke="black"></path>
- 108 |         <text transform="translate(10,20)">1</text>
-     :                                            ^
- 109 |         <switch transform="translate(35,-40)">
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:107:1]
- 107 |               fill="none" stroke="black"></path>
- 108 |         <text transform="translate(10,20)">1</text>
-     :                                            ^
- 109 |         <switch transform="translate(35,-40)">
-     `----
-
-  x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:107:1]
- 107 |                   fill="none" stroke="black"></path>
- 108 | ,->         <text transform="translate(10,20)">1</text>
- 109 | `->         <switch transform="translate(35,-40)">
- 110 |                 <foreignObject width="200" height="50"
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:107:1]
- 107 |                   fill="none" stroke="black"></path>
- 108 | ,->         <text transform="translate(10,20)">1</text>
- 109 | `->         <switch transform="translate(35,-40)">
- 110 |                 <foreignObject width="200" height="50"
-     `----
-
   x Child
      ,-[$DIR/tests/fixture/element/svg/input.html:108:1]
+ 107 |               fill="none" stroke="black"></path>
+ 108 |         <text transform="translate(10,20)">1</text>
+     :                                            ^
+ 109 |         <switch transform="translate(35,-40)">
+     `----
+  x Text
+     ,-[$DIR/tests/fixture/element/svg/input.html:108:1]
+ 107 |               fill="none" stroke="black"></path>
+ 108 |         <text transform="translate(10,20)">1</text>
+     :                                            ^
+ 109 |         <switch transform="translate(35,-40)">
+     `----
+  x Child
+     ,-[$DIR/tests/fixture/element/svg/input.html:108:1]
+ 107 |                   fill="none" stroke="black"></path>
+ 108 | ,->         <text transform="translate(10,20)">1</text>
+ 109 | `->         <switch transform="translate(35,-40)">
+ 110 |                 <foreignObject width="200" height="50"
+     `----
+  x Text
+     ,-[$DIR/tests/fixture/element/svg/input.html:108:1]
+ 107 |                   fill="none" stroke="black"></path>
+ 108 | ,->         <text transform="translate(10,20)">1</text>
+ 109 | `->         <switch transform="translate(35,-40)">
+ 110 |                 <foreignObject width="200" height="50"
+     `----
+  x Child
+     ,-[$DIR/tests/fixture/element/svg/input.html:109:1]
  108 |             <text transform="translate(10,20)">1</text>
  109 | ,->         <switch transform="translate(35,-40)">
  110 | |               <foreignObject width="200" height="50"
@@ -3751,9 +3399,8 @@
  122 | `->         </switch>
  123 |         </g>
      `----
-
   x Element
-     ,-[$DIR/tests/fixture/element/svg/input.html:108:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:109:1]
  108 |             <text transform="translate(10,20)">1</text>
  109 | ,->         <switch transform="translate(35,-40)">
  110 | |               <foreignObject width="200" height="50"
@@ -3771,33 +3418,29 @@
  122 | `->         </switch>
  123 |         </g>
      `----
-
   x Attribute
-     ,-[$DIR/tests/fixture/element/svg/input.html:108:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:109:1]
  108 |         <text transform="translate(10,20)">1</text>
  109 |         <switch transform="translate(35,-40)">
      :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  110 |             <foreignObject width="200" height="50"
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:108:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:109:1]
  108 |             <text transform="translate(10,20)">1</text>
  109 | ,->         <switch transform="translate(35,-40)">
  110 | `->             <foreignObject width="200" height="50"
  111 |                                requiredExtensions="http://www.w3.org/1998/Math/MathML">
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:108:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:109:1]
  108 |             <text transform="translate(10,20)">1</text>
  109 | ,->         <switch transform="translate(35,-40)">
  110 | `->             <foreignObject width="200" height="50"
  111 |                                requiredExtensions="http://www.w3.org/1998/Math/MathML">
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:109:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:110:1]
  109 |             <switch transform="translate(35,-40)">
  110 | ,->             <foreignObject width="200" height="50"
  111 | |                              requiredExtensions="http://www.w3.org/1998/Math/MathML">
@@ -3812,9 +3455,8 @@
  120 | `->             </foreignObject>
  121 |                 <text>\sqrt{2r - 1}</text>
      `----
-
   x Element
-     ,-[$DIR/tests/fixture/element/svg/input.html:109:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:110:1]
  109 |             <switch transform="translate(35,-40)">
  110 | ,->             <foreignObject width="200" height="50"
  111 | |                              requiredExtensions="http://www.w3.org/1998/Math/MathML">
@@ -3829,49 +3471,43 @@
  120 | `->             </foreignObject>
  121 |                 <text>\sqrt{2r - 1}</text>
      `----
-
   x Attribute
-     ,-[$DIR/tests/fixture/element/svg/input.html:109:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:110:1]
  109 |         <switch transform="translate(35,-40)">
  110 |             <foreignObject width="200" height="50"
      :                            ^^^^^^^^^^^
  111 |                            requiredExtensions="http://www.w3.org/1998/Math/MathML">
      `----
-
   x Attribute
-     ,-[$DIR/tests/fixture/element/svg/input.html:109:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:110:1]
  109 |         <switch transform="translate(35,-40)">
  110 |             <foreignObject width="200" height="50"
      :                                        ^^^^^^^^^^^
  111 |                            requiredExtensions="http://www.w3.org/1998/Math/MathML">
      `----
-
   x Attribute
-     ,-[$DIR/tests/fixture/element/svg/input.html:110:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:111:1]
  110 |             <foreignObject width="200" height="50"
  111 |                            requiredExtensions="http://www.w3.org/1998/Math/MathML">
      :                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  112 |                 <math>
      `----
-
-  x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:110:1]
- 110 |                 <foreignObject width="200" height="50"
- 111 | ,->                            requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 112 | `->                 <math>
- 113 |                         <msqrt>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:110:1]
- 110 |                 <foreignObject width="200" height="50"
- 111 | ,->                            requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 112 | `->                 <math>
- 113 |                         <msqrt>
-     `----
-
   x Child
      ,-[$DIR/tests/fixture/element/svg/input.html:111:1]
+ 110 |                 <foreignObject width="200" height="50"
+ 111 | ,->                            requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 112 | `->                 <math>
+ 113 |                         <msqrt>
+     `----
+  x Text
+     ,-[$DIR/tests/fixture/element/svg/input.html:111:1]
+ 110 |                 <foreignObject width="200" height="50"
+ 111 | ,->                            requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 112 | `->                 <math>
+ 113 |                         <msqrt>
+     `----
+  x Child
+     ,-[$DIR/tests/fixture/element/svg/input.html:112:1]
  111 |                                requiredExtensions="http://www.w3.org/1998/Math/MathML">
  112 | ,->                 <math>
  113 | |                       <msqrt>
@@ -3883,9 +3519,8 @@
  119 | `->                 </math>
  120 |                 </foreignObject>
      `----
-
   x Element
-     ,-[$DIR/tests/fixture/element/svg/input.html:111:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:112:1]
  111 |                                requiredExtensions="http://www.w3.org/1998/Math/MathML">
  112 | ,->                 <math>
  113 | |                       <msqrt>
@@ -3897,25 +3532,22 @@
  119 | `->                 </math>
  120 |                 </foreignObject>
      `----
-
-  x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:111:1]
- 111 |                                requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 112 | ,->                 <math>
- 113 | `->                     <msqrt>
- 114 |                             <mn>2</mn>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:111:1]
- 111 |                                requiredExtensions="http://www.w3.org/1998/Math/MathML">
- 112 | ,->                 <math>
- 113 | `->                     <msqrt>
- 114 |                             <mn>2</mn>
-     `----
-
   x Child
      ,-[$DIR/tests/fixture/element/svg/input.html:112:1]
+ 111 |                                requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 112 | ,->                 <math>
+ 113 | `->                     <msqrt>
+ 114 |                             <mn>2</mn>
+     `----
+  x Text
+     ,-[$DIR/tests/fixture/element/svg/input.html:112:1]
+ 111 |                                requiredExtensions="http://www.w3.org/1998/Math/MathML">
+ 112 | ,->                 <math>
+ 113 | `->                     <msqrt>
+ 114 |                             <mn>2</mn>
+     `----
+  x Child
+     ,-[$DIR/tests/fixture/element/svg/input.html:113:1]
  112 |                     <math>
  113 | ,->                     <msqrt>
  114 | |                           <mn>2</mn>
@@ -3925,9 +3557,8 @@
  118 | `->                     </msqrt>
  119 |                     </math>
      `----
-
   x Element
-     ,-[$DIR/tests/fixture/element/svg/input.html:112:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:113:1]
  112 |                     <math>
  113 | ,->                     <msqrt>
  114 | |                           <mn>2</mn>
@@ -3937,354 +3568,310 @@
  118 | `->                     </msqrt>
  119 |                     </math>
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:112:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:113:1]
  112 |                     <math>
  113 | ,->                     <msqrt>
  114 | `->                         <mn>2</mn>
  115 |                             <mi>r</mi>
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:112:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:113:1]
  112 |                     <math>
  113 | ,->                     <msqrt>
  114 | `->                         <mn>2</mn>
  115 |                             <mi>r</mi>
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:113:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:114:1]
  113 |                     <msqrt>
  114 |                         <mn>2</mn>
      :                         ^^^^^^^^^^
  115 |                         <mi>r</mi>
      `----
-
   x Element
-     ,-[$DIR/tests/fixture/element/svg/input.html:113:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:114:1]
  113 |                     <msqrt>
  114 |                         <mn>2</mn>
      :                         ^^^^^^^^^^
  115 |                         <mi>r</mi>
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:113:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:114:1]
  113 |                     <msqrt>
  114 |                         <mn>2</mn>
      :                             ^
  115 |                         <mi>r</mi>
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:113:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:114:1]
  113 |                     <msqrt>
  114 |                         <mn>2</mn>
      :                             ^
  115 |                         <mi>r</mi>
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:113:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:114:1]
  113 |                         <msqrt>
  114 | ,->                         <mn>2</mn>
  115 | `->                         <mi>r</mi>
  116 |                             <mo>−</mo>
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:113:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:114:1]
  113 |                         <msqrt>
  114 | ,->                         <mn>2</mn>
  115 | `->                         <mi>r</mi>
  116 |                             <mo>−</mo>
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:114:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:115:1]
  114 |                         <mn>2</mn>
  115 |                         <mi>r</mi>
      :                         ^^^^^^^^^^
  116 |                         <mo>−</mo>
      `----
-
   x Element
-     ,-[$DIR/tests/fixture/element/svg/input.html:114:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:115:1]
  114 |                         <mn>2</mn>
  115 |                         <mi>r</mi>
      :                         ^^^^^^^^^^
  116 |                         <mo>−</mo>
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:114:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:115:1]
  114 |                         <mn>2</mn>
  115 |                         <mi>r</mi>
      :                             ^
  116 |                         <mo>−</mo>
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:114:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:115:1]
  114 |                         <mn>2</mn>
  115 |                         <mi>r</mi>
      :                             ^
  116 |                         <mo>−</mo>
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:114:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:115:1]
  114 |                             <mn>2</mn>
  115 | ,->                         <mi>r</mi>
  116 | `->                         <mo>−</mo>
  117 |                             <mn>1</mn>
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:114:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:115:1]
  114 |                             <mn>2</mn>
  115 | ,->                         <mi>r</mi>
  116 | `->                         <mo>−</mo>
  117 |                             <mn>1</mn>
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:115:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:116:1]
  115 |                         <mi>r</mi>
  116 |                         <mo>−</mo>
-     :                         ^^^^^^^^^^^^
+     :                         ^^^^^^^^^^
  117 |                         <mn>1</mn>
      `----
-
   x Element
-     ,-[$DIR/tests/fixture/element/svg/input.html:115:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:116:1]
  115 |                         <mi>r</mi>
  116 |                         <mo>−</mo>
-     :                         ^^^^^^^^^^^^
+     :                         ^^^^^^^^^^
  117 |                         <mn>1</mn>
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:115:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:116:1]
  115 |                         <mi>r</mi>
  116 |                         <mo>−</mo>
-     :                             ^^^
+     :                             ^
  117 |                         <mn>1</mn>
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:115:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:116:1]
  115 |                         <mi>r</mi>
  116 |                         <mo>−</mo>
-     :                             ^^^
+     :                             ^
  117 |                         <mn>1</mn>
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:115:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:116:1]
  115 |                             <mi>r</mi>
  116 | ,->                         <mo>−</mo>
  117 | `->                         <mn>1</mn>
  118 |                         </msqrt>
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:115:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:116:1]
  115 |                             <mi>r</mi>
  116 | ,->                         <mo>−</mo>
  117 | `->                         <mn>1</mn>
  118 |                         </msqrt>
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:116:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:117:1]
  116 |                         <mo>−</mo>
  117 |                         <mn>1</mn>
      :                         ^^^^^^^^^^
  118 |                     </msqrt>
      `----
-
   x Element
-     ,-[$DIR/tests/fixture/element/svg/input.html:116:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:117:1]
  116 |                         <mo>−</mo>
  117 |                         <mn>1</mn>
      :                         ^^^^^^^^^^
  118 |                     </msqrt>
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:116:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:117:1]
  116 |                         <mo>−</mo>
  117 |                         <mn>1</mn>
      :                             ^
  118 |                     </msqrt>
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:116:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:117:1]
  116 |                         <mo>−</mo>
  117 |                         <mn>1</mn>
      :                             ^
  118 |                     </msqrt>
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:116:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:117:1]
  116 |                             <mo>−</mo>
  117 | ,->                         <mn>1</mn>
  118 | `->                     </msqrt>
  119 |                     </math>
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:116:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:117:1]
  116 |                             <mo>−</mo>
  117 | ,->                         <mn>1</mn>
  118 | `->                     </msqrt>
  119 |                     </math>
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:117:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:118:1]
  117 |                             <mn>1</mn>
  118 | ,->                     </msqrt>
  119 | `->                 </math>
  120 |                 </foreignObject>
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:117:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:118:1]
  117 |                             <mn>1</mn>
  118 | ,->                     </msqrt>
  119 | `->                 </math>
  120 |                 </foreignObject>
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:118:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:119:1]
  118 |                         </msqrt>
  119 | ,->                 </math>
  120 | `->             </foreignObject>
  121 |                 <text>\sqrt{2r - 1}</text>
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:118:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:119:1]
  118 |                         </msqrt>
  119 | ,->                 </math>
  120 | `->             </foreignObject>
  121 |                 <text>\sqrt{2r - 1}</text>
      `----
-
-  x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:119:1]
- 119 |                     </math>
- 120 | ,->             </foreignObject>
- 121 | `->             <text>\sqrt{2r - 1}</text>
- 122 |             </switch>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:119:1]
- 119 |                     </math>
- 120 | ,->             </foreignObject>
- 121 | `->             <text>\sqrt{2r - 1}</text>
- 122 |             </switch>
-     `----
-
   x Child
      ,-[$DIR/tests/fixture/element/svg/input.html:120:1]
+ 119 |                     </math>
+ 120 | ,->             </foreignObject>
+ 121 | `->             <text>\sqrt{2r - 1}</text>
+ 122 |             </switch>
+     `----
+  x Text
+     ,-[$DIR/tests/fixture/element/svg/input.html:120:1]
+ 119 |                     </math>
+ 120 | ,->             </foreignObject>
+ 121 | `->             <text>\sqrt{2r - 1}</text>
+ 122 |             </switch>
+     `----
+  x Child
+     ,-[$DIR/tests/fixture/element/svg/input.html:121:1]
  120 |             </foreignObject>
  121 |             <text>\sqrt{2r - 1}</text>
      :             ^^^^^^^^^^^^^^^^^^^^^^^^^^
  122 |         </switch>
      `----
-
   x Element
-     ,-[$DIR/tests/fixture/element/svg/input.html:120:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:121:1]
  120 |             </foreignObject>
  121 |             <text>\sqrt{2r - 1}</text>
      :             ^^^^^^^^^^^^^^^^^^^^^^^^^^
  122 |         </switch>
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:120:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:121:1]
  120 |             </foreignObject>
  121 |             <text>\sqrt{2r - 1}</text>
      :                   ^^^^^^^^^^^^^
  122 |         </switch>
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:120:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:121:1]
  120 |             </foreignObject>
  121 |             <text>\sqrt{2r - 1}</text>
      :                   ^^^^^^^^^^^^^
  122 |         </switch>
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:120:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:121:1]
  120 |                 </foreignObject>
  121 | ,->             <text>\sqrt{2r - 1}</text>
  122 | `->         </switch>
  123 |         </g>
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:120:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:121:1]
  120 |                 </foreignObject>
  121 | ,->             <text>\sqrt{2r - 1}</text>
  122 | `->         </switch>
  123 |         </g>
      `----
-
   x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:121:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:122:1]
  121 |                 <text>\sqrt{2r - 1}</text>
  122 | ,->         </switch>
  123 | `->     </g>
  124 |     </svg>
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:121:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:122:1]
  121 |                 <text>\sqrt{2r - 1}</text>
  122 | ,->         </switch>
  123 | `->     </g>
  124 |     </svg>
      `----
-
-  x Child
-     ,-[$DIR/tests/fixture/element/svg/input.html:122:1]
- 122 |         </switch>
- 123 |     </g>
-     :         ^
- 124 | </svg>
-     `----
-
-  x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:122:1]
- 122 |         </switch>
- 123 |     </g>
-     :         ^
- 124 | </svg>
-     `----
-
   x Child
      ,-[$DIR/tests/fixture/element/svg/input.html:123:1]
+ 122 |         </switch>
+ 123 |     </g>
+     :         ^
+ 124 | </svg>
+     `----
+  x Text
+     ,-[$DIR/tests/fixture/element/svg/input.html:123:1]
+ 122 |         </switch>
+ 123 |     </g>
+     :         ^
+ 124 | </svg>
+     `----
+  x Child
+     ,-[$DIR/tests/fixture/element/svg/input.html:124:1]
  123 |         </g>
  124 | ,-> </svg>
  125 | |   
  126 | `-> </body>
  127 |     </html>
      `----
-
   x Text
-     ,-[$DIR/tests/fixture/element/svg/input.html:123:1]
+     ,-[$DIR/tests/fixture/element/svg/input.html:124:1]
  123 |         </g>
  124 | ,-> </svg>
  125 | |   

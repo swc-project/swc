@@ -1,16 +1,13 @@
-
   x Unexpected character in unquoted attribute value
    ,-[$DIR/tests/recovery/attribute/bogus-2/input.html:1:1]
  1 | <h a=&not=>
    :          ^
    `----
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/attribute/bogus-2/input.html:1:1]
  1 | <h a=&not=>
    : ^^^^^^^^^^^
    `----
-
   x End of file seen and there were open elements
    ,-[$DIR/tests/recovery/attribute/bogus-2/input.html:1:1]
  1 | <h a=&not=>

@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.51.fragment_tr.html:1:1]
  1 | <td><table><a><tr></tr><tr>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.51.fragment_tr.html:1:1]
  1 | <td><table><a><tr></tr><tr>
    :            ^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.51.fragment_tr.html:1:1]
  1 | <td><table><a><tr></tr><tr>
    :            ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.51.fragment_tr.html:1:1]
  1 | <td><table><a><tr></tr><tr>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.51.fragment_tr.html:1:1]
  1 | <td><table><a><tr></tr><tr>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.51.fragment_tr.html:1:1]
  1 | <td><table><a><tr></tr><tr>
    :               ^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.51.fragment_tr.html:1:1]
  1 | <td><table><a><tr></tr><tr>
    :               ^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.51.fragment_tr.html:1:1]
  1 | <td><table><a><tr></tr><tr>
    :                        ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.51.fragment_tr.html:1:1]
  1 | <td><table><a><tr></tr><tr>

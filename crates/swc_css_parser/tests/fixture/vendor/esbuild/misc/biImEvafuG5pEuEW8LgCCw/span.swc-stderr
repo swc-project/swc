@@ -1,112 +1,93 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:1]
  1 | a { value: f\6e() }
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:1]
  1 | a { value: f\6e() }
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:1]
  1 | a { value: f\6e() }
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:1]
  1 | a { value: f\6e() }
    : ^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:1]
  1 | a { value: f\6e() }
    : ^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:1]
  1 | a { value: f\6e() }
    : ^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:1]
  1 | a { value: f\6e() }
    : ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:1]
  1 | a { value: f\6e() }
    : ^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:1]
  1 | a { value: f\6e() }
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:1]
  1 | a { value: f\6e() }
    : ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:1]
  1 | a { value: f\6e() }
    :   ^^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:1]
  1 | a { value: f\6e() }
    :   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:1]
  1 | a { value: f\6e() }
    :     ^^^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:1]
  1 | a { value: f\6e() }
    :     ^^^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:1]
  1 | a { value: f\6e() }
    :     ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:1]
  1 | a { value: f\6e() }
    :     ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:1]
  1 | a { value: f\6e() }
    :            ^^^^^^
    `----
-
   x Function
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:1]
  1 | a { value: f\6e() }
    :            ^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:1]
  1 | a { value: f\6e() }

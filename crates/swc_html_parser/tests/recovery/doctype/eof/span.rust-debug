@@ -1,22 +1,17 @@
-
   x Document
    ,-[$DIR/tests/recovery/doctype/eof/input.html:1:1]
  1 | <!DOCTYPE
    : ^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/doctype/eof/input.html:1:1]
  1 | <!DOCTYPE
    : ^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/recovery/doctype/eof/input.html:1:1]
  1 | <!DOCTYPE
    : ^^^^^^^^^
    `----
-
   x Child
-
   x Element

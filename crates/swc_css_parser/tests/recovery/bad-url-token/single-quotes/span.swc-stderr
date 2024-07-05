@@ -1,4 +1,3 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:1:1]
  1 | ,-> div {
@@ -6,7 +5,6 @@
  3 | |       color: red;
  4 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:1:1]
  1 | ,-> div {
@@ -14,7 +12,6 @@
  3 | |       color: red;
  4 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:1:1]
  1 | ,-> div {
@@ -22,56 +19,48 @@
  3 | |       color: red;
  4 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:1:1]
  1 | div {
    : ^^^
  2 |     background: url(image'.png);
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:1:1]
  1 | div {
    : ^^^
  2 |     background: url(image'.png);
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:1:1]
  1 | div {
    : ^^^
  2 |     background: url(image'.png);
    `----
-
   x TypeSelector
    ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:1:1]
  1 | div {
    : ^^^
  2 |     background: url(image'.png);
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:1:1]
  1 | div {
    : ^^^
  2 |     background: url(image'.png);
    `----
-
   x WqName
    ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:1:1]
  1 | div {
    : ^^^
  2 |     background: url(image'.png);
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:1:1]
  1 | div {
    : ^^^
  2 |     background: url(image'.png);
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:1:1]
  1 | ,-> div {
@@ -79,104 +68,91 @@
  3 | |       color: red;
  4 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:1:1]
  1 | div {
    :     ^
  2 |     background: url(image'.png);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:1:1]
+   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:1]
  1 | div {
  2 |     background: url(image'.png);
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 |     color: red;
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:1:1]
+   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:1]
  1 | div {
  2 |     background: url(image'.png);
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 |     color: red;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:1:1]
+   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:1]
  1 | div {
  2 |     background: url(image'.png);
    :     ^^^^^^^^^^
  3 |     color: red;
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:1:1]
+   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:1]
  1 | div {
  2 |     background: url(image'.png);
    :     ^^^^^^^^^^
  3 |     color: red;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:1:1]
+   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:1]
  1 | div {
  2 |     background: url(image'.png);
    :                 ^^^^^^^^^^^^^^^
  3 |     color: red;
    `----
-
   x BadUrl { raw: "url(image'.png)" }
-   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:1:1]
+   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:1]
  1 | div {
  2 |     background: url(image'.png);
    :                 ^^^^^^^^^^^^^^^
  3 |     color: red;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:1]
+   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:3:1]
  2 |     background: url(image'.png);
  3 |     color: red;
    :     ^^^^^^^^^^
  4 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:1]
+   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:3:1]
  2 |     background: url(image'.png);
  3 |     color: red;
    :     ^^^^^^^^^^
  4 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:1]
+   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:3:1]
  2 |     background: url(image'.png);
  3 |     color: red;
    :     ^^^^^
  4 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:1]
+   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:3:1]
  2 |     background: url(image'.png);
  3 |     color: red;
    :     ^^^^^
  4 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:1]
+   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:3:1]
  2 |     background: url(image'.png);
  3 |     color: red;
    :            ^^^
  4 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:1]
+   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:3:1]
  2 |     background: url(image'.png);
  3 |     color: red;
    :            ^^^

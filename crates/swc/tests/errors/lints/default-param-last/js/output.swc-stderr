@@ -1,4 +1,3 @@
-
   x Default parameters should be last.
    ,-[1:1]
  1 | function f1(a = 5, b = 6, c) {}
@@ -6,9 +5,8 @@
  2 | 
  3 | function f2(a = 5, b, c = 5) {}
    `----
-
   x Default parameters should be last.
-   ,-[1:1]
+   ,-[3:1]
  1 | function f1(a = 5, b = 6, c) {}
  2 | 
  3 | function f2(a = 5, b, c = 5) {}
@@ -16,9 +14,8 @@
  4 | 
  5 | const f3 = (a = 5, b, ...c) => {};
    `----
-
   x Default parameters should be last.
-   ,-[2:1]
+   ,-[5:1]
  2 | 
  3 | function f2(a = 5, b, c = 5) {}
  4 | 
@@ -27,9 +24,8 @@
  6 | 
  7 | const f4 = function f(a, b = 5, c) {};
    `----
-
   x Default parameters should be last.
-   ,-[4:1]
+   ,-[7:1]
  4 | 
  5 | const f3 = (a = 5, b, ...c) => {};
  6 | 
@@ -38,9 +34,8 @@
  8 | 
  9 | const f5 = (a = 5, { b }) => {};
    `----
-
   x Default parameters should be last.
-    ,-[6:1]
+    ,-[9:1]
   6 | 
   7 | const f4 = function f(a, b = 5, c) {};
   8 | 
@@ -50,9 +45,8 @@
  11 | class C {
  12 |     constructor({ a } = {}, b) {}
     `----
-
   x Default parameters should be last.
-    ,-[9:1]
+    ,-[12:1]
   9 | const f5 = (a = 5, { b }) => {};
  10 | 
  11 | class C {
@@ -62,9 +56,8 @@
  14 |     f([a, b] = [1, 2], c) {}
  15 | }
     `----
-
   x Default parameters should be last.
-    ,-[11:1]
+    ,-[14:1]
  11 | class C {
  12 |     constructor({ a } = {}, b) {}
  13 | 

@@ -1,6 +1,5 @@
-
   x Unexpected invalid position '@import' rule.
-   ,-[$DIR/tests/rules/fail/no-invalid-position-at-import-rule/default/after-other-rule/input.css:5:1]
+   ,-[$DIR/tests/rules/fail/no-invalid-position-at-import-rule/default/after-other-rule/input.css:6:1]
  5 | 
  6 | @import "reina.css";
    : ^^^^^^^^^^^^^^^^^^^^

@@ -1,4 +1,3 @@
-
   x Expected 'left', 'right', 'first' or 'blank' ident
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {

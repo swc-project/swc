@@ -1,6 +1,5 @@
-
   x Unexpected end tag for "body", but there were unclosed elements
-    ,-[$DIR/tests/recovery/element/body-1/input.html:8:1]
+    ,-[$DIR/tests/recovery/element/body-1/input.html:9:1]
   8 |     <li>
   9 | </body>
     : ^^^^^^^

@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.3.html:1:1]
  1 | FOO<script></script/>BAR
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.3.html:1:1]
  1 | FOO<script></script/>BAR
    : ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.3.html:1:1]
  1 | FOO<script></script/>BAR
    : ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.3.html:1:1]
  1 | FOO<script></script/>BAR
    :    ^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.3.html:1:1]
  1 | FOO<script></script/>BAR
    :    ^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.3.html:1:1]
  1 | FOO<script></script/>BAR
    :                      ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.3.html:1:1]
  1 | FOO<script></script/>BAR

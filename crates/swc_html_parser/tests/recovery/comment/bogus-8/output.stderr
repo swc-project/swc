@@ -1,10 +1,8 @@
-
   x Non-space characters found without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/comment/bogus-8/input.html:1:1]
  1 | FOO<!-- BAR --!-test
    : ^
    `----
-
   x Eof in comment
    ,-[$DIR/tests/recovery/comment/bogus-8/input.html:1:1]
  1 | FOO<!-- BAR --!-test

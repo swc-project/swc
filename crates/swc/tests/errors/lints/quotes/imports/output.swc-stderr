@@ -1,4 +1,3 @@
-
   x String must use backtick quotes
    ,-[1:1]
  1 | var s = "double quotes string";

@@ -13,7 +13,7 @@ bench = false
 
 [dependencies]
 anyhow      = { workspace = true }
-miette      = { workspace = true, features = ["fancy"] }
+miette      = { workspace = true, features = ["fancy-no-syscall"] }
 once_cell   = { workspace = true }
 parking_lot = { workspace = true }
 

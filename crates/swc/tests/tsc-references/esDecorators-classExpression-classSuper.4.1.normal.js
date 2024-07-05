@@ -1,7 +1,6 @@
 //// [esDecorators-classExpression-classSuper.4.ts]
-//! 
 //!   x Expression expected
-//!     ,-[7:1]
+//!     ,-[10:1]
 //!   7 | 
 //!   8 | const method = "method";
 //!   9 | 

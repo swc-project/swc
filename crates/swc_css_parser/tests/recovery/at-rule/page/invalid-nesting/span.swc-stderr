@@ -1,4 +1,3 @@
-
   x Stylesheet
     ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:1:1]
   1 | ,-> @page :first {
@@ -20,7 +19,6 @@
  17 | |       margin: 20px;
  18 | `-> }
     `----
-
   x Rule
     ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:1:1]
   1 | ,-> @page :first {
@@ -42,7 +40,6 @@
  17 | |       margin: 20px;
  18 | `-> }
     `----
-
   x AtRule
     ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:1:1]
   1 | ,-> @page :first {
@@ -64,49 +61,42 @@
  17 | |       margin: 20px;
  18 | `-> }
     `----
-
   x AtRuleName
    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:1:1]
  1 | @page :first {
    :  ^^^^
  2 |     color: green;
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:1:1]
  1 | @page :first {
    :  ^^^^
  2 |     color: green;
    `----
-
   x PageSelectorList
    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:1:1]
  1 | @page :first {
    :       ^^^^^^
  2 |     color: green;
    `----
-
   x PageSelector
    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:1:1]
  1 | @page :first {
    :       ^^^^^^
  2 |     color: green;
    `----
-
   x PageSelectorPseudo
    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:1:1]
  1 | @page :first {
    :       ^^^^^^
  2 |     color: green;
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:1:1]
  1 | @page :first {
    :        ^^^^^
  2 |     color: green;
    `----
-
   x SimpleBlock
     ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:1:1]
   1 | ,-> @page :first {
@@ -128,205 +118,179 @@
  17 | |       margin: 20px;
  18 | `-> }
     `----
-
   x LBrace
    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:1:1]
  1 | @page :first {
    :              ^
  2 |     color: green;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:1:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:2:1]
  1 | @page :first {
  2 |     color: green;
    :     ^^^^^^^^^^^^
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:1:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:2:1]
  1 | @page :first {
  2 |     color: green;
    :     ^^^^^^^^^^^^
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:1:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:2:1]
  1 | @page :first {
  2 |     color: green;
    :     ^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:1:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:2:1]
  1 | @page :first {
  2 |     color: green;
    :     ^^^^^
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:1:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:2:1]
  1 | @page :first {
  2 |     color: green;
    :            ^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:1:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:2:1]
  1 | @page :first {
  2 |     color: green;
    :            ^^^^^
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:3:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:4:1]
  3 |     
  4 | ,->     @top-left {
  5 | |           content: "foo";
  6 | |           color: blue;
  7 | `->     }
    `----
-
   x AtRule
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:3:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:4:1]
  3 |     
  4 | ,->     @top-left {
  5 | |           content: "foo";
  6 | |           color: blue;
  7 | `->     }
    `----
-
   x AtRuleName
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:3:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:4:1]
  3 | 
  4 |     @top-left {
    :      ^^^^^^^^
  5 |         content: "foo";
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:3:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:4:1]
  3 | 
  4 |     @top-left {
    :      ^^^^^^^^
  5 |         content: "foo";
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:3:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:4:1]
  3 |     
  4 | ,->     @top-left {
  5 | |           content: "foo";
  6 | |           color: blue;
  7 | `->     }
    `----
-
   x LBrace
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:3:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:4:1]
  3 | 
  4 |     @top-left {
    :               ^
  5 |         content: "foo";
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:4:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:5:1]
  4 |     @top-left {
  5 |         content: "foo";
    :         ^^^^^^^^^^^^^^
  6 |         color: blue;
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:4:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:5:1]
  4 |     @top-left {
  5 |         content: "foo";
    :         ^^^^^^^^^^^^^^
  6 |         color: blue;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:4:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:5:1]
  4 |     @top-left {
  5 |         content: "foo";
    :         ^^^^^^^
  6 |         color: blue;
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:4:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:5:1]
  4 |     @top-left {
  5 |         content: "foo";
    :         ^^^^^^^
  6 |         color: blue;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:4:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:5:1]
  4 |     @top-left {
  5 |         content: "foo";
    :                  ^^^^^
  6 |         color: blue;
    `----
-
   x Str
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:4:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:5:1]
  4 |     @top-left {
  5 |         content: "foo";
    :                  ^^^^^
  6 |         color: blue;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:5:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:6:1]
  5 |         content: "foo";
  6 |         color: blue;
    :         ^^^^^^^^^^^
  7 |     }
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:5:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:6:1]
  5 |         content: "foo";
  6 |         color: blue;
    :         ^^^^^^^^^^^
  7 |     }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:5:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:6:1]
  5 |         content: "foo";
  6 |         color: blue;
    :         ^^^^^
  7 |     }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:5:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:6:1]
  5 |         content: "foo";
  6 |         color: blue;
    :         ^^^^^
  7 |     }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:5:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:6:1]
  5 |         content: "foo";
  6 |         color: blue;
    :                ^^^^
  7 |     }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:5:1]
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:6:1]
  5 |         content: "foo";
  6 |         color: blue;
    :                ^^^^
  7 |     }
    `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:8:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:9:1]
   8 |     
   9 | ,->     @top-right {
  10 | |           @top-right {
@@ -336,9 +300,8 @@
  14 | |           content: "bar";
  15 | `->     }
     `----
-
   x AtRule
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:8:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:9:1]
   8 |     
   9 | ,->     @top-right {
  10 | |           @top-right {
@@ -348,25 +311,22 @@
  14 | |           content: "bar";
  15 | `->     }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:8:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:9:1]
   8 | 
   9 |     @top-right {
     :      ^^^^^^^^^
  10 |         @top-right {
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:8:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:9:1]
   8 | 
   9 |     @top-right {
     :      ^^^^^^^^^
  10 |         @top-right {
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:8:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:9:1]
   8 |     
   9 | ,->     @top-right {
  10 | |           @top-right {
@@ -376,225 +336,197 @@
  14 | |           content: "bar";
  15 | `->     }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:8:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:9:1]
   8 | 
   9 |     @top-right {
     :                ^
  10 |         @top-right {
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:9:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:10:1]
   9 |         @top-right {
  10 | ,->         @top-right {
  11 | |               content: "zzz";
  12 | `->         }
     `----
-
   x AtRule
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:9:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:10:1]
   9 |         @top-right {
  10 | ,->         @top-right {
  11 | |               content: "zzz";
  12 | `->         }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:9:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:10:1]
   9 |     @top-right {
  10 |         @top-right {
     :          ^^^^^^^^^
  11 |             content: "zzz";
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:9:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:10:1]
   9 |     @top-right {
  10 |         @top-right {
     :          ^^^^^^^^^
  11 |             content: "zzz";
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:9:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:10:1]
   9 |         @top-right {
  10 | ,->         @top-right {
  11 | |               content: "zzz";
  12 | `->         }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:9:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:10:1]
   9 |     @top-right {
  10 |         @top-right {
     :                    ^
  11 |             content: "zzz";
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:11:1]
  10 |         @top-right {
  11 |             content: "zzz";
     :             ^^^^^^^^^^^^^^
  12 |         }
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:11:1]
  10 |         @top-right {
  11 |             content: "zzz";
     :             ^^^^^^^^^^^^^^
  12 |         }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:11:1]
  10 |         @top-right {
  11 |             content: "zzz";
     :             ^^^^^^^
  12 |         }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:11:1]
  10 |         @top-right {
  11 |             content: "zzz";
     :             ^^^^^^^
  12 |         }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:11:1]
  10 |         @top-right {
  11 |             content: "zzz";
     :                      ^^^^^
  12 |         }
     `----
-
   x Str
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:11:1]
  10 |         @top-right {
  11 |             content: "zzz";
     :                      ^^^^^
  12 |         }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:13:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:14:1]
  13 | 
  14 |         content: "bar";
     :         ^^^^^^^^^^^^^^
  15 |     }
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:13:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:14:1]
  13 | 
  14 |         content: "bar";
     :         ^^^^^^^^^^^^^^
  15 |     }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:13:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:14:1]
  13 | 
  14 |         content: "bar";
     :         ^^^^^^^
  15 |     }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:13:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:14:1]
  13 | 
  14 |         content: "bar";
     :         ^^^^^^^
  15 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:13:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:14:1]
  13 | 
  14 |         content: "bar";
     :                  ^^^^^
  15 |     }
     `----
-
   x Str
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:13:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:14:1]
  13 | 
  14 |         content: "bar";
     :                  ^^^^^
  15 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:16:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:17:1]
  16 | 
  17 |     margin: 20px;
     :     ^^^^^^^^^^^^
  18 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:16:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:17:1]
  16 | 
  17 |     margin: 20px;
     :     ^^^^^^^^^^^^
  18 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:16:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:17:1]
  16 | 
  17 |     margin: 20px;
     :     ^^^^^^
  18 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:16:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:17:1]
  16 | 
  17 |     margin: 20px;
     :     ^^^^^^
  18 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:16:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:17:1]
  16 | 
  17 |     margin: 20px;
     :             ^^^^
  18 | }
     `----
-
   x Dimension
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:16:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:17:1]
  16 | 
  17 |     margin: 20px;
     :             ^^^^
  18 | }
     `----
-
   x Length
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:16:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:17:1]
  16 | 
  17 |     margin: 20px;
     :             ^^^^
  18 | }
     `----
-
   x Number
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:16:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:17:1]
  16 | 
  17 |     margin: 20px;
     :             ^^
  18 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:16:1]
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:17:1]
  16 | 
  17 |     margin: 20px;
     :               ^^

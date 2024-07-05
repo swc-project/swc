@@ -1,4 +1,3 @@
-
   x Unexpected tokens in at-rule prelude
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}

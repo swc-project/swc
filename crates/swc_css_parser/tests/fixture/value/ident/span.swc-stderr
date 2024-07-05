@@ -1,4 +1,3 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
  1 | ,-> a { animation: test; }
@@ -8,785 +7,683 @@
  5 | |   a { animation: \\😋; }
  6 | `-> a { animation: \😋; }
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
  1 | a { animation: test; }
    : ^^^^^^^^^^^^^^^^^^^^^^
  2 | a { animation: тест; }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
  1 | a { animation: test; }
    : ^^^^^^^^^^^^^^^^^^^^^^
  2 | a { animation: тест; }
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
  1 | a { animation: test; }
    : ^
  2 | a { animation: тест; }
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
  1 | a { animation: test; }
    : ^
  2 | a { animation: тест; }
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
  1 | a { animation: test; }
    : ^
  2 | a { animation: тест; }
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
  1 | a { animation: test; }
    : ^
  2 | a { animation: тест; }
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
  1 | a { animation: test; }
    : ^
  2 | a { animation: тест; }
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
  1 | a { animation: test; }
    : ^
  2 | a { animation: тест; }
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
  1 | a { animation: test; }
    : ^
  2 | a { animation: тест; }
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
  1 | a { animation: test; }
    :   ^^^^^^^^^^^^^^^^^^^^
  2 | a { animation: тест; }
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
  1 | a { animation: test; }
    :   ^
  2 | a { animation: тест; }
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
  1 | a { animation: test; }
    :     ^^^^^^^^^^^^^^^
  2 | a { animation: тест; }
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
  1 | a { animation: test; }
    :     ^^^^^^^^^^^^^^^
  2 | a { animation: тест; }
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
  1 | a { animation: test; }
    :     ^^^^^^^^^
  2 | a { animation: тест; }
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
  1 | a { animation: test; }
    :     ^^^^^^^^^
  2 | a { animation: тест; }
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
  1 | a { animation: test; }
    :                ^^^^
  2 | a { animation: тест; }
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
  1 | a { animation: test; }
    :                ^^^^
  2 | a { animation: тест; }
    `----
-
-  x Rule
-   ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
- 1 | a { animation: test; }
- 2 | a { animation: тест; }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 3 | a { animation: т\ест; }
-   `----
-
-  x QualifiedRule
-   ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
- 1 | a { animation: test; }
- 2 | a { animation: тест; }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 3 | a { animation: т\ест; }
-   `----
-
-  x SelectorList
-   ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
- 1 | a { animation: test; }
- 2 | a { animation: тест; }
-   : ^
- 3 | a { animation: т\ест; }
-   `----
-
-  x ComplexSelector
-   ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
- 1 | a { animation: test; }
- 2 | a { animation: тест; }
-   : ^
- 3 | a { animation: т\ест; }
-   `----
-
-  x CompoundSelector
-   ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
- 1 | a { animation: test; }
- 2 | a { animation: тест; }
-   : ^
- 3 | a { animation: т\ест; }
-   `----
-
-  x TypeSelector
-   ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
- 1 | a { animation: test; }
- 2 | a { animation: тест; }
-   : ^
- 3 | a { animation: т\ест; }
-   `----
-
-  x TagNameSelector
-   ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
- 1 | a { animation: test; }
- 2 | a { animation: тест; }
-   : ^
- 3 | a { animation: т\ест; }
-   `----
-
-  x WqName
-   ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
- 1 | a { animation: test; }
- 2 | a { animation: тест; }
-   : ^
- 3 | a { animation: т\ест; }
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
- 1 | a { animation: test; }
- 2 | a { animation: тест; }
-   : ^
- 3 | a { animation: т\ест; }
-   `----
-
-  x SimpleBlock
-   ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
- 1 | a { animation: test; }
- 2 | a { animation: тест; }
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^
- 3 | a { animation: т\ест; }
-   `----
-
-  x LBrace
-   ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
- 1 | a { animation: test; }
- 2 | a { animation: тест; }
-   :   ^
- 3 | a { animation: т\ест; }
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
- 1 | a { animation: test; }
- 2 | a { animation: тест; }
-   :     ^^^^^^^^^^^^^^^^^^^
- 3 | a { animation: т\ест; }
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
- 1 | a { animation: test; }
- 2 | a { animation: тест; }
-   :     ^^^^^^^^^^^^^^^^^^^
- 3 | a { animation: т\ест; }
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
- 1 | a { animation: test; }
- 2 | a { animation: тест; }
-   :     ^^^^^^^^^
- 3 | a { animation: т\ест; }
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
- 1 | a { animation: test; }
- 2 | a { animation: тест; }
-   :     ^^^^^^^^^
- 3 | a { animation: т\ест; }
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
- 1 | a { animation: test; }
- 2 | a { animation: тест; }
-   :                ^^^^^^^^
- 3 | a { animation: т\ест; }
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
- 1 | a { animation: test; }
- 2 | a { animation: тест; }
-   :                ^^^^^^^^
- 3 | a { animation: т\ест; }
-   `----
-
   x Rule
    ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
+ 1 | a { animation: test; }
  2 | a { animation: тест; }
- 3 | a { animation: т\ест; }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 4 | a { animation: 😋; }
-   `----
-
-  x QualifiedRule
-   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
- 2 | a { animation: тест; }
- 3 | a { animation: т\ест; }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 4 | a { animation: 😋; }
-   `----
-
-  x SelectorList
-   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
- 2 | a { animation: тест; }
- 3 | a { animation: т\ест; }
-   : ^
- 4 | a { animation: 😋; }
-   `----
-
-  x ComplexSelector
-   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
- 2 | a { animation: тест; }
- 3 | a { animation: т\ест; }
-   : ^
- 4 | a { animation: 😋; }
-   `----
-
-  x CompoundSelector
-   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
- 2 | a { animation: тест; }
- 3 | a { animation: т\ест; }
-   : ^
- 4 | a { animation: 😋; }
-   `----
-
-  x TypeSelector
-   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
- 2 | a { animation: тест; }
- 3 | a { animation: т\ест; }
-   : ^
- 4 | a { animation: 😋; }
-   `----
-
-  x TagNameSelector
-   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
- 2 | a { animation: тест; }
- 3 | a { animation: т\ест; }
-   : ^
- 4 | a { animation: 😋; }
-   `----
-
-  x WqName
-   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
- 2 | a { animation: тест; }
- 3 | a { animation: т\ест; }
-   : ^
- 4 | a { animation: 😋; }
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
- 2 | a { animation: тест; }
- 3 | a { animation: т\ест; }
-   : ^
- 4 | a { animation: 😋; }
-   `----
-
-  x SimpleBlock
-   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
- 2 | a { animation: тест; }
- 3 | a { animation: т\ест; }
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^^
- 4 | a { animation: 😋; }
-   `----
-
-  x LBrace
-   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
- 2 | a { animation: тест; }
- 3 | a { animation: т\ест; }
-   :   ^
- 4 | a { animation: 😋; }
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
- 2 | a { animation: тест; }
- 3 | a { animation: т\ест; }
-   :     ^^^^^^^^^^^^^^^^^^^^
- 4 | a { animation: 😋; }
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
- 2 | a { animation: тест; }
- 3 | a { animation: т\ест; }
-   :     ^^^^^^^^^^^^^^^^^^^^
- 4 | a { animation: 😋; }
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
- 2 | a { animation: тест; }
- 3 | a { animation: т\ест; }
-   :     ^^^^^^^^^
- 4 | a { animation: 😋; }
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
- 2 | a { animation: тест; }
- 3 | a { animation: т\ест; }
-   :     ^^^^^^^^^
- 4 | a { animation: 😋; }
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
- 2 | a { animation: тест; }
- 3 | a { animation: т\ест; }
-   :                ^^^^^^^^^
- 4 | a { animation: 😋; }
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
- 2 | a { animation: тест; }
- 3 | a { animation: т\ест; }
-   :                ^^^^^^^^^
- 4 | a { animation: 😋; }
-   `----
-
-  x Rule
-   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
- 3 | a { animation: т\ест; }
- 4 | a { animation: 😋; }
    : ^^^^^^^^^^^^^^^^^^^^^^
- 5 | a { animation: \\😋; }
+ 3 | a { animation: т\ест; }
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
- 3 | a { animation: т\ест; }
- 4 | a { animation: 😋; }
+   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
+ 1 | a { animation: test; }
+ 2 | a { animation: тест; }
    : ^^^^^^^^^^^^^^^^^^^^^^
- 5 | a { animation: \\😋; }
+ 3 | a { animation: т\ест; }
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
- 3 | a { animation: т\ест; }
- 4 | a { animation: 😋; }
+   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
+ 1 | a { animation: test; }
+ 2 | a { animation: тест; }
    : ^
- 5 | a { animation: \\😋; }
+ 3 | a { animation: т\ест; }
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
- 3 | a { animation: т\ест; }
- 4 | a { animation: 😋; }
+   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
+ 1 | a { animation: test; }
+ 2 | a { animation: тест; }
    : ^
- 5 | a { animation: \\😋; }
+ 3 | a { animation: т\ест; }
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
- 3 | a { animation: т\ест; }
- 4 | a { animation: 😋; }
+   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
+ 1 | a { animation: test; }
+ 2 | a { animation: тест; }
    : ^
- 5 | a { animation: \\😋; }
+ 3 | a { animation: т\ест; }
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
- 3 | a { animation: т\ест; }
- 4 | a { animation: 😋; }
+   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
+ 1 | a { animation: test; }
+ 2 | a { animation: тест; }
    : ^
- 5 | a { animation: \\😋; }
+ 3 | a { animation: т\ест; }
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
- 3 | a { animation: т\ест; }
- 4 | a { animation: 😋; }
+   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
+ 1 | a { animation: test; }
+ 2 | a { animation: тест; }
    : ^
- 5 | a { animation: \\😋; }
+ 3 | a { animation: т\ест; }
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
- 3 | a { animation: т\ест; }
- 4 | a { animation: 😋; }
+   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
+ 1 | a { animation: test; }
+ 2 | a { animation: тест; }
    : ^
- 5 | a { animation: \\😋; }
+ 3 | a { animation: т\ест; }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
- 3 | a { animation: т\ест; }
- 4 | a { animation: 😋; }
+   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
+ 1 | a { animation: test; }
+ 2 | a { animation: тест; }
    : ^
- 5 | a { animation: \\😋; }
-   `----
-
-  x SimpleBlock
-   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
  3 | a { animation: т\ест; }
- 4 | a { animation: 😋; }
+   `----
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
+ 1 | a { animation: test; }
+ 2 | a { animation: тест; }
    :   ^^^^^^^^^^^^^^^^^^^^
- 5 | a { animation: \\😋; }
+ 3 | a { animation: т\ест; }
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
- 3 | a { animation: т\ест; }
- 4 | a { animation: 😋; }
+   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
+ 1 | a { animation: test; }
+ 2 | a { animation: тест; }
    :   ^
- 5 | a { animation: \\😋; }
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
  3 | a { animation: т\ест; }
- 4 | a { animation: 😋; }
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
+ 1 | a { animation: test; }
+ 2 | a { animation: тест; }
    :     ^^^^^^^^^^^^^^^
- 5 | a { animation: \\😋; }
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
  3 | a { animation: т\ест; }
- 4 | a { animation: 😋; }
+   `----
+  x Declaration
+   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
+ 1 | a { animation: test; }
+ 2 | a { animation: тест; }
    :     ^^^^^^^^^^^^^^^
- 5 | a { animation: \\😋; }
+ 3 | a { animation: т\ест; }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
- 3 | a { animation: т\ест; }
- 4 | a { animation: 😋; }
+   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
+ 1 | a { animation: test; }
+ 2 | a { animation: тест; }
    :     ^^^^^^^^^
- 5 | a { animation: \\😋; }
+ 3 | a { animation: т\ест; }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
- 3 | a { animation: т\ест; }
- 4 | a { animation: 😋; }
+   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
+ 1 | a { animation: test; }
+ 2 | a { animation: тест; }
    :     ^^^^^^^^^
- 5 | a { animation: \\😋; }
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
  3 | a { animation: т\ест; }
- 4 | a { animation: 😋; }
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
+ 1 | a { animation: test; }
+ 2 | a { animation: тест; }
    :                ^^^^
- 5 | a { animation: \\😋; }
+ 3 | a { animation: т\ест; }
    `----
-
+  x Ident
+   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
+ 1 | a { animation: test; }
+ 2 | a { animation: тест; }
+   :                ^^^^
+ 3 | a { animation: т\ест; }
+   `----
+  x Rule
+   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
+ 2 | a { animation: тест; }
+ 3 | a { animation: т\ест; }
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+ 4 | a { animation: 😋; }
+   `----
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
+ 2 | a { animation: тест; }
+ 3 | a { animation: т\ест; }
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+ 4 | a { animation: 😋; }
+   `----
+  x SelectorList
+   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
+ 2 | a { animation: тест; }
+ 3 | a { animation: т\ест; }
+   : ^
+ 4 | a { animation: 😋; }
+   `----
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
+ 2 | a { animation: тест; }
+ 3 | a { animation: т\ест; }
+   : ^
+ 4 | a { animation: 😋; }
+   `----
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
+ 2 | a { animation: тест; }
+ 3 | a { animation: т\ест; }
+   : ^
+ 4 | a { animation: 😋; }
+   `----
+  x TypeSelector
+   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
+ 2 | a { animation: тест; }
+ 3 | a { animation: т\ест; }
+   : ^
+ 4 | a { animation: 😋; }
+   `----
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
+ 2 | a { animation: тест; }
+ 3 | a { animation: т\ест; }
+   : ^
+ 4 | a { animation: 😋; }
+   `----
+  x WqName
+   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
+ 2 | a { animation: тест; }
+ 3 | a { animation: т\ест; }
+   : ^
+ 4 | a { animation: 😋; }
+   `----
   x Ident
    ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
+ 2 | a { animation: тест; }
  3 | a { animation: т\ест; }
- 4 | a { animation: 😋; }
-   :                ^^^^
- 5 | a { animation: \\😋; }
-   `----
-
-  x Rule
-   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
- 4 | a { animation: 😋; }
- 5 | a { animation: \\😋; }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
- 6 | a { animation: \😋; }
-   `----
-
-  x QualifiedRule
-   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
- 4 | a { animation: 😋; }
- 5 | a { animation: \\😋; }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
- 6 | a { animation: \😋; }
-   `----
-
-  x SelectorList
-   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
- 4 | a { animation: 😋; }
- 5 | a { animation: \\😋; }
    : ^
- 6 | a { animation: \😋; }
-   `----
-
-  x ComplexSelector
-   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
  4 | a { animation: 😋; }
- 5 | a { animation: \\😋; }
-   : ^
- 6 | a { animation: \😋; }
    `----
-
-  x CompoundSelector
-   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
- 4 | a { animation: 😋; }
- 5 | a { animation: \\😋; }
-   : ^
- 6 | a { animation: \😋; }
-   `----
-
-  x TypeSelector
-   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
- 4 | a { animation: 😋; }
- 5 | a { animation: \\😋; }
-   : ^
- 6 | a { animation: \😋; }
-   `----
-
-  x TagNameSelector
-   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
- 4 | a { animation: 😋; }
- 5 | a { animation: \\😋; }
-   : ^
- 6 | a { animation: \😋; }
-   `----
-
-  x WqName
-   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
- 4 | a { animation: 😋; }
- 5 | a { animation: \\😋; }
-   : ^
- 6 | a { animation: \😋; }
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
- 4 | a { animation: 😋; }
- 5 | a { animation: \\😋; }
-   : ^
- 6 | a { animation: \😋; }
-   `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
- 4 | a { animation: 😋; }
- 5 | a { animation: \\😋; }
-   :   ^^^^^^^^^^^^^^^^^^^^^^
- 6 | a { animation: \😋; }
-   `----
-
-  x LBrace
-   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
- 4 | a { animation: 😋; }
- 5 | a { animation: \\😋; }
-   :   ^
- 6 | a { animation: \😋; }
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
- 4 | a { animation: 😋; }
- 5 | a { animation: \\😋; }
-   :     ^^^^^^^^^^^^^^^^^
- 6 | a { animation: \😋; }
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
- 4 | a { animation: 😋; }
- 5 | a { animation: \\😋; }
-   :     ^^^^^^^^^^^^^^^^^
- 6 | a { animation: \😋; }
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
- 4 | a { animation: 😋; }
- 5 | a { animation: \\😋; }
-   :     ^^^^^^^^^
- 6 | a { animation: \😋; }
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
- 4 | a { animation: 😋; }
- 5 | a { animation: \\😋; }
-   :     ^^^^^^^^^
- 6 | a { animation: \😋; }
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
- 4 | a { animation: 😋; }
- 5 | a { animation: \\😋; }
-   :                ^^^^^^
- 6 | a { animation: \😋; }
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
- 4 | a { animation: 😋; }
- 5 | a { animation: \\😋; }
-   :                ^^^^^^
- 6 | a { animation: \😋; }
-   `----
-
-  x Rule
-   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
- 5 | a { animation: \\😋; }
- 6 | a { animation: \😋; }
-   : ^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x QualifiedRule
-   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
- 5 | a { animation: \\😋; }
- 6 | a { animation: \😋; }
-   : ^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x SelectorList
-   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
- 5 | a { animation: \\😋; }
- 6 | a { animation: \😋; }
-   : ^
-   `----
-
-  x ComplexSelector
-   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
- 5 | a { animation: \\😋; }
- 6 | a { animation: \😋; }
-   : ^
-   `----
-
-  x CompoundSelector
-   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
- 5 | a { animation: \\😋; }
- 6 | a { animation: \😋; }
-   : ^
-   `----
-
-  x TypeSelector
-   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
- 5 | a { animation: \\😋; }
- 6 | a { animation: \😋; }
-   : ^
-   `----
-
-  x TagNameSelector
-   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
- 5 | a { animation: \\😋; }
- 6 | a { animation: \😋; }
-   : ^
-   `----
-
-  x WqName
-   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
- 5 | a { animation: \\😋; }
- 6 | a { animation: \😋; }
-   : ^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
- 5 | a { animation: \\😋; }
- 6 | a { animation: \😋; }
-   : ^
-   `----
-
-  x SimpleBlock
-   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
- 5 | a { animation: \\😋; }
- 6 | a { animation: \😋; }
+   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
+ 2 | a { animation: тест; }
+ 3 | a { animation: т\ест; }
    :   ^^^^^^^^^^^^^^^^^^^^^
+ 4 | a { animation: 😋; }
    `----
-
+  x LBrace
+   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
+ 2 | a { animation: тест; }
+ 3 | a { animation: т\ест; }
+   :   ^
+ 4 | a { animation: 😋; }
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
+ 2 | a { animation: тест; }
+ 3 | a { animation: т\ест; }
+   :     ^^^^^^^^^^^^^^^^
+ 4 | a { animation: 😋; }
+   `----
+  x Declaration
+   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
+ 2 | a { animation: тест; }
+ 3 | a { animation: т\ест; }
+   :     ^^^^^^^^^^^^^^^^
+ 4 | a { animation: 😋; }
+   `----
+  x DeclarationName
+   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
+ 2 | a { animation: тест; }
+ 3 | a { animation: т\ест; }
+   :     ^^^^^^^^^
+ 4 | a { animation: 😋; }
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
+ 2 | a { animation: тест; }
+ 3 | a { animation: т\ест; }
+   :     ^^^^^^^^^
+ 4 | a { animation: 😋; }
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
+ 2 | a { animation: тест; }
+ 3 | a { animation: т\ест; }
+   :                ^^^^^
+ 4 | a { animation: 😋; }
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
+ 2 | a { animation: тест; }
+ 3 | a { animation: т\ест; }
+   :                ^^^^^
+ 4 | a { animation: 😋; }
+   `----
+  x Rule
+   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
+ 3 | a { animation: т\ест; }
+ 4 | a { animation: 😋; }
+   : ^^^^^^^^^^^^^^^^^^^^
+ 5 | a { animation: \\😋; }
+   `----
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
+ 3 | a { animation: т\ест; }
+ 4 | a { animation: 😋; }
+   : ^^^^^^^^^^^^^^^^^^^^
+ 5 | a { animation: \\😋; }
+   `----
+  x SelectorList
+   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
+ 3 | a { animation: т\ест; }
+ 4 | a { animation: 😋; }
+   : ^
+ 5 | a { animation: \\😋; }
+   `----
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
+ 3 | a { animation: т\ест; }
+ 4 | a { animation: 😋; }
+   : ^
+ 5 | a { animation: \\😋; }
+   `----
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
+ 3 | a { animation: т\ест; }
+ 4 | a { animation: 😋; }
+   : ^
+ 5 | a { animation: \\😋; }
+   `----
+  x TypeSelector
+   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
+ 3 | a { animation: т\ест; }
+ 4 | a { animation: 😋; }
+   : ^
+ 5 | a { animation: \\😋; }
+   `----
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
+ 3 | a { animation: т\ест; }
+ 4 | a { animation: 😋; }
+   : ^
+ 5 | a { animation: \\😋; }
+   `----
+  x WqName
+   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
+ 3 | a { animation: т\ест; }
+ 4 | a { animation: 😋; }
+   : ^
+ 5 | a { animation: \\😋; }
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
+ 3 | a { animation: т\ест; }
+ 4 | a { animation: 😋; }
+   : ^
+ 5 | a { animation: \\😋; }
+   `----
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
+ 3 | a { animation: т\ест; }
+ 4 | a { animation: 😋; }
+   :   ^^^^^^^^^^^^^^^^^^
+ 5 | a { animation: \\😋; }
+   `----
+  x LBrace
+   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
+ 3 | a { animation: т\ест; }
+ 4 | a { animation: 😋; }
+   :   ^
+ 5 | a { animation: \\😋; }
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
+ 3 | a { animation: т\ест; }
+ 4 | a { animation: 😋; }
+   :     ^^^^^^^^^^^^^
+ 5 | a { animation: \\😋; }
+   `----
+  x Declaration
+   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
+ 3 | a { animation: т\ест; }
+ 4 | a { animation: 😋; }
+   :     ^^^^^^^^^^^^^
+ 5 | a { animation: \\😋; }
+   `----
+  x DeclarationName
+   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
+ 3 | a { animation: т\ест; }
+ 4 | a { animation: 😋; }
+   :     ^^^^^^^^^
+ 5 | a { animation: \\😋; }
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
+ 3 | a { animation: т\ест; }
+ 4 | a { animation: 😋; }
+   :     ^^^^^^^^^
+ 5 | a { animation: \\😋; }
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
+ 3 | a { animation: т\ест; }
+ 4 | a { animation: 😋; }
+   :                ^^
+ 5 | a { animation: \\😋; }
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
+ 3 | a { animation: т\ест; }
+ 4 | a { animation: 😋; }
+   :                ^^
+ 5 | a { animation: \\😋; }
+   `----
+  x Rule
+   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+ 4 | a { animation: 😋; }
+ 5 | a { animation: \\😋; }
+   : ^^^^^^^^^^^^^^^^^^^^^^
+ 6 | a { animation: \😋; }
+   `----
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+ 4 | a { animation: 😋; }
+ 5 | a { animation: \\😋; }
+   : ^^^^^^^^^^^^^^^^^^^^^^
+ 6 | a { animation: \😋; }
+   `----
+  x SelectorList
+   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+ 4 | a { animation: 😋; }
+ 5 | a { animation: \\😋; }
+   : ^
+ 6 | a { animation: \😋; }
+   `----
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+ 4 | a { animation: 😋; }
+ 5 | a { animation: \\😋; }
+   : ^
+ 6 | a { animation: \😋; }
+   `----
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+ 4 | a { animation: 😋; }
+ 5 | a { animation: \\😋; }
+   : ^
+ 6 | a { animation: \😋; }
+   `----
+  x TypeSelector
+   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+ 4 | a { animation: 😋; }
+ 5 | a { animation: \\😋; }
+   : ^
+ 6 | a { animation: \😋; }
+   `----
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+ 4 | a { animation: 😋; }
+ 5 | a { animation: \\😋; }
+   : ^
+ 6 | a { animation: \😋; }
+   `----
+  x WqName
+   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+ 4 | a { animation: 😋; }
+ 5 | a { animation: \\😋; }
+   : ^
+ 6 | a { animation: \😋; }
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+ 4 | a { animation: 😋; }
+ 5 | a { animation: \\😋; }
+   : ^
+ 6 | a { animation: \😋; }
+   `----
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+ 4 | a { animation: 😋; }
+ 5 | a { animation: \\😋; }
+   :   ^^^^^^^^^^^^^^^^^^^^
+ 6 | a { animation: \😋; }
+   `----
   x LBrace
    ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+ 4 | a { animation: 😋; }
+ 5 | a { animation: \\😋; }
+   :   ^
+ 6 | a { animation: \😋; }
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+ 4 | a { animation: 😋; }
+ 5 | a { animation: \\😋; }
+   :     ^^^^^^^^^^^^^^^
+ 6 | a { animation: \😋; }
+   `----
+  x Declaration
+   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+ 4 | a { animation: 😋; }
+ 5 | a { animation: \\😋; }
+   :     ^^^^^^^^^^^^^^^
+ 6 | a { animation: \😋; }
+   `----
+  x DeclarationName
+   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+ 4 | a { animation: 😋; }
+ 5 | a { animation: \\😋; }
+   :     ^^^^^^^^^
+ 6 | a { animation: \😋; }
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+ 4 | a { animation: 😋; }
+ 5 | a { animation: \\😋; }
+   :     ^^^^^^^^^
+ 6 | a { animation: \😋; }
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+ 4 | a { animation: 😋; }
+ 5 | a { animation: \\😋; }
+   :                ^^^^
+ 6 | a { animation: \😋; }
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+ 4 | a { animation: 😋; }
+ 5 | a { animation: \\😋; }
+   :                ^^^^
+ 6 | a { animation: \😋; }
+   `----
+  x Rule
+   ,-[$DIR/tests/fixture/value/ident/input.css:6:1]
+ 5 | a { animation: \\😋; }
+ 6 | a { animation: \😋; }
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/value/ident/input.css:6:1]
+ 5 | a { animation: \\😋; }
+ 6 | a { animation: \😋; }
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x SelectorList
+   ,-[$DIR/tests/fixture/value/ident/input.css:6:1]
+ 5 | a { animation: \\😋; }
+ 6 | a { animation: \😋; }
+   : ^
+   `----
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/value/ident/input.css:6:1]
+ 5 | a { animation: \\😋; }
+ 6 | a { animation: \😋; }
+   : ^
+   `----
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/value/ident/input.css:6:1]
+ 5 | a { animation: \\😋; }
+ 6 | a { animation: \😋; }
+   : ^
+   `----
+  x TypeSelector
+   ,-[$DIR/tests/fixture/value/ident/input.css:6:1]
+ 5 | a { animation: \\😋; }
+ 6 | a { animation: \😋; }
+   : ^
+   `----
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/value/ident/input.css:6:1]
+ 5 | a { animation: \\😋; }
+ 6 | a { animation: \😋; }
+   : ^
+   `----
+  x WqName
+   ,-[$DIR/tests/fixture/value/ident/input.css:6:1]
+ 5 | a { animation: \\😋; }
+ 6 | a { animation: \😋; }
+   : ^
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/value/ident/input.css:6:1]
+ 5 | a { animation: \\😋; }
+ 6 | a { animation: \😋; }
+   : ^
+   `----
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/value/ident/input.css:6:1]
+ 5 | a { animation: \\😋; }
+ 6 | a { animation: \😋; }
+   :   ^^^^^^^^^^^^^^^^^^^
+   `----
+  x LBrace
+   ,-[$DIR/tests/fixture/value/ident/input.css:6:1]
  5 | a { animation: \\😋; }
  6 | a { animation: \😋; }
    :   ^
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/ident/input.css:6:1]
  5 | a { animation: \\😋; }
  6 | a { animation: \😋; }
-   :     ^^^^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^^^
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/ident/input.css:6:1]
  5 | a { animation: \\😋; }
  6 | a { animation: \😋; }
-   :     ^^^^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^^^
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/ident/input.css:6:1]
  5 | a { animation: \\😋; }
  6 | a { animation: \😋; }
    :     ^^^^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/ident/input.css:6:1]
  5 | a { animation: \\😋; }
  6 | a { animation: \😋; }
    :     ^^^^^^^^^
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/ident/input.css:6:1]
  5 | a { animation: \\😋; }
  6 | a { animation: \😋; }
-   :                ^^^^^
+   :                ^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/ident/input.css:6:1]
  5 | a { animation: \\😋; }
  6 | a { animation: \😋; }
-   :                ^^^^^
+   :                ^^^
    `----

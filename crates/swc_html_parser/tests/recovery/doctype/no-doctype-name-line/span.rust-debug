@@ -1,22 +1,17 @@
-
   x Document
    ,-[$DIR/tests/recovery/doctype/no-doctype-name-line/input.html:1:1]
  1 | ,-> <!DOCTYPE
  2 | `-> >
    `----
-
   x Child
    ,-[$DIR/tests/recovery/doctype/no-doctype-name-line/input.html:1:1]
  1 | ,-> <!DOCTYPE
  2 | `-> >
    `----
-
   x DocumentType
    ,-[$DIR/tests/recovery/doctype/no-doctype-name-line/input.html:1:1]
  1 | ,-> <!DOCTYPE
  2 | `-> >
    `----
-
   x Child
-
   x Element

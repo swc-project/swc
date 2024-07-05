@@ -1,6 +1,5 @@
-
   x Assignment to function parameter 'catchMe'
-   ,-[1:1]
+   ,-[3:1]
  1 | function f(ignoreMe, catchMe) {
  2 |     ignoreMe = 1;
  3 |     catchMe = 1;

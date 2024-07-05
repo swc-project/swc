@@ -1,52 +1,43 @@
-
   x Module
    ,-[$DIR/tests/span/js/decl/default-import-string-names.js:1:1]
  1 | import { "default" as quotation } from "Confucius"
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/decl/default-import-string-names.js:1:1]
  1 | import { "default" as quotation } from "Confucius"
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleDecl
    ,-[$DIR/tests/span/js/decl/default-import-string-names.js:1:1]
  1 | import { "default" as quotation } from "Confucius"
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ImportDecl
    ,-[$DIR/tests/span/js/decl/default-import-string-names.js:1:1]
  1 | import { "default" as quotation } from "Confucius"
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ImportSpecifier
    ,-[$DIR/tests/span/js/decl/default-import-string-names.js:1:1]
  1 | import { "default" as quotation } from "Confucius"
    :          ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ImportNamedSpecifier
    ,-[$DIR/tests/span/js/decl/default-import-string-names.js:1:1]
  1 | import { "default" as quotation } from "Confucius"
    :          ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/decl/default-import-string-names.js:1:1]
  1 | import { "default" as quotation } from "Confucius"
    :                       ^^^^^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/span/js/decl/default-import-string-names.js:1:1]
  1 | import { "default" as quotation } from "Confucius"
    :          ^^^^^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/span/js/decl/default-import-string-names.js:1:1]
  1 | import { "default" as quotation } from "Confucius"

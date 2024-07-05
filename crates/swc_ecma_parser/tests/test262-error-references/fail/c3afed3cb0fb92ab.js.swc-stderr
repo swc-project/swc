@@ -1,9 +1,7 @@
-
   x Bad character escape sequence, expected 4 hex characters
    ,-[$DIR/tests/test262-parser/fail/c3afed3cb0fb92ab.js:1:1]
  1 | \uD800\u
    `----
-
   x Invalid character in identifier
    ,-[$DIR/tests/test262-parser/fail/c3afed3cb0fb92ab.js:1:1]
  1 | \uD800\u

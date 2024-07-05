@@ -1,116 +1,95 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.104.html:1:1]
  1 | <!DOCTYPE html><div>a<a></div>b<p>c</p>d
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.104.html:1:1]
  1 | <!DOCTYPE html><div>a<a></div>b<p>c</p>d
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.104.html:1:1]
  1 | <!DOCTYPE html><div>a<a></div>b<p>c</p>d
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.104.html:1:1]
  1 | <!DOCTYPE html><div>a<a></div>b<p>c</p>d
    :                ^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.104.html:1:1]
  1 | <!DOCTYPE html><div>a<a></div>b<p>c</p>d
    :                ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.104.html:1:1]
  1 | <!DOCTYPE html><div>a<a></div>b<p>c</p>d
    :                     ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.104.html:1:1]
  1 | <!DOCTYPE html><div>a<a></div>b<p>c</p>d
    :                     ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.104.html:1:1]
  1 | <!DOCTYPE html><div>a<a></div>b<p>c</p>d
    :                      ^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.104.html:1:1]
  1 | <!DOCTYPE html><div>a<a></div>b<p>c</p>d
    :                      ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.104.html:1:1]
  1 | <!DOCTYPE html><div>a<a></div>b<p>c</p>d
    :                      ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.104.html:1:1]
  1 | <!DOCTYPE html><div>a<a></div>b<p>c</p>d
    :                      ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.104.html:1:1]
  1 | <!DOCTYPE html><div>a<a></div>b<p>c</p>d
    :                               ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.104.html:1:1]
  1 | <!DOCTYPE html><div>a<a></div>b<p>c</p>d
    :                               ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.104.html:1:1]
  1 | <!DOCTYPE html><div>a<a></div>b<p>c</p>d
    :                                ^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.104.html:1:1]
  1 | <!DOCTYPE html><div>a<a></div>b<p>c</p>d
    :                                ^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.104.html:1:1]
  1 | <!DOCTYPE html><div>a<a></div>b<p>c</p>d
    :                                   ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.104.html:1:1]
  1 | <!DOCTYPE html><div>a<a></div>b<p>c</p>d
    :                                   ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.104.html:1:1]
  1 | <!DOCTYPE html><div>a<a></div>b<p>c</p>d
    :                                        ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.104.html:1:1]
  1 | <!DOCTYPE html><div>a<a></div>b<p>c</p>d

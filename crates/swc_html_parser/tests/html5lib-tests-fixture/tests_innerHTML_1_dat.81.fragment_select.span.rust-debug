@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.81.fragment_select.html:1:1]
  1 | <textarea><option>
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.81.fragment_select.html:1:1]
  1 | <textarea><option>
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.81.fragment_select.html:1:1]
  1 | <textarea><option>
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.81.fragment_select.html:1:1]
  1 | <textarea><option>
    :           ^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.81.fragment_select.html:1:1]
  1 | <textarea><option>

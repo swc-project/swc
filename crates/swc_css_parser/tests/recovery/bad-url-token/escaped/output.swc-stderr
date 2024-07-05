@@ -1,6 +1,5 @@
-
   x Unexpected bad url in declaration value
-   ,-[$DIR/tests/recovery/bad-url-token/escaped/input.css:1:1]
+   ,-[$DIR/tests/recovery/bad-url-token/escaped/input.css:2:1]
  1 | a {
  2 |     background: \url(te st);
    :                 ^^^^^^^^^^^

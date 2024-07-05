@@ -1,4 +1,3 @@
-
   x Expected Declaration value
    ,-[$DIR/tests/recovery/value/at-keyword/3/input.css:1:1]
  1 | a { value: @k\65yword }

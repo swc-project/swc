@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests17_dat.12.html:1:1]
  1 | <!doctype html><table><tr></table>a
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests17_dat.12.html:1:1]
  1 | <!doctype html><table><tr></table>a
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests17_dat.12.html:1:1]
  1 | <!doctype html><table><tr></table>a
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests17_dat.12.html:1:1]
  1 | <!doctype html><table><tr></table>a
    :                ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests17_dat.12.html:1:1]
  1 | <!doctype html><table><tr></table>a
    :                ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests17_dat.12.html:1:1]
  1 | <!doctype html><table><tr></table>a
    :                       ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests17_dat.12.html:1:1]
  1 | <!doctype html><table><tr></table>a
    :                       ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests17_dat.12.html:1:1]
  1 | <!doctype html><table><tr></table>a
    :                                   ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests17_dat.12.html:1:1]
  1 | <!doctype html><table><tr></table>a

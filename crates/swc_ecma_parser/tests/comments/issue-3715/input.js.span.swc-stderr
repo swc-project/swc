@@ -1,52 +1,43 @@
-
   x Module
    ,-[$DIR/tests/comments/issue-3715/input.js:1:1]
  1 | a() /* IMPORTANT_DO_NOT_REMOVE */;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/comments/issue-3715/input.js:1:1]
  1 | a() /* IMPORTANT_DO_NOT_REMOVE */;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/comments/issue-3715/input.js:1:1]
  1 | a() /* IMPORTANT_DO_NOT_REMOVE */;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ExprStmt
    ,-[$DIR/tests/comments/issue-3715/input.js:1:1]
  1 | a() /* IMPORTANT_DO_NOT_REMOVE */;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/comments/issue-3715/input.js:1:1]
  1 | a() /* IMPORTANT_DO_NOT_REMOVE */;
    : ^^^
    `----
-
   x CallExpr
    ,-[$DIR/tests/comments/issue-3715/input.js:1:1]
  1 | a() /* IMPORTANT_DO_NOT_REMOVE */;
    : ^^^
    `----
-
   x Callee
    ,-[$DIR/tests/comments/issue-3715/input.js:1:1]
  1 | a() /* IMPORTANT_DO_NOT_REMOVE */;
    : ^
    `----
-
   x Expr
    ,-[$DIR/tests/comments/issue-3715/input.js:1:1]
  1 | a() /* IMPORTANT_DO_NOT_REMOVE */;
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/comments/issue-3715/input.js:1:1]
  1 | a() /* IMPORTANT_DO_NOT_REMOVE */;

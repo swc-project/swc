@@ -1,16 +1,13 @@
-
   x Misplaced non-space characters inside a table
    ,-[$DIR/tests/recovery/element/table-5/input.html:1:1]
  1 | <!doctype html><table> x </table>
    :                       ^
    `----
-
   x Misplaced non-space characters inside a table
    ,-[$DIR/tests/recovery/element/table-5/input.html:1:1]
  1 | <!doctype html><table> x </table>
    :                        ^
    `----
-
   x Misplaced non-space characters inside a table
    ,-[$DIR/tests/recovery/element/table-5/input.html:1:1]
  1 | <!doctype html><table> x </table>

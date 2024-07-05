@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:1]
  1 | <math><tr><td><mo><tr>
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:1]
  1 | <math><tr><td><mo><tr>
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:1]
  1 | <math><tr><td><mo><tr>
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:1]
  1 | <math><tr><td><mo><tr>
    :       ^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:1]
  1 | <math><tr><td><mo><tr>
    :       ^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:1]
  1 | <math><tr><td><mo><tr>
    :           ^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:1]
  1 | <math><tr><td><mo><tr>
    :           ^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:1]
  1 | <math><tr><td><mo><tr>
    :               ^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:1]
  1 | <math><tr><td><mo><tr>

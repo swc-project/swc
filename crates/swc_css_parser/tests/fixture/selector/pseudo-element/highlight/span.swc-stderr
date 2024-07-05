@@ -1,4 +1,3 @@
-
   x Stylesheet
     ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
   1 | ,-> ::highlight(sample) {
@@ -18,809 +17,707 @@
  15 | |       color: green;
  16 | `-> }
     `----
-
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
  1 | ,-> ::highlight(sample) {
  2 | |       background-color: rgba(0, 0, 255, 0.3);
  3 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
  1 | ,-> ::highlight(sample) {
  2 | |       background-color: rgba(0, 0, 255, 0.3);
  3 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
  1 | ::highlight(sample) {
    : ^^^^^^^^^^^^^^^^^^^
  2 |     background-color: rgba(0, 0, 255, 0.3);
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
  1 | ::highlight(sample) {
    : ^^^^^^^^^^^^^^^^^^^
  2 |     background-color: rgba(0, 0, 255, 0.3);
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
  1 | ::highlight(sample) {
    : ^^^^^^^^^^^^^^^^^^^
  2 |     background-color: rgba(0, 0, 255, 0.3);
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
  1 | ::highlight(sample) {
    : ^^^^^^^^^^^^^^^^^^^
  2 |     background-color: rgba(0, 0, 255, 0.3);
    `----
-
   x PseudoElementSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
  1 | ::highlight(sample) {
    : ^^^^^^^^^^^^^^^^^^^
  2 |     background-color: rgba(0, 0, 255, 0.3);
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
  1 | ::highlight(sample) {
    :   ^^^^^^^^^
  2 |     background-color: rgba(0, 0, 255, 0.3);
    `----
-
   x PseudoElementSelectorChildren
    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
  1 | ::highlight(sample) {
    :             ^^^^^^
  2 |     background-color: rgba(0, 0, 255, 0.3);
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
  1 | ,-> ::highlight(sample) {
  2 | |       background-color: rgba(0, 0, 255, 0.3);
  3 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
  1 | ::highlight(sample) {
    :                     ^
  2 |     background-color: rgba(0, 0, 255, 0.3);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :     ^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :     ^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :                       ^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x Color
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :                       ^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x Function
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :                       ^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :                       ^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :                            ^
  3 | }
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :                            ^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :                             ^
  3 | }
    `----
-
   x Delimiter
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :                             ^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :                               ^
  3 | }
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :                               ^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :                                ^
  3 | }
    `----
-
   x Delimiter
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :                                ^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :                                  ^^^
  3 | }
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :                                  ^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :                                     ^
  3 | }
    `----
-
   x Delimiter
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :                                     ^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :                                       ^^^
  3 | }
    `----
-
   x AlphaValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :                                       ^^^
  3 | }
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:1]
  1 | ::highlight(sample) {
  2 |     background-color: rgba(0, 0, 255, 0.3);
    :                                       ^^^
  3 | }
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:1]
  4 |     
  5 | ,-> :root::highlight(example-highlight) {
  6 | |       background-color: yellow;
  7 | |       color: blue;
  8 | `-> }
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:1]
  4 |     
  5 | ,-> :root::highlight(example-highlight) {
  6 | |       background-color: yellow;
  7 | |       color: blue;
  8 | `-> }
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:1]
  4 | 
  5 | :root::highlight(example-highlight) {
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     background-color: yellow;
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:1]
  4 | 
  5 | :root::highlight(example-highlight) {
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     background-color: yellow;
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:1]
  4 | 
  5 | :root::highlight(example-highlight) {
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     background-color: yellow;
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:1]
  4 | 
  5 | :root::highlight(example-highlight) {
    : ^^^^^
  6 |     background-color: yellow;
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:1]
  4 | 
  5 | :root::highlight(example-highlight) {
    : ^^^^^
  6 |     background-color: yellow;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:1]
  4 | 
  5 | :root::highlight(example-highlight) {
    :  ^^^^
  6 |     background-color: yellow;
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:1]
  4 | 
  5 | :root::highlight(example-highlight) {
    :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     background-color: yellow;
    `----
-
   x PseudoElementSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:1]
  4 | 
  5 | :root::highlight(example-highlight) {
    :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     background-color: yellow;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:1]
  4 | 
  5 | :root::highlight(example-highlight) {
    :        ^^^^^^^^^
  6 |     background-color: yellow;
    `----
-
   x PseudoElementSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:1]
  4 | 
  5 | :root::highlight(example-highlight) {
    :                  ^^^^^^^^^^^^^^^^^
  6 |     background-color: yellow;
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:1]
  4 |     
  5 | ,-> :root::highlight(example-highlight) {
  6 | |       background-color: yellow;
  7 | |       color: blue;
  8 | `-> }
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:1]
  4 | 
  5 | :root::highlight(example-highlight) {
    :                                     ^
  6 |     background-color: yellow;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:1]
  5 | :root::highlight(example-highlight) {
  6 |     background-color: yellow;
    :     ^^^^^^^^^^^^^^^^^^^^^^^^
  7 |     color: blue;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:1]
  5 | :root::highlight(example-highlight) {
  6 |     background-color: yellow;
    :     ^^^^^^^^^^^^^^^^^^^^^^^^
  7 |     color: blue;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:1]
  5 | :root::highlight(example-highlight) {
  6 |     background-color: yellow;
    :     ^^^^^^^^^^^^^^^^
  7 |     color: blue;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:1]
  5 | :root::highlight(example-highlight) {
  6 |     background-color: yellow;
    :     ^^^^^^^^^^^^^^^^
  7 |     color: blue;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:1]
  5 | :root::highlight(example-highlight) {
  6 |     background-color: yellow;
    :                       ^^^^^^
  7 |     color: blue;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:1]
  5 | :root::highlight(example-highlight) {
  6 |     background-color: yellow;
    :                       ^^^^^^
  7 |     color: blue;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:7:1]
  6 |     background-color: yellow;
  7 |     color: blue;
    :     ^^^^^^^^^^^
  8 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:7:1]
  6 |     background-color: yellow;
  7 |     color: blue;
    :     ^^^^^^^^^^^
  8 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:7:1]
  6 |     background-color: yellow;
  7 |     color: blue;
    :     ^^^^^
  8 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:7:1]
  6 |     background-color: yellow;
  7 |     color: blue;
    :     ^^^^^
  8 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:7:1]
  6 |     background-color: yellow;
  7 |     color: blue;
    :            ^^^^
  8 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:7:1]
  6 |     background-color: yellow;
  7 |     color: blue;
    :            ^^^^
  8 | }
    `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
   9 |     
  10 | ,-> div::highlight(bar) {
  11 | |       color: red;
  12 | `-> }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
   9 |     
  10 | ,-> div::highlight(bar) {
  11 | |       color: red;
  12 | `-> }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
   9 | 
  10 | div::highlight(bar) {
     : ^^^^^^^^^^^^^^^^^^^
  11 |     color: red;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
   9 | 
  10 | div::highlight(bar) {
     : ^^^^^^^^^^^^^^^^^^^
  11 |     color: red;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
   9 | 
  10 | div::highlight(bar) {
     : ^^^^^^^^^^^^^^^^^^^
  11 |     color: red;
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
   9 | 
  10 | div::highlight(bar) {
     : ^^^
  11 |     color: red;
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
   9 | 
  10 | div::highlight(bar) {
     : ^^^
  11 |     color: red;
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
   9 | 
  10 | div::highlight(bar) {
     : ^^^
  11 |     color: red;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
   9 | 
  10 | div::highlight(bar) {
     : ^^^
  11 |     color: red;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
   9 | 
  10 | div::highlight(bar) {
     :    ^^^^^^^^^^^^^^^^
  11 |     color: red;
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
   9 | 
  10 | div::highlight(bar) {
     :    ^^^^^^^^^^^^^^^^
  11 |     color: red;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
   9 | 
  10 | div::highlight(bar) {
     :      ^^^^^^^^^
  11 |     color: red;
     `----
-
   x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
   9 | 
  10 | div::highlight(bar) {
     :                ^^^
  11 |     color: red;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
   9 |     
  10 | ,-> div::highlight(bar) {
  11 | |       color: red;
  12 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
   9 | 
  10 | div::highlight(bar) {
     :                     ^
  11 |     color: red;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:11:1]
  10 | div::highlight(bar) {
  11 |     color: red;
     :     ^^^^^^^^^^
  12 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:11:1]
  10 | div::highlight(bar) {
  11 |     color: red;
     :     ^^^^^^^^^^
  12 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:11:1]
  10 | div::highlight(bar) {
  11 |     color: red;
     :     ^^^^^
  12 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:11:1]
  10 | div::highlight(bar) {
  11 |     color: red;
     :     ^^^^^
  12 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:11:1]
  10 | div::highlight(bar) {
  11 |     color: red;
     :            ^^^
  12 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:11:1]
  10 | div::highlight(bar) {
  11 |     color: red;
     :            ^^^
  12 | }
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
  13 |     
  14 | ,-> div::highlight(foo) {
  15 | |       color: green;
  16 | `-> }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
  13 |     
  14 | ,-> div::highlight(foo) {
  15 | |       color: green;
  16 | `-> }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
  13 | 
  14 | div::highlight(foo) {
     : ^^^^^^^^^^^^^^^^^^^
  15 |     color: green;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
  13 | 
  14 | div::highlight(foo) {
     : ^^^^^^^^^^^^^^^^^^^
  15 |     color: green;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
  13 | 
  14 | div::highlight(foo) {
     : ^^^^^^^^^^^^^^^^^^^
  15 |     color: green;
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
  13 | 
  14 | div::highlight(foo) {
     : ^^^
  15 |     color: green;
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
  13 | 
  14 | div::highlight(foo) {
     : ^^^
  15 |     color: green;
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
  13 | 
  14 | div::highlight(foo) {
     : ^^^
  15 |     color: green;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
  13 | 
  14 | div::highlight(foo) {
     : ^^^
  15 |     color: green;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
  13 | 
  14 | div::highlight(foo) {
     :    ^^^^^^^^^^^^^^^^
  15 |     color: green;
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
  13 | 
  14 | div::highlight(foo) {
     :    ^^^^^^^^^^^^^^^^
  15 |     color: green;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
  13 | 
  14 | div::highlight(foo) {
     :      ^^^^^^^^^
  15 |     color: green;
     `----
-
   x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
  13 | 
  14 | div::highlight(foo) {
     :                ^^^
  15 |     color: green;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
  13 |     
  14 | ,-> div::highlight(foo) {
  15 | |       color: green;
  16 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:13:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
  13 | 
  14 | div::highlight(foo) {
     :                     ^
  15 |     color: green;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:15:1]
  14 | div::highlight(foo) {
  15 |     color: green;
     :     ^^^^^^^^^^^^
  16 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:15:1]
  14 | div::highlight(foo) {
  15 |     color: green;
     :     ^^^^^^^^^^^^
  16 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:15:1]
  14 | div::highlight(foo) {
  15 |     color: green;
     :     ^^^^^
  16 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:15:1]
  14 | div::highlight(foo) {
  15 |     color: green;
     :     ^^^^^
  16 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:15:1]
  14 | div::highlight(foo) {
  15 |     color: green;
     :            ^^^^^
  16 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:15:1]
  14 | div::highlight(foo) {
  15 |     color: green;
     :            ^^^^^

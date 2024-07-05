@@ -1,12 +1,10 @@
-
   x Unexpected end of file, but expected '}'
    ,-[$DIR/tests/recovery/value/string/eof-single-quotes/input.css:1:1]
  1 | ,-> div {
  2 | `->   prop: 'string
    `----
-
   x Unterminated string
-   ,-[$DIR/tests/recovery/value/string/eof-single-quotes/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/string/eof-single-quotes/input.css:2:1]
  1 | div {
  2 |   prop: 'string
    `----

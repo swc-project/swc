@@ -1,352 +1,293 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :  ^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :  ^^^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :          ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :          ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x LParen
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :           ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :            ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Ident { value: "transition-property", raw: "transition-property" }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :            ^^^^^^^^^^^^^^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                               ^
    `----
-
   x Colon
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                               ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                 ^^^^^
    `----
-
   x Ident { value: "color", raw: "color" }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                 ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                       ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                       ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                        ^^
    `----
-
   x Ident { value: "or", raw: "or" }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                        ^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                          ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                          ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                           ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                           ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x LParen
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                           ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                            ^^^^^^^^^^^^^^
    `----
-
   x Ident { value: "animation-name", raw: "animation-name" }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                            ^^^^^^^^^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                          ^
    `----
-
   x Colon
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                          ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                           ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                           ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                            ^^^
    `----
-
   x Ident { value: "foo", raw: "foo" }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                            ^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                 ^^^
    `----
-
   x Ident { value: "and", raw: "and" }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                 ^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                    ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                    ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x LParen
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                     ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                      ^^^^^^^^^
    `----
-
   x Ident { value: "transform", raw: "transform" }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                      ^^^^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                               ^
    `----
-
   x Colon
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                               ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                                ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                                ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                                 ^^^^^^^^^^^^^
    `----
-
   x Function
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                                 ^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                                 ^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                                        ^^^^^
    `----
-
   x Dimension(DimensionToken { value: 10.0, raw_value: "10", unit: "deg", type_flag: Integer, raw_unit: "deg" })
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                                        ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                                               ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                                               ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                                                ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}

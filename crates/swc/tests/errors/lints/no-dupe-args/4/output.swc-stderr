@@ -1,4 +1,3 @@
-
   x the name `a` is bound more than once in this parameter list
    ,-[1:1]
  1 | function foo(a, b, [a]) {
@@ -9,9 +8,8 @@
  3 |         function baz({ e }, f, { f: [e] }) {}
  4 |     }
    `----
-
   x the name `d` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function foo(a, b, [a]) {
  2 |     function bar(c, d, ...d) {
    :                     |     |
@@ -21,9 +19,8 @@
  4 |     }
  5 | }
    `----
-
   x the name `e` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[3:1]
  1 | function foo(a, b, [a]) {
  2 |     function bar(c, d, ...d) {
  3 |         function baz({ e }, f, { f: [e] }) {}

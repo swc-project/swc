@@ -1,4 +1,3 @@
-
   x This syntax is reserved in files with the .mts or .cts extension. Use an `as` expression instead.
    ,-[$DIR/tests/typescript-errors/disallow-ambiguous-jsx-like/mts-case1/input.mts:1:1]
  1 | <T>x;

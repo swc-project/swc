@@ -1,4 +1,3 @@
-
   x Stylesheet
     ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
   1 | ,-> :root {
@@ -69,7 +68,6 @@
  66 | |       --var:  value;
  67 | `-> }
     `----
-
   x Rule
     ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
   1 | ,-> :root {
@@ -130,7 +128,6 @@
  56 | |       ;
  57 | `-> }
     `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
   1 | ,-> :root {
@@ -191,49 +188,42 @@
  56 | |       ;
  57 | `-> }
     `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
  1 | :root {
    : ^^^^^
  2 |     ---:value;
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
  1 | :root {
    : ^^^^^
  2 |     ---:value;
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
  1 | :root {
    : ^^^^^
  2 |     ---:value;
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
  1 | :root {
    : ^^^^^
  2 |     ---:value;
    `----
-
   x PseudoClassSelector
    ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
  1 | :root {
    : ^^^^^
  2 |     ---:value;
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
  1 | :root {
    :  ^^^^
  2 |     ---:value;
    `----
-
   x SimpleBlock
     ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
   1 | ,-> :root {
@@ -294,3158 +284,2753 @@
  56 | |       ;
  57 | `-> }
     `----
-
   x LBrace
    ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
  1 | :root {
    :       ^
  2 |     ---:value;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:2:1]
  1 | :root {
  2 |     ---:value;
    :     ^^^^^^^^^
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:2:1]
  1 | :root {
  2 |     ---:value;
    :     ^^^^^^^^^
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:2:1]
  1 | :root {
  2 |     ---:value;
    :     ^^^
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:2:1]
  1 | :root {
  2 |     ---:value;
    :     ^^^
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:2:1]
  1 | :root {
  2 |     ---:value;
    :         ^^^^^
    `----
-
   x Ident { value: "value", raw: "value" }
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:2:1]
  1 | :root {
  2 |     ---:value;
    :         ^^^^^
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:4:1]
  3 | 
  4 |     --important:value!important;
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 |     --important1: value!important;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:4:1]
  3 | 
  4 |     --important:value!important;
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 |     --important1: value!important;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:4:1]
  3 | 
  4 |     --important:value!important;
    :     ^^^^^^^^^^^
  5 |     --important1: value!important;
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:4:1]
  3 | 
  4 |     --important:value!important;
    :     ^^^^^^^^^^^
  5 |     --important1: value!important;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:4:1]
  3 | 
  4 |     --important:value!important;
    :                 ^^^^^
  5 |     --important1: value!important;
    `----
-
   x Ident { value: "value", raw: "value" }
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:4:1]
  3 | 
  4 |     --important:value!important;
    :                 ^^^^^
  5 |     --important1: value!important;
    `----
-
   x ImportantFlag
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:4:1]
  3 | 
  4 |     --important:value!important;
    :                      ^^^^^^^^^^
  5 |     --important1: value!important;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:4:1]
  3 | 
  4 |     --important:value!important;
    :                       ^^^^^^^^^
  5 |     --important1: value!important;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:5:1]
  4 |     --important:value!important;
  5 |     --important1: value!important;
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     --important2: value !important;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:5:1]
  4 |     --important:value!important;
  5 |     --important1: value!important;
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     --important2: value !important;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:5:1]
  4 |     --important:value!important;
  5 |     --important1: value!important;
    :     ^^^^^^^^^^^^
  6 |     --important2: value !important;
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:5:1]
  4 |     --important:value!important;
  5 |     --important1: value!important;
    :     ^^^^^^^^^^^^
  6 |     --important2: value !important;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:5:1]
  4 |     --important:value!important;
  5 |     --important1: value!important;
    :                   ^^^^^
  6 |     --important2: value !important;
    `----
-
   x Ident { value: "value", raw: "value" }
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:5:1]
  4 |     --important:value!important;
  5 |     --important1: value!important;
    :                   ^^^^^
  6 |     --important2: value !important;
    `----
-
   x ImportantFlag
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:5:1]
  4 |     --important:value!important;
  5 |     --important1: value!important;
    :                        ^^^^^^^^^^
  6 |     --important2: value !important;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:5:1]
  4 |     --important:value!important;
  5 |     --important1: value!important;
    :                         ^^^^^^^^^
  6 |     --important2: value !important;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:6:1]
  5 |     --important1: value!important;
  6 |     --important2: value !important;
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  7 |     --important3:value !important;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:6:1]
  5 |     --important1: value!important;
  6 |     --important2: value !important;
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  7 |     --important3:value !important;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:6:1]
  5 |     --important1: value!important;
  6 |     --important2: value !important;
    :     ^^^^^^^^^^^^
  7 |     --important3:value !important;
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:6:1]
  5 |     --important1: value!important;
  6 |     --important2: value !important;
    :     ^^^^^^^^^^^^
  7 |     --important3:value !important;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:6:1]
  5 |     --important1: value!important;
  6 |     --important2: value !important;
    :                   ^^^^^
  7 |     --important3:value !important;
    `----
-
   x Ident { value: "value", raw: "value" }
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:6:1]
  5 |     --important1: value!important;
  6 |     --important2: value !important;
    :                   ^^^^^
  7 |     --important3:value !important;
    `----
-
   x ImportantFlag
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:6:1]
  5 |     --important1: value!important;
  6 |     --important2: value !important;
    :                         ^^^^^^^^^^
  7 |     --important3:value !important;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:6:1]
  5 |     --important1: value!important;
  6 |     --important2: value !important;
    :                          ^^^^^^^^^
  7 |     --important3:value !important;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:7:1]
  6 |     --important2: value !important;
  7 |     --important3:value !important;
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     --important4: calc(1)!important;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:7:1]
  6 |     --important2: value !important;
  7 |     --important3:value !important;
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     --important4: calc(1)!important;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:7:1]
  6 |     --important2: value !important;
  7 |     --important3:value !important;
    :     ^^^^^^^^^^^^
  8 |     --important4: calc(1)!important;
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:7:1]
  6 |     --important2: value !important;
  7 |     --important3:value !important;
    :     ^^^^^^^^^^^^
  8 |     --important4: calc(1)!important;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:7:1]
  6 |     --important2: value !important;
  7 |     --important3:value !important;
    :                  ^^^^^
  8 |     --important4: calc(1)!important;
    `----
-
   x Ident { value: "value", raw: "value" }
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:7:1]
  6 |     --important2: value !important;
  7 |     --important3:value !important;
    :                  ^^^^^
  8 |     --important4: calc(1)!important;
    `----
-
   x ImportantFlag
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:7:1]
  6 |     --important2: value !important;
  7 |     --important3:value !important;
    :                        ^^^^^^^^^^
  8 |     --important4: calc(1)!important;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:7:1]
  6 |     --important2: value !important;
  7 |     --important3:value !important;
    :                         ^^^^^^^^^
  8 |     --important4: calc(1)!important;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:8:1]
  7 |     --important3:value !important;
  8 |     --important4: calc(1)!important;
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:8:1]
  7 |     --important3:value !important;
  8 |     --important4: calc(1)!important;
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:8:1]
  7 |     --important3:value !important;
  8 |     --important4: calc(1)!important;
    :     ^^^^^^^^^^^^
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:8:1]
  7 |     --important3:value !important;
  8 |     --important4: calc(1)!important;
    :     ^^^^^^^^^^^^
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:8:1]
  7 |     --important3:value !important;
  8 |     --important4: calc(1)!important;
    :                   ^^^^^^^
    `----
-
   x Function
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:8:1]
  7 |     --important3:value !important;
  8 |     --important4: calc(1)!important;
    :                   ^^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:8:1]
  7 |     --important3:value !important;
  8 |     --important4: calc(1)!important;
    :                   ^^^^
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:8:1]
  7 |     --important3:value !important;
  8 |     --important4: calc(1)!important;
    :                        ^
    `----
-
   x Number { value: 1.0, raw: "1", type_flag: Integer }
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:8:1]
  7 |     --important3:value !important;
  8 |     --important4: calc(1)!important;
    :                        ^
    `----
-
   x ImportantFlag
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:8:1]
  7 |     --important3:value !important;
  8 |     --important4: calc(1)!important;
    :                          ^^^^^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/custom-property/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:8:1]
  7 |     --important3:value !important;
  8 |     --important4: calc(1)!important;
    :                           ^^^^^^^^^
    `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:9:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:10:1]
   9 | 
  10 |     --empty: ;
     :     ^^^^^^^^^
  11 |     --empty2: /**/;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:9:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:10:1]
   9 | 
  10 |     --empty: ;
     :     ^^^^^^^^^
  11 |     --empty2: /**/;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:9:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:10:1]
   9 | 
  10 |     --empty: ;
     :     ^^^^^^^
  11 |     --empty2: /**/;
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:9:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:10:1]
   9 | 
  10 |     --empty: ;
     :     ^^^^^^^
  11 |     --empty2: /**/;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:11:1]
  10 |     --empty: ;
  11 |     --empty2: /**/;
     :     ^^^^^^^^^^
  12 |     --empty3: !important;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:11:1]
  10 |     --empty: ;
  11 |     --empty2: /**/;
     :     ^^^^^^^^^^
  12 |     --empty3: !important;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:11:1]
  10 |     --empty: ;
  11 |     --empty2: /**/;
     :     ^^^^^^^^
  12 |     --empty3: !important;
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:11:1]
  10 |     --empty: ;
  11 |     --empty2: /**/;
     :     ^^^^^^^^
  12 |     --empty3: !important;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:12:1]
  11 |     --empty2: /**/;
  12 |     --empty3: !important;
     :     ^^^^^^^^^^^^^^^^^^^^
  13 |     --empty4:/**/ !important;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:12:1]
  11 |     --empty2: /**/;
  12 |     --empty3: !important;
     :     ^^^^^^^^^^^^^^^^^^^^
  13 |     --empty4:/**/ !important;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:12:1]
  11 |     --empty2: /**/;
  12 |     --empty3: !important;
     :     ^^^^^^^^
  13 |     --empty4:/**/ !important;
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:12:1]
  11 |     --empty2: /**/;
  12 |     --empty3: !important;
     :     ^^^^^^^^
  13 |     --empty4:/**/ !important;
     `----
-
   x ImportantFlag
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:12:1]
  11 |     --empty2: /**/;
  12 |     --empty3: !important;
     :               ^^^^^^^^^^
  13 |     --empty4:/**/ !important;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:12:1]
  11 |     --empty2: /**/;
  12 |     --empty3: !important;
     :                ^^^^^^^^^
  13 |     --empty4:/**/ !important;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:13:1]
  12 |     --empty3: !important;
  13 |     --empty4:/**/ !important;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^
  14 |     --empty5:/* 1 */ /* 2 */;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:13:1]
  12 |     --empty3: !important;
  13 |     --empty4:/**/ !important;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^
  14 |     --empty5:/* 1 */ /* 2 */;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:13:1]
  12 |     --empty3: !important;
  13 |     --empty4:/**/ !important;
     :     ^^^^^^^^
  14 |     --empty5:/* 1 */ /* 2 */;
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:13:1]
  12 |     --empty3: !important;
  13 |     --empty4:/**/ !important;
     :     ^^^^^^^^
  14 |     --empty5:/* 1 */ /* 2 */;
     `----
-
   x ImportantFlag
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:13:1]
  12 |     --empty3: !important;
  13 |     --empty4:/**/ !important;
     :                   ^^^^^^^^^^
  14 |     --empty5:/* 1 */ /* 2 */;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:13:1]
  12 |     --empty3: !important;
  13 |     --empty4:/**/ !important;
     :                    ^^^^^^^^^
  14 |     --empty5:/* 1 */ /* 2 */;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:13:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:14:1]
  13 |     --empty4:/**/ !important;
  14 |     --empty5:/* 1 */ /* 2 */;
     :     ^^^^^^^^^^^^^^^^^
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:13:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:14:1]
  13 |     --empty4:/**/ !important;
  14 |     --empty5:/* 1 */ /* 2 */;
     :     ^^^^^^^^^^^^^^^^^
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:13:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:14:1]
  13 |     --empty4:/**/ !important;
  14 |     --empty5:/* 1 */ /* 2 */;
     :     ^^^^^^^^
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:13:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:14:1]
  13 |     --empty4:/**/ !important;
  14 |     --empty5:/* 1 */ /* 2 */;
     :     ^^^^^^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:15:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:16:1]
  15 | 
  16 |     --no-whitespace:ident;
     :     ^^^^^^^^^^^^^^^^^^^^^
  17 |     --number: 1;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:15:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:16:1]
  15 | 
  16 |     --no-whitespace:ident;
     :     ^^^^^^^^^^^^^^^^^^^^^
  17 |     --number: 1;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:15:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:16:1]
  15 | 
  16 |     --no-whitespace:ident;
     :     ^^^^^^^^^^^^^^^
  17 |     --number: 1;
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:15:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:16:1]
  15 | 
  16 |     --no-whitespace:ident;
     :     ^^^^^^^^^^^^^^^
  17 |     --number: 1;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:15:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:16:1]
  15 | 
  16 |     --no-whitespace:ident;
     :                     ^^^^^
  17 |     --number: 1;
     `----
-
   x Ident { value: "ident", raw: "ident" }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:15:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:16:1]
  15 | 
  16 |     --no-whitespace:ident;
     :                     ^^^^^
  17 |     --number: 1;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:17:1]
  16 |     --no-whitespace:ident;
  17 |     --number: 1;
     :     ^^^^^^^^^^^
  18 |     --unit: 100vw;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:17:1]
  16 |     --no-whitespace:ident;
  17 |     --number: 1;
     :     ^^^^^^^^^^^
  18 |     --unit: 100vw;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:17:1]
  16 |     --no-whitespace:ident;
  17 |     --number: 1;
     :     ^^^^^^^^
  18 |     --unit: 100vw;
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:17:1]
  16 |     --no-whitespace:ident;
  17 |     --number: 1;
     :     ^^^^^^^^
  18 |     --unit: 100vw;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:17:1]
  16 |     --no-whitespace:ident;
  17 |     --number: 1;
     :               ^
  18 |     --unit: 100vw;
     `----
-
   x Number { value: 1.0, raw: "1", type_flag: Integer }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:17:1]
  16 |     --no-whitespace:ident;
  17 |     --number: 1;
     :               ^
  18 |     --unit: 100vw;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:17:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:18:1]
  17 |     --number: 1;
  18 |     --unit: 100vw;
     :     ^^^^^^^^^^^^^
  19 |     --color: #06c;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:17:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:18:1]
  17 |     --number: 1;
  18 |     --unit: 100vw;
     :     ^^^^^^^^^^^^^
  19 |     --color: #06c;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:17:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:18:1]
  17 |     --number: 1;
  18 |     --unit: 100vw;
     :     ^^^^^^
  19 |     --color: #06c;
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:17:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:18:1]
  17 |     --number: 1;
  18 |     --unit: 100vw;
     :     ^^^^^^
  19 |     --color: #06c;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:17:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:18:1]
  17 |     --number: 1;
  18 |     --unit: 100vw;
     :             ^^^^^
  19 |     --color: #06c;
     `----
-
   x Dimension(DimensionToken { value: 100.0, raw_value: "100", unit: "vw", type_flag: Integer, raw_unit: "vw" })
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:17:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:18:1]
  17 |     --number: 1;
  18 |     --unit: 100vw;
     :             ^^^^^
  19 |     --color: #06c;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:18:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:19:1]
  18 |     --unit: 100vw;
  19 |     --color: #06c;
     :     ^^^^^^^^^^^^^
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:18:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:19:1]
  18 |     --unit: 100vw;
  19 |     --color: #06c;
     :     ^^^^^^^^^^^^^
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:18:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:19:1]
  18 |     --unit: 100vw;
  19 |     --color: #06c;
     :     ^^^^^^^
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:18:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:19:1]
  18 |     --unit: 100vw;
  19 |     --color: #06c;
     :     ^^^^^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:18:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:19:1]
  18 |     --unit: 100vw;
  19 |     --color: #06c;
     :              ^^^^
     `----
-
   x Hash { is_id: false, value: "06c", raw: "06c" }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:18:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:19:1]
  18 |     --unit: 100vw;
  19 |     --color: #06c;
     :              ^^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
  20 | 
  21 |     --function: calc(1 + 1);
     :     ^^^^^^^^^^^^^^^^^^^^^^^
  22 |     --variable: var(--unit);
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
  20 | 
  21 |     --function: calc(1 + 1);
     :     ^^^^^^^^^^^^^^^^^^^^^^^
  22 |     --variable: var(--unit);
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
  20 | 
  21 |     --function: calc(1 + 1);
     :     ^^^^^^^^^^
  22 |     --variable: var(--unit);
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
  20 | 
  21 |     --function: calc(1 + 1);
     :     ^^^^^^^^^^
  22 |     --variable: var(--unit);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
  20 | 
  21 |     --function: calc(1 + 1);
     :                 ^^^^^^^^^^^
  22 |     --variable: var(--unit);
     `----
-
   x Function
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
  20 | 
  21 |     --function: calc(1 + 1);
     :                 ^^^^^^^^^^^
  22 |     --variable: var(--unit);
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
  20 | 
  21 |     --function: calc(1 + 1);
     :                 ^^^^
  22 |     --variable: var(--unit);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
  20 | 
  21 |     --function: calc(1 + 1);
     :                      ^
  22 |     --variable: var(--unit);
     `----
-
   x Number { value: 1.0, raw: "1", type_flag: Integer }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
  20 | 
  21 |     --function: calc(1 + 1);
     :                      ^
  22 |     --variable: var(--unit);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
  20 | 
  21 |     --function: calc(1 + 1);
     :                       ^
  22 |     --variable: var(--unit);
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
  20 | 
  21 |     --function: calc(1 + 1);
     :                       ^
  22 |     --variable: var(--unit);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
  20 | 
  21 |     --function: calc(1 + 1);
     :                        ^
  22 |     --variable: var(--unit);
     `----
-
   x Delim { value: '+' }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
  20 | 
  21 |     --function: calc(1 + 1);
     :                        ^
  22 |     --variable: var(--unit);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
  20 | 
  21 |     --function: calc(1 + 1);
     :                         ^
  22 |     --variable: var(--unit);
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
  20 | 
  21 |     --function: calc(1 + 1);
     :                         ^
  22 |     --variable: var(--unit);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
  20 | 
  21 |     --function: calc(1 + 1);
     :                          ^
  22 |     --variable: var(--unit);
     `----
-
   x Number { value: 1.0, raw: "1", type_flag: Integer }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
  20 | 
  21 |     --function: calc(1 + 1);
     :                          ^
  22 |     --variable: var(--unit);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:22:1]
  21 |     --function: calc(1 + 1);
  22 |     --variable: var(--unit);
     :     ^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:22:1]
  21 |     --function: calc(1 + 1);
  22 |     --variable: var(--unit);
     :     ^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:22:1]
  21 |     --function: calc(1 + 1);
  22 |     --variable: var(--unit);
     :     ^^^^^^^^^^
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:22:1]
  21 |     --function: calc(1 + 1);
  22 |     --variable: var(--unit);
     :     ^^^^^^^^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:22:1]
  21 |     --function: calc(1 + 1);
  22 |     --variable: var(--unit);
     :                 ^^^^^^^^^^^
     `----
-
   x Function
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:22:1]
  21 |     --function: calc(1 + 1);
  22 |     --variable: var(--unit);
     :                 ^^^^^^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:22:1]
  21 |     --function: calc(1 + 1);
  22 |     --variable: var(--unit);
     :                 ^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:22:1]
  21 |     --function: calc(1 + 1);
  22 |     --variable: var(--unit);
     :                     ^^^^^^
     `----
-
   x Ident { value: "--unit", raw: "--unit" }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:22:1]
  21 |     --function: calc(1 + 1);
  22 |     --variable: var(--unit);
     :                     ^^^^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:23:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:24:1]
  23 | 
  24 |     --string: 'single quoted string';
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  25 |     --string: "double quoted string";
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:23:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:24:1]
  23 | 
  24 |     --string: 'single quoted string';
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  25 |     --string: "double quoted string";
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:23:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:24:1]
  23 | 
  24 |     --string: 'single quoted string';
     :     ^^^^^^^^
  25 |     --string: "double quoted string";
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:23:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:24:1]
  23 | 
  24 |     --string: 'single quoted string';
     :     ^^^^^^^^
  25 |     --string: "double quoted string";
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:23:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:24:1]
  23 | 
  24 |     --string: 'single quoted string';
     :               ^^^^^^^^^^^^^^^^^^^^^^
  25 |     --string: "double quoted string";
     `----
-
   x String { value: "single quoted string", raw: "'single quoted string'" }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:23:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:24:1]
  23 | 
  24 |     --string: 'single quoted string';
     :               ^^^^^^^^^^^^^^^^^^^^^^
  25 |     --string: "double quoted string";
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:24:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:25:1]
  24 |     --string: 'single quoted string';
  25 |     --string: "double quoted string";
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:24:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:25:1]
  24 |     --string: 'single quoted string';
  25 |     --string: "double quoted string";
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:24:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:25:1]
  24 |     --string: 'single quoted string';
  25 |     --string: "double quoted string";
     :     ^^^^^^^^
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:24:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:25:1]
  24 |     --string: 'single quoted string';
  25 |     --string: "double quoted string";
     :     ^^^^^^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:24:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:25:1]
  24 |     --string: 'single quoted string';
  25 |     --string: "double quoted string";
     :               ^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x String { value: "double quoted string", raw: "\"double quoted string\"" }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:24:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:25:1]
  24 |     --string: 'single quoted string';
  25 |     --string: "double quoted string";
     :               ^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^
  28 |     --square-block1: [];
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^
  28 |     --square-block1: [];
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
     :     ^^^^^^^^^^^^^^
  28 |     --square-block1: [];
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
     :     ^^^^^^^^^^^^^^
  28 |     --square-block1: [];
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
     :                     ^^^^^^^^^
  28 |     --square-block1: [];
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
     :                     ^^^^^^^^^
  28 |     --square-block1: [];
     `----
-
   x LBracket
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
     :                     ^
  28 |     --square-block1: [];
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
     :                      ^
  28 |     --square-block1: [];
     `----
-
   x Number { value: 1.0, raw: "1", type_flag: Integer }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
     :                      ^
  28 |     --square-block1: [];
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
     :                       ^
  28 |     --square-block1: [];
     `----
-
   x Comma
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
     :                       ^
  28 |     --square-block1: [];
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
     :                        ^
  28 |     --square-block1: [];
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
     :                        ^
  28 |     --square-block1: [];
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
     :                         ^
  28 |     --square-block1: [];
     `----
-
   x Number { value: 2.0, raw: "2", type_flag: Integer }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
     :                         ^
  28 |     --square-block1: [];
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
     :                          ^
  28 |     --square-block1: [];
     `----
-
   x Comma
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
     :                          ^
  28 |     --square-block1: [];
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
     :                           ^
  28 |     --square-block1: [];
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
     :                           ^
  28 |     --square-block1: [];
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
     :                            ^
  28 |     --square-block1: [];
     `----
-
   x Number { value: 3.0, raw: "3", type_flag: Integer }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
     :                            ^
  28 |     --square-block1: [];
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:28:1]
  27 |     --square-block: [1, 2, 3];
  28 |     --square-block1: [];
     :     ^^^^^^^^^^^^^^^^^^^
  29 |     --square-block2:[];
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:28:1]
  27 |     --square-block: [1, 2, 3];
  28 |     --square-block1: [];
     :     ^^^^^^^^^^^^^^^^^^^
  29 |     --square-block2:[];
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:28:1]
  27 |     --square-block: [1, 2, 3];
  28 |     --square-block1: [];
     :     ^^^^^^^^^^^^^^^
  29 |     --square-block2:[];
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:28:1]
  27 |     --square-block: [1, 2, 3];
  28 |     --square-block1: [];
     :     ^^^^^^^^^^^^^^^
  29 |     --square-block2:[];
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:28:1]
  27 |     --square-block: [1, 2, 3];
  28 |     --square-block1: [];
     :                      ^^
  29 |     --square-block2:[];
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:28:1]
  27 |     --square-block: [1, 2, 3];
  28 |     --square-block1: [];
     :                      ^^
  29 |     --square-block2:[];
     `----
-
   x LBracket
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:27:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:28:1]
  27 |     --square-block: [1, 2, 3];
  28 |     --square-block1: [];
     :                      ^
  29 |     --square-block2:[];
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:28:1]
- 28 |     --square-block1: [];
- 29 |     --square-block2:[];
-    :     ^^^^^^^^^^^^^^^^^^
- 30 |     --round-block: (1, 2, 3);
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:28:1]
- 28 |     --square-block1: [];
- 29 |     --square-block2:[];
-    :     ^^^^^^^^^^^^^^^^^^
- 30 |     --round-block: (1, 2, 3);
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:28:1]
- 28 |     --square-block1: [];
- 29 |     --square-block2:[];
-    :     ^^^^^^^^^^^^^^^
- 30 |     --round-block: (1, 2, 3);
-    `----
-
-  x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:28:1]
- 28 |     --square-block1: [];
- 29 |     --square-block2:[];
-    :     ^^^^^^^^^^^^^^^
- 30 |     --round-block: (1, 2, 3);
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:28:1]
- 28 |     --square-block1: [];
- 29 |     --square-block2:[];
-    :                     ^^
- 30 |     --round-block: (1, 2, 3);
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:28:1]
- 28 |     --square-block1: [];
- 29 |     --square-block2:[];
-    :                     ^^
- 30 |     --round-block: (1, 2, 3);
-    `----
-
-  x LBracket
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:28:1]
- 28 |     --square-block1: [];
- 29 |     --square-block2:[];
-    :                     ^
- 30 |     --round-block: (1, 2, 3);
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+ 28 |     --square-block1: [];
+ 29 |     --square-block2:[];
+    :     ^^^^^^^^^^^^^^^^^^
+ 30 |     --round-block: (1, 2, 3);
+    `----
+  x Declaration
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+ 28 |     --square-block1: [];
+ 29 |     --square-block2:[];
+    :     ^^^^^^^^^^^^^^^^^^
+ 30 |     --round-block: (1, 2, 3);
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+ 28 |     --square-block1: [];
+ 29 |     --square-block2:[];
+    :     ^^^^^^^^^^^^^^^
+ 30 |     --round-block: (1, 2, 3);
+    `----
+  x DashedIdent
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+ 28 |     --square-block1: [];
+ 29 |     --square-block2:[];
+    :     ^^^^^^^^^^^^^^^
+ 30 |     --round-block: (1, 2, 3);
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+ 28 |     --square-block1: [];
+ 29 |     --square-block2:[];
+    :                     ^^
+ 30 |     --round-block: (1, 2, 3);
+    `----
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+ 28 |     --square-block1: [];
+ 29 |     --square-block2:[];
+    :                     ^^
+ 30 |     --round-block: (1, 2, 3);
+    `----
+  x LBracket
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+ 28 |     --square-block1: [];
+ 29 |     --square-block2:[];
+    :                     ^
+ 30 |     --round-block: (1, 2, 3);
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^
  31 |     --round-block1: ();
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^
  31 |     --round-block1: ();
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
     :     ^^^^^^^^^^^^^
  31 |     --round-block1: ();
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
     :     ^^^^^^^^^^^^^
  31 |     --round-block1: ();
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
     :                    ^^^^^^^^^
  31 |     --round-block1: ();
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
     :                    ^^^^^^^^^
  31 |     --round-block1: ();
     `----
-
   x LParen
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
     :                    ^
  31 |     --round-block1: ();
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
     :                     ^
  31 |     --round-block1: ();
     `----
-
   x Number { value: 1.0, raw: "1", type_flag: Integer }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
     :                     ^
  31 |     --round-block1: ();
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
     :                      ^
  31 |     --round-block1: ();
     `----
-
   x Comma
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
     :                      ^
  31 |     --round-block1: ();
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
     :                       ^
  31 |     --round-block1: ();
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
     :                       ^
  31 |     --round-block1: ();
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
     :                        ^
  31 |     --round-block1: ();
     `----
-
   x Number { value: 2.0, raw: "2", type_flag: Integer }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
     :                        ^
  31 |     --round-block1: ();
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
     :                         ^
  31 |     --round-block1: ();
     `----
-
   x Comma
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
     :                         ^
  31 |     --round-block1: ();
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
     :                          ^
  31 |     --round-block1: ();
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
     :                          ^
  31 |     --round-block1: ();
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
     :                           ^
  31 |     --round-block1: ();
     `----
-
   x Number { value: 3.0, raw: "3", type_flag: Integer }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
     :                           ^
  31 |     --round-block1: ();
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:31:1]
  30 |     --round-block: (1, 2, 3);
  31 |     --round-block1: ();
     :     ^^^^^^^^^^^^^^^^^^
  32 |     --round-block2:();
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:31:1]
  30 |     --round-block: (1, 2, 3);
  31 |     --round-block1: ();
     :     ^^^^^^^^^^^^^^^^^^
  32 |     --round-block2:();
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:31:1]
  30 |     --round-block: (1, 2, 3);
  31 |     --round-block1: ();
     :     ^^^^^^^^^^^^^^
  32 |     --round-block2:();
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:31:1]
  30 |     --round-block: (1, 2, 3);
  31 |     --round-block1: ();
     :     ^^^^^^^^^^^^^^
  32 |     --round-block2:();
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:31:1]
  30 |     --round-block: (1, 2, 3);
  31 |     --round-block1: ();
     :                     ^^
  32 |     --round-block2:();
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:31:1]
  30 |     --round-block: (1, 2, 3);
  31 |     --round-block1: ();
     :                     ^^
  32 |     --round-block2:();
     `----
-
   x LParen
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:30:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:31:1]
  30 |     --round-block: (1, 2, 3);
  31 |     --round-block1: ();
     :                     ^
  32 |     --round-block2:();
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:31:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
  31 |     --round-block1: ();
  32 |     --round-block2:();
     :     ^^^^^^^^^^^^^^^^^
  33 |     --bracket-block: {1, 2, 3};
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:31:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
  31 |     --round-block1: ();
  32 |     --round-block2:();
     :     ^^^^^^^^^^^^^^^^^
  33 |     --bracket-block: {1, 2, 3};
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:31:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
  31 |     --round-block1: ();
  32 |     --round-block2:();
     :     ^^^^^^^^^^^^^^
  33 |     --bracket-block: {1, 2, 3};
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:31:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
  31 |     --round-block1: ();
  32 |     --round-block2:();
     :     ^^^^^^^^^^^^^^
  33 |     --bracket-block: {1, 2, 3};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:31:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
  31 |     --round-block1: ();
  32 |     --round-block2:();
     :                    ^^
  33 |     --bracket-block: {1, 2, 3};
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:31:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
  31 |     --round-block1: ();
  32 |     --round-block2:();
     :                    ^^
  33 |     --bracket-block: {1, 2, 3};
     `----
-
   x LParen
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:31:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
  31 |     --round-block1: ();
  32 |     --round-block2:();
     :                    ^
  33 |     --bracket-block: {1, 2, 3};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
  34 |     --bracket-block1: {};
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
  34 |     --bracket-block1: {};
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
     :     ^^^^^^^^^^^^^^^
  34 |     --bracket-block1: {};
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
     :     ^^^^^^^^^^^^^^^
  34 |     --bracket-block1: {};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
     :                      ^^^^^^^^^
  34 |     --bracket-block1: {};
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
     :                      ^^^^^^^^^
  34 |     --bracket-block1: {};
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
     :                      ^
  34 |     --bracket-block1: {};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
     :                       ^
  34 |     --bracket-block1: {};
     `----
-
   x Number { value: 1.0, raw: "1", type_flag: Integer }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
     :                       ^
  34 |     --bracket-block1: {};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
     :                        ^
  34 |     --bracket-block1: {};
     `----
-
   x Comma
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
     :                        ^
  34 |     --bracket-block1: {};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
     :                         ^
  34 |     --bracket-block1: {};
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
     :                         ^
  34 |     --bracket-block1: {};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
     :                          ^
  34 |     --bracket-block1: {};
     `----
-
   x Number { value: 2.0, raw: "2", type_flag: Integer }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
     :                          ^
  34 |     --bracket-block1: {};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
     :                           ^
  34 |     --bracket-block1: {};
     `----
-
   x Comma
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
     :                           ^
  34 |     --bracket-block1: {};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
     :                            ^
  34 |     --bracket-block1: {};
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
     :                            ^
  34 |     --bracket-block1: {};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
     :                             ^
  34 |     --bracket-block1: {};
     `----
-
   x Number { value: 3.0, raw: "3", type_flag: Integer }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
     :                             ^
  34 |     --bracket-block1: {};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:34:1]
  33 |     --bracket-block: {1, 2, 3};
  34 |     --bracket-block1: {};
     :     ^^^^^^^^^^^^^^^^^^^^
  35 |     --bracket-block2:{};
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:34:1]
  33 |     --bracket-block: {1, 2, 3};
  34 |     --bracket-block1: {};
     :     ^^^^^^^^^^^^^^^^^^^^
  35 |     --bracket-block2:{};
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:34:1]
  33 |     --bracket-block: {1, 2, 3};
  34 |     --bracket-block1: {};
     :     ^^^^^^^^^^^^^^^^
  35 |     --bracket-block2:{};
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:34:1]
  33 |     --bracket-block: {1, 2, 3};
  34 |     --bracket-block1: {};
     :     ^^^^^^^^^^^^^^^^
  35 |     --bracket-block2:{};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:34:1]
  33 |     --bracket-block: {1, 2, 3};
  34 |     --bracket-block1: {};
     :                       ^^
  35 |     --bracket-block2:{};
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:34:1]
  33 |     --bracket-block: {1, 2, 3};
  34 |     --bracket-block1: {};
     :                       ^^
  35 |     --bracket-block2:{};
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:33:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:34:1]
  33 |     --bracket-block: {1, 2, 3};
  34 |     --bracket-block1: {};
     :                       ^
  35 |     --bracket-block2:{};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:34:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:35:1]
  34 |     --bracket-block1: {};
  35 |     --bracket-block2:{};
     :     ^^^^^^^^^^^^^^^^^^^
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:34:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:35:1]
  34 |     --bracket-block1: {};
  35 |     --bracket-block2:{};
     :     ^^^^^^^^^^^^^^^^^^^
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:34:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:35:1]
  34 |     --bracket-block1: {};
  35 |     --bracket-block2:{};
     :     ^^^^^^^^^^^^^^^^
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:34:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:35:1]
  34 |     --bracket-block1: {};
  35 |     --bracket-block2:{};
     :     ^^^^^^^^^^^^^^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:34:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:35:1]
  34 |     --bracket-block1: {};
  35 |     --bracket-block2:{};
     :                      ^^
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:34:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:35:1]
  34 |     --bracket-block1: {};
  35 |     --bracket-block2:{};
     :                      ^^
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:34:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:35:1]
  34 |     --bracket-block1: {};
  35 |     --bracket-block2:{};
     :                      ^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :     ^^^^^^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :     ^^^^^^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x LBracket
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :             ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :              ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x Number { value: 1.0, raw: "1", type_flag: Integer }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :              ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :               ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x Comma
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :               ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                 ^^^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x String { value: "2", raw: "\"2\"" }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                 ^^^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                    ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x Comma
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                    ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                     ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                     ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                      ^^^^^^^^^^^^^^^^^^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                      ^^^^^^^^^^^^^^^^^^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                      ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                       ^^^^^^^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x String { value: "three", raw: "\"three\"" }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                       ^^^^^^^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                              ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x Colon
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                              ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                               ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                               ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                                ^^^^^^^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                                ^^^^^^^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                                ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                                 ^^^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x String { value: "a", raw: "\"a\"" }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                                 ^^^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                                    ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x Colon
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                                    ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                                     ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x Number { value: 1.0, raw: "1", type_flag: Integer }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                                     ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                                        ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x Comma
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                                        ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                                         ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                                         ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                                          ^^^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                                          ^^^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x LBracket
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                                          ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                                           ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x Number { value: 4.0, raw: "4", type_flag: Integer }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                                           ^
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :     ^^^^^^^^^^^^
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :     ^^^^^^^^^^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                   ^^^^^^^^^^^^^^
     `----
-
   x Function
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                   ^^^^^^^^^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                   ^^^^^^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                            ^^^^
     `----
-
   x Ident { value: "rule", raw: "rule" }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                            ^^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                                 ^
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                                 ^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                                  ^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                                  ^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                                  ^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                                   ^
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                                   ^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                                    ^^^^^^^
     `----
-
   x Ident { value: "console", raw: "console" }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                                    ^^^^^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                                           ^
     `----
-
   x Delim { value: '.' }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                                           ^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                                            ^^^^^^^^^
     `----
-
   x Function
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                                            ^^^^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                                            ^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                                                ^^^^
     `----
-
   x Ident { value: "rule", raw: "rule" }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                                                ^^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                                                     ^
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:39:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
     :                                                     ^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:40:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:41:1]
  40 | 
  41 |     --CDO: <!--;
     :     ^^^^^^^^^^^
  42 |     --CDC: -->;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:40:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:41:1]
  40 | 
  41 |     --CDO: <!--;
     :     ^^^^^^^^^^^
  42 |     --CDC: -->;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:40:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:41:1]
  40 | 
  41 |     --CDO: <!--;
     :     ^^^^^
  42 |     --CDC: -->;
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:40:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:41:1]
  40 | 
  41 |     --CDO: <!--;
     :     ^^^^^
  42 |     --CDC: -->;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:40:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:41:1]
  40 | 
  41 |     --CDO: <!--;
     :            ^^^^
  42 |     --CDC: -->;
     `----
-
   x CDO
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:40:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:41:1]
  40 | 
  41 |     --CDO: <!--;
     :            ^^^^
  42 |     --CDC: -->;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:41:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:42:1]
  41 |     --CDO: <!--;
  42 |     --CDC: -->;
     :     ^^^^^^^^^^
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:41:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:42:1]
  41 |     --CDO: <!--;
  42 |     --CDC: -->;
     :     ^^^^^^^^^^
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:41:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:42:1]
  41 |     --CDO: <!--;
  42 |     --CDC: -->;
     :     ^^^^^
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:41:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:42:1]
  41 |     --CDO: <!--;
  42 |     --CDC: -->;
     :     ^^^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:41:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:42:1]
  41 |     --CDO: <!--;
  42 |     --CDC: -->;
     :            ^^^
     `----
-
   x CDC
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:41:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:42:1]
  41 |     --CDO: <!--;
  42 |     --CDC: -->;
     :            ^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  45 |     --fake-important:{!important};
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  45 |     --fake-important:{!important};
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :     ^^^^^^^^^^^^^^^^^^
  45 |     --fake-important:{!important};
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :     ^^^^^^^^^^^^^^^^^^
  45 |     --fake-important:{!important};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                        ^^^^^^^^^^^^^^^^^^^^
  45 |     --fake-important:{!important};
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                        ^^^^^^^^^^^^^^^^^^^^
  45 |     --fake-important:{!important};
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                        ^
  45 |     --fake-important:{!important};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                         ^^^^^^^^^^^^^^^^^^
  45 |     --fake-important:{!important};
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                         ^^^^^^^^^^^^^^^^^^
  45 |     --fake-important:{!important};
     `----
-
   x LBracket
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                         ^
  45 |     --fake-important:{!important};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                          ^^^^^^
  45 |     --fake-important:{!important};
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                          ^^^^^^
  45 |     --fake-important:{!important};
     `----
-
   x LParen
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                          ^
  45 |     --fake-important:{!important};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                           ^^^^
  45 |     --fake-important:{!important};
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                           ^^^^
  45 |     --fake-important:{!important};
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                           ^
  45 |     --fake-important:{!important};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                            ^^
  45 |     --fake-important:{!important};
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                            ^^
  45 |     --fake-important:{!important};
     `----
-
   x LParen
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                            ^
  45 |     --fake-important:{!important};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                ^^
  45 |     --fake-important:{!important};
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                ^^
  45 |     --fake-important:{!important};
     `----
-
   x LParen
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                ^
  45 |     --fake-important:{!important};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                  ^^
  45 |     --fake-important:{!important};
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                  ^^
  45 |     --fake-important:{!important};
     `----
-
   x LParen
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                  ^
  45 |     --fake-important:{!important};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                    ^^^^^^
  45 |     --fake-important:{!important};
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                    ^^^^^^
  45 |     --fake-important:{!important};
     `----
-
   x LBracket
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                    ^
  45 |     --fake-important:{!important};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                     ^^^^
  45 |     --fake-important:{!important};
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                     ^^^^
  45 |     --fake-important:{!important};
     `----
-
   x LParen
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                     ^
  45 |     --fake-important:{!important};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                      ^^
  45 |     --fake-important:{!important};
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                      ^^
  45 |     --fake-important:{!important};
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                      ^
  45 |     --fake-important:{!important};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                            ^^^^^^
  45 |     --fake-important:{!important};
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                            ^^^^^^
  45 |     --fake-important:{!important};
     `----
-
   x LBracket
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                            ^
  45 |     --fake-important:{!important};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                             ^^^^
  45 |     --fake-important:{!important};
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                             ^^^^
  45 |     --fake-important:{!important};
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                             ^
  45 |     --fake-important:{!important};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                              ^^
  45 |     --fake-important:{!important};
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                              ^^
  45 |     --fake-important:{!important};
     `----
-
   x LParen
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                              ^
  45 |     --fake-important:{!important};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                                  ^^^^
  45 |     --fake-important:{!important};
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                                  ^^^^
  45 |     --fake-important:{!important};
     `----
-
   x LParen
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                                  ^
  45 |     --fake-important:{!important};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                                   ^^
  45 |     --fake-important:{!important};
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                                   ^^
  45 |     --fake-important:{!important};
     `----
-
   x LBracket
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:43:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  43 | 
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
     :                                                   ^
  45 |     --fake-important:{!important};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:45:1]
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
  45 |     --fake-important:{!important};
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  46 |     --semicolon-not-top-level: (;);
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:45:1]
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
  45 |     --fake-important:{!important};
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  46 |     --semicolon-not-top-level: (;);
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:45:1]
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
  45 |     --fake-important:{!important};
     :     ^^^^^^^^^^^^^^^^
  46 |     --semicolon-not-top-level: (;);
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:45:1]
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
  45 |     --fake-important:{!important};
     :     ^^^^^^^^^^^^^^^^
  46 |     --semicolon-not-top-level: (;);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:45:1]
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
  45 |     --fake-important:{!important};
     :                      ^^^^^^^^^^^^
  46 |     --semicolon-not-top-level: (;);
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:45:1]
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
  45 |     --fake-important:{!important};
     :                      ^^^^^^^^^^^^
  46 |     --semicolon-not-top-level: (;);
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:45:1]
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
  45 |     --fake-important:{!important};
     :                      ^
  46 |     --semicolon-not-top-level: (;);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:45:1]
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
  45 |     --fake-important:{!important};
     :                       ^
  46 |     --semicolon-not-top-level: (;);
     `----
-
   x Delim { value: '!' }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:45:1]
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
  45 |     --fake-important:{!important};
     :                       ^
  46 |     --semicolon-not-top-level: (;);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:45:1]
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
  45 |     --fake-important:{!important};
     :                        ^^^^^^^^^
  46 |     --semicolon-not-top-level: (;);
     `----
-
   x Ident { value: "important", raw: "important" }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:45:1]
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
  45 |     --fake-important:{!important};
     :                        ^^^^^^^^^
  46 |     --semicolon-not-top-level: (;);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:45:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:46:1]
  45 |     --fake-important:{!important};
  46 |     --semicolon-not-top-level: (;);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  47 |     --delim-not-top-level: (!);
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:45:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:46:1]
  45 |     --fake-important:{!important};
  46 |     --semicolon-not-top-level: (;);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  47 |     --delim-not-top-level: (!);
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:45:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:46:1]
  45 |     --fake-important:{!important};
  46 |     --semicolon-not-top-level: (;);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^
  47 |     --delim-not-top-level: (!);
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:45:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:46:1]
  45 |     --fake-important:{!important};
  46 |     --semicolon-not-top-level: (;);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^
  47 |     --delim-not-top-level: (!);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:45:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:46:1]
  45 |     --fake-important:{!important};
  46 |     --semicolon-not-top-level: (;);
     :                                ^^^
  47 |     --delim-not-top-level: (!);
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:45:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:46:1]
  45 |     --fake-important:{!important};
  46 |     --semicolon-not-top-level: (;);
     :                                ^^^
  47 |     --delim-not-top-level: (!);
     `----
-
   x LParen
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:45:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:46:1]
  45 |     --fake-important:{!important};
  46 |     --semicolon-not-top-level: (;);
     :                                ^
  47 |     --delim-not-top-level: (!);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:45:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:46:1]
  45 |     --fake-important:{!important};
  46 |     --semicolon-not-top-level: (;);
     :                                 ^
  47 |     --delim-not-top-level: (!);
     `----
-
   x Semi
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:45:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:46:1]
  45 |     --fake-important:{!important};
  46 |     --semicolon-not-top-level: (;);
     :                                 ^
  47 |     --delim-not-top-level: (!);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:46:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:47:1]
  46 |     --semicolon-not-top-level: (;);
  47 |     --delim-not-top-level: (!);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
  48 |     --zero-size: {
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:46:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:47:1]
  46 |     --semicolon-not-top-level: (;);
  47 |     --delim-not-top-level: (!);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
  48 |     --zero-size: {
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:46:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:47:1]
  46 |     --semicolon-not-top-level: (;);
  47 |     --delim-not-top-level: (!);
     :     ^^^^^^^^^^^^^^^^^^^^^
  48 |     --zero-size: {
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:46:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:47:1]
  46 |     --semicolon-not-top-level: (;);
  47 |     --delim-not-top-level: (!);
     :     ^^^^^^^^^^^^^^^^^^^^^
  48 |     --zero-size: {
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:46:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:47:1]
  46 |     --semicolon-not-top-level: (;);
  47 |     --delim-not-top-level: (!);
     :                            ^^^
  48 |     --zero-size: {
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:46:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:47:1]
  46 |     --semicolon-not-top-level: (;);
  47 |     --delim-not-top-level: (!);
     :                            ^^^
  48 |     --zero-size: {
     `----
-
   x LParen
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:46:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:47:1]
  46 |     --semicolon-not-top-level: (;);
  47 |     --delim-not-top-level: (!);
     :                            ^
  48 |     --zero-size: {
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:46:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:47:1]
  46 |     --semicolon-not-top-level: (;);
  47 |     --delim-not-top-level: (!);
     :                             ^
  48 |     --zero-size: {
     `----
-
   x Delim { value: '!' }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:46:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:47:1]
  46 |     --semicolon-not-top-level: (;);
  47 |     --delim-not-top-level: (!);
     :                             ^
  48 |     --zero-size: {
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:47:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
  47 |         --delim-not-top-level: (!);
  48 | ,->     --zero-size: {
  49 | |           width: 0;
@@ -3453,9 +3038,8 @@
  51 | `->     };
  52 |         --small-icon: {
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:47:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
  47 |         --delim-not-top-level: (!);
  48 | ,->     --zero-size: {
  49 | |           width: 0;
@@ -3463,25 +3047,22 @@
  51 | `->     };
  52 |         --small-icon: {
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:47:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
  47 |     --delim-not-top-level: (!);
  48 |     --zero-size: {
     :     ^^^^^^^^^^^
  49 |         width: 0;
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:47:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
  47 |     --delim-not-top-level: (!);
  48 |     --zero-size: {
     :     ^^^^^^^^^^^
  49 |         width: 0;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:47:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
  47 |         --delim-not-top-level: (!);
  48 | ,->     --zero-size: {
  49 | |           width: 0;
@@ -3489,9 +3070,8 @@
  51 | `->     };
  52 |         --small-icon: {
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:47:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
  47 |         --delim-not-top-level: (!);
  48 | ,->     --zero-size: {
  49 | |           width: 0;
@@ -3499,225 +3079,197 @@
  51 | `->     };
  52 |         --small-icon: {
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:47:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
  47 |     --delim-not-top-level: (!);
  48 |     --zero-size: {
     :                  ^
  49 |         width: 0;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:47:1]
- 47 |         --delim-not-top-level: (!);
- 48 | ,->     --zero-size: {
- 49 | `->         width: 0;
- 50 |             height: 0;
-    `----
-
-  x WhiteSpace { value: "\n        " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:47:1]
- 47 |         --delim-not-top-level: (!);
- 48 | ,->     --zero-size: {
- 49 | `->         width: 0;
- 50 |             height: 0;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
+ 47 |         --delim-not-top-level: (!);
+ 48 | ,->     --zero-size: {
+ 49 | `->         width: 0;
+ 50 |             height: 0;
+    `----
+  x WhiteSpace { value: "\n        " }
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
+ 47 |         --delim-not-top-level: (!);
+ 48 | ,->     --zero-size: {
+ 49 | `->         width: 0;
+ 50 |             height: 0;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
  48 |     --zero-size: {
  49 |         width: 0;
     :         ^^^^^
  50 |         height: 0;
     `----
-
   x Ident { value: "width", raw: "width" }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
  48 |     --zero-size: {
  49 |         width: 0;
     :         ^^^^^
  50 |         height: 0;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
  48 |     --zero-size: {
  49 |         width: 0;
     :              ^
  50 |         height: 0;
     `----
-
   x Colon
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
  48 |     --zero-size: {
  49 |         width: 0;
     :              ^
  50 |         height: 0;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
  48 |     --zero-size: {
  49 |         width: 0;
     :               ^
  50 |         height: 0;
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
  48 |     --zero-size: {
  49 |         width: 0;
     :               ^
  50 |         height: 0;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
  48 |     --zero-size: {
  49 |         width: 0;
     :                ^
  50 |         height: 0;
     `----
-
   x Number { value: 0.0, raw: "0", type_flag: Integer }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
  48 |     --zero-size: {
  49 |         width: 0;
     :                ^
  50 |         height: 0;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
  48 |     --zero-size: {
  49 |         width: 0;
     :                 ^
  50 |         height: 0;
     `----
-
   x Semi
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
  48 |     --zero-size: {
  49 |         width: 0;
     :                 ^
  50 |         height: 0;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
  48 |         --zero-size: {
  49 | ,->         width: 0;
  50 | `->         height: 0;
  51 |         };
     `----
-
   x WhiteSpace { value: "\n        " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
  48 |         --zero-size: {
  49 | ,->         width: 0;
  50 | `->         height: 0;
  51 |         };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:50:1]
  49 |         width: 0;
  50 |         height: 0;
     :         ^^^^^^
  51 |     };
     `----
-
   x Ident { value: "height", raw: "height" }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:50:1]
  49 |         width: 0;
  50 |         height: 0;
     :         ^^^^^^
  51 |     };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:50:1]
  49 |         width: 0;
  50 |         height: 0;
     :               ^
  51 |     };
     `----
-
   x Colon
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:50:1]
  49 |         width: 0;
  50 |         height: 0;
     :               ^
  51 |     };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:50:1]
  49 |         width: 0;
  50 |         height: 0;
     :                ^
  51 |     };
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:50:1]
  49 |         width: 0;
  50 |         height: 0;
     :                ^
  51 |     };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:50:1]
  49 |         width: 0;
  50 |         height: 0;
     :                 ^
  51 |     };
     `----
-
   x Number { value: 0.0, raw: "0", type_flag: Integer }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:50:1]
  49 |         width: 0;
  50 |         height: 0;
     :                 ^
  51 |     };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:50:1]
  49 |         width: 0;
  50 |         height: 0;
     :                  ^
  51 |     };
     `----
-
   x Semi
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:50:1]
  49 |         width: 0;
  50 |         height: 0;
     :                  ^
  51 |     };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:50:1]
  49 |             width: 0;
  50 | ,->         height: 0;
  51 | `->     };
  52 |         --small-icon: {
     `----
-
   x WhiteSpace { value: "\n    " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:50:1]
  49 |             width: 0;
  50 | ,->         height: 0;
  51 | `->     };
  52 |         --small-icon: {
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:51:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
  51 |         };
  52 | ,->     --small-icon: {
  53 | |           width: 16px;
@@ -3726,9 +3278,8 @@
  56 | `->     ;
  57 |     }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:51:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
  51 |         };
  52 | ,->     --small-icon: {
  53 | |           width: 16px;
@@ -3737,25 +3288,22 @@
  56 | `->     ;
  57 |     }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:51:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
  51 |     };
  52 |     --small-icon: {
     :     ^^^^^^^^^^^^
  53 |         width: 16px;
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:51:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
  51 |     };
  52 |     --small-icon: {
     :     ^^^^^^^^^^^^
  53 |         width: 16px;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:51:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
  51 |         };
  52 | ,->     --small-icon: {
  53 | |           width: 16px;
@@ -3763,9 +3311,8 @@
  55 | `->     }
  56 |         ;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:51:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
  51 |         };
  52 | ,->     --small-icon: {
  53 | |           width: 16px;
@@ -3773,697 +3320,610 @@
  55 | `->     }
  56 |         ;
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:51:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
  51 |     };
  52 |     --small-icon: {
     :                   ^
  53 |         width: 16px;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:51:1]
- 51 |         };
- 52 | ,->     --small-icon: {
- 53 | `->         width: 16px;
- 54 |             height: 16px;
-    `----
-
-  x WhiteSpace { value: "\n        " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:51:1]
- 51 |         };
- 52 | ,->     --small-icon: {
- 53 | `->         width: 16px;
- 54 |             height: 16px;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
+ 51 |         };
+ 52 | ,->     --small-icon: {
+ 53 | `->         width: 16px;
+ 54 |             height: 16px;
+    `----
+  x WhiteSpace { value: "\n        " }
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
+ 51 |         };
+ 52 | ,->     --small-icon: {
+ 53 | `->         width: 16px;
+ 54 |             height: 16px;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  52 |     --small-icon: {
  53 |         width: 16px;
     :         ^^^^^
  54 |         height: 16px;
     `----
-
   x Ident { value: "width", raw: "width" }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  52 |     --small-icon: {
  53 |         width: 16px;
     :         ^^^^^
  54 |         height: 16px;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  52 |     --small-icon: {
  53 |         width: 16px;
     :              ^
  54 |         height: 16px;
     `----
-
   x Colon
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  52 |     --small-icon: {
  53 |         width: 16px;
     :              ^
  54 |         height: 16px;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  52 |     --small-icon: {
  53 |         width: 16px;
     :               ^
  54 |         height: 16px;
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  52 |     --small-icon: {
  53 |         width: 16px;
     :               ^
  54 |         height: 16px;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  52 |     --small-icon: {
  53 |         width: 16px;
     :                ^^^^
  54 |         height: 16px;
     `----
-
   x Dimension(DimensionToken { value: 16.0, raw_value: "16", unit: "px", type_flag: Integer, raw_unit: "px" })
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  52 |     --small-icon: {
  53 |         width: 16px;
     :                ^^^^
  54 |         height: 16px;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  52 |     --small-icon: {
  53 |         width: 16px;
     :                    ^
  54 |         height: 16px;
     `----
-
   x Semi
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  52 |     --small-icon: {
  53 |         width: 16px;
     :                    ^
  54 |         height: 16px;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  52 |         --small-icon: {
  53 | ,->         width: 16px;
  54 | `->         height: 16px;
  55 |         }
     `----
-
   x WhiteSpace { value: "\n        " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  52 |         --small-icon: {
  53 | ,->         width: 16px;
  54 | `->         height: 16px;
  55 |         }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:54:1]
  53 |         width: 16px;
  54 |         height: 16px;
     :         ^^^^^^
  55 |     }
     `----
-
   x Ident { value: "height", raw: "height" }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:54:1]
  53 |         width: 16px;
  54 |         height: 16px;
     :         ^^^^^^
  55 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:54:1]
  53 |         width: 16px;
  54 |         height: 16px;
     :               ^
  55 |     }
     `----
-
   x Colon
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:54:1]
  53 |         width: 16px;
  54 |         height: 16px;
     :               ^
  55 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:54:1]
  53 |         width: 16px;
  54 |         height: 16px;
     :                ^
  55 |     }
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:54:1]
  53 |         width: 16px;
  54 |         height: 16px;
     :                ^
  55 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:54:1]
  53 |         width: 16px;
  54 |         height: 16px;
     :                 ^^^^
  55 |     }
     `----
-
   x Dimension(DimensionToken { value: 16.0, raw_value: "16", unit: "px", type_flag: Integer, raw_unit: "px" })
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:54:1]
  53 |         width: 16px;
  54 |         height: 16px;
     :                 ^^^^
  55 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:54:1]
  53 |         width: 16px;
  54 |         height: 16px;
     :                     ^
  55 |     }
     `----
-
   x Semi
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:54:1]
  53 |         width: 16px;
  54 |         height: 16px;
     :                     ^
  55 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:54:1]
  53 |             width: 16px;
  54 | ,->         height: 16px;
  55 | `->     }
  56 |         ;
     `----
-
   x WhiteSpace { value: "\n    " }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:54:1]
  53 |             width: 16px;
  54 | ,->         height: 16px;
  55 | `->     }
  56 |         ;
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:58:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
  58 | 
  59 | :root{--a:1}
     : ^^^^^^^^^^^^
  60 | :root {--foo: }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:58:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
  58 | 
  59 | :root{--a:1}
     : ^^^^^^^^^^^^
  60 | :root {--foo: }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:58:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
  58 | 
  59 | :root{--a:1}
     : ^^^^^
  60 | :root {--foo: }
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:58:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
  58 | 
  59 | :root{--a:1}
     : ^^^^^
  60 | :root {--foo: }
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:58:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
  58 | 
  59 | :root{--a:1}
     : ^^^^^
  60 | :root {--foo: }
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:58:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
  58 | 
  59 | :root{--a:1}
     : ^^^^^
  60 | :root {--foo: }
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:58:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
  58 | 
  59 | :root{--a:1}
     : ^^^^^
  60 | :root {--foo: }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:58:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
  58 | 
  59 | :root{--a:1}
     :  ^^^^
  60 | :root {--foo: }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:58:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
  58 | 
  59 | :root{--a:1}
     :      ^^^^^^^
  60 | :root {--foo: }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:58:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
  58 | 
  59 | :root{--a:1}
     :      ^
  60 | :root {--foo: }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:58:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
  58 | 
  59 | :root{--a:1}
     :       ^^^^^
  60 | :root {--foo: }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:58:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
  58 | 
  59 | :root{--a:1}
     :       ^^^^^
  60 | :root {--foo: }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:58:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
  58 | 
  59 | :root{--a:1}
     :       ^^^
  60 | :root {--foo: }
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:58:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
  58 | 
  59 | :root{--a:1}
     :       ^^^
  60 | :root {--foo: }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:58:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
  58 | 
  59 | :root{--a:1}
     :           ^
  60 | :root {--foo: }
     `----
-
   x Number { value: 1.0, raw: "1", type_flag: Integer }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:58:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
  58 | 
  59 | :root{--a:1}
     :           ^
  60 | :root {--foo: }
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
  59 | :root{--a:1}
  60 | :root {--foo: }
     : ^^^^^^^^^^^^^^^
  61 | :root {
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
  59 | :root{--a:1}
  60 | :root {--foo: }
     : ^^^^^^^^^^^^^^^
  61 | :root {
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
  59 | :root{--a:1}
  60 | :root {--foo: }
     : ^^^^^
  61 | :root {
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
  59 | :root{--a:1}
  60 | :root {--foo: }
     : ^^^^^
  61 | :root {
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
  59 | :root{--a:1}
  60 | :root {--foo: }
     : ^^^^^
  61 | :root {
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
  59 | :root{--a:1}
  60 | :root {--foo: }
     : ^^^^^
  61 | :root {
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
  59 | :root{--a:1}
  60 | :root {--foo: }
     : ^^^^^
  61 | :root {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
  59 | :root{--a:1}
  60 | :root {--foo: }
     :  ^^^^
  61 | :root {
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
  59 | :root{--a:1}
  60 | :root {--foo: }
     :       ^^^^^^^^^
  61 | :root {
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
  59 | :root{--a:1}
  60 | :root {--foo: }
     :       ^
  61 | :root {
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
  59 | :root{--a:1}
  60 | :root {--foo: }
     :        ^^^^^^^
  61 | :root {
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
  59 | :root{--a:1}
  60 | :root {--foo: }
     :        ^^^^^^^
  61 | :root {
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
  59 | :root{--a:1}
  60 | :root {--foo: }
     :        ^^^^^
  61 | :root {
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
  59 | :root{--a:1}
  60 | :root {--foo: }
     :        ^^^^^
  61 | :root {
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:61:1]
  60 |     :root {--foo: }
  61 | ,-> :root {
  62 | |       --foo: 
  63 | `-> }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:61:1]
  60 |     :root {--foo: }
  61 | ,-> :root {
  62 | |       --foo: 
  63 | `-> }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:61:1]
  60 | :root {--foo: }
  61 | :root {
     : ^^^^^
  62 |     --foo: 
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:61:1]
  60 | :root {--foo: }
  61 | :root {
     : ^^^^^
  62 |     --foo: 
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:61:1]
  60 | :root {--foo: }
  61 | :root {
     : ^^^^^
  62 |     --foo: 
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:61:1]
  60 | :root {--foo: }
  61 | :root {
     : ^^^^^
  62 |     --foo: 
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:61:1]
  60 | :root {--foo: }
  61 | :root {
     : ^^^^^
  62 |     --foo: 
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:61:1]
  60 | :root {--foo: }
  61 | :root {
     :  ^^^^
  62 |     --foo: 
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:61:1]
  60 |     :root {--foo: }
  61 | ,-> :root {
  62 | |       --foo: 
  63 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:61:1]
  60 | :root {--foo: }
  61 | :root {
     :       ^
  62 |     --foo: 
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:61:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:62:1]
  61 | :root {
  62 |     --foo: 
     :     ^^^^^^^^
  63 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:61:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:62:1]
  61 | :root {
  62 |     --foo: 
     :     ^^^^^^^^
  63 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:61:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:62:1]
  61 | :root {
  62 |     --foo: 
     :     ^^^^^
  63 | }
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:61:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:62:1]
  61 | :root {
  62 |     --foo: 
     :     ^^^^^
  63 | }
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:64:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:65:1]
  64 |     
  65 | ,-> :root {
  66 | |       --var:  value;
  67 | `-> }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:64:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:65:1]
  64 |     
  65 | ,-> :root {
  66 | |       --var:  value;
  67 | `-> }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:64:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:65:1]
  64 | 
  65 | :root {
     : ^^^^^
  66 |     --var:  value;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:64:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:65:1]
  64 | 
  65 | :root {
     : ^^^^^
  66 |     --var:  value;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:64:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:65:1]
  64 | 
  65 | :root {
     : ^^^^^
  66 |     --var:  value;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:64:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:65:1]
  64 | 
  65 | :root {
     : ^^^^^
  66 |     --var:  value;
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:64:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:65:1]
  64 | 
  65 | :root {
     : ^^^^^
  66 |     --var:  value;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:64:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:65:1]
  64 | 
  65 | :root {
     :  ^^^^
  66 |     --var:  value;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:64:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:65:1]
  64 |     
  65 | ,-> :root {
  66 | |       --var:  value;
  67 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:64:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:65:1]
  64 | 
  65 | :root {
     :       ^
  66 |     --var:  value;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:65:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:66:1]
  65 | :root {
  66 |     --var:  value;
     :     ^^^^^^^^^^^^^
  67 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:65:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:66:1]
  65 | :root {
  66 |     --var:  value;
     :     ^^^^^^^^^^^^^
  67 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:65:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:66:1]
  65 | :root {
  66 |     --var:  value;
     :     ^^^^^
  67 | }
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:65:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:66:1]
  65 | :root {
  66 |     --var:  value;
     :     ^^^^^
  67 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:65:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:66:1]
  65 | :root {
  66 |     --var:  value;
     :             ^^^^^
  67 | }
     `----
-
   x Ident { value: "value", raw: "value" }
-    ,-[$DIR/tests/fixture/value/custom-property/input.css:65:1]
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:66:1]
  65 | :root {
  66 |     --var:  value;
     :             ^^^^^

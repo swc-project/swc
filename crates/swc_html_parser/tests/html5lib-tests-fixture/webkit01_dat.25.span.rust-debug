@@ -1,68 +1,55 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.25.html:1:1]
  1 | <html><body></body></html>x<!-- Hi there --></body></html><!-- Again -->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.25.html:1:1]
  1 | <html><body></body></html>x<!-- Hi there --></body></html><!-- Again -->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.25.html:1:1]
  1 | <html><body></body></html>x<!-- Hi there --></body></html><!-- Again -->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.25.html:1:1]
  1 | <html><body></body></html>x<!-- Hi there --></body></html><!-- Again -->
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.25.html:1:1]
  1 | <html><body></body></html>x<!-- Hi there --></body></html><!-- Again -->
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.25.html:1:1]
  1 | <html><body></body></html>x<!-- Hi there --></body></html><!-- Again -->
    :                           ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.25.html:1:1]
  1 | <html><body></body></html>x<!-- Hi there --></body></html><!-- Again -->
    :                           ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.25.html:1:1]
  1 | <html><body></body></html>x<!-- Hi there --></body></html><!-- Again -->
    :                            ^^^^^^^^^^^^^^^^^
    `----
-
   x Comment
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.25.html:1:1]
  1 | <html><body></body></html>x<!-- Hi there --></body></html><!-- Again -->
    :                            ^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.25.html:1:1]
  1 | <html><body></body></html>x<!-- Hi there --></body></html><!-- Again -->
    :                                                           ^^^^^^^^^^^^^^
    `----
-
   x Comment
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.25.html:1:1]
  1 | <html><body></body></html>x<!-- Hi there --></body></html><!-- Again -->

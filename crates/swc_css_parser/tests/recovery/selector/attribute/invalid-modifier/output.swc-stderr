@@ -1,4 +1,3 @@
-
   x Expected "]"
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}

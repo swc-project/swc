@@ -1,6 +1,5 @@
-
   x Unexpected end of file, but expected '{'
-   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:2:1]
  1 | @media (min-width: 480px) {
  2 |     max-inline-size: 1024px;
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^

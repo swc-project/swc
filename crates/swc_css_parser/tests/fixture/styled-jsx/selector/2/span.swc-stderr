@@ -1,249 +1,214 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | ,-> p :global(span:not(.test)) {
  2 | |       color: green;
  3 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | ,-> p :global(span:not(.test)) {
  2 | |       color: green;
  3 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | ,-> p :global(span:not(.test)) {
  2 | |       color: green;
  3 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 |     color: green;
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 |     color: green;
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    : ^
  2 |     color: green;
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    : ^
  2 |     color: green;
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    : ^
  2 |     color: green;
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    : ^
  2 |     color: green;
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    : ^
  2 |     color: green;
    `----
-
   x Combinator
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :  ^
  2 |     color: green;
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :   ^^^^^^^^^^^^^^^^^^^^^^^^
  2 |     color: green;
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :   ^^^^^^^^^^^^^^^^^^^^^^^^
  2 |     color: green;
    `----
-
   x PseudoClassSelector
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :   ^^^^^^^^^^^^^^^^^^^^^^^^
  2 |     color: green;
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :    ^^^^^^
  2 |     color: green;
    `----
-
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :           ^^^^
  2 |     color: green;
    `----
-
   x Ident { value: "span", raw: "span" }
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :           ^^^^
  2 |     color: green;
    `----
-
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :               ^
  2 |     color: green;
    `----
-
   x Colon
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :               ^
  2 |     color: green;
    `----
-
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :                ^^^^
  2 |     color: green;
    `----
-
   x Function { value: "not", raw: "not" }
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :                ^^^^
  2 |     color: green;
    `----
-
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :                    ^
  2 |     color: green;
    `----
-
   x Delim { value: '.' }
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :                    ^
  2 |     color: green;
    `----
-
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :                     ^^^^
  2 |     color: green;
    `----
-
   x Ident { value: "test", raw: "test" }
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :                     ^^^^
  2 |     color: green;
    `----
-
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :                         ^
  2 |     color: green;
    `----
-
   x RParen
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :                         ^
  2 |     color: green;
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | ,-> p :global(span:not(.test)) {
  2 | |       color: green;
  3 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :                            ^
  2 |     color: green;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
+   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:2:1]
  1 | p :global(span:not(.test)) {
  2 |     color: green;
    :     ^^^^^^^^^^^^
  3 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
+   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:2:1]
  1 | p :global(span:not(.test)) {
  2 |     color: green;
    :     ^^^^^^^^^^^^
  3 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
+   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:2:1]
  1 | p :global(span:not(.test)) {
  2 |     color: green;
    :     ^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
+   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:2:1]
  1 | p :global(span:not(.test)) {
  2 |     color: green;
    :     ^^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
+   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:2:1]
  1 | p :global(span:not(.test)) {
  2 |     color: green;
    :            ^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
+   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:2:1]
  1 | p :global(span:not(.test)) {
  2 |     color: green;
    :            ^^^^^

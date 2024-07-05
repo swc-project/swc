@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.6.html:1:1]
  1 | <script> <!-- </script> --> </script>x
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.6.html:1:1]
  1 | <script> <!-- </script> --> </script>x
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.6.html:1:1]
  1 | <script> <!-- </script> --> </script>x
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.6.html:1:1]
  1 | <script> <!-- </script> --> </script>x
    :         ^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.6.html:1:1]
  1 | <script> <!-- </script> --> </script>x
    :         ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.6.html:1:1]
  1 | <script> <!-- </script> --> </script>x
    :                        ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.6.html:1:1]
  1 | <script> <!-- </script> --> </script>x
    :                        ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.6.html:1:1]
  1 | <script> <!-- </script> --> </script>x
    :                         ^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.6.html:1:1]
  1 | <script> <!-- </script> --> </script>x

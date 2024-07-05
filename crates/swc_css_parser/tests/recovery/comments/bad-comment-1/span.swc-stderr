@@ -1,58 +1,48 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/comments/bad-comment-1/input.css:1:1]
  1 | // comment
    : ^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/comments/bad-comment-1/input.css:1:1]
  1 | // comment
    : ^^^^^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/comments/bad-comment-1/input.css:1:1]
  1 | // comment
    : ^
    `----
-
   x Delim { value: '/' }
    ,-[$DIR/tests/recovery/comments/bad-comment-1/input.css:1:1]
  1 | // comment
    : ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/comments/bad-comment-1/input.css:1:1]
  1 | // comment
    :  ^
    `----
-
   x Delim { value: '/' }
    ,-[$DIR/tests/recovery/comments/bad-comment-1/input.css:1:1]
  1 | // comment
    :  ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/comments/bad-comment-1/input.css:1:1]
  1 | // comment
    :   ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/comments/bad-comment-1/input.css:1:1]
  1 | // comment
    :   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/comments/bad-comment-1/input.css:1:1]
  1 | // comment
    :    ^^^^^^^
    `----
-
   x Ident { value: "comment", raw: "comment" }
    ,-[$DIR/tests/recovery/comments/bad-comment-1/input.css:1:1]
  1 | // comment

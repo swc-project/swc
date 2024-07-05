@@ -1,4 +1,3 @@
-
   x Document
    ,-[$DIR/tests/recovery/element/select-1/input.html:1:1]
  1 | ,-> <select>
@@ -10,11 +9,8 @@
  7 | |       </option>
  8 | `-> </select>
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/element/select-1/input.html:1:1]
  1 | ,-> <select>
@@ -26,7 +22,6 @@
  7 | |       </option>
  8 | `-> </select>
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/select-1/input.html:1:1]
  1 | ,-> <select>
@@ -38,119 +33,105 @@
  7 | |       </option>
  8 | `-> </select>
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/select-1/input.html:1:1]
  1 | ,-> <select>
  2 | `->     <option value="test">
  3 |             1
    `----
-
   x Text
    ,-[$DIR/tests/recovery/element/select-1/input.html:1:1]
  1 | ,-> <select>
  2 | `->     <option value="test">
  3 |             1
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/select-1/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/select-1/input.html:2:1]
  1 |     <select>
  2 | ,->     <option value="test">
  3 | |           1
  4 | `->         <option value="test-2">
  5 |                 2
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/select-1/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/select-1/input.html:2:1]
  1 |     <select>
  2 | ,->     <option value="test">
  3 | |           1
  4 | `->         <option value="test-2">
  5 |                 2
    `----
-
   x Attribute
-   ,-[$DIR/tests/recovery/element/select-1/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/select-1/input.html:2:1]
  1 | <select>
  2 |     <option value="test">
    :             ^^^^^^^^^^^^
  3 |         1
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/select-1/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/select-1/input.html:2:1]
  1 |     <select>
  2 | ,->     <option value="test">
  3 | |           1
  4 | `->         <option value="test-2">
  5 |                 2
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/element/select-1/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/select-1/input.html:2:1]
  1 |     <select>
  2 | ,->     <option value="test">
  3 | |           1
  4 | `->         <option value="test-2">
  5 |                 2
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/select-1/input.html:3:1]
+   ,-[$DIR/tests/recovery/element/select-1/input.html:4:1]
  3 |             1
  4 | ,->         <option value="test-2">
  5 | |               2
  6 | `->         </option>
  7 |         </option>
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/select-1/input.html:3:1]
+   ,-[$DIR/tests/recovery/element/select-1/input.html:4:1]
  3 |             1
  4 | ,->         <option value="test-2">
  5 | |               2
  6 | `->         </option>
  7 |         </option>
    `----
-
   x Attribute
-   ,-[$DIR/tests/recovery/element/select-1/input.html:3:1]
+   ,-[$DIR/tests/recovery/element/select-1/input.html:4:1]
  3 |         1
  4 |         <option value="test-2">
    :                 ^^^^^^^^^^^^^^
  5 |             2
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/select-1/input.html:3:1]
+   ,-[$DIR/tests/recovery/element/select-1/input.html:4:1]
  3 |             1
  4 | ,->         <option value="test-2">
  5 | |               2
  6 | `->         </option>
  7 |         </option>
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/element/select-1/input.html:3:1]
+   ,-[$DIR/tests/recovery/element/select-1/input.html:4:1]
  3 |             1
  4 | ,->         <option value="test-2">
  5 | |               2
  6 | `->         </option>
  7 |         </option>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/select-1/input.html:5:1]
+   ,-[$DIR/tests/recovery/element/select-1/input.html:6:1]
  5 |                 2
  6 | ,->         </option>
  7 | `->     </option>
  8 |     </select>
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/element/select-1/input.html:5:1]
+   ,-[$DIR/tests/recovery/element/select-1/input.html:6:1]
  5 |                 2
  6 | ,->         </option>
  7 | `->     </option>

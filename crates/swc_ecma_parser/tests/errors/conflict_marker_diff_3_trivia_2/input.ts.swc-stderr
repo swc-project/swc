@@ -1,14 +1,12 @@
-
   x Merge conflict marker encountered.
-   ,-[$DIR/tests/errors/conflict_marker_diff_3_trivia_2/input.ts:5:1]
+   ,-[$DIR/tests/errors/conflict_marker_diff_3_trivia_2/input.ts:6:1]
  5 |   }
  6 | ||||||| merged common ancestors
    : ^^^^^^^
  7 |      c();
    `----
-
   x Merge conflict marker encountered.
-   ,-[$DIR/tests/errors/conflict_marker_diff_3_trivia_2/input.ts:2:1]
+   ,-[$DIR/tests/errors/conflict_marker_diff_3_trivia_2/input.ts:3:1]
  2 |   foo() {
  3 | <<<<<<< B
    : ^^^^^^^

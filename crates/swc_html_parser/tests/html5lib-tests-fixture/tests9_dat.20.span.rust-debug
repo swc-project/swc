@@ -1,116 +1,95 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
  1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
  1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
  1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
  1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
  1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
  1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
    :                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
  1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
    :                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
  1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
    :                                   ^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
  1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
    :                                   ^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
  1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
    :                                       ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
  1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
    :                                       ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
  1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
    :                                               ^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
  1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
    :                                               ^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
  1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
    :                                                   ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
  1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
    :                                                   ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
  1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
    :                                                           ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
  1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
    :                                                           ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
  1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
    :                                                              ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
  1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz

@@ -1,10 +1,8 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/nobr/input.html:1:1]
  1 | <nobr>X
    : ^^^^^^
    `----
-
   x End of file seen and there were open elements
    ,-[$DIR/tests/recovery/element/nobr/input.html:1:1]
  1 | <nobr>X

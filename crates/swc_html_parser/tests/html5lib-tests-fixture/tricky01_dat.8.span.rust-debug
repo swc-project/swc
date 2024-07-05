@@ -1,4 +1,3 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:1:1]
  1 | ,-> <html>
@@ -8,7 +7,6 @@
  5 | |   </body>
  6 | `-> </html>
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:1:1]
  1 | ,-> <html>
@@ -18,7 +16,6 @@
  5 | |   </body>
  6 | `-> </html>
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:1:1]
  1 | ,-> <html>
@@ -28,13 +25,10 @@
  5 | |   </body>
  6 | `-> </html>
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:2:1]
  1 |     <html>
  2 | ,-> <body>
  3 | |   <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
@@ -42,9 +36,8 @@
  5 | `-> </body>
  6 |     </html>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:2:1]
  1 |     <html>
  2 | ,-> <body>
  3 | |   <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
@@ -52,181 +45,159 @@
  5 | `-> </body>
  6 |     </html>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:2:1]
  1 | <html>
  2 | <body>
    :       ^
  3 | <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
  4 | nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:2:1]
  1 | <html>
  2 | <body>
    :       ^
  3 | <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
  4 | nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:3:1]
  2 | <body>
  3 | <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
    : ^^^^^^^^^
  4 | nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:3:1]
  2 | <body>
  3 | <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
    : ^^^^^^^^^
  4 | nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:3:1]
  2 | <body>
  3 | <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
    :    ^^^^^^
  4 | nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:3:1]
  2 | <body>
  3 | <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
    :    ^^^^^^
  4 | nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:3:1]
  2 |     <body>
  3 | ,-> <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
  4 | |   nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
  5 | `-> </body>
  6 |     </html>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:3:1]
  2 |     <body>
  3 | ,-> <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
  4 | |   nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
  5 | `-> </body>
  6 |     </html>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:3:1]
  2 |     <body>
  3 | ,-> <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
  4 | `-> nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
  5 |     </body>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:3:1]
  2 |     <body>
  3 | ,-> <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
  4 | `-> nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
  5 |     </body>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:3:1]
  2 | <body>
  3 | <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
    :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 | nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:3:1]
  2 | <body>
  3 | <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
    :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 | nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
    `----
-
-  x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:2:1]
- 2 | <body>
- 3 | <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
-   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 4 | nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
-   `----
-
-  x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:2:1]
- 2 | <body>
- 3 | <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
-   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 4 | nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
-   `----
-
-  x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:2:1]
- 2 |     <body>
- 3 | ,-> <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
- 4 | `-> nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
- 5 |     </body>
-   `----
-
-  x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:2:1]
- 2 |     <body>
- 3 | ,-> <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
- 4 | `-> nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
- 5 |     </body>
-   `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:3:1]
+ 2 | <body>
+ 3 | <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
+   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 4 | nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
+   `----
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:3:1]
+ 2 | <body>
+ 3 | <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
+   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 4 | nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
+   `----
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:3:1]
+ 2 |     <body>
+ 3 | ,-> <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
+ 4 | `-> nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
+ 5 |     </body>
+   `----
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:3:1]
+ 2 |     <body>
+ 3 | ,-> <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
+ 4 | `-> nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
+ 5 |     </body>
+   `----
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:4:1]
  3 | <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
  4 | nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
    :                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | </body>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:4:1]
  3 | <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
  4 | nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
    :                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | </body>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:4:1]
  3 | <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
  4 | nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
    :                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | </body>
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:4:1]
  3 | <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
  4 | nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
    :                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | </body>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:4:1]
  3 |     <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
  4 | ,-> nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
  5 | `-> </body>
  6 |     </html>
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.8.html:4:1]
  3 |     <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
  4 | ,-> nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
  5 | `-> </body>

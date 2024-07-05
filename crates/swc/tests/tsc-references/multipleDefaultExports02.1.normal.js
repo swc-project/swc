@@ -1,7 +1,6 @@
 //// [multipleDefaultExports02.ts]
 "use strict";
 //// [m1.ts]
-//! 
 //!   x the name `default` is exported multiple times
 //!    ,-[1:1]
 //!  1 | ,-> export default function foo() {
@@ -16,8 +15,7 @@
 //!  8 |     
 //!    `----
 //! 
-//! Error: 
-//!   > Exported identifiers must be unique
+//! Advice:   > Exported identifiers must be unique
 //// [m2.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

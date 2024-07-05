@@ -1,4 +1,3 @@
-
   x the name `Foo` is defined multiple times
    ,-[1:1]
  1 | export default class Foo{}

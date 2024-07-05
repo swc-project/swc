@@ -1,110 +1,95 @@
-
   x Module
    ,-[$DIR/tests/span/js/stmt/do-while.js:1:1]
  1 | ,-> do {
  2 | |       foo()
  3 | `-> } while (bar)
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/stmt/do-while.js:1:1]
  1 | ,-> do {
  2 | |       foo()
  3 | `-> } while (bar)
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/stmt/do-while.js:1:1]
  1 | ,-> do {
  2 | |       foo()
  3 | `-> } while (bar)
    `----
-
   x DoWhileStmt
    ,-[$DIR/tests/span/js/stmt/do-while.js:1:1]
  1 | ,-> do {
  2 | |       foo()
  3 | `-> } while (bar)
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/stmt/do-while.js:2:1]
+   ,-[$DIR/tests/span/js/stmt/do-while.js:3:1]
  2 |     foo()
  3 | } while (bar)
    :          ^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/span/js/stmt/do-while.js:2:1]
+   ,-[$DIR/tests/span/js/stmt/do-while.js:3:1]
  2 |     foo()
  3 | } while (bar)
    :          ^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/stmt/do-while.js:1:1]
  1 | ,-> do {
  2 | |       foo()
  3 | `-> } while (bar)
    `----
-
   x BlockStmt
    ,-[$DIR/tests/span/js/stmt/do-while.js:1:1]
  1 | ,-> do {
  2 | |       foo()
  3 | `-> } while (bar)
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/do-while.js:1:1]
+   ,-[$DIR/tests/span/js/stmt/do-while.js:2:1]
  1 | do {
  2 |     foo()
    :     ^^^^^
  3 | } while (bar)
    `----
-
   x ExprStmt
-   ,-[$DIR/tests/span/js/stmt/do-while.js:1:1]
+   ,-[$DIR/tests/span/js/stmt/do-while.js:2:1]
  1 | do {
  2 |     foo()
    :     ^^^^^
  3 | } while (bar)
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/stmt/do-while.js:1:1]
+   ,-[$DIR/tests/span/js/stmt/do-while.js:2:1]
  1 | do {
  2 |     foo()
    :     ^^^^^
  3 | } while (bar)
    `----
-
   x CallExpr
-   ,-[$DIR/tests/span/js/stmt/do-while.js:1:1]
+   ,-[$DIR/tests/span/js/stmt/do-while.js:2:1]
  1 | do {
  2 |     foo()
    :     ^^^^^
  3 | } while (bar)
    `----
-
   x Callee
-   ,-[$DIR/tests/span/js/stmt/do-while.js:1:1]
+   ,-[$DIR/tests/span/js/stmt/do-while.js:2:1]
  1 | do {
  2 |     foo()
    :     ^^^
  3 | } while (bar)
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/stmt/do-while.js:1:1]
+   ,-[$DIR/tests/span/js/stmt/do-while.js:2:1]
  1 | do {
  2 |     foo()
    :     ^^^
  3 | } while (bar)
    `----
-
   x Ident
-   ,-[$DIR/tests/span/js/stmt/do-while.js:1:1]
+   ,-[$DIR/tests/span/js/stmt/do-while.js:2:1]
  1 | do {
  2 |     foo()
    :     ^^^

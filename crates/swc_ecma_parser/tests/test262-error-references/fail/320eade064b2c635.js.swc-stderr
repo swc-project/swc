@@ -1,4 +1,3 @@
-
   x Generator or async function cannot be labelled
    ,-[$DIR/tests/test262-parser/fail/320eade064b2c635.js:1:1]
  1 | a: function* a(){}

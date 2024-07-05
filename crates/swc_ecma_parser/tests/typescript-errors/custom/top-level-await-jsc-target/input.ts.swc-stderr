@@ -1,4 +1,3 @@
-
   x top level await is only allowed in module
    ,-[$DIR/tests/typescript-errors/custom/top-level-await-jsc-target/input.ts:1:1]
  1 | await foo

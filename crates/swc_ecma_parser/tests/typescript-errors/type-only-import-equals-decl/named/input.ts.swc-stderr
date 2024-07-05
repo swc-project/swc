@@ -1,4 +1,3 @@
-
   x Expected 'from', got '='
    ,-[$DIR/tests/typescript-errors/type-only-import-equals-decl/named/input.ts:1:1]
  1 | import type { MyType } = require('commonjs-package')

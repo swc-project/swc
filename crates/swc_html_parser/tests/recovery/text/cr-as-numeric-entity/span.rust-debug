@@ -1,10 +1,7 @@
-
   x Document
    ,-[$DIR/tests/recovery/text/cr-as-numeric-entity/input.html:1:1]
  1 | &#013;
    : ^^^^^^
    `----
-
   x Child
-
   x Element

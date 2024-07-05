@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.9.html:1:1]
  1 | <legend>test</legend>
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.9.html:1:1]
  1 | <legend>test</legend>
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.9.html:1:1]
  1 | <legend>test</legend>
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.9.html:1:1]
  1 | <legend>test</legend>
    :         ^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.9.html:1:1]
  1 | <legend>test</legend>

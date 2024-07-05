@@ -1,8 +1,7 @@
-
   x Unexpected value
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:1]
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:1]
  1 | .style {
- 2 | 	width: calc(2px+1px);
-   :                 ^^^^
+ 2 |     width: calc(2px+1px);
+   :                    ^^^^
  3 | }
    `----

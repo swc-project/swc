@@ -1,10 +1,8 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/html-3/input.html:1:1]
  1 | <html/>
    : ^^^^^^^
    `----
-
   x Non void html element start tag with trailing solidus
    ,-[$DIR/tests/recovery/element/html-3/input.html:1:1]
  1 | <html/>

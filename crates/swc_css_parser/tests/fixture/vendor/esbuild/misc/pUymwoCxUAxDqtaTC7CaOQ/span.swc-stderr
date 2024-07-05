@@ -1,88 +1,73 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pUymwoCxUAxDqtaTC7CaOQ/input.css:1:1]
  1 | *|div {}
    : ^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pUymwoCxUAxDqtaTC7CaOQ/input.css:1:1]
  1 | *|div {}
    : ^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pUymwoCxUAxDqtaTC7CaOQ/input.css:1:1]
  1 | *|div {}
    : ^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pUymwoCxUAxDqtaTC7CaOQ/input.css:1:1]
  1 | *|div {}
    : ^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pUymwoCxUAxDqtaTC7CaOQ/input.css:1:1]
  1 | *|div {}
    : ^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pUymwoCxUAxDqtaTC7CaOQ/input.css:1:1]
  1 | *|div {}
    : ^^^^^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pUymwoCxUAxDqtaTC7CaOQ/input.css:1:1]
  1 | *|div {}
    : ^^^^^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pUymwoCxUAxDqtaTC7CaOQ/input.css:1:1]
  1 | *|div {}
    : ^^^^^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pUymwoCxUAxDqtaTC7CaOQ/input.css:1:1]
  1 | *|div {}
    : ^^^^^
    `----
-
   x NamespacePrefix
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pUymwoCxUAxDqtaTC7CaOQ/input.css:1:1]
  1 | *|div {}
    : ^^
    `----
-
   x Namespace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pUymwoCxUAxDqtaTC7CaOQ/input.css:1:1]
  1 | *|div {}
    : ^
    `----
-
   x AnyNamespace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pUymwoCxUAxDqtaTC7CaOQ/input.css:1:1]
  1 | *|div {}
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pUymwoCxUAxDqtaTC7CaOQ/input.css:1:1]
  1 | *|div {}
    :   ^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pUymwoCxUAxDqtaTC7CaOQ/input.css:1:1]
  1 | *|div {}
    :       ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pUymwoCxUAxDqtaTC7CaOQ/input.css:1:1]
  1 | *|div {}

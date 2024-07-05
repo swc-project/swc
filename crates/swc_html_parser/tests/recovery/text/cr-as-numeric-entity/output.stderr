@@ -1,10 +1,8 @@
-
   x Control character reference
    ,-[$DIR/tests/recovery/text/cr-as-numeric-entity/input.html:1:1]
  1 | &#013;
    :      ^
    `----
-
   x End of file seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/text/cr-as-numeric-entity/input.html:1:1]
  1 | &#013;

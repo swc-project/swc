@@ -1,14 +1,12 @@
-
   x This member cannot have an 'override' modifier because its containing class does not extend another class.
-   ,-[$DIR/tests/typescript-errors/class/override-in-non-subclass/input.ts:1:1]
+   ,-[$DIR/tests/typescript-errors/class/override-in-non-subclass/input.ts:2:1]
  1 | class A {
  2 |   override t() {}
    :   ^^^^^^^^
  3 | }
    `----
-
   x This member cannot have an 'override' modifier because its containing class does not extend another class.
-   ,-[$DIR/tests/typescript-errors/class/override-in-non-subclass/input.ts:7:1]
+   ,-[$DIR/tests/typescript-errors/class/override-in-non-subclass/input.ts:8:1]
  7 |     class D {
  8 |       override k() {}
    :       ^^^^^^^^

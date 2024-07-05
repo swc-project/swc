@@ -1,4 +1,3 @@
-
   x Non conforming doctype
    ,-[$DIR/tests/recovery/doctype/newline/input.html:1:1]
  1 | ,-> <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01

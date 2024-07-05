@@ -1,16 +1,13 @@
-
   x Absence of digits in numeric character reference
    ,-[$DIR/tests/recovery/text/empty-entities/input.html:1:1]
  1 | &# &#;
    :   ^
    `----
-
   x Non-space characters found without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/text/empty-entities/input.html:1:1]
  1 | &# &#;
    : ^^
    `----
-
   x Absence of digits in numeric character reference
    ,-[$DIR/tests/recovery/text/empty-entities/input.html:1:1]
  1 | &# &#;

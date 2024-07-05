@@ -1,124 +1,103 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
    : ^^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
    : ^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
    : ^^^^^^^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
    : ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
    : ^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
    : ^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
    :  ^^^^^^
    `----
-
   x PseudoClassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
    :  ^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
    :   ^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
    :         ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
    :         ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
    :           ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
    :           ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
    :           ^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
    :           ^^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
    :                    ^^^^^^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }

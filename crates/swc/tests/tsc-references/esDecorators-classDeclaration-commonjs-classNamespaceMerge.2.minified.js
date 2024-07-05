@@ -1,7 +1,6 @@
 //// [esDecorators-classDeclaration-commonjs-classNamespaceMerge.ts]
-//! 
 //!   x Expression expected
-//!    ,-[1:1]
+//!    ,-[4:1]
 //!  1 | 
 //!  2 | declare var deco: any;
 //!  3 | 

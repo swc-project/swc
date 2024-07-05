@@ -1,10 +1,8 @@
-
   x Missing doctype name
    ,-[$DIR/tests/recovery/doctype/no-doctype-name-space/input.html:1:1]
  1 | <!DOCTYPE >
    :           ^
    `----
-
   x Non conforming doctype
    ,-[$DIR/tests/recovery/doctype/no-doctype-name-space/input.html:1:1]
  1 | <!DOCTYPE >

@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.100.html:1:1]
  1 | <!doctype html><a><b></a><bgsound>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.100.html:1:1]
  1 | <!doctype html><a><b></a><bgsound>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.100.html:1:1]
  1 | <!doctype html><a><b></a><bgsound>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.100.html:1:1]
  1 | <!doctype html><a><b></a><bgsound>
    :                ^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.100.html:1:1]
  1 | <!doctype html><a><b></a><bgsound>
    :                ^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.100.html:1:1]
  1 | <!doctype html><a><b></a><bgsound>
    :                   ^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.100.html:1:1]
  1 | <!doctype html><a><b></a><bgsound>
    :                   ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.100.html:1:1]
  1 | <!doctype html><a><b></a><bgsound>
    :                          ^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.100.html:1:1]
  1 | <!doctype html><a><b></a><bgsound>

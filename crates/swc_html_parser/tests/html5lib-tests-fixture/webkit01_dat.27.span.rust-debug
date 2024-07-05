@@ -1,80 +1,65 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.27.html:1:1]
  1 | <html><body><ruby><div><rt>xx</rt></div></ruby></body></html>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.27.html:1:1]
  1 | <html><body><ruby><div><rt>xx</rt></div></ruby></body></html>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.27.html:1:1]
  1 | <html><body><ruby><div><rt>xx</rt></div></ruby></body></html>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.27.html:1:1]
  1 | <html><body><ruby><div><rt>xx</rt></div></ruby></body></html>
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.27.html:1:1]
  1 | <html><body><ruby><div><rt>xx</rt></div></ruby></body></html>
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.27.html:1:1]
  1 | <html><body><ruby><div><rt>xx</rt></div></ruby></body></html>
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.27.html:1:1]
  1 | <html><body><ruby><div><rt>xx</rt></div></ruby></body></html>
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.27.html:1:1]
  1 | <html><body><ruby><div><rt>xx</rt></div></ruby></body></html>
    :                   ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.27.html:1:1]
  1 | <html><body><ruby><div><rt>xx</rt></div></ruby></body></html>
    :                   ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.27.html:1:1]
  1 | <html><body><ruby><div><rt>xx</rt></div></ruby></body></html>
    :                        ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.27.html:1:1]
  1 | <html><body><ruby><div><rt>xx</rt></div></ruby></body></html>
    :                        ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.27.html:1:1]
  1 | <html><body><ruby><div><rt>xx</rt></div></ruby></body></html>
    :                            ^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.27.html:1:1]
  1 | <html><body><ruby><div><rt>xx</rt></div></ruby></body></html>

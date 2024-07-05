@@ -1,30 +1,26 @@
-
   x Unterminated regexp literal
-   ,-[$DIR/tests/errors/jsx_in_js/input.js:2:1]
+   ,-[$DIR/tests/errors/jsx_in_js/input.js:3:1]
  2 |   <section>
  3 |     <a href="/foo">foo</a>
    :                        ^^^
  4 |   </section>
    `----
-
   x Expression expected
-   ,-[$DIR/tests/errors/jsx_in_js/input.js:1:1]
+   ,-[$DIR/tests/errors/jsx_in_js/input.js:2:1]
  1 | const a = (
  2 |   <section>
    :   ^
  3 |     <a href="/foo">foo</a>
    `----
-
   x Expression expected
-   ,-[$DIR/tests/errors/jsx_in_js/input.js:2:1]
+   ,-[$DIR/tests/errors/jsx_in_js/input.js:3:1]
  2 |   <section>
  3 |     <a href="/foo">foo</a>
    :     ^
  4 |   </section>
    `----
-
   x Expected a semicolon
-   ,-[$DIR/tests/errors/jsx_in_js/input.js:2:1]
+   ,-[$DIR/tests/errors/jsx_in_js/input.js:3:1]
  2 |   <section>
  3 |     <a href="/foo">foo</a>
    :        ^^^^

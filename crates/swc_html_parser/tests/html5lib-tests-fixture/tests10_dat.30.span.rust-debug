@@ -1,80 +1,65 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.30.html:1:1]
  1 | <div><svg><path><foreignObject><math></div>a
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.30.html:1:1]
  1 | <div><svg><path><foreignObject><math></div>a
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.30.html:1:1]
  1 | <div><svg><path><foreignObject><math></div>a
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.30.html:1:1]
  1 | <div><svg><path><foreignObject><math></div>a
    :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.30.html:1:1]
  1 | <div><svg><path><foreignObject><math></div>a
    :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.30.html:1:1]
  1 | <div><svg><path><foreignObject><math></div>a
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.30.html:1:1]
  1 | <div><svg><path><foreignObject><math></div>a
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.30.html:1:1]
  1 | <div><svg><path><foreignObject><math></div>a
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.30.html:1:1]
  1 | <div><svg><path><foreignObject><math></div>a
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.30.html:1:1]
  1 | <div><svg><path><foreignObject><math></div>a
    :                                ^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.30.html:1:1]
  1 | <div><svg><path><foreignObject><math></div>a
    :                                ^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.30.html:1:1]
  1 | <div><svg><path><foreignObject><math></div>a
    :                                            ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.30.html:1:1]
  1 | <div><svg><path><foreignObject><math></div>a

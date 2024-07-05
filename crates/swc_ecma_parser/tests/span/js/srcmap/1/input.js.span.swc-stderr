@@ -1,112 +1,93 @@
-
   x Module
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SwitchStmt
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    :         ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    :         ^
    `----
-
   x SwitchCase
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    :              ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    :                   ^
    `----
-
   x Lit
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    :                   ^
    `----
-
   x Number
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    :                   ^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    :                      ^^^^
    `----
-
   x ExprStmt
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    :                      ^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    :                      ^^^
    `----
-
   x CallExpr
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    :                      ^^^
    `----
-
   x Callee
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    :                      ^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    :                      ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    :                      ^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }
    :                           ^^^^^^
    `----
-
   x BreakStmt
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
  1 | switch (a) { case 1: b(); break; }

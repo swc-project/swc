@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.64.fragment_svg_svg.html:1:1]
  1 | <body><foo>
    : ^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.64.fragment_svg_svg.html:1:1]
  1 | <body><foo>
    : ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.64.fragment_svg_svg.html:1:1]
  1 | <body><foo>
    : ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.64.fragment_svg_svg.html:1:1]
  1 | <body><foo>
    :       ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.64.fragment_svg_svg.html:1:1]
  1 | <body><foo>

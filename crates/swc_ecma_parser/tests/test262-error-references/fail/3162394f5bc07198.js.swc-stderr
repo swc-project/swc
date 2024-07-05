@@ -1,4 +1,3 @@
-
   x Expected ';', got ')'
    ,-[$DIR/tests/test262-parser/fail/3162394f5bc07198.js:1:1]
  1 | for(const a = 0 in b);

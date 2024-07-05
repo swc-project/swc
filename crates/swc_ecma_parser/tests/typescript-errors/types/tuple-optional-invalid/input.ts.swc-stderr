@@ -1,4 +1,3 @@
-
   x A required element cannot follow an optional element.
    ,-[$DIR/tests/typescript-errors/types/tuple-optional-invalid/input.ts:1:1]
  1 | let x: [string?, number]

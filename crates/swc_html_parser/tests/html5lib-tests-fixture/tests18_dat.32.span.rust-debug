@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.32.html:1:1]
  1 | <!doctype html><frameset></frameset></html><noframes>abc
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.32.html:1:1]
  1 | <!doctype html><frameset></frameset></html><noframes>abc
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.32.html:1:1]
  1 | <!doctype html><frameset></frameset></html><noframes>abc
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.32.html:1:1]
  1 | <!doctype html><frameset></frameset></html><noframes>abc
    :                ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.32.html:1:1]
  1 | <!doctype html><frameset></frameset></html><noframes>abc
    :                ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.32.html:1:1]
  1 | <!doctype html><frameset></frameset></html><noframes>abc
    :                                            ^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.32.html:1:1]
  1 | <!doctype html><frameset></frameset></html><noframes>abc
    :                                            ^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.32.html:1:1]
  1 | <!doctype html><frameset></frameset></html><noframes>abc
    :                                                      ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.32.html:1:1]
  1 | <!doctype html><frameset></frameset></html><noframes>abc

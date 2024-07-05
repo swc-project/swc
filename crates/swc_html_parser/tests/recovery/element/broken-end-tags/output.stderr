@@ -1,45 +1,39 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:1:1]
  1 | <div></div>
    : ^^^^^
  2 | <div><div></div></div>
    `----
-
   x End tag with attributes
-    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:16:1]
+    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:17:1]
  16 | 
  17 | <div></div test="a">
     :                    ^
  18 | <div data-test="a"></div data-test="a">
     `----
-
   x End tag with attributes
-    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:17:1]
+    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:18:1]
  17 | <div></div test="a">
  18 | <div data-test="a"></div data-test="a">
     :                                       ^
  19 | <br data-test="a" />
     `----
-
   x End tag with attributes
-    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:27:1]
+    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:28:1]
  27 | 
  28 | <div>test</div foo="bar" />
     :                           ^
  29 | <div>test</div/>
     `----
-
-  x End tag with trailing solidus
-    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:27:1]
- 27 | 
- 28 | <div>test</div foo="bar" />
-    :                           ^
- 29 | <div>test</div/>
-    `----
-
   x End tag with trailing solidus
     ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:28:1]
+ 27 | 
+ 28 | <div>test</div foo="bar" />
+    :                           ^
+ 29 | <div>test</div/>
+    `----
+  x End tag with trailing solidus
+    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:29:1]
  28 | <div>test</div foo="bar" />
  29 | <div>test</div/>
     :                ^

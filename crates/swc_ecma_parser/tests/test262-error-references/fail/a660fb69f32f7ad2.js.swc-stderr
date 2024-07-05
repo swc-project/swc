@@ -1,4 +1,3 @@
-
   x Unexpected token `(`. Expected yield, an identifier, [ or {
    ,-[$DIR/tests/test262-parser/fail/a660fb69f32f7ad2.js:1:1]
  1 | try {} catch ((e)) {}

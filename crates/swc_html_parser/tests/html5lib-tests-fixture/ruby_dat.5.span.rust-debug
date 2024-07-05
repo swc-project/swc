@@ -1,80 +1,65 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.5.html:1:1]
  1 | <html><ruby>a<rt>b<rb></ruby></html>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.5.html:1:1]
  1 | <html><ruby>a<rt>b<rb></ruby></html>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.5.html:1:1]
  1 | <html><ruby>a<rt>b<rb></ruby></html>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.5.html:1:1]
  1 | <html><ruby>a<rt>b<rb></ruby></html>
    :       ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.5.html:1:1]
  1 | <html><ruby>a<rt>b<rb></ruby></html>
    :       ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.5.html:1:1]
  1 | <html><ruby>a<rt>b<rb></ruby></html>
    :             ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.5.html:1:1]
  1 | <html><ruby>a<rt>b<rb></ruby></html>
    :             ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.5.html:1:1]
  1 | <html><ruby>a<rt>b<rb></ruby></html>
    :              ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.5.html:1:1]
  1 | <html><ruby>a<rt>b<rb></ruby></html>
    :              ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.5.html:1:1]
  1 | <html><ruby>a<rt>b<rb></ruby></html>
    :                  ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.5.html:1:1]
  1 | <html><ruby>a<rt>b<rb></ruby></html>
    :                  ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.5.html:1:1]
  1 | <html><ruby>a<rt>b<rb></ruby></html>
    :                   ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.5.html:1:1]
  1 | <html><ruby>a<rt>b<rb></ruby></html>

@@ -1,4 +1,3 @@
-
   x `package` cannot be used as an identifier in strict mode
    ,-[$DIR/tests/typescript-errors/issue-8588/input.ts:1:1]
  1 | const package = 1;

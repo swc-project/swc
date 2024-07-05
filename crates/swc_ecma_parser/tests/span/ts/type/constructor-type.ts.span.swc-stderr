@@ -1,70 +1,58 @@
-
   x Module
    ,-[$DIR/tests/span/ts/type/constructor-type.ts:1:1]
  1 | type A = new () => void;
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/ts/type/constructor-type.ts:1:1]
  1 | type A = new () => void;
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/ts/type/constructor-type.ts:1:1]
  1 | type A = new () => void;
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Decl
    ,-[$DIR/tests/span/ts/type/constructor-type.ts:1:1]
  1 | type A = new () => void;
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x TsTypeAliasDecl
    ,-[$DIR/tests/span/ts/type/constructor-type.ts:1:1]
  1 | type A = new () => void;
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/type/constructor-type.ts:1:1]
  1 | type A = new () => void;
    :      ^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/constructor-type.ts:1:1]
  1 | type A = new () => void;
    :          ^^^^^^^^^^^^^^
    `----
-
   x TsFnOrConstructorType
    ,-[$DIR/tests/span/ts/type/constructor-type.ts:1:1]
  1 | type A = new () => void;
    :          ^^^^^^^^^^^^^^
    `----
-
   x TsConstructorType
    ,-[$DIR/tests/span/ts/type/constructor-type.ts:1:1]
  1 | type A = new () => void;
    :          ^^^^^^^^^^^^^^
    `----
-
   x TsTypeAnn
    ,-[$DIR/tests/span/ts/type/constructor-type.ts:1:1]
  1 | type A = new () => void;
    :                 ^^^^^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/constructor-type.ts:1:1]
  1 | type A = new () => void;
    :                    ^^^^
    `----
-
   x TsKeywordType
    ,-[$DIR/tests/span/ts/type/constructor-type.ts:1:1]
  1 | type A = new () => void;

@@ -1,101 +1,88 @@
-
   x Unexpected unknown unit "pp".
    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:1:1]
  1 | a { font-size: 13pp; }
    :                  ^^
  2 | a { margin: 13xpx; }
    `----
-
   x Unexpected unknown unit "xpx".
-   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:1:1]
+   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:2:1]
  1 | a { font-size: 13pp; }
  2 | a { margin: 13xpx; }
    :               ^^^
  3 | a { font-size: .5remm; }
    `----
-
   x Unexpected unknown unit "remm".
-   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:2:1]
+   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:3:1]
  2 | a { margin: 13xpx; }
  3 | a { font-size: .5remm; }
    :                  ^^^^
  4 | a { font-size: 0.5remm; }
    `----
-
   x Unexpected unknown unit "remm".
-   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:3:1]
+   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:4:1]
  3 | a { font-size: .5remm; }
  4 | a { font-size: 0.5remm; }
    :                   ^^^^
  5 | a { color: rgb(255pix, 0, 51); }
    `----
-
   x Unexpected unknown unit "pix".
-   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:4:1]
+   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:5:1]
  4 | a { font-size: 0.5remm; }
  5 | a { color: rgb(255pix, 0, 51); }
    :                ^^^^^^
  6 | a { margin: calc(13pix + 10px); }
    `----
-
   x Unexpected unknown unit "pix".
-   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:5:1]
+   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:6:1]
  5 | a { color: rgb(255pix, 0, 51); }
  6 | a { margin: calc(13pix + 10px); }
    :                    ^^^
  7 | a { margin: calc(10pix*2); }
    `----
-
   x Unexpected unknown unit "pix".
-   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:6:1]
+   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:7:1]
  6 | a { margin: calc(13pix + 10px); }
  7 | a { margin: calc(10pix*2); }
    :                    ^^^
  8 | a { margin: calc(2*10pix); }
    `----
-
   x Unexpected unknown unit "pix".
-   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:7:1]
+   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:8:1]
  7 | a { margin: calc(10pix*2); }
  8 | a { margin: calc(2*10pix); }
    :                      ^^^
  9 | a { -webkit-transition-delay: 10pix; }
    `----
-
   x Unexpected unknown unit "pix".
-    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:8:1]
+    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:9:1]
   8 | a { margin: calc(2*10pix); }
   9 | a { -webkit-transition-delay: 10pix; }
     :                                 ^^^
  10 | @media (min-width: 13pix) {}
     `----
-
   x Unexpected unknown unit "pix".
-    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:9:1]
+    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:10:1]
   9 | a { -webkit-transition-delay: 10pix; }
  10 | @media (min-width: 13pix) {}
     :                      ^^^
  11 | a { width: 1e4pz; }
     `----
-
   x Unexpected unknown unit "pz".
-    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:10:1]
+    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:11:1]
  10 | @media (min-width: 13pix) {}
  11 | a { width: 1e4pz; }
     :               ^^
  12 | a { flex: 0 9r9 auto; }
     `----
-
   x Unexpected unknown unit "r9".
-    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:11:1]
+    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:12:1]
  11 | a { width: 1e4pz; }
  12 | a { flex: 0 9r9 auto; }
     :              ^^
  13 | a { width: 400x; }
     `----
-
   x Unexpected unknown unit "pix".
-    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:15:1]
+    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:16:1]
  15 | a { background: image-set('img1x.png' 1x, 'img2x.png' 2x) left 20x / 15% 60% repeat-x; }
  16 | a { background-image: image-set('img1x.png' 1pix, 'img2x.png' 2x); }
     :                                              ^^^

@@ -1,62 +1,50 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.41.html:1:1]
  1 | <template><div><frameset><span></span></div><span></span></template>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.41.html:1:1]
  1 | <template><div><frameset><span></span></div><span></span></template>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.41.html:1:1]
  1 | <template><div><frameset><span></span></div><span></span></template>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x DocumentFragment
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.41.html:1:1]
  1 | <template><div><frameset><span></span></div><span></span></template>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.41.html:1:1]
  1 | <template><div><frameset><span></span></div><span></span></template>
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.41.html:1:1]
  1 | <template><div><frameset><span></span></div><span></span></template>
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.41.html:1:1]
  1 | <template><div><frameset><span></span></div><span></span></template>
    :                          ^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.41.html:1:1]
  1 | <template><div><frameset><span></span></div><span></span></template>
    :                          ^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.41.html:1:1]
  1 | <template><div><frameset><span></span></div><span></span></template>
    :                                             ^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.41.html:1:1]
  1 | <template><div><frameset><span></span></div><span></span></template>

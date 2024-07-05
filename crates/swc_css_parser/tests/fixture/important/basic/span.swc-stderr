@@ -1,4 +1,3 @@
-
   x Stylesheet
     ,-[$DIR/tests/fixture/important/basic/input.css:1:1]
   1 | ,-> .a {
@@ -21,7 +20,6 @@
  18 | |       color: red !imp\ortant;
  19 | `-> }
     `----
-
   x Rule
     ,-[$DIR/tests/fixture/important/basic/input.css:1:1]
   1 | ,-> .a {
@@ -44,7 +42,6 @@
  18 | |       color: red !imp\ortant;
  19 | `-> }
     `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/important/basic/input.css:1:1]
   1 | ,-> .a {
@@ -67,49 +64,42 @@
  18 | |       color: red !imp\ortant;
  19 | `-> }
     `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/important/basic/input.css:1:1]
  1 | .a {
    : ^^
  2 |     prop: important;
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/important/basic/input.css:1:1]
  1 | .a {
    : ^^
  2 |     prop: important;
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/important/basic/input.css:1:1]
  1 | .a {
    : ^^
  2 |     prop: important;
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/important/basic/input.css:1:1]
  1 | .a {
    : ^^
  2 |     prop: important;
    `----
-
   x ClassSelector
    ,-[$DIR/tests/fixture/important/basic/input.css:1:1]
  1 | .a {
    : ^^
  2 |     prop: important;
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/important/basic/input.css:1:1]
  1 | .a {
    :  ^
  2 |     prop: important;
    `----
-
   x SimpleBlock
     ,-[$DIR/tests/fixture/important/basic/input.css:1:1]
   1 | ,-> .a {
@@ -132,1240 +122,1085 @@
  18 | |       color: red !imp\ortant;
  19 | `-> }
     `----
-
   x LBrace
    ,-[$DIR/tests/fixture/important/basic/input.css:1:1]
  1 | .a {
    :    ^
  2 |     prop: important;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/important/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:2:1]
  1 | .a {
  2 |     prop: important;
    :     ^^^^^^^^^^^^^^^
  3 |     color: red important;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/important/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:2:1]
  1 | .a {
  2 |     prop: important;
    :     ^^^^^^^^^^^^^^^
  3 |     color: red important;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/important/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:2:1]
  1 | .a {
  2 |     prop: important;
    :     ^^^^
  3 |     color: red important;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/important/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:2:1]
  1 | .a {
  2 |     prop: important;
    :     ^^^^
  3 |     color: red important;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/important/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:2:1]
  1 | .a {
  2 |     prop: important;
    :           ^^^^^^^^^
  3 |     color: red important;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/important/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:2:1]
  1 | .a {
  2 |     prop: important;
    :           ^^^^^^^^^
  3 |     color: red important;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/important/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:3:1]
  2 |     prop: important;
  3 |     color: red important;
    :     ^^^^^^^^^^^^^^^^^^^^
  4 |     width: 1px!important;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/important/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:3:1]
  2 |     prop: important;
  3 |     color: red important;
    :     ^^^^^^^^^^^^^^^^^^^^
  4 |     width: 1px!important;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/important/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:3:1]
  2 |     prop: important;
  3 |     color: red important;
    :     ^^^^^
  4 |     width: 1px!important;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/important/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:3:1]
  2 |     prop: important;
  3 |     color: red important;
    :     ^^^^^
  4 |     width: 1px!important;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/important/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:3:1]
  2 |     prop: important;
  3 |     color: red important;
    :            ^^^
  4 |     width: 1px!important;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/important/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:3:1]
  2 |     prop: important;
  3 |     color: red important;
    :            ^^^
  4 |     width: 1px!important;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/important/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:3:1]
  2 |     prop: important;
  3 |     color: red important;
    :                ^^^^^^^^^
  4 |     width: 1px!important;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/important/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:3:1]
  2 |     prop: important;
  3 |     color: red important;
    :                ^^^^^^^^^
  4 |     width: 1px!important;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/important/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:4:1]
  3 |     color: red important;
  4 |     width: 1px!important;
    :     ^^^^^^^^^^^^^^^^^^^^
  5 |     color: red!important;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/important/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:4:1]
  3 |     color: red important;
  4 |     width: 1px!important;
    :     ^^^^^^^^^^^^^^^^^^^^
  5 |     color: red!important;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/important/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:4:1]
  3 |     color: red important;
  4 |     width: 1px!important;
    :     ^^^^^
  5 |     color: red!important;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/important/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:4:1]
  3 |     color: red important;
  4 |     width: 1px!important;
    :     ^^^^^
  5 |     color: red!important;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/important/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:4:1]
  3 |     color: red important;
  4 |     width: 1px!important;
    :            ^^^
  5 |     color: red!important;
    `----
-
   x Dimension
-   ,-[$DIR/tests/fixture/important/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:4:1]
  3 |     color: red important;
  4 |     width: 1px!important;
    :            ^^^
  5 |     color: red!important;
    `----
-
   x Length
-   ,-[$DIR/tests/fixture/important/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:4:1]
  3 |     color: red important;
  4 |     width: 1px!important;
    :            ^^^
  5 |     color: red!important;
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/important/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:4:1]
  3 |     color: red important;
  4 |     width: 1px!important;
    :            ^
  5 |     color: red!important;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/important/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:4:1]
  3 |     color: red important;
  4 |     width: 1px!important;
    :             ^^
  5 |     color: red!important;
    `----
-
   x ImportantFlag
-   ,-[$DIR/tests/fixture/important/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:4:1]
  3 |     color: red important;
  4 |     width: 1px!important;
    :               ^^^^^^^^^^
  5 |     color: red!important;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/important/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:4:1]
  3 |     color: red important;
  4 |     width: 1px!important;
    :                ^^^^^^^^^
  5 |     color: red!important;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/important/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:5:1]
  4 |     width: 1px!important;
  5 |     color: red!important;
    :     ^^^^^^^^^^^^^^^^^^^^
  6 |     color: red !important;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/important/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:5:1]
  4 |     width: 1px!important;
  5 |     color: red!important;
    :     ^^^^^^^^^^^^^^^^^^^^
  6 |     color: red !important;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/important/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:5:1]
  4 |     width: 1px!important;
  5 |     color: red!important;
    :     ^^^^^
  6 |     color: red !important;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/important/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:5:1]
  4 |     width: 1px!important;
  5 |     color: red!important;
    :     ^^^^^
  6 |     color: red !important;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/important/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:5:1]
  4 |     width: 1px!important;
  5 |     color: red!important;
    :            ^^^
  6 |     color: red !important;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/important/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:5:1]
  4 |     width: 1px!important;
  5 |     color: red!important;
    :            ^^^
  6 |     color: red !important;
    `----
-
   x ImportantFlag
-   ,-[$DIR/tests/fixture/important/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:5:1]
  4 |     width: 1px!important;
  5 |     color: red!important;
    :               ^^^^^^^^^^
  6 |     color: red !important;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/important/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:5:1]
  4 |     width: 1px!important;
  5 |     color: red!important;
    :                ^^^^^^^^^
  6 |     color: red !important;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/important/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:6:1]
  5 |     color: red!important;
  6 |     color: red !important;
    :     ^^^^^^^^^^^^^^^^^^^^^
  7 |     color: red  !important;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/important/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:6:1]
  5 |     color: red!important;
  6 |     color: red !important;
    :     ^^^^^^^^^^^^^^^^^^^^^
  7 |     color: red  !important;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/important/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:6:1]
  5 |     color: red!important;
  6 |     color: red !important;
    :     ^^^^^
  7 |     color: red  !important;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/important/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:6:1]
  5 |     color: red!important;
  6 |     color: red !important;
    :     ^^^^^
  7 |     color: red  !important;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/important/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:6:1]
  5 |     color: red!important;
  6 |     color: red !important;
    :            ^^^
  7 |     color: red  !important;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/important/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:6:1]
  5 |     color: red!important;
  6 |     color: red !important;
    :            ^^^
  7 |     color: red  !important;
    `----
-
   x ImportantFlag
-   ,-[$DIR/tests/fixture/important/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:6:1]
  5 |     color: red!important;
  6 |     color: red !important;
    :                ^^^^^^^^^^
  7 |     color: red  !important;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/important/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:6:1]
  5 |     color: red!important;
  6 |     color: red !important;
    :                 ^^^^^^^^^
  7 |     color: red  !important;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/important/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:7:1]
  6 |     color: red !important;
  7 |     color: red  !important;
    :     ^^^^^^^^^^^^^^^^^^^^^^
  8 |     color: red !   important   ;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/important/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:7:1]
  6 |     color: red !important;
  7 |     color: red  !important;
    :     ^^^^^^^^^^^^^^^^^^^^^^
  8 |     color: red !   important   ;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/important/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:7:1]
  6 |     color: red !important;
  7 |     color: red  !important;
    :     ^^^^^
  8 |     color: red !   important   ;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/important/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:7:1]
  6 |     color: red !important;
  7 |     color: red  !important;
    :     ^^^^^
  8 |     color: red !   important   ;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/important/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:7:1]
  6 |     color: red !important;
  7 |     color: red  !important;
    :            ^^^
  8 |     color: red !   important   ;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/important/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:7:1]
  6 |     color: red !important;
  7 |     color: red  !important;
    :            ^^^
  8 |     color: red !   important   ;
    `----
-
   x ImportantFlag
-   ,-[$DIR/tests/fixture/important/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:7:1]
  6 |     color: red !important;
  7 |     color: red  !important;
    :                 ^^^^^^^^^^
  8 |     color: red !   important   ;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/important/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:7:1]
  6 |     color: red !important;
  7 |     color: red  !important;
    :                  ^^^^^^^^^
  8 |     color: red !   important   ;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/important/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:8:1]
  7 |     color: red  !important;
  8 |     color: red !   important   ;
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  9 |     color: blue !IMPORTANT;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/important/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:8:1]
  7 |     color: red  !important;
  8 |     color: red !   important   ;
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  9 |     color: blue !IMPORTANT;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/important/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:8:1]
  7 |     color: red  !important;
  8 |     color: red !   important   ;
    :     ^^^^^
  9 |     color: blue !IMPORTANT;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/important/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:8:1]
  7 |     color: red  !important;
  8 |     color: red !   important   ;
    :     ^^^^^
  9 |     color: blue !IMPORTANT;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/important/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:8:1]
  7 |     color: red  !important;
  8 |     color: red !   important   ;
    :            ^^^
  9 |     color: blue !IMPORTANT;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/important/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:8:1]
  7 |     color: red  !important;
  8 |     color: red !   important   ;
    :            ^^^
  9 |     color: blue !IMPORTANT;
    `----
-
   x ImportantFlag
-   ,-[$DIR/tests/fixture/important/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:8:1]
  7 |     color: red  !important;
  8 |     color: red !   important   ;
    :                ^^^^^^^^^^^^^
  9 |     color: blue !IMPORTANT;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/important/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/important/basic/input.css:8:1]
  7 |     color: red  !important;
  8 |     color: red !   important   ;
    :                    ^^^^^^^^^
  9 |     color: blue !IMPORTANT;
    `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/important/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:9:1]
   8 |     color: red !   important   ;
   9 |     color: blue !IMPORTANT;
     :     ^^^^^^^^^^^^^^^^^^^^^^
  10 |     color: white !   IMPORTANT   ;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/important/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:9:1]
   8 |     color: red !   important   ;
   9 |     color: blue !IMPORTANT;
     :     ^^^^^^^^^^^^^^^^^^^^^^
  10 |     color: white !   IMPORTANT   ;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/important/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:9:1]
   8 |     color: red !   important   ;
   9 |     color: blue !IMPORTANT;
     :     ^^^^^
  10 |     color: white !   IMPORTANT   ;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:9:1]
   8 |     color: red !   important   ;
   9 |     color: blue !IMPORTANT;
     :     ^^^^^
  10 |     color: white !   IMPORTANT   ;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/important/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:9:1]
   8 |     color: red !   important   ;
   9 |     color: blue !IMPORTANT;
     :            ^^^^
  10 |     color: white !   IMPORTANT   ;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:9:1]
   8 |     color: red !   important   ;
   9 |     color: blue !IMPORTANT;
     :            ^^^^
  10 |     color: white !   IMPORTANT   ;
     `----
-
   x ImportantFlag
-    ,-[$DIR/tests/fixture/important/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:9:1]
   8 |     color: red !   important   ;
   9 |     color: blue !IMPORTANT;
     :                 ^^^^^^^^^^
  10 |     color: white !   IMPORTANT   ;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:8:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:9:1]
   8 |     color: red !   important   ;
   9 |     color: blue !IMPORTANT;
     :                  ^^^^^^^^^
  10 |     color: white !   IMPORTANT   ;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/important/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:10:1]
   9 |     color: blue !IMPORTANT;
  10 |     color: white !   IMPORTANT   ;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 |     margin: 10px      !      important;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/important/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:10:1]
   9 |     color: blue !IMPORTANT;
  10 |     color: white !   IMPORTANT   ;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 |     margin: 10px      !      important;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/important/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:10:1]
   9 |     color: blue !IMPORTANT;
  10 |     color: white !   IMPORTANT   ;
     :     ^^^^^
  11 |     margin: 10px      !      important;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:10:1]
   9 |     color: blue !IMPORTANT;
  10 |     color: white !   IMPORTANT   ;
     :     ^^^^^
  11 |     margin: 10px      !      important;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/important/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:10:1]
   9 |     color: blue !IMPORTANT;
  10 |     color: white !   IMPORTANT   ;
     :            ^^^^^
  11 |     margin: 10px      !      important;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:10:1]
   9 |     color: blue !IMPORTANT;
  10 |     color: white !   IMPORTANT   ;
     :            ^^^^^
  11 |     margin: 10px      !      important;
     `----
-
   x ImportantFlag
-    ,-[$DIR/tests/fixture/important/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:10:1]
   9 |     color: blue !IMPORTANT;
  10 |     color: white !   IMPORTANT   ;
     :                  ^^^^^^^^^^^^^
  11 |     margin: 10px      !      important;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:10:1]
   9 |     color: blue !IMPORTANT;
  10 |     color: white !   IMPORTANT   ;
     :                      ^^^^^^^^^
  11 |     margin: 10px      !      important;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/important/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
  10 |     color: white !   IMPORTANT   ;
  11 |     margin: 10px      !      important;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 |     padding: 20px     !  /* test */   important;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/important/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
  10 |     color: white !   IMPORTANT   ;
  11 |     margin: 10px      !      important;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 |     padding: 20px     !  /* test */   important;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/important/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
  10 |     color: white !   IMPORTANT   ;
  11 |     margin: 10px      !      important;
     :     ^^^^^^
  12 |     padding: 20px     !  /* test */   important;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
  10 |     color: white !   IMPORTANT   ;
  11 |     margin: 10px      !      important;
     :     ^^^^^^
  12 |     padding: 20px     !  /* test */   important;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/important/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
  10 |     color: white !   IMPORTANT   ;
  11 |     margin: 10px      !      important;
     :             ^^^^
  12 |     padding: 20px     !  /* test */   important;
     `----
-
   x Dimension
-    ,-[$DIR/tests/fixture/important/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
  10 |     color: white !   IMPORTANT   ;
  11 |     margin: 10px      !      important;
     :             ^^^^
  12 |     padding: 20px     !  /* test */   important;
     `----
-
   x Length
-    ,-[$DIR/tests/fixture/important/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
  10 |     color: white !   IMPORTANT   ;
  11 |     margin: 10px      !      important;
     :             ^^^^
  12 |     padding: 20px     !  /* test */   important;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/important/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
  10 |     color: white !   IMPORTANT   ;
  11 |     margin: 10px      !      important;
     :             ^^
  12 |     padding: 20px     !  /* test */   important;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
  10 |     color: white !   IMPORTANT   ;
  11 |     margin: 10px      !      important;
     :               ^^
  12 |     padding: 20px     !  /* test */   important;
     `----
-
   x ImportantFlag
-    ,-[$DIR/tests/fixture/important/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
  10 |     color: white !   IMPORTANT   ;
  11 |     margin: 10px      !      important;
     :                       ^^^^^^^^^^^^^^^^
  12 |     padding: 20px     !  /* test */   important;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
  10 |     color: white !   IMPORTANT   ;
  11 |     margin: 10px      !      important;
     :                              ^^^^^^^^^
  12 |     padding: 20px     !  /* test */   important;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
  11 |     margin: 10px      !      important;
  12 |     padding: 20px     !  /* test */   important;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 |     width: 100px ! /*! test */ important;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
  11 |     margin: 10px      !      important;
  12 |     padding: 20px     !  /* test */   important;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 |     width: 100px ! /*! test */ important;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
  11 |     margin: 10px      !      important;
  12 |     padding: 20px     !  /* test */   important;
     :     ^^^^^^^
  13 |     width: 100px ! /*! test */ important;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
  11 |     margin: 10px      !      important;
  12 |     padding: 20px     !  /* test */   important;
     :     ^^^^^^^
  13 |     width: 100px ! /*! test */ important;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
  11 |     margin: 10px      !      important;
  12 |     padding: 20px     !  /* test */   important;
     :              ^^^^
  13 |     width: 100px ! /*! test */ important;
     `----
-
   x Dimension
-    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
  11 |     margin: 10px      !      important;
  12 |     padding: 20px     !  /* test */   important;
     :              ^^^^
  13 |     width: 100px ! /*! test */ important;
     `----
-
   x Length
-    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
  11 |     margin: 10px      !      important;
  12 |     padding: 20px     !  /* test */   important;
     :              ^^^^
  13 |     width: 100px ! /*! test */ important;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
  11 |     margin: 10px      !      important;
  12 |     padding: 20px     !  /* test */   important;
     :              ^^
  13 |     width: 100px ! /*! test */ important;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
  11 |     margin: 10px      !      important;
  12 |     padding: 20px     !  /* test */   important;
     :                ^^
  13 |     width: 100px ! /*! test */ important;
     `----
-
   x ImportantFlag
-    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
  11 |     margin: 10px      !      important;
  12 |     padding: 20px     !  /* test */   important;
     :                       ^^^^^^^^^^^^^^^^^^^^^^^^^
  13 |     width: 100px ! /*! test */ important;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:11:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
  11 |     margin: 10px      !      important;
  12 |     padding: 20px     !  /* test */   important;
     :                                       ^^^^^^^^^
  13 |     width: 100px ! /*! test */ important;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
  12 |     padding: 20px     !  /* test */   important;
  13 |     width: 100px ! /*! test */ important;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 |     height: 100px /*! test */ important;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
  12 |     padding: 20px     !  /* test */   important;
  13 |     width: 100px ! /*! test */ important;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 |     height: 100px /*! test */ important;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
  12 |     padding: 20px     !  /* test */   important;
  13 |     width: 100px ! /*! test */ important;
     :     ^^^^^
  14 |     height: 100px /*! test */ important;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
  12 |     padding: 20px     !  /* test */   important;
  13 |     width: 100px ! /*! test */ important;
     :     ^^^^^
  14 |     height: 100px /*! test */ important;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
  12 |     padding: 20px     !  /* test */   important;
  13 |     width: 100px ! /*! test */ important;
     :            ^^^^^
  14 |     height: 100px /*! test */ important;
     `----
-
   x Dimension
-    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
  12 |     padding: 20px     !  /* test */   important;
  13 |     width: 100px ! /*! test */ important;
     :            ^^^^^
  14 |     height: 100px /*! test */ important;
     `----
-
   x Length
-    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
  12 |     padding: 20px     !  /* test */   important;
  13 |     width: 100px ! /*! test */ important;
     :            ^^^^^
  14 |     height: 100px /*! test */ important;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
  12 |     padding: 20px     !  /* test */   important;
  13 |     width: 100px ! /*! test */ important;
     :            ^^^
  14 |     height: 100px /*! test */ important;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
  12 |     padding: 20px     !  /* test */   important;
  13 |     width: 100px ! /*! test */ important;
     :               ^^
  14 |     height: 100px /*! test */ important;
     `----
-
   x ImportantFlag
-    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
  12 |     padding: 20px     !  /* test */   important;
  13 |     width: 100px ! /*! test */ important;
     :                  ^^^^^^^^^^^^^^^^^^^^^^^
  14 |     height: 100px /*! test */ important;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
  12 |     padding: 20px     !  /* test */   important;
  13 |     width: 100px ! /*! test */ important;
     :                                ^^^^^^^^^
  14 |     height: 100px /*! test */ important;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:14:1]
  13 |     width: 100px ! /*! test */ important;
  14 |     height: 100px /*! test */ important;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 |     z-index: 1 ""! important;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:14:1]
  13 |     width: 100px ! /*! test */ important;
  14 |     height: 100px /*! test */ important;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 |     z-index: 1 ""! important;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:14:1]
  13 |     width: 100px ! /*! test */ important;
  14 |     height: 100px /*! test */ important;
     :     ^^^^^^
  15 |     z-index: 1 ""! important;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:14:1]
  13 |     width: 100px ! /*! test */ important;
  14 |     height: 100px /*! test */ important;
     :     ^^^^^^
  15 |     z-index: 1 ""! important;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:14:1]
  13 |     width: 100px ! /*! test */ important;
  14 |     height: 100px /*! test */ important;
     :             ^^^^^
  15 |     z-index: 1 ""! important;
     `----
-
   x Dimension
-    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:14:1]
  13 |     width: 100px ! /*! test */ important;
  14 |     height: 100px /*! test */ important;
     :             ^^^^^
  15 |     z-index: 1 ""! important;
     `----
-
   x Length
-    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:14:1]
  13 |     width: 100px ! /*! test */ important;
  14 |     height: 100px /*! test */ important;
     :             ^^^^^
  15 |     z-index: 1 ""! important;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:14:1]
  13 |     width: 100px ! /*! test */ important;
  14 |     height: 100px /*! test */ important;
     :             ^^^
  15 |     z-index: 1 ""! important;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:14:1]
  13 |     width: 100px ! /*! test */ important;
  14 |     height: 100px /*! test */ important;
     :                ^^
  15 |     z-index: 1 ""! important;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
- 13 |     width: 100px ! /*! test */ important;
- 14 |     height: 100px /*! test */ important;
-    :                               ^^^^^^^^^
- 15 |     z-index: 1 ""! important;
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:13:1]
- 13 |     width: 100px ! /*! test */ important;
- 14 |     height: 100px /*! test */ important;
-    :                               ^^^^^^^^^
- 15 |     z-index: 1 ""! important;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/important/basic/input.css:14:1]
+ 13 |     width: 100px ! /*! test */ important;
+ 14 |     height: 100px /*! test */ important;
+    :                               ^^^^^^^^^
+ 15 |     z-index: 1 ""! important;
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/important/basic/input.css:14:1]
+ 13 |     width: 100px ! /*! test */ important;
+ 14 |     height: 100px /*! test */ important;
+    :                               ^^^^^^^^^
+ 15 |     z-index: 1 ""! important;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/important/basic/input.css:15:1]
  14 |     height: 100px /*! test */ important;
  15 |     z-index: 1 ""! important;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^
  16 |     padding: 1px/* sep */!important;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/important/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:15:1]
  14 |     height: 100px /*! test */ important;
  15 |     z-index: 1 ""! important;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^
  16 |     padding: 1px/* sep */!important;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/important/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:15:1]
  14 |     height: 100px /*! test */ important;
  15 |     z-index: 1 ""! important;
     :     ^^^^^^^
  16 |     padding: 1px/* sep */!important;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:15:1]
  14 |     height: 100px /*! test */ important;
  15 |     z-index: 1 ""! important;
     :     ^^^^^^^
  16 |     padding: 1px/* sep */!important;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/important/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:15:1]
  14 |     height: 100px /*! test */ important;
  15 |     z-index: 1 ""! important;
     :              ^
  16 |     padding: 1px/* sep */!important;
     `----
-
   x Integer
-    ,-[$DIR/tests/fixture/important/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:15:1]
  14 |     height: 100px /*! test */ important;
  15 |     z-index: 1 ""! important;
     :              ^
  16 |     padding: 1px/* sep */!important;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/important/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:15:1]
  14 |     height: 100px /*! test */ important;
  15 |     z-index: 1 ""! important;
     :                ^^
  16 |     padding: 1px/* sep */!important;
     `----
-
   x Str
-    ,-[$DIR/tests/fixture/important/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:15:1]
  14 |     height: 100px /*! test */ important;
  15 |     z-index: 1 ""! important;
     :                ^^
  16 |     padding: 1px/* sep */!important;
     `----
-
   x ImportantFlag
-    ,-[$DIR/tests/fixture/important/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:15:1]
  14 |     height: 100px /*! test */ important;
  15 |     z-index: 1 ""! important;
     :                  ^^^^^^^^^^^
  16 |     padding: 1px/* sep */!important;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:15:1]
  14 |     height: 100px /*! test */ important;
  15 |     z-index: 1 ""! important;
     :                    ^^^^^^^^^
  16 |     padding: 1px/* sep */!important;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/important/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:16:1]
  15 |     z-index: 1 ""! important;
  16 |     padding: 1px/* sep */!important;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  17 |     prop: red !iMpOrTaNt;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/important/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:16:1]
  15 |     z-index: 1 ""! important;
  16 |     padding: 1px/* sep */!important;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  17 |     prop: red !iMpOrTaNt;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/important/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:16:1]
  15 |     z-index: 1 ""! important;
  16 |     padding: 1px/* sep */!important;
     :     ^^^^^^^
  17 |     prop: red !iMpOrTaNt;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:16:1]
  15 |     z-index: 1 ""! important;
  16 |     padding: 1px/* sep */!important;
     :     ^^^^^^^
  17 |     prop: red !iMpOrTaNt;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/important/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:16:1]
  15 |     z-index: 1 ""! important;
  16 |     padding: 1px/* sep */!important;
     :              ^^^
  17 |     prop: red !iMpOrTaNt;
     `----
-
   x Dimension
-    ,-[$DIR/tests/fixture/important/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:16:1]
  15 |     z-index: 1 ""! important;
  16 |     padding: 1px/* sep */!important;
     :              ^^^
  17 |     prop: red !iMpOrTaNt;
     `----
-
   x Length
-    ,-[$DIR/tests/fixture/important/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:16:1]
  15 |     z-index: 1 ""! important;
  16 |     padding: 1px/* sep */!important;
     :              ^^^
  17 |     prop: red !iMpOrTaNt;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/important/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:16:1]
  15 |     z-index: 1 ""! important;
  16 |     padding: 1px/* sep */!important;
     :              ^
  17 |     prop: red !iMpOrTaNt;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:16:1]
  15 |     z-index: 1 ""! important;
  16 |     padding: 1px/* sep */!important;
     :               ^^
  17 |     prop: red !iMpOrTaNt;
     `----
-
   x ImportantFlag
-    ,-[$DIR/tests/fixture/important/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:16:1]
  15 |     z-index: 1 ""! important;
  16 |     padding: 1px/* sep */!important;
     :                          ^^^^^^^^^^
  17 |     prop: red !iMpOrTaNt;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:15:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:16:1]
  15 |     z-index: 1 ""! important;
  16 |     padding: 1px/* sep */!important;
     :                           ^^^^^^^^^
  17 |     prop: red !iMpOrTaNt;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/important/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:17:1]
  16 |     padding: 1px/* sep */!important;
  17 |     prop: red !iMpOrTaNt;
     :     ^^^^^^^^^^^^^^^^^^^^
  18 |     color: red !imp\ortant;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/important/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:17:1]
  16 |     padding: 1px/* sep */!important;
  17 |     prop: red !iMpOrTaNt;
     :     ^^^^^^^^^^^^^^^^^^^^
  18 |     color: red !imp\ortant;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/important/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:17:1]
  16 |     padding: 1px/* sep */!important;
  17 |     prop: red !iMpOrTaNt;
     :     ^^^^
  18 |     color: red !imp\ortant;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:17:1]
  16 |     padding: 1px/* sep */!important;
  17 |     prop: red !iMpOrTaNt;
     :     ^^^^
  18 |     color: red !imp\ortant;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/important/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:17:1]
  16 |     padding: 1px/* sep */!important;
  17 |     prop: red !iMpOrTaNt;
     :           ^^^
  18 |     color: red !imp\ortant;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:17:1]
  16 |     padding: 1px/* sep */!important;
  17 |     prop: red !iMpOrTaNt;
     :           ^^^
  18 |     color: red !imp\ortant;
     `----
-
   x ImportantFlag
-    ,-[$DIR/tests/fixture/important/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:17:1]
  16 |     padding: 1px/* sep */!important;
  17 |     prop: red !iMpOrTaNt;
     :               ^^^^^^^^^^
  18 |     color: red !imp\ortant;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:17:1]
  16 |     padding: 1px/* sep */!important;
  17 |     prop: red !iMpOrTaNt;
     :                ^^^^^^^^^
  18 |     color: red !imp\ortant;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/important/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:18:1]
  17 |     prop: red !iMpOrTaNt;
  18 |     color: red !imp\ortant;
     :     ^^^^^^^^^^^^^^^^^^^^^^
  19 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/important/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:18:1]
  17 |     prop: red !iMpOrTaNt;
  18 |     color: red !imp\ortant;
     :     ^^^^^^^^^^^^^^^^^^^^^^
  19 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/important/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:18:1]
  17 |     prop: red !iMpOrTaNt;
  18 |     color: red !imp\ortant;
     :     ^^^^^
  19 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:18:1]
  17 |     prop: red !iMpOrTaNt;
  18 |     color: red !imp\ortant;
     :     ^^^^^
  19 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/important/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:18:1]
  17 |     prop: red !iMpOrTaNt;
  18 |     color: red !imp\ortant;
     :            ^^^
  19 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:18:1]
  17 |     prop: red !iMpOrTaNt;
  18 |     color: red !imp\ortant;
     :            ^^^
  19 | }
     `----
-
   x ImportantFlag
-    ,-[$DIR/tests/fixture/important/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:18:1]
  17 |     prop: red !iMpOrTaNt;
  18 |     color: red !imp\ortant;
     :                ^^^^^^^^^^^
  19 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/important/basic/input.css:17:1]
+    ,-[$DIR/tests/fixture/important/basic/input.css:18:1]
  17 |     prop: red !iMpOrTaNt;
  18 |     color: red !imp\ortant;
     :                 ^^^^^^^^^^

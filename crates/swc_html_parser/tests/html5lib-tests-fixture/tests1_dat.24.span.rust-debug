@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.24.html:1:1]
  1 | <!DOCTYPE html><span><button>foo</span>bar
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.24.html:1:1]
  1 | <!DOCTYPE html><span><button>foo</span>bar
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.24.html:1:1]
  1 | <!DOCTYPE html><span><button>foo</span>bar
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.24.html:1:1]
  1 | <!DOCTYPE html><span><button>foo</span>bar
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.24.html:1:1]
  1 | <!DOCTYPE html><span><button>foo</span>bar
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.24.html:1:1]
  1 | <!DOCTYPE html><span><button>foo</span>bar
    :                      ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.24.html:1:1]
  1 | <!DOCTYPE html><span><button>foo</span>bar
    :                      ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.24.html:1:1]
  1 | <!DOCTYPE html><span><button>foo</span>bar
    :                              ^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.24.html:1:1]
  1 | <!DOCTYPE html><span><button>foo</span>bar

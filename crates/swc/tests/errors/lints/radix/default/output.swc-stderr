@@ -1,27 +1,24 @@
-
-  x Missing radix parameter
-   ,-[1:1]
- 1 | // requires add radix equals 10
- 2 | parseInt("12");
-   : ^^^^^^^^^^^^^^
- 3 | 
- 4 | // requires add radix equals 10
- 5 | Number.parseInt("12");
-   `----
-
-Error: 
-  > Add radix parameter `10` for parsing decimal numbers
-   ,-[1:1]
- 1 | // requires add radix equals 10
- 2 | parseInt("12");
-   : ^^^^^^^^^^^^^^
- 3 | 
- 4 | // requires add radix equals 10
- 5 | Number.parseInt("12");
-   `----
-
   x Missing radix parameter
    ,-[2:1]
+ 1 | // requires add radix equals 10
+ 2 | parseInt("12");
+   : ^^^^^^^^^^^^^^
+ 3 | 
+ 4 | // requires add radix equals 10
+ 5 | Number.parseInt("12");
+   `----
+
+Advice:   > Add radix parameter `10` for parsing decimal numbers
+   ,-[2:1]
+ 1 | // requires add radix equals 10
+ 2 | parseInt("12");
+   : ^^^^^^^^^^^^^^
+ 3 | 
+ 4 | // requires add radix equals 10
+ 5 | Number.parseInt("12");
+   `----
+  x Missing radix parameter
+   ,-[5:1]
  2 | parseInt("12");
  3 | 
  4 | // requires add radix equals 10
@@ -32,9 +29,8 @@ Error:
  8 | globalThis.parseInt("12");
    `----
 
-Error: 
-  > Add radix parameter `10` for parsing decimal numbers
-   ,-[2:1]
+Advice:   > Add radix parameter `10` for parsing decimal numbers
+   ,-[5:1]
  2 | parseInt("12");
  3 | 
  4 | // requires add radix equals 10
@@ -44,9 +40,8 @@ Error:
  7 | // requires add radix equals 10
  8 | globalThis.parseInt("12");
    `----
-
   x Missing radix parameter
-    ,-[5:1]
+    ,-[8:1]
   5 | Number.parseInt("12");
   6 | 
   7 | // requires add radix equals 10
@@ -57,9 +52,8 @@ Error:
  11 | Number['parseInt']("12");
     `----
 
-Error: 
-  > Add radix parameter `10` for parsing decimal numbers
-    ,-[5:1]
+Advice:   > Add radix parameter `10` for parsing decimal numbers
+    ,-[8:1]
   5 | Number.parseInt("12");
   6 | 
   7 | // requires add radix equals 10
@@ -69,34 +63,31 @@ Error:
  10 | // requires add radix equals 10
  11 | Number['parseInt']("12");
     `----
-
   x Missing radix parameter
-    ,-[8:1]
-  8 | globalThis.parseInt("12");
-  9 | 
- 10 | // requires add radix equals 10
- 11 | Number['parseInt']("12");
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
- 12 | 
- 13 | // invalid radix param
- 14 | parseInt("12", 1);
-    `----
-
-Error: 
-  > Add radix parameter `10` for parsing decimal numbers
-    ,-[8:1]
-  8 | globalThis.parseInt("12");
-  9 | 
- 10 | // requires add radix equals 10
- 11 | Number['parseInt']("12");
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
- 12 | 
- 13 | // invalid radix param
- 14 | parseInt("12", 1);
-    `----
-
-  x Invalid radix parameter, must be an integer between 2 and 36
     ,-[11:1]
+  8 | globalThis.parseInt("12");
+  9 | 
+ 10 | // requires add radix equals 10
+ 11 | Number['parseInt']("12");
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+ 12 | 
+ 13 | // invalid radix param
+ 14 | parseInt("12", 1);
+    `----
+
+Advice:   > Add radix parameter `10` for parsing decimal numbers
+    ,-[11:1]
+  8 | globalThis.parseInt("12");
+  9 | 
+ 10 | // requires add radix equals 10
+ 11 | Number['parseInt']("12");
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+ 12 | 
+ 13 | // invalid radix param
+ 14 | parseInt("12", 1);
+    `----
+  x Invalid radix parameter, must be an integer between 2 and 36
+    ,-[14:1]
  11 | Number['parseInt']("12");
  12 | 
  13 | // invalid radix param
@@ -106,9 +97,8 @@ Error:
  16 | // invalid radix param
  17 | parseInt("12", 37);
     `----
-
   x Invalid radix parameter, must be an integer between 2 and 36
-    ,-[14:1]
+    ,-[17:1]
  14 | parseInt("12", 1);
  15 | 
  16 | // invalid radix param
@@ -118,9 +108,8 @@ Error:
  19 | // Missing params
  20 | parseInt();
     `----
-
   x Missing parameters
-    ,-[17:1]
+    ,-[20:1]
  17 | parseInt("12", 37);
  18 | 
  19 | // Missing params
@@ -130,9 +119,8 @@ Error:
  22 | // requires add radix equals 10
  23 | parseInt("12", "abc");
     `----
-
   x Invalid radix parameter, must be an integer between 2 and 36
-    ,-[20:1]
+    ,-[23:1]
  20 | parseInt();
  21 | 
  22 | // requires add radix equals 10
@@ -142,9 +130,8 @@ Error:
  25 | // no reports required
  26 | parseInt("12", 10);
     `----
-
   x Missing radix parameter
-    ,-[33:1]
+    ,-[36:1]
  33 | 
  34 | // requires add radix equals 10
  35 | function foo1() {
@@ -155,9 +142,8 @@ Error:
  39 | // requires add radix equals 10
     `----
 
-Error: 
-  > Add radix parameter `10` for parsing decimal numbers
-    ,-[33:1]
+Advice:   > Add radix parameter `10` for parsing decimal numbers
+    ,-[36:1]
  33 | 
  34 | // requires add radix equals 10
  35 | function foo1() {
@@ -167,9 +153,8 @@ Error:
  38 | 
  39 | // requires add radix equals 10
     `----
-
   x Missing radix parameter
-    ,-[37:1]
+    ,-[40:1]
  37 | }
  38 | 
  39 | // requires add radix equals 10
@@ -180,9 +165,8 @@ Error:
  43 | globalThis?.parseInt("12");
     `----
 
-Error: 
-  > Add radix parameter `10` for parsing decimal numbers
-    ,-[37:1]
+Advice:   > Add radix parameter `10` for parsing decimal numbers
+    ,-[40:1]
  37 | }
  38 | 
  39 | // requires add radix equals 10
@@ -192,9 +176,8 @@ Error:
  42 | // requires add radix equals 10
  43 | globalThis?.parseInt("12");
     `----
-
   x Invalid radix parameter, must be an integer between 2 and 36
-    ,-[43:1]
+    ,-[46:1]
  43 | globalThis?.parseInt("12");
  44 | 
  45 | // requires add radix equals 10
@@ -204,9 +187,8 @@ Error:
  48 | // no reports required
  49 | parseInt("12", (3));
     `----
-
   x Invalid radix parameter, must be an integer between 2 and 36
-    ,-[49:1]
+    ,-[52:1]
  49 | parseInt("12", (3));
  50 | 
  51 | // requires add radix equals 10
@@ -216,9 +198,8 @@ Error:
  54 | // requires add radix equals 10
  55 | parseInt(`12`, `10`);
     `----
-
   x Invalid radix parameter, must be an integer between 2 and 36
-    ,-[52:1]
+    ,-[55:1]
  52 | parseInt("12", 2.4);
  53 | 
  54 | // requires add radix equals 10
@@ -228,9 +209,8 @@ Error:
  57 | // requires add radix equals 10
  58 | console.log(parseInt('10', '10'));
     `----
-
   x Invalid radix parameter, must be an integer between 2 and 36
-    ,-[55:1]
+    ,-[58:1]
  55 | parseInt(`12`, `10`);
  56 | 
  57 | // requires add radix equals 10

@@ -1,4 +1,3 @@
-
   x Unexpected end of file
    ,-[$DIR/tests/recovery/at-rule/import/empty/input.css:1:1]
  1 | @import ;

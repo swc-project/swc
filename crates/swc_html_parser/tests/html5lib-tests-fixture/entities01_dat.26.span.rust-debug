@@ -1,20 +1,15 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/entities01_dat.26.html:1:1]
  1 | FOO&#x0081;ZOO
    : ^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/entities01_dat.26.html:1:1]
  1 | FOO&#x0081;ZOO
    : ^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/entities01_dat.26.html:1:1]
  1 | FOO&#x0081;ZOO

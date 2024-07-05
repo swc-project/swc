@@ -1,4 +1,3 @@
-
   x Unexpected eof
    ,-[$DIR/tests/typescript-errors/missing-fn-expr-body/async/input.ts:1:1]
  1 | let f = async function ()

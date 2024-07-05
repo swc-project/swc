@@ -1,125 +1,105 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | ,-> @media screen {@content}
  2 | |   
  3 | `-> @charset "UTF-8"
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | @media screen {@content}
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | @media screen {@content}
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | @media screen {@content}
    :  ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | @media screen {@content}
    :  ^^^^^
    `----
-
   x MediaQueryList
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | @media screen {@content}
    :        ^^^^^^
    `----
-
   x MediaQuery
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | @media screen {@content}
    :        ^^^^^^
    `----
-
   x MediaType
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | @media screen {@content}
    :        ^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | @media screen {@content}
    :        ^^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | @media screen {@content}
    :               ^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | @media screen {@content}
    :               ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | @media screen {@content}
    :                ^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | @media screen {@content}
    :                ^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | @media screen {@content}
    :                 ^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | @media screen {@content}
    :                 ^^^^^^^
    `----
-
   x Rule
-   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:3:1]
  2 | 
  3 | @charset "UTF-8"
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
-   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:3:1]
  2 | 
  3 | @charset "UTF-8"
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
-   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:3:1]
  2 | 
  3 | @charset "UTF-8"
    :  ^^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:3:1]
  2 | 
  3 | @charset "UTF-8"
    :  ^^^^^^^
    `----
-
   x Str
-   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:3:1]
  2 | 
  3 | @charset "UTF-8"
    :          ^^^^^^^

@@ -1,14 +1,12 @@
-
   x Unexpected invalid position '@import' rule.
-   ,-[$DIR/tests/rules/fail/no-invalid-position-at-import-rule/ignored/input.css:3:1]
+   ,-[$DIR/tests/rules/fail/no-invalid-position-at-import-rule/ignored/input.css:4:1]
  3 | 
  4 | @import "kumiko.css";
    : ^^^^^^^^^^^^^^^^^^^^^
  5 | @import "reina.css";
    `----
-
   x Unexpected invalid position '@import' rule.
-   ,-[$DIR/tests/rules/fail/no-invalid-position-at-import-rule/ignored/input.css:4:1]
+   ,-[$DIR/tests/rules/fail/no-invalid-position-at-import-rule/ignored/input.css:5:1]
  4 | @import "kumiko.css";
  5 | @import "reina.css";
    : ^^^^^^^^^^^^^^^^^^^^

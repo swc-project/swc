@@ -1,68 +1,55 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.39.html:1:1]
  1 | <!DOCTYPE html><datalist><option>foo</datalist>bar
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.39.html:1:1]
  1 | <!DOCTYPE html><datalist><option>foo</datalist>bar
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.39.html:1:1]
  1 | <!DOCTYPE html><datalist><option>foo</datalist>bar
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.39.html:1:1]
  1 | <!DOCTYPE html><datalist><option>foo</datalist>bar
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.39.html:1:1]
  1 | <!DOCTYPE html><datalist><option>foo</datalist>bar
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.39.html:1:1]
  1 | <!DOCTYPE html><datalist><option>foo</datalist>bar
    :                          ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.39.html:1:1]
  1 | <!DOCTYPE html><datalist><option>foo</datalist>bar
    :                          ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.39.html:1:1]
  1 | <!DOCTYPE html><datalist><option>foo</datalist>bar
    :                                  ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.39.html:1:1]
  1 | <!DOCTYPE html><datalist><option>foo</datalist>bar
    :                                  ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.39.html:1:1]
  1 | <!DOCTYPE html><datalist><option>foo</datalist>bar
    :                                                ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.39.html:1:1]
  1 | <!DOCTYPE html><datalist><option>foo</datalist>bar

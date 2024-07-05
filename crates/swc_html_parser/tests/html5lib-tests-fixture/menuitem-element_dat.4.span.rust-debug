@@ -1,80 +1,65 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.4.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<menu>B</menu>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.4.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<menu>B</menu>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.4.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<menu>B</menu>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.4.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<menu>B</menu>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.4.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<menu>B</menu>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.4.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<menu>B</menu>
    :                      ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.4.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<menu>B</menu>
    :                      ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.4.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<menu>B</menu>
    :                                ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.4.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<menu>B</menu>
    :                                ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.4.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<menu>B</menu>
    :                                 ^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.4.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<menu>B</menu>
    :                                 ^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.4.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<menu>B</menu>
    :                                       ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.4.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<menu>B</menu>

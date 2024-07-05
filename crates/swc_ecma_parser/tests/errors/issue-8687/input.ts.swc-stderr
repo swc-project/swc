@@ -1,14 +1,12 @@
-
   x An accessibility modifier cannot be used with a private identifier.
-   ,-[$DIR/tests/errors/issue-8687/input.ts:1:1]
+   ,-[$DIR/tests/errors/issue-8687/input.ts:2:1]
  1 | class Foo {
  2 |     private #p1() { }
    :     ^^^^^^^^^^^
  3 |     private #p2: number;
    `----
-
   x An accessibility modifier cannot be used with a private identifier.
-   ,-[$DIR/tests/errors/issue-8687/input.ts:2:1]
+   ,-[$DIR/tests/errors/issue-8687/input.ts:3:1]
  2 |     private #p1() { }
  3 |     private #p2: number;
    :     ^^^^^^^^^^^

@@ -1,124 +1,106 @@
-
   x Module
    ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
  1 | ,-> const foo = 3;
  2 | `-> export { foo as "str" };
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
  1 | const foo = 3;
    : ^^^^^^^^^^^^^^
  2 | export { foo as "str" };
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
  1 | const foo = 3;
    : ^^^^^^^^^^^^^^
  2 | export { foo as "str" };
    `----
-
   x Decl
    ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
  1 | const foo = 3;
    : ^^^^^^^^^^^^^^
  2 | export { foo as "str" };
    `----
-
   x VarDecl
    ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
  1 | const foo = 3;
    : ^^^^^^^^^^^^^^
  2 | export { foo as "str" };
    `----
-
   x VarDeclarator
    ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
  1 | const foo = 3;
    :       ^^^^^^^
  2 | export { foo as "str" };
    `----
-
   x Pat
    ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
  1 | const foo = 3;
    :       ^^^
  2 | export { foo as "str" };
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
  1 | const foo = 3;
    :       ^^^
  2 | export { foo as "str" };
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
  1 | const foo = 3;
    :             ^
  2 | export { foo as "str" };
    `----
-
   x Lit
    ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
  1 | const foo = 3;
    :             ^
  2 | export { foo as "str" };
    `----
-
   x Number
    ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
  1 | const foo = 3;
    :             ^
  2 | export { foo as "str" };
    `----
-
   x ModuleItem
-   ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
+   ,-[$DIR/tests/span/js/decl/export-string-names-1.js:2:1]
  1 | const foo = 3;
  2 | export { foo as "str" };
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleDecl
-   ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
+   ,-[$DIR/tests/span/js/decl/export-string-names-1.js:2:1]
  1 | const foo = 3;
  2 | export { foo as "str" };
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x NamedExport
-   ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
+   ,-[$DIR/tests/span/js/decl/export-string-names-1.js:2:1]
  1 | const foo = 3;
  2 | export { foo as "str" };
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ExportSpecifier
-   ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
+   ,-[$DIR/tests/span/js/decl/export-string-names-1.js:2:1]
  1 | const foo = 3;
  2 | export { foo as "str" };
    :          ^^^^^^^^^^^^
    `----
-
   x ExportNamedSpecifier
-   ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
+   ,-[$DIR/tests/span/js/decl/export-string-names-1.js:2:1]
  1 | const foo = 3;
  2 | export { foo as "str" };
    :          ^^^^^^^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
+   ,-[$DIR/tests/span/js/decl/export-string-names-1.js:2:1]
  1 | const foo = 3;
  2 | export { foo as "str" };
    :          ^^^
    `----
-
   x Str
-   ,-[$DIR/tests/span/js/decl/export-string-names-1.js:1:1]
+   ,-[$DIR/tests/span/js/decl/export-string-names-1.js:2:1]
  1 | const foo = 3;
  2 | export { foo as "str" };
    :                 ^^^^^

@@ -267,7 +267,7 @@ impl fmt::Display for MietteDiagnostic<'_> {
 fn convert_span(span: Span) -> SourceSpan {
     let len = span.hi - span.lo;
     let start = SourceOffset::from(span.lo.0 as usize);
-    SourceSpan::new(start, SourceOffset::from(len.0 as usize))
+    SourceSpan::new(start, len.0 as usize)
 }
 
 struct MietteSubdiagnostic<'a> {

@@ -1,34 +1,28 @@
-
   x Module
    ,-[$DIR/tests/span/js/expr/export-defaul.js:1:1]
  1 | export default foo
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/expr/export-defaul.js:1:1]
  1 | export default foo
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleDecl
    ,-[$DIR/tests/span/js/expr/export-defaul.js:1:1]
  1 | export default foo
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x ExportDefaultExpr
    ,-[$DIR/tests/span/js/expr/export-defaul.js:1:1]
  1 | export default foo
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/export-defaul.js:1:1]
  1 | export default foo
    :                ^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/export-defaul.js:1:1]
  1 | export default foo

@@ -1,52 +1,43 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
  1 | @unknown x;
    : ^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
  1 | @unknown x;
    : ^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
  1 | @unknown x;
    : ^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
  1 | @unknown x;
    :  ^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
  1 | @unknown x;
    :  ^^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
  1 | @unknown x;
    :         ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
  1 | @unknown x;
    :         ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
  1 | @unknown x;
    :          ^
    `----
-
   x Ident { value: "x", raw: "x" }
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
  1 | @unknown x;

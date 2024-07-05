@@ -1,4 +1,3 @@
-
   x Stylesheet
    ,-[$DIR/tests/line-comment/css-in-js/9/input.css:1:1]
  1 | // Only comment

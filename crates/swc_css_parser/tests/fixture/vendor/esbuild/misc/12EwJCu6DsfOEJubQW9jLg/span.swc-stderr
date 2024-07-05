@@ -1,190 +1,158 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    : ^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    : ^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    : ^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    : ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    : ^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    : ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    :   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    :     ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    :     ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    :     ^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    :     ^^^^^^^^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    :                    ^
    `----
-
   x Integer
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    :                    ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    :                      ^
    `----
-
   x Integer
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    :                      ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    :                        ^
    `----
-
   x Integer
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    :                        ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    :                          ^
    `----
-
   x Integer
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    :                          ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    :                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    :                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    :                             ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    :                             ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    :                                                      ^
    `----
-
   x Integer
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    :                                                      ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
    :                                                        ^
    `----
-
   x Integer
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
