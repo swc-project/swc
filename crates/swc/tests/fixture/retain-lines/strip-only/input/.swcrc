@@ -4,6 +4,6 @@
         "parser": {
             "syntax": "typescript"
         },
-        "retainLines": true
+        "blankSpaceCodegen": true
     }
 }
