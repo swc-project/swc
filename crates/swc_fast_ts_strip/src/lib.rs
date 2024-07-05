@@ -7,12 +7,12 @@ use swc_common::{
     BytePos, FileName, SourceMap, Span, Spanned,
 };
 use swc_ecma_ast::{
-    BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, Decorator, EsVersion, ExportAll,
-    ExportDecl, ExportSpecifier, FnDecl, Ident, ImportDecl, ImportSpecifier, MethodKind,
-    NamedExport, Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsInstantiation,
-    TsInterfaceDecl, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam,
-    TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
-    TsTypeParamInstantiation,
+    BindingIdent, Class, ClassMethod, ClassProp, Decorator, EsVersion, ExportAll, ExportDecl,
+    ExportSpecifier, FnDecl, Ident, ImportDecl, ImportSpecifier, MethodKind, NamedExport, Param,
+    Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsInstantiation, TsInterfaceDecl,
+    TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
+    TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
+    VarDecl,
 };
 use swc_ecma_parser::{
     parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
@@ -268,7 +268,14 @@ impl Visit for TsStrip {
             return;
         }
 
-        n.visit_children_with(self);
+        for export in n.specifiers.iter() {
+            if let ExportSpecifier::Named(e) = export {
+                if e.is_type_only {
+                    let sp = self.cm.span_extend_to_next_char(e.span, ',');
+                    self.add_replacement(span(sp.lo, sp.hi + BytePos(1)));
+                }
+            }
+        }
     }
 
     fn visit_params(&mut self, n: &[Param]) {
@@ -404,6 +411,15 @@ impl Visit for TsStrip {
 
     fn visit_ts_type_param_instantiation(&mut self, n: &TsTypeParamInstantiation) {
         self.add_replacement(span(n.span.lo, n.span.hi));
+    }
+
+    fn visit_var_decl(&mut self, n: &VarDecl) {
+        if n.declare {
+            self.add_replacement(n.span);
+            return;
+        }
+
+        n.visit_children_with(self);
     }
 }
 
