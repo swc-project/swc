@@ -690,3 +690,9 @@ pub trait CommentsExt: Comments {
 
 #[allow(deprecated)]
 impl<C> CommentsExt for C where C: Comments {}
+
+better_scoped_tls::scoped_tls!(
+    /// **This is not a public API**. Used to handle comments while **testing**.
+    #[doc(hidden)]
+    pub static COMMENTS: Option<Box<dyn Comments>>
+);
