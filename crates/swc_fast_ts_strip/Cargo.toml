@@ -11,3 +11,12 @@ version       = "0.1.0"
 
 
 [dependencies]
+anyhow = "1.0.66"
+serde  = { version = "1", features = ["derive"] }
+
+swc_core = { version = "0.96.3", path = "../swc_core", features = [
+    "common",
+    "ecma_ast",
+    "ecma_parser",
+    "ecma_visit",
+] }
