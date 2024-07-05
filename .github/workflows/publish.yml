@@ -110,9 +110,8 @@ jobs:
       package: "core"
       version: ${{ needs.determine-nightly-version.outputs.version }}
       buildCli: true
-      skipBuild: ${{ github.event.inputs.skipBuild || false }}
-      # Skip on pull requests
-      skipPublishing: ${{ github.event_name != 'workflow_dispatch' }}
+      skipBuild: ${{ inputs.skipBuild || false }}
+      skipPublishing: false
 
   run-ecosystem-ci-with-nightly:
     name: "Test nightly using ecosystem CI"
@@ -134,8 +133,8 @@ jobs:
     uses: ./.github/workflows/publish-npm-package.yml
     with:
       package: "core"
-      version: ${{ github.event.inputs.version }}
+      version: ${{ inputs.version }}
       buildCli: true
-      skipBuild: ${{ github.event.inputs.skipBuild || github.event.inputs.onlyNightly || false }}
+      skipBuild: ${{ inputs.skipBuild || inputs.onlyNightly || false }}
       # Skip on pull requests
-      skipPublishing: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.onlyNightly }}
+      skipPublishing: ${{ inputs.onlyNightly }}
