@@ -14,12 +14,10 @@ version       = "0.1.1"
 anyhow = "1.0.66"
 serde  = { version = "1", features = ["derive"] }
 
-swc_core = { version = "0.96.3", path = "../swc_core", features = [
-    "common",
-    "ecma_ast",
-    "ecma_parser",
-    "ecma_visit",
-] }
+swc_common      = { version = "0.34.3", path = "../swc_common" }
+swc_ecma_ast    = { version = "0.115.1", path = "../swc_ecma_ast" }
+swc_ecma_parser = { version = "0.146.9", path = "../swc_ecma_parser" }
+swc_ecma_visit  = { version = "0.101.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 testing = { version = "0.36.0", path = "../testing" }
