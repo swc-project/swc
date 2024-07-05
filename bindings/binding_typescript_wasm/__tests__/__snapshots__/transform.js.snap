@@ -1,5 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`transform in strip-only mode should remove declare enum 1`] = `""`;
+
+exports[`transform in strip-only mode should remove declare enum 2`] = `""`;
+
+exports[`transform in strip-only mode should remove declare enum 3`] = `""`;
+
 exports[`transform in strip-only mode should strip type declarations 1`] = `
 "const foo = 1;
                     
@@ -47,4 +53,9 @@ exports[`transform in strip-only mode should throw an error with a descriptive m
 "
 `;
 
-exports[`transform should strip types 1`] = `""`;
+exports[`transform should strip types 1`] = `
+"
+        export const foo = 1;
+        
+    "
+`;
