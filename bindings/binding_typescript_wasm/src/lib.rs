@@ -6,10 +6,13 @@ use swc_core::{
         errors::{ColorConfig, HANDLER},
         source_map::SourceMapGenConfig,
         sync::Lrc,
-        BytePos, FileName, Mark, SourceMap, Spanned, GLOBALS,
+        BytePos, FileName, Mark, SourceMap, Span, Spanned, GLOBALS,
     },
     ecma::{
-        ast::{Decorator, EsVersion, Program, TsEnumDecl, TsParamPropParam},
+        ast::{
+            Decorator, EsVersion, Program, TsEnumDecl, TsModuleDecl, TsNamespaceDecl,
+            TsParamPropParam,
+        },
         parser::{
             parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
         },
@@ -41,9 +44,6 @@ pub struct Options {
 
     #[serde(default = "default_ts_syntax")]
     pub parser: TsSyntax,
-
-    #[serde(default)]
-    pub mode: Mode,
 }
 
 fn default_ts_syntax() -> TsSyntax {
@@ -51,13 +51,6 @@ fn default_ts_syntax() -> TsSyntax {
         decorators: true,
         ..Default::default()
     }
-}
-
-#[derive(Clone, Copy, Default, Deserialize)]
-#[serde(rename_all = "kebab-case")]
-pub enum Mode {
-    #[default]
-    StripOnly,
 }
 
 #[wasm_bindgen]
@@ -136,7 +129,6 @@ fn operate(input: String, options: Options) -> Result<String, Error> {
             let mut replacements = vec![];
             // Strip typescript types
             program.visit_with(&mut TsStrip {
-                mode: options.mode,
                 replacements: &mut replacements,
             });
 
@@ -158,8 +150,13 @@ pub fn convert_err(err: Error) -> wasm_bindgen::prelude::JsValue {
 }
 
 struct TsStrip<'a> {
-    mode: Mode,
-    replacements: &'a Vec<(BytePos, BytePos)>,
+    replacements: &'a mut Vec<(BytePos, BytePos)>,
+}
+
+impl TsStrip<'_> {
+    fn add_replacement(&mut self, span: Span) {
+        self.replacements.push((span.lo, span.hi));
+    }
 }
 
 impl Visit for TsStrip<'_> {
@@ -170,30 +167,54 @@ impl Visit for TsStrip<'_> {
     }
 
     fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl) {
-        if matches!(self.mode, Mode::StripOnly) {
-            HANDLER.with(|handler| {
-                handler.span_err(
-                    e.span,
-                    "TypeScript enum is not supported in strip-only mode",
-                );
-            });
+        if e.declare {
+            self.add_replacement(e.span);
             return;
         }
 
-        e.visit_children_with(self);
+        HANDLER.with(|handler| {
+            handler.span_err(
+                e.span,
+                "TypeScript enum is not supported in strip-only mode",
+            );
+        });
+    }
+
+    fn visit_ts_module_decl(&mut self, n: &TsModuleDecl) {
+        if n.declare {
+            self.add_replacement(n.span);
+            return;
+        }
+
+        HANDLER.with(|handler| {
+            handler.span_err(
+                n.span(),
+                "TypeScript namespace declaration is not supported in strip-only mode",
+            );
+        });
+    }
+
+    fn visit_ts_namespace_decl(&mut self, n: &TsNamespaceDecl) {
+        if n.declare {
+            self.add_replacement(n.span);
+            return;
+        }
+
+        HANDLER.with(|handler| {
+            handler.span_err(
+                n.span(),
+                "TypeScript module declaration is not supported in strip-only mode",
+            );
+        });
     }
 
     fn visit_ts_param_prop_param(&mut self, n: &TsParamPropParam) {
-        if matches!(self.mode, Mode::StripOnly) {
-            HANDLER.with(|handler| {
-                handler.span_err(
-                    n.span(),
-                    "TypeScript parameter property is not supported in strip-only mode",
-                );
-            });
-            return;
-        }
-
-        n.visit_children_with(self);
+        HANDLER.with(|handler| {
+            handler.span_err(
+                n.span(),
+                "TypeScript parameter property is not supported in strip-only mode",
+            );
+        });
+        return;
     }
 }
