@@ -7,8 +7,8 @@ use swc_common::{
     BytePos, FileName, SourceMap, Span, Spanned,
 };
 use swc_ecma_ast::{
-    BindingIdent, Decorator, EsVersion, Program, TsAsExpr, TsConstAssertion, TsEnumDecl,
-    TsInstantiation, TsModuleDecl, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam,
+    BindingIdent, Decorator, EsVersion, Ident, Param, Pat, Program, TsAsExpr, TsConstAssertion,
+    TsEnumDecl, TsInstantiation, TsModuleDecl, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam,
     TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
 };
 use swc_ecma_parser::{
@@ -220,6 +220,27 @@ impl Visit for TsStrip {
         if n.optional {
             self.add_replacement(span(n.id.span.hi, n.id.span.hi + BytePos(1)));
         }
+    }
+
+    fn visit_params(&mut self, n: &[Param]) {
+        if let Some(p) = n.first().filter(|param| {
+            matches!(
+                &param.pat,
+                Pat::Ident(BindingIdent {
+                    id: Ident { sym, .. },
+                    ..
+                }) if &**sym == "this"
+            )
+        }) {
+            let lo = p.span.lo;
+            let hi = n.get(1).map(|x| x.span.lo).unwrap_or(p.span.hi);
+            self.add_replacement(span(lo, hi));
+
+            n[1..].visit_children_with(self);
+            return;
+        }
+
+        n.visit_children_with(self);
     }
 }
 
