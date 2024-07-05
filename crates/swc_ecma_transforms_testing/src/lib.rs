@@ -863,13 +863,16 @@ fn test_fixture_inner<'a>(
     let mut sourcemap = None;
 
     let (actual_src, stderr) = Tester::run_captured(|tester| {
-        println!("----- {} -----\n{}", Color::Green.paint("Input"), input);
+        eprintln!("----- {} -----\n{}", Color::Green.paint("Input"), input);
 
         let tr = tr(tester);
 
-        println!("----- {} -----", Color::Green.paint("Actual"));
+        eprintln!("----- {} -----", Color::Green.paint("Actual"));
 
         let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
+
+        eprintln!("----- {} -----", Color::Green.paint("Comments"));
+        eprintln!("{:?}", tester.comments);
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
@@ -935,11 +938,11 @@ fn test_fixture_inner<'a>(
     }
 
     if let Some(actual_src) = actual_src {
-        println!("{}", actual_src);
+        eprintln!("{}", actual_src);
 
         if let Some(sourcemap) = &sourcemap {
-            println!("----- ----- ----- ----- -----");
-            println!("SourceMap: {}", visualizer_url(&actual_src, sourcemap));
+            eprintln!("----- ----- ----- ----- -----");
+            eprintln!("SourceMap: {}", visualizer_url(&actual_src, sourcemap));
         }
 
         if actual_src != expected_src {
