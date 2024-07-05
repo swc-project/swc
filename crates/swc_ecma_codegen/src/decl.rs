@@ -17,7 +17,9 @@ where
 
     pub(super) fn emit_decl_inner(&mut self, node: &Decl, is_stmt: bool) -> Result {
         match node {
-            Decl::Class(ref n) => emit!(self, n),
+            Decl::Class(ref n) => {
+                self.emit_class_decl_inner(n, is_stmt, false)?;
+            }
             Decl::Fn(ref n) => emit!(self, n),
 
             Decl::Var(ref n) => {
@@ -37,7 +39,7 @@ where
 
     #[emitter]
     fn emit_class_decl(&mut self, node: &ClassDecl) -> Result {
-        self.emit_class_decl_inner(node, false)?;
+        self.emit_class_decl_inner(node, false, false)?;
     }
 
     #[emitter]
@@ -64,11 +66,14 @@ where
     pub(super) fn emit_class_decl_inner(
         &mut self,
         node: &ClassDecl,
+        is_stmt: bool,
         skip_decorators: bool,
     ) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        self.adjust_line_for_retain_lines(node.span().lo)?;
+        if is_stmt {
+            self.adjust_line_for_retain_lines(node.span().lo)?;
+        }
 
         srcmap!(self, node, true);
 

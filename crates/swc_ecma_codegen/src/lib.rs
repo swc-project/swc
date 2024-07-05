@@ -245,7 +245,7 @@ where
                 keyword!("export");
 
                 space!();
-                self.emit_class_decl_inner(decl, true)?;
+                self.emit_class_decl_inner(decl, false, true)?;
             }
             _ => {
                 keyword!("export");
