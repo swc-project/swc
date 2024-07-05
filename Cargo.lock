@@ -4905,6 +4905,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_fast_ts_strip"
+version = "0.1.0"
+
+[[package]]
 name = "swc_graph_analyzer"
 version = "0.23.0"
 dependencies = [
