@@ -107,7 +107,12 @@ pub fn operate(
 struct TsStrip {
     cm: Lrc<SourceMap>,
     src: Lrc<String>,
+
+    /// Replaced with whitespace
     replacements: Vec<(BytePos, BytePos)>,
+
+    /// Applied after replacements. Used for arrow functions.
+    removals: Vec<(BytePos, BytePos)>,
 }
 
 impl TsStrip {
@@ -116,6 +121,7 @@ impl TsStrip {
             cm,
             src,
             replacements: Default::default(),
+            removals: Default::default(),
         }
     }
 }
