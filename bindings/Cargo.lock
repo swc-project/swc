@@ -314,6 +314,7 @@ dependencies = [
  "swc_core",
  "swc_ecma_codegen",
  "swc_error_reporters",
+ "swc_fast_ts_strip",
  "tracing",
  "wasm-bindgen",
  "wasm-bindgen-futures",
@@ -3870,6 +3871,17 @@ dependencies = [
  "petgraph",
  "rustc-hash",
  "swc_common",
+]
+
+[[package]]
+name = "swc_fast_ts_strip"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8b318927847fba58352647cf78ee30edfe25d160b5ee9b43c1456b27a181d575"
+dependencies = [
+ "anyhow",
+ "serde",
+ "swc_core",
 ]
 
 [[package]]
