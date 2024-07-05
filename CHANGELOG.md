@@ -28,6 +28,9 @@
 
 - **(bindings/ts)** Add transform/strip-only mode ([#9138](https://github.com/swc-project/swc/issues/9138)) ([a08bb46](https://github.com/swc-project/swc/commit/a08bb46ebd50734b150a1fff100b8312223372a2))
 
+
+- **(es/typescript)** Add `swc_fast_ts_strip` ([#9143](https://github.com/swc-project/swc/issues/9143)) ([b129343](https://github.com/swc-project/swc/commit/b129343c949c43c0ad3eb4ad4676e75dc37067e3))
+
 ### Performance
 
 
@@ -1357,12 +1360,6 @@
 
 
 - **(es/ast)** Add `as_import_with` to `ObjectLit` to provide easier API ([#8405](https://github.com/swc-project/swc/issues/8405)) ([daf6265](https://github.com/swc-project/swc/commit/daf6265af43a8e214adbcee67512bc292d0753ef))
-
-### Performance
-
-
-
-- **(common)** Fix OOM of `inputSourceMap` ([#8402](https://github.com/swc-project/swc/issues/8402)) ([6a73d47](https://github.com/swc-project/swc/commit/6a73d47aa132ea03abcf8008630ca1634bafe389))
 
 ### Refactor
 
