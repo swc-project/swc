@@ -9,7 +9,7 @@ use swc_core::{
     },
     ecma::{
         ast::{
-            Decorator, EsVersion, Program, TsEnumDecl, TsModuleDecl, TsNamespaceDecl,
+            Decorator, EsVersion, Program, TsAsExpr, TsEnumDecl, TsModuleDecl, TsNamespaceDecl,
             TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
         },
         parser::{
@@ -228,6 +228,12 @@ impl Visit for TsStrip<'_> {
 
     fn visit_ts_type_ann(&mut self, n: &TsTypeAnn) {
         self.add_replacement(n.span);
+    }
+
+    fn visit_ts_as_expr(&mut self, n: &TsAsExpr) {
+        self.add_replacement(span(n.expr.span().hi, n.span.hi));
+
+        n.expr.visit_children_with(self);
     }
 
     fn visit_ts_satisfies_expr(&mut self, n: &TsSatisfiesExpr) {

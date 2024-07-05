@@ -75,7 +75,7 @@ describe("transform", () => {
                     {}
                 )
             ).resolves.toMatchInlineSnapshot(`
-                "const foo = 1 as number;
+                "const foo = 1;
                                     const bar = "bar";"
             `);
         });
