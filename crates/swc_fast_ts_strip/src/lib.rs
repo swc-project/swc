@@ -8,8 +8,8 @@ use swc_common::{
 };
 use swc_ecma_ast::{
     BindingIdent, Class, ClassDecl, Decorator, EsVersion, Ident, ImportDecl, ImportSpecifier,
-    Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsInstantiation, TsModuleDecl,
-    TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
+    Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsInstantiation, TsInterfaceDecl,
+    TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
     TsTypeAliasDecl, TsTypeAnn, TsTypeParamDecl,
 };
 use swc_ecma_parser::{
@@ -232,6 +232,10 @@ impl Visit for TsStrip {
         self.add_replacement(span(n.expr.span().hi, n.span.hi));
 
         n.expr.visit_children_with(self);
+    }
+
+    fn visit_ts_interface_decl(&mut self, n: &TsInterfaceDecl) {
+        self.add_replacement(n.span);
     }
 
     fn visit_ts_module_decl(&mut self, n: &TsModuleDecl) {
