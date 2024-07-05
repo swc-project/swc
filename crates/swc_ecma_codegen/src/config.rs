@@ -43,6 +43,8 @@ pub struct Config {
     /// Preserves line and column so the generated output has same line and
     /// column without sourcemap.
     ///
+    /// This does not work for some cases.
+    ///
     /// See https://github.com/swc-project/swc/pull/9144 for details.
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub blank_space_mode: bool,

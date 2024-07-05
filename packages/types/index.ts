@@ -639,6 +639,15 @@ export interface JscConfig {
          * Emit isolated dts files for each module.
          */
         emitIsolatedDts?: boolean;
+
+        /**
+         * Preserves line and column so the generated output has same line and column without sourcemap.
+         *
+         * This does not work for some cases.
+         *
+         * See https://github.com/swc-project/swc/pull/9144 for details.
+         */
+        blankSpaceCodegen?: boolean;
     };
 
     baseUrl?: string;
