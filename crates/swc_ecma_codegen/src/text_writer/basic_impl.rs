@@ -321,6 +321,8 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
         for _ in 0..(n - 1) {
             self.raw_write(self.new_line)?;
         }
+        self.line_count += n - 1;
+
         Ok(())
     }
 }
