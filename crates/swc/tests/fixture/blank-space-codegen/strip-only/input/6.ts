@@ -1,2 +1,4 @@
 (function foo() { })();
+
+
 (function bar() { }());
