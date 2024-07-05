@@ -18,7 +18,7 @@ where
     I: Tokens,
 {
     pub(super) fn may_consume_flow_type_param_decls(&mut self) -> PResult<()> {
-        if !is_one_of!(self, '<', JSXTagStart) {
+        if !is!(self, '<' | JSXTagStart) {
             return Ok(());
         }
 
@@ -240,7 +240,7 @@ where
         let start_pos = self.input.cur_pos();
         self.consume_flow_primary_type()?;
 
-        while is_one_of!(self, '[', '?') && !self.input.had_line_break_before_cur() {
+        while is!(self, '[' | '?') && !self.input.had_line_break_before_cur() {
             let optional = eat!(self, '?');
 
             expect!(self, '[');
@@ -338,14 +338,17 @@ where
             return Ok(());
         }
 
-        if is_one_of!(self, Str, Num, BigInt, "true", "false", "null", "this", '*') {
+        if is!(
+            self,
+            Str | Num | BigInt | "true" | "false" | "null" | "this" | '*'
+        ) {
             self.input.bump();
             return Ok(());
         }
 
-        if is_one_of!(self, '+', '-') {
+        if is!(self, '+' | '-') {
             self.input.bump();
-            if is_one_of!(self, Num, BigInt) {
+            if is!(self, Num | BigInt) {
                 self.input.bump();
                 return Ok(());
             }
@@ -598,7 +601,7 @@ where
                     } else {
                         p.parse_flow_object_type_indexer((), is_static, variance)?
                     }
-                } else if is_one_of!(p, '(', '<') {
+                } else if is!(p, '(' | '<') {
                     if proto_start_loc.is_some() {
                         unexpected!(p, "( after proto")
                     }
@@ -666,7 +669,7 @@ where
     ) -> PResult<Option<()>> {
         if eat!(self, "...") {
             // TODO: braceBarR
-            let is_inexact_token = is_one_of!(self, ',', ';', '}');
+            let is_inexact_token = is!(self, ',' | ';' | '}');
 
             if is_inexact_token {
                 if !allow_spread {
@@ -700,7 +703,7 @@ where
 
             let mut optional = false;
 
-            if is_one_of!(self, '<', '(') {
+            if is!(self, '<' | '(') {
                 // This is a method property
 
                 if proto_start_loc.is_some() {
@@ -761,7 +764,7 @@ where
     /// Ported from `flowParseObjectPropertyKey`
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn consume_flow_object_property_key(&mut self) -> PResult<()> {
-        if is_one_of!(self, Str, Num) {
+        if is!(self, Str | Num) {
             self.input.bump();
         } else {
             self.parse_ident_name()?;
@@ -847,7 +850,7 @@ where
         expect!(self, ']');
         expect!(self, ']');
 
-        if is_one_of!(self, '<', '(') {
+        if is!(self, '<' | '(') {
             self.consume_flow_object_type_methodish(())?;
         } else {
             eat!(self, '?');
@@ -961,7 +964,7 @@ where
             return Ok(Some(()));
         }
 
-        if is_one_of!(p, "var", "const", "let") {
+        if is!(p, "var" | "const" | "let") {
             p.parse_var_stmt(false)?;
             return Ok(Some(()));
         }
@@ -995,7 +998,7 @@ where
 
         let type_only = is!(self, "type");
 
-        if is_one_of!(self, '{', '*') || (is!(self, "type") && peeked_is!(self, '*')) {
+        if is!(self, '{' | '*') || (is!(self, "type") && peeked_is!(self, '*')) {
             self.parse_reexports(start, type_only, None, start)?;
             return Ok(Some(()));
         }
@@ -1010,7 +1013,7 @@ where
             return Ok(Some(()));
         }
 
-        if is_one_of!(self, "var", "const", "let") {
+        if is!(self, "var" | "const" | "let") {
             self.parse_var_stmt(false)?;
             return Ok(Some(()));
         }
@@ -1070,7 +1073,7 @@ where
     fn consume_flow_module_declaration(&mut self) -> PResult<()> {
         assert_and_bump!(self, "module");
 
-        if is_one_of!(self, IdentName, Str) {
+        if is!(self, IdentName | Str) {
             bump!(self);
         } else {
             unexpected!(self, "module name")
