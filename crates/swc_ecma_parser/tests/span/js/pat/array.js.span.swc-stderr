@@ -1,136 +1,113 @@
-
   x Module
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Decl
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x VarDecl
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x VarDeclarator
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Pat
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :     ^^^^^^^^^^^^^^^^^^
    `----
-
   x ArrayPat
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :     ^^^^^^^^^^^^^^^^^^
    `----
-
   x Pat
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :      ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :      ^
    `----
-
   x Pat
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :         ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :         ^
    `----
-
   x Pat
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :            ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :            ^
    `----
-
   x Pat
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :               ^^^^^^^
    `----
-
   x RestPat
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :               ^^^^^^^
    `----
-
   x Pat
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :                  ^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :                  ^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :                          ^^^^^
    `----
-
   x CallExpr
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :                          ^^^^^
    `----
-
   x Callee
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :                          ^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()
    :                          ^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/pat/array.js:1:1]
  1 | let [a, b, c, ...rest] = foo()

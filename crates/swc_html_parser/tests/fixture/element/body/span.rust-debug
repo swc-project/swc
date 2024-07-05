@@ -1,154 +1,128 @@
-
   x Document
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                      ^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                                      ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                                      ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                                             ^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                                             ^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                                                                          ^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                                                                          ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                                                                               ^^^^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                                                                               ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                                                                                         ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                                                                                         ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                                                                                            ^^^^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                                                                                            ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                                                                                                    ^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                                                                                                    ^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>
    :                                                                                                       ^^^^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/body/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body><div>test</div><p>test</p><p>Test</body></html>

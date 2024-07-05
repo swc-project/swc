@@ -1,383 +1,328 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | ,-> :matches(ul) li {}
  2 | `-> :matches(ul, ol) li {}
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    : ^^^^^^^^^^^^^^^^^^
  2 | :matches(ul, ol) li {}
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    : ^^^^^^^^^^^^^^^^^^
  2 | :matches(ul, ol) li {}
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    : ^^^^^^^^^^^^^^^
  2 | :matches(ul, ol) li {}
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    : ^^^^^^^^^^^^^^^
  2 | :matches(ul, ol) li {}
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    : ^^^^^^^^^^^^
  2 | :matches(ul, ol) li {}
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    : ^^^^^^^^^^^^
  2 | :matches(ul, ol) li {}
    `----
-
   x PseudoClassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    : ^^^^^^^^^^^^
  2 | :matches(ul, ol) li {}
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    :  ^^^^^^^
  2 | :matches(ul, ol) li {}
    `----
-
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    :          ^^
  2 | :matches(ul, ol) li {}
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    :          ^^
  2 | :matches(ul, ol) li {}
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    :          ^^
  2 | :matches(ul, ol) li {}
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    :          ^^
  2 | :matches(ul, ol) li {}
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    :          ^^
  2 | :matches(ul, ol) li {}
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    :          ^^
  2 | :matches(ul, ol) li {}
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    :          ^^
  2 | :matches(ul, ol) li {}
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    :          ^^
  2 | :matches(ul, ol) li {}
    `----
-
   x Combinator
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    :             ^
  2 | :matches(ul, ol) li {}
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    :              ^^
  2 | :matches(ul, ol) li {}
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    :              ^^
  2 | :matches(ul, ol) li {}
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    :              ^^
  2 | :matches(ul, ol) li {}
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    :              ^^
  2 | :matches(ul, ol) li {}
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    :              ^^
  2 | :matches(ul, ol) li {}
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    :                 ^^
  2 | :matches(ul, ol) li {}
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | :matches(ul) li {}
    :                 ^
  2 | :matches(ul, ol) li {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    : ^^^^^^^^^^^^^^^^
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    : ^^^^^^^^^^^^^^^^
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    : ^^^^^^^^^^^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :  ^^^^^^^
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :          ^^^^^^
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :          ^^^^^^
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :          ^^
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :          ^^
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :          ^^
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :          ^^
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :          ^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :          ^^
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :              ^^
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :              ^^
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :              ^^
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :              ^^
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :              ^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :              ^^
    `----
-
   x Combinator
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :                 ^
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :                  ^^
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :                  ^^
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :                  ^^
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :                  ^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :                  ^^
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :                     ^^
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  1 | :matches(ul) li {}
  2 | :matches(ul, ol) li {}
    :                     ^

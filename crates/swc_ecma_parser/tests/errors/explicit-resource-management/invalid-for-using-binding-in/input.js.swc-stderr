@@ -1,4 +1,3 @@
-
   x Using declaration is not allowed in for-in loop
    ,-[$DIR/tests/errors/explicit-resource-management/invalid-for-using-binding-in/input.js:1:1]
  1 | for (using foo in {});

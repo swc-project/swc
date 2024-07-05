@@ -1,4 +1,3 @@
-
   x Trailing comma is not allowed
    ,-[$DIR/tests/test262-parser/fail/d5834ae85b6636ef.js:1:1]
  1 | var x, y,

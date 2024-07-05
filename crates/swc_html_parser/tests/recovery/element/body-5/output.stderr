@@ -1,6 +1,5 @@
-
   x Non void html element start tag with trailing solidus
-   ,-[$DIR/tests/recovery/element/body-5/input.html:5:1]
+   ,-[$DIR/tests/recovery/element/body-5/input.html:6:1]
  5 | </head>
  6 | <body/>
    : ^^^^^^^

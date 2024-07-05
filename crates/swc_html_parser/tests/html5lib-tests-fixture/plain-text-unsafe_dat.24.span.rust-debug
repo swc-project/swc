@@ -1,46 +1,37 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/plain-text-unsafe_dat.24.html:1:1]
  1 | <!DOCTYPE html><pre>A</pre>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/plain-text-unsafe_dat.24.html:1:1]
  1 | <!DOCTYPE html><pre>A</pre>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/plain-text-unsafe_dat.24.html:1:1]
  1 | <!DOCTYPE html><pre>A</pre>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/plain-text-unsafe_dat.24.html:1:1]
  1 | <!DOCTYPE html><pre>A</pre>
-   :                ^^^^^^^^^^^^^^
+   :                ^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/plain-text-unsafe_dat.24.html:1:1]
  1 | <!DOCTYPE html><pre>A</pre>
-   :                ^^^^^^^^^^^^^^
+   :                ^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/plain-text-unsafe_dat.24.html:1:1]
  1 | <!DOCTYPE html><pre>A</pre>
-   :                      ^^
+   :                     ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/plain-text-unsafe_dat.24.html:1:1]
  1 | <!DOCTYPE html><pre>A</pre>
-   :                      ^^
+   :                     ^
    `----

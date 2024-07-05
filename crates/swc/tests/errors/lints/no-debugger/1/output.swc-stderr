@@ -1,6 +1,5 @@
-
   x Unexpected 'debugger' statement
-   ,-[1:1]
+   ,-[2:1]
  1 | function f() {
  2 |     debugger;
    :     ^^^^^^^^^
@@ -8,9 +7,8 @@
  4 | 
  5 | debugger;
    `----
-
   x Unexpected 'debugger' statement
-   ,-[2:1]
+   ,-[5:1]
  2 |     debugger;
  3 | }
  4 | 

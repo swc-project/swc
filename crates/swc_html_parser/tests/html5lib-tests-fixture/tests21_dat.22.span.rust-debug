@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.22.html:1:1]
  1 | <svg><![CDATA[<svg>]]><!--path-->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.22.html:1:1]
  1 | <svg><![CDATA[<svg>]]><!--path-->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.22.html:1:1]
  1 | <svg><![CDATA[<svg>]]><!--path-->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.22.html:1:1]
  1 | <svg><![CDATA[<svg>]]><!--path-->
    :      ^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.22.html:1:1]
  1 | <svg><![CDATA[<svg>]]><!--path-->
    :      ^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.22.html:1:1]
  1 | <svg><![CDATA[<svg>]]><!--path-->
    :                    ^^^^^^^^^^^^^^
    `----
-
   x Comment
    ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.22.html:1:1]
  1 | <svg><![CDATA[<svg>]]><!--path-->

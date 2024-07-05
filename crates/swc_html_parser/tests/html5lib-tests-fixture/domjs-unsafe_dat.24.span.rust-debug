@@ -1,38 +1,30 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.24.html:1:1]
  1 | <script type="data"><!--</scrip </script>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.24.html:1:1]
  1 | <script type="data"><!--</scrip </script>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.24.html:1:1]
  1 | <script type="data"><!--</scrip </script>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.24.html:1:1]
  1 | <script type="data"><!--</scrip </script>
    :         ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.24.html:1:1]
  1 | <script type="data"><!--</scrip </script>
    :                     ^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.24.html:1:1]
  1 | <script type="data"><!--</scrip </script>

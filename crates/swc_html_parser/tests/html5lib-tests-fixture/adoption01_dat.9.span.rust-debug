@@ -1,152 +1,125 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    :    ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    :    ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    :     ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    :     ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    :        ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    :               ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    :               ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    :                ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    :                ^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    :                   ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    :                          ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    :                          ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    :                ^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    :                ^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    :                               ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    :                               ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
    :                                    ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
  1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>

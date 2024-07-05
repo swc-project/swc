@@ -1,92 +1,75 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.5.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.5.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :        ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.5.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :        ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.5.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :           ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.5.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :           ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.5.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :            ^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.5.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :            ^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.5.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :               ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.5.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :               ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.5.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :               ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.5.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :               ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.5.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :                    ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.5.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :                    ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.5.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.5.html:1:1]
  1 | <table><a>1<p>2</a>3</p>

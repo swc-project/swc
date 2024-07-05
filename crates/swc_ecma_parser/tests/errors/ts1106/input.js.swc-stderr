@@ -1,6 +1,5 @@
-
   x The left-hand side of a `for...of` statement may not be `async`
-   ,-[$DIR/tests/errors/ts1106/input.js:1:1]
+   ,-[$DIR/tests/errors/ts1106/input.js:2:1]
  1 | let async;
  2 | for (async of [1]) ;
    :      ^^^^^

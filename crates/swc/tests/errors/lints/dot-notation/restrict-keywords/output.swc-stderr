@@ -1,4 +1,3 @@
-
   x ['break'] is better written in dot notation
    ,----
  1 | obj['break'];

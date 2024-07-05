@@ -1,4 +1,3 @@
-
   x Expression expected
    ,-[$DIR/tests/test262-parser/fail/fdf261094edffb09.js:1:1]
  1 | ({a:for} = 0)

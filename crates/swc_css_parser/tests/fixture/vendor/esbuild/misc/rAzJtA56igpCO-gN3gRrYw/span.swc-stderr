@@ -1,106 +1,88 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1]
  1 | a { value: 'a\62c' }
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1]
  1 | a { value: 'a\62c' }
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1]
  1 | a { value: 'a\62c' }
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1]
  1 | a { value: 'a\62c' }
    : ^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1]
  1 | a { value: 'a\62c' }
    : ^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1]
  1 | a { value: 'a\62c' }
    : ^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1]
  1 | a { value: 'a\62c' }
    : ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1]
  1 | a { value: 'a\62c' }
    : ^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1]
  1 | a { value: 'a\62c' }
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1]
  1 | a { value: 'a\62c' }
    : ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1]
  1 | a { value: 'a\62c' }
    :   ^^^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1]
  1 | a { value: 'a\62c' }
    :   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1]
  1 | a { value: 'a\62c' }
    :     ^^^^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1]
  1 | a { value: 'a\62c' }
    :     ^^^^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1]
  1 | a { value: 'a\62c' }
    :     ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1]
  1 | a { value: 'a\62c' }
    :     ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1]
  1 | a { value: 'a\62c' }
    :            ^^^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1]
  1 | a { value: 'a\62c' }

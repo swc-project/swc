@@ -1,4 +1,3 @@
-
   x Expected ';', '}' or <eof>
    ,-[$DIR/tests/test262-parser/fail/4a19d40213c79876.js:1:1]
  1 | i #= 0

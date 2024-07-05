@@ -1,86 +1,70 @@
-
   x Document
    ,-[$DIR/tests/recovery/element/template-5/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/template-5/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/recovery/element/template-5/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/element/template-5/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/template-5/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x DocumentFragment
    ,-[$DIR/tests/recovery/element/template-5/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/template-5/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    :                          ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/template-5/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    :                          ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/template-5/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    :                              ^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/template-5/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    :                              ^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/template-5/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    :                                  ^^^^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/element/template-5/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    :                                  ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/template-5/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    :                                                ^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/element/template-5/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>

@@ -1,4 +1,3 @@
-
   x Expected ident
    ,-[$DIR/tests/typescript-errors/type-only-import-specifier/missing-local/input.ts:1:1]
  1 | import { type foo as } from 'mod'

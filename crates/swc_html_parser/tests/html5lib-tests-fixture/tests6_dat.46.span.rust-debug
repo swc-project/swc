@@ -1,34 +1,27 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.46.html:1:1]
  1 | <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"><html></html>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.46.html:1:1]
  1 | <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"><html></html>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.46.html:1:1]
  1 | <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"><html></html>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.46.html:1:1]
  1 | <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"><html></html>
    :                                                   ^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.46.html:1:1]
  1 | <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"><html></html>
    :                                                   ^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element

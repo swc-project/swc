@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.0.html:1:1]
  1 | ,-> <svg><![CDATA[foo
  2 | `-> bar]]>
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.0.html:1:1]
  1 | ,-> <svg><![CDATA[foo
  2 | `-> bar]]>
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.0.html:1:1]
  1 | ,-> <svg><![CDATA[foo
  2 | `-> bar]]>
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.0.html:1:1]
  1 | ,-> <svg><![CDATA[foo
  2 | `-> bar]]>
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.0.html:1:1]
  1 | ,-> <svg><![CDATA[foo

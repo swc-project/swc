@@ -1,4 +1,3 @@
-
   x 'import', and 'export' cannot be used outside of module code
    ,-[$DIR/tests/test262-parser/fail/02a5ebb2378de234.js:1:1]
  1 | import * as enum from 'foo'

@@ -1,4 +1,3 @@
-
   x The left-hand side of an assignment expression must be a variable or a property access.
    ,-[$DIR/tests/test262-parser/fail/5ab1050053c11514.js:1:1]
  1 | for((1 + 1) in list) process(x);

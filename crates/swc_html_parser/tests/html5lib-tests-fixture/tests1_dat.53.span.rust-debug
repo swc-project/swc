@@ -1,68 +1,55 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
  1 | <b id=a><p><b id=b></p></b>TEST
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
  1 | <b id=a><p><b id=b></p></b>TEST
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
  1 | <b id=a><p><b id=b></p></b>TEST
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
  1 | <b id=a><p><b id=b></p></b>TEST
    :    ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
  1 | <b id=a><p><b id=b></p></b>TEST
    :         ^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
  1 | <b id=a><p><b id=b></p></b>TEST
    :         ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
  1 | <b id=a><p><b id=b></p></b>TEST
    :            ^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
  1 | <b id=a><p><b id=b></p></b>TEST
    :            ^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
  1 | <b id=a><p><b id=b></p></b>TEST
    :               ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
  1 | <b id=a><p><b id=b></p></b>TEST
    :                            ^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
  1 | <b id=a><p><b id=b></p></b>TEST

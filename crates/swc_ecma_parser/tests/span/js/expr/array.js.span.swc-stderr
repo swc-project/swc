@@ -1,118 +1,98 @@
-
   x Module
    ,-[$DIR/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x ExprStmt
    ,-[$DIR/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x ParenExpr
    ,-[$DIR/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    :  ^^^^^^^^^^^^^^^^^
    `----
-
   x ArrayLit
    ,-[$DIR/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    :  ^^^^^^^^^^^^^^^^^
    `----
-
   x ExprOrSpread
    ,-[$DIR/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    :   ^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    :   ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    :   ^
    `----
-
   x ExprOrSpread
    ,-[$DIR/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    :      ^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    :      ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    :      ^
    `----
-
   x ExprOrSpread
    ,-[$DIR/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    :         ^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    :         ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    :         ^
    `----
-
   x ExprOrSpread
    ,-[$DIR/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    :            ^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])
    :               ^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/array.js:1:1]
  1 | ([a, b, c, ...foo])

@@ -1,76 +1,63 @@
-
   x Module
    ,-[$DIR/tests/span/js/decl/import-string-names-2.js:1:1]
  1 | import { "foo" as bar, "default" as qux } from "module-a"
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/decl/import-string-names-2.js:1:1]
  1 | import { "foo" as bar, "default" as qux } from "module-a"
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleDecl
    ,-[$DIR/tests/span/js/decl/import-string-names-2.js:1:1]
  1 | import { "foo" as bar, "default" as qux } from "module-a"
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ImportDecl
    ,-[$DIR/tests/span/js/decl/import-string-names-2.js:1:1]
  1 | import { "foo" as bar, "default" as qux } from "module-a"
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ImportSpecifier
    ,-[$DIR/tests/span/js/decl/import-string-names-2.js:1:1]
  1 | import { "foo" as bar, "default" as qux } from "module-a"
    :          ^^^^^^^^^^^^
    `----
-
   x ImportNamedSpecifier
    ,-[$DIR/tests/span/js/decl/import-string-names-2.js:1:1]
  1 | import { "foo" as bar, "default" as qux } from "module-a"
    :          ^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/decl/import-string-names-2.js:1:1]
  1 | import { "foo" as bar, "default" as qux } from "module-a"
    :                   ^^^
    `----
-
   x Str
    ,-[$DIR/tests/span/js/decl/import-string-names-2.js:1:1]
  1 | import { "foo" as bar, "default" as qux } from "module-a"
    :          ^^^^^
    `----
-
   x ImportSpecifier
    ,-[$DIR/tests/span/js/decl/import-string-names-2.js:1:1]
  1 | import { "foo" as bar, "default" as qux } from "module-a"
    :                        ^^^^^^^^^^^^^^^^
    `----
-
   x ImportNamedSpecifier
    ,-[$DIR/tests/span/js/decl/import-string-names-2.js:1:1]
  1 | import { "foo" as bar, "default" as qux } from "module-a"
    :                        ^^^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/decl/import-string-names-2.js:1:1]
  1 | import { "foo" as bar, "default" as qux } from "module-a"
    :                                     ^^^
    `----
-
   x Str
    ,-[$DIR/tests/span/js/decl/import-string-names-2.js:1:1]
  1 | import { "foo" as bar, "default" as qux } from "module-a"
    :                        ^^^^^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/span/js/decl/import-string-names-2.js:1:1]
  1 | import { "foo" as bar, "default" as qux } from "module-a"

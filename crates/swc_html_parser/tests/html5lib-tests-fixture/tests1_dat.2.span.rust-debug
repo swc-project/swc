@@ -1,92 +1,75 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.2.html:1:1]
  1 | Line1<br>Line2<br>Line3<br>Line4
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.2.html:1:1]
  1 | Line1<br>Line2<br>Line3<br>Line4
    : ^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.2.html:1:1]
  1 | Line1<br>Line2<br>Line3<br>Line4
    : ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.2.html:1:1]
  1 | Line1<br>Line2<br>Line3<br>Line4
    :      ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.2.html:1:1]
  1 | Line1<br>Line2<br>Line3<br>Line4
    :      ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.2.html:1:1]
  1 | Line1<br>Line2<br>Line3<br>Line4
    :          ^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.2.html:1:1]
  1 | Line1<br>Line2<br>Line3<br>Line4
    :          ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.2.html:1:1]
  1 | Line1<br>Line2<br>Line3<br>Line4
    :               ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.2.html:1:1]
  1 | Line1<br>Line2<br>Line3<br>Line4
    :               ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.2.html:1:1]
  1 | Line1<br>Line2<br>Line3<br>Line4
    :                   ^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.2.html:1:1]
  1 | Line1<br>Line2<br>Line3<br>Line4
    :                   ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.2.html:1:1]
  1 | Line1<br>Line2<br>Line3<br>Line4
    :                        ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.2.html:1:1]
  1 | Line1<br>Line2<br>Line3<br>Line4
    :                        ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.2.html:1:1]
  1 | Line1<br>Line2<br>Line3<br>Line4
    :                            ^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.2.html:1:1]
  1 | Line1<br>Line2<br>Line3<br>Line4

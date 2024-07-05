@@ -1,118 +1,98 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/rome/media/ratio/input.css:1:1]
  1 | @media (aspect-ratio: 12/9) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/rome/media/ratio/input.css:1:1]
  1 | @media (aspect-ratio: 12/9) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/vendor/rome/media/ratio/input.css:1:1]
  1 | @media (aspect-ratio: 12/9) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/rome/media/ratio/input.css:1:1]
  1 | @media (aspect-ratio: 12/9) {}
    :  ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/rome/media/ratio/input.css:1:1]
  1 | @media (aspect-ratio: 12/9) {}
    :  ^^^^^
    `----
-
   x MediaQueryList
    ,-[$DIR/tests/fixture/vendor/rome/media/ratio/input.css:1:1]
  1 | @media (aspect-ratio: 12/9) {}
    :        ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x MediaQuery
    ,-[$DIR/tests/fixture/vendor/rome/media/ratio/input.css:1:1]
  1 | @media (aspect-ratio: 12/9) {}
    :        ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x MediaCondition
    ,-[$DIR/tests/fixture/vendor/rome/media/ratio/input.css:1:1]
  1 | @media (aspect-ratio: 12/9) {}
    :        ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x MediaConditionAllType
    ,-[$DIR/tests/fixture/vendor/rome/media/ratio/input.css:1:1]
  1 | @media (aspect-ratio: 12/9) {}
    :        ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x MediaInParens
    ,-[$DIR/tests/fixture/vendor/rome/media/ratio/input.css:1:1]
  1 | @media (aspect-ratio: 12/9) {}
    :        ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x MediaFeature
    ,-[$DIR/tests/fixture/vendor/rome/media/ratio/input.css:1:1]
  1 | @media (aspect-ratio: 12/9) {}
    :        ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x MediaFeaturePlain
    ,-[$DIR/tests/fixture/vendor/rome/media/ratio/input.css:1:1]
  1 | @media (aspect-ratio: 12/9) {}
    :        ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x MediaFeatureName
    ,-[$DIR/tests/fixture/vendor/rome/media/ratio/input.css:1:1]
  1 | @media (aspect-ratio: 12/9) {}
    :         ^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/rome/media/ratio/input.css:1:1]
  1 | @media (aspect-ratio: 12/9) {}
    :         ^^^^^^^^^^^^
    `----
-
   x MediaFeatureValue
    ,-[$DIR/tests/fixture/vendor/rome/media/ratio/input.css:1:1]
  1 | @media (aspect-ratio: 12/9) {}
    :                       ^^^^
    `----
-
   x Ratio
    ,-[$DIR/tests/fixture/vendor/rome/media/ratio/input.css:1:1]
  1 | @media (aspect-ratio: 12/9) {}
    :                       ^^^^
    `----
-
   x Number
    ,-[$DIR/tests/fixture/vendor/rome/media/ratio/input.css:1:1]
  1 | @media (aspect-ratio: 12/9) {}
    :                       ^^
    `----
-
   x Number
    ,-[$DIR/tests/fixture/vendor/rome/media/ratio/input.css:1:1]
  1 | @media (aspect-ratio: 12/9) {}
    :                          ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/rome/media/ratio/input.css:1:1]
  1 | @media (aspect-ratio: 12/9) {}
    :                             ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/media/ratio/input.css:1:1]
  1 | @media (aspect-ratio: 12/9) {}

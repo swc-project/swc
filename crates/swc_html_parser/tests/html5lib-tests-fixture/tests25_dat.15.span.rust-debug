@@ -1,20 +1,15 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.15.html:1:1]
  1 | </keygen>A
    : ^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.15.html:1:1]
  1 | </keygen>A
    :          ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.15.html:1:1]
  1 | </keygen>A

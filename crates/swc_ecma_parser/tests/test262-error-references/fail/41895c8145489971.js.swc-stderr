@@ -1,4 +1,3 @@
-
   x Unexpected eof
    ,-[$DIR/tests/test262-parser/fail/41895c8145489971.js:1:1]
  1 | `hello ${10 `test`

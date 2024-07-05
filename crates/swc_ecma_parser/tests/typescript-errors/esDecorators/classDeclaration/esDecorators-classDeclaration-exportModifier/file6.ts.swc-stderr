@@ -1,6 +1,5 @@
-
   x Decorators may not appear after `export` or `export default` if they also appear before `export`.
-   ,-[$DIR/tests/typescript-errors/esDecorators/classDeclaration/esDecorators-classDeclaration-exportModifier/file6.ts:3:1]
+   ,-[$DIR/tests/typescript-errors/esDecorators/classDeclaration/esDecorators-classDeclaration-exportModifier/file6.ts:4:1]
  3 | // error
  4 | @dec export @dec class C6 {}
    :             ^^^^

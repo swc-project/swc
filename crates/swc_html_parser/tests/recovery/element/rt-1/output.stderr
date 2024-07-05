@@ -1,10 +1,8 @@
-
   x Start tag "rt" seen without a "ruby" element being open
    ,-[$DIR/tests/recovery/element/rt-1/input.html:1:1]
  1 | <!doctype html><div><p><rt>
    :                        ^^^^
    `----
-
   x End of file seen and there were open elements
    ,-[$DIR/tests/recovery/element/rt-1/input.html:1:1]
  1 | <!doctype html><div><p><rt>

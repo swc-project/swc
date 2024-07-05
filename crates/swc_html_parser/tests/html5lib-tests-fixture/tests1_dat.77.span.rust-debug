@@ -1,152 +1,125 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    :    ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    :                ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    :                ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    :                          ^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    :                          ^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    :                             ^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    :                                        ^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    :                                        ^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    :                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    :                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    :                                                            ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    :                                                            ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    :                                          ^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    :                                          ^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    :                                              ^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    :                                              ^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    :                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    :                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe
    :                                                                     ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.77.html:1:1]
  1 | <a href="blah">aba<table><a href="foo">br<tr><td></td></tr>x</table>aoe

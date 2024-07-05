@@ -1,4 +1,3 @@
-
   x Expected '{', got 'numeric literal (1, 1)'
    ,-[$DIR/tests/test262-parser/fail/e82474d52b99f1b7.js:1:1]
  1 | function a() 1 // expression closure is not supported

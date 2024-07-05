@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.6.fragment_head.html:1:1]
  1 | <title>setting head's innerHTML</title>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.6.fragment_head.html:1:1]
  1 | <title>setting head's innerHTML</title>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.6.fragment_head.html:1:1]
  1 | <title>setting head's innerHTML</title>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.6.fragment_head.html:1:1]
  1 | <title>setting head's innerHTML</title>
    :        ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.6.fragment_head.html:1:1]
  1 | <title>setting head's innerHTML</title>

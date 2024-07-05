@@ -1,4 +1,3 @@
-
   x Identifier cannot follow number
    ,-[$DIR/tests/test262-parser/fail/8b1bf74ad28fc10c.js:1:1]
  1 | 01a

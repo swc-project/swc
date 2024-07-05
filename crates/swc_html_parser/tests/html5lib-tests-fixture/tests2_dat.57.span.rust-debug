@@ -1,62 +1,50 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.57.html:1:1]
  1 | <!DOCTYPE html>X<p/x/y/z>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.57.html:1:1]
  1 | <!DOCTYPE html>X<p/x/y/z>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.57.html:1:1]
  1 | <!DOCTYPE html>X<p/x/y/z>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.57.html:1:1]
  1 | <!DOCTYPE html>X<p/x/y/z>
    :                ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.57.html:1:1]
  1 | <!DOCTYPE html>X<p/x/y/z>
    :                ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.57.html:1:1]
  1 | <!DOCTYPE html>X<p/x/y/z>
    :                 ^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.57.html:1:1]
  1 | <!DOCTYPE html>X<p/x/y/z>
    :                 ^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.57.html:1:1]
  1 | <!DOCTYPE html>X<p/x/y/z>
    :                    ^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.57.html:1:1]
  1 | <!DOCTYPE html>X<p/x/y/z>
    :                      ^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.57.html:1:1]
  1 | <!DOCTYPE html>X<p/x/y/z>

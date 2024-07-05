@@ -1,68 +1,55 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.33.html:1:1]
  1 | <!doctype html><frameset></frameset></html><noframes>abc</noframes><!--abc-->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.33.html:1:1]
  1 | <!doctype html><frameset></frameset></html><noframes>abc</noframes><!--abc-->
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.33.html:1:1]
  1 | <!doctype html><frameset></frameset></html><noframes>abc</noframes><!--abc-->
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.33.html:1:1]
  1 | <!doctype html><frameset></frameset></html><noframes>abc</noframes><!--abc-->
    :                ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.33.html:1:1]
  1 | <!doctype html><frameset></frameset></html><noframes>abc</noframes><!--abc-->
    :                ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.33.html:1:1]
  1 | <!doctype html><frameset></frameset></html><noframes>abc</noframes><!--abc-->
    :                                            ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.33.html:1:1]
  1 | <!doctype html><frameset></frameset></html><noframes>abc</noframes><!--abc-->
    :                                            ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.33.html:1:1]
  1 | <!doctype html><frameset></frameset></html><noframes>abc</noframes><!--abc-->
    :                                                      ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.33.html:1:1]
  1 | <!doctype html><frameset></frameset></html><noframes>abc</noframes><!--abc-->
    :                                                      ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.33.html:1:1]
  1 | <!doctype html><frameset></frameset></html><noframes>abc</noframes><!--abc-->
    :                                                                    ^^^^^^^^^^
    `----
-
   x Comment
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.33.html:1:1]
  1 | <!doctype html><frameset></frameset></html><noframes>abc</noframes><!--abc-->

@@ -1,6 +1,5 @@
-
   x Unexpected token `zed`. Expected * for generator, private key, identifier or async
-   ,-[$DIR/tests/typescript-errors/issue-3262/input.ts:2:1]
+   ,-[$DIR/tests/typescript-errors/issue-3262/input.ts:3:1]
  2 |     @labels("bar")
  3 |     function zed() { }
    :              ^^^

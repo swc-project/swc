@@ -1,7 +1,6 @@
 //// [deleteOperatorWithEnumType.ts]
-//! 
 //!   x 'delete' cannot be called on an identifier in strict mode
-//!     ,-[4:1]
+//!     ,-[7:1]
 //!   4 | enum ENUM1 { A, B, "" };
 //!   5 | 
 //!   6 | // enum type var
@@ -11,9 +10,8 @@
 //!   9 | 
 //!  10 | // enum type expressions
 //!     `----
-//! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[4:1]
+//!     ,-[7:1]
 //!   4 | enum ENUM1 { A, B, "" };
 //!   5 | 
 //!   6 | // enum type var
@@ -23,9 +21,8 @@
 //!   9 | 
 //!  10 | // enum type expressions
 //!     `----
-//! 
 //!   x 'delete' cannot be called on an identifier in strict mode
-//!     ,-[5:1]
+//!     ,-[8:1]
 //!   5 | 
 //!   6 | // enum type var
 //!   7 | var ResultIsBoolean1 = delete ENUM;
@@ -35,9 +32,8 @@
 //!  10 | // enum type expressions
 //!  11 | var ResultIsBoolean3 = delete ENUM1["A"];
 //!     `----
-//! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[5:1]
+//!     ,-[8:1]
 //!   5 | 
 //!   6 | // enum type var
 //!   7 | var ResultIsBoolean1 = delete ENUM;
@@ -47,9 +43,8 @@
 //!  10 | // enum type expressions
 //!  11 | var ResultIsBoolean3 = delete ENUM1["A"];
 //!     `----
-//! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[9:1]
+//!     ,-[12:1]
 //!   9 | 
 //!  10 | // enum type expressions
 //!  11 | var ResultIsBoolean3 = delete ENUM1["A"];
@@ -59,9 +54,8 @@
 //!  14 | // multiple delete  operators
 //!  15 | var ResultIsBoolean5 = delete delete ENUM;
 //!     `----
-//! 
 //!   x 'delete' cannot be called on an identifier in strict mode
-//!     ,-[12:1]
+//!     ,-[15:1]
 //!  12 | var ResultIsBoolean4 = delete (ENUM[0] + ENUM1["B"]);
 //!  13 | 
 //!  14 | // multiple delete  operators
@@ -71,9 +65,8 @@
 //!  17 | 
 //!  18 | // miss assignment operators
 //!     `----
-//! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[12:1]
+//!     ,-[15:1]
 //!  12 | var ResultIsBoolean4 = delete (ENUM[0] + ENUM1["B"]);
 //!  13 | 
 //!  14 | // multiple delete  operators
@@ -83,9 +76,8 @@
 //!  17 | 
 //!  18 | // miss assignment operators
 //!     `----
-//! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[12:1]
+//!     ,-[15:1]
 //!  12 | var ResultIsBoolean4 = delete (ENUM[0] + ENUM1["B"]);
 //!  13 | 
 //!  14 | // multiple delete  operators
@@ -95,9 +87,8 @@
 //!  17 | 
 //!  18 | // miss assignment operators
 //!     `----
-//! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[13:1]
+//!     ,-[16:1]
 //!  13 | 
 //!  14 | // multiple delete  operators
 //!  15 | var ResultIsBoolean5 = delete delete ENUM;
@@ -107,9 +98,8 @@
 //!  18 | // miss assignment operators
 //!  19 | delete ENUM;
 //!     `----
-//! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[13:1]
+//!     ,-[16:1]
 //!  13 | 
 //!  14 | // multiple delete  operators
 //!  15 | var ResultIsBoolean5 = delete delete ENUM;
@@ -119,9 +109,8 @@
 //!  18 | // miss assignment operators
 //!  19 | delete ENUM;
 //!     `----
-//! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[13:1]
+//!     ,-[16:1]
 //!  13 | 
 //!  14 | // multiple delete  operators
 //!  15 | var ResultIsBoolean5 = delete delete ENUM;
@@ -131,9 +120,8 @@
 //!  18 | // miss assignment operators
 //!  19 | delete ENUM;
 //!     `----
-//! 
 //!   x 'delete' cannot be called on an identifier in strict mode
-//!     ,-[16:1]
+//!     ,-[19:1]
 //!  16 | var ResultIsBoolean6 = delete delete delete (ENUM[0] + ENUM1["B"]);
 //!  17 | 
 //!  18 | // miss assignment operators
@@ -143,9 +131,8 @@
 //!  21 | delete ENUM1.B;
 //!  22 | delete ENUM, ENUM1;
 //!     `----
-//! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[16:1]
+//!     ,-[19:1]
 //!  16 | var ResultIsBoolean6 = delete delete delete (ENUM[0] + ENUM1["B"]);
 //!  17 | 
 //!  18 | // miss assignment operators
@@ -155,9 +142,8 @@
 //!  21 | delete ENUM1.B;
 //!  22 | delete ENUM, ENUM1;
 //!     `----
-//! 
 //!   x 'delete' cannot be called on an identifier in strict mode
-//!     ,-[17:1]
+//!     ,-[20:1]
 //!  17 | 
 //!  18 | // miss assignment operators
 //!  19 | delete ENUM;
@@ -166,9 +152,8 @@
 //!  21 | delete ENUM1.B;
 //!  22 | delete ENUM, ENUM1;
 //!     `----
-//! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[17:1]
+//!     ,-[20:1]
 //!  17 | 
 //!  18 | // miss assignment operators
 //!  19 | delete ENUM;
@@ -177,18 +162,16 @@
 //!  21 | delete ENUM1.B;
 //!  22 | delete ENUM, ENUM1;
 //!     `----
-//! 
 //!   x 'delete' cannot be called on an identifier in strict mode
-//!     ,-[19:1]
+//!     ,-[22:1]
 //!  19 | delete ENUM;
 //!  20 | delete ENUM1;
 //!  21 | delete ENUM1.B;
 //!  22 | delete ENUM, ENUM1;
 //!     :        ^^^^
 //!     `----
-//! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[19:1]
+//!     ,-[22:1]
 //!  19 | delete ENUM;
 //!  20 | delete ENUM1;
 //!  21 | delete ENUM1.B;

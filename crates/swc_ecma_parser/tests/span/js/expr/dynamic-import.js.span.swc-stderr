@@ -1,64 +1,53 @@
-
   x Module
    ,-[$DIR/tests/span/js/expr/dynamic-import.js:1:1]
  1 | import("foo")
    : ^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/expr/dynamic-import.js:1:1]
  1 | import("foo")
    : ^^^^^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/expr/dynamic-import.js:1:1]
  1 | import("foo")
    : ^^^^^^^^^^^^^
    `----
-
   x ExprStmt
    ,-[$DIR/tests/span/js/expr/dynamic-import.js:1:1]
  1 | import("foo")
    : ^^^^^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/dynamic-import.js:1:1]
  1 | import("foo")
    : ^^^^^^^^^^^^^
    `----
-
   x CallExpr
    ,-[$DIR/tests/span/js/expr/dynamic-import.js:1:1]
  1 | import("foo")
    : ^^^^^^^^^^^^^
    `----
-
   x Callee
    ,-[$DIR/tests/span/js/expr/dynamic-import.js:1:1]
  1 | import("foo")
    : ^^^^^^
    `----
-
   x ExprOrSpread
    ,-[$DIR/tests/span/js/expr/dynamic-import.js:1:1]
  1 | import("foo")
    :        ^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/dynamic-import.js:1:1]
  1 | import("foo")
    :        ^^^^^
    `----
-
   x Lit
    ,-[$DIR/tests/span/js/expr/dynamic-import.js:1:1]
  1 | import("foo")
    :        ^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/span/js/expr/dynamic-import.js:1:1]
  1 | import("foo")

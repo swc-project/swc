@@ -1,100 +1,83 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    : ^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    : ^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    : ^^^^^^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    : ^^^^
    `----
-
   x Ident { value: "span", raw: "span" }
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    : ^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    :     ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    :     ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    :      ^
    `----
-
   x Delim { value: '~' }
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    :      ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    :       ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    :       ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    :        ^
    `----
-
   x Delim { value: '+' }
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    :        ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    :         ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    :         ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    :          ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}

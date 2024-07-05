@@ -1,50 +1,40 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.105.html:1:1]
  1 | <head></head><template>Foo</template>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.105.html:1:1]
  1 | <head></head><template>Foo</template>
    : ^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.105.html:1:1]
  1 | <head></head><template>Foo</template>
    : ^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.105.html:1:1]
  1 | <head></head><template>Foo</template>
    :              ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.105.html:1:1]
  1 | <head></head><template>Foo</template>
    :              ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x DocumentFragment
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.105.html:1:1]
  1 | <head></head><template>Foo</template>
    :              ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.105.html:1:1]
  1 | <head></head><template>Foo</template>
    :                        ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.105.html:1:1]
  1 | <head></head><template>Foo</template>

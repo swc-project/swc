@@ -1,4 +1,3 @@
-
   x Module
    ,-[$DIR/tests/span/js/expr/update.js:1:1]
  1 | ,-> ++a
@@ -6,212 +5,184 @@
  3 | |   c--
  4 | `-> --d
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/expr/update.js:1:1]
  1 | ++a
    : ^^^
  2 | b++
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/expr/update.js:1:1]
  1 | ++a
    : ^^^
  2 | b++
    `----
-
   x ExprStmt
    ,-[$DIR/tests/span/js/expr/update.js:1:1]
  1 | ++a
    : ^^^
  2 | b++
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/update.js:1:1]
  1 | ++a
    : ^^^
  2 | b++
    `----
-
   x UpdateExpr
    ,-[$DIR/tests/span/js/expr/update.js:1:1]
  1 | ++a
    : ^^^
  2 | b++
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/update.js:1:1]
  1 | ++a
    :   ^
  2 | b++
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/update.js:1:1]
  1 | ++a
    :   ^
  2 | b++
    `----
-
-  x ModuleItem
-   ,-[$DIR/tests/span/js/expr/update.js:1:1]
- 1 | ++a
- 2 | b++
-   : ^^^
- 3 | c--
-   `----
-
-  x Stmt
-   ,-[$DIR/tests/span/js/expr/update.js:1:1]
- 1 | ++a
- 2 | b++
-   : ^^^
- 3 | c--
-   `----
-
-  x ExprStmt
-   ,-[$DIR/tests/span/js/expr/update.js:1:1]
- 1 | ++a
- 2 | b++
-   : ^^^
- 3 | c--
-   `----
-
-  x Expr
-   ,-[$DIR/tests/span/js/expr/update.js:1:1]
- 1 | ++a
- 2 | b++
-   : ^^^
- 3 | c--
-   `----
-
-  x UpdateExpr
-   ,-[$DIR/tests/span/js/expr/update.js:1:1]
- 1 | ++a
- 2 | b++
-   : ^^^
- 3 | c--
-   `----
-
-  x Expr
-   ,-[$DIR/tests/span/js/expr/update.js:1:1]
- 1 | ++a
- 2 | b++
-   : ^
- 3 | c--
-   `----
-
-  x Ident
-   ,-[$DIR/tests/span/js/expr/update.js:1:1]
- 1 | ++a
- 2 | b++
-   : ^
- 3 | c--
-   `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/expr/update.js:2:1]
+ 1 | ++a
  2 | b++
- 3 | c--
    : ^^^
- 4 | --d
+ 3 | c--
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/expr/update.js:2:1]
+ 1 | ++a
  2 | b++
- 3 | c--
    : ^^^
- 4 | --d
+ 3 | c--
    `----
-
   x ExprStmt
    ,-[$DIR/tests/span/js/expr/update.js:2:1]
+ 1 | ++a
  2 | b++
- 3 | c--
    : ^^^
- 4 | --d
+ 3 | c--
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/update.js:2:1]
+ 1 | ++a
  2 | b++
- 3 | c--
    : ^^^
- 4 | --d
+ 3 | c--
    `----
-
   x UpdateExpr
    ,-[$DIR/tests/span/js/expr/update.js:2:1]
+ 1 | ++a
  2 | b++
- 3 | c--
    : ^^^
- 4 | --d
+ 3 | c--
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/update.js:2:1]
+ 1 | ++a
  2 | b++
- 3 | c--
    : ^
- 4 | --d
+ 3 | c--
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/update.js:2:1]
+ 1 | ++a
+ 2 | b++
+   : ^
+ 3 | c--
+   `----
+  x ModuleItem
+   ,-[$DIR/tests/span/js/expr/update.js:3:1]
+ 2 | b++
+ 3 | c--
+   : ^^^
+ 4 | --d
+   `----
+  x Stmt
+   ,-[$DIR/tests/span/js/expr/update.js:3:1]
+ 2 | b++
+ 3 | c--
+   : ^^^
+ 4 | --d
+   `----
+  x ExprStmt
+   ,-[$DIR/tests/span/js/expr/update.js:3:1]
+ 2 | b++
+ 3 | c--
+   : ^^^
+ 4 | --d
+   `----
+  x Expr
+   ,-[$DIR/tests/span/js/expr/update.js:3:1]
+ 2 | b++
+ 3 | c--
+   : ^^^
+ 4 | --d
+   `----
+  x UpdateExpr
+   ,-[$DIR/tests/span/js/expr/update.js:3:1]
+ 2 | b++
+ 3 | c--
+   : ^^^
+ 4 | --d
+   `----
+  x Expr
+   ,-[$DIR/tests/span/js/expr/update.js:3:1]
  2 | b++
  3 | c--
    : ^
  4 | --d
    `----
-
+  x Ident
+   ,-[$DIR/tests/span/js/expr/update.js:3:1]
+ 2 | b++
+ 3 | c--
+   : ^
+ 4 | --d
+   `----
   x ModuleItem
-   ,-[$DIR/tests/span/js/expr/update.js:3:1]
+   ,-[$DIR/tests/span/js/expr/update.js:4:1]
  3 | c--
  4 | --d
    : ^^^
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/js/expr/update.js:3:1]
+   ,-[$DIR/tests/span/js/expr/update.js:4:1]
  3 | c--
  4 | --d
    : ^^^
    `----
-
   x ExprStmt
-   ,-[$DIR/tests/span/js/expr/update.js:3:1]
+   ,-[$DIR/tests/span/js/expr/update.js:4:1]
  3 | c--
  4 | --d
    : ^^^
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/update.js:3:1]
+   ,-[$DIR/tests/span/js/expr/update.js:4:1]
  3 | c--
  4 | --d
    : ^^^
    `----
-
   x UpdateExpr
-   ,-[$DIR/tests/span/js/expr/update.js:3:1]
+   ,-[$DIR/tests/span/js/expr/update.js:4:1]
  3 | c--
  4 | --d
    : ^^^
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/update.js:3:1]
+   ,-[$DIR/tests/span/js/expr/update.js:4:1]
  3 | c--
  4 | --d
    :   ^
    `----
-
   x Ident
-   ,-[$DIR/tests/span/js/expr/update.js:3:1]
+   ,-[$DIR/tests/span/js/expr/update.js:4:1]
  3 | c--
  4 | --d
    :   ^

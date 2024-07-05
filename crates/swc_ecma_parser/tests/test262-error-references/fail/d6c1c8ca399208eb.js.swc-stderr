@@ -1,6 +1,5 @@
-
   x Trailing comma is not allowed
-   ,-[$DIR/tests/test262-parser/fail/d6c1c8ca399208eb.js:1:1]
+   ,-[$DIR/tests/test262-parser/fail/d6c1c8ca399208eb.js:2:1]
  1 | const x = 0,
  2 |       y = 1,
    :            ^

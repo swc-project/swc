@@ -1,6 +1,5 @@
-
   x Stray end tag "tr"
-    ,-[$DIR/tests/recovery/element/tr-1/input.html:10:1]
+    ,-[$DIR/tests/recovery/element/tr-1/input.html:11:1]
  10 | <body>
  11 | <table><tr></tr></tr></table>
     :                 ^^^^^

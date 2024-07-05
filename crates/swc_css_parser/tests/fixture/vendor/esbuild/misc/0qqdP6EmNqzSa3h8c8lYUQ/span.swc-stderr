@@ -1,64 +1,53 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/0qqdP6EmNqzSa3h8c8lYUQ/input.css:1:1]
  1 | #id {}
    : ^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/0qqdP6EmNqzSa3h8c8lYUQ/input.css:1:1]
  1 | #id {}
    : ^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/0qqdP6EmNqzSa3h8c8lYUQ/input.css:1:1]
  1 | #id {}
    : ^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/0qqdP6EmNqzSa3h8c8lYUQ/input.css:1:1]
  1 | #id {}
    : ^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/0qqdP6EmNqzSa3h8c8lYUQ/input.css:1:1]
  1 | #id {}
    : ^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/0qqdP6EmNqzSa3h8c8lYUQ/input.css:1:1]
  1 | #id {}
    : ^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/0qqdP6EmNqzSa3h8c8lYUQ/input.css:1:1]
  1 | #id {}
    : ^^^
    `----
-
   x IdSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/0qqdP6EmNqzSa3h8c8lYUQ/input.css:1:1]
  1 | #id {}
    : ^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/0qqdP6EmNqzSa3h8c8lYUQ/input.css:1:1]
  1 | #id {}
    : ^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/0qqdP6EmNqzSa3h8c8lYUQ/input.css:1:1]
  1 | #id {}
    :     ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/0qqdP6EmNqzSa3h8c8lYUQ/input.css:1:1]
  1 | #id {}

@@ -1,80 +1,65 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.9.html:1:1]
  1 | <!doctype html><table><TBODY><script> <tr>x </script> </table>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.9.html:1:1]
  1 | <!doctype html><table><TBODY><script> <tr>x </script> </table>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.9.html:1:1]
  1 | <!doctype html><table><TBODY><script> <tr>x </script> </table>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.9.html:1:1]
  1 | <!doctype html><table><TBODY><script> <tr>x </script> </table>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.9.html:1:1]
  1 | <!doctype html><table><TBODY><script> <tr>x </script> </table>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.9.html:1:1]
  1 | <!doctype html><table><TBODY><script> <tr>x </script> </table>
    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.9.html:1:1]
  1 | <!doctype html><table><TBODY><script> <tr>x </script> </table>
    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.9.html:1:1]
  1 | <!doctype html><table><TBODY><script> <tr>x </script> </table>
    :                              ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.9.html:1:1]
  1 | <!doctype html><table><TBODY><script> <tr>x </script> </table>
    :                              ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.9.html:1:1]
  1 | <!doctype html><table><TBODY><script> <tr>x </script> </table>
    :                                      ^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.9.html:1:1]
  1 | <!doctype html><table><TBODY><script> <tr>x </script> </table>
    :                                      ^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.9.html:1:1]
  1 | <!doctype html><table><TBODY><script> <tr>x </script> </table>
    :                                                      ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.9.html:1:1]
  1 | <!doctype html><table><TBODY><script> <tr>x </script> </table>

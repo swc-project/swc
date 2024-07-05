@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.11.html:1:1]
  1 | <!DOCTYPE html><pre>&#x0a;&#x0a;A</pre>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.11.html:1:1]
  1 | <!DOCTYPE html><pre>&#x0a;&#x0a;A</pre>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.11.html:1:1]
  1 | <!DOCTYPE html><pre>&#x0a;&#x0a;A</pre>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.11.html:1:1]
  1 | <!DOCTYPE html><pre>&#x0a;&#x0a;A</pre>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.11.html:1:1]
  1 | <!DOCTYPE html><pre>&#x0a;&#x0a;A</pre>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.11.html:1:1]
  1 | <!DOCTYPE html><pre>&#x0a;&#x0a;A</pre>
    :                           ^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.11.html:1:1]
  1 | <!DOCTYPE html><pre>&#x0a;&#x0a;A</pre>

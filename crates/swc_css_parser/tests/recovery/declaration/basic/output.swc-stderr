@@ -1,22 +1,19 @@
-
   x Expected ":"
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:12:1]
  11 | a {
  12 |     test;
     :         ^
  13 |     color: red;
     `----
-
   x Unexpected '!' in declaration value
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:1]
  6 | .class {
  7 |     prop: !!;
    :           ^
  8 |     color: red;
    `----
-
   x Unexpected '!' in declaration value
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:1]
  6 | .class {
  7 |     prop: !!;
    :            ^

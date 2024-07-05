@@ -1,4 +1,3 @@
-
   x Destructuring bindings require initializers
    ,-[$DIR/tests/test262-parser/fail/2cfb3ee18926479e.js:1:1]
  1 | let []

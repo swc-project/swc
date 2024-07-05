@@ -1,118 +1,98 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }
    : ^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }
    : ^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }
    : ^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }
    : ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }
    : ^
    `----
-
   x WqName
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }
    : ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }
-   :   ^^^^^^^^^^^^^
+   :   ^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }
    :   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }
-   :     ^^^^^^^^^^
+   :     ^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }
-   :     ^^^^^^^^^^
+   :     ^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }
    :     ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }
    :     ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }
    :            ^
    `----
-
   x Ident { value: "x", raw: "x" }
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }
    :            ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }
    :             ^
    `----
-
   x Delim { value: '\u{1}' }
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }

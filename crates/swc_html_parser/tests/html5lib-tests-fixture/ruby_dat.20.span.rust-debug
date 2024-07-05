@@ -1,104 +1,85 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.20.html:1:1]
  1 | <html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.20.html:1:1]
  1 | <html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.20.html:1:1]
  1 | <html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.20.html:1:1]
  1 | <html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.20.html:1:1]
  1 | <html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.20.html:1:1]
  1 | <html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.20.html:1:1]
  1 | <html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.20.html:1:1]
  1 | <html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>
    :                  ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.20.html:1:1]
  1 | <html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>
    :                  ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.20.html:1:1]
  1 | <html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>
    :                        ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.20.html:1:1]
  1 | <html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>
    :                        ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.20.html:1:1]
  1 | <html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>
    :                         ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.20.html:1:1]
  1 | <html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>
    :                         ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.20.html:1:1]
  1 | <html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>
    :                             ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.20.html:1:1]
  1 | <html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>
    :                             ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.20.html:1:1]
  1 | <html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>
    :                              ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat.20.html:1:1]
  1 | <html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>

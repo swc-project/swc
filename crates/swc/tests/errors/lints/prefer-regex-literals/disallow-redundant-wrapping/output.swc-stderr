@@ -1,4 +1,3 @@
-
   x Regular expression literal is unnecessarily wrapped within a 'RegExp' constructor
    ,-[1:1]
  1 | new RegExp(/redundant/);
@@ -6,9 +5,8 @@
  2 | 
  3 | new RegExp(/redundant/, "g");
    `----
-
   x Use regular expression literal with flags instead of the 'RegExp' constructor
-   ,-[1:1]
+   ,-[3:1]
  1 | new RegExp(/redundant/);
  2 | 
  3 | new RegExp(/redundant/, "g");

@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.22.html:1:1]
  1 | <!DOCTYPE html><body><param>A
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.22.html:1:1]
  1 | <!DOCTYPE html><body><param>A
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.22.html:1:1]
  1 | <!DOCTYPE html><body><param>A
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.22.html:1:1]
  1 | <!DOCTYPE html><body><param>A
    :                ^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.22.html:1:1]
  1 | <!DOCTYPE html><body><param>A
    :                ^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.22.html:1:1]
  1 | <!DOCTYPE html><body><param>A
    :                      ^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.22.html:1:1]
  1 | <!DOCTYPE html><body><param>A
    :                      ^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.22.html:1:1]
  1 | <!DOCTYPE html><body><param>A
    :                             ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.22.html:1:1]
  1 | <!DOCTYPE html><body><param>A

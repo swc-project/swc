@@ -1,4 +1,3 @@
-
   x the name `foo` is defined multiple times
    ,-[1:1]
  1 | export default function foo(){}

@@ -1,7 +1,6 @@
 //// [multipleDefaultExports03.ts]
-//! 
 //!   x the name `C` is defined multiple times
-//!    ,-[1:1]
+//!    ,-[2:1]
 //!  1 | 
 //!  2 | export default class C {
 //!    :                      |
@@ -13,9 +12,8 @@
 //!    :                      `-- `C` redefined here
 //!  6 | }
 //!    `----
-//! 
 //!   x the name `default` is exported multiple times
-//!    ,-[1:1]
+//!    ,-[2:1]
 //!  1 |     
 //!  2 | ,-> export default class C {
 //!  3 | |-> }
@@ -26,5 +24,4 @@
 //!    : `---- exported more than once
 //!    `----
 //! 
-//! Error: 
-//!   > Exported identifiers must be unique
+//! Advice:   > Exported identifiers must be unique

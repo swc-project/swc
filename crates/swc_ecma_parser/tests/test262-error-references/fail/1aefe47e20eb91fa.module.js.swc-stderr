@@ -1,4 +1,3 @@
-
   x `await` cannot be used as an identifier in an async context
    ,-[$DIR/tests/test262-parser/fail/1aefe47e20eb91fa.module.js:1:1]
  1 | await

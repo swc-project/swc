@@ -1,22 +1,17 @@
-
   x Document
    ,-[$DIR/tests/recovery/comment/bogus-1/input.html:1:1]
  1 | <!-- test
    : ^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/comment/bogus-1/input.html:1:1]
  1 | <!-- test
    : ^^^^^^^^^
    `----
-
   x Comment
    ,-[$DIR/tests/recovery/comment/bogus-1/input.html:1:1]
  1 | <!-- test
    : ^^^^^^^^^
    `----
-
   x Child
-
   x Element

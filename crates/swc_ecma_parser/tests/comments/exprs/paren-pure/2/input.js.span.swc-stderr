@@ -1,146 +1,125 @@
-
   x Module
-   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
-   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Stmt
-   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ExprStmt
-   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Expr
-   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ParenExpr
-   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Expr
-   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :               ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x CallExpr
-   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :               ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Callee
-   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :               ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Expr
-   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :               ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ParenExpr
-   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :               ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Expr
-   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :                ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ArrowExpr
-   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :                ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x BlockStmtOrExpr
-   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :                      ^^^^^^^^^^^^^^^
    `----
-
   x Expr
-   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :                      ^^^^^^^^^^^^^^^
    `----
-
   x CallExpr
-   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :                      ^^^^^^^^^^^^^^^
    `----
-
   x Callee
-   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :                      ^^^^^^
    `----
-
   x ExprOrSpread
-   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :                             ^^^^^^^
    `----
-
   x Expr
-   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :                             ^^^^^^^
    `----
-
   x Lit
-   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :                             ^^^^^^^
    `----
-
   x Str
-   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:2:1]
  1 | 
  2 | /*#__PURE__*/((() => import('./any'))())
    :                             ^^^^^^^

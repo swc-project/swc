@@ -1,20 +1,17 @@
-
   x Unexpected token `(`. Expected yield, an identifier, [ or {
-   ,-[$DIR/tests/errors/issue-2834/input.js:2:1]
+   ,-[$DIR/tests/errors/issue-2834/input.js:3:1]
  2 | ({ a: (b) }) => {};
  3 | for (const [(a)] of arr) {}
    :             ^
    `----
-
   x Not a pattern
    ,-[$DIR/tests/errors/issue-2834/input.js:1:1]
  1 | ([(a)]) => {};
    :   ^^^
  2 | ({ a: (b) }) => {};
    `----
-
   x Not a pattern
-   ,-[$DIR/tests/errors/issue-2834/input.js:1:1]
+   ,-[$DIR/tests/errors/issue-2834/input.js:2:1]
  1 | ([(a)]) => {};
  2 | ({ a: (b) }) => {};
    :       ^^^

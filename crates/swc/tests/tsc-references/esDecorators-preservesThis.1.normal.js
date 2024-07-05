@@ -1,7 +1,6 @@
 //// [esDecorators-preservesThis.ts]
-//! 
 //!   x Unexpected token `@`. Expected identifier, string literal, numeric literal or [ for the computed key
-//!     ,-[8:1]
+//!     ,-[11:1]
 //!   8 | 
 //!   9 | // preserve `this` for access
 //!  10 | class C {

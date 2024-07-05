@@ -1,4 +1,3 @@
-
   x Stylesheet
     ,-[$DIR/tests/fixture/number/input.css:1:1]
   1 | ,-> div {
@@ -61,7 +60,6 @@
  58 | |       property: 100.1e-6;
  59 | `-> }
     `----
-
   x Rule
     ,-[$DIR/tests/fixture/number/input.css:1:1]
   1 | ,-> div {
@@ -124,7 +122,6 @@
  58 | |       property: 100.1e-6;
  59 | `-> }
     `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/number/input.css:1:1]
   1 | ,-> div {
@@ -187,56 +184,48 @@
  58 | |       property: 100.1e-6;
  59 | `-> }
     `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/number/input.css:1:1]
  1 | div {
    : ^^^
  2 |     property: 10;
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/number/input.css:1:1]
  1 | div {
    : ^^^
  2 |     property: 10;
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/number/input.css:1:1]
  1 | div {
    : ^^^
  2 |     property: 10;
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/number/input.css:1:1]
  1 | div {
    : ^^^
  2 |     property: 10;
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/number/input.css:1:1]
  1 | div {
    : ^^^
  2 |     property: 10;
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/number/input.css:1:1]
  1 | div {
    : ^^^
  2 |     property: 10;
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/number/input.css:1:1]
  1 | div {
    : ^^^
  2 |     property: 10;
    `----
-
   x SimpleBlock
     ,-[$DIR/tests/fixture/number/input.css:1:1]
   1 | ,-> div {
@@ -299,2776 +288,2429 @@
  58 | |       property: 100.1e-6;
  59 | `-> }
     `----
-
   x LBrace
    ,-[$DIR/tests/fixture/number/input.css:1:1]
  1 | div {
    :     ^
  2 |     property: 10;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/number/input.css:1:1]
+   ,-[$DIR/tests/fixture/number/input.css:2:1]
  1 | div {
  2 |     property: 10;
    :     ^^^^^^^^^^^^
  3 |     property: +10;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/number/input.css:1:1]
+   ,-[$DIR/tests/fixture/number/input.css:2:1]
  1 | div {
  2 |     property: 10;
    :     ^^^^^^^^^^^^
  3 |     property: +10;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/number/input.css:1:1]
+   ,-[$DIR/tests/fixture/number/input.css:2:1]
  1 | div {
  2 |     property: 10;
    :     ^^^^^^^^
  3 |     property: +10;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/number/input.css:1:1]
+   ,-[$DIR/tests/fixture/number/input.css:2:1]
  1 | div {
  2 |     property: 10;
    :     ^^^^^^^^
  3 |     property: +10;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/number/input.css:1:1]
+   ,-[$DIR/tests/fixture/number/input.css:2:1]
  1 | div {
  2 |     property: 10;
    :               ^^
  3 |     property: +10;
    `----
-
   x Integer
-   ,-[$DIR/tests/fixture/number/input.css:1:1]
+   ,-[$DIR/tests/fixture/number/input.css:2:1]
  1 | div {
  2 |     property: 10;
    :               ^^
  3 |     property: +10;
    `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/number/input.css:2:1]
- 2 |     property: 10;
- 3 |     property: +10;
-   :     ^^^^^^^^^^^^^
- 4 |     property: -10;
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/fixture/number/input.css:2:1]
- 2 |     property: 10;
- 3 |     property: +10;
-   :     ^^^^^^^^^^^^^
- 4 |     property: -10;
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/fixture/number/input.css:2:1]
- 2 |     property: 10;
- 3 |     property: +10;
-   :     ^^^^^^^^
- 4 |     property: -10;
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/number/input.css:2:1]
- 2 |     property: 10;
- 3 |     property: +10;
-   :     ^^^^^^^^
- 4 |     property: -10;
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/number/input.css:2:1]
- 2 |     property: 10;
- 3 |     property: +10;
-   :               ^^^
- 4 |     property: -10;
-   `----
-
-  x Integer
-   ,-[$DIR/tests/fixture/number/input.css:2:1]
- 2 |     property: 10;
- 3 |     property: +10;
-   :               ^^^
- 4 |     property: -10;
-   `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/number/input.css:3:1]
+ 2 |     property: 10;
  3 |     property: +10;
- 4 |     property: -10;
    :     ^^^^^^^^^^^^^
- 5 |     property: 0.1;
+ 4 |     property: -10;
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/number/input.css:3:1]
+ 2 |     property: 10;
  3 |     property: +10;
- 4 |     property: -10;
    :     ^^^^^^^^^^^^^
- 5 |     property: 0.1;
+ 4 |     property: -10;
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/number/input.css:3:1]
+ 2 |     property: 10;
  3 |     property: +10;
- 4 |     property: -10;
    :     ^^^^^^^^
- 5 |     property: 0.1;
+ 4 |     property: -10;
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/number/input.css:3:1]
+ 2 |     property: 10;
  3 |     property: +10;
- 4 |     property: -10;
    :     ^^^^^^^^
- 5 |     property: 0.1;
+ 4 |     property: -10;
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/number/input.css:3:1]
+ 2 |     property: 10;
  3 |     property: +10;
- 4 |     property: -10;
    :               ^^^
- 5 |     property: 0.1;
+ 4 |     property: -10;
    `----
-
   x Integer
    ,-[$DIR/tests/fixture/number/input.css:3:1]
+ 2 |     property: 10;
+ 3 |     property: +10;
+   :               ^^^
+ 4 |     property: -10;
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/number/input.css:4:1]
+ 3 |     property: +10;
+ 4 |     property: -10;
+   :     ^^^^^^^^^^^^^
+ 5 |     property: 0.1;
+   `----
+  x Declaration
+   ,-[$DIR/tests/fixture/number/input.css:4:1]
+ 3 |     property: +10;
+ 4 |     property: -10;
+   :     ^^^^^^^^^^^^^
+ 5 |     property: 0.1;
+   `----
+  x DeclarationName
+   ,-[$DIR/tests/fixture/number/input.css:4:1]
+ 3 |     property: +10;
+ 4 |     property: -10;
+   :     ^^^^^^^^
+ 5 |     property: 0.1;
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/number/input.css:4:1]
+ 3 |     property: +10;
+ 4 |     property: -10;
+   :     ^^^^^^^^
+ 5 |     property: 0.1;
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/number/input.css:4:1]
  3 |     property: +10;
  4 |     property: -10;
    :               ^^^
  5 |     property: 0.1;
    `----
-
-  x ComponentValue
+  x Integer
    ,-[$DIR/tests/fixture/number/input.css:4:1]
+ 3 |     property: +10;
+ 4 |     property: -10;
+   :               ^^^
+ 5 |     property: 0.1;
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/number/input.css:5:1]
  4 |     property: -10;
  5 |     property: 0.1;
    :     ^^^^^^^^^^^^^
  6 |     property: +0.1;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/number/input.css:4:1]
+   ,-[$DIR/tests/fixture/number/input.css:5:1]
  4 |     property: -10;
  5 |     property: 0.1;
    :     ^^^^^^^^^^^^^
  6 |     property: +0.1;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/number/input.css:4:1]
+   ,-[$DIR/tests/fixture/number/input.css:5:1]
  4 |     property: -10;
  5 |     property: 0.1;
    :     ^^^^^^^^
  6 |     property: +0.1;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/number/input.css:4:1]
+   ,-[$DIR/tests/fixture/number/input.css:5:1]
  4 |     property: -10;
  5 |     property: 0.1;
    :     ^^^^^^^^
  6 |     property: +0.1;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/number/input.css:4:1]
+   ,-[$DIR/tests/fixture/number/input.css:5:1]
  4 |     property: -10;
  5 |     property: 0.1;
    :               ^^^
  6 |     property: +0.1;
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/number/input.css:4:1]
+   ,-[$DIR/tests/fixture/number/input.css:5:1]
  4 |     property: -10;
  5 |     property: 0.1;
    :               ^^^
  6 |     property: +0.1;
    `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/number/input.css:5:1]
- 5 |     property: 0.1;
- 6 |     property: +0.1;
-   :     ^^^^^^^^^^^^^^
- 7 |     property: -0.1;
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/fixture/number/input.css:5:1]
- 5 |     property: 0.1;
- 6 |     property: +0.1;
-   :     ^^^^^^^^^^^^^^
- 7 |     property: -0.1;
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/fixture/number/input.css:5:1]
- 5 |     property: 0.1;
- 6 |     property: +0.1;
-   :     ^^^^^^^^
- 7 |     property: -0.1;
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/number/input.css:5:1]
- 5 |     property: 0.1;
- 6 |     property: +0.1;
-   :     ^^^^^^^^
- 7 |     property: -0.1;
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/number/input.css:5:1]
- 5 |     property: 0.1;
- 6 |     property: +0.1;
-   :               ^^^^
- 7 |     property: -0.1;
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/number/input.css:5:1]
- 5 |     property: 0.1;
- 6 |     property: +0.1;
-   :               ^^^^
- 7 |     property: -0.1;
-   `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/number/input.css:6:1]
+ 5 |     property: 0.1;
  6 |     property: +0.1;
- 7 |     property: -0.1;
    :     ^^^^^^^^^^^^^^
- 8 |     property: -.1;
+ 7 |     property: -0.1;
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/number/input.css:6:1]
+ 5 |     property: 0.1;
  6 |     property: +0.1;
- 7 |     property: -0.1;
    :     ^^^^^^^^^^^^^^
- 8 |     property: -.1;
+ 7 |     property: -0.1;
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/number/input.css:6:1]
+ 5 |     property: 0.1;
  6 |     property: +0.1;
- 7 |     property: -0.1;
    :     ^^^^^^^^
- 8 |     property: -.1;
+ 7 |     property: -0.1;
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/number/input.css:6:1]
+ 5 |     property: 0.1;
  6 |     property: +0.1;
- 7 |     property: -0.1;
    :     ^^^^^^^^
- 8 |     property: -.1;
+ 7 |     property: -0.1;
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/number/input.css:6:1]
+ 5 |     property: 0.1;
  6 |     property: +0.1;
- 7 |     property: -0.1;
    :               ^^^^
- 8 |     property: -.1;
+ 7 |     property: -0.1;
    `----
-
   x Number
    ,-[$DIR/tests/fixture/number/input.css:6:1]
+ 5 |     property: 0.1;
  6 |     property: +0.1;
- 7 |     property: -0.1;
    :               ^^^^
- 8 |     property: -.1;
+ 7 |     property: -0.1;
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/number/input.css:7:1]
+ 6 |     property: +0.1;
+ 7 |     property: -0.1;
+   :     ^^^^^^^^^^^^^^
+ 8 |     property: -.1;
+   `----
+  x Declaration
+   ,-[$DIR/tests/fixture/number/input.css:7:1]
+ 6 |     property: +0.1;
+ 7 |     property: -0.1;
+   :     ^^^^^^^^^^^^^^
+ 8 |     property: -.1;
+   `----
+  x DeclarationName
+   ,-[$DIR/tests/fixture/number/input.css:7:1]
+ 6 |     property: +0.1;
+ 7 |     property: -0.1;
+   :     ^^^^^^^^
+ 8 |     property: -.1;
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/number/input.css:7:1]
+ 6 |     property: +0.1;
+ 7 |     property: -0.1;
+   :     ^^^^^^^^
+ 8 |     property: -.1;
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/number/input.css:7:1]
+ 6 |     property: +0.1;
+ 7 |     property: -0.1;
+   :               ^^^^
+ 8 |     property: -.1;
+   `----
+  x Number
+   ,-[$DIR/tests/fixture/number/input.css:7:1]
+ 6 |     property: +0.1;
+ 7 |     property: -0.1;
+   :               ^^^^
+ 8 |     property: -.1;
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/number/input.css:8:1]
  7 |     property: -0.1;
  8 |     property: -.1;
    :     ^^^^^^^^^^^^^
  9 |     property: +.1;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/number/input.css:7:1]
+   ,-[$DIR/tests/fixture/number/input.css:8:1]
  7 |     property: -0.1;
  8 |     property: -.1;
    :     ^^^^^^^^^^^^^
  9 |     property: +.1;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/number/input.css:7:1]
+   ,-[$DIR/tests/fixture/number/input.css:8:1]
  7 |     property: -0.1;
  8 |     property: -.1;
    :     ^^^^^^^^
  9 |     property: +.1;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/number/input.css:7:1]
+   ,-[$DIR/tests/fixture/number/input.css:8:1]
  7 |     property: -0.1;
  8 |     property: -.1;
    :     ^^^^^^^^
  9 |     property: +.1;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/number/input.css:7:1]
+   ,-[$DIR/tests/fixture/number/input.css:8:1]
  7 |     property: -0.1;
  8 |     property: -.1;
    :               ^^^
  9 |     property: +.1;
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/number/input.css:7:1]
+   ,-[$DIR/tests/fixture/number/input.css:8:1]
  7 |     property: -0.1;
  8 |     property: -.1;
    :               ^^^
  9 |     property: +.1;
    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:8:1]
-  8 |     property: -.1;
-  9 |     property: +.1;
-    :     ^^^^^^^^^^^^^
- 10 |     property: 0;
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:8:1]
-  8 |     property: -.1;
-  9 |     property: +.1;
-    :     ^^^^^^^^^^^^^
- 10 |     property: 0;
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:8:1]
-  8 |     property: -.1;
-  9 |     property: +.1;
-    :     ^^^^^^^^
- 10 |     property: 0;
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/number/input.css:8:1]
-  8 |     property: -.1;
-  9 |     property: +.1;
-    :     ^^^^^^^^
- 10 |     property: 0;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:8:1]
-  8 |     property: -.1;
-  9 |     property: +.1;
-    :               ^^^
- 10 |     property: 0;
-    `----
-
-  x Number
-    ,-[$DIR/tests/fixture/number/input.css:8:1]
-  8 |     property: -.1;
-  9 |     property: +.1;
-    :               ^^^
- 10 |     property: 0;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:9:1]
+  8 |     property: -.1;
+  9 |     property: +.1;
+    :     ^^^^^^^^^^^^^
+ 10 |     property: 0;
+    `----
+  x Declaration
+    ,-[$DIR/tests/fixture/number/input.css:9:1]
+  8 |     property: -.1;
+  9 |     property: +.1;
+    :     ^^^^^^^^^^^^^
+ 10 |     property: 0;
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/fixture/number/input.css:9:1]
+  8 |     property: -.1;
+  9 |     property: +.1;
+    :     ^^^^^^^^
+ 10 |     property: 0;
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/number/input.css:9:1]
+  8 |     property: -.1;
+  9 |     property: +.1;
+    :     ^^^^^^^^
+ 10 |     property: 0;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:9:1]
+  8 |     property: -.1;
+  9 |     property: +.1;
+    :               ^^^
+ 10 |     property: 0;
+    `----
+  x Number
+    ,-[$DIR/tests/fixture/number/input.css:9:1]
+  8 |     property: -.1;
+  9 |     property: +.1;
+    :               ^^^
+ 10 |     property: 0;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:10:1]
   9 |     property: +.1;
  10 |     property: 0;
     :     ^^^^^^^^^^^
  11 |     property: 10;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:9:1]
+    ,-[$DIR/tests/fixture/number/input.css:10:1]
   9 |     property: +.1;
  10 |     property: 0;
     :     ^^^^^^^^^^^
  11 |     property: 10;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:9:1]
+    ,-[$DIR/tests/fixture/number/input.css:10:1]
   9 |     property: +.1;
  10 |     property: 0;
     :     ^^^^^^^^
  11 |     property: 10;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:9:1]
+    ,-[$DIR/tests/fixture/number/input.css:10:1]
   9 |     property: +.1;
  10 |     property: 0;
     :     ^^^^^^^^
  11 |     property: 10;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:9:1]
+    ,-[$DIR/tests/fixture/number/input.css:10:1]
   9 |     property: +.1;
  10 |     property: 0;
     :               ^
  11 |     property: 10;
     `----
-
   x Integer
-    ,-[$DIR/tests/fixture/number/input.css:9:1]
+    ,-[$DIR/tests/fixture/number/input.css:10:1]
   9 |     property: +.1;
  10 |     property: 0;
     :               ^
  11 |     property: 10;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:10:1]
+    ,-[$DIR/tests/fixture/number/input.css:11:1]
  10 |     property: 0;
  11 |     property: 10;
     :     ^^^^^^^^^^^^
  12 |     property: .10;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:10:1]
+    ,-[$DIR/tests/fixture/number/input.css:11:1]
  10 |     property: 0;
  11 |     property: 10;
     :     ^^^^^^^^^^^^
  12 |     property: .10;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:10:1]
+    ,-[$DIR/tests/fixture/number/input.css:11:1]
  10 |     property: 0;
  11 |     property: 10;
     :     ^^^^^^^^
  12 |     property: .10;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:10:1]
+    ,-[$DIR/tests/fixture/number/input.css:11:1]
  10 |     property: 0;
  11 |     property: 10;
     :     ^^^^^^^^
  12 |     property: .10;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:10:1]
+    ,-[$DIR/tests/fixture/number/input.css:11:1]
  10 |     property: 0;
  11 |     property: 10;
     :               ^^
  12 |     property: .10;
     `----
-
   x Integer
-    ,-[$DIR/tests/fixture/number/input.css:10:1]
+    ,-[$DIR/tests/fixture/number/input.css:11:1]
  10 |     property: 0;
  11 |     property: 10;
     :               ^^
  12 |     property: .10;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:11:1]
- 11 |     property: 10;
- 12 |     property: .10;
-    :     ^^^^^^^^^^^^^
- 13 |     property: 12.34;
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:11:1]
- 11 |     property: 10;
- 12 |     property: .10;
-    :     ^^^^^^^^^^^^^
- 13 |     property: 12.34;
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:11:1]
- 11 |     property: 10;
- 12 |     property: .10;
-    :     ^^^^^^^^
- 13 |     property: 12.34;
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/number/input.css:11:1]
- 11 |     property: 10;
- 12 |     property: .10;
-    :     ^^^^^^^^
- 13 |     property: 12.34;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:11:1]
- 11 |     property: 10;
- 12 |     property: .10;
-    :               ^^^
- 13 |     property: 12.34;
-    `----
-
-  x Number
-    ,-[$DIR/tests/fixture/number/input.css:11:1]
- 11 |     property: 10;
- 12 |     property: .10;
-    :               ^^^
- 13 |     property: 12.34;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:12:1]
+ 11 |     property: 10;
+ 12 |     property: .10;
+    :     ^^^^^^^^^^^^^
+ 13 |     property: 12.34;
+    `----
+  x Declaration
+    ,-[$DIR/tests/fixture/number/input.css:12:1]
+ 11 |     property: 10;
+ 12 |     property: .10;
+    :     ^^^^^^^^^^^^^
+ 13 |     property: 12.34;
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/fixture/number/input.css:12:1]
+ 11 |     property: 10;
+ 12 |     property: .10;
+    :     ^^^^^^^^
+ 13 |     property: 12.34;
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/number/input.css:12:1]
+ 11 |     property: 10;
+ 12 |     property: .10;
+    :     ^^^^^^^^
+ 13 |     property: 12.34;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:12:1]
+ 11 |     property: 10;
+ 12 |     property: .10;
+    :               ^^^
+ 13 |     property: 12.34;
+    `----
+  x Number
+    ,-[$DIR/tests/fixture/number/input.css:12:1]
+ 11 |     property: 10;
+ 12 |     property: .10;
+    :               ^^^
+ 13 |     property: 12.34;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:13:1]
  12 |     property: .10;
  13 |     property: 12.34;
     :     ^^^^^^^^^^^^^^^
  14 |     property: 0.1;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:12:1]
+    ,-[$DIR/tests/fixture/number/input.css:13:1]
  12 |     property: .10;
  13 |     property: 12.34;
     :     ^^^^^^^^^^^^^^^
  14 |     property: 0.1;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:12:1]
+    ,-[$DIR/tests/fixture/number/input.css:13:1]
  12 |     property: .10;
  13 |     property: 12.34;
     :     ^^^^^^^^
  14 |     property: 0.1;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:12:1]
+    ,-[$DIR/tests/fixture/number/input.css:13:1]
  12 |     property: .10;
  13 |     property: 12.34;
     :     ^^^^^^^^
  14 |     property: 0.1;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:12:1]
+    ,-[$DIR/tests/fixture/number/input.css:13:1]
  12 |     property: .10;
  13 |     property: 12.34;
     :               ^^^^^
  14 |     property: 0.1;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/number/input.css:12:1]
+    ,-[$DIR/tests/fixture/number/input.css:13:1]
  12 |     property: .10;
  13 |     property: 12.34;
     :               ^^^^^
  14 |     property: 0.1;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:13:1]
- 13 |     property: 12.34;
- 14 |     property: 0.1;
-    :     ^^^^^^^^^^^^^
- 15 |     property: 1.0;
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:13:1]
- 13 |     property: 12.34;
- 14 |     property: 0.1;
-    :     ^^^^^^^^^^^^^
- 15 |     property: 1.0;
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:13:1]
- 13 |     property: 12.34;
- 14 |     property: 0.1;
-    :     ^^^^^^^^
- 15 |     property: 1.0;
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/number/input.css:13:1]
- 13 |     property: 12.34;
- 14 |     property: 0.1;
-    :     ^^^^^^^^
- 15 |     property: 1.0;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:13:1]
- 13 |     property: 12.34;
- 14 |     property: 0.1;
-    :               ^^^
- 15 |     property: 1.0;
-    `----
-
-  x Number
-    ,-[$DIR/tests/fixture/number/input.css:13:1]
- 13 |     property: 12.34;
- 14 |     property: 0.1;
-    :               ^^^
- 15 |     property: 1.0;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:14:1]
+ 13 |     property: 12.34;
  14 |     property: 0.1;
- 15 |     property: 1.0;
     :     ^^^^^^^^^^^^^
- 16 |     property: 0.0;
+ 15 |     property: 1.0;
     `----
-
   x Declaration
     ,-[$DIR/tests/fixture/number/input.css:14:1]
+ 13 |     property: 12.34;
  14 |     property: 0.1;
- 15 |     property: 1.0;
     :     ^^^^^^^^^^^^^
- 16 |     property: 0.0;
+ 15 |     property: 1.0;
     `----
-
   x DeclarationName
     ,-[$DIR/tests/fixture/number/input.css:14:1]
+ 13 |     property: 12.34;
  14 |     property: 0.1;
- 15 |     property: 1.0;
     :     ^^^^^^^^
- 16 |     property: 0.0;
+ 15 |     property: 1.0;
     `----
-
   x Ident
     ,-[$DIR/tests/fixture/number/input.css:14:1]
+ 13 |     property: 12.34;
  14 |     property: 0.1;
- 15 |     property: 1.0;
     :     ^^^^^^^^
- 16 |     property: 0.0;
+ 15 |     property: 1.0;
     `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:14:1]
+ 13 |     property: 12.34;
  14 |     property: 0.1;
- 15 |     property: 1.0;
     :               ^^^
- 16 |     property: 0.0;
+ 15 |     property: 1.0;
     `----
-
   x Number
     ,-[$DIR/tests/fixture/number/input.css:14:1]
+ 13 |     property: 12.34;
  14 |     property: 0.1;
- 15 |     property: 1.0;
     :               ^^^
- 16 |     property: 0.0;
+ 15 |     property: 1.0;
     `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:15:1]
+ 14 |     property: 0.1;
  15 |     property: 1.0;
- 16 |     property: 0.0;
     :     ^^^^^^^^^^^^^
- 17 |     property: +0.0;
+ 16 |     property: 0.0;
     `----
-
   x Declaration
     ,-[$DIR/tests/fixture/number/input.css:15:1]
+ 14 |     property: 0.1;
  15 |     property: 1.0;
- 16 |     property: 0.0;
     :     ^^^^^^^^^^^^^
- 17 |     property: +0.0;
+ 16 |     property: 0.0;
     `----
-
   x DeclarationName
     ,-[$DIR/tests/fixture/number/input.css:15:1]
+ 14 |     property: 0.1;
  15 |     property: 1.0;
- 16 |     property: 0.0;
     :     ^^^^^^^^
- 17 |     property: +0.0;
+ 16 |     property: 0.0;
     `----
-
   x Ident
     ,-[$DIR/tests/fixture/number/input.css:15:1]
+ 14 |     property: 0.1;
  15 |     property: 1.0;
- 16 |     property: 0.0;
     :     ^^^^^^^^
- 17 |     property: +0.0;
+ 16 |     property: 0.0;
     `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:15:1]
+ 14 |     property: 0.1;
  15 |     property: 1.0;
- 16 |     property: 0.0;
     :               ^^^
- 17 |     property: +0.0;
+ 16 |     property: 0.0;
     `----
-
   x Number
     ,-[$DIR/tests/fixture/number/input.css:15:1]
+ 14 |     property: 0.1;
  15 |     property: 1.0;
- 16 |     property: 0.0;
     :               ^^^
- 17 |     property: +0.0;
+ 16 |     property: 0.0;
     `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:16:1]
+ 15 |     property: 1.0;
+ 16 |     property: 0.0;
+    :     ^^^^^^^^^^^^^
+ 17 |     property: +0.0;
+    `----
+  x Declaration
+    ,-[$DIR/tests/fixture/number/input.css:16:1]
+ 15 |     property: 1.0;
+ 16 |     property: 0.0;
+    :     ^^^^^^^^^^^^^
+ 17 |     property: +0.0;
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/fixture/number/input.css:16:1]
+ 15 |     property: 1.0;
+ 16 |     property: 0.0;
+    :     ^^^^^^^^
+ 17 |     property: +0.0;
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/number/input.css:16:1]
+ 15 |     property: 1.0;
+ 16 |     property: 0.0;
+    :     ^^^^^^^^
+ 17 |     property: +0.0;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:16:1]
+ 15 |     property: 1.0;
+ 16 |     property: 0.0;
+    :               ^^^
+ 17 |     property: +0.0;
+    `----
+  x Number
+    ,-[$DIR/tests/fixture/number/input.css:16:1]
+ 15 |     property: 1.0;
+ 16 |     property: 0.0;
+    :               ^^^
+ 17 |     property: +0.0;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:17:1]
  16 |     property: 0.0;
  17 |     property: +0.0;
     :     ^^^^^^^^^^^^^^
  18 |     property: -0.0;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:16:1]
+    ,-[$DIR/tests/fixture/number/input.css:17:1]
  16 |     property: 0.0;
  17 |     property: +0.0;
     :     ^^^^^^^^^^^^^^
  18 |     property: -0.0;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:16:1]
+    ,-[$DIR/tests/fixture/number/input.css:17:1]
  16 |     property: 0.0;
  17 |     property: +0.0;
     :     ^^^^^^^^
  18 |     property: -0.0;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:16:1]
+    ,-[$DIR/tests/fixture/number/input.css:17:1]
  16 |     property: 0.0;
  17 |     property: +0.0;
     :     ^^^^^^^^
  18 |     property: -0.0;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:16:1]
- 16 |     property: 0.0;
- 17 |     property: +0.0;
-    :               ^^^^
- 18 |     property: -0.0;
-    `----
-
-  x Number
-    ,-[$DIR/tests/fixture/number/input.css:16:1]
- 16 |     property: 0.0;
- 17 |     property: +0.0;
-    :               ^^^^
- 18 |     property: -0.0;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:17:1]
+ 16 |     property: 0.0;
+ 17 |     property: +0.0;
+    :               ^^^^
+ 18 |     property: -0.0;
+    `----
+  x Number
+    ,-[$DIR/tests/fixture/number/input.css:17:1]
+ 16 |     property: 0.0;
+ 17 |     property: +0.0;
+    :               ^^^^
+ 18 |     property: -0.0;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:18:1]
  17 |     property: +0.0;
  18 |     property: -0.0;
     :     ^^^^^^^^^^^^^^
  19 |     property: .0;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:17:1]
+    ,-[$DIR/tests/fixture/number/input.css:18:1]
  17 |     property: +0.0;
  18 |     property: -0.0;
     :     ^^^^^^^^^^^^^^
  19 |     property: .0;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:17:1]
+    ,-[$DIR/tests/fixture/number/input.css:18:1]
  17 |     property: +0.0;
  18 |     property: -0.0;
     :     ^^^^^^^^
  19 |     property: .0;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:17:1]
+    ,-[$DIR/tests/fixture/number/input.css:18:1]
  17 |     property: +0.0;
  18 |     property: -0.0;
     :     ^^^^^^^^
  19 |     property: .0;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:17:1]
+    ,-[$DIR/tests/fixture/number/input.css:18:1]
  17 |     property: +0.0;
  18 |     property: -0.0;
     :               ^^^^
  19 |     property: .0;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/number/input.css:17:1]
+    ,-[$DIR/tests/fixture/number/input.css:18:1]
  17 |     property: +0.0;
  18 |     property: -0.0;
     :               ^^^^
  19 |     property: .0;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:18:1]
- 18 |     property: -0.0;
- 19 |     property: .0;
-    :     ^^^^^^^^^^^^
- 20 |     property: 1.200000;
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:18:1]
- 18 |     property: -0.0;
- 19 |     property: .0;
-    :     ^^^^^^^^^^^^
- 20 |     property: 1.200000;
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:18:1]
- 18 |     property: -0.0;
- 19 |     property: .0;
-    :     ^^^^^^^^
- 20 |     property: 1.200000;
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/number/input.css:18:1]
- 18 |     property: -0.0;
- 19 |     property: .0;
-    :     ^^^^^^^^
- 20 |     property: 1.200000;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:18:1]
- 18 |     property: -0.0;
- 19 |     property: .0;
-    :               ^^
- 20 |     property: 1.200000;
-    `----
-
-  x Number
-    ,-[$DIR/tests/fixture/number/input.css:18:1]
- 18 |     property: -0.0;
- 19 |     property: .0;
-    :               ^^
- 20 |     property: 1.200000;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:19:1]
+ 18 |     property: -0.0;
+ 19 |     property: .0;
+    :     ^^^^^^^^^^^^
+ 20 |     property: 1.200000;
+    `----
+  x Declaration
+    ,-[$DIR/tests/fixture/number/input.css:19:1]
+ 18 |     property: -0.0;
+ 19 |     property: .0;
+    :     ^^^^^^^^^^^^
+ 20 |     property: 1.200000;
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/fixture/number/input.css:19:1]
+ 18 |     property: -0.0;
+ 19 |     property: .0;
+    :     ^^^^^^^^
+ 20 |     property: 1.200000;
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/number/input.css:19:1]
+ 18 |     property: -0.0;
+ 19 |     property: .0;
+    :     ^^^^^^^^
+ 20 |     property: 1.200000;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:19:1]
+ 18 |     property: -0.0;
+ 19 |     property: .0;
+    :               ^^
+ 20 |     property: 1.200000;
+    `----
+  x Number
+    ,-[$DIR/tests/fixture/number/input.css:19:1]
+ 18 |     property: -0.0;
+ 19 |     property: .0;
+    :               ^^
+ 20 |     property: 1.200000;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:20:1]
  19 |     property: .0;
  20 |     property: 1.200000;
     :     ^^^^^^^^^^^^^^^^^^
  21 |     property: 1.2e2;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:19:1]
+    ,-[$DIR/tests/fixture/number/input.css:20:1]
  19 |     property: .0;
  20 |     property: 1.200000;
     :     ^^^^^^^^^^^^^^^^^^
  21 |     property: 1.2e2;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:19:1]
+    ,-[$DIR/tests/fixture/number/input.css:20:1]
  19 |     property: .0;
  20 |     property: 1.200000;
     :     ^^^^^^^^
  21 |     property: 1.2e2;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:19:1]
+    ,-[$DIR/tests/fixture/number/input.css:20:1]
  19 |     property: .0;
  20 |     property: 1.200000;
     :     ^^^^^^^^
  21 |     property: 1.2e2;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:19:1]
+    ,-[$DIR/tests/fixture/number/input.css:20:1]
  19 |     property: .0;
  20 |     property: 1.200000;
     :               ^^^^^^^^
  21 |     property: 1.2e2;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/number/input.css:19:1]
+    ,-[$DIR/tests/fixture/number/input.css:20:1]
  19 |     property: .0;
  20 |     property: 1.200000;
     :               ^^^^^^^^
  21 |     property: 1.2e2;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:20:1]
- 20 |     property: 1.200000;
- 21 |     property: 1.2e2;
-    :     ^^^^^^^^^^^^^^^
- 22 |     property: 1e2;
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:20:1]
- 20 |     property: 1.200000;
- 21 |     property: 1.2e2;
-    :     ^^^^^^^^^^^^^^^
- 22 |     property: 1e2;
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:20:1]
- 20 |     property: 1.200000;
- 21 |     property: 1.2e2;
-    :     ^^^^^^^^
- 22 |     property: 1e2;
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/number/input.css:20:1]
- 20 |     property: 1.200000;
- 21 |     property: 1.2e2;
-    :     ^^^^^^^^
- 22 |     property: 1e2;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:20:1]
- 20 |     property: 1.200000;
- 21 |     property: 1.2e2;
-    :               ^^^^^
- 22 |     property: 1e2;
-    `----
-
-  x Number
-    ,-[$DIR/tests/fixture/number/input.css:20:1]
- 20 |     property: 1.200000;
- 21 |     property: 1.2e2;
-    :               ^^^^^
- 22 |     property: 1e2;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:21:1]
+ 20 |     property: 1.200000;
+ 21 |     property: 1.2e2;
+    :     ^^^^^^^^^^^^^^^
+ 22 |     property: 1e2;
+    `----
+  x Declaration
+    ,-[$DIR/tests/fixture/number/input.css:21:1]
+ 20 |     property: 1.200000;
+ 21 |     property: 1.2e2;
+    :     ^^^^^^^^^^^^^^^
+ 22 |     property: 1e2;
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/fixture/number/input.css:21:1]
+ 20 |     property: 1.200000;
+ 21 |     property: 1.2e2;
+    :     ^^^^^^^^
+ 22 |     property: 1e2;
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/number/input.css:21:1]
+ 20 |     property: 1.200000;
+ 21 |     property: 1.2e2;
+    :     ^^^^^^^^
+ 22 |     property: 1e2;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:21:1]
+ 20 |     property: 1.200000;
+ 21 |     property: 1.2e2;
+    :               ^^^^^
+ 22 |     property: 1e2;
+    `----
+  x Number
+    ,-[$DIR/tests/fixture/number/input.css:21:1]
+ 20 |     property: 1.200000;
+ 21 |     property: 1.2e2;
+    :               ^^^^^
+ 22 |     property: 1e2;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:22:1]
  21 |     property: 1.2e2;
  22 |     property: 1e2;
     :     ^^^^^^^^^^^^^
  23 |     property: .2e2;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:21:1]
+    ,-[$DIR/tests/fixture/number/input.css:22:1]
  21 |     property: 1.2e2;
  22 |     property: 1e2;
     :     ^^^^^^^^^^^^^
  23 |     property: .2e2;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:21:1]
+    ,-[$DIR/tests/fixture/number/input.css:22:1]
  21 |     property: 1.2e2;
  22 |     property: 1e2;
     :     ^^^^^^^^
  23 |     property: .2e2;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:21:1]
+    ,-[$DIR/tests/fixture/number/input.css:22:1]
  21 |     property: 1.2e2;
  22 |     property: 1e2;
     :     ^^^^^^^^
  23 |     property: .2e2;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:21:1]
+    ,-[$DIR/tests/fixture/number/input.css:22:1]
  21 |     property: 1.2e2;
  22 |     property: 1e2;
     :               ^^^
  23 |     property: .2e2;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/number/input.css:21:1]
+    ,-[$DIR/tests/fixture/number/input.css:22:1]
  21 |     property: 1.2e2;
  22 |     property: 1e2;
     :               ^^^
  23 |     property: .2e2;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:22:1]
+    ,-[$DIR/tests/fixture/number/input.css:23:1]
  22 |     property: 1e2;
  23 |     property: .2e2;
     :     ^^^^^^^^^^^^^^
  24 |     property: 1.2E2;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:22:1]
+    ,-[$DIR/tests/fixture/number/input.css:23:1]
  22 |     property: 1e2;
  23 |     property: .2e2;
     :     ^^^^^^^^^^^^^^
  24 |     property: 1.2E2;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:22:1]
+    ,-[$DIR/tests/fixture/number/input.css:23:1]
  22 |     property: 1e2;
  23 |     property: .2e2;
     :     ^^^^^^^^
  24 |     property: 1.2E2;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:22:1]
+    ,-[$DIR/tests/fixture/number/input.css:23:1]
  22 |     property: 1e2;
  23 |     property: .2e2;
     :     ^^^^^^^^
  24 |     property: 1.2E2;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:22:1]
+    ,-[$DIR/tests/fixture/number/input.css:23:1]
  22 |     property: 1e2;
  23 |     property: .2e2;
     :               ^^^^
  24 |     property: 1.2E2;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/number/input.css:22:1]
+    ,-[$DIR/tests/fixture/number/input.css:23:1]
  22 |     property: 1e2;
  23 |     property: .2e2;
     :               ^^^^
  24 |     property: 1.2E2;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:23:1]
+    ,-[$DIR/tests/fixture/number/input.css:24:1]
  23 |     property: .2e2;
  24 |     property: 1.2E2;
     :     ^^^^^^^^^^^^^^^
  25 |     property: 1.2e+2;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:23:1]
+    ,-[$DIR/tests/fixture/number/input.css:24:1]
  23 |     property: .2e2;
  24 |     property: 1.2E2;
     :     ^^^^^^^^^^^^^^^
  25 |     property: 1.2e+2;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:23:1]
+    ,-[$DIR/tests/fixture/number/input.css:24:1]
  23 |     property: .2e2;
  24 |     property: 1.2E2;
     :     ^^^^^^^^
  25 |     property: 1.2e+2;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:23:1]
+    ,-[$DIR/tests/fixture/number/input.css:24:1]
  23 |     property: .2e2;
  24 |     property: 1.2E2;
     :     ^^^^^^^^
  25 |     property: 1.2e+2;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:23:1]
+    ,-[$DIR/tests/fixture/number/input.css:24:1]
  23 |     property: .2e2;
  24 |     property: 1.2E2;
     :               ^^^^^
  25 |     property: 1.2e+2;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/number/input.css:23:1]
+    ,-[$DIR/tests/fixture/number/input.css:24:1]
  23 |     property: .2e2;
  24 |     property: 1.2E2;
     :               ^^^^^
  25 |     property: 1.2e+2;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:24:1]
- 24 |     property: 1.2E2;
- 25 |     property: 1.2e+2;
-    :     ^^^^^^^^^^^^^^^^
- 26 |     property: 1.2e-2;
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:24:1]
- 24 |     property: 1.2E2;
- 25 |     property: 1.2e+2;
-    :     ^^^^^^^^^^^^^^^^
- 26 |     property: 1.2e-2;
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:24:1]
- 24 |     property: 1.2E2;
- 25 |     property: 1.2e+2;
-    :     ^^^^^^^^
- 26 |     property: 1.2e-2;
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/number/input.css:24:1]
- 24 |     property: 1.2E2;
- 25 |     property: 1.2e+2;
-    :     ^^^^^^^^
- 26 |     property: 1.2e-2;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:24:1]
- 24 |     property: 1.2E2;
- 25 |     property: 1.2e+2;
-    :               ^^^^^^
- 26 |     property: 1.2e-2;
-    `----
-
-  x Number
-    ,-[$DIR/tests/fixture/number/input.css:24:1]
- 24 |     property: 1.2E2;
- 25 |     property: 1.2e+2;
-    :               ^^^^^^
- 26 |     property: 1.2e-2;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:25:1]
+ 24 |     property: 1.2E2;
  25 |     property: 1.2e+2;
- 26 |     property: 1.2e-2;
     :     ^^^^^^^^^^^^^^^^
- 27 |     property: -1;
+ 26 |     property: 1.2e-2;
     `----
-
   x Declaration
     ,-[$DIR/tests/fixture/number/input.css:25:1]
+ 24 |     property: 1.2E2;
  25 |     property: 1.2e+2;
- 26 |     property: 1.2e-2;
     :     ^^^^^^^^^^^^^^^^
- 27 |     property: -1;
+ 26 |     property: 1.2e-2;
     `----
-
   x DeclarationName
     ,-[$DIR/tests/fixture/number/input.css:25:1]
+ 24 |     property: 1.2E2;
  25 |     property: 1.2e+2;
- 26 |     property: 1.2e-2;
     :     ^^^^^^^^
- 27 |     property: -1;
+ 26 |     property: 1.2e-2;
     `----
-
   x Ident
     ,-[$DIR/tests/fixture/number/input.css:25:1]
+ 24 |     property: 1.2E2;
  25 |     property: 1.2e+2;
- 26 |     property: 1.2e-2;
     :     ^^^^^^^^
- 27 |     property: -1;
+ 26 |     property: 1.2e-2;
     `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:25:1]
+ 24 |     property: 1.2E2;
  25 |     property: 1.2e+2;
- 26 |     property: 1.2e-2;
     :               ^^^^^^
- 27 |     property: -1;
+ 26 |     property: 1.2e-2;
     `----
-
   x Number
     ,-[$DIR/tests/fixture/number/input.css:25:1]
+ 24 |     property: 1.2E2;
  25 |     property: 1.2e+2;
- 26 |     property: 1.2e-2;
     :               ^^^^^^
- 27 |     property: -1;
+ 26 |     property: 1.2e-2;
     `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:26:1]
+ 25 |     property: 1.2e+2;
+ 26 |     property: 1.2e-2;
+    :     ^^^^^^^^^^^^^^^^
+ 27 |     property: -1;
+    `----
+  x Declaration
+    ,-[$DIR/tests/fixture/number/input.css:26:1]
+ 25 |     property: 1.2e+2;
+ 26 |     property: 1.2e-2;
+    :     ^^^^^^^^^^^^^^^^
+ 27 |     property: -1;
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/fixture/number/input.css:26:1]
+ 25 |     property: 1.2e+2;
+ 26 |     property: 1.2e-2;
+    :     ^^^^^^^^
+ 27 |     property: -1;
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/number/input.css:26:1]
+ 25 |     property: 1.2e+2;
+ 26 |     property: 1.2e-2;
+    :     ^^^^^^^^
+ 27 |     property: -1;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:26:1]
+ 25 |     property: 1.2e+2;
+ 26 |     property: 1.2e-2;
+    :               ^^^^^^
+ 27 |     property: -1;
+    `----
+  x Number
+    ,-[$DIR/tests/fixture/number/input.css:26:1]
+ 25 |     property: 1.2e+2;
+ 26 |     property: 1.2e-2;
+    :               ^^^^^^
+ 27 |     property: -1;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:27:1]
  26 |     property: 1.2e-2;
  27 |     property: -1;
     :     ^^^^^^^^^^^^
  28 |     property: -1.2;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:26:1]
+    ,-[$DIR/tests/fixture/number/input.css:27:1]
  26 |     property: 1.2e-2;
  27 |     property: -1;
     :     ^^^^^^^^^^^^
  28 |     property: -1.2;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:26:1]
+    ,-[$DIR/tests/fixture/number/input.css:27:1]
  26 |     property: 1.2e-2;
  27 |     property: -1;
     :     ^^^^^^^^
  28 |     property: -1.2;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:26:1]
+    ,-[$DIR/tests/fixture/number/input.css:27:1]
  26 |     property: 1.2e-2;
  27 |     property: -1;
     :     ^^^^^^^^
  28 |     property: -1.2;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:26:1]
+    ,-[$DIR/tests/fixture/number/input.css:27:1]
  26 |     property: 1.2e-2;
  27 |     property: -1;
     :               ^^
  28 |     property: -1.2;
     `----
-
   x Integer
-    ,-[$DIR/tests/fixture/number/input.css:26:1]
+    ,-[$DIR/tests/fixture/number/input.css:27:1]
  26 |     property: 1.2e-2;
  27 |     property: -1;
     :               ^^
  28 |     property: -1.2;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:27:1]
- 27 |     property: -1;
- 28 |     property: -1.2;
-    :     ^^^^^^^^^^^^^^
- 29 |     property: .2;
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:27:1]
- 27 |     property: -1;
- 28 |     property: -1.2;
-    :     ^^^^^^^^^^^^^^
- 29 |     property: .2;
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:27:1]
- 27 |     property: -1;
- 28 |     property: -1.2;
-    :     ^^^^^^^^
- 29 |     property: .2;
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/number/input.css:27:1]
- 27 |     property: -1;
- 28 |     property: -1.2;
-    :     ^^^^^^^^
- 29 |     property: .2;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:27:1]
- 27 |     property: -1;
- 28 |     property: -1.2;
-    :               ^^^^
- 29 |     property: .2;
-    `----
-
-  x Number
-    ,-[$DIR/tests/fixture/number/input.css:27:1]
- 27 |     property: -1;
- 28 |     property: -1.2;
-    :               ^^^^
- 29 |     property: .2;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:28:1]
+ 27 |     property: -1;
+ 28 |     property: -1.2;
+    :     ^^^^^^^^^^^^^^
+ 29 |     property: .2;
+    `----
+  x Declaration
+    ,-[$DIR/tests/fixture/number/input.css:28:1]
+ 27 |     property: -1;
+ 28 |     property: -1.2;
+    :     ^^^^^^^^^^^^^^
+ 29 |     property: .2;
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/fixture/number/input.css:28:1]
+ 27 |     property: -1;
+ 28 |     property: -1.2;
+    :     ^^^^^^^^
+ 29 |     property: .2;
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/number/input.css:28:1]
+ 27 |     property: -1;
+ 28 |     property: -1.2;
+    :     ^^^^^^^^
+ 29 |     property: .2;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:28:1]
+ 27 |     property: -1;
+ 28 |     property: -1.2;
+    :               ^^^^
+ 29 |     property: .2;
+    `----
+  x Number
+    ,-[$DIR/tests/fixture/number/input.css:28:1]
+ 27 |     property: -1;
+ 28 |     property: -1.2;
+    :               ^^^^
+ 29 |     property: .2;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:29:1]
  28 |     property: -1.2;
  29 |     property: .2;
     :     ^^^^^^^^^^^^
  30 |     property: -.2;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:28:1]
+    ,-[$DIR/tests/fixture/number/input.css:29:1]
  28 |     property: -1.2;
  29 |     property: .2;
     :     ^^^^^^^^^^^^
  30 |     property: -.2;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:28:1]
+    ,-[$DIR/tests/fixture/number/input.css:29:1]
  28 |     property: -1.2;
  29 |     property: .2;
     :     ^^^^^^^^
  30 |     property: -.2;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:28:1]
+    ,-[$DIR/tests/fixture/number/input.css:29:1]
  28 |     property: -1.2;
  29 |     property: .2;
     :     ^^^^^^^^
  30 |     property: -.2;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:28:1]
+    ,-[$DIR/tests/fixture/number/input.css:29:1]
  28 |     property: -1.2;
  29 |     property: .2;
     :               ^^
  30 |     property: -.2;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/number/input.css:28:1]
+    ,-[$DIR/tests/fixture/number/input.css:29:1]
  28 |     property: -1.2;
  29 |     property: .2;
     :               ^^
  30 |     property: -.2;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:29:1]
- 29 |     property: .2;
- 30 |     property: -.2;
-    :     ^^^^^^^^^^^^^
- 31 |     property: +.2;
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:29:1]
- 29 |     property: .2;
- 30 |     property: -.2;
-    :     ^^^^^^^^^^^^^
- 31 |     property: +.2;
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:29:1]
- 29 |     property: .2;
- 30 |     property: -.2;
-    :     ^^^^^^^^
- 31 |     property: +.2;
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/number/input.css:29:1]
- 29 |     property: .2;
- 30 |     property: -.2;
-    :     ^^^^^^^^
- 31 |     property: +.2;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:29:1]
- 29 |     property: .2;
- 30 |     property: -.2;
-    :               ^^^
- 31 |     property: +.2;
-    `----
-
-  x Number
-    ,-[$DIR/tests/fixture/number/input.css:29:1]
- 29 |     property: .2;
- 30 |     property: -.2;
-    :               ^^^
- 31 |     property: +.2;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:30:1]
+ 29 |     property: .2;
  30 |     property: -.2;
- 31 |     property: +.2;
     :     ^^^^^^^^^^^^^
- 32 |     property: -1.2e3;
+ 31 |     property: +.2;
     `----
-
   x Declaration
     ,-[$DIR/tests/fixture/number/input.css:30:1]
+ 29 |     property: .2;
  30 |     property: -.2;
- 31 |     property: +.2;
     :     ^^^^^^^^^^^^^
- 32 |     property: -1.2e3;
+ 31 |     property: +.2;
     `----
-
   x DeclarationName
     ,-[$DIR/tests/fixture/number/input.css:30:1]
+ 29 |     property: .2;
  30 |     property: -.2;
- 31 |     property: +.2;
     :     ^^^^^^^^
- 32 |     property: -1.2e3;
+ 31 |     property: +.2;
     `----
-
   x Ident
     ,-[$DIR/tests/fixture/number/input.css:30:1]
+ 29 |     property: .2;
  30 |     property: -.2;
- 31 |     property: +.2;
     :     ^^^^^^^^
- 32 |     property: -1.2e3;
+ 31 |     property: +.2;
     `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:30:1]
+ 29 |     property: .2;
  30 |     property: -.2;
- 31 |     property: +.2;
     :               ^^^
- 32 |     property: -1.2e3;
+ 31 |     property: +.2;
     `----
-
   x Number
     ,-[$DIR/tests/fixture/number/input.css:30:1]
+ 29 |     property: .2;
  30 |     property: -.2;
- 31 |     property: +.2;
     :               ^^^
- 32 |     property: -1.2e3;
+ 31 |     property: +.2;
     `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:31:1]
+ 30 |     property: -.2;
+ 31 |     property: +.2;
+    :     ^^^^^^^^^^^^^
+ 32 |     property: -1.2e3;
+    `----
+  x Declaration
+    ,-[$DIR/tests/fixture/number/input.css:31:1]
+ 30 |     property: -.2;
+ 31 |     property: +.2;
+    :     ^^^^^^^^^^^^^
+ 32 |     property: -1.2e3;
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/fixture/number/input.css:31:1]
+ 30 |     property: -.2;
+ 31 |     property: +.2;
+    :     ^^^^^^^^
+ 32 |     property: -1.2e3;
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/number/input.css:31:1]
+ 30 |     property: -.2;
+ 31 |     property: +.2;
+    :     ^^^^^^^^
+ 32 |     property: -1.2e3;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:31:1]
+ 30 |     property: -.2;
+ 31 |     property: +.2;
+    :               ^^^
+ 32 |     property: -1.2e3;
+    `----
+  x Number
+    ,-[$DIR/tests/fixture/number/input.css:31:1]
+ 30 |     property: -.2;
+ 31 |     property: +.2;
+    :               ^^^
+ 32 |     property: -1.2e3;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:32:1]
  31 |     property: +.2;
  32 |     property: -1.2e3;
     :     ^^^^^^^^^^^^^^^^
  33 |     property: 1.75;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:31:1]
+    ,-[$DIR/tests/fixture/number/input.css:32:1]
  31 |     property: +.2;
  32 |     property: -1.2e3;
     :     ^^^^^^^^^^^^^^^^
  33 |     property: 1.75;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:31:1]
+    ,-[$DIR/tests/fixture/number/input.css:32:1]
  31 |     property: +.2;
  32 |     property: -1.2e3;
     :     ^^^^^^^^
  33 |     property: 1.75;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:31:1]
+    ,-[$DIR/tests/fixture/number/input.css:32:1]
  31 |     property: +.2;
  32 |     property: -1.2e3;
     :     ^^^^^^^^
  33 |     property: 1.75;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:31:1]
+    ,-[$DIR/tests/fixture/number/input.css:32:1]
  31 |     property: +.2;
  32 |     property: -1.2e3;
     :               ^^^^^^
  33 |     property: 1.75;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/number/input.css:31:1]
+    ,-[$DIR/tests/fixture/number/input.css:32:1]
  31 |     property: +.2;
  32 |     property: -1.2e3;
     :               ^^^^^^
  33 |     property: 1.75;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:32:1]
- 32 |     property: -1.2e3;
- 33 |     property: 1.75;
-    :     ^^^^^^^^^^^^^^
- 34 |     property: +1.75;
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:32:1]
- 32 |     property: -1.2e3;
- 33 |     property: 1.75;
-    :     ^^^^^^^^^^^^^^
- 34 |     property: +1.75;
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:32:1]
- 32 |     property: -1.2e3;
- 33 |     property: 1.75;
-    :     ^^^^^^^^
- 34 |     property: +1.75;
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/number/input.css:32:1]
- 32 |     property: -1.2e3;
- 33 |     property: 1.75;
-    :     ^^^^^^^^
- 34 |     property: +1.75;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:32:1]
- 32 |     property: -1.2e3;
- 33 |     property: 1.75;
-    :               ^^^^
- 34 |     property: +1.75;
-    `----
-
-  x Number
-    ,-[$DIR/tests/fixture/number/input.css:32:1]
- 32 |     property: -1.2e3;
- 33 |     property: 1.75;
-    :               ^^^^
- 34 |     property: +1.75;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:33:1]
+ 32 |     property: -1.2e3;
+ 33 |     property: 1.75;
+    :     ^^^^^^^^^^^^^^
+ 34 |     property: +1.75;
+    `----
+  x Declaration
+    ,-[$DIR/tests/fixture/number/input.css:33:1]
+ 32 |     property: -1.2e3;
+ 33 |     property: 1.75;
+    :     ^^^^^^^^^^^^^^
+ 34 |     property: +1.75;
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/fixture/number/input.css:33:1]
+ 32 |     property: -1.2e3;
+ 33 |     property: 1.75;
+    :     ^^^^^^^^
+ 34 |     property: +1.75;
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/number/input.css:33:1]
+ 32 |     property: -1.2e3;
+ 33 |     property: 1.75;
+    :     ^^^^^^^^
+ 34 |     property: +1.75;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:33:1]
+ 32 |     property: -1.2e3;
+ 33 |     property: 1.75;
+    :               ^^^^
+ 34 |     property: +1.75;
+    `----
+  x Number
+    ,-[$DIR/tests/fixture/number/input.css:33:1]
+ 32 |     property: -1.2e3;
+ 33 |     property: 1.75;
+    :               ^^^^
+ 34 |     property: +1.75;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:34:1]
  33 |     property: 1.75;
  34 |     property: +1.75;
     :     ^^^^^^^^^^^^^^^
  35 |     property: 1e0;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:33:1]
+    ,-[$DIR/tests/fixture/number/input.css:34:1]
  33 |     property: 1.75;
  34 |     property: +1.75;
     :     ^^^^^^^^^^^^^^^
  35 |     property: 1e0;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:33:1]
+    ,-[$DIR/tests/fixture/number/input.css:34:1]
  33 |     property: 1.75;
  34 |     property: +1.75;
     :     ^^^^^^^^
  35 |     property: 1e0;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:33:1]
+    ,-[$DIR/tests/fixture/number/input.css:34:1]
  33 |     property: 1.75;
  34 |     property: +1.75;
     :     ^^^^^^^^
  35 |     property: 1e0;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:33:1]
+    ,-[$DIR/tests/fixture/number/input.css:34:1]
  33 |     property: 1.75;
  34 |     property: +1.75;
     :               ^^^^^
  35 |     property: 1e0;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/number/input.css:33:1]
+    ,-[$DIR/tests/fixture/number/input.css:34:1]
  33 |     property: 1.75;
  34 |     property: +1.75;
     :               ^^^^^
  35 |     property: 1e0;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:34:1]
+    ,-[$DIR/tests/fixture/number/input.css:35:1]
  34 |     property: +1.75;
  35 |     property: 1e0;
     :     ^^^^^^^^^^^^^
  36 |     property: 1e1;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:34:1]
+    ,-[$DIR/tests/fixture/number/input.css:35:1]
  34 |     property: +1.75;
  35 |     property: 1e0;
     :     ^^^^^^^^^^^^^
  36 |     property: 1e1;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:34:1]
+    ,-[$DIR/tests/fixture/number/input.css:35:1]
  34 |     property: +1.75;
  35 |     property: 1e0;
     :     ^^^^^^^^
  36 |     property: 1e1;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:34:1]
+    ,-[$DIR/tests/fixture/number/input.css:35:1]
  34 |     property: +1.75;
  35 |     property: 1e0;
     :     ^^^^^^^^
  36 |     property: 1e1;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:34:1]
- 34 |     property: +1.75;
- 35 |     property: 1e0;
-    :               ^^^
- 36 |     property: 1e1;
-    `----
-
-  x Number
-    ,-[$DIR/tests/fixture/number/input.css:34:1]
- 34 |     property: +1.75;
- 35 |     property: 1e0;
-    :               ^^^
- 36 |     property: 1e1;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:35:1]
+ 34 |     property: +1.75;
+ 35 |     property: 1e0;
+    :               ^^^
+ 36 |     property: 1e1;
+    `----
+  x Number
+    ,-[$DIR/tests/fixture/number/input.css:35:1]
+ 34 |     property: +1.75;
+ 35 |     property: 1e0;
+    :               ^^^
+ 36 |     property: 1e1;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:36:1]
  35 |     property: 1e0;
  36 |     property: 1e1;
     :     ^^^^^^^^^^^^^
  37 |     property: 1e+1;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:35:1]
+    ,-[$DIR/tests/fixture/number/input.css:36:1]
  35 |     property: 1e0;
  36 |     property: 1e1;
     :     ^^^^^^^^^^^^^
  37 |     property: 1e+1;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:35:1]
+    ,-[$DIR/tests/fixture/number/input.css:36:1]
  35 |     property: 1e0;
  36 |     property: 1e1;
     :     ^^^^^^^^
  37 |     property: 1e+1;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:35:1]
+    ,-[$DIR/tests/fixture/number/input.css:36:1]
  35 |     property: 1e0;
  36 |     property: 1e1;
     :     ^^^^^^^^
  37 |     property: 1e+1;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:35:1]
+    ,-[$DIR/tests/fixture/number/input.css:36:1]
  35 |     property: 1e0;
  36 |     property: 1e1;
     :               ^^^
  37 |     property: 1e+1;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/number/input.css:35:1]
+    ,-[$DIR/tests/fixture/number/input.css:36:1]
  35 |     property: 1e0;
  36 |     property: 1e1;
     :               ^^^
  37 |     property: 1e+1;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:36:1]
- 36 |     property: 1e1;
- 37 |     property: 1e+1;
-    :     ^^^^^^^^^^^^^^
- 38 |     property: 1e-1;
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:36:1]
- 36 |     property: 1e1;
- 37 |     property: 1e+1;
-    :     ^^^^^^^^^^^^^^
- 38 |     property: 1e-1;
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:36:1]
- 36 |     property: 1e1;
- 37 |     property: 1e+1;
-    :     ^^^^^^^^
- 38 |     property: 1e-1;
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/number/input.css:36:1]
- 36 |     property: 1e1;
- 37 |     property: 1e+1;
-    :     ^^^^^^^^
- 38 |     property: 1e-1;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:36:1]
- 36 |     property: 1e1;
- 37 |     property: 1e+1;
-    :               ^^^^
- 38 |     property: 1e-1;
-    `----
-
-  x Number
-    ,-[$DIR/tests/fixture/number/input.css:36:1]
- 36 |     property: 1e1;
- 37 |     property: 1e+1;
-    :               ^^^^
- 38 |     property: 1e-1;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:37:1]
+ 36 |     property: 1e1;
  37 |     property: 1e+1;
- 38 |     property: 1e-1;
     :     ^^^^^^^^^^^^^^
- 39 |     property: 1e-10;
+ 38 |     property: 1e-1;
     `----
-
   x Declaration
     ,-[$DIR/tests/fixture/number/input.css:37:1]
+ 36 |     property: 1e1;
  37 |     property: 1e+1;
- 38 |     property: 1e-1;
     :     ^^^^^^^^^^^^^^
- 39 |     property: 1e-10;
+ 38 |     property: 1e-1;
     `----
-
   x DeclarationName
     ,-[$DIR/tests/fixture/number/input.css:37:1]
+ 36 |     property: 1e1;
  37 |     property: 1e+1;
- 38 |     property: 1e-1;
     :     ^^^^^^^^
- 39 |     property: 1e-10;
+ 38 |     property: 1e-1;
     `----
-
   x Ident
     ,-[$DIR/tests/fixture/number/input.css:37:1]
+ 36 |     property: 1e1;
  37 |     property: 1e+1;
- 38 |     property: 1e-1;
     :     ^^^^^^^^
- 39 |     property: 1e-10;
+ 38 |     property: 1e-1;
     `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:37:1]
+ 36 |     property: 1e1;
  37 |     property: 1e+1;
- 38 |     property: 1e-1;
     :               ^^^^
- 39 |     property: 1e-10;
+ 38 |     property: 1e-1;
     `----
-
   x Number
     ,-[$DIR/tests/fixture/number/input.css:37:1]
+ 36 |     property: 1e1;
  37 |     property: 1e+1;
- 38 |     property: 1e-1;
     :               ^^^^
- 39 |     property: 1e-10;
+ 38 |     property: 1e-1;
     `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:38:1]
+ 37 |     property: 1e+1;
+ 38 |     property: 1e-1;
+    :     ^^^^^^^^^^^^^^
+ 39 |     property: 1e-10;
+    `----
+  x Declaration
+    ,-[$DIR/tests/fixture/number/input.css:38:1]
+ 37 |     property: 1e+1;
+ 38 |     property: 1e-1;
+    :     ^^^^^^^^^^^^^^
+ 39 |     property: 1e-10;
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/fixture/number/input.css:38:1]
+ 37 |     property: 1e+1;
+ 38 |     property: 1e-1;
+    :     ^^^^^^^^
+ 39 |     property: 1e-10;
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/number/input.css:38:1]
+ 37 |     property: 1e+1;
+ 38 |     property: 1e-1;
+    :     ^^^^^^^^
+ 39 |     property: 1e-10;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:38:1]
+ 37 |     property: 1e+1;
+ 38 |     property: 1e-1;
+    :               ^^^^
+ 39 |     property: 1e-10;
+    `----
+  x Number
+    ,-[$DIR/tests/fixture/number/input.css:38:1]
+ 37 |     property: 1e+1;
+ 38 |     property: 1e-1;
+    :               ^^^^
+ 39 |     property: 1e-10;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:39:1]
  38 |     property: 1e-1;
  39 |     property: 1e-10;
     :     ^^^^^^^^^^^^^^^
  40 |     property: 1+2;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:38:1]
+    ,-[$DIR/tests/fixture/number/input.css:39:1]
  38 |     property: 1e-1;
  39 |     property: 1e-10;
     :     ^^^^^^^^^^^^^^^
  40 |     property: 1+2;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:38:1]
+    ,-[$DIR/tests/fixture/number/input.css:39:1]
  38 |     property: 1e-1;
  39 |     property: 1e-10;
     :     ^^^^^^^^
  40 |     property: 1+2;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:38:1]
+    ,-[$DIR/tests/fixture/number/input.css:39:1]
  38 |     property: 1e-1;
  39 |     property: 1e-10;
     :     ^^^^^^^^
  40 |     property: 1+2;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:38:1]
+    ,-[$DIR/tests/fixture/number/input.css:39:1]
  38 |     property: 1e-1;
  39 |     property: 1e-10;
     :               ^^^^^
  40 |     property: 1+2;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/number/input.css:38:1]
+    ,-[$DIR/tests/fixture/number/input.css:39:1]
  38 |     property: 1e-1;
  39 |     property: 1e-10;
     :               ^^^^^
  40 |     property: 1+2;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:39:1]
- 39 |     property: 1e-10;
- 40 |     property: 1+2;
-    :     ^^^^^^^^^^^^^
- 41 |     property: 1-2;
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:39:1]
- 39 |     property: 1e-10;
- 40 |     property: 1+2;
-    :     ^^^^^^^^^^^^^
- 41 |     property: 1-2;
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:39:1]
- 39 |     property: 1e-10;
- 40 |     property: 1+2;
-    :     ^^^^^^^^
- 41 |     property: 1-2;
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/number/input.css:39:1]
- 39 |     property: 1e-10;
- 40 |     property: 1+2;
-    :     ^^^^^^^^
- 41 |     property: 1-2;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:39:1]
- 39 |     property: 1e-10;
- 40 |     property: 1+2;
-    :               ^
- 41 |     property: 1-2;
-    `----
-
-  x Integer
-    ,-[$DIR/tests/fixture/number/input.css:39:1]
- 39 |     property: 1e-10;
- 40 |     property: 1+2;
-    :               ^
- 41 |     property: 1-2;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:39:1]
- 39 |     property: 1e-10;
- 40 |     property: 1+2;
-    :                ^^
- 41 |     property: 1-2;
-    `----
-
-  x Integer
-    ,-[$DIR/tests/fixture/number/input.css:39:1]
- 39 |     property: 1e-10;
- 40 |     property: 1+2;
-    :                ^^
- 41 |     property: 1-2;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:40:1]
+ 39 |     property: 1e-10;
  40 |     property: 1+2;
- 41 |     property: 1-2;
     :     ^^^^^^^^^^^^^
- 42 |     property: 4.01;
+ 41 |     property: 1-2;
     `----
-
   x Declaration
     ,-[$DIR/tests/fixture/number/input.css:40:1]
+ 39 |     property: 1e-10;
+ 40 |     property: 1+2;
+    :     ^^^^^^^^^^^^^
+ 41 |     property: 1-2;
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/fixture/number/input.css:40:1]
+ 39 |     property: 1e-10;
+ 40 |     property: 1+2;
+    :     ^^^^^^^^
+ 41 |     property: 1-2;
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/number/input.css:40:1]
+ 39 |     property: 1e-10;
+ 40 |     property: 1+2;
+    :     ^^^^^^^^
+ 41 |     property: 1-2;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:40:1]
+ 39 |     property: 1e-10;
+ 40 |     property: 1+2;
+    :               ^
+ 41 |     property: 1-2;
+    `----
+  x Integer
+    ,-[$DIR/tests/fixture/number/input.css:40:1]
+ 39 |     property: 1e-10;
+ 40 |     property: 1+2;
+    :               ^
+ 41 |     property: 1-2;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:40:1]
+ 39 |     property: 1e-10;
+ 40 |     property: 1+2;
+    :                ^^
+ 41 |     property: 1-2;
+    `----
+  x Integer
+    ,-[$DIR/tests/fixture/number/input.css:40:1]
+ 39 |     property: 1e-10;
+ 40 |     property: 1+2;
+    :                ^^
+ 41 |     property: 1-2;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:41:1]
  40 |     property: 1+2;
  41 |     property: 1-2;
     :     ^^^^^^^^^^^^^
  42 |     property: 4.01;
     `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:40:1]
- 40 |     property: 1+2;
- 41 |     property: 1-2;
-    :     ^^^^^^^^
- 42 |     property: 4.01;
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/number/input.css:40:1]
- 40 |     property: 1+2;
- 41 |     property: 1-2;
-    :     ^^^^^^^^
- 42 |     property: 4.01;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:40:1]
- 40 |     property: 1+2;
- 41 |     property: 1-2;
-    :               ^
- 42 |     property: 4.01;
-    `----
-
-  x Integer
-    ,-[$DIR/tests/fixture/number/input.css:40:1]
- 40 |     property: 1+2;
- 41 |     property: 1-2;
-    :               ^
- 42 |     property: 4.01;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:40:1]
- 40 |     property: 1+2;
- 41 |     property: 1-2;
-    :                ^^
- 42 |     property: 4.01;
-    `----
-
-  x Integer
-    ,-[$DIR/tests/fixture/number/input.css:40:1]
- 40 |     property: 1+2;
- 41 |     property: 1-2;
-    :                ^^
- 42 |     property: 4.01;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:41:1]
- 41 |     property: 1-2;
- 42 |     property: 4.01;
-    :     ^^^^^^^^^^^^^^
- 43 |     property: -456.8;
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/number/input.css:41:1]
+ 40 |     property: 1+2;
  41 |     property: 1-2;
+    :     ^^^^^^^^^^^^^
  42 |     property: 4.01;
-    :     ^^^^^^^^^^^^^^
- 43 |     property: -456.8;
     `----
-
   x DeclarationName
     ,-[$DIR/tests/fixture/number/input.css:41:1]
+ 40 |     property: 1+2;
  41 |     property: 1-2;
- 42 |     property: 4.01;
     :     ^^^^^^^^
- 43 |     property: -456.8;
+ 42 |     property: 4.01;
     `----
-
   x Ident
     ,-[$DIR/tests/fixture/number/input.css:41:1]
+ 40 |     property: 1+2;
  41 |     property: 1-2;
- 42 |     property: 4.01;
     :     ^^^^^^^^
- 43 |     property: -456.8;
+ 42 |     property: 4.01;
     `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:41:1]
+ 40 |     property: 1+2;
  41 |     property: 1-2;
+    :               ^
  42 |     property: 4.01;
-    :               ^^^^
- 43 |     property: -456.8;
     `----
-
-  x Number
+  x Integer
     ,-[$DIR/tests/fixture/number/input.css:41:1]
+ 40 |     property: 1+2;
  41 |     property: 1-2;
+    :               ^
  42 |     property: 4.01;
-    :               ^^^^
- 43 |     property: -456.8;
     `----
-
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:41:1]
+ 40 |     property: 1+2;
+ 41 |     property: 1-2;
+    :                ^^
+ 42 |     property: 4.01;
+    `----
+  x Integer
+    ,-[$DIR/tests/fixture/number/input.css:41:1]
+ 40 |     property: 1+2;
+ 41 |     property: 1-2;
+    :                ^^
+ 42 |     property: 4.01;
+    `----
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:42:1]
+ 41 |     property: 1-2;
+ 42 |     property: 4.01;
+    :     ^^^^^^^^^^^^^^
+ 43 |     property: -456.8;
+    `----
+  x Declaration
+    ,-[$DIR/tests/fixture/number/input.css:42:1]
+ 41 |     property: 1-2;
+ 42 |     property: 4.01;
+    :     ^^^^^^^^^^^^^^
+ 43 |     property: -456.8;
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/fixture/number/input.css:42:1]
+ 41 |     property: 1-2;
+ 42 |     property: 4.01;
+    :     ^^^^^^^^
+ 43 |     property: -456.8;
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/number/input.css:42:1]
+ 41 |     property: 1-2;
+ 42 |     property: 4.01;
+    :     ^^^^^^^^
+ 43 |     property: -456.8;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:42:1]
+ 41 |     property: 1-2;
+ 42 |     property: 4.01;
+    :               ^^^^
+ 43 |     property: -456.8;
+    `----
+  x Number
+    ,-[$DIR/tests/fixture/number/input.css:42:1]
+ 41 |     property: 1-2;
+ 42 |     property: 4.01;
+    :               ^^^^
+ 43 |     property: -456.8;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:43:1]
  42 |     property: 4.01;
  43 |     property: -456.8;
     :     ^^^^^^^^^^^^^^^^
  44 |     property: .60;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:42:1]
+    ,-[$DIR/tests/fixture/number/input.css:43:1]
  42 |     property: 4.01;
  43 |     property: -456.8;
     :     ^^^^^^^^^^^^^^^^
  44 |     property: .60;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:42:1]
+    ,-[$DIR/tests/fixture/number/input.css:43:1]
  42 |     property: 4.01;
  43 |     property: -456.8;
     :     ^^^^^^^^
  44 |     property: .60;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:42:1]
+    ,-[$DIR/tests/fixture/number/input.css:43:1]
  42 |     property: 4.01;
  43 |     property: -456.8;
     :     ^^^^^^^^
  44 |     property: .60;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:42:1]
+    ,-[$DIR/tests/fixture/number/input.css:43:1]
  42 |     property: 4.01;
  43 |     property: -456.8;
     :               ^^^^^^
  44 |     property: .60;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/number/input.css:42:1]
+    ,-[$DIR/tests/fixture/number/input.css:43:1]
  42 |     property: 4.01;
  43 |     property: -456.8;
     :               ^^^^^^
  44 |     property: .60;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:43:1]
+    ,-[$DIR/tests/fixture/number/input.css:44:1]
  43 |     property: -456.8;
  44 |     property: .60;
     :     ^^^^^^^^^^^^^
  45 |     property: .0060;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:43:1]
+    ,-[$DIR/tests/fixture/number/input.css:44:1]
  43 |     property: -456.8;
  44 |     property: .60;
     :     ^^^^^^^^^^^^^
  45 |     property: .0060;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:43:1]
+    ,-[$DIR/tests/fixture/number/input.css:44:1]
  43 |     property: -456.8;
  44 |     property: .60;
     :     ^^^^^^^^
  45 |     property: .0060;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:43:1]
+    ,-[$DIR/tests/fixture/number/input.css:44:1]
  43 |     property: -456.8;
  44 |     property: .60;
     :     ^^^^^^^^
  45 |     property: .0060;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:43:1]
+    ,-[$DIR/tests/fixture/number/input.css:44:1]
  43 |     property: -456.8;
  44 |     property: .60;
     :               ^^^
  45 |     property: .0060;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/number/input.css:43:1]
+    ,-[$DIR/tests/fixture/number/input.css:44:1]
  43 |     property: -456.8;
  44 |     property: .60;
     :               ^^^
  45 |     property: .0060;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:44:1]
+    ,-[$DIR/tests/fixture/number/input.css:45:1]
  44 |     property: .60;
  45 |     property: .0060;
     :     ^^^^^^^^^^^^^^^
  46 |     property: 10e3;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:44:1]
+    ,-[$DIR/tests/fixture/number/input.css:45:1]
  44 |     property: .60;
  45 |     property: .0060;
     :     ^^^^^^^^^^^^^^^
  46 |     property: 10e3;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:44:1]
+    ,-[$DIR/tests/fixture/number/input.css:45:1]
  44 |     property: .60;
  45 |     property: .0060;
     :     ^^^^^^^^
  46 |     property: 10e3;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:44:1]
+    ,-[$DIR/tests/fixture/number/input.css:45:1]
  44 |     property: .60;
  45 |     property: .0060;
     :     ^^^^^^^^
  46 |     property: 10e3;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:44:1]
+    ,-[$DIR/tests/fixture/number/input.css:45:1]
  44 |     property: .60;
  45 |     property: .0060;
     :               ^^^^^
  46 |     property: 10e3;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/number/input.css:44:1]
+    ,-[$DIR/tests/fixture/number/input.css:45:1]
  44 |     property: .60;
  45 |     property: .0060;
     :               ^^^^^
  46 |     property: 10e3;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:45:1]
- 45 |     property: .0060;
- 46 |     property: 10e3;
-    :     ^^^^^^^^^^^^^^
- 47 |     property: -3.4e-2;
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:45:1]
- 45 |     property: .0060;
- 46 |     property: 10e3;
-    :     ^^^^^^^^^^^^^^
- 47 |     property: -3.4e-2;
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:45:1]
- 45 |     property: .0060;
- 46 |     property: 10e3;
-    :     ^^^^^^^^
- 47 |     property: -3.4e-2;
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/number/input.css:45:1]
- 45 |     property: .0060;
- 46 |     property: 10e3;
-    :     ^^^^^^^^
- 47 |     property: -3.4e-2;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:45:1]
- 45 |     property: .0060;
- 46 |     property: 10e3;
-    :               ^^^^
- 47 |     property: -3.4e-2;
-    `----
-
-  x Number
-    ,-[$DIR/tests/fixture/number/input.css:45:1]
- 45 |     property: .0060;
- 46 |     property: 10e3;
-    :               ^^^^
- 47 |     property: -3.4e-2;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:46:1]
+ 45 |     property: .0060;
+ 46 |     property: 10e3;
+    :     ^^^^^^^^^^^^^^
+ 47 |     property: -3.4e-2;
+    `----
+  x Declaration
+    ,-[$DIR/tests/fixture/number/input.css:46:1]
+ 45 |     property: .0060;
+ 46 |     property: 10e3;
+    :     ^^^^^^^^^^^^^^
+ 47 |     property: -3.4e-2;
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/fixture/number/input.css:46:1]
+ 45 |     property: .0060;
+ 46 |     property: 10e3;
+    :     ^^^^^^^^
+ 47 |     property: -3.4e-2;
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/number/input.css:46:1]
+ 45 |     property: .0060;
+ 46 |     property: 10e3;
+    :     ^^^^^^^^
+ 47 |     property: -3.4e-2;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:46:1]
+ 45 |     property: .0060;
+ 46 |     property: 10e3;
+    :               ^^^^
+ 47 |     property: -3.4e-2;
+    `----
+  x Number
+    ,-[$DIR/tests/fixture/number/input.css:46:1]
+ 45 |     property: .0060;
+ 46 |     property: 10e3;
+    :               ^^^^
+ 47 |     property: -3.4e-2;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:47:1]
  46 |     property: 10e3;
  47 |     property: -3.4e-2;
     :     ^^^^^^^^^^^^^^^^^
  48 |     property: 0.5600000000;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:46:1]
+    ,-[$DIR/tests/fixture/number/input.css:47:1]
  46 |     property: 10e3;
  47 |     property: -3.4e-2;
     :     ^^^^^^^^^^^^^^^^^
  48 |     property: 0.5600000000;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:46:1]
+    ,-[$DIR/tests/fixture/number/input.css:47:1]
  46 |     property: 10e3;
  47 |     property: -3.4e-2;
     :     ^^^^^^^^
  48 |     property: 0.5600000000;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:46:1]
+    ,-[$DIR/tests/fixture/number/input.css:47:1]
  46 |     property: 10e3;
  47 |     property: -3.4e-2;
     :     ^^^^^^^^
  48 |     property: 0.5600000000;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:46:1]
+    ,-[$DIR/tests/fixture/number/input.css:47:1]
  46 |     property: 10e3;
  47 |     property: -3.4e-2;
     :               ^^^^^^^
  48 |     property: 0.5600000000;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/number/input.css:46:1]
+    ,-[$DIR/tests/fixture/number/input.css:47:1]
  46 |     property: 10e3;
  47 |     property: -3.4e-2;
     :               ^^^^^^^
  48 |     property: 0.5600000000;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:47:1]
+    ,-[$DIR/tests/fixture/number/input.css:48:1]
  47 |     property: -3.4e-2;
  48 |     property: 0.5600000000;
     :     ^^^^^^^^^^^^^^^^^^^^^^
  49 |     property: 10e6;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:47:1]
+    ,-[$DIR/tests/fixture/number/input.css:48:1]
  47 |     property: -3.4e-2;
  48 |     property: 0.5600000000;
     :     ^^^^^^^^^^^^^^^^^^^^^^
  49 |     property: 10e6;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:47:1]
+    ,-[$DIR/tests/fixture/number/input.css:48:1]
  47 |     property: -3.4e-2;
  48 |     property: 0.5600000000;
     :     ^^^^^^^^
  49 |     property: 10e6;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:47:1]
+    ,-[$DIR/tests/fixture/number/input.css:48:1]
  47 |     property: -3.4e-2;
  48 |     property: 0.5600000000;
     :     ^^^^^^^^
  49 |     property: 10e6;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:47:1]
+    ,-[$DIR/tests/fixture/number/input.css:48:1]
  47 |     property: -3.4e-2;
  48 |     property: 0.5600000000;
     :               ^^^^^^^^^^^^
  49 |     property: 10e6;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/number/input.css:47:1]
+    ,-[$DIR/tests/fixture/number/input.css:48:1]
  47 |     property: -3.4e-2;
  48 |     property: 0.5600000000;
     :               ^^^^^^^^^^^^
  49 |     property: 10e6;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:48:1]
+    ,-[$DIR/tests/fixture/number/input.css:49:1]
  48 |     property: 0.5600000000;
  49 |     property: 10e6;
     :     ^^^^^^^^^^^^^^
  50 |     property: 10000000;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:48:1]
+    ,-[$DIR/tests/fixture/number/input.css:49:1]
  48 |     property: 0.5600000000;
  49 |     property: 10e6;
     :     ^^^^^^^^^^^^^^
  50 |     property: 10000000;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:48:1]
+    ,-[$DIR/tests/fixture/number/input.css:49:1]
  48 |     property: 0.5600000000;
  49 |     property: 10e6;
     :     ^^^^^^^^
  50 |     property: 10000000;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:48:1]
+    ,-[$DIR/tests/fixture/number/input.css:49:1]
  48 |     property: 0.5600000000;
  49 |     property: 10e6;
     :     ^^^^^^^^
  50 |     property: 10000000;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:48:1]
+    ,-[$DIR/tests/fixture/number/input.css:49:1]
  48 |     property: 0.5600000000;
  49 |     property: 10e6;
     :               ^^^^
  50 |     property: 10000000;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/number/input.css:48:1]
+    ,-[$DIR/tests/fixture/number/input.css:49:1]
  48 |     property: 0.5600000000;
  49 |     property: 10e6;
     :               ^^^^
  50 |     property: 10000000;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:49:1]
+    ,-[$DIR/tests/fixture/number/input.css:50:1]
  49 |     property: 10e6;
  50 |     property: 10000000;
     :     ^^^^^^^^^^^^^^^^^^
  51 |     property: 0.0;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:49:1]
+    ,-[$DIR/tests/fixture/number/input.css:50:1]
  49 |     property: 10e6;
  50 |     property: 10000000;
     :     ^^^^^^^^^^^^^^^^^^
  51 |     property: 0.0;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:49:1]
+    ,-[$DIR/tests/fixture/number/input.css:50:1]
  49 |     property: 10e6;
  50 |     property: 10000000;
     :     ^^^^^^^^
  51 |     property: 0.0;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:49:1]
+    ,-[$DIR/tests/fixture/number/input.css:50:1]
  49 |     property: 10e6;
  50 |     property: 10000000;
     :     ^^^^^^^^
  51 |     property: 0.0;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:49:1]
+    ,-[$DIR/tests/fixture/number/input.css:50:1]
  49 |     property: 10e6;
  50 |     property: 10000000;
     :               ^^^^^^^^
  51 |     property: 0.0;
     `----
-
   x Integer
-    ,-[$DIR/tests/fixture/number/input.css:49:1]
+    ,-[$DIR/tests/fixture/number/input.css:50:1]
  49 |     property: 10e6;
  50 |     property: 10000000;
     :               ^^^^^^^^
  51 |     property: 0.0;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:50:1]
- 50 |     property: 10000000;
- 51 |     property: 0.0;
-    :     ^^^^^^^^^^^^^
- 52 |     property: -0.0;
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:50:1]
- 50 |     property: 10000000;
- 51 |     property: 0.0;
-    :     ^^^^^^^^^^^^^
- 52 |     property: -0.0;
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:50:1]
- 50 |     property: 10000000;
- 51 |     property: 0.0;
-    :     ^^^^^^^^
- 52 |     property: -0.0;
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/number/input.css:50:1]
- 50 |     property: 10000000;
- 51 |     property: 0.0;
-    :     ^^^^^^^^
- 52 |     property: -0.0;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:50:1]
- 50 |     property: 10000000;
- 51 |     property: 0.0;
-    :               ^^^
- 52 |     property: -0.0;
-    `----
-
-  x Number
-    ,-[$DIR/tests/fixture/number/input.css:50:1]
- 50 |     property: 10000000;
- 51 |     property: 0.0;
-    :               ^^^
- 52 |     property: -0.0;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:51:1]
+ 50 |     property: 10000000;
+ 51 |     property: 0.0;
+    :     ^^^^^^^^^^^^^
+ 52 |     property: -0.0;
+    `----
+  x Declaration
+    ,-[$DIR/tests/fixture/number/input.css:51:1]
+ 50 |     property: 10000000;
+ 51 |     property: 0.0;
+    :     ^^^^^^^^^^^^^
+ 52 |     property: -0.0;
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/fixture/number/input.css:51:1]
+ 50 |     property: 10000000;
+ 51 |     property: 0.0;
+    :     ^^^^^^^^
+ 52 |     property: -0.0;
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/number/input.css:51:1]
+ 50 |     property: 10000000;
+ 51 |     property: 0.0;
+    :     ^^^^^^^^
+ 52 |     property: -0.0;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:51:1]
+ 50 |     property: 10000000;
+ 51 |     property: 0.0;
+    :               ^^^
+ 52 |     property: -0.0;
+    `----
+  x Number
+    ,-[$DIR/tests/fixture/number/input.css:51:1]
+ 50 |     property: 10000000;
+ 51 |     property: 0.0;
+    :               ^^^
+ 52 |     property: -0.0;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:52:1]
  51 |     property: 0.0;
  52 |     property: -0.0;
     :     ^^^^^^^^^^^^^^
  53 |     property: +0.0;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:51:1]
+    ,-[$DIR/tests/fixture/number/input.css:52:1]
  51 |     property: 0.0;
  52 |     property: -0.0;
     :     ^^^^^^^^^^^^^^
  53 |     property: +0.0;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:51:1]
+    ,-[$DIR/tests/fixture/number/input.css:52:1]
  51 |     property: 0.0;
  52 |     property: -0.0;
     :     ^^^^^^^^
  53 |     property: +0.0;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:51:1]
+    ,-[$DIR/tests/fixture/number/input.css:52:1]
  51 |     property: 0.0;
  52 |     property: -0.0;
     :     ^^^^^^^^
  53 |     property: +0.0;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:51:1]
- 51 |     property: 0.0;
- 52 |     property: -0.0;
-    :               ^^^^
- 53 |     property: +0.0;
-    `----
-
-  x Number
-    ,-[$DIR/tests/fixture/number/input.css:51:1]
- 51 |     property: 0.0;
- 52 |     property: -0.0;
-    :               ^^^^
- 53 |     property: +0.0;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:52:1]
+ 51 |     property: 0.0;
+ 52 |     property: -0.0;
+    :               ^^^^
+ 53 |     property: +0.0;
+    `----
+  x Number
+    ,-[$DIR/tests/fixture/number/input.css:52:1]
+ 51 |     property: 0.0;
+ 52 |     property: -0.0;
+    :               ^^^^
+ 53 |     property: +0.0;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:53:1]
  52 |     property: -0.0;
  53 |     property: +0.0;
     :     ^^^^^^^^^^^^^^
  54 |     property: 1e1;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:52:1]
+    ,-[$DIR/tests/fixture/number/input.css:53:1]
  52 |     property: -0.0;
  53 |     property: +0.0;
     :     ^^^^^^^^^^^^^^
  54 |     property: 1e1;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:52:1]
+    ,-[$DIR/tests/fixture/number/input.css:53:1]
  52 |     property: -0.0;
  53 |     property: +0.0;
     :     ^^^^^^^^
  54 |     property: 1e1;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:52:1]
+    ,-[$DIR/tests/fixture/number/input.css:53:1]
  52 |     property: -0.0;
  53 |     property: +0.0;
     :     ^^^^^^^^
  54 |     property: 1e1;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:52:1]
+    ,-[$DIR/tests/fixture/number/input.css:53:1]
  52 |     property: -0.0;
  53 |     property: +0.0;
     :               ^^^^
  54 |     property: 1e1;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/number/input.css:52:1]
+    ,-[$DIR/tests/fixture/number/input.css:53:1]
  52 |     property: -0.0;
  53 |     property: +0.0;
     :               ^^^^
  54 |     property: 1e1;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:53:1]
- 53 |     property: +0.0;
- 54 |     property: 1e1;
-    :     ^^^^^^^^^^^^^
- 55 |     property: 1e2;
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:53:1]
- 53 |     property: +0.0;
- 54 |     property: 1e1;
-    :     ^^^^^^^^^^^^^
- 55 |     property: 1e2;
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:53:1]
- 53 |     property: +0.0;
- 54 |     property: 1e1;
-    :     ^^^^^^^^
- 55 |     property: 1e2;
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/number/input.css:53:1]
- 53 |     property: +0.0;
- 54 |     property: 1e1;
-    :     ^^^^^^^^
- 55 |     property: 1e2;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:53:1]
- 53 |     property: +0.0;
- 54 |     property: 1e1;
-    :               ^^^
- 55 |     property: 1e2;
-    `----
-
-  x Number
-    ,-[$DIR/tests/fixture/number/input.css:53:1]
- 53 |     property: +0.0;
- 54 |     property: 1e1;
-    :               ^^^
- 55 |     property: 1e2;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:54:1]
+ 53 |     property: +0.0;
  54 |     property: 1e1;
- 55 |     property: 1e2;
     :     ^^^^^^^^^^^^^
- 56 |     property: 1e3;
+ 55 |     property: 1e2;
     `----
-
   x Declaration
     ,-[$DIR/tests/fixture/number/input.css:54:1]
+ 53 |     property: +0.0;
  54 |     property: 1e1;
- 55 |     property: 1e2;
     :     ^^^^^^^^^^^^^
- 56 |     property: 1e3;
+ 55 |     property: 1e2;
     `----
-
   x DeclarationName
     ,-[$DIR/tests/fixture/number/input.css:54:1]
+ 53 |     property: +0.0;
  54 |     property: 1e1;
- 55 |     property: 1e2;
     :     ^^^^^^^^
- 56 |     property: 1e3;
+ 55 |     property: 1e2;
     `----
-
   x Ident
     ,-[$DIR/tests/fixture/number/input.css:54:1]
+ 53 |     property: +0.0;
  54 |     property: 1e1;
- 55 |     property: 1e2;
     :     ^^^^^^^^
- 56 |     property: 1e3;
+ 55 |     property: 1e2;
     `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:54:1]
+ 53 |     property: +0.0;
  54 |     property: 1e1;
- 55 |     property: 1e2;
     :               ^^^
- 56 |     property: 1e3;
+ 55 |     property: 1e2;
     `----
-
   x Number
     ,-[$DIR/tests/fixture/number/input.css:54:1]
+ 53 |     property: +0.0;
  54 |     property: 1e1;
- 55 |     property: 1e2;
     :               ^^^
- 56 |     property: 1e3;
+ 55 |     property: 1e2;
     `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:55:1]
+ 54 |     property: 1e1;
  55 |     property: 1e2;
- 56 |     property: 1e3;
     :     ^^^^^^^^^^^^^
- 57 |     property: 1e4;
+ 56 |     property: 1e3;
     `----
-
   x Declaration
     ,-[$DIR/tests/fixture/number/input.css:55:1]
+ 54 |     property: 1e1;
  55 |     property: 1e2;
- 56 |     property: 1e3;
     :     ^^^^^^^^^^^^^
- 57 |     property: 1e4;
+ 56 |     property: 1e3;
     `----
-
   x DeclarationName
     ,-[$DIR/tests/fixture/number/input.css:55:1]
+ 54 |     property: 1e1;
  55 |     property: 1e2;
- 56 |     property: 1e3;
     :     ^^^^^^^^
- 57 |     property: 1e4;
+ 56 |     property: 1e3;
     `----
-
   x Ident
     ,-[$DIR/tests/fixture/number/input.css:55:1]
+ 54 |     property: 1e1;
  55 |     property: 1e2;
- 56 |     property: 1e3;
     :     ^^^^^^^^
- 57 |     property: 1e4;
+ 56 |     property: 1e3;
     `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:55:1]
+ 54 |     property: 1e1;
  55 |     property: 1e2;
- 56 |     property: 1e3;
     :               ^^^
- 57 |     property: 1e4;
+ 56 |     property: 1e3;
     `----
-
   x Number
     ,-[$DIR/tests/fixture/number/input.css:55:1]
+ 54 |     property: 1e1;
  55 |     property: 1e2;
- 56 |     property: 1e3;
     :               ^^^
- 57 |     property: 1e4;
+ 56 |     property: 1e3;
     `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:56:1]
+ 55 |     property: 1e2;
  56 |     property: 1e3;
- 57 |     property: 1e4;
     :     ^^^^^^^^^^^^^
- 58 |     property: 100.1e-6;
+ 57 |     property: 1e4;
     `----
-
   x Declaration
     ,-[$DIR/tests/fixture/number/input.css:56:1]
+ 55 |     property: 1e2;
  56 |     property: 1e3;
- 57 |     property: 1e4;
     :     ^^^^^^^^^^^^^
- 58 |     property: 100.1e-6;
+ 57 |     property: 1e4;
     `----
-
   x DeclarationName
     ,-[$DIR/tests/fixture/number/input.css:56:1]
+ 55 |     property: 1e2;
  56 |     property: 1e3;
- 57 |     property: 1e4;
     :     ^^^^^^^^
- 58 |     property: 100.1e-6;
+ 57 |     property: 1e4;
     `----
-
   x Ident
     ,-[$DIR/tests/fixture/number/input.css:56:1]
+ 55 |     property: 1e2;
  56 |     property: 1e3;
- 57 |     property: 1e4;
     :     ^^^^^^^^
- 58 |     property: 100.1e-6;
+ 57 |     property: 1e4;
     `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:56:1]
+ 55 |     property: 1e2;
  56 |     property: 1e3;
- 57 |     property: 1e4;
     :               ^^^
- 58 |     property: 100.1e-6;
+ 57 |     property: 1e4;
     `----
-
   x Number
     ,-[$DIR/tests/fixture/number/input.css:56:1]
+ 55 |     property: 1e2;
  56 |     property: 1e3;
- 57 |     property: 1e4;
     :               ^^^
- 58 |     property: 100.1e-6;
+ 57 |     property: 1e4;
     `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/number/input.css:57:1]
+ 56 |     property: 1e3;
+ 57 |     property: 1e4;
+    :     ^^^^^^^^^^^^^
+ 58 |     property: 100.1e-6;
+    `----
+  x Declaration
+    ,-[$DIR/tests/fixture/number/input.css:57:1]
+ 56 |     property: 1e3;
+ 57 |     property: 1e4;
+    :     ^^^^^^^^^^^^^
+ 58 |     property: 100.1e-6;
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/fixture/number/input.css:57:1]
+ 56 |     property: 1e3;
+ 57 |     property: 1e4;
+    :     ^^^^^^^^
+ 58 |     property: 100.1e-6;
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/number/input.css:57:1]
+ 56 |     property: 1e3;
+ 57 |     property: 1e4;
+    :     ^^^^^^^^
+ 58 |     property: 100.1e-6;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:57:1]
+ 56 |     property: 1e3;
+ 57 |     property: 1e4;
+    :               ^^^
+ 58 |     property: 100.1e-6;
+    `----
+  x Number
+    ,-[$DIR/tests/fixture/number/input.css:57:1]
+ 56 |     property: 1e3;
+ 57 |     property: 1e4;
+    :               ^^^
+ 58 |     property: 100.1e-6;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/number/input.css:58:1]
  57 |     property: 1e4;
  58 |     property: 100.1e-6;
     :     ^^^^^^^^^^^^^^^^^^
  59 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/number/input.css:57:1]
+    ,-[$DIR/tests/fixture/number/input.css:58:1]
  57 |     property: 1e4;
  58 |     property: 100.1e-6;
     :     ^^^^^^^^^^^^^^^^^^
  59 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/number/input.css:57:1]
+    ,-[$DIR/tests/fixture/number/input.css:58:1]
  57 |     property: 1e4;
  58 |     property: 100.1e-6;
     :     ^^^^^^^^
  59 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/number/input.css:57:1]
+    ,-[$DIR/tests/fixture/number/input.css:58:1]
  57 |     property: 1e4;
  58 |     property: 100.1e-6;
     :     ^^^^^^^^
  59 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/number/input.css:57:1]
+    ,-[$DIR/tests/fixture/number/input.css:58:1]
  57 |     property: 1e4;
  58 |     property: 100.1e-6;
     :               ^^^^^^^^
  59 | }
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/number/input.css:57:1]
+    ,-[$DIR/tests/fixture/number/input.css:58:1]
  57 |     property: 1e4;
  58 |     property: 100.1e-6;
     :               ^^^^^^^^

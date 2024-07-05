@@ -1,100 +1,85 @@
-
   x Document
    ,-[$DIR/tests/fixture/element/no-basic/input.html:1:1]
  1 | ,-> <!DOCTYPE html>
  2 | |   <title>Saving money, saving bytes</title>
  3 | `-> <p>Qed.
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/no-basic/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
  2 | <title>Saving money, saving bytes</title>
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/element/no-basic/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
  2 | <title>Saving money, saving bytes</title>
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/fixture/element/no-basic/input.html:1:1]
+   ,-[$DIR/tests/fixture/element/no-basic/input.html:2:1]
  1 | <!DOCTYPE html>
  2 | <title>Saving money, saving bytes</title>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | <p>Qed.
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/element/no-basic/input.html:1:1]
+   ,-[$DIR/tests/fixture/element/no-basic/input.html:2:1]
  1 | <!DOCTYPE html>
  2 | <title>Saving money, saving bytes</title>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | <p>Qed.
    `----
-
-  x Child
-   ,-[$DIR/tests/fixture/element/no-basic/input.html:1:1]
- 1 | <!DOCTYPE html>
- 2 | <title>Saving money, saving bytes</title>
-   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 3 | <p>Qed.
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/element/no-basic/input.html:1:1]
- 1 | <!DOCTYPE html>
- 2 | <title>Saving money, saving bytes</title>
-   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 3 | <p>Qed.
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/element/no-basic/input.html:1:1]
- 1 | <!DOCTYPE html>
- 2 | <title>Saving money, saving bytes</title>
-   :                                          ^
- 3 | <p>Qed.
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/element/no-basic/input.html:1:1]
- 1 | <!DOCTYPE html>
- 2 | <title>Saving money, saving bytes</title>
-   :                                          ^
- 3 | <p>Qed.
-   `----
-
   x Child
    ,-[$DIR/tests/fixture/element/no-basic/input.html:2:1]
+ 1 | <!DOCTYPE html>
+ 2 | <title>Saving money, saving bytes</title>
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 3 | <p>Qed.
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/element/no-basic/input.html:2:1]
+ 1 | <!DOCTYPE html>
+ 2 | <title>Saving money, saving bytes</title>
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 3 | <p>Qed.
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/no-basic/input.html:2:1]
+ 1 | <!DOCTYPE html>
+ 2 | <title>Saving money, saving bytes</title>
+   :                                          ^
+ 3 | <p>Qed.
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/element/no-basic/input.html:2:1]
+ 1 | <!DOCTYPE html>
+ 2 | <title>Saving money, saving bytes</title>
+   :                                          ^
+ 3 | <p>Qed.
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/no-basic/input.html:3:1]
  2 | <title>Saving money, saving bytes</title>
  3 | <p>Qed.
    : ^^^^^^^
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/element/no-basic/input.html:2:1]
+   ,-[$DIR/tests/fixture/element/no-basic/input.html:3:1]
  2 | <title>Saving money, saving bytes</title>
  3 | <p>Qed.
    : ^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/no-basic/input.html:2:1]
+   ,-[$DIR/tests/fixture/element/no-basic/input.html:3:1]
  2 | <title>Saving money, saving bytes</title>
  3 | <p>Qed.
    :    ^^^^
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/no-basic/input.html:2:1]
+   ,-[$DIR/tests/fixture/element/no-basic/input.html:3:1]
  2 | <title>Saving money, saving bytes</title>
  3 | <p>Qed.
    :    ^^^^

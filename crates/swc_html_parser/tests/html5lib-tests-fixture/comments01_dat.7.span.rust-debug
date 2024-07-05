@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.7.html:1:1]
  1 | FOO<!-- BAR -- <QUX> -- MUX -- >BAZ
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.7.html:1:1]
  1 | FOO<!-- BAR -- <QUX> -- MUX -- >BAZ
    : ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.7.html:1:1]
  1 | FOO<!-- BAR -- <QUX> -- MUX -- >BAZ
    : ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.7.html:1:1]
  1 | FOO<!-- BAR -- <QUX> -- MUX -- >BAZ
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Comment
    ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.7.html:1:1]
  1 | FOO<!-- BAR -- <QUX> -- MUX -- >BAZ

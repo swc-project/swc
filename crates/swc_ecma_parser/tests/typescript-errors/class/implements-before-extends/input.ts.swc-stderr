@@ -1,4 +1,3 @@
-
   x 'extends' clause must precede 'implements' clause.
    ,-[$DIR/tests/typescript-errors/class/implements-before-extends/input.ts:1:1]
  1 | class C implements A extends B {}

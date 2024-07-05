@@ -1,4 +1,3 @@
-
   x Unexpected token `.`. Expected yield, an identifier, [ or {
    ,-[$DIR/tests/test262-parser/fail/e8a08a6fe21d46a8.js:1:1]
  1 | ({ set s(.) { } })

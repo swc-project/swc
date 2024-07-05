@@ -1,196 +1,163 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x PseudoClassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :  ^^^^^^^
    `----
-
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :          ^^^^^^^^^^^^^
    `----
-
   x CompoundSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :          ^^^^^^^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :          ^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :          ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :          ^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :          ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :          ^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :             ^^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :             ^^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :             ^^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :             ^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :             ^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :                 ^^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :                 ^^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :                 ^^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :                 ^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :                 ^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :                     ^^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :                     ^^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :                     ^^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :                     ^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :                     ^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}
    :                         ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
  1 | :current(p, li, dt, dd) {}

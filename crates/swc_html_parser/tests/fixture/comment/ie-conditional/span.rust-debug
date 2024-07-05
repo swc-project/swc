@@ -1,4 +1,3 @@
-
   x Document
     ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:1:1]
   1 | ,-> <!DOCTYPE html>
@@ -14,23 +13,20 @@
  11 | |   </body>
  12 | `-> </html>
     `----
-
   x Child
    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
  2 | <html>
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
  2 | <html>
    `----
-
   x Child
-    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:1:1]
+    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:2:1]
   1 |     <!DOCTYPE html>
   2 | ,-> <html>
   3 | |   <body>
@@ -44,9 +40,8 @@
  11 | |   </body>
  12 | `-> </html>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:1:1]
+    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:2:1]
   1 |     <!DOCTYPE html>
   2 | ,-> <html>
   3 | |   <body>
@@ -60,13 +55,10 @@
  11 | |   </body>
  12 | `-> </html>
     `----
-
   x Child
-
   x Element
-
   x Child
-    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:2:1]
+    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:3:1]
   2 |     <html>
   3 | ,-> <body>
   4 | |   
@@ -79,9 +71,8 @@
  11 | |   </body>
  12 | `-> </html>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:2:1]
+    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:3:1]
   2 |     <html>
   3 | ,-> <body>
   4 | |   
@@ -94,184 +85,162 @@
  11 | |   </body>
  12 | `-> </html>
     `----
-
   x Child
-   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:2:1]
+   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:3:1]
  2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <!--[if IE 5]>This is IE 5<br><![endif]-->
  6 |     <!--[if IE 6]>This is IE 6<br><![endif]-->
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:2:1]
+   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:3:1]
  2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <!--[if IE 5]>This is IE 5<br><![endif]-->
  6 |     <!--[if IE 6]>This is IE 6<br><![endif]-->
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:4:1]
+   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:5:1]
  4 | 
  5 | <!--[if IE 5]>This is IE 5<br><![endif]-->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
    `----
-
   x Comment
-   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:4:1]
+   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:5:1]
  4 | 
  5 | <!--[if IE 5]>This is IE 5<br><![endif]-->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:4:1]
+   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:5:1]
  4 | 
  5 | <!--[if IE 5]>This is IE 5<br><![endif]-->
    :                                           ^
  6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
  7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:4:1]
+   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:5:1]
  4 | 
  5 | <!--[if IE 5]>This is IE 5<br><![endif]-->
    :                                           ^
  6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
  7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
    `----
-
-  x Child
-   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:5:1]
- 5 | <!--[if IE 5]>This is IE 5<br><![endif]-->
- 6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
-   `----
-
-  x Comment
-   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:5:1]
- 5 | <!--[if IE 5]>This is IE 5<br><![endif]-->
- 6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:5:1]
- 5 | <!--[if IE 5]>This is IE 5<br><![endif]-->
- 6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
-   :                                           ^
- 7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
- 8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:5:1]
- 5 | <!--[if IE 5]>This is IE 5<br><![endif]-->
- 6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
-   :                                           ^
- 7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
- 8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
-   `----
-
   x Child
    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:6:1]
+ 5 | <!--[if IE 5]>This is IE 5<br><![endif]-->
  6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
- 7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
+ 7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
    `----
-
   x Comment
    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:6:1]
+ 5 | <!--[if IE 5]>This is IE 5<br><![endif]-->
  6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
- 7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
+ 7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
    `----
-
   x Child
    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:6:1]
+ 5 | <!--[if IE 5]>This is IE 5<br><![endif]-->
  6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
- 7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
    :                                           ^
+ 7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
  8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
- 9 | <!--[if IE 9]>This is IE 9<br><![endif]-->
    `----
-
   x Text
    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:6:1]
+ 5 | <!--[if IE 5]>This is IE 5<br><![endif]-->
  6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
- 7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
    :                                           ^
+ 7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
  8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
- 9 | <!--[if IE 9]>This is IE 9<br><![endif]-->
    `----
-
   x Child
    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:7:1]
+ 6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
  7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
- 8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 9 | <!--[if IE 9]>This is IE 9<br><![endif]-->
+ 8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
    `----
-
   x Comment
    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:7:1]
+ 6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
  7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
- 8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 9 | <!--[if IE 9]>This is IE 9<br><![endif]-->
+ 8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
    `----
-
   x Child
    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:7:1]
+ 6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
  7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
- 8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
    :                                           ^
+ 8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
  9 | <!--[if IE 9]>This is IE 9<br><![endif]-->
    `----
-
   x Text
    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:7:1]
+ 6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
  7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
- 8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
    :                                           ^
+ 8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
  9 | <!--[if IE 9]>This is IE 9<br><![endif]-->
    `----
-
   x Child
    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:8:1]
+ 7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
  8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
- 9 | <!--[if IE 9]>This is IE 9<br><![endif]-->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | <!--[if IE 9]>This is IE 9<br><![endif]-->
    `----
-
   x Comment
    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:8:1]
+ 7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
+ 8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | <!--[if IE 9]>This is IE 9<br><![endif]-->
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:8:1]
+ 7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
+ 8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
+   :                                           ^
+ 9 | <!--[if IE 9]>This is IE 9<br><![endif]-->
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:8:1]
+ 7 | <!--[if IE 7]>This is IE 7<br><![endif]-->
+ 8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
+   :                                           ^
+ 9 | <!--[if IE 9]>This is IE 9<br><![endif]-->
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:9:1]
  8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
  9 | <!--[if IE 9]>This is IE 9<br><![endif]-->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
+  x Comment
+   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:9:1]
+ 8 | <!--[if IE 8]>This is IE 8<br><![endif]-->
+ 9 | <!--[if IE 9]>This is IE 9<br><![endif]-->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
   x Child
-    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:8:1]
+    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:9:1]
   8 |     <!--[if IE 8]>This is IE 8<br><![endif]-->
   9 | ,-> <!--[if IE 9]>This is IE 9<br><![endif]-->
  10 | |   
  11 | |   </body>
  12 | `-> </html>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:8:1]
+    ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:9:1]
   8 |     <!--[if IE 8]>This is IE 8<br><![endif]-->
   9 | ,-> <!--[if IE 9]>This is IE 9<br><![endif]-->
  10 | |   

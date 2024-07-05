@@ -1,4 +1,3 @@
-
   x assignment property is invalid syntax
    ,-[$DIR/tests/test262-parser/fail/c0ad1c20e662c8ed.js:1:1]
  1 | obj = {x = 0}

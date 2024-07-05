@@ -1,4 +1,3 @@
-
   x Bad character escape sequence, expected 1-6 hex characters in the range 0 to 10FFFF.
    ,-[$DIR/tests/errors/bad_character_escape_sequence_3/input.js:1:1]
  1 | const string = "\u{FFFFFF}";

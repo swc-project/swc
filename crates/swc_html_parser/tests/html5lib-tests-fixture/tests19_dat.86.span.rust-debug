@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.86.html:1:1]
  1 | <!doctype html><meta http-equiv="content-type" content="text/html;charset=ascii">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.86.html:1:1]
  1 | <!doctype html><meta http-equiv="content-type" content="text/html;charset=ascii">
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.86.html:1:1]
  1 | <!doctype html><meta http-equiv="content-type" content="text/html;charset=ascii">
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.86.html:1:1]
  1 | <!doctype html><meta http-equiv="content-type" content="text/html;charset=ascii">
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.86.html:1:1]
  1 | <!doctype html><meta http-equiv="content-type" content="text/html;charset=ascii">
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.86.html:1:1]
  1 | <!doctype html><meta http-equiv="content-type" content="text/html;charset=ascii">
    :                      ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.86.html:1:1]
  1 | <!doctype html><meta http-equiv="content-type" content="text/html;charset=ascii">

@@ -1,4 +1,3 @@
-
   x Unexpected console statement
    ,-[1:1]
  1 | console.log('restricted');

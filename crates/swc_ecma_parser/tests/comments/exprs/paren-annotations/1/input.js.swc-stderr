@@ -1,8 +1,6 @@
-
   > Leading (lo)
 
-Advice: 
-  > #__NO_SIDE_EFFECTS__
+Advice:   > #__NO_SIDE_EFFECTS__
    ,-[$DIR/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {
    :                                      ^

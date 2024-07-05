@@ -1,4 +1,3 @@
-
   x The 'type' modifier cannot be used on a named import when 'import type' is used on its import statement.
    ,-[$DIR/tests/typescript-errors/type-only-import-specifier/duplicated-type-only/input.ts:1:1]
  1 | import type { type something } from 'mod'

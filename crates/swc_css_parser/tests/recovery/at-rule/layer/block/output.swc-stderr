@@ -1,4 +1,3 @@
-
   x Expected only one name
    ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
  1 | @layer framework, override   ,    foo   {

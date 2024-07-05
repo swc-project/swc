@@ -1,117 +1,101 @@
-
   x Module
    ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
  1 | ,-> declare module "name" {
  2 | |       export class Foo { }
  3 | `-> }
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
  1 | ,-> declare module "name" {
  2 | |       export class Foo { }
  3 | `-> }
    `----
-
   x Stmt
    ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
  1 | ,-> declare module "name" {
  2 | |       export class Foo { }
  3 | `-> }
    `----
-
   x Decl
    ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
  1 | ,-> declare module "name" {
  2 | |       export class Foo { }
  3 | `-> }
    `----
-
   x TsModuleDecl
    ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
  1 | ,-> declare module "name" {
  2 | |       export class Foo { }
  3 | `-> }
    `----
-
   x TsModuleName
    ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
  1 | declare module "name" {
    :                ^^^^^^
  2 |     export class Foo { }
    `----
-
   x Str
    ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
  1 | declare module "name" {
    :                ^^^^^^
  2 |     export class Foo { }
    `----
-
   x TsNamespaceBody
    ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
  1 | ,-> declare module "name" {
  2 | |       export class Foo { }
  3 | `-> }
    `----
-
   x TsModuleBlock
    ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
  1 | ,-> declare module "name" {
  2 | |       export class Foo { }
  3 | `-> }
    `----
-
   x ModuleItem
-   ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
+   ,-[$DIR/tests/span/ts/declare/module.ts:2:1]
  1 | declare module "name" {
  2 |     export class Foo { }
    :     ^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x ModuleDecl
-   ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
+   ,-[$DIR/tests/span/ts/declare/module.ts:2:1]
  1 | declare module "name" {
  2 |     export class Foo { }
    :     ^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x ExportDecl
-   ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
+   ,-[$DIR/tests/span/ts/declare/module.ts:2:1]
  1 | declare module "name" {
  2 |     export class Foo { }
    :     ^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x Decl
-   ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
+   ,-[$DIR/tests/span/ts/declare/module.ts:2:1]
  1 | declare module "name" {
  2 |     export class Foo { }
    :            ^^^^^^^^^^^^^
  3 | }
    `----
-
   x ClassDecl
-   ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
+   ,-[$DIR/tests/span/ts/declare/module.ts:2:1]
  1 | declare module "name" {
  2 |     export class Foo { }
    :            ^^^^^^^^^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
+   ,-[$DIR/tests/span/ts/declare/module.ts:2:1]
  1 | declare module "name" {
  2 |     export class Foo { }
    :                  ^^^
  3 | }
    `----
-
   x Class
-   ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
+   ,-[$DIR/tests/span/ts/declare/module.ts:2:1]
  1 | declare module "name" {
  2 |     export class Foo { }
    :            ^^^^^^^^^^^^^

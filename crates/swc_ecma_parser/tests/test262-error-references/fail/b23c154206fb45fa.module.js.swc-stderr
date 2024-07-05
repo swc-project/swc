@@ -1,4 +1,3 @@
-
   x Unexpected token `,`. Expected identifier or string
    ,-[$DIR/tests/test262-parser/fail/b23c154206fb45fa.module.js:1:1]
  1 | export {a,,b}

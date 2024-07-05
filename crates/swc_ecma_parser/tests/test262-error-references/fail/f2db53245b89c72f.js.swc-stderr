@@ -1,4 +1,3 @@
-
   x Declaration is not allowed
    ,-[$DIR/tests/test262-parser/fail/f2db53245b89c72f.js:1:1]
  1 | while(true) function a(){}

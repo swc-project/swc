@@ -1,40 +1,33 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/JygAjyd3aaFifbGpuMgJOA/input.css:1:1]
  1 | @namespace \,s 'p\61th';
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/JygAjyd3aaFifbGpuMgJOA/input.css:1:1]
  1 | @namespace \,s 'p\61th';
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/JygAjyd3aaFifbGpuMgJOA/input.css:1:1]
  1 | @namespace \,s 'p\61th';
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/JygAjyd3aaFifbGpuMgJOA/input.css:1:1]
  1 | @namespace \,s 'p\61th';
    :  ^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/JygAjyd3aaFifbGpuMgJOA/input.css:1:1]
  1 | @namespace \,s 'p\61th';
    :  ^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/JygAjyd3aaFifbGpuMgJOA/input.css:1:1]
  1 | @namespace \,s 'p\61th';
    :            ^^^
    `----
-
   x Str
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/JygAjyd3aaFifbGpuMgJOA/input.css:1:1]
  1 | @namespace \,s 'p\61th';

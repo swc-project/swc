@@ -1,10 +1,8 @@
-
   x Character reference outside unicode range
    ,-[$DIR/tests/recovery/text/character-refenrece-outside/input.html:1:1]
  1 | &#x110000;
    :          ^
    `----
-
   x Non-space characters found without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/text/character-refenrece-outside/input.html:1:1]
  1 | &#x110000;

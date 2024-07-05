@@ -1,64 +1,53 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ISvhgCbFuiTTWo41R3UVRA/input.css:1:1]
  1 | .\2c class {}
    : ^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ISvhgCbFuiTTWo41R3UVRA/input.css:1:1]
  1 | .\2c class {}
    : ^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ISvhgCbFuiTTWo41R3UVRA/input.css:1:1]
  1 | .\2c class {}
    : ^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ISvhgCbFuiTTWo41R3UVRA/input.css:1:1]
  1 | .\2c class {}
    : ^^^^^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ISvhgCbFuiTTWo41R3UVRA/input.css:1:1]
  1 | .\2c class {}
    : ^^^^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ISvhgCbFuiTTWo41R3UVRA/input.css:1:1]
  1 | .\2c class {}
    : ^^^^^^^^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ISvhgCbFuiTTWo41R3UVRA/input.css:1:1]
  1 | .\2c class {}
    : ^^^^^^^^^^
    `----
-
   x ClassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ISvhgCbFuiTTWo41R3UVRA/input.css:1:1]
  1 | .\2c class {}
    : ^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ISvhgCbFuiTTWo41R3UVRA/input.css:1:1]
  1 | .\2c class {}
    :  ^^^^^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ISvhgCbFuiTTWo41R3UVRA/input.css:1:1]
  1 | .\2c class {}
    :            ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ISvhgCbFuiTTWo41R3UVRA/input.css:1:1]
  1 | .\2c class {}

@@ -1,4 +1,3 @@
-
   x Expected ident
    ,-[$DIR/tests/test262-parser/fail/e7d55d897a90564b.js:1:1]
  1 | function t(false) { }

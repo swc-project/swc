@@ -1,4 +1,3 @@
-
   x Identifier cannot follow number
    ,-[$DIR/tests/test262-parser/fail/a77add5a553e5cce.js:1:1]
  1 | 0.toString

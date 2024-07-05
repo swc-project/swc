@@ -1,35 +1,28 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.7.html:1:1]
  1 | ,-> <frameset></frameset>
  2 | `-> foo
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.7.html:1:1]
  1 | <frameset></frameset>
    : ^^^^^^^^^^^^^^^^^^^^^
  2 | foo
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.7.html:1:1]
  1 | <frameset></frameset>
    : ^^^^^^^^^^^^^^^^^^^^^
  2 | foo
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.7.html:1:1]
  1 | <frameset></frameset>
    :                      ^
  2 | foo
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.7.html:1:1]
  1 | <frameset></frameset>

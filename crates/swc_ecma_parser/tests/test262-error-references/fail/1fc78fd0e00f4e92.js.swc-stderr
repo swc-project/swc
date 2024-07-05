@@ -1,4 +1,3 @@
-
   x Expected ident
    ,-[$DIR/tests/test262-parser/fail/1fc78fd0e00f4e92.js:1:1]
  1 | function default() {}

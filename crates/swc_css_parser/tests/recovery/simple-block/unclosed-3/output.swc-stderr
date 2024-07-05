@@ -1,4 +1,3 @@
-
   x Unexpected end of file, but expected '}'
    ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:1:1]
  1 | ,-> a {

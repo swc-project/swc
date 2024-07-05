@@ -1,40 +1,33 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>
    : ^^^^^
    `----
-
   x Start tag "svg" seen in "table"
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>
    :             ^^^^^
    `----
-
   x Start tag "select" seen in "table"
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>
    :                                 ^^^^^^^^
    `----
-
   x "table" start tag with "select" open
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>
    :                                         ^^^^^^^
    `----
-
   x Start tag for "table" seen but the previous "table" is still open
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>
    :                                         ^^^^^^^
    `----
-
   x Start tag "s" seen in "table"
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>
    :                                                ^^^
    `----
-
   x End of file seen and there were open elements
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>

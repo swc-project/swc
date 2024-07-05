@@ -1,4 +1,3 @@
-
   x Stylesheet
     ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
   1 | ,-> @starting-style {
@@ -12,7 +11,6 @@
   9 | |       }
  10 | `-> }
     `----
-
   x Rule
     ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
   1 | ,-> @starting-style {
@@ -26,7 +24,6 @@
   9 | |       }
  10 | `-> }
     `----
-
   x AtRule
     ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
   1 | ,-> @starting-style {
@@ -40,21 +37,18 @@
   9 | |       }
  10 | `-> }
     `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
  1 | @starting-style {
    :  ^^^^^^^^^^^^^^
  2 |     h1 {
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
  1 | @starting-style {
    :  ^^^^^^^^^^^^^^
  2 |     h1 {
    `----
-
   x SimpleBlock
     ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
   1 | ,-> @starting-style {
@@ -68,155 +62,136 @@
   9 | |       }
  10 | `-> }
     `----
-
   x LBrace
    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
  1 | @starting-style {
    :                 ^
  2 |     h1 {
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:2:1]
  1 |     @starting-style {
  2 | ,->     h1 {
  3 | |           background-color: transparent;
  4 | `->     }
  5 |         @layer foo {
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:2:1]
  1 |     @starting-style {
  2 | ,->     h1 {
  3 | |           background-color: transparent;
  4 | `->     }
  5 |         @layer foo {
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:2:1]
  1 | @starting-style {
  2 |     h1 {
    :     ^^
  3 |         background-color: transparent;
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:2:1]
  1 | @starting-style {
  2 |     h1 {
    :     ^^
  3 |         background-color: transparent;
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:2:1]
  1 | @starting-style {
  2 |     h1 {
    :     ^^
  3 |         background-color: transparent;
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:2:1]
  1 | @starting-style {
  2 |     h1 {
    :     ^^
  3 |         background-color: transparent;
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:2:1]
  1 | @starting-style {
  2 |     h1 {
    :     ^^
  3 |         background-color: transparent;
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:2:1]
  1 | @starting-style {
  2 |     h1 {
    :     ^^
  3 |         background-color: transparent;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:2:1]
  1 | @starting-style {
  2 |     h1 {
    :     ^^
  3 |         background-color: transparent;
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:2:1]
  1 |     @starting-style {
  2 | ,->     h1 {
  3 | |           background-color: transparent;
  4 | `->     }
  5 |         @layer foo {
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:2:1]
  1 | @starting-style {
  2 |     h1 {
    :        ^
  3 |         background-color: transparent;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:3:1]
  2 |     h1 {
  3 |         background-color: transparent;
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     }
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:3:1]
  2 |     h1 {
  3 |         background-color: transparent;
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:3:1]
  2 |     h1 {
  3 |         background-color: transparent;
    :         ^^^^^^^^^^^^^^^^
  4 |     }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:3:1]
  2 |     h1 {
  3 |         background-color: transparent;
    :         ^^^^^^^^^^^^^^^^
  4 |     }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:3:1]
  2 |     h1 {
  3 |         background-color: transparent;
    :                           ^^^^^^^^^^^
  4 |     }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:3:1]
  2 |     h1 {
  3 |         background-color: transparent;
    :                           ^^^^^^^^^^^
  4 |     }
    `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:4:1]
+    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:5:1]
   4 |         }
   5 | ,->     @layer foo {
   6 | |           div {
@@ -225,9 +200,8 @@
   9 | `->     }
  10 |     }
     `----
-
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:4:1]
+    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:5:1]
   4 |         }
   5 | ,->     @layer foo {
   6 | |           div {
@@ -236,49 +210,43 @@
   9 | `->     }
  10 |     }
     `----
-
   x AtRuleName
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:4:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:5:1]
  4 |     }
  5 |     @layer foo {
    :      ^^^^^
  6 |         div {
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:4:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:5:1]
  4 |     }
  5 |     @layer foo {
    :      ^^^^^
  6 |         div {
    `----
-
   x LayerPrelude
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:4:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:5:1]
  4 |     }
  5 |     @layer foo {
    :            ^^^
  6 |         div {
    `----
-
   x LayerName
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:4:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:5:1]
  4 |     }
  5 |     @layer foo {
    :            ^^^
  6 |         div {
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:4:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:5:1]
  4 |     }
  5 |     @layer foo {
    :            ^^^
  6 |         div {
    `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:4:1]
+    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:5:1]
   4 |         }
   5 | ,->     @layer foo {
   6 | |           div {
@@ -287,172 +255,151 @@
   9 | `->     }
  10 |     }
     `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:4:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:5:1]
  4 |     }
  5 |     @layer foo {
    :                ^
  6 |         div {
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:5:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
  5 |         @layer foo {
  6 | ,->         div {
  7 | |               height: 100px;
  8 | `->         }
  9 |         }
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:5:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
  5 |         @layer foo {
  6 | ,->         div {
  7 | |               height: 100px;
  8 | `->         }
  9 |         }
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:5:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
  5 |     @layer foo {
  6 |         div {
    :         ^^^
  7 |             height: 100px;
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:5:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
  5 |     @layer foo {
  6 |         div {
    :         ^^^
  7 |             height: 100px;
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:5:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
  5 |     @layer foo {
  6 |         div {
    :         ^^^
  7 |             height: 100px;
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:5:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
  5 |     @layer foo {
  6 |         div {
    :         ^^^
  7 |             height: 100px;
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:5:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
  5 |     @layer foo {
  6 |         div {
    :         ^^^
  7 |             height: 100px;
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:5:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
  5 |     @layer foo {
  6 |         div {
    :         ^^^
  7 |             height: 100px;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:5:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
  5 |     @layer foo {
  6 |         div {
    :         ^^^
  7 |             height: 100px;
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:5:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
  5 |         @layer foo {
  6 | ,->         div {
  7 | |               height: 100px;
  8 | `->         }
  9 |         }
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:5:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
  5 |     @layer foo {
  6 |         div {
    :             ^
  7 |             height: 100px;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:7:1]
  6 |         div {
  7 |             height: 100px;
    :             ^^^^^^^^^^^^^
  8 |         }
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:7:1]
  6 |         div {
  7 |             height: 100px;
    :             ^^^^^^^^^^^^^
  8 |         }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:7:1]
  6 |         div {
  7 |             height: 100px;
    :             ^^^^^^
  8 |         }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:7:1]
  6 |         div {
  7 |             height: 100px;
    :             ^^^^^^
  8 |         }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:7:1]
  6 |         div {
  7 |             height: 100px;
    :                     ^^^^^
  8 |         }
    `----
-
   x Dimension
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:7:1]
  6 |         div {
  7 |             height: 100px;
    :                     ^^^^^
  8 |         }
    `----
-
   x Length
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:7:1]
  6 |         div {
  7 |             height: 100px;
    :                     ^^^^^
  8 |         }
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:7:1]
  6 |         div {
  7 |             height: 100px;
    :                     ^^^
  8 |         }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:7:1]
  6 |         div {
  7 |             height: 100px;
    :                        ^^

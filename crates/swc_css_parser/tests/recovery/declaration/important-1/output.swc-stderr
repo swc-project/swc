@@ -1,6 +1,5 @@
-
   x Unexpected '!' in declaration value
-   ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/important-1/input.css:2:1]
  1 | a {
  2 |     color: red !importan;
    :                ^

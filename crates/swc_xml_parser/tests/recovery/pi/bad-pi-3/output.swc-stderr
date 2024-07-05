@@ -1,9 +1,7 @@
-
   x Eof in processing instruction
    ,-[$DIR/tests/recovery/pi/bad-pi-3/input.xml:1:1]
  1 | <?xml version='1.0'
    `----
-
   x Unexpected end of file in start phase
    ,-[$DIR/tests/recovery/pi/bad-pi-3/input.xml:1:1]
  1 | <?xml version='1.0'

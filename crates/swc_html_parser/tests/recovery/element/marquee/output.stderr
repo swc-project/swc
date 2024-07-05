@@ -1,6 +1,5 @@
-
   x End tag "marquee" seen, but there were open elements
-    ,-[$DIR/tests/recovery/element/marquee/input.html:8:1]
+    ,-[$DIR/tests/recovery/element/marquee/input.html:9:1]
   8 |     <div>
   9 | </marquee>
     : ^^^^^^^^^^

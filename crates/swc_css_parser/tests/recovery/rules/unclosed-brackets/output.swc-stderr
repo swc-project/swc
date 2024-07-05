@@ -1,4 +1,3 @@
-
   x Unexpected end of file, but expected ']'
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
  1 | ,-> .class[attr= {
@@ -9,7 +8,6 @@
  6 | |   
  7 | `-> .class { color: blue }
    `----
-
   x Unexpected end of file, but expected '{'
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
  1 | ,-> .class[attr= {

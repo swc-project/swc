@@ -1,100 +1,83 @@
-
   x Module
    ,-[$DIR/tests/comments/exprs/call/simple/input.js:1:1]
  1 | test(123/*post: 9*/, 456/*post: 10*/);
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/comments/exprs/call/simple/input.js:1:1]
  1 | test(123/*post: 9*/, 456/*post: 10*/);
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/comments/exprs/call/simple/input.js:1:1]
  1 | test(123/*post: 9*/, 456/*post: 10*/);
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ExprStmt
    ,-[$DIR/tests/comments/exprs/call/simple/input.js:1:1]
  1 | test(123/*post: 9*/, 456/*post: 10*/);
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/comments/exprs/call/simple/input.js:1:1]
  1 | test(123/*post: 9*/, 456/*post: 10*/);
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x CallExpr
    ,-[$DIR/tests/comments/exprs/call/simple/input.js:1:1]
  1 | test(123/*post: 9*/, 456/*post: 10*/);
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Callee
    ,-[$DIR/tests/comments/exprs/call/simple/input.js:1:1]
  1 | test(123/*post: 9*/, 456/*post: 10*/);
    : ^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/comments/exprs/call/simple/input.js:1:1]
  1 | test(123/*post: 9*/, 456/*post: 10*/);
    : ^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/comments/exprs/call/simple/input.js:1:1]
  1 | test(123/*post: 9*/, 456/*post: 10*/);
    : ^^^^
    `----
-
   x ExprOrSpread
    ,-[$DIR/tests/comments/exprs/call/simple/input.js:1:1]
  1 | test(123/*post: 9*/, 456/*post: 10*/);
    :      ^^^
    `----
-
   x Expr
    ,-[$DIR/tests/comments/exprs/call/simple/input.js:1:1]
  1 | test(123/*post: 9*/, 456/*post: 10*/);
    :      ^^^
    `----
-
   x Lit
    ,-[$DIR/tests/comments/exprs/call/simple/input.js:1:1]
  1 | test(123/*post: 9*/, 456/*post: 10*/);
    :      ^^^
    `----
-
   x Number
    ,-[$DIR/tests/comments/exprs/call/simple/input.js:1:1]
  1 | test(123/*post: 9*/, 456/*post: 10*/);
    :      ^^^
    `----
-
   x ExprOrSpread
    ,-[$DIR/tests/comments/exprs/call/simple/input.js:1:1]
  1 | test(123/*post: 9*/, 456/*post: 10*/);
    :                      ^^^
    `----
-
   x Expr
    ,-[$DIR/tests/comments/exprs/call/simple/input.js:1:1]
  1 | test(123/*post: 9*/, 456/*post: 10*/);
    :                      ^^^
    `----
-
   x Lit
    ,-[$DIR/tests/comments/exprs/call/simple/input.js:1:1]
  1 | test(123/*post: 9*/, 456/*post: 10*/);
    :                      ^^^
    `----
-
   x Number
    ,-[$DIR/tests/comments/exprs/call/simple/input.js:1:1]
  1 | test(123/*post: 9*/, 456/*post: 10*/);

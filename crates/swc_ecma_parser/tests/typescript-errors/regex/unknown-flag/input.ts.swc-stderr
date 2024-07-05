@@ -1,4 +1,3 @@
-
   x Unknown regular expression flags.
    ,-[$DIR/tests/typescript-errors/regex/unknown-flag/input.ts:1:1]
  1 | /shamiko/z;

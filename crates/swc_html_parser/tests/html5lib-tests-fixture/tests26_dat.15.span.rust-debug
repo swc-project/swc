@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.15.html:1:1]
  1 | <button><p><button>
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.15.html:1:1]
  1 | <button><p><button>
    : ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.15.html:1:1]
  1 | <button><p><button>
    : ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.15.html:1:1]
  1 | <button><p><button>
    :         ^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.15.html:1:1]
  1 | <button><p><button>
    :         ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.15.html:1:1]
  1 | <button><p><button>
    :            ^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.15.html:1:1]
  1 | <button><p><button>

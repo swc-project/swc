@@ -1,29 +1,25 @@
-
   x Expected selector to have no more than 3 classes, but 4 actually.
    ,-[$DIR/tests/rules/fail/selector-max-class/default/input.css:1:1]
  1 | .a.b.c.d {
    : ^^^^^^^^
  2 | }
    `----
-
   x Expected selector to have no more than 3 classes, but 4 actually.
-   ,-[$DIR/tests/rules/fail/selector-max-class/default/input.css:3:1]
+   ,-[$DIR/tests/rules/fail/selector-max-class/default/input.css:4:1]
  3 | 
  4 | .a .b .c .d {
    : ^^^^^^^^^^^
  5 | }
    `----
-
   x Expected selector to have no more than 3 classes, but 4 actually.
-   ,-[$DIR/tests/rules/fail/selector-max-class/default/input.css:7:1]
+   ,-[$DIR/tests/rules/fail/selector-max-class/default/input.css:8:1]
  7 | @media print {
  8 |     .a.b.c.d {
    :     ^^^^^^^^
  9 |     }
    `----
-
   x Expected selector to have no more than 3 classes, but 4 actually.
-    ,-[$DIR/tests/rules/fail/selector-max-class/default/input.css:11:1]
+    ,-[$DIR/tests/rules/fail/selector-max-class/default/input.css:12:1]
  11 | 
  12 | :not(.a.b.c.d) {
     :      ^^^^^^^^

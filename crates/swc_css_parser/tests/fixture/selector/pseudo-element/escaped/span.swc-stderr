@@ -1,88 +1,73 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1]
  1 | div::bef\ore {}
    : ^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1]
  1 | div::bef\ore {}
    : ^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1]
  1 | div::bef\ore {}
    : ^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1]
  1 | div::bef\ore {}
    : ^^^^^^^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1]
  1 | div::bef\ore {}
    : ^^^^^^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1]
  1 | div::bef\ore {}
    : ^^^^^^^^^^^^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1]
  1 | div::bef\ore {}
    : ^^^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1]
  1 | div::bef\ore {}
    : ^^^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1]
  1 | div::bef\ore {}
    : ^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1]
  1 | div::bef\ore {}
    : ^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1]
  1 | div::bef\ore {}
    :    ^^^^^^^^^
    `----
-
   x PseudoElementSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1]
  1 | div::bef\ore {}
    :    ^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1]
  1 | div::bef\ore {}
    :      ^^^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1]
  1 | div::bef\ore {}
    :              ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1]
  1 | div::bef\ore {}

@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.25.html:1:1]
  1 | <table><colgroup>foo
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.25.html:1:1]
  1 | <table><colgroup>foo
    :                  ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.25.html:1:1]
  1 | <table><colgroup>foo
    :                  ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.25.html:1:1]
  1 | <table><colgroup>foo
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.25.html:1:1]
  1 | <table><colgroup>foo
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.25.html:1:1]
  1 | <table><colgroup>foo
    :        ^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.25.html:1:1]
  1 | <table><colgroup>foo

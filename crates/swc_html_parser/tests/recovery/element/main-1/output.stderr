@@ -1,10 +1,8 @@
-
   x HTML start tag "b" in a foreign namespace context
    ,-[$DIR/tests/recovery/element/main-1/input.html:1:1]
  1 | <!DOCTYPE html>xxx<svg><x><g><a><main><b>
    :                                       ^^^
    `----
-
   x End of file seen and there were open elements
    ,-[$DIR/tests/recovery/element/main-1/input.html:1:1]
  1 | <!DOCTYPE html>xxx<svg><x><g><a><main><b>

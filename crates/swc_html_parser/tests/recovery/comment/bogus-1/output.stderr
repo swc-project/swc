@@ -1,9 +1,7 @@
-
   x Eof in comment
    ,-[$DIR/tests/recovery/comment/bogus-1/input.html:1:1]
  1 | <!-- test
    `----
-
   x End of file seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/comment/bogus-1/input.html:1:1]
  1 | <!-- test

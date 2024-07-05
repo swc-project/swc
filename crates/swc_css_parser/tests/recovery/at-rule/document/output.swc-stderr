@@ -1,4 +1,3 @@
-
   x Expected Declaration value
    ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
  1 | @document domain(http://www.example.com/) {}

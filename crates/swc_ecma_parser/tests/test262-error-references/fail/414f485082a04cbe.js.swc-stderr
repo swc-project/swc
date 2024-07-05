@@ -1,4 +1,3 @@
-
   x Expected ident
    ,-[$DIR/tests/test262-parser/fail/414f485082a04cbe.js:1:1]
  1 | var const

@@ -1,54 +1,47 @@
-
   x Unexpected '!' in declaration value
-   ,-[$DIR/tests/recovery/declaration/important/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:1]
  1 | .a {
  2 |     color: white !!important;
    :                  ^
  3 | }
    `----
-
   x Unexpected '!' in declaration value
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:1]
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:1]
  5 | .class {
  6 |     color: red red red !important !important;
    :                        ^
  7 | }
    `----
-
   x Unexpected '!' in declaration value
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:1]
   9 | .class {
  10 |     color: red red red !important!important   ;
     :                        ^
  11 | }
     `----
-
   x Unexpected '!' in declaration value
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:1]
  13 | .class {
  14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
     :                                  ^
  15 | }
     `----
-
   x Unexpected '!' in declaration value
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:1]
  17 | .class {
  18 |     color: red red red !important !important!important;
     :                        ^
  19 | }
     `----
-
   x Unexpected '!' in declaration value
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:1]
  17 | .class {
  18 |     color: red red red !important !important!important;
     :                                   ^
  19 | }
     `----
-
   x Unexpected '!' in declaration value
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:1]
  21 | .class {
  22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
     :                                   ^

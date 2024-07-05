@@ -1,14 +1,12 @@
-
   x Stray end tag "caption"
-   ,-[$DIR/tests/recovery/element/table-3/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/table-3/input.html:8:1]
  7 | <table>
  8 |     <caption></table></caption>
    :                      ^^^^^^^^^^
  9 | </table>
    `----
-
   x Stray end tag "table"
-   ,-[$DIR/tests/recovery/element/table-3/input.html:8:1]
+   ,-[$DIR/tests/recovery/element/table-3/input.html:9:1]
  8 |     <caption></table></caption>
  9 | </table>
    : ^^^^^^^^

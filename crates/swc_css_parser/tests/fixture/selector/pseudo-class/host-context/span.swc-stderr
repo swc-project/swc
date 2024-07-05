@@ -1,229 +1,196 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
  1 | ,-> :host-context(h1) {}
  2 | `-> :host-context(   h1   ) {}
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
  1 | :host-context(h1) {}
    : ^^^^^^^^^^^^^^^^^^^^
  2 | :host-context(   h1   ) {}
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
  1 | :host-context(h1) {}
    : ^^^^^^^^^^^^^^^^^^^^
  2 | :host-context(   h1   ) {}
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
  1 | :host-context(h1) {}
    : ^^^^^^^^^^^^^^^^^
  2 | :host-context(   h1   ) {}
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
  1 | :host-context(h1) {}
    : ^^^^^^^^^^^^^^^^^
  2 | :host-context(   h1   ) {}
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
  1 | :host-context(h1) {}
    : ^^^^^^^^^^^^^^^^^
  2 | :host-context(   h1   ) {}
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
  1 | :host-context(h1) {}
    : ^^^^^^^^^^^^^^^^^
  2 | :host-context(   h1   ) {}
    `----
-
   x PseudoClassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
  1 | :host-context(h1) {}
    : ^^^^^^^^^^^^^^^^^
  2 | :host-context(   h1   ) {}
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
  1 | :host-context(h1) {}
    :  ^^^^^^^^^^^^
  2 | :host-context(   h1   ) {}
    `----
-
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
  1 | :host-context(h1) {}
    :               ^^
  2 | :host-context(   h1   ) {}
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
  1 | :host-context(h1) {}
    :               ^^
  2 | :host-context(   h1   ) {}
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
  1 | :host-context(h1) {}
    :               ^^
  2 | :host-context(   h1   ) {}
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
  1 | :host-context(h1) {}
    :               ^^
  2 | :host-context(   h1   ) {}
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
  1 | :host-context(h1) {}
    :               ^^
  2 | :host-context(   h1   ) {}
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
  1 | :host-context(h1) {}
    :               ^^
  2 | :host-context(   h1   ) {}
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
  1 | :host-context(h1) {}
    :                   ^^
  2 | :host-context(   h1   ) {}
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
  1 | :host-context(h1) {}
    :                   ^
  2 | :host-context(   h1   ) {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1]
  1 | :host-context(h1) {}
  2 | :host-context(   h1   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1]
  1 | :host-context(h1) {}
  2 | :host-context(   h1   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1]
  1 | :host-context(h1) {}
  2 | :host-context(   h1   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1]
  1 | :host-context(h1) {}
  2 | :host-context(   h1   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1]
  1 | :host-context(h1) {}
  2 | :host-context(   h1   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1]
  1 | :host-context(h1) {}
  2 | :host-context(   h1   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1]
  1 | :host-context(h1) {}
  2 | :host-context(   h1   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1]
  1 | :host-context(h1) {}
  2 | :host-context(   h1   ) {}
    :  ^^^^^^^^^^^^
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1]
  1 | :host-context(h1) {}
  2 | :host-context(   h1   ) {}
    :                  ^^
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1]
  1 | :host-context(h1) {}
  2 | :host-context(   h1   ) {}
    :                  ^^
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1]
  1 | :host-context(h1) {}
  2 | :host-context(   h1   ) {}
    :                  ^^
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1]
  1 | :host-context(h1) {}
  2 | :host-context(   h1   ) {}
    :                  ^^
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1]
  1 | :host-context(h1) {}
  2 | :host-context(   h1   ) {}
    :                  ^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1]
  1 | :host-context(h1) {}
  2 | :host-context(   h1   ) {}
    :                  ^^
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1]
  1 | :host-context(h1) {}
  2 | :host-context(   h1   ) {}
    :                         ^^
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1]
  1 | :host-context(h1) {}
  2 | :host-context(   h1   ) {}
    :                         ^

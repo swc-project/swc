@@ -1,10 +1,8 @@
-
   x Bad character escape sequence, expected 4 hex characters
    ,-[$DIR/tests/test262-parser/fail/575367951ac8635d.js:1:1]
  1 | ('\u')
    :   ^^
    `----
-
   x Unterminated string constant
    ,-[$DIR/tests/test262-parser/fail/575367951ac8635d.js:1:1]
  1 | ('\u')

@@ -1,6 +1,5 @@
-
   x End tag "b" violates nesting rules
-   ,-[$DIR/tests/recovery/element/b-1/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/b-1/input.html:7:1]
  6 | <body>
  7 | <p>1<b>2<i>3</b>4</i>5</p>
    :             ^^^^

@@ -1,7 +1,6 @@
 //// [usingDeclarationsWithESClassDecorators.5.ts]
-//! 
 //!   x Expression expected
-//!    ,-[4:1]
+//!    ,-[7:1]
 //!  4 | 
 //!  5 | using before = null;
 //!  6 | 

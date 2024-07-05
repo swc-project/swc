@@ -1,4 +1,3 @@
-
   x Document
     ,-[$DIR/tests/recovery/comment/cdata-1/input.html:1:1]
   1 | ,-> <![CDATA[
@@ -19,7 +18,6 @@
  16 | |   brackets or the greater-than sign using concatenated CDATA sections.
  17 | `-> ]]>
     `----
-
   x Child
    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:1:1]
  1 | ,-> <![CDATA[
@@ -32,7 +30,6 @@
  8 | `-> ]]>
  9 |     <div>test</div>
    `----
-
   x Comment
    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:1:1]
  1 | ,-> <![CDATA[
@@ -45,63 +42,54 @@
  8 | `-> ]]>
  9 |     <div>test</div>
    `----
-
   x Child
-
   x Element
-
-  x Child
-    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:8:1]
-  8 | ]]>
-  9 | <div>test</div>
-    : ^^^^^^^^^^^^^^^
- 10 | <![cdata[
-    `----
-
-  x Element
-    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:8:1]
-  8 | ]]>
-  9 | <div>test</div>
-    : ^^^^^^^^^^^^^^^
- 10 | <![cdata[
-    `----
-
-  x Child
-    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:8:1]
-  8 | ]]>
-  9 | <div>test</div>
-    :      ^^^^
- 10 | <![cdata[
-    `----
-
-  x Text
-    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:8:1]
-  8 | ]]>
-  9 | <div>test</div>
-    :      ^^^^
- 10 | <![cdata[
-    `----
-
-  x Child
-    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:8:1]
-  8 | ]]>
-  9 | <div>test</div>
-    :                ^
- 10 | <![cdata[
- 11 | Within this Character Data block I can
-    `----
-
-  x Text
-    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:8:1]
-  8 | ]]>
-  9 | <div>test</div>
-    :                ^
- 10 | <![cdata[
- 11 | Within this Character Data block I can
-    `----
-
   x Child
     ,-[$DIR/tests/recovery/comment/cdata-1/input.html:9:1]
+  8 | ]]>
+  9 | <div>test</div>
+    : ^^^^^^^^^^^^^^^
+ 10 | <![cdata[
+    `----
+  x Element
+    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:9:1]
+  8 | ]]>
+  9 | <div>test</div>
+    : ^^^^^^^^^^^^^^^
+ 10 | <![cdata[
+    `----
+  x Child
+    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:9:1]
+  8 | ]]>
+  9 | <div>test</div>
+    :      ^^^^
+ 10 | <![cdata[
+    `----
+  x Text
+    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:9:1]
+  8 | ]]>
+  9 | <div>test</div>
+    :      ^^^^
+ 10 | <![cdata[
+    `----
+  x Child
+    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:9:1]
+  8 | ]]>
+  9 | <div>test</div>
+    :                ^
+ 10 | <![cdata[
+ 11 | Within this Character Data block I can
+    `----
+  x Text
+    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:9:1]
+  8 | ]]>
+  9 | <div>test</div>
+    :                ^
+ 10 | <![cdata[
+ 11 | Within this Character Data block I can
+    `----
+  x Child
+    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:10:1]
   9 |     <div>test</div>
  10 | ,-> <![cdata[
  11 | |   Within this Character Data block I can
@@ -112,9 +100,8 @@
  16 | |   brackets or the greater-than sign using concatenated CDATA sections.
  17 | `-> ]]>
     `----
-
   x Comment
-    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:9:1]
+    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:10:1]
   9 |     <div>test</div>
  10 | ,-> <![cdata[
  11 | |   Within this Character Data block I can

@@ -1,10 +1,8 @@
-
   x Invalid assignment target
    ,-[$DIR/tests/test262-parser/fail/f0f16b655e08b92c.js:1:1]
  1 | [x] += 0
    : ^^^
    `----
-
   x Cannot assign to this
    ,-[$DIR/tests/test262-parser/fail/f0f16b655e08b92c.js:1:1]
  1 | [x] += 0

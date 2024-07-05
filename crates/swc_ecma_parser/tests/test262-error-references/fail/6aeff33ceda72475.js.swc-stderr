@@ -1,4 +1,3 @@
-
   x Expression expected
    ,-[$DIR/tests/test262-parser/fail/6aeff33ceda72475.js:1:1]
  1 | class A extends yield B { }

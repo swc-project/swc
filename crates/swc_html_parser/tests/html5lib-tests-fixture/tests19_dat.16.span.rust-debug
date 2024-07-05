@@ -1,80 +1,65 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.16.html:1:1]
  1 | <html><ruby>a<rt>b<rt></ruby></html>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.16.html:1:1]
  1 | <html><ruby>a<rt>b<rt></ruby></html>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.16.html:1:1]
  1 | <html><ruby>a<rt>b<rt></ruby></html>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.16.html:1:1]
  1 | <html><ruby>a<rt>b<rt></ruby></html>
    :       ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.16.html:1:1]
  1 | <html><ruby>a<rt>b<rt></ruby></html>
    :       ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.16.html:1:1]
  1 | <html><ruby>a<rt>b<rt></ruby></html>
    :             ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.16.html:1:1]
  1 | <html><ruby>a<rt>b<rt></ruby></html>
    :             ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.16.html:1:1]
  1 | <html><ruby>a<rt>b<rt></ruby></html>
    :              ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.16.html:1:1]
  1 | <html><ruby>a<rt>b<rt></ruby></html>
    :              ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.16.html:1:1]
  1 | <html><ruby>a<rt>b<rt></ruby></html>
    :                  ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.16.html:1:1]
  1 | <html><ruby>a<rt>b<rt></ruby></html>
    :                  ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.16.html:1:1]
  1 | <html><ruby>a<rt>b<rt></ruby></html>
    :                   ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.16.html:1:1]
  1 | <html><ruby>a<rt>b<rt></ruby></html>

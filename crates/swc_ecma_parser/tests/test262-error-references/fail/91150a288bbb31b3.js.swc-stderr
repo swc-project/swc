@@ -1,4 +1,3 @@
-
   x Unexpected token `numeric literal (0, 0)`. Expected yield, an identifier, [ or {
    ,-[$DIR/tests/test262-parser/fail/91150a288bbb31b3.js:1:1]
  1 | try {} catch (0) {} 

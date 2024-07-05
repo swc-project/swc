@@ -1,442 +1,367 @@
-
   x Document
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                 ^^^^^
+   :               ^^^^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                 ^^^^^
+   :               ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                      ^^^^^^^^^^^^^^^
+   :                   ^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                      ^^^^^^^^^^^^^^^
+   :                   ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                           ^^^^
+   :                        ^^^^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                           ^^^^
+   :                        ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                     ^
+   :                                  ^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                     ^
+   :                                  ^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                      ^^^^^^^^^^^^^^^^^^^^^
+   :                                  ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                      ^^^^^^^^^^^^^^^^^^^^^
+   :                                  ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                           ^^^^^^^^^^
+   :                                       ^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                           ^^^^^^^^^^
+   :                                       ^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                           ^
+   :                                                     ^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                           ^
+   :                                                     ^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                 ^^^^^^^^^^^^^^^^^^^^^
+   :                                                          ^^^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                 ^^^^^^^^^^^^^^^^^^^^^
+   :                                                          ^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                            ^
+   :                                                                                ^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                            ^
+   :                                                                                ^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                                                                                ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                                                                                ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                  ^^^^^^^^^^^^^^^
+   :                                                                                     ^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                  ^^^^^^^^^^^^^^^
+   :                                                                                     ^^^^^^^^^^^^
    `----
-
+  x Child
+   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
+ 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
+   :                                                                                                       ^
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
+ 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
+   :                                                                                                       ^
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
+ 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
+   :                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Element
+   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
+ 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
+   :                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Attribute
+   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
+ 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
+   :                                                                                                           ^^^^^^^^^^^
+   `----
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
    :                                                                                                                       ^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
    :                                                                                                                       ^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                                                                                                                             ^
    `----
-
+  x Text
+   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
+ 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
+   :                                                                                                                             ^
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
+ 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
+   :                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
   x Element
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                             ^^^^^^^^^^^
+   :                                                                                                                                 ^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                          ^^
+   :                                                                                                                                               ^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                          ^^
+   :                                                                                                                                               ^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                   ^
+   :                                                                                                                                                     ^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                   ^
+   :                                                                                                                                                     ^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                                                                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                                                                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                         ^^^^^^^^^^^^^^^
+   :                                                                                                                                                         ^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                          ^^
+   :                                                                                                                                                                       ^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                          ^^
+   :                                                                                                                                                                       ^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                   ^
+   :                                                                                                                                                                             ^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                   ^
+   :                                                                                                                                                                             ^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                                                                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                                                                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                         ^^^^^^^^^^^^^^^
+   :                                                                                                                                                                                 ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                          ^^
+   :                                                                                                                                                                                             ^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                          ^^
+   :                                                                                                                                                                                             ^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                   ^
+   :                                                                                                                                                                                                   ^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                   ^
+   :                                                                                                                                                                                                   ^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                                                                                                                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                                                                                                                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
+  x Child
+   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
+ 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
+   :                                                                                                                                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
+ 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
+   :                                                                                                                                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
+ 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
+   :                                                                                                                                                                                                                                                           ^
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
+ 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
+   :                                                                                                                                                                                                                                                           ^
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
+ 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
+   :                                                                                                                                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Element
+   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
+ 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
+   :                                                                                                                                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
   x Attribute
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                         ^^^^^^^^^^^^^
+   :                                                                                                                                                                                                                                                                ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                                        ^^
+   :                                                                                                                                                                                                                                                                                          ^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                                        ^^
+   :                                                                                                                                                                                                                                                                                          ^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                                                 ^
+   :                                                                                                                                                                                                                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
-  x Text
-   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
- 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                                                 ^
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
- 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
   x Element
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                                                                                                                                                                                                                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
-  x Child
-   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
- 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
- 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
- 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                                                                                                                 ^
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
- 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                                                                                                                 ^
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
- 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                                                                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Element
-   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
- 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                                                                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
   x Attribute
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^
+   :                                                                                                                                                                                                                                                                                               ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                                                                                                                                                     ^
+   :                                                                                                                                                                                                                                                                                                                         ^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                                                                                                                                                     ^
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
- 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                                                                                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Element
-   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
- 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                                                                                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Attribute
-   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
- 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
- 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                                                                                                                                                                                             ^
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
- 0 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style><div test="testtesttest"></div><div test="testtesttest"></div>
-   :                                                                                                                                                                                                                                                                                                                                                                                             ^
+   :                                                                                                                                                                                                                                                                                                                         ^
    `----

@@ -1,38 +1,33 @@
-
   x Stray start tag "tr"
-   ,-[$DIR/tests/recovery/element/table/broken-4/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/table/broken-4/input.html:8:1]
  7 | 
  8 | <tr>
    : ^^^^
  9 |     <td>
    `----
-
   x Stray start tag "td"
-    ,-[$DIR/tests/recovery/element/table/broken-4/input.html:8:1]
+    ,-[$DIR/tests/recovery/element/table/broken-4/input.html:9:1]
   8 | <tr>
   9 |     <td>
     :     ^^^^
  10 |         Table
     `----
-
   x Stray end tag "td"
-    ,-[$DIR/tests/recovery/element/table/broken-4/input.html:10:1]
+    ,-[$DIR/tests/recovery/element/table/broken-4/input.html:11:1]
  10 |         Table
  11 |     </td>
     :     ^^^^^
  12 | </tr>
     `----
-
   x Stray end tag "tr"
-    ,-[$DIR/tests/recovery/element/table/broken-4/input.html:11:1]
+    ,-[$DIR/tests/recovery/element/table/broken-4/input.html:12:1]
  11 |     </td>
  12 | </tr>
     : ^^^^^
  13 | </table>
     `----
-
   x Stray end tag "table"
-    ,-[$DIR/tests/recovery/element/table/broken-4/input.html:12:1]
+    ,-[$DIR/tests/recovery/element/table/broken-4/input.html:13:1]
  12 | </tr>
  13 | </table>
     : ^^^^^^^^

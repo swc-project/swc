@@ -1,7 +1,6 @@
 //// [esDecorators-classDeclaration-multipleDecorators.ts]
-//! 
 //!   x Expression expected
-//!    ,-[1:1]
+//!    ,-[4:1]
 //!  1 | 
 //!  2 | declare let dec1: any, dec2: any;
 //!  3 | 
