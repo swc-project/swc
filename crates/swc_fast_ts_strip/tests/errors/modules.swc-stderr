@@ -1,5 +1,5 @@
   x TypeScript namespace declaration is not supported in strip-only mode
    ,----
- 1 | module 'foo' { }
-   : ^^^^^^^^^^^^^^^^
+ 1 | module aModuleKeywordNamespace { }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
