@@ -113,7 +113,7 @@ jobs:
       package: "core"
       version: ${{ needs.determine-nightly-version.outputs.version }}
       buildCli: true
-      skipBuild: ${{ github.event.inputs.skipBuild || false }}
+      skipBuild: ${{ github.event.inputs.skipBuild || 'false' }}
       # Skip on pull requests
       skipPublishing: ${{ github.event_name != 'workflow_dispatch' }}
 
@@ -139,6 +139,6 @@ jobs:
       package: "core"
       version: ${{ github.event.inputs.version }}
       buildCli: true
-      skipBuild: ${{ github.event.inputs.skipBuild || github.event.inputs.onlyNightly || false }}
+      skipBuild: ${{ github.event.inputs.skipBuild || github.event.inputs.onlyNightly || 'false' }}
       # Skip on pull requests
       skipPublishing: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.onlyNightly }}
