@@ -571,7 +571,7 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_VERSION: ${{ inputs.version }}
+          RELEASE_VERSION: "v${{ inputs.version }}"
         run: |
           ./scripts/cli_upload_gh_release.sh
 
