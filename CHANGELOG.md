@@ -16,6 +16,12 @@
 
 - **(es/typescript)** Improve fast TS strip ([#9167](https://github.com/swc-project/swc/issues/9167)) ([98af589](https://github.com/swc-project/swc/commit/98af5890dac03a9acac4e62ddb62bc1f3495d9a2))
 
+### Testing
+
+
+
+- **(es/minfiier)** Improve comment testing ([#9164](https://github.com/swc-project/swc/issues/9164)) ([f90574d](https://github.com/swc-project/swc/commit/f90574d04571023f5ccfe694003e6a25ef89cafb))
+
 ## [1.6.12] - 2024-07-06
 
 ### Bug Fixes
@@ -1342,9 +1348,6 @@
 
 ### Bug Fixes
 
-
-
-- **(css/parser)** Fix parsing of `hsla(var(--foo), 1)` ([#8443](https://github.com/swc-project/swc/issues/8443)) ([d89b60a](https://github.com/swc-project/swc/commit/d89b60a000e6a40a6d624ba3903743f9c80170d1))
 
 
 - **(es)** Apply `paren_remover` for minify ([#8442](https://github.com/swc-project/swc/issues/8442)) ([e68720a](https://github.com/swc-project/swc/commit/e68720a76cf8146befa26ff147a812e9ba2959aa))
