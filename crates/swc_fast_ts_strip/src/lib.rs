@@ -355,18 +355,17 @@ impl Visit for TsStrip {
     }
 
     fn visit_import_specifiers(&mut self, n: &[ImportSpecifier]) {
-        for (i, import) in n.iter().enumerate() {
+        for import in n.iter() {
             let ImportSpecifier::Named(import) = import else {
                 continue;
             };
 
             if import.is_type_only {
-                let mut span = import.span;
-                span.hi.0 = n.get(i + 1).map(|x| x.span_lo().0).unwrap_or_else(|| {
-                    let bytes = self.src.as_bytes();
-                    skip_until(bytes, span.hi.0, b'}')
-                });
-                self.add_replacement(span);
+                self.add_replacement(import.span);
+                let comma = self.get_next_token(import.span_hi());
+                if comma.token == Token::Comma {
+                    self.add_replacement(comma.span);
+                }
             }
         }
     }
@@ -397,17 +396,15 @@ impl Visit for TsStrip {
                 }) if &**sym == "this"
             )
         }) {
-            let mut span = p.span;
+            let span = p.span;
+            self.add_replacement(span);
 
-            if n.len() == 1 {
-                let bytes = self.src.as_bytes();
-                span.hi.0 = skip_until(bytes, span.hi.0, b')');
-            } else {
-                span.hi = n[1].span.lo;
-                n[1..].visit_children_with(self);
+            let comma = self.get_next_token(span.hi);
+            if comma.token == Token::Comma {
+                self.add_replacement(comma.span);
             }
 
-            self.add_replacement(span);
+            n[1..].visit_children_with(self);
 
             return;
         }
