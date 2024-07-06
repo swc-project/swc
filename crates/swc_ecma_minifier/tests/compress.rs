@@ -16,7 +16,7 @@ use anyhow::Error;
 use once_cell::sync::Lazy;
 use serde::Deserialize;
 use swc_common::{
-    comments::SingleThreadedComments,
+    comments::{Comments, SingleThreadedComments},
     errors::{Handler, HANDLER},
     sync::Lrc,
     util::take::Take,
@@ -144,6 +144,7 @@ fn run(
     handler: &Handler,
     input: &Path,
     config: &str,
+    comments: Option<&dyn Comments>,
     mangle: Option<TestMangleOptions>,
     skip_hygiene: bool,
 ) -> Option<Program> {
@@ -153,7 +154,6 @@ fn run(
         let (_module, mut config) = parse_compressor_config(cm.clone(), config);
 
         let fm = cm.load_file(input).expect("failed to load input.js");
-        let comments = SingleThreadedComments::default();
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
 
@@ -315,6 +315,8 @@ fn custom_fixture(input: PathBuf) {
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
     testing::run_test2(false, |cm, handler| {
+        let comments = SingleThreadedComments::default();
+
         let mangle = dir.join("mangle.json");
         let mangle = read_to_string(mangle).ok();
         if let Some(mangle) = &mangle {
@@ -327,13 +329,21 @@ fn custom_fixture(input: PathBuf) {
         let mangle: Option<TestMangleOptions> =
             mangle.map(|s| serde_json::from_str(&s).expect("failed to deserialize mangle.json"));
 
-        let output = run(cm.clone(), &handler, &input, &config, mangle, false);
+        let output = run(
+            cm.clone(),
+            &handler,
+            &input,
+            &config,
+            Some(&comments),
+            mangle,
+            false,
+        );
         let output_module = match output {
             Some(v) => v,
             None => return Ok(()),
         };
 
-        let output = print(cm, &[output_module], false, false);
+        let output = print(cm, &[output_module], Some(&comments), false, false);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 
@@ -356,13 +366,23 @@ fn projects(input: PathBuf) {
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
     testing::run_test2(false, |cm, handler| {
-        let output = run(cm.clone(), &handler, &input, &config, None, false);
+        let comments = SingleThreadedComments::default();
+
+        let output = run(
+            cm.clone(),
+            &handler,
+            &input,
+            &config,
+            Some(&comments),
+            None,
+            false,
+        );
         let output_module = match output {
             Some(v) => v,
             None => return Ok(()),
         };
 
-        let output = print(cm.clone(), &[output_module], false, false);
+        let output = print(cm.clone(), &[output_module], Some(&comments), false, false);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 
@@ -374,6 +394,7 @@ fn projects(input: PathBuf) {
                 &handler,
                 &input,
                 r#"{ "defaults": true, "toplevel": true, "passes": 3 }"#,
+                Some(&comments),
                 Some(TestMangleOptions::Normal(MangleOptions {
                     top_level: Some(true),
                     ..Default::default()
@@ -385,7 +406,7 @@ fn projects(input: PathBuf) {
                 None => return Ok(()),
             };
 
-            print(cm, &[output_module], true, true)
+            print(cm, &[output_module], Some(&comments), true, true)
         };
 
         eprintln!(
@@ -422,11 +443,14 @@ fn projects_bench(input: PathBuf) {
         .join("benches-full");
 
     testing::run_test2(false, |cm, handler| {
+        let comments = SingleThreadedComments::default();
+
         let output = run(
             cm.clone(),
             &handler,
             &input,
             r#"{ "defaults": true, "toplevel": false, "passes": 3 }"#,
+            Some(&comments),
             None,
             false,
         );
@@ -435,7 +459,7 @@ fn projects_bench(input: PathBuf) {
             None => return Ok(()),
         };
 
-        let output = print(cm, &[output_module], false, false);
+        let output = print(cm, &[output_module], Some(&comments), false, false);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 
@@ -473,15 +497,31 @@ fn fixture(input: PathBuf) {
             );
         }
 
+        let comments = SingleThreadedComments::default();
+
         let mangle: Option<TestMangleOptions> = mangle.map(|s| TestMangleOptions::parse(&s));
 
-        let output = run(cm.clone(), &handler, &input, &config, mangle, false);
+        let output = run(
+            cm.clone(),
+            &handler,
+            &input,
+            &config,
+            Some(&comments),
+            mangle,
+            false,
+        );
         let output_program = match output {
             Some(v) => v,
             None => return Ok(()),
         };
 
-        let output = print(cm.clone(), &[output_program.clone()], false, false);
+        let output = print(
+            cm.clone(),
+            &[output_program.clone()],
+            Some(&comments),
+            false,
+            false,
+        );
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 
@@ -521,13 +561,19 @@ fn fixture(input: PathBuf) {
                 return Ok(());
             }
 
-            if print(cm.clone(), &[actual], false, false)
-                == print(cm.clone(), &[normalized_expected], false, false)
+            if print(cm.clone(), &[actual], Some(&comments), false, false)
+                == print(
+                    cm.clone(),
+                    &[normalized_expected],
+                    Some(&comments),
+                    false,
+                    false,
+                )
             {
                 return Ok(());
             }
 
-            print(cm.clone(), &[expected], false, false)
+            print(cm.clone(), &[expected], Some(&comments), false, false)
         };
         {
             // Check output.teraer.js
@@ -570,13 +616,19 @@ fn fixture(input: PathBuf) {
                         return Some(());
                     }
 
-                    if print(cm.clone(), &[actual], false, false)
-                        == print(cm.clone(), &[normalized_expected], false, false)
+                    if print(cm.clone(), &[actual], Some(&comments), false, false)
+                        == print(
+                            cm.clone(),
+                            &[normalized_expected],
+                            Some(&comments),
+                            false,
+                            false,
+                        )
                     {
                         return Some(());
                     }
 
-                    print(cm.clone(), &[expected], false, false)
+                    print(cm.clone(), &[expected], Some(&comments), false, false)
                 };
 
                 if output == expected {
@@ -623,7 +675,13 @@ fn fixture(input: PathBuf) {
             }
         }
 
-        let output_str = print(cm, &[drop_span(output_program)], false, false);
+        let output_str = print(
+            cm,
+            &[drop_span(output_program)],
+            Some(&comments),
+            false,
+            false,
+        );
 
         if env::var("UPDATE").map(|s| s == "1").unwrap_or(false) {
             let _ = catch_unwind(|| {
@@ -643,6 +701,7 @@ fn fixture(input: PathBuf) {
 fn print<N: swc_ecma_codegen::Node>(
     cm: Lrc<SourceMap>,
     nodes: &[N],
+    comments: Option<&dyn Comments>,
     minify: bool,
     skip_semi: bool,
 ) -> String {
@@ -657,7 +716,7 @@ fn print<N: swc_ecma_codegen::Node>(
         let mut emitter = Emitter {
             cfg: swc_ecma_codegen::Config::default().with_minify(minify),
             cm,
-            comments: None,
+            comments,
             wr,
         };
 
@@ -675,12 +734,15 @@ fn full(input: PathBuf) {
     let config = find_config(dir);
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
+    let comments = SingleThreadedComments::default();
+
     testing::run_test2(false, |cm, handler| {
         let output = run(
             cm.clone(),
             &handler,
             &input,
             &config,
+            Some(&comments),
             Some(TestMangleOptions::Normal(MangleOptions {
                 top_level: Some(true),
                 ..Default::default()
@@ -692,7 +754,7 @@ fn full(input: PathBuf) {
             None => return Ok(()),
         };
 
-        let output = print(cm, &[output_module], true, true);
+        let output = print(cm, &[output_module], Some(&comments), true, true);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 
