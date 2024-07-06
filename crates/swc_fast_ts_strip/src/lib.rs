@@ -270,6 +270,10 @@ impl Visit for TsStrip {
         if !n.implements.is_empty() {
             let implements =
                 self.get_prev_token(n.implements.first().unwrap().span_lo() - BytePos(1));
+            debug_assert_eq!(
+                implements.token,
+                Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Implements)))
+            );
 
             let last = n.implements.last().unwrap();
             let span = span(implements.span.lo, last.span.hi);
