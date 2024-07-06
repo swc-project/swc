@@ -3,9 +3,9 @@
         281
     ],
     {
-        3239: function(module, __unused_webpack_exports, __webpack_require__) {
+        /***/ 3239: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             var global, define, _require, require, normalizeModule, lookup, root;
-            module = __webpack_require__.nmd(module), (global = function() {
+            /* module decorator */ module = __webpack_require__.nmd(module), (global = function() {
                 return this;
             }()) || "undefined" == typeof window || (global = window), (define = function(module, deps, payload) {
                 if ("string" != typeof module) {
@@ -29,10 +29,12 @@
                 var packagedModule = _require("", module, callback);
                 return void 0 == packagedModule && require.original ? require.original.apply(this, arguments) : packagedModule;
             }, normalizeModule = function(parentId, moduleName) {
+                // normalize plugin requires
                 if (-1 !== moduleName.indexOf("!")) {
                     var chunks = moduleName.split("!");
                     return normalizeModule(parentId, chunks[0]) + "!" + normalizeModule(parentId, chunks[1]);
                 }
+                // normalize relative requires
                 if ("." == moduleName.charAt(0)) for(moduleName = parentId.split("/").slice(0, -1).join("/") + "/" + moduleName; -1 !== moduleName.indexOf(".") && previous != moduleName;){
                     var previous = moduleName;
                     moduleName = moduleName.replace(/\/\.\//, "/").replace(/[^\/]+\/\.\.\//, "");
@@ -831,7 +833,8 @@
                                 line.length > 400 && (selectionStart < 400 && selectionEnd < 400 ? line = line.slice(0, 400) : (line = "\n", selectionStart == selectionEnd ? selectionStart = selectionEnd = 0 : (selectionStart = 0, selectionEnd = 1)));
                             }
                             var newValue = line + "\n\n";
-                            if (newValue != lastValue && (text.value = lastValue = newValue, lastSelectionStart = lastSelectionEnd = newValue.length), afterContextMenu && (lastSelectionStart = text.selectionStart, lastSelectionEnd = text.selectionEnd), lastSelectionEnd != selectionEnd || lastSelectionStart != selectionStart || text.selectionEnd != lastSelectionEnd) try {
+                            if (newValue != lastValue && (text.value = lastValue = newValue, lastSelectionStart = lastSelectionEnd = newValue.length), afterContextMenu && (lastSelectionStart = text.selectionStart, lastSelectionEnd = text.selectionEnd), lastSelectionEnd != selectionEnd || lastSelectionStart != selectionStart || text.selectionEnd != lastSelectionEnd // on ie edge selectionEnd changes silently after the initialization
+                            ) try {
                                 text.setSelectionRange(selectionStart, selectionEnd), lastSelectionStart = selectionStart, lastSelectionEnd = selectionEnd;
                             } catch (e) {}
                             inComposition = !1;
@@ -2507,7 +2510,8 @@
                     }(chars, levels, chars.length, textCharTypes);
                     for(var i = 0; i < logicalFromVisual.length; logicalFromVisual[i] = i, i++);
                     _invertLevel(2, levels, logicalFromVisual), _invertLevel(1, levels, logicalFromVisual);
-                    for(var i = 0; i < logicalFromVisual.length - 1; i++)3 === textCharTypes[i] ? levels[i] = exports.AN : 1 === levels[i] && (textCharTypes[i] > 7 && textCharTypes[i] < 13 || 4 === textCharTypes[i] || 18 === textCharTypes[i]) ? levels[i] = exports.ON_R : i > 0 && "\u0644" === chars[i - 1] && /\u0622|\u0623|\u0625|\u0627/.test(chars[i]) && (levels[i - 1] = levels[i] = exports.R_H, i++);
+                    for(var i = 0; i < logicalFromVisual.length - 1; i++)//fix levels to reflect character width
+                    3 === textCharTypes[i] ? levels[i] = exports.AN : 1 === levels[i] && (textCharTypes[i] > 7 && textCharTypes[i] < 13 || 4 === textCharTypes[i] || 18 === textCharTypes[i]) ? levels[i] = exports.ON_R : i > 0 && "\u0644" === chars[i - 1] && /\u0622|\u0623|\u0625|\u0627/.test(chars[i]) && (levels[i - 1] = levels[i] = exports.R_H, i++);
                     chars[chars.length - 1] === exports.DOT && (levels[chars.length - 1] = exports.B), "\u202B" === chars[0] && (levels[0] = exports.RLE);
                     for(var i = 0; i < logicalFromVisual.length; i++)bidiLevels[i] = levels[logicalFromVisual[i]];
                     return {
@@ -3382,13 +3386,13 @@
                                 var stringBefore = token && /string|escape/.test(token.type), stringAfter = !rightToken || /string|escape/.test(rightToken.type);
                                 if (rightChar == text) (pair = stringBefore !== stringAfter) && /string\.end/.test(rightToken.type) && (pair = !1);
                                 else {
-                                    if (stringBefore && !stringAfter || stringBefore && stringAfter) return null;
+                                    if (stringBefore && !stringAfter || stringBefore && stringAfter) return null; // wrap string with different quote
                                     var wordRe = session.$mode.tokenRe;
                                     wordRe.lastIndex = 0;
                                     var isWordBefore = wordRe.test(leftChar);
                                     wordRe.lastIndex = 0;
                                     var isWordAfter = wordRe.test(leftChar);
-                                    if (isWordBefore || isWordAfter || rightChar && !/[\s;,.})\]\\]/.test(rightChar)) return null;
+                                    if (isWordBefore || isWordAfter || rightChar && !/[\s;,.})\]\\]/.test(rightChar)) return null; // before or after alphanumeric
                                     var charBefore = line[cursor.column - 2];
                                     if (leftChar == text && (charBefore == text || wordRe.test(charBefore))) return null;
                                     pair = !0;
@@ -5217,7 +5221,8 @@
                                 start < last && (start >= first ? rowCount -= last - start : rowCount = 0);
                                 break;
                             }
-                            end >= first && (start >= first ? rowCount -= end - start : rowCount -= end - first + 1);
+                            end >= first && (start >= first ? // fold inside range
+                            rowCount -= end - start : rowCount -= end - first + 1);
                         }
                         return rowCount;
                     }, this.$addFoldLine = function(foldLine) {
@@ -5379,7 +5384,7 @@
                             return range.end.row = iterator.getCurrentTokenRow(), range.end.column = iterator.getCurrentTokenColumn() + token.value.length - 2, range;
                         }
                     }, this.foldAll = function(startRow, endRow, depth, test) {
-                        void 0 == depth && (depth = 100000);
+                        void 0 == depth && (depth = 100000); // JSON.stringify doesn't hanle Infinity
                         var foldWidgets = this.foldWidgets;
                         if (foldWidgets) {
                             endRow = endRow || this.getLength(), startRow = startRow || 0;
@@ -5387,7 +5392,7 @@
                                 var range = this.getFoldWidgetRange(row);
                                 range && range.isMultiLine() && range.end.row <= endRow && range.start.row >= startRow && (row = range.end.row, range.collapseChildren = depth, this.addFold("...", range));
                             }
-                        }
+                        } // mode doesn't support folding
                     }, this.foldToLevel = function(level) {
                         for(this.foldAll(); level-- > 0;)this.unfold(null, !1);
                     }, this.foldAllComments = function() {
@@ -5908,7 +5913,7 @@
                                     continue;
                                 }
                                 isInsert(delta) ? (point = delta.start, -1 == range.compare(point.row, point.column) && range.setStart(point), point = delta.end, 1 == range.compare(point.row, point.column) && range.setEnd(point)) : (point = delta.start, -1 == range.compare(point.row, point.column) && (range = Range.fromPoints(delta.start, delta.start)));
-                            }
+                            } // skip folds
                         }
                         return range;
                     }, this.replace = function(range, text) {
@@ -6108,7 +6113,7 @@
                                     continue;
                                 }
                                 for(split = lastSplit + wrapLimit; split < tokens.length && tokens[split] == PLACEHOLDER_BODY; split++);
-                                if (split == tokens.length) break;
+                                if (split == tokens.length) break; // Breaks the while-loop.
                                 addSplit(split);
                                 continue;
                             }
@@ -7812,8 +7817,9 @@
                             var prev = this.prevOp, mergeableCommands = this.$mergeableCommands, shouldMerge = prev.command && e.command.name == prev.command.name;
                             if ("insertstring" == e.command.name) {
                                 var text = e.args;
-                                void 0 === this.mergeNextCommand && (this.mergeNextCommand = !0), shouldMerge = shouldMerge && this.mergeNextCommand && (!/\s/.test(text) || /\s/.test(prev.args)), this.mergeNextCommand = !0;
-                            } else shouldMerge = shouldMerge && -1 !== mergeableCommands.indexOf(e.command.name);
+                                void 0 === this.mergeNextCommand && (this.mergeNextCommand = !0), shouldMerge = shouldMerge && this.mergeNextCommand && // previous command allows to coalesce with
+                                (!/\s/.test(text) || /\s/.test(prev.args)), this.mergeNextCommand = !0;
+                            } else shouldMerge = shouldMerge && -1 !== mergeableCommands.indexOf(e.command.name); // the command is mergeable
                             "always" != this.$mergeUndoDeltas && Date.now() - this.sequenceStartTime > 2000 && (shouldMerge = !1), shouldMerge ? this.session.mergeUndoDeltas = !0 : -1 !== mergeableCommands.indexOf(e.command.name) && (this.sequenceStartTime = Date.now());
                         }
                     }, this.setKeyboardHandler = function(keyboardHandler, cb) {
@@ -7912,13 +7918,15 @@
                                     }
                                     if (-1 !== token.type.indexOf("tag-open") && !(token = iterator.stepForward())) return;
                                     var tag = token.value, currentTag = token.value, depth = 0, prevToken = iterator.stepBackward();
-                                    if ("<" === prevToken.value) do prevToken = token, (token = iterator.stepForward()) && (-1 !== token.type.indexOf("tag-name") ? tag === (currentTag = token.value) && ("<" === prevToken.value ? depth++ : "</" === prevToken.value && depth--) : tag === currentTag && "/>" === token.value && depth--);
+                                    if ("<" === prevToken.value) do prevToken = token, (token = iterator.stepForward()) && (-1 !== token.type.indexOf("tag-name") ? tag === (currentTag = token.value) && ("<" === prevToken.value ? depth++ : "</" === prevToken.value && depth--) : tag === currentTag && "/>" === token.value && // self closing tag
+                                    depth--);
                                     while (token && depth >= 0)
                                     else {
                                         do if (token = prevToken, prevToken = iterator.stepBackward(), token) {
                                             if (-1 !== token.type.indexOf("tag-name")) tag === token.value && ("<" === prevToken.value ? depth++ : "</" === prevToken.value && depth--);
                                             else if ("/>" === token.value) {
-                                                for(var stepCount = 0, tmpToken = prevToken; tmpToken;){
+                                                for(// self closing tag
+                                                var stepCount = 0, tmpToken = prevToken; tmpToken;){
                                                     if (-1 !== tmpToken.type.indexOf("tag-name") && tmpToken.value === tag) {
                                                         depth--;
                                                         break;
@@ -8086,7 +8094,9 @@
                         }
                         this.clearSelection();
                         var start = cursor.column, lineState = session.getState(cursor.row), line = session.getLine(cursor.row), shouldOutdent = mode.checkOutdent(lineState, line, text);
-                        if (session.insert(cursor, text), transform && transform.selection && (2 == transform.selection.length ? this.selection.setSelectionRange(new Range(cursor.row, start + transform.selection[0], cursor.row, start + transform.selection[1])) : this.selection.setSelectionRange(new Range(cursor.row + transform.selection[0], transform.selection[1], cursor.row + transform.selection[2], transform.selection[3]))), this.$enableAutoIndent) {
+                        if (session.insert(cursor, text), transform && transform.selection && (2 == transform.selection.length ? // Transform relative to the current column
+                        this.selection.setSelectionRange(new Range(cursor.row, start + transform.selection[0], cursor.row, start + transform.selection[1])) : // Transform relative to the current row.
+                        this.selection.setSelectionRange(new Range(cursor.row + transform.selection[0], transform.selection[1], cursor.row + transform.selection[2], transform.selection[3]))), this.$enableAutoIndent) {
                             if (session.getDocument().isNewLine(text)) {
                                 var lineIndent = mode.getNextLineIndent(lineState, line.slice(0, cursor.column), session.getTabString());
                                 session.insert({
@@ -10657,7 +10667,7 @@ margin: 0 10px;\
                     }, this.$computeLayerConfig = function() {
                         var firstRowScreen, firstRowHeight, session = this.session, size = this.$size, hideScrollbars = size.height <= 2 * this.lineHeight, maxHeight = this.session.getScreenLength() * this.lineHeight, longestLine = this.$getLongestLine(), horizScroll = !hideScrollbars && (this.$hScrollBarAlwaysVisible || size.scrollerWidth - longestLine - 2 * this.$padding < 0), hScrollChanged = this.$horizScroll !== horizScroll;
                         hScrollChanged && (this.$horizScroll = horizScroll, this.scrollBarH.setVisible(horizScroll));
-                        var vScrollBefore = this.$vScroll;
+                        var vScrollBefore = this.$vScroll; // autosize can change vscroll value in which case we need to update longestLine
                         this.$maxLines && this.lineHeight > 1 && this.$autosize();
                         var minHeight = size.scrollerHeight + this.lineHeight, scrollPastEnd = !this.$maxLines && this.$scrollPastEnd ? (size.scrollerHeight - this.lineHeight) * this.$scrollPastEnd : 0;
                         maxHeight += scrollPastEnd;
@@ -11302,7 +11312,7 @@ margin: 0 10px;\
                             if (selectionMode = "add", !isMultiSelect && shift) return;
                         } else alt && editor.$blockSelectEnabled && (selectionMode = "block");
                         if (selectionMode && useragent.isMac && ev.ctrlKey && editor.$mouseHandler.cancelContextMenu(), "add" == selectionMode) {
-                            if (!isMultiSelect && inSelection) return;
+                            if (!isMultiSelect && inSelection) return; // dragging
                             if (!isMultiSelect) {
                                 var range = selection.toOrientedRange();
                                 editor.addSelectionMarker(range);
@@ -12346,6 +12356,6 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                 for(var key in a && (a.config.init(!0), a.define = ace.define), window.ace || (window.ace = a), a)a.hasOwnProperty(key) && (window.ace[key] = a[key]);
                 window.ace.default = window.ace, module && (module.exports = window.ace);
             });
-        }
+        /***/ }
     }
 ]);

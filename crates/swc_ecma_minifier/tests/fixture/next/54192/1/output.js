@@ -3,28 +3,31 @@
         931
     ],
     {
-        821: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+        /***/ 821: /***/ function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, {
+            // ESM COMPAT FLAG
+            __webpack_require__.r(__webpack_exports__), // EXPORTS
+            __webpack_require__.d(__webpack_exports__, {
                 ClientCompoenent: function() {
-                    return ClientCompoenent;
+                    return /* binding */ ClientCompoenent;
                 }
             });
+            // EXTERNAL MODULE: ./node_modules/next/dist/compiled/react/jsx-runtime.js
             var jsx_runtime = __webpack_require__(7437), react = __webpack_require__(2265);
-            const Context = (0, react.createContext)({}), ContextDemo_Provider = (param)=>{
+            const Context = /*#__PURE__*/ (0, react.createContext)({}), ContextDemo_Provider = (param)=>{
                 let { children } = param;
-                return (0, jsx_runtime.jsx)(Context.Provider, {
+                return /*#__PURE__*/ (0, jsx_runtime.jsx)(Context.Provider, {
                     value: {},
                     children: children
                 });
             }, ClientCompoenent = ()=>{
                 const [count, setCount] = (0, react.useState)(0);
-                return (0, jsx_runtime.jsxs)(jsx_runtime.Fragment, {
+                return /*#__PURE__*/ (0, jsx_runtime.jsxs)(jsx_runtime.Fragment, {
                     children: [
-                        (0, jsx_runtime.jsx)(ContextDemo_Provider, {
-                            children: (0, jsx_runtime.jsx)("input", {})
+                        /*#__PURE__*/ (0, jsx_runtime.jsx)(ContextDemo_Provider, {
+                            children: /*#__PURE__*/ (0, jsx_runtime.jsx)("input", {})
                         }),
-                        (0, jsx_runtime.jsx)("button", {
+                        /*#__PURE__*/ (0, jsx_runtime.jsx)("button", {
                             onClick: ()=>{
                                 console.log("click"), setCount(count + 1);
                             },
@@ -33,15 +36,15 @@
                     ]
                 });
             };
-        }
+        /***/ }
     },
-    function(__webpack_require__) {
-        __webpack_require__.O(0, [
+    /******/ function(__webpack_require__) {
+        /******/ __webpack_require__.O(0, [
             971,
             596,
             744
         ], function() {
             return __webpack_require__(__webpack_require__.s = 8835);
-        }), _N_E = __webpack_require__.O();
-    }
+        }), /******/ _N_E = __webpack_require__.O();
+    /******/ }
 ]);

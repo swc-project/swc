@@ -30,7 +30,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     })(o, p);
 }
-var ItemsList = function(Component) {
+var ItemsList = /*#__PURE__*/ function(Component) {
     "use strict";
     var protoProps;
     function ItemsList() {
@@ -66,7 +66,7 @@ var ItemsList = function(Component) {
             key: "render",
             value: function() {
                 var _this = this, _props = this.props, items = _props.items, itemProps = _props.itemProps, renderItem = _props.renderItem, renderItemData = _props.renderItemData, sectionIndex = _props.sectionIndex, highlightedItemIndex = _props.highlightedItemIndex, getItemId = _props.getItemId, theme = _props.theme, keyPrefix = _props.keyPrefix, sectionPrefix = null === sectionIndex ? keyPrefix : "".concat(keyPrefix, "section-").concat(sectionIndex, "-"), isItemPropsFunction = "function" == typeof itemProps;
-                return _jsx("ul", _objectSpread({
+                return /*#__PURE__*/ _jsx("ul", _objectSpread({
                     role: "listbox"
                 }, theme("".concat(sectionPrefix, "items-list"), "itemsList"), {
                     children: items.map(function(item, itemIndex) {
@@ -77,7 +77,8 @@ var ItemsList = function(Component) {
                             id: getItemId(sectionIndex, itemIndex),
                             "aria-selected": isHighlighted
                         }, theme(itemKey, "item", isFirst && "itemFirst", isHighlighted && "itemHighlighted"), itemPropsObj);
-                        return isHighlighted && (allItemProps.ref = _this.storeHighlightedItemReference), _jsx(Item, _objectSpread({}, allItemProps, {
+                        // `key` is provided by theme()
+                        /* eslint-disable react/jsx-key */ return isHighlighted && (allItemProps.ref = _this.storeHighlightedItemReference), /*#__PURE__*/ _jsx(Item, _objectSpread({}, allItemProps, {
                             sectionIndex: sectionIndex,
                             isHighlighted: isHighlighted,
                             itemIndex: itemIndex,
@@ -85,7 +86,7 @@ var ItemsList = function(Component) {
                             renderItem: renderItem,
                             renderItemData: renderItemData
                         }));
-                    })
+                    /* eslint-enable react/jsx-key */ })
                 }));
             }
         }

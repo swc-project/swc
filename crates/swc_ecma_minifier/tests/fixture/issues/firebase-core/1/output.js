@@ -3,60 +3,94 @@
         819
     ],
     {
-        4444: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+        /***/ 4444: /***/ function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
-            function getUA() {
+            /**
+             * @license
+             * Copyright 2017 Google LLC
+             *
+             * Licensed under the Apache License, Version 2.0 (the "License");
+             * you may not use this file except in compliance with the License.
+             * You may obtain a copy of the License at
+             *
+             *   http://www.apache.org/licenses/LICENSE-2.0
+             *
+             * Unless required by applicable law or agreed to in writing, software
+             * distributed under the License is distributed on an "AS IS" BASIS,
+             * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+             * See the License for the specific language governing permissions and
+             * limitations under the License.
+             */ /**
+             * Returns navigator.userAgent string or '' if it's not defined.
+             * @return user agent string
+             */ function getUA() {
                 return "undefined" != typeof navigator && "string" == typeof navigator.userAgent ? navigator.userAgent : "";
             }
-            function isMobileCordova() {
-                return "undefined" != typeof window && !!(window.cordova || window.phonegap || window.PhoneGap) && /ios|iphone|ipod|ipad|android|blackberry|iemobile/i.test(getUA());
+            /**
+             * Detect Cordova / PhoneGap / Ionic frameworks on a mobile device.
+             *
+             * Deliberately does not rely on checking `file://` URLs (as this fails PhoneGap
+             * in the Ripple emulator) nor Cordova `onDeviceReady`, which would normally
+             * wait for a callback.
+             */ function isMobileCordova() {
+                return "undefined" != typeof window && // @ts-ignore Setting up an broadly applicable index signature for Window
+                // just to deal with this case would probably be a bad idea.
+                !!(window.cordova || window.phonegap || window.PhoneGap) && /ios|iphone|ipod|ipad|android|blackberry|iemobile/i.test(getUA());
             }
             function isBrowserExtension() {
                 const runtime = "object" == typeof chrome ? chrome.runtime : "object" == typeof browser ? browser.runtime : void 0;
                 return "object" == typeof runtime && void 0 !== runtime.id;
             }
-            function isReactNative() {
+            /**
+             * Detect React Native.
+             *
+             * @return true if ReactNative environment is detected.
+             */ function isReactNative() {
                 return "object" == typeof navigator && "ReactNative" === navigator.product;
             }
-            function isElectron() {
+            /** Detects Electron apps. */ function isElectron() {
                 return getUA().indexOf("Electron/") >= 0;
             }
-            function isIE() {
+            /** Detects Internet Explorer. */ function isIE() {
                 const ua = getUA();
                 return ua.indexOf("MSIE ") >= 0 || ua.indexOf("Trident/") >= 0;
             }
-            function isUWP() {
+            /** Detects Universal Windows Platform apps. */ function isUWP() {
                 return getUA().indexOf("MSAppHost/") >= 0;
             }
-            __webpack_require__.d(__webpack_exports__, {
-                LL: function() {
-                    return ErrorFactory;
+            /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+                /* harmony export */ LL: function() {
+                    return /* binding */ ErrorFactory;
                 },
-                m9: function() {
-                    return getModularInstance;
+                /* harmony export */ m9: function() {
+                    return /* binding */ getModularInstance;
                 },
-                ru: function() {
-                    return isBrowserExtension;
+                /* harmony export */ ru: function() {
+                    return /* binding */ isBrowserExtension;
                 },
-                d: function() {
-                    return isElectron;
+                /* harmony export */ d: function() {
+                    return /* binding */ isElectron;
                 },
-                w1: function() {
-                    return isIE;
+                /* harmony export */ w1: function() {
+                    return /* binding */ isIE;
                 },
-                uI: function() {
-                    return isMobileCordova;
+                /* harmony export */ uI: function() {
+                    return /* binding */ isMobileCordova;
                 },
-                b$: function() {
-                    return isReactNative;
+                /* harmony export */ b$: function() {
+                    return /* binding */ isReactNative;
                 },
-                Mn: function() {
-                    return isUWP;
+                /* harmony export */ Mn: function() {
+                    return /* binding */ isUWP;
                 }
             });
+            // Based on code from:
+            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#Custom_Error_Types
             class FirebaseError extends Error {
                 constructor(code, message, customData){
-                    super(message), this.code = code, this.customData = customData, this.name = "FirebaseError", Object.setPrototypeOf(this, FirebaseError.prototype), Error.captureStackTrace && Error.captureStackTrace(this, ErrorFactory.prototype.create);
+                    super(message), this.code = code, this.customData = customData, this.name = "FirebaseError", // Fix For ES5
+                    // https://github.com/Microsoft/TypeScript-wiki/blob/master/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work
+                    Object.setPrototypeOf(this, FirebaseError.prototype), Error.captureStackTrace && Error.captureStackTrace(this, ErrorFactory.prototype.create);
                 }
             }
             class ErrorFactory {
@@ -72,42 +106,58 @@
                 }
             }
             const PATTERN = /\{\$([^}]+)}/g;
-            function getModularInstance(service) {
+            /**
+             * @license
+             * Copyright 2021 Google LLC
+             *
+             * Licensed under the Apache License, Version 2.0 (the "License");
+             * you may not use this file except in compliance with the License.
+             * You may obtain a copy of the License at
+             *
+             *   http://www.apache.org/licenses/LICENSE-2.0
+             *
+             * Unless required by applicable law or agreed to in writing, software
+             * distributed under the License is distributed on an "AS IS" BASIS,
+             * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+             * See the License for the specific language governing permissions and
+             * limitations under the License.
+             */ function getModularInstance(service) {
                 return service && service._delegate ? service._delegate : service;
             }
-        },
-        3510: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+        //# sourceMappingURL=index.esm2017.js.map
+        /***/ },
+        /***/ 3510: /***/ function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.d(__webpack_exports__, {
-                jK: function() {
-                    return ErrorCode;
+            /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+                /* harmony export */ jK: function() {
+                    return /* binding */ ErrorCode;
                 },
-                ju: function() {
-                    return Event;
+                /* harmony export */ ju: function() {
+                    return /* binding */ Event;
                 },
-                tw: function() {
-                    return EventType;
+                /* harmony export */ tw: function() {
+                    return /* binding */ EventType;
                 },
-                zI: function() {
-                    return FetchXmlHttpFactory;
+                /* harmony export */ zI: function() {
+                    return /* binding */ FetchXmlHttpFactory;
                 },
-                kN: function() {
-                    return Stat;
+                /* harmony export */ kN: function() {
+                    return /* binding */ Stat;
                 },
-                ii: function() {
-                    return WebChannel;
+                /* harmony export */ ii: function() {
+                    return /* binding */ WebChannel;
                 },
-                JJ: function() {
-                    return XhrIo;
+                /* harmony export */ JJ: function() {
+                    return /* binding */ XhrIo;
                 },
-                UE: function() {
-                    return createWebChannelTransport;
+                /* harmony export */ UE: function() {
+                    return /* binding */ createWebChannelTransport;
                 },
-                FJ: function() {
-                    return getStatEventTarget;
+                /* harmony export */ FJ: function() {
+                    return /* binding */ getStatEventTarget;
                 }
             });
-            var a, x, Na, Ab, cc, k, commonjsGlobal = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {}, esm = {}, goog = goog || {}, l = commonjsGlobal || self;
+            /* unused harmony export default */ var a, x, Na, Ab, cc, k, commonjsGlobal = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {}, esm = {}, goog = goog || {}, l = commonjsGlobal || self;
             function aa() {}
             function ba(a) {
                 var b = typeof a;
@@ -1675,20 +1725,22 @@
                 mb: 19,
                 ob: 20
             }, FetchXmlHttpFactory = esm.FetchXmlHttpFactory = pd, WebChannel = esm.WebChannel = $b, XhrIo = esm.XhrIo = X;
-        },
-        6257: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+        //# sourceMappingURL=index.esm2017.js.map
+        /***/ },
+        /***/ 6257: /***/ function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.d(__webpack_exports__, {
-                hJ: function() {
-                    return _firebase_firestore__WEBPACK_IMPORTED_MODULE_0__.hJ;
+            /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+                /* harmony export */ hJ: function() {
+                    return /* reexport safe */ _firebase_firestore__WEBPACK_IMPORTED_MODULE_0__.hJ;
                 },
-                PL: function() {
-                    return _firebase_firestore__WEBPACK_IMPORTED_MODULE_0__.PL;
+                /* harmony export */ PL: function() {
+                    return /* reexport safe */ _firebase_firestore__WEBPACK_IMPORTED_MODULE_0__.PL;
                 }
             });
-            var _firebase_firestore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
-        },
-        8045: function(__unused_webpack_module, exports, __webpack_require__) {
+            /* harmony import */ var _firebase_firestore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
+        //# sourceMappingURL=index.esm.js.map
+        /***/ },
+        /***/ 8045: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             function _toConsumableArray(arr) {
                 return function(arr) {
@@ -1734,7 +1786,8 @@
                     "placeholder",
                     "blurDataURL"
                 ]), layout = sizes ? "responsive" : "intrinsic";
-                "layout" in all && (all.layout && (layout = all.layout), delete all.layout);
+                "layout" in all && (all.layout && (layout = all.layout), // Remove property so it's not spread into image:
+                delete all.layout);
                 var staticSrc = "";
                 if ("object" == typeof (src = src1) && (isStaticRequire(src) || void 0 !== src.src)) {
                     var staticImageData = isStaticRequire(src1) ? src1.default : src1;
@@ -1743,7 +1796,8 @@
                 }
                 src1 = "string" == typeof src1 ? src1 : staticSrc;
                 var widthInt = getInt(width), heightInt = getInt(height), qualityInt = getInt(quality), isLazy = !priority && ("lazy" === loading || void 0 === loading);
-                (src1.startsWith("data:") || src1.startsWith("blob:")) && (unoptimized = !0, isLazy = !1), loadedImageURLs.has(src1) && (isLazy = !1);
+                (src1.startsWith("data:") || src1.startsWith("blob:")) && (// https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs
+                unoptimized = !0, isLazy = !1), loadedImageURLs.has(src1) && (isLazy = !1);
                 var ref2 = function(arr) {
                     if (Array.isArray(arr)) return arr;
                 }(arr = _useIntersection.useIntersection({
@@ -1811,10 +1865,15 @@
                     backgroundImage: 'url("'.concat(blurDataURL, '")'),
                     backgroundPosition: objectPosition || "0% 0%"
                 } : {};
-                if ("fill" === layout) wrapperStyle.display = "block", wrapperStyle.position = "absolute", wrapperStyle.top = 0, wrapperStyle.left = 0, wrapperStyle.bottom = 0, wrapperStyle.right = 0;
+                if ("fill" === layout) // <Image src="i.png" layout="fill" />
+                wrapperStyle.display = "block", wrapperStyle.position = "absolute", wrapperStyle.top = 0, wrapperStyle.left = 0, wrapperStyle.bottom = 0, wrapperStyle.right = 0;
                 else if (void 0 !== widthInt && void 0 !== heightInt) {
+                    // <Image src="i.png" width="100" height="100" />
                     var quotient = heightInt / widthInt, paddingTop = isNaN(quotient) ? "100%" : "".concat(100 * quotient, "%");
-                    "responsive" === layout ? (wrapperStyle.display = "block", wrapperStyle.position = "relative", hasSizer = !0, sizerStyle.paddingTop = paddingTop) : "intrinsic" === layout ? (wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.maxWidth = "100%", hasSizer = !0, sizerStyle.maxWidth = "100%", sizerSvg = '<svg width="'.concat(widthInt, '" height="').concat(heightInt, '" xmlns="http://www.w3.org/2000/svg" version="1.1"/>')) : "fixed" === layout && (wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.width = widthInt, wrapperStyle.height = heightInt);
+                    "responsive" === layout ? (// <Image src="i.png" width="100" height="100" layout="responsive" />
+                    wrapperStyle.display = "block", wrapperStyle.position = "relative", hasSizer = !0, sizerStyle.paddingTop = paddingTop) : "intrinsic" === layout ? (// <Image src="i.png" width="100" height="100" layout="intrinsic" />
+                    wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.maxWidth = "100%", hasSizer = !0, sizerStyle.maxWidth = "100%", sizerSvg = '<svg width="'.concat(widthInt, '" height="').concat(heightInt, '" xmlns="http://www.w3.org/2000/svg" version="1.1"/>')) : "fixed" === layout && (// <Image src="i.png" width="100" height="100" layout="fixed" />
+                    wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.width = widthInt, wrapperStyle.height = heightInt);
                 }
                 var imgAttributes = {
                     src: emptyDataURL,
@@ -1831,11 +1890,11 @@
                     loader: loader
                 }));
                 var srcString = src1;
-                return _react.default.createElement("span", {
+                return /*#__PURE__*/ _react.default.createElement("span", {
                     style: wrapperStyle
-                }, hasSizer ? _react.default.createElement("span", {
+                }, hasSizer ? /*#__PURE__*/ _react.default.createElement("span", {
                     style: sizerStyle
-                }, sizerSvg ? _react.default.createElement("img", {
+                }, sizerSvg ? /*#__PURE__*/ _react.default.createElement("img", {
                     style: {
                         display: "block",
                         maxWidth: "100%",
@@ -1850,27 +1909,34 @@
                     alt: "",
                     "aria-hidden": !0,
                     src: "data:image/svg+xml;base64,".concat(_toBase64.toBase64(sizerSvg))
-                }) : null) : null, _react.default.createElement("img", Object.assign({}, all, imgAttributes, {
+                }) : null) : null, /*#__PURE__*/ _react.default.createElement("img", Object.assign({}, all, imgAttributes, {
                     decoding: "async",
                     "data-nimg": layout,
                     className: className,
                     ref: function(img) {
-                        setRef(img), function(img, src, layout, placeholder, onLoadingComplete) {
+                        setRef(img), // See https://stackoverflow.com/q/39777833/266535 for why we use this ref
+                        // handler instead of the img's onLoad attribute.
+                        function(img, src, layout, placeholder, onLoadingComplete) {
                             if (img) {
                                 var handleLoad = function() {
                                     img.src !== emptyDataURL && ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {}).then(function() {
-                                        "blur" === placeholder && (img.style.filter = "none", img.style.backgroundSize = "none", img.style.backgroundImage = "none"), loadedImageURLs.add(src), onLoadingComplete && onLoadingComplete({
+                                        "blur" === placeholder && (img.style.filter = "none", img.style.backgroundSize = "none", img.style.backgroundImage = "none"), loadedImageURLs.add(src), onLoadingComplete && // Pass back read-only primitive values but not the
+                                        // underlying DOM element because it could be misused.
+                                        onLoadingComplete({
                                             naturalWidth: img.naturalWidth,
                                             naturalHeight: img.naturalHeight
                                         });
                                     });
                                 };
-                                img.complete ? handleLoad() : img.onload = handleLoad;
+                                img.complete ? // If the real image fails to load, this will still remove the placeholder.
+                                // This is the desired behavior for now, and will be revisited when error
+                                // handling is worked on for the image component itself.
+                                handleLoad() : img.onload = handleLoad;
                             }
                         }(img, srcString, 0, placeholder, onLoadingComplete);
                     },
                     style: _objectSpread({}, imgStyle, blurStyle)
-                })), _react.default.createElement("noscript", null, _react.default.createElement("img", Object.assign({}, all, generateImgAttrs({
+                })), /*#__PURE__*/ _react.default.createElement("noscript", null, /*#__PURE__*/ _react.default.createElement("img", Object.assign({}, all, generateImgAttrs({
                     src: src1,
                     unoptimized: unoptimized,
                     layout: layout,
@@ -1883,13 +1949,19 @@
                     "data-nimg": layout,
                     style: imgStyle,
                     className: className,
+                    // @ts-ignore - TODO: upgrade to `@types/react@17`
                     loading: loading || "lazy"
-                }))), priority ? _react.default.createElement(_head.default, null, _react.default.createElement("link", {
+                }))), priority // for browsers that do not support `imagesrcset`, and in those cases
+                 ? //
+                // https://html.spec.whatwg.org/multipage/semantics.html#attr-link-imagesrcset
+                /*#__PURE__*/ _react.default.createElement(_head.default, null, /*#__PURE__*/ _react.default.createElement("link", {
                     key: "__nimg-" + imgAttributes.src + imgAttributes.srcSet + imgAttributes.sizes,
                     rel: "preload",
                     as: "image",
                     href: imgAttributes.srcSet ? void 0 : imgAttributes.src,
+                    // @ts-ignore: imagesrcset is not yet in the link element type.
                     imagesrcset: imgAttributes.srcSet,
+                    // @ts-ignore: imagesizes is not yet in the link element type.
                     imagesizes: imgAttributes.sizes
                 })) : null);
             };
@@ -1922,7 +1994,7 @@
                     function(param) {
                         var root = param.root, src = param.src, width = param.width, quality = param.quality;
                         return "".concat(root, "?url=").concat(encodeURIComponent(src), "&w=").concat(width, "&q=").concat(quality || 75);
-                    }
+                    } //# sourceMappingURL=image.js.map
                 ],
                 [
                     "imgix",
@@ -1986,6 +2058,7 @@
                 loader: "default"
             }, configDeviceSizes = ref1.deviceSizes, configImageSizes = ref1.imageSizes, configLoader = ref1.loader, configPath = ref1.path;
             ref1.domains;
+            // sort smallest to largest
             var allSizes = _toConsumableArray(configDeviceSizes).concat(_toConsumableArray(configImageSizes));
             function generateImgAttrs(param) {
                 var src = param.src, unoptimized = param.unoptimized, layout = param.layout, width = param.width, quality = param.quality, sizes = param.sizes, loader = param.loader;
@@ -1996,7 +2069,8 @@
                 };
                 var ref = function(width, layout, sizes) {
                     if (sizes && ("fill" === layout || "responsive" === layout)) {
-                        for(var viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes); match)percentSizes.push(parseInt(match[2]));
+                        for(// Find all the "vw" percent sizes used in the sizes prop
+                        var viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes); match)percentSizes.push(parseInt(match[2]));
                         if (percentSizes.length) {
                             var match, _Math, smallestRatio = 0.01 * (_Math = Math).min.apply(_Math, _toConsumableArray(percentSizes));
                             return {
@@ -2015,9 +2089,15 @@
                         widths: configDeviceSizes,
                         kind: "w"
                     } : {
-                        widths: _toConsumableArray(new Set([
+                        widths: _toConsumableArray(new Set(// > blue colors. Showing a 3x resolution image in the app vs a 2x
+                        // > resolution image will be visually the same, though the 3x image
+                        // > takes significantly more data. Even true 3x resolution screens are
+                        // > wasteful as the human eye cannot see that level of detail without
+                        // > something like a magnifying glass.
+                        // https://blog.twitter.com/engineering/en_us/topics/infrastructure/2019/capping-image-fidelity-on-ultra-high-resolution-devices.html
+                        [
                             width,
-                            2 * width
+                            2 /*, width * 3*/  * width
                         ].map(function(w) {
                             return allSizes.find(function(p) {
                                 return p >= w;
@@ -2035,6 +2115,12 @@
                             width: w
                         }), " ").concat("w" === kind ? w : i + 1).concat(kind);
                     }).join(", "),
+                    // It's intended to keep `src` the last attribute because React updates
+                    // attributes in order. If we keep `src` the first one, Safari will
+                    // immediately start to fetch `src`, before `sizes` and `srcSet` are even
+                    // updated by React. That causes multiple unnecessary requests if `srcSet`
+                    // and `sizes` are defined.
+                    // This bug cannot be reproduced in Chrome or Firefox.
                     src: loader({
                         src: src,
                         quality: quality,
@@ -2060,8 +2146,8 @@
             }), allSizes.sort(function(a, b) {
                 return a - b;
             });
-        },
-        7190: function(__unused_webpack_module, exports, __webpack_require__) {
+        /***/ },
+        /***/ 7190: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
@@ -2102,7 +2188,8 @@
                             observer: observer,
                             elements: elements
                         }), instance;
-                    }({
+                    } //# sourceMappingURL=use-intersection.js.map
+                    ({
                         rootMargin: rootMargin
                     })).id, observer = ref.observer, (elements = ref.elements).set(el, callback), observer.observe(el), function() {
                         elements.delete(el), observer.unobserve(el), 0 === elements.size && (observer.disconnect(), observers.delete(id));
@@ -2129,16 +2216,17 @@
                 ];
             };
             var _react = __webpack_require__(7294), _requestIdleCallback = __webpack_require__(9311), hasIntersectionObserver = "undefined" != typeof IntersectionObserver, observers = new Map();
-        },
-        6978: function(__unused_webpack_module, exports) {
+        /***/ },
+        /***/ 6978: /***/ function(__unused_webpack_module, exports) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.toBase64 = function(str) {
                 return window.btoa(str);
-            };
-        },
-        5809: function(__unused_webpack_module, exports) {
+            } //# sourceMappingURL=to-base-64.js.map
+            ;
+        /***/ },
+        /***/ 5809: /***/ function(__unused_webpack_module, exports) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
@@ -2178,36 +2266,63 @@
                     "image/webp"
                 ]
             };
-        },
-        9008: function(module, __unused_webpack_exports, __webpack_require__) {
+        //# sourceMappingURL=image-config.js.map
+        /***/ },
+        /***/ 9008: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             module.exports = __webpack_require__(5443);
-        },
-        5675: function(module, __unused_webpack_exports, __webpack_require__) {
+        /***/ },
+        /***/ 5675: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             module.exports = __webpack_require__(8045);
-        },
-        2238: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+        /***/ },
+        /***/ 2238: /***/ function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.d(__webpack_exports__, {
-                Jn: function() {
-                    return SDK_VERSION;
+            /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+                /* harmony export */ Jn: function() {
+                    return /* binding */ SDK_VERSION;
                 },
-                Xd: function() {
-                    return _registerComponent;
+                /* harmony export */ Xd: function() {
+                    return /* binding */ _registerComponent;
                 },
-                KN: function() {
-                    return registerVersion;
+                /* harmony export */ KN: function() {
+                    return /* binding */ registerVersion;
                 }
             });
-            var _firebase_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8463), _firebase_logger__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3333), _firebase_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4444);
-            class PlatformLoggerServiceImpl {
+            /* unused harmony exports _DEFAULT_ENTRY_NAME, _addComponent, _addOrOverwriteComponent, _apps, _clearComponents, _components, _getProvider, _removeServiceInstance, deleteApp, getApp, getApps, initializeApp, onLog, setLogLevel */ /* harmony import */ var _firebase_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8463), _firebase_logger__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3333), _firebase_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4444);
+            /**
+             * @license
+             * Copyright 2019 Google LLC
+             *
+             * Licensed under the Apache License, Version 2.0 (the "License");
+             * you may not use this file except in compliance with the License.
+             * You may obtain a copy of the License at
+             *
+             *   http://www.apache.org/licenses/LICENSE-2.0
+             *
+             * Unless required by applicable law or agreed to in writing, software
+             * distributed under the License is distributed on an "AS IS" BASIS,
+             * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+             * See the License for the specific language governing permissions and
+             * limitations under the License.
+             */ class PlatformLoggerServiceImpl {
                 constructor(container){
                     this.container = container;
                 }
+                // In initial implementation, this will be called by installations on
+                // auth token refresh, and installations will send this string.
                 getPlatformInfoString() {
+                    // Loop through providers and get library/version pairs from any that are
+                    // version components.
                     return this.container.getProviders().map((provider)=>{
-                        if (!function(provider) {
+                        if (!/**
+             *
+             * @param provider check if this provider provides a VersionService
+             *
+             * NOTE: Using Provider<'app-version'> is a hack to indicate that the provider
+             * provides VersionService. The provider is not necessarily a 'app-version'
+             * provider.
+             */ function(provider) {
                             const component = provider.getComponent();
-                            return (null == component ? void 0 : component.type) === "VERSION";
+                            return (null == component ? void 0 : component.type) === "VERSION" /* VERSION */ ;
                         }(provider)) return null;
                         {
                             const service = provider.getImmediate();
@@ -2216,7 +2331,7 @@
                     }).filter((logString)=>logString).join(" ");
                 }
             }
-            const name$o = "@firebase/app", version$1 = "0.7.8", logger = new _firebase_logger__WEBPACK_IMPORTED_MODULE_1__.Yd("@firebase/app"), PLATFORM_LOG_STRING = {
+            const name$o = "@firebase/app", version$1 = "0.7.8", logger = new _firebase_logger__WEBPACK_IMPORTED_MODULE_1__ /* .Logger */ .Yd("@firebase/app"), PLATFORM_LOG_STRING = {
                 [name$o]: "fire-core",
                 "@firebase/app-compat": "fire-core-compat",
                 "@firebase/analytics": "fire-analytics",
@@ -2244,10 +2359,21 @@
                 "fire-js": "fire-js",
                 firebase: "fire-js-all"
             }, _apps = new Map(), _components = new Map();
-            function _registerComponent(component) {
+            /**
+             *
+             * @param component - the component to register
+             * @returns whether or not the component is registered successfully
+             *
+             * @internal
+             */ function _registerComponent(component) {
                 const componentName = component.name;
                 if (_components.has(componentName)) return logger.debug(`There were multiple attempts to register component ${componentName}.`), !1;
-                for (const app of (_components.set(componentName, component), _apps.values()))!function(app, component) {
+                // add the component to existing app instances
+                for (const app of (_components.set(componentName, component), _apps.values()))!/**
+             * @param component - the component being added to this app's container
+             *
+             * @internal
+             */ function(app, component) {
                     try {
                         app.container.addComponent(component);
                     } catch (e) {
@@ -2256,7 +2382,7 @@
                 }(app, component);
                 return !0;
             }
-            new _firebase_util__WEBPACK_IMPORTED_MODULE_2__.LL("app", "Firebase", {
+            new _firebase_util__WEBPACK_IMPORTED_MODULE_2__ /* .ErrorFactory */ .LL("app", "Firebase", {
                 "no-app": "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()",
                 "bad-app-name": "Illegal App name: '{$appName}",
                 "duplicate-app": "Firebase App named '{$appName}' already exists with different options or config",
@@ -2264,9 +2390,37 @@
                 "invalid-app-argument": "firebase.{$appName}() takes either no argument or a Firebase App instance.",
                 "invalid-log-argument": "First argument to `onLog` must be null or a function."
             });
-            const SDK_VERSION = "9.4.1";
-            function registerVersion(libraryKeyOrName, version, variant) {
+            /**
+             * @license
+             * Copyright 2019 Google LLC
+             *
+             * Licensed under the Apache License, Version 2.0 (the "License");
+             * you may not use this file except in compliance with the License.
+             * You may obtain a copy of the License at
+             *
+             *   http://www.apache.org/licenses/LICENSE-2.0
+             *
+             * Unless required by applicable law or agreed to in writing, software
+             * distributed under the License is distributed on an "AS IS" BASIS,
+             * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+             * See the License for the specific language governing permissions and
+             * limitations under the License.
+             */ /**
+             * The current SDK version.
+             *
+             * @public
+             */ const SDK_VERSION = "9.4.1";
+            /**
+             * Registers a library's name and version for platform logging purposes.
+             * @param library - Name of 1p or 3p library (e.g. firestore, angularfire)
+             * @param version - Current version of that library.
+             * @param variant - Bundle variant, e.g., node, rn, etc.
+             *
+             * @public
+             */ function registerVersion(libraryKeyOrName, version, variant) {
                 var _a;
+                // TODO: We can use this check to whitelist strings when/if we set up
+                // a good whitelist system.
                 let library = null !== (_a = PLATFORM_LOG_STRING[libraryKeyOrName]) && void 0 !== _a ? _a : libraryKeyOrName;
                 variant && (library += `-${variant}`);
                 const libraryMismatch = library.match(/\s|\//), versionMismatch = version.match(/\s|\//);
@@ -2277,23 +2431,41 @@
                     libraryMismatch && warning.push(`library name "${library}" contains illegal characters (whitespace or "/")`), libraryMismatch && versionMismatch && warning.push("and"), versionMismatch && warning.push(`version name "${version}" contains illegal characters (whitespace or "/")`), logger.warn(warning.join(" "));
                     return;
                 }
-                _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.wA(`${library}-version`, ()=>({
+                _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__ /* .Component */ .wA(`${library}-version`, ()=>({
                         library,
                         version
-                    }), "VERSION"));
+                    }), "VERSION" /* VERSION */ ));
             }
-            _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.wA("platform-logger", (container)=>new PlatformLoggerServiceImpl(container), "PRIVATE")), registerVersion(name$o, version$1, ""), registerVersion(name$o, version$1, "esm2017"), registerVersion("fire-js", "");
-        },
-        8463: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+            /**
+             * Firebase App
+             *
+             * @remarks This package coordinates the communication between the different Firebase components
+             * @packageDocumentation
+             */ _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__ /* .Component */ .wA("platform-logger", (container)=>new PlatformLoggerServiceImpl(container), "PRIVATE" /* PRIVATE */ )), // Register `app` package.
+            registerVersion(name$o, version$1, ""), // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
+            registerVersion(name$o, version$1, "esm2017"), // Register platform SDK identifier (no version).
+            registerVersion("fire-js", "");
+        //# sourceMappingURL=index.esm2017.js.map
+        /***/ },
+        /***/ 8463: /***/ function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.d(__webpack_exports__, {
-                wA: function() {
-                    return Component;
+            /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+                /* harmony export */ wA: function() {
+                    return /* binding */ Component;
                 }
             }), __webpack_require__(4444);
-            class Component {
-                constructor(name, instanceFactory, type){
-                    this.name = name, this.instanceFactory = instanceFactory, this.type = type, this.multipleInstances = !1, this.serviceProps = {}, this.instantiationMode = "LAZY", this.onInstanceCreated = null;
+            /**
+             * Component for service name T, e.g. `auth`, `auth-internal`
+             */ class Component {
+                /**
+                 *
+                 * @param name The public service name, e.g. app, auth, firestore, database
+                 * @param instanceFactory Service factory responsible for creating the public interface
+                 * @param type whether the service provided by the component is public or private
+                 */ constructor(name, instanceFactory, type){
+                    this.name = name, this.instanceFactory = instanceFactory, this.type = type, this.multipleInstances = !1, /**
+                     * Properties to be added to the service namespace
+                     */ this.serviceProps = {}, this.instantiationMode = "LAZY" /* LAZY */ , this.onInstanceCreated = null;
                 }
                 setInstantiationMode(mode) {
                     return this.instantiationMode = mode, this;
@@ -2308,19 +2480,37 @@
                     return this.onInstanceCreated = callback, this;
                 }
             }
-        },
-        3333: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+        //# sourceMappingURL=index.esm2017.js.map
+        /***/ },
+        /***/ 3333: /***/ function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
             "use strict";
             var LogLevel, LogLevel1;
-            __webpack_require__.d(__webpack_exports__, {
-                in: function() {
-                    return LogLevel;
+            /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+                /* harmony export */ in: function() {
+                    return /* binding */ LogLevel;
                 },
-                Yd: function() {
-                    return Logger;
+                /* harmony export */ Yd: function() {
+                    return /* binding */ Logger;
                 }
             });
-            const instances = [];
+            /* unused harmony exports setLogLevel, setUserLogHandler */ /**
+             * @license
+             * Copyright 2017 Google LLC
+             *
+             * Licensed under the Apache License, Version 2.0 (the "License");
+             * you may not use this file except in compliance with the License.
+             * You may obtain a copy of the License at
+             *
+             *   http://www.apache.org/licenses/LICENSE-2.0
+             *
+             * Unless required by applicable law or agreed to in writing, software
+             * distributed under the License is distributed on an "AS IS" BASIS,
+             * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+             * See the License for the specific language governing permissions and
+             * limitations under the License.
+             */ /**
+             * A container for all of the Logger instances
+             */ const instances = [];
             (LogLevel1 = LogLevel || (LogLevel = {}))[LogLevel1.DEBUG = 0] = "DEBUG", LogLevel1[LogLevel1.VERBOSE = 1] = "VERBOSE", LogLevel1[LogLevel1.INFO = 2] = "INFO", LogLevel1[LogLevel1.WARN = 3] = "WARN", LogLevel1[LogLevel1.ERROR = 4] = "ERROR", LogLevel1[LogLevel1.SILENT = 5] = "SILENT";
             const levelStringToEnum = {
                 debug: LogLevel.DEBUG,
@@ -2342,8 +2532,22 @@
                 else throw Error(`Attempted to log a message with an invalid logType (value: ${logType})`);
             };
             class Logger {
-                constructor(name){
-                    this.name = name, this._logLevel = defaultLogLevel, this._logHandler = defaultLogHandler, this._userLogHandler = null, instances.push(this);
+                /**
+                 * Gives you an instance of a Logger to capture messages according to
+                 * Firebase's logging scheme.
+                 *
+                 * @param name The name that the logs will be associated with
+                 */ constructor(name){
+                    this.name = name, /**
+                     * The log level of the given Logger instance.
+                     */ this._logLevel = defaultLogLevel, /**
+                     * The main (internal) log handler for the Logger instance.
+                     * Can be set to a new function in internal package code but not by user.
+                     */ this._logHandler = defaultLogHandler, /**
+                     * The optional, additional, user-defined log handler for the Logger instance.
+                     */ this._userLogHandler = null, /**
+                     * Capture the current instance for later use
+                     */ instances.push(this);
                 }
                 get logLevel() {
                     return this._logLevel;
@@ -2352,6 +2556,7 @@
                     if (!(val in LogLevel)) throw TypeError(`Invalid value "${val}" assigned to \`logLevel\``);
                     this._logLevel = val;
                 }
+                // Workaround for setter/getter having to be the same type.
                 setLogLevel(val) {
                     this._logLevel = "string" == typeof val ? levelStringToEnum[val] : val;
                 }
@@ -2368,7 +2573,9 @@
                 set userLogHandler(val) {
                     this._userLogHandler = val;
                 }
-                debug(...args) {
+                /**
+                 * The functions below are all based on the `console` interface
+                 */ debug(...args) {
                     this._userLogHandler && this._userLogHandler(this, LogLevel.DEBUG, ...args), this._logHandler(this, LogLevel.DEBUG, ...args);
                 }
                 log(...args) {
@@ -2384,6 +2591,7 @@
                     this._userLogHandler && this._userLogHandler(this, LogLevel.ERROR, ...args), this._logHandler(this, LogLevel.ERROR, ...args);
                 }
             }
-        }
+        //# sourceMappingURL=index.esm2017.js.map
+        /***/ }
     }
 ]);

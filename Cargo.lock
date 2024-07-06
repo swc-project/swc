@@ -1060,7 +1060,7 @@ checksum = "7e962a19be5cfc3f3bf6dd8f61eb50107f356ad6270fbb3ed41476571db78be5"
 
 [[package]]
 name = "dbg-swc"
-version = "0.96.7"
+version = "0.96.8"
 dependencies = [
  "anyhow",
  "clap 3.2.25",
@@ -3834,7 +3834,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.96.8"
+version = "0.96.9"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4906,7 +4906,7 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "anyhow",
  "serde",

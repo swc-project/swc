@@ -7,4 +7,4 @@ const props = {
         }
     }
 };
-console.log(props.nestedProp.getProp());
+console.log(props.nestedProp.getProp()); // should log: 1

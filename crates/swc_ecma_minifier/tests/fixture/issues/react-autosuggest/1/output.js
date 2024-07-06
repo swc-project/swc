@@ -76,7 +76,7 @@ function _defineProperty(obj, key, value) {
         writable: !0
     }) : obj[key] = value, obj;
 }
-var ItemsList = function(_Component) {
+var ItemsList = /*#__PURE__*/ function(_Component) {
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
         subClass.prototype = Object.create(superClass && superClass.prototype, {
@@ -124,7 +124,7 @@ var ItemsList = function(_Component) {
             key: "render",
             value: function() {
                 var _this2 = this, _this$props = this.props, items = _this$props.items, itemProps = _this$props.itemProps, renderItem = _this$props.renderItem, renderItemData = _this$props.renderItemData, sectionIndex = _this$props.sectionIndex, highlightedItemIndex = _this$props.highlightedItemIndex, getItemId = _this$props.getItemId, theme = _this$props.theme, keyPrefix = _this$props.keyPrefix, sectionPrefix = null === sectionIndex ? keyPrefix : "".concat(keyPrefix, "section-").concat(sectionIndex, "-"), isItemPropsFunction = "function" == typeof itemProps;
-                return _react.default.createElement("ul", _extends({
+                return /*#__PURE__*/ _react.default.createElement("ul", _extends({
                     role: "listbox"
                 }, theme("".concat(sectionPrefix, "items-list"), "itemsList")), items.map(function(item, itemIndex) {
                     var isFirst = 0 === itemIndex, isHighlighted = itemIndex === highlightedItemIndex, itemKey = "".concat(sectionPrefix, "item-").concat(itemIndex), itemPropsObj = isItemPropsFunction ? itemProps({
@@ -144,7 +144,7 @@ var ItemsList = function(_Component) {
                         id: getItemId(sectionIndex, itemIndex),
                         "aria-selected": isHighlighted
                     }, theme(itemKey, "item", isFirst && "itemFirst", isHighlighted && "itemHighlighted"), {}, itemPropsObj);
-                    return isHighlighted && (allItemProps.ref = _this2.storeHighlightedItemReference), _react.default.createElement(_Item.default, _extends({}, allItemProps, {
+                    /* eslint-disable react/jsx-key */ return isHighlighted && (allItemProps.ref = _this2.storeHighlightedItemReference), /*#__PURE__*/ _react.default.createElement(_Item.default, _extends({}, allItemProps, {
                         sectionIndex: sectionIndex,
                         isHighlighted: isHighlighted,
                         itemIndex: itemIndex,
@@ -152,7 +152,7 @@ var ItemsList = function(_Component) {
                         renderItem: renderItem,
                         renderItemData: renderItemData
                     }));
-                }));
+                /* eslint-enable react/jsx-key */ }));
             }
         }
     ], function(target, props) {

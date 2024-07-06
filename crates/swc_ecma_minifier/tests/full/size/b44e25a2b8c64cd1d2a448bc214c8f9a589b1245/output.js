@@ -1,1 +1,1 @@
-self=self||[].push[{8:function(){}}];
+self=self||[].push[{/***/8:/***/function(){/***/}}];

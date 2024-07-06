@@ -3,23 +3,24 @@
         888
     ],
     {
-        3454: function(module, __unused_webpack_exports, __webpack_require__) {
+        /***/ 3454: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
             var ref, ref1;
             module.exports = (null === (ref = __webpack_require__.g.process) || void 0 === ref ? void 0 : ref.env) && "object" == typeof (null === (ref1 = __webpack_require__.g.process) || void 0 === ref1 ? void 0 : ref1.env) ? __webpack_require__.g.process : __webpack_require__(7663);
-        },
-        1780: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
+        //# sourceMappingURL=process.js.map
+        /***/ },
+        /***/ 1780: /***/ function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             (window.__NEXT_P = window.__NEXT_P || []).push([
                 "/_app",
                 function() {
                     return __webpack_require__(8484);
                 }
             ]);
-        },
-        8484: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+        /***/ },
+        /***/ 8484: /***/ function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var fn, _ref, _Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4051), _Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0__), react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5893), react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7294), util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(9720), util__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_3__);
+            /* harmony import */ var fn, _ref, _Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4051), _Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(_Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0__), react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5893), react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7294), util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(9720), util__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/ __webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_3__);
             function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
                 try {
                     var info = gen[key](arg), value = info.value;
@@ -35,6 +36,7 @@
                     for(;;)switch(_ctx.prev = _ctx.next){
                         case 0:
                             try {
+                                // load Branch
                                 (function(b, r, a, n, c, h, _, s, d, k) {
                                     if (!b[n] || !b[n]._q) {
                                         for(; s < _.length;)c(h, _[s++]);
@@ -51,6 +53,8 @@
                                     _q: [],
                                     _v: 1
                                 }, "addListener applyCode autoAppIndex banner closeBanner closeJourney creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode trackCommerceEvent logEvent disableTracking".split(" "), 0), window.branch.initAsync = util__WEBPACK_IMPORTED_MODULE_3___default().promisify(window.branch.init);
+                            // const branchData = await window.branch.initAsync('key_live_YOUR_KEY_GOES_HERE');
+                            // return branchData;
                             } catch (error) {
                                 console.error(error);
                             }
@@ -74,11 +78,11 @@
             }, function() {
                 return _ref.apply(this, arguments);
             });
-            __webpack_exports__.default = function(param) {
+            /* harmony default export */ __webpack_exports__.default = function(param) {
                 var Component = param.Component, pageProps = param.pageProps;
                 return (0, react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function() {
                     initBranch();
-                }, []), (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(Component, function(target) {
+                }, []), /*#__PURE__*/ (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(Component, function(target) {
                     for(var i = 1; i < arguments.length; i++){
                         var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
                         "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
@@ -96,8 +100,8 @@
                     return target;
                 }({}, pageProps));
             };
-        },
-        1876: function(module) {
+        /***/ },
+        /***/ 1876: /***/ function(module) {
             !function() {
                 var e = {
                     991: function(e, r) {
@@ -132,7 +136,12 @@
                     },
                     293: function(e, r, t) {
                         "use strict";
-                        var f = t(991), n = t(759), i = "function" == typeof Symbol && "function" == typeof Symbol.for ? Symbol.for("nodejs.util.inspect.custom") : null;
+                        /*!
+                             * The buffer module from node.js, for the browser.
+                             *
+                             * @author   Feross Aboukhadijeh <https://feross.org>
+                             * @license  MIT
+                             */ var f = t(991), n = t(759), i = "function" == typeof Symbol && "function" == typeof Symbol.for ? Symbol.for("nodejs.util.inspect.custom") : null;
                         function createBuffer(e) {
                             if (e > 2147483647) throw RangeError('The value "' + e + '" is invalid for option "size"');
                             var r = new Uint8Array(e);
@@ -746,9 +755,11 @@
                 var t = __nccwpck_require__(293);
                 module.exports = t;
             }();
-        },
-        6774: function() {},
-        7663: function(module) {
+        /***/ },
+        /***/ 6774: /***/ function() {
+        // extracted by mini-css-extract-plugin
+        /***/ },
+        /***/ 7663: /***/ function(module) {
             !function() {
                 var e = {
                     162: function(e) {
@@ -851,9 +862,9 @@
                 var r = __nccwpck_require__(162);
                 module.exports = r;
             }();
-        },
-        9720: function(module, __unused_webpack_exports, __webpack_require__) {
-            var Buffer = __webpack_require__(1876).Buffer, process = __webpack_require__(3454);
+        /***/ },
+        /***/ 9720: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
+            /* provided dependency */ var Buffer = __webpack_require__(1876).Buffer, process = __webpack_require__(3454);
             !function() {
                 var r = {
                     901: function(r) {
@@ -2638,17 +2649,18 @@
                 var e = __nccwpck_require__(650);
                 module.exports = e;
             }();
-        }
+        /***/ }
     },
-    function(__webpack_require__) {
-        var __webpack_exec__ = function(moduleId) {
+    /******/ function(__webpack_require__) {
+        // webpackRuntimeModules
+        /******/ var __webpack_exec__ = function(moduleId) {
             return __webpack_require__(__webpack_require__.s = moduleId);
         };
-        __webpack_require__.O(0, [
+        /******/ __webpack_require__.O(0, [
             774,
             179
         ], function() {
             return __webpack_exec__(1780), __webpack_exec__(880);
-        }), _N_E = __webpack_require__.O();
-    }
+        }), /******/ _N_E = __webpack_require__.O();
+    /******/ }
 ]);

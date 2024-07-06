@@ -1,4 +1,26 @@
-assert.sameValue("1e+1", "1e+1");
+// Copyright (C) 2016 The V8 Project authors. All rights reserved.
+// This code is governed by the BSD license found in the LICENSE file.
+/*---
+esid: sec-number.prototype.toprecision
+description: >
+  Return string values using exponential character
+info: |
+  Number.prototype.toPrecision ( precision )
+
+  1. Let x be ? thisNumberValue(this value).
+  [...]
+  5. Let s be the empty String.
+  [...]
+  9. If x = 0, then
+    [...]
+  10. Else x ≠ 0,
+    [...]
+    c. If e < -6 or e ≥ p, then
+      [...]
+      vii. Return the concatenation of s, m, code unit 0x0065 (LATIN SMALL
+      LETTER E), c, and d.
+  [...]
+---*/ assert.sameValue("1e+1", "1e+1");
 assert.sameValue("1e+1", "1e+1");
 assert.sameValue("2e+1", "2e+1");
 assert.sameValue("2e+1", "2e+1");
@@ -42,7 +64,7 @@ assert.sameValue("-1.23449999999999996e+27", "-1.23449999999999996e+27");
 assert.sameValue("-1.234499999999999962e+27", "-1.234499999999999962e+27");
 assert.sameValue("-1.2344999999999999618e+27", "-1.2344999999999999618e+27");
 assert.sameValue("-1.23449999999999996184e+27", "-1.23449999999999996184e+27");
-var n = new Number("1000000000000000000000");
+var n = new Number("1000000000000000000000"); // 1e+21
 assert.sameValue(n.toPrecision(1), "1e+21");
 assert.sameValue(n.toPrecision(2), "1.0e+21");
 assert.sameValue(n.toPrecision(3), "1.00e+21");
@@ -56,7 +78,7 @@ assert.sameValue(n.toPrecision(18), "1.00000000000000000e+21");
 assert.sameValue(n.toPrecision(19), "1.000000000000000000e+21");
 assert.sameValue(n.toPrecision(20), "1.0000000000000000000e+21");
 assert.sameValue(n.toPrecision(21), "1.00000000000000000000e+21");
-var n = new Number("0.000000000000000000001");
+var n = new Number("0.000000000000000000001"); // 1e-21
 assert.sameValue(n.toPrecision(1), "1e-21");
 assert.sameValue(n.toPrecision(2), "1.0e-21");
 assert.sameValue(n.toPrecision(3), "1.00e-21");

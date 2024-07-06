@@ -3,7 +3,7 @@
         499
     ],
     {
-        6086: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+        /***/ 6086: /***/ function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
             "use strict";
             function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
                 try {
@@ -29,13 +29,13 @@
                     });
                 };
             }
-            __webpack_require__.d(__webpack_exports__, {
-                Z: function() {
-                    return _asyncToGenerator;
+            /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+                /* harmony export */ Z: function() {
+                    return /* binding */ _asyncToGenerator;
                 }
             });
-        },
-        8551: function(__unused_webpack_module, exports, __webpack_require__) {
+        /***/ },
+        /***/ 8551: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             var _defineProperty = __webpack_require__(566);
             function ownKeys(object, enumerableOnly) {
@@ -61,6 +61,7 @@
             }
             exports.default = function(dynamicOptions, options) {
                 var loadableOptions, loadableFn = _loadable.default, loadableOptions1 = {
+                    // A loading component is not required, so we default it
                     loading: function(_ref) {
                         return _ref.error, _ref.isLoading, _ref.pastDelay, null;
                     }
@@ -68,7 +69,8 @@
                 if (dynamicOptions instanceof Promise ? loadableOptions1.loader = function() {
                     return dynamicOptions;
                 } : "function" == typeof dynamicOptions ? loadableOptions1.loader = dynamicOptions : "object" == typeof dynamicOptions && (loadableOptions1 = _objectSpread(_objectSpread({}, loadableOptions1), dynamicOptions)), (loadableOptions1 = _objectSpread(_objectSpread({}, loadableOptions1), options)).loadableGenerated && (loadableOptions1 = _objectSpread(_objectSpread({}, loadableOptions1), loadableOptions1.loadableGenerated), delete loadableOptions1.loadableGenerated), "boolean" == typeof loadableOptions1.ssr) {
-                    if (!loadableOptions1.ssr) return delete loadableOptions1.ssr, loadableOptions = loadableOptions1, delete loadableOptions.webpack, delete loadableOptions.modules, loadableFn(loadableOptions);
+                    if (!loadableOptions1.ssr) return delete loadableOptions1.ssr, loadableOptions = loadableOptions1, // Removing webpack and modules means react-loadable won't try preloading
+                    delete loadableOptions.webpack, delete loadableOptions.modules, loadableFn(loadableOptions);
                     delete loadableOptions1.ssr;
                 }
                 return loadableFn(loadableOptions1);
@@ -79,8 +81,8 @@
                     default: obj
                 };
             }
-        },
-        8183: function(__unused_webpack_module, exports, __webpack_require__) {
+        /***/ },
+        /***/ 8183: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
@@ -89,8 +91,8 @@
                 default: obj
             }).default.createContext(null);
             exports.LoadableContext = LoadableContext;
-        },
-        880: function(__unused_webpack_module, exports, __webpack_require__) {
+        /***/ },
+        /***/ 880: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             var obj, _defineProperty = __webpack_require__(566), _classCallCheck = __webpack_require__(4988), _createClass = __webpack_require__(9590);
             function ownKeys(object, enumerableOnly) {
@@ -137,7 +139,7 @@
                     throw state.loading = !1, state.error = err, err;
                 }), state;
             }
-            var LoadableSubscription = function() {
+            var LoadableSubscription = /*#__PURE__*/ function() {
                 function LoadableSubscription(loadFn, opts) {
                     _classCallCheck(this, LoadableSubscription), this._loadFn = loadFn, this._opts = opts, this._callbacks = new Set(), this._delay = null, this._timeout = null, this.retry();
                 }
@@ -228,7 +230,7 @@
                             };
                         }
                         return subscription.promise();
-                    }
+                    } // Server only
                     if (!initialized && "function" == typeof opts.webpack) {
                         var moduleIds = opts.webpack();
                         READY_INITIALIZERS.push(function(ids) {
@@ -341,25 +343,25 @@
                 return new Promise(function(resolvePreload) {
                     var res = function() {
                         return initialized = !0, resolvePreload();
-                    };
+                    }; // We always will resolve, errors should be handled within loading UIs.
                     flushInitializers(READY_INITIALIZERS, ids).then(res, res);
                 });
             }, window.__NEXT_PRELOADREADY = Loadable.preloadReady, exports.default = Loadable;
-        },
-        1804: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+        /***/ },
+        /***/ 1804: /***/ function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var _loader, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7945), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__), react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4512), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6086), next_dynamic__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4652), next_head__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(1843), Test = (0, next_dynamic__WEBPACK_IMPORTED_MODULE_2__.default)({
-                loader: (_loader = (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_4__.Z)(_Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+            /* harmony import */ var _loader, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7945), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(_Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__), react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4512), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6086), next_dynamic__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4652), next_head__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(1843), Test = (0, next_dynamic__WEBPACK_IMPORTED_MODULE_2__.default)({
+                loader: (_loader = (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_4__ /* .default */ .Z)(/*#__PURE__*/ _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
                     return _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function(_context) {
                         for(;;)switch(_context.prev = _context.next){
                             case 0:
                                 return _context.abrupt("return", function() {
-                                    return (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                                    return /*#__PURE__*/ (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
                                         className: "dynamic-style",
                                         children: [
-                                            (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(next_head__WEBPACK_IMPORTED_MODULE_3__.default, {
-                                                children: (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("style", {
+                                            /*#__PURE__*/ (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(next_head__WEBPACK_IMPORTED_MODULE_3__.default, {
+                                                children: /*#__PURE__*/ (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("style", {
                                                     dangerouslySetInnerHTML: {
                                                         __html: "\n            .dynamic-style {\n              background-color: green;\n              height: 200px;\n            }\n          "
                                                     }
@@ -379,30 +381,30 @@
                 }),
                 ssr: !1
             });
-            __webpack_exports__.default = Test;
-        },
-        2250: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
+            /* harmony default export */ __webpack_exports__.default = Test;
+        /***/ },
+        /***/ 2250: /***/ function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             (window.__NEXT_P = window.__NEXT_P || []).push([
                 "/dynamic/head",
                 function() {
                     return __webpack_require__(1804);
                 }
             ]);
-        },
-        4652: function(module, __unused_webpack_exports, __webpack_require__) {
+        /***/ },
+        /***/ 4652: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             module.exports = __webpack_require__(8551);
-        },
-        1843: function(module, __unused_webpack_exports, __webpack_require__) {
+        /***/ },
+        /***/ 1843: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             module.exports = __webpack_require__(3396);
-        }
+        /***/ }
     },
-    function(__webpack_require__) {
-        __webpack_require__.O(0, [
+    /******/ function(__webpack_require__) {
+        /******/ __webpack_require__.O(0, [
             774,
             888,
             179
         ], function() {
             return __webpack_require__(__webpack_require__.s = 2250);
-        }), _N_E = __webpack_require__.O();
-    }
+        }), /******/ _N_E = __webpack_require__.O();
+    /******/ }
 ]);

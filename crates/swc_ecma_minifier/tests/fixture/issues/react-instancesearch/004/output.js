@@ -23,7 +23,15 @@ var _obj, isMultiIndexContext = function(widget) {
     var isFirstWidgetIndex = isIndexWidget(firstWidget), isSecondWidgetIndex = isIndexWidget(secondWidget);
     return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
-export default function createInstantSearchManager(param) {
+/**
+ * Creates a new instance of the InstantSearchManager which controls the widgets and
+ * trigger the search when the widgets are updated.
+ * @param {string} indexName - the main index name
+ * @param {object} initialState - initial widget state
+ * @param {object} SearchParameters - optional additional parameters to send to the algolia API
+ * @param {number} stalledSearchDelay - time (in ms) after the search is stalled
+ * @return {InstantSearchManager} a new instance of InstantSearchManager
+ */ export default function createInstantSearchManager(param) {
     var state, listeners, indexName = param.indexName, _initialState = param.initialState, searchClient = param.searchClient, resultsState = param.resultsState, stalledSearchDelay = param.stalledSearchDelay, getMetadata = function(state) {
         return widgetsManager.getWidgets().filter(function(widget) {
             return !!widget.getMetadata;
@@ -42,14 +50,18 @@ export default function createInstantSearchManager(param) {
         }).filter(function(widget) {
             var targetedIndexEqualMainIndex = isMultiIndexContext(widget) && isTargetedIndexEqualIndex(widget, indexName), subIndexEqualMainIndex = isIndexWidget(widget) && isIndexWidgetEqualIndex(widget, indexName);
             return targetedIndexEqualMainIndex || subIndexEqualMainIndex;
-        }).sort(sortIndexWidgetsFirst).reduce(function(res, widget) {
+        }) // We have to sort the `Index` widgets first so the `index` parameter
+        // is correctly set in the `reduce` function for the following widgets
+        .sort(sortIndexWidgetsFirst).reduce(function(res, widget) {
             return widget.getSearchParameters(res);
         }, sharedParameters), derivedIndices = widgetsManager.getWidgets().filter(function(widget) {
             return !!widget.getSearchParameters;
         }).filter(function(widget) {
             var targetedIndexNotEqualMainIndex = isMultiIndexContext(widget) && !isTargetedIndexEqualIndex(widget, indexName), subIndexNotEqualMainIndex = isIndexWidget(widget) && !isIndexWidgetEqualIndex(widget, indexName);
             return targetedIndexNotEqualMainIndex || subIndexNotEqualMainIndex;
-        }).sort(sortIndexWidgetsFirst).reduce(function(indices, widget) {
+        }) // We have to sort the `Index` widgets first so the `index` parameter
+        // is correctly set in the `reduce` function for the following widgets
+        .sort(sortIndexWidgetsFirst).reduce(function(indices, widget) {
             var indexId = isMultiIndexContext(widget) ? widget.props.indexContextValue.targetedIndex : widget.props.indexId, widgets = indices[indexId] || [];
             return swcHelpers.objectSpread({}, indices, swcHelpers.defineProperty({}, indexId, widgets.concat(widget)));
         }, {});
@@ -67,7 +79,25 @@ export default function createInstantSearchManager(param) {
     }, search = function() {
         if (!skip) {
             var ref = getSearchParameters(helper.state), mainParameters = ref.mainParameters, derivedParameters = ref.derivedParameters;
+            // We have to call `slice` because the method `detach` on the derived
+            // helpers mutates the value `derivedHelpers`. The `forEach` loop does
+            // not iterate on each value and we're not able to correctly clear the
+            // previous derived helpers (memory leak + useless requests).
             helper.derivedHelpers.slice().forEach(function(derivedHelper) {
+                // Since we detach the derived helpers on **every** new search they
+                // won't receive intermediate results in case of a stalled search.
+                // Only the last result is dispatched by the derived helper because
+                // they are not detached yet:
+                //
+                // - a -> main helper receives results
+                // - ap -> main helper receives results
+                // - app -> main helper + derived helpers receive results
+                //
+                // The quick fix is to avoid to detach them on search but only once they
+                // received the results. But it means that in case of a stalled search
+                // all the derived helpers not detached yet register a new search inside
+                // the helper. The number grows fast in case of a bad network and it's
+                // not deterministic.
                 derivedHelper.detach();
             }), derivedParameters.forEach(function(param) {
                 var indexId = param.indexId, parameters = param.parameters;
@@ -82,6 +112,9 @@ export default function createInstantSearchManager(param) {
         var indexId = param.indexId;
         return function(event) {
             var state = store.getState(), isDerivedHelpersEmpty = !helper.derivedHelpers.length, results = state.results ? state.results : {};
+            // Switching from mono index to multi index and vice versa must reset the
+            // results to an empty object, otherwise we keep reference of stalled and
+            // unused results.
             results = !isDerivedHelpersEmpty && results.getFacetByName ? {} : results, results = isDerivedHelpersEmpty ? event.results : swcHelpers.objectSpread({}, results, swcHelpers.defineProperty({}, indexId, event.results));
             var currentState = store.getState(), nextIsSearchStalled = currentState.isSearchStalled;
             helper.hasPendingRequests() || (clearTimeout(stalledSearchTimer), stalledSearchTimer = null, nextIsSearchStalled = !1), currentState.resultsFacetValues;
@@ -107,6 +140,8 @@ export default function createInstantSearchManager(param) {
             searching: !1
         }));
     }, hydrateSearchClientWithMultiIndexRequest = function(client, results) {
+        // Algoliasearch API Client >= v4
+        // Populate the cache with the data from the server
         if (client.transporter) {
             client.transporter.responsesCache.set({
                 method: "search",
@@ -127,6 +162,12 @@ export default function createInstantSearchManager(param) {
             });
             return;
         }
+        // Algoliasearch API Client < v4
+        // Prior to client v4 we didn't have a proper API to hydrate the client
+        // cache from the outside. The following code populates the cache with
+        // a single-index result. You can find more information about the
+        // computation of the key inside the client (see link below).
+        // https://github.com/algolia/algoliasearch-client-javascript/blob/c27e89ff92b2a854ae6f40dc524bffe0f0cbc169/src/AlgoliaSearchCore.js#L232-L240
         var key = "/1/indexes/*/queries_body_".concat(JSON.stringify({
             requests: results.reduce(function(acc, result) {
                 return acc.concat(result.rawResults.map(function(request) {
@@ -143,6 +184,8 @@ export default function createInstantSearchManager(param) {
             }, [])
         })));
     }, hydrateSearchClientWithSingleIndexRequest = function(client, results) {
+        // Algoliasearch API Client >= v4
+        // Populate the cache with the data from the server
         if (client.transporter) {
             client.transporter.responsesCache.set({
                 method: "search",
@@ -159,6 +202,12 @@ export default function createInstantSearchManager(param) {
             });
             return;
         }
+        // Algoliasearch API Client < v4
+        // Prior to client v4 we didn't have a proper API to hydrate the client
+        // cache from the outside. The following code populates the cache with
+        // a single-index result. You can find more information about the
+        // computation of the key inside the client (see link below).
+        // https://github.com/algolia/algoliasearch-client-javascript/blob/c27e89ff92b2a854ae6f40dc524bffe0f0cbc169/src/AlgoliaSearchCore.js#L232-L240
         var key = "/1/indexes/*/queries_body_".concat(JSON.stringify({
             requests: results.rawResults.map(function(request) {
                 return {
@@ -188,10 +237,19 @@ export default function createInstantSearchManager(param) {
         store.setState(swcHelpers.objectSpread({}, store.getState(), {
             metadata: metadata,
             searching: !0
-        })), search();
+        })), // Since the `getSearchParameters` method of widgets also depends on props,
+        // the result search parameters might have changed.
+        search();
     });
     !function(client, results) {
         if (results && (client.transporter && !client._cacheHydrated || client._useCache && "function" == typeof client.addAlgoliaAgent)) {
+            // Algoliasearch API Client >= v4
+            // To hydrate the client we need to populate the cache with the data from
+            // the server (done in `hydrateSearchClientWithMultiIndexRequest` or
+            // `hydrateSearchClientWithSingleIndexRequest`). But since there is no way
+            // for us to compute the key the same way as `algoliasearch-client` we need
+            // to populate it on a custom key and override the `search` method to
+            // search on it first.
             if (client.transporter && !client._cacheHydrated) {
                 client._cacheHydrated = !0;
                 var baseMethod = client.search;
@@ -303,6 +361,10 @@ export default function createInstantSearchManager(param) {
                     error: error
                 }));
             }).catch(function(error) {
+                // Since setState is synchronous, any error that occurs in the render of a
+                // component will be swallowed by this promise.
+                // This is a trick to make the error show up correctly in the console.
+                // See http://stackoverflow.com/a/30741722/969302
                 setTimeout(function() {
                     throw error;
                 });
@@ -329,6 +391,7 @@ export default function createInstantSearchManager(param) {
         },
         updateIndex: function(newIndex) {
             initialSearchParameters = initialSearchParameters.setIndex(newIndex);
+        // No need to trigger a new search here as the widgets will also update and trigger it if needed.
         },
         clearCache: function() {
             helper.clearCache(), search();
