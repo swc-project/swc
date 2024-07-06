@@ -4412,7 +4412,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.146.11"
+version = "0.146.12"
 dependencies = [
  "criterion",
  "either",
