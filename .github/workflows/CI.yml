@@ -125,6 +125,13 @@ jobs:
     if: >-
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        pkg:
+          - binding_core_wasm
+          - binding_minifier_wasm
+          - binding_typescript_wasm
     steps:
       - uses: actions/checkout@v4
 
@@ -157,13 +164,9 @@ jobs:
           corepack enable
           yarn
 
-      - name: Build
-        run: |
-          (cd bindings/binding_core_wasm && ./scripts/build.sh --features plugin)
-
       - name: Test
         run: |
-          (cd bindings/binding_core_wasm && ./scripts/test.sh)
+          (cd bindings/${{ matrix.pkg }} && ./scripts/test.sh)
 
   cargo-test:
     name: Test - ${{ matrix.settings.crate }} - ${{ matrix.settings.os }}
