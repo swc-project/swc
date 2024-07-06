@@ -3,7 +3,7 @@
         405
     ],
     {
-        1412: function(__unused_webpack_module, exports) {
+        /***/ 1412: /***/ function(__unused_webpack_module, exports) {
             "use strict";
             exports.Z = function(obj, key, value) {
                 return key in obj ? Object.defineProperty(obj, key, {
@@ -13,21 +13,21 @@
                     writable: !0
                 }) : obj[key] = value, obj;
             };
-        },
-        5702: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
+        /***/ },
+        /***/ 5702: /***/ function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             (window.__NEXT_P = window.__NEXT_P || []).push([
                 "/",
                 function() {
                     return __webpack_require__(1107);
                 }
             ]);
-        },
-        9838: function(module, exports, __webpack_require__) {
+        /***/ },
+        /***/ 9838: /***/ function(module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             });
-            var _defineProperty = __webpack_require__(1412).Z, _slicedToArray = __webpack_require__(8693).Z, _toConsumableArray = __webpack_require__(9947).Z;
+            var _defineProperty = __webpack_require__(1412)/* ["default"] */ .Z, _slicedToArray = __webpack_require__(8693)/* ["default"] */ .Z, _toConsumableArray = __webpack_require__(9947)/* ["default"] */ .Z;
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.default = function(_param) {
@@ -62,17 +62,21 @@
                 }, [
                     configContext
                 ]), layout = sizes ? "responsive" : "intrinsic";
-                "layout" in all && (all.layout && (layout = all.layout), delete all.layout);
+                "layout" in all && (all.layout && (layout = all.layout), // Remove property so it's not spread on <img>:
+                delete all.layout);
                 var loader = defaultImageLoader;
                 if ("loader" in all) {
                     if (all.loader) {
                         var customImageLoader = all.loader;
                         loader = function(obj) {
+                            // The config object is internal only so we must
+                            // not pass it to the user-defined loader()
                             return obj.config, customImageLoader(_object_without_properties_loose(obj, [
                                 "config"
                             ]));
                         };
                     }
+                    // Remove property so it's not spread on <img>
                     delete all.loader;
                 }
                 var staticSrc = "";
@@ -82,7 +86,8 @@
                     if (blurDataURL = blurDataURL || staticImageData.blurDataURL, staticSrc = staticImageData.src, (!layout || "fill" !== layout) && (height = height || staticImageData.height, width = width || staticImageData.width, !staticImageData.height || !staticImageData.width)) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(staticImageData)));
                 }
                 var isLazy = !priority && ("lazy" === loading || void 0 === loading);
-                ((src1 = "string" == typeof src1 ? src1 : staticSrc).startsWith("data:") || src1.startsWith("blob:")) && (unoptimized = !0, isLazy = !1), loadedImageURLs.has(src1) && (isLazy = !1), experimentalUnoptimized && (unoptimized = !0);
+                ((src1 = "string" == typeof src1 ? src1 : staticSrc).startsWith("data:") || src1.startsWith("blob:")) && (// https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs
+                unoptimized = !0, isLazy = !1), loadedImageURLs.has(src1) && (isLazy = !1), experimentalUnoptimized && (unoptimized = !0);
                 var ref = _slicedToArray(_react.useState(!1), 2), blurComplete = ref[0], setBlurComplete = ref[1], ref1 = _slicedToArray(_useIntersection.useIntersection({
                     rootRef: void 0 === _lazyRoot ? null : _lazyRoot,
                     rootMargin: lazyBoundary || "200px",
@@ -133,10 +138,15 @@
                     filter: "blur(20px)",
                     backgroundImage: 'url("'.concat(blurDataURL, '")')
                 };
-                if ("fill" === layout) wrapperStyle.display = "block", wrapperStyle.position = "absolute", wrapperStyle.top = 0, wrapperStyle.left = 0, wrapperStyle.bottom = 0, wrapperStyle.right = 0;
+                if ("fill" === layout) // <Image src="i.png" layout="fill" />
+                wrapperStyle.display = "block", wrapperStyle.position = "absolute", wrapperStyle.top = 0, wrapperStyle.left = 0, wrapperStyle.bottom = 0, wrapperStyle.right = 0;
                 else if (void 0 !== widthInt && void 0 !== heightInt) {
+                    // <Image src="i.png" width="100" height="100" />
                     var quotient = heightInt / widthInt, paddingTop = isNaN(quotient) ? "100%" : "".concat(100 * quotient, "%");
-                    "responsive" === layout ? (wrapperStyle.display = "block", wrapperStyle.position = "relative", hasSizer = !0, sizerStyle.paddingTop = paddingTop) : "intrinsic" === layout ? (wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.maxWidth = "100%", hasSizer = !0, sizerStyle.maxWidth = "100%", sizerSvgUrl = "data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%27".concat(widthInt, "%27%20height=%27").concat(heightInt, "%27/%3e")) : "fixed" === layout && (wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.width = widthInt, wrapperStyle.height = heightInt);
+                    "responsive" === layout ? (// <Image src="i.png" width="100" height="100" layout="responsive" />
+                    wrapperStyle.display = "block", wrapperStyle.position = "relative", hasSizer = !0, sizerStyle.paddingTop = paddingTop) : "intrinsic" === layout ? (// <Image src="i.png" width="100" height="100" layout="intrinsic" />
+                    wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.maxWidth = "100%", hasSizer = !0, sizerStyle.maxWidth = "100%", sizerSvgUrl = "data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%27".concat(widthInt, "%27%20height=%27").concat(heightInt, "%27/%3e")) : "fixed" === layout && (// <Image src="i.png" width="100" height="100" layout="fixed" />
+                    wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.width = widthInt, wrapperStyle.height = heightInt);
                 }
                 var imgAttributes = {
                     src: emptyDataURL,
@@ -188,11 +198,11 @@
                     isVisible: isVisible,
                     noscriptSizes: sizes
                 }, all);
-                return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("span", {
+                return /*#__PURE__*/ _react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/ _react.default.createElement("span", {
                     style: wrapperStyle
-                }, hasSizer ? _react.default.createElement("span", {
+                }, hasSizer ? /*#__PURE__*/ _react.default.createElement("span", {
                     style: sizerStyle
-                }, sizerSvgUrl ? _react.default.createElement("img", {
+                }, sizerSvgUrl ? /*#__PURE__*/ _react.default.createElement("img", {
                     style: {
                         display: "block",
                         maxWidth: "100%",
@@ -207,14 +217,17 @@
                     alt: "",
                     "aria-hidden": !0,
                     src: sizerSvgUrl
-                }) : null) : null, _react.default.createElement(ImageElement, Object.assign({}, imgElementArgs))), priority ? _react.default.createElement(_head.default, null, _react.default.createElement("link", Object.assign({
+                }) : null) : null, /*#__PURE__*/ _react.default.createElement(ImageElement, Object.assign({}, imgElementArgs))), priority ? // it would likely cause the incorrect image to be preloaded.
+                //
+                // https://html.spec.whatwg.org/multipage/semantics.html#attr-link-imagesrcset
+                /*#__PURE__*/ _react.default.createElement(_head.default, null, /*#__PURE__*/ _react.default.createElement("link", Object.assign({
                     key: "__nimg-" + imgAttributes.src + imgAttributes.srcSet + imgAttributes.sizes,
                     rel: "preload",
                     as: "image",
                     href: imgAttributes.srcSet ? void 0 : imgAttributes.src
                 }, linkProps))) : null);
             };
-            var _extends = __webpack_require__(2769).Z, _interop_require_default = __webpack_require__(4507).Z, _interop_require_wildcard = __webpack_require__(8167).Z, _object_without_properties_loose = __webpack_require__(4719).Z, _react = _interop_require_wildcard(__webpack_require__(959)), _head = _interop_require_default(__webpack_require__(4357)), _imageConfig = __webpack_require__(1773), _useIntersection = __webpack_require__(757), _imageConfigContext = __webpack_require__(9664);
+            var _extends = __webpack_require__(2769)/* ["default"] */ .Z, _interop_require_default = __webpack_require__(4507)/* ["default"] */ .Z, _interop_require_wildcard = __webpack_require__(8167)/* ["default"] */ .Z, _object_without_properties_loose = __webpack_require__(4719)/* ["default"] */ .Z, _react = _interop_require_wildcard(__webpack_require__(959)), _head = _interop_require_default(__webpack_require__(4357)), _imageConfig = __webpack_require__(1773), _useIntersection = __webpack_require__(757), _imageConfigContext = __webpack_require__(9664);
             __webpack_require__(8827);
             var _normalizeTrailingSlash = __webpack_require__(8236), ref = {
                 deviceSizes: [
@@ -276,7 +289,8 @@
                     "imgix",
                     function(param) {
                         var config = param.config, src = param.src, width = param.width, quality = param.quality, url = new URL("".concat(config.path).concat(normalizeSrc(src))), params = url.searchParams;
-                        return params.set("auto", params.getAll("auto").join(",") || "format"), params.set("fit", params.get("fit") || "max"), params.set("w", params.get("w") || width.toString()), quality && params.set("q", quality.toString()), url.href;
+                        return(// auto params can be combined with comma separation, or reiteration
+                        params.set("auto", params.getAll("auto").join(",") || "format"), params.set("fit", params.get("fit") || "max"), params.set("w", params.get("w") || width.toString()), quality && params.set("q", quality.toString()), url.href);
                     }
                 ],
                 [
@@ -319,7 +333,8 @@
                 var ref = function(param, width, layout, sizes) {
                     var deviceSizes = param.deviceSizes, allSizes = param.allSizes;
                     if (sizes && ("fill" === layout || "responsive" === layout)) {
-                        for(var viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes); match)percentSizes.push(parseInt(match[2]));
+                        for(// Find all the "vw" percent sizes used in the sizes prop
+                        var viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes); match)percentSizes.push(parseInt(match[2]));
                         if (percentSizes.length) {
                             var match, _Math, smallestRatio = 0.01 * (_Math = Math).min.apply(_Math, _toConsumableArray(percentSizes));
                             return {
@@ -338,9 +353,15 @@
                         widths: deviceSizes,
                         kind: "w"
                     } : {
-                        widths: _toConsumableArray(new Set([
+                        widths: _toConsumableArray(new Set(// > blue colors. Showing a 3x resolution image in the app vs a 2x
+                        // > resolution image will be visually the same, though the 3x image
+                        // > takes significantly more data. Even true 3x resolution screens are
+                        // > wasteful as the human eye cannot see that level of detail without
+                        // > something like a magnifying glass.
+                        // https://blog.twitter.com/engineering/en_us/topics/infrastructure/2019/capping-image-fidelity-on-ultra-high-resolution-devices.html
+                        [
                             width,
-                            2 * width
+                            2 /*, width * 3*/  * width
                         ].map(function(w) {
                             return allSizes.find(function(p) {
                                 return p >= w;
@@ -359,6 +380,12 @@
                             width: w
                         }), " ").concat("w" === kind ? w : i + 1).concat(kind);
                     }).join(", "),
+                    // It's intended to keep `src` the last attribute because React updates
+                    // attributes in order. If we keep `src` the first one, Safari will
+                    // immediately start to fetch `src`, before `sizes` and `srcSet` are even
+                    // updated by React. That causes multiple unnecessary requests if `srcSet`
+                    // and `sizes` are defined.
+                    // This bug cannot be reproduced in Chrome or Firefox.
                     src: loader({
                         config: config,
                         src: src,
@@ -375,10 +402,14 @@
                 if (load) return load(loaderProps);
                 throw Error('Unknown "loader" found in "next.config.js". Expected: '.concat(_imageConfig.VALID_LOADERS.join(", "), ". Received: ").concat(loaderKey));
             }
+            // See https://stackoverflow.com/q/39777833/266535 for why we use this ref
+            // handler instead of the img's onLoad attribute.
             function handleLoading(img, src, layout, placeholder, onLoadingCompleteRef, setBlurComplete) {
                 img && img.src !== emptyDataURL && img["data-loaded-src"] !== src && (img["data-loaded-src"] = src, ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {}).then(function() {
                     if (img.parentNode && (loadedImageURLs.add(src), "blur" === placeholder && setBlurComplete(!0), null == onLoadingCompleteRef ? void 0 : onLoadingCompleteRef.current)) {
                         var naturalWidth = img.naturalWidth, naturalHeight = img.naturalHeight;
+                        // Pass back read-only primitive values but not the
+                        // underlying DOM element because it could be misused.
                         onLoadingCompleteRef.current({
                             naturalWidth: naturalWidth,
                             naturalHeight: naturalHeight
@@ -411,7 +442,7 @@
                     "isVisible",
                     "noscriptSizes"
                 ]);
-                return loading = isLazy ? "lazy" : loading, _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("img", Object.assign({}, rest, imgAttributes, {
+                return loading = isLazy ? "lazy" : loading, /*#__PURE__*/ _react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/ _react.default.createElement("img", Object.assign({}, rest, imgAttributes, {
                     decoding: "async",
                     "data-nimg": layout,
                     className: className,
@@ -430,9 +461,10 @@
                         handleLoading(event.currentTarget, srcString, layout, placeholder, onLoadingCompleteRef, setBlurComplete), onLoad && onLoad(event);
                     },
                     onError: function(event) {
-                        "blur" === placeholder && setBlurComplete(!0), onError && onError(event);
+                        "blur" === placeholder && // If the real image fails to load, this will still remove the placeholder.
+                        setBlurComplete(!0), onError && onError(event);
                     }
-                })), (isLazy || "blur" === placeholder) && _react.default.createElement("noscript", null, _react.default.createElement("img", Object.assign({}, rest, generateImgAttrs({
+                })), (isLazy || "blur" === placeholder) && /*#__PURE__*/ _react.default.createElement("noscript", null, /*#__PURE__*/ _react.default.createElement("img", Object.assign({}, rest, generateImgAttrs({
                     config: config,
                     src: srcString,
                     unoptimized: unoptimized,
@@ -446,6 +478,7 @@
                     "data-nimg": layout,
                     style: imgStyle,
                     className: className,
+                    // @ts-ignore - TODO: upgrade to `@types/react@17`
                     loading: loading
                 }))));
             };
@@ -455,13 +488,13 @@
             ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
-        },
-        757: function(module, exports, __webpack_require__) {
+        /***/ },
+        /***/ 757: /***/ function(module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             });
-            var _slicedToArray = __webpack_require__(8693).Z;
+            var _slicedToArray = __webpack_require__(8693)/* ["default"] */ .Z;
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.useIntersection = function(param) {
@@ -495,6 +528,7 @@
                                 root: null == rootRef ? void 0 : rootRef.current,
                                 rootMargin: rootMargin
                             })).id, observer = ref.observer, (elements = ref.elements).set(element, callback), observer.observe(element), function() {
+                                // Destroy observer when there's nothing left to watch:
                                 if (elements.delete(element), observer.unobserve(element), 0 === elements.size) {
                                     observer.disconnect(), observers.delete(id);
                                     var index = idList.findIndex(function(obj) {
@@ -532,108 +566,111 @@
             ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
-        },
-        1107: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+        /***/ },
+        /***/ 1107: /***/ function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, {
+            // ESM COMPAT FLAG
+            __webpack_require__.r(__webpack_exports__), // EXPORTS
+            __webpack_require__.d(__webpack_exports__, {
                 default: function() {
-                    return pages;
+                    return /* binding */ pages;
                 }
             });
-            var jsx_runtime = __webpack_require__(1527), head = __webpack_require__(6224), head_default = __webpack_require__.n(head), next_image = __webpack_require__(8206), image_default = __webpack_require__.n(next_image), react = __webpack_require__(959), Home_module = __webpack_require__(9915), Home_module_default = __webpack_require__.n(Home_module), preloadImage = function() {
+            // EXTERNAL MODULE: ./node_modules/.pnpm/react@18.2.0/node_modules/react/jsx-runtime.js
+            var jsx_runtime = __webpack_require__(1527), head = __webpack_require__(6224), head_default = /*#__PURE__*/ __webpack_require__.n(head), next_image = __webpack_require__(8206), image_default = /*#__PURE__*/ __webpack_require__.n(next_image), react = __webpack_require__(959), Home_module = __webpack_require__(9915), Home_module_default = /*#__PURE__*/ __webpack_require__.n(Home_module), preloadImage = function() {
                 new Image(40, 40).src = "/vercel.svg";
             }, pages = function() {
                 return (0, react.useEffect)(function() {
                     console.log(40), preloadImage();
-                }, []), (0, jsx_runtime.jsxs)("div", {
+                }, []), /*#__PURE__*/ (0, jsx_runtime.jsxs)("div", {
                     className: Home_module_default().container,
                     children: [
-                        (0, jsx_runtime.jsxs)(head_default(), {
+                        /*#__PURE__*/ (0, jsx_runtime.jsxs)(head_default(), {
                             children: [
-                                (0, jsx_runtime.jsx)("title", {
+                                /*#__PURE__*/ (0, jsx_runtime.jsx)("title", {
                                     children: "Create Next App"
                                 }),
-                                (0, jsx_runtime.jsx)("meta", {
+                                /*#__PURE__*/ (0, jsx_runtime.jsx)("meta", {
                                     name: "description",
                                     content: "Generated by create next app"
                                 }),
-                                (0, jsx_runtime.jsx)("link", {
+                                /*#__PURE__*/ (0, jsx_runtime.jsx)("link", {
                                     rel: "icon",
                                     href: "/favicon.ico"
                                 })
                             ]
                         }),
-                        (0, jsx_runtime.jsxs)("main", {
+                        /*#__PURE__*/ (0, jsx_runtime.jsxs)("main", {
                             className: Home_module_default().main,
                             children: [
-                                (0, jsx_runtime.jsxs)("h1", {
+                                /*#__PURE__*/ (0, jsx_runtime.jsxs)("h1", {
                                     className: Home_module_default().title,
                                     children: [
                                         "Welcome to ",
-                                        (0, jsx_runtime.jsx)("a", {
+                                        /*#__PURE__*/ (0, jsx_runtime.jsx)("a", {
                                             href: "https://nextjs.org",
                                             children: "Next.js!"
                                         })
                                     ]
                                 }),
-                                (0, jsx_runtime.jsxs)("p", {
+                                /*#__PURE__*/ (0, jsx_runtime.jsxs)("p", {
                                     className: Home_module_default().description,
                                     children: [
                                         "Get started by editing",
                                         " ",
-                                        (0, jsx_runtime.jsx)("code", {
+                                        /*#__PURE__*/ (0, jsx_runtime.jsx)("code", {
                                             className: Home_module_default().code,
                                             children: "pages/index.tsx"
                                         })
                                     ]
                                 }),
-                                (0, jsx_runtime.jsxs)("div", {
+                                /*#__PURE__*/ (0, jsx_runtime.jsxs)("div", {
                                     className: Home_module_default().grid,
                                     children: [
-                                        (0, jsx_runtime.jsxs)("a", {
+                                        /*#__PURE__*/ (0, jsx_runtime.jsxs)("a", {
                                             href: "https://nextjs.org/docs",
                                             className: Home_module_default().card,
                                             children: [
-                                                (0, jsx_runtime.jsx)("h2", {
+                                                /*#__PURE__*/ (0, jsx_runtime.jsx)("h2", {
                                                     children: "Documentation →"
                                                 }),
-                                                (0, jsx_runtime.jsx)("p", {
+                                                /*#__PURE__*/ (0, jsx_runtime.jsx)("p", {
                                                     children: "Find in-depth information about Next.js features and API."
                                                 })
                                             ]
                                         }),
-                                        (0, jsx_runtime.jsxs)("a", {
+                                        /*#__PURE__*/ (0, jsx_runtime.jsxs)("a", {
                                             href: "https://nextjs.org/learn",
                                             className: Home_module_default().card,
                                             children: [
-                                                (0, jsx_runtime.jsx)("h2", {
+                                                /*#__PURE__*/ (0, jsx_runtime.jsx)("h2", {
                                                     children: "Learn →"
                                                 }),
-                                                (0, jsx_runtime.jsx)("p", {
+                                                /*#__PURE__*/ (0, jsx_runtime.jsx)("p", {
                                                     children: "Learn about Next.js in an interactive course with quizzes!"
                                                 })
                                             ]
                                         }),
-                                        (0, jsx_runtime.jsxs)("a", {
+                                        /*#__PURE__*/ (0, jsx_runtime.jsxs)("a", {
                                             href: "https://github.com/vercel/next.js/tree/canary/examples",
                                             className: Home_module_default().card,
                                             children: [
-                                                (0, jsx_runtime.jsx)("h2", {
+                                                /*#__PURE__*/ (0, jsx_runtime.jsx)("h2", {
                                                     children: "Examples →"
                                                 }),
-                                                (0, jsx_runtime.jsx)("p", {
+                                                /*#__PURE__*/ (0, jsx_runtime.jsx)("p", {
                                                     children: "Discover and deploy boilerplate example Next.js projects."
                                                 })
                                             ]
                                         }),
-                                        (0, jsx_runtime.jsxs)("a", {
+                                        /*#__PURE__*/ (0, jsx_runtime.jsxs)("a", {
                                             href: "https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app",
                                             className: Home_module_default().card,
                                             children: [
-                                                (0, jsx_runtime.jsx)("h2", {
+                                                /*#__PURE__*/ (0, jsx_runtime.jsx)("h2", {
                                                     children: "Deploy →"
                                                 }),
-                                                (0, jsx_runtime.jsx)("p", {
+                                                /*#__PURE__*/ (0, jsx_runtime.jsx)("p", {
                                                     children: "Instantly deploy your Next.js site to a public URL with Vercel."
                                                 })
                                             ]
@@ -642,18 +679,18 @@
                                 })
                             ]
                         }),
-                        (0, jsx_runtime.jsx)("footer", {
+                        /*#__PURE__*/ (0, jsx_runtime.jsx)("footer", {
                             className: Home_module_default().footer,
-                            children: (0, jsx_runtime.jsxs)("a", {
+                            children: /*#__PURE__*/ (0, jsx_runtime.jsxs)("a", {
                                 href: "https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app",
                                 target: "_blank",
                                 rel: "noopener noreferrer",
                                 children: [
                                     "Powered by",
                                     " ",
-                                    (0, jsx_runtime.jsx)("span", {
+                                    /*#__PURE__*/ (0, jsx_runtime.jsx)("span", {
                                         className: Home_module_default().logo,
-                                        children: (0, jsx_runtime.jsx)(image_default(), {
+                                        children: /*#__PURE__*/ (0, jsx_runtime.jsx)(image_default(), {
                                             src: "/vercel.svg",
                                             alt: "Vercel Logo",
                                             width: 72,
@@ -666,8 +703,9 @@
                     ]
                 });
             };
-        },
-        9915: function(module) {
+        /***/ },
+        /***/ 9915: /***/ function(module) {
+            // extracted by mini-css-extract-plugin
             module.exports = {
                 container: "Home_container__bCOhY",
                 main: "Home_main__nLjiQ",
@@ -679,21 +717,21 @@
                 card: "Home_card___LpL1",
                 logo: "Home_logo__27_tb"
             };
-        },
-        6224: function(module, __unused_webpack_exports, __webpack_require__) {
+        /***/ },
+        /***/ 6224: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             module.exports = __webpack_require__(4357);
-        },
-        8206: function(module, __unused_webpack_exports, __webpack_require__) {
+        /***/ },
+        /***/ 8206: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             module.exports = __webpack_require__(9838);
-        }
+        /***/ }
     },
-    function(__webpack_require__) {
-        __webpack_require__.O(0, [
+    /******/ function(__webpack_require__) {
+        /******/ __webpack_require__.O(0, [
             774,
             888,
             179
         ], function() {
             return __webpack_require__(__webpack_require__.s = 5702);
-        }), _N_E = __webpack_require__.O();
-    }
+        }), /******/ _N_E = __webpack_require__.O();
+    /******/ }
 ]);

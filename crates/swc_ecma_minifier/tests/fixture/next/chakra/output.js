@@ -3,24 +3,27 @@
         888
     ],
     {
-        2260: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+        /***/ 2260: /***/ function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, {
+            // ESM COMPAT FLAG
+            __webpack_require__.r(__webpack_exports__), // EXPORTS
+            __webpack_require__.d(__webpack_exports__, {
                 default: function() {
-                    return _app;
+                    return /* binding */ _app;
                 }
             });
+            // EXTERNAL MODULE: ./node_modules/react/jsx-runtime.js
             var initialState, state, listeners, setState, config, _lg$1, _md$1, _sm$1, _baseStyleRoot, _Input$baseStyle$fiel, _Input$baseStyle, _Input$variants$unsty$1, _xs, _sm, _md, _lg, _xl, _container2, _container3, _container4, _Input$variants$unsty, _Input$sizes$xs$field, _Input$sizes$sm$field, _Input$sizes$md$field, _Input$sizes$lg$field, jsx_runtime = __webpack_require__(5893), react = __webpack_require__(7294), emotion_react_browser_esm = __webpack_require__(917), CSSReset$1 = function() {
-                return react.createElement(emotion_react_browser_esm.xB, {
+                return /*#__PURE__*/ react.createElement(emotion_react_browser_esm /* Global */ .xB, {
                     styles: '\n      html {\n        line-height: 1.5;\n        -webkit-text-size-adjust: 100%;\n        font-family: system-ui, sans-serif;\n        -webkit-font-smoothing: antialiased;\n        text-rendering: optimizeLegibility;\n        -moz-osx-font-smoothing: grayscale;\n        touch-action: manipulation;\n      }\n\n      body {\n        position: relative;\n        min-height: 100%;\n        font-feature-settings: \'kern\';\n      }\n\n      *,\n      *::before,\n      *::after {\n        border-width: 0;\n        border-style: solid;\n        box-sizing: border-box;\n      }\n\n      main {\n        display: block;\n      }\n\n      hr {\n        border-top-width: 1px;\n        box-sizing: content-box;\n        height: 0;\n        overflow: visible;\n      }\n\n      pre,\n      code,\n      kbd,\n      samp {\n        font-family: SFMono-Regular,  Menlo, Monaco, Consolas, monospace;\n        font-size: 1em;\n      }\n\n      a {\n        background-color: transparent;\n        color: inherit;\n        text-decoration: inherit;\n      }\n\n      abbr[title] {\n        border-bottom: none;\n        text-decoration: underline;\n        -webkit-text-decoration: underline dotted;\n        text-decoration: underline dotted;\n      }\n\n      b,\n      strong {\n        font-weight: bold;\n      }\n\n      small {\n        font-size: 80%;\n      }\n\n      sub,\n      sup {\n        font-size: 75%;\n        line-height: 0;\n        position: relative;\n        vertical-align: baseline;\n      }\n\n      sub {\n        bottom: -0.25em;\n      }\n\n      sup {\n        top: -0.5em;\n      }\n\n      img {\n        border-style: none;\n      }\n\n      button,\n      input,\n      optgroup,\n      select,\n      textarea {\n        font-family: inherit;\n        font-size: 100%;\n        line-height: 1.15;\n        margin: 0;\n      }\n\n      button,\n      input {\n        overflow: visible;\n      }\n\n      button,\n      select {\n        text-transform: none;\n      }\n\n      button::-moz-focus-inner,\n      [type="button"]::-moz-focus-inner,\n      [type="reset"]::-moz-focus-inner,\n      [type="submit"]::-moz-focus-inner {\n        border-style: none;\n        padding: 0;\n      }\n\n      fieldset {\n        padding: 0.35em 0.75em 0.625em;\n      }\n\n      legend {\n        box-sizing: border-box;\n        color: inherit;\n        display: table;\n        max-width: 100%;\n        padding: 0;\n        white-space: normal;\n      }\n\n      progress {\n        vertical-align: baseline;\n      }\n\n      textarea {\n        overflow: auto;\n      }\n\n      [type="checkbox"],\n      [type="radio"] {\n        box-sizing: border-box;\n        padding: 0;\n      }\n\n      [type="number"]::-webkit-inner-spin-button,\n      [type="number"]::-webkit-outer-spin-button {\n        -webkit-appearance: none !important;\n      }\n\n      input[type="number"] {\n        -moz-appearance: textfield;\n      }\n\n      [type="search"] {\n        -webkit-appearance: textfield;\n        outline-offset: -2px;\n      }\n\n      [type="search"]::-webkit-search-decoration {\n        -webkit-appearance: none !important;\n      }\n\n      ::-webkit-file-upload-button {\n        -webkit-appearance: button;\n        font: inherit;\n      }\n\n      details {\n        display: block;\n      }\n\n      summary {\n        display: list-item;\n      }\n\n      template {\n        display: none;\n      }\n\n      [hidden] {\n        display: none !important;\n      }\n\n      body,\n      blockquote,\n      dl,\n      dd,\n      h1,\n      h2,\n      h3,\n      h4,\n      h5,\n      h6,\n      hr,\n      figure,\n      p,\n      pre {\n        margin: 0;\n      }\n\n      button {\n        background: transparent;\n        padding: 0;\n      }\n\n      fieldset {\n        margin: 0;\n        padding: 0;\n      }\n\n      ol,\n      ul {\n        margin: 0;\n        padding: 0;\n      }\n\n      textarea {\n        resize: vertical;\n      }\n\n      button,\n      [role="button"] {\n        cursor: pointer;\n      }\n\n      button::-moz-focus-inner {\n        border: 0 !important;\n      }\n\n      table {\n        border-collapse: collapse;\n      }\n\n      h1,\n      h2,\n      h3,\n      h4,\n      h5,\n      h6 {\n        font-size: inherit;\n        font-weight: inherit;\n      }\n\n      button,\n      input,\n      optgroup,\n      select,\n      textarea {\n        padding: 0;\n        line-height: inherit;\n        color: inherit;\n      }\n\n      img,\n      svg,\n      video,\n      canvas,\n      audio,\n      iframe,\n      embed,\n      object {\n        display: block;\n      }\n\n      img,\n      video {\n        max-width: 100%;\n        height: auto;\n      }\n\n      [data-js-focus-visible] :focus:not([data-focus-visible-added]):not([data-focus-visible-disabled]) {\n        outline: none;\n        box-shadow: none;\n      }\n\n      select::-ms-expand {\n        display: none;\n      }\n    '
                 });
-            }, chakra_ui_utils_esm = __webpack_require__(5031), chakra_ui_react_utils_esm = __webpack_require__(6450), chakra_ui_hooks_esm = __webpack_require__(7375), use_animation_state_5054a9f7_esm = __webpack_require__(4697), react_dom = __webpack_require__(3935), _createContext$1 = (0, chakra_ui_react_utils_esm.kr)({
+            }, chakra_ui_utils_esm = __webpack_require__(5031), chakra_ui_react_utils_esm = __webpack_require__(6450), chakra_ui_hooks_esm = __webpack_require__(7375), use_animation_state_5054a9f7_esm = __webpack_require__(4697), react_dom = __webpack_require__(3935), _createContext$1 = (0, chakra_ui_react_utils_esm /* createContext */ .kr)({
                 strict: !1,
                 name: "PortalManagerContext"
             }), PortalManagerContextProvider = _createContext$1[0], usePortalManager = _createContext$1[1];
             function PortalManager(props) {
                 var children = props.children, zIndex = props.zIndex;
-                return react.createElement(PortalManagerContextProvider, {
+                return /*#__PURE__*/ react.createElement(PortalManagerContextProvider, {
                     value: {
                         zIndex: zIndex
                     }
@@ -35,14 +38,14 @@
                     return target;
                 }).apply(this, arguments);
             }
-            chakra_ui_utils_esm.Ts && (PortalManager.displayName = "PortalManager");
+            chakra_ui_utils_esm /* __DEV__ */ .Ts && (PortalManager.displayName = "PortalManager");
             var _excluded = [
                 "containerRef"
-            ], _createContext = (0, chakra_ui_react_utils_esm.kr)({
+            ], _createContext = (0, chakra_ui_react_utils_esm /* createContext */ .kr)({
                 strict: !1,
                 name: "PortalContext"
             }), PortalContextProvider = _createContext[0], usePortalContext = _createContext[1], PORTAL_CLASSNAME = "chakra-portal", Container = function(props) {
-                return react.createElement("div", {
+                return /*#__PURE__*/ react.createElement("div", {
                     className: "chakra-portal-zIndex",
                     style: {
                         position: "absolute",
@@ -53,7 +56,7 @@
                     }
                 }, props.children);
             }, DefaultPortal = function(props) {
-                var appendToParentPortal = props.appendToParentPortal, children = props.children, tempNode = react.useRef(null), portal = react.useRef(null), forceUpdate = (0, chakra_ui_hooks_esm.NW)(), parentPortal = usePortalContext(), manager = usePortalManager();
+                var appendToParentPortal = props.appendToParentPortal, children = props.children, tempNode = react.useRef(null), portal = react.useRef(null), forceUpdate = (0, chakra_ui_hooks_esm /* useForceUpdate */ .NW)(), parentPortal = usePortalContext(), manager = usePortalManager();
                 (0, use_animation_state_5054a9f7_esm.a)(function() {
                     if (tempNode.current) {
                         var doc = tempNode.current.ownerDocument, host = appendToParentPortal && null != parentPortal ? parentPortal : doc.body;
@@ -66,21 +69,21 @@
                         }
                     }
                 }, []);
-                var _children = null != manager && manager.zIndex ? react.createElement(Container, {
+                var _children = null != manager && manager.zIndex ? /*#__PURE__*/ react.createElement(Container, {
                     zIndex: null == manager ? void 0 : manager.zIndex
                 }, children) : children;
-                return portal.current ? (0, react_dom.createPortal)(react.createElement(PortalContextProvider, {
+                return portal.current ? /*#__PURE__*/ (0, react_dom.createPortal)(/*#__PURE__*/ react.createElement(PortalContextProvider, {
                     value: portal.current
-                }, _children), portal.current) : react.createElement("span", {
+                }, _children), portal.current) : /*#__PURE__*/ react.createElement("span", {
                     ref: tempNode
                 });
             }, ContainerPortal = function(props) {
-                var children = props.children, containerRef = props.containerRef, appendToParentPortal = props.appendToParentPortal, containerEl = containerRef.current, host = null != containerEl ? containerEl : chakra_ui_utils_esm.jU ? document.body : void 0, portal = react.useMemo(function() {
+                var children = props.children, containerRef = props.containerRef, appendToParentPortal = props.appendToParentPortal, containerEl = containerRef.current, host = null != containerEl ? containerEl : chakra_ui_utils_esm /* isBrowser */ .jU ? document.body : void 0, portal = react.useMemo(function() {
                     var node = null == containerEl ? void 0 : containerEl.ownerDocument.createElement("div");
                     return node && (node.className = PORTAL_CLASSNAME), node;
                 }, [
                     containerEl
-                ]), forceUpdate = (0, chakra_ui_hooks_esm.NW)();
+                ]), forceUpdate = (0, chakra_ui_hooks_esm /* useForceUpdate */ .NW)();
                 return ((0, use_animation_state_5054a9f7_esm.a)(function() {
                     forceUpdate();
                 }, []), (0, use_animation_state_5054a9f7_esm.a)(function() {
@@ -90,24 +93,32 @@
                 }, [
                     portal,
                     host
-                ]), host && portal) ? (0, react_dom.createPortal)(react.createElement(PortalContextProvider, {
+                ]), host && portal) ? /*#__PURE__*/ (0, react_dom.createPortal)(/*#__PURE__*/ react.createElement(PortalContextProvider, {
                     value: appendToParentPortal ? portal : null
                 }, children), portal) : null;
             };
-            function Portal(props) {
+            /**
+             * Portal
+             *
+             * Declarative component used to render children into a DOM node
+             * that exists outside the DOM hierarchy of the parent component.
+             *
+             * @see Docs https://chakra-ui.com/portal
+             */ function Portal(props) {
                 var containerRef = props.containerRef, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
                     for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                     return target;
                 }(props, _excluded);
-                return containerRef ? react.createElement(ContainerPortal, _extends({
+                return containerRef ? /*#__PURE__*/ react.createElement(ContainerPortal, _extends({
                     containerRef: containerRef
-                }, rest)) : react.createElement(DefaultPortal, rest);
+                }, rest)) : /*#__PURE__*/ react.createElement(DefaultPortal, rest);
             }
             Portal.defaultProps = {
                 appendToParentPortal: !0
-            }, Portal.className = PORTAL_CLASSNAME, Portal.selector = ".chakra-portal", chakra_ui_utils_esm.Ts && (Portal.displayName = "Portal");
+            }, Portal.className = PORTAL_CLASSNAME, Portal.selector = ".chakra-portal", chakra_ui_utils_esm /* __DEV__ */ .Ts && (Portal.displayName = "Portal");
+            // EXTERNAL MODULE: ./node_modules/@chakra-ui/system/dist/chakra-ui-system.esm.js + 3 modules
             var chakra_ui_system_esm = __webpack_require__(2846), chakra_ui_color_mode_esm = __webpack_require__(949), ssrDocument = {
                 body: {
                     classList: {
@@ -146,7 +157,7 @@
                         }
                     };
                 }
-            }, noop = function() {}, defaultEnv = chakra_ui_utils_esm.jU ? {
+            }, noop = function() {}, defaultEnv = chakra_ui_utils_esm /* isBrowser */ .jU ? {
                 window: window,
                 document: document
             } : {
@@ -190,7 +201,7 @@
                     clearInterval: noop
                 },
                 document: ssrDocument
-            }, EnvironmentContext = (0, react.createContext)(defaultEnv);
+            }, EnvironmentContext = /*#__PURE__*/ (0, react.createContext)(defaultEnv);
             function EnvironmentProvider(props) {
                 var children = props.children, environmentProp = props.environment, _useState = (0, react.useState)(null), node = _useState[0], setNode = _useState[1], context = (0, react.useMemo)(function() {
                     var _ref, doc = null == node ? void 0 : node.ownerDocument, win = null == node ? void 0 : node.ownerDocument.defaultView;
@@ -202,9 +213,9 @@
                     node,
                     environmentProp
                 ]);
-                return react.createElement(EnvironmentContext.Provider, {
+                return /*#__PURE__*/ react.createElement(EnvironmentContext.Provider, {
                     value: context
-                }, children, react.createElement("span", {
+                }, children, /*#__PURE__*/ react.createElement("span", {
                     hidden: !0,
                     className: "chakra-env",
                     ref: function(el) {
@@ -214,18 +225,21 @@
                     }
                 }));
             }
-            chakra_ui_utils_esm.Ts && (EnvironmentContext.displayName = "EnvironmentContext"), chakra_ui_utils_esm.Ts && (EnvironmentProvider.displayName = "EnvironmentProvider");
-            var chakra_ui_provider_esm_ChakraProvider = function(props) {
-                var children = props.children, colorModeManager = props.colorModeManager, portalZIndex = props.portalZIndex, _props$resetCSS = props.resetCSS, _props$theme = props.theme, theme = void 0 === _props$theme ? {} : _props$theme, environment = props.environment, cssVarsRoot = props.cssVarsRoot, _children = react.createElement(EnvironmentProvider, {
+            chakra_ui_utils_esm /* __DEV__ */ .Ts && (EnvironmentContext.displayName = "EnvironmentContext"), chakra_ui_utils_esm /* __DEV__ */ .Ts && (EnvironmentProvider.displayName = "EnvironmentProvider");
+            /**
+             * The global provider that must be added to make all Chakra components
+             * work correctly
+             */ var chakra_ui_provider_esm_ChakraProvider = function(props) {
+                var children = props.children, colorModeManager = props.colorModeManager, portalZIndex = props.portalZIndex, _props$resetCSS = props.resetCSS, _props$theme = props.theme, theme = void 0 === _props$theme ? {} : _props$theme, environment = props.environment, cssVarsRoot = props.cssVarsRoot, _children = /*#__PURE__*/ react.createElement(EnvironmentProvider, {
                     environment: environment
                 }, children);
-                return react.createElement(chakra_ui_system_esm.f6, {
+                return /*#__PURE__*/ react.createElement(chakra_ui_system_esm /* ThemeProvider */ .f6, {
                     theme: theme,
                     cssVarsRoot: cssVarsRoot
-                }, react.createElement(chakra_ui_color_mode_esm.SG, {
+                }, /*#__PURE__*/ react.createElement(chakra_ui_color_mode_esm /* ColorModeProvider */ .SG, {
                     colorModeManager: colorModeManager,
                     options: theme.config
-                }, (void 0 === _props$resetCSS || _props$resetCSS) && react.createElement(CSSReset$1, null), react.createElement(chakra_ui_system_esm.ZL, null), portalZIndex ? react.createElement(PortalManager, {
+                }, (void 0 === _props$resetCSS || _props$resetCSS) && /*#__PURE__*/ react.createElement(CSSReset$1, null), /*#__PURE__*/ react.createElement(chakra_ui_system_esm /* GlobalStyle */ .ZL, null), portalZIndex ? /*#__PURE__*/ react.createElement(PortalManager, {
                     zIndex: portalZIndex
                 }, _children) : _children));
             }, spacing = {
@@ -262,7 +276,7 @@
                 72: "18rem",
                 80: "20rem",
                 96: "24rem"
-            };
+            }; // CONCATENATED MODULE: ./node_modules/@chakra-ui/theme/foundations/spacing/dist/chakra-ui-theme-foundations-spacing.esm.js
             function sizes_501602a9_esm_extends() {
                 return (sizes_501602a9_esm_extends = Object.assign ? Object.assign.bind() : function(target) {
                     for(var i = 1; i < arguments.length; i++){
@@ -297,25 +311,48 @@
                     lg: "1024px",
                     xl: "1280px"
                 }
-            });
-            function bound01(n, max) {
+            }); // CONCATENATED MODULE: ./node_modules/@ctrl/tinycolor/dist/module/util.js
+            /**
+             * Take input from [0, n] and return it as [0, 1]
+             * @hidden
+             */ function bound01(n, max) {
                 "string" == typeof (n1 = n) && -1 !== n1.indexOf(".") && 1 === parseFloat(n1) && (n = "100%");
                 var n1, n2, isPercent = "string" == typeof (n2 = n) && -1 !== n2.indexOf("%");
-                return (n = 360 === max ? n : Math.min(max, Math.max(0, parseFloat(n))), isPercent && (n = parseInt(String(n * max), 10) / 100), 0.000001 > Math.abs(n - max)) ? 1 : n = 360 === max ? (n < 0 ? n % max + max : n % max) / parseFloat(String(max)) : n % max / parseFloat(String(max));
+                return(// Handle floating point rounding errors
+                (n = 360 === max ? n : Math.min(max, Math.max(0, parseFloat(n))), isPercent && (n = parseInt(String(n * max), 10) / 100), 0.000001 > Math.abs(n - max)) ? 1 : // If n is a hue given in degrees,
+                // wrap around out-of-range values into [0, 360] range
+                // then convert into [0, 1].
+                n = 360 === max ? (n < 0 ? n % max + max : n % max) / parseFloat(String(max)) : n % max / parseFloat(String(max)));
             }
-            function clamp01(val) {
+            /**
+             * Force a number between 0 and 1
+             * @hidden
+             */ function clamp01(val) {
                 return Math.min(1, Math.max(0, val));
             }
-            function boundAlpha(a) {
+            /**
+             * Return a valid alpha value [0,1] with all invalid values being set to 1
+             * @hidden
+             */ function boundAlpha(a) {
                 return (isNaN(a = parseFloat(a)) || a < 0 || a > 1) && (a = 1), a;
             }
-            function convertToPercentage(n) {
+            /**
+             * Replace a decimal with it's percentage value
+             * @hidden
+             */ function convertToPercentage(n) {
                 return n <= 1 ? "".concat(100 * Number(n), "%") : n;
             }
-            function util_pad2(c) {
+            /**
+             * Force a hex value to have 2 characters
+             * @hidden
+             */ function util_pad2(c) {
                 return 1 === c.length ? "0" + c : String(c);
-            }
-            function rgbToHsl(r, g, b) {
+            } // CONCATENATED MODULE: ./node_modules/@ctrl/tinycolor/dist/module/conversion.js
+            /**
+             * Converts an RGB color value to HSL.
+             * *Assumes:* r, g, and b are contained in [0, 255] or [0, 1]
+             * *Returns:* { h, s, l } in [0,1]
+             */ function rgbToHsl(r, g, b) {
                 var max = Math.max(r = bound01(r, 255), g = bound01(g, 255), b = bound01(b, 255)), min = Math.min(r, g, b), h = 0, s = 0, l = (max + min) / 2;
                 if (max === min) s = 0, h = 0;
                 else {
@@ -341,9 +378,14 @@
             function hue2rgb(p, q, t) {
                 return (t < 0 && (t += 1), t > 1 && (t -= 1), t < 1 / 6) ? p + 6 * t * (q - p) : t < 0.5 ? q : t < 2 / 3 ? p + (q - p) * (2 / 3 - t) * 6 : p;
             }
-            function rgbToHsv(r, g, b) {
+            /**
+             * Converts an RGB color value to HSV
+             *
+             * *Assumes:* r, g, and b are contained in the set [0, 255] or [0, 1]
+             * *Returns:* { h, s, v } in [0,1]
+             */ function rgbToHsv(r, g, b) {
                 var max = Math.max(r = bound01(r, 255), g = bound01(g, 255), b = bound01(b, 255)), min = Math.min(r, g, b), h = 0, d = max - min;
-                if (max === min) h = 0;
+                if (max === min) h = 0; // achromatic
                 else {
                     switch(max){
                         case r:
@@ -363,18 +405,27 @@
                     v: max
                 };
             }
-            function rgbToHex(r, g, b, allow3Char) {
+            /**
+             * Converts an RGB color to hex
+             *
+             * Assumes r, g, and b are contained in the set [0, 255]
+             * Returns a 3 or 6 character hex
+             */ function rgbToHex(r, g, b, allow3Char) {
                 var hex = [
                     util_pad2(Math.round(r).toString(16)),
                     util_pad2(Math.round(g).toString(16)),
                     util_pad2(Math.round(b).toString(16))
                 ];
-                return allow3Char && hex[0].startsWith(hex[0].charAt(1)) && hex[1].startsWith(hex[1].charAt(1)) && hex[2].startsWith(hex[2].charAt(1)) ? hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0) : hex.join("");
+                return(// Return a 3 character hex if possible
+                allow3Char && hex[0].startsWith(hex[0].charAt(1)) && hex[1].startsWith(hex[1].charAt(1)) && hex[2].startsWith(hex[2].charAt(1)) ? hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0) : hex.join(""));
             }
-            function parseIntFromHex(val) {
+            /** Parse a base-16 hex value into a base-10 integer */ function parseIntFromHex(val) {
                 return parseInt(val, 16);
             }
-            var names = {
+            // https://github.com/bahamas10/css-color-names/blob/master/css-color-names.json
+            /**
+             * @hidden
+             */ var names = {
                 aliceblue: "#f0f8ff",
                 antiquewhite: "#faebd7",
                 aqua: "#00ffff",
@@ -535,13 +586,18 @@
                 hex6: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,
                 hex4: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
                 hex8: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/
-            };
-            function isValidCSSUnit(color) {
+            }; // CONCATENATED MODULE: ./node_modules/@ctrl/tinycolor/dist/module/format-input.js
+            /**
+             * Check to see if it looks like a CSS unit
+             * (see `matchers` above for definition).
+             */ function isValidCSSUnit(color) {
                 return !!matchers.CSS_UNIT.exec(String(color));
-            }
-            var module_TinyColor = function() {
+            } // CONCATENATED MODULE: ./node_modules/@ctrl/tinycolor/dist/module/index.js
+            var module_TinyColor = /** @class */ function() {
                 function TinyColor(color, opts) {
-                    if (void 0 === color && (color = ""), void 0 === opts && (opts = {}), color instanceof TinyColor) return color;
+                    // If input is already a tinycolor, return itself
+                    if (void 0 === color && (color = ""), void 0 === opts && (opts = {}), color instanceof TinyColor) // eslint-disable-next-line no-constructor-return
+                    return color;
                     "number" == typeof color && (color = {
                         r: (color1 = color) >> 16,
                         g: (0xff00 & color1) >> 8,
@@ -551,7 +607,10 @@
                         r: 0,
                         g: 0,
                         b: 0
-                    }, a = 1, s1 = null, v1 = null, l = null, ok = !1, format = !1, "string" == typeof (color2 = color) && (color2 = function(color) {
+                    }, a = 1, s1 = null, v1 = null, l = null, ok = !1, format = !1, "string" == typeof (color2 = color) && (color2 = /**
+             * Permissive string parsing.  Take in a number of formats, and output an object
+             * based on detected format.  Returns `{ r, g, b }` or `{ h, s, l }` or `{ h, s, v}`
+             */ function(color) {
                         if (0 === (color = color.trim().toLowerCase()).length) return !1;
                         var named = !1;
                         if (names[color]) color = names[color], named = !0;
@@ -562,6 +621,10 @@
                             a: 0,
                             format: "name"
                         };
+                        // Try to match string input using regular expressions.
+                        // Keep most of the number bounding out of this function - don't worry about [0,1] or [0,100] or [0,360]
+                        // Just return an object and let the conversion functions handle that.
+                        // This way the result will be the same whether the tinycolor is initialized with string or object.
                         var match = matchers.rgb.exec(color);
                         return match ? {
                             r: match[1],
@@ -642,8 +705,14 @@
                             v,
                             q
                         ][mod]
-                    }, ok = !0, format = "hsv") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.l) && (s1 = convertToPercentage(color2.s), l = convertToPercentage(color2.l), rgb = function(h, s, l) {
-                        if (h = bound01(h, 360), s = bound01(s, 100), l = bound01(l, 100), 0 === s) g = l, b = l, r = l;
+                    }, ok = !0, format = "hsv") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.l) && (s1 = convertToPercentage(color2.s), l = convertToPercentage(color2.l), rgb = /**
+             * Converts an HSL color value to RGB.
+             *
+             * *Assumes:* h is contained in [0, 1] or [0, 360] and s and l are contained [0, 1] or [0, 100]
+             * *Returns:* { r, g, b } in the set [0, 255]
+             */ function(h, s, l) {
+                        if (h = bound01(h, 360), s = bound01(s, 100), l = bound01(l, 100), 0 === s) // achromatic
+                        g = l, b = l, r = l;
                         else {
                             var r, g, b, q = l < 0.5 ? l * (1 + s) : l + s - l * s, p = 2 * l - q;
                             r = hue2rgb(p, q, h + 1 / 3), g = hue2rgb(p, q, h), b = hue2rgb(p, q, h - 1 / 3);
@@ -667,17 +736,31 @@
                     return 128 > this.getBrightness();
                 }, TinyColor.prototype.isLight = function() {
                     return !this.isDark();
-                }, TinyColor.prototype.getBrightness = function() {
+                }, /**
+                 * Returns the perceived brightness of the color, from 0-255.
+                 */ TinyColor.prototype.getBrightness = function() {
+                    // http://www.w3.org/TR/AERT#color-contrast
                     var rgb = this.toRgb();
                     return (299 * rgb.r + 587 * rgb.g + 114 * rgb.b) / 1000;
-                }, TinyColor.prototype.getLuminance = function() {
+                }, /**
+                 * Returns the perceived luminance of a color, from 0-1.
+                 */ TinyColor.prototype.getLuminance = function() {
+                    // http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
                     var rgb = this.toRgb(), RsRGB = rgb.r / 255, GsRGB = rgb.g / 255, BsRGB = rgb.b / 255;
                     return 0.2126 * (RsRGB <= 0.03928 ? RsRGB / 12.92 : Math.pow((RsRGB + 0.055) / 1.055, 2.4)) + 0.7152 * (GsRGB <= 0.03928 ? GsRGB / 12.92 : Math.pow((GsRGB + 0.055) / 1.055, 2.4)) + 0.0722 * (BsRGB <= 0.03928 ? BsRGB / 12.92 : Math.pow((BsRGB + 0.055) / 1.055, 2.4));
-                }, TinyColor.prototype.getAlpha = function() {
+                }, /**
+                 * Returns the alpha value of a color, from 0-1.
+                 */ TinyColor.prototype.getAlpha = function() {
                     return this.a;
-                }, TinyColor.prototype.setAlpha = function(alpha) {
+                }, /**
+                 * Sets the alpha value on the current color.
+                 *
+                 * @param alpha - The new alpha value. The accepted range is 0-1.
+                 */ TinyColor.prototype.setAlpha = function(alpha) {
                     return this.a = boundAlpha(alpha), this.roundA = Math.round(100 * this.a) / 100, this;
-                }, TinyColor.prototype.toHsv = function() {
+                }, /**
+                 * Returns the object as a HSVA object.
+                 */ TinyColor.prototype.toHsv = function() {
                     var hsv = rgbToHsv(this.r, this.g, this.b);
                     return {
                         h: 360 * hsv.h,
@@ -685,10 +768,15 @@
                         v: hsv.v,
                         a: this.a
                     };
-                }, TinyColor.prototype.toHsvString = function() {
+                }, /**
+                 * Returns the hsva values interpolated into a string with the following format:
+                 * "hsva(xxx, xxx, xxx, xx)".
+                 */ TinyColor.prototype.toHsvString = function() {
                     var hsv = rgbToHsv(this.r, this.g, this.b), h = Math.round(360 * hsv.h), s = Math.round(100 * hsv.s), v = Math.round(100 * hsv.v);
                     return 1 === this.a ? "hsv(".concat(h, ", ").concat(s, "%, ").concat(v, "%)") : "hsva(".concat(h, ", ").concat(s, "%, ").concat(v, "%, ").concat(this.roundA, ")");
-                }, TinyColor.prototype.toHsl = function() {
+                }, /**
+                 * Returns the object as a HSLA object.
+                 */ TinyColor.prototype.toHsl = function() {
                     var hsl = rgbToHsl(this.r, this.g, this.b);
                     return {
                         h: 360 * hsl.h,
@@ -696,34 +784,57 @@
                         l: hsl.l,
                         a: this.a
                     };
-                }, TinyColor.prototype.toHslString = function() {
+                }, /**
+                 * Returns the hsla values interpolated into a string with the following format:
+                 * "hsla(xxx, xxx, xxx, xx)".
+                 */ TinyColor.prototype.toHslString = function() {
                     var hsl = rgbToHsl(this.r, this.g, this.b), h = Math.round(360 * hsl.h), s = Math.round(100 * hsl.s), l = Math.round(100 * hsl.l);
                     return 1 === this.a ? "hsl(".concat(h, ", ").concat(s, "%, ").concat(l, "%)") : "hsla(".concat(h, ", ").concat(s, "%, ").concat(l, "%, ").concat(this.roundA, ")");
-                }, TinyColor.prototype.toHex = function(allow3Char) {
+                }, /**
+                 * Returns the hex value of the color.
+                 * @param allow3Char will shorten hex value to 3 char if possible
+                 */ TinyColor.prototype.toHex = function(allow3Char) {
                     return void 0 === allow3Char && (allow3Char = !1), rgbToHex(this.r, this.g, this.b, allow3Char);
-                }, TinyColor.prototype.toHexString = function(allow3Char) {
+                }, /**
+                 * Returns the hex value of the color -with a # appened.
+                 * @param allow3Char will shorten hex value to 3 char if possible
+                 */ TinyColor.prototype.toHexString = function(allow3Char) {
                     return void 0 === allow3Char && (allow3Char = !1), "#" + this.toHex(allow3Char);
-                }, TinyColor.prototype.toHex8 = function(allow4Char) {
+                }, /**
+                 * Returns the hex 8 value of the color.
+                 * @param allow4Char will shorten hex value to 4 char if possible
+                 */ TinyColor.prototype.toHex8 = function(allow4Char) {
                     var r, g, b, a, allow4Char1, hex;
                     return void 0 === allow4Char && (allow4Char = !1), r = this.r, g = this.g, b = this.b, a = this.a, allow4Char1 = allow4Char, hex = [
                         util_pad2(Math.round(r).toString(16)),
                         util_pad2(Math.round(g).toString(16)),
                         util_pad2(Math.round(b).toString(16)),
                         util_pad2(Math.round(255 * parseFloat(a)).toString(16))
-                    ], allow4Char1 && hex[0].startsWith(hex[0].charAt(1)) && hex[1].startsWith(hex[1].charAt(1)) && hex[2].startsWith(hex[2].charAt(1)) && hex[3].startsWith(hex[3].charAt(1)) ? hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0) + hex[3].charAt(0) : hex.join("");
-                }, TinyColor.prototype.toHex8String = function(allow4Char) {
+                    ], // Return a 4 character hex if possible
+                    allow4Char1 && hex[0].startsWith(hex[0].charAt(1)) && hex[1].startsWith(hex[1].charAt(1)) && hex[2].startsWith(hex[2].charAt(1)) && hex[3].startsWith(hex[3].charAt(1)) ? hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0) + hex[3].charAt(0) : hex.join("");
+                }, /**
+                 * Returns the hex 8 value of the color -with a # appened.
+                 * @param allow4Char will shorten hex value to 4 char if possible
+                 */ TinyColor.prototype.toHex8String = function(allow4Char) {
                     return void 0 === allow4Char && (allow4Char = !1), "#" + this.toHex8(allow4Char);
-                }, TinyColor.prototype.toRgb = function() {
+                }, /**
+                 * Returns the object as a RGBA object.
+                 */ TinyColor.prototype.toRgb = function() {
                     return {
                         r: Math.round(this.r),
                         g: Math.round(this.g),
                         b: Math.round(this.b),
                         a: this.a
                     };
-                }, TinyColor.prototype.toRgbString = function() {
+                }, /**
+                 * Returns the RGBA values interpolated into a string with the following format:
+                 * "RGBA(xxx, xxx, xxx, xx)".
+                 */ TinyColor.prototype.toRgbString = function() {
                     var r = Math.round(this.r), g = Math.round(this.g), b = Math.round(this.b);
                     return 1 === this.a ? "rgb(".concat(r, ", ").concat(g, ", ").concat(b, ")") : "rgba(".concat(r, ", ").concat(g, ", ").concat(b, ", ").concat(this.roundA, ")");
-                }, TinyColor.prototype.toPercentageRgb = function() {
+                }, /**
+                 * Returns the object as a RGBA object.
+                 */ TinyColor.prototype.toPercentageRgb = function() {
                     var fmt = function(x) {
                         return "".concat(Math.round(100 * bound01(x, 255)), "%");
                     };
@@ -733,12 +844,16 @@
                         b: fmt(this.b),
                         a: this.a
                     };
-                }, TinyColor.prototype.toPercentageRgbString = function() {
+                }, /**
+                 * Returns the RGBA relative values interpolated into a string
+                 */ TinyColor.prototype.toPercentageRgbString = function() {
                     var rnd = function(x) {
                         return Math.round(100 * bound01(x, 255));
                     };
                     return 1 === this.a ? "rgb(".concat(rnd(this.r), "%, ").concat(rnd(this.g), "%, ").concat(rnd(this.b), "%)") : "rgba(".concat(rnd(this.r), "%, ").concat(rnd(this.g), "%, ").concat(rnd(this.b), "%, ").concat(this.roundA, ")");
-                }, TinyColor.prototype.toName = function() {
+                }, /**
+                 * The 'real' name of the color -if there is one.
+                 */ TinyColor.prototype.toName = function() {
                     if (0 === this.a) return "transparent";
                     if (this.a < 1) return !1;
                     for(var hex = "#" + rgbToHex(this.r, this.g, this.b, !1), _i = 0, _a = Object.entries(names); _i < _a.length; _i++){
@@ -750,41 +865,77 @@
                     var formatSet = !!format;
                     format = null != format ? format : this.format;
                     var formattedString = !1, hasAlpha = this.a < 1 && this.a >= 0;
-                    return !formatSet && hasAlpha && (format.startsWith("hex") || "name" === format) ? "name" === format && 0 === this.a ? this.toName() : this.toRgbString() : ("rgb" === format && (formattedString = this.toRgbString()), "prgb" === format && (formattedString = this.toPercentageRgbString()), ("hex" === format || "hex6" === format) && (formattedString = this.toHexString()), "hex3" === format && (formattedString = this.toHexString(!0)), "hex4" === format && (formattedString = this.toHex8String(!0)), "hex8" === format && (formattedString = this.toHex8String()), "name" === format && (formattedString = this.toName()), "hsl" === format && (formattedString = this.toHslString()), "hsv" === format && (formattedString = this.toHsvString()), formattedString || this.toHexString());
+                    return !formatSet && hasAlpha && (format.startsWith("hex") || "name" === format) ? // Special case for "transparent", all other non-alpha formats
+                    // will return rgba when there is transparency.
+                    "name" === format && 0 === this.a ? this.toName() : this.toRgbString() : ("rgb" === format && (formattedString = this.toRgbString()), "prgb" === format && (formattedString = this.toPercentageRgbString()), ("hex" === format || "hex6" === format) && (formattedString = this.toHexString()), "hex3" === format && (formattedString = this.toHexString(!0)), "hex4" === format && (formattedString = this.toHex8String(!0)), "hex8" === format && (formattedString = this.toHex8String()), "name" === format && (formattedString = this.toName()), "hsl" === format && (formattedString = this.toHslString()), "hsv" === format && (formattedString = this.toHsvString()), formattedString || this.toHexString());
                 }, TinyColor.prototype.toNumber = function() {
                     return (Math.round(this.r) << 16) + (Math.round(this.g) << 8) + Math.round(this.b);
                 }, TinyColor.prototype.clone = function() {
                     return new TinyColor(this.toString());
-                }, TinyColor.prototype.lighten = function(amount) {
+                }, /**
+                 * Lighten the color a given amount. Providing 100 will always return white.
+                 * @param amount - valid between 1-100
+                 */ TinyColor.prototype.lighten = function(amount) {
                     void 0 === amount && (amount = 10);
                     var hsl = this.toHsl();
                     return hsl.l += amount / 100, hsl.l = clamp01(hsl.l), new TinyColor(hsl);
-                }, TinyColor.prototype.brighten = function(amount) {
+                }, /**
+                 * Brighten the color a given amount, from 0 to 100.
+                 * @param amount - valid between 1-100
+                 */ TinyColor.prototype.brighten = function(amount) {
                     void 0 === amount && (amount = 10);
                     var rgb = this.toRgb();
                     return rgb.r = Math.max(0, Math.min(255, rgb.r - Math.round(-(amount / 100 * 255)))), rgb.g = Math.max(0, Math.min(255, rgb.g - Math.round(-(amount / 100 * 255)))), rgb.b = Math.max(0, Math.min(255, rgb.b - Math.round(-(amount / 100 * 255)))), new TinyColor(rgb);
-                }, TinyColor.prototype.darken = function(amount) {
+                }, /**
+                 * Darken the color a given amount, from 0 to 100.
+                 * Providing 100 will always return black.
+                 * @param amount - valid between 1-100
+                 */ TinyColor.prototype.darken = function(amount) {
                     void 0 === amount && (amount = 10);
                     var hsl = this.toHsl();
                     return hsl.l -= amount / 100, hsl.l = clamp01(hsl.l), new TinyColor(hsl);
-                }, TinyColor.prototype.tint = function(amount) {
+                }, /**
+                 * Mix the color with pure white, from 0 to 100.
+                 * Providing 0 will do nothing, providing 100 will always return white.
+                 * @param amount - valid between 1-100
+                 */ TinyColor.prototype.tint = function(amount) {
                     return void 0 === amount && (amount = 10), this.mix("white", amount);
-                }, TinyColor.prototype.shade = function(amount) {
+                }, /**
+                 * Mix the color with pure black, from 0 to 100.
+                 * Providing 0 will do nothing, providing 100 will always return black.
+                 * @param amount - valid between 1-100
+                 */ TinyColor.prototype.shade = function(amount) {
                     return void 0 === amount && (amount = 10), this.mix("black", amount);
-                }, TinyColor.prototype.desaturate = function(amount) {
+                }, /**
+                 * Desaturate the color a given amount, from 0 to 100.
+                 * Providing 100 will is the same as calling greyscale
+                 * @param amount - valid between 1-100
+                 */ TinyColor.prototype.desaturate = function(amount) {
                     void 0 === amount && (amount = 10);
                     var hsl = this.toHsl();
                     return hsl.s -= amount / 100, hsl.s = clamp01(hsl.s), new TinyColor(hsl);
-                }, TinyColor.prototype.saturate = function(amount) {
+                }, /**
+                 * Saturate the color a given amount, from 0 to 100.
+                 * @param amount - valid between 1-100
+                 */ TinyColor.prototype.saturate = function(amount) {
                     void 0 === amount && (amount = 10);
                     var hsl = this.toHsl();
                     return hsl.s += amount / 100, hsl.s = clamp01(hsl.s), new TinyColor(hsl);
-                }, TinyColor.prototype.greyscale = function() {
+                }, /**
+                 * Completely desaturates a color into greyscale.
+                 * Same as calling `desaturate(100)`
+                 */ TinyColor.prototype.greyscale = function() {
                     return this.desaturate(100);
-                }, TinyColor.prototype.spin = function(amount) {
+                }, /**
+                 * Spin takes a positive or negative amount within [-360, 360] indicating the change of hue.
+                 * Values outside of this range will be wrapped into this range.
+                 */ TinyColor.prototype.spin = function(amount) {
                     var hsl = this.toHsl(), hue = (hsl.h + amount) % 360;
                     return hsl.h = hue < 0 ? 360 + hue : hue, new TinyColor(hsl);
-                }, TinyColor.prototype.mix = function(color, amount) {
+                }, /**
+                 * Mix the current color a given amount with another color, from 0 to 100.
+                 * 0 means no mixing (return current color).
+                 */ TinyColor.prototype.mix = function(color, amount) {
                     void 0 === amount && (amount = 50);
                     var rgb1 = this.toRgb(), rgb2 = new TinyColor(color).toRgb(), p = amount / 100;
                     return new TinyColor({
@@ -800,7 +951,9 @@
                     ];
                     for(hsl.h = (hsl.h - (part * results >> 1) + 720) % 360; --results;)hsl.h = (hsl.h + part) % 360, ret.push(new TinyColor(hsl));
                     return ret;
-                }, TinyColor.prototype.complement = function() {
+                }, /**
+                 * taken from https://github.com/infusion/jQuery-xcolor/blob/master/jquery.xcolor.js
+                 */ TinyColor.prototype.complement = function() {
                     var hsl = this.toHsl();
                     return hsl.h = (hsl.h + 180) % 360, new TinyColor(hsl);
                 }, TinyColor.prototype.monochromatic = function(results) {
@@ -826,18 +979,27 @@
                             l: hsl.l
                         })
                     ];
-                }, TinyColor.prototype.onBackground = function(background) {
+                }, /**
+                 * Compute how the color would appear on a background
+                 */ TinyColor.prototype.onBackground = function(background) {
                     var fg = this.toRgb(), bg = new TinyColor(background).toRgb();
                     return new TinyColor({
                         r: bg.r + (fg.r - bg.r) * fg.a,
                         g: bg.g + (fg.g - bg.g) * fg.a,
                         b: bg.b + (fg.b - bg.b) * fg.a
                     });
-                }, TinyColor.prototype.triad = function() {
+                }, /**
+                 * Alias for `polyad(3)`
+                 */ TinyColor.prototype.triad = function() {
                     return this.polyad(3);
-                }, TinyColor.prototype.tetrad = function() {
+                }, /**
+                 * Alias for `polyad(4)`
+                 */ TinyColor.prototype.tetrad = function() {
                     return this.polyad(4);
-                }, TinyColor.prototype.polyad = function(n) {
+                }, /**
+                 * Get polyad colors, like (for 1, 2, 3, 4, 5, 6, 7, 8, etc...)
+                 * monad, dyad, triad, tetrad, pentad, hexad, heptad, octad, etc...
+                 */ TinyColor.prototype.polyad = function(n) {
                     for(var hsl = this.toHsl(), h = hsl.h, result = [
                         this
                     ], increment = 360 / n, i = 1; i < n; i++)result.push(new TinyColor({
@@ -846,11 +1008,14 @@
                         l: hsl.l
                     }));
                     return result;
-                }, TinyColor.prototype.equals = function(color) {
+                }, /**
+                 * compare color vs current color
+                 */ TinyColor.prototype.equals = function(color) {
                     return this.toRgbString() === new TinyColor(color).toRgbString();
                 }, TinyColor;
             }();
             function getColorInfo(hue) {
+                // Maps red colors to make picking hue easier
                 hue >= 334 && hue <= 360 && (hue -= 360);
                 for(var _i = 0; _i < bounds.length; _i++){
                     var color = defineColor(bounds[_i]);
@@ -860,6 +1025,7 @@
             }
             function randomWithin(range, seed) {
                 if (void 0 === seed) return Math.floor(range[0] + Math.random() * (range[1] + 1 - range[0]));
+                // Seeded random algorithm from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
                 var max = range[1] || 1, min = range[0] || 0;
                 return Math.floor(min + (seed = (9301 * seed + 49297) % 233280) / 233280.0 * (max - min));
             }
@@ -879,7 +1045,9 @@
                     ]
                 };
             }
-            var bounds = [
+            /**
+             * @hidden
+             */ var bounds = [
                 {
                     name: "monochrome",
                     hueRange: null,
@@ -1186,13 +1354,13 @@
                     ]
                 }
             ], getColor = function(theme, color, fallback) {
-                var hex = (0, chakra_ui_utils_esm.Wf)(theme, "colors." + color, color);
+                var hex = (0, chakra_ui_utils_esm /* memoizedGet */ .Wf)(theme, "colors." + color, color);
                 return new module_TinyColor(hex).isValid ? hex : fallback;
             }, transparentize = function(color, opacity) {
                 return function(theme) {
                     return new module_TinyColor(getColor(theme, color)).setAlpha(opacity).toRgbString();
                 };
-            };
+            }; // CONCATENATED MODULE: ./node_modules/@chakra-ui/theme-tools/dist/chakra-ui-theme-tools.esm.js
             function generateStripe(size, color) {
                 return void 0 === size && (size = "1rem"), void 0 === color && (color = "rgba(255, 255, 255, 0.15)"), {
                     backgroundImage: "linear-gradient(\n    45deg,\n    " + color + " 25%,\n    transparent 25%,\n    transparent 50%,\n    " + color + " 50%,\n    " + color + " 75%,\n    transparent 75%,\n    transparent\n  )",
@@ -1217,7 +1385,10 @@
                     return target;
                 }).apply(this, arguments);
             }
-            var Anatomy = function() {
+            /**
+             * Used to define the anatomy/parts of a component in a way that provides
+             * a consistent API for `className`, css selector and `theming`.
+             */ var Anatomy = /*#__PURE__*/ function() {
                 var protoProps;
                 function Anatomy(name) {
                     var _this = this;
@@ -1264,8 +1435,10 @@
                 return protoProps = [
                     {
                         key: "selectors",
-                        get: function() {
-                            return (0, chakra_ui_utils_esm.sq)(Object.entries(this.map).map(function(_ref) {
+                        get: /**
+                             * Get all selectors for the component anatomy
+                             */ function() {
+                            return (0, chakra_ui_utils_esm /* fromEntries */ .sq)(Object.entries(this.map).map(function(_ref) {
                                 return [
                                     _ref[0],
                                     _ref[1].selector
@@ -1276,7 +1449,7 @@
                     {
                         key: "classNames",
                         get: function() {
-                            return (0, chakra_ui_utils_esm.sq)(Object.entries(this.map).map(function(_ref2) {
+                            return (0, chakra_ui_utils_esm /* fromEntries */ .sq)(Object.entries(this.map).map(function(_ref2) {
                                 return [
                                     _ref2[0],
                                     _ref2[1].className
@@ -1303,7 +1476,7 @@
                 return new Anatomy(name);
             }
             function toRef(operand) {
-                return (0, chakra_ui_utils_esm.Kn)(operand) && operand.reference ? operand.reference : String(operand);
+                return (0, chakra_ui_utils_esm /* isObject */ .Kn)(operand) && operand.reference ? operand.reference : String(operand);
             }
             var toExpr = function(operator) {
                 for(var _len = arguments.length, operands = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)operands[_key - 1] = arguments[_key];
@@ -1385,7 +1558,14 @@
                     reference: (fallback1 = "string" == typeof (fallback = null == options ? void 0 : options.fallback) ? fallback : null == fallback ? void 0 : fallback.reference, "var(" + chakra_ui_theme_tools_esm_escape(cssVariable) + (fallback1 ? ", " + fallback1 : "") + ")")
                 };
             }
-            var accordionAnatomy = anatomy("accordion").parts("root", "container", "button", "panel").extend("icon"), alertAnatomy = anatomy("alert").parts("title", "description", "container").extend("icon", "spinner"), avatarAnatomy = anatomy("avatar").parts("label", "badge", "container").extend("excessLabel", "group"), breadcrumbAnatomy = anatomy("breadcrumb").parts("link", "item", "container").extend("separator");
+            /**
+             * **Accordion anatomy**
+             * - Root: the root container of the accordion
+             * - Container: the accordion item contains the button and panel
+             * - Button: the button is the trigger for the panel
+             * - Panel: the panel is the content of the accordion item
+             * - Icon: the expanded/collapsed icon
+             */ var accordionAnatomy = anatomy("accordion").parts("root", "container", "button", "panel").extend("icon"), alertAnatomy = anatomy("alert").parts("title", "description", "container").extend("icon", "spinner"), avatarAnatomy = anatomy("avatar").parts("label", "badge", "container").extend("excessLabel", "group"), breadcrumbAnatomy = anatomy("breadcrumb").parts("link", "item", "container").extend("separator");
             anatomy("button").parts();
             var checkboxAnatomy = anatomy("checkbox").parts("control", "icon", "container").extend("label");
             anatomy("progress").parts("track", "filledTrack").extend("label");
@@ -1448,7 +1628,7 @@
                     "8xl": "6rem",
                     "9xl": "8rem"
                 }
-            }, lodash_mergewith = __webpack_require__(8554), lodash_mergewith_default = __webpack_require__.n(lodash_mergewith), Accordion = {
+            }, lodash_mergewith = __webpack_require__(8554), lodash_mergewith_default = /*#__PURE__*/ __webpack_require__.n(lodash_mergewith), Accordion = {
                 parts: accordionAnatomy.keys,
                 baseStyle: {
                     root: {},
@@ -1584,12 +1764,19 @@
             }, baseStyleContainer$3 = function(props) {
                 var list, opts, fallback, name = props.name, theme = props.theme, bg = name ? (opts = {
                     string: name
-                }, fallback = (function random(options) {
+                }, fallback = // randomColor by David Merfield under the CC0 license
+                // https://github.com/davidmerfield/randomColor/
+                (function random(options) {
+                    // Check if we need to generate multiple colors
                     if (void 0 === options && (options = {}), void 0 !== options.count && null !== options.count) {
                         var hue, seed, res, totalColors = options.count, colors = [];
-                        for(options.count = void 0; totalColors > colors.length;)options.count = null, options.seed && (options.seed += 1), colors.push(random(options));
+                        for(options.count = void 0; totalColors > colors.length;)// Since we're generating multiple colors,
+                        // incremement the seed. Otherwise we'd just
+                        // generate the same color each time...
+                        options.count = null, options.seed && (options.seed += 1), colors.push(random(options));
                         return options.count = totalColors, colors;
                     }
+                    // First we pick a hue (H)
                     var h = (hue = options.hue, seed = options.seed, (res = randomWithin(function(colorInput) {
                         var num = parseInt(colorInput, 10);
                         if (!Number.isNaN(num) && num < 360 && num > 0) return [
@@ -1668,8 +1855,9 @@
                         s: s,
                         v: v
                     };
+                    // Then we return the HSB color in the desired format
                     return void 0 !== options.alpha && (res1.a = options.alpha), new module_TinyColor(res1);
-                })().toHexString(), !opts || (0, chakra_ui_utils_esm.Qr)(opts) ? fallback : opts.string && opts.colors ? function(str, list) {
+                })().toHexString(), !opts || (0, chakra_ui_utils_esm /* isEmptyObject */ .Qr)(opts) ? fallback : opts.string && opts.colors ? function(str, list) {
                     var index = 0;
                     if (0 === str.length) return list[0];
                     for(var i = 0; i < str.length; i += 1)index = str.charCodeAt(i) + ((index << 5) - index), index &= index;
@@ -1933,7 +2121,10 @@
                 md: ((_md$1 = {})[$size$1.variable] = "32px", _md$1.fontSize = "12px", _md$1),
                 sm: ((_sm$1 = {})[$size$1.variable] = "24px", _sm$1.fontSize = "10px", _sm$1)
             }, variants$8 = Badge.variants, defaultProps$h = Badge.defaultProps;
-            function getSize$2(value) {
+            /**
+             * Since the `maxWidth` prop references theme.sizes internally,
+             * we can leverage that to size our modals.
+             */ function getSize$2(value) {
                 return "full" === value ? {
                     dialog: {
                         maxW: "100vw",
@@ -2346,7 +2537,10 @@
                 px: 6,
                 py: 4
             };
-            function getSize$1(value) {
+            /**
+             * Since the `maxWidth` prop references theme.sizes internally,
+             * we can leverage that to size our modals.
+             */ function getSize$1(value) {
                 return "full" === value ? {
                     dialog: {
                         maxW: "100vw",
@@ -3364,7 +3558,7 @@
                 lg: "62em",
                 xl: "80em",
                 "2xl": "96em"
-            }, (0, chakra_ui_utils_esm.ZK)({
+            }, (0, chakra_ui_utils_esm /* warn */ .ZK)({
                 condition: !0,
                 message: "[chakra-ui]: createBreakpoints(...) will be deprecated pretty soonsimply pass the breakpoints as an object. Remove the createBreakpoint(..) call"
             }), chakra_ui_theme_tools_esm_extends({
@@ -4072,7 +4266,7 @@
                                 borderRadius: "2px",
                                 borderColor: start,
                                 background: end,
-                                animation: speed + "s linear infinite alternate " + (0, emotion_react_browser_esm.F4)({
+                                animation: speed + "s linear infinite alternate " + (0, emotion_react_browser_esm /* keyframes */ .F4)({
                                     from: {
                                         borderColor: start,
                                         background: start
@@ -4174,15 +4368,15 @@
                 "speed",
                 "emptyColor",
                 "className"
-            ], spin = (0, emotion_react_browser_esm.F4)({
+            ], spin = (0, emotion_react_browser_esm /* keyframes */ .F4)({
                 "0%": {
                     transform: "rotate(0deg)"
                 },
                 "100%": {
                     transform: "rotate(360deg)"
                 }
-            }), chakra_ui_spinner_esm_Spinner = (0, chakra_ui_system_esm.Gp)(function(props, ref) {
-                var styles = (0, chakra_ui_system_esm.mq)("Spinner", props), _omitThemingProps = (0, chakra_ui_system_esm.Lr)(props), _omitThemingProps$lab = _omitThemingProps.label, label = void 0 === _omitThemingProps$lab ? "Loading..." : _omitThemingProps$lab, _omitThemingProps$thi = _omitThemingProps.thickness, _omitThemingProps$spe = _omitThemingProps.speed, _omitThemingProps$emp = _omitThemingProps.emptyColor, emptyColor = void 0 === _omitThemingProps$emp ? "transparent" : _omitThemingProps$emp, className = _omitThemingProps.className, rest = function(source, excluded) {
+            }), chakra_ui_spinner_esm_Spinner = /*#__PURE__*/ (0, chakra_ui_system_esm /* forwardRef */ .Gp)(function(props, ref) {
+                var styles = (0, chakra_ui_system_esm /* useStyleConfig */ .mq)("Spinner", props), _omitThemingProps = (0, chakra_ui_system_esm /* omitThemingProps */ .Lr)(props), _omitThemingProps$lab = _omitThemingProps.label, label = void 0 === _omitThemingProps$lab ? "Loading..." : _omitThemingProps$lab, _omitThemingProps$thi = _omitThemingProps.thickness, _omitThemingProps$spe = _omitThemingProps.speed, _omitThemingProps$emp = _omitThemingProps.emptyColor, emptyColor = void 0 === _omitThemingProps$emp ? "transparent" : _omitThemingProps$emp, className = _omitThemingProps.className, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
                     for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
@@ -4197,14 +4391,15 @@
                     borderLeftColor: emptyColor,
                     animation: spin + " " + (void 0 === _omitThemingProps$spe ? "0.45s" : _omitThemingProps$spe) + " linear infinite"
                 }, styles);
-                return react.createElement(chakra_ui_system_esm.m$.div, chakra_ui_spinner_esm_extends({
+                return /*#__PURE__*/ react.createElement(chakra_ui_system_esm /* chakra.div */ .m$.div, chakra_ui_spinner_esm_extends({
                     ref: ref,
                     __css: spinnerStyles,
                     className: _className
-                }, rest), label && react.createElement(chakra_ui_visually_hidden_esm.TX, null, label));
+                }, rest), label && /*#__PURE__*/ react.createElement(chakra_ui_visually_hidden_esm /* VisuallyHidden */ .TX, null, label));
             });
-            chakra_ui_utils_esm.Ts && (chakra_ui_spinner_esm_Spinner.displayName = "Spinner");
-            var chakra_ui_icon_esm = __webpack_require__(894);
+            chakra_ui_utils_esm /* __DEV__ */ .Ts && (chakra_ui_spinner_esm_Spinner.displayName = "Spinner");
+            // EXTERNAL MODULE: ./node_modules/@chakra-ui/icon/dist/chakra-ui-icon.esm.js
+            var chakra_ui_icon_esm = __webpack_require__(894); // CONCATENATED MODULE: ./node_modules/@chakra-ui/alert/dist/chakra-ui-alert.esm.js
             function chakra_ui_alert_esm_extends() {
                 return (chakra_ui_alert_esm_extends = Object.assign ? Object.assign.bind() : function(target) {
                     for(var i = 1; i < arguments.length; i++){
@@ -4215,20 +4410,20 @@
                 }).apply(this, arguments);
             }
             var WarningIcon = function(props) {
-                return react.createElement(chakra_ui_icon_esm.JO, chakra_ui_alert_esm_extends({
+                return /*#__PURE__*/ react.createElement(chakra_ui_icon_esm /* Icon */ .JO, chakra_ui_alert_esm_extends({
                     viewBox: "0 0 24 24"
-                }, props), react.createElement("path", {
+                }, props), /*#__PURE__*/ react.createElement("path", {
                     fill: "currentColor",
                     d: "M11.983,0a12.206,12.206,0,0,0-8.51,3.653A11.8,11.8,0,0,0,0,12.207,11.779,11.779,0,0,0,11.8,24h.214A12.111,12.111,0,0,0,24,11.791h0A11.766,11.766,0,0,0,11.983,0ZM10.5,16.542a1.476,1.476,0,0,1,1.449-1.53h.027a1.527,1.527,0,0,1,1.523,1.47,1.475,1.475,0,0,1-1.449,1.53h-.027A1.529,1.529,0,0,1,10.5,16.542ZM11,12.5v-6a1,1,0,0,1,2,0v6a1,1,0,1,1-2,0Z"
                 }));
             }, chakra_ui_alert_esm_excluded = [
                 "status"
-            ], _createStylesContext = (0, chakra_ui_system_esm.eC)("Alert"), StylesProvider = _createStylesContext[0], useStyles = _createStylesContext[1], STATUSES = {
+            ], _createStylesContext = (0, chakra_ui_system_esm /* createStylesContext */ .eC)("Alert"), StylesProvider = _createStylesContext[0], useStyles = _createStylesContext[1], STATUSES = {
                 info: {
                     icon: function(props) {
-                        return react.createElement(chakra_ui_icon_esm.JO, chakra_ui_alert_esm_extends({
+                        return /*#__PURE__*/ react.createElement(chakra_ui_icon_esm /* Icon */ .JO, chakra_ui_alert_esm_extends({
                             viewBox: "0 0 24 24"
-                        }, props), react.createElement("path", {
+                        }, props), /*#__PURE__*/ react.createElement("path", {
                             fill: "currentColor",
                             d: "M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm.25,5a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,12.25,5ZM14.5,18.5h-4a1,1,0,0,1,0-2h.75a.25.25,0,0,0,.25-.25v-4.5a.25.25,0,0,0-.25-.25H10.5a1,1,0,0,1,0-2h1a2,2,0,0,1,2,2v4.75a.25.25,0,0,0,.25.25h.75a1,1,0,1,1,0,2Z"
                         }));
@@ -4241,9 +4436,9 @@
                 },
                 success: {
                     icon: function(props) {
-                        return react.createElement(chakra_ui_icon_esm.JO, chakra_ui_alert_esm_extends({
+                        return /*#__PURE__*/ react.createElement(chakra_ui_icon_esm /* Icon */ .JO, chakra_ui_alert_esm_extends({
                             viewBox: "0 0 24 24"
-                        }, props), react.createElement("path", {
+                        }, props), /*#__PURE__*/ react.createElement("path", {
                             fill: "currentColor",
                             d: "M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z"
                         }));
@@ -4258,16 +4453,16 @@
                     icon: chakra_ui_spinner_esm_Spinner,
                     colorScheme: "blue"
                 }
-            }, chakra_ui_alert_esm_createContext = (0, chakra_ui_react_utils_esm.kr)({
+            }, chakra_ui_alert_esm_createContext = (0, chakra_ui_react_utils_esm /* createContext */ .kr)({
                 name: "AlertContext",
                 errorMessage: "useAlertContext: `context` is undefined. Seems you forgot to wrap alert components in `<Alert />`"
-            }), AlertProvider = chakra_ui_alert_esm_createContext[0], useAlertContext = chakra_ui_alert_esm_createContext[1], chakra_ui_alert_esm_Alert = (0, chakra_ui_system_esm.Gp)(function(props, ref) {
-                var _props$colorScheme, _omitThemingProps = (0, chakra_ui_system_esm.Lr)(props), _omitThemingProps$sta = _omitThemingProps.status, status = void 0 === _omitThemingProps$sta ? "info" : _omitThemingProps$sta, rest = function(source, excluded) {
+            }), AlertProvider = chakra_ui_alert_esm_createContext[0], useAlertContext = chakra_ui_alert_esm_createContext[1], chakra_ui_alert_esm_Alert = /*#__PURE__*/ (0, chakra_ui_system_esm /* forwardRef */ .Gp)(function(props, ref) {
+                var _props$colorScheme, _omitThemingProps = (0, chakra_ui_system_esm /* omitThemingProps */ .Lr)(props), _omitThemingProps$sta = _omitThemingProps.status, status = void 0 === _omitThemingProps$sta ? "info" : _omitThemingProps$sta, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
                     for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                     return target;
-                }(_omitThemingProps, chakra_ui_alert_esm_excluded), colorScheme = null != (_props$colorScheme = props.colorScheme) ? _props$colorScheme : STATUSES[status].colorScheme, styles = (0, chakra_ui_system_esm.jC)("Alert", chakra_ui_alert_esm_extends({}, props, {
+                }(_omitThemingProps, chakra_ui_alert_esm_excluded), colorScheme = null != (_props$colorScheme = props.colorScheme) ? _props$colorScheme : STATUSES[status].colorScheme, styles = (0, chakra_ui_system_esm /* useMultiStyleConfig */ .jC)("Alert", chakra_ui_alert_esm_extends({}, props, {
                     colorScheme: colorScheme
                 })), alertStyles = chakra_ui_alert_esm_extends({
                     width: "100%",
@@ -4276,32 +4471,32 @@
                     position: "relative",
                     overflow: "hidden"
                 }, styles.container);
-                return react.createElement(AlertProvider, {
+                return /*#__PURE__*/ react.createElement(AlertProvider, {
                     value: {
                         status: status
                     }
-                }, react.createElement(StylesProvider, {
+                }, /*#__PURE__*/ react.createElement(StylesProvider, {
                     value: styles
-                }, react.createElement(chakra_ui_system_esm.m$.div, chakra_ui_alert_esm_extends({
+                }, /*#__PURE__*/ react.createElement(chakra_ui_system_esm /* chakra.div */ .m$.div, chakra_ui_alert_esm_extends({
                     role: "alert",
                     ref: ref
                 }, rest, {
                     className: (0, chakra_ui_utils_esm.cx)("chakra-alert", props.className),
                     __css: alertStyles
                 }))));
-            }), AlertTitle = (0, chakra_ui_system_esm.Gp)(function(props, ref) {
+            }), AlertTitle = /*#__PURE__*/ (0, chakra_ui_system_esm /* forwardRef */ .Gp)(function(props, ref) {
                 var styles = useStyles();
-                return react.createElement(chakra_ui_system_esm.m$.div, chakra_ui_alert_esm_extends({
+                return /*#__PURE__*/ react.createElement(chakra_ui_system_esm /* chakra.div */ .m$.div, chakra_ui_alert_esm_extends({
                     ref: ref
                 }, props, {
                     className: (0, chakra_ui_utils_esm.cx)("chakra-alert__title", props.className),
                     __css: styles.title
                 }));
-            }), AlertDescription = (0, chakra_ui_system_esm.Gp)(function(props, ref) {
+            }), AlertDescription = /*#__PURE__*/ (0, chakra_ui_system_esm /* forwardRef */ .Gp)(function(props, ref) {
                 var styles = useStyles(), descriptionStyles = chakra_ui_alert_esm_extends({
                     display: "inline"
                 }, styles.description);
-                return react.createElement(chakra_ui_system_esm.m$.div, chakra_ui_alert_esm_extends({
+                return /*#__PURE__*/ react.createElement(chakra_ui_system_esm /* chakra.div */ .m$.div, chakra_ui_alert_esm_extends({
                     ref: ref
                 }, props, {
                     className: (0, chakra_ui_utils_esm.cx)("chakra-alert__desc", props.className),
@@ -4309,12 +4504,12 @@
                 }));
             }), AlertIcon = function(props) {
                 var status = useAlertContext().status, BaseIcon = STATUSES[status].icon, styles = useStyles(), css = "loading" === status ? styles.spinner : styles.icon;
-                return react.createElement(chakra_ui_system_esm.m$.span, chakra_ui_alert_esm_extends({
+                return /*#__PURE__*/ react.createElement(chakra_ui_system_esm /* chakra.span */ .m$.span, chakra_ui_alert_esm_extends({
                     display: "inherit"
                 }, props, {
                     className: (0, chakra_ui_utils_esm.cx)("chakra-alert__icon", props.className),
                     __css: css
-                }), props.children || react.createElement(BaseIcon, {
+                }), props.children || /*#__PURE__*/ react.createElement(BaseIcon, {
                     h: "100%",
                     w: "100%"
                 }));
@@ -4333,21 +4528,21 @@
                 "isDisabled",
                 "__css"
             ], CloseIcon = function(props) {
-                return react.createElement(chakra_ui_icon_esm.JO, chakra_ui_close_button_esm_extends({
+                return /*#__PURE__*/ react.createElement(chakra_ui_icon_esm /* Icon */ .JO, chakra_ui_close_button_esm_extends({
                     focusable: "false",
                     "aria-hidden": !0
-                }, props), react.createElement("path", {
+                }, props), /*#__PURE__*/ react.createElement("path", {
                     fill: "currentColor",
                     d: "M.439,21.44a1.5,1.5,0,0,0,2.122,2.121L11.823,14.3a.25.25,0,0,1,.354,0l9.262,9.263a1.5,1.5,0,1,0,2.122-2.121L14.3,12.177a.25.25,0,0,1,0-.354l9.263-9.262A1.5,1.5,0,0,0,21.439.44L12.177,9.7a.25.25,0,0,1-.354,0L2.561.44A1.5,1.5,0,0,0,.439,2.561L9.7,11.823a.25.25,0,0,1,0,.354Z"
                 }));
-            }, chakra_ui_close_button_esm_CloseButton = (0, chakra_ui_system_esm.Gp)(function(props, ref) {
-                var styles = (0, chakra_ui_system_esm.mq)("CloseButton", props), _omitThemingProps = (0, chakra_ui_system_esm.Lr)(props), children = _omitThemingProps.children, isDisabled = _omitThemingProps.isDisabled, __css = _omitThemingProps.__css, rest = function(source, excluded) {
+            }, chakra_ui_close_button_esm_CloseButton = /*#__PURE__*/ (0, chakra_ui_system_esm /* forwardRef */ .Gp)(function(props, ref) {
+                var styles = (0, chakra_ui_system_esm /* useStyleConfig */ .mq)("CloseButton", props), _omitThemingProps = (0, chakra_ui_system_esm /* omitThemingProps */ .Lr)(props), children = _omitThemingProps.children, isDisabled = _omitThemingProps.isDisabled, __css = _omitThemingProps.__css, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
                     for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                     return target;
                 }(_omitThemingProps, chakra_ui_close_button_esm_excluded);
-                return react.createElement(chakra_ui_system_esm.m$.button, chakra_ui_close_button_esm_extends({
+                return /*#__PURE__*/ react.createElement(chakra_ui_system_esm /* chakra.button */ .m$.button, chakra_ui_close_button_esm_extends({
                     type: "button",
                     "aria-label": "Close",
                     ref: ref,
@@ -4359,12 +4554,13 @@
                         justifyContent: "center",
                         flexShrink: 0
                     }, styles, __css)
-                }, rest), children || react.createElement(CloseIcon, {
+                }, rest), children || /*#__PURE__*/ react.createElement(CloseIcon, {
                     width: "1em",
                     height: "1em"
                 }));
             });
-            chakra_ui_utils_esm.Ts && (chakra_ui_close_button_esm_CloseButton.displayName = "CloseButton");
+            chakra_ui_utils_esm /* __DEV__ */ .Ts && (chakra_ui_close_button_esm_CloseButton.displayName = "CloseButton");
+            // EXTERNAL MODULE: ./node_modules/framer-motion/dist/es/components/AnimatePresence/use-presence.mjs
             var use_presence = __webpack_require__(5947), motion = __webpack_require__(8970), AnimatePresence = __webpack_require__(1190);
             function chakra_ui_toast_esm_extends() {
                 return (chakra_ui_toast_esm_extends = Object.assign ? Object.assign.bind() : function(target) {
@@ -4375,7 +4571,13 @@
                     return target;
                 }).apply(this, arguments);
             }
-            function findToast(toasts, id) {
+            /**
+             * Given an array of toasts for a specific position.
+             * It returns the toast that matches the `id` passed
+             */ /**
+             * Given the toast manager state, finds the toast that matches
+             * the id and return its position and index
+             */ function findToast(toasts, id) {
                 var position = getToastPosition(toasts, id), index = position ? toasts[position].findIndex(function(toast) {
                     return toast.id === id;
                 }) : -1;
@@ -4384,7 +4586,10 @@
                     index: index
                 };
             }
-            var getToastPosition = function(toasts, id) {
+            /**
+             * Given the toast manager state, finds the position of the toast that
+             * matches the `id`
+             */ var getToastPosition = function(toasts, id) {
                 var _Object$values$flat$f;
                 return null == (_Object$values$flat$f = Object.values(toasts).flat().find(function(toast) {
                     return toast.id === id;
@@ -4406,12 +4611,15 @@
                 },
                 subscribe: function(listener) {
                     return listeners.add(listener), function() {
+                        // Delete all toasts on unmount
                         setState(function() {
                             return initialState;
                         }), listeners.delete(listener);
                     };
                 },
-                removeToast: function(id, position) {
+                /**
+                     * Delete a toast record at its position
+                     */ removeToast: function(id, position) {
                     setState(function(prevState) {
                         var _extends2;
                         return chakra_ui_toast_esm_extends({}, prevState, ((_extends2 = {})[position] = prevState[position].filter(function(toast) {
@@ -4434,7 +4642,13 @@
                         containerStyle: options1.containerStyle
                     }), position1 = toast.position, id1 = toast.id;
                     return setState(function(prevToasts) {
-                        var _prevToasts$position, _prevToasts$position2, _extends3, toasts = position1.includes("top") ? [
+                        /**
+                             * - If the toast is positioned at the top edges, the
+                             * recent toast stacks on top of the other toasts.
+                             *
+                             * - If the toast is positioned at the bottom edges, the recent
+                             * toast stacks below the other toasts.
+                             */ var _prevToasts$position, _prevToasts$position2, _extends3, toasts = position1.includes("top") ? [
                             toast
                         ].concat(null != (_prevToasts$position = prevToasts[position1]) ? _prevToasts$position : []) : [].concat(null != (_prevToasts$position2 = prevToasts[position1]) ? _prevToasts$position2 : [], [
                             toast
@@ -4447,13 +4661,15 @@
                         var options1, _options, render, _options$toastCompone, ToastComponent, nextState = chakra_ui_toast_esm_extends({}, prevState), _findToast = findToast(nextState, id), position = _findToast.position, index = _findToast.index;
                         return position && -1 !== index && (nextState[position][index] = chakra_ui_toast_esm_extends({}, nextState[position][index], options, {
                             message: (void 0 === (options1 = options) && (options1 = {}), render = (_options = options1).render, ToastComponent = void 0 === (_options$toastCompone = _options.toastComponent) ? Toast : _options$toastCompone, function(props) {
-                                return (0, chakra_ui_utils_esm.mf)(render) ? render(props) : react.createElement(ToastComponent, chakra_ui_toast_esm_extends({}, props, options1));
+                                return (0, chakra_ui_utils_esm /* isFunction */ .mf)(render) ? render(props) : /*#__PURE__*/ react.createElement(ToastComponent, chakra_ui_toast_esm_extends({}, props, options1));
                             })
                         })), nextState;
                     });
                 },
                 closeAll: function(_temp) {
                     var positions = (void 0 === _temp ? {} : _temp).positions;
+                    // only one setState here for perf reasons
+                    // instead of spamming this.closeToast
                     setState(function(prev) {
                         return (null != positions ? positions : [
                             "bottom",
@@ -4475,9 +4691,11 @@
                     setState(function(prevState) {
                         var _extends4, position = getToastPosition(prevState, id);
                         return position ? chakra_ui_toast_esm_extends({}, prevState, ((_extends4 = {})[position] = prevState[position].map(function(toast) {
-                            return toast.id == id ? chakra_ui_toast_esm_extends({}, toast, {
+                            return(// id may be string or number
+                            // eslint-disable-next-line eqeqeq
+                            toast.id == id ? chakra_ui_toast_esm_extends({}, toast, {
                                 requestClose: !0
-                            }) : toast;
+                            }) : toast);
                         }), _extends4)) : prevState;
                     });
                 },
@@ -4486,7 +4704,7 @@
                 }
             }), counter = 0, Toast = function(props) {
                 var status = props.status, _props$variant = props.variant, id = props.id, title = props.title, isClosable = props.isClosable, onClose = props.onClose, description = props.description, icon = props.icon, alertTitleId = void 0 !== id ? "toast-" + id + "-title" : void 0;
-                return react.createElement(chakra_ui_alert_esm_Alert, {
+                return /*#__PURE__*/ react.createElement(chakra_ui_alert_esm_Alert, {
                     status: status,
                     variant: void 0 === _props$variant ? "solid" : _props$variant,
                     id: String(id),
@@ -4497,14 +4715,14 @@
                     textAlign: "start",
                     width: "auto",
                     "aria-labelledby": alertTitleId
-                }, react.createElement(AlertIcon, null, icon), react.createElement(chakra_ui_system_esm.m$.div, {
+                }, /*#__PURE__*/ react.createElement(AlertIcon, null, icon), /*#__PURE__*/ react.createElement(chakra_ui_system_esm /* chakra.div */ .m$.div, {
                     flex: "1",
                     maxWidth: "100%"
-                }, title && react.createElement(AlertTitle, {
+                }, title && /*#__PURE__*/ react.createElement(AlertTitle, {
                     id: alertTitleId
-                }, title), description && react.createElement(AlertDescription, {
+                }, title), description && /*#__PURE__*/ react.createElement(AlertDescription, {
                     display: "block"
-                }, description)), isClosable && react.createElement(chakra_ui_close_button_esm_CloseButton, {
+                }, description)), isClosable && /*#__PURE__*/ react.createElement(chakra_ui_close_button_esm_CloseButton, {
                     size: "sm",
                     onClick: onClose,
                     position: "absolute",
@@ -4552,13 +4770,13 @@
                         ]
                     }
                 }
-            }, ToastComponent = react.memo(function(props) {
-                var id = props.id, message = props.message, onCloseComplete = props.onCloseComplete, onRequestRemove = props.onRequestRemove, _props$requestClose = props.requestClose, requestClose = void 0 !== _props$requestClose && _props$requestClose, _props$position = props.position, position = void 0 === _props$position ? "bottom" : _props$position, _props$duration = props.duration, duration = void 0 === _props$duration ? 5000 : _props$duration, containerStyle = props.containerStyle, _props$motionVariants = props.motionVariants, _props$toastSpacing = props.toastSpacing, toastSpacing = void 0 === _props$toastSpacing ? "0.5rem" : _props$toastSpacing, _React$useState = react.useState(duration), delay = _React$useState[0], setDelay = _React$useState[1], isPresent = (0, use_presence.hO)();
-                (0, chakra_ui_hooks_esm.rf)(function() {
+            }, ToastComponent = /*#__PURE__*/ react.memo(function(props) {
+                var id = props.id, message = props.message, onCloseComplete = props.onCloseComplete, onRequestRemove = props.onRequestRemove, _props$requestClose = props.requestClose, requestClose = void 0 !== _props$requestClose && _props$requestClose, _props$position = props.position, position = void 0 === _props$position ? "bottom" : _props$position, _props$duration = props.duration, duration = void 0 === _props$duration ? 5000 : _props$duration, containerStyle = props.containerStyle, _props$motionVariants = props.motionVariants, _props$toastSpacing = props.toastSpacing, toastSpacing = void 0 === _props$toastSpacing ? "0.5rem" : _props$toastSpacing, _React$useState = react.useState(duration), delay = _React$useState[0], setDelay = _React$useState[1], isPresent = (0, use_presence /* useIsPresent */ .hO)();
+                (0, chakra_ui_hooks_esm /* useUpdateEffect */ .rf)(function() {
                     isPresent || null == onCloseComplete || onCloseComplete();
                 }, [
                     isPresent
-                ]), (0, chakra_ui_hooks_esm.rf)(function() {
+                ]), (0, chakra_ui_hooks_esm /* useUpdateEffect */ .rf)(function() {
                     setDelay(duration);
                 }, [
                     duration
@@ -4572,7 +4790,7 @@
                     isPresent,
                     requestClose,
                     onRequestRemove
-                ]), (0, chakra_ui_hooks_esm.KS)(close, delay);
+                ]), (0, chakra_ui_hooks_esm /* useTimeout */ .KS)(close, delay);
                 var containerStyles = react.useMemo(function() {
                     return chakra_ui_toast_esm_extends({
                         pointerEvents: "auto",
@@ -4593,7 +4811,7 @@
                 }, [
                     position
                 ]);
-                return react.createElement(motion.E.li, {
+                return /*#__PURE__*/ react.createElement(motion /* motion.li */ .E.li, {
                     layout: !0,
                     className: "chakra-toast",
                     variants: void 0 === _props$motionVariants ? toastMotionVariants : _props$motionVariants,
@@ -4610,21 +4828,24 @@
                         position: position
                     },
                     style: toastStyle
-                }, react.createElement(chakra_ui_system_esm.m$.div, {
+                }, /*#__PURE__*/ react.createElement(chakra_ui_system_esm /* chakra.div */ .m$.div, {
                     role: "status",
                     "aria-atomic": "true",
                     className: "chakra-toast__inner",
                     __css: containerStyles
-                }, (0, chakra_ui_utils_esm.Pu)(message, {
+                }, (0, chakra_ui_utils_esm /* runIfFn */ .Pu)(message, {
                     id: id,
                     onClose: close
                 })));
             });
-            chakra_ui_utils_esm.Ts && (ToastComponent.displayName = "ToastComponent");
-            var ToastProvider = function(props) {
-                var state = react.useSyncExternalStore(toastStore.subscribe, toastStore.getState, toastStore.getState), children = props.children, motionVariants = props.motionVariants, _props$component = props.component, Component = void 0 === _props$component ? ToastComponent : _props$component, portalProps = props.portalProps, toastList = (0, chakra_ui_utils_esm.Yd)(state).map(function(position) {
+            chakra_ui_utils_esm /* __DEV__ */ .Ts && (ToastComponent.displayName = "ToastComponent");
+            /**
+             * Manages the creation, and removal of toasts
+             * across all corners ("top", "bottom", etc.)
+             */ var ToastProvider = function(props) {
+                var state = react.useSyncExternalStore(toastStore.subscribe, toastStore.getState, toastStore.getState), children = props.children, motionVariants = props.motionVariants, _props$component = props.component, Component = void 0 === _props$component ? ToastComponent : _props$component, portalProps = props.portalProps, toastList = (0, chakra_ui_utils_esm /* objectKeys */ .Yd)(state).map(function(position) {
                     var toasts = state[position];
-                    return react.createElement("ul", {
+                    return /*#__PURE__*/ react.createElement("ul", {
                         role: "region",
                         "aria-live": "polite",
                         key: position,
@@ -4641,18 +4862,18 @@
                             right: position.includes("left") ? void 0 : "env(safe-area-inset-right, 0px)",
                             left: position.includes("right") ? void 0 : "env(safe-area-inset-left, 0px)"
                         }
-                    }, react.createElement(AnimatePresence.M, {
+                    }, /*#__PURE__*/ react.createElement(AnimatePresence /* AnimatePresence */ .M, {
                         initial: !1
                     }, toasts.map(function(toast) {
-                        return react.createElement(Component, chakra_ui_toast_esm_extends({
+                        return /*#__PURE__*/ react.createElement(Component, chakra_ui_toast_esm_extends({
                             key: toast.id,
                             motionVariants: motionVariants
                         }, toast));
                     })));
                 });
-                return react.createElement(react.Fragment, null, children, react.createElement(Portal, portalProps, toastList));
+                return /*#__PURE__*/ react.createElement(react.Fragment, null, children, /*#__PURE__*/ react.createElement(Portal, portalProps, toastList));
             };
-            chakra_ui_utils_esm.ZT, chakra_ui_utils_esm.ZT;
+            chakra_ui_utils_esm /* noop */ .ZT, chakra_ui_utils_esm /* noop */ .ZT;
             var chakra_ui_react_esm_excluded = [
                 "children",
                 "toastOptions"
@@ -4663,15 +4884,15 @@
                     for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                     return target;
                 }(_ref, chakra_ui_react_esm_excluded);
-                return react.createElement(chakra_ui_provider_esm_ChakraProvider, restProps, children, react.createElement(ToastProvider, toastOptions));
+                return /*#__PURE__*/ react.createElement(chakra_ui_provider_esm_ChakraProvider, restProps, children, /*#__PURE__*/ react.createElement(ToastProvider, toastOptions));
             };
             ChakraProvider.defaultProps = {
                 theme: theme
             };
-            var _app = function(param) {
+            /* harmony default export */ var _app = function(param) {
                 var Component = param.Component, pageProps = param.pageProps;
-                return (0, jsx_runtime.jsx)(ChakraProvider, {
-                    children: (0, jsx_runtime.jsx)(Component, function(target) {
+                return /*#__PURE__*/ (0, jsx_runtime.jsx)(ChakraProvider, {
+                    children: /*#__PURE__*/ (0, jsx_runtime.jsx)(Component, function(target) {
                         for(var i = 1; i < arguments.length; i++){
                             var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
                             "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
@@ -4690,17 +4911,18 @@
                     }({}, pageProps))
                 });
             };
-        }
+        /***/ }
     },
-    function(__webpack_require__) {
-        var __webpack_exec__ = function(moduleId) {
+    /******/ function(__webpack_require__) {
+        // webpackRuntimeModules
+        /******/ var __webpack_exec__ = function(moduleId) {
             return __webpack_require__(__webpack_require__.s = moduleId);
         };
-        __webpack_require__.O(0, [
+        /******/ __webpack_require__.O(0, [
             774,
             179
         ], function() {
             return __webpack_exec__(3837), __webpack_exec__(387);
-        }), _N_E = __webpack_require__.O();
-    }
+        }), /******/ _N_E = __webpack_require__.O();
+    /******/ }
 ]);

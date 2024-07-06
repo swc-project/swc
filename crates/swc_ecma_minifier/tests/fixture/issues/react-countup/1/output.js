@@ -3,11 +3,11 @@
         463
     ],
     {
-        8273: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+        /***/ 8273: /***/ function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, {
-                CountUp: function() {
-                    return CountUp;
+            __webpack_require__.r(__webpack_exports__), /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+                /* harmony export */ CountUp: function() {
+                    return /* binding */ CountUp;
                 }
             });
             var __assign = function() {
@@ -78,8 +78,8 @@
                     this.startTime = null, this.duration = 1e3 * Number(this.options.duration), this.remaining = this.duration;
                 }, t;
             }();
-        },
-        8045: function(__unused_webpack_module, exports, __webpack_require__) {
+        /***/ },
+        /***/ 8045: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             function _toConsumableArray(arr) {
                 return function(arr) {
@@ -125,7 +125,8 @@
                     "placeholder",
                     "blurDataURL"
                 ]), layout = sizes ? "responsive" : "intrinsic";
-                "layout" in all && (all.layout && (layout = all.layout), delete all.layout);
+                "layout" in all && (all.layout && (layout = all.layout), // Remove property so it's not spread into image:
+                delete all.layout);
                 var staticSrc = "";
                 if ("object" == typeof (src = src1) && (isStaticRequire(src) || void 0 !== src.src)) {
                     var staticImageData = isStaticRequire(src1) ? src1.default : src1;
@@ -134,7 +135,8 @@
                 }
                 src1 = "string" == typeof src1 ? src1 : staticSrc;
                 var widthInt = getInt(width), heightInt = getInt(height), qualityInt = getInt(quality), isLazy = !priority && ("lazy" === loading || void 0 === loading);
-                (src1.startsWith("data:") || src1.startsWith("blob:")) && (unoptimized = !0, isLazy = !1), loadedImageURLs.has(src1) && (isLazy = !1);
+                (src1.startsWith("data:") || src1.startsWith("blob:")) && (// https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs
+                unoptimized = !0, isLazy = !1), loadedImageURLs.has(src1) && (isLazy = !1);
                 var ref2 = function(arr) {
                     if (Array.isArray(arr)) return arr;
                 }(arr = _useIntersection.useIntersection({
@@ -202,10 +204,15 @@
                     backgroundImage: 'url("'.concat(blurDataURL, '")'),
                     backgroundPosition: objectPosition || "0% 0%"
                 } : {};
-                if ("fill" === layout) wrapperStyle.display = "block", wrapperStyle.position = "absolute", wrapperStyle.top = 0, wrapperStyle.left = 0, wrapperStyle.bottom = 0, wrapperStyle.right = 0;
+                if ("fill" === layout) // <Image src="i.png" layout="fill" />
+                wrapperStyle.display = "block", wrapperStyle.position = "absolute", wrapperStyle.top = 0, wrapperStyle.left = 0, wrapperStyle.bottom = 0, wrapperStyle.right = 0;
                 else if (void 0 !== widthInt && void 0 !== heightInt) {
+                    // <Image src="i.png" width="100" height="100" />
                     var quotient = heightInt / widthInt, paddingTop = isNaN(quotient) ? "100%" : "".concat(100 * quotient, "%");
-                    "responsive" === layout ? (wrapperStyle.display = "block", wrapperStyle.position = "relative", hasSizer = !0, sizerStyle.paddingTop = paddingTop) : "intrinsic" === layout ? (wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.maxWidth = "100%", hasSizer = !0, sizerStyle.maxWidth = "100%", sizerSvg = '<svg width="'.concat(widthInt, '" height="').concat(heightInt, '" xmlns="http://www.w3.org/2000/svg" version="1.1"/>')) : "fixed" === layout && (wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.width = widthInt, wrapperStyle.height = heightInt);
+                    "responsive" === layout ? (// <Image src="i.png" width="100" height="100" layout="responsive" />
+                    wrapperStyle.display = "block", wrapperStyle.position = "relative", hasSizer = !0, sizerStyle.paddingTop = paddingTop) : "intrinsic" === layout ? (// <Image src="i.png" width="100" height="100" layout="intrinsic" />
+                    wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.maxWidth = "100%", hasSizer = !0, sizerStyle.maxWidth = "100%", sizerSvg = '<svg width="'.concat(widthInt, '" height="').concat(heightInt, '" xmlns="http://www.w3.org/2000/svg" version="1.1"/>')) : "fixed" === layout && (// <Image src="i.png" width="100" height="100" layout="fixed" />
+                    wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.width = widthInt, wrapperStyle.height = heightInt);
                 }
                 var imgAttributes = {
                     src: emptyDataURL,
@@ -222,11 +229,11 @@
                     loader: loader
                 }));
                 var srcString = src1;
-                return _react.default.createElement("span", {
+                return /*#__PURE__*/ _react.default.createElement("span", {
                     style: wrapperStyle
-                }, hasSizer ? _react.default.createElement("span", {
+                }, hasSizer ? /*#__PURE__*/ _react.default.createElement("span", {
                     style: sizerStyle
-                }, sizerSvg ? _react.default.createElement("img", {
+                }, sizerSvg ? /*#__PURE__*/ _react.default.createElement("img", {
                     style: {
                         display: "block",
                         maxWidth: "100%",
@@ -241,27 +248,34 @@
                     alt: "",
                     "aria-hidden": !0,
                     src: "data:image/svg+xml;base64,".concat(_toBase64.toBase64(sizerSvg))
-                }) : null) : null, _react.default.createElement("img", Object.assign({}, all, imgAttributes, {
+                }) : null) : null, /*#__PURE__*/ _react.default.createElement("img", Object.assign({}, all, imgAttributes, {
                     decoding: "async",
                     "data-nimg": layout,
                     className: className,
                     ref: function(img) {
-                        setRef(img), function(img, src, layout, placeholder, onLoadingComplete) {
+                        setRef(img), // See https://stackoverflow.com/q/39777833/266535 for why we use this ref
+                        // handler instead of the img's onLoad attribute.
+                        function(img, src, layout, placeholder, onLoadingComplete) {
                             if (img) {
                                 var handleLoad = function() {
                                     img.src !== emptyDataURL && ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {}).then(function() {
-                                        "blur" === placeholder && (img.style.filter = "none", img.style.backgroundSize = "none", img.style.backgroundImage = "none"), loadedImageURLs.add(src), onLoadingComplete && onLoadingComplete({
+                                        "blur" === placeholder && (img.style.filter = "none", img.style.backgroundSize = "none", img.style.backgroundImage = "none"), loadedImageURLs.add(src), onLoadingComplete && // Pass back read-only primitive values but not the
+                                        // underlying DOM element because it could be misused.
+                                        onLoadingComplete({
                                             naturalWidth: img.naturalWidth,
                                             naturalHeight: img.naturalHeight
                                         });
                                     });
                                 };
-                                img.complete ? handleLoad() : img.onload = handleLoad;
+                                img.complete ? // If the real image fails to load, this will still remove the placeholder.
+                                // This is the desired behavior for now, and will be revisited when error
+                                // handling is worked on for the image component itself.
+                                handleLoad() : img.onload = handleLoad;
                             }
                         }(img, srcString, 0, placeholder, onLoadingComplete);
                     },
                     style: _objectSpread({}, imgStyle, blurStyle)
-                })), _react.default.createElement("noscript", null, _react.default.createElement("img", Object.assign({}, all, generateImgAttrs({
+                })), /*#__PURE__*/ _react.default.createElement("noscript", null, /*#__PURE__*/ _react.default.createElement("img", Object.assign({}, all, generateImgAttrs({
                     src: src1,
                     unoptimized: unoptimized,
                     layout: layout,
@@ -274,13 +288,19 @@
                     "data-nimg": layout,
                     style: imgStyle,
                     className: className,
+                    // @ts-ignore - TODO: upgrade to `@types/react@17`
                     loading: loading || "lazy"
-                }))), priority ? _react.default.createElement(_head.default, null, _react.default.createElement("link", {
+                }))), priority // for browsers that do not support `imagesrcset`, and in those cases
+                 ? //
+                // https://html.spec.whatwg.org/multipage/semantics.html#attr-link-imagesrcset
+                /*#__PURE__*/ _react.default.createElement(_head.default, null, /*#__PURE__*/ _react.default.createElement("link", {
                     key: "__nimg-" + imgAttributes.src + imgAttributes.srcSet + imgAttributes.sizes,
                     rel: "preload",
                     as: "image",
                     href: imgAttributes.srcSet ? void 0 : imgAttributes.src,
+                    // @ts-ignore: imagesrcset is not yet in the link element type.
                     imagesrcset: imgAttributes.srcSet,
+                    // @ts-ignore: imagesizes is not yet in the link element type.
                     imagesizes: imgAttributes.sizes
                 })) : null);
             };
@@ -313,7 +333,7 @@
                     function(param) {
                         var root = param.root, src = param.src, width = param.width, quality = param.quality;
                         return "".concat(root, "?url=").concat(encodeURIComponent(src), "&w=").concat(width, "&q=").concat(quality || 75);
-                    }
+                    } //# sourceMappingURL=image.js.map
                 ],
                 [
                     "imgix",
@@ -377,6 +397,7 @@
                 loader: "default"
             }, configDeviceSizes = ref1.deviceSizes, configImageSizes = ref1.imageSizes, configLoader = ref1.loader, configPath = ref1.path;
             ref1.domains;
+            // sort smallest to largest
             var allSizes = _toConsumableArray(configDeviceSizes).concat(_toConsumableArray(configImageSizes));
             function generateImgAttrs(param) {
                 var src = param.src, unoptimized = param.unoptimized, layout = param.layout, width = param.width, quality = param.quality, sizes = param.sizes, loader = param.loader;
@@ -387,7 +408,8 @@
                 };
                 var ref = function(width, layout, sizes) {
                     if (sizes && ("fill" === layout || "responsive" === layout)) {
-                        for(var viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes); match)percentSizes.push(parseInt(match[2]));
+                        for(// Find all the "vw" percent sizes used in the sizes prop
+                        var viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes); match)percentSizes.push(parseInt(match[2]));
                         if (percentSizes.length) {
                             var match, _Math, smallestRatio = 0.01 * (_Math = Math).min.apply(_Math, _toConsumableArray(percentSizes));
                             return {
@@ -406,9 +428,15 @@
                         widths: configDeviceSizes,
                         kind: "w"
                     } : {
-                        widths: _toConsumableArray(new Set([
+                        widths: _toConsumableArray(new Set(// > blue colors. Showing a 3x resolution image in the app vs a 2x
+                        // > resolution image will be visually the same, though the 3x image
+                        // > takes significantly more data. Even true 3x resolution screens are
+                        // > wasteful as the human eye cannot see that level of detail without
+                        // > something like a magnifying glass.
+                        // https://blog.twitter.com/engineering/en_us/topics/infrastructure/2019/capping-image-fidelity-on-ultra-high-resolution-devices.html
+                        [
                             width,
-                            2 * width
+                            2 /*, width * 3*/  * width
                         ].map(function(w) {
                             return allSizes.find(function(p) {
                                 return p >= w;
@@ -426,6 +454,12 @@
                             width: w
                         }), " ").concat("w" === kind ? w : i + 1).concat(kind);
                     }).join(", "),
+                    // It's intended to keep `src` the last attribute because React updates
+                    // attributes in order. If we keep `src` the first one, Safari will
+                    // immediately start to fetch `src`, before `sizes` and `srcSet` are even
+                    // updated by React. That causes multiple unnecessary requests if `srcSet`
+                    // and `sizes` are defined.
+                    // This bug cannot be reproduced in Chrome or Firefox.
                     src: loader({
                         src: src,
                         quality: quality,
@@ -451,8 +485,8 @@
             }), allSizes.sort(function(a, b) {
                 return a - b;
             });
-        },
-        7190: function(__unused_webpack_module, exports, __webpack_require__) {
+        /***/ },
+        /***/ 7190: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
@@ -493,7 +527,8 @@
                             observer: observer,
                             elements: elements
                         }), instance;
-                    }({
+                    } //# sourceMappingURL=use-intersection.js.map
+                    ({
                         rootMargin: rootMargin
                     })).id, observer = ref.observer, (elements = ref.elements).set(el, callback), observer.observe(el), function() {
                         elements.delete(el), observer.unobserve(el), 0 === elements.size && (observer.disconnect(), observers.delete(id));
@@ -520,16 +555,17 @@
                 ];
             };
             var _react = __webpack_require__(7294), _requestIdleCallback = __webpack_require__(9311), hasIntersectionObserver = "undefined" != typeof IntersectionObserver, observers = new Map();
-        },
-        6978: function(__unused_webpack_module, exports) {
+        /***/ },
+        /***/ 6978: /***/ function(__unused_webpack_module, exports) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.toBase64 = function(str) {
                 return window.btoa(str);
-            };
-        },
-        5809: function(__unused_webpack_module, exports) {
+            } //# sourceMappingURL=to-base-64.js.map
+            ;
+        /***/ },
+        /***/ 5809: /***/ function(__unused_webpack_module, exports) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
@@ -569,14 +605,15 @@
                     "image/webp"
                 ]
             };
-        },
-        9008: function(module, __unused_webpack_exports, __webpack_require__) {
+        //# sourceMappingURL=image-config.js.map
+        /***/ },
+        /***/ 9008: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             module.exports = __webpack_require__(5443);
-        },
-        5675: function(module, __unused_webpack_exports, __webpack_require__) {
+        /***/ },
+        /***/ 5675: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             module.exports = __webpack_require__(8045);
-        },
-        7857: function(__unused_webpack_module, exports, __webpack_require__) {
+        /***/ },
+        /***/ 7857: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             var React = __webpack_require__(7294), countup_js = __webpack_require__(8273), React__default = React && "object" == typeof React && "default" in React ? React : {
                 default: React
@@ -631,9 +668,19 @@
                 }
                 return target;
             }
-            var useIsomorphicLayoutEffect = "undefined" != typeof window && void 0 !== window.document && void 0 !== window.document.createElement ? React.useLayoutEffect : React.useEffect;
-            function useEventCallback(fn) {
-                var ref = React.useRef(fn);
+            /**
+                 * Silence SSR Warnings.
+                 * Borrowed from Formik v2.1.1, Licensed MIT.
+                 *
+                 * https://github.com/formium/formik/blob/9316a864478f8fcd4fa99a0735b1d37afdf507dc/LICENSE
+                 */ var useIsomorphicLayoutEffect = "undefined" != typeof window && void 0 !== window.document && void 0 !== window.document.createElement ? React.useLayoutEffect : React.useEffect;
+            /* eslint-disable @typescript-eslint/no-explicit-any */ /**
+                 * Create a stable reference to a callback which is updated after each render is committed.
+                 * Typed version borrowed from Formik v2.2.1. Licensed MIT.
+                 *
+                 * https://github.com/formium/formik/blob/9316a864478f8fcd4fa99a0735b1d37afdf507dc/LICENSE
+                 */ function useEventCallback(fn) {
+                var ref = React.useRef(fn); // we copy a ref to the callback scoped to the current state/props on each render
                 return useIsomorphicLayoutEffect(function() {
                     ref.current = fn;
                 }), React.useCallback(function() {
@@ -765,6 +812,7 @@
                 var className = props.className, redraw = props.redraw, containerProps = props.containerProps, children = props.children, style = props.style, useCountUpProps = _objectWithoutProperties(props, _excluded), containerRef = React__default.default.useRef(null), isInitializedRef = React__default.default.useRef(!1), _useCountUp = useCountUp(_objectSpread2(_objectSpread2({}, useCountUpProps), {}, {
                     ref: containerRef,
                     startOnMount: "function" != typeof children || 0 === props.delay,
+                    // component manually restarts
                     enableReinitialize: !1
                 })), start = _useCountUp.start, reset = _useCountUp.reset, updateCountUp = _useCountUp.update, pauseResume = _useCountUp.pauseResume, getCountUp = _useCountUp.getCountUp, restart = useEventCallback(function() {
                     start();
@@ -774,7 +822,7 @@
                     if ("function" == typeof props.children && !(containerRef.current instanceof Element)) {
                         console.error('Couldn\'t find attached element to hook the CountUp instance into! Try to attach "containerRef" from the render prop to a an Element, eg. <span ref={containerRef} />.');
                         return;
-                    }
+                    } // unlike the hook, the CountUp component initializes on mount
                     getCountUp();
                 });
                 React.useEffect(function() {
@@ -787,7 +835,7 @@
                     props.end,
                     update
                 ]);
-                var redrawDependencies = redraw && props;
+                var redrawDependencies = redraw && props; // if props.redraw, call this effect on every props change
                 return (React.useEffect(function() {
                     redraw && isInitializedRef.current && restart();
                 }, [
@@ -817,12 +865,12 @@
                     update: updateCountUp,
                     pauseResume: pauseResume,
                     getCountUp: getCountUp
-                }) : React__default.default.createElement("span", _extends({
+                }) : /*#__PURE__*/ React__default.default.createElement("span", _extends({
                     className: className,
                     ref: containerRef,
                     style: style
                 }, containerProps));
             };
-        }
+        /***/ }
     }
 ]);

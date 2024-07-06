@@ -5,7 +5,9 @@ export const obj = {
             trigger: !!options
         });
         var url = this.root + (fragment = this.getFragment(fragment || ""));
-        if (fragment = fragment.replace(pathStripper, ""), this.fragment !== fragment) {
+        if (// Strip the fragment of the query and hash for matching.
+        fragment = fragment.replace(pathStripper, ""), this.fragment !== fragment) {
+            // If pushState is available, we use it to set the fragment as a real URL.
             if (this.fragment = fragment, "" === fragment && "/" !== url && (url = url.slice(0, -1)), this._hasPushState) this.history[options.replace ? "replaceState" : "pushState"]({}, document.title, url);
             else {
                 if (!this._wantsHashChange) return this.location.assign(url);

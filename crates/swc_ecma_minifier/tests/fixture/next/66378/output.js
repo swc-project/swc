@@ -33,19 +33,44 @@ export const SUPPORTED_PUBLIC_KEY_TYPES = {
     ],
     ES256K: [
         'EcdsaSecp256k1VerificationKey2019',
-        'EcdsaSecp256k1RecoveryMethod2020',
-        'Secp256k1VerificationKey2018',
-        'Secp256k1SignatureVerificationKey2018',
-        'EcdsaPublicKeySecp256k1',
-        'JsonWebKey2020',
+        /**
+     * Equivalent to EcdsaSecp256k1VerificationKey2019 when key is an ethereumAddress
+     */ 'EcdsaSecp256k1RecoveryMethod2020',
+        /**
+     * @deprecated, supported for backward compatibility. Equivalent to EcdsaSecp256k1VerificationKey2019 when key is
+     *   not an ethereumAddress
+     */ 'Secp256k1VerificationKey2018',
+        /**
+     * @deprecated, supported for backward compatibility. Equivalent to EcdsaSecp256k1VerificationKey2019 when key is
+     *   not an ethereumAddress
+     */ 'Secp256k1SignatureVerificationKey2018',
+        /**
+     * @deprecated, supported for backward compatibility. Equivalent to EcdsaSecp256k1VerificationKey2019 when key is
+     *   not an ethereumAddress
+     */ 'EcdsaPublicKeySecp256k1',
+        /**
+     *  TODO - support R1 key as well
+     *   'ConditionalProof2022',
+     */ 'JsonWebKey2020',
         'Multikey'
     ],
     'ES256K-R': [
         'EcdsaSecp256k1VerificationKey2019',
-        'EcdsaSecp256k1RecoveryMethod2020',
-        'Secp256k1VerificationKey2018',
-        'Secp256k1SignatureVerificationKey2018',
-        'EcdsaPublicKeySecp256k1',
+        /**
+     * Equivalent to EcdsaSecp256k1VerificationKey2019 when key is an ethereumAddress
+     */ 'EcdsaSecp256k1RecoveryMethod2020',
+        /**
+     * @deprecated, supported for backward compatibility. Equivalent to EcdsaSecp256k1VerificationKey2019 when key is
+     *   not an ethereumAddress
+     */ 'Secp256k1VerificationKey2018',
+        /**
+     * @deprecated, supported for backward compatibility. Equivalent to EcdsaSecp256k1VerificationKey2019 when key is
+     *   not an ethereumAddress
+     */ 'Secp256k1SignatureVerificationKey2018',
+        /**
+     * @deprecated, supported for backward compatibility. Equivalent to EcdsaSecp256k1VerificationKey2019 when key is
+     *   not an ethereumAddress
+     */ 'EcdsaPublicKeySecp256k1',
         'ConditionalProof2022',
         'JsonWebKey2020',
         'Multikey'
@@ -81,6 +106,7 @@ export const VM_TO_KEY_TYPE = {
     JsonWebKey2020: void 0,
     Multikey: void 0
 };
+// this is from the multicodec table https://github.com/multiformats/multicodec/blob/master/table.csv
 export const supportedCodecs = {
     'ed25519-pub': 0xed,
     'x25519-pub': 0xec,
@@ -97,7 +123,11 @@ export const CODEC_TO_KEY_TYPE = {
     'secp256k1-pub': 'Secp256k1',
     'x25519-pub': 'X25519'
 };
-export function extractPublicKeyBytes(pk) {
+/**
+ * Extracts the raw byte representation of a public key from a VerificationMethod along with an inferred key type
+ * @param pk a VerificationMethod entry from a DIDDocument
+ * @return an object containing the `keyBytes` of the public key and an inferred `keyType`
+ */ export function extractPublicKeyBytes(pk) {
     if (pk.publicKeyBase58) return {
         keyBytes: base58ToBytes(pk.publicKeyBase58),
         keyType: VM_TO_KEY_TYPE[pk.type]
@@ -142,15 +172,39 @@ export function extractPublicKeyBytes(pk) {
         keyBytes: new Uint8Array()
     };
 }
-export function bytesToMultibase(b, base = 'base58btc', codec) {
+/**
+ * Encodes the given byte array to a multibase string (defaulting to base58btc).
+ * If a codec is provided, the corresponding multicodec prefix will be added.
+ *
+ * @param b - the Uint8Array to be encoded
+ * @param base - the base to use for encoding (defaults to base58btc)
+ * @param codec - the codec to use for encoding (defaults to no codec)
+ *
+ * @returns the multibase encoded string
+ *
+ * @public
+ */ export function bytesToMultibase(b, base = 'base58btc', codec) {
     if (!codec) return u8a.toString(encode(base, b), 'utf-8');
     {
         const codecCode = 'string' == typeof codec ? supportedCodecs[codec] : codec, prefixLength = varint.encodingLength(codecCode), multicodecEncoding = new Uint8Array(prefixLength + b.length);
-        return varint.encodeTo(codecCode, multicodecEncoding), multicodecEncoding.set(b, prefixLength), u8a.toString(encode(base, multicodecEncoding), 'utf-8');
+        return varint.encodeTo(codecCode, multicodecEncoding) // set prefix
+        , multicodecEncoding.set(b, prefixLength) // add the original bytes
+        , u8a.toString(encode(base, multicodecEncoding), 'utf-8');
     }
 }
-export function multibaseToBytes(s) {
+/**
+ * Converts a multibase string to the Uint8Array it represents.
+ * This method will assume the byte array that is multibase encoded is a multicodec and will attempt to decode it.
+ *
+ * @param s - the string to be converted
+ *
+ * @throws if the string is not formatted correctly.
+ *
+ * @public
+ */ export function multibaseToBytes(s) {
     const bytes = decode(s);
+    // look for known key lengths first
+    // Ed25519/X25519, secp256k1/P256 compressed or not, BLS12-381 G1/G2 compressed
     if ([
         32,
         33,
@@ -161,13 +215,16 @@ export function multibaseToBytes(s) {
     ].includes(bytes.length)) return {
         keyBytes: bytes
     };
+    // then assume multicodec, otherwise return the bytes
     try {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [codec, length] = varint.decode(bytes), possibleCodec = Object.entries(supportedCodecs).filter(([, code])=>code === codec)?.[0][0] ?? '';
         return {
             keyBytes: bytes.slice(length),
             keyType: CODEC_TO_KEY_TYPE[possibleCodec]
         };
     } catch (e) {
+        // not a multicodec, return the bytes
         return {
             keyBytes: bytes
         };
@@ -225,14 +282,18 @@ export function toSealed(ciphertext, tag) {
 export function leftpad(data, size = 64) {
     return data.length === size ? data : '0'.repeat(size - data.length) + data;
 }
-export function generateKeyPair() {
+/**
+ * Generate random x25519 key pair.
+ */ export function generateKeyPair() {
     const secretKey = x25519.utils.randomPrivateKey(), publicKey = x25519.getPublicKey(secretKey);
     return {
         secretKey: secretKey,
         publicKey: publicKey
     };
 }
-export function generateKeyPairFromSeed(seed) {
+/**
+ * Generate private-public x25519 key pair from `seed`.
+ */ export function generateKeyPairFromSeed(seed) {
     if (32 !== seed.length) throw Error("x25519: seed must be 32 bytes");
     return {
         publicKey: x25519.getPublicKey(seed),
@@ -250,6 +311,13 @@ export function genX25519EphemeralKeyPair() {
         secretKey: epk.secretKey
     };
 }
-export function isDefined(arg) {
+/**
+ * Checks if a variable is defined and not null.
+ * After this check, typescript sees the variable as defined.
+ *
+ * @param arg - The input to be verified
+ *
+ * @returns true if the input variable is defined.
+ */ export function isDefined(arg) {
     return null != arg;
 }

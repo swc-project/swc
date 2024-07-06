@@ -1,5 +1,7 @@
 export var CSL = {};
-CSL.parseXml = function(str) {
+/*
+ * String parser for XML inputs
+ */ CSL.parseXml = function(str) {
     var _obj_children = [], _stack = [
         _obj_children
     ];
@@ -40,6 +42,9 @@ CSL.parseXml = function(str) {
     for(var lst = function(str) {
         for(var lst = (str = str.split(/(?:\r\n|\n|\r)/).join(" ").replace(/>[	 ]+</g, "><").replace(/<\!--.*?-->/g, "")).split("><"), stylePos = null, i = 0, ilen = lst.length; i < ilen; i++)i > 0 && (lst[i] = "<" + lst[i]), i < lst.length - 1 && (lst[i] = lst[i] + ">"), "number" != typeof stylePos && ("<style " === lst[i].slice(0, 7) || "<locale " == lst[i].slice(0, 8)) && (stylePos = i);
         lst = lst.slice(stylePos);
+        // Combine open/close elements for empty terms,
+        // so that they will be passed through correctly
+        // as empty strings.
         for(var i = lst.length - 2; i > -1; i--)if (-1 === lst[i].slice(1).indexOf("<")) {
             var stub = lst[i].slice(0, 5);
             "/>" !== lst[i].slice(-2) && ("<term" === stub ? "</term" === lst[i + 1].slice(0, 6) && (lst[i] = lst[i] + lst[i + 1], lst = lst.slice(0, i + 1).concat(lst.slice(i + 2))) : [
@@ -52,7 +57,10 @@ CSL.parseXml = function(str) {
         var obj, obj1;
         elem.slice(1).indexOf('<') > -1 ? ((obj = _castObjectFromOpeningTag(elem.slice(0, elem.indexOf('>') + 1))).children = [
             _decodeHtmlEntities(elem.match(/^.*>([^<]*)<.*$/)[1])
-        ], _appendToChildren(obj)) : '/>' === elem.slice(-2) ? (obj = _castObjectFromOpeningTag(elem), 'term' === _getTagName(elem) && obj.children.push(''), _appendToChildren(obj)) : '</' === elem.slice(0, 2) ? _stack.pop() : (_appendToChildren(obj = _castObjectFromOpeningTag(elem)), obj1 = obj, _stack.push(obj1.children));
+        ], _appendToChildren(obj)) : '/>' === elem.slice(-2) ? (// singleton
+        obj = _castObjectFromOpeningTag(elem), 'term' === _getTagName(elem) && obj.children.push(''), _appendToChildren(obj)) : '</' === elem.slice(0, 2) ? // close
+        _stack.pop() : (_appendToChildren(// open
+        obj = _castObjectFromOpeningTag(elem)), obj1 = obj, _stack.push(obj1.children));
     }(lst[i]);
     return _obj_children[0];
 };

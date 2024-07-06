@@ -1,13 +1,18 @@
 var MS_PER_SECOND = 1000, MS_PER_MINUTE = 60 * 1000, MS_PER_HOUR = 60 * 1000 * 60, MS_PER_400_YEARS = 60 * 1000 * 60 * 3506328;
+// actual modulo - handles negative numbers (for dates before 1970):
 function mod$1(dividend, divisor) {
     return (dividend % divisor + divisor) % divisor;
 }
 function localStartOfDate(y, m, d) {
-    if (y < 100 && y >= 0) return new Date(y + 400, m, d) - MS_PER_400_YEARS;
+    // the date constructor remaps years 0-99 to 1900-1999
+    if (y < 100 && y >= 0) // preserve leap years using a full 400 year cycle, then reset
+    return new Date(y + 400, m, d) - MS_PER_400_YEARS;
     return new Date(y, m, d).valueOf();
 }
 function utcStartOfDate(y, m, d) {
-    if (y < 100 && y >= 0) return Date.UTC(y + 400, m, d) - MS_PER_400_YEARS;
+    // Date.UTC remaps years 0-99 to 1900-1999
+    if (y < 100 && y >= 0) // preserve leap years using a full 400 year cycle, then reset
+    return Date.UTC(y + 400, m, d) - MS_PER_400_YEARS;
     return Date.UTC(y, m, d);
 }
 function startOf(units) {

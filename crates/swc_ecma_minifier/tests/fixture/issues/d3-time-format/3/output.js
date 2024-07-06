@@ -3,13 +3,16 @@
         6945
     ],
     {
-        2728: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+        /***/ 2728: /***/ function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
+            // EXPORTS
             __webpack_require__.d(__webpack_exports__, {
                 Z: function() {
-                    return createTimeScale;
+                    return /* binding */ createTimeScale;
                 }
             });
+            // UNUSED EXPORTS: updateTimeScale
+            // EXTERNAL MODULE: ../node_modules/d3-array/src/bisector.js
             var locale, bisector = __webpack_require__(24852), src_ticks = __webpack_require__(73002), t0 = new Date(), t1 = new Date();
             function newInterval(floori, offseti, count, field) {
                 function interval(date) {
@@ -26,7 +29,7 @@
                     return offseti(date = new Date(+date), null == step ? 1 : Math.floor(step)), date;
                 }, interval.range = function(start, stop, step) {
                     var previous, range = [];
-                    if (start = interval.ceil(start), step = null == step ? 1 : Math.floor(step), !(start < stop) || !(step > 0)) return range;
+                    if (start = interval.ceil(start), step = null == step ? 1 : Math.floor(step), !(start < stop) || !(step > 0)) return range; // also handles Invalid Date
                     do range.push(previous = new Date(+start)), offseti(start, step), floori(start);
                     while (previous < start && start < stop)
                     return range;
@@ -36,7 +39,9 @@
                     }, function(date, step) {
                         if (date >= date) {
                             if (step < 0) for(; ++step <= 0;)for(; offseti(date, -1), !test(date););
+                             // eslint-disable-line no-empty
                             else for(; --step >= 0;)for(; offseti(date, 1), !test(date););
+                             // eslint-disable-line no-empty
                         }
                     });
                 }, count && (interval.count = function(start, end) {
@@ -48,12 +53,15 @@
                         return interval.count(0, d) % step == 0;
                     }) : interval : null;
                 }), interval;
-            }
-            var millisecond = newInterval(function() {}, function(date, step) {
+            } // CONCATENATED MODULE: ../node_modules/d3-time/src/millisecond.js
+            var millisecond = newInterval(function() {
+            // noop
+            }, function(date, step) {
                 date.setTime(+date + step);
             }, function(start, end) {
                 return end - start;
             });
+            // An optimized implementation for this simple case.
             millisecond.every = function(k) {
                 return isFinite(k = Math.floor(k)) && k > 0 ? k > 1 ? newInterval(function(date) {
                     date.setTime(Math.floor(date / k) * k);
@@ -125,6 +133,7 @@
             }, function(date) {
                 return date.getFullYear();
             });
+            // An optimized implementation for this simple case.
             year.every = function(k) {
                 return isFinite(k = Math.floor(k)) && k > 0 ? newInterval(function(date) {
                     date.setFullYear(Math.floor(date.getFullYear() / k) * k), date.setMonth(0, 1), date.setHours(0, 0, 0, 0);
@@ -286,9 +295,9 @@
                     ]
                 ];
                 function tickInterval(start, stop, count) {
-                    const target = Math.abs(stop - start) / count, i = (0, bisector.Z)(([, , step])=>step).right(tickIntervals, target);
-                    if (i === tickIntervals.length) return year.every((0, src_ticks.ly)(start / 31536000000, stop / 31536000000, count));
-                    if (0 === i) return millisecond.every(Math.max((0, src_ticks.ly)(start, stop, count), 1));
+                    const target = Math.abs(stop - start) / count, i = (0, bisector /* default */ .Z)(([, , step])=>step).right(tickIntervals, target);
+                    if (i === tickIntervals.length) return year.every((0, src_ticks /* tickStep */ .ly)(start / 31536000000, stop / 31536000000, count));
+                    if (0 === i) return millisecond.every(Math.max((0, src_ticks /* tickStep */ .ly)(start, stop, count), 1));
                     const [t, step] = tickIntervals[target / tickIntervals[i - 1][2] < tickIntervals[i][2] / target ? i - 1 : i];
                     return t.every(step);
                 }
@@ -305,6 +314,7 @@
                     tickInterval
                 ];
             }
+            // An optimized implementation for this simple case.
             utcYear.every = function(k) {
                 return isFinite(k = Math.floor(k)) && k > 0 ? newInterval(function(date) {
                     date.setUTCFullYear(Math.floor(date.getUTCFullYear() / k) * k), date.setUTCMonth(0, 1), date.setUTCHours(0, 0, 0, 0);
@@ -574,7 +584,7 @@
             }
             function formatUnixTimestampSeconds(d) {
                 return Math.floor(+d / 1000);
-            }
+            } // CONCATENATED MODULE: ../node_modules/d3-time-format/src/defaultLocale.js
             (locale = function(locale) {
                 var locale_dateTime = locale.dateTime, locale_date = locale.date, locale_time = locale.time, locale_periods = locale.periods, locale_weekdays = locale.days, locale_shortWeekdays = locale.shortDays, locale_months = locale.months, locale_shortMonths = locale.shortMonths, periodRe = formatRe(locale_periods), periodLookup = formatLookup(locale_periods), weekdayRe = formatRe(locale_weekdays), weekdayLookup = formatLookup(locale_weekdays), shortWeekdayRe = formatRe(locale_shortWeekdays), shortWeekdayLookup = formatLookup(locale_shortWeekdays), monthRe = formatRe(locale_months), monthLookup = formatLookup(locale_months), shortMonthRe = formatRe(locale_shortMonths), shortMonthLookup = formatLookup(locale_shortMonths), formats = {
                     a: function(d) {
@@ -732,13 +742,17 @@
                     return function(string) {
                         var week, day1, d = newDate(1900, void 0, 1);
                         if (parseSpecifier(d, specifier, string += "", 0) != string.length) return null;
+                        // If a UNIX timestamp is specified, return it.
                         if ("Q" in d) return new Date(d.Q);
                         if ("s" in d) return new Date(1000 * d.s + ("L" in d ? d.L : 0));
+                        // Convert day-of-week and week-of-year to day-of-year.
                         if (!Z || "Z" in d || (d.Z = 0), "p" in d && (d.H = d.H % 12 + 12 * d.p), void 0 === d.m && (d.m = "q" in d ? d.q : 0), "V" in d) {
                             if (d.V < 1 || d.V > 53) return null;
                             "w" in d || (d.w = 1), "Z" in d ? (week = (day1 = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day1 ? utcMonday.ceil(week) : utcMonday(week), week = utcDay.offset(week, (d.V - 1) * 7), d.y = week.getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day1 = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day1 ? monday.ceil(week) : monday(week), week = day.offset(week, (d.V - 1) * 7), d.y = week.getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
                         } else ("W" in d || "U" in d) && ("w" in d || (d.w = "u" in d ? d.u % 7 : "W" in d ? 1 : 0), day1 = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day1 + 5) % 7 : d.w + 7 * d.U - (day1 + 6) % 7);
-                        return "Z" in d ? (d.H += d.Z / 100 | 0, d.M += d.Z % 100, utcDate(d)) : localDate(d);
+                        return(// If a time zone is specified, all fields are interpreted as UTC and then
+                        // offset according to the specified time zone.
+                        "Z" in d ? (d.H += d.Z / 100 | 0, d.M += d.Z % 100, utcDate(d)) : localDate(d));
                     };
                 }
                 function parseSpecifier(d, specifier, string, j) {
@@ -750,7 +764,8 @@
                     }
                     return j;
                 }
-                return formats.x = newFormat(locale_date, formats), formats.X = newFormat(locale_time, formats), formats.c = newFormat(locale_dateTime, formats), utcFormats.x = newFormat(locale_date, utcFormats), utcFormats.X = newFormat(locale_time, utcFormats), utcFormats.c = newFormat(locale_dateTime, utcFormats), {
+                return(// These recursive directive definitions must be deferred.
+                formats.x = newFormat(locale_date, formats), formats.X = newFormat(locale_time, formats), formats.c = newFormat(locale_dateTime, formats), utcFormats.x = newFormat(locale_date, utcFormats), utcFormats.X = newFormat(locale_time, utcFormats), utcFormats.c = newFormat(locale_dateTime, utcFormats), {
                     format: function(specifier) {
                         var f = newFormat(specifier += "", formats);
                         return f.toString = function() {
@@ -775,7 +790,7 @@
                             return specifier;
                         }, p;
                     }
-                };
+                });
             }({
                 dateTime: "%x, %X",
                 date: "%-m/%-d/%Y",
@@ -831,6 +846,6 @@
                     "Dec"
                 ]
             })).format, locale.parse, locale.utcFormat, locale.utcParse, __webpack_require__(73516), __webpack_require__(42287);
-        }
+        /***/ }
     }
 ]);

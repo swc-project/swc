@@ -42,6 +42,8 @@ def_optimize(AST_Call, function(self, compressor) {
                             right: el
                         });
                     }, first).optimize(compressor);
+                    // need this awkward cloning to not affect original element
+                    // best_of will decide which one to get through.
                     var node = self.clone();
                     return node.expression = node.expression.clone(), node.expression.expression = node.expression.expression.clone(), node.expression.expression.elements = elements, best_of(compressor, self, node);
                 }

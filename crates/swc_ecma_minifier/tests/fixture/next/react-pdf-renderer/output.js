@@ -3,14 +3,14 @@
         760
     ],
     {
-        7228: function(e) {
+        /***/ 7228: /***/ function(e) {
             e.exports = function(e, t) {
                 (null == t || t > e.length) && (t = e.length);
                 for(var r = 0, n = Array(t); r < t; r++)n[r] = e[r];
                 return n;
             }, e.exports.__esModule = !0, e.exports.default = e.exports;
-        },
-        8926: function(e) {
+        /***/ },
+        /***/ 8926: /***/ function(e) {
             function t(e, t, r, n, i, o, a) {
                 try {
                     var u = e[o](a), l = u.value;
@@ -35,8 +35,8 @@
                     });
                 };
             }, e.exports.__esModule = !0, e.exports.default = e.exports;
-        },
-        3913: function(e) {
+        /***/ },
+        /***/ 3913: /***/ function(e) {
             function t(e, t) {
                 for(var r = 0; r < t.length; r++){
                     var n = t[r];
@@ -48,8 +48,8 @@
                     writable: !1
                 }), e;
             }, e.exports.__esModule = !0, e.exports.default = e.exports;
-        },
-        314: function(e, t, r) {
+        /***/ },
+        /***/ 314: /***/ function(e, t, r) {
             var n = r(379);
             e.exports = function(e, t) {
                 var r = "undefined" != typeof Symbol && e[Symbol.iterator] || e["@@iterator"];
@@ -68,8 +68,8 @@
                 }
                 throw TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
             }, e.exports.__esModule = !0, e.exports.default = e.exports;
-        },
-        7154: function(e) {
+        /***/ },
+        /***/ 7154: /***/ function(e) {
             function t() {
                 return e.exports = t = Object.assign ? Object.assign.bind() : function(e) {
                     for(var t = 1; t < arguments.length; t++){
@@ -80,27 +80,27 @@
                 }, e.exports.__esModule = !0, e.exports.default = e.exports, t.apply(this, arguments);
             }
             e.exports = t, e.exports.__esModule = !0, e.exports.default = e.exports;
-        },
-        5318: function(e) {
+        /***/ },
+        /***/ 5318: /***/ function(e) {
             e.exports = function(e) {
                 return e && e.__esModule ? e : {
                     default: e
                 };
             }, e.exports.__esModule = !0, e.exports.default = e.exports;
-        },
-        7316: function(e) {
+        /***/ },
+        /***/ 7316: /***/ function(e) {
             e.exports = function(e, t) {
                 if (null == e) return {};
                 var r, n, i = {}, o = Object.keys(e);
                 for(n = 0; n < o.length; n++)r = o[n], t.indexOf(r) >= 0 || (i[r] = e[r]);
                 return i;
             }, e.exports.__esModule = !0, e.exports.default = e.exports;
-        },
-        9591: function(e, t, r) {
+        /***/ },
+        /***/ 9591: /***/ function(e, t, r) {
             var n = r(8).default;
             function i() {
                 "use strict";
-                e.exports = i = function() {
+                /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ e.exports = i = function() {
                     return t;
                 }, e.exports.__esModule = !0, e.exports.default = e.exports;
                 var t = {}, r = Object.prototype, o = r.hasOwnProperty, a = "function" == typeof Symbol ? Symbol : {}, u = a.iterator || "@@iterator", l = a.asyncIterator || "@@asyncIterator", s = a.toStringTag || "@@toStringTag";
@@ -380,8 +380,8 @@
                 }, t;
             }
             e.exports = i, e.exports.__esModule = !0, e.exports.default = e.exports;
-        },
-        8: function(e) {
+        /***/ },
+        /***/ 8: /***/ function(e) {
             function t(r) {
                 return e.exports = t = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(e) {
                     return typeof e;
@@ -390,8 +390,8 @@
                 }, e.exports.__esModule = !0, e.exports.default = e.exports, t(r);
             }
             e.exports = t, e.exports.__esModule = !0, e.exports.default = e.exports;
-        },
-        379: function(e, t, r) {
+        /***/ },
+        /***/ 379: /***/ function(e, t, r) {
             var n = r(7228);
             e.exports = function(e, t) {
                 if (e) {
@@ -401,32 +401,34 @@
                     if ("Arguments" === r || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(r)) return n(e, t);
                 }
             }, e.exports.__esModule = !0, e.exports.default = e.exports;
-        },
-        7757: function(e, t, r) {
+        /***/ },
+        /***/ 7757: /***/ function(e, t, r) {
+            // TODO(Babel 8): Remove this file.
             var n = r(9591)();
             e.exports = n;
+            // Copied from https://github.com/facebook/regenerator/blob/main/packages/runtime/runtime.js#L736=
             try {
                 regeneratorRuntime = n;
             } catch (e) {
                 "object" == typeof globalThis ? globalThis.regeneratorRuntime = n : Function("r", "regeneratorRuntime = r")(n);
             }
-        },
-        9332: function(e, t) {
+        /***/ },
+        /***/ 9332: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e, t, r) {
                 if (e >= 0 && e >= r.length || e < 0 && Math.abs(e) > r.length) return r;
                 var n, i = e < 0 ? r.length + e : e;
                 return Object.assign([], r, ((n = {})[i] = t(r[i]), n));
             };
-        },
-        2354: function(e, t, r) {
+        /***/ },
+        /***/ 2354: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
             var i = n(r(7757)), o = n(r(8926)), a = n(r(4615));
             t.default = function() {
                 for(var e, t = arguments.length, r = Array(t), n = 0; n < t; n++)r[n] = arguments[n];
-                return e = (0, o.default)(i.default.mark(function e(t) {
+                return e = (0, o.default)(/*#__PURE__*/ i.default.mark(function e(t) {
                     var n, o, u, l, s, c, f, d = arguments;
                     return i.default.wrap(function(e) {
                         for(;;)switch(e.prev = e.next){
@@ -457,24 +459,24 @@
                     return e.apply(this, arguments);
                 };
             };
-        },
-        4522: function(e, t) {
+        /***/ },
+        /***/ 4522: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 return e ? e.replace(/(^|\s)\S/g, function(e) {
                     return e.toUpperCase();
                 }) : e;
             };
-        },
-        10: function(e, t) {
+        /***/ },
+        /***/ 10: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 return Array.isArray(e) ? e : [
                     e
                 ];
             };
-        },
-        3624: function(e, t, r) {
+        /***/ },
+        /***/ 3624: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -489,14 +491,14 @@
                     return r;
                 };
             };
-        },
-        5558: function(e, t) {
+        /***/ },
+        /***/ 5558: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 return e.slice(0, e.length - 1);
             };
-        },
-        7493: function(e, t) {
+        /***/ },
+        /***/ 7493: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function e(t, r) {
                 for(var n = r instanceof Array ? [] : {}, i = Object.keys(r), o = 0; o < i.length; o += 1){
@@ -505,8 +507,8 @@
                 }
                 return n;
             };
-        },
-        6127: function(e, t, r) {
+        /***/ },
+        /***/ 6127: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -519,8 +521,8 @@
                 }
                 return (0, i.default)(a) ? r : a;
             };
-        },
-        4354: function(e, t, r) {
+        /***/ },
+        /***/ 4354: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.upperFirst = t.reverse = t.pick = t.omit = t.matchPercent = t.mapValues = t.last = t.isNil = t.get = t.evolve = t.dropLast = t.compose = t.castArray = t.capitalize = t.asyncCompose = t.adjust = void 0;
@@ -556,20 +558,20 @@
             t.reverse = b.default;
             var m = n(r(9424));
             t.upperFirst = m.default;
-        },
-        9248: function(e, t) {
+        /***/ },
+        /***/ 9248: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 return null == e;
             };
-        },
-        1866: function(e, t) {
+        /***/ },
+        /***/ 1866: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 return "" === e ? "" : e[e.length - 1];
             };
-        },
-        8838: function(e, t) {
+        /***/ },
+        /***/ 8838: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e, t) {
                 return Object.entries(e).reduce(function(e, r, n) {
@@ -577,8 +579,8 @@
                     return e[i] = t(o, i, n), e;
                 }, {});
             };
-        },
-        7213: function(e, t) {
+        /***/ },
+        /***/ 7213: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 var t = /((-)?\d+\.?\d*)%/g.exec(e);
@@ -591,8 +593,8 @@
                 }
                 return null;
             };
-        },
-        2036: function(e, t, r) {
+        /***/ },
+        /***/ 2036: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -603,8 +605,8 @@
                     delete n[e];
                 }), n;
             };
-        },
-        9346: function(e, t) {
+        /***/ },
+        /***/ 9346: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e, t) {
                 for(var r = {}, n = 0; n < e.length; n += 1){
@@ -613,22 +615,22 @@
                 }
                 return r;
             };
-        },
-        4615: function(e, t) {
+        /***/ },
+        /***/ 4615: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 return Array.prototype.slice.call(e, 0).reverse();
             };
-        },
-        9424: function(e, t) {
+        /***/ },
+        /***/ 9424: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 return e ? e.charAt(0).toUpperCase() + e.slice(1) : e;
             };
-        },
-        1384: function(e, t, r) {
+        /***/ },
+        /***/ 1384: /***/ function(e, t, r) {
             "use strict";
-            var n, i = r(1876).Buffer, o = r(8926), a = r(7154), u = r(7757), l = r(7316);
+            /* provided dependency */ var n, i = r(1876).Buffer, o = r(8926), a = r(7154), u = r(7757), l = r(7316);
             r(8079);
             var s = r(4098), c = r(6855);
             function f(e) {
@@ -636,7 +638,7 @@
                     default: e
                 };
             }
-            var d = f(o), p = f(a), h = f(u), y = f(l), g = f(s), v = f(c), b = [
+            var d = /*#__PURE__*/ f(o), p = /*#__PURE__*/ f(a), h = /*#__PURE__*/ f(u), y = /*#__PURE__*/ f(l), g = /*#__PURE__*/ f(s), v = /*#__PURE__*/ f(c), b = [
                 "src",
                 "fontWeight",
                 "fontStyle"
@@ -655,7 +657,7 @@
                 extrabold: 800,
                 heavy: 900,
                 black: 900
-            }, D = (n = d.default(h.default.mark(function e(t, r) {
+            }, D = (n = d.default(/*#__PURE__*/ h.default.mark(function e(t, r) {
                 var n, o;
                 return h.default.wrap(function(e) {
                     for(;;)switch(e.prev = e.next){
@@ -677,12 +679,12 @@
                 return r && n;
             }, E = function(e, t) {
                 return e.fontWeight - t.fontWeight;
-            }, _ = function() {
+            }, _ = /*#__PURE__*/ function() {
                 var e;
                 function t(e, t, r, n, i) {
                     this.src = e, this.fontFamily = t, this.fontStyle = r || "normal", this.fontWeight = n || 400, this.data = null, this.loading = !1, this.options = i;
                 }
-                return t.prototype.load = (e = d.default(h.default.mark(function e() {
+                return t.prototype.load = (e = d.default(/*#__PURE__*/ h.default.mark(function e() {
                     var t, r, n, o, a, u, l, s = this;
                     return h.default.wrap(function(e) {
                         for(;;)switch(e.prev = e.next){
@@ -720,7 +722,7 @@
                 })), function() {
                     return e.apply(this, arguments);
                 }), t;
-            }(), x = function() {
+            }(), x = /*#__PURE__*/ function() {
                 function e(e) {
                     this.family = e, this.sources = [];
                 }
@@ -791,7 +793,7 @@
                     if (S.includes(t)) return null;
                     if (!r[t]) throw Error("Font family not registered: " + t + ". Please register it calling Font.register() method.");
                     return r[t].resolve(e);
-                }, this.load = (e = d.default(h.default.mark(function e(r) {
+                }, this.load = (e = d.default(/*#__PURE__*/ h.default.mark(function e(r) {
                     var n, i;
                     return h.default.wrap(function(e) {
                         for(;;)switch(e.prev = e.next){
@@ -828,10 +830,11 @@
                     return Object.keys(r);
                 };
             };
-        },
-        7515: function(e, t, r) {
+        //# sourceMappingURL=index.browser.js.map
+        /***/ },
+        /***/ 7515: /***/ function(e, t, r) {
             "use strict";
-            var n, i, o, a, u = r(1876).Buffer;
+            /* provided dependency */ var n, i, o, a, u = r(1876).Buffer;
             Object.defineProperty(t, "__esModule", {
                 value: !0
             });
@@ -841,7 +844,7 @@
                     default: e
                 };
             }
-            var p = d(l), h = d(s), y = d(c), g = d(f);
+            var p = /*#__PURE__*/ d(l), h = /*#__PURE__*/ d(s), y = /*#__PURE__*/ d(c), g = /*#__PURE__*/ d(f);
             g.default.isValid = function(e) {
                 try {
                     return new g.default(e), !0;
@@ -849,6 +852,7 @@
                     return !1;
                 }
             };
+            // Extracted from https://github.com/devongovett/pdfkit/blob/master/lib/image/jpeg.coffee
             var v = [
                 0xffc0,
                 0xffc1,
@@ -889,7 +893,7 @@
                 length: function() {
                     return i.length;
                 }
-            }), D = (o = p.default(h.default.mark(function e(t, r) {
+            }), D = (o = p.default(/*#__PURE__*/ h.default.mark(function e(t, r) {
                 var n, i;
                 return h.default.wrap(function(e) {
                     for(;;)switch(e.prev = e.next){
@@ -949,7 +953,7 @@
                 else if (r) n = "jpg";
                 else throw Error("Not valid image extension");
                 return n;
-            }, O = (a = p.default(h.default.mark(function e(t) {
+            }, O = (a = p.default(/*#__PURE__*/ h.default.mark(function e(t) {
                 var r, n, i, o, a, u, l;
                 return h.default.wrap(function(e) {
                     for(;;)switch(e.prev = e.next){
@@ -983,8 +987,9 @@
                 if (!(r = _(e) ? S(e) : u.isBuffer(e) ? k(e) : "object" == typeof e && e.data ? A(e) : O(e))) throw Error("Cannot resolve image");
                 return i && m.set(o, r), r;
             };
-        },
-        791: function(e, t, r) {
+        //# sourceMappingURL=index.browser.js.map
+        /***/ },
+        /***/ 791: /***/ function(e, t, r) {
             "use strict";
             var n, i, o, a = r(4354), u = r(368), l = r(6335), s = r(4825), c = r(7335), f = r(9186), d = r(9276), p = r(4915), h = r(32), y = r(2779), g = r(3913), v = r(6054), b = r(8926), m = r(7757), D = r(7154), w = r(5648), E = r(7515), _ = r(4340), x = r(9745), S = r(7316), A = r(7106);
             function k(e) {
@@ -992,7 +997,7 @@
                     default: e
                 };
             }
-            var T = function(e) {
+            var T = /*#__PURE__*/ function(e) {
                 if (e && e.__esModule) return e;
                 var t = Object.create(null);
                 return e && Object.keys(e).forEach(function(r) {
@@ -1006,7 +1011,7 @@
                         });
                     }
                 }), t.default = e, Object.freeze(t);
-            }(u), O = k(l), C = k(s), P = k(c), F = k(f), R = k(d), I = k(p), j = k(h), B = k(y), M = k(g), N = k(b), L = k(m), U = k(D), z = k(w), W = k(E), G = k(_), q = k(x), V = k(S), H = k(A), Z = function(e, t) {
+            }(u), O = /*#__PURE__*/ k(l), C = /*#__PURE__*/ k(s), P = /*#__PURE__*/ k(c), F = /*#__PURE__*/ k(f), R = /*#__PURE__*/ k(d), I = /*#__PURE__*/ k(p), j = /*#__PURE__*/ k(h), B = /*#__PURE__*/ k(y), M = /*#__PURE__*/ k(g), N = /*#__PURE__*/ k(b), L = /*#__PURE__*/ k(m), U = /*#__PURE__*/ k(D), z = /*#__PURE__*/ k(w), W = /*#__PURE__*/ k(E), G = /*#__PURE__*/ k(_), q = /*#__PURE__*/ k(x), V = /*#__PURE__*/ k(S), H = /*#__PURE__*/ k(A), Z = function(e, t) {
                 switch(t){
                     case "uppercase":
                         return e.toUpperCase();
@@ -1019,7 +1024,7 @@
                     default:
                         return e;
                 }
-            }, X = function() {
+            }, X = /*#__PURE__*/ function() {
                 function e(e) {
                     this.name = e, this.src = v.PDFFont.open(null, e);
                 }
@@ -1513,7 +1518,7 @@
             }, ez = function(e) {
                 var t, r, n;
                 return (null === (t = e.props) || void 0 === t ? void 0 : t.src) || (null === (r = e.props) || void 0 === r ? void 0 : r.source) || (null === (n = e.props) || void 0 === n ? void 0 : n.href);
-            }, eW = (n = N.default(L.default.mark(function e(t) {
+            }, eW = (n = N.default(/*#__PURE__*/ L.default.mark(function e(t) {
                 var r;
                 return L.default.wrap(function(e) {
                     for(;;)switch(e.prev = e.next){
@@ -1541,7 +1546,7 @@
                 }, e);
             })), function(e) {
                 return n.apply(this, arguments);
-            }), eG = (i = N.default(L.default.mark(function e(t) {
+            }), eG = (i = N.default(/*#__PURE__*/ L.default.mark(function e(t) {
                 var r, n, i;
                 return L.default.wrap(function(e) {
                     for(;;)switch(e.prev = e.next){
@@ -1592,7 +1597,7 @@
                     });
                 }
                 return r;
-            }, eV = (o = N.default(L.default.mark(function e(t, r) {
+            }, eV = (o = N.default(/*#__PURE__*/ L.default.mark(function e(t, r) {
                 var n;
                 return L.default.wrap(function(e) {
                     for(;;)switch(e.prev = e.next){
@@ -2096,7 +2101,8 @@
                                         image: ej[u].data
                                     }
                                 })
-                            }) : t.push({
+                            }) : // If no emoji data, we just replace the emoji with a nodef char
+                            t.push({
                                 string: s.replace(i, "\0"),
                                 attributes: n.attributes
                             }), o = a + u.length;
@@ -2293,7 +2299,8 @@
                         if (!a.isNil(r) && i) {
                             var o, u, l, s, c, f, d = !a.isNil(t), p = "set" + a.upperFirst(e), h = p + "Auto", y = p + "Percent", g = a.matchPercent(r);
                             if (g && !i[y]) throw Error("You can't pass percentage values to " + e + " property");
-                            g ? d ? null === (o = i[y]) || void 0 === o || o.call(i, t, g.value) : null === (u = i[y]) || void 0 === u || u.call(i, g.value) : "auto" === r ? d ? null === (l = i[h]) || void 0 === l || l.call(i, t) : "flexBasis" === e ? i.setFlexBasis(q.default.UNIT_AUTO) : null === (s = i[h]) || void 0 === s || s.call(i) : d ? null === (c = i[p]) || void 0 === c || c.call(i, t, r) : null === (f = i[p]) || void 0 === f || f.call(i, r);
+                            g ? d ? null === (o = i[y]) || void 0 === o || o.call(i, t, g.value) : null === (u = i[y]) || void 0 === u || u.call(i, g.value) : "auto" === r ? d ? null === (l = i[h]) || void 0 === l || l.call(i, t) : "flexBasis" === e ? // YogaNode.setFlexBasisAuto is missing (#766)
+                            i.setFlexBasis(q.default.UNIT_AUTO) : null === (s = i[h]) || void 0 === s || s.call(i) : d ? null === (c = i[p]) || void 0 === c || c.call(i, t, r) : null === (f = i[p]) || void 0 === f || f.call(i, r);
                         }
                         return n;
                     };
@@ -2589,7 +2596,7 @@
                     tc(r.props.render(t))
                 ].filter(Boolean) : n.map(function(r) {
                     return e(t, r);
-                }), u = i ? null : r.lines;
+                }), u = i ? null : r.lines; // Call render prop on dynamic nodes and append result to children
                 return Object.assign({}, r, {
                     box: o,
                     lines: u,
@@ -2700,8 +2707,9 @@
             }, r9 = function(e) {
                 return r8(e) || r6(e);
             }, ne = function(e) {
-                var t = e.children || [];
-                return !!t.every(r6) || !t.every(r8) && t.every(r9);
+                var t = e.children || []; // Text string inside a Link
+                return !!t.every(r6) || !t.every(r8) && t.every(r9) // Text node inside a Link
+                ;
             }, nt = function(e) {
                 var t = {
                     type: T.Text,
@@ -2718,7 +2726,8 @@
             }, nr = function(e) {
                 return r5(e) ? r7(e) ? Object.assign({}, e, {
                     type: T.Text
-                }) : ne(e) ? nt(e) : e : e;
+                }) : ne(e) ? nt(e) : e : e // If has render prop substitute the instance by a Text, that will
+                ;
             }, nn = a.asyncCompose(function e(t) {
                 if (!t.children) return t;
                 var r = (t.type !== T.Document && t.type !== T.Svg ? t.children.sort(eI) : t.children).map(e);
@@ -2832,21 +2841,22 @@
                 });
             });
             t.Z = nn;
-        },
-        5648: function(e) {
+        /***/ },
+        /***/ 5648: /***/ function(e) {
             "use strict";
             e.exports = function() {
+                // https://mths.be/emoji
                 return /\uD83C\uDFF4\uDB40\uDC67\uDB40\uDC62(?:\uDB40\uDC65\uDB40\uDC6E\uDB40\uDC67|\uDB40\uDC73\uDB40\uDC63\uDB40\uDC74|\uDB40\uDC77\uDB40\uDC6C\uDB40\uDC73)\uDB40\uDC7F|\uD83D\uDC68(?:\uD83C\uDFFC\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68\uD83C\uDFFB|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFF\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB-\uDFFE])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFE\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB-\uDFFD])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFD\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB\uDFFC])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\u200D(?:\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D)?\uD83D\uDC68|(?:\uD83D[\uDC68\uDC69])\u200D(?:\uD83D\uDC66\u200D\uD83D\uDC66|\uD83D\uDC67\u200D(?:\uD83D[\uDC66\uDC67]))|\uD83D\uDC66\u200D\uD83D\uDC66|\uD83D\uDC67\u200D(?:\uD83D[\uDC66\uDC67])|(?:\uD83D[\uDC68\uDC69])\u200D(?:\uD83D[\uDC66\uDC67])|[\u2695\u2696\u2708]\uFE0F|\uD83D[\uDC66\uDC67]|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|(?:\uD83C\uDFFB\u200D[\u2695\u2696\u2708]|\uD83C\uDFFF\u200D[\u2695\u2696\u2708]|\uD83C\uDFFE\u200D[\u2695\u2696\u2708]|\uD83C\uDFFD\u200D[\u2695\u2696\u2708]|\uD83C\uDFFC\u200D[\u2695\u2696\u2708])\uFE0F|\uD83C\uDFFB\u200D(?:\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C[\uDFFB-\uDFFF])|(?:\uD83E\uDDD1\uD83C\uDFFB\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFC\u200D\uD83E\uDD1D\u200D\uD83D\uDC69)\uD83C\uDFFB|\uD83E\uDDD1(?:\uD83C\uDFFF\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1(?:\uD83C[\uDFFB-\uDFFF])|\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1)|(?:\uD83E\uDDD1\uD83C\uDFFE\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFF\u200D\uD83E\uDD1D\u200D(?:\uD83D[\uDC68\uDC69]))(?:\uD83C[\uDFFB-\uDFFE])|(?:\uD83E\uDDD1\uD83C\uDFFC\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFD\u200D\uD83E\uDD1D\u200D\uD83D\uDC69)(?:\uD83C[\uDFFB\uDFFC])|\uD83D\uDC69(?:\uD83C\uDFFE\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB-\uDFFD\uDFFF])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFC\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB\uDFFD-\uDFFF])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFB\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFC-\uDFFF])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFD\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB\uDFFC\uDFFE\uDFFF])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\u200D(?:\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D(?:\uD83D[\uDC68\uDC69])|\uD83D[\uDC68\uDC69])|\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFF\u200D(?:\uD83C[\uDF3E\uDF73\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD]))|\uD83D\uDC69\u200D\uD83D\uDC69\u200D(?:\uD83D\uDC66\u200D\uD83D\uDC66|\uD83D\uDC67\u200D(?:\uD83D[\uDC66\uDC67]))|(?:\uD83E\uDDD1\uD83C\uDFFD\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFE\u200D\uD83E\uDD1D\u200D\uD83D\uDC69)(?:\uD83C[\uDFFB-\uDFFD])|\uD83D\uDC69\u200D\uD83D\uDC66\u200D\uD83D\uDC66|\uD83D\uDC69\u200D\uD83D\uDC69\u200D(?:\uD83D[\uDC66\uDC67])|(?:\uD83D\uDC41\uFE0F\u200D\uD83D\uDDE8|\uD83D\uDC69(?:\uD83C\uDFFF\u200D[\u2695\u2696\u2708]|\uD83C\uDFFE\u200D[\u2695\u2696\u2708]|\uD83C\uDFFC\u200D[\u2695\u2696\u2708]|\uD83C\uDFFB\u200D[\u2695\u2696\u2708]|\uD83C\uDFFD\u200D[\u2695\u2696\u2708]|\u200D[\u2695\u2696\u2708])|(?:(?:\u26F9|\uD83C[\uDFCB\uDFCC]|\uD83D\uDD75)\uFE0F|\uD83D\uDC6F|\uD83E[\uDD3C\uDDDE\uDDDF])\u200D[\u2640\u2642]|(?:\u26F9|\uD83C[\uDFCB\uDFCC]|\uD83D\uDD75)(?:\uD83C[\uDFFB-\uDFFF])\u200D[\u2640\u2642]|(?:\uD83C[\uDFC3\uDFC4\uDFCA]|\uD83D[\uDC6E\uDC71\uDC73\uDC77\uDC81\uDC82\uDC86\uDC87\uDE45-\uDE47\uDE4B\uDE4D\uDE4E\uDEA3\uDEB4-\uDEB6]|\uD83E[\uDD26\uDD37-\uDD39\uDD3D\uDD3E\uDDB8\uDDB9\uDDCD-\uDDCF\uDDD6-\uDDDD])(?:(?:\uD83C[\uDFFB-\uDFFF])\u200D[\u2640\u2642]|\u200D[\u2640\u2642])|\uD83C\uDFF4\u200D\u2620)\uFE0F|\uD83D\uDC69\u200D\uD83D\uDC67\u200D(?:\uD83D[\uDC66\uDC67])|\uD83C\uDFF3\uFE0F\u200D\uD83C\uDF08|\uD83D\uDC15\u200D\uD83E\uDDBA|\uD83D\uDC69\u200D\uD83D\uDC66|\uD83D\uDC69\u200D\uD83D\uDC67|\uD83C\uDDFD\uD83C\uDDF0|\uD83C\uDDF4\uD83C\uDDF2|\uD83C\uDDF6\uD83C\uDDE6|[#\*0-9]\uFE0F\u20E3|\uD83C\uDDE7(?:\uD83C[\uDDE6\uDDE7\uDDE9-\uDDEF\uDDF1-\uDDF4\uDDF6-\uDDF9\uDDFB\uDDFC\uDDFE\uDDFF])|\uD83C\uDDF9(?:\uD83C[\uDDE6\uDDE8\uDDE9\uDDEB-\uDDED\uDDEF-\uDDF4\uDDF7\uDDF9\uDDFB\uDDFC\uDDFF])|\uD83C\uDDEA(?:\uD83C[\uDDE6\uDDE8\uDDEA\uDDEC\uDDED\uDDF7-\uDDFA])|\uD83E\uDDD1(?:\uD83C[\uDFFB-\uDFFF])|\uD83C\uDDF7(?:\uD83C[\uDDEA\uDDF4\uDDF8\uDDFA\uDDFC])|\uD83D\uDC69(?:\uD83C[\uDFFB-\uDFFF])|\uD83C\uDDF2(?:\uD83C[\uDDE6\uDDE8-\uDDED\uDDF0-\uDDFF])|\uD83C\uDDE6(?:\uD83C[\uDDE8-\uDDEC\uDDEE\uDDF1\uDDF2\uDDF4\uDDF6-\uDDFA\uDDFC\uDDFD\uDDFF])|\uD83C\uDDF0(?:\uD83C[\uDDEA\uDDEC-\uDDEE\uDDF2\uDDF3\uDDF5\uDDF7\uDDFC\uDDFE\uDDFF])|\uD83C\uDDED(?:\uD83C[\uDDF0\uDDF2\uDDF3\uDDF7\uDDF9\uDDFA])|\uD83C\uDDE9(?:\uD83C[\uDDEA\uDDEC\uDDEF\uDDF0\uDDF2\uDDF4\uDDFF])|\uD83C\uDDFE(?:\uD83C[\uDDEA\uDDF9])|\uD83C\uDDEC(?:\uD83C[\uDDE6\uDDE7\uDDE9-\uDDEE\uDDF1-\uDDF3\uDDF5-\uDDFA\uDDFC\uDDFE])|\uD83C\uDDF8(?:\uD83C[\uDDE6-\uDDEA\uDDEC-\uDDF4\uDDF7-\uDDF9\uDDFB\uDDFD-\uDDFF])|\uD83C\uDDEB(?:\uD83C[\uDDEE-\uDDF0\uDDF2\uDDF4\uDDF7])|\uD83C\uDDF5(?:\uD83C[\uDDE6\uDDEA-\uDDED\uDDF0-\uDDF3\uDDF7-\uDDF9\uDDFC\uDDFE])|\uD83C\uDDFB(?:\uD83C[\uDDE6\uDDE8\uDDEA\uDDEC\uDDEE\uDDF3\uDDFA])|\uD83C\uDDF3(?:\uD83C[\uDDE6\uDDE8\uDDEA-\uDDEC\uDDEE\uDDF1\uDDF4\uDDF5\uDDF7\uDDFA\uDDFF])|\uD83C\uDDE8(?:\uD83C[\uDDE6\uDDE8\uDDE9\uDDEB-\uDDEE\uDDF0-\uDDF5\uDDF7\uDDFA-\uDDFF])|\uD83C\uDDF1(?:\uD83C[\uDDE6-\uDDE8\uDDEE\uDDF0\uDDF7-\uDDFB\uDDFE])|\uD83C\uDDFF(?:\uD83C[\uDDE6\uDDF2\uDDFC])|\uD83C\uDDFC(?:\uD83C[\uDDEB\uDDF8])|\uD83C\uDDFA(?:\uD83C[\uDDE6\uDDEC\uDDF2\uDDF3\uDDF8\uDDFE\uDDFF])|\uD83C\uDDEE(?:\uD83C[\uDDE8-\uDDEA\uDDF1-\uDDF4\uDDF6-\uDDF9])|\uD83C\uDDEF(?:\uD83C[\uDDEA\uDDF2\uDDF4\uDDF5])|(?:\uD83C[\uDFC3\uDFC4\uDFCA]|\uD83D[\uDC6E\uDC71\uDC73\uDC77\uDC81\uDC82\uDC86\uDC87\uDE45-\uDE47\uDE4B\uDE4D\uDE4E\uDEA3\uDEB4-\uDEB6]|\uD83E[\uDD26\uDD37-\uDD39\uDD3D\uDD3E\uDDB8\uDDB9\uDDCD-\uDDCF\uDDD6-\uDDDD])(?:\uD83C[\uDFFB-\uDFFF])|(?:\u26F9|\uD83C[\uDFCB\uDFCC]|\uD83D\uDD75)(?:\uD83C[\uDFFB-\uDFFF])|(?:[\u261D\u270A-\u270D]|\uD83C[\uDF85\uDFC2\uDFC7]|\uD83D[\uDC42\uDC43\uDC46-\uDC50\uDC66\uDC67\uDC6B-\uDC6D\uDC70\uDC72\uDC74-\uDC76\uDC78\uDC7C\uDC83\uDC85\uDCAA\uDD74\uDD7A\uDD90\uDD95\uDD96\uDE4C\uDE4F\uDEC0\uDECC]|\uD83E[\uDD0F\uDD18-\uDD1C\uDD1E\uDD1F\uDD30-\uDD36\uDDB5\uDDB6\uDDBB\uDDD2-\uDDD5])(?:\uD83C[\uDFFB-\uDFFF])|(?:[\u231A\u231B\u23E9-\u23EC\u23F0\u23F3\u25FD\u25FE\u2614\u2615\u2648-\u2653\u267F\u2693\u26A1\u26AA\u26AB\u26BD\u26BE\u26C4\u26C5\u26CE\u26D4\u26EA\u26F2\u26F3\u26F5\u26FA\u26FD\u2705\u270A\u270B\u2728\u274C\u274E\u2753-\u2755\u2757\u2795-\u2797\u27B0\u27BF\u2B1B\u2B1C\u2B50\u2B55]|\uD83C[\uDC04\uDCCF\uDD8E\uDD91-\uDD9A\uDDE6-\uDDFF\uDE01\uDE1A\uDE2F\uDE32-\uDE36\uDE38-\uDE3A\uDE50\uDE51\uDF00-\uDF20\uDF2D-\uDF35\uDF37-\uDF7C\uDF7E-\uDF93\uDFA0-\uDFCA\uDFCF-\uDFD3\uDFE0-\uDFF0\uDFF4\uDFF8-\uDFFF]|\uD83D[\uDC00-\uDC3E\uDC40\uDC42-\uDCFC\uDCFF-\uDD3D\uDD4B-\uDD4E\uDD50-\uDD67\uDD7A\uDD95\uDD96\uDDA4\uDDFB-\uDE4F\uDE80-\uDEC5\uDECC\uDED0-\uDED2\uDED5\uDEEB\uDEEC\uDEF4-\uDEFA\uDFE0-\uDFEB]|\uD83E[\uDD0D-\uDD3A\uDD3C-\uDD45\uDD47-\uDD71\uDD73-\uDD76\uDD7A-\uDDA2\uDDA5-\uDDAA\uDDAE-\uDDCA\uDDCD-\uDDFF\uDE70-\uDE73\uDE78-\uDE7A\uDE80-\uDE82\uDE90-\uDE95])|(?:[#\*0-9\xA9\xAE\u203C\u2049\u2122\u2139\u2194-\u2199\u21A9\u21AA\u231A\u231B\u2328\u23CF\u23E9-\u23F3\u23F8-\u23FA\u24C2\u25AA\u25AB\u25B6\u25C0\u25FB-\u25FE\u2600-\u2604\u260E\u2611\u2614\u2615\u2618\u261D\u2620\u2622\u2623\u2626\u262A\u262E\u262F\u2638-\u263A\u2640\u2642\u2648-\u2653\u265F\u2660\u2663\u2665\u2666\u2668\u267B\u267E\u267F\u2692-\u2697\u2699\u269B\u269C\u26A0\u26A1\u26AA\u26AB\u26B0\u26B1\u26BD\u26BE\u26C4\u26C5\u26C8\u26CE\u26CF\u26D1\u26D3\u26D4\u26E9\u26EA\u26F0-\u26F5\u26F7-\u26FA\u26FD\u2702\u2705\u2708-\u270D\u270F\u2712\u2714\u2716\u271D\u2721\u2728\u2733\u2734\u2744\u2747\u274C\u274E\u2753-\u2755\u2757\u2763\u2764\u2795-\u2797\u27A1\u27B0\u27BF\u2934\u2935\u2B05-\u2B07\u2B1B\u2B1C\u2B50\u2B55\u3030\u303D\u3297\u3299]|\uD83C[\uDC04\uDCCF\uDD70\uDD71\uDD7E\uDD7F\uDD8E\uDD91-\uDD9A\uDDE6-\uDDFF\uDE01\uDE02\uDE1A\uDE2F\uDE32-\uDE3A\uDE50\uDE51\uDF00-\uDF21\uDF24-\uDF93\uDF96\uDF97\uDF99-\uDF9B\uDF9E-\uDFF0\uDFF3-\uDFF5\uDFF7-\uDFFF]|\uD83D[\uDC00-\uDCFD\uDCFF-\uDD3D\uDD49-\uDD4E\uDD50-\uDD67\uDD6F\uDD70\uDD73-\uDD7A\uDD87\uDD8A-\uDD8D\uDD90\uDD95\uDD96\uDDA4\uDDA5\uDDA8\uDDB1\uDDB2\uDDBC\uDDC2-\uDDC4\uDDD1-\uDDD3\uDDDC-\uDDDE\uDDE1\uDDE3\uDDE8\uDDEF\uDDF3\uDDFA-\uDE4F\uDE80-\uDEC5\uDECB-\uDED2\uDED5\uDEE0-\uDEE5\uDEE9\uDEEB\uDEEC\uDEF0\uDEF3-\uDEFA\uDFE0-\uDFEB]|\uD83E[\uDD0D-\uDD3A\uDD3C-\uDD45\uDD47-\uDD71\uDD73-\uDD76\uDD7A-\uDDA2\uDDA5-\uDDAA\uDDAE-\uDDCA\uDDCD-\uDDFF\uDE70-\uDE73\uDE78-\uDE7A\uDE80-\uDE82\uDE90-\uDE95])\uFE0F|(?:[\u261D\u26F9\u270A-\u270D]|\uD83C[\uDF85\uDFC2-\uDFC4\uDFC7\uDFCA-\uDFCC]|\uD83D[\uDC42\uDC43\uDC46-\uDC50\uDC66-\uDC78\uDC7C\uDC81-\uDC83\uDC85-\uDC87\uDC8F\uDC91\uDCAA\uDD74\uDD75\uDD7A\uDD90\uDD95\uDD96\uDE45-\uDE47\uDE4B-\uDE4F\uDEA3\uDEB4-\uDEB6\uDEC0\uDECC]|\uD83E[\uDD0F\uDD18-\uDD1F\uDD26\uDD30-\uDD39\uDD3C-\uDD3E\uDDB5\uDDB6\uDDB8\uDDB9\uDDBB\uDDCD-\uDDCF\uDDD1-\uDDDD])/g;
             };
-        },
-        1852: function(e, t, r) {
+        /***/ },
+        /***/ 1852: /***/ function(e, t, r) {
             "use strict";
-            r.r(t), r.d(t, {
-                default: function() {
-                    return a;
+            r.r(t), /* harmony export */ r.d(t, {
+                /* harmony export */ default: function() {
+                    return /* binding */ a;
                 }
             });
-            var n = r(7715), i = r.n(n), o = r(1876).Buffer, a = function() {
+            /* harmony import */ var n = r(7715), i = /*#__PURE__*/ r.n(n), o = r(1876).Buffer, a = /*#__PURE__*/ function() {
                 function e(e) {
                     var t;
                     for(this.data = e, this.pos = 8, this.palette = [], this.imgData = [], this.transparency = {}, this.text = {};;){
@@ -2854,6 +2864,7 @@
                         for(t = 0; t < 4; t++)n += String.fromCharCode(this.data[this.pos++]);
                         switch(n){
                             case "IHDR":
+                                // we can grab  interesting values from here (like width, height, etc)
                                 this.width = this.readUInt32(), this.height = this.readUInt32(), this.bits = this.data[this.pos++], this.colorType = this.data[this.pos++], this.compressionMethod = this.data[this.pos++], this.filterMethod = this.data[this.pos++], this.interlaceMethod = this.data[this.pos++];
                                 break;
                             case "PLTE":
@@ -2863,16 +2874,25 @@
                                 for(t = 0; t < r; t++)this.imgData.push(this.data[this.pos++]);
                                 break;
                             case "tRNS":
-                                switch(this.transparency = {}, this.colorType){
+                                switch(// This chunk can only occur once and it must occur after the
+                                // PLTE chunk and before the IDAT chunk.
+                                this.transparency = {}, this.colorType){
                                     case 3:
+                                        // Indexed color, RGB. Each byte in this chunk is an alpha for
+                                        // the palette index in the PLTE ("palette") chunk up until the
+                                        // last non-opaque entry. Set up an array, stretching over all
+                                        // palette entries which will be 0 (opaque) or 1 (transparent).
                                         this.transparency.indexed = this.read(r);
                                         var i = 255 - this.transparency.indexed.length;
                                         if (i > 0) for(t = 0; t < i; t++)this.transparency.indexed.push(255);
                                         break;
                                     case 0:
+                                        // Greyscale. Corresponding to entries in the PLTE chunk.
+                                        // Grey is two bytes, range 0 .. (2 ^ bit-depth) - 1
                                         this.transparency.grayscale = this.read(r)[0];
                                         break;
                                     case 2:
+                                        // True color with proper alpha channel.
                                         this.transparency.rgb = this.read(r);
                                 }
                                 break;
@@ -2881,6 +2901,7 @@
                                 this.text[l] = String.fromCharCode.apply(String, a.slice(u + 1));
                                 break;
                             case "IEND":
+                                // we've got everything we need!
                                 switch(this.colorType){
                                     case 0:
                                     case 3:
@@ -2906,6 +2927,7 @@
                                 this.imgData = o.from(this.imgData);
                                 return;
                             default:
+                                // unknown (or unimportant) section, skip it
                                 this.pos += r;
                         }
                         if (this.pos += 4, this.pos > this.data.length) throw Error("Incomplete or corrupt PNG file");
@@ -2934,18 +2956,23 @@
                             for(var d = Math.ceil((a - e) / r), p = Math.ceil((u - t) / c), h = l * d, y = f ? s : o.alloc(h * p), g = 0, v = 0; g < p && i < n.length;){
                                 switch(n[i++]){
                                     case 0:
+                                        // None
                                         for(D = 0; D < h; D++)y[v++] = n[i++];
                                         break;
                                     case 1:
+                                        // Sub
                                         for(D = 0; D < h; D++)b = n[i++], w = D < l ? 0 : y[v - l], y[v++] = (b + w) % 256;
                                         break;
                                     case 2:
+                                        // Up
                                         for(D = 0; D < h; D++)b = n[i++], m = (D - D % l) / l, E = g && y[(g - 1) * h + m * l + D % l], y[v++] = (E + b) % 256;
                                         break;
                                     case 3:
+                                        // Average
                                         for(D = 0; D < h; D++)b = n[i++], m = (D - D % l) / l, w = D < l ? 0 : y[v - l], E = g && y[(g - 1) * h + m * l + D % l], y[v++] = (b + Math.floor((w + E) / 2)) % 256;
                                         break;
                                     case 4:
+                                        // Paeth
                                         for(D = 0; D < h; D++){
                                             b = n[i++], m = (D - D % l) / l, w = D < l ? 0 : y[v - l], 0 === g ? E = x = 0 : (E = y[(g - 1) * h + m * l + D % l], x = m && y[(g - 1) * h + (m - 1) * l + D % l]);
                                             var b, m, D, w, E, _, x, S = w + E - x, A = Math.abs(S - w), k = Math.abs(S - E), T = Math.abs(S - x);
@@ -2965,7 +2992,16 @@
                                 g++;
                             }
                         }
-                        return 1 === t.interlaceMethod ? (c(0, 0, 8, 8), c(4, 0, 8, 8), c(0, 4, 4, 8), c(2, 0, 4, 4), c(0, 2, 2, 4), c(1, 0, 2, 2), c(0, 1, 1, 2)) : c(0, 0, 1, 1, !0), e(s);
+                        return 1 === t.interlaceMethod ? (/*
+          1 6 4 6 2 6 4 6
+          7 7 7 7 7 7 7 7
+          5 6 5 6 5 6 5 6
+          7 7 7 7 7 7 7 7
+          3 6 4 6 3 6 4 6
+          7 7 7 7 7 7 7 7
+          5 6 5 6 5 6 5 6
+          7 7 7 7 7 7 7 7
+        */ c(0, 0, 8, 8), c(4, 0, 8, 8), c(0, 4, 4, 8), c(2, 0, 4, 4), c(0, 2, 2, 4), c(1, 0, 2, 2), c(0, 1, 1, 2)) : c(0, 0, 1, 1, !0), e(s);
                     });
                 }, t.decodePalette = function() {
                     for(var e, t = this.palette, r = t.length, n = this.transparency.indexed || [], i = o.alloc(n.length + r), a = 0, u = 0, l = 0; l < r; l += 3)i[a++] = t[l], i[a++] = t[l + 1], i[a++] = t[l + 2], i[a++] = null != (e = n[u++]) ? e : 255;
@@ -2987,88 +3023,90 @@
                     });
                 }, e;
             }();
-        },
-        368: function(e, t, r) {
+        /***/ },
+        /***/ 368: /***/ function(e, t, r) {
             "use strict";
-            r.r(t), r.d(t, {
-                Canvas: function() {
-                    return v;
+            r.r(t), /* harmony export */ r.d(t, {
+                /* harmony export */ Canvas: function() {
+                    return /* binding */ v;
                 },
-                Circle: function() {
-                    return b;
+                /* harmony export */ Circle: function() {
+                    return /* binding */ b;
                 },
-                ClipPath: function() {
-                    return _;
+                /* harmony export */ ClipPath: function() {
+                    return /* binding */ _;
                 },
-                Defs: function() {
-                    return h;
+                /* harmony export */ Defs: function() {
+                    return /* binding */ h;
                 },
-                Document: function() {
-                    return w;
+                /* harmony export */ Document: function() {
+                    return /* binding */ w;
                 },
-                Ellipse: function() {
-                    return m;
+                /* harmony export */ Ellipse: function() {
+                    return /* binding */ m;
                 },
-                G: function() {
-                    return n;
+                /* harmony export */ G: function() {
+                    return /* binding */ n;
                 },
-                Image: function() {
-                    return y;
+                /* harmony export */ Image: function() {
+                    return /* binding */ y;
                 },
-                Line: function() {
-                    return d;
+                /* harmony export */ Line: function() {
+                    return /* binding */ d;
                 },
-                LinearGradient: function() {
-                    return S;
+                /* harmony export */ LinearGradient: function() {
+                    return /* binding */ S;
                 },
-                Link: function() {
-                    return u;
+                /* harmony export */ Link: function() {
+                    return /* binding */ u;
                 },
-                Note: function() {
-                    return s;
+                /* harmony export */ Note: function() {
+                    return /* binding */ s;
                 },
-                Page: function() {
-                    return l;
+                /* harmony export */ Page: function() {
+                    return /* binding */ l;
                 },
-                Path: function() {
-                    return c;
+                /* harmony export */ Path: function() {
+                    return /* binding */ c;
                 },
-                Polygon: function() {
-                    return D;
+                /* harmony export */ Polygon: function() {
+                    return /* binding */ D;
                 },
-                Polyline: function() {
-                    return E;
+                /* harmony export */ Polyline: function() {
+                    return /* binding */ E;
                 },
-                RadialGradient: function() {
-                    return A;
+                /* harmony export */ RadialGradient: function() {
+                    return /* binding */ A;
                 },
-                Rect: function() {
-                    return f;
+                /* harmony export */ Rect: function() {
+                    return /* binding */ f;
                 },
-                Stop: function() {
-                    return p;
+                /* harmony export */ Stop: function() {
+                    return /* binding */ p;
                 },
-                Svg: function() {
-                    return i;
+                /* harmony export */ Svg: function() {
+                    return /* binding */ i;
                 },
-                Text: function() {
-                    return a;
+                /* harmony export */ Text: function() {
+                    return /* binding */ a;
                 },
-                TextInstance: function() {
-                    return x;
+                /* harmony export */ TextInstance: function() {
+                    return /* binding */ x;
                 },
-                Tspan: function() {
-                    return g;
+                /* harmony export */ Tspan: function() {
+                    return /* binding */ g;
                 },
-                View: function() {
-                    return o;
+                /* harmony export */ View: function() {
+                    return /* binding */ o;
                 }
             });
             const n = "G", i = "SVG", o = "VIEW", a = "TEXT", u = "LINK", l = "PAGE", s = "NOTE", c = "PATH", f = "RECT", d = "LINE", p = "STOP", h = "DEFS", y = "IMAGE", g = "TSPAN", v = "CANVAS", b = "CIRCLE", m = "ELLIPSE", D = "POLYGON", w = "DOCUMENT", E = "POLYLINE", _ = "CLIP_PATH", x = "TEXT_INSTANCE", S = "LINEAR_GRADIENT", A = "RADIAL_GRADIENT";
-        },
-        2837: function(e, t, r) {
+        /***/ },
+        /***/ 2837: /***/ function(e, t, r) {
             "use strict";
-            var n, i, o, a, u = r(7462), l = r(368), s = r(9189), c = r.n(s), f = r(7294);
+            // UNUSED EXPORTS: BlobProvider, Canvas, Circle, ClipPath, Defs, Document, Ellipse, Font, G, Image, Line, LinearGradient, Link, Note, PDFDownloadLink, PDFViewer, Page, Path, Polygon, Polyline, RadialGradient, Rect, Stop, StyleSheet, Svg, Text, TextInstance, Tspan, View, createRenderer, default, pdf, render, renderToFile, renderToStream, renderToString, usePDF, version
+            // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
+            var n, i, o, a, u = r(7462), l = r(368), s = r(9189), c = /*#__PURE__*/ r.n(s), f = r(7294);
             function d(e, t, r, n, i, o, a) {
                 try {
                     var u = e[o](a), l = u.value;
@@ -3093,7 +3131,8 @@
                     });
                 };
             }
-            var h = r(7757), y = r.n(h), g = r(7152), v = r.n(g), b = r(1384), m = r(4354), D = r(3689), w = r(7106), E = r(4299), _ = r.n(E), x = r(4462), S = r.n(x), A = function(e, t) {
+            // EXTERNAL MODULE: ./node_modules/@babel/runtime/regenerator/index.js
+            var h = r(7757), y = /*#__PURE__*/ r.n(h), g = r(7152), v = /*#__PURE__*/ r.n(g), b = r(1384), m = r(4354), D = r(3689), w = r(7106), E = r(4299), _ = /*#__PURE__*/ r.n(E), x = r(4462), S = /*#__PURE__*/ r.n(x), A = function(e, t) {
                 if (Array.isArray(e)) return e;
                 if (Symbol.iterator in Object(e)) return function(e, t) {
                     var r = [], n = !0, i = !1, o = void 0;
@@ -3118,6 +3157,8 @@
                     y: i * u + n * l + a
                 };
             }, O = function(e, t) {
+                // If 90 degree circular arc, use a constant
+                // as derived from http://spencermortensen.com/articles/bezier-circle
                 var r = 1.5707963267948966 === t ? 0.551915024494 : -1.5707963267948966 === t ? -0.551915024494 : 4 / 3 * Math.tan(t / 4), n = Math.cos(e), i = Math.sin(e), o = Math.cos(e + t), a = Math.sin(e + t);
                 return [
                     {
@@ -3192,7 +3233,8 @@
                     o
                 ];
             }
-            var j = r(7369), B = r(9406), M = r(3226), N = r(9818), L = r.n(N), U = (Math.sqrt(2) - 1.0) / 3.0 * 4.0, z = (Math.sqrt(2) - 1.0) / 3.0 * 4.0, W = function(e, t, r, n, i) {
+            // EXTERNAL MODULE: ./node_modules/@react-pdf/textkit/lib/run/height.js
+            var j = r(7369), B = r(9406), M = r(3226), N = r(9818), L = /*#__PURE__*/ r.n(N), U = (Math.sqrt(2) - 1.0) / 3.0 * 4.0, z = (Math.sqrt(2) - 1.0) / 3.0 * 4.0, W = function(e, t, r, n, i) {
                 var o = t - n, a = r - i, u = n * z, l = i * z, s = o + 2 * n, c = a + 2 * i, f = o + n, d = a + i;
                 e.moveTo(o, d), e.bezierCurveTo(o, d - l, f - u, a, f, a), e.bezierCurveTo(f + u, a, s, d - l, s, d), e.bezierCurveTo(s, d + l, f + u, c, f, c), e.bezierCurveTo(f - u, c, o, d + l, o, d), e.closePath();
             }, G = function(e, t, r, n, i, o) {
@@ -3380,6 +3422,7 @@
                                     largeArcFlag: d[4],
                                     sweepFlag: d[5]
                                 });
+                                // null-curves
                                 if (!h.length) continue;
                                 for(var y, g, v = 0; v < h.length; v++)d = [
                                     "C",
@@ -3392,6 +3435,7 @@
                                 ], v < h.length - 1 && t.push(d);
                                 break;
                             case "S":
+                                // default control point
                                 var b = l, m = s;
                                 ("C" == y || "S" == y) && (b += b - r, m += m - n), d = [
                                     "C",
@@ -3421,6 +3465,7 @@
                             case "Z":
                                 d = R(l, s, i, o);
                         }
+                        // update state
                         y = p, l = d[d.length - 2], s = d[d.length - 1], d.length > 4 ? (r = d[d.length - 4], n = d[d.length - 3]) : (r = l, n = s), t.push(d);
                     }
                     return t;
@@ -3523,7 +3568,9 @@
             }, i[l.Line] = function(e, t) {
                 var r = t.props || {}, n = r.x1, i = r.x2, o = r.y1, a = r.y2;
                 e.moveTo(n, o), e.lineTo(i, a);
-            }, i[l.G] = function() {}, i[l.Text] = function(e, t) {
+            }, i[l.G] = function() {
+            // noop
+            }, i[l.Text] = function(e, t) {
                 t.children.forEach(function(t) {
                     return V(e, t.lines[0], t.props.textAnchor, t.props.dominantBaseline);
                 });
@@ -3830,7 +3877,7 @@
             ], eQ = function(e) {
                 var t = eK.reduce(function(r, n) {
                     var i;
-                    return (0, u.Z)({}, r, ((i = {})[n] = function() {
+                    return (0, u /* default */ .Z)({}, r, ((i = {})[n] = function() {
                         return e[n].apply(e, arguments), t;
                     }, i));
                 }, {});
@@ -3838,7 +3885,7 @@
             }, e$ = (Math.sqrt(2) - 1.0) / 3.0 * 4.0, e0 = function(e, t, r, n, i) {
                 var o = t.top, a = t.left, u = t.width, l = t.height, s = r.borderTopWidth, c = r.borderRightWidth, f = r.borderLeftWidth;
                 e.moveTo(a + i, o), e.lineTo(a + u - n, o);
-                var d = n * (1.0 - e$);
+                var d = n * (1.0 - e$); // Clip outer top right cap
                 e.bezierCurveTo(a + u - d, o, a + u, o + d, a + u, o + n);
                 var p = o + Math.max(s, n);
                 e.lineTo(a + u, p), e.lineTo(a + u - c, p);
@@ -3846,7 +3893,7 @@
                 e.bezierCurveTo(a + u - c, o + s + y * (1.0 - e$), a + u - c - h * (1.0 - e$), o + s, a + u - c - h, o + s), e.lineTo(a + Math.max(i, f), o + s);
                 var g = Math.max(i - f, 0), v = Math.max(i - s, 0), b = o + Math.max(s, i);
                 e.bezierCurveTo(a + f + g * (1.0 - e$), o + s, a + f, o + s + v * (1.0 - e$), a + f, b), e.lineTo(a, b), e.lineTo(a, o + i);
-                var m = i * (1.0 - e$);
+                var m = i * (1.0 - e$); // Clip outer top left cap
                 if (e.bezierCurveTo(a, o + m, a + m, o, a + i, o), e.closePath(), e.clip(), c) {
                     var D = -s / c;
                     e.moveTo(a + u / 2, -u / 2 * D + o), e.lineTo(a + u, o), e.lineTo(a, o), e.lineTo(a, o + l), e.closePath(), e.clip();
@@ -3865,7 +3912,7 @@
             }, e2 = function(e, t, r, n, i) {
                 var o = t.top, a = t.left, u = t.width, l = t.height, s = r.borderTopWidth, c = r.borderRightWidth, f = r.borderBottomWidth;
                 e.moveTo(a + u, o + n), e.lineTo(a + u, o + l - i);
-                var d = i * (1.0 - e$);
+                var d = i * (1.0 - e$); // Clip outer top right cap
                 e.bezierCurveTo(a + u, o + l - d, a + u - d, o + l, a + u - i, o + l);
                 var p = a + u - Math.max(c, i);
                 e.lineTo(p, o + l), e.lineTo(p, o + l - f);
@@ -3873,7 +3920,7 @@
                 e.bezierCurveTo(a + u - c - h * (1.0 - e$), o + l - f, a + u - c, o + l - f - y * (1.0 - e$), a + u - c, o + l - Math.max(i, f)), e.lineTo(a + u - c, o + Math.max(n, s));
                 var g = Math.max(n - c, 0), v = Math.max(n - s, 0), b = a + u - Math.max(n, c);
                 e.bezierCurveTo(a + u - c, o + s + v * (1.0 - e$), a + u - c - g * (1.0 - e$), o + s, b, o + s), e.lineTo(b, o), e.lineTo(a + u - n, o);
-                var m = n * (1.0 - e$);
+                var m = n * (1.0 - e$); // Clip outer top right cap
                 if (e.bezierCurveTo(a + u - m, o, a + u, o + m, a + u, o + n), e.closePath(), e.clip(), s) {
                     var D = -s / c;
                     e.moveTo(a + u / 2, -u / 2 * D + o), e.lineTo(a + u, o), e.lineTo(a + u, o + l), e.lineTo(a, o + l), e.closePath(), e.clip();
@@ -3892,7 +3939,7 @@
             }, e4 = function(e, t, r, n, i) {
                 var o = t.top, a = t.left, u = t.width, l = t.height, s = r.borderBottomWidth, c = r.borderRightWidth, f = r.borderLeftWidth;
                 e.moveTo(a + u - i, o + l), e.lineTo(a + n, o + l);
-                var d = n * (1.0 - e$);
+                var d = n * (1.0 - e$); // Clip outer top right cap
                 e.bezierCurveTo(a + d, o + l, a, o + l - d, a, o + l - n);
                 var p = o + l - Math.max(s, n);
                 e.lineTo(a, p), e.lineTo(a + f, p);
@@ -3900,7 +3947,7 @@
                 e.bezierCurveTo(a + f, o + l - s - y * (1.0 - e$), a + f + h * (1.0 - e$), o + l - s, a + f + h, o + l - s), e.lineTo(a + u - Math.max(i, c), o + l - s);
                 var g = Math.max(i - c, 0), v = Math.max(i - s, 0), b = o + l - Math.max(s, i);
                 e.bezierCurveTo(a + u - c - g * (1.0 - e$), o + l - s, a + u - c, o + l - s - v * (1.0 - e$), a + u - c, b), e.lineTo(a + u, b), e.lineTo(a + u, o + l - i);
-                var m = i * (1.0 - e$);
+                var m = i * (1.0 - e$); // Clip outer top left cap
                 if (e.bezierCurveTo(a + u, o + l - m, a + u - m, o + l, a + u - i, o + l), e.closePath(), e.clip(), c) {
                     var D = s / c;
                     e.moveTo(a + u / 2, -u / 2 * D + o + l), e.lineTo(a + u, o + l), e.lineTo(a, o + l), e.lineTo(a, o), e.closePath(), e.clip();
@@ -3919,7 +3966,7 @@
             }, e8 = function(e, t, r, n, i) {
                 var o = t.top, a = t.left, u = t.width, l = t.height, s = r.borderTopWidth, c = r.borderLeftWidth, f = r.borderBottomWidth;
                 e.moveTo(a, o + l - n), e.lineTo(a, o + i);
-                var d = i * (1.0 - e$);
+                var d = i * (1.0 - e$); // Clip outer top left cap
                 e.bezierCurveTo(a, o + d, a + d, o, a + i, o);
                 var p = a + Math.max(c, i);
                 e.lineTo(p, o), e.lineTo(p, o + s);
@@ -3927,7 +3974,7 @@
                 e.bezierCurveTo(a + c + h * (1.0 - e$), o + s, a + c, o + s + y * (1.0 - e$), a + c, o + Math.max(i, s)), e.lineTo(a + c, o + l - Math.max(n, f));
                 var g = Math.max(n - c, 0), v = Math.max(n - f, 0), b = a + Math.max(n, c);
                 e.bezierCurveTo(a + c, o + l - f - v * (1.0 - e$), a + c + g * (1.0 - e$), o + l - f, b, o + l - f), e.lineTo(b, o + l), e.lineTo(a + n, o + l);
-                var m = n * (1.0 - e$);
+                var m = n * (1.0 - e$); // Clip outer top right cap
                 if (e.bezierCurveTo(a + m, o + l, a, o + l - m, a, o + l - n), e.closePath(), e.clip(), f) {
                     var D = -f / c;
                     e.moveTo(a + u / 2, u / 2 * D + o + l), e.lineTo(a, o + l), e.lineTo(a, o), e.lineTo(a + u, o), e.closePath(), e.clip();
@@ -4049,7 +4096,8 @@
                 for(n = 0; n < o.length; n++)r = o[n], t.indexOf(r) >= 0 || (i[r] = e[r]);
                 return i;
             }
-            var td = r(8448), tp = r.n(td), th = r(6821), ty = function e(t, r) {
+            // EXTERNAL MODULE: ./node_modules/react-reconciler/index.js
+            var td = r(8448), tp = /*#__PURE__*/ r.n(td), th = r(6821), ty = function e(t, r) {
                 var n = Object.keys(t), i = Object.keys(r);
                 if (n.length !== i.length) return !1;
                 for(var o = 0; o < n.length; o += 1){
@@ -4100,13 +4148,19 @@
                     getPublicInstance: function(e) {
                         return e;
                     },
-                    prepareForCommit: function() {},
-                    clearContainer: function() {},
+                    prepareForCommit: function() {
+                    // Noop
+                    },
+                    clearContainer: function() {
+                    // Noop
+                    },
                     prepareUpdate: function(e, t, r, n) {
                         return !ty(r, n);
                     },
                     resetAfterCommit: void 0 === t ? function() {} : t,
-                    resetTextContent: function(e) {},
+                    resetTextContent: function(e) {
+                    // Noop
+                    },
                     getRootHostContext: function() {
                         return tb;
                     },
@@ -4144,7 +4198,7 @@
                         e.props = a, e.style = o;
                     }
                 });
-            }, tD = new b.Z(), tw = {}, tE = function(e) {
+            }, tD = new b /* default */ .Z(), tw = {}, tE = function(e) {
                 var t, r, n, i, o = {
                     type: "ROOT",
                     document: null
@@ -4156,7 +4210,7 @@
                     a.updateContainer(e, u, null);
                 };
                 e && l(e);
-                var s = (t = p(y().mark(function e(t) {
+                var s = (t = p(/*#__PURE__*/ y().mark(function e(t) {
                     var r, n, i, a, u;
                     return y().wrap(function(e) {
                         for(;;)switch(e.prev = e.next){
@@ -4167,7 +4221,7 @@
                                     lang: i,
                                     displayTitle: !0,
                                     autoFirstPage: !1
-                                }), e.next = 6, (0, tc.Z)(o.document, tD);
+                                }), e.next = 6, (0, tc /* default */ .Z)(o.document, tD);
                             case 6:
                                 return u = e.sent, e.abrupt("return", tl(a, u));
                             case 8:
@@ -4185,7 +4239,7 @@
                         tw[e] || (tw[e] = []), tw[e].push(t);
                     },
                     container: o,
-                    toBlob: (r = p(y().mark(function e() {
+                    toBlob: (r = p(/*#__PURE__*/ y().mark(function e() {
                         var t;
                         return y().wrap(function(e) {
                             for(;;)switch(e.prev = e.next){
@@ -4212,7 +4266,7 @@
                     })), function() {
                         return r.apply(this, arguments);
                     }),
-                    toBuffer: (n = p(y().mark(function e() {
+                    toBuffer: (n = p(/*#__PURE__*/ y().mark(function e() {
                         return y().wrap(function(e) {
                             for(;;)switch(e.prev = e.next){
                                 case 0:
@@ -4225,7 +4279,7 @@
                     })), function() {
                         return n.apply(this, arguments);
                     }),
-                    toString: (i = p(y().mark(function e() {
+                    toString: (i = p(/*#__PURE__*/ y().mark(function e() {
                         var t, r;
                         return y().wrap(function(e) {
                             for(;;)switch(e.prev = e.next){
@@ -4272,7 +4326,7 @@
                         concurrency: 1
                     }), n = function() {
                         o(function(e) {
-                            return (0, u.Z)({}, e, {
+                            return (0, u /* default */ .Z)({}, e, {
                                 loading: !0
                             });
                         }), e.splice(0, e.length, function() {
@@ -4281,7 +4335,7 @@
                     };
                     return r.current = tE(), r.current.on("change", n), r.current.updateContainer(t), e.on("error", function(e) {
                         console.error(e), o(function(t) {
-                            return (0, u.Z)({}, t, {
+                            return (0, u /* default */ .Z)({}, t, {
                                 error: e
                             });
                         });
@@ -4317,7 +4371,7 @@
             ], tS = function(e) {
                 throw Error(e + " is a Node specific API. You're either using this method in a browser, or your bundler is not loading react-pdf from the appropriate web build.");
             };
-            (0, u.Z)({
+            (0, u /* default */ .Z)({
                 pdf: tE,
                 usePDF: t_,
                 Font: tD,
@@ -4335,7 +4389,7 @@
                         i
                     ]);
                     var p = c.url ? c.url + "#toolbar=" + (void 0 === a || a ? 1 : 0) : null;
-                    return f.createElement("iframe", (0, u.Z)({
+                    return /*#__PURE__*/ f.createElement("iframe", (0, u /* default */ .Z)({
                         src: p,
                         title: t,
                         ref: o,
@@ -4357,13 +4411,14 @@
                     }), l = u[0], s = u[1];
                     return ((0, f.useEffect)(s, [
                         r
-                    ]), i) ? f.createElement("a", {
+                    ]), i) ? /*#__PURE__*/ f.createElement("a", {
                         style: t,
                         href: l.url,
                         download: a,
                         className: n,
                         onClick: function() {
-                            window.navigator.msSaveBlob && window.navigator.msSaveBlob(l.blob, a);
+                            window.navigator.msSaveBlob && // IE
+                            window.navigator.msSaveBlob(l.blob, a);
                         }
                     }, "function" == typeof r ? r(l) : r) : (console.warn("You should pass a valid document to PDFDownloadLink"), null);
                 },
@@ -4380,10 +4435,18 @@
                     tS("render");
                 }
             }, l);
-        },
-        6665: function(e, t) {
+        //# sourceMappingURL=react-pdf.browser.es.js.map
+        /***/ },
+        /***/ 6665: /***/ function(e, t) {
             "use strict";
-            if (Object.defineProperty(t, "__esModule", {
+            if (/** @license React v0.17.0
+             * scheduler.production.min.js
+             *
+             * Copyright (c) Facebook, Inc. and its affiliates.
+             *
+             * This source code is licensed under the MIT license found in the
+             * LICENSE file in the root directory of this source tree.
+             */ Object.defineProperty(t, "__esModule", {
                 value: !0
             }), "undefined" == typeof window || "function" != typeof MessageChannel) {
                 var r, n, i, o, a, u = null, l = null, s = function() {
@@ -4605,12 +4668,12 @@
             }, t.unstable_pauseExecution = function() {}, t.unstable_getFirstCallbackNode = function() {
                 return A(O);
             }, t.unstable_Profiling = null;
-        },
-        6821: function(e, t, r) {
+        /***/ },
+        /***/ 6821: /***/ function(e, t, r) {
             "use strict";
             e.exports = r(6665);
-        },
-        1713: function(e, t) {
+        /***/ },
+        /***/ 1713: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0;
             var r = /(-?\d+(\.\d+)?(px|in|mm|cm|pt|vw|vh|px)?)\s(\S+)\s(.+)/;
@@ -4655,8 +4718,8 @@
                 }
                 return t;
             };
-        },
-        7753: function(e, t, r) {
+        /***/ },
+        /***/ 7753: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -4667,17 +4730,18 @@
                 var t = void 0 === e ? {} : e, r = t.expandsTo, n = t.maxValues, u = void 0 === n ? 1 : n, l = t.autoSupported, s = void 0 !== l && l;
                 return function(e, t) {
                     for(var n, l = (0, i.default)("" + t), c = [], f = 0; f < l.length; f++){
-                        var d = l[f];
+                        var d = l[f]; // value contains `calc`, `url` or other css function
+                        // `,`, `/` or strings that unsupported by margin and padding
                         if ("function" === d.type || "string" === d.type || "div" === d.type) return a(e, t), {};
                         if ("word" === d.type) {
                             if ("auto" === d.value && s) c.push(d.value);
                             else {
-                                var p = (0, o.default)(d.value);
+                                var p = (0, o.default)(d.value); // when unit isn't specified this condition is true
                                 if (!(p && "px,in,mm,cm,pt,%,vw,vh".includes(p.unit))) return a(e, t), {};
                                 c.push(d.value);
                             }
                         }
-                    }
+                    } // checks that we have enough parsed values
                     if (c.length > u) return a(e, t), {};
                     var h = c[0];
                     return r ? r({
@@ -4688,8 +4752,8 @@
                     }) : ((n = {})[e] = h, n);
                 };
             };
-        },
-        4214: function(e, t) {
+        /***/ },
+        /***/ 4214: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e, t) {
                 var r = ("" + t).split(" ");
@@ -4699,8 +4763,8 @@
                     flexBasis: r[2] || 0
                 };
             };
-        },
-        9214: function(e, t, r) {
+        /***/ },
+        /***/ 9214: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -4743,8 +4807,8 @@
                 }
                 return r;
             };
-        },
-        9373: function(e, t, r) {
+        /***/ },
+        /***/ 9373: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.processMarginVertical = t.processMarginSingle = t.processMarginHorizontal = t.processMargin = void 0;
@@ -4787,8 +4851,8 @@
                 autoSupported: !0
             });
             t.processMarginSingle = l;
-        },
-        2594: function(e, t) {
+        /***/ },
+        /***/ 2594: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e, t) {
                 var r = ("" + t).split(" ");
@@ -4797,8 +4861,8 @@
                     objectPositionY: (null == r ? void 0 : r[1]) || t
                 };
             };
-        },
-        5571: function(e, t, r) {
+        /***/ },
+        /***/ 5571: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.processPaddingVertical = t.processPaddingSingle = t.processPaddingHorizontal = t.processPadding = void 0;
@@ -4836,8 +4900,8 @@
             t.processPaddingHorizontal = u;
             var l = (0, i.default)();
             t.processPaddingSingle = l;
-        },
-        5229: function(e, t) {
+        /***/ },
+        /***/ 5229: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0;
             var r = {
@@ -4859,8 +4923,8 @@
                     transformOriginY: i[1]
                 };
             };
-        },
-        4340: function(e, t, r) {
+        /***/ },
+        /***/ 4340: /***/ function(e, t, r) {
             "use strict";
             t.__esModule = !0, t.default = void 0;
             var n = r(4354), i = (0, n.compose)(function(e) {
@@ -4874,8 +4938,8 @@
                 return e.filter(Boolean);
             }, n.castArray);
             t.default = i;
-        },
-        6335: function(e, t, r) {
+        /***/ },
+        /***/ 6335: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.transformColor = t.processTransform = t.default = void 0;
@@ -4887,8 +4951,8 @@
                     return (0, l.default)(e, t);
                 }, a.default)(t);
             };
-        },
-        4016: function(e, t, r) {
+        /***/ },
+        /***/ 4016: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -4899,8 +4963,8 @@
                     return /@media/.test(n) ? (0, i.default)({}, r, (0, o.default)(((u = {})[n] = t[n], u), e)) : (0, i.default)({}, r, ((a = {})[n] = t[n], a));
                 }, {});
             };
-        },
-        3566: function(e, t, r) {
+        /***/ },
+        /***/ 3566: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -4914,8 +4978,8 @@
             t.default = function(e) {
                 return /rgba?/g.test(e) ? a(e) : /hsla?/g.test(e) ? u(e) : e;
             };
-        },
-        2580: function(e, t) {
+        /***/ },
+        /***/ 2580: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0;
             var r = {
@@ -4940,8 +5004,8 @@
                 var t = e.toLowerCase();
                 return r[t] ? r[t] : e;
             };
-        },
-        4806: function(e, t, r) {
+        /***/ },
+        /***/ 4806: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -4966,8 +5030,8 @@
                     return n;
                 };
             };
-        },
-        4446: function(e, t, r) {
+        /***/ },
+        /***/ 4446: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -4975,12 +5039,12 @@
             t.default = function(e) {
                 return (0, o.default)(e) || (0, i.default)(e);
             };
-        },
-        6284: function(e, t) {
+        /***/ },
+        /***/ 6284: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0;
             var r = function(e) {
-                var t = e.trim().split(/\) |\)/);
+                var t = e.trim().split(/\) |\)/); // Handle "initial", "inherit", "unset".
                 if (1 === t.length) return [
                     [
                         t[0],
@@ -5075,8 +5139,8 @@
                     return n(e);
                 });
             };
-        },
-        2210: function(e, t, r) {
+        /***/ },
+        /***/ 2210: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5084,11 +5148,16 @@
             t.default = function(e) {
                 return (0, o.default)(e) || (0, i.default)(e);
             };
-        },
-        7098: function(e, t) {
+        /***/ },
+        /***/ 7098: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0;
-            var r = function(e) {
+            /**
+             * Parses scalar value in value and unit pairs
+             *
+             * @param {String} scalar value
+             * @returns {Object} parsed value
+             */ var r = function(e) {
                 var t = /^(-?\d*\.?\d+)(in|mm|cm|pt|vh|vw|px)?$/g.exec(e);
                 return t ? {
                     value: parseFloat(t[1], 10),
@@ -5115,14 +5184,14 @@
                         return n.value;
                 }
             };
-        },
-        3230: function(e, t) {
+        /***/ },
+        /***/ 3230: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 return "string" != typeof e ? e : "string" == typeof e && /^-?\d*\.?\d*$/.test(e) ? parseFloat(e, 10) : e;
             };
-        },
-        3668: function(e, t) {
+        /***/ },
+        /***/ 3668: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 switch(e){
@@ -5138,8 +5207,8 @@
                         return null;
                 }
             };
-        },
-        7106: function(e, t, r) {
+        /***/ },
+        /***/ 7106: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5149,8 +5218,8 @@
                     return e + (0, i.default)(t);
                 }, 0);
             };
-        },
-        5090: function(e, t, r) {
+        /***/ },
+        /***/ 5090: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5160,8 +5229,8 @@
                     return r + (0, o.default)(e, t, n);
                 }, 0);
             };
-        },
-        9845: function(e, t, r) {
+        /***/ },
+        /***/ 9845: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5173,8 +5242,8 @@
                     runs: s.concat((0, a.default)(e, c))
                 });
             };
-        },
-        3226: function(e, t, r) {
+        /***/ },
+        /***/ 3226: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5184,8 +5253,8 @@
                     return Math.max(e, (0, i.default)(t));
                 }, 0);
             };
-        },
-        8208: function(e, t, r) {
+        /***/ },
+        /***/ 8208: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5197,8 +5266,8 @@
                     runs: r
                 });
             };
-        },
-        5579: function(e, t) {
+        /***/ },
+        /***/ 5579: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function() {
                 return {
@@ -5206,8 +5275,8 @@
                     runs: []
                 };
             };
-        },
-        7590: function(e, t, r) {
+        /***/ },
+        /***/ 7590: /***/ function(e, t, r) {
             "use strict";
             t.__esModule = !0, t.default = void 0;
             var n = r(4354);
@@ -5215,8 +5284,8 @@
                 var t = e.runs;
                 return 0 === t.length ? 0 : (0, n.last)(t).end;
             };
-        },
-        2779: function(e, t) {
+        /***/ },
+        /***/ 2779: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 var t = 0, r = "", n = [];
@@ -5231,8 +5300,8 @@
                     runs: n
                 };
             };
-        },
-        9528: function(e, t, r) {
+        /***/ },
+        /***/ 9528: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5242,14 +5311,14 @@
                     return Math.max(e, (0, i.default)(t));
                 }, 0);
             };
-        },
-        5821: function(e, t, r) {
+        /***/ },
+        /***/ 5821: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
             var i = n(r(9845)), o = n(r(6062)), a = n(r(7222)), u = n(r(2307)), l = n(r(511));
             t.default = function(e, t, r) {
-                var n = (0, u.default)(e, r);
+                var n = (0, u.default)(e, r); // Add glyph to the end if run index invalid
                 if (-1 === n) return (0, i.default)(t, r);
                 var s = (null == t ? void 0 : t.codePoints) || [], c = r.string.slice(0, e) + (0, l.default)(s) + r.string.slice(e), f = r.runs.map(function(r, i) {
                     return i === n ? (0, a.default)(e - r.start, t, r) : i > n ? (0, o.default)(s.length, r) : r;
@@ -5259,8 +5328,8 @@
                     runs: f
                 });
             };
-        },
-        2182: function(e, t, r) {
+        /***/ },
+        /***/ 2182: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5269,8 +5338,8 @@
                 var t = e.runs || [];
                 return (0, i.default)(t[0]);
             };
-        },
-        7698: function(e, t, r) {
+        /***/ },
+        /***/ 7698: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5278,8 +5347,8 @@
             t.default = function(e) {
                 return (0, o.default)(e) - (0, i.default)(e);
             };
-        },
-        2307: function(e, t, r) {
+        /***/ },
+        /***/ 2307: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5287,8 +5356,8 @@
             t.default = function(e, t) {
                 return (0, i.default)(e, t.runs);
             };
-        },
-        2564: function(e, t, r) {
+        /***/ },
+        /***/ 2564: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5304,15 +5373,15 @@
                     })
                 });
             };
-        },
-        1464: function(e, t) {
+        /***/ },
+        /***/ 1464: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 var t = e.runs;
                 return 0 === t.length ? 0 : t[0].start;
             };
-        },
-        9815: function(e, t, r) {
+        /***/ },
+        /***/ 9815: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5321,8 +5390,8 @@
                 var t = e.runs || [];
                 return (0, o.default)((0, i.last)(t));
             };
-        },
-        4573: function(e, t, r) {
+        /***/ },
+        /***/ 4573: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5334,16 +5403,16 @@
                 var t = e.string.search(/\S/g), r = o(e.string);
                 return (0, i.default)(t, r + 1, e);
             };
-        },
-        839: function(e, t) {
+        /***/ },
+        /***/ 839: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 return e.reduce(function(e, t) {
                     return e + t.box.height;
                 }, 0);
             };
-        },
-        4248: function(e, t) {
+        /***/ },
+        /***/ 4248: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e, t) {
                 for(var r = [], n = 0, i = 0; i < t.length; i += 1){
@@ -5353,8 +5422,8 @@
                 }
                 return r;
             };
-        },
-        6314: function(e, t, r) {
+        /***/ },
+        /***/ 6314: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5367,15 +5436,16 @@
                 }
                 return e;
             };
-        },
-        7518: function(e, t) {
+        /***/ },
+        /***/ 7518: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e, t) {
                 for(var r, n = 0, i = [], o = [], a = 0; a <= 3; a += 1)i[a] = o[a] = 0;
+                 // sum the factors at each priority
                 for(var u = 0; u < t.length; u += 1){
                     var l = t[u], s = l.before + l.after;
                     n += s, i[l.priority] += s, l.unconstrained && (o[l.priority] += s);
-                }
+                } // choose the priorities that need to be applied
                 var c = -1, f = 0, d = e;
                 for(r = 0; r <= 3; r += 1){
                     var p = i[r];
@@ -5383,23 +5453,28 @@
                         if (-1 === c && (c = r, f = p), Math.abs(d) <= Math.abs(p)) {
                             i[r] = d / p, o[r] = 0, d = 0;
                             break;
-                        }
-                        if (i[r] = 1, d -= p, 0 !== o[r]) {
+                        } // mark that we need to use 100% of the adjustment from
+                        if (// this priority, and subtract the space that it consumes
+                        i[r] = 1, d -= p, 0 !== o[r]) {
                             o[r] = d / o[r], d = 0;
                             break;
                         }
                     }
-                }
+                } // zero out remaining priorities (if any)
                 for(var h = r + 1; h <= 3; h += 1)i[h] = 0, o[h] = 0;
-                d > 0 && c > -1 && (i[c] = (f + (e - n)) / f);
+                 // if there is still space left over, assign it to the highest priority that we saw.
+                // this violates their factors, but it only happens in extreme cases
+                d > 0 && c > -1 && (i[c] = (f + (e - n)) / f); // create and return an array of distances to add to each glyph's advance
                 for(var y = [], g = 0; g < t.length; g += 1){
+                    // the distance to add to this glyph is the sum of the space to add
+                    // after this glyph, and the space to add before the next glyph
                     var v = t[g], b = t[g + 1], m = v.after * i[v.priority];
                     b && (m += b.before * i[b.priority]), v.unconstrained && (m += v.after * o[v.priority], b && (m += b.before * o[b.priority])), y.push(m);
                 }
                 return y;
             };
-        },
-        1845: function(e, t, r) {
+        /***/ },
+        /***/ 1845: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5410,11 +5485,13 @@
                 unconstrained: !1
             }, a = {
                 before: 0.14453125,
+                // 37/256
                 after: 0.14453125,
                 priority: 2,
                 unconstrained: !1
             }, u = {
                 before: -0.04296875,
+                // -11/256
                 after: -0.04296875,
                 priority: 1,
                 unconstrained: !1
@@ -5442,8 +5519,8 @@
                 }, []);
                 return a[0].before = 0, a[a.length - 1].after = 0, a;
             };
-        },
-        9186: function(e, t, r) {
+        /***/ },
+        /***/ 9186: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5460,11 +5537,11 @@
                     if (0 !== r) {
                         var n = (0, o.default)(r, t, e);
                         return l((0, a.default)(r, n), t);
-                    }
+                    } // Exact fit
                 };
             };
-        },
-        2195: function(e, t) {
+        /***/ },
+        /***/ 2195: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0;
             var r = function(e, t, r) {
@@ -5501,8 +5578,8 @@
                 }
                 return a;
             };
-        },
-        7335: function(e, t, r) {
+        /***/ },
+        /***/ 7335: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5551,8 +5628,8 @@
                     return (0 === l.length || 1 === l.length && 0 === l[0].position) && (l = (0, i.default)(u, r)), c(t, u, l.slice(1));
                 };
             };
-        },
-        26: function(e, t, r) {
+        /***/ },
+        /***/ 26: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5588,8 +5665,13 @@
                         previous: a
                     };
                 }
+                // eslint-disable-next-line no-shadow
                 function f(n, l, s) {
+                    // breaks out to insert the new active node candidates before looking at the next active
+                    // nodes for the next lines. The result of this is that the active node list is always
+                    // sorted by line number.
                     for(var f, d, p, h, y, g = a.first(), v = null, b = 0, m = 0, D = [], w = 0, E = 0; null !== g;){
+                        // and deactivate current active nodes.
                         for(D = [
                             {
                                 demerits: 1 / 0
@@ -5605,13 +5687,17 @@
                             }
                         ]; null !== g && (v = g.next, w = g.data.line + 1, ((b = function(n, i, o, a) {
                             var l = u.width - o.totals.width, s = 0, c = 0, f = a < r.length ? r[a - 1] : r[r.length - 1];
-                            return ("penalty" === t[i].type && (l += t[i].width), l < f) ? (s = u.stretch - o.totals.stretch) > 0 ? (f - l) / s : e.infinity : l > f ? (c = u.shrink - o.totals.shrink) > 0 ? (f - l) / c : e.infinity : 0;
-                        }(g.data.position, l, g.data, w)) < -1 || "penalty" === n.type && n.penalty === -e.infinity) && a.remove(g), b >= -1 && b <= o.tolerance && (f = 100 * Math.pow(Math.abs(b), 3), "penalty" === n.type && n.penalty >= 0 ? m = Math.pow(o.demerits.line + f, 2) + Math.pow(n.penalty, 2) : "penalty" === n.type && n.penalty !== -e.infinity ? m = Math.pow(o.demerits.line + f, 2) - Math.pow(n.penalty, 2) : m = Math.pow(o.demerits.line + f, 2), "penalty" === n.type && "penalty" === s[g.data.position].type && (m += o.demerits.flagged * n.flagged * s[g.data.position].flagged), Math.abs((E = b < -0.5 ? 0 : b <= 0.5 ? 1 : b <= 1 ? 2 : 3) - g.data.fitnessClass) > 1 && (m += o.demerits.fitness), (m += g.data.demerits) < D[E].demerits && (D[E] = {
+                            return ("penalty" === t[i].type && (l += t[i].width), l < f) ? // Calculate the stretch ratio
+                            (s = u.stretch - o.totals.stretch) > 0 ? (f - l) / s : e.infinity : l > f ? // Calculate the shrink ratio
+                            (c = u.shrink - o.totals.shrink) > 0 ? (f - l) / c : e.infinity : 0;
+                        } // Add width, stretch and shrink values from the current
+                        (g.data.position, l, g.data, w)) < -1 || "penalty" === n.type && n.penalty === -e.infinity) && a.remove(g), b >= -1 && b <= o.tolerance && (f = 100 * Math.pow(Math.abs(b), 3), "penalty" === n.type && n.penalty >= 0 ? m = Math.pow(o.demerits.line + f, 2) + Math.pow(n.penalty, 2) : "penalty" === n.type && n.penalty !== -e.infinity ? m = Math.pow(o.demerits.line + f, 2) - Math.pow(n.penalty, 2) : m = Math.pow(o.demerits.line + f, 2), "penalty" === n.type && "penalty" === s[g.data.position].type && (m += o.demerits.flagged * n.flagged * s[g.data.position].flagged), Math.abs((E = b < -0.5 ? 0 : b <= 0.5 ? 1 : b <= 1 ? 2 : 3) - g.data.fitnessClass) > 1 && (m += o.demerits.fitness), (m += g.data.demerits) < D[E].demerits && (D[E] = {
                             active: g,
                             demerits: m,
                             ratio: b
                         })), null === (g = v) || !(g.data.line >= w)););
-                        for(p = 0, d = function(r) {
+                        for(p = 0, d = // break point up to the next box or forced penalty.
+                        function(r) {
                             for(var n = {
                                 width: u.width,
                                 stretch: u.stretch,
@@ -5619,13 +5705,15 @@
                             }, i = r; i < t.length; i += 1)if ("glue" === t[i].type) n.width += t[i].width, n.stretch += t[i].stretch, n.shrink += t[i].shrink;
                             else if ("box" === t[i].type || "penalty" === t[i].type && t[i].penalty === -e.infinity && i > r) break;
                             return n;
-                        }(l); p < D.length; p += 1)(h = D[p]).demerits < 1 / 0 && (y = new i.default.Node(c(l, h.demerits, h.ratio, h.active.data.line + 1, p, d, h.active)), null !== g ? a.insertBefore(g, y) : a.push(y));
+                        } // The main loop of the algorithm
+                        (l); p < D.length; p += 1)(h = D[p]).demerits < 1 / 0 && (y = new i.default.Node(c(l, h.demerits, h.ratio, h.active.data.line + 1, p, d, h.active)), null !== g ? a.insertBefore(g, y) : a.push(y));
                     }
-                }
+                } // Add an active node for the start of the paragraph.
                 if (a.push(new i.default.Node(c(0, 0, 0, 0, 0, void 0, null))), t.forEach(function(t, r, n) {
                     "box" === t.type ? u.width += t.width : "glue" === t.type ? (r > 0 && "box" === n[r - 1].type && f(t, r, n), u.width += t.width, u.stretch += t.stretch, u.shrink += t.shrink) : "penalty" === t.type && t.penalty !== e.infinity && f(t, r, n);
                 }), 0 !== a.size()) {
-                    for(a.forEach(function(e) {
+                    for(// Find the best active node (the one with the least total demerits.)
+                    a.forEach(function(e) {
                         e.data.demerits < s.data.demerits && (s = e);
                     }); null !== s;)l.push({
                         position: s.data.position,
@@ -5658,18 +5746,18 @@
                     flagged: r
                 };
             }, t.default = o;
-        },
-        4561: function(e, t) {
+        /***/ },
+        /***/ 4561: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0;
-            var r = function() {
+            /* eslint-disable no-param-reassign */ /* eslint-disable max-classes-per-file */ var r = /*#__PURE__*/ function() {
                 function e(e) {
                     this.prev = null, this.next = null, this.data = e;
                 }
                 return e.prototype.toString = function() {
                     return this.data.toString();
                 }, e;
-            }(), n = function() {
+            }(), n = /*#__PURE__*/ function() {
                 function e() {
                     this.head = null, this.tail = null, this.listSize = 0;
                 }
@@ -5726,8 +5814,8 @@
                 }, e;
             }();
             n.Node = r, t.default = n;
-        },
-        9276: function(e, t, r) {
+        /***/ },
+        /***/ 9276: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5762,8 +5850,8 @@
                     };
                 };
             };
-        },
-        32: function(e, t, r) {
+        /***/ },
+        /***/ 32: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5807,8 +5895,8 @@
                     return e;
                 };
             };
-        },
-        4915: function(e, t, r) {
+        /***/ },
+        /***/ 4915: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5819,20 +5907,20 @@
                     return (0, a.isNil)(e) ? [] : (l[t] || (l[t] = (e.includes("\xAD") ? e : u(e)).split("\xAD")), l[t]);
                 };
             };
-        },
-        6742: function(e, t) {
+        /***/ },
+        /***/ 6742: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e, t) {
                 return t && e ? t.glyphForCodePoint(e) : null;
             };
-        },
-        2065: function(e, t) {
+        /***/ },
+        /***/ 2065: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 return ((null == e ? void 0 : e.codePoints) || []).includes(32);
             };
-        },
-        8389: function(e, t) {
+        /***/ },
+        /***/ 8389: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e, t, r, n) {
                 if (!n || e === t) return [];
@@ -5844,8 +5932,8 @@
                     n
                 ];
             };
-        },
-        8931: function(e, t, r) {
+        /***/ },
+        /***/ 8931: /***/ function(e, t, r) {
             "use strict";
             t.__esModule = !0, t.default = void 0;
             var n = r(4354);
@@ -5853,8 +5941,8 @@
                 var r = (0, n.last)(t), i = (0, n.isNil)(r) ? 0 : r + 1, o = Array(e).fill(i);
                 return t.concat(o);
             };
-        },
-        298: function(e, t) {
+        /***/ },
+        /***/ 298: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 var t = e[0];
@@ -5862,8 +5950,8 @@
                     return e - t;
                 });
             };
-        },
-        4131: function(e, t) {
+        /***/ },
+        /***/ 4131: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 return void 0 === e && (e = []), e.reduce(function(e, t) {
@@ -5879,11 +5967,16 @@
                     }));
                 }, []);
             };
-        },
-        5526: function(e, t) {
+        /***/ },
+        /***/ 5526: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0;
-            var r = function(e) {
+            /**
+             * Apply default style to run
+             *
+             * @param  {Object}  run
+             * @return {Object} run with styles
+             */ var r = function(e) {
                 var t, r = {
                     align: (t = e.attributes).align || "left",
                     alignLastLine: t.alignLastLine || ("justify" === t.align ? "left" : t.align || "left"),
@@ -5933,8 +6026,8 @@
                     };
                 };
             };
-        },
-        2680: function(e, t, r) {
+        /***/ },
+        /***/ 2680: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -5972,8 +6065,8 @@
                     });
                 };
             };
-        },
-        8019: function(e, t, r) {
+        /***/ },
+        /***/ 8019: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -6013,8 +6106,8 @@
                     });
                 };
             };
-        },
-        4825: function(e, t, r) {
+        /***/ },
+        /***/ 4825: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -6028,8 +6121,8 @@
                     }, (0, c.default)(e, n), (0, s.default)(e, n), (0, p.default)(e, n))(t);
                 };
             };
-        },
-        9507: function(e, t, r) {
+        /***/ },
+        /***/ 9507: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -6062,8 +6155,8 @@
                     return u(r, e.linebreaker(t)(n, s), l);
                 };
             };
-        },
-        1661: function(e, t, r) {
+        /***/ },
+        /***/ 1661: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -6085,11 +6178,16 @@
                     };
                 };
             };
-        },
-        1535: function(e, t) {
+        /***/ },
+        /***/ 1535: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0;
-            var r = function(e) {
+            /**
+             * Resolve attachments of run
+             *
+             * @param  {Object}  run
+             * @return {Object} run
+             */ var r = function(e) {
                 if (!e.positions) return e;
                 var t, r = e.glyphs || [], n = (null === (t = e.attributes) || void 0 === t ? void 0 : t.attachment) || {}, i = e.positions.map(function(e, t) {
                     var i = r[t];
@@ -6109,11 +6207,16 @@
                     });
                 };
             };
-        },
-        8449: function(e, t) {
+        /***/ },
+        /***/ 8449: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0;
-            var r = function(e) {
+            /**
+             * Resolves yOffset for run
+             *
+             * @param  {Object}  run
+             * @return {Object} run
+             */ var r = function(e) {
                 if (!e.positions) return e;
                 var t, r, n, i = (null === (t = e.attributes) || void 0 === t ? void 0 : null === (r = t.font) || void 0 === r ? void 0 : r.unitsPerEm) || 0, o = ((null === (n = e.attributes) || void 0 === n ? void 0 : n.yOffset) || 0) * i, a = e.positions.map(function(e) {
                     return Object.assign({}, e, {
@@ -6132,8 +6235,8 @@
                     });
                 };
             };
-        },
-        4811: function(e, t, r) {
+        /***/ },
+        /***/ 4811: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -6144,8 +6247,8 @@
                     return 0 === r ? t.push(e) : r < e.string.length && t.push((0, o.default)(r, (0, i.default)(e), e)), t;
                 };
             };
-        },
-        7924: function(e, t, r) {
+        /***/ },
+        /***/ 7924: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -6163,8 +6266,8 @@
                     return f;
                 };
             };
-        },
-        7777: function(e, t, r) {
+        /***/ },
+        /***/ 7777: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -6190,22 +6293,22 @@
                     });
                 };
             };
-        },
-        6499: function(e, t) {
+        /***/ },
+        /***/ 6499: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 return e.reduce(function(e, t) {
                     return e + (t.xAdvance || 0);
                 }, 0);
             };
-        },
-        7711: function(e, t) {
+        /***/ },
+        /***/ 7711: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 return Object.assign({}, e);
             };
-        },
-        5538: function(e, t) {
+        /***/ },
+        /***/ 5538: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e, t) {
                 var r = t.y + e, n = t.height - e;
@@ -6214,8 +6317,8 @@
                     height: n
                 });
             };
-        },
-        6062: function(e, t) {
+        /***/ },
+        /***/ 6062: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e, t) {
                 var r = t.start + e, n = t.end + e;
@@ -6224,8 +6327,8 @@
                     end: n
                 });
             };
-        },
-        3689: function(e, t, r) {
+        /***/ },
+        /***/ 3689: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -6233,8 +6336,8 @@
             t.default = function(e) {
                 return (0, i.default)(e.positions || []);
             };
-        },
-        3529: function(e, t, r) {
+        /***/ },
+        /***/ 3529: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -6243,8 +6346,8 @@
                 var n = r.start || 0, a = Math.max(0, (0, i.default)(e - n, r)), u = Math.max(0, (0, i.default)(t - n, r)), l = (r.positions || []).slice(a, u);
                 return (0, o.default)(l);
             };
-        },
-        7763: function(e, t, r) {
+        /***/ },
+        /***/ 7763: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -6270,8 +6373,8 @@
                 var r = (0, o.default)(t);
                 return s((0, a.default)(e) ? (0, l.default)(e, r) : e, t);
             };
-        },
-        1162: function(e, t, r) {
+        /***/ },
+        /***/ 1162: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -6280,8 +6383,8 @@
                 var t, r, n, o;
                 return Math.max((null === (t = e.attributes) || void 0 === t ? void 0 : null === (r = t.attachment) || void 0 === r ? void 0 : r.height) || 0, ((null === (n = e.attributes) || void 0 === n ? void 0 : null === (o = n.font) || void 0 === o ? void 0 : o.ascent) || 0) * (0, i.default)(e));
             };
-        },
-        8687: function(e, t, r) {
+        /***/ },
+        /***/ 8687: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -6298,8 +6401,8 @@
                     glyphIndices: (0, a.default)(s.concat(f))
                 });
             };
-        },
-        9406: function(e, t, r) {
+        /***/ },
+        /***/ 9406: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -6308,8 +6411,8 @@
                 var t, r, n = (null === (t = e.attributes) || void 0 === t ? void 0 : null === (r = t.font) || void 0 === r ? void 0 : r.descent) || 0;
                 return (0, i.default)(e) * n;
             };
-        },
-        8848: function(e, t, r) {
+        /***/ },
+        /***/ 8848: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -6317,8 +6420,8 @@
             t.default = function(e) {
                 return (0, i.default)(0, e.end - e.start - 1, e);
             };
-        },
-        6266: function(e, t) {
+        /***/ },
+        /***/ 6266: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function() {
                 return {
@@ -6330,8 +6433,8 @@
                     attributes: {}
                 };
             };
-        },
-        7621: function(e, t, r) {
+        /***/ },
+        /***/ 7621: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -6340,8 +6443,8 @@
                 var n = (0, i.default)(e, r), o = Math.max((0, i.default)(t - 1, r), n);
                 return r.slice(n, o + 1);
             };
-        },
-        6990: function(e, t, r) {
+        /***/ },
+        /***/ 6990: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -6379,7 +6482,8 @@
                     }), "start" === s) o.push(f), i = Object.assign({}, i, f);
                     else {
                         i = {};
-                        for(var d = 0; d < o.length; d += 1)o[d] === f ? o.splice(d--, 1) : i = Object.assign({}, i, o[d]);
+                        for(var d = 0; d < o.length; d += 1)o[d] === f ? // eslint-disable-next-line no-plusplus
+                        o.splice(d--, 1) : i = Object.assign({}, i, o[d]);
                     }
                     n = c;
                 }
@@ -6396,15 +6500,15 @@
                 }));
                 return (0, i.default)(t.concat(r));
             };
-        },
-        4014: function(e, t) {
+        /***/ },
+        /***/ 4014: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 var t;
                 return (null === (t = e.attributes) || void 0 === t ? void 0 : t.font) || null;
             };
-        },
-        7392: function(e, t, r) {
+        /***/ },
+        /***/ 7392: /***/ function(e, t, r) {
             "use strict";
             t.__esModule = !0, t.default = void 0;
             var n = r(4354);
@@ -6412,8 +6516,8 @@
                 var r, i = null == t ? void 0 : null === (r = t.glyphIndices) || void 0 === r ? void 0 : r[e];
                 return (0, n.isNil)(i) ? e : i;
             };
-        },
-        7369: function(e, t, r) {
+        /***/ },
+        /***/ 7369: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -6422,13 +6526,13 @@
                 var t;
                 return (null === (t = e.attributes) || void 0 === t ? void 0 : t.lineHeight) || (0, a.default)(e) + (0, i.default)(e) - (0, o.default)(e);
             };
-        },
-        7222: function(e, t, r) {
+        /***/ },
+        /***/ 7222: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
             var i = n(r(4450)), o = n(r(8687)), a = n(r(7763)), u = n(r(4014)), l = n(r(8366)), s = n(r(6742)), c = function(e, t, r) {
-                if (!t) return r;
+                if (!t) return r; // Split resolves ligature splitting in case new glyph breaks some
                 var n = (0, i.default)(0, e, r), u = (0, i.default)(e, 1 / 0, r);
                 return (0, o.default)((0, a.default)(t, n), u);
             };
@@ -6436,14 +6540,14 @@
                 var n = (0, u.default)(r);
                 return c(e, (0, l.default)(t) ? (0, s.default)(t, n) : t, r);
             };
-        },
-        456: function(e, t) {
+        /***/ },
+        /***/ 456: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 return e.start === e.end;
             };
-        },
-        7925: function(e, t, r) {
+        /***/ },
+        /***/ 7925: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -6458,14 +6562,14 @@
                     return e + (t.xAdvance || 0);
                 }, 0);
             };
-        },
-        1258: function(e, t) {
+        /***/ },
+        /***/ 1258: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 return e.end - e.start;
             };
-        },
-        9277: function(e, t, r) {
+        /***/ },
+        /***/ 9277: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -6474,8 +6578,8 @@
                 var t, r;
                 return ((null === (t = e.attributes) || void 0 === t ? void 0 : null === (r = t.font) || void 0 === r ? void 0 : r.lineGap) || 0) * (0, i.default)(e);
             };
-        },
-        4363: function(e, t) {
+        /***/ },
+        /***/ 4363: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e, t) {
                 if (!t) return 0;
@@ -6484,8 +6588,8 @@
                     return e === n;
                 }).length;
             };
-        },
-        9435: function(e, t) {
+        /***/ },
+        /***/ 9435: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e, t) {
                 var r = Object.assign({}, t.attributes);
@@ -6493,19 +6597,24 @@
                     attributes: r
                 });
             };
-        },
-        9139: function(e, t) {
+        /***/ },
+        /***/ 9139: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e, t) {
                 return t ? t.findIndex(function(t) {
                     return t.start <= e && e < t.end;
                 }) : -1;
             };
-        },
-        3241: function(e, t) {
+        /***/ },
+        /***/ 3241: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0;
-            var r = function(e) {
+            /**
+             * Calculate run scale
+             *
+             * @param  {Object}  run
+             * @return {number} scale
+             */ var r = function(e) {
                 var t, r = e.attributes || {}, n = r.fontSize || 12, i = null === (t = r.font) || void 0 === t ? void 0 : t.unitsPerEm;
                 return i ? n / i : 0;
             };
@@ -6513,8 +6622,8 @@
                 var t;
                 return (null === (t = e.attributes) || void 0 === t ? void 0 : t.scale) || r(e);
             };
-        },
-        4450: function(e, t, r) {
+        /***/ },
+        /***/ 4450: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -6541,16 +6650,16 @@
                     ].flat()
                 });
             };
-        },
-        1848: function(e, t) {
+        /***/ },
+        /***/ 1848: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 return e.sort(function(e, t) {
                     return e.start - t.start || e.end - t.end;
                 });
             };
-        },
-        9629: function(e, t) {
+        /***/ },
+        /***/ 9629: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e, t) {
                 var r = t.start - e, n = t.end - e;
@@ -6559,8 +6668,8 @@
                     end: n
                 });
             };
-        },
-        2179: function(e, t, r) {
+        /***/ },
+        /***/ 2179: /***/ function(e, t, r) {
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
@@ -6577,69 +6686,69 @@
                     return e + (t.xAdvance || 0);
                 }, 0);
             };
-        },
-        8366: function(e, t) {
+        /***/ },
+        /***/ 8366: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 return "number" == typeof e;
             };
-        },
-        511: function(e, t) {
+        /***/ },
+        /***/ 511: /***/ function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0, t.default = function(e) {
                 return String.fromCodePoint.apply(String, e);
             };
-        },
-        8537: function(e, t, r) {
+        /***/ },
+        /***/ 8537: /***/ function(e, t, r) {
             "use strict";
-            r.r(t), r.d(t, {
-                default: function() {
-                    return L;
+            r.r(t), /* harmony export */ r.d(t, {
+                /* harmony export */ default: function() {
+                    return /* binding */ L;
                 },
-                getCategory: function() {
-                    return S;
+                /* harmony export */ getCategory: function() {
+                    return /* binding */ S;
                 },
-                getCombiningClass: function() {
-                    return A;
+                /* harmony export */ getCombiningClass: function() {
+                    return /* binding */ A;
                 },
-                getEastAsianWidth: function() {
-                    return T;
+                /* harmony export */ getEastAsianWidth: function() {
+                    return /* binding */ T;
                 },
-                getNumericValue: function() {
-                    return O;
+                /* harmony export */ getNumericValue: function() {
+                    return /* binding */ O;
                 },
-                getScript: function() {
-                    return k;
+                /* harmony export */ getScript: function() {
+                    return /* binding */ k;
                 },
-                isAlphabetic: function() {
-                    return C;
+                /* harmony export */ isAlphabetic: function() {
+                    return /* binding */ C;
                 },
-                isBaseForm: function() {
-                    return M;
+                /* harmony export */ isBaseForm: function() {
+                    return /* binding */ M;
                 },
-                isDigit: function() {
-                    return P;
+                /* harmony export */ isDigit: function() {
+                    return /* binding */ P;
                 },
-                isLowerCase: function() {
-                    return R;
+                /* harmony export */ isLowerCase: function() {
+                    return /* binding */ R;
                 },
-                isMark: function() {
-                    return N;
+                /* harmony export */ isMark: function() {
+                    return /* binding */ N;
                 },
-                isPunctuation: function() {
-                    return F;
+                /* harmony export */ isPunctuation: function() {
+                    return /* binding */ F;
                 },
-                isTitleCase: function() {
-                    return j;
+                /* harmony export */ isTitleCase: function() {
+                    return /* binding */ j;
                 },
-                isUpperCase: function() {
-                    return I;
+                /* harmony export */ isUpperCase: function() {
+                    return /* binding */ I;
                 },
-                isWhiteSpace: function() {
-                    return B;
+                /* harmony export */ isWhiteSpace: function() {
+                    return /* binding */ B;
                 }
             });
-            var n = r(7055), i = r.n(n), o = r(1876).Buffer, a = [
+            /* harmony import */ var n = r(7055), i = /*#__PURE__*/ r.n(n), o = r(1876).Buffer, a = [
                 "Cc",
                 "Zs",
                 "Po",
@@ -6950,8 +7059,8 @@
                 isBaseForm: M,
                 isMark: N
             };
-        },
-        1290: function(e) {
+        /***/ },
+        /***/ 1290: /***/ function(e) {
             "use strict";
             e.exports = {
                 ALIGN_COUNT: 8,
@@ -7032,19 +7141,30 @@
                 WRAP_WRAP: 1,
                 WRAP_WRAP_REVERSE: 2
             };
-        },
-        9745: function(e, t, r) {
+        /***/ },
+        /***/ 9745: /***/ function(e, t, r) {
             "use strict";
-            var n = r(1009), i = r(8575), o = !1, a = null;
+            /**
+             * Copyright (c) 2014-present, Facebook, Inc.
+             * All rights reserved.
+             *
+             * This source code is licensed under the BSD-style license found in the
+             * LICENSE file in the root directory of this source tree. An additional grant
+             * of patent rights can be found in the PATENTS file in the same directory.
+             *
+             *
+             * @format
+             */ var n = r(1009), i = r(8575), o = !1, a = null;
             if (i({}, function(e, t) {
                 if (!o) {
                     if (o = !0, e) throw e;
                     a = t;
                 }
             }), !o) throw Error("Failed to load the yoga module - it needed to be loaded synchronously, but didn't");
+            // $FlowFixMe ret will not be null here
             e.exports = n(a.bind, a.lib);
-        },
-        1009: function(e, t, r) {
+        /***/ },
+        /***/ 1009: /***/ function(e, t, r) {
             "use strict";
             var n = Object.assign || function(e) {
                 for(var t = 1; t < arguments.length; t++){
@@ -7074,7 +7194,17 @@
             function a(e, t) {
                 if (!(e instanceof t)) throw TypeError("Cannot call a class as a function");
             }
-            var u = r(1290), l = function() {
+            /**
+             * Copyright (c) 2014-present, Facebook, Inc.
+             * All rights reserved.
+             *
+             * This source code is licensed under the BSD-style license found in the
+             * LICENSE file in the root directory of this source tree. An additional grant
+             * of patent rights can be found in the PATENTS file in the same directory.
+             *
+             *
+             * @format
+             */ var u = r(1290), l = function() {
                 function e(t, r, n, i, o, u) {
                     a(this, e), this.left = t, this.right = r, this.top = n, this.bottom = i, this.width = o, this.height = u;
                 }
@@ -7177,6 +7307,8 @@
                     var e, n = i[a], l = (o(e = {}, u.UNIT_POINT, t.Node.prototype[n]), o(e, u.UNIT_PERCENT, t.Node.prototype[n + "Percent"]), o(e, u.UNIT_AUTO, t.Node.prototype[n + "Auto"]), e);
                     r(t.Node.prototype, n, function(e) {
                         for(var t, r, i = arguments.length, o = Array(i > 1 ? i - 1 : 0), a = 1; a < i; a++)o[a - 1] = arguments[a];
+                        // We patch all these functions to add support for the following calls:
+                        // .setWidth(100) / .setWidth("100%") / .setWidth(.getWidth()) / .setWidth("auto")
                         var s = o.pop(), f = void 0, d = void 0;
                         if ("auto" === s) f = u.UNIT_AUTO, d = void 0;
                         else if (s instanceof c) f = s.unit, d = s.valueOf();
@@ -7192,20 +7324,31 @@
                     });
                 }();
                 return r(t.Config.prototype, "free", function() {
+                    // Since we handle the memory allocation ourselves (via lib.Config.create),
+                    // we also need to handle the deallocation
                     t.Config.destroy(this);
                 }), r(t.Node, "create", function(e, r) {
+                    // We decide the constructor we want to call depending on the parameters
                     return r ? t.Node.createWithConfig(r) : t.Node.createDefault();
                 }), r(t.Node.prototype, "free", function() {
+                    // Since we handle the memory allocation ourselves (via lib.Node.create),
+                    // we also need to handle the deallocation
                     t.Node.destroy(this);
                 }), r(t.Node.prototype, "freeRecursive", function() {
                     for(var e = 0, t = this.getChildCount(); e < t; ++e)this.getChild(0).freeRecursive();
                     this.free();
                 }), r(t.Node.prototype, "setMeasureFunc", function(e, t) {
-                    return t ? e.call(this, function() {
+                    return(// This patch is just a convenience patch, since it helps write more
+                    // idiomatic source code (such as .setMeasureFunc(null))
+                    // We also automatically convert the return value of the measureFunc
+                    // to a Size object, so that we can return anything that has .width and
+                    // .height properties
+                    t ? e.call(this, function() {
                         return s.fromJS(t.apply(void 0, arguments));
-                    }) : this.unsetMeasureFunc();
+                    }) : this.unsetMeasureFunc());
                 }), r(t.Node.prototype, "calculateLayout", function(e) {
                     var t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : NaN, r = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : NaN, n = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : u.DIRECTION_LTR;
+                    // Just a small patch to add support for the function default parameters
                     return e.call(this, t, r, n);
                 }), n({
                     Config: t.Config,
@@ -7218,12 +7361,18 @@
                     }
                 }, u);
             };
-        },
-        4299: function(e) {
-            e.exports = function(e) {
+        /***/ },
+        /***/ 4299: /***/ function(e) {
+            e.exports = /**
+             * redefine `path` with absolute coordinates
+             *
+             * @param {Array} path
+             * @return {Array}
+             */ function(e) {
                 var t = 0, r = 0, n = 0, i = 0;
                 return e.map(function(e) {
                     var o = (e = e.slice())[0], a = o.toUpperCase();
+                    // is relative
                     if (o != a) switch(e[0] = a, o){
                         case "a":
                             e[6] += n, e[7] += i;
@@ -7237,6 +7386,7 @@
                         default:
                             for(var u = 1; u < e.length;)e[u++] += n, e[u++] += i;
                     }
+                    // update cursor state
                     switch(a){
                         case "Z":
                             n = t, i = r;
@@ -7256,8 +7406,8 @@
                     return e;
                 });
             };
-        },
-        7152: function(e, t, r) {
+        /***/ },
+        /***/ 7152: /***/ function(e, t, r) {
             var n = r(9681).Writable, i = r(9720), o = r(5548), a = r.g.URL || r.g.webkitURL || r.g.mozURL;
             function u() {
                 if (!(this instanceof u)) return new u();
@@ -7276,9 +7426,11 @@
             }, u.prototype.toBlobURL = function(e) {
                 return a.createObjectURL(this.toBlob(e));
             }, e.exports = u;
-        },
-        5548: function(e, t, r) {
-            var n = r.g.BlobBuilder || r.g.WebKitBlobBuilder || r.g.MSBlobBuilder || r.g.MozBlobBuilder, i = function() {
+        /***/ },
+        /***/ 5548: /***/ function(e, t, r) {
+            /**
+             * Create a blob builder even when vendor prefixes exist
+             */ var n = r.g.BlobBuilder || r.g.WebKitBlobBuilder || r.g.MSBlobBuilder || r.g.MozBlobBuilder, i = function() {
                 try {
                     var e = new Blob([
                         "hi"
@@ -7300,11 +7452,17 @@
                     return !1;
                 }
             }(), a = n && n.prototype.append && n.prototype.getBlob;
-            function u(e) {
+            /**
+             * Helper function that maps ArrayBufferViews to ArrayBuffers
+             * Used by BlobBuilder constructor and old browsers that didn't
+             * support it in the Blob constructor.
+             */ function u(e) {
                 for(var t = 0; t < e.length; t++){
                     var r = e[t];
                     if (r.buffer instanceof ArrayBuffer) {
                         var n = r.buffer;
+                        // if this is a subarray, make a copy so we only
+                        // include the subarray region from the underlying buffer
                         if (r.byteLength !== n.byteLength) {
                             var i = new Uint8Array(r.byteLength);
                             i.set(new Uint8Array(n, r.byteOffset, r.byteLength)), n = i.buffer;
@@ -7322,16 +7480,16 @@
                 for(var i = 0; i < e.length; i++)r.append(e[i]);
                 return t.type ? r.getBlob(t.type) : r.getBlob();
             } : void 0;
-        },
-        1924: function(e, t, r) {
+        /***/ },
+        /***/ 1924: /***/ function(e, t, r) {
             "use strict";
             var n = r(210), i = r(5559), o = i(n("String.prototype.indexOf"));
             e.exports = function(e, t) {
                 var r = n(e, !!t);
                 return "function" == typeof r && o(e, ".prototype.") > -1 ? i(r) : r;
             };
-        },
-        5559: function(e, t, r) {
+        /***/ },
+        /***/ 5559: /***/ function(e, t, r) {
             "use strict";
             var n = r(8612), i = r(210), o = i("%Function.prototype.apply%"), a = i("%Function.prototype.call%"), u = i("%Reflect.apply%", !0) || n.call(a, o), l = i("%Object.getOwnPropertyDescriptor%", !0), s = i("%Object.defineProperty%", !0), c = i("%Math.max%");
             if (s) try {
@@ -7339,11 +7497,13 @@
                     value: 1
                 });
             } catch (e) {
+                // IE 8 has a broken defineProperty
                 s = null;
             }
             e.exports = function(e) {
                 var t = u(n, a, arguments);
-                return l && s && l(t, "length").configurable && s(t, "length", {
+                return l && s && l(t, "length").configurable && // original length, plus the receiver, minus any additional arguments (after the receiver)
+                s(t, "length", {
                     value: 1 + c(0, e.length - (arguments.length - 1))
                 }), t;
             };
@@ -7353,21 +7513,43 @@
             s ? s(e.exports, "apply", {
                 value: f
             }) : e.exports.apply = f;
-        },
-        6313: function(e, t, r) {
-            var n = r(1876).Buffer, i = function() {
+        /***/ },
+        /***/ 6313: /***/ function(e, t, r) {
+            /* provided dependency */ var n = r(1876).Buffer, i = function() {
                 "use strict";
-                function e(t, i, o, a) {
+                /**
+                 * Clones (copies) an Object using deep copying.
+                 *
+                 * This function supports circular references by default, but if you are certain
+                 * there are no circular references in your object, you can save some CPU time
+                 * by calling clone(obj, false).
+                 *
+                 * Caution: if `circular` is false and `parent` contains circular references,
+                 * your program may enter an infinite loop and crash.
+                 *
+                 * @param `parent` - the object to be cloned
+                 * @param `circular` - set to true if the object to be cloned may contain
+                 *    circular references. (optional - true by default)
+                 * @param `depth` - set to a number if the object is only to be cloned to
+                 *    a particular depth. (optional - defaults to Infinity)
+                 * @param `prototype` - sets the prototype to be used when cloning an object.
+                 *    (optional - defaults to parent prototype).
+                 */ function e(t, i, o, a) {
                     "object" == typeof i && (o = i.depth, a = i.prototype, i.filter, i = i.circular);
+                    // maintain two arrays for circular references, where corresponding parents
+                    // and children have the same index
                     var u = [], l = [], s = void 0 !== n;
-                    return void 0 === i && (i = !0), void 0 === o && (o = 1 / 0), function t(o, c) {
+                    return void 0 === i && (i = !0), void 0 === o && (o = 1 / 0), // recurse this function so we don't reset allParents and allChildren
+                    function t(o, c) {
+                        // cloning null always returns null
                         if (null === o) return null;
                         if (0 == c || "object" != typeof o) return o;
                         if (e.__isArray(o)) f = [];
                         else if (e.__isRegExp(o)) f = new RegExp(o.source, r(o)), o.lastIndex && (f.lastIndex = o.lastIndex);
                         else if (e.__isDate(o)) f = new Date(o.getTime());
                         else {
-                            if (s && n.isBuffer(o)) return f = n.allocUnsafe ? n.allocUnsafe(o.length) : new n(o.length), o.copy(f), f;
+                            if (s && n.isBuffer(o)) return(// Node.js >= 4.5.0
+                            f = n.allocUnsafe ? n.allocUnsafe(o.length) : new n(o.length), o.copy(f), f);
                             void 0 === a ? f = Object.create(d = Object.getPrototypeOf(o)) : (f = Object.create(a), d = a);
                         }
                         if (i) {
@@ -7379,6 +7561,7 @@
                         return f;
                     }(t, o);
                 }
+                // private utility functions
                 function t(e) {
                     return Object.prototype.toString.call(e);
                 }
@@ -7386,7 +7569,13 @@
                     var t = "";
                     return e.global && (t += "g"), e.ignoreCase && (t += "i"), e.multiline && (t += "m"), t;
                 }
-                return e.clonePrototype = function(e) {
+                return(/**
+                 * Simple flat clone using prototype, accepts only objects, usefull for property
+                 * override on FLAT configuration object (no nested props).
+                 *
+                 * USE WITH CAUTION! This may not behave as you wish if you do not know how this
+                 * works.
+                 */ e.clonePrototype = function(e) {
                     if (null === e) return null;
                     var t = function() {};
                     return t.prototype = e, new t();
@@ -7396,11 +7585,11 @@
                     return "object" == typeof e && "[object Array]" === t(e);
                 }, e.__isRegExp = function(e) {
                     return "object" == typeof e && "[object RegExp]" === t(e);
-                }, e.__getRegExpFlags = r, e;
+                }, e.__getRegExpFlags = r, e);
             }();
             e.exports && (e.exports = i);
-        },
-        8874: function(e) {
+        /***/ },
+        /***/ 8874: /***/ function(e) {
             "use strict";
             e.exports = {
                 aliceblue: [
@@ -8144,14 +8333,16 @@
                     50
                 ]
             };
-        },
-        9818: function(e, t, r) {
-            var n = r(8874), i = r(6851), o = Object.hasOwnProperty, a = Object.create(null);
+        /***/ },
+        /***/ 9818: /***/ function(e, t, r) {
+            /* MIT license */ var n = r(8874), i = r(6851), o = Object.hasOwnProperty, a = Object.create(null);
+            // create a list of reverse color names
             for(var u in n)o.call(n, u) && (a[n[u]] = u);
             var l = e.exports = {
                 to: {},
                 get: {}
             };
+            // helpers
             function s(e, t, r) {
                 return Math.min(Math.max(t, e), r);
             }
@@ -8185,6 +8376,7 @@
                 ];
                 if (t = e.match(/^#([a-f0-9]{6})([a-f0-9]{2})?$/i)) {
                     for(r = 0, i = t[2], t = t[1]; r < 3; r++){
+                        // https://jsperf.com/slice-vs-substr-vs-substring-methods-long-string/19
                         var u = 2 * r;
                         a[r] = parseInt(t.slice(u, u + 2), 16);
                     }
@@ -8245,14 +8437,16 @@
             }, l.to.hsl = function() {
                 var e = i(arguments);
                 return e.length < 4 || 1 === e[3] ? "hsl(" + e[0] + ", " + e[1] + "%, " + e[2] + "%)" : "hsla(" + e[0] + ", " + e[1] + "%, " + e[2] + "%, " + e[3] + ")";
-            }, l.to.hwb = function() {
+            }, // hwb is a bit different than rgb(a) & hsl(a) since there is no alpha specific syntax
+            // (hwb have alpha optional & 1 is default value)
+            l.to.hwb = function() {
                 var e = i(arguments), t = "";
                 return e.length >= 4 && 1 !== e[3] && (t = ", " + e[3]), "hwb(" + e[0] + ", " + e[1] + "%, " + e[2] + "%" + t + ")";
             }, l.to.keyword = function(e) {
                 return a[e.slice(0, 3)];
             };
-        },
-        4098: function(e, t) {
+        /***/ },
+        /***/ 4098: /***/ function(e, t) {
             var r = "undefined" != typeof self ? self : this, n = function() {
                 function e() {
                     this.fetch = !1, this.DOMException = r.DOMException;
@@ -8293,6 +8487,7 @@
                 function a(e) {
                     return "string" != typeof e && (e = String(e)), e;
                 }
+                // Build a destructive iterator for the value list
                 function u(e) {
                     var r = {
                         next: function() {
@@ -8347,7 +8542,8 @@
                             else if (t.searchParams && URLSearchParams.prototype.isPrototypeOf(e)) this._bodyText = e.toString();
                             else {
                                 var r;
-                                t.arrayBuffer && t.blob && (r = e) && DataView.prototype.isPrototypeOf(r) ? (this._bodyArrayBuffer = d(e.buffer), this._bodyInit = new Blob([
+                                t.arrayBuffer && t.blob && (r = e) && DataView.prototype.isPrototypeOf(r) ? (this._bodyArrayBuffer = d(e.buffer), // IE 10-11 can't handle a DataView body.
+                                this._bodyInit = new Blob([
                                     this._bodyArrayBuffer
                                 ])) : t.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(e) || i(e)) ? this._bodyArrayBuffer = d(e) : this._bodyText = e = Object.prototype.toString.call(e);
                             }
@@ -8415,6 +8611,7 @@
                         ]);
                     }), u(e);
                 }, t.iterable && (l.prototype[Symbol.iterator] = l.prototype.entries);
+                // HTTP methods whose capitalization should be normalized
                 var h = [
                     "DELETE",
                     "GET",
@@ -8517,6 +8714,7 @@
                         }, u.open(a.method, a.url, !0), "include" === a.credentials ? u.withCredentials = !0 : "omit" === a.credentials && (u.withCredentials = !1), "responseType" in u && t.blob && (u.responseType = "blob"), a.headers.forEach(function(e, t) {
                             u.setRequestHeader(t, e);
                         }), a.signal && (a.signal.addEventListener("abort", s), u.onreadystatechange = function() {
+                            // DONE (success or failure)
                             4 === u.readyState && a.signal.removeEventListener("abort", s);
                         }), u.send(void 0 === a._bodyInit ? null : a._bodyInit);
                     });
@@ -8524,20 +8722,30 @@
                 m.polyfill = !0, n.fetch || (n.fetch = m, n.Headers = l, n.Request = y, n.Response = v), e.Headers = l, e.Request = y, e.Response = v, e.fetch = m, Object.defineProperty(e, "__esModule", {
                     value: !0
                 });
-            })({}), n.fetch.ponyfill = !0, delete n.fetch.polyfill, (t = n.fetch).default = n.fetch, t.fetch = n.fetch, t.Headers = n.Headers, t.Request = n.Request, t.Response = n.Response, e.exports = t;
-        },
-        8249: function(e, t, r) {
+            })({}), n.fetch.ponyfill = !0, // Remove "polyfill" property added by whatwg-fetch
+            delete n.fetch.polyfill, (t = n.fetch).default = n.fetch, t.fetch = n.fetch, t.Headers = n.Headers, t.Request = n.Request, t.Response = n.Response, e.exports = t;
+        /***/ },
+        /***/ 8249: /***/ function(e, t, r) {
             var n;
             n = function() {
-                var e = e || function(e, t) {
+                /*globals window, global, require*/ /**
+                 * CryptoJS core components.
+                 */ var e = e || function(e, t) {
+                    // Native crypto import via require (NodeJS)
                     if ("undefined" != typeof window && window.crypto && (n = window.crypto), "undefined" != typeof self && self.crypto && (n = self.crypto), "undefined" != typeof globalThis && globalThis.crypto && (n = globalThis.crypto), !n && "undefined" != typeof window && window.msCrypto && (n = window.msCrypto), !n && void 0 !== r.g && r.g.crypto && (n = r.g.crypto), !n) try {
                         n = r(2480);
                     } catch (e) {}
-                    var n, i = function() {
+                    /*
+                         * Cryptographically secure pseudorandom number generator
+                         *
+                         * As Math.random() is cryptographically not safe to use
+                         */ var n, i = function() {
                         if (n) {
+                            // Use getRandomValues method (Browser)
                             if ("function" == typeof n.getRandomValues) try {
                                 return n.getRandomValues(new Uint32Array(1))[0];
                             } catch (e) {}
+                            // Use randomBytes method (NodeJS)
                             if ("function" == typeof n.randomBytes) try {
                                 return n.randomBytes(4).readInt32LE();
                             } catch (e) {}
@@ -8550,149 +8758,470 @@
                             return e.prototype = t, r = new e(), e.prototype = null, r;
                         };
                     }(), a = {}, u = a.lib = {}, l = u.Base = {
-                        extend: function(e) {
+                        /**
+                                 * Creates a new object that inherits from this object.
+                                 *
+                                 * @param {Object} overrides Properties to copy into the new object.
+                                 *
+                                 * @return {Object} The new object.
+                                 *
+                                 * @static
+                                 *
+                                 * @example
+                                 *
+                                 *     var MyType = CryptoJS.lib.Base.extend({
+                                 *         field: 'value',
+                                 *
+                                 *         method: function () {
+                                 *         }
+                                 *     });
+                                 */ extend: function(e) {
+                            // Spawn
                             var t = o(this);
                             return e && t.mixIn(e), t.hasOwnProperty("init") && this.init !== t.init || (t.init = function() {
                                 t.$super.init.apply(this, arguments);
-                            }), t.init.prototype = t, t.$super = this, t;
+                            }), // Initializer's prototype is the subtype object
+                            t.init.prototype = t, // Reference supertype
+                            t.$super = this, t;
                         },
-                        create: function() {
+                        /**
+                                 * Extends this object and runs the init method.
+                                 * Arguments to create() will be passed to init().
+                                 *
+                                 * @return {Object} The new object.
+                                 *
+                                 * @static
+                                 *
+                                 * @example
+                                 *
+                                 *     var instance = MyType.create();
+                                 */ create: function() {
                             var e = this.extend();
                             return e.init.apply(e, arguments), e;
                         },
-                        init: function() {},
-                        mixIn: function(e) {
+                        /**
+                                 * Initializes a newly created object.
+                                 * Override this method to add some logic when your objects are created.
+                                 *
+                                 * @example
+                                 *
+                                 *     var MyType = CryptoJS.lib.Base.extend({
+                                 *         init: function () {
+                                 *             // ...
+                                 *         }
+                                 *     });
+                                 */ init: function() {},
+                        /**
+                                 * Copies properties into this object.
+                                 *
+                                 * @param {Object} properties The properties to mix in.
+                                 *
+                                 * @example
+                                 *
+                                 *     MyType.mixIn({
+                                 *         field: 'value'
+                                 *     });
+                                 */ mixIn: function(e) {
                             for(var t in e)e.hasOwnProperty(t) && (this[t] = e[t]);
+                            // IE won't copy toString using the loop above
                             e.hasOwnProperty("toString") && (this.toString = e.toString);
                         },
-                        clone: function() {
+                        /**
+                                 * Creates a copy of this object.
+                                 *
+                                 * @return {Object} The clone.
+                                 *
+                                 * @example
+                                 *
+                                 *     var clone = instance.clone();
+                                 */ clone: function() {
                             return this.init.prototype.extend(this);
                         }
                     }, s = u.WordArray = l.extend({
-                        init: function(e, r) {
+                        /**
+                             * Initializes a newly created word array.
+                             *
+                             * @param {Array} words (Optional) An array of 32-bit words.
+                             * @param {number} sigBytes (Optional) The number of significant bytes in the words.
+                             *
+                             * @example
+                             *
+                             *     var wordArray = CryptoJS.lib.WordArray.create();
+                             *     var wordArray = CryptoJS.lib.WordArray.create([0x00010203, 0x04050607]);
+                             *     var wordArray = CryptoJS.lib.WordArray.create([0x00010203, 0x04050607], 6);
+                             */ init: function(e, r) {
                             e = this.words = e || [], t != r ? this.sigBytes = r : this.sigBytes = 4 * e.length;
                         },
-                        toString: function(e) {
+                        /**
+                             * Converts this word array to a string.
+                             *
+                             * @param {Encoder} encoder (Optional) The encoding strategy to use. Default: CryptoJS.enc.Hex
+                             *
+                             * @return {string} The stringified word array.
+                             *
+                             * @example
+                             *
+                             *     var string = wordArray + '';
+                             *     var string = wordArray.toString();
+                             *     var string = wordArray.toString(CryptoJS.enc.Utf8);
+                             */ toString: function(e) {
                             return (e || f).stringify(this);
                         },
-                        concat: function(e) {
+                        /**
+                             * Concatenates a word array to this word array.
+                             *
+                             * @param {WordArray} wordArray The word array to append.
+                             *
+                             * @return {WordArray} This word array.
+                             *
+                             * @example
+                             *
+                             *     wordArray1.concat(wordArray2);
+                             */ concat: function(e) {
+                            // Shortcuts
                             var t = this.words, r = e.words, n = this.sigBytes, i = e.sigBytes;
-                            if (this.clamp(), n % 4) for(var o = 0; o < i; o++){
+                            // Concat
+                            if (// Clamp excess bits
+                            this.clamp(), n % 4) // Copy one byte at a time
+                            for(var o = 0; o < i; o++){
                                 var a = r[o >>> 2] >>> 24 - o % 4 * 8 & 0xff;
                                 t[n + o >>> 2] |= a << 24 - (n + o) % 4 * 8;
                             }
-                            else for(var u = 0; u < i; u += 4)t[n + u >>> 2] = r[u >>> 2];
+                            else // Copy one word at a time
+                            for(var u = 0; u < i; u += 4)t[n + u >>> 2] = r[u >>> 2];
+                            // Chainable
                             return this.sigBytes += i, this;
                         },
-                        clamp: function() {
+                        /**
+                             * Removes insignificant bits.
+                             *
+                             * @example
+                             *
+                             *     wordArray.clamp();
+                             */ clamp: function() {
+                            // Shortcuts
                             var t = this.words, r = this.sigBytes;
+                            // Clamp
                             t[r >>> 2] &= 0xffffffff << 32 - r % 4 * 8, t.length = e.ceil(r / 4);
                         },
-                        clone: function() {
+                        /**
+                             * Creates a copy of this word array.
+                             *
+                             * @return {WordArray} The clone.
+                             *
+                             * @example
+                             *
+                             *     var clone = wordArray.clone();
+                             */ clone: function() {
                             var e = l.clone.call(this);
                             return e.words = this.words.slice(0), e;
                         },
-                        random: function(e) {
+                        /**
+                             * Creates a word array filled with random bytes.
+                             *
+                             * @param {number} nBytes The number of random bytes to generate.
+                             *
+                             * @return {WordArray} The random word array.
+                             *
+                             * @static
+                             *
+                             * @example
+                             *
+                             *     var wordArray = CryptoJS.lib.WordArray.random(16);
+                             */ random: function(e) {
                             for(var t = [], r = 0; r < e; r += 4)t.push(i());
                             return new s.init(t, e);
                         }
                     }), c = a.enc = {}, f = c.Hex = {
-                        stringify: function(e) {
+                        /**
+                             * Converts a word array to a hex string.
+                             *
+                             * @param {WordArray} wordArray The word array.
+                             *
+                             * @return {string} The hex string.
+                             *
+                             * @static
+                             *
+                             * @example
+                             *
+                             *     var hexString = CryptoJS.enc.Hex.stringify(wordArray);
+                             */ stringify: function(e) {
                             for(var t = e.words, r = e.sigBytes, n = [], i = 0; i < r; i++){
                                 var o = t[i >>> 2] >>> 24 - i % 4 * 8 & 0xff;
                                 n.push((o >>> 4).toString(16)), n.push((0x0f & o).toString(16));
                             }
                             return n.join("");
                         },
-                        parse: function(e) {
+                        /**
+                             * Converts a hex string to a word array.
+                             *
+                             * @param {string} hexStr The hex string.
+                             *
+                             * @return {WordArray} The word array.
+                             *
+                             * @static
+                             *
+                             * @example
+                             *
+                             *     var wordArray = CryptoJS.enc.Hex.parse(hexString);
+                             */ parse: function(e) {
                             for(var t = e.length, r = [], n = 0; n < t; n += 2)r[n >>> 3] |= parseInt(e.substr(n, 2), 16) << 24 - n % 8 * 4;
                             return new s.init(r, t / 2);
                         }
                     }, d = c.Latin1 = {
-                        stringify: function(e) {
+                        /**
+                             * Converts a word array to a Latin1 string.
+                             *
+                             * @param {WordArray} wordArray The word array.
+                             *
+                             * @return {string} The Latin1 string.
+                             *
+                             * @static
+                             *
+                             * @example
+                             *
+                             *     var latin1String = CryptoJS.enc.Latin1.stringify(wordArray);
+                             */ stringify: function(e) {
                             for(var t = e.words, r = e.sigBytes, n = [], i = 0; i < r; i++){
                                 var o = t[i >>> 2] >>> 24 - i % 4 * 8 & 0xff;
                                 n.push(String.fromCharCode(o));
                             }
                             return n.join("");
                         },
-                        parse: function(e) {
+                        /**
+                             * Converts a Latin1 string to a word array.
+                             *
+                             * @param {string} latin1Str The Latin1 string.
+                             *
+                             * @return {WordArray} The word array.
+                             *
+                             * @static
+                             *
+                             * @example
+                             *
+                             *     var wordArray = CryptoJS.enc.Latin1.parse(latin1String);
+                             */ parse: function(e) {
                             for(var t = e.length, r = [], n = 0; n < t; n++)r[n >>> 2] |= (0xff & e.charCodeAt(n)) << 24 - n % 4 * 8;
                             return new s.init(r, t);
                         }
                     }, p = c.Utf8 = {
-                        stringify: function(e) {
+                        /**
+                             * Converts a word array to a UTF-8 string.
+                             *
+                             * @param {WordArray} wordArray The word array.
+                             *
+                             * @return {string} The UTF-8 string.
+                             *
+                             * @static
+                             *
+                             * @example
+                             *
+                             *     var utf8String = CryptoJS.enc.Utf8.stringify(wordArray);
+                             */ stringify: function(e) {
                             try {
                                 return decodeURIComponent(escape(d.stringify(e)));
                             } catch (e) {
                                 throw Error("Malformed UTF-8 data");
                             }
                         },
-                        parse: function(e) {
+                        /**
+                             * Converts a UTF-8 string to a word array.
+                             *
+                             * @param {string} utf8Str The UTF-8 string.
+                             *
+                             * @return {WordArray} The word array.
+                             *
+                             * @static
+                             *
+                             * @example
+                             *
+                             *     var wordArray = CryptoJS.enc.Utf8.parse(utf8String);
+                             */ parse: function(e) {
                             return d.parse(unescape(encodeURIComponent(e)));
                         }
                     }, h = u.BufferedBlockAlgorithm = l.extend({
-                        reset: function() {
+                        /**
+                                 * Resets this block algorithm's data buffer to its initial state.
+                                 *
+                                 * @example
+                                 *
+                                 *     bufferedBlockAlgorithm.reset();
+                                 */ reset: function() {
+                            // Initial values
                             this._data = new s.init(), this._nDataBytes = 0;
                         },
-                        _append: function(e) {
-                            "string" == typeof e && (e = p.parse(e)), this._data.concat(e), this._nDataBytes += e.sigBytes;
+                        /**
+                                 * Adds new data to this block algorithm's buffer.
+                                 *
+                                 * @param {WordArray|string} data The data to append. Strings are converted to a WordArray using UTF-8.
+                                 *
+                                 * @example
+                                 *
+                                 *     bufferedBlockAlgorithm._append('data');
+                                 *     bufferedBlockAlgorithm._append(wordArray);
+                                 */ _append: function(e) {
+                            "string" == typeof e && (e = p.parse(e)), // Append
+                            this._data.concat(e), this._nDataBytes += e.sigBytes;
                         },
-                        _process: function(t) {
-                            var r, n = this._data, i = n.words, o = n.sigBytes, a = this.blockSize, u = o / (4 * a), l = (u = t ? e.ceil(u) : e.max((0 | u) - this._minBufferSize, 0)) * a, c = e.min(4 * l, o);
+                        /**
+                                 * Processes available data blocks.
+                                 *
+                                 * This method invokes _doProcessBlock(offset), which must be implemented by a concrete subtype.
+                                 *
+                                 * @param {boolean} doFlush Whether all blocks and partial blocks should be processed.
+                                 *
+                                 * @return {WordArray} The processed data.
+                                 *
+                                 * @example
+                                 *
+                                 *     var processedData = bufferedBlockAlgorithm._process();
+                                 *     var processedData = bufferedBlockAlgorithm._process(!!'flush');
+                                 */ _process: function(t) {
+                            // Shortcuts
+                            var r, n = this._data, i = n.words, o = n.sigBytes, a = this.blockSize, u = o / (4 * a), l = (// Round up to include partial blocks
+                            u = t ? e.ceil(u) : e.max((0 | u) - this._minBufferSize, 0)) * a, c = e.min(4 * l, o);
+                            // Process blocks
                             if (l) {
-                                for(var f = 0; f < l; f += a)this._doProcessBlock(i, f);
+                                for(var f = 0; f < l; f += a)// Perform concrete-algorithm logic
+                                this._doProcessBlock(i, f);
+                                // Remove processed words
                                 r = i.splice(0, l), n.sigBytes -= c;
                             }
+                            // Return processed words
                             return new s.init(r, c);
                         },
-                        clone: function() {
+                        /**
+                                 * Creates a copy of this object.
+                                 *
+                                 * @return {Object} The clone.
+                                 *
+                                 * @example
+                                 *
+                                 *     var clone = bufferedBlockAlgorithm.clone();
+                                 */ clone: function() {
                             var e = l.clone.call(this);
                             return e._data = this._data.clone(), e;
                         },
                         _minBufferSize: 0
                     });
                     u.Hasher = h.extend({
-                        cfg: l.extend(),
-                        init: function(e) {
-                            this.cfg = this.cfg.extend(e), this.reset();
+                        /**
+                                 * Configuration options.
+                                 */ cfg: l.extend(),
+                        /**
+                                 * Initializes a newly created hasher.
+                                 *
+                                 * @param {Object} cfg (Optional) The configuration options to use for this hash computation.
+                                 *
+                                 * @example
+                                 *
+                                 *     var hasher = CryptoJS.algo.SHA256.create();
+                                 */ init: function(e) {
+                            // Apply config defaults
+                            this.cfg = this.cfg.extend(e), // Set initial values
+                            this.reset();
                         },
-                        reset: function() {
-                            h.reset.call(this), this._doReset();
+                        /**
+                                 * Resets this hasher to its initial state.
+                                 *
+                                 * @example
+                                 *
+                                 *     hasher.reset();
+                                 */ reset: function() {
+                            // Reset data buffer
+                            h.reset.call(this), // Perform concrete-hasher logic
+                            this._doReset();
                         },
-                        update: function(e) {
-                            return this._append(e), this._process(), this;
+                        /**
+                                 * Updates this hasher with a message.
+                                 *
+                                 * @param {WordArray|string} messageUpdate The message to append.
+                                 *
+                                 * @return {Hasher} This hasher.
+                                 *
+                                 * @example
+                                 *
+                                 *     hasher.update('message');
+                                 *     hasher.update(wordArray);
+                                 */ update: function(e) {
+                            // Chainable
+                            return(// Append
+                            this._append(e), // Update the hash
+                            this._process(), this);
                         },
-                        finalize: function(e) {
+                        /**
+                                 * Finalizes the hash computation.
+                                 * Note that the finalize operation is effectively a destructive, read-once operation.
+                                 *
+                                 * @param {WordArray|string} messageUpdate (Optional) A final message update.
+                                 *
+                                 * @return {WordArray} The hash.
+                                 *
+                                 * @example
+                                 *
+                                 *     var hash = hasher.finalize();
+                                 *     var hash = hasher.finalize('message');
+                                 *     var hash = hasher.finalize(wordArray);
+                                 */ finalize: function(e) {
                             return e && this._append(e), this._doFinalize();
                         },
                         blockSize: 16,
-                        _createHelper: function(e) {
+                        /**
+                                 * Creates a shortcut function to a hasher's object interface.
+                                 *
+                                 * @param {Hasher} hasher The hasher to create a helper for.
+                                 *
+                                 * @return {Function} The shortcut function.
+                                 *
+                                 * @static
+                                 *
+                                 * @example
+                                 *
+                                 *     var SHA256 = CryptoJS.lib.Hasher._createHelper(CryptoJS.algo.SHA256);
+                                 */ _createHelper: function(e) {
                             return function(t, r) {
                                 return new e.init(r).finalize(t);
                             };
                         },
-                        _createHmacHelper: function(e) {
+                        /**
+                                 * Creates a shortcut function to the HMAC's object interface.
+                                 *
+                                 * @param {Hasher} hasher The hasher to use in this HMAC helper.
+                                 *
+                                 * @return {Function} The shortcut function.
+                                 *
+                                 * @static
+                                 *
+                                 * @example
+                                 *
+                                 *     var HmacSHA256 = CryptoJS.lib.Hasher._createHmacHelper(CryptoJS.algo.SHA256);
+                                 */ _createHmacHelper: function(e) {
                             return function(t, r) {
                                 return new y.HMAC.init(e, r).finalize(t);
                             };
                         }
                     });
-                    var y = a.algo = {};
+                    /**
+                         * Algorithm namespace.
+                         */ var y = a.algo = {};
                     return a;
                 }(Math);
                 return e;
-            }, e.exports = n();
-        },
-        8214: function(e, t, r) {
+            }, // CommonJS
+            e.exports = n();
+        /***/ },
+        /***/ 8214: /***/ function(e, t, r) {
             var n;
             n = function(e) {
                 return function(t) {
                     var r = e.lib, n = r.WordArray, i = r.Hasher, o = e.algo, a = [];
-                    !function() {
+                    !// Compute constants
+                    function() {
                         for(var e = 0; e < 64; e++)a[e] = 0x100000000 * t.abs(t.sin(e + 1)) | 0;
                     }();
-                    var u = o.MD5 = i.extend({
+                    /**
+                     * MD5 hash algorithm.
+                     */ var u = o.MD5 = i.extend({
                         _doReset: function() {
                             this._hash = new n.init([
                                 0x67452301,
@@ -8702,22 +9231,33 @@
                             ]);
                         },
                         _doProcessBlock: function(e, t) {
+                            // Swap endian
                             for(var r = 0; r < 16; r++){
+                                // Shortcuts
                                 var n = t + r, i = e[n];
                                 e[n] = (i << 8 | i >>> 24) & 0x00ff00ff | (i << 24 | i >>> 8) & 0xff00ff00;
                             }
+                            // Shortcuts
                             var o = this._hash.words, u = e[t + 0], d = e[t + 1], p = e[t + 2], h = e[t + 3], y = e[t + 4], g = e[t + 5], v = e[t + 6], b = e[t + 7], m = e[t + 8], D = e[t + 9], w = e[t + 10], E = e[t + 11], _ = e[t + 12], x = e[t + 13], S = e[t + 14], A = e[t + 15], k = o[0], T = o[1], O = o[2], C = o[3];
-                            k = l(k, T, O, C, u, 7, a[0]), C = l(C, k, T, O, d, 12, a[1]), O = l(O, C, k, T, p, 17, a[2]), T = l(T, O, C, k, h, 22, a[3]), k = l(k, T, O, C, y, 7, a[4]), C = l(C, k, T, O, g, 12, a[5]), O = l(O, C, k, T, v, 17, a[6]), T = l(T, O, C, k, b, 22, a[7]), k = l(k, T, O, C, m, 7, a[8]), C = l(C, k, T, O, D, 12, a[9]), O = l(O, C, k, T, w, 17, a[10]), T = l(T, O, C, k, E, 22, a[11]), k = l(k, T, O, C, _, 7, a[12]), C = l(C, k, T, O, x, 12, a[13]), O = l(O, C, k, T, S, 17, a[14]), T = l(T, O, C, k, A, 22, a[15]), k = s(k, T, O, C, d, 5, a[16]), C = s(C, k, T, O, v, 9, a[17]), O = s(O, C, k, T, E, 14, a[18]), T = s(T, O, C, k, u, 20, a[19]), k = s(k, T, O, C, g, 5, a[20]), C = s(C, k, T, O, w, 9, a[21]), O = s(O, C, k, T, A, 14, a[22]), T = s(T, O, C, k, y, 20, a[23]), k = s(k, T, O, C, D, 5, a[24]), C = s(C, k, T, O, S, 9, a[25]), O = s(O, C, k, T, h, 14, a[26]), T = s(T, O, C, k, m, 20, a[27]), k = s(k, T, O, C, x, 5, a[28]), C = s(C, k, T, O, p, 9, a[29]), O = s(O, C, k, T, b, 14, a[30]), T = s(T, O, C, k, _, 20, a[31]), k = c(k, T, O, C, g, 4, a[32]), C = c(C, k, T, O, m, 11, a[33]), O = c(O, C, k, T, E, 16, a[34]), T = c(T, O, C, k, S, 23, a[35]), k = c(k, T, O, C, d, 4, a[36]), C = c(C, k, T, O, y, 11, a[37]), O = c(O, C, k, T, b, 16, a[38]), T = c(T, O, C, k, w, 23, a[39]), k = c(k, T, O, C, x, 4, a[40]), C = c(C, k, T, O, u, 11, a[41]), O = c(O, C, k, T, h, 16, a[42]), T = c(T, O, C, k, v, 23, a[43]), k = c(k, T, O, C, D, 4, a[44]), C = c(C, k, T, O, _, 11, a[45]), O = c(O, C, k, T, A, 16, a[46]), T = c(T, O, C, k, p, 23, a[47]), k = f(k, T, O, C, u, 6, a[48]), C = f(C, k, T, O, b, 10, a[49]), O = f(O, C, k, T, S, 15, a[50]), T = f(T, O, C, k, g, 21, a[51]), k = f(k, T, O, C, _, 6, a[52]), C = f(C, k, T, O, h, 10, a[53]), O = f(O, C, k, T, w, 15, a[54]), T = f(T, O, C, k, d, 21, a[55]), k = f(k, T, O, C, m, 6, a[56]), C = f(C, k, T, O, A, 10, a[57]), O = f(O, C, k, T, v, 15, a[58]), T = f(T, O, C, k, x, 21, a[59]), k = f(k, T, O, C, y, 6, a[60]), C = f(C, k, T, O, E, 10, a[61]), O = f(O, C, k, T, p, 15, a[62]), T = f(T, O, C, k, D, 21, a[63]), o[0] = o[0] + k | 0, o[1] = o[1] + T | 0, o[2] = o[2] + O | 0, o[3] = o[3] + C | 0;
+                            // Computation
+                            k = l(k, T, O, C, u, 7, a[0]), C = l(C, k, T, O, d, 12, a[1]), O = l(O, C, k, T, p, 17, a[2]), T = l(T, O, C, k, h, 22, a[3]), k = l(k, T, O, C, y, 7, a[4]), C = l(C, k, T, O, g, 12, a[5]), O = l(O, C, k, T, v, 17, a[6]), T = l(T, O, C, k, b, 22, a[7]), k = l(k, T, O, C, m, 7, a[8]), C = l(C, k, T, O, D, 12, a[9]), O = l(O, C, k, T, w, 17, a[10]), T = l(T, O, C, k, E, 22, a[11]), k = l(k, T, O, C, _, 7, a[12]), C = l(C, k, T, O, x, 12, a[13]), O = l(O, C, k, T, S, 17, a[14]), T = l(T, O, C, k, A, 22, a[15]), k = s(k, T, O, C, d, 5, a[16]), C = s(C, k, T, O, v, 9, a[17]), O = s(O, C, k, T, E, 14, a[18]), T = s(T, O, C, k, u, 20, a[19]), k = s(k, T, O, C, g, 5, a[20]), C = s(C, k, T, O, w, 9, a[21]), O = s(O, C, k, T, A, 14, a[22]), T = s(T, O, C, k, y, 20, a[23]), k = s(k, T, O, C, D, 5, a[24]), C = s(C, k, T, O, S, 9, a[25]), O = s(O, C, k, T, h, 14, a[26]), T = s(T, O, C, k, m, 20, a[27]), k = s(k, T, O, C, x, 5, a[28]), C = s(C, k, T, O, p, 9, a[29]), O = s(O, C, k, T, b, 14, a[30]), T = s(T, O, C, k, _, 20, a[31]), k = c(k, T, O, C, g, 4, a[32]), C = c(C, k, T, O, m, 11, a[33]), O = c(O, C, k, T, E, 16, a[34]), T = c(T, O, C, k, S, 23, a[35]), k = c(k, T, O, C, d, 4, a[36]), C = c(C, k, T, O, y, 11, a[37]), O = c(O, C, k, T, b, 16, a[38]), T = c(T, O, C, k, w, 23, a[39]), k = c(k, T, O, C, x, 4, a[40]), C = c(C, k, T, O, u, 11, a[41]), O = c(O, C, k, T, h, 16, a[42]), T = c(T, O, C, k, v, 23, a[43]), k = c(k, T, O, C, D, 4, a[44]), C = c(C, k, T, O, _, 11, a[45]), O = c(O, C, k, T, A, 16, a[46]), T = c(T, O, C, k, p, 23, a[47]), k = f(k, T, O, C, u, 6, a[48]), C = f(C, k, T, O, b, 10, a[49]), O = f(O, C, k, T, S, 15, a[50]), T = f(T, O, C, k, g, 21, a[51]), k = f(k, T, O, C, _, 6, a[52]), C = f(C, k, T, O, h, 10, a[53]), O = f(O, C, k, T, w, 15, a[54]), T = f(T, O, C, k, d, 21, a[55]), k = f(k, T, O, C, m, 6, a[56]), C = f(C, k, T, O, A, 10, a[57]), O = f(O, C, k, T, v, 15, a[58]), T = f(T, O, C, k, x, 21, a[59]), k = f(k, T, O, C, y, 6, a[60]), C = f(C, k, T, O, E, 10, a[61]), O = f(O, C, k, T, p, 15, a[62]), T = f(T, O, C, k, D, 21, a[63]), // Intermediate hash value
+                            o[0] = o[0] + k | 0, o[1] = o[1] + T | 0, o[2] = o[2] + O | 0, o[3] = o[3] + C | 0;
                         },
                         _doFinalize: function() {
+                            // Shortcuts
                             var e = this._data, r = e.words, n = 8 * this._nDataBytes, i = 8 * e.sigBytes;
+                            // Add padding
                             r[i >>> 5] |= 0x80 << 24 - i % 32;
                             var o = t.floor(n / 0x100000000);
-                            r[(i + 64 >>> 9 << 4) + 15] = (o << 8 | o >>> 24) & 0x00ff00ff | (o << 24 | o >>> 8) & 0xff00ff00, r[(i + 64 >>> 9 << 4) + 14] = (n << 8 | n >>> 24) & 0x00ff00ff | (n << 24 | n >>> 8) & 0xff00ff00, e.sigBytes = (r.length + 1) * 4, this._process();
+                            r[(i + 64 >>> 9 << 4) + 15] = (o << 8 | o >>> 24) & 0x00ff00ff | (o << 24 | o >>> 8) & 0xff00ff00, r[(i + 64 >>> 9 << 4) + 14] = (n << 8 | n >>> 24) & 0x00ff00ff | (n << 24 | n >>> 8) & 0xff00ff00, e.sigBytes = (r.length + 1) * 4, // Hash final blocks
+                            this._process();
+                            // Swap endian
                             for(var a = this._hash, u = a.words, l = 0; l < 4; l++){
+                                // Shortcut
                                 var s = u[l];
                                 u[l] = (s << 8 | s >>> 24) & 0x00ff00ff | (s << 24 | s >>> 8) & 0xff00ff00;
                             }
+                            // Return final computed hash
                             return a;
                         },
                         clone: function() {
@@ -8741,18 +9281,46 @@
                         var u = e + (r ^ (t | ~n)) + i + a;
                         return (u << o | u >>> 32 - o) + t;
                     }
-                    e.MD5 = i._createHelper(u), e.HmacMD5 = i._createHmacHelper(u);
+                    /**
+                     * Shortcut function to the hasher's object interface.
+                     *
+                     * @param {WordArray|string} message The message to hash.
+                     *
+                     * @return {WordArray} The hash.
+                     *
+                     * @static
+                     *
+                     * @example
+                     *
+                     *     var hash = CryptoJS.MD5('message');
+                     *     var hash = CryptoJS.MD5(wordArray);
+                     */ e.MD5 = i._createHelper(u), /**
+                     * Shortcut function to the HMAC's object interface.
+                     *
+                     * @param {WordArray|string} message The message to hash.
+                     * @param {WordArray|string} key The secret key.
+                     *
+                     * @return {WordArray} The HMAC.
+                     *
+                     * @static
+                     *
+                     * @example
+                     *
+                     *     var hmac = CryptoJS.HmacMD5(message, key);
+                     */ e.HmacMD5 = i._createHmacHelper(u);
                 }(Math), e.MD5;
-            }, e.exports = n(r(8249));
-        },
-        251: function(e, t, r) {
+            }, // CommonJS
+            e.exports = n(r(8249));
+        /***/ },
+        /***/ 251: /***/ function(e, t, r) {
             var n = r(2215), i = r(2584), o = r(609), a = r(8420), u = r(2847), l = r(8923), s = Date.prototype.getTime;
             function c(e) {
                 return !!e && "object" == typeof e && "number" == typeof e.length && "function" == typeof e.copy && "function" == typeof e.slice && (!(e.length > 0) || "number" == typeof e[0]);
             }
             e.exports = function e(t, r, f) {
                 var d = f || {};
-                return (d.strict ? !!o(t, r) : t === r) || (t && r && ("object" == typeof t || "object" == typeof r) ? function(t, r, o) {
+                return(// 7.1. All identical values are equivalent, as determined by ===.
+                (d.strict ? !!o(t, r) : t === r) || (t && r && ("object" == typeof t || "object" == typeof r) ? function(t, r, o) {
                     if (typeof t != typeof r || null == t || null == r || t.prototype !== r.prototype || i(t) !== i(r)) return !1;
                     var f, d, p = a(t), h = a(r);
                     if (p !== h) return !1;
@@ -8761,6 +9329,7 @@
                     var y = c(t), g = c(r);
                     if (y !== g) return !1;
                     if (y || g) {
+                        // && would work too, because both are true or both false here
                         if (t.length !== r.length) return !1;
                         for(f = 0; f < t.length; f++)if (t[f] !== r[f]) return !1;
                         return !0;
@@ -8769,16 +9338,21 @@
                     try {
                         var v = n(t), b = n(r);
                     } catch (e) {
+                        // happens when one is a string literal and the other isn't
                         return !1;
                     }
+                    // having the same number of owned properties (keys incorporates hasOwnProperty)
                     if (v.length !== b.length) return !1;
-                    for(v.sort(), b.sort(), f = v.length - 1; f >= 0; f--)if (v[f] != b[f]) return !1;
+                    // ~~~cheap key test
+                    for(// the same set of keys (although not necessarily the same order),
+                    v.sort(), b.sort(), f = v.length - 1; f >= 0; f--)if (v[f] != b[f]) return !1;
+                    // equivalent values for every corresponding key, and ~~~possibly expensive deep test
                     for(f = v.length - 1; f >= 0; f--)if (!e(t[d = v[f]], r[d], o)) return !1;
                     return !0;
-                }(t, r, d) : d.strict ? o(t, r) : t == r);
+                }(t, r, d) : d.strict ? o(t, r) : t == r));
             };
-        },
-        4289: function(e, t, r) {
+        /***/ },
+        /***/ 4289: /***/ function(e, t, r) {
             "use strict";
             var n = r(2215), i = "function" == typeof Symbol && "symbol" == typeof Symbol("foo"), o = Object.prototype.toString, a = Array.prototype.concat, u = Object.defineProperty, l = r(1044)(), s = u && l, c = function(e, t, r, n) {
                 (!(t in e) || "function" == typeof n && "[object Function]" === o.call(n) && n()) && (s ? u(e, t, {
@@ -8793,8 +9367,8 @@
                 for(var u = 0; u < o.length; u += 1)c(e, o[u], t[o[u]], r[o[u]]);
             };
             f.supportsDescriptors = !!s, e.exports = f;
-        },
-        7648: function(e) {
+        /***/ },
+        /***/ 7648: /***/ function(e) {
             "use strict";
             var t = Array.prototype.slice, r = Object.prototype.toString;
             e.exports = function(e) {
@@ -8811,13 +9385,13 @@
                 }
                 return n;
             };
-        },
-        8612: function(e, t, r) {
+        /***/ },
+        /***/ 8612: /***/ function(e, t, r) {
             "use strict";
             var n = r(7648);
             e.exports = Function.prototype.bind || n;
-        },
-        5972: function(e) {
+        /***/ },
+        /***/ 5972: /***/ function(e) {
             "use strict";
             var t = function() {
                 return "string" == typeof (function() {}).name;
@@ -8825,6 +9399,7 @@
             if (r) try {
                 r([], "length");
             } catch (e) {
+                // IE 8 has a broken gOPD
                 r = null;
             }
             t.functionsHaveConfigurableNames = function() {
@@ -8836,8 +9411,8 @@
             t.boundFunctionsHaveNames = function() {
                 return t() && "function" == typeof n && "" !== (function() {}).bind().name;
             }, e.exports = t;
-        },
-        210: function(e, t, r) {
+        /***/ },
+        /***/ 210: /***/ function(e, t, r) {
             "use strict";
             var n, i = SyntaxError, o = Function, a = TypeError, u = function(e) {
                 try {
@@ -8847,15 +9422,17 @@
             if (l) try {
                 l({}, "");
             } catch (e) {
-                l = null;
+                l = null; // this is IE 8, which has a broken gOPD
             }
             var s = function() {
                 throw new a();
             }, c = l ? function() {
                 try {
-                    return arguments.callee, s;
+                    return(// eslint-disable-next-line no-unused-expressions, no-caller, no-restricted-properties
+                    arguments.callee, s);
                 } catch (e) {
                     try {
+                        // IE 8 throws on Object.getOwnPropertyDescriptor(arguments, '')
                         return l(arguments, "callee").get;
                     } catch (e) {
                         return s;
@@ -9195,6 +9772,13 @@
                         }
                         if (l && d + 1 >= r.length) {
                             var b = l(s, h);
+                            // By convention, when a data property is converted to an accessor
+                            // property to emulate a data property that does not suffer from
+                            // the override mistake, that accessor's getter is marked with
+                            // an `originalValue` property. Here, when we detect this, we
+                            // uphold the illusion by pretending to see that original data
+                            // property, i.e., returning the value rather than the getter
+                            // itself.
                             s = (p = !!b) && "get" in b && !("originalValue" in b.get) ? b.get : s[h];
                         } else p = m(s, h), s = s[h];
                         p && !c && (y[u] = s);
@@ -9202,8 +9786,8 @@
                 }
                 return s;
             };
-        },
-        1044: function(e, t, r) {
+        /***/ },
+        /***/ 1044: /***/ function(e, t, r) {
             "use strict";
             var n = r(210)("%Object.defineProperty%", !0), i = function() {
                 if (n) try {
@@ -9214,31 +9798,34 @@
                 return !1;
             };
             i.hasArrayLengthDefineBug = function() {
+                // node v0.6 has a bug where array lengths can be Set but not Defined
                 if (!i()) return null;
                 try {
                     return 1 !== n([], "length", {
                         value: 1
                     }).length;
                 } catch (e) {
+                    // In Firefox 4-22, defining length on an array throws an exception.
                     return !0;
                 }
             }, e.exports = i;
-        },
-        1405: function(e, t, r) {
+        /***/ },
+        /***/ 1405: /***/ function(e, t, r) {
             "use strict";
             var n = "undefined" != typeof Symbol && Symbol, i = r(5419);
             e.exports = function() {
                 return "function" == typeof n && "function" == typeof Symbol && "symbol" == typeof n("foo") && "symbol" == typeof Symbol("bar") && i();
             };
-        },
-        5419: function(e) {
+        /***/ },
+        /***/ 5419: /***/ function(e) {
             "use strict";
-            e.exports = function() {
+            /* eslint complexity: [2, 18], max-statements: [2, 33] */ e.exports = function() {
                 if ("function" != typeof Symbol || "function" != typeof Object.getOwnPropertySymbols) return !1;
                 if ("symbol" == typeof Symbol.iterator) return !0;
                 var e = {}, t = Symbol("test"), r = Object(t);
                 if ("string" == typeof t || "[object Symbol]" !== Object.prototype.toString.call(t) || "[object Symbol]" !== Object.prototype.toString.call(r)) return !1;
                 for(t in e[t] = 42, e)return !1;
+                 // eslint-disable-line no-restricted-syntax, no-unreachable-loop
                 if ("function" == typeof Object.keys && 0 !== Object.keys(e).length || "function" == typeof Object.getOwnPropertyNames && 0 !== Object.getOwnPropertyNames(e).length) return !1;
                 var n = Object.getOwnPropertySymbols(e);
                 if (1 !== n.length || n[0] !== t || !Object.prototype.propertyIsEnumerable.call(e, t)) return !1;
@@ -9248,35 +9835,46 @@
                 }
                 return !0;
             };
-        },
-        6410: function(e, t, r) {
+        /***/ },
+        /***/ 6410: /***/ function(e, t, r) {
             "use strict";
             var n = r(5419);
             e.exports = function() {
                 return n() && !!Symbol.toStringTag;
             };
-        },
-        7642: function(e, t, r) {
+        /***/ },
+        /***/ 7642: /***/ function(e, t, r) {
             "use strict";
             var n = r(8612);
             e.exports = n.call(Function.call, Object.prototype.hasOwnProperty);
-        },
-        6119: function(e, t, r) {
+        /***/ },
+        /***/ 6119: /***/ function(e, t, r) {
+            // In our case, there's only one dependency
             var n = r(7507);
-            e.exports = function(e, t, r) {
+            // In order to make our code into a bona fide module we have to export it:
+            e.exports = // Now for the main piece, the `hsl` function:
+            function(e, t, r) {
                 var i, o, a, u;
-                return "#" + n(e = function(e) {
+                // convert each value in the returned RGB array
+                // to a 2 character hex value, join the array into
+                // a string, prefixed with a hash
+                return "#" + n(// resolve degrees to 0 - 359 range
+                e = function(e) {
                     var t, r;
-                    for(e = (r = e = (t = e) > 1e7 ? 1e7 : t) < -10000000 ? -10000000 : r; e < 0;)e += 360;
+                    // cycle value:
+                    for(e = (r = // for safety:
+                    e = (t = e) > 1e7 ? 1e7 : t) < -10000000 ? -10000000 : r; e < 0;)e += 360;
                     for(; e > 359;)e -= 360;
                     return e;
-                }(e), t = ((o = (i = t) > 100 ? 100 : i) < 0 ? 0 : o) / 100, r = ((u = (a = r) > 100 ? 100 : a) < 0 ? 0 : u) / 100).map(function(e) {
+                }(e), // convert to 0 to 1 range used by hsl-to-rgb-for-reals
+                t = ((o = (i = t) > 100 ? 100 : i) < 0 ? 0 : o) / 100, r = ((u = (a = r) > 100 ? 100 : a) < 0 ? 0 : u) / 100).map(function(e) {
                     return (256 + e).toString(16).substr(-2);
                 }).join("");
             };
-        },
-        7507: function(e) {
+        /***/ },
+        /***/ 7507: /***/ function(e) {
             e.exports = function(e, t, r) {
+                // based on algorithm from http://en.wikipedia.org/wiki/HSL_and_HSV#Converting_to_RGB
                 if (void 0 == e) return [
                     0,
                     0,
@@ -9291,8 +9889,8 @@
                     Math.abs(Math.round(255 * (o += s)))
                 ];
             };
-        },
-        4756: function(e, t, r) {
+        /***/ },
+        /***/ 4756: /***/ function(e, t, r) {
             var n, i, o;
             i = [], void 0 !== (o = "function" == typeof (n = function() {
                 var e = "debug", t = "hyphenChar", n = "minWordLength", i = "object" == typeof r.g ? r.g : "object" == typeof window ? window : "object" == typeof this ? this : {};
@@ -9425,11 +10023,11 @@
                     };
                 };
             }) ? n.apply(t, i) : n) && (e.exports = o);
-        },
-        3202: function(e, t, r) {
+        /***/ },
+        /***/ 3202: /***/ function(e, t, r) {
             e.exports = r(4756);
-        },
-        1487: function(e, t) {
+        /***/ },
+        /***/ 1487: /***/ function(e, t) {
             var r, n, i;
             n = [], void 0 !== (i = "function" == typeof (r = function() {
                 return {
@@ -13882,6 +14480,7 @@
                         "zte4",
                         "4z1z2",
                         "z4zy",
+                        // hyphen.tex patterns end here, and additional patterns begin:
                         ".con5gr",
                         ".de5riva",
                         ".dri5v4",
@@ -14373,6 +14972,7 @@
                         "z3ian.",
                         "z3o1phr",
                         "z2z3w",
+                        // end of additional patterns.
                         ""
                     ],
                     exceptions: [
@@ -14394,9 +14994,10 @@
                     ]
                 };
             }) ? r.apply(t, n) : r) && (e.exports = i);
-        },
-        5717: function(e) {
-            "function" == typeof Object.create ? e.exports = function(e, t) {
+        /***/ },
+        /***/ 5717: /***/ function(e) {
+            "function" == typeof Object.create ? // implementation from standard node.js 'util' module
+            e.exports = function(e, t) {
                 t && (e.super_ = t, e.prototype = Object.create(t.prototype, {
                     constructor: {
                         value: e,
@@ -14405,15 +15006,16 @@
                         configurable: !0
                     }
                 }));
-            } : e.exports = function(e, t) {
+            } : // old school shim for old browsers
+            e.exports = function(e, t) {
                 if (t) {
                     e.super_ = t;
                     var r = function() {};
                     r.prototype = t.prototype, e.prototype = new r(), e.prototype.constructor = e;
                 }
             };
-        },
-        2584: function(e, t, r) {
+        /***/ },
+        /***/ 2584: /***/ function(e, t, r) {
             "use strict";
             var n = r(6410)(), i = r(1924)("Object.prototype.toString"), o = function(e) {
                 return (!n || !e || "object" != typeof e || !(Symbol.toStringTag in e)) && "[object Arguments]" === i(e);
@@ -14423,13 +15025,13 @@
                 return o(arguments);
             }();
             o.isLegacyArguments = a, e.exports = u ? o : a;
-        },
-        5171: function(e) {
+        /***/ },
+        /***/ 5171: /***/ function(e) {
             e.exports = function(e) {
                 return !!e && "string" != typeof e && (e instanceof Array || Array.isArray(e) || e.length >= 0 && (e.splice instanceof Function || Object.getOwnPropertyDescriptor(e, e.length - 1) && "String" !== e.constructor.name));
             };
-        },
-        8923: function(e, t, r) {
+        /***/ },
+        /***/ 8923: /***/ function(e, t, r) {
             "use strict";
             var n = Date.prototype.getDay, i = function(e) {
                 try {
@@ -14441,8 +15043,8 @@
             e.exports = function(e) {
                 return "object" == typeof e && null !== e && (a ? i(e) : "[object Date]" === o.call(e));
             };
-        },
-        8420: function(e, t, r) {
+        /***/ },
+        /***/ 8420: /***/ function(e, t, r) {
             "use strict";
             var n, i, o, a, u = r(1924), l = r(6410)();
             if (l) {
@@ -14466,20 +15068,32 @@
                     return e === o;
                 }
             } : function(e) {
-                return !!e && ("object" == typeof e || "function" == typeof e) && "[object RegExp]" === c(e);
+                return(// In older browsers, typeof regex incorrectly returns 'function'
+                !!e && ("object" == typeof e || "function" == typeof e) && "[object RegExp]" === c(e));
             };
-        },
-        8079: function(e) {
-            e.exports = function(e) {
+        /***/ },
+        /***/ 8079: /***/ function(e) {
+            /**
+             * Expose `isUrl`.
+             */ e.exports = /**
+             * Loosely validate a URL `string`.
+             *
+             * @param {String} string
+             * @return {Boolean}
+             */ function(e) {
                 if ("string" != typeof e) return !1;
                 var i = e.match(t);
                 if (!i) return !1;
                 var o = i[1];
                 return !!o && !!(r.test(o) || n.test(o));
             };
-            var t = /^(?:\w+:)?\/\/(\S+)$/, r = /^localhost[\:?\d]*(?:[^\:?\d]\S*)?$/, n = /^[^\s\.]+\.\S{2,}$/;
-        },
-        1028: function(e, t, r) {
+            /**
+             * RegExps.
+             * A URL must match #1 and then at least one of #2/#3.
+             * Use two levels of REs to avoid REDOS.
+             */ var t = /^(?:\w+:)?\/\/(\S+)$/, r = /^localhost[\:?\d]*(?:[^\:?\d]\S*)?$/, n = /^[^\s\.]+\.\S{2,}$/;
+        /***/ },
+        /***/ 1028: /***/ function(e, t, r) {
             var n = r(8897);
             e.exports = function(e, t) {
                 var r = {};
@@ -14487,8 +15101,8 @@
                     n.parse(i).match(t) && Object.assign(r, e[i]);
                 }), r;
             };
-        },
-        2304: function(e) {
+        /***/ },
+        /***/ 2304: /***/ function(e) {
             function t(e, t) {
                 this.left = e, this.right = t, this.match = function(r) {
                     return e.match(r) && t.match(r);
@@ -14509,8 +15123,8 @@
                         throw Error(value);
                 }
             };
-        },
-        8897: function(e, t, r) {
+        /***/ },
+        /***/ 8897: /***/ function(e, t, r) {
             var n = r(6525), i = r(2304), o = /[0-9]/, a = /[a-z|\-]/i, u = /\s/, l = /:/, s = /,/, c = /and$/, f = /@/;
             e.exports = {
                 parse: function(e) {
@@ -14588,8 +15202,8 @@
                     }(e));
                 }
             };
-        },
-        6525: function(e) {
+        /***/ },
+        /***/ 6525: /***/ function(e) {
             function t(e) {
                 this.value = e, this.match = function(e) {
                     return this.value >= e.height;
@@ -14631,18 +15245,20 @@
                         throw Error(a);
                 }
             };
-        },
-        6086: function(e) {
+        /***/ },
+        /***/ 6086: /***/ function(e) {
             "use strict";
             var t = Object.assign.bind(Object);
             e.exports = t, e.exports.default = e.exports;
-        },
-        3454: function(e, t, r) {
+        //# sourceMappingURL=object-assign.js.map
+        /***/ },
+        /***/ 3454: /***/ function(e, t, r) {
             "use strict";
             var n, i;
             e.exports = (null === (n = r.g.process) || void 0 === n ? void 0 : n.env) && "object" == typeof (null === (i = r.g.process) || void 0 === i ? void 0 : i.env) ? r.g.process : r(7663);
-        },
-        9749: function(e, t, r) {
+        //# sourceMappingURL=process.js.map
+        /***/ },
+        /***/ 9749: /***/ function(e, t, r) {
             "use strict";
             function n(e, t) {
                 (null == t || t > e.length) && (t = e.length);
@@ -14732,17 +15348,21 @@
                 }, [
                     G
                 ]), V = l ? "responsive" : "intrinsic";
-                "layout" in W && (W.layout && (V = W.layout), delete W.layout);
+                "layout" in W && (W.layout && (V = W.layout), // Remove property so it's not spread on <img>:
+                delete W.layout);
                 var H = x;
                 if ("loader" in W) {
                     if (W.loader) {
                         var Z = W.loader;
                         H = function(e) {
+                            // The config object is internal only so we must
+                            // not pass it to the user-defined loader()
                             return e.config, Z(g(e, [
                                 "config"
                             ]));
                         };
                     }
+                    // Remove property so it's not spread on <img>
                     delete W.loader;
                 }
                 var X = "";
@@ -14753,7 +15373,8 @@
                 }
                 u = "string" == typeof u ? u : X;
                 var Y = _(R), K = _(I), Q = _(F), $ = !k && ("lazy" === T || void 0 === T);
-                (u.startsWith("data:") || u.startsWith("blob:")) && (D = !0, $ = !1), b.has(u) && ($ = !1);
+                (u.startsWith("data:") || u.startsWith("blob:")) && (// https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs
+                D = !0, $ = !1), b.has(u) && ($ = !1);
                 var ee = o(s.useState(!1), 2), et = ee[0], er = ee[1], en = o(d.useIntersection({
                     rootRef: void 0 === O ? null : O,
                     rootMargin: void 0 === C ? "200px" : C,
@@ -14804,10 +15425,15 @@
                     backgroundImage: 'url("'.concat(z, '")'),
                     backgroundPosition: M || "0% 0%"
                 };
-                if ("fill" === V) el.display = "block", el.position = "absolute", el.top = 0, el.left = 0, el.bottom = 0, el.right = 0;
+                if ("fill" === V) // <Image src="i.png" layout="fill" />
+                el.display = "block", el.position = "absolute", el.top = 0, el.left = 0, el.bottom = 0, el.right = 0;
                 else if (void 0 !== Y && void 0 !== K) {
+                    // <Image src="i.png" width="100" height="100" />
                     var ep = K / Y, eh = isNaN(ep) ? "100%" : "".concat(100 * ep, "%");
-                    "responsive" === V ? (el.display = "block", el.position = "relative", ec = !0, es.paddingTop = eh) : "intrinsic" === V ? (el.display = "inline-block", el.position = "relative", el.maxWidth = "100%", ec = !0, es.maxWidth = "100%", r = "data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%27".concat(Y, "%27%20height=%27").concat(K, "%27/%3e")) : "fixed" === V && (el.display = "inline-block", el.position = "relative", el.width = Y, el.height = K);
+                    "responsive" === V ? (// <Image src="i.png" width="100" height="100" layout="responsive" />
+                    el.display = "block", el.position = "relative", ec = !0, es.paddingTop = eh) : "intrinsic" === V ? (// <Image src="i.png" width="100" height="100" layout="intrinsic" />
+                    el.display = "inline-block", el.position = "relative", el.maxWidth = "100%", ec = !0, es.maxWidth = "100%", r = "data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%27".concat(Y, "%27%20height=%27").concat(K, "%27/%3e")) : "fixed" === V && (// <Image src="i.png" width="100" height="100" layout="fixed" />
+                    el.display = "inline-block", el.position = "relative", el.width = Y, el.height = K);
                 }
                 var ey = {
                     src: m,
@@ -14858,11 +15484,11 @@
                     setIntersection: ei,
                     isVisible: eu
                 }, W);
-                return s.default.createElement(s.default.Fragment, null, "raw" === V ? s.default.createElement(A, Object.assign({}, eE)) : s.default.createElement("span", {
+                return /*#__PURE__*/ s.default.createElement(s.default.Fragment, null, "raw" === V ? /*#__PURE__*/ s.default.createElement(A, Object.assign({}, eE)) : /*#__PURE__*/ s.default.createElement("span", {
                     style: el
-                }, ec ? s.default.createElement("span", {
+                }, ec ? /*#__PURE__*/ s.default.createElement("span", {
                     style: es
-                }, r ? s.default.createElement("img", {
+                }, r ? /*#__PURE__*/ s.default.createElement("img", {
                     style: {
                         display: "block",
                         maxWidth: "100%",
@@ -14877,7 +15503,10 @@
                     alt: "",
                     "aria-hidden": !0,
                     src: r
-                }) : null) : null, s.default.createElement(A, Object.assign({}, eE))), k ? s.default.createElement(c.default, null, s.default.createElement("link", Object.assign({
+                }) : null) : null, /*#__PURE__*/ s.default.createElement(A, Object.assign({}, eE))), k // for browsers that do not support `imagesrcset`, and in those cases
+                 ? //
+                // https://html.spec.whatwg.org/multipage/semantics.html#attr-link-imagesrcset
+                /*#__PURE__*/ s.default.createElement(c.default, null, /*#__PURE__*/ s.default.createElement("link", Object.assign({
                     key: "__nimg-" + ey.src + ey.srcSet + ey.sizes,
                     rel: "preload",
                     as: "image",
@@ -15009,7 +15638,8 @@
                 var c = function(e, t, r, n) {
                     var i = e.deviceSizes, o = e.allSizes;
                     if (n && ("fill" === r || "responsive" === r || "raw" === r)) {
-                        for(var u = /(^|\s)(1?\d?\d)vw/g, l = []; s = u.exec(n); s)l.push(parseInt(s[2]));
+                        for(// Find all the "vw" percent sizes used in the sizes prop
+                        var u = /(^|\s)(1?\d?\d)vw/g, l = []; s = u.exec(n); s)l.push(parseInt(s[2]));
                         if (l.length) {
                             var s, c, f = 0.01 * (c = Math).min.apply(c, a(l));
                             return {
@@ -15028,9 +15658,15 @@
                         widths: i,
                         kind: "w"
                     } : {
-                        widths: a(new Set([
+                        widths: a(new Set(// > blue colors. Showing a 3x resolution image in the app vs a 2x
+                        // > resolution image will be visually the same, though the 3x image
+                        // > takes significantly more data. Even true 3x resolution screens are
+                        // > wasteful as the human eye cannot see that level of detail without
+                        // > something like a magnifying glass.
+                        // https://blog.twitter.com/engineering/en_us/topics/infrastructure/2019/capping-image-fidelity-on-ultra-high-resolution-devices.html
+                        [
                             t,
-                            2 * t
+                            2 /*, width * 3*/  * t
                         ].map(function(e) {
                             return o.find(function(t) {
                                 return t >= e;
@@ -15049,6 +15685,12 @@
                             width: e
                         }), " ").concat("w" === d ? e : n + 1).concat(d);
                     }).join(", "),
+                    // It's intended to keep `src` the last attribute because React updates
+                    // attributes in order. If we keep `src` the first one, Safari will
+                    // immediately start to fetch `src`, before `sizes` and `srcSet` are even
+                    // updated by React. That causes multiple unnecessary requests if `srcSet`
+                    // and `sizes` are defined.
+                    // This bug cannot be reproduced in Chrome or Firefox.
                     src: s({
                         config: t,
                         src: r,
@@ -15065,10 +15707,14 @@
                 if (n) return n(e);
                 throw Error('Unknown "loader" found in "next.config.js". Expected: '.concat(f.VALID_LOADERS.join(", "), ". Received: ").concat(r));
             }
+            // See https://stackoverflow.com/q/39777833/266535 for why we use this ref
+            // handler instead of the img's onLoad attribute.
             function S(e, t, r, n, i, o) {
                 e && e.src !== m && e["data-loaded-src"] !== t && (e["data-loaded-src"] = t, ("decode" in e ? e.decode() : Promise.resolve()).catch(function() {}).then(function() {
                     if (e.parentNode && (b.add(t), "blur" === n && o(!0), null == i ? void 0 : i.current)) {
                         var r = e.naturalWidth, a = e.naturalHeight;
+                        // Pass back read-only primitive values but not the
+                        // underlying DOM element because it could be misused.
                         i.current({
                             naturalWidth: r,
                             naturalHeight: a
@@ -15100,7 +15746,7 @@
                     "onError",
                     "isVisible"
                 ]));
-                return s.default.createElement(s.default.Fragment, null, s.default.createElement("img", Object.assign({}, A, t, "raw" === o ? {
+                return /*#__PURE__*/ s.default.createElement(s.default.Fragment, null, /*#__PURE__*/ s.default.createElement("img", Object.assign({}, A, t, "raw" === o ? {
                     height: r,
                     width: n
                 } : {}, {
@@ -15122,9 +15768,10 @@
                         S(e.currentTarget, p, o, f, m, D), _ && _(e);
                     },
                     onError: function(e) {
-                        "blur" === f && D(!0), x && x(e);
+                        "blur" === f && // If the real image fails to load, this will still remove the placeholder.
+                        D(!0), x && x(e);
                     }
-                })), (c || "blur" === f) && s.default.createElement("noscript", null, s.default.createElement("img", Object.assign({}, A, E({
+                })), (c || "blur" === f) && /*#__PURE__*/ s.default.createElement("noscript", null, /*#__PURE__*/ s.default.createElement("img", Object.assign({}, A, E({
                     config: h,
                     src: p,
                     unoptimized: v,
@@ -15141,6 +15788,7 @@
                     "data-nimg": o,
                     style: u,
                     className: a,
+                    // @ts-ignore - TODO: upgrade to `@types/react@17`
                     loading: d || "lazy"
                 }))));
             };
@@ -15148,8 +15796,8 @@
                 return "/" === e[0] ? e.slice(1) : e;
             }
             ("function" == typeof t.default || "object" == typeof t.default && null !== t.default) && (Object.assign(t.default, t), e.exports = t.default);
-        },
-        9246: function(e, t, r) {
+        /***/ },
+        /***/ 9246: /***/ function(e, t, r) {
             "use strict";
             function n(e, t) {
                 (null == t || t > e.length) && (t = e.length);
@@ -15217,6 +15865,7 @@
                         root: y,
                         rootMargin: r
                     })).id, a = i.observer, (u = i.elements).set(e, t), a.observe(e), function() {
+                        // Destroy observer when there's nothing left to watch:
                         if (u.delete(e), a.unobserve(e), 0 === u.size) {
                             a.disconnect(), l.delete(o);
                             var t = s.findIndex(function(e) {
@@ -15256,9 +15905,9 @@
             };
             var o = r(7294), a = r(4686), u = "undefined" != typeof IntersectionObserver, l = new Map(), s = [];
             ("function" == typeof t.default || "object" == typeof t.default && null !== t.default) && (Object.assign(t.default, t), e.exports = t.default);
-        },
-        7596: function(e, t, r) {
-            var n = r(3454), i = r(1876).Buffer;
+        /***/ },
+        /***/ 7596: /***/ function(e, t, r) {
+            /* provided dependency */ var n = r(3454), i = r(1876).Buffer;
             !function() {
                 var t = {
                     901: function(e) {
@@ -15957,7 +16606,12 @@
                         function F(e) {
                             return Object.keys(e).filter(P).concat(s(e).filter(Object.prototype.propertyIsEnumerable.bind(e)));
                         }
-                        function R(e, t) {
+                        /*!
+                         * The buffer module from node.js, for the browser.
+                         *
+                         * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+                         * @license  MIT
+                         */ function R(e, t) {
                             if (e === t) return 0;
                             for(var r = e.length, n = t.length, i = 0, o = Math.min(r, n); i < o; ++i)if (e[i] !== t[i]) {
                                 r = e[i], n = t[i];
@@ -18126,9 +18780,9 @@
                 var u = a(313);
                 e.exports = u;
             }();
-        },
-        7715: function(e, t, r) {
-            var n = r(1876).Buffer, i = r(3454);
+        /***/ },
+        /***/ 7715: /***/ function(e, t, r) {
+            /* provided dependency */ var n = r(1876).Buffer, i = r(3454);
             !function() {
                 "use strict";
                 var t = {
@@ -19788,8 +20442,8 @@
                 var u = a(375);
                 e.exports = u;
             }();
-        },
-        1876: function(e) {
+        /***/ },
+        /***/ 1876: /***/ function(e) {
             !function() {
                 var t = {
                     991: function(e, t) {
@@ -19824,7 +20478,12 @@
                     },
                     293: function(e, t, r) {
                         "use strict";
-                        var n = r(991), i = r(759), o = "function" == typeof Symbol && "function" == typeof Symbol.for ? Symbol.for("nodejs.util.inspect.custom") : null;
+                        /*!
+                         * The buffer module from node.js, for the browser.
+                         *
+                         * @author   Feross Aboukhadijeh <https://feross.org>
+                         * @license  MIT
+                         */ var n = r(991), i = r(759), o = "function" == typeof Symbol && "function" == typeof Symbol.for ? Symbol.for("nodejs.util.inspect.custom") : null;
                         function a(e) {
                             if (e > 2147483647) throw RangeError('The value "' + e + '" is invalid for option "size"');
                             var t = new Uint8Array(e);
@@ -20438,8 +21097,8 @@
                 var i = n(293);
                 e.exports = i;
             }();
-        },
-        5293: function(e) {
+        /***/ },
+        /***/ 5293: /***/ function(e) {
             !function() {
                 "use strict";
                 var t = {
@@ -20637,8 +21296,8 @@
                 var i = n(182);
                 e.exports = i;
             }();
-        },
-        7663: function(e) {
+        /***/ },
+        /***/ 7663: /***/ function(e) {
             !function() {
                 var t = {
                     162: function(e) {
@@ -20741,9 +21400,9 @@
                 var i = n(162);
                 e.exports = i;
             }();
-        },
-        9681: function(e, t, r) {
-            var n = r(3454);
+        /***/ },
+        /***/ 9681: /***/ function(e, t, r) {
+            /* provided dependency */ var n = r(3454);
             !function() {
                 var t = {
                     526: function(e) {
@@ -22067,9 +22726,9 @@
                 var a = o(562);
                 e.exports = a;
             }();
-        },
-        9720: function(e, t, r) {
-            var n = r(1876).Buffer, i = r(3454);
+        /***/ },
+        /***/ 9720: /***/ function(e, t, r) {
+            /* provided dependency */ var n = r(1876).Buffer, i = r(3454);
             !function() {
                 var t = {
                     901: function(e) {
@@ -23854,14 +24513,14 @@
                 var u = a(650);
                 e.exports = u;
             }();
-        },
-        9008: function(e, t, r) {
+        /***/ },
+        /***/ 9008: /***/ function(e, t, r) {
             e.exports = r(3121);
-        },
-        5675: function(e, t, r) {
+        /***/ },
+        /***/ 5675: /***/ function(e, t, r) {
             e.exports = r(9749);
-        },
-        4244: function(e) {
+        /***/ },
+        /***/ 4244: /***/ function(e) {
             "use strict";
             var t = function(e) {
                 return e != e;
@@ -23869,8 +24528,8 @@
             e.exports = function(e, r) {
                 return 0 === e && 0 === r ? 1 / e == 1 / r : !!(e === r || t(e) && t(r));
             };
-        },
-        609: function(e, t, r) {
+        /***/ },
+        /***/ 609: /***/ function(e, t, r) {
             "use strict";
             var n = r(4289), i = r(5559), o = r(4244), a = r(5624), u = r(2281), l = i(a(), Object);
             n(l, {
@@ -23878,15 +24537,15 @@
                 implementation: o,
                 shim: u
             }), e.exports = l;
-        },
-        5624: function(e, t, r) {
+        /***/ },
+        /***/ 5624: /***/ function(e, t, r) {
             "use strict";
             var n = r(4244);
             e.exports = function() {
                 return "function" == typeof Object.is ? Object.is : n;
             };
-        },
-        2281: function(e, t, r) {
+        /***/ },
+        /***/ 2281: /***/ function(e, t, r) {
             "use strict";
             var n = r(5624), i = r(4289);
             e.exports = function() {
@@ -23899,11 +24558,12 @@
                     }
                 }), e;
             };
-        },
-        2: function(e, t, r) {
+        /***/ },
+        /***/ 2: /***/ function(e, t, r) {
             "use strict";
             var n;
             if (!Object.keys) {
+                // modified from https://github.com/es-shims/es5-shim
                 var i = Object.prototype.hasOwnProperty, o = Object.prototype.toString, a = r(1414), u = Object.prototype.propertyIsEnumerable, l = !u.call({
                     toString: null
                 }, "toString"), s = u.call(function() {}, "prototype"), c = [
@@ -23942,7 +24602,7 @@
                     $webkitStorageInfo: !0,
                     $window: !0
                 }, p = function() {
-                    if ("undefined" == typeof window) return !1;
+                    /* global window */ if ("undefined" == typeof window) return !1;
                     for(var e in window)try {
                         if (!d["$" + e] && i.call(window, e) && null !== window[e] && "object" == typeof window[e]) try {
                             f(window[e]);
@@ -23954,7 +24614,7 @@
                     }
                     return !1;
                 }(), h = function(e) {
-                    if ("undefined" == typeof window || !p) return f(e);
+                    /* global window */ if ("undefined" == typeof window || !p) return f(e);
                     try {
                         return f(e);
                     } catch (e) {
@@ -23973,31 +24633,40 @@
                 };
             }
             e.exports = n;
-        },
-        2215: function(e, t, r) {
+        /***/ },
+        /***/ 2215: /***/ function(e, t, r) {
             "use strict";
             var n = Array.prototype.slice, i = r(1414), o = Object.keys, a = o ? function(e) {
                 return o(e);
             } : r(2), u = Object.keys;
             a.shim = function() {
                 return Object.keys ? !function() {
+                    // Safari 5.0 bug
                     var e = Object.keys(arguments);
                     return e && e.length === arguments.length;
                 }(1, 2) && (Object.keys = function(e) {
-                    return i(e) ? u(n.call(e)) : u(e);
+                    return(// eslint-disable-line func-name-matching
+                    i(e) ? u(n.call(e)) : u(e));
                 }) : Object.keys = a, Object.keys || a;
             }, e.exports = a;
-        },
-        1414: function(e) {
+        /***/ },
+        /***/ 1414: /***/ function(e) {
             "use strict";
             var t = Object.prototype.toString;
             e.exports = function(e) {
                 var r = t.call(e), n = "[object Arguments]" === r;
                 return n || (n = "[object Array]" !== r && null !== e && "object" == typeof e && "number" == typeof e.length && e.length >= 0 && "[object Function]" === t.call(e.callee)), n;
             };
-        },
-        4462: function(e) {
-            e.exports = function(e) {
+        /***/ },
+        /***/ 4462: /***/ function(e) {
+            e.exports = /**
+             * parse an svg path data string. Generates an Array
+             * of commands where each command is an Array of the
+             * form `[command, arg1, arg2, ...]`
+             *
+             * @param {String} path
+             * @return {Array}
+             */ function(e) {
                 var i = [];
                 return e.replace(r, function(e, r, o) {
                     var a, u = r.toLowerCase();
@@ -24012,7 +24681,10 @@
                     }
                 }), i;
             };
-            var t = {
+            /**
+             * expected argument lengths
+             * @type {Object}
+             */ var t = {
                 a: 7,
                 c: 6,
                 h: 1,
@@ -24024,15 +24696,16 @@
                 v: 1,
                 z: 0
             }, r = /([astvzqmhlc])([^astvzqmhlc]*)/gi, n = /-?[0-9]*\.?[0-9]+(?:e[-+]?\d+)?/gi;
-        },
-        788: function(e) {
+        /***/ },
+        /***/ 788: /***/ function(e) {
             var t = /^[a-f0-9?-]+$/i;
             e.exports = function(e) {
                 for(var r, n, i, o, a, u, l, s, c, f = [], d = e, p = 0, h = d.charCodeAt(p), y = d.length, g = [
                     {
                         nodes: f
                     }
-                ], v = 0, b = "", m = "", D = ""; p < y;)if (h <= 32) {
+                ], v = 0, b = "", m = "", D = ""; p < y;)// Whitespaces
+                if (h <= 32) {
                     r = p;
                     do r += 1, h = d.charCodeAt(r);
                     while (h <= 32)
@@ -24042,6 +24715,7 @@
                         sourceEndIndex: r,
                         value: o
                     }), p = r;
+                // Quotes
                 } else if (39 === h || 34 === h) {
                     r = p, o = {
                         type: "string",
@@ -24052,6 +24726,7 @@
                     else d += n, r = d.length - 1, o.unclosed = !0;
                     while (a)
                     o.value = d.slice(p + 1, r), o.sourceEndIndex = o.unclosed ? r : r + 1, f.push(o), p = r + 1, h = d.charCodeAt(p);
+                // Comments
                 } else if (47 === h && 42 === d.charCodeAt(p + 1)) r = d.indexOf("*/", p), o = {
                     type: "comment",
                     sourceIndex: p,
@@ -24072,6 +24747,7 @@
                     after: ""
                 }), m = "", p += 1, h = d.charCodeAt(p);
                 else if (40 === h) {
+                    // Whitespaces after open parentheses
                     r = p;
                     do r += 1, h = d.charCodeAt(r);
                     while (h <= 32)
@@ -24085,6 +24761,7 @@
                         do if (a = !1, ~(r = d.indexOf(")", r + 1))) for(u = r; 92 === d.charCodeAt(u - 1);)u -= 1, a = !a;
                         else d += ")", r = d.length - 1, o.unclosed = !0;
                         while (a)
+                        // Whitespaces before closed
                         l = r;
                         do l -= 1, h = d.charCodeAt(l);
                         while (h <= 32)
@@ -24103,6 +24780,7 @@
                         })) : (o.after = d.slice(l + 1, r), o.sourceEndIndex = r)) : (o.after = "", o.nodes = []), p = r + 1, o.sourceEndIndex = o.unclosed ? r : p, h = d.charCodeAt(p), f.push(o);
                     } else v += 1, o.after = "", o.sourceEndIndex = p + 1, f.push(o), g.push(o), f = o.nodes = [], c = o;
                     b = "";
+                // Close parentheses
                 } else if (41 === h && v) p += 1, h = d.charCodeAt(p), c.after = D, c.sourceEndIndex += D.length, D = "", v -= 1, g[g.length - 1].sourceEndIndex = p, g.pop(), f = (c = g[v]).nodes;
                 else {
                     r = p;
@@ -24123,11 +24801,15 @@
                 for(p = g.length - 1; p; p -= 1)g[p].unclosed = !0, g[p].sourceEndIndex = d.length;
                 return g[0].nodes;
             };
-        },
-        3433: function(e) {
+        /***/ },
+        /***/ 3433: /***/ function(e) {
+            // Consume a number
+            // https://www.w3.org/TR/css-syntax-3/#consume-number
             e.exports = function(e) {
                 var t, r, n, i = 0, o = e.length;
-                if (0 === o || !function(e) {
+                if (0 === o || !// Check if three code points would start a number
+                // https://www.w3.org/TR/css-syntax-3/#starts-with-a-number
+                function(e) {
                     var t, r = e.charCodeAt(0);
                     if (43 === r || 45 === r) {
                         if ((t = e.charCodeAt(1)) >= 48 && t <= 57) return !0;
@@ -24144,8 +24826,8 @@
                     unit: e.slice(i)
                 };
             };
-        },
-        9189: function(e, t, r) {
+        /***/ },
+        /***/ 9189: /***/ function(e, t, r) {
             var n = r(5717), i = r(5293).EventEmitter;
             function o(e) {
                 if (!(this instanceof o)) return new o(e);
@@ -24220,9 +24902,16 @@
             }, o.prototype.end = function(e) {
                 a.call(this), this.jobs.length = 0, this.pending = 0, l.call(this, e);
             };
-        },
-        7287: function(e, t, r) {
-            e.exports = function t(n) {
+        /***/ },
+        /***/ 7287: /***/ function(e, t, r) {
+            /** @license React v0.23.0
+             * react-reconciler.production.min.js
+             *
+             * Copyright (c) Facebook, Inc. and its affiliates.
+             *
+             * This source code is licensed under the MIT license found in the
+             * LICENSE file in the root directory of this source tree.
+             */ e.exports = function t(n) {
                 "use strict";
                 var i, o, a, u, l, s = r(6086), c = r(7294), f = r(373);
                 function d(e) {
@@ -27117,14 +27806,21 @@
                 var iT = e.exports;
                 return e.exports = t, iT;
             };
-        },
-        8448: function(e, t, r) {
+        /***/ },
+        /***/ 8448: /***/ function(e, t, r) {
             "use strict";
             e.exports = r(7287);
-        },
-        2546: function(e, t) {
+        /***/ },
+        /***/ 2546: /***/ function(e, t) {
             "use strict";
-            if (Object.defineProperty(t, "__esModule", {
+            if (/** @license React v0.17.0
+             * scheduler.production.min.js
+             *
+             * Copyright (c) Facebook, Inc. and its affiliates.
+             *
+             * This source code is licensed under the MIT license found in the
+             * LICENSE file in the root directory of this source tree.
+             */ Object.defineProperty(t, "__esModule", {
                 value: !0
             }), "undefined" == typeof window || "function" != typeof MessageChannel) {
                 var r, n, i, o, a, u = null, l = null, s = function() {
@@ -27346,12 +28042,12 @@
             }, t.unstable_pauseExecution = function() {}, t.unstable_getFirstCallbackNode = function() {
                 return A(O);
             }, t.unstable_Profiling = null;
-        },
-        373: function(e, t, r) {
+        /***/ },
+        /***/ 373: /***/ function(e, t, r) {
             "use strict";
             e.exports = r(2546);
-        },
-        3697: function(e, t, r) {
+        /***/ },
+        /***/ 3697: /***/ function(e, t, r) {
             "use strict";
             var n = r(5972).functionsHaveConfigurableNames(), i = Object, o = TypeError;
             e.exports = function() {
@@ -27361,8 +28057,8 @@
             }, n && Object.defineProperty && Object.defineProperty(e.exports, "name", {
                 value: "get flags"
             });
-        },
-        2847: function(e, t, r) {
+        /***/ },
+        /***/ 2847: /***/ function(e, t, r) {
             "use strict";
             var n = r(4289), i = r(5559), o = r(3697), a = r(1721), u = r(2753), l = i(a());
             n(l, {
@@ -27370,15 +28066,15 @@
                 implementation: o,
                 shim: u
             }), e.exports = l;
-        },
-        1721: function(e, t, r) {
+        /***/ },
+        /***/ 1721: /***/ function(e, t, r) {
             "use strict";
             var n = r(3697), i = r(4289).supportsDescriptors, o = Object.getOwnPropertyDescriptor;
             e.exports = function() {
                 if (i && "gim" === /a/gim.flags) {
                     var e = o(RegExp.prototype, "flags");
                     if (e && "function" == typeof e.get && "boolean" == typeof RegExp.prototype.dotAll && "boolean" == typeof RegExp.prototype.hasIndices) {
-                        var t = "", r = {};
+                        /* eslint getter-return: 0 */ var t = "", r = {};
                         if (Object.defineProperty(r, "hasIndices", {
                             get: function() {
                                 t += "d";
@@ -27392,8 +28088,8 @@
                 }
                 return n;
             };
-        },
-        2753: function(e, t, r) {
+        /***/ },
+        /***/ 2753: /***/ function(e, t, r) {
             "use strict";
             var n = r(4289).supportsDescriptors, i = r(1721), o = Object.getOwnPropertyDescriptor, a = Object.defineProperty, u = TypeError, l = Object.getPrototypeOf, s = /a/;
             e.exports = function() {
@@ -27405,15 +28101,17 @@
                     get: e
                 }), e;
             };
-        },
-        7887: function(e, t, r) {
+        /***/ },
+        /***/ 7887: /***/ function(e, t, r) {
+            // Generated by CoffeeScript 1.7.1
             (function() {
                 var e, n, i, o;
                 for(e in t.EncodeStream = r(3228), t.DecodeStream = r(2903), t.Array = r(8987), t.LazyArray = r(1296), t.Bitfield = r(9194), t.Boolean = r(3522), t.Buffer = r(3146), t.Enum = r(5551), t.Optional = r(5506), t.Reserved = r(714), t.String = r(6020), t.Struct = r(1124), t.VersionedStruct = r(4180), i = r(3660))n = i[e], t[e] = n;
                 for(e in o = r(704))n = o[e], t[e] = n;
             }).call(this);
-        },
-        8987: function(e, t, r) {
+        /***/ },
+        /***/ 8987: /***/ function(e, t, r) {
+            // Generated by CoffeeScript 1.7.1
             (function() {
                 var t, n, i;
                 n = r(3660).Number, i = r(2022), t = function() {
@@ -27457,8 +28155,9 @@
                     }, e;
                 }(), e.exports = t;
             }).call(this);
-        },
-        9194: function(e) {
+        /***/ },
+        /***/ 9194: /***/ function(e) {
+            // Generated by CoffeeScript 1.7.1
             (function() {
                 var t;
                 t = function() {
@@ -27478,8 +28177,9 @@
                     }, e;
                 }(), e.exports = t;
             }).call(this);
-        },
-        3522: function(e) {
+        /***/ },
+        /***/ 3522: /***/ function(e) {
+            // Generated by CoffeeScript 1.7.1
             (function() {
                 var t;
                 t = function() {
@@ -27495,8 +28195,9 @@
                     }, e;
                 }(), e.exports = t;
             }).call(this);
-        },
-        3146: function(e, t, r) {
+        /***/ },
+        /***/ 3146: /***/ function(e, t, r) {
+            // Generated by CoffeeScript 1.7.1
             (function() {
                 var t, n, i;
                 i = r(2022), n = r(3660).Number, t = function() {
@@ -27513,9 +28214,10 @@
                     }, e;
                 }(), e.exports = t;
             }).call(this);
-        },
-        2903: function(e, t, r) {
-            var n = r(1876).Buffer;
+        /***/ },
+        /***/ 2903: /***/ function(e, t, r) {
+            /* provided dependency */ var n = r(1876).Buffer;
+            // Generated by CoffeeScript 1.7.1
             (function() {
                 var t, i;
                 try {
@@ -27577,9 +28279,10 @@
                     }, t;
                 }(), e.exports = t;
             }).call(this);
-        },
-        3228: function(e, t, r) {
-            var n = r(1876).Buffer;
+        /***/ },
+        /***/ 3228: /***/ function(e, t, r) {
+            /* provided dependency */ var n = r(1876).Buffer;
+            // Generated by CoffeeScript 1.7.1
             (function() {
                 var t, i, o, a, u = {}.hasOwnProperty, l = function(e, t) {
                     for(var r in t)u.call(t, r) && (e[r] = t[r]);
@@ -27643,8 +28346,9 @@
                     }, i;
                 }(a.Readable), e.exports = i;
             }).call(this);
-        },
-        5551: function(e) {
+        /***/ },
+        /***/ 5551: /***/ function(e) {
+            // Generated by CoffeeScript 1.7.1
             (function() {
                 var t;
                 t = function() {
@@ -27663,8 +28367,9 @@
                     }, e;
                 }(), e.exports = t;
             }).call(this);
-        },
-        1296: function(e, t, r) {
+        /***/ },
+        /***/ 1296: /***/ function(e, t, r) {
+            // Generated by CoffeeScript 1.7.1
             (function() {
                 var t, n, i, o, a, u, l = {}.hasOwnProperty, s = function(e, t) {
                     for(var r in t)l.call(t, r) && (e[r] = t[r]);
@@ -27706,8 +28411,9 @@
                     }, e;
                 }(), e.exports = i;
             }).call(this);
-        },
-        3660: function(e, t, r) {
+        /***/ },
+        /***/ 3660: /***/ function(e, t, r) {
+            // Generated by CoffeeScript 1.7.1
             (function() {
                 var e, n, i, o = {}.hasOwnProperty, a = function(e, t) {
                     for(var r in t)o.call(t, r) && (e[r] = t[r]);
@@ -27738,8 +28444,9 @@
                     }, t;
                 }(i), t.Fixed = n, t.fixed16be = t.fixed16 = new n(16, "BE"), t.fixed16le = new n(16, "LE"), t.fixed32be = t.fixed32 = new n(32, "BE"), t.fixed32le = new n(32, "LE");
             }).call(this);
-        },
-        5506: function(e) {
+        /***/ },
+        /***/ 5506: /***/ function(e) {
+            // Generated by CoffeeScript 1.7.1
             (function() {
                 var t;
                 t = function() {
@@ -27758,8 +28465,9 @@
                     }, e;
                 }(), e.exports = t;
             }).call(this);
-        },
-        704: function(e, t, r) {
+        /***/ },
+        /***/ 704: /***/ function(e, t, r) {
+            // Generated by CoffeeScript 1.7.1
             (function() {
                 var e, n, i;
                 i = r(2022), e = function() {
@@ -27837,8 +28545,9 @@
                     this.type = e, this.value = t;
                 }, t.Pointer = e, t.VoidPointer = n;
             }).call(this);
-        },
-        714: function(e, t, r) {
+        /***/ },
+        /***/ 714: /***/ function(e, t, r) {
+            // Generated by CoffeeScript 1.7.1
             (function() {
                 var t, n;
                 n = r(2022), t = function() {
@@ -27855,9 +28564,10 @@
                     }, e;
                 }(), e.exports = t;
             }).call(this);
-        },
-        6020: function(e, t, r) {
-            var n = r(1876).Buffer;
+        /***/ },
+        /***/ 6020: /***/ function(e, t, r) {
+            /* provided dependency */ var n = r(1876).Buffer;
+            // Generated by CoffeeScript 1.7.1
             (function() {
                 var t, i, o;
                 t = r(3660).Number, o = r(2022), i = function() {
@@ -27880,8 +28590,9 @@
                     }, e;
                 }(), e.exports = i;
             }).call(this);
-        },
-        1124: function(e, t, r) {
+        /***/ },
+        /***/ 1124: /***/ function(e, t, r) {
+            // Generated by CoffeeScript 1.7.1
             (function() {
                 var t, n;
                 n = r(2022), t = function() {
@@ -27932,8 +28643,9 @@
                     }, e;
                 }(), e.exports = t;
             }).call(this);
-        },
-        4180: function(e, t, r) {
+        /***/ },
+        /***/ 4180: /***/ function(e, t, r) {
+            // Generated by CoffeeScript 1.7.1
             (function() {
                 var t, n = {}.hasOwnProperty, i = function(e, t) {
                     for(var r in t)n.call(t, r) && (e[r] = t[r]);
@@ -27975,8 +28687,9 @@
                     }, t;
                 }(r(1124)), e.exports = t;
             }).call(this);
-        },
-        2022: function(e, t, r) {
+        /***/ },
+        /***/ 2022: /***/ function(e, t, r) {
+            // Generated by CoffeeScript 1.7.1
             (function() {
                 var e, n;
                 e = r(3660).Number, t.resolveLength = function(t, r, n) {
@@ -27988,13 +28701,14 @@
                     for(t in null == e && (e = {}), this.enumerable = !0, this.configurable = !0, e)r = e[t], this[t] = r;
                 }, t.PropertyDescriptor = n;
             }).call(this);
-        },
-        6851: function(e, t, r) {
+        /***/ },
+        /***/ 6851: /***/ function(e, t, r) {
             "use strict";
             var n = r(5171), i = Array.prototype.concat, o = Array.prototype.slice, a = e.exports = function(e) {
                 for(var t = [], r = 0, a = e.length; r < a; r++){
                     var u = e[r];
-                    n(u) ? t = i.call(t, o.call(u)) : t.push(u);
+                    n(u) ? // http://jsperf.com/javascript-array-concat-vs-push/98
+                    t = i.call(t, o.call(u)) : t.push(u);
                 }
                 return t;
             };
@@ -28003,15 +28717,17 @@
                     return e(a(arguments));
                 };
             };
-        },
-        311: function(e) {
+        /***/ },
+        /***/ 311: /***/ function(e) {
             function t() {
                 this.table = new Uint16Array(16), this.trans = new Uint16Array(288);
             }
             function r(e, r) {
                 this.source = e, this.sourceIndex = 0, this.tag = 0, this.bitcount = 0, this.dest = r, this.destLen = 0, this.ltree = new t(), this.dtree = new t();
             }
-            var n = new t(), i = new t(), o = new Uint8Array(30), a = new Uint16Array(30), u = new Uint8Array(30), l = new Uint16Array(30), s = new Uint8Array([
+            /* --------------------------------------------------- *
+             * -- uninitialized global data (static structures) -- *
+             * --------------------------------------------------- */ var n = new t(), i = new t(), o = new Uint8Array(30), a = new Uint16Array(30), u = new Uint8Array(30), l = new Uint16Array(30), s = new Uint8Array([
                 16,
                 17,
                 18,
@@ -28032,94 +28748,102 @@
                 1,
                 15
             ]), c = new t(), f = new Uint8Array(320);
-            function d(e, t, r, n) {
+            /* ----------------------- *
+             * -- utility functions -- *
+             * ----------------------- */ /* build extra bits and base tables */ function d(e, t, r, n) {
                 var i, o;
-                for(i = 0; i < r; ++i)e[i] = 0;
+                /* build bits table */ for(i = 0; i < r; ++i)e[i] = 0;
                 for(i = 0; i < 30 - r; ++i)e[i + r] = i / r | 0;
-                for(o = n, i = 0; i < 30; ++i)t[i] = o, o += 1 << e[i];
+                /* build base table */ for(o = n, i = 0; i < 30; ++i)t[i] = o, o += 1 << e[i];
             }
-            var p = new Uint16Array(16);
+            /* given an array of code lengths, build a tree */ var p = new Uint16Array(16);
             function h(e, t, r, n) {
                 var i, o;
-                for(i = 0; i < 16; ++i)e.table[i] = 0;
-                for(i = 0; i < n; ++i)e.table[t[r + i]]++;
-                for(o = 0, e.table[0] = 0, i = 0; i < 16; ++i)p[i] = o, o += e.table[i];
-                for(i = 0; i < n; ++i)t[r + i] && (e.trans[p[t[r + i]]++] = i);
+                /* clear code length count table */ for(i = 0; i < 16; ++i)e.table[i] = 0;
+                /* scan symbol lengths, and sum code length counts */ for(i = 0; i < n; ++i)e.table[t[r + i]]++;
+                /* compute offset table for distribution sort */ for(o = 0, e.table[0] = 0, i = 0; i < 16; ++i)p[i] = o, o += e.table[i];
+                /* create code->symbol translation table (symbols sorted by code) */ for(i = 0; i < n; ++i)t[r + i] && (e.trans[p[t[r + i]]++] = i);
             }
-            function y(e, t, r) {
+            /* read a num bit value from a stream and add base */ function y(e, t, r) {
                 if (!t) return r;
                 for(; e.bitcount < 24;)e.tag |= e.source[e.sourceIndex++] << e.bitcount, e.bitcount += 8;
                 var n = e.tag & 0xffff >>> 16 - t;
                 return e.tag >>>= t, e.bitcount -= t, n + r;
             }
-            function g(e, t) {
+            /* given a data stream and a tree, decode a symbol */ function g(e, t) {
                 for(; e.bitcount < 24;)e.tag |= e.source[e.sourceIndex++] << e.bitcount, e.bitcount += 8;
                 var r = 0, n = 0, i = 0, o = e.tag;
-                do n = 2 * n + (1 & o), o >>>= 1, ++i, r += t.table[i], n -= t.table[i];
+                /* get more bits while code value is above sum */ do n = 2 * n + (1 & o), o >>>= 1, ++i, r += t.table[i], n -= t.table[i];
                 while (n >= 0)
                 return e.tag = o, e.bitcount -= i, t.trans[r + n];
             }
-            function v(e, t, r) {
+            /* ----------------------------- *
+             * -- block inflate functions -- *
+             * ----------------------------- */ /* given a stream and two trees, inflate a block of data */ function v(e, t, r) {
                 for(;;){
                     var n, i, s, c, f = g(e, t);
-                    if (256 === f) return 0;
+                    /* check for end of block */ if (256 === f) return 0;
                     if (f < 256) e.dest[e.destLen++] = f;
-                    else for(f -= 257, n = y(e, o[f], a[f]), i = g(e, r), c = s = e.destLen - y(e, u[i], l[i]); c < s + n; ++c)e.dest[e.destLen++] = e.dest[c];
+                    else /* copy match */ for(f -= 257, /* possibly get more bits from length code */ n = y(e, o[f], a[f]), i = g(e, r), c = /* possibly get more bits from distance code */ s = e.destLen - y(e, u[i], l[i]); c < s + n; ++c)e.dest[e.destLen++] = e.dest[c];
                 }
             }
-            !function(e, t) {
+            !/* -------------------- *
+             * -- initialization -- *
+             * -------------------- */ /* build fixed huffman trees */ /* build the fixed huffman trees */ function(e, t) {
                 var r;
-                for(r = 0; r < 7; ++r)e.table[r] = 0;
+                /* build fixed length tree */ for(r = 0; r < 7; ++r)e.table[r] = 0;
                 for(r = 0, e.table[7] = 24, e.table[8] = 152, e.table[9] = 112; r < 24; ++r)e.trans[r] = 256 + r;
                 for(r = 0; r < 144; ++r)e.trans[24 + r] = r;
                 for(r = 0; r < 8; ++r)e.trans[168 + r] = 280 + r;
                 for(r = 0; r < 112; ++r)e.trans[176 + r] = 144 + r;
-                for(r = 0; r < 5; ++r)t.table[r] = 0;
+                /* build fixed distance tree */ for(r = 0; r < 5; ++r)t.table[r] = 0;
                 for(r = 0, t.table[5] = 32; r < 32; ++r)t.trans[r] = r;
-            }(n, i), d(o, a, 4, 3), d(u, l, 2, 1), o[28] = 0, a[28] = 258, e.exports = function(e, t) {
+            }(n, i), /* build extra bits and base tables */ d(o, a, 4, 3), d(u, l, 2, 1), /* fix a special case */ o[28] = 0, a[28] = 258, e.exports = /* inflate stream from source to dest */ function(e, t) {
                 var o, a, u = new r(e, t);
                 do {
-                    switch(o = function(e) {
-                        e.bitcount-- || (e.tag = e.source[e.sourceIndex++], e.bitcount = 7);
-                        var t = 1 & e.tag;
+                    /* decompress block */ switch(/* read final block flag */ o = /* ---------------------- *
+             * -- decode functions -- *
+             * ---------------------- */ /* get one bit from source stream */ function(e) {
+                        e.bitcount-- || (/* load next tag */ e.tag = e.source[e.sourceIndex++], e.bitcount = 7);
+                        /* shift bit out of tag */ var t = 1 & e.tag;
                         return e.tag >>>= 1, t;
                     }(u), y(u, 2, 0)){
                         case 0:
-                            a = function(e) {
-                                for(var t, r; e.bitcount > 8;)e.sourceIndex--, e.bitcount -= 8;
-                                if ((t = 256 * (t = e.source[e.sourceIndex + 1]) + e.source[e.sourceIndex]) !== (0x0000ffff & ~(256 * e.source[e.sourceIndex + 3] + e.source[e.sourceIndex + 2]))) return -3;
-                                for(e.sourceIndex += 4, r = t; r; --r)e.dest[e.destLen++] = e.source[e.sourceIndex++];
-                                return e.bitcount = 0, 0;
+                            /* decompress uncompressed block */ a = /* inflate an uncompressed block of data */ function(e) {
+                                /* unread from bitbuffer */ for(var t, r; e.bitcount > 8;)e.sourceIndex--, e.bitcount -= 8;
+                                /* check length */ if ((t = 256 * /* get length */ (t = e.source[e.sourceIndex + 1]) + e.source[e.sourceIndex]) !== (0x0000ffff & ~(256 * e.source[e.sourceIndex + 3] + e.source[e.sourceIndex + 2]))) return -3;
+                                /* copy block */ for(e.sourceIndex += 4, r = t; r; --r)e.dest[e.destLen++] = e.source[e.sourceIndex++];
+                                return(/* make sure we start next block on a byte boundary */ e.bitcount = 0, 0);
                             }(u);
                             break;
                         case 1:
-                            a = v(u, n, i);
+                            /* decompress block with fixed huffman trees */ a = v(u, n, i);
                             break;
                         case 2:
-                            (function(e, t, r) {
-                                for(a = 0, n = y(e, 5, 257), i = y(e, 5, 1), o = y(e, 4, 4); a < 19; ++a)f[a] = 0;
-                                for(a = 0; a < o; ++a){
-                                    var n, i, o, a, u, l, d = y(e, 3, 0);
+                            /* decompress block with dynamic huffman trees */ /* given a data stream, decode dynamic trees from it */ (function(e, t, r) {
+                                for(a = 0, /* get 5 bits HLIT (257-286) */ n = y(e, 5, 257), /* get 5 bits HDIST (1-32) */ i = y(e, 5, 1), /* get 4 bits HCLEN (4-19) */ o = y(e, 4, 4); a < 19; ++a)f[a] = 0;
+                                /* read code lengths for code length alphabet */ for(a = 0; a < o; ++a){
+                                    /* get 3 bits code length (0-7) */ var n, i, o, a, u, l, d = y(e, 3, 0);
                                     f[s[a]] = d;
                                 }
-                                for(h(c, f, 0, 19), u = 0; u < n + i;){
+                                /* decode code lengths for the dynamic trees */ for(/* build code length tree */ h(c, f, 0, 19), u = 0; u < n + i;){
                                     var p = g(e, c);
                                     switch(p){
                                         case 16:
-                                            var v = f[u - 1];
+                                            /* copy previous code length 3-6 times (read 2 bits) */ var v = f[u - 1];
                                             for(l = y(e, 2, 3); l; --l)f[u++] = v;
                                             break;
                                         case 17:
-                                            for(l = y(e, 3, 3); l; --l)f[u++] = 0;
+                                            /* repeat code length 0 for 3-10 times (read 3 bits) */ for(l = y(e, 3, 3); l; --l)f[u++] = 0;
                                             break;
                                         case 18:
-                                            for(l = y(e, 7, 11); l; --l)f[u++] = 0;
+                                            /* repeat code length 0 for 11-138 times (read 7 bits) */ for(l = y(e, 7, 11); l; --l)f[u++] = 0;
                                             break;
                                         default:
-                                            f[u++] = p;
+                                            /* values 0-15 represent the actual code lengths */ f[u++] = p;
                                     }
                                 }
-                                h(t, f, 0, n), h(r, f, n, i);
+                                /* build dynamic trees */ h(t, f, 0, n), h(r, f, n, i);
                             })(u, u.ltree, u.dtree), a = v(u, u.ltree, u.dtree);
                             break;
                         default:
@@ -28129,8 +28853,9 @@
                 }while (!o)
                 return u.destLen < u.dest.length ? "function" == typeof u.dest.slice ? u.dest.slice(0, u.destLen) : u.dest.subarray(0, u.destLen) : u.dest;
             };
-        },
-        7055: function(e, t, r) {
+        /***/ },
+        /***/ 7055: /***/ function(e, t, r) {
+            // Generated by CoffeeScript 1.7.1
             var n, i;
             i = r(311), n = function() {
                 function e(e) {
@@ -28142,8 +28867,8 @@
                     return e < 0 || e > 0x10ffff ? this.errorValue : e < 0xd800 || e > 0xdbff && e <= 0xffff ? (t = (this.data[e >> 5] << 2) + (31 & e), this.data[t]) : e <= 0xffff ? (t = (this.data[2048 + (e - 0xd800 >> 5)] << 2) + (31 & e), this.data[t]) : e < this.highStart ? (t = this.data[2080 + (e >> 11)], t = ((t = this.data[t + (e >> 5 & 63)]) << 2) + (31 & e), this.data[t]) : this.data[this.data.length - 4];
                 }, e;
             }(), e.exports = n;
-        },
-        3229: function(e, t, r) {
+        /***/ },
+        /***/ 3229: /***/ function(e, t, r) {
             "use strict";
             function n(e, t, r, n, i) {
                 var o = {};
@@ -28153,25 +28878,25 @@
                     return n(e, t, r) || r;
                 }, o), i && void 0 !== o.initializer && (o.value = o.initializer ? o.initializer.call(i) : void 0, o.initializer = void 0), void 0 === o.initializer && (Object.defineProperty(e, t, o), o = null), o;
             }
-            r.d(t, {
-                Z: function() {
-                    return n;
+            /* harmony export */ r.d(t, {
+                /* harmony export */ Z: function() {
+                    return /* binding */ n;
                 }
             });
-        },
-        7326: function(e, t, r) {
+        /***/ },
+        /***/ 7326: /***/ function(e, t, r) {
             "use strict";
             function n(e) {
                 if (void 0 === e) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return e;
             }
-            r.d(t, {
-                Z: function() {
-                    return n;
+            /* harmony export */ r.d(t, {
+                /* harmony export */ Z: function() {
+                    return /* binding */ n;
                 }
             });
-        },
-        3144: function(e, t, r) {
+        /***/ },
+        /***/ 3144: /***/ function(e, t, r) {
             "use strict";
             function n(e, t) {
                 for(var r = 0; r < t.length; r++){
@@ -28184,19 +28909,19 @@
                     writable: !1
                 }), e;
             }
-            r.d(t, {
-                Z: function() {
-                    return i;
+            /* harmony export */ r.d(t, {
+                /* harmony export */ Z: function() {
+                    return /* binding */ i;
                 }
             });
-        },
-        7855: function(e, t, r) {
+        /***/ },
+        /***/ 7855: /***/ function(e, t, r) {
             "use strict";
             function n(e, t) {
                 (null == t || t > e.length) && (t = e.length);
                 for(var r = 0, n = Array(t); r < t; r++)n[r] = e[r];
                 return n;
-            }
+            } // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
             function i(e, t) {
                 var r = "undefined" != typeof Symbol && e[Symbol.iterator] || e["@@iterator"];
                 if (r) return (r = r.call(e)).next.bind(r);
@@ -28207,7 +28932,8 @@
                         if ("Object" === r && e.constructor && (r = e.constructor.name), "Map" === r || "Set" === r) return Array.from(e);
                         if ("Arguments" === r || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(r)) return n(e, void 0);
                     }
-                }(e)) || t && e && "number" == typeof e.length) {
+                } // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/createForOfIteratorHelperLoose.js
+                (e)) || t && e && "number" == typeof e.length) {
                     r && (e = r);
                     var i = 0;
                     return function() {
@@ -28221,13 +28947,14 @@
                 }
                 throw TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
             }
+            // EXPORTS
             r.d(t, {
                 Z: function() {
-                    return i;
+                    return /* binding */ i;
                 }
             });
-        },
-        7462: function(e, t, r) {
+        /***/ },
+        /***/ 7462: /***/ function(e, t, r) {
             "use strict";
             function n() {
                 return (n = Object.assign ? Object.assign.bind() : function(e) {
@@ -28238,27 +28965,28 @@
                     return e;
                 }).apply(this, arguments);
             }
-            r.d(t, {
-                Z: function() {
-                    return n;
+            /* harmony export */ r.d(t, {
+                /* harmony export */ Z: function() {
+                    return /* binding */ n;
                 }
             });
-        },
-        5068: function(e, t, r) {
+        /***/ },
+        /***/ 5068: /***/ function(e, t, r) {
             "use strict";
             function n(e, t) {
                 return (n = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function(e, t) {
                     return e.__proto__ = t, e;
                 })(e, t);
-            }
+            } // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js
             function i(e, t) {
                 e.prototype = Object.create(t.prototype), e.prototype.constructor = e, n(e, t);
             }
+            // EXPORTS
             r.d(t, {
                 Z: function() {
-                    return i;
+                    return /* binding */ i;
                 }
             });
-        }
+        /***/ }
     }
 ]);

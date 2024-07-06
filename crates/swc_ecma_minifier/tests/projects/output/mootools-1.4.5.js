@@ -1,8 +1,40 @@
-!function() {
+!/*
+---
+MooTools: the javascript framework
+
+web build:
+ - http://mootools.net/core/76bf47062d6c1983d66ce47ad66aa0e0
+
+packager build:
+ - packager build Core/Core Core/Array Core/String Core/Number Core/Function Core/Object Core/Event Core/Browser Core/Class Core/Class.Extras Core/Slick.Parser Core/Slick.Finder Core/Element Core/Element.Style Core/Element.Event Core/Element.Delegation Core/Element.Dimensions Core/Fx Core/Fx.CSS Core/Fx.Tween Core/Fx.Morph Core/Fx.Transitions Core/Request Core/Request.HTML Core/Request.JSON Core/Cookie Core/JSON Core/DOMReady Core/Swiff
+
+...
+*/ /*
+---
+
+name: Core
+
+description: The heart of MooTools.
+
+license: MIT-style license.
+
+copyright: Copyright (c) 2006-2012 [Valerio Proietti](http://mad4milk.net/).
+
+authors: The MooTools production team (http://mootools.net/developers/)
+
+inspiration:
+  - Class implementation inspired by [Base.js](http://dean.edwards.name/weblog/2006/03/base/) Copyright (c) 2006 Dean Edwards, [GNU Lesser General Public License](http://opensource.org/licenses/lgpl-license.php)
+  - Some functionality inspired by [Prototype.js](http://prototypejs.org) Copyright (c) 2005-2007 Sam Stephenson, [MIT License](http://opensource.org/licenses/mit-license.php)
+
+provides: [Core, MooTools, Type, typeOf, instanceOf, Native]
+
+...
+*/ function() {
     this.MooTools = {
         version: "1.4.5",
         build: "ab8ea8824dc3b24b6666867a2c4ed58ebb762cf0"
     };
+    // typeOf, instanceOf
     var typeOf1 = this.typeOf = function(item) {
         if (null == item) return "null";
         if (null != item.$family) return item.$family();
@@ -20,7 +52,7 @@
             if (constructor === object) return !0;
             constructor = constructor.parent;
         }
-        return !!item.hasOwnProperty && item instanceof object;
+        return /*<ltIE8>*/ !!item.hasOwnProperty && item instanceof object;
     }, Function1 = this.Function, enumerables = !0;
     for(var i in {
         toString: 1
@@ -60,6 +92,7 @@
     }).overloadSetter(), Function1.prototype.implement = (function(key, value) {
         this.prototype[key] = value;
     }).overloadSetter();
+    // From
     var slice = Array.prototype.slice;
     Function1.from = function(item) {
         return "function" == typeOf1(item) ? item : function() {
@@ -74,7 +107,8 @@
         return isFinite(number) ? number : null;
     }, String.from = function(item) {
         return item + "";
-    }, Function1.implement({
+    }, // hide, protect
+    Function1.implement({
         hide: function() {
             return this.$hidden = !0, this;
         },
@@ -82,6 +116,7 @@
             return this.$protected = !0, this;
         }
     });
+    // Type
     var Type1 = this.Type = function(name, object) {
         if (name) {
             var lower = name.toLowerCase(), typeCheck = function(item) {
@@ -89,7 +124,8 @@
             };
             Type1["is" + name] = typeCheck, null != object && (object.prototype.$family = (function() {
                 return lower;
-            }).hide(), object.type = typeCheck);
+            }).hide(), //<1.2compat>
+            object.type = typeCheck);
         }
         return null == object ? null : (object.extend(this), object.$constructor = Type1, object.prototype.$constructor = object, object);
     }, toString = Object.prototype.toString;
@@ -126,6 +162,7 @@
             return hooksOf(this).push(hook), this;
         }
     }), new Type1("Type", Type1);
+    // Default Types
     var force = function(name, object, methods) {
         var isType = object != Object, prototype = object.prototype;
         isType && (object = new Type1(name, object));
@@ -209,11 +246,14 @@
         "now"
     ]), Object.extend = extend.overloadSetter(), Date.extend("now", function() {
         return +new Date();
-    }), new Type1("Boolean", Boolean), Number.prototype.$family = (function() {
+    }), new Type1("Boolean", Boolean), // fixes NaN returning as Number
+    Number.prototype.$family = (function() {
         return isFinite(this) ? "number" : "null";
-    }).hide(), Number.extend("random", function(min, max) {
+    }).hide(), // Number.random
+    Number.extend("random", function(min, max) {
         return Math.floor(Math.random() * (max - min + 1) + min);
     });
+    // forEach, each
     var hasOwnProperty = Object.prototype.hasOwnProperty;
     Object.extend("forEach", function(object, fn, bind) {
         for(var key in object)hasOwnProperty.call(object, key) && fn.call(bind, object[key], key, object);
@@ -225,6 +265,7 @@
             return Array.forEach(this, fn, bind), this;
         }
     });
+    // Array & Object cloning, Object merging and appending
     var cloneOf = function(item) {
         switch(typeOf1(item)){
             case "array":
@@ -273,7 +314,8 @@
             }
             return original;
         }
-    }), [
+    }), // Object-less types
+    [
         "Object",
         "WhiteSpace",
         "TextNode",
@@ -282,10 +324,12 @@
     ].each(function(name) {
         new Type1(name);
     });
+    // Unique ID
     var UID = Date.now();
     String.extend("uniqueID", function() {
         return (UID++).toString(36);
     });
+    //<1.2compat>
     var Hash1 = this.Hash = new Type1("Hash", function(object) {
         for(var key in "hash" == typeOf1(object) && (object = Object.clone(object.getClean())), object)this[key] = object[key];
         return this;
@@ -352,8 +396,23 @@
                 return object;
         }
     };
-}(), Array.implement({
-    every: function(fn, bind) {
+//</1.2compat>
+}(), /*
+---
+
+name: Array
+
+description: Contains Array Prototypes like each, contains, and erase.
+
+license: MIT-style license.
+
+requires: Type
+
+provides: Array
+
+...
+*/ Array.implement({
+    /*<!ES5>*/ every: function(fn, bind) {
         for(var i = 0, l = this.length >>> 0; i < l; i++)if (i in this && !fn.call(bind, this[i], i, this)) return !1;
         return !0;
     },
@@ -373,7 +432,7 @@
         for(var i = 0, l = this.length >>> 0; i < l; i++)if (i in this && fn.call(bind, this[i], i, this)) return !0;
         return !1;
     },
-    clean: function() {
+    /*</!ES5>*/ clean: function() {
         return this.filter(function(item) {
             return null != item;
         });
@@ -448,11 +507,27 @@
         }
         return array ? hex : "#" + hex.join("");
     }
-}), Array.alias("extend", "append");
+}), //<1.2compat>
+Array.alias("extend", "append");
 var $pick = function() {
     return Array.from(arguments).pick();
 };
-String.implement({
+//</1.2compat>
+/*
+---
+
+name: String
+
+description: Contains String Prototypes like camelCase, capitalize, test, and toInt.
+
+license: MIT-style license.
+
+requires: Type
+
+provides: String
+
+...
+*/ String.implement({
     test: function(regex, params) {
         return ("regexp" == typeOf(regex) ? regex : RegExp("" + regex, params)).test(this);
     },
@@ -502,7 +577,21 @@ String.implement({
             return "\\" == match.charAt(0) ? match.slice(1) : null != object[name] ? object[name] : "";
         });
     }
-}), Number.implement({
+}), /*
+---
+
+name: Number
+
+description: Contains Number Prototypes like limit, round, times, and ceil.
+
+license: MIT-style license.
+
+requires: Type
+
+provides: Number
+
+...
+*/ Number.implement({
     limit: function(min, max) {
         return Math.min(max, Math.max(min, this));
     },
@@ -544,7 +633,21 @@ String.implement({
     "sin",
     "sqrt",
     "tan"
-]), Function.extend({
+]), /*
+---
+
+name: Function
+
+description: Contains Function Prototypes like create, bind, pass, and delay.
+
+license: MIT-style license.
+
+requires: Type
+
+provides: Function
+
+...
+*/ Function.extend({
     attempt: function() {
         for(var i = 0, l = arguments.length; i < l; i++)try {
             return arguments[i]();
@@ -558,7 +661,7 @@ String.implement({
         } catch (e) {}
         return null;
     },
-    bind: function(that) {
+    /*<!ES5-bind>*/ bind: function(that) {
         var self = this, args = arguments.length > 1 ? Array.slice(arguments, 1) : null, F = function() {}, bound = function() {
             var context = that, length = arguments.length;
             this instanceof bound && (F.prototype = self.prototype, context = new F());
@@ -567,7 +670,7 @@ String.implement({
         };
         return bound;
     },
-    pass: function(args, bind) {
+    /*</!ES5-bind>*/ pass: function(args, bind) {
         var self = this;
         return null != args && (args = Array.from(args)), function() {
             return self.apply(bind, args || arguments);
@@ -579,7 +682,8 @@ String.implement({
     periodical: function(periodical, bind, args) {
         return setInterval(this.pass(null == args ? [] : args, bind), periodical);
     }
-}), delete Function.prototype.bind, Function.implement({
+}), //<1.2compat>
+delete Function.prototype.bind, Function.implement({
     create: function(options) {
         var self = this;
         return options = options || {}, function(event) {
@@ -612,7 +716,22 @@ String.implement({
     }
 }), Object.create == Function.prototype.create && (Object.create = null);
 var $try = Function.attempt;
-!function() {
+!//</1.2compat>
+/*
+---
+
+name: Object
+
+description: Object generic methods
+
+license: MIT-style license.
+
+requires: Type
+
+provides: [Object, Hash]
+
+...
+*/ function() {
     var hasOwnProperty = Object.prototype.hasOwnProperty;
     Object.extend({
         subset: function(object, keys) {
@@ -683,7 +802,8 @@ var $try = Function.attempt;
             }), queryString.join("&");
         }
     });
-}(), Hash.implement({
+}(), //<1.2compat>
+Hash.implement({
     has: Object.prototype.hasOwnProperty,
     keyOf: function(value) {
         return Object.keyOf(this, value);
@@ -742,7 +862,22 @@ var $try = Function.attempt;
 }), Hash.extend = Object.append, Hash.alias({
     indexOf: "keyOf",
     contains: "hasValue"
-}), function() {
+}), //</1.2compat>
+/*
+---
+
+name: Browser
+
+description: The Browser Object. Contains Browser initialization, Window and Document, and the Browser Hash.
+
+license: MIT-style license.
+
+requires: [Array, Function, Number, String]
+
+provides: [Browser, Window, Document]
+
+...
+*/ function() {
     var document1 = this.document, window1 = document1.window = this, ua = navigator.userAgent.toLowerCase(), platform = navigator.platform.toLowerCase(), UA = ua.match(/(opera|ie|firefox|chrome|version)[\s\/:]([\w\d\.]+)?.*?(safari|version[\s\/:]([\w\d\.]+)|$)/) || [
         null,
         "unknown",
@@ -764,7 +899,8 @@ var $try = Function.attempt;
         },
         Plugins: {}
     };
-    Browser1[Browser1.name] = !0, Browser1[Browser1.name + parseInt(Browser1.version, 10)] = !0, Browser1.Platform[Browser1.Platform.name] = !0, Browser1.Request = function() {
+    Browser1[Browser1.name] = !0, Browser1[Browser1.name + parseInt(Browser1.version, 10)] = !0, Browser1.Platform[Browser1.Platform.name] = !0, // Request
+    Browser1.Request = function() {
         var XMLHTTP = function() {
             return new XMLHttpRequest();
         }, MSXML2 = function() {
@@ -780,6 +916,7 @@ var $try = Function.attempt;
             return MSXML(), MSXML;
         });
     }(), Browser1.Features.xhr = !!Browser1.Request;
+    // Flash detection
     var version = (Function.attempt(function() {
         return navigator.plugins["Shockwave Flash"].description;
     }, function() {
@@ -788,7 +925,8 @@ var $try = Function.attempt;
     if (Browser1.Plugins.Flash = {
         version: Number(version[0] || "0." + version[1]) || 0,
         build: Number(version[2]) || 0
-    }, Browser1.exec = function(text) {
+    }, // String scripts
+    Browser1.exec = function(text) {
         if (!text) return text;
         if (window1.execScript) window1.execScript(text);
         else {
@@ -801,7 +939,8 @@ var $try = Function.attempt;
             return scripts += code + "\n", "";
         });
         return !0 === exec ? Browser1.exec(scripts) : "function" == typeOf(exec) && exec(scripts, text), text;
-    }), Browser1.extend({
+    }), // Window, Document
+    Browser1.extend({
         Document: this.Document,
         Window: this.Window,
         Element: this.Element,
@@ -813,12 +952,13 @@ var $try = Function.attempt;
     }), document1.html = document1.documentElement, document1.head || (document1.head = document1.getElementsByTagName("head")[0]), document1.execCommand) try {
         document1.execCommand("BackgroundImageCache", !1, !0);
     } catch (e) {}
-    if (this.attachEvent && !this.addEventListener) {
+    /*<ltIE9>*/ if (this.attachEvent && !this.addEventListener) {
         var unloadEvent = function() {
             this.detachEvent("onunload", unloadEvent), document1.head = document1.html = document1.window = null;
         };
         this.attachEvent("onunload", unloadEvent);
     }
+    // IE fails on collections and <select>.options (refers to <select>)
     var arrayFrom = Array.from;
     try {
         arrayFrom(document1.html.childNodes);
@@ -882,14 +1022,29 @@ var $try = Function.attempt;
             Browser1.Engine.gecko = !0;
     }
     this.$exec = Browser1.exec;
-}(), function() {
+//</1.2compat>
+}(), /*
+---
+
+name: Event
+
+description: Contains the Event Type, to make the event object cross-browser.
+
+license: MIT-style license.
+
+requires: [Window, Document, Array, Function, String, Object]
+
+provides: Event
+
+...
+*/ function() {
     var _keys = {}, DOMEvent1 = this.DOMEvent = new Type("DOMEvent", function(event, win) {
         if (win || (win = window), (event = event || win.event).$extended) return event;
         this.event = event, this.$extended = !0, this.shift = event.shiftKey, this.control = event.ctrlKey, this.alt = event.altKey, this.meta = event.metaKey;
         for(var type = this.type = event.type, target = event.target || event.srcElement; target && 3 == target.nodeType;)target = target.parentNode;
         if (this.target = document.id(target), 0 == type.indexOf("key")) {
             var code = this.code = event.which || event.keyCode;
-            this.key = _keys[code] || Object.keyOf(Event.Keys, code), "keydown" == type && (code > 111 && code < 124 ? this.key = "f" + (code - 111) : code > 95 && code < 106 && (this.key = code - 96)), null == this.key && (this.key = String.fromCharCode(code).toLowerCase());
+            this.key = _keys[code] || Object.keyOf(Event.Keys, code) /*</1.3compat>*/ , "keydown" == type && (code > 111 && code < 124 ? this.key = "f" + (code - 111) : code > 95 && code < 106 && (this.key = code - 96)), null == this.key && (this.key = String.fromCharCode(code).toLowerCase());
         } else if ("click" == type || "dblclick" == type || "contextmenu" == type || "DOMMouseScroll" == type || 0 == type.indexOf("mouse")) {
             var doc = win.document;
             if (doc = doc.compatMode && "CSS1Compat" != doc.compatMode ? doc.body : doc.html, this.page = {
@@ -943,8 +1098,22 @@ var $try = Function.attempt;
         13: "enter"
     });
 }();
-var Event = DOMEvent;
-Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
+/*<1.3compat>*/ var Event = DOMEvent;
+Event.Keys = {}, /*</1.3compat>*/ /*<1.2compat>*/ Event.Keys = new Hash(Event.Keys), /*</1.2compat>*/ /*
+---
+
+name: Class
+
+description: Contains the Class Function for easily creating, extending, and implementing reusable Classes.
+
+license: MIT-style license.
+
+requires: [Array, String, Function, Number]
+
+provides: Class
+
+...
+*/ function() {
     var Class1 = this.Class = new Type("Class", function(params) {
         instanceOf(params, Function) && (params = {
             initialize: params
@@ -1011,7 +1180,21 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
             }, this);
         }
     };
-}(), function() {
+}(), /*
+---
+
+name: Class.Extras
+
+description: Contains Utility Classes that can be implemented into your own Classes to ease the execution of many common tasks.
+
+license: MIT-style license.
+
+requires: Class
+
+provides: [Class.Extras, Chain, Events, Options]
+
+...
+*/ function() {
     this.Chain = new Class({
         $chain: [],
         chain: function() {
@@ -1032,7 +1215,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
     this.Events = new Class({
         $events: {},
         addEvent: function(type, fn, internal) {
-            return type = removeOn(type), fn == $empty || (this.$events[type] = (this.$events[type] || []).include(fn), internal && (fn.internal = !0)), this;
+            return type = removeOn(type), fn == $empty || (/*</1.2compat>*/ this.$events[type] = (this.$events[type] || []).include(fn), internal && (fn.internal = !0)), this;
         },
         addEvents: function(events) {
             for(var type in events)this.addEvent(type, events[type]);
@@ -1073,7 +1256,13 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
             return this;
         }
     });
-}(), (function() {
+}(), /*
+---
+name: Slick.Parser
+description: Standalone CSS3 Selector parser
+provides: Slick.Parser
+...
+*/ (function() {
     var parsed, separatorIndex, combinatorIndex, reversed, cache = {}, reverseCache = {}, reUnescape = /\\/g, parse = function(expression, isReversed) {
         if (null == expression) return null;
         if (!0 === expression.Slick) return expression;
@@ -1105,10 +1294,38 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         }
         return expression;
     }, escapeRegExp = function(string) {
+        // Credit: XRegExp 0.6.1 (c) 2007-2008 Steven Levithan <http://stevenlevithan.com/regex/xregexp/> MIT License
         return string.replace(/[-[\]{}()*+?.\\^$|,#\s]/g, function(match) {
             return "\\" + match;
         });
-    }, regexp = new RegExp("^(?:\\s*(,)\\s*|\\s*(<combinator>+)\\s*|(\\s+)|(<unicode>+|\\*)|\\#(<unicode>+)|\\.(<unicode>+)|\\[\\s*(<unicode1>+)(?:\\s*([*^$!~|]?=)(?:\\s*(?:([\"']?)(.*?)\\9)))?\\s*\\](?!\\])|(:+)(<unicode>+)(?:\\((?:(?:([\"'])([^\\13]*)\\13)|((?:\\([^)]+\\)|[^()]*)+))\\))?)".replace(/<combinator>/, "[" + escapeRegExp(">+~`!@$%^&={}\\;</") + "]").replace(/<unicode>/g, "(?:[\\w\\u00a1-\\uFFFF-]|\\\\[^\\s0-9a-f])").replace(/<unicode1>/g, "(?:[:\\w\\u00a1-\\uFFFF-]|\\\\[^\\s0-9a-f])"));
+    }, regexp = new RegExp(/*
+#!/usr/bin/env ruby
+puts "\t\t" + DATA.read.gsub(/\(\?x\)|\s+#.*$|\s+|\\$|\\n/,'')
+__END__
+	"(?x)^(?:\
+	  \\s* ( , ) \\s*               # Separator          \n\
+	| \\s* ( <combinator>+ ) \\s*   # Combinator         \n\
+	|      ( \\s+ )                 # CombinatorChildren \n\
+	|      ( <unicode>+ | \\* )     # Tag                \n\
+	| \\#  ( <unicode>+       )     # ID                 \n\
+	| \\.  ( <unicode>+       )     # ClassName          \n\
+	|                               # Attribute          \n\
+	\\[  \
+		\\s* (<unicode1>+)  (?:  \
+			\\s* ([*^$!~|]?=)  (?:  \
+				\\s* (?:\
+					([\"']?)(.*?)\\9 \
+				)\
+			)  \
+		)?  \\s*  \
+	\\](?!\\]) \n\
+	|   :+ ( <unicode>+ )(?:\
+	\\( (?:\
+		(?:([\"'])([^\\12]*)\\12)|((?:\\([^)]+\\)|[^()]*)+)\
+	) \\)\
+	)?\
+	)"
+*/ "^(?:\\s*(,)\\s*|\\s*(<combinator>+)\\s*|(\\s+)|(<unicode>+|\\*)|\\#(<unicode>+)|\\.(<unicode>+)|\\[\\s*(<unicode1>+)(?:\\s*([*^$!~|]?=)(?:\\s*(?:([\"']?)(.*?)\\9)))?\\s*\\](?!\\])|(:+)(<unicode>+)(?:\\((?:(?:([\"'])([^\\13]*)\\13)|((?:\\([^)]+\\)|[^()]*)+))\\))?)".replace(/<combinator>/, "[" + escapeRegExp(">+~`!@$%^&={}\\;</") + "]").replace(/<unicode>/g, "(?:[\\w\\u00a1-\\uFFFF-]|\\\\[^\\s0-9a-f])").replace(/<unicode1>/g, "(?:[:\\w\\u00a1-\\uFFFF-]|\\\\[^\\s0-9a-f])"));
     function parser(rawMatch, separator, combinator, combinatorChildren, tagName, id, className1, attributeKey, attributeOperator, attributeQuote, attributeValue, pseudoMarker, pseudoClass, pseudoQuote, pseudoClassQuotedValue, pseudoClassValue) {
         if ((separator || -1 === separatorIndex) && (parsed.expressions[++separatorIndex] = [], combinatorIndex = -1, separator)) return "";
         if (combinator || combinatorChildren || -1 === combinatorIndex) {
@@ -1178,26 +1395,39 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         }
         return "";
     }
+    // Slick NS
     var Slick1 = this.Slick || {};
     Slick1.parse = function(expression) {
         return parse(expression);
     }, Slick1.escapeRegExp = escapeRegExp, this.Slick || (this.Slick = Slick1);
-}).apply("undefined" != typeof exports ? exports : this), (function() {
+}).apply(/*<CommonJS>*/ "undefined" != typeof exports ? exports : /*</CommonJS>*/ this), /*
+---
+name: Slick.Finder
+description: The new, superfast css selector engine.
+provides: Slick.Finder
+requires: Slick.Parser
+...
+*/ (function() {
     var local = {}, featuresCache = {}, toString = Object.prototype.toString;
+    // Feature / Bug detection
     local.isNativeCode = function(fn) {
         return /\{\s*\[native code\]\s*\}/.test("" + fn);
     }, local.isXML = function(document1) {
         return !!document1.xmlVersion || !!document1.xml || "[object XMLDocument]" == toString.call(document1) || 9 == document1.nodeType && "HTML" != document1.documentElement.nodeName;
     }, local.setDocument = function(document1) {
+        // convert elements / window arguments to document. if document cannot be extrapolated, the function returns.
         var nodeType = document1.nodeType;
         if (9 == nodeType) ;
-        else if (nodeType) document1 = document1.ownerDocument;
+        else if (nodeType) // document
+        document1 = document1.ownerDocument; // node
         else {
             if (!document1.navigator) return;
-            document1 = document1.document;
+            document1 = document1.document; // window
         }
+        // check if it's the old document
         if (this.document !== document1) {
             this.document = document1;
+            // check if we have done feature detection on this document before
             var feature, root = document1.documentElement, rootUid = this.getUIDXML(root), features = featuresCache[rootUid];
             if (features) {
                 for(feature in features)this[feature] = features[feature];
@@ -1206,45 +1436,58 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
             features = featuresCache[rootUid] = {}, features.root = root, features.isXMLDocument = this.isXML(document1), features.brokenStarGEBTN = features.starSelectsClosedQSA = features.idGetsName = features.brokenMixedCaseQSA = features.brokenGEBCN = features.brokenCheckedQSA = features.brokenEmptyAttributeQSA = features.isHTMLDocument = features.nativeMatchesSelector = !1;
             var starSelectsClosed, starSelectsComments, brokenSecondClassNameGEBCN, cachedGetElementsByClassName, brokenFormAttributeGetter, selected, id = "slick_uniqueid", testNode = document1.createElement("div"), testRoot = document1.body || document1.getElementsByTagName("body")[0] || root;
             testRoot.appendChild(testNode);
+            // on non-HTML documents innerHTML and getElementsById doesnt work properly
             try {
                 testNode.innerHTML = '<a id="' + id + '"></a>', features.isHTMLDocument = !!document1.getElementById(id);
             } catch (e) {}
             if (features.isHTMLDocument) {
-                testNode.style.display = "none", testNode.appendChild(document1.createComment("")), starSelectsComments = testNode.getElementsByTagName("*").length > 1;
+                testNode.style.display = "none", // IE returns comment nodes for getElementsByTagName('*') for some documents
+                testNode.appendChild(document1.createComment("")), starSelectsComments = testNode.getElementsByTagName("*").length > 1;
+                // IE returns closed nodes (EG:"</foo>") for getElementsByTagName('*') for some documents
                 try {
                     testNode.innerHTML = "foo</foo>", starSelectsClosed = (selected = testNode.getElementsByTagName("*")) && !!selected.length && "/" == selected[0].nodeName.charAt(0);
                 } catch (e) {}
                 features.brokenStarGEBTN = starSelectsComments || starSelectsClosed;
+                // IE returns elements with the name instead of just id for getElementsById for some documents
                 try {
                     testNode.innerHTML = '<a name="' + id + '"></a><b id="' + id + '"></b>', features.idGetsName = document1.getElementById(id) === testNode.firstChild;
                 } catch (e) {}
                 if (testNode.getElementsByClassName) {
+                    // Safari 3.2 getElementsByClassName caches results
                     try {
                         testNode.innerHTML = '<a class="f"></a><a class="b"></a>', testNode.getElementsByClassName("b").length, testNode.firstChild.className = "b", cachedGetElementsByClassName = 2 != testNode.getElementsByClassName("b").length;
                     } catch (e) {}
+                    // Opera 9.6 getElementsByClassName doesnt detects the class if its not the first one
                     try {
                         testNode.innerHTML = '<a class="a"></a><a class="f b a"></a>', brokenSecondClassNameGEBCN = 2 != testNode.getElementsByClassName("a").length;
                     } catch (e) {}
                     features.brokenGEBCN = cachedGetElementsByClassName || brokenSecondClassNameGEBCN;
                 }
                 if (testNode.querySelectorAll) {
+                    // IE 8 returns closed nodes (EG:"</foo>") for querySelectorAll('*') for some documents
                     try {
                         testNode.innerHTML = "foo</foo>", selected = testNode.querySelectorAll("*"), features.starSelectsClosedQSA = selected && !!selected.length && "/" == selected[0].nodeName.charAt(0);
                     } catch (e) {}
+                    // Safari 3.2 querySelectorAll doesnt work with mixedcase on quirksmode
                     try {
                         testNode.innerHTML = '<a class="MiX"></a>', features.brokenMixedCaseQSA = !testNode.querySelectorAll(".MiX").length;
                     } catch (e) {}
+                    // Webkit and Opera dont return selected options on querySelectorAll
                     try {
                         testNode.innerHTML = '<select><option selected="selected">a</option></select>', features.brokenCheckedQSA = 0 == testNode.querySelectorAll(":checked").length;
                     } catch (e) {}
+                    // IE returns incorrect results for attr[*^$]="" selectors on querySelectorAll
                     try {
                         testNode.innerHTML = '<a class=""></a>', features.brokenEmptyAttributeQSA = 0 != testNode.querySelectorAll('[class*=""]').length;
                     } catch (e) {}
                 }
+                // IE6-7, if a form has an input of id x, form.getAttribute(x) returns a reference to the input
                 try {
                     testNode.innerHTML = '<form action="s"><input id="action"/></form>', brokenFormAttributeGetter = "s" != testNode.firstChild.getAttribute("action");
                 } catch (e) {}
-                if (features.nativeMatchesSelector = root.matchesSelector || root.mozMatchesSelector || root.webkitMatchesSelector, features.nativeMatchesSelector) try {
+                if (// native matchesSelector function
+                features.nativeMatchesSelector = root.matchesSelector || /*root.msMatchesSelector ||*/ root.mozMatchesSelector || root.webkitMatchesSelector, features.nativeMatchesSelector) try {
+                    // if matchesSelector trows errors on incorrect sintaxes we can use it
                     features.nativeMatchesSelector.call(root, ":slick"), features.nativeMatchesSelector = null;
                 } catch (e) {}
             }
@@ -1253,7 +1496,8 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
             } catch (e) {
                 features.getUID = this.getUIDXML;
             }
-            testRoot.removeChild(testNode), testNode = selected = testRoot = null, features.getAttribute = features.isHTMLDocument && brokenFormAttributeGetter ? function(node, name) {
+            testRoot.removeChild(testNode), testNode = selected = testRoot = null, // getAttribute
+            features.getAttribute = features.isHTMLDocument && brokenFormAttributeGetter ? function(node, name) {
                 var method = this.attributeGetters[name];
                 if (method) return method.call(node);
                 var attributeNode = node.getAttributeNode(name);
@@ -1261,15 +1505,19 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
             } : function(node, name) {
                 var method = this.attributeGetters[name];
                 return method ? method.call(node) : node.getAttribute(name);
-            }, features.hasAttribute = root && this.isNativeCode(root.hasAttribute) ? function(node, attribute) {
+            }, // hasAttribute
+            features.hasAttribute = root && this.isNativeCode(root.hasAttribute) ? function(node, attribute) {
                 return node.hasAttribute(attribute);
             } : function(node, attribute) {
                 return !!((node = node.getAttributeNode(attribute)) && (node.specified || node.nodeValue));
             };
+            // contains
+            // FIXME: Add specs: local.contains should be different for xml and html documents?
             var nativeRootContains = root && this.isNativeCode(root.contains), nativeDocumentContains = document1 && this.isNativeCode(document1.contains);
             for(feature in features.contains = nativeRootContains && nativeDocumentContains ? function(context, node) {
                 return context.contains(node);
             } : nativeRootContains && !nativeDocumentContains ? function(context, node) {
+                // IE8 does not have .contains on document.
                 return context === node || (context === document1 ? document1.documentElement : context).contains(node);
             } : root && root.compareDocumentPosition ? function(context, node) {
                 return context === node || !!(16 & context.compareDocumentPosition(node));
@@ -1277,7 +1525,9 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
                 if (node) do if (node === context) return !0;
                 while (node = node.parentNode)
                 return !1;
-            }, features.documentSorter = root.compareDocumentPosition ? function(a, b) {
+            }, // document order sorting
+            // credits to Sizzle (http://sizzlejs.com/)
+            features.documentSorter = root.compareDocumentPosition ? function(a, b) {
                 return a.compareDocumentPosition && b.compareDocumentPosition ? 4 & a.compareDocumentPosition(b) ? -1 : a === b ? 0 : 1 : 0;
             } : "sourceIndex" in root ? function(a, b) {
                 return a.sourceIndex && b.sourceIndex ? a.sourceIndex - b.sourceIndex : 0;
@@ -1288,16 +1538,21 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
             } : null, root = null, features)this[feature] = features[feature];
         }
     };
+    // Main Method
     var reSimpleSelector = /^([#.]?)((?:[\w-]+|\*))$/, reEmptyAttribute = /\[.+[*$^]=(?:""|'')?\]/, qsaFailExpCache = {};
     local.search = function(context, expression, append, first) {
         var found = this.found = first ? null : append || [];
         if (!context) return found;
         if (context.navigator) context = context.document;
         else if (!context.nodeType) return found;
+        // setup
         var parsed, i, uniques = this.uniques = {}, hasOthers = !!(append && append.length), contextIsDocument = 9 == context.nodeType;
+        // avoid duplicating items already in the append array
         if (this.document !== (contextIsDocument ? context : context.ownerDocument) && this.setDocument(context), hasOthers) for(i = found.length; i--;)uniques[this.getUID(found[i])] = !0;
+        // expression checks
         if ("string" == typeof expression) {
-            var simpleSelector = expression.match(reSimpleSelector);
+            // expression is a string
+            /*<simple-selectors-override>*/ var simpleSelector = expression.match(reSimpleSelector);
             simpleSelectors: if (simpleSelector) {
                 var node, nodes, symbol = simpleSelector[1], name = simpleSelector[2];
                 if (symbol) {
@@ -1327,10 +1582,16 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
                 }
                 return hasOthers && this.sort(found), first ? null : found;
             }
-            querySelector: if (context.querySelectorAll) {
-                if (!this.isHTMLDocument || qsaFailExpCache[expression] || this.brokenMixedCaseQSA || this.brokenCheckedQSA && expression.indexOf(":checked") > -1 || this.brokenEmptyAttributeQSA && reEmptyAttribute.test(expression) || !contextIsDocument && expression.indexOf(",") > -1 || Slick1.disableQSA) break querySelector;
+            /*</simple-selectors-override>*/ /*<query-selector-override>*/ querySelector: if (context.querySelectorAll) {
+                if (!this.isHTMLDocument || qsaFailExpCache[expression] || //TODO: only skip when expression is actually mixed case
+                this.brokenMixedCaseQSA || this.brokenCheckedQSA && expression.indexOf(":checked") > -1 || this.brokenEmptyAttributeQSA && reEmptyAttribute.test(expression) || !contextIsDocument && //Abort when !contextIsDocument and...
+                //  there are multiple expressions in the selector
+                //  since we currently only fix non-document rooted QSA for single expression selectors
+                expression.indexOf(",") > -1 || Slick1.disableQSA) break querySelector;
                 var _expression = expression, _context = context;
                 if (!contextIsDocument) {
+                    // non-document rooted QSA
+                    // credits to Andrew Dupont
                     var currentId = _context.getAttribute("id"), slickid = "slickid__";
                     _context.setAttribute("id", slickid), _expression = "#" + slickid + " " + _expression, context = _context.parentNode;
                 }
@@ -1347,12 +1608,18 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
                 else for(i = 0; node = nodes[i++];)hasOthers && uniques[this.getUID(node)] || found.push(node);
                 return hasOthers && this.sort(found), found;
             }
-            if (!(parsed = this.Slick.parse(expression)).length) return found;
-        } else if (null == expression) return found;
-        else if (expression.Slick) parsed = expression;
-        else if (this.contains(context.documentElement || context, expression)) return found ? found.push(expression) : found = expression, found;
-        else return found;
-        this.posNTH = {}, this.posNTHLast = {}, this.posNTHType = {}, this.posNTHTypeLast = {}, this.push = !hasOthers && (first || 1 == parsed.length && 1 == parsed.expressions[0].length) ? this.pushArray : this.pushUID, null == found && (found = []);
+            if (!/*</query-selector-override>*/ (parsed = this.Slick.parse(expression)).length) return found;
+        } else if (null == expression) // there is no expression
+        return found;
+        else if (expression.Slick) // expression is a parsed Slick object
+        parsed = expression;
+        else if (this.contains(context.documentElement || context, expression)) return(// expression is a node
+        found ? found.push(expression) : found = expression, found);
+        else // other junk
+        return found;
+        /*<pseudo-selectors>*/ /*<nth-pseudo-selectors>*/ // cache elements for the nth selectors
+        this.posNTH = {}, this.posNTHLast = {}, this.posNTHType = {}, this.posNTHTypeLast = {}, /*</nth-pseudo-selectors>*/ /*</pseudo-selectors>*/ // if append is null and there is only a single selector with one expression use pushArray, else use pushUID
+        this.push = !hasOthers && (first || 1 == parsed.length && 1 == parsed.expressions[0].length) ? this.pushArray : this.pushUID, null == found && (found = []);
         var j, m, n, combinator, tag, id, classList, classes, attributes, pseudos, currentItems, currentExpression1, currentBit, lastBit, expressions = parsed.expressions;
         search: for(i = 0; currentExpression1 = expressions[i]; i++)for(j = 0; currentBit = currentExpression1[j]; j++){
             if (!this[combinator = "combinator:" + currentBit.combinator]) continue search;
@@ -1364,14 +1631,16 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
             currentItems = this.found;
         }
         return (hasOthers || parsed.expressions.length > 1) && this.sort(found), first ? found[0] || null : found;
-    }, local.uidx = 1, local.uidk = "slick-uniqueid", local.getUIDXML = function(node) {
+    }, // Utils
+    local.uidx = 1, local.uidk = "slick-uniqueid", local.getUIDXML = function(node) {
         var uid = node.getAttribute(this.uidk);
         return uid || (uid = this.uidx++, node.setAttribute(this.uidk, uid)), uid;
     }, local.getUIDHTML = function(node) {
         return node.uniqueNumber || (node.uniqueNumber = this.uidx++);
-    }, local.sort = function(results) {
+    }, // sort based on the setDocument documentSorter method.
+    local.sort = function(results) {
         return this.documentSorter && results.sort(this.documentSorter), results;
-    }, local.cacheNTH = {}, local.matchNTH = /^([+-]?\d*)?([a-z]+)?([+-]\d+)?$/, local.parseNTHArgument = function(argument) {
+    }, /*<pseudo-selectors>*/ /*<nth-pseudo-selectors>*/ local.cacheNTH = {}, local.matchNTH = /^([+-]?\d*)?([a-z]+)?([+-]\d+)?$/, local.parseNTHArgument = function(argument) {
         var parsed = argument.match(this.matchNTH);
         if (!parsed) return !1;
         var special = parsed[2] || !1, a = parsed[1] || 1;
@@ -1418,7 +1687,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
             } else if (b < pos) return !1;
             return (pos - b) % a == 0;
         };
-    }, local.pushArray = function(node, tag, id, classes, attributes, pseudos) {
+    }, /*</nth-pseudo-selectors>*/ /*</pseudo-selectors>*/ local.pushArray = function(node, tag, id, classes, attributes, pseudos) {
         this.matchSelector(node, tag, id, classes, attributes, pseudos) && this.found.push(node);
     }, local.pushUID = function(node, tag, id, classes, attributes, pseudos) {
         var uid = this.getUID(node);
@@ -1429,6 +1698,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         } catch (matchError) {}
         var parsed = this.Slick.parse(selector);
         if (!parsed) return !0;
+        // simple (single) selectors
         var i, expressions = parsed.expressions, simpleExpCounter = 0;
         for(i = 0; currentExpression = expressions[i]; i++)if (1 == currentExpression.length) {
             var exp = currentExpression[0];
@@ -1448,7 +1718,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         if (tag) {
             var i, part, cls, nodeName = this.isXMLDocument ? node.nodeName : node.nodeName.toUpperCase();
             if ("*" == tag) {
-                if (nodeName < "@") return !1;
+                if (nodeName < "@") return !1; // Fix for comment nodes and closed nodes
             } else if (nodeName != tag) return !1;
         }
         if (id && node.getAttribute("id") != id) return !1;
@@ -1465,11 +1735,14 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
     };
     var combinators = {
         " ": function(node, tag, id, classes, attributes, pseudos, classList) {
+            // all child nodes, any level
             var i, item, children;
             if (this.isHTMLDocument) {
                 getById: if (id) {
                     if (!(item = this.document.getElementById(id)) && node.all || this.idGetsName && item && item.getAttributeNode("id").nodeValue != id) {
-                        if (!(children = node.all[id])) return;
+                        if (!// all[id] returns all the elements with that name or id inside node
+                        // if theres just one it will return the element, else it will be a collection
+                        (children = node.all[id])) return;
                         for(children[0] || (children = [
                             children
                         ]), i = 0; item = children[i++];){
@@ -1484,6 +1757,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
                     if (item) {
                         if (this.document !== node && !this.contains(node, item)) return;
                     } else {
+                        // if the context is in the dom we return, else we will try GEBTN, breaking the getById label
                         if (this.contains(this.root, node)) return;
                         break getById;
                     }
@@ -1499,19 +1773,23 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
             if ((children = node.getElementsByTagName(tag)) && children.length) for(this.brokenStarGEBTN || (tag = null), i = 0; item = children[i++];)this.push(item, tag, id, classes, attributes, pseudos);
         },
         ">": function(node, tag, id, classes, attributes, pseudos) {
+            // direct children
             if (node = node.firstChild) do 1 == node.nodeType && this.push(node, tag, id, classes, attributes, pseudos);
             while (node = node.nextSibling)
         },
         "+": function(node, tag, id, classes, attributes, pseudos) {
+            // next sibling
             for(; node = node.nextSibling;)if (1 == node.nodeType) {
                 this.push(node, tag, id, classes, attributes, pseudos);
                 break;
             }
         },
         "^": function(node, tag, id, classes, attributes, pseudos) {
+            // first child
             (node = node.firstChild) && (1 == node.nodeType ? this.push(node, tag, id, classes, attributes, pseudos) : this["combinator:+"](node, tag, id, classes, attributes, pseudos));
         },
         "~": function(node, tag, id, classes, attributes, pseudos) {
+            // next siblings
             for(; node = node.nextSibling;)if (1 == node.nodeType) {
                 var uid = this.getUID(node);
                 if (this.bitUniques[uid]) break;
@@ -1519,27 +1797,34 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
             }
         },
         "++": function(node, tag, id, classes, attributes, pseudos) {
+            // next sibling and previous sibling
             this["combinator:+"](node, tag, id, classes, attributes, pseudos), this["combinator:!+"](node, tag, id, classes, attributes, pseudos);
         },
         "~~": function(node, tag, id, classes, attributes, pseudos) {
+            // next siblings and previous siblings
             this["combinator:~"](node, tag, id, classes, attributes, pseudos), this["combinator:!~"](node, tag, id, classes, attributes, pseudos);
         },
         "!": function(node, tag, id, classes, attributes, pseudos) {
+            // all parent nodes up to document
             for(; node = node.parentNode;)node !== this.document && this.push(node, tag, id, classes, attributes, pseudos);
         },
         "!>": function(node, tag, id, classes, attributes, pseudos) {
+            // direct parent (one level)
             (node = node.parentNode) !== this.document && this.push(node, tag, id, classes, attributes, pseudos);
         },
         "!+": function(node, tag, id, classes, attributes, pseudos) {
+            // previous sibling
             for(; node = node.previousSibling;)if (1 == node.nodeType) {
                 this.push(node, tag, id, classes, attributes, pseudos);
                 break;
             }
         },
         "!^": function(node, tag, id, classes, attributes, pseudos) {
+            // last child
             (node = node.lastChild) && (1 == node.nodeType ? this.push(node, tag, id, classes, attributes, pseudos) : this["combinator:!+"](node, tag, id, classes, attributes, pseudos));
         },
         "!~": function(node, tag, id, classes, attributes, pseudos) {
+            // previous siblings
             for(; node = node.previousSibling;)if (1 == node.nodeType) {
                 var uid = this.getUID(node);
                 if (this.bitUniques[uid]) break;
@@ -1549,7 +1834,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
     };
     for(var c in combinators)local["combinator:" + c] = combinators[c];
     var pseudos = {
-        empty: function(node) {
+        /*<pseudo-selectors>*/ empty: function(node) {
             var child = node.firstChild;
             return !(child && 1 == child.nodeType) && !(node.innerText || node.textContent || "").length;
         },
@@ -1572,7 +1857,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
             for(var next = node; next = next.nextSibling;)if (1 == next.nodeType) return !1;
             return !0;
         },
-        "nth-child": local.createNTHPseudo("firstChild", "nextSibling", "posNTH"),
+        /*<nth-pseudo-selectors>*/ "nth-child": local.createNTHPseudo("firstChild", "nextSibling", "posNTH"),
         "nth-last-child": local.createNTHPseudo("lastChild", "previousSibling", "posNTHLast"),
         "nth-of-type": local.createNTHPseudo("firstChild", "nextSibling", "posNTHType", !0),
         "nth-last-of-type": local.createNTHPseudo("lastChild", "previousSibling", "posNTHTypeLast", !0),
@@ -1585,7 +1870,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         odd: function(node) {
             return this["pseudo:nth-child"](node, "2n+1");
         },
-        "first-of-type": function(node) {
+        /*</nth-pseudo-selectors>*/ /*<of-type-pseudo-selectors>*/ "first-of-type": function(node) {
             for(var nodeName = node.nodeName; node = node.previousSibling;)if (node.nodeName == nodeName) return !1;
             return !0;
         },
@@ -1598,6 +1883,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
             for(var next = node; next = next.nextSibling;)if (next.nodeName == nodeName) return !1;
             return !0;
         },
+        /*</of-type-pseudo-selectors>*/ // custom pseudos
         enabled: function(node) {
             return !node.disabled;
         },
@@ -1618,6 +1904,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         }
     };
     for(var p in pseudos)local["pseudo:" + p] = pseudos[p];
+    // attributes methods
     var attributeGetters = local.attributeGetters = {
         for: function() {
             return "htmlFor" in this ? this.htmlFor : this.getAttribute("for");
@@ -1641,24 +1928,31 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         }
     };
     attributeGetters.MAXLENGTH = attributeGetters.maxLength = attributeGetters.maxlength;
+    // Slick
     var Slick1 = local.Slick = this.Slick || {};
-    Slick1.version = "1.1.7", Slick1.search = function(context, expression, append) {
+    Slick1.version = "1.1.7", // Slick finder
+    Slick1.search = function(context, expression, append) {
         return local.search(context, expression, append);
     }, Slick1.find = function(context, expression) {
         return local.search(context, expression, null, !0);
-    }, Slick1.contains = function(container, node) {
+    }, // Slick containment checker
+    Slick1.contains = function(container, node) {
         return local.setDocument(container), local.contains(container, node);
-    }, Slick1.getAttribute = function(node, name) {
+    }, // Slick attribute getter
+    Slick1.getAttribute = function(node, name) {
         return local.setDocument(node), local.getAttribute(node, name);
     }, Slick1.hasAttribute = function(node, name) {
         return local.setDocument(node), local.hasAttribute(node, name);
-    }, Slick1.match = function(node, selector) {
+    }, // Slick matcher
+    Slick1.match = function(node, selector) {
         return !!node && !!selector && (!selector || selector === node || (local.setDocument(node), local.matchNode(node, selector)));
-    }, Slick1.defineAttributeGetter = function(name, fn) {
+    }, // Slick attribute accessor
+    Slick1.defineAttributeGetter = function(name, fn) {
         return local.attributeGetters[name] = fn, this;
     }, Slick1.lookupAttributeGetter = function(name) {
         return local.attributeGetters[name];
-    }, Slick1.definePseudo = function(name, fn) {
+    }, // Slick pseudo accessor
+    Slick1.definePseudo = function(name, fn) {
         return local["pseudo:" + name] = function(node, argument) {
             return fn.call(node, argument);
         }, this;
@@ -1667,13 +1961,28 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         return pseudo ? function(argument) {
             return pseudo.call(this, argument);
         } : null;
-    }, Slick1.override = function(regexp, fn) {
+    }, // Slick overrides accessor
+    Slick1.override = function(regexp, fn) {
         return local.override(regexp, fn), this;
     }, Slick1.isXML = local.isXML, Slick1.uidOf = function(node) {
         return local.getUIDHTML(node);
     }, this.Slick || (this.Slick = Slick1);
-}).apply("undefined" != typeof exports ? exports : this);
-var Element = function(tag, props) {
+}).apply(/*<CommonJS>*/ "undefined" != typeof exports ? exports : /*</CommonJS>*/ this);
+/*
+---
+
+name: Element
+
+description: One of the most important items in MooTools. Contains the dollar function, the dollars function, and an handful of cross-browser, time-saver methods to let you easily work with HTML Elements.
+
+license: MIT-style license.
+
+requires: [Window, Document, Array, String, Function, Object, Number, Slick.Parser, Slick.Finder]
+
+provides: [Element, Elements, $, $$, Iframe, Selectors]
+
+...
+*/ var Element = function(tag, props) {
     var konstructor = Element.Constructors[tag];
     if (konstructor) return konstructor(props);
     if ("string" != typeof tag) return document.id(tag).set(props);
@@ -1686,7 +1995,8 @@ var Element = function(tag, props) {
     }
     return document.newElement(tag, props);
 };
-Browser.Element && (Element.prototype = Browser.Element.prototype, Element.prototype._fireEvent = function(fireEvent) {
+Browser.Element && (Element.prototype = Browser.Element.prototype, // IE8 and IE9 require the wrapping.
+Element.prototype._fireEvent = function(fireEvent) {
     return function(type, event) {
         return fireEvent.call(this, type, event);
     };
@@ -1706,7 +2016,9 @@ Browser.Element && (Element.prototype = Browser.Element.prototype, Element.proto
     $family: Function.from("element").hide()
 }, Element.mirror(function(name, method) {
     Element.Prototype[name] = method;
-})), Element.Constructors = {}, Element.Constructors = new Hash();
+})), Element.Constructors = {}, //<1.2compat>
+Element.Constructors = new Hash();
+//</1.2compat>
 var IFrame = new Type("IFrame", function() {
     var iframe, params = Array.link(arguments, {
         properties: Type.isObject,
@@ -1768,7 +2080,10 @@ Elements.prototype = {
         for(; this.length;)delete this[--this.length];
         return this;
     }).protect()
-}), Elements.alias("extend", "append"), function() {
+}), //<1.2compat>
+Elements.alias("extend", "append"), //</1.2compat>
+function() {
+    // FF, IE
     var createElementAcceptsHTML, splice = Array.prototype.splice, object = {
         0: 0,
         1: 1,
@@ -1786,9 +2101,9 @@ Elements.prototype = {
     var escapeQuotes = function(html) {
         return ("" + html).replace(/&/g, "&amp;").replace(/"/g, "&quot;");
     };
-    Document.implement({
+    /*</ltIE8>*/ Document.implement({
         newElement: function(tag, props) {
-            return props && null != props.checked && (props.defaultChecked = props.checked), createElementAcceptsHTML && props && (tag = "<" + tag, props.name && (tag += ' name="' + escapeQuotes(props.name) + '"'), props.type && (tag += ' type="' + escapeQuotes(props.type) + '"'), tag += ">", delete props.name, delete props.type), this.id(this.createElement(tag)).set(props);
+            /*</ltIE8>*/ return props && null != props.checked && (props.defaultChecked = props.checked), createElementAcceptsHTML && props && (tag = "<" + tag, props.name && (tag += ' name="' + escapeQuotes(props.name) + '"'), props.type && (tag += ' type="' + escapeQuotes(props.type) + '"'), tag += ">", delete props.name, delete props.type), this.id(this.createElement(tag)).set(props);
         }
     });
 }(), function() {
@@ -1810,6 +2125,7 @@ Elements.prototype = {
                 element: function(el, nocash) {
                     if (Slick.uidOf(el), !nocash && !el.$family && !/^(?:object|embed)$/i.test(el.tagName)) {
                         var fireEvent = el.fireEvent;
+                        // wrapping needed in IE7, or else crash
                         el._fireEvent = function(type, event) {
                             return fireEvent(type, event);
                         }, Object.append(el, Element.Prototype);
@@ -1853,7 +2169,8 @@ Elements.prototype = {
             return Slick.contains(this, element);
         }
     };
-    document.contains || Document.implement(contains), document.createElement("div").contains || Element.implement(contains), Element.implement("hasChild", function(element) {
+    document.contains || Document.implement(contains), document.createElement("div").contains || Element.implement(contains), //<1.2compat>
+    Element.implement("hasChild", function(element) {
         return this !== element && this.contains(element);
     }), function(search, find, match) {
         this.Selectors = {};
@@ -1868,6 +2185,8 @@ Elements.prototype = {
             return addSlickPseudos(), match.call(this, node, selector);
         };
     }(Slick.search, Slick.find, Slick.match);
+    //</1.2compat>
+    // tree walking
     var injectCombinator = function(expression, combinator) {
         if (!expression) return combinator;
         for(var expressions = (expression = Object.clone(Slick.parse(expression))).expressions, i = expressions.length; i--;)expressions[i][0].combinator = combinator;
@@ -1931,6 +2250,7 @@ Elements.prototype = {
         }
         return new Elements(arguments);
     });
+    // Inserters
     var inserters = {
         before: function(context, element) {
             var parent = element.parentNode;
@@ -1947,7 +2267,8 @@ Elements.prototype = {
             element.insertBefore(context, element.firstChild);
         }
     };
-    inserters.inside = inserters.bottom, Object.each(inserters, function(inserter, where) {
+    inserters.inside = inserters.bottom, //<1.2compat>
+    Object.each(inserters, function(inserter, where) {
         where = where.capitalize();
         var methods = {};
         methods["inject" + where] = function(el) {
@@ -1956,6 +2277,8 @@ Elements.prototype = {
             return inserter(document.id(el, !0), this), this;
         }, Element.implement(methods);
     });
+    //</1.2compat>
+    // getProperty / setProperty
     var propertyGetters = {}, propertySetters = {}, properties = {};
     Array.forEach([
         "type",
@@ -2004,7 +2327,8 @@ Elements.prototype = {
         }, propertyGetters[lower] = function(node) {
             return !!node[bool];
         };
-    }), Object.append(propertySetters, {
+    }), // Special cases
+    Object.append(propertySetters, {
         class: function(node, value) {
             "className" in node ? node.className = value || "" : node.setAttribute("class", value);
         },
@@ -2020,28 +2344,29 @@ Elements.prototype = {
     }), propertyGetters.class = function(node) {
         return "className" in node ? node.className || null : node.getAttribute("class");
     };
-    var el = document.createElement("button");
+    /* <webkit> */ var el = document.createElement("button");
+    // IE sets type as readonly and throws
     try {
         el.type = "button";
     } catch (e) {}
     "button" != el.type && (propertySetters.type = function(node, value) {
         node.setAttribute("type", value);
     }), el = null;
-    var input = document.createElement("input");
+    /* </webkit> */ /*<IE>*/ var input = document.createElement("input");
     input.value = "t", input.type = "submit", "t" != input.value && (propertySetters.type = function(node, type) {
         var value = node.value;
         node.type = type, node.value = value;
     }), input = null;
-    var pollutesGetAttribute = function(div) {
+    /*</IE>*/ /* getProperty, setProperty */ /* <ltIE9> */ var pollutesGetAttribute = function(div) {
         return div.random = "attribute", "attribute" == div.getAttribute("random");
     }(document.createElement("div"));
-    Element.implement({
+    /* <ltIE9> */ Element.implement({
         setProperty: function(name, value) {
             var setter = propertySetters[name.toLowerCase()];
             if (setter) setter(this, value);
             else {
-                if (pollutesGetAttribute) var attributeWhiteList = this.retrieve("$attributeWhiteList", {});
-                null == value ? (this.removeAttribute(name), pollutesGetAttribute && delete attributeWhiteList[name]) : (this.setAttribute(name, "" + value), pollutesGetAttribute && (attributeWhiteList[name] = !0));
+                /* <ltIE9> */ if (pollutesGetAttribute) var attributeWhiteList = this.retrieve("$attributeWhiteList", {});
+                /* </ltIE9> */ null == value ? (this.removeAttribute(name), pollutesGetAttribute && delete attributeWhiteList[name]) : (this.setAttribute(name, "" + value), pollutesGetAttribute && (attributeWhiteList[name] = !0));
             }
             return this;
         },
@@ -2052,16 +2377,17 @@ Elements.prototype = {
         getProperty: function(name) {
             var getter = propertyGetters[name.toLowerCase()];
             if (getter) return getter(this);
-            if (pollutesGetAttribute) {
+            /* <ltIE9> */ if (pollutesGetAttribute) {
                 var attr = this.getAttributeNode(name), attributeWhiteList = this.retrieve("$attributeWhiteList", {});
                 if (!attr) return null;
                 if (attr.expando && !attributeWhiteList[name]) {
                     var outer = this.outerHTML;
+                    // segment by the opening tag and find mention of attribute name
                     if (0 > outer.substr(0, outer.search(/\/?['"]?>(?![^<]*<['"])/)).indexOf(name)) return null;
                     attributeWhiteList[name] = !0;
                 }
             }
-            var result = Slick.getAttribute(this, name);
+            /* </ltIE9> */ var result = Slick.getAttribute(this, name);
             return result || Slick.hasAttribute(this, name) ? result : null;
         },
         getProperties: function() {
@@ -2133,6 +2459,7 @@ Elements.prototype = {
                 var type = el.type;
                 if (el.name && !el.disabled && "submit" != type && "reset" != type && "file" != type && "image" != type) {
                     var value = "select" == el.get("tag") ? el.getSelected().map(function(opt) {
+                        // IE
                         return document.id(opt).get("value");
                     }) : "radio" != type && "checkbox" != type || el.checked ? el.get("value") : null;
                     Array.from(value).each(function(val) {
@@ -2171,15 +2498,15 @@ Elements.prototype = {
             ];
             for(contents && (ce.append(Array.from(clone.getElementsByTagName("*"))), te.append(Array.from(this.getElementsByTagName("*")))), i = ce.length; i--;){
                 var node = ce[i], element = te[i];
-                if (keepid || node.removeAttribute("id"), node.clearAttributes && (node.clearAttributes(), node.mergeAttributes(element), node.removeAttribute("uniqueNumber"), node.options)) for(var no = node.options, eo = element.options, j = no.length; j--;)no[j].selected = eo[j].selected;
-                var prop = formProps[element.tagName.toLowerCase()];
+                /*<ltIE9>*/ if (keepid || node.removeAttribute("id"), node.clearAttributes && (node.clearAttributes(), node.mergeAttributes(element), node.removeAttribute("uniqueNumber"), node.options)) for(var no = node.options, eo = element.options, j = no.length; j--;)no[j].selected = eo[j].selected;
+                /*</ltIE9>*/ var prop = formProps[element.tagName.toLowerCase()];
                 prop && element[prop] && (node[prop] = element[prop]);
             }
-            if (Browser.ie) {
+            /*<ltIE9>*/ if (Browser.ie) {
                 var co = clone.getElementsByTagName("object"), to = this.getElementsByTagName("object");
                 for(i = co.length; i--;)co[i].outerHTML = to[i].outerHTML;
             }
-            return document.id(clone);
+            /*</ltIE9>*/ return document.id(clone);
         }
     }), [
         Element,
@@ -2211,7 +2538,9 @@ Elements.prototype = {
         }
     }), window.attachEvent && !window.addEventListener && window.addListener("unload", function() {
         Object.each(collected, clean), window.CollectGarbage && CollectGarbage();
-    }), Element.Properties = {}, Element.Properties = new Hash(), Element.Properties.style = {
+    }), /*</ltIE9>*/ Element.Properties = {}, //<1.2compat>
+    Element.Properties = new Hash(), //</1.2compat>
+    Element.Properties.style = {
         set: function(style) {
             this.style.cssText = style;
         },
@@ -2233,12 +2562,13 @@ Elements.prototype = {
             this.innerHTML = "";
         }
     };
+    /*<ltIE9>*/ // technique by jdbarlett - http://jdbartlett.com/innershiv/
     var div = document.createElement("div");
     div.innerHTML = "<nav></nav>";
     var supportsHTML5Elements = 1 == div.childNodes.length;
     if (!supportsHTML5Elements) for(var tags = "abbr article aside audio canvas datalist details figcaption figure footer header hgroup mark meter nav output progress section summary time video".split(" "), fragment = document.createDocumentFragment(), l = tags.length; l--;)fragment.createElement(tags[l]);
     div = null;
-    var supportsTableInnerHTML = Function.attempt(function() {
+    /*</ltIE9>*/ /*<IE>*/ var supportsTableInnerHTML = Function.attempt(function() {
         return document.createElement("table").innerHTML = "<tr><td></td></tr>", !0;
     }), tr = document.createElement("tr"), html = "<td></td>";
     tr.innerHTML = html;
@@ -2282,7 +2612,7 @@ Elements.prototype = {
             this.empty().adopt(target.childNodes), supportsHTML5Elements || fragment.removeChild(wrapper);
         };
     }(Element.Properties.html.set));
-    var testForm = document.createElement("form");
+    /*</IE>*/ /*<ltIE9>*/ var testForm = document.createElement("form");
     testForm.innerHTML = "<select><option>s</option></select>", "s" != testForm.firstChild.value && (Element.Properties.value = {
         set: function(value) {
             if ("select" != this.get("tag")) return this.setProperty("value", value);
@@ -2309,11 +2639,26 @@ Elements.prototype = {
             this.id = this.getAttributeNode("id").value = "";
         }
     });
-}(), function() {
+/*</IE>*/ }(), /*
+---
+
+name: Element.Style
+
+description: Contains methods for interacting with the styles of Elements in a fashionable way.
+
+license: MIT-style license.
+
+requires: Element
+
+provides: Element.Style
+
+...
+*/ function() {
     var html = document.html, el = document.createElement("div");
     el.style.color = "red", el.style.color = null;
     var doesNotRemoveStyles = "red" == el.style.color;
-    el = null, Element.Properties.styles = {
+    el = null, //</ltIE9>
+    Element.Properties.styles = {
         set: function(styles) {
             this.setStyles(styles);
         }
@@ -2351,6 +2696,7 @@ Elements.prototype = {
                     return map[i] ? "number" == typeOf(val) ? map[i].replace("@", Math.round(val)) : val : "";
                 }).join(" ");
             } else value == String(Number(value)) && (value = Math.round(value));
+            //</ltIE9>
             return this.style[property] = value, ("" == value || null == value) && doesNotRemoveStyles && this.style.removeAttribute && this.style.removeAttribute(property), this;
         },
         getStyle: function(property) {
@@ -2424,7 +2770,8 @@ Elements.prototype = {
         fontWeight: "@",
         textIndent: "@px",
         opacity: "@"
-    }, Element.implement({
+    }, //<1.3compat>
+    Element.implement({
         setOpacity: function(value) {
             return setOpacity(this, value), this;
         },
@@ -2438,7 +2785,10 @@ Elements.prototype = {
         get: function() {
             return getOpacity(this);
         }
-    }, Element.Styles = new Hash(Element.Styles), Element.ShortStyles = {
+    }, //</1.3compat>
+    //<1.2compat>
+    Element.Styles = new Hash(Element.Styles), //</1.2compat>
+    Element.ShortStyles = {
         margin: {},
         padding: {},
         border: {},
@@ -2464,7 +2814,21 @@ Elements.prototype = {
         var bdw = bd + "Width", bds = bd + "Style", bdc = bd + "Color";
         Short[bd] = {}, Short.borderWidth[bdw] = Short[bd][bdw] = All[bdw] = "@px", Short.borderStyle[bds] = Short[bd][bds] = All[bds] = "@", Short.borderColor[bdc] = Short[bd][bdc] = All[bdc] = "rgb(@, @, @)";
     });
-}(), function() {
+}(), /*
+---
+
+name: Element.Event
+
+description: Contains Element methods for dealing with events. This file also includes mouseenter and mouseleave custom Element Events, if necessary.
+
+license: MIT-style license.
+
+requires: [Element, Event]
+
+provides: Element.Event
+
+...
+*/ function() {
     if (Element.Properties.events = {
         set: function(events) {
             this.addEvents(events);
@@ -2605,8 +2969,24 @@ Elements.prototype = {
         condition: function(event) {
             return "radio" != this.type || "checked" == event.event.propertyName && this.checked;
         }
-    }), Element.Events = new Hash(Element.Events);
-}(), function() {
+    }), /*</ltIE9>*/ //<1.2compat>
+    Element.Events = new Hash(Element.Events);
+//</1.2compat>
+}(), /*
+---
+
+name: Element.Delegation
+
+description: Extends the Element native object to include the delegate method for more efficient event management.
+
+license: MIT-style license.
+
+requires: [Element.Event]
+
+provides: [Element.Delegation]
+
+...
+*/ function() {
     var eventListenerSupport = !!window.addEventListener;
     Element.NativeEvents.focusin = Element.NativeEvents.focusout = 2;
     var bubbleUp = function(self, match, fn, event, target) {
@@ -2674,7 +3054,7 @@ Elements.prototype = {
         change: inputObserver("change"),
         select: inputObserver("select")
     });
-    var proto = Element.prototype, addEvent = proto.addEvent, removeEvent = proto.removeEvent, relay = function(old, method) {
+    /*</ltIE9>*/ var proto = Element.prototype, addEvent = proto.addEvent, removeEvent = proto.removeEvent, relay = function(old, method) {
         return function(type, fn, useCapture) {
             if (-1 == type.indexOf(":relay")) return old.call(this, type, fn, useCapture);
             var parsed = Slick.parse(type).expressions[0][0];
@@ -2733,7 +3113,25 @@ Elements.prototype = {
         addEvent: relay(addEvent, delegation.addEvent),
         removeEvent: relay(removeEvent, delegation.removeEvent)
     });
-}(), function() {
+}(), /*
+---
+
+name: Element.Dimensions
+
+description: Contains methods to work with size, scroll, or positioning of Elements and the window object.
+
+license: MIT-style license.
+
+credits:
+  - Element positioning based on the [qooxdoo](http://qooxdoo.org/) code and smart browser fixes, [LGPL License](http://www.gnu.org/licenses/lgpl.html).
+  - Viewport dimensions based on [YUI](http://developer.yahoo.com/yui/) code, [BSD License](http://developer.yahoo.com/yui/license.html).
+
+requires: [Element, Element.Style]
+
+provides: [Element.Dimensions]
+
+...
+*/ function() {
     var element = document.createElement("div"), child = document.createElement("div");
     element.style.height = "0", element.appendChild(child);
     var brokenOffsetParent = child.offsetParent === element;
@@ -2884,6 +3282,7 @@ Elements.prototype = {
             };
         }
     });
+    // private methods
     var styleString = Element.getComputedStyle;
     function styleNumber(element, style) {
         return styleString(element, style).toInt() || 0;
@@ -2904,7 +3303,8 @@ Elements.prototype = {
         var doc = element.getDocument();
         return doc.compatMode && "CSS1Compat" != doc.compatMode ? doc.body : doc.html;
     }
-}(), Element.alias({
+}(), //aliases
+Element.alias({
     position: "setPosition"
 }), [
     Window,
@@ -2935,7 +3335,21 @@ Elements.prototype = {
     getLeft: function() {
         return this.getPosition().x;
     }
-}), function() {
+}), /*
+---
+
+name: Fx
+
+description: Contains the basic animation logic to be extended by all other Fx Classes.
+
+license: MIT-style license.
+
+requires: [Chain, Events, Options]
+
+provides: Fx
+
+...
+*/ function() {
     var Fx1 = this.Fx = new Class({
         Implements: [
             Chain,
@@ -2943,7 +3357,11 @@ Elements.prototype = {
             Options
         ],
         options: {
-            fps: 60,
+            /*
+		onStart: nil,
+		onCancel: nil,
+		onComplete: nil,
+		*/ fps: 60,
             unit: !1,
             duration: 500,
             frames: null,
@@ -3014,6 +3432,7 @@ Elements.prototype = {
         normal: 500,
         long: 1000
     };
+    // global timers
     var instances = {}, timers = {}, loop = function() {
         for(var now = Date.now(), i = this.length; i--;){
             var instance = this[i];
@@ -3026,17 +3445,35 @@ Elements.prototype = {
         var list = instances[fps];
         list && (list.erase(this), !list.length && timers[fps] && (delete instances[fps], timers[fps] = clearInterval(timers[fps])));
     };
-}(), Fx.CSS = new Class({
+}(), /*
+---
+
+name: Fx.CSS
+
+description: Contains the CSS animation logic. Used by Fx.Tween, Fx.Morph, Fx.Elements.
+
+license: MIT-style license.
+
+requires: [Fx, Element.Style]
+
+provides: Fx.CSS
+
+...
+*/ Fx.CSS = new Class({
     Extends: Fx,
+    //prepares the base from/to object
     prepare: function(element, property, values) {
         var from = (values = Array.from(values))[0], to = values[1];
         if (null == to) {
             to = from, from = element.getStyle(property);
             var unit = this.options.unit;
+            // adapted from: https://github.com/ryanmorr/fx/blob/master/fx.js#L299
             if (unit && from.slice(-unit.length) != unit && 0 != parseFloat(from)) {
                 element.setStyle(property, to + unit);
                 var value = element.getComputedStyle(property);
+                // IE and Opera support pixelLeft or pixelWidth
                 if (!/px$/.test(value) && null == (value = element.style[("pixel-" + property).camelCase()])) {
+                    // adapted from Dean Edwards' http://erik.eae.net/archives/2007/07/27/18.54.15/#comment-102291
                     var left = element.style.left;
                     element.style.left = to + unit, value = element.style.pixelLeft, element.style.left = left;
                 }
@@ -3048,6 +3485,7 @@ Elements.prototype = {
             to: this.parse(to)
         };
     },
+    //parses a value into an array
     parse: function(value) {
         return (value = "string" == typeof (value = Function.from(value)()) ? value.split(" ") : Array.from(value)).map(function(val) {
             val = String(val);
@@ -3066,6 +3504,7 @@ Elements.prototype = {
             };
         });
     },
+    //computes by a from and to prepared objects, using their parsers.
     compute: function(from, to, delta) {
         var computed = [];
         return Math.min(from.length, to.length).times(function(i) {
@@ -3075,6 +3514,7 @@ Elements.prototype = {
             });
         }), computed.$family = Function.from("fx:css:value"), computed;
     },
+    //serves the value as settable
     serve: function(value, unit) {
         "fx:css:value" != typeOf(value) && (value = this.parse(value));
         var returned = [];
@@ -3082,9 +3522,11 @@ Elements.prototype = {
             returned = returned.concat(bit.parser.serve(bit.value, unit));
         }), returned;
     },
+    //renders the change to an element
     render: function(element, property, value, unit) {
         element.setStyle(property, this.serve(value, unit));
     },
+    //searches inside the page css to find the values for a selector
     search: function(selector) {
         if (Fx.CSS.Cache[selector]) return Fx.CSS.Cache[selector];
         var to = {}, selectorTest = RegExp("^" + selector.escapeRegExp() + "$");
@@ -3139,7 +3581,23 @@ Elements.prototype = {
             return zero;
         }
     }
-}, Fx.CSS.Parsers = new Hash(Fx.CSS.Parsers), Fx.Tween = new Class({
+}, //<1.2compat>
+Fx.CSS.Parsers = new Hash(Fx.CSS.Parsers), //</1.2compat>
+/*
+---
+
+name: Fx.Tween
+
+description: Formerly Fx.Style, effect to transition any CSS property for an element.
+
+license: MIT-style license.
+
+requires: Fx.CSS
+
+provides: [Fx.Tween, Element.fade, Element.highlight]
+
+...
+*/ Fx.Tween = new Class({
     Extends: Fx.CSS,
     initialize: function(element, options) {
         this.element = this.subject = document.id(element), this.parent(options);
@@ -3205,7 +3663,21 @@ Elements.prototype = {
             this.setStyle("background-color", this.retrieve("highlight:original")), tween.callChain();
         }).bind(this)), this;
     }
-}), Fx.Morph = new Class({
+}), /*
+---
+
+name: Fx.Morph
+
+description: Formerly Fx.Styles, effect to transition any number of CSS properties for an element using an object of rules, or CSS based selector rules.
+
+license: MIT-style license.
+
+requires: Fx.CSS
+
+provides: Fx.Morph
+
+...
+*/ Fx.Morph = new Class({
     Extends: Fx.CSS,
     initialize: function(element, options) {
         this.element = this.subject = document.id(element), this.parent(options);
@@ -3243,7 +3715,24 @@ Elements.prototype = {
     morph: function(props) {
         return this.get("morph").start(props), this;
     }
-}), Fx.implement({
+}), /*
+---
+
+name: Fx.Transitions
+
+description: Contains a set of advanced transitions to be used with any of the Fx Classes.
+
+license: MIT-style license.
+
+credits:
+  - Easing Equations by Robert Penner, <http://www.robertpenner.com/easing/>, modified and optimized to be used with MooTools.
+
+requires: Fx
+
+provides: Fx.Transitions
+
+...
+*/ Fx.implement({
     getTransition: function() {
         var trans = this.options.transition || Fx.Transitions.Sine.easeInOut;
         if ("string" == typeof trans) {
@@ -3270,7 +3759,9 @@ Elements.prototype = {
     linear: function(zero) {
         return zero;
     }
-}, Fx.Transitions = new Hash(Fx.Transitions), Fx.Transitions.extend = function(transitions) {
+}, //<1.2compat>
+Fx.Transitions = new Hash(Fx.Transitions), //</1.2compat>
+Fx.Transitions.extend = function(transitions) {
     for(var transition in transitions)Fx.Transitions[transition] = new Fx.Transition(transitions[transition]);
 }, Fx.Transitions.extend({
     Pow: function(p, x) {
@@ -3307,7 +3798,21 @@ Elements.prototype = {
     Fx.Transitions[transition] = new Fx.Transition(function(p) {
         return Math.pow(p, i + 2);
     });
-}), function() {
+}), /*
+---
+
+name: Request
+
+description: Powerful all purpose Request Class. Uses XMLHTTPRequest.
+
+license: MIT-style license.
+
+requires: [Object, Element, Chain, Events, Options, Browser]
+
+provides: Request
+
+...
+*/ function() {
     var empty = function() {}, progressSupport = "onprogress" in new Browser.Request(), Request1 = this.Request = new Class({
         Implements: [
             Chain,
@@ -3315,7 +3820,18 @@ Elements.prototype = {
             Options
         ],
         options: {
-            url: "",
+            /*
+		onRequest: function(){},
+		onLoadstart: function(event, xhr){},
+		onProgress: function(event, xhr){},
+		onComplete: function(){},
+		onCancel: function(){},
+		onSuccess: function(responseText, responseXML){},
+		onFailure: function(xhr){},
+		onException: function(headerName, value){},
+		onTimeout: function(){},
+		user: '',
+		password: '',*/ url: "",
             data: "",
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
@@ -3500,7 +4016,21 @@ Elements.prototype = {
             }), this;
         }
     });
-}(), Request.HTML = new Class({
+}(), /*
+---
+
+name: Request.HTML
+
+description: Extends the basic Request Class with additional methods for interacting with HTML responses.
+
+license: MIT-style license.
+
+requires: [Element, Request]
+
+provides: Request.HTML
+
+...
+*/ Request.HTML = new Class({
     Extends: Request,
     options: {
         update: !1,
@@ -3548,10 +4078,12 @@ Elements.prototype = {
             url: Type.isString
         })), this;
     }
-}), "undefined" == typeof JSON && (this.JSON = {}), JSON = new Hash({
+}), "undefined" == typeof JSON && (this.JSON = {}), //<1.2compat>
+JSON = new Hash({
     stringify: JSON.stringify,
     parse: JSON.parse
-}), function() {
+}), //</1.2compat>
+function() {
     var special = {
         "\b": "\\b",
         "\t": "\\t",
@@ -3595,10 +4127,24 @@ Elements.prototype = {
         }
         return eval("(" + string + ")");
     };
-}(), Request.JSON = new Class({
+}(), /*
+---
+
+name: Request.JSON
+
+description: Extends the basic Request Class with additional methods for sending and receiving JSON data.
+
+license: MIT-style license.
+
+requires: [Request, JSON]
+
+provides: Request.JSON
+
+...
+*/ Request.JSON = new Class({
     Extends: Request,
     options: {
-        secure: !0
+        /*onError: function(text, error){},*/ secure: !0
     },
     initialize: function(options) {
         this.parent(options), Object.append(this.headers, {
@@ -3620,7 +4166,24 @@ Elements.prototype = {
         null == json ? this.onFailure() : this.onSuccess(json, text);
     }
 });
-var Cookie = new Class({
+/*
+---
+
+name: Cookie
+
+description: Class for creating, reading, and deleting browser Cookies.
+
+license: MIT-style license.
+
+credits:
+  - Based on the functions by Peter-Paul Koch (http://quirksmode.org).
+
+requires: [Options, Browser]
+
+provides: Cookie
+
+...
+*/ var Cookie = new Class({
     Implements: Options,
     options: {
         path: "/",
@@ -3656,7 +4219,21 @@ Cookie.write = function(key, value, options) {
     return new Cookie(key).read();
 }, Cookie.dispose = function(key, options) {
     return new Cookie(key, options).dispose();
-}, function(window1, document1) {
+}, /*
+---
+
+name: DOMReady
+
+description: Contains the custom event domready.
+
+license: MIT-style license.
+
+requires: [Browser, Element, Element.Event]
+
+provides: [DOMReady, DomReady]
+
+...
+*/ function(window1, document1) {
     var ready, loaded, shouldPoll, timer, checks = [], testElement = document1.createElement("div"), domready = function() {
         clearTimeout(timer), ready || (Browser.loaded = ready = !0, document1.removeListener("DOMContentLoaded", domready).removeListener("readystatechange", check), document1.fireEvent("domready"), window1.fireEvent("domready"));
     }, check = function() {
@@ -3666,6 +4243,8 @@ Cookie.write = function(key, value, options) {
         clearTimeout(timer), check() || (timer = setTimeout(poll, 10));
     };
     document1.addListener("DOMContentLoaded", domready);
+    /*<ltIE8>*/ // doScroll technique by Diego Perini http://javascript.nwbox.com/IEContentLoaded/
+    // testElement.doScroll() throws when the DOM is not ready, only in the top window
     var doScrollWorks = function() {
         try {
             return testElement.doScroll(), !0;
@@ -3679,7 +4258,8 @@ Cookie.write = function(key, value, options) {
         onAdd: function(fn) {
             ready && fn.call(this);
         }
-    }, Element.Events.load = {
+    }, // Make sure that domready fires before load
+    Element.Events.load = {
         base: "load",
         onAdd: function(fn) {
             loaded && this == window1 && fn.call(this);
@@ -3687,10 +4267,28 @@ Cookie.write = function(key, value, options) {
         condition: function() {
             return this == window1 && (domready(), delete Element.Events.load), !0;
         }
-    }, window1.addEvent("load", function() {
+    }, // This is based on the custom load event
+    window1.addEvent("load", function() {
         loaded = !0;
     });
-}(window, document), function() {
+}(window, document), /*
+---
+
+name: Swiff
+
+description: Wrapper for embedding SWF movies. Supports External Interface Communication.
+
+license: MIT-style license.
+
+credits:
+  - Flash detection & Internet Explorer + Flash Player 9 fix inspired by SWFObject.
+
+requires: [Options, Object, Element]
+
+provides: Swiff
+
+...
+*/ function() {
     var Swiff = this.Swiff = new Class({
         Implements: Options,
         options: {
