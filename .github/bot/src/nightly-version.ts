@@ -33,7 +33,7 @@ async function main() {
 
   const datePart = `${year}${addZ(month)}${addZ(day)}`;
 
-  const base = `${version}-nightly-${datePart}`;
+  const base = `v${version}-nightly-${datePart}`;
   let idx = 1;
   let nightlyVersion = `${base}.${idx}`;
 
@@ -42,15 +42,17 @@ async function main() {
   const { data: tagData } = await octokit.repos.listTags({
     owner,
     repo,
+    order: "desc",
   });
   const tags = tagData.map((tag) => tag.name);
+  console.log(tags);
   while (tags.includes(nightlyVersion)) {
     idx += 1;
     nightlyVersion = `${base}.${idx}`;
   }
   process.stderr.write(`Nightly version: ${nightlyVersion}\n`);
 
-  process.stdout.write(`version=${nightlyVersion}\n`);
+  process.stdout.write(`version=${nightlyVersion.substring(1)}\n`);
 }
 
 main();
