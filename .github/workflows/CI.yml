@@ -55,6 +55,46 @@ jobs:
 
       - run: cargo clippy --all --all-targets -- -D warnings
 
+  cargo-crev:
+    name: Cargo crev
+    if: >-
+      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+
+      - name: Remove unrelated
+        run: |
+          rm -rf packages
+          rm -rf tests
+          ls -al
+
+      - name: Configure git
+        run: |
+          git config --global user.name 'SWC bot'
+          git config --global user.email 'bot@swc.rs'
+
+      # - name: Install cargo-crev
+      #   uses: baptiste0928/cargo-install@v2
+      #   with:
+      #     crate: cargo-crev
+      #     version: "=0.24.3"
+      #     # locked: true
+
+      # - name: Configure cargo-crev
+      #   run: |
+      #     cargo crev trust --level high https://github.com/kdy1/crev-proofs
+      #     cargo crev repo fetch all
+
+      # - name: Check dependencies
+      #   run: |
+      #     ./scripts/crev/verify.sh
+
   cargo-deny:
     name: Check license of dependencies
     runs-on: ubuntu-latest
