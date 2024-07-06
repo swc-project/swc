@@ -105,7 +105,7 @@ pub fn operate(
     let mut replacements = ts_strip.replacements;
     let removals = ts_strip.removals;
 
-    for pos in ts_strip.remove_question_mark_after {
+    for pos in ts_strip.remove_token_after {
         let index = tokens.binary_search_by_key(&pos, |t| t.span.lo);
         let index = match index {
             Ok(index) => index,
@@ -161,7 +161,7 @@ struct TsStrip {
     /// Applied after replacements. Used for arrow functions.
     removals: Vec<(BytePos, BytePos)>,
 
-    remove_question_mark_after: Vec<BytePos>,
+    remove_token_after: Vec<BytePos>,
 }
 
 impl TsStrip {
@@ -171,7 +171,7 @@ impl TsStrip {
             src,
             replacements: Default::default(),
             removals: Default::default(),
-            remove_question_mark_after: Default::default(),
+            remove_token_after: Default::default(),
         }
     }
 }
@@ -207,7 +207,7 @@ impl Visit for TsStrip {
         n.visit_children_with(self);
 
         if n.optional {
-            self.remove_question_mark_after
+            self.remove_token_after
                 .push(n.id.span.lo + BytePos(n.id.sym.len() as u32));
         }
     }
