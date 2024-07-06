@@ -20,9 +20,8 @@ async function main() {
 
   // Nightly version after 1.2.3 is 1.2.4-nightly-20211020.1
   // Nightly version after 1.2.3-nightly-20211020.1 is 1.2.3-nightly-20211020.2
-  const newPatch = patch + (latest.includes("-") ? 0 : 1);
 
-  const version = `${major}.${minor}.${newPatch}`;
+  const version = `${major}.${minor}.${patch}`;
   // Nightly version
 
   const date = new Date();
