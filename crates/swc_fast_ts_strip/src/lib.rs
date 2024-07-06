@@ -11,10 +11,10 @@ use swc_common::{
 use swc_ecma_ast::{
     ArrowExpr, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, Decorator, EsVersion,
     ExportAll, ExportDecl, ExportSpecifier, FnDecl, Ident, ImportDecl, ImportSpecifier,
-    NamedExport, Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsInstantiation,
-    TsInterfaceDecl, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam,
-    TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
-    TsTypeParamInstantiation, VarDecl,
+    NamedExport, Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsIndexSignature,
+    TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr,
+    TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
+    TsTypeParamDecl, TsTypeParamInstantiation, VarDecl,
 };
 use swc_ecma_parser::{
     lexer::Lexer,
@@ -346,6 +346,10 @@ impl Visit for TsStrip {
         }
 
         n.visit_children_with(self);
+    }
+
+    fn visit_ts_index_signature(&mut self, n: &TsIndexSignature) {
+        self.add_replacement(n.span);
     }
 
     fn visit_decorator(&mut self, n: &Decorator) {
