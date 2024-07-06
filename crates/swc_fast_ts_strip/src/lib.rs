@@ -9,14 +9,19 @@ use swc_common::{
     BytePos, FileName, SourceMap, Span, Spanned,
 };
 use swc_ecma_ast::{
-    ArrowExpr, BindingIdent, Class, ClassMethod, ClassProp, Decorator, EsVersion, ExportAll,
-    ExportDecl, ExportSpecifier, FnDecl, Ident, ImportDecl, ImportSpecifier, MethodKind,
-    NamedExport, Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsInstantiation,
-    TsInterfaceDecl, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam,
-    TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
-    TsTypeParamInstantiation, VarDecl,
+    ArrowExpr, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, Decorator, EsVersion,
+    ExportAll, ExportDecl, ExportSpecifier, FnDecl, Ident, ImportDecl, ImportSpecifier,
+    NamedExport, Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment,
+    TsImportEqualsDecl, TsIndexSignature, TsInstantiation, TsInterfaceDecl, TsModuleDecl,
+    TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
+    TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
+    VarDecl,
 };
-use swc_ecma_parser::{lexer::Lexer, Capturing, Parser, StringInput, Syntax, TsSyntax};
+use swc_ecma_parser::{
+    lexer::Lexer,
+    token::{IdentLike, KnownIdent, Token, TokenAndSpan, Word},
+    Capturing, Parser, StringInput, Syntax, TsSyntax,
+};
 use swc_ecma_visit::{Visit, VisitWith};
 
 #[derive(Deserialize)]
@@ -99,25 +104,13 @@ pub fn operate(
     tokens.sort_by_key(|t| t.span);
 
     // Strip typescript types
-    let mut ts_strip = TsStrip::new(cm.clone(), fm.src.clone());
+    let mut ts_strip = TsStrip::new(fm.src.clone(), tokens);
     program.visit_with(&mut ts_strip);
 
-    let mut replacements = ts_strip.replacements;
-    let removals = ts_strip.removals;
+    let replacements = ts_strip.replacements;
+    let overwrites = ts_strip.overwrites;
 
-    for pos in ts_strip.remove_token_after {
-        let index = tokens.binary_search_by_key(&pos, |t| t.span.lo);
-        let index = match index {
-            Ok(index) => index,
-            Err(index) => index,
-        };
-
-        let token = &tokens[index];
-
-        replacements.push((token.span.lo, token.span.hi));
-    }
-
-    if replacements.is_empty() && removals.is_empty() {
+    if replacements.is_empty() && overwrites.is_empty() {
         return Ok(fm.src.to_string());
     }
 
@@ -125,58 +118,39 @@ pub fn operate(
 
     for r in replacements {
         for c in &mut code[(r.0 .0 - 1) as usize..(r.1 .0 - 1) as usize] {
-            if *c == b'\n' {
+            if *c == b'\n' || *c == b'\r' {
                 continue;
             }
             *c = b' ';
         }
     }
 
-    // Assert that removal does not overlap with each other
-
-    for removal in removals.iter() {
-        for r in &removals {
-            if removal == r {
-                continue;
-            }
-
-            assert!(
-                r.0 < removal.0 || r.1 < removal.0 || r.0 > removal.1 || r.1 > removal.1,
-                "removal {:?} overlaps with replacement {:?}",
-                removal,
-                r
-            );
-        }
-    }
-
-    for removal in removals.iter().copied().rev() {
-        code.drain((removal.0 .0 - 1) as usize..(removal.1 .0 - 1) as usize);
+    for (i, v) in overwrites {
+        code[i.0 as usize - 1] = v;
     }
 
     String::from_utf8(code).map_err(|_| anyhow::anyhow!("failed to convert to utf-8"))
 }
 
 struct TsStrip {
-    cm: Lrc<SourceMap>,
     src: Lrc<String>,
 
     /// Replaced with whitespace
     replacements: Vec<(BytePos, BytePos)>,
 
-    /// Applied after replacements. Used for arrow functions.
-    removals: Vec<(BytePos, BytePos)>,
+    // should be string, but we use u8 for only `)` usage.
+    overwrites: Vec<(BytePos, u8)>,
 
-    remove_token_after: Vec<BytePos>,
+    tokens: Vec<TokenAndSpan>,
 }
 
 impl TsStrip {
-    fn new(cm: Lrc<SourceMap>, src: Lrc<String>) -> Self {
+    fn new(src: Lrc<String>, tokens: Vec<TokenAndSpan>) -> Self {
         TsStrip {
-            cm,
             src,
             replacements: Default::default(),
-            removals: Default::default(),
-            remove_token_after: Default::default(),
+            overwrites: Default::default(),
+            tokens,
         }
     }
 }
@@ -186,21 +160,66 @@ impl TsStrip {
         self.replacements.push((span.lo, span.hi));
     }
 
-    fn add_removal(&mut self, span: Span) {
-        self.removals.push((span.lo, span.hi));
+    fn add_overwrite(&mut self, pos: BytePos, value: u8) {
+        self.overwrites.push((pos, value));
+    }
+
+    fn get_src_slice(&self, span: Span) -> &str {
+        &self.src[(span.lo.0 - 1) as usize..(span.hi.0 - 1) as usize]
+    }
+
+    fn get_next_token(&self, pos: BytePos) -> &TokenAndSpan {
+        let index = self.tokens.binary_search_by_key(&pos, |t| t.span.lo);
+        let index = match index {
+            Ok(index) => index,
+            Err(index) => index,
+        };
+        &self.tokens[index]
+    }
+
+    fn get_prev_token(&self, pos: BytePos) -> &TokenAndSpan {
+        let index = self.tokens.binary_search_by_key(&pos, |t| t.span.lo);
+        let index = match index {
+            Ok(index) => index,
+            Err(index) => index - 1,
+        };
+        &self.tokens[index]
     }
 }
 
 impl Visit for TsStrip {
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
         if let Some(ret) = &n.return_type {
-            let mut sp = self.cm.span_extend_to_prev_char(ret.span, ')');
+            self.add_replacement(ret.span);
 
-            let pos = self.src[(sp.hi.0 as usize - 1)..].find("=>").unwrap();
+            let l_paren = self.get_prev_token(ret.span_lo() - BytePos(1));
+            debug_assert_eq!(l_paren.token, Token::RParen);
+            let arrow = self.get_next_token(ret.span_hi());
+            debug_assert_eq!(arrow.token, Token::Arrow);
+            let span = span(l_paren.span.lo, arrow.span.hi);
 
-            sp.hi.0 += pos as u32;
+            let slice = self.get_src_slice(span).as_bytes();
+            if slice.contains(&b'\n') {
+                self.add_replacement(l_paren.span);
 
-            self.add_removal(sp);
+                // Instead of moving the arrow mark, we shift the right parenthesis to the next
+                // line. This is because there might be a line break after the right
+                // parenthesis, and we wish to preserve the alignment of each line.
+                //
+                // ```TypeScript
+                // ()
+                //     : any =>
+                //     1;
+                // ```
+                //
+                // ```TypeScript
+                // (
+                //          )=>
+                //     1;
+                // ```
+
+                self.add_overwrite(ret.span_hi(), b')');
+            }
         }
 
         n.type_params.visit_with(self);
@@ -212,72 +231,125 @@ impl Visit for TsStrip {
         n.visit_children_with(self);
 
         if n.optional {
-            self.remove_token_after
-                .push(n.id.span.lo + BytePos(n.id.sym.len() as u32));
+            // https://github.com/swc-project/swc/issues/8856
+            // let optional_mark = self.get_next_token(n.id.span_hi());
+
+            let optional_mark =
+                self.get_next_token(n.id.span_lo() + BytePos(n.id.sym.len() as u32));
+            debug_assert_eq!(optional_mark.token, Token::QuestionMark);
+
+            self.add_replacement(optional_mark.span);
         }
     }
 
-    fn visit_class(&mut self, n: &Class) {
-        n.visit_children_with(self);
+    fn visit_class_decl(&mut self, n: &ClassDecl) {
+        if n.declare {
+            self.add_replacement(n.span());
+            return;
+        }
 
-        let lo = match &n.super_class {
-            Some(v) => v.span().hi,
-            None => n.span.lo,
-        };
-        let hi = skip_until(self.src.as_bytes(), lo.0, b'{');
-        self.add_replacement(span(lo, BytePos(hi)));
+        n.visit_children_with(self);
+    }
+
+    fn visit_class(&mut self, n: &Class) {
+        if n.is_abstract {
+            let r#abstract = self.get_next_token(n.span_lo());
+            debug_assert_eq!(
+                r#abstract.token,
+                Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Abstract)))
+            );
+            self.add_replacement(r#abstract.span);
+        }
+
+        if !n.implements.is_empty() {
+            let implements =
+                self.get_prev_token(n.implements.first().unwrap().span_lo() - BytePos(1));
+
+            let last = n.implements.last().unwrap();
+            let span = span(implements.span.lo, last.span.hi);
+            self.add_replacement(span);
+        }
+
+        n.visit_children_with(self);
     }
 
     fn visit_class_method(&mut self, n: &ClassMethod) {
-        if n.function.body.is_none() {
+        if n.function.body.is_none() || n.is_abstract {
             self.add_replacement(n.span);
             return;
         }
 
-        let hi = match n.kind {
-            MethodKind::Method => {
-                if n.is_static {
-                    self.cm
-                        .span_extend_to_next_str(span(n.span.lo, n.span.lo), "static", false)
-                        .hi
-                } else {
-                    n.key.span().lo
-                }
-            }
-            MethodKind::Getter => {
-                self.cm
-                    .span_extend_to_next_str(span(n.span.lo, n.span.lo), "get", false)
-                    .hi
-            }
-            MethodKind::Setter => {
-                self.cm
-                    .span_extend_to_next_str(span(n.span.lo, n.span.lo), "set", false)
-                    .hi
-            }
-        };
+        let key_span = n.key.span_hi();
+        let method_pos = n.function.span_lo();
 
-        self.add_replacement(span(n.span.lo, hi));
+        let mut pos = method_pos;
+        while pos < key_span {
+            let TokenAndSpan { token, span, .. } = self.get_next_token(pos);
+            pos = span.hi;
+            match token {
+                Token::Word(Word::Ident(IdentLike::Known(
+                    KnownIdent::Public | KnownIdent::Protected | KnownIdent::Private,
+                ))) => {
+                    self.add_replacement(*span);
+                }
+                Token::Word(Word::Ident(IdentLike::Other(o))) if *o == "override" => {
+                    self.add_replacement(*span);
+                }
+                _ => {}
+            }
+        }
 
         n.visit_children_with(self);
     }
 
     fn visit_class_prop(&mut self, n: &ClassProp) {
-        if n.declare {
+        if n.declare || n.is_abstract {
             self.add_replacement(n.span);
             return;
         }
 
-        let hi = if n.is_static {
-            self.cm
-                .span_extend_to_next_str(span(n.span.lo, n.span.lo), "static", false)
-                .hi
-        } else {
-            n.key.span().lo
-        };
+        let key_span = n.key.span_hi();
+        let method_pos = n.span_lo();
 
-        self.add_replacement(span(n.span.lo, hi));
+        let mut pos = method_pos;
+        while pos < key_span {
+            let TokenAndSpan { token, span, .. } = self.get_next_token(pos);
+            pos = span.hi;
+            match token {
+                Token::Word(Word::Ident(IdentLike::Known(
+                    KnownIdent::Readonly
+                    | KnownIdent::Public
+                    | KnownIdent::Protected
+                    | KnownIdent::Private,
+                ))) => {
+                    self.add_replacement(*span);
+                }
+                Token::Word(Word::Ident(IdentLike::Other(o))) if *o == "override" => {
+                    self.add_replacement(*span);
+                }
+                _ => {}
+            }
+        }
+
+        if n.is_optional {
+            let optional_mark = self.get_next_token(n.key.span_hi());
+            debug_assert_eq!(optional_mark.token, Token::QuestionMark);
+
+            self.add_replacement(optional_mark.span);
+        }
+
+        if n.definite {
+            let definite_mark = self.get_next_token(n.key.span_hi());
+            debug_assert_eq!(definite_mark.token, Token::Bang);
+
+            self.add_replacement(definite_mark.span);
+        }
 
         n.visit_children_with(self);
+    }
+
+    fn visit_ts_index_signature(&mut self, n: &TsIndexSignature) {
+        self.add_replacement(n.span);
     }
 
     fn visit_decorator(&mut self, n: &Decorator) {
@@ -328,18 +400,16 @@ impl Visit for TsStrip {
     }
 
     fn visit_import_specifiers(&mut self, n: &[ImportSpecifier]) {
-        for (i, import) in n.iter().enumerate() {
-            let ImportSpecifier::Named(import) = import else {
-                continue;
-            };
-
-            if import.is_type_only {
-                let mut span = import.span;
-                span.hi.0 = n.get(i + 1).map(|x| x.span_lo().0).unwrap_or_else(|| {
-                    let bytes = self.src.as_bytes();
-                    skip_until(bytes, span.hi.0, b'}')
-                });
-                self.add_replacement(span);
+        for import in n {
+            if let ImportSpecifier::Named(import) = import {
+                if import.is_type_only {
+                    let mut span = import.span;
+                    let comma = self.get_next_token(import.span_hi());
+                    if comma.token == Token::Comma {
+                        span = span.with_hi(comma.span.hi);
+                    }
+                    self.add_replacement(span);
+                }
             }
         }
     }
@@ -353,11 +423,38 @@ impl Visit for TsStrip {
         for export in n.specifiers.iter() {
             if let ExportSpecifier::Named(e) = export {
                 if e.is_type_only {
-                    let sp = self.cm.span_extend_to_next_char(e.span, ',');
-                    self.add_replacement(span(sp.lo, sp.hi + BytePos(1)));
+                    let mut span = e.span;
+                    let comma = self.get_next_token(e.span_hi());
+                    if comma.token == Token::Comma {
+                        span = span.with_hi(comma.span.hi);
+                    }
+                    self.add_replacement(span);
                 }
             }
         }
+    }
+
+    fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) {
+        if n.is_type_only {
+            self.add_replacement(n.span);
+            return;
+        }
+
+        HANDLER.with(|handler| {
+            handler.span_err(
+                n.span,
+                "TypeScript import equals declaration is not supported in strip-only mode",
+            );
+        });
+    }
+
+    fn visit_ts_export_assignment(&mut self, n: &TsExportAssignment) {
+        HANDLER.with(|handler| {
+            handler.span_err(
+                n.span,
+                "TypeScript export assignment is not supported in strip-only mode",
+            );
+        });
     }
 
     fn visit_params(&mut self, n: &[Param]) {
@@ -372,15 +469,13 @@ impl Visit for TsStrip {
         }) {
             let mut span = p.span;
 
-            if n.len() == 1 {
-                let bytes = self.src.as_bytes();
-                span.hi.0 = skip_until(bytes, span.hi.0, b')');
-            } else {
-                span.hi = n[1].span.lo;
-                n[1..].visit_children_with(self);
+            let comma = self.get_next_token(span.hi);
+            if comma.token == Token::Comma {
+                span = span.with_hi(comma.span.hi);
             }
-
             self.add_replacement(span);
+
+            n[1..].visit_children_with(self);
 
             return;
         }
@@ -507,12 +602,4 @@ impl Visit for TsStrip {
 
 fn span(lo: BytePos, hi: BytePos) -> Span {
     Span::new(lo, hi, Default::default())
-}
-
-fn skip_until(bytes: &[u8], mut pos: u32, stop: u8) -> u32 {
-    while bytes[(pos - 1) as usize] != stop {
-        pos += 1;
-    }
-
-    pos
 }
