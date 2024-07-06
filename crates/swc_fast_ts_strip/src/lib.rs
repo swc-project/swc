@@ -286,10 +286,9 @@ impl Visit for TsStrip {
         }
 
         let key_pos = n.key.span_lo();
-        let method_pos = n.function.span_lo();
-
-        let mut pos = method_pos;
+        let mut pos = n.span_lo();
         let mut index = self.get_next_token_index(pos);
+
         while pos < key_pos {
             let TokenAndSpan { token, span, .. } = &self.tokens[index];
             pos = span.hi;
@@ -317,10 +316,9 @@ impl Visit for TsStrip {
         }
 
         let key_pos = n.key.span_lo();
-        let method_pos = n.span_lo();
-
-        let mut pos = method_pos;
+        let mut pos = n.span_lo();
         let mut index = self.get_next_token_index(pos);
+
         while pos < key_pos {
             let TokenAndSpan { token, span, .. } = &self.tokens[index];
             pos = span.hi;
