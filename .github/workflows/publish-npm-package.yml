@@ -63,8 +63,14 @@ jobs:
       - check-if-build-required
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: ./.github/actions/setup-node
+
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: git-cliff@1.3.1
 
       - name: Install cargo-edit
         uses: baptiste0928/cargo-install@v2.2.0
@@ -72,6 +78,12 @@ jobs:
           crate: cargo-edit
           version: "0.12.2"
           locked: true
+
+      - name: "Setup jq"
+        uses: dcarbone/install-jq-action@v2
+        with:
+          version: "1.7"
+          force: true
 
       - uses: webfactory/ssh-agent@v0.5.4
         if: needs.check-if-build-required.outputs.need-build == 'true' && !inputs.skipPublishing

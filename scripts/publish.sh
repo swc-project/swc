@@ -37,4 +37,4 @@ git commit -m 'chore: Update changelog' || true
 # Publish packages
 git push
 git push --tags
-(cd ./bindings && cargo mono publish --no-verify)
+# (cd ./bindings && cargo mono publish --no-verify)
