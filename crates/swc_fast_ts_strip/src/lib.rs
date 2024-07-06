@@ -11,10 +11,11 @@ use swc_common::{
 use swc_ecma_ast::{
     ArrowExpr, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, Decorator, EsVersion,
     ExportAll, ExportDecl, ExportSpecifier, FnDecl, Ident, ImportDecl, ImportSpecifier,
-    NamedExport, Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsIndexSignature,
-    TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr,
-    TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
-    TsTypeParamDecl, TsTypeParamInstantiation, VarDecl,
+    NamedExport, Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment,
+    TsImportEqualsDecl, TsIndexSignature, TsInstantiation, TsInterfaceDecl, TsModuleDecl,
+    TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
+    TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
+    VarDecl,
 };
 use swc_ecma_parser::{
     lexer::Lexer,
@@ -432,6 +433,29 @@ impl Visit for TsStrip {
                 }
             }
         }
+    }
+
+    fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) {
+        if n.is_type_only {
+            self.add_replacement(n.span);
+            return;
+        }
+
+        HANDLER.with(|handler| {
+            handler.span_err(
+                n.span,
+                "TypeScript import equals declaration is not supported in strip-only mode",
+            );
+        });
+    }
+
+    fn visit_ts_export_assignment(&mut self, n: &TsExportAssignment) {
+        HANDLER.with(|handler| {
+            handler.span_err(
+                n.span,
+                "TypeScript export assignment is not supported in strip-only mode",
+            );
+        });
     }
 
     fn visit_params(&mut self, n: &[Param]) {
