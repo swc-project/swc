@@ -68,7 +68,8 @@ jobs:
         with:
           profile: minimal
 
-      - uses: taiki-e/install-action@v2
+      - name: Install cargo-deny
+        uses: taiki-e/install-action@v2
         with:
           tool: cargo-deny@0.14.15
 
@@ -131,7 +132,6 @@ jobs:
           - binding_core_wasm
           - binding_minifier_wasm
           - binding_typescript_wasm
-
     steps:
       - uses: actions/checkout@v4
 
@@ -426,6 +426,7 @@ jobs:
             runner: ubuntu-latest
           - crate: swc_fast_graph
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_fast_ts_strip
             os: ubuntu-latest
             runner: ubuntu-latest
@@ -682,7 +683,8 @@ jobs:
         run: |
           ./scripts/github/test-concurrent.sh ${{ matrix.settings.crate }}
 
-      - uses: taiki-e/install-action@v2
+      - name: Install cargo-hack
+        uses: taiki-e/install-action@v2
         if: matrix.settings.os == 'ubuntu-latest'
         with:
           tool: cargo-hack@0.5.29
