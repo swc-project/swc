@@ -168,22 +168,28 @@ impl TsStrip {
         &self.src[(span.lo.0 - 1) as usize..(span.hi.0 - 1) as usize]
     }
 
-    fn get_next_token(&self, pos: BytePos) -> &TokenAndSpan {
+    fn get_next_token_index(&self, pos: BytePos) -> usize {
         let index = self.tokens.binary_search_by_key(&pos, |t| t.span.lo);
-        let index = match index {
+        match index {
             Ok(index) => index,
             Err(index) => index,
-        };
-        &self.tokens[index]
+        }
+    }
+
+    fn get_next_token(&self, pos: BytePos) -> &TokenAndSpan {
+        &self.tokens[self.get_next_token_index(pos)]
+    }
+
+    fn get_prev_token_index(&self, pos: BytePos) -> usize {
+        let index = self.tokens.binary_search_by_key(&pos, |t| t.span.lo);
+        match index {
+            Ok(index) => index,
+            Err(index) => index - 1,
+        }
     }
 
     fn get_prev_token(&self, pos: BytePos) -> &TokenAndSpan {
-        let index = self.tokens.binary_search_by_key(&pos, |t| t.span.lo);
-        let index = match index {
-            Ok(index) => index,
-            Err(index) => index - 1,
-        };
-        &self.tokens[index]
+        &self.tokens[self.get_prev_token_index(pos)]
     }
 }
 
@@ -279,13 +285,15 @@ impl Visit for TsStrip {
             return;
         }
 
-        let key_span = n.key.span_hi();
+        let key_pos = n.key.span_lo();
         let method_pos = n.function.span_lo();
 
         let mut pos = method_pos;
-        while pos < key_span {
-            let TokenAndSpan { token, span, .. } = self.get_next_token(pos);
+        let mut index = self.get_next_token_index(pos);
+        while pos < key_pos {
+            let TokenAndSpan { token, span, .. } = &self.tokens[index];
             pos = span.hi;
+            index += 1;
             match token {
                 Token::Word(Word::Ident(IdentLike::Known(
                     KnownIdent::Public | KnownIdent::Protected | KnownIdent::Private,
@@ -308,13 +316,15 @@ impl Visit for TsStrip {
             return;
         }
 
-        let key_span = n.key.span_hi();
+        let key_pos = n.key.span_lo();
         let method_pos = n.span_lo();
 
         let mut pos = method_pos;
-        while pos < key_span {
-            let TokenAndSpan { token, span, .. } = self.get_next_token(pos);
+        let mut index = self.get_next_token_index(pos);
+        while pos < key_pos {
+            let TokenAndSpan { token, span, .. } = &self.tokens[index];
             pos = span.hi;
+            index += 1;
             match token {
                 Token::Word(Word::Ident(IdentLike::Known(
                     KnownIdent::Readonly
