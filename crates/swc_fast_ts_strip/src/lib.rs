@@ -218,7 +218,7 @@ impl Visit for TsStrip {
                 //     1;
                 // ```
 
-                self.add_overwrite(ret.span_hi(), b')');
+                self.add_overwrite(ret.span_hi() - BytePos(1), b')');
             }
         }
 
