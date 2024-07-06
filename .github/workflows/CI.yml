@@ -68,11 +68,9 @@ jobs:
         with:
           profile: minimal
 
-      - name: Install cargo-deny
-        uses: baptiste0928/cargo-install@v2
+      - uses: taiki-e/install-action@v2
         with:
-          crate: cargo-deny
-          version: "0.14.15"
+          tool: cargo-deny@0.14.15
 
       - name: Check licenses
         run: |
@@ -684,13 +682,10 @@ jobs:
         run: |
           ./scripts/github/test-concurrent.sh ${{ matrix.settings.crate }}
 
-      - name: Install cargo-hack
-        uses: baptiste0928/cargo-install@v2
+      - uses: taiki-e/install-action@v2
         if: matrix.settings.os == 'ubuntu-latest'
         with:
-          crate: cargo-hack
-          version: "0.5.29"
-          locked: true
+          tool: cargo-hack@0.5.29
 
       - name: Check compilation
         run: |
