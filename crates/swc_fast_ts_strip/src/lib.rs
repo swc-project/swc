@@ -15,7 +15,8 @@ use swc_ecma_ast::{
     TsTypeParamInstantiation, VarDecl,
 };
 use swc_ecma_parser::{
-    parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
+    lexer::Lexer, parse_file_as_module, parse_file_as_program, parse_file_as_script, Capturing,
+    Parser, StringInput, Syntax, TsSyntax,
 };
 use swc_ecma_visit::{Visit, VisitWith};
 
@@ -54,15 +55,23 @@ pub fn operate(
     let target = EsVersion::latest();
 
     let comments = SingleThreadedComments::default();
-    let mut errors = vec![];
+
+    let lexer = Capturing::new(Lexer::new(
+        syntax,
+        target,
+        StringInput::from(&*fm),
+        Some(&comments),
+    ));
+    let tokens = lexer.tokens().clone();
+
+    let mut parser = Parser::new_from(lexer);
 
     let program = match options.module {
-        Some(true) => parse_file_as_module(&fm, syntax, target, Some(&comments), &mut errors)
-            .map(Program::Module),
-        Some(false) => parse_file_as_script(&fm, syntax, target, Some(&comments), &mut errors)
-            .map(Program::Script),
-        None => parse_file_as_program(&fm, syntax, target, Some(&comments), &mut errors),
+        Some(true) => parser.parse_module().map(Program::Module),
+        Some(false) => parser.parse_script().map(Program::Script),
+        None => parser.parse_program(),
     };
+    let errors = parser.take_errors();
 
     let program = match program {
         Ok(program) => program,
