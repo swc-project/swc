@@ -172,7 +172,7 @@ jobs:
     name: Test - ${{ matrix.settings.crate }} - ${{ matrix.settings.os }}
     runs-on: ${{ matrix.settings.runner }}
     if: >-
-      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+      ${{ github.event_name != 'push' || !contains(github.event.head_commit.message, 'chore: ') }}
     strategy:
       fail-fast: false
       matrix:
