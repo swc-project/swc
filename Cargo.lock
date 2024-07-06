@@ -2751,7 +2751,7 @@ dependencies = [
 
 [[package]]
 name = "preset_env_base"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "ahash 0.8.8",
  "anyhow",
