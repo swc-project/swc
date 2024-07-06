@@ -281,29 +281,28 @@ impl Visit for TsStrip {
             return;
         }
 
-        let hi = match n.kind {
-            MethodKind::Method => {
-                if n.is_static {
-                    self.cm
-                        .span_extend_to_next_str(span(n.span.lo, n.span.lo), "static", false)
-                        .hi
-                } else {
-                    n.key.span().lo
-                }
-            }
-            MethodKind::Getter => {
-                self.cm
-                    .span_extend_to_next_str(span(n.span.lo, n.span.lo), "get", false)
-                    .hi
-            }
-            MethodKind::Setter => {
-                self.cm
-                    .span_extend_to_next_str(span(n.span.lo, n.span.lo), "set", false)
-                    .hi
-            }
-        };
+        let key_span = n.key.span_hi();
+        let method_pos = n.function.span_lo();
 
-        self.add_replacement(span(n.span.lo, hi));
+        let mut pos = method_pos;
+        while pos < key_span {
+            let TokenAndSpan { token, span, .. } = self.get_next_token(pos);
+            pos = span.hi;
+            match token {
+                Token::Word(Word::Ident(IdentLike::Known(
+                    KnownIdent::Abstract
+                    | KnownIdent::Public
+                    | KnownIdent::Protected
+                    | KnownIdent::Private,
+                ))) => {
+                    self.add_replacement(*span);
+                }
+                Token::Word(Word::Ident(IdentLike::Other(o))) if *o == "override" => {
+                    self.add_replacement(*span);
+                }
+                _ => {}
+            }
+        }
 
         n.visit_children_with(self);
     }
