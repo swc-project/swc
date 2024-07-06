@@ -125,11 +125,8 @@ pub fn operate(
         }
     }
 
-    for o in overwrites {
-        let bytes = o.1.as_bytes();
-        let start = o.0 .0 as usize - 1;
-        let end = start + bytes.len();
-        code[start..end].copy_from_slice(bytes);
+    for (i, v) in overwrites {
+        code[i.0 as usize - 1] = v;
     }
 
     String::from_utf8(code).map_err(|_| anyhow::anyhow!("failed to convert to utf-8"))
@@ -140,7 +137,9 @@ struct TsStrip {
 
     /// Replaced with whitespace
     replacements: Vec<(BytePos, BytePos)>,
-    overwrites: Vec<(BytePos, String)>,
+
+    // should be string, but we use u8 for only `)` usage.
+    overwrites: Vec<(BytePos, u8)>,
 
     tokens: Vec<TokenAndSpan>,
 }
@@ -161,7 +160,7 @@ impl TsStrip {
         self.replacements.push((span.lo, span.hi));
     }
 
-    fn add_overwrite(&mut self, pos: BytePos, value: String) {
+    fn add_overwrite(&mut self, pos: BytePos, value: u8) {
         self.overwrites.push((pos, value));
     }
 
@@ -219,7 +218,7 @@ impl Visit for TsStrip {
                 //     1;
                 // ```
 
-                self.add_overwrite(ret.span_hi(), ")".to_string());
+                self.add_overwrite(ret.span_hi(), b')');
             }
         }
 
