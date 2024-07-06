@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(es/typescript)** Improve fast TS strip ([#9166](https://github.com/swc-project/swc/issues/9166)) ([ee8dc28](https://github.com/swc-project/swc/commit/ee8dc28d4d5399b1996bc0eba066270a582d04b6))
+
 ## [1.6.12] - 2024-07-06
 
 ### Bug Fixes
@@ -1337,9 +1345,6 @@
 
 
 - **(es/codegen)** Emit `override` keyword ([#8449](https://github.com/swc-project/swc/issues/8449)) ([0dd96f8](https://github.com/swc-project/swc/commit/0dd96f85e2215f5c18849bdfb150dc95006399e8))
-
-
-- **(es/compat)** Use correct `span.lo` in class transforms ([#8439](https://github.com/swc-project/swc/issues/8439)) ([a06d5b2](https://github.com/swc-project/swc/commit/a06d5b23416d8f4f45334e5edaed3da53f9f5777))
 
 
 - **(es/minifier)** Add WeakRef as a safe global reference ([#8458](https://github.com/swc-project/swc/issues/8458)) ([d681785](https://github.com/swc-project/swc/commit/d681785b428b7958e7652dc3a7c709ad85b298f9))
