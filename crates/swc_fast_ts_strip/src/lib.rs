@@ -10,7 +10,7 @@ use swc_common::{
 };
 use swc_ecma_ast::{
     ArrowExpr, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, Decorator, EsVersion,
-    ExportAll, ExportDecl, ExportSpecifier, FnDecl, Ident, ImportDecl, ImportSpecifier, MethodKind,
+    ExportAll, ExportDecl, ExportSpecifier, FnDecl, Ident, ImportDecl, ImportSpecifier,
     NamedExport, Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsInstantiation,
     TsInterfaceDecl, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam,
     TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
@@ -103,7 +103,7 @@ pub fn operate(
     tokens.sort_by_key(|t| t.span);
 
     // Strip typescript types
-    let mut ts_strip = TsStrip::new(cm.clone(), fm.src.clone(), tokens);
+    let mut ts_strip = TsStrip::new(fm.src.clone(), tokens);
     program.visit_with(&mut ts_strip);
 
     let replacements = ts_strip.replacements;
@@ -135,7 +135,6 @@ pub fn operate(
 }
 
 struct TsStrip {
-    cm: Lrc<SourceMap>,
     src: Lrc<String>,
 
     /// Replaced with whitespace
@@ -146,9 +145,8 @@ struct TsStrip {
 }
 
 impl TsStrip {
-    fn new(cm: Lrc<SourceMap>, src: Lrc<String>, tokens: Vec<TokenAndSpan>) -> Self {
+    fn new(src: Lrc<String>, tokens: Vec<TokenAndSpan>) -> Self {
         TsStrip {
-            cm,
             src,
             replacements: Default::default(),
             overwrites: Default::default(),
