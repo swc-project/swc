@@ -3751,7 +3751,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.34.3"
+version = "0.34.4"
 dependencies = [
  "ahash 0.8.8",
  "anyhow",
@@ -4729,7 +4729,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.143.1"
+version = "0.143.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5132,7 +5132,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.44.0"
+version = "0.44.1"
 dependencies = [
  "better_scoped_tls",
  "rkyv",
