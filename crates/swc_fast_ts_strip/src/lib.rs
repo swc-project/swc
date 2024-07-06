@@ -124,7 +124,12 @@ pub fn operate(
     let mut code = fm.src.to_string().into_bytes();
 
     for r in replacements {
-        code[(r.0 .0 - 1) as usize..(r.1 .0 - 1) as usize].fill(b' ');
+        for c in &mut code[(r.0 .0 - 1) as usize..(r.1 .0 - 1) as usize] {
+            if *c == b'\n' {
+                continue;
+            }
+            *c = b' ';
+        }
     }
 
     // Assert that removal does not overlap with each other
