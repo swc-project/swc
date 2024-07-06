@@ -1,0 +1,1 @@
+ /*#__PURE__*/ (0, forwardRef)(Foo);
