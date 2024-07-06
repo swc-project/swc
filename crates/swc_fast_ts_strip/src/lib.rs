@@ -193,9 +193,9 @@ impl Visit for TsStrip {
             self.add_replacement(ret.span);
 
             let l_paren = self.get_prev_token(ret.span_lo() - BytePos(1));
-            assert_eq!(l_paren.token, Token::RParen);
+            debug_assert_eq!(l_paren.token, Token::RParen);
             let arrow = self.get_next_token(ret.span_hi());
-            assert_eq!(arrow.token, Token::Arrow);
+            debug_assert_eq!(arrow.token, Token::Arrow);
             let span = span(l_paren.span.lo, arrow.span.hi);
 
             let slice = self.get_src_slice(span).as_bytes();
@@ -236,7 +236,7 @@ impl Visit for TsStrip {
 
             let optional_mark =
                 self.get_next_token(n.id.span_lo() + BytePos(n.id.sym.len() as u32));
-            assert_eq!(optional_mark.token, Token::QuestionMark);
+            debug_assert_eq!(optional_mark.token, Token::QuestionMark);
 
             self.add_replacement(optional_mark.span);
         }
@@ -333,14 +333,14 @@ impl Visit for TsStrip {
 
         if n.is_optional {
             let optional_mark = self.get_next_token(n.key.span_hi());
-            assert_eq!(optional_mark.token, Token::QuestionMark);
+            debug_assert_eq!(optional_mark.token, Token::QuestionMark);
 
             self.add_replacement(optional_mark.span);
         }
 
         if n.definite {
             let definite_mark = self.get_next_token(n.key.span_hi());
-            assert_eq!(definite_mark.token, Token::Bang);
+            debug_assert_eq!(definite_mark.token, Token::Bang);
 
             self.add_replacement(definite_mark.span);
         }
