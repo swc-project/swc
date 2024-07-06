@@ -50,6 +50,8 @@ jobs:
       need-build: ${{ steps.check.outputs.need-build }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: "v${{ inputs.version }}"
       # TODO: Check for existing artifacts
       - id: check
         if: ${{ !inputs.skipBuild }}
@@ -205,6 +207,9 @@ jobs:
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: "v${{ inputs.version }}"
+
       - name: Corepack
         shell: bash
         run: corepack enable
@@ -305,6 +310,9 @@ jobs:
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: "v${{ inputs.version }}"
+
       - run: corepack enable
         shell: bash
       - name: Setup node
@@ -342,6 +350,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: "v${{ inputs.version }}"
+
       - name: Corepack
         run: corepack enable
       - name: Setup node
@@ -376,6 +387,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: "v${{ inputs.version }}"
+
       - run: corepack enable
         shell: bash
       - name: Setup node
@@ -407,6 +421,8 @@ jobs:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v4
+  # with:
+  #   ref: "v${{ inputs.version }}"
   #     - name: Corepack
   #       run: corepack enable
   #     - name: Download artifacts
@@ -453,6 +469,8 @@ jobs:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v4
+  # with:
+  #   ref: "v${{ inputs.version }}"
   #     - name: Corepack
   #       run: corepack enable
   #     - name: Download artifacts
@@ -496,6 +514,8 @@ jobs:
       # - test-linux-aarch64-musl-binding
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: "v${{ inputs.version }}"
 
       - uses: ./.github/actions/setup-node
 
@@ -577,6 +597,8 @@ jobs:
             target: nodejs
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: "v${{ inputs.version }}"
 
       - name: Corepack
         run: corepack enable
