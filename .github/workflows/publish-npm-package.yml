@@ -66,6 +66,10 @@ jobs:
 
       - uses: ./.github/actions/setup-node
 
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: git-cliff@1.3.1
+
       - name: Install cargo-edit
         uses: baptiste0928/cargo-install@v2.2.0
         with:
