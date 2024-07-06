@@ -1,3 +1,5 @@
+use std::{cell::RefCell, rc::Rc};
+
 use anyhow::Error;
 use serde::Deserialize;
 use swc_common::{
@@ -15,8 +17,8 @@ use swc_ecma_ast::{
     TsTypeParamInstantiation, VarDecl,
 };
 use swc_ecma_parser::{
-    lexer::Lexer, parse_file_as_module, parse_file_as_program, parse_file_as_script, Capturing,
-    Parser, StringInput, Syntax, TsSyntax,
+    lexer::Lexer, parse_file_as_module, parse_file_as_program, parse_file_as_script,
+    token::TokenAndSpan, Capturing, Parser, StringInput, Syntax, TsSyntax,
 };
 use swc_ecma_visit::{Visit, VisitWith};
 
@@ -94,8 +96,10 @@ pub fn operate(
         return Err(anyhow::anyhow!("failed to parse"));
     }
 
+    let tokens = RefCell::into_inner(Rc::try_unwrap(tokens).unwrap());
+
     // Strip typescript types
-    let mut ts_strip = TsStrip::new(cm.clone(), fm.src.clone());
+    let mut ts_strip = TsStrip::new(cm.clone(), fm.src.clone(), &tokens);
     program.visit_with(&mut ts_strip);
 
     let replacements = ts_strip.replacements;
@@ -135,9 +139,11 @@ pub fn operate(
     String::from_utf8(code).map_err(|_| anyhow::anyhow!("failed to convert to utf-8"))
 }
 
-struct TsStrip {
+struct TsStrip<'a> {
     cm: Lrc<SourceMap>,
     src: Lrc<String>,
+
+    tokens: &'a [TokenAndSpan],
 
     /// Replaced with whitespace
     replacements: Vec<(BytePos, BytePos)>,
@@ -146,18 +152,19 @@ struct TsStrip {
     removals: Vec<(BytePos, BytePos)>,
 }
 
-impl TsStrip {
-    fn new(cm: Lrc<SourceMap>, src: Lrc<String>) -> Self {
+impl<'a> TsStrip<'a> {
+    fn new(cm: Lrc<SourceMap>, src: Lrc<String>, tokens: &'a [TokenAndSpan]) -> Self {
         TsStrip {
             cm,
             src,
             replacements: Default::default(),
             removals: Default::default(),
+            tokens,
         }
     }
 }
 
-impl TsStrip {
+impl TsStrip<'_> {
     fn add_replacement(&mut self, span: Span) {
         self.replacements.push((span.lo, span.hi));
     }
@@ -167,7 +174,7 @@ impl TsStrip {
     }
 }
 
-impl Visit for TsStrip {
+impl Visit for TsStrip<'_> {
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
         if let Some(ret) = &n.return_type {
             let mut sp = self.cm.span_extend_to_prev_char(ret.span, ')');
