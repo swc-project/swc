@@ -16,10 +16,7 @@ use swc_ecma_ast::{
     TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
     TsTypeParamInstantiation, VarDecl,
 };
-use swc_ecma_parser::{
-    lexer::Lexer, parse_file_as_module, parse_file_as_program, parse_file_as_script,
-    token::TokenAndSpan, Capturing, Parser, StringInput, Syntax, TsSyntax,
-};
+use swc_ecma_parser::{lexer::Lexer, Capturing, Parser, StringInput, Syntax, TsSyntax};
 use swc_ecma_visit::{Visit, VisitWith};
 
 #[derive(Deserialize)]
@@ -96,14 +93,29 @@ pub fn operate(
         return Err(anyhow::anyhow!("failed to parse"));
     }
 
-    let tokens = RefCell::into_inner(Rc::try_unwrap(tokens).unwrap());
+    drop(parser);
+    let mut tokens = RefCell::into_inner(Rc::try_unwrap(tokens).unwrap());
+
+    tokens.sort_by_key(|t| t.span);
 
     // Strip typescript types
-    let mut ts_strip = TsStrip::new(cm.clone(), fm.src.clone(), &tokens);
+    let mut ts_strip = TsStrip::new(cm.clone(), fm.src.clone());
     program.visit_with(&mut ts_strip);
 
-    let replacements = ts_strip.replacements;
+    let mut replacements = ts_strip.replacements;
     let removals = ts_strip.removals;
+
+    for pos in ts_strip.remove_question_mark_after {
+        let index = tokens.binary_search_by_key(&pos, |t| t.span.lo);
+        let index = match index {
+            Ok(index) => index,
+            Err(index) => index,
+        };
+
+        let token = &tokens[index];
+
+        replacements.push((token.span.lo, token.span.hi));
+    }
 
     if replacements.is_empty() && removals.is_empty() {
         return Ok(fm.src.to_string());
@@ -139,32 +151,32 @@ pub fn operate(
     String::from_utf8(code).map_err(|_| anyhow::anyhow!("failed to convert to utf-8"))
 }
 
-struct TsStrip<'a> {
+struct TsStrip {
     cm: Lrc<SourceMap>,
     src: Lrc<String>,
-
-    tokens: &'a [TokenAndSpan],
 
     /// Replaced with whitespace
     replacements: Vec<(BytePos, BytePos)>,
 
     /// Applied after replacements. Used for arrow functions.
     removals: Vec<(BytePos, BytePos)>,
+
+    remove_question_mark_after: Vec<BytePos>,
 }
 
-impl<'a> TsStrip<'a> {
-    fn new(cm: Lrc<SourceMap>, src: Lrc<String>, tokens: &'a [TokenAndSpan]) -> Self {
+impl TsStrip {
+    fn new(cm: Lrc<SourceMap>, src: Lrc<String>) -> Self {
         TsStrip {
             cm,
             src,
             replacements: Default::default(),
             removals: Default::default(),
-            tokens,
+            remove_question_mark_after: Default::default(),
         }
     }
 }
 
-impl TsStrip<'_> {
+impl TsStrip {
     fn add_replacement(&mut self, span: Span) {
         self.replacements.push((span.lo, span.hi));
     }
@@ -174,7 +186,7 @@ impl TsStrip<'_> {
     }
 }
 
-impl Visit for TsStrip<'_> {
+impl Visit for TsStrip {
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
         if let Some(ret) = &n.return_type {
             let mut sp = self.cm.span_extend_to_prev_char(ret.span, ')');
@@ -195,7 +207,8 @@ impl Visit for TsStrip<'_> {
         n.visit_children_with(self);
 
         if n.optional {
-            self.add_replacement(span(n.id.span.hi, n.id.span.hi + BytePos(1)));
+            self.remove_question_mark_after
+                .push(n.id.span.lo + BytePos(n.id.sym.len() as u32));
         }
     }
 
