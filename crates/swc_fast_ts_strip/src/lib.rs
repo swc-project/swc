@@ -99,8 +99,9 @@ pub fn operate(
     program.visit_with(&mut ts_strip);
 
     let replacements = ts_strip.replacements;
+    let removals = ts_strip.removals;
 
-    if replacements.is_empty() {
+    if replacements.is_empty() && removals.is_empty() {
         return Ok(fm.src.to_string());
     }
 
@@ -112,8 +113,8 @@ pub fn operate(
 
     // Assert that removal does not overlap with each other
 
-    for removal in ts_strip.removals.iter() {
-        for r in &ts_strip.removals {
+    for removal in removals.iter() {
+        for r in &removals {
             if removal == r {
                 continue;
             }
@@ -127,7 +128,7 @@ pub fn operate(
         }
     }
 
-    for removal in ts_strip.removals.iter().copied().rev() {
+    for removal in removals.iter().copied().rev() {
         code.drain((removal.0 .0 - 1) as usize..(removal.1 .0 - 1) as usize);
     }
 
