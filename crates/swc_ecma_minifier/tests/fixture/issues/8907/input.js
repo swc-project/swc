@@ -1,1 +1,1 @@
- /*#__PURE__*/ (0, forwardRef)(Foo);
+ /*#__PURE__*/ (0, forwardRef)(/* harden */Foo);
