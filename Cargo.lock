@@ -5132,7 +5132,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.44.1"
+version = "0.44.2"
 dependencies = [
  "better_scoped_tls",
  "rkyv",
