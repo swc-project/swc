@@ -9,8 +9,8 @@ use swc_common::{
     BytePos, FileName, SourceMap, Span, Spanned,
 };
 use swc_ecma_ast::{
-    ArrowExpr, BindingIdent, Class, ClassMethod, ClassProp, Decorator, EsVersion, ExportAll,
-    ExportDecl, ExportSpecifier, FnDecl, Ident, ImportDecl, ImportSpecifier, MethodKind,
+    ArrowExpr, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, Decorator, EsVersion,
+    ExportAll, ExportDecl, ExportSpecifier, FnDecl, Ident, ImportDecl, ImportSpecifier, MethodKind,
     NamedExport, Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsInstantiation,
     TsInterfaceDecl, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam,
     TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
@@ -18,7 +18,7 @@ use swc_ecma_ast::{
 };
 use swc_ecma_parser::{
     lexer::Lexer,
-    token::{Token, TokenAndSpan},
+    token::{IdentLike, KnownIdent, Token, TokenAndSpan, Word},
     Capturing, Parser, StringInput, Syntax, TsSyntax,
 };
 use swc_ecma_visit::{Visit, VisitWith};
@@ -244,15 +244,35 @@ impl Visit for TsStrip {
         }
     }
 
-    fn visit_class(&mut self, n: &Class) {
-        n.visit_children_with(self);
+    fn visit_class_decl(&mut self, n: &ClassDecl) {
+        if n.declare {
+            self.add_replacement(n.span());
+            return;
+        }
 
-        let lo = match &n.super_class {
-            Some(v) => v.span().hi,
-            None => n.span.lo,
-        };
-        let hi = skip_until(self.src.as_bytes(), lo.0, b'{');
-        self.add_replacement(span(lo, BytePos(hi)));
+        n.visit_children_with(self);
+    }
+
+    fn visit_class(&mut self, n: &Class) {
+        if n.is_abstract {
+            let r#abstract = self.get_next_token(n.span_lo());
+            debug_assert_eq!(
+                r#abstract.token,
+                Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Abstract)))
+            );
+            self.add_replacement(r#abstract.span);
+        }
+
+        if !n.implements.is_empty() {
+            let implements =
+                self.get_prev_token(n.implements.first().unwrap().span_lo() - BytePos(1));
+
+            let last = n.implements.last().unwrap();
+            let span = span(implements.span.lo, last.span.hi);
+            self.add_replacement(span);
+        }
+
+        n.visit_children_with(self);
     }
 
     fn visit_class_method(&mut self, n: &ClassMethod) {
@@ -531,12 +551,4 @@ impl Visit for TsStrip {
 
 fn span(lo: BytePos, hi: BytePos) -> Span {
     Span::new(lo, hi, Default::default())
-}
-
-fn skip_until(bytes: &[u8], mut pos: u32, stop: u8) -> u32 {
-    while bytes[(pos - 1) as usize] != stop {
-        pos += 1;
-    }
-
-    pos
 }

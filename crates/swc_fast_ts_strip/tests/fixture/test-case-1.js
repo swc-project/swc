@@ -7,7 +7,7 @@ let x /**/        /**/ = 1 ;
 (        "test");
 //^^^^^^^^
 
-class C /**/   /*︎*/ extends Array                                       {
+class C /**/   /*︎*/ extends Array/**/    /*︎*/                /*︎*/ {
     //          ^^^^^                      ^^^     ^^^^^^^^^^^^^^
              field/**/        /**/ = "";
     //  ^^^^^^^^          ^^^^^^^^
@@ -36,7 +36,7 @@ class D extends C      {
     //  ^^^^^^^^                ^^^^^
 }
 
-                 {
+         class A {
     // ^^^^^^^^
              a;
     //  ^^^^^^^^^^^ abstract property
@@ -129,7 +129,7 @@ void 0;
 
 void 0;
 
-/**/                            { }
+/**/                               
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `declare class`
 
 void 0;
