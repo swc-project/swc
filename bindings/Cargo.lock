@@ -231,7 +231,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.6.9-nightly-20240706.6"
+version = "1.6.11-nightly-20240706.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -291,7 +291,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.6.9-nightly-20240706.6"
+version = "1.6.11-nightly-20240706.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -304,7 +304,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.6.9-nightly-20240706.6"
+version = "1.6.11-nightly-20240706.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -2998,7 +2998,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.311"
+version = "0.91.312"
 dependencies = [
  "anyhow",
  "swc_cli_impl",
@@ -3030,9 +3030,9 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.34.3"
+version = "0.34.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2b0d7bcbd9faf61cec1a552cbdaec57faefbb10be7cc5f959613c6f91b5a9254"
+checksum = "9087befec6b63911f9d2f239e4f91c9b21589c169b86ed2d616944d23cf4a243"
 dependencies = [
  "ahash 0.8.8",
  "anyhow",
@@ -3115,9 +3115,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.96.6"
+version = "0.96.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "50a6649cd9e24883b898d943ef013dfbe52dc5fa6349e4976174649f040ee461"
+checksum = "a928f84116c4c08589dde865cde7ed452ef5224cf1dbdf2f3625c09199c904e5"
 dependencies = [
  "binding_macros",
  "swc",
@@ -3478,9 +3478,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.146.10"
+version = "0.146.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "95d2128fee5628aa6a205de62d38c7a3f1b901f4483ba3dfd73da29168c1b9ac"
+checksum = "2e486565f2ee51a41cbbfbcb1ff5b0307116af2e5d597f9d37e19db312e7d5c1"
 dependencies = [
  "either",
  "new_debug_unreachable",
@@ -3834,9 +3834,9 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "0.1.3"
+version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8313e41dc4b6f84843dbf3f9281cb733c5ce021ca28b414c563bc3c3fa259dab"
+checksum = "aea17d15cb3846f2b9fc6cc1ebcdce22bbc6309db28b066975913e668ec83b1d"
 dependencies = [
  "anyhow",
  "serde",
@@ -3936,9 +3936,9 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.44.0"
+version = "0.44.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "98740e5a1ac82ad0de823bcf4aea97a76dce77c1ccff167d148e8a114b2932c0"
+checksum = "c84d30aea0b8b63a4d7d33446ff1720f7d37ca69545854825936224b9dbe4bfd"
 dependencies = [
  "better_scoped_tls",
  "rkyv",
