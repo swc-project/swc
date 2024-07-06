@@ -45,7 +45,6 @@ async function main() {
     order: "desc",
   });
   const tags = tagData.map((tag) => tag.name);
-  console.log(tags);
   while (tags.includes(nightlyVersion)) {
     idx += 1;
     nightlyVersion = `${base}.${idx}`;
