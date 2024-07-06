@@ -1,0 +1,20 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":12}},
+  "range":[0,12],
+  "body":[
+    {
+      "type":"ThrowStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":12}},
+      "range":[0,12],
+      "argument":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":10}},
+        "range":[7,10],
+        "value":123,
+        "raw":"123"
+      }
+    }
+  ],
+  "comments":[]
+}

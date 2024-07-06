@@ -1,0 +1,1 @@
+class Kind { get a() {} }

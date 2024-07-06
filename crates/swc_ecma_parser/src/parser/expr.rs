@@ -615,6 +615,10 @@ impl<I: Tokens> Parser<I> {
                     }
                     Ok(Some(args))
                 })
+            } else if self.input.syntax().flow() && is!(self, '<') {
+                self.consume_flow_type_param_decl()?;
+
+                None
             } else {
                 None
             };
@@ -659,6 +663,9 @@ impl<I: Tokens> Parser<I> {
 
         let type_args = if self.syntax().typescript() && is!(self, '<') {
             self.try_parse_ts_type_args()
+        } else if self.syntax().flow() && is!(self, '<') {
+            self.consume_flow_type_parameter_instantiation_call_or_new()?;
+            None
         } else {
             None
         };
@@ -842,6 +849,12 @@ impl<I: Tokens> Parser<I> {
 
                 Ok(Some(return_type))
             })
+        } else if !self.ctx().will_expect_colon_for_cond
+            && self.input.syntax().flow()
+            && is!(self, ':')
+        {
+            self.consume_flow_type_ann()?;
+            None
         } else {
             None
         };
@@ -1886,6 +1899,10 @@ impl<I: Tokens> Parser<I> {
 
                 items.push(AssignTargetOrSpread::Pat(pat))
             } else {
+                if self.input.syntax().flow() && is!(self, ':') {
+                    self.may_consume_flow_type_ann()?;
+                }
+
                 if has_modifier {
                     self.emit_err(span!(self, modifier_start), SyntaxError::TS2369);
                 }

@@ -1,0 +1,232 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 549,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 10,
+          "end": 24,
+          "ctxt": 0
+        },
+        "value": "withExpression",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 138,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 27,
+          "end": 138,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 56,
+              "end": 110,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 85,
+                "end": 86,
+                "ctxt": 0
+              },
+              "value": 1.0,
+              "raw": "1"
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 149,
+          "end": 166,
+          "ctxt": 0
+        },
+        "value": "withoutExpression",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 140,
+        "end": 260,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 169,
+          "end": 260,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 198,
+              "end": 232,
+              "ctxt": 0
+            },
+            "argument": null
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 271,
+          "end": 302,
+          "ctxt": 0
+        },
+        "value": "implicitSemicolonWithExpression",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 262,
+        "end": 402,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 305,
+          "end": 402,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 328,
+              "end": 336,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 335,
+                "end": 336,
+                "ctxt": 0
+              },
+              "value": 1.0,
+              "raw": "1"
+            }
+          },
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 374,
+              "end": 382,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 381,
+                "end": 382,
+                "ctxt": 0
+              },
+              "value": 1.0,
+              "raw": "1"
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 413,
+          "end": 447,
+          "ctxt": 0
+        },
+        "value": "implicitSemicolonWithoutExpression",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 404,
+        "end": 549,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 450,
+          "end": 549,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 473,
+              "end": 479,
+              "ctxt": 0
+            },
+            "argument": null
+          },
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 520,
+              "end": 526,
+              "ctxt": 0
+            },
+            "argument": null
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

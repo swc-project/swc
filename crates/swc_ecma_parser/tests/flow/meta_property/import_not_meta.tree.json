@@ -1,0 +1,41 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":10}},
+      "message":"Unexpected identifier, expected the identifier `meta`"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":11}},
+  "range":[0,11],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":11}},
+      "range":[0,11],
+      "expression":{
+        "type":"MetaProperty",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":10}},
+        "range":[0,10],
+        "meta":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":6}},
+          "range":[0,6],
+          "name":"import",
+          "typeAnnotation":null,
+          "optional":false
+        },
+        "property":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":10}},
+          "range":[7,10],
+          "name":"meta",
+          "typeAnnotation":null,
+          "optional":false
+        }
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
+}

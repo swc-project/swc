@@ -1,0 +1,27 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":9}},
+      "message":"Unexpected token `/* :`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":9}},
+      "message":"Unexpected token `:`, expected the start of a statement"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "message":"Unexpected end of input, expected the start of a statement"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+  "range":[13,13],
+  "body":[
+    {
+      "type":"EmptyStatement",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "range":[13,13]
+    }
+  ],
+  "comments":[]
+}

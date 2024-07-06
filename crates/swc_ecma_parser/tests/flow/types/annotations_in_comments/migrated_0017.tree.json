@@ -1,0 +1,34 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":49}},
+  "range":[4,49],
+  "body":[
+    {
+      "type":"TypeAlias",
+      "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":49}},
+      "range":[4,49],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":10}},
+        "range":[9,10],
+        "name":"F",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":null,
+      "right":{
+        "type":"NumberTypeAnnotation",
+        "loc":{"source":null,"start":{"line":1,"column":42},"end":{"line":1,"column":48}},
+        "range":[42,48]
+      }
+    }
+  ],
+  "comments":[
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":41}},
+      "range":[13,41],
+      "value":" inner escaped comment "
+    }
+  ]
+}

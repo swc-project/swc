@@ -1,0 +1,27 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 33,
+    "end": 69,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 33,
+        "end": 68,
+        "ctxt": 0
+      }
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 68,
+        "end": 69,
+        "ctxt": 0
+      }
+    }
+  ],
+  "interpreter": null
+}

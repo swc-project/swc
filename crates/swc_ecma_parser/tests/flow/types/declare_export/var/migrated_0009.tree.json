@@ -1,0 +1,49 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "message":"Unexpected end of input, expected the token `:`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "message":"Unexpected end of input, expected a type"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":0}},
+  "range":[0,21],
+  "body":[
+    {
+      "type":"DeclareExportDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":0}},
+      "range":[0,21],
+      "default":false,
+      "declaration":{
+        "type":"DeclareVariable",
+        "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":2,"column":0}},
+        "range":[15,21],
+        "id":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":2,"column":0}},
+          "range":[19,21],
+          "name":"x",
+          "typeAnnotation":{
+            "type":"TypeAnnotation",
+            "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+            "range":[21,21],
+            "typeAnnotation":{
+              "type":"AnyTypeAnnotation",
+              "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+              "range":[21,21]
+            }
+          },
+          "optional":false
+        },
+        "kind":"var"
+      },
+      "specifiers":[],
+      "source":null
+    }
+  ],
+  "comments":[]
+}

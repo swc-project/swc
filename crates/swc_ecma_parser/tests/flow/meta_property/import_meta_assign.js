@@ -1,0 +1,1 @@
+import.meta = 1;

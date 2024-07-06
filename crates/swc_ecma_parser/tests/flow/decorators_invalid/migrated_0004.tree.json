@@ -1,0 +1,42 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":5}},
+      "message":"Found a decorator in an unsupported position."
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":12}},
+  "range":[6,18],
+  "body":[
+    {
+      "type":"VariableDeclaration",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":12}},
+      "range":[6,18],
+      "declarations":[
+        {
+          "type":"VariableDeclarator",
+          "loc":{"source":null,"start":{"line":2,"column":4},"end":{"line":2,"column":11}},
+          "range":[10,17],
+          "id":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":2,"column":4},"end":{"line":2,"column":5}},
+            "range":[10,11],
+            "name":"x",
+            "typeAnnotation":null,
+            "optional":false
+          },
+          "init":{
+            "type":"Literal",
+            "loc":{"source":null,"start":{"line":2,"column":8},"end":{"line":2,"column":11}},
+            "range":[14,17],
+            "value":123,
+            "raw":"123"
+          }
+        }
+      ],
+      "kind":"let"
+    }
+  ],
+  "comments":[]
+}

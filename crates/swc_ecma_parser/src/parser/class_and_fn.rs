@@ -92,6 +92,9 @@ impl<I: Tokens> Parser<I> {
 
             let type_params = if p.input.syntax().typescript() {
                 p.try_parse_ts_type_params(true, true)?
+            } else if p.syntax().flow() {
+                p.may_consume_flow_type_param_decls()?;
+                None
             } else {
                 None
             };
@@ -121,6 +124,9 @@ impl<I: Tokens> Parser<I> {
 
             let implements = if p.input.syntax().typescript() && eat!(p, "implements") {
                 p.parse_ts_heritage_clause()?
+            } else if p.input.syntax().flow() && eat!(p, "implements") {
+                p.consume_flow_interface_extends()?;
+                vec![]
             } else {
                 vec![]
             };
@@ -239,6 +245,10 @@ impl<I: Tokens> Parser<I> {
                 // but it's a super class with type params, for example, in JSX.
                 if self.syntax().typescript() && is!(self, '<') {
                     Ok((super_class, self.parse_ts_type_args().map(Some)?))
+                } else if self.syntax().flow() && is!(self, '<') {
+                    self.may_consume_flow_type_param_decls()?;
+
+                    Ok((super_class, None))
                 } else {
                     Ok((super_class, None))
                 }
@@ -382,7 +392,7 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
         let decorators = self.parse_decorators(false)?;
-        let declare = self.syntax().typescript() && eat!(self, "declare");
+        let declare = (self.syntax().typescript() || self.syntax().flow()) && eat!(self, "declare");
         let accessibility = if self.input.syntax().typescript() {
             self.parse_access_modifier()?
         } else {
@@ -1066,7 +1076,14 @@ impl<I: Tokens> Parser<I> {
         }
         let definite = self.input.syntax().typescript() && !is_optional && eat!(self, '!');
 
-        let type_ann = self.try_parse_ts_type_ann()?;
+        let type_ann = if self.input.syntax().typescript() {
+            self.try_parse_ts_type_ann()?
+        } else if self.input.syntax().flow() {
+            self.may_consume_flow_type_ann()?;
+            None
+        } else {
+            None
+        };
 
         let ctx = Context {
             include_in_expr: true,
@@ -1150,12 +1167,14 @@ impl<I: Tokens> Parser<I> {
 
     fn is_class_method(&mut self) -> bool {
         is!(self, '(')
-            || (self.input.syntax().typescript() && is!(self, '<'))
-            || (self.input.syntax().typescript() && is!(self, JSXTagStart))
+            || ((self.input.syntax().typescript() || self.input.syntax().flow()) && is!(self, '<'))
+            || ((self.input.syntax().typescript() || self.input.syntax().flow())
+                && is!(self, JSXTagStart))
     }
 
     fn is_class_property(&mut self, asi: bool) -> bool {
         (self.input.syntax().typescript() && is!(self, '!' | ':'))
+            || (self.input.syntax().flow() && is!(self, ':'))
             || is!(self, '=' | '}')
             || if asi {
                 is!(self, ';')
@@ -1298,6 +1317,9 @@ impl<I: Tokens> Parser<I> {
                         None
                     })
                 })?
+            } else if p.syntax().flow() {
+                p.may_consume_flow_type_param_decls()?;
+                None
             } else {
                 None
             };
@@ -1319,6 +1341,10 @@ impl<I: Tokens> Parser<I> {
             let return_type = if p.syntax().typescript() && is!(p, ':') {
                 p.parse_ts_type_or_type_predicate_ann(&tok!(':'))
                     .map(Some)?
+            } else if p.input.syntax().flow() && is!(p, ':') {
+                p.consume_flow_type_ann()?;
+
+                None
             } else {
                 None
             };
@@ -1675,7 +1701,10 @@ impl<I: Tokens> FnBodyParser<Option<BlockStmt>> for Parser<I> {
         is_simple_parameter_list: bool,
     ) -> PResult<Option<BlockStmt>> {
         // allow omitting body and allow placing `{` on next line
-        if self.input.syntax().typescript() && !is!(self, '{') && eat!(self, ';') {
+        if (self.input.syntax().typescript() || self.input.syntax().flow())
+            && !is!(self, '{')
+            && eat!(self, ';')
+        {
             return Ok(None);
         }
         let block = self.include_in_expr(true).parse_block(true);

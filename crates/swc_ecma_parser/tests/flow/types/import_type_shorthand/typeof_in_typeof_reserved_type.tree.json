@@ -1,0 +1,62 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":2,"column":15},"end":{"line":2,"column":21}},
+      "message":"The `type` and `typeof` keywords on named imports can only be used on regular `import` statements. It cannot be used with `import type` or `import typeof` statements"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":22},"end":{"line":2,"column":28}},
+      "message":"Unexpected reserved type"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":41}},
+  "range":[78,119],
+  "body":[
+    {
+      "type":"ImportDeclaration",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":41}},
+      "range":[78,119],
+      "specifiers":[
+        {
+          "type":"ImportSpecifier",
+          "loc":{"source":null,"start":{"line":2,"column":22},"end":{"line":2,"column":28}},
+          "range":[100,106],
+          "imported":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":2,"column":22},"end":{"line":2,"column":28}},
+            "range":[100,106],
+            "name":"string",
+            "typeAnnotation":null,
+            "optional":false
+          },
+          "local":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":2,"column":22},"end":{"line":2,"column":28}},
+            "range":[100,106],
+            "name":"string",
+            "typeAnnotation":null,
+            "optional":false
+          },
+          "importKind":null
+        }
+      ],
+      "source":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":2,"column":35},"end":{"line":2,"column":40}},
+        "range":[113,118],
+        "value":"foo",
+        "raw":"\"foo\""
+      },
+      "importKind":"typeof"
+    }
+  ],
+  "comments":[
+    {
+      "type":"Line",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":77}},
+      "range":[0,77],
+      "value":" 2 errors: typeof specifier in typeof declaration, and `string` is reserved"
+    }
+  ]
+}

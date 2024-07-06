@@ -1,0 +1,91 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 20,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 11,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 10,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 6,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 9,
+              "end": 10,
+              "ctxt": 0
+            },
+            "value": 2.0,
+            "raw": "2"
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 12,
+        "end": 20,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 12,
+          "end": 19,
+          "ctxt": 0
+        },
+        "operator": "**=",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 12,
+            "end": 13,
+            "ctxt": 0
+          },
+          "value": "x",
+          "optional": false,
+          "typeAnnotation": null
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 18,
+            "end": 19,
+            "ctxt": 0
+          },
+          "value": 3.0,
+          "raw": "3"
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

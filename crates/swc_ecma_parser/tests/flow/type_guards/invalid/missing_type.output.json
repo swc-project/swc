@@ -1,0 +1,37 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 27,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 1,
+        "end": 23,
+        "ctxt": 0
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 24,
+        "end": 27,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 24,
+          "end": 26,
+          "ctxt": 0
+        },
+        "value": "is",
+        "optional": false
+      }
+    }
+  ],
+  "interpreter": null
+}

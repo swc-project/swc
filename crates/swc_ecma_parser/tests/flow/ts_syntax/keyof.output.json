@@ -1,0 +1,95 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 84,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 1,
+        "end": 15,
+        "ctxt": 0
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 16,
+        "end": 18,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 16,
+          "end": 17,
+          "ctxt": 0
+        },
+        "value": "O",
+        "optional": false
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 26,
+        "end": 42,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 32,
+            "end": 41,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 32,
+              "end": 37,
+              "ctxt": 0
+            },
+            "value": "keyof",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 40,
+              "end": 41,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 69,
+        "end": 83,
+        "ctxt": 0
+      }
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 83,
+        "end": 84,
+        "ctxt": 0
+      }
+    }
+  ],
+  "interpreter": null
+}
