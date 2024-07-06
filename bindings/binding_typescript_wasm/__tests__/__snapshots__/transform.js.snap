@@ -2,9 +2,18 @@
 
 exports[`transform in strip-only mode should remove declare enum 1`] = `"                   "`;
 
-exports[`transform in strip-only mode should remove declare enum 2`] = `"                                                          "`;
+exports[`transform in strip-only mode should remove declare enum 2`] = `
+"                  
+                     
+                 "
+`;
 
-exports[`transform in strip-only mode should remove declare enum 3`] = `"                                                                                          "`;
+exports[`transform in strip-only mode should remove declare enum 3`] = `
+"                  
+                          
+                      
+                     "
+`;
 
 exports[`transform in strip-only mode should strip complex expressions 1`] = `
 "const foo = {
