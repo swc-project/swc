@@ -7,7 +7,7 @@ use std::{
     env,
     fs::{self, create_dir_all, read_to_string, OpenOptions},
     io::Write,
-    mem::take,
+    mem::{take, transmute},
     panic,
     path::{Path, PathBuf},
     process::Command,
@@ -21,14 +21,14 @@ use serde::de::DeserializeOwned;
 use sha2::{Digest, Sha256};
 use swc_common::{
     chain,
-    comments::SingleThreadedComments,
+    comments::{Comments, SingleThreadedComments},
     errors::{Handler, HANDLER},
     source_map::SourceMapGenConfig,
     sync::Lrc,
     FileName, Mark, SourceMap, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_codegen::{to_code_default, Emitter};
+use swc_ecma_codegen::to_code_default;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{
@@ -63,13 +63,22 @@ impl<'a> Tester<'a> {
     where
         F: FnOnce(&mut Tester<'_>) -> Result<Ret, ()>,
     {
+        let comments = Rc::new(SingleThreadedComments::default());
+
         let out = ::testing::run_test(false, |cm, handler| {
             HANDLER.set(handler, || {
                 HELPERS.set(&Default::default(), || {
-                    op(&mut Tester {
-                        cm,
-                        handler,
-                        comments: Default::default(),
+                    let cmts = comments.clone();
+                    let c = Box::new(unsafe {
+                        // Safety: This is unsafe but it's used only for testing.
+                        transmute::<&dyn Comments, &'static dyn Comments>(&*cmts)
+                    }) as Box<dyn Comments>;
+                    swc_common::comments::COMMENTS.set(&c, || {
+                        op(&mut Tester {
+                            cm,
+                            handler,
+                            comments,
+                        })
                     })
                 })
             })
@@ -863,13 +872,16 @@ fn test_fixture_inner<'a>(
     let mut sourcemap = None;
 
     let (actual_src, stderr) = Tester::run_captured(|tester| {
-        println!("----- {} -----\n{}", Color::Green.paint("Input"), input);
+        eprintln!("----- {} -----\n{}", Color::Green.paint("Input"), input);
 
         let tr = tr(tester);
 
-        println!("----- {} -----", Color::Green.paint("Actual"));
+        eprintln!("----- {} -----", Color::Green.paint("Actual"));
 
         let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
+
+        eprintln!("----- {} -----", Color::Green.paint("Comments"));
+        eprintln!("{:?}", tester.comments);
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
@@ -893,23 +905,6 @@ fn test_fixture_inner<'a>(
         let actual_src = {
             let module = &actual;
             let comments: &Rc<SingleThreadedComments> = &tester.comments.clone();
-            let mut buf = vec![];
-            {
-                let mut emitter = Emitter {
-                    cfg: Default::default(),
-                    cm: tester.cm.clone(),
-                    wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
-                        tester.cm.clone(),
-                        "\n",
-                        &mut buf,
-                        src_map.as_mut(),
-                    )),
-                    comments: Some(comments),
-                };
-
-                // println!("Emitting: {:?}", module);
-                emitter.emit_module(module).unwrap();
-            }
 
             if let Some(src_map) = &mut src_map {
                 sourcemap = Some(tester.cm.build_source_map_with_config(
@@ -919,8 +914,7 @@ fn test_fixture_inner<'a>(
                 ));
             }
 
-            let s = String::from_utf8_lossy(&buf);
-            s.to_string()
+            to_code_default(tester.cm.clone(), Some(comments), module)
         };
 
         Ok(actual_src)
@@ -935,11 +929,11 @@ fn test_fixture_inner<'a>(
     }
 
     if let Some(actual_src) = actual_src {
-        println!("{}", actual_src);
+        eprintln!("{}", actual_src);
 
         if let Some(sourcemap) = &sourcemap {
-            println!("----- ----- ----- ----- -----");
-            println!("SourceMap: {}", visualizer_url(&actual_src, sourcemap));
+            eprintln!("----- ----- ----- ----- -----");
+            eprintln!("SourceMap: {}", visualizer_url(&actual_src, sourcemap));
         }
 
         if actual_src != expected_src {
