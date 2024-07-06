@@ -183,10 +183,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         let key = self.parse_prop_name()?;
 
         if self.input.syntax().typescript()
-            && !is!(
-                self,
-                '(' | '[' | ':' | ',' | '?' | '=' | '*' | IdentName | Str | Num
-            )
+            && !is_one_of!(self, '(', '[', ':', ',', '?', '=', '*', IdentName, Str, Num)
             && !(self.input.syntax().typescript() && is!(self, '<'))
             && !(is!(self, '}') && matches!(key, PropName::Ident(..)))
         {
@@ -245,7 +242,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
 
         // `ident` from parse_prop_name is parsed as 'IdentifierName'
         // It means we should check for invalid expressions like { for, }
-        if is!(self, '=' | ',' | '}') {
+        if is_one_of!(self, '=', ',', '}') {
             let is_reserved_word = { self.ctx().is_reserved_word(&ident.sym) };
             if is_reserved_word {
                 self.emit_err(ident.span, SyntaxError::ReservedWordInObjShorthandOrPat);

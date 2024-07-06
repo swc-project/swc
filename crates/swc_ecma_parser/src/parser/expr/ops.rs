@@ -281,7 +281,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         // Parse unary expression
-        if is!(self, "delete" | "void" | "typeof" | '+' | '-' | '~' | '!') {
+        if is_one_of!(self, "delete", "void", "typeof", '+', '-', '~', '!') {
             let op = match bump!(self) {
                 tok!("delete") => op!("delete"),
                 tok!("void") => op!("void"),
@@ -341,7 +341,7 @@ impl<I: Tokens> Parser<I> {
             return Ok(expr);
         }
 
-        if is!(self, "++" | "--") {
+        if is_one_of!(self, "++", "--") {
             self.check_assign_target(&expr, false);
 
             let op = if bump!(self) == tok!("++") {
@@ -378,7 +378,7 @@ impl<I: Tokens> Parser<I> {
 
         let span = span!(self, start);
 
-        if is!(self, ')' | ']' | ';' | ',') && !ctx.in_async {
+        if is_one_of!(self, ')', ']', ';', ',') && !ctx.in_async {
             if ctx.module {
                 self.emit_err(span, SyntaxError::InvalidIdentInAsync);
             }

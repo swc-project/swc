@@ -82,7 +82,7 @@ impl<I: Tokens> Parser<I> {
         let start = self.input.cur_span();
 
         if self.input.syntax().typescript()
-            && (is!(self, '<' | JSXTagStart))
+            && (is_one_of!(self, '<', JSXTagStart))
             && (peeked_is!(self, IdentName) || peeked_is!(self, JSXName))
         {
             let ctx = Context {
@@ -395,7 +395,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         if is!(self, "let")
-            || (self.input.syntax().typescript() && is!(self, IdentRef | "await"))
+            || (self.input.syntax().typescript() && is_one_of!(self, IdentRef, "await"))
             || is!(self, IdentRef)
         {
             let ctx = self.ctx();
@@ -1226,7 +1226,7 @@ impl<I: Tokens> Parser<I> {
                         )
                         .map(|expr| (Box::new(Expr::TaggedTpl(expr)), true))
                         .map(Some)
-                    } else if is!(p, '=' | "as") {
+                    } else if is_one_of!(p, '=', "as") {
                         Ok(Some((
                             Box::new(Expr::TsInstantiation(TsInstantiation {
                                 span: span!(p, start),
@@ -1258,7 +1258,7 @@ impl<I: Tokens> Parser<I> {
             None
         };
 
-        if obj.is_import() && !is!(self, '.' | '(') {
+        if obj.is_import() && !is_one_of!(self, '.', '(') {
             unexpected!(self, "`.` or `(`")
         }
 
@@ -1597,7 +1597,7 @@ impl<I: Tokens> Parser<I> {
         let callee = self.parse_new_expr()?;
         return_if_arrow!(self, callee);
 
-        let type_args = if self.input.syntax().typescript() && is!(self, '<' | "<<") {
+        let type_args = if self.input.syntax().typescript() && is_one_of!(self, '<', "<<") {
             self.try_parse_ts(|p| {
                 let type_args = p.parse_ts_type_args()?;
                 if is!(p, '(') {
@@ -2145,44 +2145,18 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn is_start_of_left_hand_side_expr(&mut self) -> PResult<bool> {
-        Ok(is!(
-            self,
-            "this"
-                | "super"
-                | "null"
-                | "true"
-                | "false"
-                | Num
-                | BigInt
-                | Str
-                | '`'
-                | '('
-                | '['
-                | '{'
-                | "function"
-                | "class"
-                | "new"
-                | Regex
-                | IdentRef
+        Ok(is_one_of!(
+            self, "this", "super", "null", "true", "false", Num, BigInt, Str, '`', '(', '[', '{',
+            "function", "class", "new", Regex, IdentRef
         ) || (is!(self, "import")
             && (peeked_is!(self, '(') || peeked_is!(self, '<') || peeked_is!(self, '.'))))
     }
 
     pub(super) fn is_start_of_expr(&mut self) -> PResult<bool> {
         Ok(self.is_start_of_left_hand_side_expr()?
-            || is!(
-                self,
-                '+' | '-'
-                    | '~'
-                    | '!'
-                    | "delete"
-                    | "typeof"
-                    | "void"
-                    | "++"
-                    | "--"
-                    | '<'
-                    | "await"
-                    | "yield"
+            || is_one_of!(
+                self, '+', '-', '~', '!', "delete", "typeof", "void", "++", "--", '<', "await",
+                "yield"
             )
             || (is!(self, '#') && peeked_is!(self, IdentName)))
     }
