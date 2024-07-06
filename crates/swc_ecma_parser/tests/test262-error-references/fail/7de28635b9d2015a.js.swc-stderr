@@ -1,4 +1,3 @@
-
   x Unexpected line break between arrow head and arrow
    ,-[$DIR/tests/test262-parser/fail/7de28635b9d2015a.js:1:1]
  1 | (a,...a)/* */ => 0

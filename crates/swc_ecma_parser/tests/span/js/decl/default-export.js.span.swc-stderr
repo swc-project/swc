@@ -1,46 +1,38 @@
-
   x Module
    ,-[$DIR/tests/span/js/decl/default-export.js:1:1]
  1 | export default class Foo { }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/decl/default-export.js:1:1]
  1 | export default class Foo { }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleDecl
    ,-[$DIR/tests/span/js/decl/default-export.js:1:1]
  1 | export default class Foo { }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ExportDefaultDecl
    ,-[$DIR/tests/span/js/decl/default-export.js:1:1]
  1 | export default class Foo { }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x DefaultDecl
    ,-[$DIR/tests/span/js/decl/default-export.js:1:1]
  1 | export default class Foo { }
    :                ^^^^^^^^^^^^^
    `----
-
   x ClassExpr
    ,-[$DIR/tests/span/js/decl/default-export.js:1:1]
  1 | export default class Foo { }
    :                ^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/decl/default-export.js:1:1]
  1 | export default class Foo { }
    :                      ^^^
    `----
-
   x Class
    ,-[$DIR/tests/span/js/decl/default-export.js:1:1]
  1 | export default class Foo { }

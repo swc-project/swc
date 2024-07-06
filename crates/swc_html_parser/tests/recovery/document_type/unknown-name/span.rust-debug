@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/recovery/document_type/unknown-name/input.html:1:1]
  1 | <!DOCTYPE potato>Hello
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/document_type/unknown-name/input.html:1:1]
  1 | <!DOCTYPE potato>Hello
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/recovery/document_type/unknown-name/input.html:1:1]
  1 | <!DOCTYPE potato>Hello
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/document_type/unknown-name/input.html:1:1]
  1 | <!DOCTYPE potato>Hello
    :                  ^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/document_type/unknown-name/input.html:1:1]
  1 | <!DOCTYPE potato>Hello

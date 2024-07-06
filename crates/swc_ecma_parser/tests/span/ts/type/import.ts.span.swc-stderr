@@ -1,64 +1,53 @@
-
   x Module
    ,-[$DIR/tests/span/ts/type/import.ts:1:1]
  1 | type A = import('foo').Bar
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/ts/type/import.ts:1:1]
  1 | type A = import('foo').Bar
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/ts/type/import.ts:1:1]
  1 | type A = import('foo').Bar
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Decl
    ,-[$DIR/tests/span/ts/type/import.ts:1:1]
  1 | type A = import('foo').Bar
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x TsTypeAliasDecl
    ,-[$DIR/tests/span/ts/type/import.ts:1:1]
  1 | type A = import('foo').Bar
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/type/import.ts:1:1]
  1 | type A = import('foo').Bar
    :      ^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/import.ts:1:1]
  1 | type A = import('foo').Bar
    :          ^^^^^^^^^^^^^^^^^
    `----
-
   x TsImportType
    ,-[$DIR/tests/span/ts/type/import.ts:1:1]
  1 | type A = import('foo').Bar
    :          ^^^^^^^^^^^^^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/span/ts/type/import.ts:1:1]
  1 | type A = import('foo').Bar
    :                 ^^^^^
    `----
-
   x TsEntityName
    ,-[$DIR/tests/span/ts/type/import.ts:1:1]
  1 | type A = import('foo').Bar
    :                        ^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/type/import.ts:1:1]
  1 | type A = import('foo').Bar

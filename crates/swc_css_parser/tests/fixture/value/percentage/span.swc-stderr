@@ -1,4 +1,3 @@
-
   x Stylesheet
     ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
   1 | ,-> div {
@@ -20,7 +19,6 @@
  17 | |       margin: -5.5%;
  18 | `-> }
     `----
-
   x Rule
     ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
   1 | ,-> div {
@@ -37,7 +35,6 @@
  12 | |       width: 10e+2%;
  13 | `-> }
     `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
   1 | ,-> div {
@@ -54,56 +51,48 @@
  12 | |       width: 10e+2%;
  13 | `-> }
     `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
  1 | div {
    : ^^^
  2 |     width: 0%;
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
  1 | div {
    : ^^^
  2 |     width: 0%;
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
  1 | div {
    : ^^^
  2 |     width: 0%;
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
  1 | div {
    : ^^^
  2 |     width: 0%;
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
  1 | div {
    : ^^^
  2 |     width: 0%;
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
  1 | div {
    : ^^^
  2 |     width: 0%;
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
  1 | div {
    : ^^^
  2 |     width: 0%;
    `----
-
   x SimpleBlock
     ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
   1 | ,-> div {
@@ -120,827 +109,724 @@
  12 | |       width: 10e+2%;
  13 | `-> }
     `----
-
   x LBrace
    ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
  1 | div {
    :     ^
  2 |     width: 0%;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:2:1]
  1 | div {
  2 |     width: 0%;
    :     ^^^^^^^^^
  3 |     width: 0.1%;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:2:1]
  1 | div {
  2 |     width: 0%;
    :     ^^^^^^^^^
  3 |     width: 0.1%;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:2:1]
  1 | div {
  2 |     width: 0%;
    :     ^^^^^
  3 |     width: 0.1%;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:2:1]
  1 | div {
  2 |     width: 0%;
    :     ^^^^^
  3 |     width: 0.1%;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:2:1]
  1 | div {
  2 |     width: 0%;
    :            ^^
  3 |     width: 0.1%;
    `----
-
   x Percentage
-   ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:2:1]
  1 | div {
  2 |     width: 0%;
    :            ^^
  3 |     width: 0.1%;
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:2:1]
  1 | div {
  2 |     width: 0%;
    :            ^
  3 |     width: 0.1%;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/percentage/input.css:2:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:3:1]
  2 |     width: 0%;
  3 |     width: 0.1%;
    :     ^^^^^^^^^^^
  4 |     width: 100%;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/percentage/input.css:2:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:3:1]
  2 |     width: 0%;
  3 |     width: 0.1%;
    :     ^^^^^^^^^^^
  4 |     width: 100%;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/percentage/input.css:2:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:3:1]
  2 |     width: 0%;
  3 |     width: 0.1%;
    :     ^^^^^
  4 |     width: 100%;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/percentage/input.css:2:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:3:1]
  2 |     width: 0%;
  3 |     width: 0.1%;
    :     ^^^^^
  4 |     width: 100%;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/percentage/input.css:2:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:3:1]
  2 |     width: 0%;
  3 |     width: 0.1%;
    :            ^^^^
  4 |     width: 100%;
    `----
-
   x Percentage
-   ,-[$DIR/tests/fixture/value/percentage/input.css:2:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:3:1]
  2 |     width: 0%;
  3 |     width: 0.1%;
    :            ^^^^
  4 |     width: 100%;
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/value/percentage/input.css:2:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:3:1]
  2 |     width: 0%;
  3 |     width: 0.1%;
    :            ^^^
  4 |     width: 100%;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/percentage/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:4:1]
  3 |     width: 0.1%;
  4 |     width: 100%;
    :     ^^^^^^^^^^^
  5 |     width: 100.5%;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/percentage/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:4:1]
  3 |     width: 0.1%;
  4 |     width: 100%;
    :     ^^^^^^^^^^^
  5 |     width: 100.5%;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/percentage/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:4:1]
  3 |     width: 0.1%;
  4 |     width: 100%;
    :     ^^^^^
  5 |     width: 100.5%;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/percentage/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:4:1]
  3 |     width: 0.1%;
  4 |     width: 100%;
    :     ^^^^^
  5 |     width: 100.5%;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/percentage/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:4:1]
  3 |     width: 0.1%;
  4 |     width: 100%;
    :            ^^^^
  5 |     width: 100.5%;
    `----
-
   x Percentage
-   ,-[$DIR/tests/fixture/value/percentage/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:4:1]
  3 |     width: 0.1%;
  4 |     width: 100%;
    :            ^^^^
  5 |     width: 100.5%;
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/value/percentage/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:4:1]
  3 |     width: 0.1%;
  4 |     width: 100%;
    :            ^^^
  5 |     width: 100.5%;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/percentage/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:5:1]
  4 |     width: 100%;
  5 |     width: 100.5%;
    :     ^^^^^^^^^^^^^
  6 |     width: 100.1000%;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/percentage/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:5:1]
  4 |     width: 100%;
  5 |     width: 100.5%;
    :     ^^^^^^^^^^^^^
  6 |     width: 100.1000%;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/percentage/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:5:1]
  4 |     width: 100%;
  5 |     width: 100.5%;
    :     ^^^^^
  6 |     width: 100.1000%;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/percentage/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:5:1]
  4 |     width: 100%;
  5 |     width: 100.5%;
    :     ^^^^^
  6 |     width: 100.1000%;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/percentage/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:5:1]
  4 |     width: 100%;
  5 |     width: 100.5%;
    :            ^^^^^^
  6 |     width: 100.1000%;
    `----
-
   x Percentage
-   ,-[$DIR/tests/fixture/value/percentage/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:5:1]
  4 |     width: 100%;
  5 |     width: 100.5%;
    :            ^^^^^^
  6 |     width: 100.1000%;
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/value/percentage/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:5:1]
  4 |     width: 100%;
  5 |     width: 100.5%;
    :            ^^^^^
  6 |     width: 100.1000%;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/percentage/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:6:1]
  5 |     width: 100.5%;
  6 |     width: 100.1000%;
    :     ^^^^^^^^^^^^^^^^
  7 |     width: 1e0%;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/percentage/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:6:1]
  5 |     width: 100.5%;
  6 |     width: 100.1000%;
    :     ^^^^^^^^^^^^^^^^
  7 |     width: 1e0%;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/percentage/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:6:1]
  5 |     width: 100.5%;
  6 |     width: 100.1000%;
    :     ^^^^^
  7 |     width: 1e0%;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/percentage/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:6:1]
  5 |     width: 100.5%;
  6 |     width: 100.1000%;
    :     ^^^^^
  7 |     width: 1e0%;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/percentage/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:6:1]
  5 |     width: 100.5%;
  6 |     width: 100.1000%;
    :            ^^^^^^^^^
  7 |     width: 1e0%;
    `----
-
   x Percentage
-   ,-[$DIR/tests/fixture/value/percentage/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:6:1]
  5 |     width: 100.5%;
  6 |     width: 100.1000%;
    :            ^^^^^^^^^
  7 |     width: 1e0%;
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/value/percentage/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:6:1]
  5 |     width: 100.5%;
  6 |     width: 100.1000%;
    :            ^^^^^^^^
  7 |     width: 1e0%;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/percentage/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:7:1]
  6 |     width: 100.1000%;
  7 |     width: 1e0%;
    :     ^^^^^^^^^^^
  8 |     width: 1e1%;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/percentage/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:7:1]
  6 |     width: 100.1000%;
  7 |     width: 1e0%;
    :     ^^^^^^^^^^^
  8 |     width: 1e1%;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/percentage/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:7:1]
  6 |     width: 100.1000%;
  7 |     width: 1e0%;
    :     ^^^^^
  8 |     width: 1e1%;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/percentage/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:7:1]
  6 |     width: 100.1000%;
  7 |     width: 1e0%;
    :     ^^^^^
  8 |     width: 1e1%;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/percentage/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:7:1]
  6 |     width: 100.1000%;
  7 |     width: 1e0%;
    :            ^^^^
  8 |     width: 1e1%;
    `----
-
   x Percentage
-   ,-[$DIR/tests/fixture/value/percentage/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:7:1]
  6 |     width: 100.1000%;
  7 |     width: 1e0%;
    :            ^^^^
  8 |     width: 1e1%;
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/value/percentage/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:7:1]
  6 |     width: 100.1000%;
  7 |     width: 1e0%;
    :            ^^^
  8 |     width: 1e1%;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/percentage/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:8:1]
  7 |     width: 1e0%;
  8 |     width: 1e1%;
    :     ^^^^^^^^^^^
  9 |     width: 1e2%;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/percentage/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:8:1]
  7 |     width: 1e0%;
  8 |     width: 1e1%;
    :     ^^^^^^^^^^^
  9 |     width: 1e2%;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/percentage/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:8:1]
  7 |     width: 1e0%;
  8 |     width: 1e1%;
    :     ^^^^^
  9 |     width: 1e2%;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/percentage/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:8:1]
  7 |     width: 1e0%;
  8 |     width: 1e1%;
    :     ^^^^^
  9 |     width: 1e2%;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/percentage/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:8:1]
  7 |     width: 1e0%;
  8 |     width: 1e1%;
    :            ^^^^
  9 |     width: 1e2%;
    `----
-
   x Percentage
-   ,-[$DIR/tests/fixture/value/percentage/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:8:1]
  7 |     width: 1e0%;
  8 |     width: 1e1%;
    :            ^^^^
  9 |     width: 1e2%;
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/value/percentage/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/percentage/input.css:8:1]
  7 |     width: 1e0%;
  8 |     width: 1e1%;
    :            ^^^
  9 |     width: 1e2%;
    `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/percentage/input.css:8:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:9:1]
   8 |     width: 1e1%;
   9 |     width: 1e2%;
     :     ^^^^^^^^^^^
  10 |     width: 10e-1%;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/percentage/input.css:8:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:9:1]
   8 |     width: 1e1%;
   9 |     width: 1e2%;
     :     ^^^^^^^^^^^
  10 |     width: 10e-1%;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/percentage/input.css:8:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:9:1]
   8 |     width: 1e1%;
   9 |     width: 1e2%;
     :     ^^^^^
  10 |     width: 10e-1%;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/percentage/input.css:8:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:9:1]
   8 |     width: 1e1%;
   9 |     width: 1e2%;
     :     ^^^^^
  10 |     width: 10e-1%;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/percentage/input.css:8:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:9:1]
   8 |     width: 1e1%;
   9 |     width: 1e2%;
     :            ^^^^
  10 |     width: 10e-1%;
     `----
-
   x Percentage
-    ,-[$DIR/tests/fixture/value/percentage/input.css:8:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:9:1]
   8 |     width: 1e1%;
   9 |     width: 1e2%;
     :            ^^^^
  10 |     width: 10e-1%;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/value/percentage/input.css:8:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:9:1]
   8 |     width: 1e1%;
   9 |     width: 1e2%;
     :            ^^^
  10 |     width: 10e-1%;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/percentage/input.css:9:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:10:1]
   9 |     width: 1e2%;
  10 |     width: 10e-1%;
     :     ^^^^^^^^^^^^^
  11 |     width: 10e-5%;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/percentage/input.css:9:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:10:1]
   9 |     width: 1e2%;
  10 |     width: 10e-1%;
     :     ^^^^^^^^^^^^^
  11 |     width: 10e-5%;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/percentage/input.css:9:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:10:1]
   9 |     width: 1e2%;
  10 |     width: 10e-1%;
     :     ^^^^^
  11 |     width: 10e-5%;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/percentage/input.css:9:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:10:1]
   9 |     width: 1e2%;
  10 |     width: 10e-1%;
     :     ^^^^^
  11 |     width: 10e-5%;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/percentage/input.css:9:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:10:1]
   9 |     width: 1e2%;
  10 |     width: 10e-1%;
     :            ^^^^^^
  11 |     width: 10e-5%;
     `----
-
   x Percentage
-    ,-[$DIR/tests/fixture/value/percentage/input.css:9:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:10:1]
   9 |     width: 1e2%;
  10 |     width: 10e-1%;
     :            ^^^^^^
  11 |     width: 10e-5%;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/value/percentage/input.css:9:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:10:1]
   9 |     width: 1e2%;
  10 |     width: 10e-1%;
     :            ^^^^^
  11 |     width: 10e-5%;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/percentage/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:11:1]
  10 |     width: 10e-1%;
  11 |     width: 10e-5%;
     :     ^^^^^^^^^^^^^
  12 |     width: 10e+2%;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/percentage/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:11:1]
  10 |     width: 10e-1%;
  11 |     width: 10e-5%;
     :     ^^^^^^^^^^^^^
  12 |     width: 10e+2%;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/percentage/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:11:1]
  10 |     width: 10e-1%;
  11 |     width: 10e-5%;
     :     ^^^^^
  12 |     width: 10e+2%;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/percentage/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:11:1]
  10 |     width: 10e-1%;
  11 |     width: 10e-5%;
     :     ^^^^^
  12 |     width: 10e+2%;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/percentage/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:11:1]
  10 |     width: 10e-1%;
  11 |     width: 10e-5%;
     :            ^^^^^^
  12 |     width: 10e+2%;
     `----
-
   x Percentage
-    ,-[$DIR/tests/fixture/value/percentage/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:11:1]
  10 |     width: 10e-1%;
  11 |     width: 10e-5%;
     :            ^^^^^^
  12 |     width: 10e+2%;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/value/percentage/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:11:1]
  10 |     width: 10e-1%;
  11 |     width: 10e-5%;
     :            ^^^^^
  12 |     width: 10e+2%;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/percentage/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:12:1]
  11 |     width: 10e-5%;
  12 |     width: 10e+2%;
     :     ^^^^^^^^^^^^^
  13 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/percentage/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:12:1]
  11 |     width: 10e-5%;
  12 |     width: 10e+2%;
     :     ^^^^^^^^^^^^^
  13 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/percentage/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:12:1]
  11 |     width: 10e-5%;
  12 |     width: 10e+2%;
     :     ^^^^^
  13 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/percentage/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:12:1]
  11 |     width: 10e-5%;
  12 |     width: 10e+2%;
     :     ^^^^^
  13 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/percentage/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:12:1]
  11 |     width: 10e-5%;
  12 |     width: 10e+2%;
     :            ^^^^^^
  13 | }
     `----
-
   x Percentage
-    ,-[$DIR/tests/fixture/value/percentage/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:12:1]
  11 |     width: 10e-5%;
  12 |     width: 10e+2%;
     :            ^^^^^^
  13 | }
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/value/percentage/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:12:1]
  11 |     width: 10e-5%;
  12 |     width: 10e+2%;
     :            ^^^^^
  13 | }
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/value/percentage/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:15:1]
  14 |     
  15 | ,-> div {
  16 | |       margin: -5%;
  17 | |       margin: -5.5%;
  18 | `-> }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/value/percentage/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:15:1]
  14 |     
  15 | ,-> div {
  16 | |       margin: -5%;
  17 | |       margin: -5.5%;
  18 | `-> }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/value/percentage/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:15:1]
  14 | 
  15 | div {
     : ^^^
  16 |     margin: -5%;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/value/percentage/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:15:1]
  14 | 
  15 | div {
     : ^^^
  16 |     margin: -5%;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/value/percentage/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:15:1]
  14 | 
  15 | div {
     : ^^^
  16 |     margin: -5%;
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/value/percentage/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:15:1]
  14 | 
  15 | div {
     : ^^^
  16 |     margin: -5%;
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/value/percentage/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:15:1]
  14 | 
  15 | div {
     : ^^^
  16 |     margin: -5%;
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/value/percentage/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:15:1]
  14 | 
  15 | div {
     : ^^^
  16 |     margin: -5%;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/percentage/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:15:1]
  14 | 
  15 | div {
     : ^^^
  16 |     margin: -5%;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/percentage/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:15:1]
  14 |     
  15 | ,-> div {
  16 | |       margin: -5%;
  17 | |       margin: -5.5%;
  18 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/percentage/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:15:1]
  14 | 
  15 | div {
     :     ^
  16 |     margin: -5%;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/percentage/input.css:15:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:16:1]
  15 | div {
  16 |     margin: -5%;
     :     ^^^^^^^^^^^
  17 |     margin: -5.5%;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/percentage/input.css:15:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:16:1]
  15 | div {
  16 |     margin: -5%;
     :     ^^^^^^^^^^^
  17 |     margin: -5.5%;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/percentage/input.css:15:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:16:1]
  15 | div {
  16 |     margin: -5%;
     :     ^^^^^^
  17 |     margin: -5.5%;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/percentage/input.css:15:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:16:1]
  15 | div {
  16 |     margin: -5%;
     :     ^^^^^^
  17 |     margin: -5.5%;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/percentage/input.css:15:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:16:1]
  15 | div {
  16 |     margin: -5%;
     :             ^^^
  17 |     margin: -5.5%;
     `----
-
   x Percentage
-    ,-[$DIR/tests/fixture/value/percentage/input.css:15:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:16:1]
  15 | div {
  16 |     margin: -5%;
     :             ^^^
  17 |     margin: -5.5%;
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/value/percentage/input.css:15:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:16:1]
  15 | div {
  16 |     margin: -5%;
     :             ^^
  17 |     margin: -5.5%;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/percentage/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:17:1]
  16 |     margin: -5%;
  17 |     margin: -5.5%;
     :     ^^^^^^^^^^^^^
  18 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/percentage/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:17:1]
  16 |     margin: -5%;
  17 |     margin: -5.5%;
     :     ^^^^^^^^^^^^^
  18 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/percentage/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:17:1]
  16 |     margin: -5%;
  17 |     margin: -5.5%;
     :     ^^^^^^
  18 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/percentage/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:17:1]
  16 |     margin: -5%;
  17 |     margin: -5.5%;
     :     ^^^^^^
  18 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/percentage/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:17:1]
  16 |     margin: -5%;
  17 |     margin: -5.5%;
     :             ^^^^^
  18 | }
     `----
-
   x Percentage
-    ,-[$DIR/tests/fixture/value/percentage/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:17:1]
  16 |     margin: -5%;
  17 |     margin: -5.5%;
     :             ^^^^^
  18 | }
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/value/percentage/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/percentage/input.css:17:1]
  16 |     margin: -5%;
  17 |     margin: -5.5%;
     :             ^^^^

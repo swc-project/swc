@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.12.html:1:1]
  1 | <p>Test</p<p>Test2</p>
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.12.html:1:1]
  1 | <p>Test</p<p>Test2</p>
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.12.html:1:1]
  1 | <p>Test</p<p>Test2</p>
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.12.html:1:1]
  1 | <p>Test</p<p>Test2</p>
    :    ^^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.12.html:1:1]
  1 | <p>Test</p<p>Test2</p>

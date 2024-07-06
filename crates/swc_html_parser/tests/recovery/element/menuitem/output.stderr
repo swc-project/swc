@@ -1,4 +1,3 @@
-
   x End tag "li" implied, but there were open elements
    ,-[$DIR/tests/recovery/element/menuitem/input.html:1:1]
  1 | <!DOCTYPE html><li><menuitem><li>

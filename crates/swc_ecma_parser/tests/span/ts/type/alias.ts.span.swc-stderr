@@ -1,58 +1,48 @@
-
   x Module
    ,-[$DIR/tests/span/ts/type/alias.ts:1:1]
  1 | type Test = "test"    ;
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/ts/type/alias.ts:1:1]
  1 | type Test = "test"    ;
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/ts/type/alias.ts:1:1]
  1 | type Test = "test"    ;
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Decl
    ,-[$DIR/tests/span/ts/type/alias.ts:1:1]
  1 | type Test = "test"    ;
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x TsTypeAliasDecl
    ,-[$DIR/tests/span/ts/type/alias.ts:1:1]
  1 | type Test = "test"    ;
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/type/alias.ts:1:1]
  1 | type Test = "test"    ;
    :      ^^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/alias.ts:1:1]
  1 | type Test = "test"    ;
    :             ^^^^^^
    `----
-
   x TsLitType
    ,-[$DIR/tests/span/ts/type/alias.ts:1:1]
  1 | type Test = "test"    ;
    :             ^^^^^^
    `----
-
   x TsLit
    ,-[$DIR/tests/span/ts/type/alias.ts:1:1]
  1 | type Test = "test"    ;
    :             ^^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/span/ts/type/alias.ts:1:1]
  1 | type Test = "test"    ;

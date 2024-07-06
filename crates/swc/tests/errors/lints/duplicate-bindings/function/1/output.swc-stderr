@@ -1,6 +1,5 @@
-
   x the name `fx` is defined multiple times
-   ,-[1:1]
+   ,-[2:1]
  1 | try {
  2 |     var fx
    :         ^|

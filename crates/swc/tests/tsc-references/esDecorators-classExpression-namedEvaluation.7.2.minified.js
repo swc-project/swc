@@ -1,7 +1,6 @@
 //// [esDecorators-classExpression-namedEvaluation.7.ts]
-//! 
 //!   x Expression expected
-//!    ,-[3:1]
+//!    ,-[6:1]
 //!  3 | // 13.15.5.6 RS: KeyedDestructuringAssignmentEvaluation
 //!  4 | //   AssignmentElement : DestructuringAssignmentTarget Initializer?
 //!  5 | 

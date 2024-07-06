@@ -13,9 +13,6 @@ env:
   SKIP_YARN_COREPACK_CHECK: 1
 
 on:
-  push:
-    branches:
-      - publish*
   workflow_dispatch:
     inputs:
       version:
@@ -40,7 +37,7 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}
-  cancel-in-progress: ${{ github.event_name != 'workflow_dispatch'}}
+  cancel-in-progress: true
 
 jobs:
   publish-cargo:
@@ -104,18 +101,18 @@ jobs:
           npx ts-node .github/bot/src/nightly-version.ts ${{ github.event.inputs.version }} >> $GITHUB_OUTPUT
 
   publish-npm-nightly:
-    name: "Publish ${{ needs.determine-nightly-version.outputs.version }} to npm"
+    name: "Publish ${{ needs.determine-nightly-version.outputs.version }}"
     needs:
       - publish-cargo
       - determine-nightly-version
     uses: ./.github/workflows/publish-npm-package.yml
+    secrets: inherit
     with:
       package: "core"
       version: ${{ needs.determine-nightly-version.outputs.version }}
       buildCli: true
-      skipBuild: ${{ github.event.inputs.skipBuild || github.event_name != 'workflow_dispatch' }}
-      # Skip on pull requests
-      skipPublishing: ${{ github.event_name != 'workflow_dispatch' }}
+      skipBuild: ${{ inputs.skipBuild || false }}
+      skipPublishing: false
 
   run-ecosystem-ci-with-nightly:
     name: "Test nightly using ecosystem CI"
@@ -135,10 +132,11 @@ jobs:
       - run-ecosystem-ci-with-nightly
 
     uses: ./.github/workflows/publish-npm-package.yml
+    secrets: inherit
     with:
       package: "core"
-      version: ${{ github.event.inputs.version }}
+      version: ${{ inputs.version }}
       buildCli: true
-      skipBuild: ${{ github.event.inputs.skipBuild || github.event.inputs.onlyNightly || github.event_name != 'workflow_dispatch' }}
+      skipBuild: ${{ inputs.skipBuild || inputs.onlyNightly || false }}
       # Skip on pull requests
-      skipPublishing: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.onlyNightly }}
+      skipPublishing: ${{ inputs.onlyNightly }}

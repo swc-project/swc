@@ -1,4 +1,3 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:1:1]
  1 | ,-> <!doctype html>
@@ -7,99 +6,87 @@
  4 | |   <body>INIT</body>
  5 | `-> </html>
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html>
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:2:1]
  1 |     <!doctype html>
  2 | ,-> <html>
  3 | |   <head></head>
  4 | |   <body>INIT</body>
  5 | `-> </html>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:2:1]
  1 |     <!doctype html>
  2 | ,-> <html>
  3 | |   <head></head>
  4 | |   <body>INIT</body>
  5 | `-> </html>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:3:1]
  2 | <html>
  3 | <head></head>
    : ^^^^^^^^^^^^^
  4 | <body>INIT</body>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:3:1]
  2 | <html>
  3 | <head></head>
    : ^^^^^^^^^^^^^
  4 | <body>INIT</body>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:3:1]
  2 | <html>
  3 | <head></head>
    :              ^
  4 | <body>INIT</body>
  5 | </html>
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:3:1]
  2 | <html>
  3 | <head></head>
    :              ^
  4 | <body>INIT</body>
  5 | </html>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:4:1]
  3 | <head></head>
  4 | <body>INIT</body>
    : ^^^^^^^^^^^^^^^^^^
  5 | </html>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:4:1]
  3 | <head></head>
  4 | <body>INIT</body>
    : ^^^^^^^^^^^^^^^^^^
  5 | </html>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:4:1]
  3 | <head></head>
  4 | <body>INIT</body>
    :       ^^^^^^^^^^^^
  5 | </html>
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/init.0.html:4:1]
  3 | <head></head>
  4 | <body>INIT</body>
    :       ^^^^^^^^^^^^

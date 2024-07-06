@@ -1,20 +1,15 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.23.html:1:1]
  1 | <math></math>
    : ^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.23.html:1:1]
  1 | <math></math>
    : ^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.23.html:1:1]
  1 | <math></math>

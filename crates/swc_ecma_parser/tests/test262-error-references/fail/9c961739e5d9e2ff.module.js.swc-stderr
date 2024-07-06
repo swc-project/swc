@@ -1,4 +1,3 @@
-
   x Expected 'from', got 'From'
    ,-[$DIR/tests/test262-parser/fail/9c961739e5d9e2ff.module.js:1:1]
  1 | export * From "a"

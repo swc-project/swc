@@ -1,55 +1,47 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
    : ^^^^^^^
  2 | A<table><tr> B</tr> </em>C</table>
    `----
-
   x A table cell was implicitly closed, but there were open elements
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
    :                     ^^^^^^
  2 | A<table><tr> B</tr> </em>C</table>
    `----
-
   x Stray end tag "desc"
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
    :                               ^^^^^^^
  2 | A<table><tr> B</tr> </em>C</table>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:2:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
  2 | A<table><tr> B</tr> </em>C</table>
    :             ^
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:2:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
  2 | A<table><tr> B</tr> </em>C</table>
    :              ^
    `----
-
   x Stray end tag "em"
-   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:2:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
  2 | A<table><tr> B</tr> </em>C</table>
    :                     ^^^^^
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:2:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
  2 | A<table><tr> B</tr> </em>C</table>
    :                          ^
    `----
-
   x End of file seen and there were open elements
-   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:2:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
  2 | A<table><tr> B</tr> </em>C</table>
    `----

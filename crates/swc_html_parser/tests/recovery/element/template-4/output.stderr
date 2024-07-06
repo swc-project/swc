@@ -1,6 +1,5 @@
-
   x Stray end tag "div"
-   ,-[$DIR/tests/recovery/element/template-4/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/template-4/input.html:8:1]
  7 | <template>
  8 |     </div>
    :     ^^^^^^

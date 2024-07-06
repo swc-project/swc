@@ -1,6 +1,5 @@
-
   x Unexpected character, only whitespace character allowed
-   ,-[$DIR/tests/recovery/non-whitespace-after/input.xml:6:1]
+   ,-[$DIR/tests/recovery/non-whitespace-after/input.xml:7:1]
  6 |     <body>Don't forget me this weekend!</body>
  7 | </note>a
    :        ^

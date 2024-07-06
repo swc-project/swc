@@ -1,22 +1,17 @@
-
   x Document
    ,-[$DIR/tests/recovery/element/html-3/input.html:1:1]
  1 | <html/>
    : ^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/html-3/input.html:1:1]
  1 | <html/>
    : ^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/html-3/input.html:1:1]
  1 | <html/>
    : ^^^^^^^
    `----
-
   x Child
-
   x Element

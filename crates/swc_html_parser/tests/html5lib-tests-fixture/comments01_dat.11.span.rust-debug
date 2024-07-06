@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.11.html:1:1]
  1 | <?xml version="1.0">Hi
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.11.html:1:1]
  1 | <?xml version="1.0">Hi
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Comment
    ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.11.html:1:1]
  1 | <?xml version="1.0">Hi
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.11.html:1:1]
  1 | <?xml version="1.0">Hi
    :                     ^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.11.html:1:1]
  1 | <?xml version="1.0">Hi

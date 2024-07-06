@@ -1,6 +1,5 @@
-
   x Invalid radix parameter, must be an integer between 2 and 36
-    ,-[11:1]
+    ,-[14:1]
  11 | Number['parseInt']("12");
  12 | 
  13 | // invalid radix param
@@ -10,9 +9,8 @@
  16 | // invalid radix param
  17 | parseInt("12", 37);
     `----
-
   x Invalid radix parameter, must be an integer between 2 and 36
-    ,-[14:1]
+    ,-[17:1]
  14 | parseInt("12", 1);
  15 | 
  16 | // invalid radix param
@@ -22,9 +20,8 @@
  19 | // Missing params
  20 | parseInt();
     `----
-
   x Missing parameters
-    ,-[17:1]
+    ,-[20:1]
  17 | parseInt("12", 37);
  18 | 
  19 | // Missing params
@@ -34,9 +31,8 @@
  22 | // redundant radix
  23 | parseInt("12", 10);
     `----
-
   x Redundant radix parameter
-    ,-[20:1]
+    ,-[23:1]
  20 | parseInt();
  21 | 
  22 | // redundant radix

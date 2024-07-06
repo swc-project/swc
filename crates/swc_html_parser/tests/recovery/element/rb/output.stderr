@@ -1,10 +1,8 @@
-
   x Unclosed children in "ruby"
    ,-[$DIR/tests/recovery/element/rb/input.html:1:1]
  1 | <!doctype html><ruby><div><p><rb>
    :                              ^^^^
    `----
-
   x End of file seen and there were open elements
    ,-[$DIR/tests/recovery/element/rb/input.html:1:1]
  1 | <!doctype html><ruby><div><p><rb>

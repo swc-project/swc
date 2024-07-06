@@ -1,10 +1,8 @@
-
   x Unexpected end of file, but expected '}'
    ,-[$DIR/tests/recovery/value/url/eof/input.css:1:1]
  1 | a { prop: url(foo.png
    :   ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Unterminated url
    ,-[$DIR/tests/recovery/value/url/eof/input.css:1:1]
  1 | a { prop: url(foo.png

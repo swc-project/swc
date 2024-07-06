@@ -1,38 +1,38 @@
 {
-    "name": "@swc/minifier-linux-arm-gnueabihf",
-    "version": "1.6.8-nightly-20240704.3",
-    "os": [
-        "linux"
-    ],
-    "cpu": [
-        "arm"
-    ],
-    "main": "minifier.linux-arm-gnueabihf.node",
-    "files": [
-        "minifier.linux-arm-gnueabihf.node",
-        "swc"
-    ],
-    "description": "Super-fast alternative for terser",
-    "keywords": [
-        "swc",
-        "terser",
-        "minifier"
-    ],
-    "author": "강동윤 <kdy1997.dev@gmail.com>",
-    "homepage": "https://swc.rs",
-    "license": "Apache-2.0",
-    "engines": {
-        "node": ">=12"
-    },
-    "publishConfig": {
-        "registry": "https://registry.npmjs.org/",
-        "access": "public"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/swc-project/swc.git"
-    },
-    "bugs": {
-        "url": "https://github.com/swc-project/swc/issues"
-    }
+  "name": "@swc/minifier-linux-arm-gnueabihf",
+  "version": "1.6.9-nightly-20240706.6",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm"
+  ],
+  "main": "minifier.linux-arm-gnueabihf.node",
+  "files": [
+    "minifier.linux-arm-gnueabihf.node",
+    "swc"
+  ],
+  "description": "Super-fast alternative for terser",
+  "keywords": [
+    "swc",
+    "terser",
+    "minifier"
+  ],
+  "author": "강동윤 <kdy1997.dev@gmail.com>",
+  "homepage": "https://swc.rs",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=12"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swc-project/swc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/swc-project/swc/issues"
+  }
 }

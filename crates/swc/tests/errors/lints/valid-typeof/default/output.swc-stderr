@@ -1,4 +1,3 @@
-
   x Invalid typeof comparison value
    ,-[1:1]
  1 | typeof foo === "strnig";
@@ -7,9 +6,8 @@
  3 | typeof bar != "nunber";
  4 | typeof bar !== "fucntion";
    `----
-
   x Invalid typeof comparison value
-   ,-[1:1]
+   ,-[2:1]
  1 | typeof foo === "strnig";
  2 | typeof foo == "undefimed";
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -17,9 +15,8 @@
  4 | typeof bar !== "fucntion";
  5 | typeof bar !== foo();
    `----
-
   x Invalid typeof comparison value
-   ,-[1:1]
+   ,-[3:1]
  1 | typeof foo === "strnig";
  2 | typeof foo == "undefimed";
  3 | typeof bar != "nunber";
@@ -28,9 +25,8 @@
  5 | typeof bar !== foo();
  6 | typeof foo > "strnig";
    `----
-
   x Invalid typeof comparison value
-   ,-[1:1]
+   ,-[4:1]
  1 | typeof foo === "strnig";
  2 | typeof foo == "undefimed";
  3 | typeof bar != "nunber";
@@ -40,9 +36,8 @@
  6 | typeof foo > "strnig";
  7 | typeof bar !== "function";
    `----
-
   x Invalid typeof comparison value
-   ,-[2:1]
+   ,-[5:1]
  2 | typeof foo == "undefimed";
  3 | typeof bar != "nunber";
  4 | typeof bar !== "fucntion";

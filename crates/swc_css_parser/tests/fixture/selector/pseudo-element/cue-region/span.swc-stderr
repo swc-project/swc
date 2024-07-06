@@ -1,389 +1,336 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
  1 | ,-> video::cue-region {}
  2 | |   video::cue-region(#scroll) {}
  3 | `-> video::cue-region(   #scroll   ) {}
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
  1 | video::cue-region {}
    : ^^^^^^^^^^^^^^^^^^^^
  2 | video::cue-region(#scroll) {}
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
  1 | video::cue-region {}
    : ^^^^^^^^^^^^^^^^^^^^
  2 | video::cue-region(#scroll) {}
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
  1 | video::cue-region {}
    : ^^^^^^^^^^^^^^^^^
  2 | video::cue-region(#scroll) {}
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
  1 | video::cue-region {}
    : ^^^^^^^^^^^^^^^^^
  2 | video::cue-region(#scroll) {}
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
  1 | video::cue-region {}
    : ^^^^^^^^^^^^^^^^^
  2 | video::cue-region(#scroll) {}
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
  1 | video::cue-region {}
    : ^^^^^
  2 | video::cue-region(#scroll) {}
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
  1 | video::cue-region {}
    : ^^^^^
  2 | video::cue-region(#scroll) {}
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
  1 | video::cue-region {}
    : ^^^^^
  2 | video::cue-region(#scroll) {}
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
  1 | video::cue-region {}
    : ^^^^^
  2 | video::cue-region(#scroll) {}
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
  1 | video::cue-region {}
    :      ^^^^^^^^^^^^
  2 | video::cue-region(#scroll) {}
    `----
-
   x PseudoElementSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
  1 | video::cue-region {}
    :      ^^^^^^^^^^^^
  2 | video::cue-region(#scroll) {}
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
  1 | video::cue-region {}
    :        ^^^^^^^^^^
  2 | video::cue-region(#scroll) {}
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
  1 | video::cue-region {}
    :                   ^^
  2 | video::cue-region(#scroll) {}
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
  1 | video::cue-region {}
    :                   ^
  2 | video::cue-region(#scroll) {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
  1 | video::cue-region {}
  2 | video::cue-region(#scroll) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | video::cue-region(   #scroll   ) {}
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
  1 | video::cue-region {}
  2 | video::cue-region(#scroll) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | video::cue-region(   #scroll   ) {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
  1 | video::cue-region {}
  2 | video::cue-region(#scroll) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | video::cue-region(   #scroll   ) {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
  1 | video::cue-region {}
  2 | video::cue-region(#scroll) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | video::cue-region(   #scroll   ) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
  1 | video::cue-region {}
  2 | video::cue-region(#scroll) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | video::cue-region(   #scroll   ) {}
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
  1 | video::cue-region {}
  2 | video::cue-region(#scroll) {}
    : ^^^^^
  3 | video::cue-region(   #scroll   ) {}
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
  1 | video::cue-region {}
  2 | video::cue-region(#scroll) {}
    : ^^^^^
  3 | video::cue-region(   #scroll   ) {}
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
  1 | video::cue-region {}
  2 | video::cue-region(#scroll) {}
    : ^^^^^
  3 | video::cue-region(   #scroll   ) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
  1 | video::cue-region {}
  2 | video::cue-region(#scroll) {}
    : ^^^^^
  3 | video::cue-region(   #scroll   ) {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
  1 | video::cue-region {}
  2 | video::cue-region(#scroll) {}
    :      ^^^^^^^^^^^^^^^^^^^^^
  3 | video::cue-region(   #scroll   ) {}
    `----
-
   x PseudoElementSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
  1 | video::cue-region {}
  2 | video::cue-region(#scroll) {}
    :      ^^^^^^^^^^^^^^^^^^^^^
  3 | video::cue-region(   #scroll   ) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
  1 | video::cue-region {}
  2 | video::cue-region(#scroll) {}
    :        ^^^^^^^^^^
  3 | video::cue-region(   #scroll   ) {}
    `----
-
   x PseudoElementSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
  1 | video::cue-region {}
  2 | video::cue-region(#scroll) {}
    :                   ^^^^^^^
  3 | video::cue-region(   #scroll   ) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
  1 | video::cue-region {}
  2 | video::cue-region(#scroll) {}
    :                   ^^^^^^^
  3 | video::cue-region(   #scroll   ) {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
  1 | video::cue-region {}
  2 | video::cue-region(#scroll) {}
    :                   ^^^^^^^
  3 | video::cue-region(   #scroll   ) {}
    `----
-
   x IdSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
  1 | video::cue-region {}
  2 | video::cue-region(#scroll) {}
    :                   ^^^^^^^
  3 | video::cue-region(   #scroll   ) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
  1 | video::cue-region {}
  2 | video::cue-region(#scroll) {}
    :                   ^^^^^^^
  3 | video::cue-region(   #scroll   ) {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
  1 | video::cue-region {}
  2 | video::cue-region(#scroll) {}
    :                            ^^
  3 | video::cue-region(   #scroll   ) {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
  1 | video::cue-region {}
  2 | video::cue-region(#scroll) {}
    :                            ^
  3 | video::cue-region(   #scroll   ) {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:3:1]
  2 | video::cue-region(#scroll) {}
  3 | video::cue-region(   #scroll   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:3:1]
  2 | video::cue-region(#scroll) {}
  3 | video::cue-region(   #scroll   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:3:1]
  2 | video::cue-region(#scroll) {}
  3 | video::cue-region(   #scroll   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:3:1]
  2 | video::cue-region(#scroll) {}
  3 | video::cue-region(   #scroll   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:3:1]
  2 | video::cue-region(#scroll) {}
  3 | video::cue-region(   #scroll   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:3:1]
  2 | video::cue-region(#scroll) {}
  3 | video::cue-region(   #scroll   ) {}
    : ^^^^^
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:3:1]
  2 | video::cue-region(#scroll) {}
  3 | video::cue-region(   #scroll   ) {}
    : ^^^^^
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:3:1]
  2 | video::cue-region(#scroll) {}
  3 | video::cue-region(   #scroll   ) {}
    : ^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:3:1]
  2 | video::cue-region(#scroll) {}
  3 | video::cue-region(   #scroll   ) {}
    : ^^^^^
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:3:1]
  2 | video::cue-region(#scroll) {}
  3 | video::cue-region(   #scroll   ) {}
    :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x PseudoElementSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:3:1]
  2 | video::cue-region(#scroll) {}
  3 | video::cue-region(   #scroll   ) {}
    :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:3:1]
  2 | video::cue-region(#scroll) {}
  3 | video::cue-region(   #scroll   ) {}
    :        ^^^^^^^^^^
    `----
-
   x PseudoElementSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:3:1]
  2 | video::cue-region(#scroll) {}
  3 | video::cue-region(   #scroll   ) {}
    :                      ^^^^^^^
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:3:1]
  2 | video::cue-region(#scroll) {}
  3 | video::cue-region(   #scroll   ) {}
    :                      ^^^^^^^
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:3:1]
  2 | video::cue-region(#scroll) {}
  3 | video::cue-region(   #scroll   ) {}
    :                      ^^^^^^^
    `----
-
   x IdSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:3:1]
  2 | video::cue-region(#scroll) {}
  3 | video::cue-region(   #scroll   ) {}
    :                      ^^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:3:1]
  2 | video::cue-region(#scroll) {}
  3 | video::cue-region(   #scroll   ) {}
    :                      ^^^^^^^
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:3:1]
  2 | video::cue-region(#scroll) {}
  3 | video::cue-region(   #scroll   ) {}
    :                                  ^^
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:3:1]
  2 | video::cue-region(#scroll) {}
  3 | video::cue-region(   #scroll   ) {}
    :                                  ^

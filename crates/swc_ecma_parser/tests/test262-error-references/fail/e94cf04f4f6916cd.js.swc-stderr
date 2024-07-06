@@ -1,4 +1,3 @@
-
   x 'import', and 'export' cannot be used outside of module code
    ,-[$DIR/tests/test262-parser/fail/e94cf04f4f6916cd.js:1:1]
  1 | export { if as foo }

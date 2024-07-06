@@ -1,6 +1,5 @@
-
   x Typescript parameter property must be an identifier or assignment pattern
-   ,-[$DIR/tests/typescript-errors/class/parameter-properties-binding-patterns/input.ts:1:1]
+   ,-[$DIR/tests/typescript-errors/class/parameter-properties-binding-patterns/input.ts:2:1]
  1 | class C {
  2 |     constructor(public []) {}
    :                        ^^

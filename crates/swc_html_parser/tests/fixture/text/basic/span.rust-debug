@@ -1,4 +1,3 @@
-
   x Document
     ,-[$DIR/tests/fixture/text/basic/input.html:1:1]
   1 | ,-> <!doctype html>
@@ -24,149 +23,130 @@
  21 | |   &#x2014;
  22 | `-> &ThickSpace;
     `----
-
   x Child
    ,-[$DIR/tests/fixture/text/basic/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | Text
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/text/basic/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | Text
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/fixture/text/basic/input.html:1:1]
+   ,-[$DIR/tests/fixture/text/basic/input.html:2:1]
  1 | <!doctype html>
  2 | Text
    : ^^^^^
  3 | <div>Text</div>
  4 | <div>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/text/basic/input.html:1:1]
+   ,-[$DIR/tests/fixture/text/basic/input.html:2:1]
  1 | <!doctype html>
  2 | Text
    : ^^^^^
  3 | <div>Text</div>
  4 | <div>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/text/basic/input.html:2:1]
+   ,-[$DIR/tests/fixture/text/basic/input.html:3:1]
  2 | Text
  3 | <div>Text</div>
    : ^^^^^^^^^^^^^^^
  4 | <div>
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/text/basic/input.html:2:1]
+   ,-[$DIR/tests/fixture/text/basic/input.html:3:1]
  2 | Text
  3 | <div>Text</div>
    : ^^^^^^^^^^^^^^^
  4 | <div>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/text/basic/input.html:2:1]
+   ,-[$DIR/tests/fixture/text/basic/input.html:3:1]
  2 | Text
  3 | <div>Text</div>
    :      ^^^^
  4 | <div>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/text/basic/input.html:2:1]
+   ,-[$DIR/tests/fixture/text/basic/input.html:3:1]
  2 | Text
  3 | <div>Text</div>
    :      ^^^^
  4 | <div>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/text/basic/input.html:2:1]
+   ,-[$DIR/tests/fixture/text/basic/input.html:3:1]
  2 | Text
  3 | <div>Text</div>
    :                ^
  4 | <div>
  5 |     Text
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/text/basic/input.html:2:1]
+   ,-[$DIR/tests/fixture/text/basic/input.html:3:1]
  2 | Text
  3 | <div>Text</div>
    :                ^
  4 | <div>
  5 |     Text
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/text/basic/input.html:3:1]
+   ,-[$DIR/tests/fixture/text/basic/input.html:4:1]
  3 |     <div>Text</div>
  4 | ,-> <div>
  5 | |       Text
  6 | `-> </div>
  7 |     <div>
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/text/basic/input.html:3:1]
+   ,-[$DIR/tests/fixture/text/basic/input.html:4:1]
  3 |     <div>Text</div>
  4 | ,-> <div>
  5 | |       Text
  6 | `-> </div>
  7 |     <div>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/text/basic/input.html:3:1]
+   ,-[$DIR/tests/fixture/text/basic/input.html:4:1]
  3 |     <div>Text</div>
  4 | ,-> <div>
  5 | `->     Text
  6 |     </div>
  7 |     <div>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/text/basic/input.html:3:1]
+   ,-[$DIR/tests/fixture/text/basic/input.html:4:1]
  3 |     <div>Text</div>
  4 | ,-> <div>
  5 | `->     Text
  6 |     </div>
  7 |     <div>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/text/basic/input.html:5:1]
+   ,-[$DIR/tests/fixture/text/basic/input.html:6:1]
  5 |     Text
  6 | </div>
    :       ^
  7 | <div>
  8 | Text
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/text/basic/input.html:5:1]
+   ,-[$DIR/tests/fixture/text/basic/input.html:6:1]
  5 |     Text
  6 | </div>
    :       ^
  7 | <div>
  8 | Text
    `----
-
   x Child
-    ,-[$DIR/tests/fixture/text/basic/input.html:6:1]
+    ,-[$DIR/tests/fixture/text/basic/input.html:7:1]
   6 |     </div>
   7 | ,-> <div>
   8 | |   Text
@@ -176,9 +156,8 @@
  12 | `-> </div>
  13 |     <div>Text
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/text/basic/input.html:6:1]
+    ,-[$DIR/tests/fixture/text/basic/input.html:7:1]
   6 |     </div>
   7 | ,-> <div>
   8 | |   Text
@@ -188,9 +167,8 @@
  12 | `-> </div>
  13 |     <div>Text
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/text/basic/input.html:6:1]
+    ,-[$DIR/tests/fixture/text/basic/input.html:7:1]
   6 |     </div>
   7 | ,-> <div>
   8 | |   Text
@@ -200,9 +178,8 @@
  12 |     </div>
  13 |     <div>Text
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/text/basic/input.html:6:1]
+    ,-[$DIR/tests/fixture/text/basic/input.html:7:1]
   6 |     </div>
   7 | ,-> <div>
   8 | |   Text
@@ -212,61 +189,54 @@
  12 |     </div>
  13 |     <div>Text
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/text/basic/input.html:11:1]
- 11 | Text
- 12 | </div>
-    :       ^
- 13 | <div>Text
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/text/basic/input.html:11:1]
- 11 | Text
- 12 | </div>
-    :       ^
- 13 | <div>Text
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/text/basic/input.html:12:1]
+ 11 | Text
+ 12 | </div>
+    :       ^
+ 13 | <div>Text
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/text/basic/input.html:12:1]
+ 11 | Text
+ 12 | </div>
+    :       ^
+ 13 | <div>Text
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/text/basic/input.html:13:1]
  12 |     </div>
  13 | ,-> <div>Text
  14 | |   
  15 | |   
  16 | `-> Text</div>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/text/basic/input.html:12:1]
+    ,-[$DIR/tests/fixture/text/basic/input.html:13:1]
  12 |     </div>
  13 | ,-> <div>Text
  14 | |   
  15 | |   
  16 | `-> Text</div>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/text/basic/input.html:12:1]
+    ,-[$DIR/tests/fixture/text/basic/input.html:13:1]
  12 |     </div>
  13 | ,-> <div>Text
  14 | |   
  15 | |   
  16 | `-> Text</div>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/text/basic/input.html:12:1]
+    ,-[$DIR/tests/fixture/text/basic/input.html:13:1]
  12 |     </div>
  13 | ,-> <div>Text
  14 | |   
  15 | |   
  16 | `-> Text</div>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/text/basic/input.html:15:1]
+    ,-[$DIR/tests/fixture/text/basic/input.html:16:1]
  15 |     
  16 | ,-> Text</div>
  17 | |   
@@ -276,9 +246,8 @@
  21 | |   &#x2014;
  22 | `-> &ThickSpace;
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/text/basic/input.html:15:1]
+    ,-[$DIR/tests/fixture/text/basic/input.html:16:1]
  15 |     
  16 | ,-> Text</div>
  17 | |   

@@ -1,68 +1,55 @@
-
   x Document
    ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
  1 | <p id=a><b><p id=b></b>TEST
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
  1 | <p id=a><b><p id=b></b>TEST
    : ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
  1 | <p id=a><b><p id=b></b>TEST
    : ^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
  1 | <p id=a><b><p id=b></b>TEST
    :    ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
  1 | <p id=a><b><p id=b></b>TEST
    :         ^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
  1 | <p id=a><b><p id=b></b>TEST
    :         ^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
  1 | <p id=a><b><p id=b></b>TEST
    :            ^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
  1 | <p id=a><b><p id=b></b>TEST
    :            ^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
  1 | <p id=a><b><p id=b></b>TEST
    :               ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
  1 | <p id=a><b><p id=b></b>TEST
    :                        ^^^^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
  1 | <p id=a><b><p id=b></b>TEST

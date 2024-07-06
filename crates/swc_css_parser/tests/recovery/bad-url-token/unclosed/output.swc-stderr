@@ -1,11 +1,9 @@
-
   x Unexpected bad url in declaration value
-   ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:2:1]
  1 |     .foo {
  2 | ,->     background: url(foo bar;
  3 | `-> }
    `----
-
   x Unexpected end of file, but expected '}'
    ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:1:1]
  1 | ,-> .foo {

@@ -1,4 +1,3 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/at-rule/property/input.css:1:1]
  1 | ,-> @property --my-color {
@@ -7,7 +6,6 @@
  4 | |       initial-value: #c0ffee;
  5 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/at-rule/property/input.css:1:1]
  1 | ,-> @property --my-color {
@@ -16,7 +14,6 @@
  4 | |       initial-value: #c0ffee;
  5 | `-> }
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/at-rule/property/input.css:1:1]
  1 | ,-> @property --my-color {
@@ -25,21 +22,18 @@
  4 | |       initial-value: #c0ffee;
  5 | `-> }
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/property/input.css:1:1]
  1 | @property --my-color {
    :  ^^^^^^^^
  2 |     syntax: '<color>';
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/at-rule/property/input.css:1:1]
  1 | @property --my-color {
    :  ^^^^^^^^
  2 |     syntax: '<color>';
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/at-rule/property/input.css:1:1]
  1 | ,-> @property --my-color {
@@ -48,160 +42,140 @@
  4 | |       initial-value: #c0ffee;
  5 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/at-rule/property/input.css:1:1]
  1 | @property --my-color {
    :                      ^
  2 |     syntax: '<color>';
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/property/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/property/input.css:2:1]
  1 | @property --my-color {
  2 |     syntax: '<color>';
    :     ^^^^^^^^^^^^^^^^^
  3 |     inherits: false;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/at-rule/property/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/property/input.css:2:1]
  1 | @property --my-color {
  2 |     syntax: '<color>';
    :     ^^^^^^^^^^^^^^^^^
  3 |     inherits: false;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/at-rule/property/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/property/input.css:2:1]
  1 | @property --my-color {
  2 |     syntax: '<color>';
    :     ^^^^^^
  3 |     inherits: false;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/property/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/property/input.css:2:1]
  1 | @property --my-color {
  2 |     syntax: '<color>';
    :     ^^^^^^
  3 |     inherits: false;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/property/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/property/input.css:2:1]
  1 | @property --my-color {
  2 |     syntax: '<color>';
    :             ^^^^^^^^^
  3 |     inherits: false;
    `----
-
   x Str
-   ,-[$DIR/tests/fixture/at-rule/property/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/property/input.css:2:1]
  1 | @property --my-color {
  2 |     syntax: '<color>';
    :             ^^^^^^^^^
  3 |     inherits: false;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/property/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/property/input.css:3:1]
  2 |     syntax: '<color>';
  3 |     inherits: false;
    :     ^^^^^^^^^^^^^^^
  4 |     initial-value: #c0ffee;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/at-rule/property/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/property/input.css:3:1]
  2 |     syntax: '<color>';
  3 |     inherits: false;
    :     ^^^^^^^^^^^^^^^
  4 |     initial-value: #c0ffee;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/at-rule/property/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/property/input.css:3:1]
  2 |     syntax: '<color>';
  3 |     inherits: false;
    :     ^^^^^^^^
  4 |     initial-value: #c0ffee;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/property/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/property/input.css:3:1]
  2 |     syntax: '<color>';
  3 |     inherits: false;
    :     ^^^^^^^^
  4 |     initial-value: #c0ffee;
    `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/property/input.css:2:1]
- 2 |     syntax: '<color>';
- 3 |     inherits: false;
-   :               ^^^^^
- 4 |     initial-value: #c0ffee;
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/at-rule/property/input.css:2:1]
- 2 |     syntax: '<color>';
- 3 |     inherits: false;
-   :               ^^^^^
- 4 |     initial-value: #c0ffee;
-   `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/property/input.css:3:1]
+ 2 |     syntax: '<color>';
+ 3 |     inherits: false;
+   :               ^^^^^
+ 4 |     initial-value: #c0ffee;
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/property/input.css:3:1]
+ 2 |     syntax: '<color>';
+ 3 |     inherits: false;
+   :               ^^^^^
+ 4 |     initial-value: #c0ffee;
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/property/input.css:4:1]
  3 |     inherits: false;
  4 |     initial-value: #c0ffee;
    :     ^^^^^^^^^^^^^^^^^^^^^^
  5 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/at-rule/property/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/property/input.css:4:1]
  3 |     inherits: false;
  4 |     initial-value: #c0ffee;
    :     ^^^^^^^^^^^^^^^^^^^^^^
  5 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/at-rule/property/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/property/input.css:4:1]
  3 |     inherits: false;
  4 |     initial-value: #c0ffee;
    :     ^^^^^^^^^^^^^
  5 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/property/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/property/input.css:4:1]
  3 |     inherits: false;
  4 |     initial-value: #c0ffee;
    :     ^^^^^^^^^^^^^
  5 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/property/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/property/input.css:4:1]
  3 |     inherits: false;
  4 |     initial-value: #c0ffee;
    :                    ^^^^^^^
  5 | }
    `----
-
   x Color
-   ,-[$DIR/tests/fixture/at-rule/property/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/property/input.css:4:1]
  3 |     inherits: false;
  4 |     initial-value: #c0ffee;
    :                    ^^^^^^^
  5 | }
    `----
-
   x HexColor
-   ,-[$DIR/tests/fixture/at-rule/property/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/property/input.css:4:1]
  3 |     inherits: false;
  4 |     initial-value: #c0ffee;
    :                    ^^^^^^^

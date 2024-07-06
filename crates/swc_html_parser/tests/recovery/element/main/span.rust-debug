@@ -1,92 +1,75 @@
-
   x Document
    ,-[$DIR/tests/recovery/element/main/input.html:1:1]
  1 | <!doctype html><p>foo<main>bar<p>baz
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/main/input.html:1:1]
  1 | <!doctype html><p>foo<main>bar<p>baz
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/recovery/element/main/input.html:1:1]
  1 | <!doctype html><p>foo<main>bar<p>baz
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/element/main/input.html:1:1]
  1 | <!doctype html><p>foo<main>bar<p>baz
    :                ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/main/input.html:1:1]
  1 | <!doctype html><p>foo<main>bar<p>baz
    :                ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/main/input.html:1:1]
  1 | <!doctype html><p>foo<main>bar<p>baz
    :                   ^^^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/element/main/input.html:1:1]
  1 | <!doctype html><p>foo<main>bar<p>baz
    :                   ^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/main/input.html:1:1]
  1 | <!doctype html><p>foo<main>bar<p>baz
    :                      ^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/main/input.html:1:1]
  1 | <!doctype html><p>foo<main>bar<p>baz
    :                      ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/main/input.html:1:1]
  1 | <!doctype html><p>foo<main>bar<p>baz
    :                            ^^^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/element/main/input.html:1:1]
  1 | <!doctype html><p>foo<main>bar<p>baz
    :                            ^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/main/input.html:1:1]
  1 | <!doctype html><p>foo<main>bar<p>baz
    :                               ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/main/input.html:1:1]
  1 | <!doctype html><p>foo<main>bar<p>baz
    :                               ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/main/input.html:1:1]
  1 | <!doctype html><p>foo<main>bar<p>baz
    :                                  ^^^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/element/main/input.html:1:1]
  1 | <!doctype html><p>foo<main>bar<p>baz

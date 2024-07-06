@@ -1,48 +1,41 @@
-
   x Module
-   ,-[$DIR/tests/span/js/srcmap/2/input.js:1:1]
+   ,-[$DIR/tests/span/js/srcmap/2/input.js:2:1]
  1 | /*a
  2 | b*/ 1
    :     ^
    `----
-
   x ModuleItem
-   ,-[$DIR/tests/span/js/srcmap/2/input.js:1:1]
+   ,-[$DIR/tests/span/js/srcmap/2/input.js:2:1]
  1 | /*a
  2 | b*/ 1
    :     ^
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/js/srcmap/2/input.js:1:1]
+   ,-[$DIR/tests/span/js/srcmap/2/input.js:2:1]
  1 | /*a
  2 | b*/ 1
    :     ^
    `----
-
   x ExprStmt
-   ,-[$DIR/tests/span/js/srcmap/2/input.js:1:1]
+   ,-[$DIR/tests/span/js/srcmap/2/input.js:2:1]
  1 | /*a
  2 | b*/ 1
    :     ^
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/srcmap/2/input.js:1:1]
+   ,-[$DIR/tests/span/js/srcmap/2/input.js:2:1]
  1 | /*a
  2 | b*/ 1
    :     ^
    `----
-
   x Lit
-   ,-[$DIR/tests/span/js/srcmap/2/input.js:1:1]
+   ,-[$DIR/tests/span/js/srcmap/2/input.js:2:1]
  1 | /*a
  2 | b*/ 1
    :     ^
    `----
-
   x Number
-   ,-[$DIR/tests/span/js/srcmap/2/input.js:1:1]
+   ,-[$DIR/tests/span/js/srcmap/2/input.js:2:1]
  1 | /*a
  2 | b*/ 1
    :     ^

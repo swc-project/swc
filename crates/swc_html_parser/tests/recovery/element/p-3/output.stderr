@@ -1,16 +1,13 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
  1 | <p id=a><b><p id=b></b>TEST
    : ^^^^^^^^
    `----
-
   x End tag "p" implied, but there were open elements
    ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
  1 | <p id=a><b><p id=b></b>TEST
    :            ^^^^^^^^
    `----
-
   x No "b" element in scope but a "b" end tag seen
    ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
  1 | <p id=a><b><p id=b></b>TEST

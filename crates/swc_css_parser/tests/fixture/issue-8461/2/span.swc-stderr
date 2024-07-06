@@ -1,136 +1,113 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    : ^^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    : ^^^^
    `----
-
   x ClassSelector
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    : ^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    :  ^^^
    `----
-
   x Combinator
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    :     ^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    :      ^^^^^^^^^^^^^^^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    :      ^^^^^^^^^^^^^
    `----
-
   x PseudoClassSelector
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    :      ^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    :       ^^^^^^
    `----
-
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    :              ^
    `----
-
   x Delim { value: '.' }
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    :              ^
    `----
-
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    :               ^^^
    `----
-
   x Ident { value: "bar", raw: "bar" }
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    :               ^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    :                   ^^^^
    `----
-
   x ClassSelector
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    :                   ^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    :                    ^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}
    :                        ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/issue-8461/2/input.css:1:1]
  1 | .foo :global(.bar).baz {}

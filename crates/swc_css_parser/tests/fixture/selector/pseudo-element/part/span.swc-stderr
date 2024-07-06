@@ -1,229 +1,196 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
  1 | ,-> tabbed-custom-element::part(active) {}
  2 | `-> tabbed-custom-element::part(   active   ) {}
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
  1 | tabbed-custom-element::part(active) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | tabbed-custom-element::part(   active   ) {}
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
  1 | tabbed-custom-element::part(active) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | tabbed-custom-element::part(   active   ) {}
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
  1 | tabbed-custom-element::part(active) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | tabbed-custom-element::part(   active   ) {}
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
  1 | tabbed-custom-element::part(active) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | tabbed-custom-element::part(   active   ) {}
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
  1 | tabbed-custom-element::part(active) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | tabbed-custom-element::part(   active   ) {}
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
  1 | tabbed-custom-element::part(active) {}
    : ^^^^^^^^^^^^^^^^^^^^^
  2 | tabbed-custom-element::part(   active   ) {}
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
  1 | tabbed-custom-element::part(active) {}
    : ^^^^^^^^^^^^^^^^^^^^^
  2 | tabbed-custom-element::part(   active   ) {}
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
  1 | tabbed-custom-element::part(active) {}
    : ^^^^^^^^^^^^^^^^^^^^^
  2 | tabbed-custom-element::part(   active   ) {}
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
  1 | tabbed-custom-element::part(active) {}
    : ^^^^^^^^^^^^^^^^^^^^^
  2 | tabbed-custom-element::part(   active   ) {}
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
  1 | tabbed-custom-element::part(active) {}
    :                      ^^^^^^^^^^^^^^
  2 | tabbed-custom-element::part(   active   ) {}
    `----
-
   x PseudoElementSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
  1 | tabbed-custom-element::part(active) {}
    :                      ^^^^^^^^^^^^^^
  2 | tabbed-custom-element::part(   active   ) {}
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
  1 | tabbed-custom-element::part(active) {}
    :                        ^^^^
  2 | tabbed-custom-element::part(   active   ) {}
    `----
-
   x PseudoElementSelectorChildren
    ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
  1 | tabbed-custom-element::part(active) {}
    :                             ^^^^^^
  2 | tabbed-custom-element::part(   active   ) {}
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
  1 | tabbed-custom-element::part(active) {}
    :                             ^^^^^^
  2 | tabbed-custom-element::part(   active   ) {}
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
  1 | tabbed-custom-element::part(active) {}
    :                                     ^^
  2 | tabbed-custom-element::part(   active   ) {}
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
  1 | tabbed-custom-element::part(active) {}
    :                                     ^
  2 | tabbed-custom-element::part(   active   ) {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:2:1]
  1 | tabbed-custom-element::part(active) {}
  2 | tabbed-custom-element::part(   active   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:2:1]
  1 | tabbed-custom-element::part(active) {}
  2 | tabbed-custom-element::part(   active   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:2:1]
  1 | tabbed-custom-element::part(active) {}
  2 | tabbed-custom-element::part(   active   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:2:1]
  1 | tabbed-custom-element::part(active) {}
  2 | tabbed-custom-element::part(   active   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:2:1]
  1 | tabbed-custom-element::part(active) {}
  2 | tabbed-custom-element::part(   active   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:2:1]
  1 | tabbed-custom-element::part(active) {}
  2 | tabbed-custom-element::part(   active   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:2:1]
  1 | tabbed-custom-element::part(active) {}
  2 | tabbed-custom-element::part(   active   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:2:1]
  1 | tabbed-custom-element::part(active) {}
  2 | tabbed-custom-element::part(   active   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:2:1]
  1 | tabbed-custom-element::part(active) {}
  2 | tabbed-custom-element::part(   active   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:2:1]
  1 | tabbed-custom-element::part(active) {}
  2 | tabbed-custom-element::part(   active   ) {}
    :                      ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x PseudoElementSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:2:1]
  1 | tabbed-custom-element::part(active) {}
  2 | tabbed-custom-element::part(   active   ) {}
    :                      ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:2:1]
  1 | tabbed-custom-element::part(active) {}
  2 | tabbed-custom-element::part(   active   ) {}
    :                        ^^^^
    `----
-
   x PseudoElementSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:2:1]
  1 | tabbed-custom-element::part(active) {}
  2 | tabbed-custom-element::part(   active   ) {}
    :                                ^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:2:1]
  1 | tabbed-custom-element::part(active) {}
  2 | tabbed-custom-element::part(   active   ) {}
    :                                ^^^^^^
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:2:1]
  1 | tabbed-custom-element::part(active) {}
  2 | tabbed-custom-element::part(   active   ) {}
    :                                           ^^
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:2:1]
  1 | tabbed-custom-element::part(active) {}
  2 | tabbed-custom-element::part(   active   ) {}
    :                                           ^

@@ -1,4 +1,3 @@
-
   x Not a pattern
    ,-[$DIR/tests/test262-parser/fail/4fd864d1c4df25b0.js:1:1]
  1 | ({ get test() { } }) => 42

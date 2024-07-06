@@ -1,4 +1,3 @@
-
   x Unexpected initializer in for in/of loop
    ,-[$DIR/tests/test262-parser/fail/8d5ef4dee9c7c622.js:1:1]
  1 | for(const a = 0 of b);

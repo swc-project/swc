@@ -1,46 +1,40 @@
-
   x Missing equal after attribute name
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:1:1]
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:2:1]
  1 | <root>
  2 |     <c a></c>
    :         ^
  3 |     <c a/>
    `----
-
   x Missing equal after attribute name
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:2:1]
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:3:1]
  2 |     <c a></c>
  3 |     <c a/>
    :         ^
  4 |     <c a='b' q/>
    `----
-
   x Missing equal after attribute name
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:3:1]
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:4:1]
  3 |     <c a/>
  4 |     <c a='b' q/>
    :               ^
  5 |     <c q a='b'/>
    `----
-
   x Missing equal after attribute name
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:4:1]
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:5:1]
  4 |     <c a='b' q/>
  5 |     <c q a='b'/>
    :          ^
  6 |     <c a='b' q></c>
    `----
-
   x Missing equal after attribute name
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:5:1]
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:6:1]
  5 |     <c q a='b'/>
  6 |     <c a='b' q></c>
    :               ^
  7 |     <c q a='b'></c>
    `----
-
   x Missing equal after attribute name
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:6:1]
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:7:1]
  6 |     <c a='b' q></c>
  7 |     <c q a='b'></c>
    :          ^

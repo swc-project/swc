@@ -1,7 +1,6 @@
 //// [esDecorators-classDeclaration-sourceMap.ts]
-//! 
 //!   x Expression expected
-//!    ,-[1:1]
+//!    ,-[4:1]
 //!  1 | 
 //!  2 | declare var dec: any;
 //!  3 | 

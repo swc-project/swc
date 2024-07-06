@@ -1,4 +1,3 @@
-
   x Duplicated regular expression flag 'g'.
    ,-[$DIR/tests/typescript-errors/regex/duplicated-flags/input.ts:1:1]
  1 | /shamiko/igmg;

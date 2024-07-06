@@ -1,106 +1,88 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
  1 | [href==".org"] {}
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
  1 | [href==".org"] {}
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
  1 | [href==".org"] {}
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
  1 | [href==".org"] {}
    : ^^^^^^^^^^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
  1 | [href==".org"] {}
    : ^^^^^^^^^^^^^^
    `----
-
   x LBracket
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
  1 | [href==".org"] {}
    : ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
  1 | [href==".org"] {}
    :  ^^^^
    `----
-
   x Ident { value: "href", raw: "href" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
  1 | [href==".org"] {}
    :  ^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
  1 | [href==".org"] {}
    :      ^
    `----
-
   x Delim { value: '=' }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
  1 | [href==".org"] {}
    :      ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
  1 | [href==".org"] {}
    :       ^
    `----
-
   x Delim { value: '=' }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
  1 | [href==".org"] {}
    :       ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
  1 | [href==".org"] {}
    :        ^^^^^^
    `----
-
   x String { value: ".org", raw: "\".org\"" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
  1 | [href==".org"] {}
    :        ^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
  1 | [href==".org"] {}
    :               ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
  1 | [href==".org"] {}
    :               ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
  1 | [href==".org"] {}
    :                ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
  1 | [href==".org"] {}

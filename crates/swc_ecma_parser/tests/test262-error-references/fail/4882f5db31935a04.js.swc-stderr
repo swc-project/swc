@@ -1,4 +1,3 @@
-
   x Expected ident
    ,-[$DIR/tests/test262-parser/fail/4882f5db31935a04.js:1:1]
  1 | function*g() { var yield; }

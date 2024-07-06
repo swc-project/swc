@@ -1,4 +1,3 @@
-
   x Expected '{', got 'numeric literal (3, 3)'
    ,-[$DIR/tests/test262-parser/fail/1b0b9bca042d4440.module.js:1:1]
  1 | export 3

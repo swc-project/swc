@@ -1,28 +1,23 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/at-rule/no-end/input.css:1:1]
  1 | @unknown
    : ^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/at-rule/no-end/input.css:1:1]
  1 | @unknown
    : ^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/recovery/at-rule/no-end/input.css:1:1]
  1 | @unknown
    : ^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/recovery/at-rule/no-end/input.css:1:1]
  1 | @unknown
    :  ^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/at-rule/no-end/input.css:1:1]
  1 | @unknown

@@ -1,4 +1,3 @@
-
   x Tagged template literal is not allowed in optional chain.
    ,-[$DIR/tests/errors/optional-chaining/tagged-template.js:1:1]
  1 | a?.b``

@@ -1,178 +1,148 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    : ^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    : ^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    : ^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    : ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    : ^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    : ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    :   ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    :   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    :     ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    :     ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    :     ^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    :     ^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    :             ^
    `----
-
   x Integer
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    :             ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    :               ^
    `----
-
   x Integer
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    :               ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    :                 ^^^
    `----
-
   x Dimension
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    :                 ^^^
    `----
-
   x Length
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    :                 ^^^
    `----
-
   x Number
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    :                 ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    :                  ^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    :                     ^^^
    `----
-
   x Dimension
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    :                     ^^^
    `----
-
   x Length
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    :                     ^^^
    `----
-
   x Number
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }
    :                     ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }

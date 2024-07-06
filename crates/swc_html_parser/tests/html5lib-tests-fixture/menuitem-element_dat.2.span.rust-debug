@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.2.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.2.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.2.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.2.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A
    :                ^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.2.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A
    :                ^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.2.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A
    :                      ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.2.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A
    :                      ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.2.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A
    :                                ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.2.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A

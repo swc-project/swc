@@ -1,6 +1,5 @@
-
   x A method cannot be readonly
-   ,-[$DIR/tests/typescript-errors/class/method-readonly/input.ts:1:1]
+   ,-[$DIR/tests/typescript-errors/class/method-readonly/input.ts:2:1]
  1 | class C {
  2 |     readonly m() {}
    :     ^^^^^^^^^^

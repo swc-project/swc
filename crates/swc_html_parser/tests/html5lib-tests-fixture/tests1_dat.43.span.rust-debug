@@ -1,22 +1,17 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.43.html:1:1]
  1 | <?COMMENT?>
    : ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.43.html:1:1]
  1 | <?COMMENT?>
    : ^^^^^^^^^^^
    `----
-
   x Comment
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.43.html:1:1]
  1 | <?COMMENT?>
    : ^^^^^^^^^^^
    `----
-
   x Child
-
   x Element

@@ -376,13 +376,13 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
             return impl.prepareDetectionCache(this._cache, this.ua, this.maxPhoneWidth), this._cache.tablet;
         },
         userAgent: function() {
-            return undefined === this._cache.userAgent && (this._cache.userAgent = impl.findMatch(impl.mobileDetectRules.uas, this.ua)), this._cache.userAgent;
+            return this._cache.userAgent === undefined && (this._cache.userAgent = impl.findMatch(impl.mobileDetectRules.uas, this.ua)), this._cache.userAgent;
         },
         userAgents: function() {
-            return undefined === this._cache.userAgents && (this._cache.userAgents = impl.findMatches(impl.mobileDetectRules.uas, this.ua)), this._cache.userAgents;
+            return this._cache.userAgents === undefined && (this._cache.userAgents = impl.findMatches(impl.mobileDetectRules.uas, this.ua)), this._cache.userAgents;
         },
         os: function() {
-            return undefined === this._cache.os && (this._cache.os = impl.detectOS(this.ua)), this._cache.os;
+            return this._cache.os === undefined && (this._cache.os = impl.detectOS(this.ua)), this._cache.os;
         },
         version: function(key) {
             return impl.getVersion(key, this.ua);
@@ -400,7 +400,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
             return MobileDetect.isPhoneSized(maxPhoneWidth || this.maxPhoneWidth);
         },
         mobileGrade: function() {
-            return undefined === this._cache.grade && (this._cache.grade = impl.mobileGrade(this)), this._cache.grade;
+            return this._cache.grade === undefined && (this._cache.grade = impl.mobileGrade(this)), this._cache.grade;
         }
     }, 'undefined' != typeof window && window.screen ? MobileDetect.isPhoneSized = function(maxPhoneWidth) {
         return maxPhoneWidth < 0 ? undefined : impl.getDeviceSmallerSide() <= maxPhoneWidth;

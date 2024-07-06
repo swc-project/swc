@@ -16,7 +16,7 @@ async function main() {
 
   // Bump patch version
 
-  const [major, minor, patch] = latest.split(".").map(Number);
+  const [major, minor, patch] = latest.split("-")[0].split(".").map(Number);
 
   // Nightly version after 1.2.3 is 1.2.4-nightly-20211020.1
   // Nightly version after 1.2.3-nightly-20211020.1 is 1.2.3-nightly-20211020.2
@@ -33,7 +33,7 @@ async function main() {
 
   const datePart = `${year}${addZ(month)}${addZ(day)}`;
 
-  const base = `${version}-nightly-${datePart}`;
+  const base = `v${version}-nightly-${datePart}`;
   let idx = 1;
   let nightlyVersion = `${base}.${idx}`;
 
@@ -42,6 +42,7 @@ async function main() {
   const { data: tagData } = await octokit.repos.listTags({
     owner,
     repo,
+    order: "desc",
   });
   const tags = tagData.map((tag) => tag.name);
   while (tags.includes(nightlyVersion)) {
@@ -50,7 +51,7 @@ async function main() {
   }
   process.stderr.write(`Nightly version: ${nightlyVersion}\n`);
 
-  process.stdout.write(`version=${nightlyVersion}\n`);
+  process.stdout.write(`version=${nightlyVersion.substring(1)}\n`);
 }
 
 main();

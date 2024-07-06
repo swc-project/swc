@@ -1,4 +1,3 @@
-
   x Expected ',', got '.'
    ,-[$DIR/tests/test262-parser/fail/537c4a516d7c8d7f.js:1:1]
  1 | try {} catch ({e: x.a}) {}

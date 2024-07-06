@@ -1,86 +1,72 @@
-
   x Module
    ,-[$DIR/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | ,-> const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {
  2 | `-> }
    `----
-
   x ModuleItem
    ,-[$DIR/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | ,-> const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {
  2 | `-> }
    `----
-
   x Stmt
    ,-[$DIR/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | ,-> const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {
  2 | `-> }
    `----
-
   x Decl
    ,-[$DIR/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | ,-> const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {
  2 | `-> }
    `----
-
   x VarDecl
    ,-[$DIR/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | ,-> const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {
  2 | `-> }
    `----
-
   x VarDeclarator
    ,-[$DIR/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | ,-> const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {
  2 | `-> }
    `----
-
   x Pat
    ,-[$DIR/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {
    :       ^^^
  2 | }
    `----
-
   x Ident
    ,-[$DIR/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {
    :       ^^^
  2 | }
    `----
-
   x Expr
    ,-[$DIR/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | ,-> const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {
  2 | `-> }
    `----
-
   x ArrowExpr
    ,-[$DIR/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | ,-> const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {
  2 | `-> }
    `----
-
   x Pat
    ,-[$DIR/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {
    :                                       ^^^^
  2 | }
    `----
-
   x Ident
    ,-[$DIR/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {
    :                                       ^^^^
  2 | }
    `----
-
   x BlockStmtOrExpr
    ,-[$DIR/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | ,-> const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {
  2 | `-> }
    `----
-
   x BlockStmt
    ,-[$DIR/tests/comments/exprs/paren-annotations/1/input.js:1:1]
  1 | ,-> const fnB = /*#__NO_SIDE_EFFECTS__*/ (args) => {

@@ -1,4 +1,3 @@
-
   x Expected ident
    ,-[$DIR/tests/test262-parser/fail/edb15336bfbe0a8e.js:1:1]
  1 | class {}

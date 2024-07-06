@@ -1,116 +1,95 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.86.html:1:1]
  1 | <table><tr><tr><td><td><span><th><span>X</table>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.86.html:1:1]
  1 | <table><tr><tr><td><td><span><th><span>X</table>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.86.html:1:1]
  1 | <table><tr><tr><td><td><span><th><span>X</table>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.86.html:1:1]
  1 | <table><tr><tr><td><td><span><th><span>X</table>
    :        ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.86.html:1:1]
  1 | <table><tr><tr><td><td><span><th><span>X</table>
    :        ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.86.html:1:1]
  1 | <table><tr><tr><td><td><span><th><span>X</table>
    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.86.html:1:1]
  1 | <table><tr><tr><td><td><span><th><span>X</table>
    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.86.html:1:1]
  1 | <table><tr><tr><td><td><span><th><span>X</table>
    :                ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.86.html:1:1]
  1 | <table><tr><tr><td><td><span><th><span>X</table>
    :                ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.86.html:1:1]
  1 | <table><tr><tr><td><td><span><th><span>X</table>
    :                    ^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.86.html:1:1]
  1 | <table><tr><tr><td><td><span><th><span>X</table>
    :                    ^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.86.html:1:1]
  1 | <table><tr><tr><td><td><span><th><span>X</table>
    :                        ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.86.html:1:1]
  1 | <table><tr><tr><td><td><span><th><span>X</table>
    :                        ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.86.html:1:1]
  1 | <table><tr><tr><td><td><span><th><span>X</table>
    :                              ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.86.html:1:1]
  1 | <table><tr><tr><td><td><span><th><span>X</table>
    :                              ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.86.html:1:1]
  1 | <table><tr><tr><td><td><span><th><span>X</table>
    :                                  ^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.86.html:1:1]
  1 | <table><tr><tr><td><td><span><th><span>X</table>
    :                                  ^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.86.html:1:1]
  1 | <table><tr><tr><td><td><span><th><span>X</table>
    :                                        ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.86.html:1:1]
  1 | <table><tr><tr><td><td><span><th><span>X</table>

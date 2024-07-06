@@ -1,82 +1,68 @@
-
   x Module
    ,-[$DIR/tests/span/js/expr/seq.js:1:1]
  1 | (a, b, c)
    : ^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/expr/seq.js:1:1]
  1 | (a, b, c)
    : ^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/expr/seq.js:1:1]
  1 | (a, b, c)
    : ^^^^^^^^^
    `----
-
   x ExprStmt
    ,-[$DIR/tests/span/js/expr/seq.js:1:1]
  1 | (a, b, c)
    : ^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/seq.js:1:1]
  1 | (a, b, c)
    : ^^^^^^^^^
    `----
-
   x ParenExpr
    ,-[$DIR/tests/span/js/expr/seq.js:1:1]
  1 | (a, b, c)
    : ^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/seq.js:1:1]
  1 | (a, b, c)
    :  ^^^^^^^
    `----
-
   x SeqExpr
    ,-[$DIR/tests/span/js/expr/seq.js:1:1]
  1 | (a, b, c)
    :  ^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/seq.js:1:1]
  1 | (a, b, c)
    :  ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/seq.js:1:1]
  1 | (a, b, c)
    :  ^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/seq.js:1:1]
  1 | (a, b, c)
    :     ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/seq.js:1:1]
  1 | (a, b, c)
    :     ^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/seq.js:1:1]
  1 | (a, b, c)
    :        ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/seq.js:1:1]
  1 | (a, b, c)

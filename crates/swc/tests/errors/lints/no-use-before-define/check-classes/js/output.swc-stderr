@@ -1,4 +1,3 @@
-
   x 'C' was used before it was defined
    ,-[1:1]
  1 | new C();

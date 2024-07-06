@@ -1,4 +1,3 @@
-
   x Unexpected initializer in for in/of loop
    ,-[$DIR/tests/test262-parser/fail/8b72c44bd531621a.js:1:1]
  1 | for (var [p]=q of r);

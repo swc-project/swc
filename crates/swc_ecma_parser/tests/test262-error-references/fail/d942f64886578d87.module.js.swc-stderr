@@ -1,4 +1,3 @@
-
   x Expected 'from', got '<eof>'
    ,-[$DIR/tests/test262-parser/fail/d942f64886578d87.module.js:1:1]
  1 | import

@@ -1,14 +1,12 @@
-
   x Expected '-' between start and end in unicode range
-   ,-[$DIR/tests/recovery/unicode-range/input.css:1:1]
+   ,-[$DIR/tests/recovery/unicode-range/input.css:2:1]
  1 | .class {
  2 |     unicode-range: U+1Z1ee1-FFFFFF;
    :                    ^
  3 |     unicode-range: U+1e1ee1-FFZFFF;
    `----
-
   x Expected no characters after end in unicode range
-   ,-[$DIR/tests/recovery/unicode-range/input.css:2:1]
+   ,-[$DIR/tests/recovery/unicode-range/input.css:3:1]
  2 |     unicode-range: U+1Z1ee1-FFFFFF;
  3 |     unicode-range: U+1e1ee1-FFZFFF;
    :                    ^

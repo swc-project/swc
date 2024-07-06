@@ -1,127 +1,109 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
  1 | ,-> a {
  2 | |       background: url(test\);
  3 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
  1 | ,-> a {
  2 | |       background: url(test\);
  3 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
  1 | ,-> a {
  2 | |       background: url(test\);
  3 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
  1 | a {
    : ^
  2 |     background: url(test\);
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
  1 | a {
    : ^
  2 |     background: url(test\);
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
  1 | a {
    : ^
  2 |     background: url(test\);
    `----
-
   x TypeSelector
    ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
  1 | a {
    : ^
  2 |     background: url(test\);
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
  1 | a {
    : ^
  2 |     background: url(test\);
    `----
-
   x WqName
    ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
  1 | a {
    : ^
  2 |     background: url(test\);
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
  1 | a {
    : ^
  2 |     background: url(test\);
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
  1 | ,-> a {
  2 | |       background: url(test\);
  3 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
  1 | a {
    :   ^
  2 |     background: url(test\);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:2:1]
  1 |     a {
  2 | ,->     background: url(test\);
  3 | `-> }
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:2:1]
  1 |     a {
  2 | ,->     background: url(test\);
  3 | `-> }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:2:1]
  1 | a {
  2 |     background: url(test\);
    :     ^^^^^^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:2:1]
  1 | a {
  2 |     background: url(test\);
    :     ^^^^^^^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:2:1]
  1 |     a {
  2 | ,->     background: url(test\);
  3 | `-> }
    `----
-
   x BadUrl { raw: "url(test\\);\n}" }
-   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:2:1]
  1 |     a {
  2 | ,->     background: url(test\);
  3 | `-> }

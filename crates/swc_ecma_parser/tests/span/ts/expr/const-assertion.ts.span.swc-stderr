@@ -1,52 +1,43 @@
-
   x Module
    ,-[$DIR/tests/span/ts/expr/const-assertion.ts:1:1]
  1 | 'FOO' as const
    : ^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/ts/expr/const-assertion.ts:1:1]
  1 | 'FOO' as const
    : ^^^^^^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/ts/expr/const-assertion.ts:1:1]
  1 | 'FOO' as const
    : ^^^^^^^^^^^^^^
    `----
-
   x ExprStmt
    ,-[$DIR/tests/span/ts/expr/const-assertion.ts:1:1]
  1 | 'FOO' as const
    : ^^^^^^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/ts/expr/const-assertion.ts:1:1]
  1 | 'FOO' as const
    : ^^^^^^^^^^^^^^
    `----
-
   x TsConstAssertion
    ,-[$DIR/tests/span/ts/expr/const-assertion.ts:1:1]
  1 | 'FOO' as const
    : ^^^^^^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/ts/expr/const-assertion.ts:1:1]
  1 | 'FOO' as const
    : ^^^^^
    `----
-
   x Lit
    ,-[$DIR/tests/span/ts/expr/const-assertion.ts:1:1]
  1 | 'FOO' as const
    : ^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/span/ts/expr/const-assertion.ts:1:1]
  1 | 'FOO' as const

@@ -1,7 +1,6 @@
-
   x Expected ';', '}' or <eof>
    ,-[$DIR/tests/test262-parser/fail/b94278c0e4bdb364.js:1:1]
  1 | _﻿_
-   : |   ^
+   : |^
    : `-- This is the expression part of an expression statement
    `----

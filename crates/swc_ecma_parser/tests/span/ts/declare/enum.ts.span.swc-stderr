@@ -1,110 +1,95 @@
-
   x Module
    ,-[$DIR/tests/span/ts/declare/enum.ts:1:1]
  1 | ,-> declare enum EnumSpan {
  2 | |       A = 1
  3 | `-> };
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/ts/declare/enum.ts:1:1]
  1 | ,-> declare enum EnumSpan {
  2 | |       A = 1
  3 | `-> };
    `----
-
   x Stmt
    ,-[$DIR/tests/span/ts/declare/enum.ts:1:1]
  1 | ,-> declare enum EnumSpan {
  2 | |       A = 1
  3 | `-> };
    `----
-
   x Decl
    ,-[$DIR/tests/span/ts/declare/enum.ts:1:1]
  1 | ,-> declare enum EnumSpan {
  2 | |       A = 1
  3 | `-> };
    `----
-
   x TsEnumDecl
    ,-[$DIR/tests/span/ts/declare/enum.ts:1:1]
  1 | ,-> declare enum EnumSpan {
  2 | |       A = 1
  3 | `-> };
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/declare/enum.ts:1:1]
  1 | declare enum EnumSpan {
    :              ^^^^^^^^
  2 |     A = 1
    `----
-
   x TsEnumMember
-   ,-[$DIR/tests/span/ts/declare/enum.ts:1:1]
+   ,-[$DIR/tests/span/ts/declare/enum.ts:2:1]
  1 | declare enum EnumSpan {
  2 |     A = 1
    :     ^^^^^
  3 | };
    `----
-
   x TsEnumMemberId
-   ,-[$DIR/tests/span/ts/declare/enum.ts:1:1]
+   ,-[$DIR/tests/span/ts/declare/enum.ts:2:1]
  1 | declare enum EnumSpan {
  2 |     A = 1
    :     ^
  3 | };
    `----
-
   x Ident
-   ,-[$DIR/tests/span/ts/declare/enum.ts:1:1]
+   ,-[$DIR/tests/span/ts/declare/enum.ts:2:1]
  1 | declare enum EnumSpan {
  2 |     A = 1
    :     ^
  3 | };
    `----
-
   x Expr
-   ,-[$DIR/tests/span/ts/declare/enum.ts:1:1]
+   ,-[$DIR/tests/span/ts/declare/enum.ts:2:1]
  1 | declare enum EnumSpan {
  2 |     A = 1
    :         ^
  3 | };
    `----
-
   x Lit
-   ,-[$DIR/tests/span/ts/declare/enum.ts:1:1]
+   ,-[$DIR/tests/span/ts/declare/enum.ts:2:1]
  1 | declare enum EnumSpan {
  2 |     A = 1
    :         ^
  3 | };
    `----
-
   x Number
-   ,-[$DIR/tests/span/ts/declare/enum.ts:1:1]
+   ,-[$DIR/tests/span/ts/declare/enum.ts:2:1]
  1 | declare enum EnumSpan {
  2 |     A = 1
    :         ^
  3 | };
    `----
-
   x ModuleItem
-   ,-[$DIR/tests/span/ts/declare/enum.ts:2:1]
+   ,-[$DIR/tests/span/ts/declare/enum.ts:3:1]
  2 |     A = 1
  3 | };
    :  ^
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/ts/declare/enum.ts:2:1]
+   ,-[$DIR/tests/span/ts/declare/enum.ts:3:1]
  2 |     A = 1
  3 | };
    :  ^
    `----
-
   x EmptyStmt
-   ,-[$DIR/tests/span/ts/declare/enum.ts:2:1]
+   ,-[$DIR/tests/span/ts/declare/enum.ts:3:1]
  2 |     A = 1
  3 | };
    :  ^

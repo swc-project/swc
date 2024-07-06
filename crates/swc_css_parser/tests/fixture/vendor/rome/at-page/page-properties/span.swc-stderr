@@ -1,97 +1,84 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/rome/at-page/page-properties/input.css:1:1]
  1 | ,-> @page {
- 2 | |   	display: none;
+ 2 | |       display: none;
  3 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/rome/at-page/page-properties/input.css:1:1]
  1 | ,-> @page {
- 2 | |   	display: none;
+ 2 | |       display: none;
  3 | `-> }
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/vendor/rome/at-page/page-properties/input.css:1:1]
  1 | ,-> @page {
- 2 | |   	display: none;
+ 2 | |       display: none;
  3 | `-> }
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/rome/at-page/page-properties/input.css:1:1]
  1 | @page {
    :  ^^^^
- 2 | 	display: none;
+ 2 |     display: none;
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/rome/at-page/page-properties/input.css:1:1]
  1 | @page {
    :  ^^^^
- 2 | 	display: none;
+ 2 |     display: none;
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/rome/at-page/page-properties/input.css:1:1]
  1 | ,-> @page {
- 2 | |   	display: none;
+ 2 | |       display: none;
  3 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/at-page/page-properties/input.css:1:1]
  1 | @page {
    :       ^
- 2 | 	display: none;
+ 2 |     display: none;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/rome/at-page/page-properties/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/at-page/page-properties/input.css:2:1]
  1 | @page {
- 2 | 	display: none;
-   :  ^^^^^^^^^^^^^
+ 2 |     display: none;
+   :     ^^^^^^^^^^^^^
  3 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/vendor/rome/at-page/page-properties/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/at-page/page-properties/input.css:2:1]
  1 | @page {
- 2 | 	display: none;
-   :  ^^^^^^^^^^^^^
+ 2 |     display: none;
+   :     ^^^^^^^^^^^^^
  3 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/vendor/rome/at-page/page-properties/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/at-page/page-properties/input.css:2:1]
  1 | @page {
- 2 | 	display: none;
-   :  ^^^^^^^
+ 2 |     display: none;
+   :     ^^^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/at-page/page-properties/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/at-page/page-properties/input.css:2:1]
  1 | @page {
- 2 | 	display: none;
-   :  ^^^^^^^
+ 2 |     display: none;
+   :     ^^^^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/rome/at-page/page-properties/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/at-page/page-properties/input.css:2:1]
  1 | @page {
- 2 | 	display: none;
-   :           ^^^^
+ 2 |     display: none;
+   :              ^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/at-page/page-properties/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/at-page/page-properties/input.css:2:1]
  1 | @page {
- 2 | 	display: none;
-   :           ^^^^
+ 2 |     display: none;
+   :              ^^^^
  3 | }
    `----

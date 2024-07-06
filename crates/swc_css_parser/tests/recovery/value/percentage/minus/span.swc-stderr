@@ -1,130 +1,108 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }
    : ^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }
    : ^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }
    : ^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }
    : ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }
    : ^
    `----
-
   x WqName
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }
    : ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }
    :   ^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }
    :   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }
    :     ^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }
    :     ^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }
    :     ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }
    :     ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }
    :            ^^
    `----
-
   x Number { value: -0.0, raw: "-0", type_flag: Integer }
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }
    :            ^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }
    :              ^
    `----
-
   x Delim { value: '.' }
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }
    :              ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }
    :               ^
    `----
-
   x Delim { value: '%' }
    ,-[$DIR/tests/recovery/value/percentage/minus/input.css:1:1]
  1 | a { width: -0.%; }

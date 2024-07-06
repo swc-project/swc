@@ -1,4 +1,3 @@
-
   x Unexpected token `;`. Expected a string literal
    ,-[$DIR/tests/test262-parser/fail/f0463cd0addb96cc.module.js:1:1]
  1 | import {} from;

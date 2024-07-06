@@ -1,4 +1,3 @@
-
   x The left-hand side of an assignment expression must be a variable or a property access.
    ,-[$DIR/tests/test262-parser/fail/783aeb8c90c3775d.js:1:1]
  1 | for(({a}) of 0);

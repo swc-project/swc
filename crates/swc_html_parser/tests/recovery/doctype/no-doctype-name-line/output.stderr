@@ -1,11 +1,9 @@
-
   x Missing doctype name
-   ,-[$DIR/tests/recovery/doctype/no-doctype-name-line/input.html:1:1]
+   ,-[$DIR/tests/recovery/doctype/no-doctype-name-line/input.html:2:1]
  1 | <!DOCTYPE
  2 | >
    : ^
    `----
-
   x Non conforming doctype
    ,-[$DIR/tests/recovery/doctype/no-doctype-name-line/input.html:1:1]
  1 | ,-> <!DOCTYPE

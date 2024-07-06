@@ -1,4 +1,3 @@
-
   x Unexpected token `prop`. Expected target
    ,-[$DIR/tests/test262-parser/fail/0817f13d2237d8d2.js:1:1]
  1 | new.prop

@@ -1,4 +1,3 @@
-
   x Expected '}', got '<eof>'
    ,-[$DIR/tests/test262-parser/fail/8ba15f5246ca756c.js:1:1]
  1 | class A {

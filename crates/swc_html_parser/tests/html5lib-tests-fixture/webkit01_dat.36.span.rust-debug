@@ -1,68 +1,55 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.36.html:1:1]
  1 | <a><li><style></style><title></title></a>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.36.html:1:1]
  1 | <a><li><style></style><title></title></a>
    : ^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.36.html:1:1]
  1 | <a><li><style></style><title></title></a>
    : ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.36.html:1:1]
  1 | <a><li><style></style><title></title></a>
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.36.html:1:1]
  1 | <a><li><style></style><title></title></a>
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.36.html:1:1]
  1 | <a><li><style></style><title></title></a>
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.36.html:1:1]
  1 | <a><li><style></style><title></title></a>
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.36.html:1:1]
  1 | <a><li><style></style><title></title></a>
    :        ^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.36.html:1:1]
  1 | <a><li><style></style><title></title></a>
    :        ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.36.html:1:1]
  1 | <a><li><style></style><title></title></a>
    :                       ^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.36.html:1:1]
  1 | <a><li><style></style><title></title></a>

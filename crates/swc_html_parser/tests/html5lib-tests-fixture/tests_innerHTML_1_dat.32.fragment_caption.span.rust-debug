@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.32.fragment_caption.html:1:1]
  1 | <span><thead><span>
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.32.fragment_caption.html:1:1]
  1 | <span><thead><span>
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.32.fragment_caption.html:1:1]
  1 | <span><thead><span>
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.32.fragment_caption.html:1:1]
  1 | <span><thead><span>
    :              ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.32.fragment_caption.html:1:1]
  1 | <span><thead><span>

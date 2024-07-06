@@ -1,34 +1,28 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/WJ8FO7rI-fSMbrA9d-H7Hw/input.css:1:1]
  1 | @charset "UTF-8";
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/WJ8FO7rI-fSMbrA9d-H7Hw/input.css:1:1]
  1 | @charset "UTF-8";
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/WJ8FO7rI-fSMbrA9d-H7Hw/input.css:1:1]
  1 | @charset "UTF-8";
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/WJ8FO7rI-fSMbrA9d-H7Hw/input.css:1:1]
  1 | @charset "UTF-8";
    :  ^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/WJ8FO7rI-fSMbrA9d-H7Hw/input.css:1:1]
  1 | @charset "UTF-8";
    :  ^^^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/WJ8FO7rI-fSMbrA9d-H7Hw/input.css:1:1]
  1 | @charset "UTF-8";

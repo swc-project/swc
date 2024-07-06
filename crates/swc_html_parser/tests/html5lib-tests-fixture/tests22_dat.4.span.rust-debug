@@ -1,176 +1,145 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :                ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :                ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :                   ^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :                   ^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :                         ^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :                         ^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :                            ^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :                            ^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :                                  ^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :                                  ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :                                  ^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :                                  ^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :                                     ^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :                                     ^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :                                          ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :                                          ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :                                          ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :                                          ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
    :                                               ^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.4.html:1:1]
  1 | <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST

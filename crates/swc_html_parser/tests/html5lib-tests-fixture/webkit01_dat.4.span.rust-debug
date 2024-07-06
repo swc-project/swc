@@ -1,4 +1,3 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:1:1]
  1 | ,-> <div>Hello</div>
@@ -7,39 +6,32 @@
  4 | |   </script>
  5 | `-> <div>Bye</div>
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:1:1]
  1 | <div>Hello</div>
    : ^^^^^^^^^^^^^^^^
  2 | <script>
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:1:1]
  1 | <div>Hello</div>
    : ^^^^^^^^^^^^^^^^
  2 | <script>
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:1:1]
  1 | <div>Hello</div>
    :      ^^^^^
  2 | <script>
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:1:1]
  1 | <div>Hello</div>
    :      ^^^^^
  2 | <script>
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:1:1]
  1 | <div>Hello</div>
@@ -47,7 +39,6 @@
  2 | <script>
  3 | console.log("PASS");
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:1:1]
  1 | <div>Hello</div>
@@ -55,82 +46,72 @@
  2 | <script>
  3 | console.log("PASS");
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:2:1]
  1 |     <div>Hello</div>
  2 | ,-> <script>
  3 | |   console.log("PASS");
  4 | `-> </script>
  5 |     <div>Bye</div>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:2:1]
  1 |     <div>Hello</div>
  2 | ,-> <script>
  3 | |   console.log("PASS");
  4 | `-> </script>
  5 |     <div>Bye</div>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:2:1]
  1 |     <div>Hello</div>
  2 | ,-> <script>
  3 | `-> console.log("PASS");
  4 |     </script>
  5 |     <div>Bye</div>
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:2:1]
  1 |     <div>Hello</div>
  2 | ,-> <script>
  3 | `-> console.log("PASS");
  4 |     </script>
  5 |     <div>Bye</div>
    `----
-
-  x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:3:1]
- 3 | console.log("PASS");
- 4 | </script>
-   :          ^
- 5 | <div>Bye</div>
-   `----
-
-  x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:3:1]
- 3 | console.log("PASS");
- 4 | </script>
-   :          ^
- 5 | <div>Bye</div>
-   `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:4:1]
+ 3 | console.log("PASS");
+ 4 | </script>
+   :          ^
+ 5 | <div>Bye</div>
+   `----
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:4:1]
+ 3 | console.log("PASS");
+ 4 | </script>
+   :          ^
+ 5 | <div>Bye</div>
+   `----
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:5:1]
  4 | </script>
  5 | <div>Bye</div>
    : ^^^^^^^^^^^^^^
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:4:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:5:1]
  4 | </script>
  5 | <div>Bye</div>
    : ^^^^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:4:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:5:1]
  4 | </script>
  5 | <div>Bye</div>
    :      ^^^
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:4:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.4.html:5:1]
  4 | </script>
  5 | <div>Bye</div>
    :      ^^^

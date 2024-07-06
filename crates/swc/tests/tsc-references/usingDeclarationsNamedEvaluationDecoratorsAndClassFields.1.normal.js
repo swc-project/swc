@@ -1,7 +1,6 @@
 //// [usingDeclarationsNamedEvaluationDecoratorsAndClassFields.ts]
-//! 
 //!   x Expression expected
-//!     ,-[12:1]
+//!     ,-[15:1]
 //!  12 |     static [Symbol.dispose]() {}
 //!  13 | };
 //!  14 | 

@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.2.html:1:1]
  1 | <!DOCTYPE html><body><svg></svg>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.2.html:1:1]
  1 | <!DOCTYPE html><body><svg></svg>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.2.html:1:1]
  1 | <!DOCTYPE html><body><svg></svg>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.2.html:1:1]
  1 | <!DOCTYPE html><body><svg></svg>
    :                ^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.2.html:1:1]
  1 | <!DOCTYPE html><body><svg></svg>
    :                ^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.2.html:1:1]
  1 | <!DOCTYPE html><body><svg></svg>
    :                      ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.2.html:1:1]
  1 | <!DOCTYPE html><body><svg></svg>

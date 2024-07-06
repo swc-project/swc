@@ -35,6 +35,6 @@ git add -A || true
 git commit -m 'chore: Update changelog' || true
 
 # Publish packages
-git push
-git push --tags
-(cd ./bindings && cargo mono publish --no-verify)
+git push git@github.com:swc-project/swc.git --no-verify
+git push git@github.com:swc-project/swc.git --no-verify --tags
+# (cd ./bindings && cargo mono publish --no-verify)

@@ -1,126 +1,109 @@
-
   x Module
    ,-[$DIR/tests/span/js/expr/await.js:1:1]
  1 | ,-> async function foo() {
  2 | |       await bar()
  3 | `-> }
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/expr/await.js:1:1]
  1 | ,-> async function foo() {
  2 | |       await bar()
  3 | `-> }
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/expr/await.js:1:1]
  1 | ,-> async function foo() {
  2 | |       await bar()
  3 | `-> }
    `----
-
   x Decl
    ,-[$DIR/tests/span/js/expr/await.js:1:1]
  1 | ,-> async function foo() {
  2 | |       await bar()
  3 | `-> }
    `----
-
   x FnDecl
    ,-[$DIR/tests/span/js/expr/await.js:1:1]
  1 | ,-> async function foo() {
  2 | |       await bar()
  3 | `-> }
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/await.js:1:1]
  1 | async function foo() {
    :                ^^^
  2 |     await bar()
    `----
-
   x Function
    ,-[$DIR/tests/span/js/expr/await.js:1:1]
  1 | ,-> async function foo() {
  2 | |       await bar()
  3 | `-> }
    `----
-
   x BlockStmt
    ,-[$DIR/tests/span/js/expr/await.js:1:1]
  1 | ,-> async function foo() {
  2 | |       await bar()
  3 | `-> }
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/js/expr/await.js:1:1]
+   ,-[$DIR/tests/span/js/expr/await.js:2:1]
  1 | async function foo() {
  2 |     await bar()
    :     ^^^^^^^^^^^
  3 | }
    `----
-
   x ExprStmt
-   ,-[$DIR/tests/span/js/expr/await.js:1:1]
+   ,-[$DIR/tests/span/js/expr/await.js:2:1]
  1 | async function foo() {
  2 |     await bar()
    :     ^^^^^^^^^^^
  3 | }
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/await.js:1:1]
+   ,-[$DIR/tests/span/js/expr/await.js:2:1]
  1 | async function foo() {
  2 |     await bar()
    :     ^^^^^^^^^^^
  3 | }
    `----
-
   x AwaitExpr
-   ,-[$DIR/tests/span/js/expr/await.js:1:1]
+   ,-[$DIR/tests/span/js/expr/await.js:2:1]
  1 | async function foo() {
  2 |     await bar()
    :     ^^^^^^^^^^^
  3 | }
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/await.js:1:1]
+   ,-[$DIR/tests/span/js/expr/await.js:2:1]
  1 | async function foo() {
  2 |     await bar()
    :           ^^^^^
  3 | }
    `----
-
   x CallExpr
-   ,-[$DIR/tests/span/js/expr/await.js:1:1]
+   ,-[$DIR/tests/span/js/expr/await.js:2:1]
  1 | async function foo() {
  2 |     await bar()
    :           ^^^^^
  3 | }
    `----
-
   x Callee
-   ,-[$DIR/tests/span/js/expr/await.js:1:1]
+   ,-[$DIR/tests/span/js/expr/await.js:2:1]
  1 | async function foo() {
  2 |     await bar()
    :           ^^^
  3 | }
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/await.js:1:1]
+   ,-[$DIR/tests/span/js/expr/await.js:2:1]
  1 | async function foo() {
  2 |     await bar()
    :           ^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/span/js/expr/await.js:1:1]
+   ,-[$DIR/tests/span/js/expr/await.js:2:1]
  1 | async function foo() {
  2 |     await bar()
    :           ^^^

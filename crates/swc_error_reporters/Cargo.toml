@@ -6,14 +6,14 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_error_reporters"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.18.0"
+version       = "0.18.1"
 
 [lib]
 bench = false
 
 [dependencies]
 anyhow      = { workspace = true }
-miette      = { workspace = true, features = ["fancy"] }
+miette      = { workspace = true, features = ["fancy-no-syscall"] }
 once_cell   = { workspace = true }
 parking_lot = { workspace = true }
 

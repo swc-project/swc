@@ -1,80 +1,65 @@
-
   x Document
    ,-[$DIR/tests/recovery/element/a-2/input.html:1:1]
  1 | <a>1<button>2</a>3</button>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/element/a-2/input.html:1:1]
  1 | <a>1<button>2</a>3</button>
    : ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/a-2/input.html:1:1]
  1 | <a>1<button>2</a>3</button>
    : ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/a-2/input.html:1:1]
  1 | <a>1<button>2</a>3</button>
    :    ^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/element/a-2/input.html:1:1]
  1 | <a>1<button>2</a>3</button>
    :    ^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/a-2/input.html:1:1]
  1 | <a>1<button>2</a>3</button>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/a-2/input.html:1:1]
  1 | <a>1<button>2</a>3</button>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/a-2/input.html:1:1]
  1 | <a>1<button>2</a>3</button>
    :             ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/a-2/input.html:1:1]
  1 | <a>1<button>2</a>3</button>
    :             ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/a-2/input.html:1:1]
  1 | <a>1<button>2</a>3</button>
    :             ^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/element/a-2/input.html:1:1]
  1 | <a>1<button>2</a>3</button>
    :             ^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/a-2/input.html:1:1]
  1 | <a>1<button>2</a>3</button>
    :                  ^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/element/a-2/input.html:1:1]
  1 | <a>1<button>2</a>3</button>

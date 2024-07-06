@@ -1,4 +1,3 @@
-
   x Expected '{', got 'numeric literal (42, 42)'
    ,-[$DIR/tests/test262-parser/fail/c0d2e6ca2ab7f753.js:1:1]
  1 | x = { get method() 42 }

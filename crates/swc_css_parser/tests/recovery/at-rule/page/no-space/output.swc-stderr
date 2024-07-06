@@ -1,7 +1,6 @@
-
   x Expected 'left', 'right', 'first' or 'blank' ident
    ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
  1 | @page Page: blank {
    :            ^
- 2 | 	@top-center { content: none }
+ 2 |     @top-center { content: none }
    `----

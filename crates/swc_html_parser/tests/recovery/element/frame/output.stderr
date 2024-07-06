@@ -1,10 +1,8 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/frame/input.html:1:1]
  1 | <frame>test
    : ^^^^^^^
    `----
-
   x Stray start tag "frame"
    ,-[$DIR/tests/recovery/element/frame/input.html:1:1]
  1 | <frame>test

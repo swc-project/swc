@@ -1,4 +1,3 @@
-
   x Unexpected character, only whitespace character allowed
    ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:1:1]
  1 | a<?xml version="1.0" encoding="UTF-8"?>

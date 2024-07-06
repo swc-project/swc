@@ -1,4 +1,3 @@
-
   x Cannot use a reserved word as a shorthand property
    ,-[$DIR/tests/test262-parser/fail/8753a1cb7850d657.js:1:1]
  1 | ({var} = 0)

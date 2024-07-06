@@ -1,25 +1,20 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.31.html:1:1]
  1 | ,-> <!DOCTYPE html PUBLIC
  2 | |     "-//WAPFORUM//DTD XHTML Mobile 1.0//EN"
  3 | `->     "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.31.html:1:1]
  1 | ,-> <!DOCTYPE html PUBLIC
  2 | |     "-//WAPFORUM//DTD XHTML Mobile 1.0//EN"
  3 | `->     "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.31.html:1:1]
  1 | ,-> <!DOCTYPE html PUBLIC
  2 | |     "-//WAPFORUM//DTD XHTML Mobile 1.0//EN"
  3 | `->     "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
    `----
-
   x Child
-
   x Element

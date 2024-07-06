@@ -1,4 +1,3 @@
-
   x Expression expected
    ,-[$DIR/tests/test262-parser/fail/f605957c30e125ae.js:1:1]
  1 | while(true) const a

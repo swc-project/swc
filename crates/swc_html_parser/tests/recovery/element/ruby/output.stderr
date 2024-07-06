@@ -1,10 +1,8 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/ruby/input.html:1:1]
  1 | <html><ruby>a<rb>b<span></ruby></html>
    : ^^^^^^
    `----
-
   x End tag "ruby" seen, but there were open elements
    ,-[$DIR/tests/recovery/element/ruby/input.html:1:1]
  1 | <html><ruby>a<rb>b<span></ruby></html>

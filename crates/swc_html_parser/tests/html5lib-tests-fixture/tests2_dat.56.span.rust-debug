@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.56.html:1:1]
  1 | <!DOCTYPE html>X</html><p>X
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.56.html:1:1]
  1 | <!DOCTYPE html>X</html><p>X
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.56.html:1:1]
  1 | <!DOCTYPE html>X</html><p>X
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.56.html:1:1]
  1 | <!DOCTYPE html>X</html><p>X
    :                ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.56.html:1:1]
  1 | <!DOCTYPE html>X</html><p>X
    :                ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.56.html:1:1]
  1 | <!DOCTYPE html>X</html><p>X
    :                        ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.56.html:1:1]
  1 | <!DOCTYPE html>X</html><p>X
    :                        ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.56.html:1:1]
  1 | <!DOCTYPE html>X</html><p>X
    :                           ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.56.html:1:1]
  1 | <!DOCTYPE html>X</html><p>X

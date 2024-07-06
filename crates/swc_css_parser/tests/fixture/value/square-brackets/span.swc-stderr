@@ -1,4 +1,3 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
  1 | ,-> div {
@@ -10,7 +9,6 @@
  7 | |       prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
  8 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
  1 | ,-> div {
@@ -22,7 +20,6 @@
  7 | |       prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
  8 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
  1 | ,-> div {
@@ -34,56 +31,48 @@
  7 | |       prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
  8 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
  1 | div {
    : ^^^
  2 |     prop:  [];
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
  1 | div {
    : ^^^
  2 |     prop:  [];
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
  1 | div {
    : ^^^
  2 |     prop:  [];
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
  1 | div {
    : ^^^
  2 |     prop:  [];
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
  1 | div {
    : ^^^
  2 |     prop:  [];
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
  1 | div {
    : ^^^
  2 |     prop:  [];
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
  1 | div {
    : ^^^
  2 |     prop:  [];
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
  1 | ,-> div {
@@ -95,616 +84,539 @@
  7 | |       prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
  8 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
  1 | div {
    :     ^
  2 |     prop:  [];
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:2:1]
  1 | div {
  2 |     prop:  [];
    :     ^^^^^^^^^
  3 |     prop:  [ ];
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:2:1]
  1 | div {
  2 |     prop:  [];
    :     ^^^^^^^^^
  3 |     prop:  [ ];
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:2:1]
  1 | div {
  2 |     prop:  [];
    :     ^^^^
  3 |     prop:  [ ];
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:2:1]
  1 | div {
  2 |     prop:  [];
    :     ^^^^
  3 |     prop:  [ ];
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:2:1]
  1 | div {
  2 |     prop:  [];
    :            ^^
  3 |     prop:  [ ];
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:2:1]
  1 | div {
  2 |     prop:  [];
    :            ^^
  3 |     prop:  [ ];
    `----
-
   x LBracket
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:2:1]
  1 | div {
  2 |     prop:  [];
    :            ^
  3 |     prop:  [ ];
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:2:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:3:1]
  2 |     prop:  [];
  3 |     prop:  [ ];
    :     ^^^^^^^^^^
  4 |     prop:  [row1-start];
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:2:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:3:1]
  2 |     prop:  [];
  3 |     prop:  [ ];
    :     ^^^^^^^^^^
  4 |     prop:  [row1-start];
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:2:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:3:1]
  2 |     prop:  [];
  3 |     prop:  [ ];
    :     ^^^^
  4 |     prop:  [row1-start];
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:2:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:3:1]
  2 |     prop:  [];
  3 |     prop:  [ ];
    :     ^^^^
  4 |     prop:  [row1-start];
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:2:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:3:1]
  2 |     prop:  [];
  3 |     prop:  [ ];
    :            ^^^
  4 |     prop:  [row1-start];
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:2:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:3:1]
  2 |     prop:  [];
  3 |     prop:  [ ];
    :            ^^^
  4 |     prop:  [row1-start];
    `----
-
   x LBracket
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:2:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:3:1]
  2 |     prop:  [];
  3 |     prop:  [ ];
    :            ^
  4 |     prop:  [row1-start];
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:4:1]
  3 |     prop:  [ ];
  4 |     prop:  [row1-start];
    :     ^^^^^^^^^^^^^^^^^^^
  5 |     prop:  [   row1-start-with-spaces-around   ];
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:4:1]
  3 |     prop:  [ ];
  4 |     prop:  [row1-start];
    :     ^^^^^^^^^^^^^^^^^^^
  5 |     prop:  [   row1-start-with-spaces-around   ];
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:4:1]
  3 |     prop:  [ ];
  4 |     prop:  [row1-start];
    :     ^^^^
  5 |     prop:  [   row1-start-with-spaces-around   ];
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:4:1]
  3 |     prop:  [ ];
  4 |     prop:  [row1-start];
    :     ^^^^
  5 |     prop:  [   row1-start-with-spaces-around   ];
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:4:1]
  3 |     prop:  [ ];
  4 |     prop:  [row1-start];
    :            ^^^^^^^^^^^^
  5 |     prop:  [   row1-start-with-spaces-around   ];
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:4:1]
  3 |     prop:  [ ];
  4 |     prop:  [row1-start];
    :            ^^^^^^^^^^^^
  5 |     prop:  [   row1-start-with-spaces-around   ];
    `----
-
   x LBracket
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:4:1]
  3 |     prop:  [ ];
  4 |     prop:  [row1-start];
    :            ^
  5 |     prop:  [   row1-start-with-spaces-around   ];
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:3:1]
- 3 |     prop:  [ ];
- 4 |     prop:  [row1-start];
-   :             ^^^^^^^^^^
- 5 |     prop:  [   row1-start-with-spaces-around   ];
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:3:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:4:1]
  3 |     prop:  [ ];
  4 |     prop:  [row1-start];
    :             ^^^^^^^^^^
  5 |     prop:  [   row1-start-with-spaces-around   ];
    `----
-
-  x ComponentValue
+  x Ident
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:4:1]
+ 3 |     prop:  [ ];
+ 4 |     prop:  [row1-start];
+   :             ^^^^^^^^^^
+ 5 |     prop:  [   row1-start-with-spaces-around   ];
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
  4 |     prop:  [row1-start];
  5 |     prop:  [   row1-start-with-spaces-around   ];
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     prop:  [red #fff 12px];
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
  4 |     prop:  [row1-start];
  5 |     prop:  [   row1-start-with-spaces-around   ];
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     prop:  [red #fff 12px];
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
  4 |     prop:  [row1-start];
  5 |     prop:  [   row1-start-with-spaces-around   ];
    :     ^^^^
  6 |     prop:  [red #fff 12px];
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
  4 |     prop:  [row1-start];
  5 |     prop:  [   row1-start-with-spaces-around   ];
    :     ^^^^
  6 |     prop:  [red #fff 12px];
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
  4 |     prop:  [row1-start];
  5 |     prop:  [   row1-start-with-spaces-around   ];
    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     prop:  [red #fff 12px];
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
  4 |     prop:  [row1-start];
  5 |     prop:  [   row1-start-with-spaces-around   ];
    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     prop:  [red #fff 12px];
    `----
-
   x LBracket
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
  4 |     prop:  [row1-start];
  5 |     prop:  [   row1-start-with-spaces-around   ];
    :            ^
  6 |     prop:  [red #fff 12px];
    `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:4:1]
- 4 |     prop:  [row1-start];
- 5 |     prop:  [   row1-start-with-spaces-around   ];
-   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 6 |     prop:  [red #fff 12px];
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:4:1]
- 4 |     prop:  [row1-start];
- 5 |     prop:  [   row1-start-with-spaces-around   ];
-   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 6 |     prop:  [red #fff 12px];
-   `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
+ 4 |     prop:  [row1-start];
+ 5 |     prop:  [   row1-start-with-spaces-around   ];
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |     prop:  [red #fff 12px];
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
+ 4 |     prop:  [row1-start];
+ 5 |     prop:  [   row1-start-with-spaces-around   ];
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |     prop:  [red #fff 12px];
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
  5 |     prop:  [   row1-start-with-spaces-around   ];
  6 |     prop:  [red #fff 12px];
    :     ^^^^^^^^^^^^^^^^^^^^^^
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
  5 |     prop:  [   row1-start-with-spaces-around   ];
  6 |     prop:  [red #fff 12px];
    :     ^^^^^^^^^^^^^^^^^^^^^^
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
  5 |     prop:  [   row1-start-with-spaces-around   ];
  6 |     prop:  [red #fff 12px];
    :     ^^^^
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
  5 |     prop:  [   row1-start-with-spaces-around   ];
  6 |     prop:  [red #fff 12px];
    :     ^^^^
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
  5 |     prop:  [   row1-start-with-spaces-around   ];
  6 |     prop:  [red #fff 12px];
    :            ^^^^^^^^^^^^^^^
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
  5 |     prop:  [   row1-start-with-spaces-around   ];
  6 |     prop:  [red #fff 12px];
    :            ^^^^^^^^^^^^^^^
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    `----
-
   x LBracket
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
  5 |     prop:  [   row1-start-with-spaces-around   ];
  6 |     prop:  [red #fff 12px];
    :            ^
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
  5 |     prop:  [   row1-start-with-spaces-around   ];
  6 |     prop:  [red #fff 12px];
    :             ^^^
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
  5 |     prop:  [   row1-start-with-spaces-around   ];
  6 |     prop:  [red #fff 12px];
    :             ^^^
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
  5 |     prop:  [   row1-start-with-spaces-around   ];
  6 |     prop:  [red #fff 12px];
    :                 ^^^^
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    `----
-
   x Color
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
  5 |     prop:  [   row1-start-with-spaces-around   ];
  6 |     prop:  [red #fff 12px];
    :                 ^^^^
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    `----
-
   x HexColor
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
  5 |     prop:  [   row1-start-with-spaces-around   ];
  6 |     prop:  [red #fff 12px];
    :                 ^^^^
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
  5 |     prop:  [   row1-start-with-spaces-around   ];
  6 |     prop:  [red #fff 12px];
    :                      ^^^^
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    `----
-
   x Dimension
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
  5 |     prop:  [   row1-start-with-spaces-around   ];
  6 |     prop:  [red #fff 12px];
    :                      ^^^^
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    `----
-
   x Length
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
  5 |     prop:  [   row1-start-with-spaces-around   ];
  6 |     prop:  [red #fff 12px];
    :                      ^^^^
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
  5 |     prop:  [   row1-start-with-spaces-around   ];
  6 |     prop:  [red #fff 12px];
    :                      ^^
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
  5 |     prop:  [   row1-start-with-spaces-around   ];
  6 |     prop:  [red #fff 12px];
    :                        ^^
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :     ^^^^
  8 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :     ^^^^
  8 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :           ^^^^^^^^^^^^
  8 | }
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :           ^^^^^^^^^^^^
  8 | }
    `----
-
   x LBracket
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :           ^
  8 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :            ^^^^^^^^^^
  8 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :            ^^^^^^^^^^
  8 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :                        ^^^
  8 | }
    `----
-
   x Percentage
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :                        ^^^
  8 | }
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :                        ^^
  8 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :                            ^^^^^^^^^^^^^^^^^^^^^
  8 | }
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :                            ^^^^^^^^^^^^^^^^^^^^^
  8 | }
    `----
-
   x LBracket
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :                            ^
  8 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :                             ^^^^^^^^
  8 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :                             ^^^^^^^^
  8 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :                                      ^^^^^^^^^^
  8 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :                                      ^^^^^^^^^^
  8 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :                                                  ^^^
  8 | }
    `----
-
   x Percentage
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :                                                  ^^^
  8 | }
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :                                                  ^^
  8 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :                                                      ^^^^^^^^^^
  8 | }
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :                                                      ^^^^^^^^^^
  8 | }
    `----
-
   x LBracket
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :                                                      ^
  8 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :                                                       ^^^^^^^^
  8 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:7:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
    :                                                       ^^^^^^^^

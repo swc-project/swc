@@ -1,40 +1,33 @@
-
   x Module
    ,-[$DIR/tests/span/js/expr/tpl.js:1:1]
  1 | `foo`
    : ^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/expr/tpl.js:1:1]
  1 | `foo`
    : ^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/expr/tpl.js:1:1]
  1 | `foo`
    : ^^^^^
    `----
-
   x ExprStmt
    ,-[$DIR/tests/span/js/expr/tpl.js:1:1]
  1 | `foo`
    : ^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/tpl.js:1:1]
  1 | `foo`
    : ^^^^^
    `----
-
   x Tpl
    ,-[$DIR/tests/span/js/expr/tpl.js:1:1]
  1 | `foo`
    : ^^^^^
    `----
-
   x TplElement
    ,-[$DIR/tests/span/js/expr/tpl.js:1:1]
  1 | `foo`

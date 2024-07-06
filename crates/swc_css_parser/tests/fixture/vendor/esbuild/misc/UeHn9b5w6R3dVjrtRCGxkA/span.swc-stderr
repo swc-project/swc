@@ -1,64 +1,53 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/UeHn9b5w6R3dVjrtRCGxkA/input.css:1:1]
  1 | |* {}
    : ^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/UeHn9b5w6R3dVjrtRCGxkA/input.css:1:1]
  1 | |* {}
    : ^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/UeHn9b5w6R3dVjrtRCGxkA/input.css:1:1]
  1 | |* {}
    : ^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/UeHn9b5w6R3dVjrtRCGxkA/input.css:1:1]
  1 | |* {}
    : ^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/UeHn9b5w6R3dVjrtRCGxkA/input.css:1:1]
  1 | |* {}
    : ^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/UeHn9b5w6R3dVjrtRCGxkA/input.css:1:1]
  1 | |* {}
    : ^^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/UeHn9b5w6R3dVjrtRCGxkA/input.css:1:1]
  1 | |* {}
    : ^^
    `----
-
   x UniversalSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/UeHn9b5w6R3dVjrtRCGxkA/input.css:1:1]
  1 | |* {}
    : ^^
    `----
-
   x NamespacePrefix
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/UeHn9b5w6R3dVjrtRCGxkA/input.css:1:1]
  1 | |* {}
    : ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/UeHn9b5w6R3dVjrtRCGxkA/input.css:1:1]
  1 | |* {}
    :    ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/UeHn9b5w6R3dVjrtRCGxkA/input.css:1:1]
  1 | |* {}

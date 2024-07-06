@@ -1,4 +1,3 @@
-
   x Legacy decimal escape is not permitted in strict mode
    ,-[$DIR/tests/test262-parser/fail/3078b4fed5626e2a.js:1:1]
  1 | 'use strict'; 08

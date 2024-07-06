@@ -1,4 +1,3 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:1:1]
  1 | ,-> <TABLE>
@@ -10,79 +9,68 @@
  7 | |   <a></font><font></a>
  8 | `-> This page contains an insanely badly-nested tag sequence.
    `----
-
   x Child
-
   x Element
-
-  x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:2:1]
- 2 | <TR>
- 3 | <CENTER><CENTER><TD></TD></TR><TR>
-   : ^^^^^^^^^^^^^^^^
- 4 | <FONT>
-   `----
-
-  x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:2:1]
- 2 | <TR>
- 3 | <CENTER><CENTER><TD></TD></TR><TR>
-   : ^^^^^^^^^^^^^^^^
- 4 | <FONT>
-   `----
-
-  x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:2:1]
- 2 | <TR>
- 3 | <CENTER><CENTER><TD></TD></TR><TR>
-   :         ^^^^^^^^
- 4 | <FONT>
-   `----
-
-  x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:2:1]
- 2 | <TR>
- 3 | <CENTER><CENTER><TD></TD></TR><TR>
-   :         ^^^^^^^^
- 4 | <FONT>
-   `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:3:1]
+ 2 | <TR>
+ 3 | <CENTER><CENTER><TD></TD></TR><TR>
+   : ^^^^^^^^^^^^^^^^
+ 4 | <FONT>
+   `----
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:3:1]
+ 2 | <TR>
+ 3 | <CENTER><CENTER><TD></TD></TR><TR>
+   : ^^^^^^^^^^^^^^^^
+ 4 | <FONT>
+   `----
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:3:1]
+ 2 | <TR>
+ 3 | <CENTER><CENTER><TD></TD></TR><TR>
+   :         ^^^^^^^^
+ 4 | <FONT>
+   `----
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:3:1]
+ 2 | <TR>
+ 3 | <CENTER><CENTER><TD></TD></TR><TR>
+   :         ^^^^^^^^
+ 4 | <FONT>
+   `----
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:4:1]
  3 | <CENTER><CENTER><TD></TD></TR><TR>
  4 | <FONT>
    : ^^^^^^^
  5 | <TABLE><tr></tr></TABLE>
  6 | </P>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:4:1]
  3 | <CENTER><CENTER><TD></TD></TR><TR>
  4 | <FONT>
    : ^^^^^^^
  5 | <TABLE><tr></tr></TABLE>
  6 | </P>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:4:1]
  3 | <CENTER><CENTER><TD></TD></TR><TR>
  4 | <FONT>
    :       ^
  5 | <TABLE><tr></tr></TABLE>
  6 | </P>
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:4:1]
  3 | <CENTER><CENTER><TD></TD></TR><TR>
  4 | <FONT>
    :       ^
  5 | <TABLE><tr></tr></TABLE>
  6 | </P>
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:1:1]
  1 | ,-> <TABLE>
@@ -91,7 +79,6 @@
  4 |     <FONT>
  5 |     <TABLE><tr></tr></TABLE>
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:1:1]
  1 | ,-> <TABLE>
@@ -100,7 +87,6 @@
  4 |     <FONT>
  5 |     <TABLE><tr></tr></TABLE>
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:1:1]
  1 | <TABLE>
@@ -108,7 +94,6 @@
  2 | <TR>
  3 | <CENTER><CENTER><TD></TD></TR><TR>
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:1:1]
  1 | <TABLE>
@@ -116,127 +101,112 @@
  2 | <TR>
  3 | <CENTER><CENTER><TD></TD></TR><TR>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:2:1]
  1 |     <TABLE>
  2 | ,-> <TR>
  3 | `-> <CENTER><CENTER><TD></TD></TR><TR>
  4 |     <FONT>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:2:1]
  1 |     <TABLE>
  2 | ,-> <TR>
  3 | `-> <CENTER><CENTER><TD></TD></TR><TR>
  4 |     <FONT>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:2:1]
  1 | <TABLE>
  2 | <TR>
    :     ^
  3 | <CENTER><CENTER><TD></TD></TR><TR>
  4 | <FONT>
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:2:1]
  1 | <TABLE>
  2 | <TR>
    :     ^
  3 | <CENTER><CENTER><TD></TD></TR><TR>
  4 | <FONT>
    `----
-
-  x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:2:1]
- 2 | <TR>
- 3 | <CENTER><CENTER><TD></TD></TR><TR>
-   :                 ^^^^^^^^^
- 4 | <FONT>
-   `----
-
-  x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:2:1]
- 2 | <TR>
- 3 | <CENTER><CENTER><TD></TD></TR><TR>
-   :                 ^^^^^^^^^
- 4 | <FONT>
-   `----
-
-  x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:2:1]
- 2 | <TR>
- 3 | <CENTER><CENTER><TD></TD></TR><TR>
-   :                               ^^^^^
- 4 | <FONT>
- 5 | <TABLE><tr></tr></TABLE>
-   `----
-
-  x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:2:1]
- 2 | <TR>
- 3 | <CENTER><CENTER><TD></TD></TR><TR>
-   :                               ^^^^^
- 4 | <FONT>
- 5 | <TABLE><tr></tr></TABLE>
-   `----
-
-  x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:2:1]
- 2 | <TR>
- 3 | <CENTER><CENTER><TD></TD></TR><TR>
-   :                                   ^
- 4 | <FONT>
- 5 | <TABLE><tr></tr></TABLE>
-   `----
-
-  x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:2:1]
- 2 | <TR>
- 3 | <CENTER><CENTER><TD></TD></TR><TR>
-   :                                   ^
- 4 | <FONT>
- 5 | <TABLE><tr></tr></TABLE>
-   `----
-
-  x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:4:1]
- 4 | <FONT>
- 5 | <TABLE><tr></tr></TABLE>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
- 6 | </P>
-   `----
-
-  x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:4:1]
- 4 | <FONT>
- 5 | <TABLE><tr></tr></TABLE>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
- 6 | </P>
-   `----
-
-  x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:4:1]
- 4 | <FONT>
- 5 | <TABLE><tr></tr></TABLE>
-   :        ^^^^^^^^^
- 6 | </P>
-   `----
-
-  x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:4:1]
- 4 | <FONT>
- 5 | <TABLE><tr></tr></TABLE>
-   :        ^^^^^^^^^
- 6 | </P>
-   `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:3:1]
+ 2 | <TR>
+ 3 | <CENTER><CENTER><TD></TD></TR><TR>
+   :                 ^^^^^^^^^
+ 4 | <FONT>
+   `----
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:3:1]
+ 2 | <TR>
+ 3 | <CENTER><CENTER><TD></TD></TR><TR>
+   :                 ^^^^^^^^^
+ 4 | <FONT>
+   `----
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:3:1]
+ 2 | <TR>
+ 3 | <CENTER><CENTER><TD></TD></TR><TR>
+   :                               ^^^^^
+ 4 | <FONT>
+ 5 | <TABLE><tr></tr></TABLE>
+   `----
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:3:1]
+ 2 | <TR>
+ 3 | <CENTER><CENTER><TD></TD></TR><TR>
+   :                               ^^^^^
+ 4 | <FONT>
+ 5 | <TABLE><tr></tr></TABLE>
+   `----
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:3:1]
+ 2 | <TR>
+ 3 | <CENTER><CENTER><TD></TD></TR><TR>
+   :                                   ^
+ 4 | <FONT>
+ 5 | <TABLE><tr></tr></TABLE>
+   `----
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:3:1]
+ 2 | <TR>
+ 3 | <CENTER><CENTER><TD></TD></TR><TR>
+   :                                   ^
+ 4 | <FONT>
+ 5 | <TABLE><tr></tr></TABLE>
+   `----
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:5:1]
+ 4 | <FONT>
+ 5 | <TABLE><tr></tr></TABLE>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 | </P>
+   `----
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:5:1]
+ 4 | <FONT>
+ 5 | <TABLE><tr></tr></TABLE>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 | </P>
+   `----
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:5:1]
+ 4 | <FONT>
+ 5 | <TABLE><tr></tr></TABLE>
+   :        ^^^^^^^^^
+ 6 | </P>
+   `----
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:5:1]
+ 4 | <FONT>
+ 5 | <TABLE><tr></tr></TABLE>
+   :        ^^^^^^^^^
+ 6 | </P>
+   `----
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:4:1]
  3 |     <CENTER><CENTER><TD></TD></TR><TR>
  4 | ,-> <FONT>
  5 | |   <TABLE><tr></tr></TABLE>
@@ -244,9 +214,8 @@
  7 | `-> <a></font><font></a>
  8 |     This page contains an insanely badly-nested tag sequence.
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:4:1]
  3 |     <CENTER><CENTER><TD></TD></TR><TR>
  4 | ,-> <FONT>
  5 | |   <TABLE><tr></tr></TABLE>
@@ -254,130 +223,114 @@
  7 | `-> <a></font><font></a>
  8 |     This page contains an insanely badly-nested tag sequence.
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:4:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:5:1]
  4 | <FONT>
  5 | <TABLE><tr></tr></TABLE>
    :                         ^
  6 | </P>
  7 | <a></font><font></a>
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:4:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:5:1]
  4 | <FONT>
  5 | <TABLE><tr></tr></TABLE>
    :                         ^
  6 | </P>
  7 | <a></font><font></a>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:5:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:6:1]
  5 | <TABLE><tr></tr></TABLE>
  6 | </P>
    : ^^^^
  7 | <a></font><font></a>
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:5:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:6:1]
  5 | <TABLE><tr></tr></TABLE>
  6 | </P>
    : ^^^^
  7 | <a></font><font></a>
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:5:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:6:1]
  5 | <TABLE><tr></tr></TABLE>
  6 | </P>
    :     ^
  7 | <a></font><font></a>
  8 | This page contains an insanely badly-nested tag sequence.
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:5:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:6:1]
  5 | <TABLE><tr></tr></TABLE>
  6 | </P>
    :     ^
  7 | <a></font><font></a>
  8 | This page contains an insanely badly-nested tag sequence.
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:6:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:7:1]
  6 | </P>
  7 | <a></font><font></a>
    : ^^^
  8 | This page contains an insanely badly-nested tag sequence.
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:6:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:7:1]
  6 | </P>
  7 | <a></font><font></a>
    : ^^^
  8 | This page contains an insanely badly-nested tag sequence.
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:6:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:7:1]
  6 | </P>
  7 | <a></font><font></a>
    : ^^^^^^^^^^^^^^^^^^^^
  8 | This page contains an insanely badly-nested tag sequence.
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:6:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:7:1]
  6 | </P>
  7 | <a></font><font></a>
    : ^^^^^^^^^^^^^^^^^^^^
  8 | This page contains an insanely badly-nested tag sequence.
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:6:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:7:1]
  6 | </P>
  7 | <a></font><font></a>
    :           ^^^^^^
  8 | This page contains an insanely badly-nested tag sequence.
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:6:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:7:1]
  6 | </P>
  7 | <a></font><font></a>
    :           ^^^^^^
  8 | This page contains an insanely badly-nested tag sequence.
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:6:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:7:1]
  6 |     </P>
  7 | ,-> <a></font><font></a>
  8 | `-> This page contains an insanely badly-nested tag sequence.
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:6:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:7:1]
  6 |     </P>
  7 | ,-> <a></font><font></a>
  8 | `-> This page contains an insanely badly-nested tag sequence.
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:6:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:7:1]
  6 |     </P>
  7 | ,-> <a></font><font></a>
  8 | `-> This page contains an insanely badly-nested tag sequence.
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:6:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.7.html:7:1]
  6 |     </P>
  7 | ,-> <a></font><font></a>
  8 | `-> This page contains an insanely badly-nested tag sequence.

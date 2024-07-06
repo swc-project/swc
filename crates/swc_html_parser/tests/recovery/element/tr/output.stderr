@@ -1,10 +1,8 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/tr/input.html:1:1]
  1 | <body><template><td></td></tr><td></td></template>
    : ^^^^^^
    `----
-
   x No table row to close
    ,-[$DIR/tests/recovery/element/tr/input.html:1:1]
  1 | <body><template><td></td></tr><td></td></template>

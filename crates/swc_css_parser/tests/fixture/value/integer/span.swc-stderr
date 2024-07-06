@@ -1,4 +1,3 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/value/integer/input.css:1:1]
  1 | ,-> div {
@@ -10,7 +9,6 @@
  7 | |       z-index: -0;
  8 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/value/integer/input.css:1:1]
  1 | ,-> div {
@@ -22,7 +20,6 @@
  7 | |       z-index: -0;
  8 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/value/integer/input.css:1:1]
  1 | ,-> div {
@@ -34,56 +31,48 @@
  7 | |       z-index: -0;
  8 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/value/integer/input.css:1:1]
  1 | div {
    : ^^^
  2 |     z-index: 12;
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/value/integer/input.css:1:1]
  1 | div {
    : ^^^
  2 |     z-index: 12;
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/value/integer/input.css:1:1]
  1 | div {
    : ^^^
  2 |     z-index: 12;
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/value/integer/input.css:1:1]
  1 | div {
    : ^^^
  2 |     z-index: 12;
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/value/integer/input.css:1:1]
  1 | div {
    : ^^^
  2 |     z-index: 12;
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/value/integer/input.css:1:1]
  1 | div {
    : ^^^
  2 |     z-index: 12;
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/value/integer/input.css:1:1]
  1 | div {
    : ^^^
  2 |     z-index: 12;
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/value/integer/input.css:1:1]
  1 | ,-> div {
@@ -95,296 +84,259 @@
  7 | |       z-index: -0;
  8 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/value/integer/input.css:1:1]
  1 | div {
    :     ^
  2 |     z-index: 12;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/integer/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/integer/input.css:2:1]
  1 | div {
  2 |     z-index: 12;
    :     ^^^^^^^^^^^
  3 |     z-index: +123;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/integer/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/integer/input.css:2:1]
  1 | div {
  2 |     z-index: 12;
    :     ^^^^^^^^^^^
  3 |     z-index: +123;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/integer/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/integer/input.css:2:1]
  1 | div {
  2 |     z-index: 12;
    :     ^^^^^^^
  3 |     z-index: +123;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/integer/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/integer/input.css:2:1]
  1 | div {
  2 |     z-index: 12;
    :     ^^^^^^^
  3 |     z-index: +123;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/integer/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/integer/input.css:2:1]
  1 | div {
  2 |     z-index: 12;
    :              ^^
  3 |     z-index: +123;
    `----
-
   x Integer
-   ,-[$DIR/tests/fixture/value/integer/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/integer/input.css:2:1]
  1 | div {
  2 |     z-index: 12;
    :              ^^
  3 |     z-index: +123;
    `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/integer/input.css:2:1]
- 2 |     z-index: 12;
- 3 |     z-index: +123;
-   :     ^^^^^^^^^^^^^
- 4 |     z-index: -456;
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/fixture/value/integer/input.css:2:1]
- 2 |     z-index: 12;
- 3 |     z-index: +123;
-   :     ^^^^^^^^^^^^^
- 4 |     z-index: -456;
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/fixture/value/integer/input.css:2:1]
- 2 |     z-index: 12;
- 3 |     z-index: +123;
-   :     ^^^^^^^
- 4 |     z-index: -456;
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/value/integer/input.css:2:1]
- 2 |     z-index: 12;
- 3 |     z-index: +123;
-   :     ^^^^^^^
- 4 |     z-index: -456;
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/integer/input.css:2:1]
- 2 |     z-index: 12;
- 3 |     z-index: +123;
-   :              ^^^^
- 4 |     z-index: -456;
-   `----
-
-  x Integer
-   ,-[$DIR/tests/fixture/value/integer/input.css:2:1]
- 2 |     z-index: 12;
- 3 |     z-index: +123;
-   :              ^^^^
- 4 |     z-index: -456;
-   `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/value/integer/input.css:3:1]
+ 2 |     z-index: 12;
  3 |     z-index: +123;
- 4 |     z-index: -456;
    :     ^^^^^^^^^^^^^
- 5 |     z-index: 0;
+ 4 |     z-index: -456;
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/integer/input.css:3:1]
+ 2 |     z-index: 12;
  3 |     z-index: +123;
- 4 |     z-index: -456;
    :     ^^^^^^^^^^^^^
- 5 |     z-index: 0;
+ 4 |     z-index: -456;
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/value/integer/input.css:3:1]
+ 2 |     z-index: 12;
  3 |     z-index: +123;
- 4 |     z-index: -456;
    :     ^^^^^^^
- 5 |     z-index: 0;
+ 4 |     z-index: -456;
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/value/integer/input.css:3:1]
+ 2 |     z-index: 12;
  3 |     z-index: +123;
- 4 |     z-index: -456;
    :     ^^^^^^^
- 5 |     z-index: 0;
+ 4 |     z-index: -456;
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/value/integer/input.css:3:1]
+ 2 |     z-index: 12;
  3 |     z-index: +123;
- 4 |     z-index: -456;
    :              ^^^^
- 5 |     z-index: 0;
+ 4 |     z-index: -456;
    `----
-
   x Integer
    ,-[$DIR/tests/fixture/value/integer/input.css:3:1]
+ 2 |     z-index: 12;
  3 |     z-index: +123;
- 4 |     z-index: -456;
    :              ^^^^
- 5 |     z-index: 0;
+ 4 |     z-index: -456;
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/value/integer/input.css:4:1]
+ 3 |     z-index: +123;
+ 4 |     z-index: -456;
+   :     ^^^^^^^^^^^^^
+ 5 |     z-index: 0;
+   `----
+  x Declaration
+   ,-[$DIR/tests/fixture/value/integer/input.css:4:1]
+ 3 |     z-index: +123;
+ 4 |     z-index: -456;
+   :     ^^^^^^^^^^^^^
+ 5 |     z-index: 0;
+   `----
+  x DeclarationName
+   ,-[$DIR/tests/fixture/value/integer/input.css:4:1]
+ 3 |     z-index: +123;
+ 4 |     z-index: -456;
+   :     ^^^^^^^
+ 5 |     z-index: 0;
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/value/integer/input.css:4:1]
+ 3 |     z-index: +123;
+ 4 |     z-index: -456;
+   :     ^^^^^^^
+ 5 |     z-index: 0;
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/integer/input.css:4:1]
+ 3 |     z-index: +123;
+ 4 |     z-index: -456;
+   :              ^^^^
+ 5 |     z-index: 0;
+   `----
+  x Integer
+   ,-[$DIR/tests/fixture/value/integer/input.css:4:1]
+ 3 |     z-index: +123;
+ 4 |     z-index: -456;
+   :              ^^^^
+ 5 |     z-index: 0;
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/integer/input.css:5:1]
  4 |     z-index: -456;
  5 |     z-index: 0;
    :     ^^^^^^^^^^
  6 |     z-index: +0;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/integer/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/integer/input.css:5:1]
  4 |     z-index: -456;
  5 |     z-index: 0;
    :     ^^^^^^^^^^
  6 |     z-index: +0;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/integer/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/integer/input.css:5:1]
  4 |     z-index: -456;
  5 |     z-index: 0;
    :     ^^^^^^^
  6 |     z-index: +0;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/integer/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/integer/input.css:5:1]
  4 |     z-index: -456;
  5 |     z-index: 0;
    :     ^^^^^^^
  6 |     z-index: +0;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/integer/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/integer/input.css:5:1]
  4 |     z-index: -456;
  5 |     z-index: 0;
    :              ^
  6 |     z-index: +0;
    `----
-
   x Integer
-   ,-[$DIR/tests/fixture/value/integer/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/integer/input.css:5:1]
  4 |     z-index: -456;
  5 |     z-index: 0;
    :              ^
  6 |     z-index: +0;
    `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/integer/input.css:5:1]
- 5 |     z-index: 0;
- 6 |     z-index: +0;
-   :     ^^^^^^^^^^^
- 7 |     z-index: -0;
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/fixture/value/integer/input.css:5:1]
- 5 |     z-index: 0;
- 6 |     z-index: +0;
-   :     ^^^^^^^^^^^
- 7 |     z-index: -0;
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/fixture/value/integer/input.css:5:1]
- 5 |     z-index: 0;
- 6 |     z-index: +0;
-   :     ^^^^^^^
- 7 |     z-index: -0;
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/value/integer/input.css:5:1]
- 5 |     z-index: 0;
- 6 |     z-index: +0;
-   :     ^^^^^^^
- 7 |     z-index: -0;
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/integer/input.css:5:1]
- 5 |     z-index: 0;
- 6 |     z-index: +0;
-   :              ^^
- 7 |     z-index: -0;
-   `----
-
-  x Integer
-   ,-[$DIR/tests/fixture/value/integer/input.css:5:1]
- 5 |     z-index: 0;
- 6 |     z-index: +0;
-   :              ^^
- 7 |     z-index: -0;
-   `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/value/integer/input.css:6:1]
+ 5 |     z-index: 0;
  6 |     z-index: +0;
- 7 |     z-index: -0;
    :     ^^^^^^^^^^^
- 8 | }
+ 7 |     z-index: -0;
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/integer/input.css:6:1]
+ 5 |     z-index: 0;
+ 6 |     z-index: +0;
+   :     ^^^^^^^^^^^
+ 7 |     z-index: -0;
+   `----
+  x DeclarationName
+   ,-[$DIR/tests/fixture/value/integer/input.css:6:1]
+ 5 |     z-index: 0;
+ 6 |     z-index: +0;
+   :     ^^^^^^^
+ 7 |     z-index: -0;
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/value/integer/input.css:6:1]
+ 5 |     z-index: 0;
+ 6 |     z-index: +0;
+   :     ^^^^^^^
+ 7 |     z-index: -0;
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/integer/input.css:6:1]
+ 5 |     z-index: 0;
+ 6 |     z-index: +0;
+   :              ^^
+ 7 |     z-index: -0;
+   `----
+  x Integer
+   ,-[$DIR/tests/fixture/value/integer/input.css:6:1]
+ 5 |     z-index: 0;
+ 6 |     z-index: +0;
+   :              ^^
+ 7 |     z-index: -0;
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/integer/input.css:7:1]
  6 |     z-index: +0;
  7 |     z-index: -0;
    :     ^^^^^^^^^^^
  8 | }
    `----
-
+  x Declaration
+   ,-[$DIR/tests/fixture/value/integer/input.css:7:1]
+ 6 |     z-index: +0;
+ 7 |     z-index: -0;
+   :     ^^^^^^^^^^^
+ 8 | }
+   `----
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/integer/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/integer/input.css:7:1]
  6 |     z-index: +0;
  7 |     z-index: -0;
    :     ^^^^^^^
  8 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/integer/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/integer/input.css:7:1]
  6 |     z-index: +0;
  7 |     z-index: -0;
    :     ^^^^^^^
  8 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/integer/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/integer/input.css:7:1]
  6 |     z-index: +0;
  7 |     z-index: -0;
    :              ^^
  8 | }
    `----
-
   x Integer
-   ,-[$DIR/tests/fixture/value/integer/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/integer/input.css:7:1]
  6 |     z-index: +0;
  7 |     z-index: -0;
    :              ^^

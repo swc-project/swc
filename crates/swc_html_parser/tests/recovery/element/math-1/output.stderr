@@ -1,6 +1,5 @@
-
   x Stray end tag "math"
-    ,-[$DIR/tests/recovery/element/math-1/input.html:8:1]
+    ,-[$DIR/tests/recovery/element/math-1/input.html:9:1]
   8 | </math>X
   9 | </math>
     : ^^^^^^^

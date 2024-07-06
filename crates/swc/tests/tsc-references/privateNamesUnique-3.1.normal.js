@@ -1,7 +1,6 @@
 //// [privateNamesUnique-3.ts]
-//! 
 //!   x duplicate private name #foo.
-//!    ,-[1:1]
+//!    ,-[4:1]
 //!  1 | 
 //!  2 | class A {
 //!  3 |     #foo = 1;

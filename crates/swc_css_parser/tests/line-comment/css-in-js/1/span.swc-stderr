@@ -1,142 +1,124 @@
-
   x Stylesheet
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:1:1]
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:1]
  1 |     // Line comment
  2 | ,-> foo {
  3 | |       color: red;
  4 | `-> }
    `----
-
   x Rule
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:1:1]
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:1]
  1 |     // Line comment
  2 | ,-> foo {
  3 | |       color: red;
  4 | `-> }
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:1:1]
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:1]
  1 |     // Line comment
  2 | ,-> foo {
  3 | |       color: red;
  4 | `-> }
    `----
-
   x SelectorList
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:1:1]
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:1]
  1 | // Line comment
  2 | foo {
    : ^^^
  3 |     color: red;
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:1:1]
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:1]
  1 | // Line comment
  2 | foo {
    : ^^^
  3 |     color: red;
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:1:1]
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:1]
  1 | // Line comment
  2 | foo {
    : ^^^
  3 |     color: red;
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:1:1]
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:1]
  1 | // Line comment
  2 | foo {
    : ^^^
  3 |     color: red;
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:1:1]
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:1]
  1 | // Line comment
  2 | foo {
    : ^^^
  3 |     color: red;
    `----
-
   x WqName
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:1:1]
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:1]
  1 | // Line comment
  2 | foo {
    : ^^^
  3 |     color: red;
    `----
-
   x Ident
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:1:1]
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:1]
  1 | // Line comment
  2 | foo {
    : ^^^
  3 |     color: red;
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:1:1]
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:1]
  1 |     // Line comment
  2 | ,-> foo {
  3 | |       color: red;
  4 | `-> }
    `----
-
   x LBrace
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:1:1]
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:1]
  1 | // Line comment
  2 | foo {
    :     ^
  3 |     color: red;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:1]
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:3:1]
  2 | foo {
  3 |     color: red;
    :     ^^^^^^^^^^
  4 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:1]
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:3:1]
  2 | foo {
  3 |     color: red;
    :     ^^^^^^^^^^
  4 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:1]
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:3:1]
  2 | foo {
  3 |     color: red;
    :     ^^^^^
  4 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:1]
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:3:1]
  2 | foo {
  3 |     color: red;
    :     ^^^^^
  4 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:1]
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:3:1]
  2 | foo {
  3 |     color: red;
    :            ^^^
  4 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:1]
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:3:1]
  2 | foo {
  3 |     color: red;
    :            ^^^

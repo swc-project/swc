@@ -1,18 +1,15 @@
-
   x Nested comment
-   ,-[$DIR/tests/recovery/comments/bad-16/input.xml:2:1]
+   ,-[$DIR/tests/recovery/comments/bad-16/input.xml:3:1]
  2 | <root>
  3 |     <!--<!--x
    :             ^
  4 | </root>
    `----
-
   x Eof in comment
-   ,-[$DIR/tests/recovery/comments/bad-16/input.xml:5:1]
+   ,-[$DIR/tests/recovery/comments/bad-16/input.xml:5:2]
  5 | 
    `----
-
   x Unexpected end of file in main phase
-   ,-[$DIR/tests/recovery/comments/bad-16/input.xml:5:1]
+   ,-[$DIR/tests/recovery/comments/bad-16/input.xml:5:2]
  5 | 
    `----

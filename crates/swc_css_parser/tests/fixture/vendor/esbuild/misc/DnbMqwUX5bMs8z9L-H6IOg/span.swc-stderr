@@ -1,46 +1,38 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DnbMqwUX5bMs8z9L-H6IOg/input.css:1:1]
  1 | @-ms-keyframes name {}
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DnbMqwUX5bMs8z9L-H6IOg/input.css:1:1]
  1 | @-ms-keyframes name {}
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DnbMqwUX5bMs8z9L-H6IOg/input.css:1:1]
  1 | @-ms-keyframes name {}
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DnbMqwUX5bMs8z9L-H6IOg/input.css:1:1]
  1 | @-ms-keyframes name {}
    :  ^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DnbMqwUX5bMs8z9L-H6IOg/input.css:1:1]
  1 | @-ms-keyframes name {}
    :  ^^^^^^^^^^^^^
    `----
-
   x CustomIdent
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DnbMqwUX5bMs8z9L-H6IOg/input.css:1:1]
  1 | @-ms-keyframes name {}
    :                ^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DnbMqwUX5bMs8z9L-H6IOg/input.css:1:1]
  1 | @-ms-keyframes name {}
    :                     ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DnbMqwUX5bMs8z9L-H6IOg/input.css:1:1]
  1 | @-ms-keyframes name {}

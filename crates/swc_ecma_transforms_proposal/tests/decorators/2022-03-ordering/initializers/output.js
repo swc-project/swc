@@ -42,10 +42,10 @@ new class extends _identity {
                         6,
                         "g",
                         function() {
-                            return this.#__g;
+                            return this.#__g_3;
                         },
                         function(_v) {
-                            this.#__g = _v;
+                            this.#__g_3 = _v;
                         }
                     ],
                     [
@@ -81,10 +81,10 @@ new class extends _identity {
                         1,
                         "h",
                         function() {
-                            return this.#__h;
+                            return this.#__h_4;
                         },
                         function(_v) {
-                            this.#__h = _v;
+                            this.#__h_4 = _v;
                         }
                     ]
                 ], [
@@ -98,20 +98,20 @@ new class extends _identity {
             get #d() {
                 return _call_d;
             }
-            #___private_e = (_initProto(this), _init_e(this));
+            #___private_e_1 = (_initProto(this), _init_e(this));
             get e() {
-                return this.#___private_e;
+                return this.#___private_e_1;
             }
             set e(_v) {
-                this.#___private_e = _v;
+                this.#___private_e_1 = _v;
             }
             static get f() {
-                return this.#___private_f;
+                return this.#___private_f_2;
             }
             static set f(_v) {
-                this.#___private_f = _v;
+                this.#___private_f_2 = _v;
             }
-            #__h = _init_h(this);
+            #__h_4 = _init_h(this);
             get #h() {
                 return _get___h(this);
             }
@@ -123,8 +123,8 @@ new class extends _identity {
     get #c() {
         return _call_c;
     }
-    #___private_f = _init_f(this);
-    #__g = _init_g(this);
+    #___private_f_2 = _init_f(this);
+    #__g_3 = _init_g(this);
     get #g() {
         return _get___g(this);
     }

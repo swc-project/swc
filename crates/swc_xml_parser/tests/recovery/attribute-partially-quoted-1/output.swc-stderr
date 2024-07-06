@@ -1,27 +1,23 @@
-
   x Unescaped "<" not allowed in attribute values
-   ,-[$DIR/tests/recovery/attribute-partially-quoted-1/input.xml:1:1]
+   ,-[$DIR/tests/recovery/attribute-partially-quoted-1/input.xml:2:1]
  1 | <root>
  2 |     <c foo="test></c>
    :                  ^
  3 | </root>
    `----
-
   x Unescaped "<" not allowed in attribute values
-   ,-[$DIR/tests/recovery/attribute-partially-quoted-1/input.xml:2:1]
+   ,-[$DIR/tests/recovery/attribute-partially-quoted-1/input.xml:3:1]
  2 |     <c foo="test></c>
  3 | </root>
    : ^
    `----
-
   x Eof in tag
-   ,-[$DIR/tests/recovery/attribute-partially-quoted-1/input.xml:2:1]
+   ,-[$DIR/tests/recovery/attribute-partially-quoted-1/input.xml:3:1]
  2 |     <c foo="test></c>
  3 | </root>
    `----
-
   x Unexpected end of file in main phase
-   ,-[$DIR/tests/recovery/attribute-partially-quoted-1/input.xml:2:1]
+   ,-[$DIR/tests/recovery/attribute-partially-quoted-1/input.xml:3:1]
  2 |     <c foo="test></c>
  3 | </root>
    `----

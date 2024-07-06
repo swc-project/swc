@@ -1,46 +1,37 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.1.html:1:1]
  1 | <!doctype html><html></p><!--foo-->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.1.html:1:1]
  1 | <!doctype html><html></p><!--foo-->
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.1.html:1:1]
  1 | <!doctype html><html></p><!--foo-->
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.1.html:1:1]
  1 | <!doctype html><html></p><!--foo-->
    :                ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.1.html:1:1]
  1 | <!doctype html><html></p><!--foo-->
    :                ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.1.html:1:1]
  1 | <!doctype html><html></p><!--foo-->
    :                          ^^^^^^^^^^
    `----
-
   x Comment
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.1.html:1:1]
  1 | <!doctype html><html></p><!--foo-->
    :                          ^^^^^^^^^^
    `----
-
   x Child
-
   x Element

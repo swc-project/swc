@@ -1,14 +1,12 @@
-
   x Opening and ending tag mismatch
-   ,-[$DIR/tests/recovery/basic/input.xml:4:1]
+   ,-[$DIR/tests/recovery/basic/input.xml:5:1]
  4 |     <from>Jani</from>
  5 |     <heading>Reminder</pheading>
    :                      ^^^^^^^^^^^
  6 |     <body>Don't forget me this weekend!</body>
    `----
-
   x Opening and ending tag mismatch
-   ,-[$DIR/tests/recovery/basic/input.xml:6:1]
+   ,-[$DIR/tests/recovery/basic/input.xml:7:1]
  6 |     <body>Don't forget me this weekend!</body>
  7 | </note>
    : ^^^^^^^
