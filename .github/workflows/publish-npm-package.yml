@@ -77,6 +77,12 @@ jobs:
           version: "0.12.2"
           locked: true
 
+      - name: "Setup jq"
+        uses: dcarbone/install-jq-action@v2
+        with:
+          version: "1.7"
+          force: true
+
       - uses: webfactory/ssh-agent@v0.5.4
         if: needs.check-if-build-required.outputs.need-build == 'true' && !inputs.skipPublishing
         with:
