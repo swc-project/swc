@@ -631,7 +631,12 @@ jobs:
       - name: Build
         working-directory: bindings/${{ matrix.settings.crate }}
         run: |
-          wasm-pack build --out-name wasm --release --scope=swc --target ${{ matrix.settings.target }}
+          # If ./scripts/build.sh exists, apply it
+          if [ -f ./scripts/build.sh ]; then
+            ./scripts/build.sh
+          else
+            wasm-pack build --out-name wasm --release --scope=swc --target ${{ matrix.settings.target }}
+          fi
           sed -i -e 's/"name": "@swc\/${{ matrix.settings.crate }}"/"name": "${{ matrix.settings.npm }}"/g' pkg/package.json
 
       - name: Publish
