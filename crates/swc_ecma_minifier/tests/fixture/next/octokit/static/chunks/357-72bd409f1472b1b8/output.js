@@ -354,7 +354,7 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
                 }), this._tryToRun(), promise;
             }
         };
-        var version = "2.19.5", version$2 = Object.freeze({
+        var version = "2.19.5", version$2 = /*#__PURE__*/ Object.freeze({
             version: version,
             default: {
                 version: version
@@ -722,4 +722,4 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
         }).call(commonjsGlobal);
         return Bottleneck_1;
     }, module.exports = factory();
-}
+/***/ }

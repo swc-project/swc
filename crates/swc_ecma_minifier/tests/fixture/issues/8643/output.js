@@ -2,10 +2,12 @@ const Cache = {
     enabled: !1,
     files: {},
     add: function(key, file) {
-        !1 !== this.enabled && (this.files[key] = file);
+        !1 !== this.enabled && // console.log( 'THREE.Cache', 'Adding key:', key );
+        (this.files[key] = file);
     },
     get: function(key) {
-        if (!1 !== this.enabled) return this.files[key];
+        if (!1 !== this.enabled) // console.log( 'THREE.Cache', 'Checking key:', key );
+        return this.files[key];
     }
 };
 class Loader {
@@ -53,6 +55,7 @@ export class FileLoader extends Loader {
         if (void 0 !== cached) return this.manager.itemStart(url), setTimeout(()=>{
             onLoad && onLoad(cached), this.manager.itemEnd(url);
         }, 0), cached;
+        // Check if request is duplicate
         if (void 0 !== loading[url]) {
             loading[url].push({
                 onLoad: onLoad,
@@ -61,17 +64,21 @@ export class FileLoader extends Loader {
             });
             return;
         }
+        // Initialise array for duplicate requests
         loading[url] = [], loading[url].push({
             onLoad: onLoad,
             onProgress: onProgress,
             onError: onError
         });
+        // create request
         const req = new Request(url, {
             headers: new Headers(this.requestHeader),
             credentials: this.withCredentials ? 'include' : 'same-origin'
         }), mimeType = this.mimeType, responseType = this.responseType;
+        // start the fetch
         fetch(req).then((response)=>{
             if (200 === response.status || 0 === response.status) {
+                // Workaround: Checking if response.body === undefined for Alipay browser #23548
                 if (0 === response.status && console.warn('THREE.FileLoader: HTTP Status 0 received.'), 'undefined' == typeof ReadableStream || void 0 === response.body || void 0 === response.body.getReader) return response;
                 const callbacks = loading[url], reader = response.body.getReader(), contentLength = response.headers.get('Content-Length') || response.headers.get('X-File-Size'), total = contentLength ? parseInt(contentLength) : 0, lengthComputable = 0 !== total;
                 let loaded = 0;
@@ -116,6 +123,8 @@ export class FileLoader extends Loader {
                     }
             }
         }).then((data)=>{
+            // Add to cache only on HTTP success, so that we do not cache
+            // error response bodies as proper responses to requests.
             Cache.add(url, data);
             const callbacks = loading[url];
             delete loading[url];
@@ -124,8 +133,10 @@ export class FileLoader extends Loader {
                 callback.onLoad && callback.onLoad(data);
             }
         }).catch((err)=>{
+            // Abort errors and other errors are handled the same
             const callbacks = loading[url];
-            if (void 0 === callbacks) throw this.manager.itemError(url), err;
+            if (void 0 === callbacks) throw(// When onLoad was called and url was deleted in `loading`
+            this.manager.itemError(url), err);
             delete loading[url];
             for(let i = 0, il = callbacks.length; i < il; i++){
                 const callback = callbacks[i];

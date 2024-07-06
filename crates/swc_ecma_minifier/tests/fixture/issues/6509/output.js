@@ -14,9 +14,18 @@ export var modifiers = {
             else {
                 var offset1, popperOffsets, referenceOffsets;
                 var offsets1;
+                // Use height if placement is left or right and index is 0 otherwise use width
+                // in this way the first offset will use an axis and the second one
+                // will use the other one
                 var useHeight;
+                // Split the offset string to obtain a list of values and operands
+                // The regex addresses values with the plus or minus sign in front (+10, -20, etc)
                 var fragments;
+                // Detect if the offset string contains a pair of values or a single one
+                // they could be separated by comma or space
                 var divider;
+                // If divider is found, we divide the list of values and operands to divide
+                // them by ofset X and Y.
                 var splitRegex;
                 var ops;
                 offsets1 = [
@@ -29,7 +38,9 @@ export var modifiers = {
                     return frag.trim();
                 })).indexOf(find(fragments, function(frag) {
                     return -1 !== frag.search(/,|\s/);
-                })), fragments[divider] && -1 === fragments[divider].indexOf(',') && console.warn('Offsets separated by white space(s) are deprecated, use a comma (,) instead.'), splitRegex = /\s*,\s*|\s+/, (ops = (ops = -1 !== divider ? [
+                })), fragments[divider] && -1 === fragments[divider].indexOf(',') && console.warn('Offsets separated by white space(s) are deprecated, use a comma (,) instead.'), splitRegex = /\s*,\s*|\s+/, // Loop trough the offsets arrays and execute the operations
+                // Convert the values with units to absolute pixels to allow our computations
+                (ops = (ops = -1 !== divider ? [
                     fragments.slice(0, divider).concat([
                         fragments[divider].split(splitRegex)[0]
                     ]),
@@ -39,16 +50,20 @@ export var modifiers = {
                 ] : [
                     fragments
                 ]).map(function(op, index) {
+                    // Most of the units rely on the orientation of the popper
                     var measurement = (1 === index ? !useHeight : useHeight) ? 'height' : 'width';
                     var mergeWithPrevious = false;
-                    return op.reduce(function(a, b) {
+                    return op// This aggregates any `+` or `-` sign that aren't considered operators
+                    // e.g.: 10 + +5 => [10, +, +5]
+                    .reduce(function(a, b) {
                         if ('' === a[a.length - 1] && -1 !== [
                             '+',
                             '-'
                         ].indexOf(b)) return a[a.length - 1] = b, mergeWithPrevious = true, a;
                         if (mergeWithPrevious) return a[a.length - 1] += b, mergeWithPrevious = false, a;
                         return a.concat(b);
-                    }, []).map(function(str) {
+                    }, [])// Here we convert the string values into number values (in px)
+                    .map(function(str) {
                         return toValue(str, measurement, popper, reference);
                     });
                 })).forEach(function(op, index) {

@@ -5,6 +5,8 @@ function printWarning(level, format, args) {
     ]));
     var argsWithFormat = args.map(function(item) {
         return "" + item;
-    });
-    argsWithFormat.unshift("Warning: " + format), Function.prototype.apply.call(console[level], console, argsWithFormat);
+    }); // Careful: RN currently depends on this prefix
+    argsWithFormat.unshift("Warning: " + format), // breaks IE9: https://github.com/facebook/react/issues/13610
+    // eslint-disable-next-line react-internal/no-production-logging
+    Function.prototype.apply.call(console[level], console, argsWithFormat);
 }

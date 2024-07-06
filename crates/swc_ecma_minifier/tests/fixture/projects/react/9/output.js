@@ -1,6 +1,6 @@
 function lazyInitializer(payload) {
     if (-1 === payload._status) {
-        var thenable = (0, payload._result)();
+        var thenable = (0, payload._result)(); // Transition to the next state.
         payload._status = 0, payload._result = thenable, thenable.then(function(moduleObject) {
             if (0 === payload._status) {
                 var defaultExport = moduleObject.default;

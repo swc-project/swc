@@ -112,6 +112,7 @@ export function foo(global, env, buffer) {
     var gb = env.___syscall146;
     var hb = T(0);
     const ib = T(0);
+    // EMSCRIPTEN_START_FUNCS
     function Jb(a) {
         a = a | 0;
         var b = 0;
@@ -22730,6 +22731,7 @@ export function foo(global, env, buffer) {
         d = d | 0;
         U(25);
     }
+    // EMSCRIPTEN_END_FUNCS
     var jb = [
         hD,
         Uw

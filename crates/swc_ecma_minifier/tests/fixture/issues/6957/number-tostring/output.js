@@ -1,3 +1,31 @@
+// Copyright 2008 the V8 project authors. All rights reserved.
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are
+// met:
+//
+//     * Redistributions of source code must retain the above copyright
+//       notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above
+//       copyright notice, this list of conditions and the following
+//       disclaimer in the documentation and/or other materials provided
+//       with the distribution.
+//     * Neither the name of Google Inc. nor the names of its
+//       contributors may be used to endorse or promote products derived
+//       from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// ----------------------------------------------------------------------
+// toString
 assertEquals("NaN", NaN.toString());
 assertEquals("Infinity", (1 / 0).toString());
 assertEquals("-Infinity", (-1 / 0).toString());
@@ -116,6 +144,8 @@ assertEquals("0.01", (1 / 9).toString(3));
 assertEquals("10000", "10000");
 assertEquals("10000.01", (81 + 1 / 9).toString(3));
 assertEquals("0.0212010212010212010212010212010212", (2 / 7).toString(3));
+// ----------------------------------------------------------------------
+// toFixed
 assertEquals("NaN", NaN.toFixed(2));
 assertEquals("Infinity", (1 / 0).toFixed(2));
 assertEquals("-Infinity", (-1 / 0).toFixed(2));
@@ -183,11 +213,16 @@ assertEquals("-42.000", "-42.000");
 assertEquals("-1000000000000000128", "-1000000000000000128");
 assertEquals("-0.00000000000000000010", "-0.00000000000000000010");
 assertEquals("0.12312312312312299889", "0.12312312312312299889");
+// Test that we round up even when the last digit generated is even.
+// dtoa does not do this in its original form.
 assertEquals("1", "1", "0.5.toFixed(0)");
 assertEquals("-1", "-1", "(-0.5).toFixed(0)");
 assertEquals("1.3", "1.3", "1.25.toFixed(1)");
+// This is bizare, but Spidermonkey and KJS behave the same.
 assertEquals("234.2040", "234.2040", "234.2040.toFixed(4)");
 assertEquals("234.2041", "234.2041");
+// ----------------------------------------------------------------------
+// toExponential
 assertEquals("1e+0", "1e+0");
 assertEquals("1.1e+1", "1.1e+1");
 assertEquals("1.12e+2", "1.12e+2");
@@ -260,6 +295,8 @@ assertEquals("1.1236e-4", "1.1236e-4");
 assertEquals("-1.1236e-4", "-1.1236e-4");
 assertEquals("1.12356e-4", "1.12356e-4");
 assertEquals("-1.12356e-4", "-1.12356e-4");
+// ----------------------------------------------------------------------
+// toPrecision
 assertEquals("NaN", NaN.toPrecision(1));
 assertEquals("Infinity", (1 / 0).toPrecision(2));
 assertEquals("-Infinity", (-1 / 0).toPrecision(2));
@@ -287,5 +324,7 @@ assertEquals("-1.2e+3", Number(-1234.5).toPrecision(2));
 assertEquals("-1.2e+4", Number(-12345).toPrecision(2));
 assertEquals("-1.235e+4", Number(-12345.67).toPrecision(4));
 assertEquals("-1.234e+4", Number(-12344.67).toPrecision(4));
+// Test that we round up even when the last digit generated is even.
+// dtoa does not do this in its original form.
 assertEquals("1.3", "1.3", "1.25.toPrecision(2)");
 assertEquals("1.4", "1.4", "1.35.toPrecision(2)");

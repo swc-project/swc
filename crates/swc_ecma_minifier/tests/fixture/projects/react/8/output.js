@@ -1,6 +1,7 @@
 function mapIntoArray(children, array, escapedPrefix, nameSoFar, callback) {
     var type = typeof children;
-    ("undefined" === type || "boolean" === type) && (children = null);
+    ("undefined" === type || "boolean" === type) && // All of the above are perceived as null.
+    (children = null);
     var invokeCallback = !1;
     if (null === children) invokeCallback = !0;
     else switch(type){
@@ -22,15 +23,19 @@ function mapIntoArray(children, array, escapedPrefix, nameSoFar, callback) {
             null != childKey && (escapedChildKey = escapeUserProvidedKey(childKey) + "/"), mapIntoArray(mappedChild, array, escapedChildKey, "", function(c) {
                 return c;
             });
-        } else null != mappedChild && (isValidElement(mappedChild) && (mappedChild = cloneAndReplaceKey(mappedChild, escapedPrefix + (mappedChild.key && (!_child || _child.key !== mappedChild.key) ? escapeUserProvidedKey("" + mappedChild.key) + "/" : "") + childKey)), array.push(mappedChild));
+        } else null != mappedChild && (isValidElement(mappedChild) && (mappedChild = cloneAndReplaceKey(mappedChild, // traverseAllChildren used to do for objects as children
+        escapedPrefix + // $FlowFixMe Flow incorrectly thinks React.Portal doesn't have a key
+        (mappedChild.key && (!_child || _child.key !== mappedChild.key // $FlowFixMe Flow incorrectly thinks existing element's key can be a number
+        ) ? escapeUserProvidedKey("" + mappedChild.key) + "/" : "") + childKey)), array.push(mappedChild));
         return 1;
     }
-    var subtreeCount = 0, nextNamePrefix = "" === nameSoFar ? "." : nameSoFar + SUBSEPARATOR;
+    var subtreeCount = 0, nextNamePrefix = "" === nameSoFar ? "." : nameSoFar + SUBSEPARATOR; // Count of children found in the current subtree.
     if (Array.isArray(children)) for(var i = 0; i < children.length; i++)nextName = nextNamePrefix + getElementKey(child = children[i], i), subtreeCount += mapIntoArray(child, array, escapedPrefix, nextName, callback);
     else {
         var iteratorFn = getIteratorFn(children);
         if ("function" == typeof iteratorFn) {
             var child, nextName, step, iterableChildren = children;
+            // Warn about using Maps as children
             iteratorFn === iterableChildren.entries && (didWarnAboutMaps || warn("Using Maps as children is not supported. Use an array of keyed ReactElements instead."), didWarnAboutMaps = !0);
             for(var iterator = iteratorFn.call(iterableChildren), ii = 0; !(step = iterator.next()).done;)nextName = nextNamePrefix + getElementKey(child = step.value, ii++), subtreeCount += mapIntoArray(child, array, escapedPrefix, nextName, callback);
         } else if ("object" === type) {

@@ -4,28 +4,28 @@
         453
     ],
     {
-        8780: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-            __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, {
-                Decoration: function() {
-                    return Decoration;
+        /***/ 8780: /***/ function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+            __webpack_require__.r(__webpack_exports__), /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+                /* harmony export */ Decoration: function() {
+                    return /* binding */ Decoration;
                 },
-                DecorationSet: function() {
-                    return DecorationSet;
+                /* harmony export */ DecorationSet: function() {
+                    return /* binding */ DecorationSet;
                 },
-                EditorView: function() {
-                    return EditorView;
+                /* harmony export */ EditorView: function() {
+                    return /* binding */ EditorView;
                 },
-                __endComposition: function() {
-                    return endComposition;
+                /* harmony export */ __endComposition: function() {
+                    return /* binding */ endComposition;
                 },
-                __parseFromClipboard: function() {
-                    return parseFromClipboard;
+                /* harmony export */ __parseFromClipboard: function() {
+                    return /* binding */ parseFromClipboard;
                 },
-                __serializeForClipboard: function() {
-                    return serializeForClipboard;
+                /* harmony export */ __serializeForClipboard: function() {
+                    return /* binding */ serializeForClipboard;
                 }
             });
-            var prosemirror_state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6922), prosemirror_model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2230), prosemirror_transform__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1081), result = {};
+            /* harmony import */ var prosemirror_state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6922), prosemirror_model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2230), prosemirror_transform__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1081), result = {};
             if ("undefined" != typeof navigator && "undefined" != typeof document) {
                 var ie_edge = /Edge\/(\d+)/.exec(navigator.userAgent), ie_upto10 = /MSIE \d/.test(navigator.userAgent), ie_11up = /Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(navigator.userAgent), ie = result.ie = !!(ie_upto10 || ie_11up || ie_edge);
                 result.ie_version = ie_upto10 ? document.documentMode || 6 : ie_11up ? +ie_11up[1] : ie_edge ? +ie_edge[1] : null, result.gecko = !ie && /gecko\/(\d+)/i.test(navigator.userAgent), result.gecko_version = result.gecko && +(/Firefox\/(\d+)/.exec(navigator.userAgent) || [
@@ -33,7 +33,8 @@
                     0
                 ])[1];
                 var chrome = !ie && /Chrome\/(\d+)/.exec(navigator.userAgent);
-                result.chrome = !!chrome, result.chrome_version = chrome && +chrome[1], result.safari = !ie && /Apple Computer/.test(navigator.vendor), result.ios = result.safari && (/Mobile\/\w+/.test(navigator.userAgent) || navigator.maxTouchPoints > 2), result.mac = result.ios || /Mac/.test(navigator.platform), result.android = /Android \d/.test(navigator.userAgent), result.webkit = "webkitFontSmoothing" in document.documentElement.style, result.webkit_version = result.webkit && +(/\bAppleWebKit\/(\d+)/.exec(navigator.userAgent) || [
+                result.chrome = !!chrome, result.chrome_version = chrome && +chrome[1], // Is true for both iOS and iPadOS for convenience
+                result.safari = !ie && /Apple Computer/.test(navigator.vendor), result.ios = result.safari && (/Mobile\/\w+/.test(navigator.userAgent) || navigator.maxTouchPoints > 2), result.mac = result.ios || /Mac/.test(navigator.platform), result.android = /Android \d/.test(navigator.userAgent), result.webkit = "webkitFontSmoothing" in document.documentElement.style, result.webkit_version = result.webkit && +(/\bAppleWebKit\/(\d+)/.exec(navigator.userAgent) || [
                     0,
                     0
                 ])[1];
@@ -68,6 +69,8 @@
             function nodeSize(node) {
                 return 3 == node.nodeType ? node.nodeValue.length : node.childNodes.length;
             }
+            // Work around Chrome issue https://bugs.chromium.org/p/chromium/issues/detail?id=447523
+            // (isCollapsed inappropriately returns true in shadow dom)
             var selectionCollapsed = function(domSel) {
                 var collapsed = domSel.isCollapsed;
                 return collapsed && result.chrome && domSel.rangeCount && !domSel.getRangeAt(0).collapsed && (collapsed = !1), collapsed;
@@ -88,6 +91,7 @@
                         bottom: doc.documentElement.clientHeight
                     } : function(node) {
                         var rect = node.getBoundingClientRect(), scaleX = rect.width / node.offsetWidth || 1, scaleY = rect.height / node.offsetHeight || 1;
+                        // Make sure scrollbar width isn't included in the rectangle
                         return {
                             left: rect.left,
                             right: rect.left + node.clientWidth * scaleX,
@@ -135,11 +139,19 @@
                 return rects.length ? rects[bias < 0 ? 0 : rects.length - 1] : object.getBoundingClientRect();
             }
             var BIDI = /[\u0590-\u05f4\u0600-\u06ff\u0700-\u08ac]/;
+            // : (EditorView, number, number) → {left: number, top: number, right: number, bottom: number}
+            // Given a position in the document model, get a bounding box of the
+            // character at that position, relative to the window.
             function coordsAtPos(view, pos, side) {
                 var ref = view.docView.domFromPos(pos, side < 0 ? -1 : 1), node = ref.node, offset = ref.offset, supportEmptyRange = result.webkit || result.gecko;
                 if (3 == node.nodeType) {
+                    // These browsers support querying empty text ranges. Prefer that in
+                    // bidi context or when at the end of a node.
                     if (supportEmptyRange && (BIDI.test(node.nodeValue) || (side < 0 ? !offset : offset == node.nodeValue.length))) {
                         var rect = singleRect(textRange(node, offset, offset), side);
+                        // Firefox returns bad results (the position before the space)
+                        // when querying a position directly after line-broken
+                        // whitespace. Detect this situation and and kludge around it
                         if (result.gecko && offset && /\s/.test(node.nodeValue[offset - 1]) && offset < node.nodeValue.length) {
                             var rectBefore = singleRect(textRange(node, offset - 1, offset - 1), -1);
                             if (rectBefore.top == rect.top) {
@@ -152,6 +164,7 @@
                     var from = offset, to = offset, takeSide = side < 0 ? 1 : -1;
                     return side < 0 && !offset ? (to++, takeSide = -1) : side >= 0 && offset == node.nodeValue.length ? (from--, takeSide = 1) : side < 0 ? from-- : to++, flattenV(singleRect(textRange(node, from, to), takeSide), takeSide < 0);
                 }
+                // Return a horizontal line in block context
                 if (!view.state.doc.resolve(pos).parent.inlineContent) {
                     if (offset && (side < 0 || offset == nodeSize(node))) {
                         var before = node.childNodes[offset - 1];
@@ -163,8 +176,10 @@
                     }
                     return flattenH(node.getBoundingClientRect(), side >= 0);
                 }
+                // Inline, not in text node (this is not Bidi-safe)
                 if (offset && (side < 0 || offset == nodeSize(node))) {
-                    var before$1 = node.childNodes[offset - 1], target = 3 == before$1.nodeType ? textRange(before$1, nodeSize(before$1) - (supportEmptyRange ? 0 : 1)) : 1 != before$1.nodeType || "BR" == before$1.nodeName && before$1.nextSibling ? null : before$1;
+                    var before$1 = node.childNodes[offset - 1], target = 3 == before$1.nodeType ? textRange(before$1, nodeSize(before$1) - (supportEmptyRange ? 0 : 1)) : // Only use them if they are the last element in their parent
+                    1 != before$1.nodeType || "BR" == before$1.nodeName && before$1.nextSibling ? null : before$1;
                     if (target) return flattenV(singleRect(target, 1), !1);
                 }
                 if (offset < nodeSize(node)) {
@@ -172,6 +187,7 @@
                     var target$1 = after$1 ? 3 == after$1.nodeType ? textRange(after$1, 0, supportEmptyRange ? 0 : 1) : 1 == after$1.nodeType ? after$1 : null : null;
                     if (target$1) return flattenV(singleRect(target$1, -1), !0);
                 }
+                // All else failed, just try to get a rectangle for the target node
                 return flattenV(singleRect(3 == node.nodeType ? textRange(node) : node, -side), side >= 0);
             }
             function flattenV(rect, left) {
@@ -204,7 +220,11 @@
                 }
             }
             var maybeRTL = /[\u0590-\u08ac]/, cachedState = null, cachedDir = null, cachedResult = !1, ViewDesc = function(parent, children, dom, contentDOM) {
-                this.parent = parent, this.children = children, this.dom = dom, dom.pmViewDesc = this, this.contentDOM = contentDOM, this.dirty = 0;
+                this.parent = parent, this.children = children, this.dom = dom, // An expando property on the DOM node provides a link back to its
+                // description.
+                dom.pmViewDesc = this, // This is the node that holds the child views. It may be null for
+                // descs that don't have children.
+                this.contentDOM = contentDOM, this.dirty = 0;
             }, prototypeAccessors = {
                 size: {
                     configurable: !0
@@ -234,6 +254,8 @@
                     configurable: !0
                 }
             };
+            // Used to check whether a given description corresponds to a
+            // widget/mark/node.
             ViewDesc.prototype.matchesWidget = function() {
                 return !1;
             }, ViewDesc.prototype.matchesMark = function() {
@@ -242,14 +264,24 @@
                 return !1;
             }, ViewDesc.prototype.matchesHack = function(_nodeName) {
                 return !1;
-            }, ViewDesc.prototype.parseRule = function() {
+            }, // : () → ?ParseRule
+            // When parsing in-editor content (in domchange.js), we allow
+            // descriptions to determine the parse rules that should be used to
+            // parse them.
+            ViewDesc.prototype.parseRule = function() {
                 return null;
-            }, ViewDesc.prototype.stopEvent = function() {
+            }, // : (dom.Event) → bool
+            // Used by the editor's event handler to ignore events that come
+            // from certain descs.
+            ViewDesc.prototype.stopEvent = function() {
                 return !1;
-            }, prototypeAccessors.size.get = function() {
+            }, // The size of the content represented by this desc.
+            prototypeAccessors.size.get = function() {
                 for(var size = 0, i = 0; i < this.children.length; i++)size += this.children[i].size;
                 return size;
-            }, prototypeAccessors.border.get = function() {
+            }, // For block nodes, this represents the space taken up by their
+            // start/end tokens.
+            prototypeAccessors.border.get = function() {
                 return 0;
             }, ViewDesc.prototype.destroy = function() {
                 this.parent = null, this.dom.pmViewDesc == this && (this.dom.pmViewDesc = null);
@@ -268,7 +300,10 @@
                 return this.posBefore + this.size;
             }, prototypeAccessors.posAtEnd.get = function() {
                 return this.posAtStart + this.size - 2 * this.border;
-            }, ViewDesc.prototype.localPosFromDOM = function(dom, offset, bias) {
+            }, // : (dom.Node, number, ?number) → number
+            ViewDesc.prototype.localPosFromDOM = function(dom, offset, bias) {
+                // If the DOM position is in the content, use the child desc after
+                // it to figure out a position.
                 if (this.contentDOM && this.contentDOM.contains(1 == dom.nodeType ? dom : dom.parentNode)) {
                     if (bias < 0) {
                         if (dom == this.contentDOM) domBefore = dom.childNodes[offset - 1];
@@ -306,10 +341,13 @@
                     }
                 }
                 return (null == atEnd ? bias > 0 : atEnd) ? this.posAtEnd : this.posAtStart;
-            }, ViewDesc.prototype.nearestDesc = function(dom, onlyNodes) {
+            }, // Scan up the dom finding the first desc that is a descendant of
+            // this one.
+            ViewDesc.prototype.nearestDesc = function(dom, onlyNodes) {
                 for(var first = !0, cur = dom; cur; cur = cur.parentNode){
                     var desc = this.getDesc(cur);
                     if (desc && (!onlyNodes || desc.node)) {
+                        // If dom is outside of this desc's nodeDOM, don't count it.
                         if (!first || !desc.nodeDOM || (1 == desc.nodeDOM.nodeType ? desc.nodeDOM.contains(1 == dom.nodeType ? dom : dom.parentNode) : desc.nodeDOM == dom)) return desc;
                         first = !1;
                     }
@@ -322,7 +360,10 @@
                     if (desc) return desc.localPosFromDOM(dom, offset, bias);
                 }
                 return -1;
-            }, ViewDesc.prototype.descAt = function(pos) {
+            }, // : (number) → ?NodeViewDesc
+            // Find the desc for the node after the given pos, if any. (When a
+            // parent node overrode rendering, there might not be one.)
+            ViewDesc.prototype.descAt = function(pos) {
                 for(var i = 0, offset = 0; i < this.children.length; i++){
                     var child = this.children[i], end = offset + child.size;
                     if (offset == pos && end != offset) {
@@ -332,7 +373,8 @@
                     if (pos < end) return child.descAt(pos - offset - child.border);
                     offset = end;
                 }
-            }, ViewDesc.prototype.domFromPos = function(pos, side) {
+            }, // : (number, number) → {node: dom.Node, offset: number}
+            ViewDesc.prototype.domFromPos = function(pos, side) {
                 if (!this.contentDOM) return {
                     node: this.dom,
                     offset: 0
@@ -345,8 +387,11 @@
                     }
                     curPos = end;
                 }
+                // If this points into the middle of a child, call through
                 if (offset) return this.children[i].domFromPos(offset - this.children[i].border, side);
+                // Go back if there were any zero-length widgets with side >= 0 before this point
                 for(var prev = void 0; i && !(prev = this.children[i - 1]).size && prev instanceof WidgetViewDesc && prev.widget.type.side >= 0; i--);
+                // Scan towards the first useable node
                 if (side <= 0) {
                     for(var prev$1, enter = !0; (prev$1 = i ? this.children[i - 1] : null) && prev$1.dom.parentNode != this.contentDOM; i--, enter = !1);
                     return prev$1 && side && enter && !prev$1.border && !prev$1.domAtom ? prev$1.domFromPos(prev$1.size, side) : {
@@ -359,7 +404,9 @@
                     node: this.contentDOM,
                     offset: next ? domIndex(next.dom) : this.contentDOM.childNodes.length
                 };
-            }, ViewDesc.prototype.parseRange = function(from, to, base) {
+            }, // Used to find a DOM range in a single parent for a given changed
+            // range.
+            ViewDesc.prototype.parseRange = function(from, to, base) {
                 if (void 0 === base && (base = 0), 0 == this.children.length) return {
                     node: this.contentDOM,
                     from: from,
@@ -371,6 +418,7 @@
                     var child = this.children[i], end = offset + child.size;
                     if (-1 == fromOffset && from <= end) {
                         var childBase = offset + child.border;
+                        // FIXME maybe descend mark views to parse a narrower range?
                         if (from >= childBase && to <= end - child.border && child.node && child.contentDOM && this.contentDOM.contains(child.contentDOM)) return child.parseRange(from, to, childBase);
                         from = offset;
                         for(var j = i; j > 0; j--){
@@ -409,20 +457,33 @@
                 if (this.border || !this.contentDOM || !this.children.length) return !1;
                 var child = this.children[side < 0 ? 0 : this.children.length - 1];
                 return 0 == child.size || child.emptyChildAt(side);
-            }, ViewDesc.prototype.domAfterPos = function(pos) {
+            }, // : (number) → dom.Node
+            ViewDesc.prototype.domAfterPos = function(pos) {
                 var ref = this.domFromPos(pos, 0), node = ref.node, offset = ref.offset;
                 if (1 != node.nodeType || offset == node.childNodes.length) throw RangeError("No node after pos " + pos);
                 return node.childNodes[offset];
-            }, ViewDesc.prototype.setSelection = function(anchor, head, root, force) {
+            }, // : (number, number, dom.Document)
+            // View descs are responsible for setting any selection that falls
+            // entirely inside of them, so that custom implementations can do
+            // custom things with the selection. Note that this falls apart when
+            // a selection starts in such a node and ends in another, in which
+            // case we just use whatever domFromPos produces as a best effort.
+            ViewDesc.prototype.setSelection = function(anchor, head, root, force) {
                 for(var from = Math.min(anchor, head), to = Math.max(anchor, head), i = 0, offset = 0; i < this.children.length; i++){
                     var child = this.children[i], end = offset + child.size;
                     if (from > offset && to < end) return child.setSelection(anchor - offset - child.border, head - offset - child.border, root, force);
                     offset = end;
                 }
+                // If the selection falls entirely in a child, give it to that child
                 var anchorDOM = this.domFromPos(anchor, anchor ? -1 : 1), headDOM = head == anchor ? anchorDOM : this.domFromPos(head, head ? -1 : 1), domSel = root.getSelection(), brKludge = !1;
+                // On Firefox, using Selection.collapse to put the cursor after a
+                // BR node for some reason doesn't always work (#1073). On Safari,
+                // the cursor sometimes inexplicable visually lags behind its
+                // reported position in such situations (#1092).
                 if ((result.gecko || result.safari) && anchor == head) {
                     var node = anchorDOM.node, offset$1 = anchorDOM.offset;
-                    if (3 == node.nodeType) {
+                    if (3 == node.nodeType) // Issue #1128
+                    {
                         if ((brKludge = offset$1 && "\n" == node.nodeValue[offset$1 - 1]) && offset$1 == node.nodeValue.length) for(var scan = node, after = void 0; scan; scan = scan.parentNode){
                             if (after = scan.nextSibling) {
                                 "BR" == after.nodeName && (anchorDOM = headDOM = {
@@ -439,18 +500,28 @@
                         brKludge = prev && ("BR" == prev.nodeName || "false" == prev.contentEditable);
                     }
                 }
+                // Firefox can act strangely when the selection is in front of an
+                // uneditable node. See #1163 and https://bugzilla.mozilla.org/show_bug.cgi?id=1709536
                 if (result.gecko && domSel.focusNode && domSel.focusNode != headDOM.node && 1 == domSel.focusNode.nodeType) {
                     var after$1 = domSel.focusNode.childNodes[domSel.focusOffset];
                     after$1 && "false" == after$1.contentEditable && (force = !0);
                 }
                 if (!(!(force || brKludge && result.safari) && isEquivalentPosition(anchorDOM.node, anchorDOM.offset, domSel.anchorNode, domSel.anchorOffset) && isEquivalentPosition(headDOM.node, headDOM.offset, domSel.focusNode, domSel.focusOffset))) {
+                    // Selection.extend can be used to create an 'inverted' selection
+                    // (one where the focus is before the anchor), but not all
+                    // browsers support it yet.
                     var domSelExtended = !1;
                     if ((domSel.extend || anchor == head) && !brKludge) {
                         domSel.collapse(anchorDOM.node, anchorDOM.offset);
                         try {
                             anchor != head && domSel.extend(headDOM.node, headDOM.offset), domSelExtended = !0;
                         } catch (err) {
+                            // In some cases with Chrome the selection is empty after calling
+                            // collapse, even when it should be valid. This appears to be a bug, but
+                            // it is difficult to isolate. If this happens fallback to the old path
+                            // without using extend.
                             if (!(err instanceof DOMException)) throw err;
+                        // declare global: DOMException
                         }
                     }
                     if (!domSelExtended) {
@@ -462,11 +533,14 @@
                         range.setEnd(headDOM.node, headDOM.offset), range.setStart(anchorDOM.node, anchorDOM.offset), domSel.removeAllRanges(), domSel.addRange(range);
                     }
                 }
-            }, ViewDesc.prototype.ignoreMutation = function(mutation) {
+            }, // : (dom.MutationRecord) → bool
+            ViewDesc.prototype.ignoreMutation = function(mutation) {
                 return !this.contentDOM && "selection" != mutation.type;
             }, prototypeAccessors.contentLost.get = function() {
                 return this.contentDOM && this.contentDOM != this.dom && !this.dom.contains(this.contentDOM);
-            }, ViewDesc.prototype.markDirty = function(from, to) {
+            }, // Remove a subtree of the element tree that has been touched
+            // by a DOM change, so that the next update will redraw it.
+            ViewDesc.prototype.markDirty = function(from, to) {
                 for(var offset = 0, i = 0; i < this.children.length; i++){
                     var child = this.children[i], end = offset + child.size;
                     if (offset == end ? from <= end && to >= offset : from < end && to > offset) {
@@ -490,7 +564,9 @@
             }, prototypeAccessors.ignoreForCoords.get = function() {
                 return !1;
             }, Object.defineProperties(ViewDesc.prototype, prototypeAccessors);
-            var nothing = [], WidgetViewDesc = function(ViewDesc) {
+            // Reused array to avoid allocating fresh arrays for things that will
+            // stay empty anyway.
+            var nothing = [], WidgetViewDesc = /*@__PURE__*/ function(ViewDesc) {
                 function WidgetViewDesc(parent, widget, view, pos) {
                     var self1, dom = widget.type.toDOM;
                     if ("function" == typeof dom && (dom = dom(view, function() {
@@ -524,7 +600,7 @@
                 }, prototypeAccessors$1.domAtom.get = function() {
                     return !0;
                 }, Object.defineProperties(WidgetViewDesc.prototype, prototypeAccessors$1), WidgetViewDesc;
-            }(ViewDesc), CompositionViewDesc = function(ViewDesc) {
+            }(ViewDesc), CompositionViewDesc = /*@__PURE__*/ function(ViewDesc) {
                 function CompositionViewDesc(parent, dom, textDOM, text) {
                     ViewDesc.call(this, parent, nothing, dom, null), this.textDOM = textDOM, this.text = text;
                 }
@@ -546,7 +622,7 @@
                 }, CompositionViewDesc.prototype.ignoreMutation = function(mut) {
                     return "characterData" === mut.type && mut.target.nodeValue == mut.oldValue;
                 }, Object.defineProperties(CompositionViewDesc.prototype, prototypeAccessors$2), CompositionViewDesc;
-            }(ViewDesc), MarkViewDesc = function(ViewDesc) {
+            }(ViewDesc), MarkViewDesc = /*@__PURE__*/ function(ViewDesc) {
                 function MarkViewDesc(parent, mark, dom, contentDOM) {
                     ViewDesc.call(this, parent, [], dom, contentDOM), this.mark = mark;
                 }
@@ -562,6 +638,7 @@
                 }, MarkViewDesc.prototype.matchesMark = function(mark) {
                     return 3 != this.dirty && this.mark.eq(mark);
                 }, MarkViewDesc.prototype.markDirty = function(from, to) {
+                    // Move dirty info to nearest node view
                     if (ViewDesc.prototype.markDirty.call(this, from, to), 0 != this.dirty) {
                         for(var parent = this.parent; !parent.node;)parent = parent.parent;
                         parent.dirty < this.dirty && (parent.dirty = this.dirty), this.dirty = 0;
@@ -572,7 +649,7 @@
                     for(var i = 0; i < nodes.length; i++)nodes[i].parent = copy;
                     return copy.children = nodes, copy;
                 }, MarkViewDesc;
-            }(ViewDesc), NodeViewDesc = function(ViewDesc) {
+            }(ViewDesc), NodeViewDesc = /*@__PURE__*/ function(ViewDesc) {
                 function NodeViewDesc(parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, view, pos) {
                     ViewDesc.call(this, parent, node.isLeaf ? nothing : [], dom, contentDOM), this.nodeDOM = nodeDOM, this.node = node, this.outerDeco = outerDeco, this.innerDeco = innerDeco, contentDOM && this.updateChildren(view, pos);
                 }
@@ -588,9 +665,20 @@
                         configurable: !0
                     }
                 };
-                return NodeViewDesc.create = function(parent, node, outerDeco, innerDeco, view, pos) {
+                return(// By default, a node is rendered using the `toDOM` method from the
+                // node type spec. But client code can use the `nodeViews` spec to
+                // supply a custom node view, which can influence various aspects of
+                // the way the node works.
+                //
+                // (Using subclassing for this was intentionally decided against,
+                // since it'd require exposing a whole slew of finicky
+                // implementation details to the user code that they probably will
+                // never need.)
+                NodeViewDesc.create = function(parent, node, outerDeco, innerDeco, view, pos) {
                     var assign, descObj, custom = view.nodeViews[node.type.name], spec = custom && custom(node, view, function() {
-                        return descObj ? descObj.parent ? descObj.parent.posBeforeChild(descObj) : void 0 : pos;
+                        return(// (This is a function that allows the custom view to find its
+                        // own position)
+                        descObj ? descObj.parent ? descObj.parent.posBeforeChild(descObj) : void 0 : pos);
                     }, outerDeco, innerDeco), dom = spec && spec.dom, contentDOM = spec && spec.contentDOM;
                     if (node.isText) {
                         if (dom) {
@@ -602,7 +690,12 @@
                     return (dom = applyOuterDeco(dom, outerDeco, node), spec) ? descObj = new CustomNodeViewDesc(parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, spec, view, pos + 1) : node.isText ? new TextViewDesc(parent, node, outerDeco, innerDeco, dom, nodeDOM, view) : new NodeViewDesc(parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, view, pos + 1);
                 }, NodeViewDesc.prototype.parseRule = function() {
                     var this$1 = this;
+                    // Experimental kludge to allow opt-in re-parsing of nodes
                     if (this.node.type.spec.reparseInView) return null;
+                    // FIXME the assumption that this can always return the current
+                    // attrs means that if the user somehow manages to change the
+                    // attrs in the dom, that won't be picked up. Not entirely sure
+                    // whether this is a problem
                     var rule = {
                         node: this.node.type.name,
                         attrs: this.node.attrs
@@ -616,10 +709,20 @@
                     return this.node.nodeSize;
                 }, prototypeAccessors$3.border.get = function() {
                     return this.node.isLeaf ? 0 : 1;
-                }, NodeViewDesc.prototype.updateChildren = function(view, pos) {
+                }, // Syncs `this.children` to match `this.node.content` and the local
+                // decorations, possibly introducing nesting for marks. Then, in a
+                // separate step, syncs the DOM inside `this.contentDOM` to
+                // `this.children`.
+                NodeViewDesc.prototype.updateChildren = function(view, pos) {
                     var this$1 = this, inline = this.node.inlineContent, off = pos, composition = view.composing && this.localCompositionInfo(view, pos), localComposition = composition && composition.pos > -1 ? composition : null, compositionInChild = composition && composition.pos < 0, updater = new ViewTreeUpdater(this, localComposition && localComposition.node);
+                    // : (ViewDesc, DecorationSource, (Decoration, number), (Node, [Decoration], DecorationSource, number))
+                    // This function abstracts iterating over the nodes and decorations in
+                    // a fragment. Calls `onNode` for each node, with its local and child
+                    // decorations. Splits text nodes when there is a decoration starting
+                    // or ending inside of them. Calls `onWidget` for each widget.
                     (function(parent, deco, onWidget, onNode) {
                         var locals = deco.locals(parent), offset = 0;
+                        // Simple, cheap variant for when there are no local decorations
                         if (0 == locals.length) {
                             for(var i = 0; i < parent.childCount; i++){
                                 var child = parent.child(i);
@@ -656,11 +759,20 @@
                             onNode(child$1, outerDeco, deco.forChild(offset, child$1), index), offset = end;
                         }
                     })(this.node, this.innerDeco, function(widget, i, insideNode) {
-                        widget.spec.marks ? updater.syncToMarks(widget.spec.marks, inline, view) : widget.type.side >= 0 && !insideNode && updater.syncToMarks(i == this$1.node.childCount ? prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Mark.none : this$1.node.child(i).marks, inline, view), updater.placeWidget(widget, view, off);
+                        widget.spec.marks ? updater.syncToMarks(widget.spec.marks, inline, view) : widget.type.side >= 0 && !insideNode && updater.syncToMarks(i == this$1.node.childCount ? prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Mark.none : this$1.node.child(i).marks, inline, view), // If the next node is a desc matching this widget, reuse it,
+                        // otherwise insert the widget as a new view desc.
+                        updater.placeWidget(widget, view, off);
                     }, function(child, outerDeco, innerDeco, i) {
                         var compIndex;
-                        updater.syncToMarks(child.marks, inline, view), updater.findNodeMatch(child, outerDeco, innerDeco, i) || compositionInChild && view.state.selection.from > off && view.state.selection.to < off + child.nodeSize && (compIndex = updater.findIndexWithChild(composition.node)) > -1 && updater.updateNodeAt(child, outerDeco, innerDeco, compIndex, view) || updater.updateNextNode(child, outerDeco, innerDeco, view, i) || updater.addNode(child, outerDeco, innerDeco, view, off), off += child.nodeSize;
-                    }), updater.syncToMarks(nothing, inline, view), this.node.isTextblock && updater.addTextblockHacks(), updater.destroyRest(), (updater.changed || 2 == this.dirty) && (localComposition && this.protectLocalComposition(view, localComposition), function renderDescs(parentDOM, descs, view) {
+                        // Make sure the wrapping mark descs match the node's marks.
+                        updater.syncToMarks(child.marks, inline, view), updater.findNodeMatch(child, outerDeco, innerDeco, i) || compositionInChild && view.state.selection.from > off && view.state.selection.to < off + child.nodeSize && (compIndex = updater.findIndexWithChild(composition.node)) > -1 && updater.updateNodeAt(child, outerDeco, innerDeco, compIndex, view) || updater.updateNextNode(child, outerDeco, innerDeco, view, i) || // Add it as a new view
+                        updater.addNode(child, outerDeco, innerDeco, view, off), off += child.nodeSize;
+                    }), // Drop all remaining descs after the current position.
+                    updater.syncToMarks(nothing, inline, view), this.node.isTextblock && updater.addTextblockHacks(), updater.destroyRest(), (updater.changed || 2 == this.dirty) && (localComposition && this.protectLocalComposition(view, localComposition), // : (dom.Node, [ViewDesc])
+                    // Sync the content of the given DOM node with the nodes associated
+                    // with the given array of view descs, recursing into mark descs
+                    // because this should sync the subtree for a whole node at a time.
+                    function renderDescs(parentDOM, descs, view) {
                         for(var dom = parentDOM.firstChild, written = !1, i = 0; i < descs.length; i++){
                             var desc = descs[i], childDOM = desc.dom;
                             if (childDOM.parentNode == parentDOM) {
@@ -674,13 +786,17 @@
                         }
                         for(; dom;)dom = rm(dom), written = !0;
                         written && view.trackWrites == parentDOM && (view.trackWrites = null);
-                    }(this.contentDOM, this.children, view), result.ios && function(dom) {
+                    }(this.contentDOM, this.children, view), result.ios && // List markers in Mobile Safari will mysteriously disappear
+                    // sometimes. This works around that.
+                    function(dom) {
                         if ("UL" == dom.nodeName || "OL" == dom.nodeName) {
                             var oldCSS = dom.style.cssText;
                             dom.style.cssText = oldCSS + "; list-style: square !important", window.getComputedStyle(dom).listStyle, dom.style.cssText = oldCSS;
                         }
                     }(this.dom));
                 }, NodeViewDesc.prototype.localCompositionInfo = function(view, pos) {
+                    // Only do something if both the selection and a focused text node
+                    // are inside of this node
                     var ref = view.state.selection, from = ref.from, to = ref.to;
                     if (view.state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection && !(from < pos) && !(to > pos + this.node.content.size)) {
                         var sel = view.root.getSelection(), textNode = function(node, offset) {
@@ -700,7 +816,11 @@
                                 node: textNode,
                                 pos: -1
                             };
-                            var text = textNode.nodeValue, textPos = function(frag, text, from, to) {
+                            // Find the text in the focused node in the node, stop if it's not
+                            // there (may have been modified through other means, in which
+                            // case it should overwritten)
+                            var text = textNode.nodeValue, textPos = // Find a piece of text in an inline fragment, overlapping from-to
+                            function(frag, text, from, to) {
                                 for(var i = 0, pos = 0; i < frag.childCount && pos <= to;){
                                     var child = frag.child(i++), childStart = pos;
                                     if (pos += child.nodeSize, child.isText) {
@@ -726,16 +846,22 @@
                     }
                 }, NodeViewDesc.prototype.protectLocalComposition = function(view, ref) {
                     var node = ref.node, pos = ref.pos, text = ref.text;
+                    // The node is already part of a local view desc, leave it there
                     if (!this.getDesc(node)) {
-                        for(var topNode = node; topNode.parentNode != this.contentDOM; topNode = topNode.parentNode){
+                        for(// Create a composition view for the orphaned nodes
+                        var topNode = node; topNode.parentNode != this.contentDOM; topNode = topNode.parentNode){
                             for(; topNode.previousSibling;)topNode.parentNode.removeChild(topNode.previousSibling);
                             for(; topNode.nextSibling;)topNode.parentNode.removeChild(topNode.nextSibling);
                             topNode.pmViewDesc && (topNode.pmViewDesc = null);
                         }
                         var desc = new CompositionViewDesc(this, topNode, node, text);
-                        view.compositionNodes.push(desc), this.children = replaceNodes(this.children, pos, pos + text.length, view, desc);
+                        view.compositionNodes.push(desc), // Patch up this.children to contain the composition view
+                        this.children = replaceNodes(this.children, pos, pos + text.length, view, desc);
                     }
-                }, NodeViewDesc.prototype.update = function(node, outerDeco, innerDeco, view) {
+                }, // : (Node, [Decoration], DecorationSource, EditorView) → bool
+                // If this desc be updated to match the given node decoration,
+                // do so and return true.
+                NodeViewDesc.prototype.update = function(node, outerDeco, innerDeco, view) {
                     return !!(3 != this.dirty && node.sameMarkup(this.node)) && (this.updateInner(node, outerDeco, innerDeco, view), !0);
                 }, NodeViewDesc.prototype.updateInner = function(node, outerDeco, innerDeco, view) {
                     this.updateOuterDeco(outerDeco), this.node = node, this.innerDeco = innerDeco, this.contentDOM && this.updateChildren(view, this.posAtStart), this.dirty = 0;
@@ -744,18 +870,22 @@
                         var needsWrap = 1 != this.nodeDOM.nodeType, oldDOM = this.dom;
                         this.dom = patchOuterDeco(this.dom, this.nodeDOM, computeOuterDeco(this.outerDeco, this.node, needsWrap), computeOuterDeco(outerDeco, this.node, needsWrap)), this.dom != oldDOM && (oldDOM.pmViewDesc = null, this.dom.pmViewDesc = this), this.outerDeco = outerDeco;
                     }
-                }, NodeViewDesc.prototype.selectNode = function() {
+                }, // Mark this node as being the selected node.
+                NodeViewDesc.prototype.selectNode = function() {
                     this.nodeDOM.classList.add("ProseMirror-selectednode"), (this.contentDOM || !this.node.type.spec.draggable) && (this.dom.draggable = !0);
-                }, NodeViewDesc.prototype.deselectNode = function() {
+                }, // Remove selected node marking from this node.
+                NodeViewDesc.prototype.deselectNode = function() {
                     this.nodeDOM.classList.remove("ProseMirror-selectednode"), (this.contentDOM || !this.node.type.spec.draggable) && this.dom.removeAttribute("draggable");
                 }, prototypeAccessors$3.domAtom.get = function() {
                     return this.node.isAtom;
-                }, Object.defineProperties(NodeViewDesc.prototype, prototypeAccessors$3), NodeViewDesc;
+                }, Object.defineProperties(NodeViewDesc.prototype, prototypeAccessors$3), NodeViewDesc);
             }(ViewDesc);
+            // Create a view desc for the top-level document node, to be exported
+            // and used by the view class.
             function docViewDesc(doc, outerDeco, innerDeco, dom, view) {
                 return applyOuterDeco(dom, outerDeco, doc), new NodeViewDesc(null, doc, outerDeco, innerDeco, dom, dom, dom, view, 0);
             }
-            var TextViewDesc = function(NodeViewDesc) {
+            var TextViewDesc = /*@__PURE__*/ function(NodeViewDesc) {
                 function TextViewDesc(parent, node, outerDeco, innerDeco, dom, nodeDOM, view) {
                     NodeViewDesc.call(this, parent, node, outerDeco, innerDeco, dom, null, nodeDOM, view);
                 }
@@ -792,7 +922,7 @@
                 }, prototypeAccessors$4.domAtom.get = function() {
                     return !1;
                 }, Object.defineProperties(TextViewDesc.prototype, prototypeAccessors$4), TextViewDesc;
-            }(NodeViewDesc), TrailingHackViewDesc = function(ViewDesc) {
+            }(NodeViewDesc), TrailingHackViewDesc = /*@__PURE__*/ function(ViewDesc) {
                 function TrailingHackViewDesc() {
                     ViewDesc.apply(this, arguments);
                 }
@@ -816,11 +946,14 @@
                 }, prototypeAccessors$5.ignoreForCoords.get = function() {
                     return "IMG" == this.dom.nodeName;
                 }, Object.defineProperties(TrailingHackViewDesc.prototype, prototypeAccessors$5), TrailingHackViewDesc;
-            }(ViewDesc), CustomNodeViewDesc = function(NodeViewDesc) {
+            }(ViewDesc), CustomNodeViewDesc = /*@__PURE__*/ function(NodeViewDesc) {
                 function CustomNodeViewDesc(parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, spec, view, pos) {
                     NodeViewDesc.call(this, parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, view, pos), this.spec = spec;
                 }
-                return NodeViewDesc && (CustomNodeViewDesc.__proto__ = NodeViewDesc), CustomNodeViewDesc.prototype = Object.create(NodeViewDesc && NodeViewDesc.prototype), CustomNodeViewDesc.prototype.constructor = CustomNodeViewDesc, CustomNodeViewDesc.prototype.update = function(node, outerDeco, innerDeco, view) {
+                return NodeViewDesc && (CustomNodeViewDesc.__proto__ = NodeViewDesc), CustomNodeViewDesc.prototype = Object.create(NodeViewDesc && NodeViewDesc.prototype), CustomNodeViewDesc.prototype.constructor = CustomNodeViewDesc, // A custom `update` method gets to decide whether the update goes
+                // through. If it does, and there's a `contentDOM` node, our logic
+                // updates the children.
+                CustomNodeViewDesc.prototype.update = function(node, outerDeco, innerDeco, view) {
                     if (3 == this.dirty) return !1;
                     if (this.spec.update) {
                         var result = this.spec.update(node, outerDeco, innerDeco);
@@ -862,6 +995,7 @@
                 return result;
             }
             function patchOuterDeco(outerDOM, nodeDOM, prevComputed, curComputed) {
+                // Shortcut for trivial case
                 if (prevComputed == noDeco && curComputed == noDeco) return nodeDOM;
                 for(var curDOM = nodeDOM, i = 0; i < curComputed.length; i++){
                     var deco = curComputed[i], prev = prevComputed[i];
@@ -887,17 +1021,32 @@
             function applyOuterDeco(dom, deco, node) {
                 return patchOuterDeco(dom, dom, noDeco, computeOuterDeco(deco, node, 1 != dom.nodeType));
             }
+            // : ([Decoration], [Decoration]) → bool
             function sameOuterDeco(a, b) {
                 if (a.length != b.length) return !1;
                 for(var i = 0; i < a.length; i++)if (!a[i].type.eq(b[i].type)) return !1;
                 return !0;
             }
+            // Remove a DOM node and return its next sibling.
             function rm(dom) {
                 var next = dom.nextSibling;
                 return dom.parentNode.removeChild(dom), next;
             }
+            // Helper class for incrementally updating a tree of mark descs and
+            // the widget and node descs inside of them.
             var ViewTreeUpdater = function(top, lockedNode) {
-                this.top = top, this.lock = lockedNode, this.index = 0, this.stack = [], this.changed = !1, this.preMatch = function(frag, descs) {
+                this.top = top, this.lock = lockedNode, // Index into `this.top`'s child array, represents the current
+                // update position.
+                this.index = 0, // When entering a mark, the current top and index are pushed
+                // onto this.
+                this.stack = [], // Tracks whether anything was changed
+                this.changed = !1, this.preMatch = // : (Fragment, [ViewDesc]) → {index: number, matched: Map<ViewDesc, number>}
+                // Iterate from the end of the fragment and array of descs to find
+                // directly matching ones, in order to avoid overeagerly reusing those
+                // for other nodes. Returns the fragment index of the first node that
+                // is part of the sequence of matched nodes at the end of the
+                // fragment.
+                function(frag, descs) {
                     for(var fI = frag.childCount, dI = descs.length, matched = new Map(); fI > 0 && dI > 0; dI--){
                         var desc = descs[dI - 1], node = desc.node;
                         if (node) {
@@ -914,6 +1063,11 @@
             function compareSide(a, b) {
                 return a.type.side - b.type.side;
             }
+            // Replace range from-to in an array of view descs with replacement
+            // (may be null to just delete). This goes very much against the grain
+            // of the rest of this code, which tends to create nodes with the
+            // right shape in one go, rather than messing with them after
+            // creation, but is necessary in the composition hack.
             function replaceNodes(nodes, from, to, view, replacement) {
                 for(var result = [], i = 0, off = 0; i < nodes.length; i++){
                     var child = nodes[i], start = off, end = off += child.size;
@@ -973,14 +1127,20 @@
                     view.domObserver.setCurSelection(), view.domObserver.connectSelection();
                 }
             }
+            // Destroy and remove the children between the given indices in
+            // `this.top`.
             ViewTreeUpdater.prototype.destroyBetween = function(start, end) {
                 if (start != end) {
                     for(var i = start; i < end; i++)this.top.children[i].destroy();
                     this.top.children.splice(start, end - start), this.changed = !0;
                 }
-            }, ViewTreeUpdater.prototype.destroyRest = function() {
+            }, // Destroy all remaining children in `this.top`.
+            ViewTreeUpdater.prototype.destroyRest = function() {
                 this.destroyBetween(this.index, this.top.children.length);
-            }, ViewTreeUpdater.prototype.syncToMarks = function(marks, inline, view) {
+            }, // : ([Mark], EditorView)
+            // Sync the current stack of mark descs with the given array of
+            // marks, reusing existing mark descs when possible.
+            ViewTreeUpdater.prototype.syncToMarks = function(marks, inline, view) {
                 for(var keep = 0, depth = this.stack.length >> 1, maxKeep = Math.min(depth, marks.length); keep < maxKeep && (keep == depth - 1 ? this.top : this.stack[keep + 1 << 1]).matchesMark(marks[keep]) && !1 !== marks[keep].type.spec.spanning;)keep++;
                 for(; keep < depth;)this.destroyRest(), this.top.dirty = 0, this.index = this.stack.pop(), this.top = this.stack.pop(), depth--;
                 for(; depth < marks.length;){
@@ -996,7 +1156,10 @@
                     }
                     this.index = 0, depth++;
                 }
-            }, ViewTreeUpdater.prototype.findNodeMatch = function(node, outerDeco, innerDeco, index) {
+            }, // : (Node, [Decoration], DecorationSource) → bool
+            // Try to find a node desc matching the given data. Skip over it and
+            // return true when successful.
+            ViewTreeUpdater.prototype.findNodeMatch = function(node, outerDeco, innerDeco, index) {
                 var children = this.top.children, found = -1;
                 if (index >= this.preMatch.index) {
                     for(var i = this.index; i < children.length; i++)if (children[i].matchesNode(node, outerDeco, innerDeco)) {
@@ -1026,7 +1189,10 @@
                     }
                     domNode = parent;
                 }
-            }, ViewTreeUpdater.prototype.updateNextNode = function(node, outerDeco, innerDeco, view, index) {
+            }, // : (Node, [Decoration], DecorationSource, EditorView, Fragment, number) → bool
+            // Try to update the next node, if any, to the given data. Checks
+            // pre-matches to avoid overwriting nodes that could still be used.
+            ViewTreeUpdater.prototype.updateNextNode = function(node, outerDeco, innerDeco, view, index) {
                 for(var i = this.index; i < this.top.children.length; i++){
                     var next = this.top.children[i];
                     if (next instanceof NodeViewDesc) {
@@ -1038,7 +1204,9 @@
                     }
                 }
                 return !1;
-            }, ViewTreeUpdater.prototype.addNode = function(node, outerDeco, innerDeco, view, pos) {
+            }, // : (Node, [Decoration], DecorationSource, EditorView)
+            // Insert the node as a newly created node desc.
+            ViewTreeUpdater.prototype.addNode = function(node, outerDeco, innerDeco, view, pos) {
                 this.top.children.splice(this.index++, 0, NodeViewDesc.create(this.top, node, outerDeco, innerDeco, view, pos)), this.changed = !0;
             }, ViewTreeUpdater.prototype.placeWidget = function(widget, view, pos) {
                 var next = this.index < this.top.children.length ? this.top.children[this.index] : null;
@@ -1047,9 +1215,12 @@
                     var desc = new WidgetViewDesc(this.top, widget, view, pos);
                     this.top.children.splice(this.index++, 0, desc), this.changed = !0;
                 }
-            }, ViewTreeUpdater.prototype.addTextblockHacks = function() {
+            }, // Make sure a textblock looks and behaves correctly in
+            // contentEditable.
+            ViewTreeUpdater.prototype.addTextblockHacks = function() {
                 for(var lastChild = this.top.children[this.index - 1]; lastChild instanceof MarkViewDesc;)lastChild = lastChild.children[lastChild.children.length - 1];
-                !(!lastChild || !(lastChild instanceof TextViewDesc) || /\n$/.test(lastChild.node.text)) || ((result.safari || result.chrome) && lastChild && "false" == lastChild.dom.contentEditable && this.addHackNode("IMG"), this.addHackNode("BR"));
+                !(!lastChild || // Empty textblock
+                !(lastChild instanceof TextViewDesc) || /\n$/.test(lastChild.node.text)) || ((result.safari || result.chrome) && lastChild && "false" == lastChild.dom.contentEditable && this.addHackNode("IMG"), this.addHackNode("BR"));
             }, ViewTreeUpdater.prototype.addHackNode = function(nodeName) {
                 if (this.index < this.top.children.length && this.top.children[this.index].matchesHack(nodeName)) this.index++;
                 else {
@@ -1057,6 +1228,9 @@
                     "IMG" == nodeName && (dom.className = "ProseMirror-separator"), "BR" == nodeName && (dom.className = "ProseMirror-trailingBreak"), this.top.children.splice(this.index++, 0, new TrailingHackViewDesc(this.top, nothing, dom, null)), this.changed = !0;
                 }
             };
+            // Kludge to work around Webkit not allowing a selection to start/end
+            // between non-editable block nodes. We briefly make something
+            // editable, set the selection, then set it uneditable again.
             var brokenSelectBetweenUneditable = result.safari || result.chrome && result.chrome_version < 63;
             function temporarilyEditableNear(view, pos) {
                 var ref = view.docView.domFromPos(pos, 0), node = ref.node, offset = ref.offset, after = offset < node.childNodes.length ? node.childNodes[offset] : null, before = offset ? node.childNodes[offset - 1] : null;
@@ -1078,6 +1252,7 @@
                     desc != view.lastSelectedViewDesc && (clearNodeSelection(view), desc && desc.selectNode(), view.lastSelectedViewDesc = desc);
                 } else clearNodeSelection(view);
             }
+            // Clear all DOM statefulness of the last node selection.
             function clearNodeSelection(view) {
                 view.lastSelectedViewDesc && (view.lastSelectedViewDesc.parent && view.lastSelectedViewDesc.deselectNode(), view.lastSelectedViewDesc = null);
             }
@@ -1090,6 +1265,9 @@
                 var sel = view.root.getSelection();
                 if (!sel.anchorNode) return !1;
                 try {
+                    // Firefox will raise 'permission denied' errors when accessing
+                    // properties of `sel.anchorNode` when it's in a generated CSS
+                    // element.
                     return view.dom.contains(3 == sel.anchorNode.nodeType ? sel.anchorNode.parentNode : sel.anchorNode) && (view.editable || view.dom.contains(3 == sel.focusNode.nodeType ? sel.focusNode.parentNode : sel.focusNode));
                 } catch (_) {
                     return !1;
@@ -1129,6 +1307,8 @@
                 var desc = dom.pmViewDesc;
                 return desc && 0 == desc.size && (dom.nextSibling || "BR" != dom.nodeName);
             }
+            // Make sure the cursor isn't directly after one or more ignored
+            // nodes, which will confuse the browser's cursor motion logic.
             function skipIgnoredNodesLeft(view) {
                 var sel = view.root.getSelection(), node = sel.focusNode, offset = sel.focusOffset;
                 if (node) {
@@ -1151,6 +1331,8 @@
                     force ? setSelFocus(view, sel, node, offset) : moveNode && setSelFocus(view, sel, moveNode, moveOffset);
                 }
             }
+            // Make sure the cursor isn't directly before one or more ignored
+            // nodes.
             function skipIgnoredNodesRight(view) {
                 var moveNode, moveOffset, sel = view.root.getSelection(), node = sel.focusNode, offset = sel.focusOffset;
                 if (node) {
@@ -1181,10 +1363,15 @@
                 } else sel.extend && sel.extend(node, offset);
                 view.domObserver.setCurSelection();
                 var state = view.state;
+                // If no state update ends up happening, reset the selection.
                 setTimeout(function() {
                     view.state == state && selectionToDOM(view);
                 }, 50);
             }
+            // : (EditorState, number)
+            // Check whether vertical selection motion would involve node
+            // selections. If so, apply it (if not, the result is left to the
+            // browser)
             function selectVertically(view, dir, mods) {
                 var sel = view.state.selection;
                 if (sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection && !sel.empty || mods.indexOf("s") > -1 || result.mac && mods.indexOf("m") > -1) return !1;
@@ -1219,6 +1406,9 @@
                 var desc = dom.pmViewDesc;
                 if (desc) return desc.parseRule();
                 if ("BR" == dom.nodeName && dom.parentNode) {
+                    // Safari replaces the list item or table cell with a BR
+                    // directly in the list node (?!) if you delete the last
+                    // character in a list item or table cell (#708, #862)
                     if (result.safari && /^(ul|ol)$/i.test(dom.parentNode.nodeName)) {
                         var skip = document.createElement("div");
                         return skip.appendChild(document.createElement("li")), {
@@ -1264,6 +1454,8 @@
                     }) || slice.content.textBetween(0, slice.content.size, "\n\n")
                 };
             }
+            // : (EditorView, string, string, ?bool, ResolvedPos) → ?Slice
+            // Read a slice of content from the clipboard (or drop data).
             function parseFromClipboard(view, text, html, plainText, $context) {
                 var dom, slice, inCode = $context.parent.type.spec.code;
                 if (!html && !text) return null;
@@ -1295,7 +1487,12 @@
                         return "</" + n + ">";
                     }).reverse().join("")), elt.innerHTML = html, wrap) for(var i = 0; i < wrap.length; i++)elt = elt.querySelector(wrap[i]) || elt;
                     return elt;
-                }(html), result.webkit && function(dom) {
+                }(html), result.webkit && // Webkit browsers do some hard-to-predict replacement of regular
+                // spaces with non-breaking spaces when putting content on the
+                // clipboard. This tries to convert such non-breaking spaces (which
+                // will be wrapped in a plain span on Chrome, a span with class
+                // Apple-converted-space on Safari) back to regular spaces.
+                function(dom) {
                     for(var nodes = dom.querySelectorAll(result.chrome ? "span:not([class]):not([style])" : "span.Apple-converted-space"), i = 0; i < nodes.length; i++){
                         var node = nodes[i];
                         1 == node.childNodes.length && "\u00a0" == node.textContent && node.parentNode && node.parentNode.replaceChild(dom.ownerDocument.createTextNode(" "), node);
@@ -1320,7 +1517,16 @@
                     }
                     return new prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Slice(content, openStart, openEnd);
                 }(closeSlice(slice, +sliceData[1], +sliceData[2]), sliceData[3]);
-                else if ((slice = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Slice.maxOpen(function(fragment, $context) {
+                else if (// HTML wasn't created by ProseMirror. Make sure top-level siblings are coherent
+                (slice = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Slice.maxOpen(// Takes a slice parsed with parseSlice, which means there hasn't been
+                // any content-expression checking done on the top nodes, tries to
+                // find a parent node in the current context that might fit the nodes,
+                // and if successful, rebuilds the slice so that it fits into that parent.
+                //
+                // This addresses the problem that Transform.replace expects a
+                // coherent slice, and will fail to place a set of siblings that don't
+                // fit anywhere in the schema.
+                function(fragment, $context) {
                     if (fragment.childCount < 2) return fragment;
                     for(var d = $context.depth; d >= 0; d--){
                         var returned = function(d) {
@@ -1329,7 +1535,9 @@
                                 if (result) {
                                     var inLast, wrap = match.findWrapping(node.type);
                                     if (!wrap) return result = null;
-                                    if (inLast = result.length && lastWrap.length && function addToSibling(wrap, lastWrap, node, sibling, depth) {
+                                    if (inLast = result.length && lastWrap.length && // Used to group adjacent nodes wrapped in similar parents by
+                                    // normalizeSiblings into the same parent node
+                                    function addToSibling(wrap, lastWrap, node, sibling, depth) {
                                         if (depth < wrap.length && depth < lastWrap.length && wrap[depth] == lastWrap[depth]) {
                                             var inner = addToSibling(wrap, lastWrap, node, sibling.lastChild, depth + 1);
                                             if (inner) return sibling.copy(sibling.content.replaceChild(sibling.childCount - 1, inner));
@@ -1374,6 +1582,9 @@
             function closeSlice(slice, openStart, openEnd) {
                 return openStart < slice.openStart && (slice = new prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Slice(closeRange(slice.content, -1, openStart, slice.openStart, 0, slice.openEnd), openStart, slice.openEnd)), openEnd < slice.openEnd && (slice = new prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Slice(closeRange(slice.content, 1, openEnd, slice.openEnd, 0, 0), slice.openStart, openEnd)), slice;
             }
+            // Trick from jQuery -- some elements must be wrapped in other
+            // elements for innerHTML to work. I.e. if you do `div.innerHTML =
+            // "<td>..</td>"` the table cells are ignored.
             var wrapMap = {
                 thead: [
                     "table"
@@ -1431,6 +1642,10 @@
                 var this$1 = this;
                 this.view = view, this.handleDOMChange = handleDOMChange, this.queue = [], this.flushingSoon = -1, this.observer = window.MutationObserver && new window.MutationObserver(function(mutations) {
                     for(var i = 0; i < mutations.length; i++)this$1.queue.push(mutations[i]);
+                    // IE11 will sometimes (on backspacing out a single character
+                    // text node after a BR node) call the observer callback
+                    // before actually updating the DOM, which will cause
+                    // ProseMirror to miss the change (see #930)
                     result.ie && result.ie_version <= 11 && mutations.some(function(m) {
                         return "childList" == m.type && m.removedNodes.length || "characterData" == m.type && m.oldValue.length > m.target.nodeValue.length;
                     }) ? this$1.flushSoon() : this$1.flush();
@@ -1477,8 +1692,12 @@
                 var view;
                 if ((!(view = this.view).editable || view.root.activeElement == view.dom) && hasSelection(view)) {
                     if (this.suppressingSelectionUpdates) return selectionToDOM(this.view);
+                    // Deletions on IE11 fire their events in the wrong order, giving
+                    // us a selection change event before the DOM changes are
+                    // reported.
                     if (result.ie && result.ie_version <= 11 && !this.view.state.selection.empty) {
                         var sel = this.view.root.getSelection();
+                        // Selection.isCollapsed isn't reliable on IE
                         if (sel.focusNode && isEquivalentPosition(sel.focusNode, sel.focusOffset, sel.anchorNode, sel.anchorOffset)) return this.flushSoon();
                     }
                     this.flush();
@@ -1513,9 +1732,11 @@
                     (from > -1 || newSel) && (from > -1 && (this.view.docView.markDirty(from, to), view = this.view, cssChecked || (cssChecked = !0, "normal" == getComputedStyle(view.dom).whiteSpace && console.warn("ProseMirror expects the CSS white-space property to be set, preferably to 'pre-wrap'. It is recommended to load style/prosemirror.css from the prosemirror-view package."))), this.handleDOMChange(from, to, typeOver, added), this.view.docView.dirty ? this.view.updateState(this.view.state) : this.currentSelection.eq(sel) || selectionToDOM(this.view), this.currentSelection.set(sel));
                 }
             }, DOMObserver.prototype.registerMutation = function(mut, added) {
+                // Ignore mutations inside nodes that were already noted as inserted
                 if (added.indexOf(mut.target) > -1) return null;
                 var desc = this.view.docView.nearestDesc(mut.target);
-                if ("attributes" == mut.type && (desc == this.view.docView || "contenteditable" == mut.attributeName || "style" == mut.attributeName && !mut.oldValue && !mut.target.getAttribute("style")) || !desc || desc.ignoreMutation(mut)) return null;
+                if ("attributes" == mut.type && (desc == this.view.docView || "contenteditable" == mut.attributeName || // Firefox sometimes fires spurious events for null/empty styles
+                "style" == mut.attributeName && !mut.oldValue && !mut.target.getAttribute("style")) || !desc || desc.ignoreMutation(mut)) return null;
                 if ("childList" == mut.type) {
                     for(var i = 0; i < mut.addedNodes.length; i++)added.push(mut.addedNodes[i]);
                     if (desc.contentDOM && desc.contentDOM != desc.dom && !desc.contentDOM.contains(mut.target)) return {
@@ -1523,7 +1744,9 @@
                         to: desc.posAfter
                     };
                     var prev = mut.previousSibling, next = mut.nextSibling;
-                    if (result.ie && result.ie_version <= 11 && mut.addedNodes.length) for(var i$1 = 0; i$1 < mut.addedNodes.length; i$1++){
+                    if (result.ie && result.ie_version <= 11 && mut.addedNodes.length) // IE11 gives us incorrect next/prev siblings for some
+                    // insertions, so if there are added nodes, recompute those
+                    for(var i$1 = 0; i$1 < mut.addedNodes.length; i$1++){
                         var ref = mut.addedNodes[i$1], previousSibling = ref.previousSibling, nextSibling = ref.nextSibling;
                         (!previousSibling || 0 > Array.prototype.indexOf.call(mut.addedNodes, previousSibling)) && (prev = previousSibling), (!nextSibling || 0 > Array.prototype.indexOf.call(mut.addedNodes, nextSibling)) && (next = nextSibling);
                     }
@@ -1539,6 +1762,10 @@
                 } : {
                     from: desc.posAtStart,
                     to: desc.posAtEnd,
+                    // An event was generated for a text change that didn't change
+                    // any text. Mark the dom change to fall back to assuming the
+                    // selection was typed over with an identical value if it can't
+                    // find another change.
                     typeOver: mut.target.nodeValue == mut.oldValue
                 };
             };
@@ -1586,11 +1813,20 @@
             }
             editHandlers.keydown = function(view, event) {
                 if (view.shiftKey = 16 == event.keyCode || event.shiftKey, !inOrNearComposition(view, event)) {
+                    // On iOS, if we preventDefault enter key presses, the virtual
+                    // keyboard gets confused. So the hack here is to set a flag that
+                    // makes the DOM change code recognize that what just happens should
+                    // be replaced by whatever the Enter key handlers do.
                     if (229 != event.keyCode && view.domObserver.forceFlush(), view.lastKeyCode = event.keyCode, view.lastKeyCodeTime = Date.now(), !result.ios || 13 != event.keyCode || event.ctrlKey || event.altKey || event.metaKey) {
                         var result1, code, mods;
                         view.someProp("handleKeyDown", function(f) {
                             return f(view, event);
-                        }) || (code = event.keyCode, result1 = "", event.ctrlKey && (result1 += "c"), event.metaKey && (result1 += "m"), event.altKey && (result1 += "a"), event.shiftKey && (result1 += "s"), mods = result1, 8 == code || result.mac && 72 == code && "c" == mods ? stopNativeHorizontalDelete(view, -1) || skipIgnoredNodesLeft(view) : 46 == code || result.mac && 68 == code && "c" == mods ? stopNativeHorizontalDelete(view, 1) || skipIgnoredNodesRight(view) : 13 == code || 27 == code || (37 == code ? selectHorizontally(view, -1, mods) || skipIgnoredNodesLeft(view) : 39 == code ? selectHorizontally(view, 1, mods) || skipIgnoredNodesRight(view) : 38 == code ? selectVertically(view, -1, mods) || skipIgnoredNodesLeft(view) : 40 == code ? function(view) {
+                        }) || (code = event.keyCode, result1 = "", event.ctrlKey && (result1 += "c"), event.metaKey && (result1 += "m"), event.altKey && (result1 += "a"), event.shiftKey && (result1 += "s"), mods = result1, 8 == code || result.mac && 72 == code && "c" == mods ? stopNativeHorizontalDelete(view, -1) || skipIgnoredNodesLeft(view) : 46 == code || result.mac && 68 == code && "c" == mods ? stopNativeHorizontalDelete(view, 1) || skipIgnoredNodesRight(view) : 13 == code || 27 == code || (37 == code ? selectHorizontally(view, -1, mods) || skipIgnoredNodesLeft(view) : 39 == code ? selectHorizontally(view, 1, mods) || skipIgnoredNodesRight(view) : 38 == code ? selectVertically(view, -1, mods) || skipIgnoredNodesLeft(view) : 40 == code ? // Issue #867 / #1090 / https://bugs.chromium.org/p/chromium/issues/detail?id=903821
+                        // In which Safari (and at some point in the past, Chrome) does really
+                        // wrong things when the down arrow is pressed when the cursor is
+                        // directly at the start of a textblock and has an uneditable node
+                        // after it
+                        function(view) {
                             if (result.safari && !(view.state.selection.$head.parentOffset > 0)) {
                                 var ref = view.root.getSelection(), focusNode = ref.focusNode, focusOffset = ref.focusOffset;
                                 if (focusNode && 1 == focusNode.nodeType && 0 == focusOffset && focusNode.firstChild && "false" == focusNode.firstChild.contentEditable) {
@@ -1712,7 +1948,15 @@
                         if (-1 == inside) return !1;
                         var $pos = view.state.doc.resolve(inside), node = $pos.nodeAfter;
                         return !!(node && node.isAtom && prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection.isSelectable(node)) && (updateSelection(view, new prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection($pos), "pointer"), !0);
-                    }(view, inside))) ? event.preventDefault() : 0 == event.button && (this.flushed || result.safari && this.mightDrag && !this.mightDrag.node.isAtom || result.chrome && !(this.view.state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection) && 2 >= Math.min(Math.abs(pos1.pos - this.view.state.selection.from), Math.abs(pos1.pos - this.view.state.selection.to))) ? (updateSelection(this.view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.Selection.near(this.view.state.doc.resolve(pos1.pos)), "pointer"), event.preventDefault()) : setSelectionOrigin(this.view, "pointer");
+                    }(view, inside))) ? event.preventDefault() : 0 == event.button && (this.flushed || // Safari ignores clicks on draggable elements
+                    result.safari && this.mightDrag && !this.mightDrag.node.isAtom || // Chrome will sometimes treat a node selection as a
+                    // cursor, but still report that the node is selected
+                    // when asked through getSelection. You'll then get a
+                    // situation where clicking at the point where that
+                    // (hidden) cursor is doesn't change the selection, and
+                    // thus doesn't get a reaction from ProseMirror. This
+                    // works around that.
+                    result.chrome && !(this.view.state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection) && 2 >= Math.min(Math.abs(pos1.pos - this.view.state.selection.from), Math.abs(pos1.pos - this.view.state.selection.to))) ? (updateSelection(this.view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.Selection.near(this.view.state.doc.resolve(pos1.pos)), "pointer"), event.preventDefault()) : setSelectionOrigin(this.view, "pointer");
                 }
             }, MouseDown.prototype.move = function(event) {
                 !this.allowDefault && (Math.abs(this.event.x - event.clientX) > 4 || Math.abs(this.event.y - event.clientY) > 4) && (this.allowDefault = !0), setSelectionOrigin(this.view, "pointer"), 0 == event.buttons && this.done();
@@ -1721,6 +1965,7 @@
             }, handlers.contextmenu = function(view) {
                 return endComposition(view);
             };
+            // Drop active composition after 5 seconds of inactivity on Android
             var timeoutComposition = result.android ? 5000 : -1;
             function scheduleComposeEnd(view, delay) {
                 clearTimeout(view.composingTimeout), delay > -1 && (view.composingTimeout = setTimeout(function() {
@@ -1744,8 +1989,12 @@
                     var state = view.state, $pos = state.selection.$from;
                     if (state.selection.empty && (state.storedMarks || !$pos.textOffset && $pos.parentOffset && $pos.nodeBefore.marks.some(function(m) {
                         return !1 === m.type.spec.inclusive;
-                    }))) view.markCursor = view.state.storedMarks || $pos.marks(), endComposition(view, !0), view.markCursor = null;
-                    else if (endComposition(view), result.gecko && state.selection.empty && $pos.parentOffset && !$pos.textOffset && $pos.nodeBefore.marks.length) for(var sel = view.root.getSelection(), node = sel.focusNode, offset = sel.focusOffset; node && 1 == node.nodeType && 0 != offset;){
+                    }))) // Need to wrap the cursor in mark nodes different from the ones in the DOM context
+                    view.markCursor = view.state.storedMarks || $pos.marks(), endComposition(view, !0), view.markCursor = null;
+                    else // In firefox, if the cursor is after but outside a marked node,
+                    // the inserted text won't inherit the marks. So this moves it
+                    // inside if necessary.
+                    if (endComposition(view), result.gecko && state.selection.empty && $pos.parentOffset && !$pos.textOffset && $pos.nodeBefore.marks.length) for(var sel = view.root.getSelection(), node = sel.focusNode, offset = sel.focusOffset; node && 1 == node.nodeType && 0 != offset;){
                         var before = offset < 0 ? node.lastChild : node.childNodes[offset - 1];
                         if (!before) break;
                         if (3 == before.nodeType) {
@@ -1760,6 +2009,9 @@
             }, editHandlers.compositionend = function(view, event) {
                 view.composing && (view.composing = !1, view.compositionEndedAt = event.timeStamp, scheduleComposeEnd(view, 20));
             };
+            // This is very crude, but unfortunately both these browsers _pretend_
+            // that they have a clipboard API—all the objects and methods are
+            // there, they just don't work, and they are hard to test.
             var brokenClipboardAPI = result.ie && result.ie_version < 15 || result.ios && result.webkit_version < 604;
             function doPaste(view, text, html, e) {
                 var slice = parseFromClipboard(view, text, html, view.shiftKey, view.state.selection.$from);
@@ -1773,13 +2025,19 @@
             handlers.copy = editHandlers.cut = function(view, e) {
                 var sel = view.state.selection, cut = "cut" == e.type;
                 if (!sel.empty) {
+                    // IE and Edge's clipboard interface is completely broken
                     var data = brokenClipboardAPI ? null : e.clipboardData, ref = serializeForClipboard(view, sel.content()), dom = ref.dom, text = ref.text;
                     data ? (e.preventDefault(), data.clearData(), data.setData("text/html", dom.innerHTML), data.setData("text/plain", text)) : function(view, dom) {
+                        // The extra wrapper is somehow necessary on IE/Edge to prevent the
+                        // content from being mangled when it is put onto the clipboard
                         if (view.dom.parentNode) {
                             var wrap = view.dom.parentNode.appendChild(document.createElement("div"));
                             wrap.appendChild(dom), wrap.style.cssText = "position: fixed; left: -10000px; top: 10px";
                             var sel = getSelection(), range = document.createRange();
-                            range.selectNodeContents(dom), view.dom.blur(), sel.removeAllRanges(), sel.addRange(range), setTimeout(function() {
+                            range.selectNodeContents(dom), // Done because IE will fire a selectionchange moving the selection
+                            // to its start when removeAllRanges is called and the editor still
+                            // has focus (which will mess up the editor's selection state).
+                            view.dom.blur(), sel.removeAllRanges(), sel.addRange(range), setTimeout(function() {
                                 wrap.parentNode && wrap.parentNode.removeChild(wrap), view.focus();
                             }, 50);
                         }
@@ -1799,6 +2057,7 @@
             var Dragging = function(slice, move) {
                 this.slice = slice, this.move = move;
             }, dragCopyModifier = result.mac ? "altKey" : "ctrlKey";
+            // Make sure all handlers get registered
             for(var prop in handlers.dragstart = function(view, e) {
                 var mouseDown = view.mouseDown;
                 if (mouseDown && mouseDown.done(), e.dataTransfer) {
@@ -1810,7 +2069,8 @@
                         desc && desc.node.type.spec.draggable && desc != view.docView && view.dispatch(view.state.tr.setSelection(prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection.create(view.state.doc, desc.posBefore)));
                     }
                     var slice = view.state.selection.content(), ref = serializeForClipboard(view, slice), dom = ref.dom, text = ref.text;
-                    e.dataTransfer.clearData(), e.dataTransfer.setData(brokenClipboardAPI ? "Text" : "text/html", dom.innerHTML), e.dataTransfer.effectAllowed = "copyMove", brokenClipboardAPI || e.dataTransfer.setData("text/plain", text), view.dragging = new Dragging(slice, !e[dragCopyModifier]);
+                    e.dataTransfer.clearData(), e.dataTransfer.setData(brokenClipboardAPI ? "Text" : "text/html", dom.innerHTML), // See https://github.com/ProseMirror/prosemirror/issues/1156
+                    e.dataTransfer.effectAllowed = "copyMove", brokenClipboardAPI || e.dataTransfer.setData("text/plain", text), view.dragging = new Dragging(slice, !e[dragCopyModifier]);
                 }
             }, handlers.dragend = function(view) {
                 var dragging = view.dragging;
@@ -1839,7 +2099,7 @@
                             }
                             if (slice) {
                                 e.preventDefault();
-                                var insertPos = slice ? (0, prosemirror_transform__WEBPACK_IMPORTED_MODULE_2__.nj)(view.state.doc, $mouse.pos, slice) : $mouse.pos;
+                                var insertPos = slice ? (0, prosemirror_transform__WEBPACK_IMPORTED_MODULE_2__ /* .dropPoint */ .nj)(view.state.doc, $mouse.pos, slice) : $mouse.pos;
                                 null == insertPos && (insertPos = $mouse.pos);
                                 var tr = view.state.tr;
                                 move && tr.deleteSelection();
@@ -1866,15 +2126,20 @@
             }, handlers.blur = function(view, e) {
                 view.focused && (view.domObserver.stop(), view.dom.classList.remove("ProseMirror-focused"), view.domObserver.start(), e.relatedTarget && view.dom.contains(e.relatedTarget) && view.domObserver.currentSelection.set({}), view.focused = !1);
             }, handlers.beforeinput = function(view, event) {
+                // We should probably do more with beforeinput events, but support
+                // is so spotty that I'm still waiting to see where they are going.
+                // Very specific hack to deal with backspace sometimes failing on
+                // Chrome Android when after an uneditable node.
                 if (result.chrome && result.android && "deleteContentBackward" == event.inputType) {
                     var domChangeCount = view.domChangeCount;
                     setTimeout(function() {
-                        if (view.domChangeCount == domChangeCount && (view.dom.blur(), view.focus(), !view.someProp("handleKeyDown", function(f) {
+                        if (view.domChangeCount == domChangeCount && (// This bug tends to close the virtual keyboard, so we refocus
+                        view.dom.blur(), view.focus(), !view.someProp("handleKeyDown", function(f) {
                             return f(view, keyEvent(8, "Backspace"));
                         }))) {
                             var $cursor = view.state.selection.$cursor;
                             $cursor && $cursor.pos > 0 && view.dispatch(view.state.tr.delete($cursor.pos - 1, $cursor.pos).scrollIntoView());
-                        }
+                        } // Event already had some effect
                     }, 50);
                 }
             }, editHandlers)handlers[prop] = editHandlers[prop];
@@ -1922,8 +2187,16 @@
             }, NodeType.prototype.eq = function(other) {
                 return this == other || other instanceof NodeType && compareObjs(this.attrs, other.attrs) && compareObjs(this.spec, other.spec);
             };
+            // ::- Decoration objects can be provided to the view through the
+            // [`decorations` prop](#view.EditorProps.decorations). They come in
+            // several variants—see the static members of this class for details.
             var Decoration = function(from, to, type) {
-                this.from = from, this.to = to, this.type = type;
+                // :: number
+                // The start position of the decoration.
+                this.from = from, // :: number
+                // The end position. Will be the same as `from` for [widget
+                // decorations](#view.Decoration^widget).
+                this.to = to, this.type = type;
             }, prototypeAccessors$1 = {
                 spec: {
                     configurable: !0
@@ -1938,23 +2211,126 @@
                 return void 0 === offset && (offset = 0), this.type.eq(other.type) && this.from + offset == other.from && this.to + offset == other.to;
             }, Decoration.prototype.map = function(mapping, offset, oldOffset) {
                 return this.type.map(mapping, this, offset, oldOffset);
-            }, Decoration.widget = function(pos, toDOM, spec) {
+            }, // :: (number, union<(view: EditorView, getPos: () → number) → dom.Node, dom.Node>, ?Object) → Decoration
+            // Creates a widget decoration, which is a DOM node that's shown in
+            // the document at the given position. It is recommended that you
+            // delay rendering the widget by passing a function that will be
+            // called when the widget is actually drawn in a view, but you can
+            // also directly pass a DOM node. `getPos` can be used to find the
+            // widget's current document position.
+            //
+            // spec::- These options are supported:
+            //
+            //   side:: ?number
+            //   Controls which side of the document position this widget is
+            //   associated with. When negative, it is drawn before a cursor
+            //   at its position, and content inserted at that position ends
+            //   up after the widget. When zero (the default) or positive, the
+            //   widget is drawn after the cursor and content inserted there
+            //   ends up before the widget.
+            //
+            //   When there are multiple widgets at a given position, their
+            //   `side` values determine the order in which they appear. Those
+            //   with lower values appear first. The ordering of widgets with
+            //   the same `side` value is unspecified.
+            //
+            //   When `marks` is null, `side` also determines the marks that
+            //   the widget is wrapped in—those of the node before when
+            //   negative, those of the node after when positive.
+            //
+            //   marks:: ?[Mark]
+            //   The precise set of marks to draw around the widget.
+            //
+            //   stopEvent:: ?(event: dom.Event) → bool
+            //   Can be used to control which DOM events, when they bubble out
+            //   of this widget, the editor view should ignore.
+            //
+            //   ignoreSelection:: ?bool
+            //   When set (defaults to false), selection changes inside the
+            //   widget are ignored, and don't cause ProseMirror to try and
+            //   re-sync the selection with its selection state.
+            //
+            //   key:: ?string
+            //   When comparing decorations of this type (in order to decide
+            //   whether it needs to be redrawn), ProseMirror will by default
+            //   compare the widget DOM node by identity. If you pass a key,
+            //   that key will be compared instead, which can be useful when
+            //   you generate decorations on the fly and don't want to store
+            //   and reuse DOM nodes. Make sure that any widgets with the same
+            //   key are interchangeable—if widgets differ in, for example,
+            //   the behavior of some event handler, they should get
+            //   different keys.
+            Decoration.widget = function(pos, toDOM, spec) {
                 return new Decoration(pos, pos, new WidgetType(toDOM, spec));
-            }, Decoration.inline = function(from, to, attrs, spec) {
+            }, // :: (number, number, DecorationAttrs, ?Object) → Decoration
+            // Creates an inline decoration, which adds the given attributes to
+            // each inline node between `from` and `to`.
+            //
+            // spec::- These options are recognized:
+            //
+            //   inclusiveStart:: ?bool
+            //   Determines how the left side of the decoration is
+            //   [mapped](#transform.Position_Mapping) when content is
+            //   inserted directly at that position. By default, the decoration
+            //   won't include the new content, but you can set this to `true`
+            //   to make it inclusive.
+            //
+            //   inclusiveEnd:: ?bool
+            //   Determines how the right side of the decoration is mapped.
+            //   See
+            //   [`inclusiveStart`](#view.Decoration^inline^spec.inclusiveStart).
+            Decoration.inline = function(from, to, attrs, spec) {
                 return new Decoration(from, to, new InlineType(attrs, spec));
-            }, Decoration.node = function(from, to, attrs, spec) {
+            }, // :: (number, number, DecorationAttrs, ?Object) → Decoration
+            // Creates a node decoration. `from` and `to` should point precisely
+            // before and after a node in the document. That node, and only that
+            // node, will receive the given attributes.
+            //
+            // spec::-
+            //
+            // Optional information to store with the decoration. It
+            // is also used when comparing decorators for equality.
+            Decoration.node = function(from, to, attrs, spec) {
                 return new Decoration(from, to, new NodeType(attrs, spec));
-            }, prototypeAccessors$1.spec.get = function() {
+            }, // :: Object
+            // The spec provided when creating this decoration. Can be useful
+            // if you've stored extra information in that object.
+            prototypeAccessors$1.spec.get = function() {
                 return this.type.spec;
             }, prototypeAccessors$1.inline.get = function() {
                 return this.type instanceof InlineType;
             }, Object.defineProperties(Decoration.prototype, prototypeAccessors$1);
+            // DecorationAttrs:: interface
+            // A set of attributes to add to a decorated node. Most properties
+            // simply directly correspond to DOM attributes of the same name,
+            // which will be set to the property's value. These are exceptions:
+            //
+            //   class:: ?string
+            //   A CSS class name or a space-separated set of class names to be
+            //   _added_ to the classes that the node already had.
+            //
+            //   style:: ?string
+            //   A string of CSS to be _added_ to the node's existing `style` property.
+            //
+            //   nodeName:: ?string
+            //   When non-null, the target node is wrapped in a DOM element of
+            //   this type (and the other attributes are applied to this element).
             var none = [], noSpec = {}, DecorationSet = function(local, children) {
                 this.local = local && local.length ? local : none, this.children = children && children.length ? children : none;
             };
+            // :: (Node, [Decoration]) → DecorationSet
+            // Create a set of decorations, using the structure of the given
+            // document.
             DecorationSet.create = function(doc, decorations) {
                 return decorations.length ? buildTree(decorations, doc, 0, noSpec) : empty;
-            }, DecorationSet.prototype.find = function(start, end, predicate) {
+            }, // :: (?number, ?number, ?(spec: Object) → bool) → [Decoration]
+            // Find all decorations in this set which touch the given range
+            // (including decorations that start or end directly at the
+            // boundaries) and match the given predicate on their spec. When
+            // `start` and `end` are omitted, all decorations in the set are
+            // considered. When `predicate` isn't given, all decorations are
+            // assumed to match.
+            DecorationSet.prototype.find = function(start, end, predicate) {
                 var result = [];
                 return this.findInner(null == start ? 0 : start, null == end ? 1e9 : end, result, 0, predicate), result;
             }, DecorationSet.prototype.findInner = function(start, end, result, offset, predicate) {
@@ -1966,7 +2342,17 @@
                     var childOff = this.children[i$1] + 1;
                     this.children[i$1 + 2].findInner(start - childOff, end - childOff, result, offset + childOff, predicate);
                 }
-            }, DecorationSet.prototype.map = function(mapping, doc, options) {
+            }, // :: (Mapping, Node, ?Object) → DecorationSet
+            // Map the set of decorations in response to a change in the
+            // document.
+            //
+            // options::- An optional set of options.
+            //
+            //   onRemove:: ?(decorationSpec: Object)
+            //   When given, this function will be called for each decoration
+            //   that gets dropped as a result of the mapping, passing the
+            //   spec of that decoration.
+            DecorationSet.prototype.map = function(mapping, doc, options) {
                 return this == empty || 0 == mapping.maps.length ? this : this.mapInner(mapping, doc, 0, 0, options || noSpec);
             }, DecorationSet.prototype.mapInner = function(mapping, node, offset, oldOffset, options) {
                 for(var newLocal, i = 0; i < this.local.length; i++){
@@ -1981,20 +2367,24 @@
                         }
                     }, i = 0; i < mapping.maps.length; i++)mapping.maps[i].forEach(shift);
                     for(var mustRebuild = !1, i$1 = 0; i$1 < children.length; i$1 += 3)if (-1 == children[i$1 + 1]) {
+                        // Touched nodes
                         var from = mapping.map(oldChildren[i$1] + oldOffset), fromLocal = from - offset;
                         if (fromLocal < 0 || fromLocal >= node.content.size) {
                             mustRebuild = !0;
                             continue;
                         }
+                        // Must read oldChildren because children was tagged with -1
                         var toLocal = mapping.map(oldChildren[i$1 + 1] + oldOffset, -1) - offset, ref = node.content.findIndex(fromLocal), index = ref.index, childOffset = ref.offset, childNode = node.maybeChild(index);
                         if (childNode && childOffset == fromLocal && childOffset + childNode.nodeSize == toLocal) {
                             var mapped = children[i$1 + 2].mapInner(mapping, childNode, from + 1, oldChildren[i$1] + oldOffset + 1, options);
                             mapped != empty ? (children[i$1] = fromLocal, children[i$1 + 1] = toLocal, children[i$1 + 2] = mapped) : (children[i$1 + 1] = -2, mustRebuild = !0);
                         } else mustRebuild = !0;
                     }
+                    // Remaining children must be collected and rebuilt into the appropriate structure
                     if (mustRebuild) {
                         var built = buildTree(function(children, oldChildren, decorations, mapping, offset, oldOffset, options) {
-                            for(var i = 0; i < children.length; i += 3)-1 == children[i + 1] && function gather(set, oldOffset) {
+                            for(var i = 0; i < children.length; i += 3)-1 == children[i + 1] && // Gather all decorations from the remaining marked children
+                            function gather(set, oldOffset) {
                                 for(var i = 0; i < set.local.length; i++){
                                     var mapped = set.local[i].map(mapping, offset, oldOffset);
                                     mapped ? decorations.push(mapped) : options.onRemove && options.onRemove(set.local[i].spec);
@@ -2012,7 +2402,11 @@
                     }
                     return new DecorationSet(newLocal && newLocal.sort(byPos), children);
                 }(this.children, newLocal, mapping, node, offset, oldOffset, options) : newLocal ? new DecorationSet(newLocal.sort(byPos)) : empty;
-            }, DecorationSet.prototype.add = function(doc, decorations) {
+            }, // :: (Node, [Decoration]) → DecorationSet
+            // Add the given array of decorations to the ones in the set,
+            // producing a new set. Needs access to the current document to
+            // create the appropriate tree structure.
+            DecorationSet.prototype.add = function(doc, decorations) {
                 return decorations.length ? this == empty ? DecorationSet.create(doc, decorations) : this.addInner(doc, decorations, 0) : this;
             }, DecorationSet.prototype.addInner = function(doc, decorations, offset) {
                 var children, this$1 = this, childIndex = 0;
@@ -2025,7 +2419,10 @@
                 });
                 for(var local = moveSpans(childIndex ? withoutNulls(decorations) : decorations, -offset), i = 0; i < local.length; i++)local[i].type.valid(doc, local[i]) || local.splice(i--, 1);
                 return new DecorationSet(local.length ? this.local.concat(local).sort(byPos) : this.local, children || this.children);
-            }, DecorationSet.prototype.remove = function(decorations) {
+            }, // :: ([Decoration]) → DecorationSet
+            // Create a new set that contains the decorations in this set, minus
+            // the ones in the given array.
+            DecorationSet.prototype.remove = function(decorations) {
                 return 0 == decorations.length || this == empty ? this : this.removeInner(decorations, 0);
             }, DecorationSet.prototype.removeInner = function(decorations, offset) {
                 for(var children = this.children, local = this.local, i = 0; i < children.length; i += 3){
@@ -2076,8 +2473,21 @@
                 for(var result = [], i = 0; i < this.local.length; i++)this.local[i].type instanceof InlineType || result.push(this.local[i]);
                 return result;
             };
+            // DecorationSource:: interface
+            // An object that can [provide](#view.EditorProps.decorations)
+            // decorations. Implemented by [`DecorationSet`](#view.DecorationSet),
+            // and passed to [node views](#view.EditorProps.nodeViews).
+            //
+            //   map:: (Mapping, Node) → DecorationSource
+            //   Map the set of decorations in response to a change in the
+            //   document.
             var empty = new DecorationSet();
+            // :: DecorationSet
+            // The empty set of decorations.
             DecorationSet.empty = empty, DecorationSet.removeOverlap = removeOverlap;
+            // :- An abstraction that allows the code dealing with decorations to
+            // treat multiple DecorationSet objects as if it were a single object
+            // with (a subset of) the same interface.
             var DecorationGroup = function(members) {
                 this.members = members;
             };
@@ -2098,6 +2508,11 @@
                 for(var result = [], i = 0; i < array.length; i++)null != array[i] && result.push(array[i]);
                 return result;
             }
+            // : ([Decoration], Node, number) → DecorationSet
+            // Build up a tree that corresponds to a set of decorations. `offset`
+            // is a base offset that should be subtracted from the `from` and `to`
+            // positions in the spans (so that we don't have to allocate new spans
+            // for recursive calls).
             function buildTree(spans, node, offset, options) {
                 var children = [], hasNulls = !1;
                 node.forEach(function(childNode, localStart) {
@@ -2111,19 +2526,32 @@
                 for(var locals = moveSpans(hasNulls ? withoutNulls(spans) : spans, -offset).sort(byPos), i = 0; i < locals.length; i++)locals[i].type.valid(node, locals[i]) || (options.onRemove && options.onRemove(locals[i].spec), locals.splice(i--, 1));
                 return locals.length || children.length ? new DecorationSet(locals, children) : empty;
             }
+            // : (Decoration, Decoration) → number
+            // Used to sort decorations so that ones with a low start position
+            // come first, and within a set with the same start position, those
+            // with an smaller end position come first.
             function byPos(a, b) {
                 return a.from - b.from || a.to - b.to;
             }
+            // : ([Decoration]) → [Decoration]
+            // Scan a sorted array of decorations for partially overlapping spans,
+            // and split those so that only fully overlapping spans are left (to
+            // make subsequent rendering easier). Will return the input array if
+            // no partially overlapping spans are found (the common case).
             function removeOverlap(spans) {
                 for(var working = spans, i = 0; i < working.length - 1; i++){
                     var span = working[i];
                     if (span.from != span.to) for(var j = i + 1; j < working.length; j++){
                         var next = working[j];
                         if (next.from == span.from) {
-                            next.to != span.to && (working == spans && (working = spans.slice()), working[j] = next.copy(next.from, span.to), insertAhead(working, j + 1, next.copy(span.to, next.to)));
+                            next.to != span.to && (working == spans && (working = spans.slice()), // Followed by a partially overlapping larger span. Split that
+                            // span.
+                            working[j] = next.copy(next.from, span.to), insertAhead(working, j + 1, next.copy(span.to, next.to)));
                             continue;
                         }
-                        next.from < span.to && (working == spans && (working = spans.slice()), working[i] = span.copy(span.from, next.from), insertAhead(working, j, span.copy(next.from, span.to)));
+                        next.from < span.to && (working == spans && (working = spans.slice()), // The end of this one overlaps with a subsequent span. Split
+                        // this one.
+                        working[i] = span.copy(span.from, next.from), insertAhead(working, j, span.copy(next.from, span.to)));
                         break;
                     }
                 }
@@ -2133,6 +2561,8 @@
                 for(; i < array.length && byPos(deco, array[i]) > 0;)i++;
                 array.splice(i, 0, deco);
             }
+            // : (EditorView) → union<DecorationSet, DecorationGroup>
+            // Get the decorations associated with the current props of a view.
             function viewDecorations(view) {
                 var found = [];
                 return view.someProp("decorations", function(f) {
@@ -2169,7 +2599,10 @@
                     }
                 }
                 return result ? removeOverlap(sorted ? result : result.sort(byPos)) : none;
-            }, DecorationGroup.from = function(members) {
+            }, // : ([DecorationSet]) → union<DecorationSet, DecorationGroup>
+            // Create a group for the given array of decoration sets, or return
+            // a single set when possible.
+            DecorationGroup.from = function(members) {
                 switch(members.length){
                     case 0:
                         return empty;
@@ -2179,8 +2612,23 @@
                         return new DecorationGroup(members);
                 }
             };
+            // ::- An editor view manages the DOM structure that represents an
+            // editable document. Its state and behavior are determined by its
+            // [props](#view.DirectEditorProps).
             var EditorView = function(place, props) {
-                this._props = props, this.state = props.state, this.directPlugins = props.plugins || [], this.directPlugins.forEach(checkStateComponent), this.dispatch = this.dispatch.bind(this), this._root = null, this.focused = !1, this.trackWrites = null, this.dom = place && place.mount || document.createElement("div"), place && (place.appendChild ? place.appendChild(this.dom) : place.apply ? place(this.dom) : place.mount && (this.mounted = !0)), this.editable = getEditable(this), this.markCursor = null, this.cursorWrapper = null, updateCursorWrapper(this), this.nodeViews = buildNodeViews(this), this.docView = docViewDesc(this.state.doc, computeDocDeco(this), viewDecorations(this), this.dom, this), this.lastSelectedViewDesc = null, this.dragging = null, function(view) {
+                this._props = props, // :: EditorState
+                // The view's current [state](#state.EditorState).
+                this.state = props.state, this.directPlugins = props.plugins || [], this.directPlugins.forEach(checkStateComponent), this.dispatch = this.dispatch.bind(this), this._root = null, this.focused = !1, // Kludge used to work around a Chrome bug
+                this.trackWrites = null, // :: dom.Element
+                // An editable DOM node containing the document. (You probably
+                // should not directly interfere with its content.)
+                this.dom = place && place.mount || document.createElement("div"), place && (place.appendChild ? place.appendChild(this.dom) : place.apply ? place(this.dom) : place.mount && (this.mounted = !0)), // :: bool
+                // Indicates whether the editor is currently [editable](#view.EditorProps.editable).
+                this.editable = getEditable(this), this.markCursor = null, this.cursorWrapper = null, updateCursorWrapper(this), this.nodeViews = buildNodeViews(this), this.docView = docViewDesc(this.state.doc, computeDocDeco(this), viewDecorations(this), this.dom, this), this.lastSelectedViewDesc = null, // :: ?{slice: Slice, move: bool}
+                // When editor content is being dragged, this object contains
+                // information about the dragged slice and whether it is being
+                // copied or moved. At any other time, it is null.
+                this.dragging = null, function(view) {
                     for(var event in view.shiftKey = !1, view.mouseDown = null, view.lastKeyCode = null, view.lastKeyCodeTime = 0, view.lastClick = {
                         time: 0,
                         x: 0,
@@ -2198,8 +2646,15 @@
                             }
                             var $before = view.state.doc.resolve(from), shared = $before.sharedDepth(to);
                             from = $before.before(shared + 1), to = view.state.doc.resolve(to).after(shared + 1);
-                            var sel = view.state.selection, parse = function(view, from_, to_) {
+                            var sel = view.state.selection, parse = // Note that all referencing and parsing is done with the
+                            // start-of-operation selection and document, since that's the one
+                            // that the DOM represents. If any changes came in in the meantime,
+                            // the modification is mapped over those before it is applied, in
+                            // readDOMChange.
+                            function(view, from_, to_) {
                                 var ref = view.docView.parseRange(from_, to_), parent = ref.node, fromOffset = ref.fromOffset, toOffset = ref.toOffset, from = ref.from, to = ref.to, domSel = view.root.getSelection(), find = null, anchor = domSel.anchorNode;
+                                // Work around issue in Chrome where backspacing sometimes replaces
+                                // the deleted content with a random BR node (issues #799, #831)
                                 if (anchor && view.dom.contains(1 == anchor.nodeType ? anchor : anchor.parentNode) && (find = [
                                     {
                                         node: anchor,
@@ -2242,6 +2697,8 @@
                                     to: to
                                 };
                             }(view, from, to);
+                            // Chrome sometimes leaves the cursor before the inserted text when
+                            // composing after a cursor wrapper. This moves it forward.
                             if (result.chrome && view.cursorWrapper && parse.sel && parse.sel.anchor == view.cursorWrapper.deco.from) {
                                 var text = view.cursorWrapper.deco.type.toDOM.nextSibling, size = text && text.nodeValue ? text.nodeValue.length : 1;
                                 parse.sel = {
@@ -2295,6 +2752,8 @@
                             }
                             view.domChangeCount++, view.state.selection.from < view.state.selection.to && change.start == change.endB && view.state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection && (change.start > view.state.selection.from && change.start <= view.state.selection.from + 2 ? change.start = view.state.selection.from : change.endA < view.state.selection.to && change.endA >= view.state.selection.to - 2 && (change.endB += view.state.selection.to - change.endA, change.endA = view.state.selection.to)), result.ie && result.ie_version <= 11 && change.endB == change.start + 1 && change.endA == change.start && change.start > parse.from && " \u00a0" == parse.doc.textBetween(change.start - parse.from - 1, change.start - parse.from + 1) && (change.start--, change.endA--, change.endB--);
                             var $from = parse.doc.resolveNoCache(change.start - parse.from), $to = parse.doc.resolveNoCache(change.endB - parse.from), inlineChange = $from.sameParent($to) && $from.parent.inlineContent;
+                            // If this looks like the effect of pressing Enter (or was recorded
+                            // as being an iOS enter press), just dispatch an Enter key instead.
                             if ((result.ios && view.lastIOSEnter > Date.now() - 225 && (!inlineChange || addedNodes.some(function(n) {
                                 return "DIV" == n.nodeName || "P" == n.nodeName;
                             })) || !inlineChange && $from.pos < parse.doc.content.size && (nextSel = prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.Selection.findFrom(parse.doc.resolve($from.pos + 1), 1, !0)) && nextSel.head == $to.pos) && view.someProp("handleKeyDown", function(f) {
@@ -2303,16 +2762,21 @@
                                 view.lastIOSEnter = 0;
                                 return;
                             }
+                            // Same for backspace
                             if (view.state.selection.anchor > change.start && function(old, start, end, $newStart, $newEnd) {
-                                if (!$newStart.parent.isTextblock || end - start <= $newEnd.pos - $newStart.pos || skipClosingAndOpening($newStart, !0, !1) < $newEnd.pos) return !1;
+                                if (!$newStart.parent.isTextblock || // The content must have shrunk
+                                end - start <= $newEnd.pos - $newStart.pos || // newEnd must point directly at or after the end of the block that newStart points into
+                                skipClosingAndOpening($newStart, !0, !1) < $newEnd.pos) return !1;
                                 var $start = old.resolve(start);
+                                // Start must be at the end of a block
                                 if ($start.parentOffset < $start.parent.content.size || !$start.parent.isTextblock) return !1;
                                 var $next = old.resolve(skipClosingAndOpening($start, !0, !0));
-                                return !(!$next.parent.isTextblock || $next.pos > end || skipClosingAndOpening($next, !0, !1) < end) && $newStart.parent.content.cut($newStart.parentOffset).eq($next.parent.content);
+                                return(// The next textblock must start before end and end near it
+                                !(!$next.parent.isTextblock || $next.pos > end || skipClosingAndOpening($next, !0, !1) < end) && $newStart.parent.content.cut($newStart.parentOffset).eq($next.parent.content));
                             }(doc, change.start, change.endA, $from, $to) && view.someProp("handleKeyDown", function(f) {
                                 return f(view, keyEvent(8, "Backspace"));
                             })) {
-                                result.android && result.chrome && view.domObserver.suppressSelectionUpdates();
+                                result.android && result.chrome && view.domObserver.suppressSelectionUpdates(); // #820
                                 return;
                             }
                             result.chrome && result.android && change.toB == change.from && (view.lastAndroidDelete = Date.now()), result.android && !inlineChange && $from.start() != $to.start() && 0 == $to.parentOffset && $from.depth == $to.depth && parse.sel && parse.sel.anchor == parse.sel.head && parse.sel.head == change.endA && (change.endB -= 2, $to = parse.doc.resolveNoCache(change.endB - parse.from), setTimeout(function() {
@@ -2325,7 +2789,12 @@
                                 if ($from.pos == $to.pos) result.ie && result.ie_version <= 11 && 0 == $from.parentOffset && (view.domObserver.suppressSelectionUpdates(), setTimeout(function() {
                                     return selectionToDOM(view);
                                 }, 20)), tr = view.state.tr.delete(chFrom, chTo), storedMarks = doc.resolve(change.start).marksAcross(doc.resolve(change.endA));
-                                else if (change.endA == change.endB && ($from1 = doc.resolve(change.start)) && (markChange = function(cur, prev) {
+                                else if (// Adding or removing a mark
+                                change.endA == change.endB && ($from1 = doc.resolve(change.start)) && (markChange = // : (Fragment, Fragment) → ?{mark: Mark, type: string}
+                                // Given two same-length, non-empty fragments of inline content,
+                                // determine whether the first could be created from the second by
+                                // removing or adding a single mark type.
+                                function(cur, prev) {
                                     for(var type, mark, update, curMarks = cur.firstChild.marks, prevMarks = prev.firstChild.marks, added = curMarks, removed = prevMarks, i = 0; i < prevMarks.length; i++)added = prevMarks[i].removeFromSet(added);
                                     for(var i$1 = 0; i$1 < curMarks.length; i$1++)removed = curMarks[i$1].removeFromSet(removed);
                                     if (1 == added.length && 0 == removed.length) mark = added[0], type = "add", update = function(node) {
@@ -2344,6 +2813,7 @@
                                     };
                                 }($from.parent.content.cut($from.parentOffset, $to.parentOffset), $from1.parent.content.cut($from1.parentOffset, change.endA - $from1.start())))) tr = view.state.tr, "add" == markChange.type ? tr.addMark(chFrom, chTo, markChange.mark) : tr.removeMark(chFrom, chTo, markChange.mark);
                                 else if ($from.parent.child($from.index()).isText && $from.index() == $to.index() - ($to.textOffset ? 0 : 1)) {
+                                    // Both positions in the same text node -- simply insert text
                                     var text$1 = $from.parent.textBetween($from.parentOffset, $to.parentOffset);
                                     if (view.someProp("handleTextInput", function(f) {
                                         return f(view, chFrom, chTo, text$1);
@@ -2353,11 +2823,17 @@
                             }
                             if (tr || (tr = view.state.tr.replace(chFrom, chTo, parse.doc.slice(change.start - parse.from, change.endB - parse.from))), parse.sel) {
                                 var sel$2 = resolveSelection(view, tr.doc, parse.sel);
+                                // Chrome Android will sometimes, during composition, report the
+                                // selection in the wrong place. If it looks like that is
+                                // happening, don't update the selection.
+                                // Edge just doesn't move the cursor forward when you start typing
+                                // in an empty block or between br nodes.
                                 sel$2 && !(result.chrome && result.android && view.composing && sel$2.empty && (change.start != change.endB || view.lastAndroidDelete < Date.now() - 100) && (sel$2.head == chFrom || sel$2.head == tr.mapping.map(chTo) - 1) || result.ie && sel$2.empty && sel$2.head == chFrom) && tr.setSelection(sel$2);
                             }
                             storedMarks && tr.ensureMarks(storedMarks), view.dispatch(tr.scrollIntoView());
                         }(view, from, to, typeOver, added);
-                    }), view.domObserver.start(), view.domChangeCount = 0, view.eventHandlers = Object.create(null), handlers)!function(event) {
+                    }), view.domObserver.start(), // Used by hacks like the beforeinput handler to check whether anything happened in the DOM
+                    view.domChangeCount = 0, view.eventHandlers = Object.create(null), handlers)!function(event) {
                         var handler = handlers[event];
                         view.dom.addEventListener(event, view.eventHandlers[event] = function(event) {
                             !function(view, event) {
@@ -2414,6 +2890,12 @@
             function checkStateComponent(plugin) {
                 if (plugin.spec.state || plugin.spec.filterTransaction || plugin.spec.appendTransaction) throw RangeError("Plugins passed directly to the view must not have a state component");
             }
+            // composing:: boolean
+            // Holds `true` when a
+            // [composition](https://developer.mozilla.org/en-US/docs/Mozilla/IME_handling_guide)
+            // is active.
+            // :: DirectEditorProps
+            // The view's current [props](#view.EditorProps).
             prototypeAccessors$2.props.get = function() {
                 if (this._props.state != this.state) {
                     var prev = this._props;
@@ -2421,14 +2903,24 @@
                     this._props.state = this.state;
                 }
                 return this._props;
-            }, EditorView.prototype.update = function(props) {
+            }, // :: (DirectEditorProps)
+            // Update the view's props. Will immediately cause an update to
+            // the DOM.
+            EditorView.prototype.update = function(props) {
                 props.handleDOMEvents != this._props.handleDOMEvents && ensureListeners(this), this._props = props, props.plugins && (props.plugins.forEach(checkStateComponent), this.directPlugins = props.plugins), this.updateStateInner(props.state, !0);
-            }, EditorView.prototype.setProps = function(props) {
+            }, // :: (DirectEditorProps)
+            // Update the view by updating existing props object with the object
+            // given as argument. Equivalent to `view.update(Object.assign({},
+            // view.props, props))`.
+            EditorView.prototype.setProps = function(props) {
                 var updated = {};
                 for(var name in this._props)updated[name] = this._props[name];
                 for(var name$1 in updated.state = this.state, props)updated[name$1] = props[name$1];
                 this.update(updated);
-            }, EditorView.prototype.updateState = function(state) {
+            }, // :: (EditorState)
+            // Update the editor's `state` prop, without touching any of the
+            // other props.
+            EditorView.prototype.updateState = function(state) {
                 this.updateStateInner(state, this.state.plugins != state.plugins);
             }, EditorView.prototype.updateStateInner = function(state, reconfigured) {
                 var refDOM, refTop, newRefTop, this$1 = this, prev = this.state, redraw = !1, updateSel = !1;
@@ -2447,7 +2939,11 @@
                 this.editable = getEditable(this), updateCursorWrapper(this);
                 var innerDeco = viewDecorations(this), outerDeco = computeDocDeco(this), scroll = reconfigured ? "reset" : state.scrollToSelection > prev.scrollToSelection ? "to selection" : "preserve", updateDoc = redraw || !this.docView.matchesNode(state.doc, outerDeco, innerDeco);
                 (updateDoc || !state.selection.eq(prev.selection)) && (updateSel = !0);
-                var oldScrollPos = "preserve" == scroll && updateSel && null == this.dom.style.overflowAnchor && function(view) {
+                var oldScrollPos = "preserve" == scroll && updateSel && null == this.dom.style.overflowAnchor && // Store the scroll position of the editor's parent nodes, along with
+                // the top position of an element near the top of the editor, which
+                // will be used to make sure the visible viewport remains stable even
+                // when the size of the content above changes.
+                function(view) {
                     for(var refDOM, refTop, rect = view.dom.getBoundingClientRect(), startY = Math.max(0, rect.top), x = (rect.left + rect.right) / 2, y = startY + 1; y < Math.min(innerHeight, rect.bottom); y += 5){
                         var dom = view.root.elementFromPoint(x, y);
                         if (dom != view.dom && view.dom.contains(dom)) {
@@ -2466,8 +2962,17 @@
                 }(this);
                 if (updateSel) {
                     this.domObserver.stop();
+                    // Work around an issue in Chrome, IE, and Edge where changing
+                    // the DOM around an active selection puts it into a broken
+                    // state where the thing the user sees differs from the
+                    // selection reported by the Selection object (#710, #973,
+                    // #1011, #1013, #1035).
                     var sel1, sel2, depth, anchorDOM, domSel, forceSelUpdate = updateDoc && (result.ie || result.chrome) && !this.composing && !prev.selection.empty && !state.selection.empty && (sel1 = prev.selection, sel2 = state.selection, depth = Math.min(sel1.$anchor.sharedDepth(sel1.head), sel2.$anchor.sharedDepth(sel2.head)), sel1.$anchor.start(depth) != sel2.$anchor.start(depth));
                     if (updateDoc) {
+                        // If the node that the selection points into is written to,
+                        // Chrome sometimes starts misreporting the selection, so this
+                        // tracks that and forces a selection reset when our update
+                        // did write to the node.
                         var chromeKludge = result.chrome ? this.trackWrites = this.root.getSelection().focusNode : null;
                         (redraw || !this.docView.update(state.doc, outerDeco, innerDeco, this)) && (this.docView.updateOuterDeco([]), this.docView.destroy(), this.docView = docViewDesc(state.doc, outerDeco, innerDeco, this.dom, this)), chromeKludge && !this.trackWrites && (forceSelUpdate = !0);
                     }
@@ -2478,7 +2983,8 @@
                     var startDOM = this.root.getSelection().focusNode;
                     this.someProp("handleScrollToSelection", function(f) {
                         return f(this$1);
-                    }) || (state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection ? scrollRectIntoView(this, this.docView.domAfterPos(state.selection.from).getBoundingClientRect(), startDOM) : scrollRectIntoView(this, this.coordsAtPos(state.selection.head, 1), startDOM));
+                    }) || (state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection ? // Handled
+                    scrollRectIntoView(this, this.docView.domAfterPos(state.selection.from).getBoundingClientRect(), startDOM) : scrollRectIntoView(this, this.coordsAtPos(state.selection.head, 1), startDOM));
                 } else oldScrollPos && (refDOM = oldScrollPos.refDOM, refTop = oldScrollPos.refTop, restoreScrollStack(oldScrollPos.stack, 0 == (newRefTop = refDOM ? refDOM.getBoundingClientRect().top : 0) ? 0 : newRefTop - refTop));
             }, EditorView.prototype.destroyPluginViews = function() {
                 for(var view; view = this.pluginViews.pop();)view.destroy && view.destroy();
@@ -2498,7 +3004,14 @@
                         plugin$1.spec.view && this.pluginViews.push(plugin$1.spec.view(this));
                     }
                 }
-            }, EditorView.prototype.someProp = function(propName, f) {
+            }, // :: (string, ?(prop: *) → *) → *
+            // Goes over the values of a prop, first those provided directly,
+            // then those from plugins given to the view, then from plugins in
+            // the state (in order), and calls `f` every time a non-undefined
+            // value is found. When `f` returns a truthy value, that is
+            // immediately returned. When `f` isn't provided, it is treated as
+            // the identity function (the prop value is returned directly).
+            EditorView.prototype.someProp = function(propName, f) {
                 var value, prop = this._props && this._props[propName];
                 if (null != prop && (value = f ? f(prop) : prop)) return value;
                 for(var i = 0; i < this.directPlugins.length; i++){
@@ -2510,11 +3023,18 @@
                     var prop$2 = plugins[i$1].props[propName];
                     if (null != prop$2 && (value = f ? f(prop$2) : prop$2)) return value;
                 }
-            }, EditorView.prototype.hasFocus = function() {
+            }, // :: () → bool
+            // Query whether the view has focus.
+            EditorView.prototype.hasFocus = function() {
                 return this.root.activeElement == this.dom;
-            }, EditorView.prototype.focus = function() {
-                this.domObserver.stop(), this.editable && function(dom) {
+            }, // :: ()
+            // Focus the editor.
+            EditorView.prototype.focus = function() {
+                this.domObserver.stop(), this.editable && // Feature-detects support for .focus({preventScroll: true}), and uses
+                // a fallback kludge when not supported.
+                function(dom) {
                     if (dom.setActive) return dom.setActive();
+                     // in IE
                     if (preventScrollSupported) return dom.focus(preventScrollSupported);
                     var stored = scrollStack(dom);
                     dom.focus(null == preventScrollSupported ? {
@@ -2525,7 +3045,12 @@
                         }
                     } : void 0), preventScrollSupported || (preventScrollSupported = !1, restoreScrollStack(stored, 0));
                 }(this.dom), selectionToDOM(this), this.domObserver.start();
-            }, prototypeAccessors$2.root.get = function() {
+            }, // :: union<dom.Document, dom.DocumentFragment>
+            // Get the document root in which the editor exists. This will
+            // usually be the top-level `document`, but might be a [shadow
+            // DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Shadow_DOM)
+            // root if the editor is inside one.
+            prototypeAccessors$2.root.get = function() {
                 var cached = this._root;
                 if (null == cached) {
                     for(var search = this.dom.parentNode; search; search = search.parentNode)if (9 == search.nodeType || 11 == search.nodeType && search.host) return search.getSelection || (Object.getPrototypeOf(search).getSelection = function() {
@@ -2533,10 +3058,20 @@
                     }), this._root = search;
                 }
                 return cached || document;
-            }, EditorView.prototype.posAtCoords = function(coords) {
-                return function(view, coords) {
+            }, // :: ({left: number, top: number}) → ?{pos: number, inside: number}
+            // Given a pair of viewport coordinates, return the document
+            // position that corresponds to them. May return null if the given
+            // coordinates aren't inside of the editor. When an object is
+            // returned, its `pos` property is the position nearest to the
+            // coordinates, and its `inside` property holds the position of the
+            // inner node that the position falls inside of, or -1 if it is at
+            // the top level, not in any node.
+            EditorView.prototype.posAtCoords = function(coords) {
+                return(// Given an x,y position on the editor, get the position in the document.
+                function(view, coords) {
                     var node, offset, doc = view.dom.ownerDocument;
                     if (doc.caretPositionFromPoint) try {
+                        // Firefox throws for this call in hard-to-predict circumstances (#994)
                         var pos$1 = doc.caretPositionFromPoint(coords.left, coords.top);
                         pos$1 && (node = pos$1.offsetNode, offset = pos$1.offset);
                     } catch (_) {}
@@ -2560,12 +3095,17 @@
                             return element;
                         }(view.dom, coords, box))) return null;
                     }
+                    // Safari's caretRangeFromPoint returns nonsense when on a draggable element
                     if (result.safari) for(var p = elt; node && p; p = parentNode(p))p.draggable && (node = offset = null);
                     if (elt = (parent = (dom = elt).parentNode) && /^li$/i.test(parent.nodeName) && coords.left < dom.getBoundingClientRect().left ? parent : dom, node) {
-                        if (result.gecko && 1 == node.nodeType && (offset = Math.min(offset, node.childNodes.length)) < node.childNodes.length) {
+                        if (result.gecko && 1 == node.nodeType && // Firefox will sometimes return offsets into <input> nodes, which
+                        // have no actual children, from caretPositionFromPoint (#953)
+                        (offset = Math.min(offset, node.childNodes.length)) < node.childNodes.length) {
                             var dom, parent, box$1, next = node.childNodes[offset];
                             "IMG" == next.nodeName && (box$1 = next.getBoundingClientRect()).right <= coords.left && box$1.bottom > coords.top && offset++;
                         }
+                        // Suspiciously specific kludge to work around caret*FromPoint
+                        // never returning a position at the end of the document
                         node == view.dom && offset == node.childNodes.length - 1 && 1 == node.lastChild.nodeType && coords.top > node.lastChild.getBoundingClientRect().bottom ? pos = view.state.doc.content.size : (0 == offset || 1 != node.nodeType || "BR" != node.childNodes[offset - 1].nodeName) && (pos = function(view, node, offset, coords) {
                             for(var outside = -1, cur = node; cur != view.dom;){
                                 var desc = view.docView.nearestDesc(cur, !0);
@@ -2635,20 +3175,61 @@
                         pos: pos,
                         inside: desc ? desc.posAtStart - desc.border : -1
                     };
-                }(this, coords);
-            }, EditorView.prototype.coordsAtPos = function(pos, side) {
+                }(this, coords));
+            }, // :: (number, number) → {left: number, right: number, top: number, bottom: number}
+            // Returns the viewport rectangle at a given document position.
+            // `left` and `right` will be the same number, as this returns a
+            // flat cursor-ish rectangle. If the position is between two things
+            // that aren't directly adjacent, `side` determines which element is
+            // used. When < 0, the element before the position is used,
+            // otherwise the element after.
+            EditorView.prototype.coordsAtPos = function(pos, side) {
                 return void 0 === side && (side = 1), coordsAtPos(this, pos, side);
-            }, EditorView.prototype.domAtPos = function(pos, side) {
+            }, // :: (number, number) → {node: dom.Node, offset: number}
+            // Find the DOM position that corresponds to the given document
+            // position. When `side` is negative, find the position as close as
+            // possible to the content before the position. When positive,
+            // prefer positions close to the content after the position. When
+            // zero, prefer as shallow a position as possible.
+            //
+            // Note that you should **not** mutate the editor's internal DOM,
+            // only inspect it (and even that is usually not necessary).
+            EditorView.prototype.domAtPos = function(pos, side) {
                 return void 0 === side && (side = 0), this.docView.domFromPos(pos, side);
-            }, EditorView.prototype.nodeDOM = function(pos) {
+            }, // :: (number) → ?dom.Node
+            // Find the DOM node that represents the document node after the
+            // given position. May return `null` when the position doesn't point
+            // in front of a node or if the node is inside an opaque node view.
+            //
+            // This is intended to be able to call things like
+            // `getBoundingClientRect` on that DOM node. Do **not** mutate the
+            // editor DOM directly, or add styling this way, since that will be
+            // immediately overriden by the editor as it redraws the node.
+            EditorView.prototype.nodeDOM = function(pos) {
                 var desc = this.docView.descAt(pos);
                 return desc ? desc.nodeDOM : null;
-            }, EditorView.prototype.posAtDOM = function(node, offset, bias) {
+            }, // :: (dom.Node, number, ?number) → number
+            // Find the document position that corresponds to a given DOM
+            // position. (Whenever possible, it is preferable to inspect the
+            // document structure directly, rather than poking around in the
+            // DOM, but sometimes—for example when interpreting an event
+            // target—you don't have a choice.)
+            //
+            // The `bias` parameter can be used to influence which side of a DOM
+            // node to use when the position is inside a leaf node.
+            EditorView.prototype.posAtDOM = function(node, offset, bias) {
                 void 0 === bias && (bias = -1);
                 var pos = this.docView.posFromDOM(node, offset, bias);
                 if (null == pos) throw RangeError("DOM position not inside the editor");
                 return pos;
-            }, EditorView.prototype.endOfTextblock = function(dir, state) {
+            }, // :: (union<"up", "down", "left", "right", "forward", "backward">, ?EditorState) → bool
+            // Find out whether the selection is at the end of a textblock when
+            // moving in a given direction. When, for example, given `"left"`,
+            // it will return true if moving left from the current cursor
+            // position would leave that position's parent textblock. Will apply
+            // to the view's current state by default, but it is possible to
+            // pass a different state.
+            EditorView.prototype.endOfTextblock = function(dir, state) {
                 var view, state1, sel, $pos;
                 return view = this, state1 = state || this.state, cachedState == state1 && cachedDir == dir ? cachedResult : (cachedState = state1, cachedDir = dir, cachedResult = "up" == dir || "down" == dir ? (sel = state1.selection, $pos = "up" == dir ? sel.$from : sel.$to, withFlushedState(view, state1, function() {
                     for(var dom = view.docView.domFromPos($pos.pos, "up" == dir ? -1 : 1).node;;){
@@ -2677,24 +3258,239 @@
                     var $head = state.selection.$head;
                     if (!$head.parent.isTextblock) return !1;
                     var offset = $head.parentOffset, atEnd = offset == $head.parent.content.size, sel = view.root.getSelection();
-                    return maybeRTL.test($head.parent.textContent) && sel.modify ? withFlushedState(view, state, function() {
+                    return(// If the textblock is all LTR, or the browser doesn't support
+                    // Selection.modify (Edge), fall back to a primitive approach
+                    maybeRTL.test($head.parent.textContent) && sel.modify ? withFlushedState(view, state, function() {
+                        // This is a huge hack, but appears to be the best we can
+                        // currently do: use `Selection.modify` to move the selection by
+                        // one character, and see if that moves the cursor out of the
+                        // textblock (or doesn't move it at all, when at the start/end of
+                        // the document).
                         var oldRange = sel.getRangeAt(0), oldNode = sel.focusNode, oldOff = sel.focusOffset, oldBidiLevel = sel.caretBidiLevel;
                         sel.modify("move", dir, "character");
                         var result = !($head.depth ? view.docView.domAfterPos($head.before()) : view.dom).contains(1 == sel.focusNode.nodeType ? sel.focusNode : sel.focusNode.parentNode) || oldNode == sel.focusNode && oldOff == sel.focusOffset;
-                        return sel.removeAllRanges(), sel.addRange(oldRange), null != oldBidiLevel && (sel.caretBidiLevel = oldBidiLevel), result;
-                    }) : "left" == dir || "backward" == dir ? !offset : atEnd;
+                        return(// Restore the previous selection
+                        sel.removeAllRanges(), sel.addRange(oldRange), null != oldBidiLevel && (sel.caretBidiLevel = oldBidiLevel), result);
+                    }) : "left" == dir || "backward" == dir ? !offset : atEnd);
                 }(view, state1, dir));
-            }, EditorView.prototype.destroy = function() {
+            }, // :: ()
+            // Removes the editor from the DOM and destroys all [node
+            // views](#view.NodeView).
+            EditorView.prototype.destroy = function() {
                 this.docView && (function(view) {
                     for(var type in view.domObserver.stop(), view.eventHandlers)view.dom.removeEventListener(type, view.eventHandlers[type]);
                     clearTimeout(view.composingTimeout), clearTimeout(view.lastIOSEnterFallbackTimeout);
                 }(this), this.destroyPluginViews(), this.mounted ? (this.docView.update(this.state.doc, [], viewDecorations(this), this), this.dom.textContent = "") : this.dom.parentNode && this.dom.parentNode.removeChild(this.dom), this.docView.destroy(), this.docView = null);
-            }, EditorView.prototype.dispatchEvent = function(event) {
+            }, // Used for testing.
+            EditorView.prototype.dispatchEvent = function(event) {
                 runCustomHandler(this, event) || !handlers[event.type] || !this.editable && event.type in editHandlers || handlers[event.type](this, event);
-            }, EditorView.prototype.dispatch = function(tr) {
+            }, // :: (Transaction)
+            // Dispatch a transaction. Will call
+            // [`dispatchTransaction`](#view.DirectEditorProps.dispatchTransaction)
+            // when given, and otherwise defaults to applying the transaction to
+            // the current state and calling
+            // [`updateState`](#view.EditorView.updateState) with the result.
+            // This method is bound to the view instance, so that it can be
+            // easily passed around.
+            EditorView.prototype.dispatch = function(tr) {
                 var dispatchTransaction = this._props.dispatchTransaction;
                 dispatchTransaction ? dispatchTransaction.call(this, tr) : this.updateState(this.state.apply(tr));
             }, Object.defineProperties(EditorView.prototype, prototypeAccessors$2);
-        }
+        // EditorProps:: interface
+        //
+        // Props are configuration values that can be passed to an editor view
+        // or included in a plugin. This interface lists the supported props.
+        //
+        // The various event-handling functions may all return `true` to
+        // indicate that they handled the given event. The view will then take
+        // care to call `preventDefault` on the event, except with
+        // `handleDOMEvents`, where the handler itself is responsible for that.
+        //
+        // How a prop is resolved depends on the prop. Handler functions are
+        // called one at a time, starting with the base props and then
+        // searching through the plugins (in order of appearance) until one of
+        // them returns true. For some props, the first plugin that yields a
+        // value gets precedence.
+        //
+        //   handleDOMEvents:: ?Object<(view: EditorView, event: dom.Event) → bool>
+        //   Can be an object mapping DOM event type names to functions that
+        //   handle them. Such functions will be called before any handling
+        //   ProseMirror does of events fired on the editable DOM element.
+        //   Contrary to the other event handling props, when returning true
+        //   from such a function, you are responsible for calling
+        //   `preventDefault` yourself (or not, if you want to allow the
+        //   default behavior).
+        //
+        //   handleKeyDown:: ?(view: EditorView, event: dom.KeyboardEvent) → bool
+        //   Called when the editor receives a `keydown` event.
+        //
+        //   handleKeyPress:: ?(view: EditorView, event: dom.KeyboardEvent) → bool
+        //   Handler for `keypress` events.
+        //
+        //   handleTextInput:: ?(view: EditorView, from: number, to: number, text: string) → bool
+        //   Whenever the user directly input text, this handler is called
+        //   before the input is applied. If it returns `true`, the default
+        //   behavior of actually inserting the text is suppressed.
+        //
+        //   handleClickOn:: ?(view: EditorView, pos: number, node: Node, nodePos: number, event: dom.MouseEvent, direct: bool) → bool
+        //   Called for each node around a click, from the inside out. The
+        //   `direct` flag will be true for the inner node.
+        //
+        //   handleClick:: ?(view: EditorView, pos: number, event: dom.MouseEvent) → bool
+        //   Called when the editor is clicked, after `handleClickOn` handlers
+        //   have been called.
+        //
+        //   handleDoubleClickOn:: ?(view: EditorView, pos: number, node: Node, nodePos: number, event: dom.MouseEvent, direct: bool) → bool
+        //   Called for each node around a double click.
+        //
+        //   handleDoubleClick:: ?(view: EditorView, pos: number, event: dom.MouseEvent) → bool
+        //   Called when the editor is double-clicked, after `handleDoubleClickOn`.
+        //
+        //   handleTripleClickOn:: ?(view: EditorView, pos: number, node: Node, nodePos: number, event: dom.MouseEvent, direct: bool) → bool
+        //   Called for each node around a triple click.
+        //
+        //   handleTripleClick:: ?(view: EditorView, pos: number, event: dom.MouseEvent) → bool
+        //   Called when the editor is triple-clicked, after `handleTripleClickOn`.
+        //
+        //   handlePaste:: ?(view: EditorView, event: dom.ClipboardEvent, slice: Slice) → bool
+        //   Can be used to override the behavior of pasting. `slice` is the
+        //   pasted content parsed by the editor, but you can directly access
+        //   the event to get at the raw content.
+        //
+        //   handleDrop:: ?(view: EditorView, event: dom.Event, slice: Slice, moved: bool) → bool
+        //   Called when something is dropped on the editor. `moved` will be
+        //   true if this drop moves from the current selection (which should
+        //   thus be deleted).
+        //
+        //   handleScrollToSelection:: ?(view: EditorView) → bool
+        //   Called when the view, after updating its state, tries to scroll
+        //   the selection into view. A handler function may return false to
+        //   indicate that it did not handle the scrolling and further
+        //   handlers or the default behavior should be tried.
+        //
+        //   createSelectionBetween:: ?(view: EditorView, anchor: ResolvedPos, head: ResolvedPos) → ?Selection
+        //   Can be used to override the way a selection is created when
+        //   reading a DOM selection between the given anchor and head.
+        //
+        //   domParser:: ?DOMParser
+        //   The [parser](#model.DOMParser) to use when reading editor changes
+        //   from the DOM. Defaults to calling
+        //   [`DOMParser.fromSchema`](#model.DOMParser^fromSchema) on the
+        //   editor's schema.
+        //
+        //   transformPastedHTML:: ?(html: string) → string
+        //   Can be used to transform pasted HTML text, _before_ it is parsed,
+        //   for example to clean it up.
+        //
+        //   clipboardParser:: ?DOMParser
+        //   The [parser](#model.DOMParser) to use when reading content from
+        //   the clipboard. When not given, the value of the
+        //   [`domParser`](#view.EditorProps.domParser) prop is used.
+        //
+        //   transformPastedText:: ?(text: string, plain: bool) → string
+        //   Transform pasted plain text. The `plain` flag will be true when
+        //   the text is pasted as plain text.
+        //
+        //   clipboardTextParser:: ?(text: string, $context: ResolvedPos, plain: bool) → Slice
+        //   A function to parse text from the clipboard into a document
+        //   slice. Called after
+        //   [`transformPastedText`](#view.EditorProps.transformPastedText).
+        //   The default behavior is to split the text into lines, wrap them
+        //   in `<p>` tags, and call
+        //   [`clipboardParser`](#view.EditorProps.clipboardParser) on it.
+        //   The `plain` flag will be true when the text is pasted as plain text.
+        //
+        //   transformPasted:: ?(Slice) → Slice
+        //   Can be used to transform pasted content before it is applied to
+        //   the document.
+        //
+        //   nodeViews:: ?Object<(node: Node, view: EditorView, getPos: () → number, decorations: [Decoration], innerDecorations: DecorationSource) → NodeView>
+        //   Allows you to pass custom rendering and behavior logic for nodes
+        //   and marks. Should map node and mark names to constructor
+        //   functions that produce a [`NodeView`](#view.NodeView) object
+        //   implementing the node's display behavior. For nodes, the third
+        //   argument `getPos` is a function that can be called to get the
+        //   node's current position, which can be useful when creating
+        //   transactions to update it. For marks, the third argument is a
+        //   boolean that indicates whether the mark's content is inline.
+        //
+        //   `decorations` is an array of node or inline decorations that are
+        //   active around the node. They are automatically drawn in the
+        //   normal way, and you will usually just want to ignore this, but
+        //   they can also be used as a way to provide context information to
+        //   the node view without adding it to the document itself.
+        //
+        //   `innerDecorations` holds the decorations for the node's content.
+        //   You can safely ignore this if your view has no content or a
+        //   `contentDOM` property, since the editor will draw the decorations
+        //   on the content. But if you, for example, want to create a nested
+        //   editor with the content, it may make sense to provide it with the
+        //   inner decorations.
+        //
+        //   clipboardSerializer:: ?DOMSerializer
+        //   The DOM serializer to use when putting content onto the
+        //   clipboard. If not given, the result of
+        //   [`DOMSerializer.fromSchema`](#model.DOMSerializer^fromSchema)
+        //   will be used.
+        //
+        //   clipboardTextSerializer:: ?(Slice) → string
+        //   A function that will be called to get the text for the current
+        //   selection when copying text to the clipboard. By default, the
+        //   editor will use [`textBetween`](#model.Node.textBetween) on the
+        //   selected range.
+        //
+        //   decorations:: ?(state: EditorState) → ?DecorationSource
+        //   A set of [document decorations](#view.Decoration) to show in the
+        //   view.
+        //
+        //   editable:: ?(state: EditorState) → bool
+        //   When this returns false, the content of the view is not directly
+        //   editable.
+        //
+        //   attributes:: ?union<Object<string>, (EditorState) → ?Object<string>>
+        //   Control the DOM attributes of the editable element. May be either
+        //   an object or a function going from an editor state to an object.
+        //   By default, the element will get a class `"ProseMirror"`, and
+        //   will have its `contentEditable` attribute determined by the
+        //   [`editable` prop](#view.EditorProps.editable). Additional classes
+        //   provided here will be added to the class. For other attributes,
+        //   the value provided first (as in
+        //   [`someProp`](#view.EditorView.someProp)) will be used.
+        //
+        //   scrollThreshold:: ?union<number, {top: number, right: number, bottom: number, left: number}>
+        //   Determines the distance (in pixels) between the cursor and the
+        //   end of the visible viewport at which point, when scrolling the
+        //   cursor into view, scrolling takes place. Defaults to 0.
+        //
+        //   scrollMargin:: ?union<number, {top: number, right: number, bottom: number, left: number}>
+        //   Determines the extra space (in pixels) that is left above or
+        //   below the cursor when it is scrolled into view. Defaults to 5.
+        // DirectEditorProps:: interface extends EditorProps
+        //
+        // The props object given directly to the editor view supports two
+        // fields that can't be used in plugins:
+        //
+        //   state:: EditorState
+        //   The current state of the editor.
+        //
+        //   plugins:: [Plugin]
+        //   A set of plugins to use in the view, applying their [plugin
+        //   view](#state.PluginSpec.view) and
+        //   [props](#state.PluginSpec.props). Passing plugins with a state
+        //   component (a [state field](#state.PluginSpec.state) field or a
+        //   [transaction)[#state.PluginSpec.filterTransaction] filter or
+        //   appender) will result in an error, since such plugins must be
+        //   present in the state to work.
+        //
+        //   dispatchTransaction:: ?(tr: Transaction)
+        //   The callback over which to send transactions (state updates)
+        //   produced by the view. If you specify this, you probably want to
+        //   make sure this ends up calling the view's
+        //   [`updateState`](#view.EditorView.updateState) method with a new
+        //   state that has the transaction
+        //   [applied](#state.EditorState.apply). The callback will be bound to have
+        //   the view instance as its `this` binding.
+        //# sourceMappingURL=index.es.js.map
+        /***/ }
     }
 ]);

@@ -1,4 +1,5 @@
-!function(global, factory) {
+!// https://d3js.org v6.3.1 Copyright 2020 Mike Bostock
+function(global, factory) {
     'object' == typeof exports && 'undefined' != typeof module ? factory(exports) : 'function' == typeof define && define.amd ? define([
         'exports'
     ], factory) : factory((global = 'undefined' != typeof globalThis ? globalThis : global || self).d3 = global.d3 || {});
@@ -79,6 +80,7 @@
             max
         ];
     }
+    // https://github.com/python/cpython/blob/a74eea238f5baba15797e2e8b570d153bc8690a7/Modules/mathmodule.c#L1423
     class Adder {
         constructor(){
             this._partials = new Float64Array(32), this._n = 0;
@@ -170,8 +172,17 @@
             var i, x, n = data.length, values = Array(n);
             for(i = 0; i < n; ++i)values[i] = value(data[i], i, data);
             var xz = domain(values), x0 = xz[0], x1 = xz[1], tz = threshold(values, x0, x1);
+            // Convert number of thresholds into uniform thresholds, and nice the
+            // default domain accordingly.
             if (!Array.isArray(tz)) {
                 const max = x1, tn = +tz;
+                // If the last threshold is coincident with the domain’s upper bound, the
+                // last bin will be zero-width. If the default domain is used, and this
+                // last threshold is coincident with the maximum input value, we can
+                // extend the niced upper bound by one tick to ensure uniform bin widths;
+                // otherwise, we simply remove the last threshold. Note that we don’t
+                // coerce values or the domain to numbers, and thus must be careful to
+                // compare order (>=) rather than strict equality (===)!
                 if (domain === extent && ([x0, x1] = nice(x0, x1, tn)), (tz = ticks(x0, x1, tn))[tz.length - 1] >= x1) {
                     if (max >= x1 && domain === extent) {
                         const step = tickIncrement(x0, x1, tn);
@@ -179,10 +190,13 @@
                     } else tz.pop();
                 }
             }
-            for(var m = tz.length; tz[0] <= x0;)tz.shift(), --m;
+            for(// Remove any thresholds outside the domain.
+            var m = tz.length; tz[0] <= x0;)tz.shift(), --m;
             for(; tz[m - 1] > x1;)tz.pop(), --m;
             var bin, bins = Array(m + 1);
+            // Initialize bins.
             for(i = 0; i <= m; ++i)(bin = bins[i] = []).x0 = i > 0 ? tz[i - 1] : x0, bin.x1 = i < m ? tz[i] : x1;
+            // Assign data to bins by value, ignoring any outside the domain.
             for(i = 0; i < n; ++i)x0 <= (x = values[i]) && x <= x1 && bins[bisectRight(tz, x, 0, m)].push(data[i]);
             return bins;
         }
@@ -215,6 +229,8 @@
         }
         return min;
     }
+    // Based on https://github.com/mourner/quickselect
+    // ISC license, Copyright 2018 Vladimir Agafonkin.
     function quickselect(array, k, left = 0, right = array.length - 1, compare = ascending) {
         for(; right > left;){
             if (right - left > 600) {
@@ -347,7 +363,7 @@
         var tickArguments = [], tickValues = null, tickFormat = null, tickSizeInner = 6, tickSizeOuter = 6, tickPadding = 3, k = 1 === orient || 4 === orient ? -1 : 1, x = 4 === orient || 2 === orient ? "x" : "y", transform = 1 === orient || 3 === orient ? translateX : translateY;
         function axis(context) {
             var values = null == tickValues ? scale.ticks ? scale.ticks.apply(scale, tickArguments) : scale.domain() : tickValues, format = null == tickFormat ? scale.tickFormat ? scale.tickFormat.apply(scale, tickArguments) : identity$1 : tickFormat, spacing = Math.max(tickSizeInner, 0) + tickPadding, range = scale.range(), range0 = +range[0] + 0.5, range1 = +range[range.length - 1] + 0.5, position = (scale.bandwidth ? function(scale) {
-                var offset = Math.max(0, scale.bandwidth() - 1) / 2;
+                var offset = Math.max(0, scale.bandwidth() - 1) / 2; // Adjust for 0.5px offset.
                 return scale.round() && (offset = Math.round(offset)), function(d) {
                     return +scale(d) + offset;
                 };
@@ -421,12 +437,15 @@
                     name: name
                 };
             }), i = -1, n = T.length;
+            // If no callback was specified, return the callback of the given type and name.
             if (arguments.length < 2) {
                 for(; ++i < n;)if ((t = (typename = T[i]).type) && (t = function(type, name) {
                     for(var c, i = 0, n = type.length; i < n; ++i)if ((c = type[i]).name === name) return c.value;
                 }(_[t], typename.name))) return t;
                 return;
             }
+            // If a type was specified, set the callback for the given type and name.
+            // Otherwise, if a null callback was specified, remove callbacks of the given name.
             if (null != callback && "function" != typeof callback) throw Error("invalid callback: " + callback);
             for(; ++i < n;)if (t = (typename = T[i]).type) _[t] = set$1(_[t], typename.name, callback);
             else if (null == callback) for(t in _)_[t] = set$1(_[t], typename.name, null);
@@ -459,7 +478,7 @@
         return i >= 0 && "xmlns" !== (prefix = name.slice(0, i)) && (name = name.slice(i + 1)), namespaces.hasOwnProperty(prefix) ? {
             space: namespaces[prefix],
             local: name
-        } : name;
+        } : name; // eslint-disable-line no-prototype-builtins
     }
     function creator(name) {
         var fullname = namespace(name);
@@ -481,7 +500,8 @@
         };
     }
     function array$1(x) {
-        return "object" == typeof x && "length" in x ? x : Array.from(x);
+        return "object" == typeof x && "length" in x ? x // Array, TypedArray, NodeList, array-like
+         : Array.from(x); // Map, Set, iterable, string, or anything else
     }
     function empty$1() {
         return [];
@@ -516,13 +536,23 @@
         this.ownerDocument = parent.ownerDocument, this.namespaceURI = parent.namespaceURI, this._next = null, this._parent = parent, this.__data__ = datum;
     }
     function bindIndex(parent, group, enter, update, exit, data) {
+        // Put any non-null nodes that fit into update.
+        // Put any null nodes into enter.
+        // Put any remaining data into enter.
         for(var node, i = 0, groupLength = group.length, dataLength = data.length; i < dataLength; ++i)(node = group[i]) ? (node.__data__ = data[i], update[i] = node) : enter[i] = new EnterNode(parent, data[i]);
+        // Put any non-null nodes that don’t fit into exit.
         for(; i < groupLength; ++i)(node = group[i]) && (exit[i] = node);
     }
     function bindKey(parent, group, enter, update, exit, data, key) {
         var i, node, keyValue, nodeByKeyValue = new Map, groupLength = group.length, dataLength = data.length, keyValues = Array(groupLength);
+        // Compute the key for each node.
+        // If multiple nodes have the same key, the duplicates are added to exit.
         for(i = 0; i < groupLength; ++i)(node = group[i]) && (keyValues[i] = keyValue = key.call(node, node.__data__, i, group) + "", nodeByKeyValue.has(keyValue) ? exit[i] = node : nodeByKeyValue.set(keyValue, node));
+        // Compute the key for each datum.
+        // If there a node associated with this key, join and add it to update.
+        // If there is not (or the key is a duplicate), add it to enter.
         for(i = 0; i < dataLength; ++i)keyValue = key.call(parent, data[i], i, data) + "", (node = nodeByKeyValue.get(keyValue)) ? (update[i] = node, node.__data__ = data[i], nodeByKeyValue.delete(keyValue)) : enter[i] = new EnterNode(parent, data[i]);
+        // Add any remaining nodes that were not bound to data to exit.
         for(i = 0; i < groupLength; ++i)(node = group[i]) && nodeByKeyValue.get(keyValues[i]) === node && (exit[i] = node);
     }
     function datum(node) {
@@ -532,7 +562,9 @@
         return a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
     }
     function defaultView(node) {
-        return node.ownerDocument && node.ownerDocument.defaultView || node.document && node || node.defaultView;
+        return node.ownerDocument && node.ownerDocument.defaultView // node is a Node
+         || node.document && node // node is a Window
+         || node.defaultView; // node is a Document
     }
     function styleValue(node, name) {
         return node.style.getPropertyValue(name) || defaultView(node).getComputedStyle(node, null).getPropertyValue(name);
@@ -710,6 +742,9 @@
             for(var m = groups.length, update = Array(m), enter = Array(m), exit = Array(m), j = 0; j < m; ++j){
                 var parent = parents[j], group = groups[j], groupLength = group.length, data = array$1(value.call(parent, parent && parent.__data__, j, parents)), dataLength = data.length, enterGroup = enter[j] = Array(dataLength), updateGroup = update[j] = Array(dataLength);
                 bind(parent, group, enterGroup, updateGroup, exit[j] = Array(groupLength), data, key);
+                // Now connect the enter nodes to their following update node, such that
+                // appendChild can insert the materialized enter node before this node,
+                // rather than at the end of the parent node.
                 for(var x, previous, next, i0 = 0, i1 = 0; i0 < dataLength; ++i0)if (previous = enterGroup[i0]) {
                     for(i0 >= i1 && (i1 = i0 + 1); !(next = updateGroup[i1]) && ++i1 < dataLength;);
                     previous._next = next || null;
@@ -767,7 +802,7 @@
         },
         size: function() {
             let size = 0;
-            for (const node of this)++size;
+            for (const node of this)++size; // eslint-disable-line no-unused-vars
             return size;
         },
         empty: function() {
@@ -1072,6 +1107,7 @@
             }
         });
     }
+    // Ignore right-click, since that should open the context menu.
     function defaultFilter(event) {
         return !event.ctrlKey && !event.button;
     }
@@ -1285,7 +1321,19 @@
     }
     function color(format) {
         var m, l;
-        return format = (format + "").trim().toLowerCase(), (m = reHex.exec(format)) ? (l = m[1].length, m = parseInt(m[1], 16), 6 === l ? rgbn(m) : 3 === l ? new Rgb(m >> 8 & 0xf | m >> 4 & 0xf0, m >> 4 & 0xf | 0xf0 & m, (0xf & m) << 4 | 0xf & m, 1) : 8 === l ? rgba(m >> 24 & 0xff, m >> 16 & 0xff, m >> 8 & 0xff, (0xff & m) / 0xff) : 4 === l ? rgba(m >> 12 & 0xf | m >> 8 & 0xf0, m >> 8 & 0xf | m >> 4 & 0xf0, m >> 4 & 0xf | 0xf0 & m, ((0xf & m) << 4 | 0xf & m) / 0xff) : null) : (m = reRgbInteger.exec(format)) ? new Rgb(m[1], m[2], m[3], 1) : (m = reRgbPercent.exec(format)) ? new Rgb(255 * m[1] / 100, 255 * m[2] / 100, 255 * m[3] / 100, 1) : (m = reRgbaInteger.exec(format)) ? rgba(m[1], m[2], m[3], m[4]) : (m = reRgbaPercent.exec(format)) ? rgba(255 * m[1] / 100, 255 * m[2] / 100, 255 * m[3] / 100, m[4]) : (m = reHslPercent.exec(format)) ? hsla(m[1], m[2] / 100, m[3] / 100, 1) : (m = reHslaPercent.exec(format)) ? hsla(m[1], m[2] / 100, m[3] / 100, m[4]) : named.hasOwnProperty(format) ? rgbn(named[format]) : "transparent" === format ? new Rgb(NaN, NaN, NaN, 0) : null;
+        return format = (format + "").trim().toLowerCase(), (m = reHex.exec(format)) ? (l = m[1].length, m = parseInt(m[1], 16), 6 === l ? rgbn(m) // #ff0000
+         : 3 === l ? new Rgb(m >> 8 & 0xf | m >> 4 & 0xf0, m >> 4 & 0xf | 0xf0 & m, (0xf & m) << 4 | 0xf & m, 1) // #f00
+         : 8 === l ? rgba(m >> 24 & 0xff, m >> 16 & 0xff, m >> 8 & 0xff, (0xff & m) / 0xff) // #ff000000
+         : 4 === l ? rgba(m >> 12 & 0xf | m >> 8 & 0xf0, m >> 8 & 0xf | m >> 4 & 0xf0, m >> 4 & 0xf | 0xf0 & m, ((0xf & m) << 4 | 0xf & m) / 0xff) // #f000
+         : null // invalid hex
+        ) : (m = reRgbInteger.exec(format)) ? new Rgb(m[1], m[2], m[3], 1) // rgb(255, 0, 0)
+         : (m = reRgbPercent.exec(format)) ? new Rgb(255 * m[1] / 100, 255 * m[2] / 100, 255 * m[3] / 100, 1) // rgb(100%, 0%, 0%)
+         : (m = reRgbaInteger.exec(format)) ? rgba(m[1], m[2], m[3], m[4]) // rgba(255, 0, 0, 1)
+         : (m = reRgbaPercent.exec(format)) ? rgba(255 * m[1] / 100, 255 * m[2] / 100, 255 * m[3] / 100, m[4]) // rgb(100%, 0%, 0%, 1)
+         : (m = reHslPercent.exec(format)) ? hsla(m[1], m[2] / 100, m[3] / 100, 1) // hsl(120, 50%, 50%)
+         : (m = reHslaPercent.exec(format)) ? hsla(m[1], m[2] / 100, m[3] / 100, m[4]) // hsla(120, 50%, 50%, 1)
+         : named.hasOwnProperty(format) ? rgbn(named[format]) // eslint-disable-line no-prototype-builtins
+         : "transparent" === format ? new Rgb(NaN, NaN, NaN, 0) : null;
     }
     function rgbn(n) {
         return new Rgb(n >> 16 & 0xff, n >> 8 & 0xff, 0xff & n, 1);
@@ -1328,7 +1376,7 @@
     function Hsl(h, s, l, opacity) {
         this.h = +h, this.s = +s, this.l = +l, this.opacity = +opacity;
     }
-    function hsl2rgb(h, m1, m2) {
+    /* From FvD 13.37, CSS Color Module Level 3 */ function hsl2rgb(h, m1, m2) {
         return (h < 60 ? m1 + (m2 - m1) * h / 60 : h < 180 ? m2 : h < 240 ? m1 + (m2 - m1) * (240 - h) / 60 : m1) * 255;
     }
     define1(Color, color, {
@@ -1568,11 +1616,15 @@
     }
     var reA = /[-+]?(?:\d+\.?\d*|\.?\d+)(?:[eE][-+]?\d+)?/g, reB = RegExp(reA.source, "g");
     function interpolateString(a, b) {
-        var b1, b2, am, bm, bs, bi = reA.lastIndex = reB.lastIndex = 0, i = -1, s = [], q = [];
-        for(a += "", b += ""; (am = reA.exec(a)) && (bm = reB.exec(b));)(bs = bm.index) > bi && (bs = b.slice(bi, bs), s[i] ? s[i] += bs : s[++i] = bs), (am = am[0]) === (bm = bm[0]) ? s[i] ? s[i] += bm : s[++i] = bm : (s[++i] = null, q.push({
+        var b1, b2, am, bm, bs, bi = reA.lastIndex = reB.lastIndex = 0, i = -1, s = [], q = []; // number interpolators
+        // Interpolate pairs of numbers in a & b.
+        for(// Coerce inputs to strings.
+        a += "", b += ""; (am = reA.exec(a)) && (bm = reB.exec(b));)(bs = bm.index) > bi && (bs = b.slice(bi, bs), s[i] ? s[i] += bs : s[++i] = bs), (am = am[0]) === (bm = bm[0]) ? s[i] ? s[i] += bm : s[++i] = bm : (s[++i] = null, q.push({
             i: i,
             x: interpolateNumber(am, bm)
         })), bi = reB.lastIndex;
+        // Special optimization for only a single match.
+        // Otherwise, interpolate each of the numbers and rejoin the string.
         return bi < b.length && (bs = b.slice(bi), s[i] ? s[i] += bs : s[++i] = bs), s.length < 2 ? q[0] ? (b1 = q[0].x, function(t) {
             return b1(t) + "";
         }) : (b2 = b, function() {
@@ -1615,7 +1667,7 @@
             return s.length ? s.pop() + " " : "";
         }
         return function(a, b) {
-            var a1, b1, a2, b2, s = [], q = [];
+            var a1, b1, a2, b2, s = [], q = []; // number interpolators
             return a = parse(a), b = parse(b), !function(xa, ya, xb, yb, s, q) {
                 if (xa !== xb || ya !== yb) {
                     var i = s.push("translate(", null, pxComma, null, pxParen);
@@ -1650,7 +1702,7 @@
             };
         };
     }
-    var interpolateTransformCss = interpolateTransform(function(value) {
+    var interpolateTransformCss = interpolateTransform(/* eslint-disable no-undef */ function(value) {
         const m = new ("function" == typeof DOMMatrix ? DOMMatrix : WebKitCSSMatrix)(value + "");
         return m.isIdentity ? identity$2 : decompose(m.a, m.b, m.c, m.d, m.e, m.f);
     }, "px, ", "px)", "deg)"), interpolateTransformSvg = interpolateTransform(function(value) {
@@ -1660,8 +1712,11 @@
         return ((x = Math.exp(x)) + 1 / x) / 2;
     }
     var interpolateZoom = function zoomRho(rho, rho2, rho4) {
+        // p0 = [ux0, uy0, w0]
+        // p1 = [ux1, uy1, w1]
         function zoom(p0, p1) {
             var i, S, ux0 = p0[0], uy0 = p0[1], w0 = p0[2], ux1 = p1[0], uy1 = p1[1], w1 = p1[2], dx = ux1 - ux0, dy = uy1 - uy0, d2 = dx * dx + dy * dy;
+            // Special case for u0 ≅ u1.
             if (d2 < 1e-12) S = Math.log(w1 / w0) / rho, i = function(t) {
                 return [
                     ux0 + t * dx,
@@ -1762,7 +1817,7 @@
         delay > 1000 && (clockSkew -= delay, clockLast = now);
     }
     function sleep(time) {
-        !frame && (timeout && (timeout = clearTimeout(timeout)), time - clockNow > 24 ? (time < 1 / 0 && (timeout = setTimeout(wake, time - clock.now() - clockSkew)), interval && (interval = clearInterval(interval))) : (interval || (clockLast = clock.now(), interval = setInterval(poke, 1000)), frame = 1, setFrame(wake)));
+        !frame && (timeout && (timeout = clearTimeout(timeout)), time - clockNow > 24 ? (time < 1 / 0 && (timeout = setTimeout(wake, time - clock.now() - clockSkew)), interval && (interval = clearInterval(interval))) : (interval || (clockLast = clock.now(), interval = setInterval(poke, 1000)), frame = 1, setFrame(wake))); // Soonest alarm already set, or will be.
     }
     function timeout$1(callback, delay, time) {
         var t = new Timer;
@@ -1790,26 +1845,41 @@
             var tween, schedules = node.__transition;
             function start(elapsed) {
                 var i, j, n, o;
+                // If the state is not SCHEDULED, then we previously errored on start.
                 if (1 !== self1.state) return stop();
                 for(i in schedules)if ((o = schedules[i]).name === self1.name) {
+                    // While this element already has a starting transition during this frame,
+                    // defer starting an interrupting transition until that transition has a
+                    // chance to tick (and possibly end); see d3/d3-transition#54!
                     if (3 === o.state) return timeout$1(start);
+                    // Interrupt the active transition, if any.
                     4 === o.state ? (o.state = 6, o.timer.stop(), o.on.call("interrupt", node, node.__data__, o.index, o.group), delete schedules[i]) : +i < id && (o.state = 6, o.timer.stop(), o.on.call("cancel", node, node.__data__, o.index, o.group), delete schedules[i]);
                 }
-                if (timeout$1(function() {
+                if (// Defer the first tick to end of the current frame; see d3/d3#1576.
+                // Note the transition may be canceled after start and before the first tick!
+                // Note this must be scheduled before the start event; see d3/d3-transition#16!
+                // Assuming this is successful, subsequent callbacks go straight to tick.
+                timeout$1(function() {
                     3 === self1.state && (self1.state = 4, self1.timer.restart(tick, self1.delay, self1.time), tick(elapsed));
-                }), self1.state = 2, self1.on.call("start", node, node.__data__, self1.index, self1.group), 2 === self1.state) {
-                    for(i = 0, self1.state = 3, tween = Array(n = self1.tween.length), j = -1; i < n; ++i)(o = self1.tween[i].value.call(node, node.__data__, self1.index, self1.group)) && (tween[++j] = o);
+                }), // Dispatch the start event.
+                // Note this must be done before the tween are initialized.
+                self1.state = 2, self1.on.call("start", node, node.__data__, self1.index, self1.group), 2 === self1.state) {
+                    for(i = 0, self1.state = 3, // Initialize the tween, deleting null tween.
+                    tween = Array(n = self1.tween.length), j = -1; i < n; ++i)(o = self1.tween[i].value.call(node, node.__data__, self1.index, self1.group)) && (tween[++j] = o);
                     tween.length = j + 1;
-                }
+                } // interrupted
             }
             function tick(elapsed) {
                 for(var t = elapsed < self1.duration ? self1.ease.call(null, elapsed / self1.duration) : (self1.timer.restart(stop), self1.state = 5, 1), i = -1, n = tween.length; ++i < n;)tween[i].call(node, t);
+                // Dispatch the end event.
                 5 === self1.state && (self1.on.call("end", node, node.__data__, self1.index, self1.group), stop());
             }
             function stop() {
-                for(var i in self1.state = 6, self1.timer.stop(), delete schedules[id], schedules)return;
+                for(var i in self1.state = 6, self1.timer.stop(), delete schedules[id], schedules)return; // eslint-disable-line no-unused-vars
                 delete node.__transition;
             }
+            // Initialize the self timer when the transition is created.
+            // Note the actual delay is not known until the first callback!
             schedules[id] = self1, self1.timer = timer(function(elapsed) {
                 self1.state = 1, self1.timer.restart(start, self1.delay, self1.time), self1.delay <= elapsed && start(elapsed - self1.delay);
             }, 0, self1.time);
@@ -2084,6 +2154,9 @@
                 var tween0, tween1;
                 return function() {
                     var schedule = set$2(this, id), tween = schedule.tween;
+                    // If this node shared tween with the previous node,
+                    // just assign the updated shared tween and we’re done!
+                    // Otherwise, copy-on-write.
                     if (tween !== tween0) {
                         tween1 = tween0 = tween;
                         for(var i = 0, n = tween1.length; i < n; ++i)if (tween1[i].name === name) {
@@ -2098,6 +2171,9 @@
                 if ("function" != typeof value) throw Error();
                 return function() {
                     var schedule = set$2(this, id), tween = schedule.tween;
+                    // If this node shared tween with the previous node,
+                    // just assign the updated shared tween and we’re done!
+                    // Otherwise, copy-on-write.
                     if (tween !== tween0) {
                         tween1 = (tween0 = tween).slice();
                         for(var t = {
@@ -2192,6 +2268,7 @@
     function sinInOut(t) {
         return (1 - Math.cos(pi * t)) / 2;
     }
+    // tpmt is two power minus ten times t scaled to [0,1]
     function tpmt(x) {
         return (Math.pow(2, -10 * x) - 0.0009765625) * 1.0009775171065494;
     }
@@ -2448,6 +2525,7 @@
             type: t
         };
     }
+    // Ignore right-click, since that should open the context menu.
     function defaultFilter$1(event) {
         return !event.ctrlKey && !event.button;
     }
@@ -2476,6 +2554,7 @@
     function defaultTouchable$1() {
         return navigator.maxTouchPoints || "ontouchstart" in this;
     }
+    // Like d3.local, but with the name “__brush” rather than auto-generated.
     function local$1(node) {
         for(; !node.__brush;)if (!(node = node.parentNode)) return;
         return node.__brush;
@@ -2715,12 +2794,14 @@
             matrix = Float64Array.from({
                 length: n * n
             }, transpose ? (_, i)=>matrix[i % n][i / n | 0] : (_, i)=>matrix[i / n | 0][i % n]);
+            // Compute the scaling factor from value to angle in [0, 2pi].
             for(let i = 0; i < n; ++i){
                 let x = 0;
                 for(let j = 0; j < n; ++j)x += matrix[i * n + j] + directed * matrix[j * n + i];
                 k += groupSums[i] = x;
             }
             dx = (k = max$2(0, tau$1 - padAngle * n) / k) ? padAngle : tau$1 / n;
+            // Compute the angles for each group and constituent chord.
             {
                 let x = 0;
                 for (const i of (sortGroups && groupIndex.sort((a, b)=>sortGroups(groupSums[a], groupSums[b])), groupIndex)){
@@ -2785,7 +2866,8 @@
                     x += dx;
                 }
             }
-            return (chords = Object.values(chords)).groups = groups, sortChords ? chords.sort(sortChords) : chords;
+            return(// Remove empty chords.
+            (chords = Object.values(chords)).groups = groups, sortChords ? chords.sort(sortChords) : chords);
         }
         return chord.padAngle = function(_) {
             return arguments.length ? (padAngle = max$2(0, _), chord) : padAngle;
@@ -2826,7 +2908,9 @@
         arcTo: function(x1, y1, x2, y2, r) {
             x1 = +x1, y1 = +y1, x2 = +x2, y2 = +y2, r = +r;
             var x0 = this._x1, y0 = this._y1, x21 = x2 - x1, y21 = y2 - y1, x01 = x0 - x1, y01 = y0 - y1, l01_2 = x01 * x01 + y01 * y01;
+            // Is the radius negative? Error.
             if (r < 0) throw Error("negative radius: " + r);
+            // Is this path empty? Move to (x1,y1).
             if (null === this._x1) this._ += "M" + (this._x1 = x1) + "," + (this._y1 = y1);
             else if (l01_2 > 1e-6) {
                 if (Math.abs(y01 * x21 - y21 * x01) > 1e-6 && r) {
@@ -2838,6 +2922,7 @@
         arc: function(x, y, r, a0, a1, ccw) {
             x = +x, y = +y, r = +r, ccw = !!ccw;
             var dx = r * Math.cos(a0), dy = r * Math.sin(a0), x0 = x + dx, y0 = y + dy, cw = 1 ^ ccw, da = ccw ? a0 - a1 : a1 - a0;
+            // Is the radius negative? Error.
             if (r < 0) throw Error("negative radius: " + r);
             null === this._x1 ? this._ += "M" + x0 + "," + y0 : (Math.abs(this._x1 - x0) > 1e-6 || Math.abs(this._y1 - y0) > 1e-6) && (this._ += "L" + x0 + "," + y0), r && (da < 0 && (da = da % tau$2 + tau$2), da > tauEpsilon ? this._ += "A" + r + "," + r + ",0,1," + cw + "," + (x - dx) + "," + (y - dy) + "A" + r + "," + r + ",0,1," + cw + "," + (this._x1 = x0) + "," + (this._y1 = y0) : da > 1e-6 && (this._ += "A" + r + "," + r + ",0," + +(da >= pi$2) + "," + cw + "," + (this._x1 = x + r * Math.cos(a1)) + "," + (this._y1 = y + r * Math.sin(a1))));
         },
@@ -3111,6 +3196,7 @@
         var dx = 1, dy = 1, threshold = thresholdSturges, smooth = smoothLinear;
         function contours(values) {
             var tz = threshold(values);
+            // Convert number of thresholds into uniform thresholds.
             if (Array.isArray(tz)) tz = tz.slice().sort(ascending$2);
             else {
                 var domain = extent(values), start = domain[0], stop = domain[1];
@@ -3120,16 +3206,23 @@
                 return contour(values, value);
             });
         }
+        // Accumulate, smooth contour rings, assign holes to exterior rings.
+        // Based on https://github.com/mbostock/shapefile/blob/v0.6.2/shp/polygon.js
         function contour(values, value) {
             var polygons = [], holes = [];
-            return function(values, value, callback) {
+            return(// Marching squares with isolines stitched into rings.
+            // Based on https://github.com/topojson/topojson-client/blob/v3.0.0/src/stitch.js
+            function(values, value, callback) {
                 var x, y, t0, t1, t2, t3, fragmentByStart = [], fragmentByEnd = [];
-                for(x = y = -1, cases[(t1 = values[0] >= value) << 1].forEach(stitch); ++x < dx - 1;)cases[(t0 = t1) | (t1 = values[x + 1] >= value) << 1].forEach(stitch);
+                for(// Special case for the first row (y = -1, t2 = t3 = 0).
+                x = y = -1, cases[(t1 = values[0] >= value) << 1].forEach(stitch); ++x < dx - 1;)cases[(t0 = t1) | (t1 = values[x + 1] >= value) << 1].forEach(stitch);
+                // General case for the intermediate rows.
                 for(cases[t1 << 0].forEach(stitch); ++y < dy - 1;){
                     for(x = -1, cases[(t1 = values[y * dx + dx] >= value) << 1 | (t2 = values[y * dx] >= value) << 2].forEach(stitch); ++x < dx - 1;)t0 = t1, t1 = values[y * dx + dx + x + 1] >= value, t3 = t2, cases[t0 | t1 << 1 | (t2 = values[y * dx + x + 1] >= value) << 2 | t3 << 3].forEach(stitch);
                     cases[t1 | t2 << 3].forEach(stitch);
                 }
-                for(x = -1, cases[(t2 = values[y * dx] >= value) << 2].forEach(stitch); ++x < dx - 1;)t3 = t2, cases[(t2 = values[y * dx + x + 1] >= value) << 2 | t3 << 3].forEach(stitch);
+                for(// Special case for the last row (y = dy - 1, t0 = t1 = 0).
+                x = -1, cases[(t2 = values[y * dx] >= value) << 2].forEach(stitch); ++x < dx - 1;)t3 = t2, cases[(t2 = values[y * dx + x + 1] >= value) << 2 | t3 << 3].forEach(stitch);
                 function stitch(line) {
                     var f, g, start = [
                         line[0][0] + x,
@@ -3185,7 +3278,7 @@
                 type: "MultiPolygon",
                 value: value,
                 coordinates: polygons
-            };
+            });
         }
         function index(point) {
             return 2 * point[0] + point[1] * (dx + 1) * 4;
@@ -3210,9 +3303,15 @@
             return arguments.length ? (smooth = _ ? smoothLinear : noop$1, contours) : smooth === smoothLinear;
         }, contours;
     }
+    // TODO Optimize edge cases.
+    // TODO Optimize index calculation.
+    // TODO Optimize arguments.
     function blurX(source, target, r) {
         for(var n = source.width, m = source.height, w = (r << 1) + 1, j = 0; j < m; ++j)for(var i = 0, sr = 0; i < n + r; ++i)i < n && (sr += source.data[i + j * n]), i >= r && (i >= w && (sr -= source.data[i - w + j * n]), target.data[i - r + j * n] = sr / Math.min(i + 1, n - 1 + w - i, w));
     }
+    // TODO Optimize edge cases.
+    // TODO Optimize index calculation.
+    // TODO Optimize arguments.
     function blurY(source, target, r) {
         for(var n = source.width, m = source.height, w = (r << 1) + 1, i = 0; i < n; ++i)for(var j = 0, sr = 0; j < m + r; ++j)j < m && (sr += source.data[i + j * n]), j >= r && (j >= w && (sr -= source.data[i + (j - w) * n]), target.data[i + (j - r) * n] = sr / Math.min(j + 1, m - 1 + w - j, w));
     }
@@ -3239,12 +3338,16 @@
             const n = coords.length >> 1;
             if (n > 0 && 'number' != typeof coords[0]) throw Error('Expected coords to contain numbers.');
             this.coords = coords;
+            // arrays that will store the triangulation graph
             const maxTriangles = Math.max(2 * n - 5, 0);
-            this._triangles = new Uint32Array(3 * maxTriangles), this._halfedges = new Int32Array(3 * maxTriangles), this._hashSize = Math.ceil(Math.sqrt(n)), this._hullPrev = new Uint32Array(n), this._hullNext = new Uint32Array(n), this._hullTri = new Uint32Array(n), this._hullHash = new Int32Array(this._hashSize).fill(-1), this._ids = new Uint32Array(n), this._dists = new Float64Array(n), this.update();
+            this._triangles = new Uint32Array(3 * maxTriangles), this._halfedges = new Int32Array(3 * maxTriangles), // temporary arrays for tracking the edges of the advancing convex hull
+            this._hashSize = Math.ceil(Math.sqrt(n)), this._hullPrev = new Uint32Array(n), this._hullNext = new Uint32Array(n), this._hullTri = new Uint32Array(n), this._hullHash = new Int32Array(this._hashSize).fill(-1), // temporary arrays for sorting points
+            this._ids = new Uint32Array(n), this._dists = new Float64Array(n), this.update();
         }
         update() {
             let i0, i1, i2;
             const { coords, _hullPrev: hullPrev, _hullNext: hullNext, _hullTri: hullTri, _hullHash: hullHash } = this, n = coords.length >> 1;
+            // populate an array of point indices; calculate input data bbox
             let minX = 1 / 0, minY = 1 / 0, maxX = -1 / 0, maxY = -1 / 0;
             for(let i = 0; i < n; i++){
                 const x = coords[2 * i], y = coords[2 * i + 1];
@@ -3252,18 +3355,21 @@
             }
             const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
             let minDist = 1 / 0;
+            // pick a seed point close to the center
             for(let i = 0; i < n; i++){
                 const d = dist(cx, cy, coords[2 * i], coords[2 * i + 1]);
                 d < minDist && (i0 = i, minDist = d);
             }
             const i0x = coords[2 * i0], i0y = coords[2 * i0 + 1];
             minDist = 1 / 0;
+            // find the point closest to the seed
             for(let i = 0; i < n; i++){
                 if (i === i0) continue;
                 const d = dist(i0x, i0y, coords[2 * i], coords[2 * i + 1]);
                 d < minDist && d > 0 && (i1 = i, minDist = d);
             }
             let i1x = coords[2 * i1], i1y = coords[2 * i1 + 1], minRadius = 1 / 0;
+            // find the third point which forms the smallest circumcircle with the first two
             for(let i = 0; i < n; i++){
                 if (i === i0 || i === i1) continue;
                 const r = function(ax, ay, bx, by, cx, cy) {
@@ -3274,6 +3380,8 @@
             }
             let i2x = coords[2 * i2], i2y = coords[2 * i2 + 1];
             if (minRadius === 1 / 0) {
+                // order collinear points by dx (or dy if all x are identical)
+                // and return the list as a hull
                 for(let i = 0; i < n; i++)this._dists[i] = coords[2 * i] - coords[0] || coords[2 * i + 1] - coords[1];
                 quicksort(this._ids, this._dists, 0, n - 1);
                 const hull = new Uint32Array(n);
@@ -3285,6 +3393,7 @@
                 this.hull = hull.subarray(0, j), this.triangles = new Uint32Array(0), this.halfedges = new Uint32Array(0);
                 return;
             }
+            // swap the order of the seed points for counter-clockwise orientation
             if (orient(i0x, i0y, i1x, i1y, i2x, i2y)) {
                 const i = i1, x = i1x, y = i1y;
                 i1 = i2, i1x = i2x, i1y = i2y, i2 = i, i2x = x, i2y = y;
@@ -3298,12 +3407,16 @@
             }(i0x, i0y, i1x, i1y, i2x, i2y);
             this._cx = center.x, this._cy = center.y;
             for(let i = 0; i < n; i++)this._dists[i] = dist(coords[2 * i], coords[2 * i + 1], center.x, center.y);
-            quicksort(this._ids, this._dists, 0, n - 1), this._hullStart = i0;
+            // sort the points by distance from the seed triangle circumcenter
+            quicksort(this._ids, this._dists, 0, n - 1), // set up the seed triangle as the starting hull
+            this._hullStart = i0;
             let hullSize = 3;
             hullNext[i0] = hullPrev[i2] = i1, hullNext[i1] = hullPrev[i0] = i2, hullNext[i2] = hullPrev[i1] = i0, hullTri[i0] = 0, hullTri[i1] = 1, hullTri[i2] = 2, hullHash.fill(-1), hullHash[this._hashKey(i0x, i0y)] = i0, hullHash[this._hashKey(i1x, i1y)] = i1, hullHash[this._hashKey(i2x, i2y)] = i2, this.trianglesLen = 0, this._addTriangle(i0, i1, i2, -1, -1, -1);
             for(let k = 0, xp, yp; k < this._ids.length; k++){
                 const i = this._ids[k], x = coords[2 * i], y = coords[2 * i + 1];
+                // skip near-duplicate points
                 if (k > 0 && 0.0000000000000002220446049250313 >= Math.abs(x - xp) && 0.0000000000000002220446049250313 >= Math.abs(y - yp) || (xp = x, yp = y, i === i0 || i === i1 || i === i2)) continue;
+                // find a visible edge on the convex hull using edge hash
                 let start = 0;
                 for(let j = 0, key = this._hashKey(x, y); j < this._hashSize && (-1 === (start = hullHash[(key + j) % this._hashSize]) || start === hullNext[start]); j++);
                 let e = start = hullPrev[start], q;
@@ -3311,27 +3424,36 @@
                     e = -1;
                     break;
                 }
-                if (-1 === e) continue;
+                if (-1 === e) continue; // likely a near-duplicate point; skip it
+                // add the first triangle from the point
                 let t = this._addTriangle(e, i, hullNext[e], -1, -1, hullTri[e]);
+                // recursively flip triangles from the point until they satisfy the Delaunay condition
                 hullTri[i] = this._legalize(t + 2), hullTri[e] = t, hullSize++;
+                // walk forward through the hull, adding more triangles and flipping recursively
                 let n = hullNext[e];
                 for(; q = hullNext[n], orient(x, y, coords[2 * n], coords[2 * n + 1], coords[2 * q], coords[2 * q + 1]);)t = this._addTriangle(n, i, q, hullTri[i], -1, hullTri[n]), hullTri[i] = this._legalize(t + 2), hullNext[n] = n, hullSize--, n = q;
+                // walk backward from the other side, adding more triangles and flipping
                 if (e === start) for(; orient(x, y, coords[2 * (q = hullPrev[e])], coords[2 * q + 1], coords[2 * e], coords[2 * e + 1]);)t = this._addTriangle(q, i, e, -1, hullTri[e], hullTri[q]), this._legalize(t + 2), hullTri[q] = t, hullNext[e] = e, hullSize--, e = q;
-                this._hullStart = hullPrev[i] = e, hullNext[e] = hullPrev[n] = i, hullNext[i] = n, hullHash[this._hashKey(x, y)] = i, hullHash[this._hashKey(coords[2 * e], coords[2 * e + 1])] = e;
+                // update the hull indices
+                this._hullStart = hullPrev[i] = e, hullNext[e] = hullPrev[n] = i, hullNext[i] = n, // save the two new edges in the hash table
+                hullHash[this._hashKey(x, y)] = i, hullHash[this._hashKey(coords[2 * e], coords[2 * e + 1])] = e;
             }
             this.hull = new Uint32Array(hullSize);
             for(let i = 0, e = this._hullStart; i < hullSize; i++)this.hull[i] = e, e = hullNext[e];
+            // trim typed triangle mesh arrays
             this.triangles = this._triangles.subarray(0, this.trianglesLen), this.halfedges = this._halfedges.subarray(0, this.trianglesLen);
         }
         _hashKey(x, y) {
-            return Math.floor(function(dx, dy) {
+            return Math.floor(// monotonically increases with real angle, but doesn't need expensive trigonometry
+            function(dx, dy) {
                 const p = dx / (Math.abs(dx) + Math.abs(dy));
-                return (dy > 0 ? 3 - p : 1 + p) / 4;
+                return (dy > 0 ? 3 - p : 1 + p) / 4; // [0..1]
             }(x - this._cx, y - this._cy) * this._hashSize) % this._hashSize;
         }
         _legalize(a) {
             const { _triangles: triangles, _halfedges: halfedges, coords } = this;
             let i = 0, ar = 0;
+            // recursion eliminated with a fixed-size stack
             for(;;){
                 const b = halfedges[a], a0 = a - a % 3;
                 if (ar = a0 + (a + 2) % 3, -1 === b) {
@@ -3346,6 +3468,7 @@
                 }(coords[2 * p0], coords[2 * p0 + 1], coords[2 * pr], coords[2 * pr + 1], coords[2 * pl], coords[2 * pl + 1], coords[2 * p1], coords[2 * p1 + 1])) {
                     triangles[a] = p1, triangles[b] = p0;
                     const hbl = halfedges[bl];
+                    // edge swapped on the other side of the hull (rare); fix the halfedge reference
                     if (-1 === hbl) {
                         let e = this._hullStart;
                         do {
@@ -3369,6 +3492,7 @@
         _link(a, b) {
             this._halfedges[a] = b, -1 !== b && (this._halfedges[b] = a);
         }
+        // add a new triangle given vertex indices and adjacent half-edge ids
         _addTriangle(i0, i1, i2, a, b, c) {
             const t = this.trianglesLen;
             return this._triangles[t] = i0, this._triangles[t + 1] = i1, this._triangles[t + 2] = i2, this._link(t, a), this._link(t + 1, b), this._link(t + 2, c), this.trianglesLen += 3, t;
@@ -3378,10 +3502,12 @@
         const dx = ax - bx, dy = ay - by;
         return dx * dx + dy * dy;
     }
+    // return 2d orientation sign if we're confident in it through J. Shewchuk's error bound check
     function orientIfSure(px, py, rx, ry, qx, qy) {
         const l = (ry - py) * (qx - px), r = (rx - px) * (qy - py);
         return Math.abs(l - r) >= 3.3306690738754716e-16 * Math.abs(l + r) ? l - r : 0;
     }
+    // a more robust orientation test that's stable in a given triangle (to fix robustness issues)
     function orient(rx, ry, qx, qy, px, py) {
         return 0 > (orientIfSure(px, py, rx, ry, qx, qy) || orientIfSure(rx, ry, qx, qy, px, py) || orientIfSure(qx, qy, px, py, rx, ry));
     }
@@ -3485,14 +3611,17 @@
             for(let i = 0, j = 0, n = triangles.length, x, y; i < n; i += 3, j += 2){
                 const t1 = 2 * triangles[i], t2 = 2 * triangles[i + 1], t3 = 2 * triangles[i + 2], x1 = points[t1], y1 = points[t1 + 1], x2 = points[t2], y2 = points[t2 + 1], x3 = points[t3], y3 = points[t3 + 1], dx = x2 - x1, dy = y2 - y1, ex = x3 - x1, ey = y3 - y1, bl = dx * dx + dy * dy, cl = ex * ex + ey * ey, ab = (dx * ey - dy * ex) * 2;
                 if (ab) {
-                    if (1e-8 > Math.abs(ab)) x = (x1 + x3) / 2, y = (y1 + y3) / 2;
+                    if (1e-8 > Math.abs(ab)) // almost equal points (degenerate triangle)
+                    x = (x1 + x3) / 2, y = (y1 + y3) / 2;
                     else {
                         const d = 1 / ab;
                         x = x1 + (ey * bl - dy * cl) * d, y = y1 + (dx * cl - ex * bl) * d;
                     }
-                } else x = (x1 + x3) / 2 - 1e8 * ey, y = (y1 + y3) / 2 + 1e8 * ex;
+                } else // degenerate case (collinear diagram)
+                x = (x1 + x3) / 2 - 1e8 * ey, y = (y1 + y3) / 2 + 1e8 * ex;
                 circumcenters[j] = x, circumcenters[j + 1] = y;
             }
+            // Compute exterior cell rays.
             let h = hull[hull.length - 1], p0, p1 = 4 * h, x0, x1 = points[2 * h], y0, y1 = points[2 * h + 1];
             vectors.fill(0);
             for(let i = 0; i < hull.length; ++i)h = hull[i], p0 = p1, x0 = x1, y0 = y1, p1 = 4 * h, x1 = points[2 * h], y1 = points[2 * h + 1], vectors[p0 + 2] = vectors[p1] = y0 - y1, vectors[p0 + 3] = vectors[p1 + 1] = x1 - x0;
@@ -3550,6 +3679,7 @@
             const ci = this._clip(i);
             if (ci) for (const j of this.delaunay.neighbors(i)){
                 const cj = this._clip(j);
+                // find the common edge
                 if (cj) {
                     loop: for(let ai = 0, li = ci.length; ai < li; ai += 2)for(let aj = 0, lj = cj.length; aj < lj; aj += 2)if (ci[ai] == cj[aj] && ci[ai + 1] == cj[aj + 1] && ci[(ai + 2) % li] == cj[(aj + lj - 2) % lj] && ci[(ai + 3) % li] == cj[(aj + lj - 1) % lj]) {
                         yield j;
@@ -3560,17 +3690,18 @@
         }
         _cell(i) {
             const { circumcenters, delaunay: { inedges, halfedges, triangles } } = this, e0 = inedges[i];
-            if (-1 === e0) return null;
+            if (-1 === e0) return null; // coincident point
             const points = [];
             let e = e0;
             do {
                 const t = Math.floor(e / 3);
-                if (points.push(circumcenters[2 * t], circumcenters[2 * t + 1]), triangles[e = e % 3 == 2 ? e - 2 : e + 1] !== i) break;
+                if (points.push(circumcenters[2 * t], circumcenters[2 * t + 1]), triangles[e = e % 3 == 2 ? e - 2 : e + 1] !== i) break; // bad triangulation
                 e = halfedges[e];
             }while (e !== e0 && -1 !== e)
             return points;
         }
         _clip(i) {
+            // degenerate case (1 valid point: return the box)
             if (0 === i && 1 === this.delaunay.hull.length) return [
                 this.xmax,
                 this.ymin,
@@ -3658,25 +3789,25 @@
                 switch(e0){
                     case 0b0101:
                         e0 = 0b0100;
-                        continue;
+                        continue; // top-left
                     case 0b0100:
                         e0 = 0b0110, x = this.xmax, y = this.ymin;
-                        break;
+                        break; // top
                     case 0b0110:
                         e0 = 0b0010;
-                        continue;
+                        continue; // top-right
                     case 0b0010:
                         e0 = 0b1010, x = this.xmax, y = this.ymax;
-                        break;
+                        break; // right
                     case 0b1010:
                         e0 = 0b1000;
-                        continue;
+                        continue; // bottom-right
                     case 0b1000:
                         e0 = 0b1001, x = this.xmin, y = this.ymax;
-                        break;
+                        break; // bottom
                     case 0b1001:
                         e0 = 0b0001;
-                        continue;
+                        continue; // bottom-left
                     case 0b0001:
                         e0 = 0b0101, x = this.xmin, y = this.ymin;
                 }
@@ -3745,7 +3876,9 @@
         }
         _init() {
             const d = this._delaunator, points = this.points;
-            if (d.hull && d.hull.length > 2 && function(d) {
+            // check for collinear
+            if (d.hull && d.hull.length > 2 && // A triangulation is collinear if all its triangles have a non-null area
+            function(d) {
                 const { triangles, coords } = d;
                 for(let i = 0; i < triangles.length; i += 3){
                     const a = 2 * triangles[i], b = 2 * triangles[i + 1], c = 2 * triangles[i + 2];
@@ -3755,7 +3888,7 @@
             }(d)) {
                 this.collinear = Int32Array.from({
                     length: points.length / 2
-                }, (_, i)=>i).sort((i, j)=>points[2 * i] - points[2 * j] || points[2 * i + 1] - points[2 * j + 1]);
+                }, (_, i)=>i).sort((i, j)=>points[2 * i] - points[2 * j] || points[2 * i + 1] - points[2 * j + 1]); // for exact neighbors
                 const e = this.collinear[0], f = this.collinear[this.collinear.length - 1], bounds = [
                     points[2 * e],
                     points[2 * e + 1],
@@ -3773,11 +3906,15 @@
                 this._delaunator = new Delaunator(points);
             } else delete this.collinear;
             const halfedges = this.halfedges = this._delaunator.halfedges, hull = this.hull = this._delaunator.hull, triangles = this.triangles = this._delaunator.triangles, inedges = this.inedges.fill(-1), hullIndex = this._hullIndex.fill(-1);
+            // Compute an index from each point to an (arbitrary) incoming halfedge
+            // Used to give the first neighbor of each point; for this reason,
+            // on the hull we give priority to exterior halfedges
             for(let e = 0, n = halfedges.length; e < n; ++e){
                 const p = triangles[e % 3 == 2 ? e - 2 : e + 1];
                 (-1 === halfedges[e] || -1 === inedges[p]) && (inedges[p] = e);
             }
             for(let i = 0, n = hull.length; i < n; ++i)hullIndex[hull[i]] = i;
+            // degenerate case: 1 or 2 (distinct) points
             hull.length <= 2 && hull.length > 0 && (this.triangles = new Int32Array(3).fill(-1), this.halfedges = new Int32Array(3).fill(-1), this.triangles[0] = hull[0], this.triangles[1] = hull[1], this.triangles[2] = hull[1], inedges[hull[0]] = 1, 2 === hull.length && (inedges[hull[1]] = 0));
         }
         voronoi(bounds) {
@@ -3785,16 +3922,17 @@
         }
         *neighbors(i) {
             const { inedges, hull, _hullIndex, halfedges, triangles, collinear } = this;
+            // degenerate case with several collinear points
             if (collinear) {
                 const l = collinear.indexOf(i);
                 l > 0 && (yield collinear[l - 1]), l < collinear.length - 1 && (yield collinear[l + 1]);
                 return;
             }
             const e0 = inedges[i];
-            if (-1 === e0) return;
+            if (-1 === e0) return; // coincident point
             let e = e0, p0 = -1;
             do {
-                if (yield p0 = triangles[e], triangles[e = e % 3 == 2 ? e - 2 : e + 1] !== i) return;
+                if (yield p0 = triangles[e], triangles[e = e % 3 == 2 ? e - 2 : e + 1] !== i) return; // bad triangulation
                 if (-1 === (e = halfedges[e])) {
                     const p = hull[(_hullIndex[i] + 1) % hull.length];
                     p !== p0 && (yield p);
@@ -3818,7 +3956,7 @@
             do {
                 let t = triangles[e];
                 const dt = pow(x - points[2 * t], 2) + pow(y - points[2 * t + 1], 2);
-                if (dt < dc && (dc = dt, c = t), triangles[e = e % 3 == 2 ? e - 2 : e + 1] !== i) break;
+                if (dt < dc && (dc = dt, c = t), triangles[e = e % 3 == 2 ? e - 2 : e + 1] !== i) break; // bad triangulation
                 if (-1 === (e = halfedges[e])) {
                     if ((e = hull[(_hullIndex[i] + 1) % hull.length]) !== t && pow(x - points[2 * e], 2) + pow(y - points[2 * e + 1], 2) < dc) return e;
                     break;
@@ -3876,6 +4014,7 @@
             return JSON.stringify(name) + ": d[" + i + "] || \"\"";
         }).join(",") + "}");
     }
+    // Compute unique columns in order of discovery.
     function inferColumns(rows) {
         var columnSet = Object.create(null), columns = [];
         return rows.forEach(function(row) {
@@ -3889,21 +4028,24 @@
     function dsvFormat(delimiter) {
         var reFormat = RegExp("[\"" + delimiter + "\n\r]"), DELIMITER = delimiter.charCodeAt(0);
         function parseRows(text, f) {
-            var t, rows = [], N = text.length, I = 0, n = 0, eof = N <= 0, eol = !1;
+            var t, rows = [], N = text.length, I = 0, n = 0, eof = N <= 0, eol = !1; // current token followed by EOL?
             function token() {
                 if (eof) return EOF;
                 if (eol) return eol = !1, EOL;
+                // Unescape quotes.
                 var i, c, j = I;
                 if (34 === text.charCodeAt(j)) {
                     for(; I++ < N && 34 !== text.charCodeAt(I) || 34 === text.charCodeAt(++I););
                     return (i = I) >= N ? eof = !0 : 10 === (c = text.charCodeAt(I++)) ? eol = !0 : 13 === c && (eol = !0, 10 === text.charCodeAt(I) && ++I), text.slice(j + 1, i - 1).replace(/""/g, "\"");
                 }
+                // Find next delimiter or newline.
                 for(; I < N;){
                     if (10 === (c = text.charCodeAt(i = I++))) eol = !0;
                     else if (13 === c) eol = !0, 10 === text.charCodeAt(I) && ++I;
                     else if (c !== DELIMITER) continue;
                     return text.slice(j, i);
                 }
+                // Return last token before EOF.
                 return eof = !0, text.slice(j, N);
             }
             for(10 === text.charCodeAt(N - 1) && --N, 13 === text.charCodeAt(N - 1) && --N; (t = token()) !== EOF;){
@@ -3954,6 +4096,7 @@
         };
     }
     var csv = dsvFormat(","), csvParse = csv.parse, csvParseRows = csv.parseRows, csvFormat = csv.format, csvFormatBody = csv.formatBody, csvFormatRows = csv.formatRows, csvFormatRow = csv.formatRow, csvFormatValue = csv.formatValue, tsv = dsvFormat("\t"), tsvParse = tsv.parse, tsvParseRows = tsv.parseRows, tsvFormat = tsv.format, tsvFormatBody = tsv.formatBody, tsvFormatRows = tsv.formatRows, tsvFormatRow = tsv.formatRow, tsvFormatValue = tsv.formatValue;
+    // https://github.com/d3/d3-dsv/issues/45
     const fixtz = new Date("2019-01-01T00:00").getHours() || new Date("2019-07-01T00:00").getHours();
     function responseBlob(response) {
         if (!response.ok) throw Error(response.status + " " + response.statusText);
@@ -3987,13 +4130,17 @@
     }
     var xml = parser("application/xml"), html = parser("text/html"), svg = parser("image/svg+xml");
     function add(tree, x, y, d) {
-        if (isNaN(x) || isNaN(y)) return tree;
+        if (isNaN(x) || isNaN(y)) return tree; // ignore invalid points
         var parent, xm, ym, xp, yp, right, bottom, i, j, node = tree._root, leaf = {
             data: d
         }, x0 = tree._x0, y0 = tree._y0, x1 = tree._x1, y1 = tree._y1;
+        // If the tree is empty, initialize the root as a leaf.
         if (!node) return tree._root = leaf, tree;
+        // Find the existing leaf for the new point, or add it.
         for(; node.length;)if ((right = x >= (xm = (x0 + x1) / 2)) ? x0 = xm : x1 = xm, (bottom = y >= (ym = (y0 + y1) / 2)) ? y0 = ym : y1 = ym, parent = node, !(node = node[i = bottom << 1 | right])) return parent[i] = leaf, tree;
-        if (xp = +tree._x.call(null, node.data), yp = +tree._y.call(null, node.data), x === xp && y === yp) return leaf.next = node, parent ? parent[i] = leaf : tree._root = leaf, tree;
+        if (// Is the new point is exactly coincident with the existing point?
+        xp = +tree._x.call(null, node.data), yp = +tree._y.call(null, node.data), x === xp && y === yp) return leaf.next = node, parent ? parent[i] = leaf : tree._root = leaf, tree;
+        // Otherwise, split the leaf node until the old and new point are separated.
         do parent = parent ? parent[i] = [
             ,
             ,
@@ -4090,13 +4237,20 @@
         return add(this.cover(x, y), x, y, d);
     }, treeProto.addAll = function(data) {
         var d, i, x, y, n = data.length, xz = Array(n), yz = Array(n), x0 = 1 / 0, y0 = 1 / 0, x1 = -1 / 0, y1 = -1 / 0;
+        // Compute the points and their extent.
         for(i = 0; i < n; ++i)!(isNaN(x = +this._x.call(null, d = data[i])) || isNaN(y = +this._y.call(null, d))) && (xz[i] = x, yz[i] = y, x < x0 && (x0 = x), x > x1 && (x1 = x), y < y0 && (y0 = y), y > y1 && (y1 = y));
+        // If there were no (valid) points, abort.
         if (x0 > x1 || y0 > y1) return this;
-        for(this.cover(x0, y0).cover(x1, y1), i = 0; i < n; ++i)add(this, xz[i], yz[i], data[i]);
+        // Add the new points.
+        for(// Expand the tree to cover the new points.
+        this.cover(x0, y0).cover(x1, y1), i = 0; i < n; ++i)add(this, xz[i], yz[i], data[i]);
         return this;
     }, treeProto.cover = function(x, y) {
-        if (isNaN(x = +x) || isNaN(y = +y)) return this;
+        if (isNaN(x = +x) || isNaN(y = +y)) return this; // ignore invalid points
         var x0 = this._x0, y0 = this._y0, x1 = this._x1, y1 = this._y1;
+        // If the quadtree has no extent, initialize them.
+        // Integer extent are necessary so that if we later double the extent,
+        // the existing quadrant boundaries don’t change due to floating point error!
         if (isNaN(x0)) x1 = (x0 = Math.floor(x)) + 1, y1 = (y0 = Math.floor(y)) + 1;
         else {
             for(var parent, i, z = x1 - x0 || 1, node = this._root; x0 > x || x >= x1 || y0 > y || y >= y1;)switch(i = (y < y0) << 1 | x < x0, (parent = [
@@ -4139,7 +4293,9 @@
         ];
     }, treeProto.find = function(x, y, radius) {
         var data, x1, y1, x2, y2, q, i, x0 = this._x0, y0 = this._y0, x3 = this._x1, y3 = this._y1, quads = [], node = this._root;
-        for(node && quads.push(new Quad(node, x0, y0, x3, y3)), null == radius ? radius = 1 / 0 : (x0 = x - radius, y0 = y - radius, x3 = x + radius, y3 = y + radius, radius *= radius); q = quads.pop();)if ((node = q.node) && !((x1 = q.x0) > x3) && !((y1 = q.y0) > y3) && !((x2 = q.x1) < x0) && !((y2 = q.y1) < y0)) {
+        for(node && quads.push(new Quad(node, x0, y0, x3, y3)), null == radius ? radius = 1 / 0 : (x0 = x - radius, y0 = y - radius, x3 = x + radius, y3 = y + radius, radius *= radius); q = quads.pop();)// Stop searching if this quadrant can’t contain a closer node.
+        if ((node = q.node) && !((x1 = q.x0) > x3) && !((y1 = q.y0) > y3) && !((x2 = q.x1) < x0) && !((y2 = q.y1) < y0)) {
+            // Bisect the current quadrant.
             if (node.length) {
                 var xm = (x1 + x2) / 2, ym = (y1 + y2) / 2;
                 quads.push(new Quad(node[3], xm, ym, x2, y2), new Quad(node[2], x1, ym, xm, y2), new Quad(node[1], xm, y1, x2, ym), new Quad(node[0], x1, y1, xm, ym)), (i = (y >= ym) << 1 | x >= xm) && (q = quads[quads.length - 1], quads[quads.length - 1] = quads[quads.length - 1 - i], quads[quads.length - 1 - i] = q);
@@ -4153,16 +4309,21 @@
         }
         return data;
     }, treeProto.remove = function(d) {
-        if (isNaN(x = +this._x.call(null, d)) || isNaN(y = +this._y.call(null, d))) return this;
+        if (isNaN(x = +this._x.call(null, d)) || isNaN(y = +this._y.call(null, d))) return this; // ignore invalid points
         var parent, retainer, previous, next, x, y, xm, ym, right, bottom, i, j, node = this._root, x0 = this._x0, y0 = this._y0, x1 = this._x1, y1 = this._y1;
+        // If the tree is empty, initialize the root as a leaf.
         if (!node) return this;
+        // Find the leaf node for the point.
+        // While descending, also retain the deepest parent with a non-removed sibling.
         if (node.length) for(;;){
             if ((right = x >= (xm = (x0 + x1) / 2)) ? x0 = xm : x1 = xm, (bottom = y >= (ym = (y0 + y1) / 2)) ? y0 = ym : y1 = ym, parent = node, !(node = node[i = bottom << 1 | right])) return this;
             if (!node.length) break;
             (parent[i + 1 & 3] || parent[i + 2 & 3] || parent[i + 3 & 3]) && (retainer = parent, j = i);
         }
+        // Find the point to remove.
         for(; node.data !== d;)if (previous = node, !(node = node.next)) return this;
-        return ((next = node.next) && delete node.next, previous) ? next ? previous.next = next : delete previous.next : parent ? (next ? parent[i] = next : delete parent[i], (node = parent[0] || parent[1] || parent[2] || parent[3]) && node === (parent[3] || parent[2] || parent[1] || parent[0]) && !node.length && (retainer ? retainer[j] = node : this._root = node)) : this._root = next, this;
+        return ((next = node.next) && delete node.next, previous) ? next ? previous.next = next : delete previous.next : parent ? (// Remove this leaf.
+        next ? parent[i] = next : delete parent[i], (node = parent[0] || parent[1] || parent[2] || parent[3]) && node === (parent[3] || parent[2] || parent[1] || parent[0]) && !node.length && (retainer ? retainer[j] = node : this._root = node)) : this._root = next, this;
     }, treeProto.removeAll = function(data) {
         for(var i = 0, n = data.length; i < n; ++i)this.remove(data[i]);
         return this;
@@ -4199,9 +4360,14 @@
         return arguments.length ? (this._y = _, this) : this._y;
     };
     var initialAngle = Math.PI * (3 - Math.sqrt(5));
+    // Computes the decimal coefficient and exponent of the specified number x with
+    // significant digits p, where x is positive and p is in [1, 21] or undefined.
+    // For example, formatDecimalParts(1.23) returns ["123", 0].
     function formatDecimalParts(x, p) {
-        if ((i = (x = p ? x.toExponential(p - 1) : x.toExponential()).indexOf("e")) < 0) return null;
+        if ((i = (x = p ? x.toExponential(p - 1) : x.toExponential()).indexOf("e")) < 0) return null; // NaN, ±Infinity
         var i, coefficient = x.slice(0, i);
+        // The string returned by toExponential either has the form \d\.\d+e[-+]\d+
+        // (e.g., 1.2e+3) or the form \de[-+]\d+ (e.g., 1e+3).
         return [
             coefficient.length > 1 ? coefficient[0] + coefficient.slice(2) : coefficient,
             +x.slice(i + 1)
@@ -4210,6 +4376,7 @@
     function exponent$1(x) {
         return (x = formatDecimalParts(Math.abs(x))) ? x[1] : NaN;
     }
+    // [[fill]align][sign][symbol][0][width][,][.precision][~][type]
     var re = /^(?:(.)?([<>=^]))?([+\-( ])?([$#])?(0)?(\d+)?(,)?(\.\d+)?(~)?([a-z%])?$/i;
     function formatSpecifier(specifier) {
         var match;
@@ -4256,7 +4423,7 @@
             var d = formatDecimalParts(x, p);
             if (!d) return x + "";
             var coefficient = d[0], exponent = d[1], i = exponent - (prefixExponent = 3 * Math.max(-8, Math.min(8, Math.floor(exponent / 3)))) + 1, n = coefficient.length;
-            return i === n ? coefficient : i > n ? coefficient + Array(i - n + 1).join("0") : i > 0 ? coefficient.slice(0, i) + "." + coefficient.slice(i) : "0." + Array(1 - i).join("0") + formatDecimalParts(x, Math.max(0, p + i - 1))[0];
+            return i === n ? coefficient : i > n ? coefficient + Array(i - n + 1).join("0") : i > 0 ? coefficient.slice(0, i) + "." + coefficient.slice(i) : "0." + Array(1 - i).join("0") + formatDecimalParts(x, Math.max(0, p + i - 1))[0]; // less than 1y!
         },
         X: (x)=>Math.round(x).toString(16).toUpperCase(),
         x: (x)=>Math.round(x).toString(16)
@@ -4295,13 +4462,20 @@
         function newFormat(specifier) {
             var fill = (specifier = formatSpecifier(specifier)).fill, align = specifier.align, sign = specifier.sign, symbol = specifier.symbol, zero = specifier.zero, width = specifier.width, comma = specifier.comma, precision = specifier.precision, trim = specifier.trim, type = specifier.type;
             "n" === type ? (comma = !0, type = "g") : formatTypes[type] || (void 0 === precision && (precision = 12), trim = !0, type = "g"), (zero || "0" === fill && "=" === align) && (zero = !0, fill = "0", align = "=");
+            // Compute the prefix and suffix.
+            // For SI-prefix, the suffix is lazily computed.
             var prefix = "$" === symbol ? currencyPrefix : "#" === symbol && /[boxX]/.test(type) ? "0" + type.toLowerCase() : "", suffix = "$" === symbol ? currencySuffix : /[%p]/.test(type) ? percent : "", formatType = formatTypes[type], maybeSuffix = /[defgprs%]/.test(type);
             function format(value) {
                 var i, n, c, valuePrefix = prefix, valueSuffix = suffix;
                 if ("c" === type) valueSuffix = formatType(value) + valueSuffix, value = "";
                 else {
+                    // Determine the sign. -0 is not less than 0, but 1 / -0 is!
                     var valueNegative = (value = +value) < 0 || 1 / value < 0;
-                    if (value = isNaN(value) ? nan : formatType(Math.abs(value), precision), trim && (value = function(s) {
+                    // Break the formatted value into the integer “value” part that can be
+                    // grouped, and fractional or exponential “suffix” part that is not.
+                    if (// Perform the initial formatting.
+                    value = isNaN(value) ? nan : formatType(Math.abs(value), precision), trim && (value = // Trims insignificant zeros, e.g., replaces 1.2000k with 1.2k.
+                    function(s) {
                         out: for(var i1, n = s.length, i = 1, i0 = -1; i < n; ++i)switch(s[i]){
                             case ".":
                                 i0 = i1 = i;
@@ -4314,7 +4488,8 @@
                                 i0 > 0 && (i0 = 0);
                         }
                         return i0 > 0 ? s.slice(0, i0) + s.slice(i1 + 1) : s;
-                    }(value)), valueNegative && 0 == +value && "+" !== sign && (valueNegative = !1), valuePrefix = (valueNegative ? "(" === sign ? sign : minus : "-" === sign || "(" === sign ? "" : sign) + valuePrefix, valueSuffix = ("s" === type ? prefixes[8 + prefixExponent / 3] : "") + valueSuffix + (valueNegative && "(" === sign ? ")" : ""), maybeSuffix) {
+                    }(value)), valueNegative && 0 == +value && "+" !== sign && (valueNegative = !1), // Compute the prefix and suffix.
+                    valuePrefix = (valueNegative ? "(" === sign ? sign : minus : "-" === sign || "(" === sign ? "" : sign) + valuePrefix, valueSuffix = ("s" === type ? prefixes[8 + prefixExponent / 3] : "") + valueSuffix + (valueNegative && "(" === sign ? ")" : ""), maybeSuffix) {
                         for(i = -1, n = value.length; ++i < n;)if (48 > (c = value.charCodeAt(i)) || c > 57) {
                             valueSuffix = (46 === c ? decimal + value.slice(i + 1) : value.slice(i)) + valueSuffix, value = value.slice(0, i);
                             break;
@@ -4322,7 +4497,9 @@
                     }
                 }
                 comma && !zero && (value = group(value, 1 / 0));
+                // Compute the padding.
                 var length = valuePrefix.length + value.length + valueSuffix.length, padding = length < width ? Array(width - length + 1).join(fill) : "";
+                // Reconstruct the final output based on the desired alignment.
                 switch(comma && zero && (value = group(padding + value, padding.length ? width - valueSuffix.length : 1 / 0), padding = ""), align){
                     case "<":
                         value = valuePrefix + value + valueSuffix + padding;
@@ -4338,9 +4515,13 @@
                 }
                 return numerals1(value);
             }
-            return precision = void 0 === precision ? 6 : /[gprs]/.test(type) ? Math.max(1, Math.min(21, precision)) : Math.max(0, Math.min(20, precision)), format.toString = function() {
+            return(// Set the default precision if not specified,
+            // or clamp the specified precision to the supported range.
+            // For significant precision, it must be in [1, 21].
+            // For fixed precision, it must be in [0, 20].
+            precision = void 0 === precision ? 6 : /[gprs]/.test(type) ? Math.max(1, Math.min(21, precision)) : Math.max(0, Math.min(20, precision)), format.toString = function() {
                 return specifier + "";
-            }, format;
+            }, format);
         }
         return {
             format: newFormat,
@@ -4459,8 +4640,12 @@
     }
     function areaPoint(lambda, phi) {
         lambda *= radians$1, phi *= radians$1;
+        // Spherical excess E for a spherical triangle with vertices: south pole,
+        // previous point, current point.  Uses a formula derived from Cagnoli’s
+        // theorem.  See Todhunter, Spherical Trig. (1871), Sec. 103, Eq. (2).
         var dLambda = lambda - lambda0, sdLambda = dLambda >= 0 ? 1 : -1, adLambda = sdLambda * dLambda, cosPhi = cos$1(phi = phi / 2 + quarterPi), sinPhi = sin$1(phi), k = sinPhi0 * sinPhi, u = cosPhi0 * cosPhi + k * cos$1(adLambda), v = k * sdLambda * sin$1(adLambda);
-        areaRingSum.add(atan2(v, u)), lambda0 = lambda, cosPhi0 = cosPhi, sinPhi0 = sinPhi;
+        areaRingSum.add(atan2(v, u)), // Advance the previous points.
+        lambda0 = lambda, cosPhi0 = cosPhi, sinPhi0 = sinPhi;
     }
     function spherical(cartesian) {
         return [
@@ -4486,6 +4671,7 @@
             a[0] * b[1] - a[1] * b[0]
         ];
     }
+    // TODO return a
     function cartesianAddInPlace(a, b) {
         a[0] += b[0], a[1] += b[1], a[2] += b[2];
     }
@@ -4496,6 +4682,7 @@
             vector[2] * k
         ];
     }
+    // TODO return d
     function cartesianNormalizeInPlace(d) {
         var l = sqrt(d[0] * d[0] + d[1] * d[1] + d[2] * d[2]);
         d[0] /= l, d[1] /= l, d[2] /= l;
@@ -4559,6 +4746,9 @@
     function boundsRingEnd() {
         boundsRingPoint(lambda00$1, phi00$1), areaStream.lineEnd(), abs$2(deltaSum) > 1e-6 && (lambda0$1 = -(lambda1 = 180)), range$1[0] = lambda0$1, range$1[1] = lambda1, p0 = null;
     }
+    // Finds the left-right distance between two longitudes.
+    // This is almost the same as (lambda1 - lambda0 + 360°) % 360°, except that we want
+    // the distance between ±180° to be 360°.
     function angle(lambda0, lambda1) {
         return (lambda1 -= lambda0) < 0 ? lambda1 + 360 : lambda1;
     }
@@ -4580,6 +4770,7 @@
             centroidStream.lineStart = centroidLineStart, centroidStream.lineEnd = centroidLineEnd;
         }
     };
+    // Arithmetic mean of Cartesian vectors.
     function centroidPoint(lambda, phi) {
         lambda *= radians$1;
         var cosPhi = cos$1(phi *= radians$1);
@@ -4604,6 +4795,8 @@
     function centroidLineEnd() {
         centroidStream.point = centroidPoint;
     }
+    // See J. E. Brock, The Inertia Tensor for a Spherical Triangle,
+    // J. Applied Mechanics 42, 239 (1975).
     function centroidRingStart() {
         centroidStream.point = centroidRingPointFirst;
     }
@@ -4617,7 +4810,7 @@
     }
     function centroidRingPoint(lambda, phi) {
         lambda *= radians$1;
-        var cosPhi = cos$1(phi *= radians$1), x = cosPhi * cos$1(lambda), y = cosPhi * sin$1(lambda), z = sin$1(phi), cx = y0 * z - z0 * y, cy = z0 * x - x0 * z, cz = x0 * y - y0 * x, m = hypot(cx, cy, cz), w = asin(m), v = m && -w / m;
+        var cosPhi = cos$1(phi *= radians$1), x = cosPhi * cos$1(lambda), y = cosPhi * sin$1(lambda), z = sin$1(phi), cx = y0 * z - z0 * y, cy = z0 * x - x0 * z, cz = x0 * y - y0 * x, m = hypot(cx, cy, cz), w = asin(m), v = m && -w / m; // area weight multiplier
         X2.add(v * cx), Y2.add(v * cy), Z2.add(v * cz), W1 += w, X1 += w * (x0 + (x0 = x)), Y1 += w * (y0 + (y0 = y)), Z1 += w * (z0 + (z0 = z)), centroidPointCartesian(x0, y0, z0);
     }
     function constant$8(x) {
@@ -4679,6 +4872,7 @@
             return coordinates = rotate.invert(coordinates[0] * radians$1, coordinates[1] * radians$1), coordinates[0] *= degrees$2, coordinates[1] *= degrees$2, coordinates;
         }, forward;
     }
+    // Generates a circle centered at [0°, 0°], with a given radius and precision.
     function circleStream(stream, radius, delta, direction, t0, t1) {
         if (delta) {
             var cosRadius = cos$1(radius), sinRadius = sin$1(radius), step = direction * delta;
@@ -4690,6 +4884,7 @@
             ]), stream.point(point[0], point[1]);
         }
     }
+    // Returns the signed angle of a cartesian point relative to [cosRadius, 0, 0].
     function circleRadius(cosRadius, point) {
         point = cartesian(point), point[0] -= cosRadius, cartesianNormalizeInPlace(point);
         var radius = acos(-point[1]);
@@ -4724,6 +4919,9 @@
     function Intersection(point, points, other, entry) {
         this.x = point, this.z = points, this.o = other, this.e = entry, this.v = !1, this.n = this.p = null;
     }
+    // A generalized polygon clipping algorithm: given a polygon that has been cut
+    // into its visible line segments, and rejoins the segments by interpolating
+    // along the clip edge.
     function clipRejoin(segments, compareIntersection, startInside, interpolate, stream) {
         var i, n, subject = [], clip = [];
         if (segments.forEach(function(segment) {
@@ -4735,6 +4933,7 @@
                         stream.lineEnd();
                         return;
                     }
+                    // handle degenerate cases by moving the point
                     p1[0] += 0.000002;
                 }
                 subject.push(x = new Intersection(p0, segment, null, !0)), clip.push(x.o = new Intersection(p0, null, x, !1)), subject.push(x = new Intersection(p1, segment, null, !1)), clip.push(x.o = new Intersection(p1, null, x, !0));
@@ -4742,7 +4941,8 @@
         }), subject.length) {
             for(clip.sort(compareIntersection), link$1(subject), link$1(clip), i = 0, n = clip.length; i < n; ++i)clip[i].e = startInside = !startInside;
             for(var points, point, start = subject[0];;){
-                for(var current = start, isSubject = !0; current.v;)if ((current = current.n) === start) return;
+                for(// Find first unvisited intersection.
+                var current = start, isSubject = !0; current.v;)if ((current = current.n) === start) return;
                 points = current.z, stream.lineStart();
                 do {
                     if (current.v = current.o.v = !0, current.e) {
@@ -4778,6 +4978,8 @@
         1 === sinPhi ? phi = halfPi$2 + 1e-6 : -1 === sinPhi && (phi = -halfPi$2 - 1e-6);
         for(var i = 0, n = polygon.length; i < n; ++i)if (m = (ring = polygon[i]).length) for(var ring, m, point0 = ring[m - 1], lambda0 = longitude(point0), phi0 = point0[1] / 2 + quarterPi, sinPhi0 = sin$1(phi0), cosPhi0 = cos$1(phi0), j = 0; j < m; ++j, lambda0 = lambda1, sinPhi0 = sinPhi1, cosPhi0 = cosPhi1, point0 = point1){
             var point1 = ring[j], lambda1 = longitude(point1), phi1 = point1[1] / 2 + quarterPi, sinPhi1 = sin$1(phi1), cosPhi1 = cos$1(phi1), delta = lambda1 - lambda0, sign = delta >= 0 ? 1 : -1, absDelta = sign * delta, antimeridian = absDelta > pi$3, k = sinPhi0 * sinPhi1;
+            // Are the longitudes either side of the point’s meridian (lambda),
+            // and are the latitudes smaller than the parallel (phi)?
             if (sum.add(atan2(k * sign * sin$1(absDelta), cosPhi0 * cosPhi1 + k * cos$1(absDelta))), angle += antimeridian ? delta + sign * tau$4 : delta, antimeridian ^ lambda0 >= lambda ^ lambda1 >= lambda) {
                 var arc = cartesianCross(cartesian(point0), cartesian(point1));
                 cartesianNormalizeInPlace(arc);
@@ -4787,6 +4989,16 @@
                 (phi > phiArc || phi === phiArc && (arc[0] || arc[1])) && (winding += antimeridian ^ delta >= 0 ? 1 : -1);
             }
         }
+        // First, determine whether the South pole is inside or outside:
+        //
+        // It is inside if:
+        // * the polygon winds around it in a clockwise direction.
+        // * the polygon does not (cumulatively) wind around it, but has a negative
+        //   (counter-clockwise) area.
+        //
+        // Second, count the (signed) number of times a segment crosses a lambda
+        // from the point to the South pole.  If it is zero, then the point is the
+        // same side as the South pole.
         return (angle < -0.000001 || angle < 1e-6 && sum < -0.000000000001) ^ 1 & winding;
     }
     function clip(pointVisible, clipLine, interpolate, start) {
@@ -4832,6 +5044,7 @@
                 pointRing(ring[0][0], ring[0][1]), ringSink.lineEnd();
                 var i, m, segment, point, clean = ringSink.clean(), ringSegments = ringBuffer.result(), n = ringSegments.length;
                 if (ring.pop(), polygon.push(ring), ring = null, n) {
+                    // No intersections.
                     if (1 & clean) {
                         if ((m = (segment = ringSegments[0]).length - 1) > 0) {
                             for(polygonStarted || (sink.polygonStart(), polygonStarted = !0), sink.lineStart(), i = 0; i < m; ++i)sink.point((point = segment[i])[0], point[1]);
@@ -4848,14 +5061,19 @@
     function validSegment(segment) {
         return segment.length > 1;
     }
+    // Intersections are sorted along the clip edge. For both antimeridian cutting
+    // and circle clipping, the same comparison is used.
     function compareIntersection(a, b) {
         return ((a = a.x)[0] < 0 ? a[1] - halfPi$2 - 1e-6 : halfPi$2 - a[1]) - ((b = b.x)[0] < 0 ? b[1] - halfPi$2 - 1e-6 : halfPi$2 - b[1]);
     }
     rotationIdentity.invert = rotationIdentity;
     var clipAntimeridian = clip(function() {
         return !0;
-    }, function(stream) {
-        var clean, lambda0 = NaN, phi0 = NaN, sign0 = NaN;
+    }, // Takes a line and cuts into visible segments. Return values: 0 - there were
+    // intersections or the line was empty; 1 - no intersections; 2 - there were
+    // intersections, and the first and last segments should be rejoined.
+    function(stream) {
+        var clean, lambda0 = NaN, phi0 = NaN, sign0 = NaN; // no intersections
         return {
             lineStart: function() {
                 stream.lineStart(), clean = 1;
@@ -4868,7 +5086,7 @@
                 stream.lineEnd(), lambda0 = phi0 = NaN;
             },
             clean: function() {
-                return 2 - clean;
+                return 2 - clean; // if intersections, rejoin first and last segments
             }
         };
     }, function(from, to, direction, stream) {
@@ -4883,26 +5101,31 @@
         -halfPi$2
     ]);
     function clipCircle(radius) {
-        var cr = cos$1(radius), delta = 6 * radians$1, smallRadius = cr > 0, notHemisphere = abs$2(cr) > 1e-6;
+        var cr = cos$1(radius), delta = 6 * radians$1, smallRadius = cr > 0, notHemisphere = abs$2(cr) > 1e-6; // TODO optimise for this common case
         function visible(lambda, phi) {
             return cos$1(lambda) * cos$1(phi) > cr;
         }
+        // Intersects the great circle between a and b with the clip circle.
         function intersect(a, b, two) {
             var pa = cartesian(a), pb = cartesian(b), n1 = [
                 1,
                 0,
                 0
             ], n2 = cartesianCross(pa, pb), n2n2 = cartesianDot(n2, n2), n1n2 = n2[0], determinant = n2n2 - n1n2 * n1n2;
+            // Two polar points.
             if (!determinant) return !two && a;
             var n1xn2 = cartesianCross(n1, n2), A = cartesianScale(n1, cr * n2n2 / determinant);
             cartesianAddInPlace(A, cartesianScale(n2, -cr * n1n2 / determinant));
+            // Solve |p(t)|^2 = 1.
             var w = cartesianDot(A, n1xn2), uu = cartesianDot(n1xn2, n1xn2), t2 = w * w - uu * (cartesianDot(A, A) - 1);
             if (!(t2 < 0)) {
                 var t = sqrt(t2), q = cartesianScale(n1xn2, (-w - t) / uu);
                 if (cartesianAddInPlace(q, A), q = spherical(q), !two) return q;
+                // Two intersection points.
                 var z, lambda0 = a[0], lambda1 = b[0], phi0 = a[1], phi1 = b[1];
                 lambda1 < lambda0 && (z = lambda0, lambda0 = lambda1, lambda1 = z);
                 var delta = lambda1 - lambda0, polar = 1e-6 > abs$2(delta - pi$3);
+                // Check that the first point is between a and b.
                 if (!polar && phi1 < phi0 && (z = phi0, phi0 = phi1, phi1 = z), polar || delta < 1e-6 ? polar ? phi0 + phi1 > 0 ^ q[1] < (1e-6 > abs$2(q[0] - lambda0) ? phi0 : phi1) : phi0 <= q[1] && q[1] <= phi1 : delta > pi$3 ^ (lambda0 <= q[0] && q[0] <= lambda1)) {
                     var q1 = cartesianScale(n1xn2, (-w + t) / uu);
                     return cartesianAddInPlace(q1, A), [
@@ -4912,12 +5135,18 @@
                 }
             }
         }
+        // Generates a 4-bit vector representing the location of a point relative to
+        // the small circle's bounding box.
         function code(lambda, phi) {
             var r = smallRadius ? radius : pi$3 - radius, code = 0;
             return lambda < -r ? code |= 1 : lambda > r && (code |= 2), phi < -r ? code |= 4 : phi > r && (code |= 8), code;
         }
-        return clip(visible, function(stream) {
-            var point0, c0, v0, v00, clean;
+        return clip(visible, // Takes a line and cuts into visible segments. Return values used for polygon
+        // clipping: 0 - there were intersections or the line was empty; 1 - no
+        // intersections 2 - there were intersections, and the first and last segments
+        // should be rejoined.
+        function(stream) {
+            var point0, c0, v0, v00, clean; // no intersections
             return {
                 lineStart: function() {
                     v00 = v0 = !1, clean = 1;
@@ -4927,11 +5156,15 @@
                         lambda,
                         phi
                     ], v = visible(lambda, phi), c = smallRadius ? v ? 0 : code(lambda, phi) : v ? code(lambda + (lambda < 0 ? pi$3 : -pi$3), phi) : 0;
-                    !point0 && (v00 = v0 = v) && stream.lineStart(), v !== v0 && (!(point2 = intersect(point0, point1)) || pointEqual(point0, point2) || pointEqual(point1, point2)) && (point1[2] = 1), v !== v0 ? (clean = 0, v ? (stream.lineStart(), point2 = intersect(point1, point0), stream.point(point2[0], point2[1])) : (point2 = intersect(point0, point1), stream.point(point2[0], point2[1], 2), stream.lineEnd()), point0 = point2) : notHemisphere && point0 && smallRadius ^ v && !(c & c0) && (t = intersect(point1, point0, !0)) && (clean = 0, smallRadius ? (stream.lineStart(), stream.point(t[0][0], t[0][1]), stream.point(t[1][0], t[1][1]), stream.lineEnd()) : (stream.point(t[1][0], t[1][1]), stream.lineEnd(), stream.lineStart(), stream.point(t[0][0], t[0][1], 3))), !v || point0 && pointEqual(point0, point1) || stream.point(point1[0], point1[1]), point0 = point1, v0 = v, c0 = c;
+                    !point0 && (v00 = v0 = v) && stream.lineStart(), v !== v0 && (!(point2 = intersect(point0, point1)) || pointEqual(point0, point2) || pointEqual(point1, point2)) && (point1[2] = 1), v !== v0 ? (clean = 0, v ? (// outside going in
+                    stream.lineStart(), point2 = intersect(point1, point0), stream.point(point2[0], point2[1])) : (// inside going out
+                    point2 = intersect(point0, point1), stream.point(point2[0], point2[1], 2), stream.lineEnd()), point0 = point2) : notHemisphere && point0 && smallRadius ^ v && !(c & c0) && (t = intersect(point1, point0, !0)) && (clean = 0, smallRadius ? (stream.lineStart(), stream.point(t[0][0], t[0][1]), stream.point(t[1][0], t[1][1]), stream.lineEnd()) : (stream.point(t[1][0], t[1][1]), stream.lineEnd(), stream.lineStart(), stream.point(t[0][0], t[0][1], 3))), !v || point0 && pointEqual(point0, point1) || stream.point(point1[0], point1[1]), point0 = point1, v0 = v, c0 = c;
                 },
                 lineEnd: function() {
                     v0 && stream.lineEnd(), point0 = null;
                 },
+                // Rejoin first and last segments if there were intersections and the first
+                // and last points were visible.
                 clean: function() {
                     return clean | (v00 && v0) << 1;
                 }
@@ -4946,6 +5179,8 @@
             radius - pi$3
         ]);
     }
+    // TODO Use d3-polygon’s polygonContains here for the ring check?
+    // TODO Eliminate duplicate buffering in clipBuffer and polygon.push?
     function clipRectangle(x0, y0, x1, y1) {
         function visible(x, y) {
             return x0 <= x && x <= x1 && y0 <= y && y <= y1;
@@ -4957,7 +5192,7 @@
             else stream.point(to[0], to[1]);
         }
         function corner(p, direction) {
-            return 1e-6 > abs$2(p[0] - x0) ? direction > 0 ? 0 : 3 : 1e-6 > abs$2(p[0] - x1) ? direction > 0 ? 2 : 1 : 1e-6 > abs$2(p[1] - y0) ? direction > 0 ? 1 : 0 : direction > 0 ? 3 : 2;
+            return 1e-6 > abs$2(p[0] - x0) ? direction > 0 ? 0 : 3 : 1e-6 > abs$2(p[0] - x1) ? direction > 0 ? 2 : 1 : 1e-6 > abs$2(p[1] - y0) ? direction > 0 ? 1 : 0 : direction > 0 ? 3 : 2; // abs(p[1] - y1) < epsilon
         }
         function compareIntersection(a, b) {
             return comparePoint(a.x, b.x);
@@ -4972,10 +5207,14 @@
                 lineStart: function() {
                     clipStream.point = linePoint, polygon && polygon.push(ring = []), first = !0, v_ = !1, x_ = y_ = NaN;
                 },
-                lineEnd: function() {
+                lineEnd: // TODO rather than special-case polygons, simply handle them separately.
+                // Ideally, coincident intersection points should be jittered to avoid
+                // clipping issues.
+                function() {
                     segments && (linePoint(x__, y__), v__ && v_ && bufferStream.rejoin(), segments.push(bufferStream.result())), clipStream.point = point, v_ && activeStream.lineEnd();
                 },
-                polygonStart: function() {
+                polygonStart: // Buffer geometry within a polygon and then clip it en masse.
+                function() {
                     activeStream = bufferStream, segments = [], polygon = [], clean = !0;
                 },
                 polygonEnd: function() {
@@ -5529,14 +5768,16 @@
             this.stream.polygonEnd();
         }
     };
-    var cosMinDistance = cos$1(30 * radians$1);
+    var cosMinDistance = cos$1(30 * radians$1); // cos(minimum angular distance)
     function resample(project, delta2) {
         return +delta2 ? function(project, delta2) {
             function resampleLineTo(x0, y0, lambda0, a0, b0, c0, x1, y1, lambda1, a1, b1, c1, depth, stream) {
                 var dx = x1 - x0, dy = y1 - y0, d2 = dx * dx + dy * dy;
                 if (d2 > 4 * delta2 && depth--) {
                     var a = a0 + a1, b = b0 + b1, c = c0 + c1, m = sqrt(a * a + b * b + c * c), phi2 = asin(c /= m), lambda2 = 1e-6 > abs$2(abs$2(c) - 1) || 1e-6 > abs$2(lambda0 - lambda1) ? (lambda0 + lambda1) / 2 : atan2(b, a), p = project(lambda2, phi2), x2 = p[0], y2 = p[1], dx2 = x2 - x0, dy2 = y2 - y0, dz = dy * dx2 - dx * dy2;
-                    (dz * dz / d2 > delta2 || abs$2((dx * dx2 + dy * dy2) / d2 - 0.5) > 0.3 || a0 * a1 + b0 * b1 + c0 * c1 < cosMinDistance) && (resampleLineTo(x0, y0, lambda0, a0, b0, c0, x2, y2, lambda2, a /= m, b /= m, c, depth, stream), stream.point(x2, y2), resampleLineTo(x2, y2, lambda2, a, b, c, x1, y1, lambda1, a1, b1, c1, depth, stream));
+                    (dz * dz / d2 > delta2 // perpendicular projected distance
+                     || abs$2((dx * dx2 + dy * dy2) / d2 - 0.5) > 0.3 // midpoint close to an end
+                     || a0 * a1 + b0 * b1 + c0 * c1 < cosMinDistance) && (resampleLineTo(x0, y0, lambda0, a0, b0, c0, x2, y2, lambda2, a /= m, b /= m, c, depth, stream), stream.point(x2, y2), resampleLineTo(x2, y2, lambda2, a, b, c, x1, y1, lambda1, a1, b1, c1, depth, stream));
                 }
             }
             return function(stream) {
@@ -5715,6 +5956,7 @@
     }
     function conicEqualAreaRaw(y0, y1) {
         var sy0 = sin$1(y0), n = (sy0 + sin$1(y1)) / 2;
+        // Are the parallels symmetrical around the Equator?
         if (1e-6 > abs$2(n)) return function(phi0) {
             var cosPhi0 = cos$1(phi0);
             function forward(lambda, phi) {
@@ -5804,7 +6046,7 @@
         ];
     }
     function mercatorProjection(project) {
-        var y0, x1, y1, m = projection(project), center = m.center, scale = m.scale, translate = m.translate, clipExtent = m.clipExtent, x0 = null;
+        var y0, x1, y1, m = projection(project), center = m.center, scale = m.scale, translate = m.translate, clipExtent = m.clipExtent, x0 = null; // clip extent
         function reclip() {
             var k = pi$3 * scale(), t = m(rotation(m.rotate()).invert([
                 0,
@@ -6018,15 +6260,18 @@
             if (enclosesWeakAll(p, B)) return [
                 p
             ];
+            // If we get here then B must have at least one element.
             for(i = 0; i < B.length; ++i)if (enclosesNot(p, B[i]) && enclosesWeakAll(encloseBasis2(B[i], p), B)) return [
                 B[i],
                 p
             ];
+            // If we get here then B must have at least two elements.
             for(i = 0; i < B.length - 1; ++i)for(j = i + 1; j < B.length; ++j)if (enclosesNot(encloseBasis2(B[i], B[j]), p) && enclosesNot(encloseBasis2(B[i], p), B[j]) && enclosesNot(encloseBasis2(B[j], p), B[i]) && enclosesWeakAll(encloseBasis3(B[i], B[j], p), B)) return [
                 B[i],
                 B[j],
                 p
             ];
+            // If we get here then something is very wrong.
             throw Error();
         }(B, p)), i = 0);
         return e;
@@ -6076,12 +6321,21 @@
     }
     function packEnclose(circles) {
         var a, b, c, n, aa, ca, i, j, k, sj, sk, x;
-        if (!(n = (circles = "object" == typeof (x = circles) && "length" in x ? x : Array.from(x)).length)) return 0;
-        if ((a = circles[0]).x = 0, a.y = 0, !(n > 1)) return a.r;
-        if (b = circles[1], a.x = -b.r, b.x = a.r, b.y = 0, !(n > 2)) return a.r + b.r;
-        place(b, a, c = circles[2]), a = new Node$1(a), b = new Node$1(b), c = new Node$1(c), a.next = c.previous = b, b.next = a.previous = c, c.next = b.previous = a;
+        if (!(n = (circles = "object" == typeof (x = circles) && "length" in x ? x // Array, TypedArray, NodeList, array-like
+         : Array.from(x)).length)) return 0;
+        if (// Place the first circle.
+        (a = circles[0]).x = 0, a.y = 0, !(n > 1)) return a.r;
+        if (// Place the second circle.
+        b = circles[1], a.x = -b.r, b.x = a.r, b.y = 0, !(n > 2)) return a.r + b.r;
+        // Place the third circle.
+        place(b, a, c = circles[2]), // Initialize the front-chain using the first three circles a, b and c.
+        a = new Node$1(a), b = new Node$1(b), c = new Node$1(c), a.next = c.previous = b, b.next = a.previous = c, c.next = b.previous = a;
+        // Attempt to place each remaining circle…
         pack: for(i = 3; i < n; ++i){
-            place(a._, b._, c = circles[i]), c = new Node$1(c), j = b.next, k = a.previous, sj = b._.r, sk = a._.r;
+            place(a._, b._, c = circles[i]), c = new Node$1(c), // Find the closest intersecting circle on the front-chain, if any.
+            // “Closeness” is determined by linear distance along the front-chain.
+            // “Ahead” or “behind” is likewise determined by linear distance.
+            j = b.next, k = a.previous, sj = b._.r, sk = a._.r;
             do if (sj <= sk) {
                 if (intersects(j._, c._)) {
                     b = j, a.next = b, b.previous = a, --i;
@@ -6096,12 +6350,16 @@
                 sk += k._.r, k = k.previous;
             }
             while (j !== k.next)
-            for(c.previous = a, c.next = b, a.next = b.previous = b = c, aa = score(a); (c = c.next) !== b;)(ca = score(c)) < aa && (a = c, aa = ca);
+            for(// Success! Insert the new circle c between a and b.
+            c.previous = a, c.next = b, a.next = b.previous = b = c, // Compute the new closest circle pair to the centroid.
+            aa = score(a); (c = c.next) !== b;)(ca = score(c)) < aa && (a = c, aa = ca);
             b = a.next;
         }
-        for(a = [
+        for(// Compute the enclosing circle of the front chain.
+        a = [
             b._
         ], c = b; (c = c.next) !== b;)a.push(c._);
+        // Translate the circles to put the enclosing circle around the origin.
         for(i = 0, c = enclose(a); i < n; ++i)a = circles[i], a.x -= c.x, a.y -= c.y;
         return c.r;
     }
@@ -6267,10 +6525,18 @@
     function defaultSeparation$1(a, b) {
         return a.parent === b.parent ? 1 : 2;
     }
+    // function radialSeparation(a, b) {
+    //   return (a.parent === b.parent ? 1 : 2) / a.depth;
+    // }
+    // This function is used to traverse the left contour of a subtree (or
+    // subforest). It returns the successor of v on this contour. This successor is
+    // either given by the leftmost child of v or by the thread of v. The function
+    // returns null if and only if v is on the highest level of its subtree.
     function nextLeft(v) {
         var children = v.children;
         return children ? children[0] : v.t;
     }
+    // This function works analogously to nextLeft.
     function nextRight(v) {
         var children = v.children;
         return children ? children[children.length - 1] : v.t;
@@ -6286,8 +6552,10 @@
     function squarifyRatio(ratio, parent, x0, y0, x1, y1) {
         for(var row, nodeValue, dx, dy, sumValue, minValue, maxValue, newRatio, minRatio, alpha, beta, rows = [], nodes = parent.children, i0 = 0, i1 = 0, n = nodes.length, value = parent.value; i0 < n;){
             dx = x1 - x0, dy = y1 - y0;
+            // Find the next non-empty node.
             do sumValue = nodes[i1++].value;
             while (!sumValue && i1 < n)
+            // Keep adding nodes while the aspect ratio maintains or improves.
             for(minValue = maxValue = sumValue, minRatio = Math.max(maxValue / (beta = sumValue * sumValue * (alpha = Math.max(dy / dx, dx / dy) / (value * ratio))), beta / minValue); i1 < n; ++i1){
                 if (sumValue += nodeValue = nodes[i1].value, nodeValue < minValue && (minValue = nodeValue), nodeValue > maxValue && (maxValue = nodeValue), (newRatio = Math.max(maxValue / (beta = sumValue * sumValue * alpha), beta / minValue)) > minRatio) {
                     sumValue -= nodeValue;
@@ -6295,6 +6563,7 @@
                 }
                 minRatio = newRatio;
             }
+            // Position and record the row orientation.
             rows.push(row = {
                 value: sumValue,
                 dice: dx < dy,
@@ -6325,6 +6594,9 @@
     function lexicographicOrder(a, b) {
         return a[0] - b[0] || a[1] - b[1];
     }
+    // Computes the upper convex hull per the monotone chain algorithm.
+    // Assumes points.length >= 3, is sorted by x, unique in y.
+    // Returns an array of indices into points in left-to-right order.
     function computeUpperHullIndexes(points) {
         const n = points.length, indexes = [
             0,
@@ -6335,7 +6607,7 @@
             for(var a, b, c; size > 1 && 0 >= (a = points[indexes[size - 2]], b = points[indexes[size - 1]], c = points[i], (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]));)--size;
             indexes[size++] = i;
         }
-        return indexes.slice(0, size);
+        return indexes.slice(0, size); // remove popped points
     }
     var defaultSource$1 = Math.random, uniform = function sourceRandomUniform(source) {
         function randomUniform(min, max) {
@@ -6356,6 +6628,7 @@
             var x, r;
             return mu = null == mu ? 0 : +mu, sigma = null == sigma ? 1 : +sigma, function() {
                 var y;
+                // If available, use the second previously-generated uniform random.
                 if (null != x) y = x, x = null;
                 else do x = 2 * source() - 1, y = 2 * source() - 1, r = x * x + y * y;
                 while (!r || r > 1)
@@ -6383,6 +6656,7 @@
     }(defaultSource$1), bates = function sourceRandomBates(source) {
         var I = irwinHall.source(source);
         function randomBates(n) {
+            // use limiting distribution at n === 0
             if (0 == (n = +n)) return source;
             var randomIrwinHall = I(n);
             return function() {
@@ -6425,7 +6699,9 @@
         var randomNormal = normal.source(source)();
         function randomGamma(k, theta) {
             if ((k = +k) < 0) throw RangeError("invalid k");
+            // degenerate distribution if k === 0
             if (0 === k) return ()=>0;
+            // exponential distribution if k === 1
             if (theta = null == theta ? 1 : +theta, 1 === k) return ()=>-Math.log1p(-source()) * theta;
             var d = (k < 1 ? k + 1 : k) - 1 / 3, c = 1 / (3 * Math.sqrt(d)), multiplier = k < 1 ? ()=>Math.pow(source(), 1 / k) : ()=>1;
             return function() {
@@ -6609,6 +6885,8 @@
             return x;
         });
     }
+    // normalize(a, b)(x) takes a domain value x in [a,b] and returns the corresponding parameter t in [0,1].
+    // interpolate(a, b)(t) takes a parameter t in [0,1] and returns the corresponding range value x in [a,b].
     function bimap(domain, range, interpolate) {
         var d0 = domain[0], d1 = domain[1], r0 = range[0], r1 = range[1];
         return d1 < d0 ? (d0 = normalize(d1, d0), r0 = interpolate(r1, r0)) : (d0 = normalize(d0, d1), r0 = interpolate(r0, r1)), function(x) {
@@ -6757,7 +7035,7 @@
         }, scale.tickFormat = function(count, specifier) {
             if (null == specifier && (specifier = 10 === base ? ".0e" : ","), "function" != typeof specifier && (specifier = exports1.format(specifier)), count === 1 / 0) return specifier;
             null == count && (count = 10);
-            var k = Math.max(1, base * count / scale.ticks().length);
+            var k = Math.max(1, base * count / scale.ticks().length); // TODO fast estimate?
             return function(d) {
                 var i = d / pows(Math.round(logs(d)));
                 return i * base < base - 0.5 && (i *= base), i <= k ? specifier(d) : "";
@@ -6831,7 +7109,7 @@
             return offseti(date = new Date(+date), null == step ? 1 : Math.floor(step)), date;
         }, interval.range = function(start, stop, step) {
             var previous, range = [];
-            if (start = interval.ceil(start), step = null == step ? 1 : Math.floor(step), !(start < stop) || !(step > 0)) return range;
+            if (start = interval.ceil(start), step = null == step ? 1 : Math.floor(step), !(start < stop) || !(step > 0)) return range; // also handles Invalid Date
             do range.push(previous = new Date(+start)), offseti(start, step), floori(start);
             while (previous < start && start < stop)
             return range;
@@ -6841,7 +7119,9 @@
             }, function(date, step) {
                 if (date >= date) {
                     if (step < 0) for(; ++step <= 0;)for(; offseti(date, -1), !test(date););
+                     // eslint-disable-line no-empty
                     else for(; --step >= 0;)for(; offseti(date, 1), !test(date););
+                     // eslint-disable-line no-empty
                 }
             });
         }, count && (interval.count = function(start, end) {
@@ -6854,11 +7134,14 @@
             }) : interval : null;
         }), interval;
     }
-    var millisecond = newInterval(function() {}, function(date, step) {
+    var millisecond = newInterval(function() {
+    // noop
+    }, function(date, step) {
         date.setTime(+date + step);
     }, function(start, end) {
         return end - start;
     });
+    // An optimized implementation for this simple case.
     millisecond.every = function(k) {
         return isFinite(k = Math.floor(k)) && k > 0 ? k > 1 ? newInterval(function(date) {
             date.setTime(Math.floor(date / k) * k);
@@ -6919,6 +7202,7 @@
     }, function(date) {
         return date.getFullYear();
     });
+    // An optimized implementation for this simple case.
     year.every = function(k) {
         return isFinite(k = Math.floor(k)) && k > 0 ? newInterval(function(date) {
             date.setFullYear(Math.floor(date.getFullYear() / k) * k), date.setMonth(0, 1), date.setHours(0, 0, 0, 0);
@@ -6977,6 +7261,7 @@
     }, function(date) {
         return date.getUTCFullYear();
     });
+    // An optimized implementation for this simple case.
     utcYear.every = function(k) {
         return isFinite(k = Math.floor(k)) && k > 0 ? newInterval(function(date) {
             date.setUTCFullYear(Math.floor(date.getUTCFullYear() / k) * k), date.setUTCMonth(0, 1), date.setUTCHours(0, 0, 0, 0);
@@ -7167,13 +7452,17 @@
             return function(string) {
                 var week, day$1, d = newDate(1900, void 0, 1);
                 if (parseSpecifier(d, specifier, string += "", 0) != string.length) return null;
+                // If a UNIX timestamp is specified, return it.
                 if ("Q" in d) return new Date(d.Q);
                 if ("s" in d) return new Date(1000 * d.s + ("L" in d ? d.L : 0));
+                // Convert day-of-week and week-of-year to day-of-year.
                 if (!Z || "Z" in d || (d.Z = 0), "p" in d && (d.H = d.H % 12 + 12 * d.p), void 0 === d.m && (d.m = "q" in d ? d.q : 0), "V" in d) {
                     if (d.V < 1 || d.V > 53) return null;
                     "w" in d || (d.w = 1), "Z" in d ? (week = (day$1 = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day$1 ? utcMonday.ceil(week) : utcMonday(week), week = utcDay.offset(week, (d.V - 1) * 7), d.y = week.getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day$1 = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day$1 ? monday.ceil(week) : monday(week), week = day.offset(week, (d.V - 1) * 7), d.y = week.getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
                 } else ("W" in d || "U" in d) && ("w" in d || (d.w = "u" in d ? d.u % 7 : "W" in d ? 1 : 0), day$1 = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day$1 + 5) % 7 : d.w + 7 * d.U - (day$1 + 6) % 7);
-                return "Z" in d ? (d.H += d.Z / 100 | 0, d.M += d.Z % 100, utcDate(d)) : localDate(d);
+                return(// If a time zone is specified, all fields are interpreted as UTC and then
+                // offset according to the specified time zone.
+                "Z" in d ? (d.H += d.Z / 100 | 0, d.M += d.Z % 100, utcDate(d)) : localDate(d));
             };
         }
         function parseSpecifier(d, specifier, string, j) {
@@ -7185,7 +7474,8 @@
             }
             return j;
         }
-        return formats.x = newFormat(locale_date, formats), formats.X = newFormat(locale_time, formats), formats.c = newFormat(locale_dateTime, formats), utcFormats.x = newFormat(locale_date, utcFormats), utcFormats.X = newFormat(locale_time, utcFormats), utcFormats.c = newFormat(locale_dateTime, utcFormats), {
+        return(// These recursive directive definitions must be deferred.
+        formats.x = newFormat(locale_date, formats), formats.X = newFormat(locale_time, formats), formats.c = newFormat(locale_dateTime, formats), utcFormats.x = newFormat(locale_date, utcFormats), utcFormats.X = newFormat(locale_time, utcFormats), utcFormats.c = newFormat(locale_dateTime, utcFormats), {
             format: function(specifier) {
                 var f = newFormat(specifier += "", formats);
                 return f.toString = function() {
@@ -7210,7 +7500,7 @@
                     return specifier;
                 }, p;
             }
-        };
+        });
     }
     var pads = {
         "-": "",
@@ -7616,6 +7906,9 @@
             return (second(date) < date ? formatMillisecond : minute(date) < date ? formatSecond : hour(date) < date ? formatMinute : day(date) < date ? formatHour : month(date) < date ? week(date) < date ? formatDay : formatWeek : year(date) < date ? formatMonth : formatYear)(date);
         }
         function tickInterval(interval, start, stop) {
+            // If a desired tick count is specified, pick a reasonable tick interval
+            // based on the extent of the domain and a rough estimate of tick size.
+            // Otherwise, assume interval is already a time interval and use it.
             if (null == interval && (interval = 10), "number" == typeof interval) {
                 var step, target = Math.abs(stop - start) / interval, i = bisector(function(i) {
                     return i[2];
@@ -7861,8 +8154,10 @@
         return d.endAngle;
     }
     function arcPadAngle(d) {
-        return d && d.padAngle;
+        return d && d.padAngle; // Note: optional!
     }
+    // Compute perpendicular offset line of length rc.
+    // http://mathworld.wolfram.com/Circle-LineIntersection.html
     function cornerTangents(x0, y0, x1, y1, r1, rc, cw) {
         var x01 = x0 - x1, y01 = y0 - y1, lo = (cw ? rc : -rc) / sqrt$2(x01 * x01 + y01 * y01), ox = lo * y01, oy = -lo * x01, x11 = x0 + ox, y11 = y0 + oy, x10 = x1 + ox, y10 = y1 + oy, x00 = (x11 + x10) / 2, y00 = (y11 + y10) / 2, dx = x10 - x11, dy = y10 - y11, d2 = dx * dx + dy * dy, r = r1 - rc, D = x11 * y10 - x10 * y11, d = (dy < 0 ? -1 : 1) * sqrt$2(max$3(0, r * r * d2 - D * D)), cx0 = (D * dy - dx * d) / d2, cy0 = (-D * dx - dy * d) / d2, cx1 = (D * dy + dx * d) / d2, cy1 = (-D * dx + dy * d) / d2, dx0 = cx0 - x00, dy0 = cy0 - y00, dx1 = cx1 - x00, dy1 = cy1 - y00;
         return dx0 * dx0 + dy0 * dy0 > dx1 * dx1 + dy1 * dy1 && (cx0 = cx1, cy0 = cy1), {
@@ -7876,7 +8171,8 @@
     }
     var slice$4 = Array.prototype.slice;
     function array$5(x) {
-        return "object" == typeof x && "length" in x ? x : Array.from(x);
+        return "object" == typeof x && "length" in x ? x // Array, TypedArray, NodeList, array-like
+         : Array.from(x); // Map, Set, iterable, string, or anything else
     }
     function Linear(context) {
         this._context = context;
@@ -7979,7 +8275,7 @@
                     this._point = 1, this._line ? this._context.lineTo(x, y) : this._context.moveTo(x, y);
                     break;
                 case 1:
-                    this._point = 2;
+                    this._point = 2; // proceed
                 default:
                     this._context.lineTo(x, y);
             }
@@ -8153,7 +8449,7 @@
         lineEnd: function() {
             switch(this._point){
                 case 3:
-                    point$1(this, this._x1, this._y1);
+                    point$1(this, this._x1, this._y1); // proceed
                 case 2:
                     this._context.lineTo(this._x1, this._y1);
             }
@@ -8235,7 +8531,7 @@
                     this._line ? this._context.lineTo(x0, y0) : this._context.moveTo(x0, y0);
                     break;
                 case 3:
-                    this._point = 4;
+                    this._point = 4; // proceed
                 default:
                     point$1(this, x, y);
             }
@@ -8297,7 +8593,7 @@
                     this._point = 2, this._x1 = x, this._y1 = y;
                     break;
                 case 2:
-                    this._point = 3;
+                    this._point = 3; // proceed
                 default:
                     point$2(this, x, y);
             }
@@ -8386,7 +8682,7 @@
                     this._point = 3, this._line ? this._context.lineTo(this._x2, this._y2) : this._context.moveTo(this._x2, this._y2);
                     break;
                 case 3:
-                    this._point = 4;
+                    this._point = 4; // proceed
                 default:
                     point$2(this, x, y);
             }
@@ -8449,7 +8745,7 @@
                     this._point = 2;
                     break;
                 case 2:
-                    this._point = 3;
+                    this._point = 3; // proceed
                 default:
                     point$3(this, x, y);
             }
@@ -8546,7 +8842,7 @@
                     this._point = 3, this._line ? this._context.lineTo(this._x2, this._y2) : this._context.moveTo(this._x2, this._y2);
                     break;
                 case 3:
-                    this._point = 4;
+                    this._point = 4; // proceed
                 default:
                     point$3(this, x, y);
             }
@@ -8564,14 +8860,22 @@
     function LinearClosed(context) {
         this._context = context;
     }
+    // Calculate the slopes of the tangents (Hermite-type interpolation) based on
+    // the following paper: Steffen, M. 1990. A Simple Method for Monotonic
+    // Interpolation in One Dimension. Astronomy and Astrophysics, Vol. 239, NO.
+    // NOV(II), P. 443, 1990.
     function slope3(that, x2, y2) {
         var h0 = that._x1 - that._x0, h1 = x2 - that._x1, s0 = (that._y1 - that._y0) / (h0 || h1 < 0 && -0), s1 = (y2 - that._y1) / (h1 || h0 < 0 && -0);
         return ((s0 < 0 ? -1 : 1) + (s1 < 0 ? -1 : 1)) * Math.min(Math.abs(s0), Math.abs(s1), 0.5 * Math.abs((s0 * h1 + s1 * h0) / (h0 + h1))) || 0;
     }
+    // Calculate a one-sided slope.
     function slope2(that, t) {
         var h = that._x1 - that._x0;
         return h ? (3 * (that._y1 - that._y0) / h - t) / 2 : t;
     }
+    // According to https://en.wikipedia.org/wiki/Cubic_Hermite_spline#Representations
+    // "you can express cubic Hermite interpolation in terms of cubic Bézier curves
+    // with respect to the four values p0, p0 + m0 / 3, p1 - m1 / 3, p1".
     function point$4(that, t0, t1) {
         var x0 = that._x0, y0 = that._y0, x1 = that._x1, y1 = that._y1, dx = (x1 - x0) / 3;
         that._context.bezierCurveTo(x0 + dx, y0 + dx * t0, x1 - dx, y1 - dx * t1, x1, y1);
@@ -8588,6 +8892,7 @@
     function Natural(context) {
         this._context = context;
     }
+    // See https://www.particleincell.com/2012/bezier-splines/ for derivation.
     function controlPoints(x) {
         var i, m, n = x.length - 1, a = Array(n), b = Array(n), r = Array(n);
         for(a[0] = 0, b[0] = 2, r[0] = x[0] + 2 * x[1], i = 1; i < n - 1; ++i)a[i] = 1, b[i] = 4, r[i] = 4 * x[i] + 2 * x[i + 1];
@@ -8685,7 +8990,7 @@
                         point$4(this, this._t0, t1 = slope3(this, x, y));
                 }
                 this._x0 = this._x1, this._x1 = x, this._y0 = this._y1, this._y1 = y, this._t0 = t1;
-            }
+            } // Ignore coincident points.
         }
     }, (MonotoneY.prototype = Object.create(MonotoneX.prototype)).point = function(x, y) {
         MonotoneX.prototype.point.call(this, y, x);
@@ -8742,7 +9047,7 @@
                     this._point = 1, this._line ? this._context.lineTo(x, y) : this._context.moveTo(x, y);
                     break;
                 case 1:
-                    this._point = 2;
+                    this._point = 2; // proceed
                 default:
                     if (this._t <= 0) this._context.lineTo(this._x, y), this._context.lineTo(x, y);
                     else {
@@ -8837,6 +9142,8 @@
     function noevent$2(event) {
         event.preventDefault(), event.stopImmediatePropagation();
     }
+    // Ignore right-click, since that should open the context menu.
+    // except for pinch-to-zoom, which is sent as a wheel+ctrlKey event
     function defaultFilter$2(event) {
         return (!event.ctrlKey || 'wheel' === event.type) && !event.button;
     }
@@ -8898,17 +9205,21 @@
         var innerRadius = arcInnerRadius, outerRadius = arcOuterRadius, cornerRadius = constant$a(0), padRadius = null, startAngle = arcStartAngle, endAngle = arcEndAngle, padAngle = arcPadAngle, context = null;
         function arc() {
             var buffer, r, r0 = +innerRadius.apply(this, arguments), r1 = +outerRadius.apply(this, arguments), a0 = startAngle.apply(this, arguments) - halfPi$3, a1 = endAngle.apply(this, arguments) - halfPi$3, da = abs$3(a1 - a0), cw = a1 > a0;
+            // Is it a point?
             if (context || (context = buffer = path()), r1 < r0 && (r = r1, r1 = r0, r0 = r), r1 > 1e-12) {
                 if (da > tau$5 - 1e-12) context.moveTo(r1 * cos$2(a0), r1 * sin$2(a0)), context.arc(0, 0, r1, a0, a1, !cw), r0 > 1e-12 && (context.moveTo(r0 * cos$2(a1), r0 * sin$2(a1)), context.arc(0, 0, r0, a1, a0, cw));
                 else {
                     var t0, t1, a01 = a0, a11 = a1, a00 = a0, a10 = a1, da0 = da, da1 = da, ap = padAngle.apply(this, arguments) / 2, rp = ap > 1e-12 && (padRadius ? +padRadius.apply(this, arguments) : sqrt$2(r0 * r0 + r1 * r1)), rc = min$2(abs$3(r1 - r0) / 2, +cornerRadius.apply(this, arguments)), rc0 = rc, rc1 = rc;
+                    // Apply padding? Note that since r1 ≥ r0, da1 ≥ da0.
                     if (rp > 1e-12) {
                         var p0 = asin$1(rp / r0 * sin$2(ap)), p1 = asin$1(rp / r1 * sin$2(ap));
                         (da0 -= 2 * p0) > 1e-12 ? (p0 *= cw ? 1 : -1, a00 += p0, a10 -= p0) : (da0 = 0, a00 = a10 = (a0 + a1) / 2), (da1 -= 2 * p1) > 1e-12 ? (p1 *= cw ? 1 : -1, a01 += p1, a11 -= p1) : (da1 = 0, a01 = a11 = (a0 + a1) / 2);
                     }
                     var x01 = r1 * cos$2(a01), y01 = r1 * sin$2(a01), x10 = r0 * cos$2(a10), y10 = r0 * sin$2(a10);
+                    // Apply rounded corners?
                     if (rc > 1e-12) {
                         var oc, x11 = r1 * cos$2(a11), y11 = r1 * sin$2(a11), x00 = r0 * cos$2(a00), y00 = r0 * sin$2(a00);
+                        // Restrict the corner radius according to the sector angle.
                         if (da < pi$4 && (oc = function(x0, y0, x1, y1, x2, y2, x3, y3) {
                             var x10 = x1 - x0, y10 = y1 - y0, x32 = x3 - x2, y32 = y3 - y2, t = y32 * x10 - x32 * y10;
                             if (!(t * t < 1e-12)) return t = (x32 * (y0 - y2) - y32 * (x0 - x2)) / t, [
@@ -8994,6 +9305,7 @@
         var separation = defaultSeparation, dx = 1, dy = 1, nodeSize = !1;
         function cluster(root) {
             var previousNode, x = 0;
+            // First walk, computing the initial x & y values.
             root.eachAfter(function(node) {
                 var children = node.children;
                 children ? (node.x = children.reduce(meanXReduce, 0) / children.length, node.y = 1 + children.reduce(maxYReduce, 0)) : (node.x = previousNode ? x += separation(node, previousNode) : 0, node.y = 0, previousNode = node);
@@ -9005,6 +9317,7 @@
                 for(var children; children = node.children;)node = children[children.length - 1];
                 return node;
             }(root), x0 = left.x - separation(left, right) / 2, x1 = right.x + separation(right, left) / 2;
+            // Second walk, normalizing x & y to the desired size.
             return root.eachAfter(nodeSize ? function(node) {
                 node.x = (node.x - root.x) * dx, node.y = (root.y - node.y) * dy;
             } : function(node) {
@@ -9031,7 +9344,8 @@
             data.forEach(function(d, i, data) {
                 var xi = +x(d, i, data) + o >> k, yi = +y(d, i, data) + o >> k, wi = +weight(d, i, data);
                 xi >= 0 && xi < n && yi >= 0 && yi < m && (values0[xi + yi * n] += wi);
-            }), blurX({
+            }), // TODO Optimize.
+            blurX({
                 width: n,
                 height: m,
                 data: values0
@@ -9081,6 +9395,7 @@
                 data: values0
             }, r >> k);
             var tz = threshold(values0);
+            // Convert number of thresholds into uniform thresholds.
             if (!Array.isArray(tz)) {
                 var stop = max(values0);
                 tz = tickStep(0, stop, tz), (tz = sequence(0, Math.floor(stop / tz) * tz, tz)).shift();
@@ -9099,6 +9414,7 @@
         function transformRing(coordinates) {
             coordinates.forEach(transformPoint);
         }
+        // TODO Optimize.
         function transformPoint(coordinates) {
             coordinates[0] = coordinates[0] * Math.pow(2, k) - o, coordinates[1] = coordinates[1] * Math.pow(2, k) - o;
         }
@@ -9239,7 +9555,7 @@
                         gestures[identifier] = gesture, n = active++;
                         break;
                     case "end":
-                        delete gestures[identifier], --active;
+                        delete gestures[identifier], --active; // nobreak
                     case "drag":
                         p = pointer(touch || event, container), n = active;
                 }
@@ -9414,6 +9730,7 @@
         }
         function accumulate(quad) {
             var q, c, x, y, i, strength = 0, weight = 0;
+            // For internal nodes, accumulate forces from child quadrants.
             if (quad.length) {
                 for(x = y = i = 0; i < 4; ++i)(q = quad[i]) && (c = Math.abs(q.value)) && (strength += q.value, weight += c, x += c * q.x, y += c * q.y);
                 quad.x = x / weight, quad.y = y / weight;
@@ -9427,8 +9744,11 @@
         function apply(quad, x1, _, x2) {
             if (!quad.value) return !0;
             var x = quad.x - node.x, y = quad.y - node.y, w = x2 - x1, l = x * x + y * y;
+            // Apply the Barnes-Hut approximation if possible.
+            // Limit forces for very close nodes; randomize direction if coincident.
             if (w * w / theta2 < l) return l < distanceMax2 && (0 === x && (l += (x = jiggle(random)) * x), 0 === y && (l += (y = jiggle(random)) * y), l < distanceMin2 && (l = Math.sqrt(distanceMin2 * l)), node.vx += x * quad.value * alpha / l, node.vy += y * quad.value * alpha / l), !0;
             if (!quad.length && !(l >= distanceMax2)) {
+                // Limit forces for very close nodes; randomize direction if coincident.
                 (quad.data !== node || quad.next) && (0 === x && (l += (x = jiggle(random)) * x), 0 === y && (l += (y = jiggle(random)) * y), l < distanceMin2 && (l = Math.sqrt(distanceMin2 * l)));
                 do quad.data !== node && (w = strengths[quad.data.index] * alpha / l, node.vx += x * w, node.vy += y * w);
                 while (quad = quad.next)
@@ -9581,7 +9901,12 @@
             for (let value of values)(value = +valueof(value, ++index, values)) && adder.add(value);
         }
         return +adder;
-    }, exports1.geoAlbers = albers, exports1.geoAlbersUsa = function() {
+    }, exports1.geoAlbers = albers, exports1.geoAlbersUsa = // A composite projection for the United States, configured by default for
+    // 960×500. The projection also works quite well at 960×600 if you change the
+    // scale to 1285 and adjust the translate accordingly. The set of standard
+    // parallels for each region comes from USGS, which is published here:
+    // http://egsc.usgs.gov/isb/pubs/MapProjections/projections.html#albers
+    function() {
         var cache, cacheStream, lower48Point, alaskaPoint, hawaiiPoint, point, lower48 = albers(), alaska = conicEqualArea().rotate([
             154,
             0
@@ -9702,10 +10027,14 @@
         return projection(azimuthalEquidistantRaw).scale(79.4188).clipAngle(179.999);
     }, exports1.geoAzimuthalEquidistantRaw = azimuthalEquidistantRaw, exports1.geoBounds = function(feature) {
         var i, n, a, b, merged, deltaMax, delta;
+        // First, sort ranges by their minimum longitudes.
         if (phi1 = lambda1 = -(lambda0$1 = phi0 = 1 / 0), ranges = [], geoStream(feature, boundsStream), n = ranges.length) {
+            // Then, merge any ranges that overlap.
             for(ranges.sort(rangeCompare), i = 1, merged = [
                 a = ranges[0]
             ]; i < n; ++i)rangeContains(a, (b = ranges[i])[0]) || rangeContains(a, b[1]) ? (angle(a[0], b[1]) > angle(a[0], a[1]) && (a[1] = b[1]), angle(b[0], a[1]) > angle(a[0], a[1]) && (a[0] = b[0])) : merged.push(a = b);
+            // Finally, find the largest gap between the merged ranges.
+            // The final bounding box will be the inverse of this gap.
             for(deltaMax = -1 / 0, n = merged.length - 1, i = 0, a = merged[n]; i <= n; a = b, ++i)b = merged[i], (delta = angle(a[1], b[0])) > deltaMax && (deltaMax = delta, lambda0$1 = b[0], lambda1 = a[1]);
         }
         return ranges = range$1 = null, lambda0$1 === 1 / 0 || phi0 === 1 / 0 ? [
@@ -9730,13 +10059,14 @@
     }, exports1.geoCentroid = function(object) {
         W0 = W1 = X0 = Y0 = Z0 = X1 = Y1 = Z1 = 0, X2 = new Adder(), Y2 = new Adder(), Z2 = new Adder(), geoStream(object, centroidStream);
         var x = +X2, y = +Y2, z = +Z2, m = hypot(x, y, z);
-        return m < 1e-12 && (x = X1, y = Y1, z = Z1, W1 < 1e-6 && (x = X0, y = Y0, z = Z0), (m = hypot(x, y, z)) < 1e-12) ? [
+        return(// If the area-weighted ccentroid is undefined, fall back to length-weighted ccentroid.
+        m < 1e-12 && (x = X1, y = Y1, z = Z1, W1 < 1e-6 && (x = X0, y = Y0, z = Z0), (m = hypot(x, y, z)) < 1e-12) ? [
             NaN,
             NaN
         ] : [
             atan2(y, x) * degrees$2,
             asin(z / m) * degrees$2
-        ];
+        ]);
     }, exports1.geoCircle = function() {
         var ring, rotate, center = constant$8([
             0,
@@ -10108,6 +10438,7 @@
         function pie(data) {
             var i, j, k, a1, v, n = (data = array$5(data)).length, sum = 0, index = Array(n), arcs = Array(n), a0 = +startAngle.apply(this, arguments), da = Math.min(tau$5, Math.max(-tau$5, endAngle.apply(this, arguments) - a0)), p = Math.min(Math.abs(da) / n, padAngle.apply(this, arguments)), pa = p * (da < 0 ? -1 : 1);
             for(i = 0; i < n; ++i)(v = arcs[index[i] = i] = +value(data[i], i, data)) > 0 && (sum += v);
+            // Compute the arcs! They are stored in the original data's order.
             for(null != sortValues ? index.sort(function(i, j) {
                 return sortValues(arcs[i], arcs[j]);
             }) : null != sort && index.sort(function(i, j) {
@@ -10164,6 +10495,8 @@
             -sortedPoints[i][1]
         ];
         var upperIndexes = computeUpperHullIndexes(sortedPoints), lowerIndexes = computeUpperHullIndexes(flippedPoints), skipLeft = lowerIndexes[0] === upperIndexes[0], skipRight = lowerIndexes[lowerIndexes.length - 1] === upperIndexes[upperIndexes.length - 1], hull = [];
+        // Add upper hull in right-to-l order.
+        // Then add lower hull in left-to-right order.
         for(i = upperIndexes.length - 1; i >= 0; --i)hull.push(points[sortedPoints[upperIndexes[i]][2]]);
         for(i = +skipLeft; i < lowerIndexes.length - skipRight; ++i)hull.push(points[sortedPoints[lowerIndexes[i]][2]]);
         return hull;
@@ -10572,7 +10905,8 @@
         return Math.ceil((max - min) / (2 * (quantile(values, 0.75) - quantile(values, 0.25)) * Math.pow(count(values), -1 / 3)));
     }, exports1.thresholdScott = function(values, min, max) {
         return Math.ceil((max - min) / (3.5 * deviation(values) * Math.pow(count(values), -1 / 3)));
-    }, exports1.thresholdSturges = thresholdSturges, exports1.tickFormat = tickFormat, exports1.tickIncrement = tickIncrement, exports1.tickStep = tickStep, exports1.ticks = ticks, exports1.timeDay = day, exports1.timeDays = days, exports1.timeFormatDefaultLocale = defaultLocale$1, exports1.timeFormatLocale = formatLocale$1, exports1.timeFriday = friday, exports1.timeFridays = fridays, exports1.timeHour = hour, exports1.timeHours = hours, exports1.timeInterval = newInterval, exports1.timeMillisecond = millisecond, exports1.timeMilliseconds = milliseconds, exports1.timeMinute = minute, exports1.timeMinutes = minutes, exports1.timeMonday = monday, exports1.timeMondays = mondays, exports1.timeMonth = month, exports1.timeMonths = months, exports1.timeSaturday = saturday, exports1.timeSaturdays = saturdays, exports1.timeSecond = second, exports1.timeSeconds = seconds, exports1.timeSunday = sunday, exports1.timeSundays = sundays, exports1.timeThursday = thursday, exports1.timeThursdays = thursdays, exports1.timeTuesday = tuesday, exports1.timeTuesdays = tuesdays, exports1.timeWednesday = wednesday, exports1.timeWednesdays = wednesdays, exports1.timeWeek = sunday, exports1.timeWeeks = sundays, exports1.timeYear = year, exports1.timeYears = years, exports1.timeout = timeout$1, exports1.timer = timer, exports1.timerFlush = timerFlush, exports1.transition = transition, exports1.transpose = transpose, exports1.tree = function() {
+    }, exports1.thresholdSturges = thresholdSturges, exports1.tickFormat = tickFormat, exports1.tickIncrement = tickIncrement, exports1.tickStep = tickStep, exports1.ticks = ticks, exports1.timeDay = day, exports1.timeDays = days, exports1.timeFormatDefaultLocale = defaultLocale$1, exports1.timeFormatLocale = formatLocale$1, exports1.timeFriday = friday, exports1.timeFridays = fridays, exports1.timeHour = hour, exports1.timeHours = hours, exports1.timeInterval = newInterval, exports1.timeMillisecond = millisecond, exports1.timeMilliseconds = milliseconds, exports1.timeMinute = minute, exports1.timeMinutes = minutes, exports1.timeMonday = monday, exports1.timeMondays = mondays, exports1.timeMonth = month, exports1.timeMonths = months, exports1.timeSaturday = saturday, exports1.timeSaturdays = saturdays, exports1.timeSecond = second, exports1.timeSeconds = seconds, exports1.timeSunday = sunday, exports1.timeSundays = sundays, exports1.timeThursday = thursday, exports1.timeThursdays = thursdays, exports1.timeTuesday = tuesday, exports1.timeTuesdays = tuesdays, exports1.timeWednesday = wednesday, exports1.timeWednesdays = wednesdays, exports1.timeWeek = sunday, exports1.timeWeeks = sundays, exports1.timeYear = year, exports1.timeYears = years, exports1.timeout = timeout$1, exports1.timer = timer, exports1.timerFlush = timerFlush, exports1.transition = transition, exports1.transpose = transpose, exports1.tree = // Node-link tree diagram using the Reingold-Tilford "tidy" algorithm
+    function() {
         var separation = defaultSeparation$1, dx = 1, dy = 1, nodeSize = null;
         function tree(root) {
             var t = function(root) {
@@ -10583,7 +10917,9 @@
                     tree
                 ], tree;
             }(root);
-            if (t.eachAfter(firstWalk), t.parent.m = -t.z, t.eachBefore(secondWalk), nodeSize) root.eachBefore(sizeNode);
+            // If a fixed node size is specified, scale x and y.
+            if (// Compute the layout using Buchheim et al.’s algorithm.
+            t.eachAfter(firstWalk), t.parent.m = -t.z, t.eachBefore(secondWalk), nodeSize) root.eachBefore(sizeNode);
             else {
                 var left = root, right = root, bottom = root;
                 root.eachBefore(function(node) {
@@ -10596,18 +10932,38 @@
             }
             return root;
         }
+        // Computes a preliminary x-coordinate for v. Before that, FIRST WALK is
+        // applied recursively to the children of v, as well as the function
+        // APPORTION. After spacing out the children by calling EXECUTE SHIFTS, the
+        // node v is placed to the midpoint of its outermost children.
         function firstWalk(v) {
             var children = v.children, siblings = v.parent.children, w = v.i ? siblings[v.i - 1] : null;
             if (children) {
-                !function(v) {
+                !// All other shifts, applied to the smaller subtrees between w- and w+, are
+                // performed by this function. To prepare the shifts, we have to adjust
+                // change(w+), shift(w+), and change(w-).
+                function(v) {
                     for(var w, shift = 0, change = 0, children = v.children, i = children.length; --i >= 0;)w = children[i], w.z += shift, w.m += shift, shift += w.s + (change += w.c);
                 }(v);
                 var midpoint = (children[0].z + children[children.length - 1].z) / 2;
                 w ? (v.z = w.z + separation(v._, w._), v.m = v.z - midpoint) : v.z = midpoint;
             } else w && (v.z = w.z + separation(v._, w._));
-            v.parent.A = function(v, w, ancestor) {
+            v.parent.A = // The core of the algorithm. Here, a new subtree is combined with the
+            // previous subtrees. Threads are used to traverse the inside and outside
+            // contours of the left and right subtree up to the highest common level. The
+            // vertices used for the traversals are vi+, vi-, vo-, and vo+, where the
+            // superscript o means outside and i means inside, the subscript - means left
+            // subtree and + means right subtree. For summing up the modifiers along the
+            // contour, we use respective variables si+, si-, so-, and so+. Whenever two
+            // nodes of the inside contours conflict, we compute the left one of the
+            // greatest uncommon ancestors using the function ANCESTOR and call MOVE
+            // SUBTREE to shift the subtree and prepare the shifts of smaller subtrees.
+            // Finally, we add a new thread (if necessary).
+            function(v, w, ancestor) {
                 if (w) {
-                    for(var vim, ancestor1, shift, vip = v, vop = v, vim1 = w, vom = vip.parent.children[0], sip = vip.m, sop = vop.m, sim = vim1.m, som = vom.m; vim1 = nextRight(vim1), vip = nextLeft(vip), vim1 && vip;)vom = nextLeft(vom), (vop = nextRight(vop)).a = v, (shift = vim1.z + sim - vip.z - sip + separation(vim1._, vip._)) > 0 && (function(wm, wp, shift) {
+                    for(var vim, ancestor1, shift, vip = v, vop = v, vim1 = w, vom = vip.parent.children[0], sip = vip.m, sop = vop.m, sim = vim1.m, som = vom.m; vim1 = nextRight(vim1), vip = nextLeft(vip), vim1 && vip;)vom = nextLeft(vom), (vop = nextRight(vop)).a = v, (shift = vim1.z + sim - vip.z - sip + separation(vim1._, vip._)) > 0 && (// Shifts the current subtree rooted at w+. This is done by increasing
+                    // prelim(w+) and mod(w+) by shift.
+                    function(wm, wp, shift) {
                         var change = shift / (wp.i - wm.i);
                         wp.c -= change, wp.s += shift, wm.c += change, wp.z += shift, wp.m += shift;
                     }((vim = vim1, ancestor1 = ancestor, vim.a.parent === v.parent ? vim.a : ancestor1), v, shift), sip += shift, sop += shift), sim += vim1.m, sip += vip.m, som += vom.m, sop += vop.m;
@@ -10616,6 +10972,7 @@
                 return ancestor;
             }(v, w, v.parent.A || siblings[0]);
         }
+        // Computes all real x-coordinates by summing up the modifiers recursively.
         function secondWalk(v) {
             v._.x = v.z + v.parent.m, v.m += v.parent.m;
         }
@@ -10741,7 +11098,7 @@
             }).tween("zoom", function() {
                 var args = arguments, g = gesture(this, args).event(event), e = extent.apply(this, args), p = null == point ? centroid(e) : "function" == typeof point ? point.apply(this, args) : point, w = Math.max(e[1][0] - e[0][0], e[1][1] - e[0][1]), a = this.__zoom, b = "function" == typeof transform ? transform.apply(this, args) : transform, i = interpolate(a.invert(p).concat(w / a.k), b.invert(p).concat(w / b.k));
                 return function(t) {
-                    if (1 === t) t = b;
+                    if (1 === t) t = b; // Avoid rounding error on end.
                     else {
                         var l = i(t), k = w / l[2];
                         t = new Transform(k, p[0] - l[0] * k, p[1] - l[1] * k);
@@ -10759,6 +11116,8 @@
         function wheeled(event, ...args) {
             if (filter.apply(this, arguments)) {
                 var g = gesture(this, args).event(event), t = this.__zoom, k = Math.max(scaleExtent[0], Math.min(scaleExtent[1], t.k * Math.pow(2, wheelDelta.apply(this, arguments)))), p = pointer(event);
+                // If the mouse is in the same location as before, reuse it.
+                // If there were recent wheel events, reset the wheel idle timeout.
                 if (g.wheel) (g.mouse[0][0] !== p[0] || g.mouse[0][1] !== p[1]) && (g.mouse[1] = t.invert(g.mouse[0] = p)), clearTimeout(g.wheel);
                 else {
                     if (t.k === k) return;
@@ -10835,7 +11194,8 @@
                     touchending = null;
                 }, 500), i = 0; i < n; ++i)t = touches[i], g.touch0 && g.touch0[2] === t.identifier ? delete g.touch0 : g.touch1 && g.touch1[2] === t.identifier && delete g.touch1;
                 if (g.touch1 && !g.touch0 && (g.touch0 = g.touch1, delete g.touch1), g.touch0) g.touch0[1] = this.__zoom.invert(g.touch0[0]);
-                else if (g.end(), 2 === g.taps && (t = pointer(t, this), Math.hypot(touchfirst[0] - t[0], touchfirst[1] - t[1]) < tapDistance)) {
+                else // If this was a dbltap, reroute to the (optional) dblclick.zoom handler.
+                if (g.end(), 2 === g.taps && (t = pointer(t, this), Math.hypot(touchfirst[0] - t[0], touchfirst[1] - t[1]) < tapDistance)) {
                     var p = select(this).on("dblclick.zoom");
                     p && p.apply(this, arguments);
                 }

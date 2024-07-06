@@ -2,7 +2,7 @@ var ClassB, obj, value;
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
 }
-module.exports = (obj = ClassB = function() {
+module.exports = (obj = ClassB = /*#__PURE__*/ function() {
     "use strict";
     var protoProps;
     function ClassB() {

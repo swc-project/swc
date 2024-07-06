@@ -1,5 +1,5 @@
 function example() {
-    var MyEnum = function(MyEnumInner) {
+    var MyEnum = /*#__PURE__*/ function(MyEnumInner) {
         MyEnumInner["First"] = "first";
         MyEnumInner["Second"] = "second";
         return MyEnumInner;

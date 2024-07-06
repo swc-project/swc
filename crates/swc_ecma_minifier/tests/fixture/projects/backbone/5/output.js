@@ -1,4 +1,6 @@
 export var Events = {
+    // Bind an event to a `callback` function. Passing `"all"` will bind
+    // the callback to all events fired.
     on: function(name, callback, context) {
         return eventsApi(this, "on", name, [
             callback,
