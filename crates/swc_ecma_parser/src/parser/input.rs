@@ -168,6 +168,10 @@ impl<I: Tokens> Capturing<I> {
         }
     }
 
+    pub fn tokens(&self) -> Rc<RefCell<Vec<TokenAndSpan>>> {
+        self.captured.clone()
+    }
+
     /// Take captured tokens
     pub fn take(&mut self) -> Vec<TokenAndSpan> {
         mem::take(&mut *self.captured.borrow_mut())

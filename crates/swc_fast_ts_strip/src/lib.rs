@@ -1,3 +1,5 @@
+use std::{cell::RefCell, rc::Rc};
+
 use anyhow::Error;
 use serde::Deserialize;
 use swc_common::{
@@ -14,9 +16,7 @@ use swc_ecma_ast::{
     TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
     TsTypeParamInstantiation, VarDecl,
 };
-use swc_ecma_parser::{
-    parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
-};
+use swc_ecma_parser::{lexer::Lexer, Capturing, Parser, StringInput, Syntax, TsSyntax};
 use swc_ecma_visit::{Visit, VisitWith};
 
 #[derive(Deserialize)]
@@ -54,15 +54,23 @@ pub fn operate(
     let target = EsVersion::latest();
 
     let comments = SingleThreadedComments::default();
-    let mut errors = vec![];
+
+    let lexer = Capturing::new(Lexer::new(
+        syntax,
+        target,
+        StringInput::from(&*fm),
+        Some(&comments),
+    ));
+    let tokens = lexer.tokens().clone();
+
+    let mut parser = Parser::new_from(lexer);
 
     let program = match options.module {
-        Some(true) => parse_file_as_module(&fm, syntax, target, Some(&comments), &mut errors)
-            .map(Program::Module),
-        Some(false) => parse_file_as_script(&fm, syntax, target, Some(&comments), &mut errors)
-            .map(Program::Script),
-        None => parse_file_as_program(&fm, syntax, target, Some(&comments), &mut errors),
+        Some(true) => parser.parse_module().map(Program::Module),
+        Some(false) => parser.parse_script().map(Program::Script),
+        None => parser.parse_program(),
     };
+    let errors = parser.take_errors();
 
     let program = match program {
         Ok(program) => program,
@@ -85,13 +93,31 @@ pub fn operate(
         return Err(anyhow::anyhow!("failed to parse"));
     }
 
+    drop(parser);
+    let mut tokens = RefCell::into_inner(Rc::try_unwrap(tokens).unwrap());
+
+    tokens.sort_by_key(|t| t.span);
+
     // Strip typescript types
     let mut ts_strip = TsStrip::new(cm.clone(), fm.src.clone());
     program.visit_with(&mut ts_strip);
 
-    let replacements = ts_strip.replacements;
+    let mut replacements = ts_strip.replacements;
+    let removals = ts_strip.removals;
 
-    if replacements.is_empty() {
+    for pos in ts_strip.remove_token_after {
+        let index = tokens.binary_search_by_key(&pos, |t| t.span.lo);
+        let index = match index {
+            Ok(index) => index,
+            Err(index) => index,
+        };
+
+        let token = &tokens[index];
+
+        replacements.push((token.span.lo, token.span.hi));
+    }
+
+    if replacements.is_empty() && removals.is_empty() {
         return Ok(fm.src.to_string());
     }
 
@@ -103,8 +129,8 @@ pub fn operate(
 
     // Assert that removal does not overlap with each other
 
-    for removal in ts_strip.removals.iter() {
-        for r in &ts_strip.removals {
+    for removal in removals.iter() {
+        for r in &removals {
             if removal == r {
                 continue;
             }
@@ -118,7 +144,7 @@ pub fn operate(
         }
     }
 
-    for removal in ts_strip.removals.iter().copied().rev() {
+    for removal in removals.iter().copied().rev() {
         code.drain((removal.0 .0 - 1) as usize..(removal.1 .0 - 1) as usize);
     }
 
@@ -134,6 +160,8 @@ struct TsStrip {
 
     /// Applied after replacements. Used for arrow functions.
     removals: Vec<(BytePos, BytePos)>,
+
+    remove_token_after: Vec<BytePos>,
 }
 
 impl TsStrip {
@@ -143,6 +171,7 @@ impl TsStrip {
             src,
             replacements: Default::default(),
             removals: Default::default(),
+            remove_token_after: Default::default(),
         }
     }
 }
@@ -178,7 +207,8 @@ impl Visit for TsStrip {
         n.visit_children_with(self);
 
         if n.optional {
-            self.add_replacement(span(n.id.span.hi, n.id.span.hi + BytePos(1)));
+            self.remove_token_after
+                .push(n.id.span.lo + BytePos(n.id.sym.len() as u32));
         }
     }
 
