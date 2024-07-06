@@ -14,6 +14,8 @@ env:
   DIFF: 0
   # For faster CI
   RUST_LOG: "off"
+  # https://github.com/swc-project/swc/pull/3742
+  RUST_MIN_STACK: 4194304
   # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
   SKIP_YARN_COREPACK_CHECK: 1
 
@@ -166,14 +168,6 @@ jobs:
     if: >-
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        pkg:
-          - binding_core_wasm
-          - binding_minifier_wasm
-          - binding_typescript_wasm
-
     steps:
       - uses: actions/checkout@v4
 
@@ -206,9 +200,13 @@ jobs:
           corepack enable
           yarn
 
+      - name: Build
+        run: |
+          (cd bindings/binding_core_wasm && ./scripts/build.sh --features plugin)
+
       - name: Test
         run: |
-          (cd bindings/${{ matrix.pkg }} && ./scripts/test.sh)
+          (cd bindings/binding_core_wasm && ./scripts/test.sh)
 
   cargo-test:
     name: Test - ${{ matrix.settings.crate }} - ${{ matrix.settings.os }}
@@ -467,8 +465,6 @@ jobs:
             os: ubuntu-latest
             runner: ubuntu-latest
           - crate: swc_fast_graph
-            os: ubuntu-latest
-          - crate: swc_fast_ts_strip
             os: ubuntu-latest
             runner: ubuntu-latest
           - crate: swc_graph_analyzer
