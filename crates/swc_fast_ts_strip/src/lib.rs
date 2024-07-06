@@ -16,7 +16,11 @@ use swc_ecma_ast::{
     TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
     TsTypeParamInstantiation, VarDecl,
 };
-use swc_ecma_parser::{lexer::Lexer, Capturing, Parser, StringInput, Syntax, TsSyntax};
+use swc_ecma_parser::{
+    lexer::Lexer,
+    token::{Token, TokenAndSpan},
+    Capturing, Parser, StringInput, Syntax, TsSyntax,
+};
 use swc_ecma_visit::{Visit, VisitWith};
 
 #[derive(Deserialize)]
@@ -99,25 +103,13 @@ pub fn operate(
     tokens.sort_by_key(|t| t.span);
 
     // Strip typescript types
-    let mut ts_strip = TsStrip::new(cm.clone(), fm.src.clone());
+    let mut ts_strip = TsStrip::new(cm.clone(), fm.src.clone(), tokens);
     program.visit_with(&mut ts_strip);
 
-    let mut replacements = ts_strip.replacements;
-    let removals = ts_strip.removals;
+    let replacements = ts_strip.replacements;
+    let overwrites = ts_strip.overwrites;
 
-    for pos in ts_strip.remove_token_after {
-        let index = tokens.binary_search_by_key(&pos, |t| t.span.lo);
-        let index = match index {
-            Ok(index) => index,
-            Err(index) => index,
-        };
-
-        let token = &tokens[index];
-
-        replacements.push((token.span.lo, token.span.hi));
-    }
-
-    if replacements.is_empty() && removals.is_empty() {
+    if replacements.is_empty() && overwrites.is_empty() {
         return Ok(fm.src.to_string());
     }
 
@@ -125,32 +117,18 @@ pub fn operate(
 
     for r in replacements {
         for c in &mut code[(r.0 .0 - 1) as usize..(r.1 .0 - 1) as usize] {
-            if *c == b'\n' {
+            if *c == b'\n' || *c == b'\r' {
                 continue;
             }
             *c = b' ';
         }
     }
 
-    // Assert that removal does not overlap with each other
-
-    for removal in removals.iter() {
-        for r in &removals {
-            if removal == r {
-                continue;
-            }
-
-            assert!(
-                r.0 < removal.0 || r.1 < removal.0 || r.0 > removal.1 || r.1 > removal.1,
-                "removal {:?} overlaps with replacement {:?}",
-                removal,
-                r
-            );
-        }
-    }
-
-    for removal in removals.iter().copied().rev() {
-        code.drain((removal.0 .0 - 1) as usize..(removal.1 .0 - 1) as usize);
+    for o in overwrites {
+        let bytes = o.1.as_bytes();
+        let start = o.0 .0 as usize - 1;
+        let end = start + bytes.len();
+        code[start..end].copy_from_slice(bytes);
     }
 
     String::from_utf8(code).map_err(|_| anyhow::anyhow!("failed to convert to utf-8"))
@@ -162,21 +140,19 @@ struct TsStrip {
 
     /// Replaced with whitespace
     replacements: Vec<(BytePos, BytePos)>,
+    overwrites: Vec<(BytePos, String)>,
 
-    /// Applied after replacements. Used for arrow functions.
-    removals: Vec<(BytePos, BytePos)>,
-
-    remove_token_after: Vec<BytePos>,
+    tokens: Vec<TokenAndSpan>,
 }
 
 impl TsStrip {
-    fn new(cm: Lrc<SourceMap>, src: Lrc<String>) -> Self {
+    fn new(cm: Lrc<SourceMap>, src: Lrc<String>, tokens: Vec<TokenAndSpan>) -> Self {
         TsStrip {
             cm,
             src,
             replacements: Default::default(),
-            removals: Default::default(),
-            remove_token_after: Default::default(),
+            overwrites: Default::default(),
+            tokens,
         }
     }
 }
@@ -186,21 +162,66 @@ impl TsStrip {
         self.replacements.push((span.lo, span.hi));
     }
 
-    fn add_removal(&mut self, span: Span) {
-        self.removals.push((span.lo, span.hi));
+    fn add_overwrite(&mut self, pos: BytePos, value: String) {
+        self.overwrites.push((pos, value));
+    }
+
+    fn get_src_slice(&self, span: Span) -> &str {
+        &self.src[(span.lo.0 - 1) as usize..(span.hi.0 - 1) as usize]
+    }
+
+    fn get_next_token(&self, pos: BytePos) -> &TokenAndSpan {
+        let index = self.tokens.binary_search_by_key(&pos, |t| t.span.lo);
+        let index = match index {
+            Ok(index) => index,
+            Err(index) => index,
+        };
+        &self.tokens[index]
+    }
+
+    fn get_prev_token(&self, pos: BytePos) -> &TokenAndSpan {
+        let index = self.tokens.binary_search_by_key(&pos, |t| t.span.lo);
+        let index = match index {
+            Ok(index) => index,
+            Err(index) => index - 1,
+        };
+        &self.tokens[index]
     }
 }
 
 impl Visit for TsStrip {
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
         if let Some(ret) = &n.return_type {
-            let mut sp = self.cm.span_extend_to_prev_char(ret.span, ')');
+            self.add_replacement(ret.span);
 
-            let pos = self.src[(sp.hi.0 as usize - 1)..].find("=>").unwrap();
+            let l_paren = self.get_prev_token(ret.span_lo() - BytePos(1));
+            assert_eq!(l_paren.token, Token::RParen);
+            let arrow = self.get_next_token(ret.span_hi());
+            assert_eq!(arrow.token, Token::Arrow);
+            let span = span(l_paren.span.lo, arrow.span.hi);
 
-            sp.hi.0 += pos as u32;
+            let slice = self.get_src_slice(span).as_bytes();
+            if slice.contains(&b'\n') {
+                self.add_replacement(l_paren.span);
 
-            self.add_removal(sp);
+                // Instead of moving the arrow mark, we shift the right parenthesis to the next
+                // line. This is because there might be a line break after the right
+                // parenthesis, and we wish to preserve the alignment of each line.
+                //
+                // ```TypeScript
+                // ()
+                //     : any =>
+                //     1;
+                // ```
+                //
+                // ```TypeScript
+                // (
+                //          )=>
+                //     1;
+                // ```
+
+                self.add_overwrite(ret.span_hi(), ")".to_string());
+            }
         }
 
         n.type_params.visit_with(self);
@@ -212,8 +233,14 @@ impl Visit for TsStrip {
         n.visit_children_with(self);
 
         if n.optional {
-            self.remove_token_after
-                .push(n.id.span.lo + BytePos(n.id.sym.len() as u32));
+            // https://github.com/swc-project/swc/issues/8856
+            // let optional_mark = self.get_next_token(n.id.span_hi());
+
+            let optional_mark =
+                self.get_next_token(n.id.span_lo() + BytePos(n.id.sym.len() as u32));
+            assert_eq!(optional_mark.token, Token::QuestionMark);
+
+            self.add_replacement(optional_mark.span);
         }
     }
 
