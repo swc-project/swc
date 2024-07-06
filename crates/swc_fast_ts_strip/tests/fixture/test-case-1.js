@@ -91,7 +91,7 @@ void 0;
 /**/                                 
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `export type *`
 
-import {                     /**/  deepEqual } from "node:assert";
+import {                           deepEqual } from "node:assert";
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 export {

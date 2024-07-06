@@ -381,11 +381,12 @@ impl Visit for TsStrip {
             };
 
             if import.is_type_only {
-                self.add_replacement(import.span);
+                let mut span = import.span;
                 let comma = self.get_next_token(import.span_hi());
                 if comma.token == Token::Comma {
-                    self.add_replacement(comma.span);
+                    span = span.with_hi(comma.span.hi);
                 }
+                self.add_replacement(span);
             }
         }
     }
@@ -416,13 +417,13 @@ impl Visit for TsStrip {
                 }) if &**sym == "this"
             )
         }) {
-            let span = p.span;
-            self.add_replacement(span);
+            let mut span = p.span;
 
             let comma = self.get_next_token(span.hi);
             if comma.token == Token::Comma {
-                self.add_replacement(comma.span);
+                span = span.with_hi(comma.span.hi);
             }
+            self.add_replacement(span);
 
             n[1..].visit_children_with(self);
 
