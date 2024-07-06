@@ -12,7 +12,7 @@ class C /**/   /*︎*/ extends Array/**/    /*︎*/                /*︎*/ {
              field/**/        /**/ = "";
     //  ^^^^^^^^          ^^^^^^^^
     static accessor f1;
-            f2/**/!/**/        /*︎*/;
+            f2/**/ /**/        /*︎*/;
     //  ^^^^^^^       ^    ^^^^^^^^
                     
     //  ^^^^^^^^^^^^^^^^ declared property
@@ -38,7 +38,7 @@ class D extends C      {
 
          class A {
     // ^^^^^^^^
-             a;
+               
     //  ^^^^^^^^^^^ abstract property
     b;
                       

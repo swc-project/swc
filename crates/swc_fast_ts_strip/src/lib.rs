@@ -276,7 +276,7 @@ impl Visit for TsStrip {
     }
 
     fn visit_class_method(&mut self, n: &ClassMethod) {
-        if n.function.body.is_none() {
+        if n.function.body.is_none() || n.is_abstract {
             self.add_replacement(n.span);
             return;
         }
@@ -290,10 +290,7 @@ impl Visit for TsStrip {
             pos = span.hi;
             match token {
                 Token::Word(Word::Ident(IdentLike::Known(
-                    KnownIdent::Abstract
-                    | KnownIdent::Public
-                    | KnownIdent::Protected
-                    | KnownIdent::Private,
+                    KnownIdent::Public | KnownIdent::Protected | KnownIdent::Private,
                 ))) => {
                     self.add_replacement(*span);
                 }
@@ -308,20 +305,47 @@ impl Visit for TsStrip {
     }
 
     fn visit_class_prop(&mut self, n: &ClassProp) {
-        if n.declare {
+        if n.declare || n.is_abstract {
             self.add_replacement(n.span);
             return;
         }
 
-        let hi = if n.is_static {
-            self.cm
-                .span_extend_to_next_str(span(n.span.lo, n.span.lo), "static", false)
-                .hi
-        } else {
-            n.key.span().lo
-        };
+        let key_span = n.key.span_hi();
+        let method_pos = n.span_lo();
 
-        self.add_replacement(span(n.span.lo, hi));
+        let mut pos = method_pos;
+        while pos < key_span {
+            let TokenAndSpan { token, span, .. } = self.get_next_token(pos);
+            pos = span.hi;
+            match token {
+                Token::Word(Word::Ident(IdentLike::Known(
+                    KnownIdent::Readonly
+                    | KnownIdent::Public
+                    | KnownIdent::Protected
+                    | KnownIdent::Private,
+                ))) => {
+                    self.add_replacement(*span);
+                }
+                Token::Word(Word::Ident(IdentLike::Other(o))) if *o == "override" => {
+                    self.add_replacement(*span);
+                }
+                _ => {}
+            }
+        }
+
+        if n.is_optional {
+            let optional_mark = self.get_next_token(n.key.span_hi());
+            assert_eq!(optional_mark.token, Token::QuestionMark);
+
+            self.add_replacement(optional_mark.span);
+        }
+
+        if n.definite {
+            let definite_mark = self.get_next_token(n.key.span_hi());
+            assert_eq!(definite_mark.token, Token::Bang);
+
+            self.add_replacement(definite_mark.span);
+        }
 
         n.visit_children_with(self);
     }
