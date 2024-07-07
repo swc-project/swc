@@ -879,7 +879,7 @@ impl<I: Tokens> Parser<I> {
         match pat {
             Pat::Ident(i) => {
                 if i.is_reserved_in_strict_bind() {
-                    self.emit_strict_mode_err(i.span, SyntaxError::EvalAndArgumentsInStrict)
+                    self.emit_strict_mode_err(*i.span, SyntaxError::EvalAndArgumentsInStrict)
                 }
             }
             Pat::Array(arr) => {
@@ -898,7 +898,7 @@ impl<I: Tokens> Parser<I> {
                         ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
                             if key.is_reserved_in_strict_bind() {
                                 self.emit_strict_mode_err(
-                                    key.span,
+                                    *key.span,
                                     SyntaxError::EvalAndArgumentsInStrict,
                                 )
                             }

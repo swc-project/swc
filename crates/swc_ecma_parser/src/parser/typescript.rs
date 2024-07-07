@@ -759,7 +759,7 @@ impl<I: Tokens> Parser<I> {
 
                 expect!(self, ']');
 
-                TsEnumMemberId::Ident(Ident::new(js_word!(""), span!(self, start)))
+                TsEnumMemberId::Ident(Ident::new_no_ctxt(js_word!(""), span!(self, start)))
             }
             _ => self.parse_ident_name().map(TsEnumMemberId::from)?,
         };

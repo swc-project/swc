@@ -77,7 +77,7 @@ impl<I: Tokens> Parser<I> {
                     _ => unreachable!(),
                 },
                 Word(..) => match bump!(p) {
-                    Word(w) => PropName::Ident(Ident::new(w.into(), span!(p, start))),
+                    Word(w) => PropName::Ident(Ident::new_no_ctxt(w.into(), span!(p, start))),
                     _ => unreachable!(),
                 },
                 tok!('[') => {
