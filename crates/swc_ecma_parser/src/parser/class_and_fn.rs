@@ -494,7 +494,7 @@ impl<I: Tokens> Parser<I> {
             {
                 // Property named `accessor`
 
-                let key = Key::Public(PropName::Ident(Ident::new(
+                let key = Key::Public(PropName::Ident(Ident::new_no_ctxt(
                     "accessor".into(),
                     accessor_token,
                 )));
