@@ -32,7 +32,7 @@ pub fn parse(i: Input) -> IResult<Input, JsDoc> {
     Ok((
         i,
         JsDoc {
-            span: Span::new(lo, hi, SyntaxContext::empty()),
+            span: Span::new(lo, hi),
             tags,
             description,
         },
@@ -563,7 +563,7 @@ fn parse_name_path(mut i: Input) -> IResult<Input, NamePath> {
                 return Ok((
                     i,
                     NamePath {
-                        span: Span::new(lo, i.span().hi, Default::default()),
+                        span: Span::new(lo, i.span().hi),
                         components,
                     },
                 ));

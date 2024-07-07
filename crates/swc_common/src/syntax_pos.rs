@@ -627,11 +627,7 @@ impl Span {
                     .dummy_cnt
                     .fetch_add(1, std::sync::atomic::Ordering::SeqCst),
             );
-            Span {
-                lo,
-                hi: lo,
-                ctxt: SyntaxContext::empty(),
-            }
+            Span { lo, hi: lo }
         });
     }
 }
