@@ -264,7 +264,7 @@ macro_rules! cur {
             },
             None => {
                 let pos = $p.input.last_pos();
-                let last = Span::new(pos, pos, Default::default());
+                let last = Span::new(pos, pos);
                 let err = crate::error::Error::new(last, crate::error::SyntaxError::Eof);
                 return Err(err);
             }

@@ -468,7 +468,7 @@ impl<I: Tokens> Parser<I> {
         if let Some(accessor_token) = accessor_token {
             // Handle accessor(){}
             if self.is_class_method() {
-                let key = Key::Public(PropName::Ident(Ident::new(
+                let key = Key::Public(PropName::Ident(Ident::new_no_ctxt(
                     "accessor".into(),
                     accessor_token,
                 )));

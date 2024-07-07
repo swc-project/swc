@@ -507,7 +507,6 @@ fn simple_regex() {
                 span: Span {
                     lo: BytePos(1),
                     hi: BytePos(2),
-                    ctxt: Default::default(),
                 },
             },
             42.span(1..3),
@@ -752,7 +751,6 @@ fn migrated_0006() {
                 span: Span {
                     lo: BytePos(5),
                     hi: BytePos(7),
-                    ctxt: Default::default(),
                 }
             },
             BinOp(Div).span(6),
