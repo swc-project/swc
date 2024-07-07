@@ -2337,7 +2337,7 @@ where
         srcmap!(n, true);
 
         punct!("#");
-        emit!(n.id);
+        self.emit_ident_like(n.span, &n.name, false)?;
 
         srcmap!(n, false);
     }

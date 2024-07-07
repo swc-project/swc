@@ -131,7 +131,7 @@ impl<I: Tokens> Parser<I> {
                     expect!(self, ',');
                 }
                 specifiers.push(ImportSpecifier::Default(ImportDefaultSpecifier {
-                    span: local.span,
+                    span: *local.span,
                     local,
                 }));
             }
@@ -691,7 +691,7 @@ impl<I: Tokens> Parser<I> {
                         ExportSpecifier::Named(named) => match &named.orig {
                             ModuleExportName::Ident(id) if id.is_reserved() => {
                                 self.emit_err(
-                                    id.span,
+                                    *id.span,
                                     SyntaxError::ExportExpectFrom(id.sym.clone()),
                                 );
                             }
