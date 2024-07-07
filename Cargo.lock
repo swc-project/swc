@@ -3827,7 +3827,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.96.9"
+version = "0.96.10"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5051,7 +5051,7 @@ dependencies = [
 
 [[package]]
 name = "swc_malloc"
-version = "0.5.10"
+version = "0.5.11"
 dependencies = [
  "mimalloc",
  "tikv-jemallocator",
