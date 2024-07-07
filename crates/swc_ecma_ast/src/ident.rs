@@ -32,10 +32,14 @@ use crate::{typescript::TsTypeAnn, Expr};
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub struct BindingIdent {
-    #[span]
-    #[cfg_attr(feature = "serde-impl", serde(flatten))]
-    #[cfg_attr(feature = "__rkyv", omit_bounds)]
-    pub id: Ident,
+    pub span: SpanWithCtx,
+    #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
+    pub sym: Atom,
+
+    /// TypeScript only. Used in case of an optional parameter.
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub optional: bool,
+
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub type_ann: Option<Box<TsTypeAnn>>,
@@ -43,35 +47,23 @@ pub struct BindingIdent {
 
 impl From<BindingIdent> for Box<Expr> {
     fn from(bi: BindingIdent) -> Self {
-        Box::new(Expr::Ident(bi.id))
-    }
-}
-
-impl Deref for BindingIdent {
-    type Target = Ident;
-
-    fn deref(&self) -> &Self::Target {
-        &self.id
-    }
-}
-
-impl DerefMut for BindingIdent {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.id
+        Box::new(Expr::Ident(bi.into()))
     }
 }
 
 impl BindingIdent {
     /// See [`Ident::to_id`] for documentation.
     pub fn to_id(&self) -> Id {
-        self.id.to_id()
+        (self.sym.clone(), self.span.ctxt)
     }
 }
 
 impl Take for BindingIdent {
     fn dummy() -> Self {
         BindingIdent {
-            id: Ident::dummy(),
+            span: DUMMY_SP.with_ctxt(SyntaxContext::empty()),
+            sym: Atom::default(),
+            optional: false,
             type_ann: None,
         }
     }
@@ -79,7 +71,12 @@ impl Take for BindingIdent {
 
 impl From<Ident> for BindingIdent {
     fn from(id: Ident) -> Self {
-        Self { id, type_ann: None }
+        BindingIdent {
+            span: id.span,
+            sym: id.sym,
+            optional: false,
+            type_ann: None,
+        }
     }
 }
 
@@ -149,7 +146,11 @@ pub struct Ident {
 
 impl From<BindingIdent> for Ident {
     fn from(bi: BindingIdent) -> Self {
-        bi.id
+        Ident {
+            span: bi.span,
+            sym: bi.sym,
+            optional: bi.optional,
+        }
     }
 }
 
