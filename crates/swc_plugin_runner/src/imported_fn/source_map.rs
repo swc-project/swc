@@ -217,7 +217,6 @@ pub fn span_to_string_proxy(
     mut env: FunctionEnvMut<SourceMapHostEnvironment>,
     span_lo: u32,
     span_hi: u32,
-    span_ctxt: u32,
     allocated_ret_ptr: u32,
 ) -> i32 {
     let memory = env.data().memory.clone();

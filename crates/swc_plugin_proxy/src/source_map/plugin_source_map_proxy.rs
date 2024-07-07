@@ -31,12 +31,7 @@ extern "C" {
         rhs_hi: u32,
         allocated_ptr: u32,
     ) -> u32;
-    fn __span_to_string_proxy(
-        span_lo: u32,
-        span_hi: u32,
-        span_ctxt: u32,
-        allocated_ret_ptr: u32,
-    ) -> u32;
+    fn __span_to_string_proxy(span_lo: u32, span_hi: u32, allocated_ret_ptr: u32) -> u32;
     fn __span_to_filename_proxy(
         span_lo: u32,
         span_hi: u32,
@@ -187,7 +182,7 @@ impl SourceMapper for PluginSourceMapProxy {
     fn span_to_string(&self, sp: Span) -> String {
         #[cfg(target_arch = "wasm32")]
         return read_returned_result_from_host(|serialized_ptr| unsafe {
-            __span_to_string_proxy(sp.lo.0, sp.hi.0, sp.ctxt.as_u32(), serialized_ptr)
+            __span_to_string_proxy(sp.lo.0, sp.hi.0, serialized_ptr)
         })
         .expect("Host should return String");
 
