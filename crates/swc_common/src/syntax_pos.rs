@@ -937,7 +937,7 @@ pub struct SourceFile {
     pub name_was_remapped: bool,
     /// The unmapped path of the file that the source came from.
     /// Set to `None` if the `SourceFile` was imported from an external crate.
-    pub unmapped_path: Option<FileName>,
+    pub unmapped_path: Option<Lrc<FileName>>,
     /// Indicates which crate this `SourceFile` was imported from.
     pub crate_of_origin: u32,
     /// The complete source code
@@ -967,9 +967,9 @@ impl fmt::Debug for SourceFile {
 
 impl SourceFile {
     pub fn new(
-        name: FileName,
+        name: Lrc<FileName>,
         name_was_remapped: bool,
-        unmapped_path: FileName,
+        unmapped_path: Lrc<FileName>,
         mut src: String,
         start_pos: BytePos,
     ) -> SourceFile {
@@ -988,7 +988,7 @@ impl SourceFile {
     pub fn new_from(
         name: Lrc<FileName>,
         name_was_remapped: bool,
-        unmapped_path: FileName,
+        unmapped_path: Lrc<FileName>,
         src: Lrc<String>,
         start_pos: BytePos,
     ) -> SourceFile {
@@ -1310,7 +1310,7 @@ pub struct PartialLoc {
 // perhaps they should just be removed.
 #[derive(Debug)]
 pub struct LocWithOpt {
-    pub filename: FileName,
+    pub filename: Lrc<FileName>,
     pub line: usize,
     pub col: CharPos,
     pub file: Option<Lrc<SourceFile>>,
@@ -1444,7 +1444,7 @@ pub enum SourceMapLookupError {
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
-pub struct FilePos(pub FileName, pub BytePos);
+pub struct FilePos(pub Lrc<FileName>, pub BytePos);
 
 #[derive(Clone, PartialEq, Eq, Debug)]
 #[cfg_attr(
@@ -1466,7 +1466,7 @@ pub struct DistinctSources {
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 pub struct MalformedSourceMapPositions {
-    pub name: FileName,
+    pub name: Lrc<FileName>,
     pub source_len: usize,
     pub begin_pos: BytePos,
     pub end_pos: BytePos,

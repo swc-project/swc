@@ -149,7 +149,7 @@ pub trait SourceMapper: crate::sync::Send + crate::sync::Sync {
     fn lookup_char_pos(&self, pos: BytePos) -> Loc;
     fn span_to_lines(&self, sp: Span) -> FileLinesResult;
     fn span_to_string(&self, sp: Span) -> String;
-    fn span_to_filename(&self, sp: Span) -> FileName;
+    fn span_to_filename(&self, sp: Span) -> Lrc<FileName>;
     fn merge_spans(&self, sp_lhs: Span, sp_rhs: Span) -> Option<Span>;
     fn call_span_if_macro(&self, sp: Span) -> Span;
     fn doctest_offset_line(&self, line: usize) -> usize;
