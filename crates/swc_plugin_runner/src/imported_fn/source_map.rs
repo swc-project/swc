@@ -136,7 +136,6 @@ pub fn span_to_lines_proxy(
     mut env: FunctionEnvMut<SourceMapHostEnvironment>,
     span_lo: u32,
     span_hi: u32,
-    span_ctxt: u32,
     should_request_source_file: i32,
     allocated_ret_ptr: u32,
 ) -> i32 {
@@ -153,7 +152,6 @@ pub fn span_to_lines_proxy(
     let span = Span {
         lo: BytePos(span_lo),
         hi: BytePos(span_hi),
-        ctxt: SyntaxContext::from_u32(span_ctxt),
     };
 
     let ret = (env.data().source_map.lock())

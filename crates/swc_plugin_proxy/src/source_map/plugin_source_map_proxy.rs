@@ -52,7 +52,6 @@ extern "C" {
     fn __span_to_lines_proxy(
         span_lo: u32,
         span_hi: u32,
-        span_ctxt: u32,
         should_request_source_file: i32,
         allocated_ret_ptr: u32,
     ) -> u32;
@@ -155,7 +154,6 @@ impl SourceMapper for PluginSourceMapProxy {
                     __span_to_lines_proxy(
                         sp.lo.0,
                         sp.hi.0,
-                        sp.ctxt.as_u32(),
                         should_request_source_file,
                         serialized_ptr,
                     )
