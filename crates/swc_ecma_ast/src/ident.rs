@@ -42,6 +42,12 @@ pub struct BindingIdent {
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
+impl AsRef<str> for BindingIdent {
+    fn as_ref(&self) -> &str {
+        &self.sym
+    }
+}
+
 impl From<BindingIdent> for Box<Expr> {
     fn from(bi: BindingIdent) -> Self {
         Box::new(Expr::Ident(bi.into()))
@@ -505,5 +511,6 @@ pub trait EsReserved: AsRef<str> {
 
 impl EsReserved for Atom {}
 impl EsReserved for Ident {}
+impl EsReserved for BindingIdent {}
 impl EsReserved for &'_ str {}
 impl EsReserved for String {}
