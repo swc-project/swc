@@ -772,10 +772,7 @@ impl<I: Tokens> Parser<I> {
             let start = cur_pos!(self);
             bump!(self);
             store!(self, ',');
-            self.emit_err(
-                Span::new(start, start, SyntaxContext::empty()),
-                SyntaxError::TS1005,
-            );
+            self.emit_err(Span::new(start, start), SyntaxError::TS1005);
             None
         };
 

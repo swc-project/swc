@@ -115,7 +115,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         Ok(JSXEmptyExpr {
-            span: Span::new(start, start, SyntaxContext::empty()),
+            span: Span::new(start, start),
         })
     }
 

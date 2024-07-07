@@ -30,7 +30,7 @@ impl Context {
         let start = self.locate_line_col(loc.start);
         let end = self.locate_line_col(loc.end);
 
-        Span::new(start, end, SyntaxContext::empty())
+        Span::new(start, end)
     }
 
     pub(crate) fn span(&self, node: &BaseNode) -> Span {
@@ -50,7 +50,7 @@ impl Context {
             .map(|offset| self.fm.start_pos + BytePos(offset as _))
             .unwrap_or(BytePos::DUMMY);
 
-        Span::new(start, end, SyntaxContext::empty())
+        Span::new(start, end)
     }
 
     /// This accepts source string because the spans of an ast node of swc are

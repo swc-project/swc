@@ -335,7 +335,7 @@ impl<I: Tokens> Parser<I> {
             if eat_exact!(self, ';') {
                 let span = self.input.prev_span();
                 elems.push(ClassMember::Empty(EmptyStmt {
-                    span: Span::new(span.lo, span.hi, SyntaxContext::empty()),
+                    span: Span::new(span.lo, span.hi),
                 }));
                 continue;
             }

@@ -354,7 +354,7 @@ impl<'a> Input<'a> {
                     Some(idx) => idx,
                     _ => {
                         let bp = input.span.hi;
-                        let span = Span::new(bp, bp, SyntaxContext::empty());
+                        let span = Span::new(bp, bp);
 
                         return Err(Error::new(span, ErrorKind::Eof));
                     }
@@ -364,7 +364,7 @@ impl<'a> Input<'a> {
                     Some(token_and_span) => token_and_span,
                     None => {
                         let bp = input.span.hi;
-                        let span = Span::new(bp, bp, SyntaxContext::empty());
+                        let span = Span::new(bp, bp);
 
                         return Err(Error::new(span, ErrorKind::Eof));
                     }
@@ -428,7 +428,7 @@ impl<'a> Input<'a> {
                     },
                     None => {
                         let bp = input.span.hi;
-                        let span = Span::new(bp, bp, SyntaxContext::empty());
+                        let span = Span::new(bp, bp);
 
                         return Err(Error::new(span, ErrorKind::Eof));
                     }

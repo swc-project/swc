@@ -202,7 +202,7 @@ impl Compressor {
         children.extend(right.children.take());
 
         SelectorList {
-            span: Span::new(left.span_lo(), right.span_hi(), SyntaxContext::empty()),
+            span: Span::new(left.span_lo(), right.span_hi()),
             children,
         }
     }
@@ -217,7 +217,7 @@ impl Compressor {
         children.extend(right.children.take());
 
         RelativeSelectorList {
-            span: Span::new(left.span_lo(), right.span_hi(), SyntaxContext::empty()),
+            span: Span::new(left.span_lo(), right.span_hi()),
             children,
         }
     }
@@ -228,7 +228,7 @@ impl Compressor {
         value.extend(right.value.take());
 
         SimpleBlock {
-            span: Span::new(left.span_lo(), right.span_hi(), SyntaxContext::empty()),
+            span: Span::new(left.span_lo(), right.span_hi()),
             name: left.name.clone(),
             value,
         }
@@ -282,7 +282,7 @@ impl Compressor {
                     let selector_list =
                         self.merge_selector_list(prev_selector_list, current_selector_list);
                     let mut qualified_rule = QualifiedRule {
-                        span: Span::new(left.span_lo(), right.span_hi(), SyntaxContext::empty()),
+                        span: Span::new(left.span_lo(), right.span_hi()),
                         prelude: QualifiedRulePrelude::SelectorList(selector_list),
                         block: left.block.take(),
                     };
@@ -300,7 +300,7 @@ impl Compressor {
                         current_relative_selector_list,
                     );
                     let mut qualified_rule = QualifiedRule {
-                        span: Span::new(left.span_lo(), right.span_hi(), SyntaxContext::empty()),
+                        span: Span::new(left.span_lo(), right.span_hi()),
                         prelude: QualifiedRulePrelude::RelativeSelectorList(relative_selector_list),
                         block: left.block.take(),
                     };
@@ -318,7 +318,7 @@ impl Compressor {
         if left.prelude.eq_ignore_span(&right.prelude) {
             let block = self.merge_simple_block(&mut left.block, &mut right.block);
             let mut qualified_rule = QualifiedRule {
-                span: Span::new(left.span_lo(), right.span_hi(), SyntaxContext::empty()),
+                span: Span::new(left.span_lo(), right.span_hi()),
                 prelude: left.prelude.take(),
                 block,
             };
@@ -357,11 +357,7 @@ impl Compressor {
                 if let Some(right_block) = &mut right.block {
                     let block = self.merge_simple_block(left_block, right_block);
                     let mut at_rule = AtRule {
-                        span: Span::new(
-                            left.span.span_lo(),
-                            right.span.span_lo(),
-                            SyntaxContext::empty(),
-                        ),
+                        span: Span::new(left.span.span_lo(), right.span.span_lo()),
                         name: left.name.clone(),
                         prelude: left.prelude.take(),
                         block: Some(block),

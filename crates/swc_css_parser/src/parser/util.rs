@@ -51,9 +51,7 @@ where
 
     pub(super) fn create_locv(&self, children: Vec<ComponentValue>) -> ListOfComponentValues {
         let span = match (children.first(), children.last()) {
-            (Some(first), Some(last)) => {
-                Span::new(first.span_lo(), last.span_hi(), SyntaxContext::empty())
-            }
+            (Some(first), Some(last)) => Span::new(first.span_lo(), last.span_hi()),
             _ => DUMMY_SP,
         };
 
