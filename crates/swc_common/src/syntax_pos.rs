@@ -16,7 +16,7 @@ use url::Url;
 
 use self::hygiene::MarkData;
 pub use self::hygiene::{Mark, SyntaxContext};
-use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lrc};
+use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lrc, Spanned};
 
 mod analyze_source_file;
 pub mod hygiene;
@@ -90,6 +90,12 @@ pub struct SpanWithCtx {
     /// code was created by a macro expansion.
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub ctxt: SyntaxContext,
+}
+
+impl Spanned for SpanWithCtx {
+    fn span(&self) -> Span {
+        self.span
+    }
 }
 
 impl Deref for SpanWithCtx {
