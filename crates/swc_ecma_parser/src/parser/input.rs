@@ -438,7 +438,7 @@ impl<I: Tokens> Buffer<I> {
             .map(|item| item.span)
             .unwrap_or(self.prev_span);
 
-        Span::new(data.lo, data.hi, data.ctxt)
+        Span::new(data.lo, data.hi)
     }
 
     /// Returns last byte position of previous token.

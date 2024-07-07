@@ -83,7 +83,9 @@ impl<I: Tokens> Parser<I> {
         self.strict_mode().parse_with(|p| {
             expect!(p, "class");
 
-            let ident = p.parse_maybe_opt_binding_ident(is_ident_required)?;
+            let ident = p
+                .parse_maybe_opt_binding_ident(is_ident_required)?
+                .map(Ident::from);
             if p.input.syntax().typescript() {
                 if let Some(span) = ident.invalid_class_name() {
                     p.emit_err(span, SyntaxError::TS2414);
@@ -1201,7 +1203,8 @@ impl<I: Tokens> Parser<I> {
                 ..self.ctx()
             })
             .parse_maybe_opt_binding_ident(is_ident_required)?
-        };
+        }
+        .map(Ident::from);
 
         self.with_ctx(Context {
             allow_direct_super: false,
@@ -1367,7 +1370,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_class_prop_name(&mut self) -> PResult<Key> {
         if is!(self, '#') {
             let name = self.parse_private_name()?;
-            if name.id.sym == "constructor" {
+            if name.name == "constructor" {
                 self.emit_err(name.span, SyntaxError::PrivateConstructor);
             }
             Ok(Key::Private(name))

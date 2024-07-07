@@ -169,7 +169,7 @@ impl FastDts {
                     }
 
                     let name = self.gen_unique_name();
-                    let name_ident = Ident::new(name, DUMMY_SP);
+                    let name_ident = Ident::new_no_ctxt(name, DUMMY_SP);
                     let type_ann = self
                         .expr_to_ts_type(export.expr.clone(), false, true)
                         .map(type_ann);
