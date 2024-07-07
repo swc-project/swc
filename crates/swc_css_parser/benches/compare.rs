@@ -17,7 +17,7 @@ where
     let _ = ::testing::run_test(false, |cm, _| {
         let comments = SingleThreadedComments::default();
 
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
 
         let lexer = Lexer::new(StringInput::from(&*fm), Some(&comments), Default::default());
         let mut parser = Parser::new(lexer, Default::default());

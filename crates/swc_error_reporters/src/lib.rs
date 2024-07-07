@@ -136,7 +136,7 @@ impl SourceCode for MietteSourceCode<'_> {
         let name = if self.1.skip_filename {
             None
         } else {
-            match loc.file.name {
+            match &*loc.file.name {
                 FileName::Real(ref path) => Some(path.to_string_lossy().into_owned()),
                 FileName::Custom(ref name) => Some(name.clone()),
                 FileName::Anon => None,

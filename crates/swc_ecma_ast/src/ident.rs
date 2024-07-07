@@ -327,9 +327,9 @@ impl Ident {
     }
 
     /// Create a new identifier with the given position.
-    pub fn with_pos(self, lo: BytePos, hi: BytePos) -> Ident {
-        let span = Span::new(lo, hi, self.span.ctxt);
-        Ident { span, ..self }
+    pub fn with_pos(mut self, lo: BytePos, hi: BytePos) -> Ident {
+        self.span.span = Span::new(lo, hi);
+        self
     }
 }
 
@@ -384,12 +384,22 @@ impl AsRef<str> for Ident {
 }
 
 impl Ident {
-    pub const fn new(sym: Atom, span: Span) -> Self {
+    pub const fn new(sym: Atom, span: SpanWithCtx) -> Self {
         Ident {
             span,
             sym,
             optional: false,
         }
+    }
+
+    pub const fn new_no_ctxt(sym: Atom, span: Span) -> Self {
+        Self::new(
+            sym,
+            SpanWithCtx {
+                span,
+                ctxt: SyntaxContext::empty(),
+            },
+        )
     }
 }
 
