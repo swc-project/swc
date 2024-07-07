@@ -1,5 +1,5 @@
 #![allow(clippy::vec_box)]
-use std::mem::transmute;
+use std::{borrow::Cow, mem::transmute};
 
 use is_macro::Is;
 use string_enum::StringEnum;
@@ -1499,10 +1499,10 @@ impl TryFrom<Box<Expr>> for SimpleAssignTarget {
 bridge_from!(SimpleAssignTarget, BindingIdent, Ident);
 
 impl SimpleAssignTarget {
-    pub fn leftmost(&self) -> Option<&Ident> {
+    pub fn leftmost(&self) -> Option<Cow<Ident>> {
         match self {
-            SimpleAssignTarget::Ident(i) => Some(&i.id),
-            SimpleAssignTarget::Member(MemberExpr { obj, .. }) => obj.leftmost(),
+            SimpleAssignTarget::Ident(i) => Some(Cow::Owned(Ident::new(i.sym.clone(), i.span))),
+            SimpleAssignTarget::Member(MemberExpr { obj, .. }) => obj.leftmost().map(Cow::Borrowed),
             _ => None,
         }
     }
@@ -1530,7 +1530,7 @@ bridge_from!(AssignTarget, AssignTargetPat, ObjectPat);
 impl From<SimpleAssignTarget> for Box<Expr> {
     fn from(s: SimpleAssignTarget) -> Self {
         match s {
-            SimpleAssignTarget::Ident(i) => Box::new(Expr::Ident(i.id)),
+            SimpleAssignTarget::Ident(i) => Box::new(Expr::Ident(i.into())),
             SimpleAssignTarget::Member(m) => Box::new(Expr::Member(m)),
             SimpleAssignTarget::SuperProp(s) => Box::new(Expr::SuperProp(s)),
             SimpleAssignTarget::Paren(s) => Box::new(Expr::Paren(s)),
@@ -1546,12 +1546,12 @@ impl From<SimpleAssignTarget> for Box<Expr> {
 }
 
 impl AssignTarget {
-    pub fn as_ident(&self) -> Option<&Ident> {
-        Some(&self.as_simple()?.as_ident()?.id)
+    pub fn as_ident(&self) -> Option<&BindingIdent> {
+        self.as_simple()?.as_ident()
     }
 
-    pub fn as_ident_mut(&mut self) -> Option<&mut Ident> {
-        Some(&mut self.as_mut_simple()?.as_mut_ident()?.id)
+    pub fn as_ident_mut(&mut self) -> Option<&mut BindingIdent> {
+        self.as_mut_simple()?.as_mut_ident()
     }
 }
 
