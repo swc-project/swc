@@ -32,18 +32,8 @@ extern "C" {
         allocated_ptr: u32,
     ) -> u32;
     fn __span_to_string_proxy(span_lo: u32, span_hi: u32, allocated_ret_ptr: u32) -> u32;
-    fn __span_to_filename_proxy(
-        span_lo: u32,
-        span_hi: u32,
-        span_ctxt: u32,
-        allocated_ret_ptr: u32,
-    ) -> u32;
-    fn __span_to_source_proxy(
-        span_lo: u32,
-        span_hi: u32,
-        span_ctxt: u32,
-        allocated_ret_ptr: u32,
-    ) -> u32;
+    fn __span_to_filename_proxy(span_lo: u32, span_hi: u32, allocated_ret_ptr: u32) -> u32;
+    fn __span_to_source_proxy(span_lo: u32, span_hi: u32, allocated_ret_ptr: u32) -> u32;
     fn __span_to_lines_proxy(
         span_lo: u32,
         span_hi: u32,
@@ -77,7 +67,7 @@ impl PluginSourceMapProxy {
         {
             let src: Result<String, Box<SpanSnippetError>> =
                 read_returned_result_from_host(|serialized_ptr| unsafe {
-                    __span_to_source_proxy(sp.lo.0, sp.hi.0, sp.ctxt.as_u32(), serialized_ptr)
+                    __span_to_source_proxy(sp.lo.0, sp.hi.0, serialized_ptr)
                 })
                 .expect("Host should return source code");
 
@@ -193,7 +183,7 @@ impl SourceMapper for PluginSourceMapProxy {
     fn span_to_filename(&self, sp: Span) -> FileName {
         #[cfg(target_arch = "wasm32")]
         return read_returned_result_from_host(|serialized_ptr| unsafe {
-            __span_to_filename_proxy(sp.lo.0, sp.hi.0, sp.ctxt.as_u32(), serialized_ptr)
+            __span_to_filename_proxy(sp.lo.0, sp.hi.0, serialized_ptr)
         })
         .expect("Host should return Filename");
 
@@ -218,7 +208,6 @@ impl SourceMapper for PluginSourceMapProxy {
             let span = Span {
                 lo: BytePos(0),
                 hi: BytePos(0),
-                ctxt: swc_common::SyntaxContext::empty(),
             };
 
             let serialized = swc_common::plugin::serialized::PluginSerializedBytes::try_serialize(

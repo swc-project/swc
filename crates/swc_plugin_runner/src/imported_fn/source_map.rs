@@ -6,7 +6,7 @@ use parking_lot::Mutex;
 use swc_common::{
     plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
     source_map::{PartialFileLines, PartialLoc},
-    BytePos, SourceMap, SourceMapper, Span, SyntaxContext,
+    BytePos, SourceMap, SourceMapper, Span,
 };
 use wasmer::{AsStoreMut, FunctionEnvMut, Memory, TypedFunction};
 
@@ -253,7 +253,6 @@ pub fn span_to_filename_proxy(
     mut env: FunctionEnvMut<SourceMapHostEnvironment>,
     span_lo: u32,
     span_hi: u32,
-    span_ctxt: u32,
     allocated_ret_ptr: u32,
 ) -> i32 {
     let memory = env.data().memory.clone();
@@ -269,7 +268,6 @@ pub fn span_to_filename_proxy(
     let span = Span {
         lo: BytePos(span_lo),
         hi: BytePos(span_hi),
-        ctxt: SyntaxContext::from_u32(span_ctxt),
     };
     let ret = (env.data().source_map.lock()).span_to_filename(span);
     let serialized_loc_bytes =
@@ -291,7 +289,6 @@ pub fn span_to_source_proxy(
     mut env: FunctionEnvMut<SourceMapHostEnvironment>,
     span_lo: u32,
     span_hi: u32,
-    span_ctxt: u32,
     allocated_ret_ptr: u32,
 ) -> i32 {
     let memory = env.data().memory.clone();
@@ -307,7 +304,6 @@ pub fn span_to_source_proxy(
     let span = Span {
         lo: BytePos(span_lo),
         hi: BytePos(span_hi),
-        ctxt: SyntaxContext::from_u32(span_ctxt),
     };
     let ret = (*env.data().source_map.lock()).span_to_snippet(span);
     let serialized_loc_bytes =
