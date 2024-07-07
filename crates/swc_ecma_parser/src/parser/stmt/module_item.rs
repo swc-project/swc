@@ -222,13 +222,13 @@ impl<I: Tokens> Parser<I> {
                             if self.ctx().is_reserved_word(&possibly_orig_name.sym) {
                                 syntax_error!(
                                     self,
-                                    possibly_orig_name.span,
+                                    *possibly_orig_name.span,
                                     SyntaxError::ReservedWordInImport
                                 )
                             }
 
                             if type_only {
-                                self.emit_err(orig_name.span, SyntaxError::TS2206);
+                                self.emit_err(*orig_name.span, SyntaxError::TS2206);
                             }
 
                             return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
