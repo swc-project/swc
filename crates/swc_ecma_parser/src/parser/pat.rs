@@ -182,11 +182,7 @@ impl<I: Tokens> Parser<I> {
             if eat!(self, '?') {
                 match pat {
                     Pat::Ident(BindingIdent {
-                        id:
-                            Ident {
-                                ref mut optional, ..
-                            },
-                        ..
+                        ref mut optional, ..
                     })
                     | Pat::Array(ArrayPat {
                         ref mut optional, ..

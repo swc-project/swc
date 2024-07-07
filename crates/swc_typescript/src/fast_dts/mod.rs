@@ -183,7 +183,10 @@ impl FastDts {
                                 decls: vec![VarDeclarator {
                                     span: DUMMY_SP,
                                     name: Pat::Ident(BindingIdent {
-                                        id: name_ident.clone(),
+                                        span: name_ident.span,
+                                        sym: name_ident.sym.clone(),
+                                        optional: name_ident.optional,
+
                                         type_ann: Some(type_ann),
                                     }),
                                     init: None,
@@ -824,13 +827,15 @@ impl FastDts {
                 self.expr_to_ts_type(assign_pat.right, false, false)
                     .map(|param| {
                         let name = if let Pat::Ident(ident) = *assign_pat.left {
-                            ident.id.sym.clone()
+                            ident.sym.clone()
                         } else {
                             self.gen_unique_name()
                         };
 
                         TsFnParam::Ident(BindingIdent {
-                            id: Ident::new(name, assign_pat.span),
+                            span: assign_pat.span.with_empty_ctxt(),
+                            sym: name,
+                            optional: false,
                             type_ann: Some(type_ann(param)),
                         })
                     })

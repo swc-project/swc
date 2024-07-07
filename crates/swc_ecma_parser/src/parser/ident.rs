@@ -71,7 +71,7 @@ impl<I: Tokens> Parser<I> {
             _ => syntax_error!(self, SyntaxError::ExpectedIdent),
         };
 
-        Ok(Ident::new(w, span!(self, start)))
+        Ok(Ident::new_no_ctxt(w, span!(self, start)))
     }
 
     // https://tc39.es/ecma262/#prod-ModuleExportName
