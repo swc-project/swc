@@ -1,7 +1,0 @@
-language: rust
-id: pat-with-into
-rule:
-    all:
-        - kind: call_expression
-        - pattern: "Pat::$NAME($EXPR).into()"
-fix: $EXPR.into()
