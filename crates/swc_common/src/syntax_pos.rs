@@ -493,6 +493,10 @@ extern "C" {
 }
 
 impl Span {
+    pub fn with_ctxt(self, ctxt: SyntaxContext) -> SpanWithCtx {
+        SpanWithCtx { span: self, ctxt }
+    }
+
     #[inline]
     pub fn lo(self) -> BytePos {
         self.lo
