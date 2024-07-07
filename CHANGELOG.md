@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.6.13] - 2024-07-06
 
 ### Bug Fixes
 
@@ -1351,9 +1351,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/codegen)** Emit `override` keyword ([#8449](https://github.com/swc-project/swc/issues/8449)) ([0dd96f8](https://github.com/swc-project/swc/commit/0dd96f85e2215f5c18849bdfb150dc95006399e8))
 
 
 - **(es/minifier)** Add WeakRef as a safe global reference ([#8458](https://github.com/swc-project/swc/issues/8458)) ([d681785](https://github.com/swc-project/swc/commit/d681785b428b7958e7652dc3a7c709ad85b298f9))
