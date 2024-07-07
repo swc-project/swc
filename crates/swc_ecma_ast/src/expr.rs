@@ -530,7 +530,7 @@ impl ObjectLit {
                     Prop::KeyValue(kv) => {
                         let key = match &kv.key {
                             PropName::Ident(i) => i.clone(),
-                            PropName::Str(s) => Ident::new(s.value.clone(), s.span),
+                            PropName::Str(s) => Ident::new_no_ctxt(s.value.clone(), s.span),
                             _ => return None,
                         };
 

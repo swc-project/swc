@@ -1,6 +1,6 @@
 use std::ops::{Deref, DerefMut};
 
-use swc_common::{Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_css_ast::*;
 
 use super::{

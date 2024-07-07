@@ -1,9 +1,7 @@
 extern crate swc_malloc;
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_common::{
-    comments::SingleThreadedComments, input::StringInput, FileName, Span, SyntaxContext, DUMMY_SP,
-};
+use swc_common::{comments::SingleThreadedComments, input::StringInput, FileName, Span, DUMMY_SP};
 use swc_css_ast::Stylesheet;
 use swc_css_parser::{lexer::Lexer, parser::Parser};
 use swc_css_visit::{Fold, FoldWith, VisitMut, VisitMutWith};
@@ -85,7 +83,7 @@ fn bench_cases(c: &mut Criterion) {
         struct RespanFold;
 
         impl Fold for RespanFold {
-            fn fold_span(&mut self, s: Span) -> Span {
+            fn fold_span(&mut self, _: Span) -> Span {
                 DUMMY_SP
             }
         }

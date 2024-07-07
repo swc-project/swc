@@ -155,7 +155,7 @@ impl From<BindingIdent> for Ident {
 
 impl From<&'_ str> for Ident {
     fn from(bi: &str) -> Self {
-        Ident::new(bi.into(), DUMMY_SP)
+        Ident::new_no_ctxt(bi.into(), DUMMY_SP)
     }
 }
 
@@ -177,7 +177,7 @@ impl EqIgnoreSpan for Ident {
 
 impl From<Id> for Ident {
     fn from(id: Id) -> Self {
-        Ident::new(id.0, DUMMY_SP.with_ctxt(id.1))
+        Ident::new(id.0, SpanWithCtx::new(BytePos::DUMMY, BytePos::DUMMY, id.1))
     }
 }
 
@@ -338,7 +338,7 @@ pub type Id = (Atom, SyntaxContext);
 
 impl Take for Ident {
     fn dummy() -> Self {
-        Ident::new(js_word!(""), DUMMY_SP)
+        Ident::new_no_ctxt(js_word!(""), DUMMY_SP)
     }
 }
 

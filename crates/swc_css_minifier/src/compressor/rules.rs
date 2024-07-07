@@ -1,9 +1,7 @@
 use std::mem::take;
 
 use swc_atoms::JsWord;
-use swc_common::{
-    collections::AHashMap, util::take::Take, EqIgnoreSpan, Span, Spanned, SyntaxContext,
-};
+use swc_common::{collections::AHashMap, util::take::Take, EqIgnoreSpan, Span, Spanned};
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitMutWith, VisitWith};
 

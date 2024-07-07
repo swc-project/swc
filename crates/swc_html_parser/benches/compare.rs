@@ -1,7 +1,7 @@
 extern crate swc_malloc;
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_common::{input::StringInput, FileName, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{input::StringInput, FileName, Span, DUMMY_SP};
 use swc_html_ast::{Document, DocumentFragment, DocumentMode, Element, Namespace};
 use swc_html_parser::{lexer::Lexer, parser::Parser};
 use swc_html_visit::{Fold, FoldWith, VisitMut, VisitMutWith};
@@ -13,7 +13,7 @@ where
     F: FnMut(Document) -> Document,
 {
     let _ = ::testing::run_test(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
 
         let lexer = Lexer::new(StringInput::from(&*fm));
         let mut parser = Parser::new(lexer, Default::default());
@@ -35,7 +35,7 @@ where
     F: FnMut(DocumentFragment) -> DocumentFragment,
 {
     let _ = ::testing::run_test(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
 
         let lexer = Lexer::new(StringInput::from(&*fm));
         let mut parser = Parser::new(lexer, Default::default());
@@ -119,7 +119,7 @@ fn bench_cases(c: &mut Criterion) {
         struct RespanFold;
 
         impl Fold for RespanFold {
-            fn fold_span(&mut self, s: Span) -> Span {
+            fn fold_span(&mut self, _: Span) -> Span {
                 DUMMY_SP
             }
         }
@@ -187,7 +187,7 @@ fn bench_cases(c: &mut Criterion) {
             struct RespanFold;
 
             impl Fold for RespanFold {
-                fn fold_span(&mut self, s: Span) -> Span {
+                fn fold_span(&mut self, _: Span) -> Span {
                     DUMMY_SP
                 }
             }

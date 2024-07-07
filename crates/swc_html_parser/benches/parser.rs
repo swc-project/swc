@@ -7,7 +7,7 @@ use swc_html_parser::{lexer::Lexer, parser::Parser};
 
 fn bench_document(b: &mut Bencher, src: &'static str) {
     let _ = ::testing::run_test(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Anon, src.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), src.into());
 
         b.iter(|| {
             let _ = black_box({
@@ -24,7 +24,7 @@ fn bench_document(b: &mut Bencher, src: &'static str) {
 
 fn bench_document_fragment(b: &mut Bencher, src: &'static str) {
     let _ = ::testing::run_test(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Anon, src.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), src.into());
 
         b.iter(|| {
             let _ = black_box({
