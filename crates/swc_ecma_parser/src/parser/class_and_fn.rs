@@ -1740,7 +1740,7 @@ pub(crate) fn is_not_this(p: &Param) -> bool {
     !matches!(
         &p.pat,
         Pat::Ident(BindingIdent {
-            id: Ident { sym: this, .. },
+            sym: this,
             ..
         })if &**this == "this"
     )

@@ -32,7 +32,7 @@ impl<I: Tokens> Parser<I> {
         let id = self.parse_ident_name()?;
         Ok(PrivateName {
             span: span!(self, start),
-            id,
+            name: id.sym,
         })
     }
 

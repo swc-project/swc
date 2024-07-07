@@ -432,7 +432,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 let ident = self.parse_binding_ident()?;
-                if self.input.syntax().typescript() && ident.id.sym == "as" && !is!(self, "=>") {
+                if self.input.syntax().typescript() && ident.sym == "as" && !is!(self, "=>") {
                     // async as type
                     let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;
                     return Ok(Box::new(Expr::TsAs(TsAsExpr {
@@ -486,7 +486,7 @@ impl<I: Tokens> Parser<I> {
             let id = self.parse_ident_name()?;
             return Ok(Box::new(Expr::PrivateName(PrivateName {
                 span: span!(self, start),
-                id,
+                name: id.sym,
             })));
         }
 
@@ -1819,7 +1819,7 @@ impl<I: Tokens> Parser<I> {
                 let mut pat = self.reparse_expr_as_pat(PatType::BindingPat, arg.expr)?;
                 if optional {
                     match pat {
-                        Pat::Ident(ref mut i) => i.id.optional = true,
+                        Pat::Ident(ref mut i) => i.optional = true,
                         _ => unreachable!(),
                     }
                 }
