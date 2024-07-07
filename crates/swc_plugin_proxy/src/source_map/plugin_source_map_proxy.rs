@@ -4,7 +4,7 @@
 use swc_common::{
     source_map::{
         DistinctSources, FileLinesResult, MalformedSourceMapPositions, PartialFileLinesResult,
-        PartialLoc, Pos, SpanSnippetError,
+        PartialLoc, SmallPos, SpanSnippetError,
     },
     BytePos, FileName, Loc, SourceFileAndBytePos, SourceMapper, Span,
 };

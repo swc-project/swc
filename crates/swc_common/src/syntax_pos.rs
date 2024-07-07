@@ -1021,7 +1021,7 @@ impl SourceFile {
             src,
             src_hash,
             start_pos,
-            end_pos: Pos::from_usize(end_pos),
+            end_pos: SmallPos::from_usize(end_pos),
             lines,
             multibyte_chars,
             non_narrow_chars,
@@ -1118,7 +1118,7 @@ pub(super) fn remove_bom(src: &mut String) {
 // Pos, BytePos, CharPos
 //
 
-pub trait Pos {
+pub trait SmallPos {
     fn from_usize(n: usize) -> Self;
     fn to_usize(&self) -> usize;
     fn from_u32(n: u32) -> Self;
@@ -1189,7 +1189,7 @@ pub struct CharPos(pub usize);
 // FIXME: Lots of boilerplate in these impls, but so far my attempts to fix
 // have been unsuccessful
 
-impl Pos for BytePos {
+impl SmallPos for BytePos {
     #[inline(always)]
     fn from_usize(n: usize) -> BytePos {
         BytePos(n as u32)
@@ -1229,7 +1229,7 @@ impl Sub for BytePos {
     }
 }
 
-impl Pos for CharPos {
+impl SmallPos for CharPos {
     #[inline(always)]
     fn from_usize(n: usize) -> CharPos {
         CharPos(n)

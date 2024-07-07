@@ -160,7 +160,7 @@ impl CodeSuggestion {
     /// Returns the assembled code suggestions and whether they should be shown
     /// with an underline.
     pub fn splice_lines(&self, cm: &SourceMapperDyn) -> Vec<(String, Vec<SubstitutionPart>)> {
-        use crate::syntax_pos::{CharPos, Pos};
+        use crate::syntax_pos::{CharPos, SmallPos};
 
         fn push_trailing(
             buf: &mut String,

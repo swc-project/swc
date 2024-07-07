@@ -239,7 +239,7 @@ impl SourceMap {
             was_remapped,
             unmapped_path,
             src,
-            Pos::from_usize(start_pos),
+            SmallPos::from_usize(start_pos),
         ));
 
         {
