@@ -495,7 +495,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
                 .map(Some)?
         } else {
             if self.ctx().is_reserved_word(&key.sym) {
-                self.emit_err(key.span, SyntaxError::ReservedWordInObjShorthandOrPat);
+                self.emit_err(*key.span, SyntaxError::ReservedWordInObjShorthandOrPat);
             }
 
             None

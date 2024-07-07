@@ -1,7 +1,4 @@
-use std::{
-    fmt::Display,
-    ops::{Deref, DerefMut},
-};
+use std::fmt::Display;
 
 use phf::phf_set;
 use scoped_tls::scoped_thread_local;

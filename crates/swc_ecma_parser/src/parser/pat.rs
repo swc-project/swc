@@ -878,8 +878,8 @@ impl<I: Tokens> Parser<I> {
     fn pat_is_valid_argument_in_strict(&self, pat: &Pat) {
         match pat {
             Pat::Ident(i) => {
-                if i.id.is_reserved_in_strict_bind() {
-                    self.emit_strict_mode_err(i.id.span, SyntaxError::EvalAndArgumentsInStrict)
+                if i.is_reserved_in_strict_bind() {
+                    self.emit_strict_mode_err(i.span, SyntaxError::EvalAndArgumentsInStrict)
                 }
             }
             Pat::Array(arr) => {

@@ -174,6 +174,6 @@ impl<I: Tokens> Parser<I> {
             }
         })?;
 
-        Ok(Ident::new(word, span!(self, start)))
+        Ok(Ident::new_no_ctxt(word, span!(self, start)))
     }
 }

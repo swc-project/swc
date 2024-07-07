@@ -870,7 +870,7 @@ fn type_ann(ts_type: Box<TsType>) -> Box<TsTypeAnn> {
 fn type_ref(name: Atom) -> TsTypeRef {
     TsTypeRef {
         span: DUMMY_SP,
-        type_name: TsEntityName::Ident(Ident::new(name, DUMMY_SP)),
+        type_name: TsEntityName::Ident(Ident::new_no_ctxt(name, DUMMY_SP)),
         type_params: None,
     }
 }
