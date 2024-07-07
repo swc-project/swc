@@ -375,7 +375,8 @@ impl<'a> arbitrary::Arbitrary<'a> for Ident {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct PrivateName {
     pub span: Span,
-    pub id: Ident,
+    #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
+    pub name: Atom,
 }
 
 impl AsRef<str> for Ident {
