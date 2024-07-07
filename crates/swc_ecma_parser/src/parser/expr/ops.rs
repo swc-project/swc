@@ -305,7 +305,7 @@ impl<I: Tokens> Parser<I> {
 
             if op == op!("delete") {
                 if let Expr::Ident(ref i) = *arg {
-                    self.emit_strict_mode_err(i.span, SyntaxError::TS1102)
+                    self.emit_strict_mode_err(*i.span, SyntaxError::TS1102)
                 }
             }
 
@@ -383,7 +383,10 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(span, SyntaxError::InvalidIdentInAsync);
             }
 
-            return Ok(Box::new(Expr::Ident(Ident::new("await".into(), span))));
+            return Ok(Box::new(Expr::Ident(Ident::new_no_ctxt(
+                "await".into(),
+                span,
+            ))));
         }
 
         if ctx.in_function && !ctx.in_async {

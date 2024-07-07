@@ -1133,7 +1133,7 @@ impl<'a, I: Tokens> Parser<I> {
             for lb in &p.state.labels {
                 if l.sym == *lb {
                     errors.push(Error::new(
-                        l.span,
+                        *l.span,
                         SyntaxError::DuplicateLabel(l.sym.clone()),
                     ));
                 }
