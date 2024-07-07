@@ -17,7 +17,7 @@ impl<I: Tokens> Parser<I> {
             Token::JSXName { .. } => match bump!(self) {
                 Token::JSXName { name } => {
                     let span = self.input.prev_span();
-                    Ok(Ident::new(name, span))
+                    Ok(Ident::new_no_ctxt(name, span))
                 }
                 _ => unreachable!(),
             },
