@@ -460,7 +460,7 @@ impl<I: Tokens> Parser<I> {
                 })));
             } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!(self, "=>") {
                 if self.ctx().strict && id.is_reserved_in_strict_bind() {
-                    self.emit_strict_mode_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
+                    self.emit_strict_mode_err(*id.span, SyntaxError::EvalAndArgumentsInStrict)
                 }
                 let params = vec![id.into()];
                 let body =
@@ -929,7 +929,7 @@ impl<I: Tokens> Parser<I> {
             // It's a call expression
             return Ok(Box::new(Expr::Call(CallExpr {
                 span: span!(self, async_span.lo()),
-                callee: Callee::Expr(Box::new(Expr::Ident(Ident::new(
+                callee: Callee::Expr(Box::new(Expr::Ident(Ident::new_no_ctxt(
                     "async".into(),
                     async_span,
                 )))),
@@ -943,7 +943,7 @@ impl<I: Tokens> Parser<I> {
         if expr_or_spreads.is_empty() {
             syntax_error!(
                 self,
-                Span::new(expr_start, last_pos!(self), Default::default()),
+                Span::new(expr_start, last_pos!(self),),
                 SyntaxError::EmptyParenExpr
             );
         }
@@ -1833,7 +1833,7 @@ impl<I: Tokens> Parser<I> {
                 }
                 match pat {
                     Pat::Ident(BindingIdent {
-                        id: Ident { ref mut span, .. },
+                        span: SpanWithCtx { ref mut span, .. },
                         ref mut type_ann,
                         ..
                     })

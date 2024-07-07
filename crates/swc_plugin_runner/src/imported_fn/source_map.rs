@@ -232,7 +232,6 @@ pub fn span_to_string_proxy(
     let span = Span {
         lo: BytePos(span_lo),
         hi: BytePos(span_hi),
-        ctxt: SyntaxContext::from_u32(span_ctxt),
     };
     let ret = (env.data().source_map.lock()).span_to_string(span);
     let serialized_loc_bytes =

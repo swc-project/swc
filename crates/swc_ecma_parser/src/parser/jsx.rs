@@ -1,5 +1,5 @@
 use either::Either;
-use swc_common::{Spanned, SyntaxContext};
+use swc_common::Spanned;
 
 use super::*;
 

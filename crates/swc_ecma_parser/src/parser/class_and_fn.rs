@@ -394,7 +394,7 @@ impl<I: Tokens> Parser<I> {
         let declare_token = if declare {
             // Handle declare(){}
             if self.is_class_method() {
-                let key = Key::Public(PropName::Ident(Ident::new(
+                let key = Key::Public(PropName::Ident(Ident::new_no_ctxt(
                     "declare".into(),
                     span!(self, start),
                 )));
@@ -519,7 +519,10 @@ impl<I: Tokens> Parser<I> {
         if let Some(static_token) = static_token {
             // Handle static(){}
             if self.is_class_method() {
-                let key = Key::Public(PropName::Ident(Ident::new("static".into(), static_token)));
+                let key = Key::Public(PropName::Ident(Ident::new_no_ctxt(
+                    "static".into(),
+                    static_token,
+                )));
                 let is_optional = self.input.syntax().typescript() && eat!(self, '?');
                 return self.make_method(
                     |p| p.parse_unique_formal_params(),
@@ -547,8 +550,10 @@ impl<I: Tokens> Parser<I> {
                 //   {}
                 let is_parsing_static_blocks = is!(self, '{');
                 if !is_parsing_static_blocks {
-                    let key =
-                        Key::Public(PropName::Ident(Ident::new("static".into(), static_token)));
+                    let key = Key::Public(PropName::Ident(Ident::new_no_ctxt(
+                        "static".into(),
+                        static_token,
+                    )));
                     let is_optional = self.input.syntax().typescript() && eat!(self, '?');
                     return self.make_property(
                         start,
@@ -746,7 +751,7 @@ impl<I: Tokens> Parser<I> {
 
         trace_cur!(self, parse_class_member_with_is_static__normal_class_member);
         let mut key = if readonly.is_some() && is_one_of!(self, '!', ':') {
-            Key::Public(PropName::Ident(Ident::new(
+            Key::Public(PropName::Ident(Ident::new_no_ctxt(
                 "readonly".into(),
                 readonly.unwrap(),
             )))

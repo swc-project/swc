@@ -2,7 +2,7 @@ use std::fmt::Write;
 
 use either::Either;
 use swc_atoms::js_word;
-use swc_common::{Spanned, SyntaxContext};
+use swc_common::Spanned;
 
 use super::*;
 use crate::{lexer::TokenContexts, parser::class_and_fn::IsSimpleParameterList, token::Keyword};
