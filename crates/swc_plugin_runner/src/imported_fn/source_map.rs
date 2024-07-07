@@ -95,10 +95,8 @@ pub fn merge_spans_proxy(
     mut env: FunctionEnvMut<SourceMapHostEnvironment>,
     lhs_lo: u32,
     lhs_hi: u32,
-    lhs_ctxt: u32,
     rhs_lo: u32,
     rhs_hi: u32,
-    rhs_ctxt: u32,
     allocated_ptr: u32,
 ) -> i32 {
     let memory = env.data().memory.clone();
@@ -109,13 +107,11 @@ pub fn merge_spans_proxy(
     let sp_lhs = Span {
         lo: BytePos(lhs_lo),
         hi: BytePos(lhs_hi),
-        ctxt: SyntaxContext::from_u32(lhs_ctxt),
     };
 
     let sp_rhs = Span {
         lo: BytePos(rhs_lo),
         hi: BytePos(rhs_hi),
-        ctxt: SyntaxContext::from_u32(rhs_ctxt),
     };
 
     let ret = (env.data().source_map.lock()).merge_spans(sp_lhs, sp_rhs);

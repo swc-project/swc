@@ -27,10 +27,8 @@ extern "C" {
     fn __merge_spans_proxy(
         lhs_lo: u32,
         lhs_hi: u32,
-        lhs_ctxt: u32,
         rhs_lo: u32,
         rhs_hi: u32,
-        rhs_ctxt: u32,
         allocated_ptr: u32,
     ) -> u32;
     fn __span_to_string_proxy(
@@ -236,15 +234,8 @@ impl SourceMapper for PluginSourceMapProxy {
             .expect("Should be serializable");
             let (ptr, len) = serialized.as_ptr();
 
-            let ret = __merge_spans_proxy(
-                sp_lhs.lo.0,
-                sp_lhs.hi.0,
-                sp_lhs.ctxt.as_u32(),
-                sp_rhs.lo.0,
-                sp_rhs.hi.0,
-                sp_rhs.ctxt.as_u32(),
-                ptr as _,
-            );
+            let ret =
+                __merge_spans_proxy(sp_lhs.lo.0, sp_lhs.hi.0, sp_rhs.lo.0, sp_rhs.hi.0, ptr as _);
 
             return if ret == 1 { Some(span) } else { None };
         };
