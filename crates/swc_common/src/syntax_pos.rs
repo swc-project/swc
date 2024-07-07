@@ -497,6 +497,10 @@ impl Span {
         SpanWithCtx { span: self, ctxt }
     }
 
+    pub fn with_empty_ctxt(self) -> SpanWithCtx {
+        self.with_ctxt(SyntaxContext::empty())
+    }
+
     #[inline]
     pub fn lo(self) -> BytePos {
         self.lo
