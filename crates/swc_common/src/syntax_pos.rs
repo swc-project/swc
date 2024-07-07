@@ -931,7 +931,7 @@ pub struct SourceFile {
     /// The name of the file that the source came from. Source that doesn't
     /// originate from files has names between angle brackets by convention,
     /// e.g. `<anon>`
-    pub name: FileName,
+    pub name: Lrc<FileName>,
     /// True if the `name` field above has been modified by
     /// `--remap-path-prefix`
     pub name_was_remapped: bool,
@@ -986,7 +986,7 @@ impl SourceFile {
 
     /// `src` should not have UTF8 BOM
     pub fn new_from(
-        name: FileName,
+        name: Lrc<FileName>,
         name_was_remapped: bool,
         unmapped_path: FileName,
         src: Lrc<String>,
