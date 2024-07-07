@@ -92,10 +92,6 @@ fn bench_cases(c: &mut Criterion) {
 
         impl VisitMut for RespanVisitMut {
             fn visit_mut_span(&mut self, span: &mut Span) {
-                if span.ctxt != SyntaxContext::empty() {
-                    panic!()
-                }
-
                 *span = DUMMY_SP;
             }
         }
@@ -124,10 +120,6 @@ fn bench_cases(c: &mut Criterion) {
 
         impl Fold for RespanFold {
             fn fold_span(&mut self, s: Span) -> Span {
-                if s.ctxt != SyntaxContext::empty() {
-                    panic!()
-                }
-
                 DUMMY_SP
             }
         }
@@ -165,10 +157,6 @@ fn bench_cases(c: &mut Criterion) {
 
             impl VisitMut for RespanVisitMut {
                 fn visit_mut_span(&mut self, span: &mut Span) {
-                    if span.ctxt != SyntaxContext::empty() {
-                        panic!()
-                    }
-
                     *span = DUMMY_SP;
                 }
             }
@@ -200,10 +188,6 @@ fn bench_cases(c: &mut Criterion) {
 
             impl Fold for RespanFold {
                 fn fold_span(&mut self, s: Span) -> Span {
-                    if s.ctxt != SyntaxContext::empty() {
-                        panic!()
-                    }
-
                     DUMMY_SP
                 }
             }

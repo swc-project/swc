@@ -3,7 +3,7 @@ use nom::{
     error::ErrorKind,
     IResult, InputIter, Slice,
 };
-use swc_common::{Span, Spanned, SyntaxContext};
+use swc_common::{Span, Spanned};
 
 pub use self::input::Input;
 use crate::ast::*;

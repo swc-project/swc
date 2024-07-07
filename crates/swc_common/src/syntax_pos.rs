@@ -16,7 +16,7 @@ use url::Url;
 
 use self::hygiene::MarkData;
 pub use self::hygiene::{Mark, SyntaxContext};
-use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lrc, Spanned};
+use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lrc};
 
 mod analyze_source_file;
 pub mod hygiene;

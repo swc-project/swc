@@ -7,7 +7,8 @@ use phf::phf_set;
 use scoped_tls::scoped_thread_local;
 use swc_atoms::{js_word, Atom};
 use swc_common::{
-    ast_node, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
+    ast_node, source_map::SpanWithCtx, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span,
+    Spanned, SyntaxContext, DUMMY_SP,
 };
 
 use crate::{typescript::TsTypeAnn, Expr};
@@ -137,7 +138,7 @@ bridge_from!(BindingIdent, Ident, Id);
 #[ast_node("Identifier")]
 #[derive(Eq, Hash)]
 pub struct Ident {
-    pub span: Span,
+    pub span: SpanWithCtx,
     #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
     pub sym: Atom,
 

@@ -329,7 +329,7 @@ impl Expr {
     pub fn set_span(&mut self, span: Span) {
         match self {
             Expr::Ident(i) => {
-                i.span = span.with_ctxt(i.span.ctxt);
+                i.span.span = span;
             }
             Expr::This(e) => e.span = span,
             Expr::Array(e) => e.span = span,
