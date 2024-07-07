@@ -226,7 +226,7 @@ impl<I: Tokens> Parser<I> {
                 }) => {
                     let new_type_ann = self.try_parse_ts_type_ann()?;
                     if new_type_ann.is_some() {
-                        *span = Span::new(pat_start, self.input.prev_span().hi, Default::default());
+                        *span = Span::new(pat_start, self.input.prev_span().hi);
                     }
                     *type_ann = new_type_ann;
                 }
@@ -240,7 +240,7 @@ impl<I: Tokens> Parser<I> {
 
                 Pat::Assign(AssignPat { ref mut span, .. }) => {
                     if (self.try_parse_ts_type_ann()?).is_some() {
-                        *span = Span::new(pat_start, self.input.prev_span().hi, Default::default());
+                        *span = Span::new(pat_start, self.input.prev_span().hi);
                         self.emit_err(*span, SyntaxError::TSTypeAnnotationAfterAssign);
                     }
                 }

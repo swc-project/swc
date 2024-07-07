@@ -2020,12 +2020,12 @@ where
                 Ok(Length {
                     span,
                     value: Number {
-                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len)),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2071,12 +2071,12 @@ where
                 Ok(Angle {
                     span,
                     value: Number {
-                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len)),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2119,12 +2119,12 @@ where
                 Ok(Time {
                     span,
                     value: Number {
-                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len)),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2167,12 +2167,12 @@ where
                 Ok(Frequency {
                     span,
                     value: Number {
-                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len)),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2218,12 +2218,12 @@ where
                 Ok(Resolution {
                     span,
                     value: Number {
-                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len)),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2266,12 +2266,12 @@ where
                 Ok(Flex {
                     span,
                     value: Number {
-                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len)),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2310,12 +2310,12 @@ where
                 Ok(UnknownDimension {
                     span,
                     value: Number {
-                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len)),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi),
                         value: self.input.atom(unit.to_lowercase()),
                         raw: Some(raw_unit),
                     },
@@ -2529,7 +2529,7 @@ where
         match bump!(self) {
             Token::Percentage { value, raw } => {
                 let value = Number {
-                    span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
+                    span: Span::new(span.lo, span.hi - BytePos(1)),
                     value,
                     raw: Some(raw),
                 };
@@ -2585,16 +2585,12 @@ where
             Token::Url { value, raw } => {
                 let name_length = raw.0.len() as u32;
                 let name = Ident {
-                    span: Span::new(span.lo, span.lo + BytePos(name_length), Default::default()),
+                    span: Span::new(span.lo, span.lo + BytePos(name_length)),
                     value: self.input.atom("url"),
                     raw: Some(raw.0),
                 };
                 let value = Some(Box::new(UrlValue::Raw(UrlValueRaw {
-                    span: Span::new(
-                        span.lo + BytePos(name_length + 1),
-                        span.hi - BytePos(1),
-                        Default::default(),
-                    ),
+                    span: Span::new(span.lo + BytePos(name_length + 1), span.hi - BytePos(1)),
                     value,
                     raw: Some(raw.1),
                 })));
@@ -2618,7 +2614,7 @@ where
                 }
 
                 let name = Ident {
-                    span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
+                    span: Span::new(span.lo, span.hi - BytePos(1)),
                     value: function_name,
                     raw: Some(raw_function_name),
                 };
@@ -3090,7 +3086,7 @@ where
         }
 
         Ok(CalcSum {
-            span: Span::new(start, end, Default::default()),
+            span: Span::new(start, end),
             expressions,
         })
     }
@@ -3176,7 +3172,7 @@ where
         }
 
         Ok(CalcProduct {
-            span: Span::new(start, end, Default::default()),
+            span: Span::new(start, end),
             expressions,
         })
     }

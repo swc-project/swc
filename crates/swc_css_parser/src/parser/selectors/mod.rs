@@ -45,7 +45,7 @@ where
         };
 
         Ok(SelectorList {
-            span: Span::new(start_pos, last_pos, Default::default()),
+            span: Span::new(start_pos, last_pos),
             children,
         })
     }
@@ -116,7 +116,7 @@ where
         };
 
         Ok(ForgivingSelectorList {
-            span: Span::new(start_pos, last_pos, Default::default()),
+            span: Span::new(start_pos, last_pos),
             children,
         })
     }
@@ -158,7 +158,7 @@ where
         };
 
         Ok(CompoundSelectorList {
-            span: Span::new(start_pos, last_pos, Default::default()),
+            span: Span::new(start_pos, last_pos),
             children,
         })
     }
@@ -200,7 +200,7 @@ where
         };
 
         Ok(RelativeSelectorList {
-            span: Span::new(start_pos, last_pos, Default::default()),
+            span: Span::new(start_pos, last_pos),
             children,
         })
     }
@@ -271,7 +271,7 @@ where
         };
 
         Ok(ForgivingRelativeSelectorList {
-            span: Span::new(start_pos, last_pos, Default::default()),
+            span: Span::new(start_pos, last_pos),
             children,
         })
     }
@@ -324,7 +324,7 @@ where
         };
 
         Ok(ComplexSelector {
-            span: Span::new(start_pos, last_pos, Default::default()),
+            span: Span::new(start_pos, last_pos),
             children,
         })
     }
@@ -389,7 +389,7 @@ where
         let last_pos = selector.span.hi;
 
         Ok(RelativeSelector {
-            span: Span::new(start_pos, last_pos, Default::default()),
+            span: Span::new(start_pos, last_pos),
             combinator,
             selector,
         })
@@ -1044,7 +1044,7 @@ where
             Ok(PseudoClassSelector {
                 span: span!(self, span.lo),
                 name: Ident {
-                    span: Span::new(fn_span.lo, fn_span.hi - BytePos(1), Default::default()),
+                    span: Span::new(fn_span.lo, fn_span.hi - BytePos(1)),
                     value: names.0,
                     raw: Some(names.1),
                 },
@@ -1166,7 +1166,7 @@ where
             Ok(PseudoElementSelector {
                 span: span!(self, span.lo),
                 name: Ident {
-                    span: Span::new(fn_span.lo, fn_span.hi - BytePos(1), Default::default()),
+                    span: Span::new(fn_span.lo, fn_span.hi - BytePos(1)),
                     value: names.0,
                     raw: Some(names.1),
                 },

@@ -612,5 +612,5 @@ impl Visit for TsStrip {
 }
 
 fn span(lo: BytePos, hi: BytePos) -> Span {
-    Span::new(lo, hi, Default::default())
+    Span::new(lo, hi)
 }

@@ -44,7 +44,7 @@ where
 }
 
 fn span(start: usize, end: usize) -> Span {
-    Span::new(BytePos(start as _), BytePos(end as _), Default::default())
+    Span::new(BytePos(start as _), BytePos(end as _))
 }
 
 #[test]

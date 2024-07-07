@@ -1175,11 +1175,7 @@ where
                     }
                     _ => {
                         self.errors.push(Error::new(
-                            Span::new(
-                                self.cur_pos - BytePos(1),
-                                self.input.cur_pos() - BytePos(1),
-                                Default::default(),
-                            ),
+                            Span::new(self.cur_pos - BytePos(1), self.input.cur_pos() - BytePos(1)),
                             ErrorKind::MissingWhitespaceBeforeQuestionInProcessingInstruction,
                         ));
                         self.set_processing_instruction_token(None, Some('?'));

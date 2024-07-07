@@ -170,7 +170,7 @@ impl<I: Tokens> Parser<I> {
             Ok((
                 ident,
                 Box::new(Class {
-                    span: Span::new(class_start, end, Default::default()),
+                    span: Span::new(class_start, end),
                     decorators,
                     is_abstract: false,
                     type_params,

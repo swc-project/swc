@@ -519,11 +519,7 @@ where
                             break;
                         }
                         None => {
-                            let span = Span::new(
-                                self.start_pos,
-                                self.input.last_pos(),
-                                Default::default(),
-                            );
+                            let span = Span::new(self.start_pos, self.input.last_pos());
 
                             self.errors
                                 .borrow_mut()

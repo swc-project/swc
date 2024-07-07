@@ -228,7 +228,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         let node = Box::new(Expr::Bin(BinExpr {
-            span: Span::new(left.span_lo(), right.span_hi(), Default::default()),
+            span: Span::new(left.span_lo(), right.span_hi()),
             op,
             left,
             right,
@@ -269,7 +269,7 @@ impl<I: Tokens> Parser<I> {
             };
 
             let arg = self.parse_unary_expr()?;
-            let span = Span::new(start, arg.span_hi(), Default::default());
+            let span = Span::new(start, arg.span_hi());
             self.check_assign_target(&arg, false);
 
             return Ok(Box::new(Expr::Update(UpdateExpr {
@@ -298,7 +298,7 @@ impl<I: Tokens> Parser<I> {
                 Err(err) => {
                     self.emit_error(err);
                     Box::new(Expr::Invalid(Invalid {
-                        span: Span::new(arg_start, arg_start, Default::default()),
+                        span: Span::new(arg_start, arg_start),
                     }))
                 }
             };
@@ -322,7 +322,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             return Ok(Box::new(Expr::Unary(UnaryExpr {
-                span: Span::new(start, arg.span_hi(), Default::default()),
+                span: Span::new(start, arg.span_hi()),
                 op,
                 arg,
             })));

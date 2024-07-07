@@ -110,7 +110,7 @@ impl<I: Tokens> Parser<I> {
                         ref mut type_params,
                         ..
                     }) => {
-                        *span = Span::new(type_parameters.span.lo, span.hi, Default::default());
+                        *span = Span::new(type_parameters.span.lo, span.hi);
                         *type_params = Some(type_parameters);
                     }
                     _ => unexpected!(p, "("),
@@ -232,7 +232,7 @@ impl<I: Tokens> Parser<I> {
                 ..self.ctx()
             };
             let alt = self.with_ctx(ctx).parse_assignment_expr()?;
-            let span = Span::new(start, alt.span_hi(), Default::default());
+            let span = Span::new(start, alt.span_hi());
             Ok(Box::new(Expr::Cond(CondExpr {
                 span,
                 test,
@@ -983,7 +983,6 @@ impl<I: Tokens> Parser<I> {
                 span: Span::new(
                     exprs.first().unwrap().span_lo(),
                     exprs.last().unwrap().span_hi(),
-                    Default::default(),
                 ),
                 exprs,
             }));
@@ -1282,10 +1281,10 @@ impl<I: Tokens> Parser<I> {
             let bracket_lo = self.input.prev_span().lo;
             let prop = self.include_in_expr(true).parse_expr()?;
             expect!(self, ']');
-            let span = Span::new(obj.span_lo(), self.input.last_pos(), Default::default());
+            let span = Span::new(obj.span_lo(), self.input.last_pos());
             debug_assert_eq!(obj.span_lo(), span.lo());
             let prop = ComputedPropName {
-                span: Span::new(bracket_lo, self.input.last_pos(), Default::default()),
+                span: Span::new(bracket_lo, self.input.last_pos()),
                 expr: prop,
             };
 
@@ -1791,7 +1790,7 @@ impl<I: Tokens> Parser<I> {
                         arg = ExprOrSpread {
                             spread: None,
                             expr: Box::new(Expr::Cond(CondExpr {
-                                span: Span::new(start, alt.span_hi(), Default::default()),
+                                span: Span::new(start, alt.span_hi()),
 
                                 test,
                                 cons,
@@ -1855,8 +1854,7 @@ impl<I: Tokens> Parser<I> {
                     }) => {
                         let new_type_ann = self.try_parse_ts_type_ann()?;
                         if new_type_ann.is_some() {
-                            *span =
-                                Span::new(pat_start, self.input.prev_span().hi, Default::default());
+                            *span = Span::new(pat_start, self.input.prev_span().hi);
                         }
                         *type_ann = new_type_ann;
                     }

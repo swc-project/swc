@@ -75,7 +75,7 @@ impl SourceCode for MietteSourceCode<'_> {
         let lo = span.offset();
         let hi = lo + span.len();
 
-        let mut span = Span::new(BytePos(lo as _), BytePos(hi as _), Default::default());
+        let mut span = Span::new(BytePos(lo as _), BytePos(hi as _));
 
         span = self
             .0

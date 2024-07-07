@@ -197,10 +197,7 @@ impl<I: Tokens> Parser<I> {
         while eat!(self, '.') {
             let dot_start = cur_pos!(self);
             if !is!(self, '#') && !is!(self, IdentName) {
-                self.emit_err(
-                    Span::new(dot_start, dot_start, Default::default()),
-                    SyntaxError::TS1003,
-                );
+                self.emit_err(Span::new(dot_start, dot_start), SyntaxError::TS1003);
                 return Ok(entity);
             }
 

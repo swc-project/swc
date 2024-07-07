@@ -67,7 +67,7 @@ where
         self.cur
             .as_ref()
             .map(|cur| cur.span)
-            .unwrap_or_else(|| Span::new(self.last_pos, self.last_pos, Default::default()))
+            .unwrap_or_else(|| Span::new(self.last_pos, self.last_pos))
     }
 
     pub fn cur(&mut self) -> Option<&Token> {
@@ -282,11 +282,7 @@ impl<'a> Input<'a> {
             Some(ComponentValue::Function(function)) => {
                 if self.idx.len() - 1 == deep {
                     return Some(TokenOrBlock::Function(Box::new((
-                        Span::new(
-                            function.span_lo(),
-                            function.name.span_hi() + BytePos(1),
-                            Default::default(),
-                        ),
+                        Span::new(function.span_lo(), function.name.span_hi() + BytePos(1)),
                         function.name.clone(),
                     ))));
                 }
@@ -328,11 +324,8 @@ impl<'a> Input<'a> {
                 let res = self.get_component_value(&simple_block.value, deep + 1);
 
                 if res.is_none() {
-                    let span = Span::new(
-                        simple_block.span_hi() - BytePos(1),
-                        simple_block.span_hi(),
-                        Default::default(),
-                    );
+                    let span =
+                        Span::new(simple_block.span_hi() - BytePos(1), simple_block.span_hi());
                     let close = match simple_block.name.token {
                         Token::LBracket => TokenOrBlock::RBracket((span.lo, span.hi)),
                         Token::LParen => TokenOrBlock::RParen((span.lo, span.hi)),
@@ -409,27 +402,27 @@ impl<'a> Input<'a> {
                             }
                         }
                         TokenOrBlock::LBracket(span) => TokenAndSpan {
-                            span: Span::new(span.0, span.1, Default::default()),
+                            span: Span::new(span.0, span.1),
                             token: Token::LBracket,
                         },
                         TokenOrBlock::LBrace(span) => TokenAndSpan {
-                            span: Span::new(span.0, span.1, Default::default()),
+                            span: Span::new(span.0, span.1),
                             token: Token::LBrace,
                         },
                         TokenOrBlock::LParen(span) => TokenAndSpan {
-                            span: Span::new(span.0, span.1, Default::default()),
+                            span: Span::new(span.0, span.1),
                             token: Token::LParen,
                         },
                         TokenOrBlock::RBracket(span) => TokenAndSpan {
-                            span: Span::new(span.0, span.1, Default::default()),
+                            span: Span::new(span.0, span.1),
                             token: Token::RBracket,
                         },
                         TokenOrBlock::RBrace(span) => TokenAndSpan {
-                            span: Span::new(span.0, span.1, Default::default()),
+                            span: Span::new(span.0, span.1),
                             token: Token::RBrace,
                         },
                         TokenOrBlock::RParen(span) => TokenAndSpan {
-                            span: Span::new(span.0, span.1, Default::default()),
+                            span: Span::new(span.0, span.1),
                             token: Token::RParen,
                         },
                     },

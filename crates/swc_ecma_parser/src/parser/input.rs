@@ -287,7 +287,7 @@ impl<I: Tokens> Buffer<I> {
         Buffer {
             iter: lexer,
             cur: None,
-            prev_span: Span::new(start_pos, start_pos, Default::default()),
+            prev_span: Span::new(start_pos, start_pos),
             next: None,
         }
     }

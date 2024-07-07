@@ -662,7 +662,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 cases.push(SwitchCase {
-                    span: Span::new(case_start, p.input.prev_span().hi, Default::default()),
+                    span: Span::new(case_start, p.input.prev_span().hi),
                     test,
                     cons,
                 });
@@ -709,10 +709,7 @@ impl<'a, I: Tokens> Parser<I> {
         let finalizer = self.parse_finally_block()?;
 
         if handler.is_none() && finalizer.is_none() {
-            self.emit_err(
-                Span::new(catch_start, catch_start, Default::default()),
-                SyntaxError::TS1005,
-            );
+            self.emit_err(Span::new(catch_start, catch_start), SyntaxError::TS1005);
         }
 
         let span = span!(self, start);
@@ -887,7 +884,7 @@ impl<'a, I: Tokens> Parser<I> {
             match res {
                 Ok(true) => {
                     let pos = var_span.hi();
-                    let span = Span::new(pos, pos, Default::default());
+                    let span = Span::new(pos, pos);
                     self.emit_err(span, SyntaxError::TS1123);
 
                     return Ok(Box::new(VarDecl {
@@ -925,7 +922,7 @@ impl<'a, I: Tokens> Parser<I> {
             if is_exact!(self, ';') || eof!(self) {
                 let prev_span = self.input.prev_span();
                 let span = if prev_span == var_span {
-                    Span::new(prev_span.hi, prev_span.hi, Default::default())
+                    Span::new(prev_span.hi, prev_span.hi)
                 } else {
                     prev_span
                 };

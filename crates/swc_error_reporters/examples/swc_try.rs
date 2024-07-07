@@ -57,7 +57,7 @@ fn span(base: &SourceFile, lo: u32, hi: u32) -> Span {
     let lo = base.start_pos.0 + lo;
     let hi = base.start_pos.0 + hi;
 
-    Span::new(BytePos(lo), BytePos(hi), Default::default())
+    Span::new(BytePos(lo), BytePos(hi))
 }
 
 #[derive(Clone, Default)]

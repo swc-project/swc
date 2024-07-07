@@ -2595,11 +2595,7 @@ impl Generator {
                         .push(expr);
                 }
                 return Box::new(Expr::Invalid(Invalid {
-                    span: Span::new(
-                        BytePos(label.0 as _),
-                        BytePos(label.0 as _),
-                        Default::default(),
-                    ),
+                    span: Span::new(BytePos(label.0 as _), BytePos(label.0 as _)),
                 }));
             }
         }
