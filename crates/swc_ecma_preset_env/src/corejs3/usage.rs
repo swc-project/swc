@@ -1,7 +1,7 @@
 use indexmap::IndexSet;
 use preset_env_base::version::{should_enable, Version};
-use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::ARandomState, DUMMY_SP};
+use swc_atoms::JsWord;
+use swc_common::collections::ARandomState;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 

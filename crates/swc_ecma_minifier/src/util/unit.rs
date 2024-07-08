@@ -2,7 +2,6 @@
 
 use std::fmt::Debug;
 
-use swc_common::Mark;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene};
 use swc_ecma_utils::DropSpan;
