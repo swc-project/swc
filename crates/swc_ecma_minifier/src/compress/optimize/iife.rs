@@ -99,7 +99,7 @@ impl Optimizer<'_> {
                         span: *call_span,
                         callee: callee.take().as_callee(),
                         args: args.take(),
-                        type_args: Default::default(),
+                        ..Default::default()
                     }));
                     swap(&mut cond.cons, &mut cond.alt);
                 }
@@ -455,7 +455,7 @@ impl Optimizer<'_> {
 
         trace_op!("iife: Checking noinline");
 
-        if self.has_noinline(call.span) {
+        if self.has_noinline(call.ctxt) {
             log_abort!("iife: Has no inline mark");
             return;
         }

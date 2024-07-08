@@ -534,7 +534,7 @@ impl Optimizer<'_> {
                         span: DUMMY_SP,
                         callee: cons.callee.take(),
                         args: Some(args),
-                        type_args: Default::default(),
+                        ..Default::default()
                     }));
                 }
 
@@ -764,6 +764,7 @@ impl Optimizer<'_> {
                     Box::new(Stmt::Block(BlockStmt {
                         span: DUMMY_SP,
                         stmts: alt,
+                        ..Default::default()
                     }))
                 });
 

@@ -34,8 +34,7 @@ impl Pure<'_> {
                 body: Box::new(BlockStmtOrExpr::BlockStmt(function.body.take().unwrap())),
                 is_async: function.is_async,
                 is_generator: function.is_generator,
-                type_params: Default::default(),
-                return_type: Default::default(),
+                ..Default::default()
             });
         }
     }
