@@ -216,7 +216,7 @@ method!(ClassMethod, "ClassMethod", PropName);
 method!(PrivateMethod, "PrivateMethod", PrivateName);
 
 #[ast_node("Constructor")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Constructor {
     pub span: Span,

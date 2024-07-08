@@ -111,6 +111,12 @@ pub enum PropName {
 
 bridge_from!(PropName, Ident, Id);
 
+impl Default for PropName {
+    fn default() -> Self {
+        PropName::Ident(Default::default())
+    }
+}
+
 impl Take for PropName {
     fn dummy() -> Self {
         PropName::Ident(Take::dummy())
