@@ -1,4 +1,4 @@
-use swc_common::{source_map::SpanWithCtx, Span};
+use swc_common::Span;
 use swc_ecma_ast::*;
 use syn::{parse_quote, ExprBlock};
 

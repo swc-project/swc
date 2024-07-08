@@ -473,7 +473,7 @@ fn super_expr_computed() {
                     expr: Box::new(Expr::Ident(Ident {
                         span,
                         sym: "a".into(),
-                        optional: false
+                        ..Default::default()
                     })),
                 })
             }
@@ -519,7 +519,7 @@ fn issue_5947() {
 #[test]
 fn issue_6781() {
     let cm = SourceMap::default();
-    let fm = cm.new_source_file(FileName::Anon, "import.meta.env".to_string());
+    let fm = cm.new_source_file(FileName::Anon.into(), "import.meta.env".to_string());
     let mut errors = vec![];
     let expr = parse_file_as_expr(
         &fm,
