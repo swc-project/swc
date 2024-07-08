@@ -234,8 +234,10 @@ impl VisitMut for ModuleDeclStrip {
                     .get_or_insert_with(|| private_ident!(n.span, "_default"))
                     .clone();
 
-                self.export
-                    .insert("default".into(), ExportItem::new(n.span, ident));
+                self.export.insert(
+                    "default".into(),
+                    ExportItem::new((n.span, Default::default()), ident),
+                );
             }
             DefaultDecl::Fn(fn_expr) => {
                 let ident = fn_expr
@@ -243,8 +245,10 @@ impl VisitMut for ModuleDeclStrip {
                     .get_or_insert_with(|| private_ident!(n.span, "_default"))
                     .clone();
 
-                self.export
-                    .insert("default".into(), ExportItem::new(n.span, ident));
+                self.export.insert(
+                    "default".into(),
+                    ExportItem::new((n.span, Default::default()), ident),
+                );
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
         }
@@ -262,8 +266,10 @@ impl VisitMut for ModuleDeclStrip {
     fn visit_mut_export_default_expr(&mut self, n: &mut ExportDefaultExpr) {
         let ident = private_ident!(n.span, "_default");
 
-        self.export
-            .insert("default".into(), ExportItem::new(n.span, ident.clone()));
+        self.export.insert(
+            "default".into(),
+            ExportItem::new((n.span, Default::default()), ident.clone()),
+        );
 
         self.export_default = Some(Stmt::Decl(
             n.expr
@@ -317,8 +323,10 @@ impl VisitMut for ModuleDeclStrip {
         }) = module_ref
         {
             if *is_export {
-                self.export
-                    .insert(id.sym.clone(), ExportItem::new(id.span, id.clone()));
+                self.export.insert(
+                    id.sym.clone(),
+                    ExportItem::new((id.span, id.ctxt), id.clone()),
+                );
             }
 
             self.link
