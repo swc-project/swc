@@ -435,6 +435,7 @@ impl Transform {
         BlockStmt {
             span,
             stmts: vec![expr.into_stmt()],
+            ..Default::default()
         }
     }
 

@@ -316,9 +316,12 @@ impl Swcify for Identifier {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         BindingIdent {
-            span: ctx.span(&self.base),
-            sym: self.name,
-            optional: self.optional.unwrap_or(false),
+            id: Ident {
+                span: ctx.span(&self.base),
+                sym: self.name,
+                optional: self.optional.unwrap_or(false),
+                ctxt: Default::default(),
+            },
             type_ann: self.type_annotation.swcify(ctx).flatten().map(Box::new),
             ..Default::default()
         }

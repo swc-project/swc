@@ -834,10 +834,12 @@ impl FastDts {
                         };
 
                         TsFnParam::Ident(BindingIdent {
-                            span: assign_pat.span,
-                            ctxt: Default::default(),
-                            sym: name,
-                            optional: false,
+                            id: Ident {
+                                span: assign_pat.span,
+                                ctxt: Default::default(),
+                                sym: name,
+                                optional: false,
+                            },
                             type_ann: Some(type_ann(param)),
                         })
                     })
