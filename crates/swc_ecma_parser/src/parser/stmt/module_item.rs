@@ -131,7 +131,7 @@ impl<I: Tokens> Parser<I> {
                     expect!(self, ',');
                 }
                 specifiers.push(ImportSpecifier::Default(ImportDefaultSpecifier {
-                    span: *local.span,
+                    span: local.span,
                     local,
                 }));
             }
@@ -222,13 +222,13 @@ impl<I: Tokens> Parser<I> {
                             if self.ctx().is_reserved_word(&possibly_orig_name.sym) {
                                 syntax_error!(
                                     self,
-                                    *possibly_orig_name.span,
+                                    possibly_orig_name.span,
                                     SyntaxError::ReservedWordInImport
                                 )
                             }
 
                             if type_only {
-                                self.emit_err(*orig_name.span, SyntaxError::TS2206);
+                                self.emit_err(orig_name.span, SyntaxError::TS2206);
                             }
 
                             return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
@@ -247,7 +247,7 @@ impl<I: Tokens> Parser<I> {
                                 let local: Ident = self.parse_binding_ident()?.into();
 
                                 if type_only {
-                                    self.emit_err(*orig_name.span, SyntaxError::TS2206);
+                                    self.emit_err(orig_name.span, SyntaxError::TS2206);
                                 }
 
                                 return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
@@ -278,7 +278,7 @@ impl<I: Tokens> Parser<I> {
                         // `import { type xx } from 'mod'`
                         // `import { type xx as yy } from 'mod'`
                         if type_only {
-                            self.emit_err(*orig_name.span, SyntaxError::TS2206);
+                            self.emit_err(orig_name.span, SyntaxError::TS2206);
                         }
 
                         orig_name = possibly_orig_name;
@@ -301,7 +301,7 @@ impl<I: Tokens> Parser<I> {
                 // 'ImportedBinding'
                 // 'IdentifierName' as 'ImportedBinding'
                 if self.ctx().is_reserved_word(&orig_name.sym) {
-                    syntax_error!(self, *orig_name.span, SyntaxError::ReservedWordInImport)
+                    syntax_error!(self, orig_name.span, SyntaxError::ReservedWordInImport)
                 }
 
                 let local = orig_name;
@@ -674,7 +674,7 @@ impl<I: Tokens> Parser<I> {
                     match s {
                         ExportSpecifier::Default(default) => {
                             self.emit_err(
-                                *default.exported.span,
+                                default.exported.span,
                                 SyntaxError::ExportExpectFrom(default.exported.sym.clone()),
                             );
                         }
@@ -691,7 +691,7 @@ impl<I: Tokens> Parser<I> {
                         ExportSpecifier::Named(named) => match &named.orig {
                             ModuleExportName::Ident(id) if id.is_reserved() => {
                                 self.emit_err(
-                                    *id.span,
+                                    id.span,
                                     SyntaxError::ExportExpectFrom(id.sym.clone()),
                                 );
                             }
@@ -745,7 +745,7 @@ impl<I: Tokens> Parser<I> {
                         // `export { type as }`
                         if !is!(self, IdentName) {
                             if type_only {
-                                self.emit_err(*orig_ident.span, SyntaxError::TS2207);
+                                self.emit_err(orig_ident.span, SyntaxError::TS2207);
                             }
 
                             return Ok(ExportNamedSpecifier {
@@ -764,7 +764,7 @@ impl<I: Tokens> Parser<I> {
                                 let exported = self.parse_ident_name()?;
 
                                 if type_only {
-                                    self.emit_err(*orig_ident.span, SyntaxError::TS2207);
+                                    self.emit_err(orig_ident.span, SyntaxError::TS2207);
                                 }
 
                                 return Ok(ExportNamedSpecifier {
@@ -795,7 +795,7 @@ impl<I: Tokens> Parser<I> {
                         // `export { type xx }`
                         // `export { type xx as yy }`
                         if type_only {
-                            self.emit_err(*orig_ident.span, SyntaxError::TS2207);
+                            self.emit_err(orig_ident.span, SyntaxError::TS2207);
                         }
 
                         is_type_only = true;

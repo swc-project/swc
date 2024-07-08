@@ -406,7 +406,7 @@ impl<'a, I: Tokens> Parser<I> {
         if let Expr::Ident(ref ident) = *expr {
             if &*ident.sym == "interface" && self.input.had_line_break_before_cur() {
                 self.emit_strict_mode_err(
-                    *ident.span,
+                    ident.span,
                     SyntaxError::InvalidIdentInStrict(ident.sym.clone()),
                 );
 
@@ -428,10 +428,7 @@ impl<'a, I: Tokens> Parser<I> {
         if let Expr::Ident(Ident { ref sym, span, .. }) = *expr {
             match &**sym {
                 "enum" | "interface" => {
-                    self.emit_strict_mode_err(
-                        *span,
-                        SyntaxError::InvalidIdentInStrict(sym.clone()),
-                    );
+                    self.emit_strict_mode_err(span, SyntaxError::InvalidIdentInStrict(sym.clone()));
                 }
                 _ => {}
             }
@@ -442,7 +439,7 @@ impl<'a, I: Tokens> Parser<I> {
                 match &*i.sym {
                     "public" | "static" | "abstract" => {
                         if eat!(self, "interface") {
-                            self.emit_err(*i.span, SyntaxError::TS2427);
+                            self.emit_err(i.span, SyntaxError::TS2427);
                             return self
                                 .parse_ts_interface_decl(start)
                                 .map(Decl::from)
@@ -1136,7 +1133,7 @@ impl<'a, I: Tokens> Parser<I> {
             for lb in &p.state.labels {
                 if l.sym == *lb {
                     errors.push(Error::new(
-                        *l.span,
+                        l.span,
                         SyntaxError::DuplicateLabel(l.sym.clone()),
                     ));
                 }
@@ -2285,7 +2282,7 @@ export default function waitUntil(callback, options = {}) {
                 ident: Some(Ident {
                     span,
                     sym: "Foo".into(),
-                    optional: false,
+                    ..Default::default()
                 }),
                 class: Box::new(Class {
                     span,

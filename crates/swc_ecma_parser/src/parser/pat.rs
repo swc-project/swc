@@ -33,13 +33,13 @@ impl<I: Tokens> Parser<I> {
         // "yield" and "await" is **lexically** accepted.
         let ident = self.parse_ident(true, true)?;
         if ident.is_reserved_in_strict_bind() {
-            self.emit_strict_mode_err(*ident.span, SyntaxError::EvalAndArgumentsInStrict);
+            self.emit_strict_mode_err(ident.span, SyntaxError::EvalAndArgumentsInStrict);
         }
         if (self.ctx().in_async || self.ctx().in_static_block) && ident.sym == "await" {
-            self.emit_err(*ident.span, SyntaxError::ExpectedIdent);
+            self.emit_err(ident.span, SyntaxError::ExpectedIdent);
         }
         if self.ctx().in_generator && ident.sym == "yield" {
-            self.emit_err(*ident.span, SyntaxError::ExpectedIdent);
+            self.emit_err(ident.span, SyntaxError::ExpectedIdent);
         }
 
         Ok(ident.into())
@@ -879,7 +879,7 @@ impl<I: Tokens> Parser<I> {
         match pat {
             Pat::Ident(i) => {
                 if i.is_reserved_in_strict_bind() {
-                    self.emit_strict_mode_err(*i.span, SyntaxError::EvalAndArgumentsInStrict)
+                    self.emit_strict_mode_err(i.span, SyntaxError::EvalAndArgumentsInStrict)
                 }
             }
             Pat::Array(arr) => {
@@ -898,7 +898,7 @@ impl<I: Tokens> Parser<I> {
                         ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
                             if key.is_reserved_in_strict_bind() {
                                 self.emit_strict_mode_err(
-                                    *key.span,
+                                    key.span,
                                     SyntaxError::EvalAndArgumentsInStrict,
                                 )
                             }

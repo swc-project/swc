@@ -1,5 +1,5 @@
 use either::Either;
-use swc_common::{ast_node, source_map::SpanWithCtx, util::take::Take, Spanned};
+use swc_common::{ast_node, util::take::Take, Spanned};
 
 use super::{pat::PatType, util::ExprExt, *};
 use crate::{lexer::TokenContext, parser::class_and_fn::IsSimpleParameterList};
@@ -460,7 +460,7 @@ impl<I: Tokens> Parser<I> {
                 })));
             } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!(self, "=>") {
                 if self.ctx().strict && id.is_reserved_in_strict_bind() {
-                    self.emit_strict_mode_err(*id.span, SyntaxError::EvalAndArgumentsInStrict)
+                    self.emit_strict_mode_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
                 }
                 let params = vec![id.into()];
                 let body =
@@ -1833,10 +1833,7 @@ impl<I: Tokens> Parser<I> {
                 }
                 match pat {
                     Pat::Ident(BindingIdent {
-                        span:
-                            SpanWithCtx {
-                                pos: ref mut span, ..
-                            },
+                        ref mut span,
                         ref mut type_ann,
                         ..
                     })
