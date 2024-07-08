@@ -742,8 +742,7 @@ where
                             local.sym
                         );
 
-                        let exported =
-                            Ident::new("default".into(), DUMMY_SP.with_ctxt(info.export_ctxt()));
+                        let exported = Ident::new("default".into(), DUMMY_SP, info.export_ctxt());
 
                         new.push(
                             local

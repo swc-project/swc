@@ -162,7 +162,7 @@ fn wrap_module(
                     .make_member(Ident::new_no_ctxt("bind".into(), DUMMY_SP))
                     .as_callee(),
                 args: vec![Expr::undefined(DUMMY_SP).as_arg(), module_fn.as_arg()],
-                type_args: None,
+                ..Default::default()
             }))),
             definite: false,
         }],
@@ -251,7 +251,8 @@ where
                         span: DUMMY_SP,
                         callee: load_var.as_callee(),
                         args: vec![],
-                        type_args: None,
+
+                        ..Default::default()
                     }
                     .into_stmt(),
                 );
@@ -300,7 +301,8 @@ where
                                         span: DUMMY_SP,
                                         callee: load_var.as_callee(),
                                         args: vec![],
-                                        type_args: None,
+
+                                        ..Default::default()
                                     }
                                     .into(),
                                 )),
@@ -328,8 +330,8 @@ where
                     init: Some(Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: load_var.as_callee(),
-                        type_args: None,
                         args: vec![],
+                        ..Default::default()
                     }))),
                     definite: false,
                 }],
