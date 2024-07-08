@@ -26,7 +26,7 @@ impl Visit for IdCollector {
     }
 
     fn visit_ident(&mut self, id: &Ident) {
-        if id.span.ctxt != SyntaxContext::empty() {
+        if id.ctxt != SyntaxContext::empty() {
             self.ids.insert(id.to_id());
         }
     }
@@ -64,7 +64,7 @@ where
 {
     fn add(&mut self, i: &Ident) {
         if let Some(top_level_ctxt) = self.top_level_for_eval {
-            if i.span.ctxt == top_level_ctxt {
+            if i.ctxt == top_level_ctxt {
                 self.preserved.insert(I::from_ident(i));
                 return;
             }

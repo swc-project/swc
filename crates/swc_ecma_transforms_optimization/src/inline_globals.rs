@@ -67,7 +67,7 @@ impl VisitMut for InlineGlobals {
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         if let Expr::Ident(Ident { ref sym, span, .. }) = expr {
-            if self.bindings.contains(&(sym.clone(), span.ctxt)) {
+            if self.bindings.contains(&(sym.clone(), ctxt)) {
                 return;
             }
         }
@@ -104,7 +104,7 @@ impl VisitMut for InlineGlobals {
                     ..
                 }) = &**arg
                 {
-                    if self.bindings.contains(&(sym.clone(), arg_span.ctxt)) {
+                    if self.bindings.contains(&(sym.clone(), arg_ctxt)) {
                         return;
                     }
 

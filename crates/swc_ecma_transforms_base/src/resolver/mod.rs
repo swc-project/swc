@@ -361,7 +361,7 @@ impl<'a> Resolver<'a> {
     }
 
     fn mark_block(&mut self, span: &mut Span) {
-        if span.ctxt != SyntaxContext::empty() {
+        if ctxt != SyntaxContext::empty() {
             return;
         }
 
@@ -373,8 +373,8 @@ impl<'a> Resolver<'a> {
     }
 
     fn try_resolving_as_type(&mut self, i: &mut Ident) {
-        if i.span.ctxt.outer() == self.config.unresolved_mark {
-            i.span.ctxt = SyntaxContext::empty()
+        if i.ctxt.outer() == self.config.unresolved_mark {
+            i.ctxt = SyntaxContext::empty()
         }
 
         self.in_type = true;
@@ -928,7 +928,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
-        if i.span.ctxt != SyntaxContext::empty() {
+        if i.ctxt != SyntaxContext::empty() {
             return;
         }
 
@@ -938,10 +938,10 @@ impl<'a> VisitMut for Resolver<'a> {
                 let Ident { span, sym, .. } = i;
 
                 if cfg!(debug_assertions) && LOG {
-                    debug!("IdentRef (type = {}) {}{:?}", self.in_type, sym, span.ctxt);
+                    debug!("IdentRef (type = {}) {}{:?}", self.in_type, sym, ctxt);
                 }
 
-                if span.ctxt != SyntaxContext::empty() {
+                if ctxt != SyntaxContext::empty() {
                     return;
                 }
 
@@ -949,7 +949,7 @@ impl<'a> VisitMut for Resolver<'a> {
                     let span = span.apply_mark(mark);
 
                     if cfg!(debug_assertions) && LOG {
-                        debug!("\t -> {:?}", span.ctxt);
+                        debug!("\t -> {:?}", ctxt);
                     }
                     i.span = span;
                 } else {
@@ -960,7 +960,7 @@ impl<'a> VisitMut for Resolver<'a> {
                     let span = span.apply_mark(self.config.unresolved_mark);
 
                     if cfg!(debug_assertions) && LOG {
-                        debug!("\t -> {:?}", span.ctxt);
+                        debug!("\t -> {:?}", ctxt);
                     }
 
                     i.span = span;

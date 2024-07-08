@@ -217,7 +217,7 @@ where
                         ExportSpecifier::Namespace(n) => {
                             match &mut n.name {
                                 ModuleExportName::Ident(name) => {
-                                    name.span.ctxt = self.export_ctxt;
+                                    name.ctxt = self.export_ctxt;
 
                                     need_wrapping = true;
                                     v.push(Specifier::Namespace {
@@ -244,19 +244,19 @@ where
                                 }
                             };
                             if let Some((_, export_ctxt)) = ctxt {
-                                orig.span.ctxt = export_ctxt;
+                                orig.ctxt = export_ctxt;
                             }
 
                             match &mut n.exported {
                                 Some(ModuleExportName::Ident(exported)) => {
-                                    exported.span.ctxt = self.export_ctxt;
+                                    exported.ctxt = self.export_ctxt;
                                 }
                                 Some(ModuleExportName::Str(..)) => {
                                     unimplemented!("module string names unimplemented")
                                 }
                                 None => {
                                     let mut exported: Ident = orig.clone();
-                                    exported.span.ctxt = self.export_ctxt;
+                                    exported.ctxt = self.export_ctxt;
                                     n.exported = Some(ModuleExportName::Ident(exported));
                                 }
                             }
@@ -290,7 +290,7 @@ where
             ModuleItem::ModuleDecl(ModuleDecl::ExportAll(all)) => {
                 let ctxt = self.ctxt_for(&all.src.value);
                 if let Some((_, export_ctxt)) = ctxt {
-                    all.span.ctxt = export_ctxt;
+                    all.ctxt = export_ctxt;
                 }
 
                 self.info.items.entry(Some(*all.src.clone())).or_default();

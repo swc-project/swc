@@ -178,7 +178,7 @@ impl Radix {
     }
 
     fn is_satisfying_indent(&self, ident: &Ident) -> bool {
-        if ident.span.ctxt != self.unresolved_ctxt {
+        if ident.ctxt != self.unresolved_ctxt {
             return false;
         }
 

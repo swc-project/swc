@@ -233,7 +233,7 @@ where
 
             for (_, stmt) in entry.iter() {
                 if let ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) = stmt {
-                    if decl.span.ctxt == injected_ctxt {
+                    if decl.ctxt == injected_ctxt {
                         let ids: Vec<Id> = find_pat_ids(decl);
                         declared_ids.extend(ids);
                     }
@@ -512,9 +512,9 @@ where
                         };
                         // Default is not exported via `export *`
                         if &*exported.sym == "default" {
-                            exported.span.ctxt == info.export_ctxt()
+                            exported.ctxt == info.export_ctxt()
                         } else {
-                            ctx.is_exported_ctxt(exported.span.ctxt, info.export_ctxt())
+                            ctx.is_exported_ctxt(exported.ctxt, info.export_ctxt())
                         }
                     }
                     _ => true,
@@ -855,7 +855,7 @@ where
                                                 tracing::trace!(
                                                     "Exporting `{}{:?}` with `export decl`",
                                                     id.sym,
-                                                    id.span.ctxt
+                                                    id.ctxt
                                                 );
 
                                                 new.push(
@@ -1172,7 +1172,7 @@ where
                     }
 
                     ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
-                        let export_ctxt = export.span.ctxt;
+                        let export_ctxt = export.ctxt;
                         let reexport = self.scope.get_module(info.id).unwrap().export_ctxt();
                         ctx.transitive_remap.insert(export_ctxt, reexport);
 

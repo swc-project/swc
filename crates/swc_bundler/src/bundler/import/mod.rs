@@ -200,9 +200,7 @@ where
             .iter()
             .find(|import| {
                 import.specifiers.iter().any(|specifier| match specifier {
-                    ImportSpecifier::Namespace(ns) => {
-                        ns.local.sym == id.0 && ns.local.span.ctxt == id.1
-                    }
+                    ImportSpecifier::Namespace(ns) => ns.local.sym == id.0 && ns.local.ctxt == id.1,
                     _ => false,
                 })
             })
@@ -296,8 +294,7 @@ where
                     for s in &import.specifiers {
                         if let ImportSpecifier::Namespace(n) = s {
                             return obj.sym == n.local.sym
-                                && (obj.span.ctxt == self.module_ctxt
-                                    || obj.span.ctxt == n.local.span.ctxt);
+                                && (obj.ctxt == self.module_ctxt || obj.ctxt == n.local.ctxt);
                         }
                     }
 
@@ -357,7 +354,7 @@ where
             MemberProp::Ident(v) => v.clone(),
             _ => return,
         };
-        prop.span.ctxt = self.imported_idents.get(&obj.to_id()).copied().unwrap();
+        prop.ctxt = self.imported_idents.get(&obj.to_id()).copied().unwrap();
 
         *e = Expr::Ident(prop);
     }
@@ -381,7 +378,7 @@ where
         match &mut s.exported {
             Some(ModuleExportName::Ident(exported)) => {
                 // PR 3139 (https://github.com/swc-project/swc/pull/3139) removes the syntax context from any named exports from other sources.
-                exported.span.ctxt = self.module_ctxt;
+                exported.ctxt = self.module_ctxt;
             }
             Some(ModuleExportName::Str(..)) => unimplemented!("module string names unimplemented"),
             None => {
@@ -435,21 +432,20 @@ where
                             self.imported_idents.insert(n.local.to_id(), export_ctxt);
                             match &mut n.imported {
                                 Some(ModuleExportName::Ident(imported)) => {
-                                    imported.span.ctxt = export_ctxt;
+                                    imported.ctxt = export_ctxt;
                                 }
                                 Some(ModuleExportName::Str(..)) => {
                                     unimplemented!("module string names unimplemented")
                                 }
                                 None => {
                                     let mut imported: Ident = n.local.clone();
-                                    imported.span.ctxt = export_ctxt;
+                                    imported.ctxt = export_ctxt;
                                     n.imported = Some(ModuleExportName::Ident(imported));
                                 }
                             }
                         }
                         ImportSpecifier::Default(n) => {
-                            self.imported_idents
-                                .insert(n.local.to_id(), n.local.span.ctxt);
+                            self.imported_idents.insert(n.local.to_id(), n.local.ctxt);
                         }
                         ImportSpecifier::Namespace(n) => {
                             self.imported_idents.insert(n.local.to_id(), export_ctxt);

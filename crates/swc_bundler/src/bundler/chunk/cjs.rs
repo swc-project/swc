@@ -379,7 +379,7 @@ impl VisitMut for Remapper {
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if let Some(v) = self.vars.get(&i.to_id()).copied() {
-            i.span.ctxt = v;
+            i.ctxt = v;
         }
     }
 }

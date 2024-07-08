@@ -22,12 +22,12 @@ impl VisitMut for Debugger {
             return;
         }
 
-        if n.span.ctxt == SyntaxContext::empty() {
+        if n.ctxt == SyntaxContext::empty() {
             return;
         }
 
-        n.sym = format!("{}{:?}", n.sym, n.span.ctxt).into();
-        n.span.ctxt = SyntaxContext::empty();
+        n.sym = format!("{}{:?}", n.sym, n.ctxt).into();
+        n.ctxt = SyntaxContext::empty();
     }
 }
 

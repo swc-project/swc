@@ -634,7 +634,7 @@ pub trait ExprExt {
     fn is_one_of_global_ref_to(&self, ctx: &ExprCtx, ids: &[&str]) -> bool {
         match self.as_expr() {
             Expr::Ident(i) => {
-                i.span.ctxt == ctx.unresolved_ctxt && ids.iter().any(|id| i.sym == *id)
+                i.ctxt == ctx.unresolved_ctxt && ids.iter().any(|id| i.sym == *id)
             }
             _ => false,
         }
@@ -891,8 +891,8 @@ pub trait ExprExt {
                 _ => return (Pure, Unknown),
             },
             Expr::Ident(Ident { sym, span, .. }) => match &**sym {
-                "undefined" | "NaN" if span.ctxt == ctx.unresolved_ctxt => f64::NAN,
-                "Infinity" if span.ctxt == ctx.unresolved_ctxt => f64::INFINITY,
+                "undefined" | "NaN" if ctxt == ctx.unresolved_ctxt => f64::NAN,
+                "Infinity" if ctxt == ctx.unresolved_ctxt => f64::INFINITY,
                 _ => return (Pure, Unknown),
             },
             Expr::Unary(UnaryExpr {
@@ -905,7 +905,7 @@ pub trait ExprExt {
                     sym,
                     span,
                     ..
-                }) if &**sym == "Infinity" && span.ctxt == ctx.unresolved_ctxt
+                }) if &**sym == "Infinity" && ctxt == ctx.unresolved_ctxt
             ) =>
             {
                 -f64::INFINITY
@@ -1001,7 +1001,7 @@ pub trait ExprExt {
                 // as_string()")
             }
             Expr::Ident(Ident { ref sym, span, .. }) => match &**sym {
-                "undefined" | "Infinity" | "NaN" if span.ctxt == ctx.unresolved_ctxt => {
+                "undefined" | "Infinity" | "NaN" if ctxt == ctx.unresolved_ctxt => {
                     Known(Cow::Borrowed(&**sym))
                 }
                 _ => Unknown,
@@ -1265,7 +1265,7 @@ pub trait ExprExt {
                         // Allow dummy span
                         Expr::Ident(Ident {
                             span, sym: math, ..
-                        }) => &**math == "Math" && span.ctxt == SyntaxContext::empty(),
+                        }) => &**math == "Math" && ctxt == SyntaxContext::empty(),
 
                         // Some methods of string are pure
                         Expr::Lit(Lit::Str(..)) => match &*prop.sym {
@@ -1304,7 +1304,7 @@ pub trait ExprExt {
                     return false;
                 }
 
-                if i.span.ctxt == ctx.unresolved_ctxt {
+                if i.ctxt == ctx.unresolved_ctxt {
                     !matches!(
                         &*i.sym,
                         "Infinity"
@@ -2433,7 +2433,7 @@ impl<'a> Visit for IdentUsageFinder<'a> {
     visit_obj_and_computed!();
 
     fn visit_ident(&mut self, i: &Ident) {
-        if i.span.ctxt == self.ident.1 && i.sym == self.ident.0 {
+        if i.ctxt == self.ident.1 && i.sym == self.ident.0 {
             self.found = true;
         }
     }
@@ -2702,7 +2702,7 @@ impl VisitMut for IdentReplacer<'_> {
             Prop::Shorthand(i) => {
                 let cloned = i.clone();
                 i.visit_mut_with(self);
-                if i.sym != cloned.sym || i.span.ctxt != cloned.span.ctxt {
+                if i.sym != cloned.sym || i.ctxt != cloned.ctxt {
                     *node = Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(Ident::new(
                             cloned.sym,
@@ -2719,7 +2719,7 @@ impl VisitMut for IdentReplacer<'_> {
     }
 
     fn visit_mut_ident(&mut self, node: &mut Ident) {
-        if node.sym == self.from.0 && node.span.ctxt == self.from.1 {
+        if node.sym == self.from.0 && node.ctxt == self.from.1 {
             *node = self.to.clone();
         }
     }
@@ -2740,7 +2740,7 @@ where
 {
     fn add(&mut self, i: &Ident) {
         if let Some(only) = self.only {
-            if only != i.span.ctxt {
+            if only != i.ctxt {
                 return;
             }
         }
@@ -2980,7 +2980,7 @@ impl VisitMut for Remapper<'_> {
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if let Some(new_ctxt) = self.vars.get(&i.to_id()).copied() {
-            i.span.ctxt = new_ctxt;
+            i.ctxt = new_ctxt;
         }
     }
 }
@@ -3013,7 +3013,7 @@ impl VisitMut for IdentRenamer<'_> {
                     node.exported = Some(ModuleExportName::Ident(orig.clone()));
 
                     orig.sym = new.0.clone();
-                    orig.span.ctxt = new.1;
+                    orig.ctxt = new.1;
                 }
             }
             ModuleExportName::Str(_) => {}
@@ -3023,7 +3023,7 @@ impl VisitMut for IdentRenamer<'_> {
     fn visit_mut_ident(&mut self, node: &mut Ident) {
         if let Some(new) = self.map.get(&node.to_id()) {
             node.sym = new.0.clone();
-            node.span.ctxt = new.1;
+            node.ctxt = new.1;
         }
     }
 
@@ -3070,7 +3070,7 @@ impl VisitMut for IdentRenamer<'_> {
             Prop::Shorthand(i) => {
                 let cloned = i.clone();
                 i.visit_mut_with(self);
-                if i.sym != cloned.sym || i.span.ctxt != cloned.span.ctxt {
+                if i.sym != cloned.sym || i.ctxt != cloned.ctxt {
                     *node = Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(Ident::new(
                             cloned.sym,

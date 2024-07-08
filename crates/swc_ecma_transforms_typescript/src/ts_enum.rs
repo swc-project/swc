@@ -108,12 +108,12 @@ impl<'a> EnumValueComputer<'a> {
             Expr::Lit(Lit::Str(s)) => TsEnumRecordValue::String(s.value),
             Expr::Lit(Lit::Num(n)) => TsEnumRecordValue::Number(n.value),
             Expr::Ident(Ident { span, sym, .. })
-                if &*sym == "NaN" && span.ctxt.has_mark(self.top_level_mark) =>
+                if &*sym == "NaN" && ctxt.has_mark(self.top_level_mark) =>
             {
                 TsEnumRecordValue::Number(f64::NAN)
             }
             Expr::Ident(Ident { span, sym, .. })
-                if &*sym == "Infinity" && span.ctxt.has_mark(self.top_level_mark) =>
+                if &*sym == "Infinity" && ctxt.has_mark(self.top_level_mark) =>
             {
                 TsEnumRecordValue::Number(f64::INFINITY)
             }

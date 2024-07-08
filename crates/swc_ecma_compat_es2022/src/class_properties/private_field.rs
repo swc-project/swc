@@ -101,7 +101,7 @@ impl VisitMut for BrandCheckHandler<'_> {
                 let n = left.as_private_name().unwrap();
                 if let Expr::Ident(right) = &**right {
                     let curr_class = self.private.curr_class();
-                    if curr_class.sym == right.sym && curr_class.span.ctxt == right.span.ctxt {
+                    if curr_class.sym == right.sym && curr_class.ctxt == right.ctxt {
                         *e = Expr::Bin(BinExpr {
                             span: *span,
                             op: op!("==="),

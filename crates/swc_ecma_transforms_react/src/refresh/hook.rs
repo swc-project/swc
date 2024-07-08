@@ -128,7 +128,7 @@ impl<'a> HookRegister<'a> {
                 _ => None,
             };
             if !ident
-                .map(|id| self.current_scope.contains(&id.span.ctxt))
+                .map(|id| self.current_scope.contains(&id.ctxt))
                 .unwrap_or(false)
             {
                 // We don't have anything to put in the array because Hook is out of scope.
@@ -208,7 +208,7 @@ impl<'a> VisitMut for HookRegister<'a> {
         let old_ident = self.ident.take();
         let old_stmts = self.extra_stmt.take();
 
-        self.current_scope.push(b.span.ctxt);
+        self.current_scope.push(b.ctxt);
 
         let stmt_count = b.stmts.len();
         let stmts = mem::replace(&mut b.stmts, Vec::with_capacity(stmt_count));

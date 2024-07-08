@@ -727,7 +727,7 @@ pub struct HygieneTester;
 impl Fold for HygieneTester {
     fn fold_ident(&mut self, ident: Ident) -> Ident {
         Ident {
-            sym: format!("{}__{}", ident.sym, ident.span.ctxt.as_u32()).into(),
+            sym: format!("{}__{}", ident.sym, ident.ctxt.as_u32()).into(),
             ..ident
         }
     }

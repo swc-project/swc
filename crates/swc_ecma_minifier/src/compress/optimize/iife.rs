@@ -216,21 +216,21 @@ impl Optimizer<'_> {
                                 trace_op!(
                                     "iife: Trying to inline argument ({}{:?})",
                                     param.id.sym,
-                                    param.id.span.ctxt
+                                    param.id.ctxt
                                 );
                                 vars.insert(param.to_id(), arg.clone());
                             } else {
                                 trace_op!(
                                     "iife: Trying to inline argument ({}{:?}) (not inlinable)",
                                     param.id.sym,
-                                    param.id.span.ctxt
+                                    param.id.ctxt
                                 );
                             }
                         } else {
                             trace_op!(
                                 "iife: Trying to inline argument ({}{:?}) (undefined)",
                                 param.id.sym,
-                                param.id.span.ctxt
+                                param.id.ctxt
                             );
 
                             vars.insert(param.to_id(), Expr::undefined(param.span()));
@@ -1103,8 +1103,8 @@ impl Optimizer<'_> {
 
 fn find_scope<'a>(data: &'a ProgramData, callee: &Expr) -> Option<&'a ScopeData> {
     match callee {
-        Expr::Arrow(callee) => data.scopes.get(&callee.span.ctxt),
-        Expr::Fn(callee) => data.scopes.get(&callee.function.span.ctxt),
+        Expr::Arrow(callee) => data.scopes.get(&callee.ctxt),
+        Expr::Fn(callee) => data.scopes.get(&callee.function.ctxt),
         _ => None,
     }
 }

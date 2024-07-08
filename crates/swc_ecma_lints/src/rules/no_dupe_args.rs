@@ -62,7 +62,7 @@ macro_rules! check {
                         return;
                     }
 
-                    if id1.span.ctxt == id2.span.ctxt && id1.sym == id2.sym {
+                    if id1.ctxt == id2.ctxt && id1.sym == id2.sym {
                         done.push(i1);
 
                         error(id1, id2);
@@ -76,7 +76,7 @@ macro_rules! check {
 
             for_each_binding_ident($node, |id| {
                 //
-                match map.entry((id.sym.clone(), id.span.ctxt)) {
+                match map.entry((id.sym.clone(), id.ctxt)) {
                     Entry::Occupied(v) => {
                         error(v.get(), id);
                     }

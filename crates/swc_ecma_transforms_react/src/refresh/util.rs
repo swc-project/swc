@@ -33,7 +33,7 @@ fn assert_hygiene(e: &Expr) {
     }
 
     if let Expr::Ident(i) = e {
-        if i.span.ctxt == SyntaxContext::empty() {
+        if i.ctxt == SyntaxContext::empty() {
             panic!("`{}` should be resolved", i)
         }
     }

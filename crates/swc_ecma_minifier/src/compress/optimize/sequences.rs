@@ -448,7 +448,7 @@ impl Optimizer<'_> {
         }) = e
         {
             if let (Some(id), Expr::Seq(seq)) = (left.as_ident(), &mut **right) {
-                if id.span.ctxt == self.expr_ctx.unresolved_ctxt {
+                if id.ctxt == self.expr_ctx.unresolved_ctxt {
                     return;
                 }
                 // Do we really need this?
@@ -511,7 +511,7 @@ impl Optimizer<'_> {
                 &*e.exprs[e.exprs.len() - 2]
             {
                 if let Some(lhs) = assign.left.as_ident() {
-                    if lhs.sym == last_id.sym && lhs.span.ctxt == last_id.span.ctxt {
+                    if lhs.sym == last_id.sym && lhs.ctxt == last_id.ctxt {
                         e.exprs.pop();
                         self.changed = true;
                         report_change!("sequences: Shifting assignment");
@@ -1090,7 +1090,7 @@ impl Optimizer<'_> {
     }
 
     fn is_ident_skippable_for_seq(&self, a: Option<&Mergable>, e: &Ident) -> bool {
-        if e.span.ctxt == self.expr_ctx.unresolved_ctxt
+        if e.ctxt == self.expr_ctx.unresolved_ctxt
             && self.options.pristine_globals
             && is_global_var_with_pure_property_access(&e.sym)
         {
@@ -2277,7 +2277,7 @@ impl Optimizer<'_> {
                                 log_abort!(
                                     "sequences: Declared as fn expr ({}, {:?})",
                                     left_id.sym,
-                                    left_id.span.ctxt
+                                    left_id.ctxt
                                 );
                                 return Ok(false);
                             }
@@ -2509,7 +2509,7 @@ impl Optimizer<'_> {
                 log_abort!(
                     "sequences: Aborting because of usage counts ({}{:?}, ref = {}, pat = {})",
                     left_id.sym,
-                    left_id.span.ctxt,
+                    left_id.ctxt,
                     v.expr_usage,
                     v.pat_usage
                 );
@@ -2522,7 +2522,7 @@ impl Optimizer<'_> {
         report_change!(
             "sequences: Inlining sequential expressions (`{}{:?}`)",
             left_id.sym,
-            left_id.span.ctxt
+            left_id.ctxt
         );
 
         let to = take_a(a, false, false);
@@ -2585,7 +2585,7 @@ impl Visit for UsageCounter<'_> {
     noop_visit_type!();
 
     fn visit_ident(&mut self, i: &Ident) {
-        if self.target.sym == i.sym && self.target.span.ctxt == i.span.ctxt {
+        if self.target.sym == i.sym && self.target.ctxt == i.ctxt {
             if self.in_abort {
                 self.abort = true;
                 return;

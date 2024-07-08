@@ -489,6 +489,6 @@ impl VisitMut for ClearMark {
     noop_visit_mut_type!();
 
     fn visit_mut_ident(&mut self, ident: &mut Ident) {
-        ident.span.ctxt = SyntaxContext::empty();
+        ident.ctxt = SyntaxContext::empty();
     }
 }

@@ -469,7 +469,7 @@ impl InjectHelpers {
 
     fn map_helper_ref_ident(&mut self, ref_ident: &Ident) -> Option<Expr> {
         self.helper_ctxt
-            .filter(|ctxt| ctxt == &ref_ident.span.ctxt)
+            .filter(|ctxt| ctxt == &ref_ident.ctxt)
             .map(|_| {
                 let ident = ref_ident.clone().without_loc();
 
@@ -553,7 +553,7 @@ impl VisitMut for Marker {
     }
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
-        i.span.ctxt = self.decls.get(&i.sym).copied().unwrap_or(self.base);
+        i.ctxt = self.decls.get(&i.sym).copied().unwrap_or(self.base);
     }
 
     fn visit_mut_member_prop(&mut self, p: &mut MemberProp) {
@@ -585,7 +585,7 @@ impl VisitMut for Marker {
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
         if let Pat::Ident(i) = &mut v.name {
             if &*i.id.sym == "id" || &*i.id.sym == "resource" {
-                i.id.span.ctxt = self.base;
+                i.id.ctxt = self.base;
                 self.decls.insert(i.id.sym.clone(), self.base);
                 return;
             }

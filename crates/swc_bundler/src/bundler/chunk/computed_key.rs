@@ -55,7 +55,7 @@ where
                     span,
                     ref specifiers,
                     ..
-                })) if span.ctxt == injected_ctxt => {
+                })) if ctxt == injected_ctxt => {
                     for s in specifiers {
                         if let ExportSpecifier::Named(ExportNamedSpecifier {
                             orig,
@@ -69,7 +69,7 @@ where
                                     unimplemented!("module string names unimplemented")
                                 }
                             };
-                            if ctx.transitive_remap.get(&exported.span.ctxt).is_some() {
+                            if ctx.transitive_remap.get(&exported.ctxt).is_some() {
                                 let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
                                     span: DUMMY_SP,
                                     orig: orig.clone(),
@@ -114,7 +114,7 @@ where
             if let ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) = v {
                 // We handle this later.
                 let mut map = ctx.export_stars_in_wrapped.lock();
-                map.entry(id).or_default().push(export.span.ctxt);
+                map.entry(id).or_default().push(export.ctxt);
             }
         });
 
@@ -187,13 +187,13 @@ struct ExportToReturn {
 
 impl ExportToReturn {
     fn export_id(&mut self, mut i: Ident) {
-        i.span.ctxt = SyntaxContext::empty();
+        i.ctxt = SyntaxContext::empty();
         self.return_props
             .push(PropOrSpread::Prop(Box::new(Prop::Shorthand(i))));
     }
 
     fn export_key_value(&mut self, mut key: Ident, value: Ident) {
-        key.span.ctxt = SyntaxContext::empty();
+        key.ctxt = SyntaxContext::empty();
 
         self.return_props
             .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
@@ -294,7 +294,7 @@ impl Fold for ExportToReturn {
                 }
 
                 // Ignore export {} specified by user.
-                if export.src.is_none() && export.span.ctxt != self.synthesized_ctxt {
+                if export.src.is_none() && export.ctxt != self.synthesized_ctxt {
                     None
                 } else {
                     return ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export));

@@ -20,7 +20,7 @@ impl Pure<'_> {
         ) {
             // Check if lhs is same as `ident`.
             if let AssignTarget::Simple(SimpleAssignTarget::Ident(left)) = &assign.left {
-                if left.id.sym == ident.sym && left.id.span.ctxt == ident.span.ctxt {
+                if left.id.sym == ident.sym && left.id.ctxt == ident.ctxt {
                     report_change!(
                         "drop_useless_ident_ref_in_seq: Dropping `{}` as it's useless",
                         left.id

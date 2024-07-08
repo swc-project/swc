@@ -222,7 +222,7 @@ impl Optimizer<'_> {
             Expr::Bin(BinExpr {
                 left, op, right, ..
             }) => match &**right {
-                Expr::Ident(r) if lhs.sym == r.sym && lhs.span.ctxt == r.span.ctxt => {
+                Expr::Ident(r) if lhs.sym == r.sym && lhs.ctxt == r.ctxt => {
                     // We need this check because a function call like below can change value of
                     // operand.
                     //

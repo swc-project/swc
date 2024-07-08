@@ -1060,7 +1060,7 @@ impl SimplifyExpr {
                     span: r_span,
                     ..
                 }),
-            ) if !will_negate && li == ri && l_span.ctxt == r_span.ctxt => {
+            ) if !will_negate && li == ri && l_ctxt == r_ctxt => {
                 return Known(false);
             }
             // Special case: `typeof a < typeof a` is always false.

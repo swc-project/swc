@@ -691,12 +691,12 @@ impl VisitMut for TsHygiene {
     visit_mut_obj_and_computed!();
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
-        if SyntaxContext::empty().apply_mark(self.unresolved_mark) == i.span.ctxt {
+        if SyntaxContext::empty().apply_mark(self.unresolved_mark) == i.ctxt {
             println!("ts_hygiene: {} is unresolved", i.sym);
             return;
         }
 
-        let ctxt = format!("{:?}", i.span.ctxt).replace('#', "");
+        let ctxt = format!("{:?}", i.ctxt).replace('#', "");
         i.sym = format!("{}__{}", i.sym, ctxt).into();
         i.span = i.span.with_ctxt(SyntaxContext::empty());
     }

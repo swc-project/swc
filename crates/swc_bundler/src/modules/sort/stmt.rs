@@ -690,10 +690,10 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
                     //         format!("`{:?}`", ids)
                     //     }
                     //     ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))) => {
-                    //         format!("{}{:?}", c.ident.sym, c.ident.span.ctxt)
+                    //         format!("{}{:?}", c.ident.sym, c.ident.ctxt)
                     //     }
                     //     ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-                    //         format!("{}{:?}", f.ident.sym, f.ident.span.ctxt)
+                    //         format!("{}{:?}", f.ident.sym, f.ident.ctxt)
                     //     }
                     //     _ => String::from(""),
                     // };
@@ -760,10 +760,10 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
                         //         format!("`{:?}`", ids)
                         //     }
                         //     ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))) => {
-                        //         format!("{}{:?}", c.ident.sym, c.ident.span.ctxt)
+                        //         format!("{}{:?}", c.ident.sym, c.ident.ctxt)
                         //     }
                         //     ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-                        //         format!("{}{:?}", f.ident.sym, f.ident.span.ctxt)
+                        //         format!("{}{:?}", f.ident.sym, f.ident.ctxt)
                         //     }
                         //     _ => String::from(""),
                         // };

@@ -32,7 +32,7 @@ where
         }
 
         let mut orig_name = ident.clone();
-        orig_name.span.ctxt = SyntaxContext::empty();
+        orig_name.ctxt = SyntaxContext::empty();
 
         {
             // Remove span hygiene of the class.

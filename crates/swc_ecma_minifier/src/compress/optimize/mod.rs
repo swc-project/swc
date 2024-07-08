@@ -329,7 +329,7 @@ impl Optimizer<'_> {
             return false;
         }
 
-        if id.span.ctxt != self.marks.top_level_ctxt {
+        if id.ctxt != self.marks.top_level_ctxt {
             return true;
         }
 
@@ -546,7 +546,7 @@ impl Optimizer<'_> {
             Expr::Bin(BinExpr {
                 left, op, right, ..
             }) => match &**left {
-                Expr::Ident(r) if lhs.sym == r.sym && lhs.span.ctxt == r.span.ctxt => (op, right),
+                Expr::Ident(r) if lhs.sym == r.sym && lhs.ctxt == r.ctxt => (op, right),
                 _ => return,
             },
             _ => return,
@@ -1286,7 +1286,7 @@ impl Optimizer<'_> {
                 }
             }
 
-            Expr::Ident(id) if id.span.ctxt != self.expr_ctx.unresolved_ctxt => {
+            Expr::Ident(id) if id.ctxt != self.expr_ctx.unresolved_ctxt => {
                 report_change!("ignore_return_value: Dropping a declared ident {}", id);
                 self.changed = true;
                 return None;
@@ -1584,7 +1584,7 @@ impl VisitMut for Optimizer<'_> {
         let ctx = Ctx {
             top_level: false,
             in_block: true,
-            scope: n.span.ctxt,
+            scope: n.ctxt,
             in_param: false,
             ..self.ctx
         };
@@ -2168,7 +2168,7 @@ impl VisitMut for Optimizer<'_> {
             let ctx = Ctx {
                 skip_standalone: self.ctx.skip_standalone || is_standalone,
                 in_fn_like: true,
-                scope: n.span.ctxt,
+                scope: n.ctxt,
                 top_level: false,
 
                 ..self.ctx

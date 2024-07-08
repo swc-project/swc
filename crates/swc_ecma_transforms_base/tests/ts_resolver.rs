@@ -50,7 +50,7 @@ impl Visit for AssertNoEmptyCtxt {
         n.visit_children_with(self);
 
         if let Expr::Ident(i) = n {
-            if i.span.ctxt == SyntaxContext::empty() {
+            if i.ctxt == SyntaxContext::empty() {
                 unreachable!("ts_resolver has a bug")
             }
         }
@@ -60,7 +60,7 @@ impl Visit for AssertNoEmptyCtxt {
         n.visit_children_with(self);
 
         if let Pat::Ident(i) = n {
-            if i.id.span.ctxt == SyntaxContext::empty() {
+            if i.id.ctxt == SyntaxContext::empty() {
                 unreachable!("ts_resolver has a bug")
             }
         }

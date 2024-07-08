@@ -227,7 +227,7 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
-        self.with_child(n.span.ctxt, ScopeKind::Fn, |child| {
+        self.with_child(n.ctxt, ScopeKind::Fn, |child| {
             {
                 let ctx = Ctx {
                     in_pat_of_param: true,
@@ -365,7 +365,7 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_block_stmt(&mut self, n: &BlockStmt) {
-        self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
+        self.with_child(n.ctxt, ScopeKind::Block, |child| {
             n.visit_children_with(child);
         });
     }
@@ -507,7 +507,7 @@ where
             n.super_class.visit_with(&mut *self.with_ctx(ctx));
         }
 
-        self.with_child(n.span.ctxt, ScopeKind::Fn, |child| n.body.visit_with(child))
+        self.with_child(n.ctxt, ScopeKind::Fn, |child| n.body.visit_with(child))
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -530,7 +530,7 @@ where
     fn visit_class_method(&mut self, n: &ClassMethod) {
         n.function.decorators.visit_with(self);
 
-        self.with_child(n.function.span.ctxt, ScopeKind::Fn, |a| {
+        self.with_child(n.function.ctxt, ScopeKind::Fn, |a| {
             n.key.visit_with(a);
             {
                 let ctx = Ctx {
@@ -580,7 +580,7 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_constructor(&mut self, n: &Constructor) {
-        self.with_child(n.span.ctxt, ScopeKind::Fn, |child| {
+        self.with_child(n.ctxt, ScopeKind::Fn, |child| {
             {
                 let ctx = Ctx {
                     in_pat_of_param: true,
@@ -777,7 +777,7 @@ where
     fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
         n.right.visit_with(self);
 
-        self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
+        self.with_child(n.ctxt, ScopeKind::Block, |child| {
             let head_ctx = Ctx {
                 in_left_of_for_loop: true,
                 ..child.ctx
@@ -804,7 +804,7 @@ where
     fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
         n.right.visit_with(self);
 
-        self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
+        self.with_child(n.ctxt, ScopeKind::Block, |child| {
             let head_ctx = Ctx {
                 in_left_of_for_loop: true,
                 ..child.ctx
@@ -860,7 +860,7 @@ where
         };
 
         self.with_ctx(ctx)
-            .with_child(n.span.ctxt, ScopeKind::Fn, |child| {
+            .with_child(n.ctxt, ScopeKind::Fn, |child| {
                 n.params.visit_with(child);
 
                 match &n.body {
@@ -876,7 +876,7 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_getter_prop(&mut self, n: &GetterProp) {
-        self.with_child(n.span.ctxt, ScopeKind::Fn, |a| {
+        self.with_child(n.ctxt, ScopeKind::Fn, |a| {
             n.key.visit_with(a);
 
             n.body.visit_with(a);
@@ -946,7 +946,7 @@ where
     fn visit_method_prop(&mut self, n: &MethodProp) {
         n.function.decorators.visit_with(self);
 
-        self.with_child(n.function.span.ctxt, ScopeKind::Fn, |a| {
+        self.with_child(n.function.ctxt, ScopeKind::Fn, |a| {
             n.key.visit_with(a);
             {
                 let ctx = Ctx {
@@ -1035,7 +1035,7 @@ where
     fn visit_private_method(&mut self, n: &PrivateMethod) {
         n.function.decorators.visit_with(self);
 
-        self.with_child(n.function.span.ctxt, ScopeKind::Fn, |a| {
+        self.with_child(n.function.ctxt, ScopeKind::Fn, |a| {
             n.key.visit_with(a);
             {
                 let ctx = Ctx {
@@ -1083,7 +1083,7 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_setter_prop(&mut self, n: &SetterProp) {
-        self.with_child(n.span.ctxt, ScopeKind::Fn, |a| {
+        self.with_child(n.ctxt, ScopeKind::Fn, |a| {
             n.key.visit_with(a);
             {
                 let ctx = Ctx {
@@ -1523,7 +1523,7 @@ fn is_safe_to_access_prop(e: &Expr) -> bool {
 
 fn call_may_mutate(expr: &Expr, expr_ctx: &ExprCtx) -> bool {
     fn is_global_fn_wont_mutate(s: &Ident, unresolved: SyntaxContext) -> bool {
-        s.span.ctxt == unresolved
+        s.ctxt == unresolved
             && matches!(
                 &*s.sym,
                 "JSON"

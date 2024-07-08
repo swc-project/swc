@@ -574,7 +574,7 @@ impl VisitMut for ExprReplacer {
         e.visit_mut_children_with(self);
 
         if let Expr::Ident(i) = e {
-            if self.from.0 == i.sym && self.from.1 == i.span.ctxt {
+            if self.from.0 == i.sym && self.from.1 == i.ctxt {
                 if let Some(new) = self.take() {
                     *e = *new;
                 } else {
@@ -588,7 +588,7 @@ impl VisitMut for ExprReplacer {
         p.visit_mut_children_with(self);
 
         if let Prop::Shorthand(i) = p {
-            if self.from.0 == i.sym && self.from.1 == i.span.ctxt {
+            if self.from.0 == i.sym && self.from.1 == i.ctxt {
                 let value = if let Some(new) = self.take() {
                     new
                 } else {

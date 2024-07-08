@@ -1020,7 +1020,7 @@ impl Pure<'_> {
 
         if let Expr::Ident(i) = e {
             // If it's not a top level, it's a reference to a declared variable.
-            if i.span.ctxt.outer() == self.marks.unresolved_mark {
+            if i.ctxt.outer() == self.marks.unresolved_mark {
                 if self.options.side_effects
                     || (self.options.unused && opts.drop_global_refs_if_unused)
                 {
@@ -1129,7 +1129,7 @@ impl Pure<'_> {
                 }
 
                 Expr::Ident(i) => {
-                    if i.span.ctxt.outer() != self.marks.unresolved_mark {
+                    if i.ctxt.outer() != self.marks.unresolved_mark {
                         report_change!("Dropping an identifier as it's declared");
 
                         self.changed = true;
@@ -1217,9 +1217,7 @@ impl Pure<'_> {
                     // Convert `a = a` to `a`.
                     if let Some(l) = assign.left.as_ident() {
                         if let Expr::Ident(r) = &*assign.right {
-                            if l.to_id() == r.to_id()
-                                && l.span.ctxt != self.expr_ctx.unresolved_ctxt
-                            {
+                            if l.to_id() == r.to_id() && l.ctxt != self.expr_ctx.unresolved_ctxt {
                                 self.changed = true;
                                 *e = *assign.right.take();
                             }
@@ -1514,7 +1512,7 @@ impl Pure<'_> {
         if self.options.pristine_globals {
             if let Expr::Member(MemberExpr { obj, prop, .. }) = e {
                 if let Expr::Ident(obj) = &**obj {
-                    if obj.span.ctxt.outer() == self.marks.unresolved_mark {
+                    if obj.ctxt.outer() == self.marks.unresolved_mark {
                         if is_pure_member_access(obj, prop) {
                             self.changed = true;
                             report_change!("Remving pure member access to global var");

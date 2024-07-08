@@ -119,7 +119,7 @@ impl Optimizer<'_> {
                         report_change!(
                             "inline: Decided to store '{}{:?}' for array access",
                             ident.sym,
-                            ident.span.ctxt
+                            ident.ctxt
                         );
                         self.vars
                             .lits_for_array_access
@@ -306,7 +306,7 @@ impl Optimizer<'_> {
                     report_change!(
                         "inline: Decided to inline '{}{:?}' because it's simple",
                         ident.sym,
-                        ident.span.ctxt
+                        ident.ctxt
                     );
 
                     inc_usage();
@@ -318,7 +318,7 @@ impl Optimizer<'_> {
                     trace_op!(
                         "inline: Decided to copy '{}{:?}' because it's simple",
                         ident.sym,
-                        ident.span.ctxt
+                        ident.ctxt
                     );
 
                     self.mode.store(id.clone(), &*init);
@@ -566,7 +566,7 @@ impl Optimizer<'_> {
 
         if let Some(usage) = self.data.vars.get(&i.to_id()) {
             if !usage.reassigned {
-                trace_op!("typeofs: Storing typeof `{}{:?}`", i.sym, i.span.ctxt);
+                trace_op!("typeofs: Storing typeof `{}{:?}`", i.sym, i.ctxt);
                 match &*decl {
                     Decl::Fn(..) => {
                         self.typeofs.insert(i.to_id(), "function".into());
@@ -595,7 +595,7 @@ impl Optimizer<'_> {
             _ => return,
         };
 
-        trace_op!("inline: Trying to inline decl ({}{:?})", i.sym, i.span.ctxt);
+        trace_op!("inline: Trying to inline decl ({}{:?})", i.sym, i.ctxt);
 
         if self.options.inline == 0 && !self.options.reduce_vars {
             log_abort!("inline: [x] Inline disabled");
@@ -668,7 +668,7 @@ impl Optimizer<'_> {
                                     "inline: Decided to inline function '{}{:?}' as it's very \
                                      simple",
                                     f.ident.sym,
-                                    f.ident.span.ctxt
+                                    f.ident.ctxt
                                 );
 
                                 for i in collect_infects_from(
@@ -740,7 +740,7 @@ impl Optimizer<'_> {
                         report_change!(
                             "inline: Decided to inline class `{}{:?}` as it's used only once",
                             c.ident.sym,
-                            c.ident.span.ctxt
+                            c.ident.ctxt
                         );
                     }
                     Decl::Fn(f) => {
@@ -755,7 +755,7 @@ impl Optimizer<'_> {
                         report_change!(
                             "inline: Decided to inline function `{}{:?}` as it's used only once",
                             f.ident.sym,
-                            f.ident.span.ctxt
+                            f.ident.ctxt
                         );
                     }
                     _ => {}

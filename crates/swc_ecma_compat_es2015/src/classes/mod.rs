@@ -574,11 +574,11 @@ where
 
             let mut class_name_sym = class_name.clone();
             class_name_sym.span = DUMMY_SP;
-            class_name_sym.span.ctxt = class_name.span.ctxt;
+            class_name_sym.ctxt = class_name.ctxt;
 
             let mut super_class_name_sym = super_class_ident.clone();
             super_class_name_sym.span = DUMMY_SP;
-            super_class_name_sym.span.ctxt = super_class_ident.span.ctxt;
+            super_class_name_sym.ctxt = super_class_ident.ctxt;
 
             stmts.push(
                 CallExpr {
@@ -595,7 +595,7 @@ where
             let var = private_ident!("_super");
             let mut class_name_sym = class_name.clone();
             class_name_sym.span = DUMMY_SP;
-            class_name_sym.span.ctxt = class_name.span.ctxt;
+            class_name_sym.ctxt = class_name.ctxt;
 
             if !self.config.super_is_callable_constructor {
                 stmts.push(
@@ -811,7 +811,7 @@ where
 
         let mut class_name_sym = class_name.clone();
         class_name_sym.span = DUMMY_SP;
-        class_name_sym.span.ctxt = class_name.span.ctxt;
+        class_name_sym.ctxt = class_name.ctxt;
 
         // `return Foo`
         stmts.push(Stmt::Return(ReturnStmt {
@@ -990,7 +990,7 @@ where
         ) -> Stmt {
             let mut class_name_sym = class_name.clone();
             class_name_sym.span = DUMMY_SP;
-            class_name_sym.span.ctxt = class_name.span.ctxt;
+            class_name_sym.ctxt = class_name.ctxt;
 
             CallExpr {
                 span: DUMMY_SP,
@@ -1219,7 +1219,7 @@ where
 fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
     let mut class_name_sym = name.clone();
     class_name_sym.span = DUMMY_SP;
-    class_name_sym.span.ctxt = name.span.ctxt;
+    class_name_sym.ctxt = name.ctxt;
 
     let class_call_check = CallExpr {
         span: DUMMY_SP,
