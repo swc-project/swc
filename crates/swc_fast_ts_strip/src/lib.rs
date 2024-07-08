@@ -9,13 +9,12 @@ use swc_common::{
     BytePos, FileName, SourceMap, Span, Spanned,
 };
 use swc_ecma_ast::{
-    ArrowExpr, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, Decorator, EsVersion,
-    ExportAll, ExportDecl, ExportSpecifier, FnDecl, Ident, ImportDecl, ImportSpecifier,
-    NamedExport, Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment,
-    TsImportEqualsDecl, TsIndexSignature, TsInstantiation, TsInterfaceDecl, TsModuleDecl,
-    TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
-    TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
-    VarDecl,
+    ArrowExpr, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, EsVersion, ExportAll,
+    ExportDecl, ExportSpecifier, FnDecl, Ident, ImportDecl, ImportSpecifier, NamedExport, Param,
+    Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl,
+    TsIndexSignature, TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName,
+    TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
+    TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation, VarDecl,
 };
 use swc_ecma_parser::{
     lexer::Lexer,
@@ -362,12 +361,6 @@ impl Visit for TsStrip {
 
     fn visit_ts_index_signature(&mut self, n: &TsIndexSignature) {
         self.add_replacement(n.span);
-    }
-
-    fn visit_decorator(&mut self, n: &Decorator) {
-        HANDLER.with(|handler| {
-            handler.span_err(n.span, "Decorators are not supported");
-        });
     }
 
     fn visit_export_all(&mut self, n: &ExportAll) {
