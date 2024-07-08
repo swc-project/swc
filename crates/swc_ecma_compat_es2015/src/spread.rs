@@ -410,7 +410,7 @@ impl Spread {
             let callee = buf
                 .remove(0)
                 .expr
-                .make_member(Ident::new("concat".into(), DUMMY_SP))
+                .make_member(Ident::new_no_ctxt("concat".into(), DUMMY_SP))
                 .as_callee();
 
             return Expr::Call(CallExpr {
@@ -436,7 +436,7 @@ impl Spread {
                         elems: vec![],
                     })
                 })
-                .make_member(Ident::new("concat".into(), span))
+                .make_member(Ident::new_no_ctxt("concat".into(), span))
                 .as_callee(),
 
             args: buf,
