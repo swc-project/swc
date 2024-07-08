@@ -1262,13 +1262,11 @@ impl Generator {
                             key: quote_ident!("get").into(),
                             value: Function {
                                 params: vec![],
-                                decorators: Default::default(),
                                 span: g.span,
                                 body: g.body,
                                 is_generator: false,
                                 is_async: false,
-                                type_params: Default::default(),
-                                return_type: Default::default(),
+                                ..Default::default()
                             }
                             .into(),
                         })
@@ -1278,13 +1276,11 @@ impl Generator {
                                 key: quote_ident!("set").into(),
                                 value: Function {
                                     params: vec![(*s.param).into()],
-                                    decorators: Default::default(),
                                     span: s.span,
                                     body: s.body,
                                     is_generator: false,
                                     is_async: false,
-                                    type_params: Default::default(),
-                                    return_type: Default::default(),
+                                    ..Default::default()
                                 }
                                 .into(),
                             }

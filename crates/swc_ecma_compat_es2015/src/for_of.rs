@@ -581,8 +581,6 @@ fn make_finally_block(
         },
         handler: None,
         finalizer: Some(BlockStmt {
-            span: DUMMY_SP,
-
             stmts: vec![
                 // if (_didIteratorError) {
                 //   throw _iteratorError;
@@ -591,15 +589,17 @@ fn make_finally_block(
                     span: DUMMY_SP,
                     test: Box::new(Expr::Ident(error_flag_ident)),
                     cons: Box::new(Stmt::Block(BlockStmt {
-                        span: DUMMY_SP,
+                        span: DUMMYSP,
                         stmts: vec![Stmt::Throw(ThrowStmt {
                             span: DUMMY_SP,
                             arg: Box::new(Expr::Ident(error_ident)),
                         })],
+                        ..Default::default()
                     })),
                     alt: None,
                 }),
             ],
+            ..Default::default()
         }),
     }
     .into()

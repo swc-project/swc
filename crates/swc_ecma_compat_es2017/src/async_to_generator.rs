@@ -785,6 +785,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             cons: Box::new(Stmt::Block(BlockStmt {
                 span: DUMMY_SP,
                 stmts: vec![throw_iterator_error],
+                ..Default::default()
             })),
             alt: None,
         });

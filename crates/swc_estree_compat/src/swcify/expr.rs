@@ -128,7 +128,7 @@ impl Swcify for swc_estree_ast::PrivateName {
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::PrivateName {
             span: ctx.span(&self.base),
-            id: self.id.swcify(ctx).id,
+            name: self.id.swcify(ctx).sym,
         }
     }
 }
