@@ -490,7 +490,6 @@ impl ForOf {
                 // _didIteratorError = true;
                 // _iteratorError = err;
                 body: BlockStmt {
-                    span: DUMMY_SP,
                     stmts: vec![
                         // _didIteratorError = true;
                         AssignExpr {
@@ -509,16 +508,17 @@ impl ForOf {
                         }
                         .into_stmt(),
                     ],
+                    ..Default::default()
                 },
             }),
             finalizer: Some(BlockStmt {
-                span: DUMMY_SP,
                 stmts: vec![make_finally_block(
                     iterator_return,
                     &normal_completion_ident,
                     error_flag_ident,
                     error_ident,
                 )],
+                ..Default::default()
             }),
         }
         .into()

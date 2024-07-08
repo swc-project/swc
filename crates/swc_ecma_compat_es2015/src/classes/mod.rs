@@ -275,7 +275,7 @@ where
     fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
         if let Some(value) = &mut n.value {
             if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **value {
-                c.ident = Some((*n.key).clone().into_private());
+                c.ident = Some(Ident::from(&n.key).into_private());
             }
         }
 
