@@ -797,6 +797,7 @@ define!({
     }
     pub struct NewExpr {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub callee: Box<Expr>,
         pub args: Option<Vec<ExprOrSpread>>,
         pub type_args: Option<Box<TsTypeParamInstantiation>>,
