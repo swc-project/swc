@@ -86,7 +86,7 @@ impl<'a> arbitrary::Arbitrary<'a> for Span {
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 pub struct SpanWithCtx {
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
-    pub span: Span,
+    pub pos: Span,
     /// Information about where the macro came from, if this piece of
     /// code was created by a macro expansion.
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
@@ -95,7 +95,7 @@ pub struct SpanWithCtx {
 
 impl Spanned for SpanWithCtx {
     fn span(&self) -> Span {
-        self.span
+        self.pos
     }
 }
 
@@ -104,27 +104,27 @@ impl Deref for SpanWithCtx {
 
     #[inline]
     fn deref(&self) -> &Self::Target {
-        &self.span
+        &self.pos
     }
 }
 
 impl DerefMut for SpanWithCtx {
     #[inline]
     fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.span
+        &mut self.pos
     }
 }
 
 impl std::fmt::Debug for SpanWithCtx {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:?}{:?}", self.span, self.ctxt)
+        write!(f, "{:?}{:?}", self.pos, self.ctxt)
     }
 }
 
 impl SpanWithCtx {
     pub fn new(lo: BytePos, hi: BytePos, ctxt: SyntaxContext) -> Self {
         Self {
-            span: Span::new(lo, hi),
+            pos: Span::new(lo, hi),
             ctxt,
         }
     }
@@ -135,7 +135,7 @@ impl SpanWithCtx {
 
     pub const fn with_ctxt(&self, ctxt: SyntaxContext) -> Self {
         Self {
-            span: self.span,
+            pos: self.pos,
             ctxt,
         }
     }
@@ -495,7 +495,7 @@ extern "C" {
 
 impl Span {
     pub fn with_ctxt(self, ctxt: SyntaxContext) -> SpanWithCtx {
-        SpanWithCtx { span: self, ctxt }
+        SpanWithCtx { pos: self, ctxt }
     }
 
     pub fn with_empty_ctxt(self) -> SpanWithCtx {

@@ -1345,7 +1345,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         let type_ann = self.parse_ts_type_ann(/* eat_colon */ false, type_ann_start)?;
-        id.span.span = span!(self, ident_start);
+        id.span.pos = span!(self, ident_start);
         id.type_ann = Some(type_ann);
 
         expect!(self, ']');

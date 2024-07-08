@@ -332,7 +332,7 @@ impl Ident {
 
     /// Create a new identifier with the given position.
     pub fn with_pos(mut self, lo: BytePos, hi: BytePos) -> Ident {
-        self.span.span = Span::new(lo, hi);
+        self.span.pos = Span::new(lo, hi);
         self
     }
 }
@@ -401,7 +401,7 @@ impl Ident {
         Self::new(
             sym,
             SpanWithCtx {
-                span,
+                pos: span,
                 ctxt: SyntaxContext::empty(),
             },
         )

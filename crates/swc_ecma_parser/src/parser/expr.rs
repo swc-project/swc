@@ -1833,7 +1833,10 @@ impl<I: Tokens> Parser<I> {
                 }
                 match pat {
                     Pat::Ident(BindingIdent {
-                        span: SpanWithCtx { ref mut span, .. },
+                        span:
+                            SpanWithCtx {
+                                pos: ref mut span, ..
+                            },
                         ref mut type_ann,
                         ..
                     })
