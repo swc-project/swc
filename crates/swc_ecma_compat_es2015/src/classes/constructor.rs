@@ -135,9 +135,7 @@ pub(super) fn constructor_fn(c: Constructor) -> Box<Function> {
         body: c.body,
         is_async: false,
         is_generator: false,
-
-        type_params: Default::default(),
-        return_type: Default::default(),
+        ..Default::default()
     }
     .into()
 }

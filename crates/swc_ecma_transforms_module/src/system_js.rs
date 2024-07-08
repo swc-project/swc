@@ -324,6 +324,8 @@ impl SystemJs {
                         })),
                         alt: None,
                     })],
+
+                    ..Default::default()
                 })),
             }));
             for (sym, value) in meta
@@ -991,16 +993,15 @@ impl Fold for SystemJs {
                         decorators: Default::default(),
                         pat: quote_ident!(local_name_for_src(&meta.src)).into(),
                     }],
-                    decorators: Default::default(),
                     span: DUMMY_SP,
                     body: Some(BlockStmt {
                         span: DUMMY_SP,
                         stmts: self.build_module_item_export_all(meta),
+                        ..Default::default()
                     }),
                     is_generator: false,
                     is_async: false,
-                    type_params: Default::default(),
-                    return_type: Default::default(),
+                    ..Default::default()
                 }
                 .as_arg(),
             ));

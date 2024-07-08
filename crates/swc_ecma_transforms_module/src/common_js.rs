@@ -623,7 +623,11 @@ fn cjs_import_meta_url(span: Span, require: Ident, unresolved_mark: Mark) -> Exp
         .make_member(quote_ident!("pathToFileURL"))
         .as_call(
             DUMMY_SP,
-            vec![quote_ident!(DUMMY_SP.apply_mark(unresolved_mark), "__filename").as_arg()],
+            vec![quote_ident!(
+                SyntaxContext::empty().apply_mark(unresolved_mark),
+                "__filename"
+            )
+            .as_arg()],
         )
         .make_member(quote_ident!("toString"))
         .as_call(span, Default::default())
