@@ -493,7 +493,7 @@ where
             _ => {
                 let props = export_id_list
                     .iter()
-                    .map(|(key, ..)| prop_name(key, DUMMY_SP))
+                    .map(|(key, ..)| prop_name(key, DUMMY_SP, Default::default()))
                     .map(|key| KeyValueProp {
                         key: key.into(),
                         // `cjs-module-lexer` only support identifier as value
