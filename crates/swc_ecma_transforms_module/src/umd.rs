@@ -1,7 +1,8 @@
 use anyhow::Context;
 use swc_atoms::JsWord;
 use swc_common::{
-    comments::Comments, sync::Lrc, util::take::Take, FileName, Mark, SourceMap, Span, DUMMY_SP,
+    comments::Comments, sync::Lrc, util::take::Take, FileName, Mark, SourceMap, Span,
+    SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
@@ -368,12 +369,27 @@ where
         }
 
         // define unresolved ref
-        let module = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "module");
+        let module = quote_ident!(
+            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+            "module"
+        );
 
-        let require = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "require");
-        let define = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "define");
-        let global_this = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "globalThis");
-        let js_self = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "self");
+        let require = quote_ident!(
+            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+            "require"
+        );
+        let define = quote_ident!(
+            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+            "define"
+        );
+        let global_this = quote_ident!(
+            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+            "globalThis"
+        );
+        let js_self = quote_ident!(
+            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+            "self"
+        );
 
         // adapter arguments
         let global = private_ident!("global");
