@@ -3655,6 +3655,7 @@ dependencies = [
 name = "swc_atoms"
 version = "0.6.7"
 dependencies = [
+ "arbitrary",
  "bytecheck",
  "hstr",
  "once_cell",
