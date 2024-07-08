@@ -2032,7 +2032,7 @@ fn sym_for_expr(expr: &Expr) -> Option<String> {
 
 /// Used to determine super_class_ident
 pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
-    let ctxt=SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()))
+    let ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
     let span = expr.span();
 
     let mut sym = sym_for_expr(expr).unwrap_or_else(|| default.to_string());
@@ -2049,8 +2049,8 @@ pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
 
 /// Used to determine super_class_ident
 pub fn alias_ident_for_simple_assign_tatget(expr: &SimpleAssignTarget, default: &str) -> Ident {
-    let ctxt=SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()))
-    
+    let ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+
     let span = expr.span();
 
     let mut sym = match expr {
@@ -2102,7 +2102,7 @@ pub fn alias_ident_for_simple_assign_tatget(expr: &SimpleAssignTarget, default: 
 /// Returns `(ident, aliased)`
 pub fn alias_if_required(expr: &Expr, default: &str) -> (Ident, bool) {
     if let Expr::Ident(ref i) = *expr {
-        return (Ident::new(i.sym.clone(), i.span,i.ctxt), false);
+        return (Ident::new(i.sym.clone(), i.span, i.ctxt), false);
     }
 
     (alias_ident_for(expr, default), true)
