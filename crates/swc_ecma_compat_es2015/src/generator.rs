@@ -1752,7 +1752,7 @@ impl Generator {
                             .make_member(quote_ident!("push"))
                             .as_callee(),
                         args: vec![key.as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     })),
                 })),
             }));
@@ -2665,7 +2665,7 @@ impl Generator {
                 .make_member(quote_ident!("sent"))
                 .as_callee(),
             args: vec![],
-            type_args: Default::default(),
+            ..Default::default()
         }))
     }
 
@@ -2936,6 +2936,7 @@ impl Generator {
                         body: Box::new(Stmt::Block(BlockStmt {
                             span: DUMMY_SP,
                             stmts,
+                            ..Default::default()
                         })),
                     })];
                 }
@@ -2990,7 +2991,7 @@ impl Generator {
                                 ],
                             }
                             .as_arg()],
-                            type_args: Default::default(),
+                            ..Default::default()
                         })),
                     }),
                 );

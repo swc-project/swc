@@ -276,7 +276,7 @@ impl VisitMut for PrivateInObject {
                     }
                     .as_callee(),
                     args: Default::default(),
-                    type_args: Default::default(),
+                    ..Default::default()
                 }));
             }
         }

@@ -178,7 +178,8 @@ impl SuperReplacer {
             span: DUMMY_SP,
             callee: helper!(get_prototype_of),
             args: vec![self.get_obj_ref().as_arg()],
-            type_args: Default::default(),
+
+            ..Default::default()
         })
         .as_arg()
     }
@@ -210,7 +211,6 @@ impl SuperReplacer {
         if let Expr::Call(CallExpr {
             callee: Callee::Expr(callee_expr),
             args,
-            type_args,
             ..
         }) = n
         {
@@ -254,7 +254,7 @@ impl SuperReplacer {
                     }
                     .as_callee(),
                     args: iter::once(this).chain(args.take()).collect(),
-                    type_args: type_args.take(),
+                    ..Default::default()
                 });
             }
         }
@@ -341,7 +341,7 @@ impl SuperReplacer {
             span: super_token,
             callee: helper!(get),
             args: vec![proto, prop, ThisExpr { span: super_token }.as_arg()],
-            type_args: Default::default(),
+            ..Default::default()
         })
     }
 

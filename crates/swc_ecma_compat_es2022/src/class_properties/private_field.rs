@@ -426,7 +426,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                             span: DUMMY_SP,
                             callee: expr.make_member(quote_ident!("bind")).as_callee(),
                             args: vec![this.as_arg()],
-                            type_args: Default::default(),
+                            ..Default::default()
                         })),
                         tpl: tpl.take(),
                         type_params: type_params.take(),
