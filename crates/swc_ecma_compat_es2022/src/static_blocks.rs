@@ -6,13 +6,11 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 use swc_trace_macro::swc_trace;
 
 struct ClassStaticBlock {
-    mark: Mark,
+    static_block_mark: Mark,
 }
 
 pub fn static_blocks(static_block_mark: Mark) -> impl Fold + VisitMut {
-    as_folder(ClassStaticBlock {
-        mark: static_block_mark,
-    })
+    as_folder(ClassStaticBlock { static_block_mark })
 }
 
 #[swc_trace]
@@ -52,7 +50,7 @@ impl ClassStaticBlock {
         };
 
         PrivateProp {
-            span: span.apply_mark(self.mark),
+            span: span.apply_mark(self.static_block_mark),
             is_static: true,
             is_optional: false,
             is_override: false,
