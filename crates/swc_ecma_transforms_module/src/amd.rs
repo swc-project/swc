@@ -5,7 +5,7 @@ use swc_atoms::JsWord;
 use swc_common::{
     comments::{CommentKind, Comments},
     util::take::Take,
-    FileName, Mark, Span, DUMMY_SP,
+    FileName, Mark, Span, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
@@ -62,7 +62,10 @@ where
         },
 
         dep_list: Default::default(),
-        require: quote_ident!(DUMMY_SP.apply_mark(unresolved_mark), "require"),
+        require: quote_ident!(
+            SyntaxContext::empty().apply_mark(unresolved_mark),
+            "require"
+        ),
         exports: None,
         module: None,
         found_import_meta: false,

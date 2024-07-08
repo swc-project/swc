@@ -85,7 +85,7 @@ impl VisitMut for Arrow {
     fn visit_mut_constructor(&mut self, c: &mut Constructor) {
         c.params.visit_mut_children_with(self);
 
-        if let Some(BlockStmt { span: _, stmts }) = &mut c.body {
+        if let Some(BlockStmt { span: _, stmts, .. }) = &mut c.body {
             let old_rep = self.hoister.take();
 
             stmts.visit_mut_children_with(self);
@@ -154,10 +154,10 @@ impl VisitMut for Arrow {
                                 span: DUMMY_SP,
                                 arg: Some(expr.take()),
                             })],
+                            ..Default::default()
                         },
                     }),
-                    type_params: Default::default(),
-                    return_type: Default::default(),
+                    ..Default::default()
                 }
                 .into();
 

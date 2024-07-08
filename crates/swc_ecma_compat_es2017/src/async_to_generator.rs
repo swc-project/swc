@@ -906,5 +906,6 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
     *stmt = Stmt::Block(BlockStmt {
         span: s.span,
         stmts,
+        ..Default::default()
     })
 }

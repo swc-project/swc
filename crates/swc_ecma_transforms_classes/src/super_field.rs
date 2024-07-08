@@ -439,7 +439,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
         let mut proto_arg = get_prototype_of(expr);
 
         if let Some(mark) = self.constructor_this_mark {
-            let this = quote_ident!(DUMMY_SP.apply_mark(mark), "_this");
+            let this = quote_ident!(SyntaxContext::empty().apply_mark(mark), "_this");
 
             proto_arg = SeqExpr {
                 span: DUMMY_SP,
@@ -462,7 +462,12 @@ impl<'a> SuperFieldAccessFolder<'a> {
 
     fn this_arg(&self, super_token: Span) -> Expr {
         match self.constructor_this_mark {
-            Some(mark) => quote_ident!(super_token.apply_mark(mark), "_this").into(),
+            Some(mark) => quote_ident!(
+                SyntaxContext::empty().apply_mark(mark),
+                super_token,
+                "_this"
+            )
+            .into(),
             None => ThisExpr { span: super_token }.into(),
         }
     }
