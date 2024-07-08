@@ -547,6 +547,7 @@ impl Optimizer<'_> {
                                     kind: VarDeclKind::Let,
                                     declare: Default::default(),
                                     decls: vars,
+                                    ..Default::default()
                                 }
                                 .into(),
                             )
@@ -948,6 +949,7 @@ impl Optimizer<'_> {
                     kind: VarDeclKind::Var,
                     declare: Default::default(),
                     decls: vars,
+                    ..Default::default()
                 }
                 .into(),
             );
