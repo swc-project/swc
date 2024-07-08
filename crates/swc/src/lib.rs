@@ -292,7 +292,7 @@ impl Compiler {
 
             let read_file_sourcemap =
                 |data_url: Option<&str>| -> Result<Option<sourcemap::SourceMap>, Error> {
-                    match &name {
+                    match &**name {
                         FileName::Real(filename) => {
                             let dir = match filename.parent() {
                                 Some(v) => v,
