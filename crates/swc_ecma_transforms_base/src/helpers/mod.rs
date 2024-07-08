@@ -447,7 +447,7 @@ impl InjectHelpers {
                 raw: None,
             }
             .as_arg()],
-            type_args: None,
+            ..Default::default()
         };
         let ctxt = SyntaxContext::empty().apply_mark(mark);
         let decl = Decl::Var(

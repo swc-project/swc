@@ -848,7 +848,7 @@ where
 
         let is_standalone = self
             .marks
-            .map(|marks| n.span.has_mark(marks.standalone))
+            .map(|marks| n.ctxt.has_mark(marks.standalone))
             .unwrap_or_default();
 
         // We don't dig into standalone function, as it does not share any variable with

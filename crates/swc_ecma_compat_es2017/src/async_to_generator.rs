@@ -276,7 +276,7 @@ impl<C: Comments> VisitMut for Actual<C> {
                 span: DUMMY_SP,
                 callee: fn_ref.as_callee(),
                 args: vec![],
-                type_args: Default::default(),
+                ..Default::default()
             })
         };
 

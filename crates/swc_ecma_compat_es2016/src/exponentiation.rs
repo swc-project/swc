@@ -141,7 +141,7 @@ fn mk_call(span: Span, left: Box<Expr>, right: Box<Expr>) -> Expr {
         callee: member_expr!(span, Math.pow).as_callee(),
 
         args: vec![left.as_arg(), right.as_arg()],
-        type_args: Default::default(),
+        ..Default::default()
     })
 }
 
