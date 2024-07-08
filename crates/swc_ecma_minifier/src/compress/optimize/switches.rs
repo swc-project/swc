@@ -145,8 +145,8 @@ impl Optimizer<'_> {
 
             stmts.extend(last.cons);
             *s = Stmt::Block(BlockStmt {
-                span: DUMMY_SP,
                 stmts,
+                ..Default::default()
             })
         } else {
             report_change!("switches: Removing unreachable cases from a constant switch");
@@ -155,7 +155,6 @@ impl Optimizer<'_> {
 
             if !var_ids.is_empty() {
                 *s = Stmt::Block(BlockStmt {
-                    span: DUMMY_SP,
                     stmts: vec![
                         VarDecl {
                             span: DUMMY_SP,
@@ -166,6 +165,7 @@ impl Optimizer<'_> {
                         .into(),
                         s.take(),
                     ],
+                    ..Default::default()
                 })
             }
         }
