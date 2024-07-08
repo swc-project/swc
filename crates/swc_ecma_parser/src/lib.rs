@@ -460,7 +460,7 @@ where
     use swc_common::FileName;
 
     ::testing::run_test(false, |cm, handler| {
-        let fm = cm.new_source_file(FileName::Real("testing".into()), src.into());
+        let fm = cm.new_source_file(FileName::Real("testing".into()).into(), src.into());
 
         f(handler, (&*fm).into())
     })

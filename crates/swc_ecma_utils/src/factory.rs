@@ -151,7 +151,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
 
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Expr {
-        let apply = self.make_member(Ident::new("apply".into(), span));
+        let apply = self.make_member(Ident::new_no_ctxt("apply".into(), span));
 
         Expr::Call(CallExpr {
             span,

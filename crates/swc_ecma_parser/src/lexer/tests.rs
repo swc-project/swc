@@ -3,7 +3,7 @@ extern crate test;
 use std::{ops::Range, str};
 
 use swc_atoms::Atom;
-use swc_common::{BytePos, Span, SyntaxContext};
+use swc_common::{BytePos, Span};
 use swc_ecma_ast::{AssignOp, AssignOp::*};
 use test::{black_box, Bencher};
 
