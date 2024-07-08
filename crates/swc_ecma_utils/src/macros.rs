@@ -5,19 +5,19 @@ macro_rules! private_ident {
         private_ident!($crate::swc_common::DUMMY_SP, $s)
     };
     ($span:expr, $s:expr) => {{
-        let mark = $crate::swc_common::Mark::fresh($crate::swc_common::Mark::root());
-        let span = $span.apply_mark(mark);
-        $crate::swc_ecma_ast::Ident::new($s.into(), span)
+        let mark = $crate::swc_common::Mark::new();
+        let ctxt = $crate::swc_common::SyntaxContext::empty().apply_mark(mark);
+        $crate::swc_ecma_ast::Ident::new($s.into(), $span, ctxt)
     }};
 }
 
 #[macro_export]
 macro_rules! quote_ident {
     ($s:expr) => {
-        quote_ident!($crate::swc_common::DUMMY_SP, $s)
+        quote_ident!(Default::default(), $crate::swc_common::DUMMY_SP, $s)
     };
-    ($span:expr, $s:expr) => {{
-        $crate::swc_ecma_ast::Ident::new($s.into(), $span)
+    ($ctxt:expr, $span:expr, $s:expr) => {{
+        $crate::swc_ecma_ast::Ident::new($s.into(), $span, $ctxt)
     }};
 }
 
