@@ -1194,6 +1194,7 @@ impl<I: Tokens> Parser<I> {
                                             callee: obj.expect_expr(),
                                             type_args: Some(type_args),
                                             args,
+                                            ..Default::default()
                                         })),
                                         optional: false,
                                     })),
@@ -1208,6 +1209,7 @@ impl<I: Tokens> Parser<I> {
                                 callee: obj,
                                 type_args: Some(type_args),
                                 args,
+                                ..Default::default()
                             })),
                             true,
                         )))
@@ -1378,6 +1380,7 @@ impl<I: Tokens> Parser<I> {
                                 callee,
                                 args,
                                 type_args,
+                                ..Default::default()
                             })),
                         })),
                         true,
@@ -1435,6 +1438,7 @@ impl<I: Tokens> Parser<I> {
                                         callee,
                                         args,
                                         type_args: None,
+                                        ..Default::default()
                                     })
                                 }
                             }
@@ -1646,6 +1650,7 @@ impl<I: Tokens> Parser<I> {
                             callee: e,
                             args,
                             type_args,
+                            ..Default::default()
                         })),
                         optional: false,
                     }))
@@ -1656,6 +1661,7 @@ impl<I: Tokens> Parser<I> {
                     callee,
                     args,
                     type_args,
+                    ..Default::default()
                 })),
             };
 

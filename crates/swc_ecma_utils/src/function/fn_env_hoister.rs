@@ -432,7 +432,7 @@ impl VisitMut for FnEnvHoister {
                                     span: *span,
                                     args,
                                     callee: callee.as_callee(),
-                                    type_args: None,
+                                    ..Default::default()
                                 });
                             }
                             SuperProp::Ident(id) => {
@@ -478,7 +478,7 @@ impl VisitMut for FnEnvHoister {
                                     span: *span,
                                     args: vec![c.expr.take().as_arg()],
                                     callee: callee.as_callee(),
-                                    type_args: None,
+                                    ..Default::default()
                                 });
                                 let mut new_args = args.take();
 
@@ -492,7 +492,7 @@ impl VisitMut for FnEnvHoister {
                                     span: *span,
                                     args: Vec::new(),
                                     callee: callee.as_callee(),
-                                    type_args: None,
+                                    ..Default::default()
                                 });
                                 let mut new_args = args.take();
 
@@ -522,7 +522,7 @@ impl VisitMut for FnEnvHoister {
                             span: *span,
                             args: vec![c.expr.take().as_arg()],
                             callee: self.super_update_computed(*span).as_callee(),
-                            type_args: None,
+                            ..Default::default()
                         })
                         .make_member(quote_ident!("_"))
                         .into()
