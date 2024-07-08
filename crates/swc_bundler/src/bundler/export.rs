@@ -293,6 +293,7 @@ where
                     all.with = Some(
                         ExportMetadata {
                             export_ctxt: Some(export_ctxt),
+                            ..Default::default()
                         }
                         .encode(),
                     );
