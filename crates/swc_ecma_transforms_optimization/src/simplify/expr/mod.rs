@@ -1054,14 +1054,14 @@ impl SimplifyExpr {
                 &Expr::Ident(
                     Ident {
                         sym: ref li,
-                        span: l_span,
+                        ctxt: l_ctxt,
                         ..
                     },
                     ..,
                 ),
                 &Expr::Ident(Ident {
                     sym: ref ri,
-                    span: r_span,
+                    ctxt: r_ctxt,
                     ..
                 }),
             ) if !will_negate && li == ri && l_ctxt == r_ctxt => {
