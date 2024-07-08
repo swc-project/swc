@@ -398,6 +398,7 @@ impl<'a> arbitrary::Arbitrary<'a> for Ident {
             span,
             sym,
             optional,
+            ctxt: Default::default(),
         })
     }
 }

@@ -32,6 +32,15 @@ pub use self::{atom as js_word, Atom as JsWord};
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
 pub struct Atom(hstr::Atom);
 
+#[cfg(feature = "arbitrary")]
+#[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
+impl<'a> arbitrary::Arbitrary<'a> for Atom {
+    fn arbitrary(rand: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
+        let s: String = arbitrary::Arbitrary::arbitrary(rand)?;
+        s.map(Self::from)
+    }
+}
+
 fn _asserts() {
     // let _static_assert_size_eq = std::mem::transmute::<Atom, [usize; 1]>;
 
