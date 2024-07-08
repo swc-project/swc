@@ -1036,6 +1036,7 @@ impl<I: Tokens> Parser<I> {
             tag,
             type_params,
             tpl,
+            ..Default::default()
         })
     }
 

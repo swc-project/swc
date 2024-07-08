@@ -2885,6 +2885,7 @@ mod tests {
                         }))),
                         definite: false,
                     }],
+                    ..Default::default()
                 }))));
                 vec![second]
             },

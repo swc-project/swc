@@ -707,6 +707,7 @@ impl Swcify for TaggedTemplateExpression {
             tag: self.tag.swcify(ctx),
             type_params: self.type_parameters.swcify(ctx).map(From::from),
             tpl: Box::new(self.quasi.swcify(ctx)),
+            ..Default::default()
         }
     }
 }
