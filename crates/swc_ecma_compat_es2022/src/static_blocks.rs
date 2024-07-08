@@ -37,9 +37,8 @@ impl ClassStaticBlock {
                     params: Vec::new(),
                     is_async: false,
                     is_generator: false,
-                    type_params: None,
-                    return_type: None,
                     body: Box::new(BlockStmtOrExpr::BlockStmt(static_block.body)),
+                    ..Default::default()
                 }
                 .as_callee(),
                 args: Vec::new(),
@@ -60,11 +59,7 @@ impl ClassStaticBlock {
             accessibility: None,
             key: PrivateName {
                 span: DUMMY_SP,
-                id: Ident {
-                    span: DUMMY_SP,
-                    sym: private_id,
-                    optional: false,
-                },
+                name: private_id,
             },
             value,
             definite: false,
