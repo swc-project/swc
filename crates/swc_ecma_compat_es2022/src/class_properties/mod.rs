@@ -801,26 +801,25 @@ impl<C: Comments> ClassProperties<C> {
 
                     let fn_name = Ident::new(
                         match method.kind {
-                            MethodKind::Getter => format!("get_{}", method.key.id.sym).into(),
-                            MethodKind::Setter => format!("set_{}", method.key.id.sym).into(),
+                            MethodKind::Getter => format!("get_{}", method.key.name).into(),
+                            MethodKind::Setter => format!("set_{}", method.key.name).into(),
                             MethodKind::Method => {
-                                if method.key.id.is_reserved_in_any() {
-                                    format!("__{}", method.key.id.sym).into()
+                                if method.key.name.is_reserved_in_any() {
+                                    format!("__{}", method.key.name).into()
                                 } else {
-                                    method.key.id.sym.clone()
+                                    method.key.name.clone()
                                 }
                             }
                         },
-                        method
-                            .span
-                            .with_ctxt(SyntaxContext::empty())
-                            .apply_mark(self.private.cur_mark()),
+                        method.span,
+                        SyntaxContext::empty().apply_mark(self.private.cur_mark()),
                     );
 
                     let weak_coll_var = Ident::new(
-                        format!("_{}", method.key.id.sym).into(),
+                        format!("_{}", method.key.name).into(),
                         // We use `self.mark` for private variables.
-                        method.key.span.apply_mark(self.private.cur_mark()),
+                        method.key.span,
+                        SyntaxContext::empty().apply_mark(self.private.cur_mark()),
                     );
                     method.function.visit_with(&mut UsedNameCollector {
                         used_names: &mut used_names,
