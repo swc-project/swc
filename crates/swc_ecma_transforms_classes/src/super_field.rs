@@ -229,7 +229,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     span: DUMMY_SP,
                     callee: callee.make_member(quote_ident!("call")).as_callee(),
                     args: iter::once(this).chain(args).collect(),
-                    type_args: Default::default(),
+                    ..Default::default()
                 });
             }
         }
@@ -335,7 +335,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                 span: super_token,
                 callee: helper!(get),
                 args: vec![proto_arg.as_arg(), prop_arg, this_arg],
-                type_args: Default::default(),
+                ..Default::default()
             }
             .into()
         }
@@ -392,7 +392,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     // strict
                     true.as_arg(),
                 ],
-                type_args: Default::default(),
+                ..Default::default()
             })
         }
     }
@@ -414,7 +414,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                 // strict
                 true.as_arg(),
             ],
-            type_args: Default::default(),
+            ..Default::default()
         });
 
         expr.make_member(quote_ident!("_"))

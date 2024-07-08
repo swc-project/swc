@@ -840,7 +840,7 @@ where
                                 .filter_map(|c| self.jsx_elem_child_to_expr(c))
                         })
                         .collect(),
-                    type_args: Default::default(),
+                    ..Default::default()
                 })
             }
         }

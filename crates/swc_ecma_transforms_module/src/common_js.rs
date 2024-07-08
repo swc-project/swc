@@ -667,11 +667,11 @@ pub fn lazy_require(expr: Expr, mod_ident: Ident, var_kind: VarDeclKind) -> FnDe
             body: Some(BlockStmt {
                 span: DUMMY_SP,
                 stmts: vec![data_stmt, overwrite_stmt, return_stmt],
+                ..Default::default()
             }),
             is_generator: false,
             is_async: false,
-            type_params: None,
-            return_type: None,
+            ..Default::default()
         }
         .into(),
     }
