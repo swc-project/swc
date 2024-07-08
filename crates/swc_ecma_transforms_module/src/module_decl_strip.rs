@@ -139,7 +139,7 @@ impl VisitMut for ModuleDeclStrip {
             Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
                 self.export.insert(
                     ident.sym.clone(),
-                    ExportItem::new(ident.span, ident.clone()),
+                    ExportItem::new((ident.span, ident.ctxt), ident.clone()),
                 );
             }
 

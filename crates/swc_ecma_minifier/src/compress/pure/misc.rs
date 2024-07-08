@@ -961,20 +961,6 @@ impl Pure<'_> {
                 return;
             }
 
-            Expr::Member(MemberExpr {
-                span, obj, prop, ..
-            }) if span.has_mark(self.marks.pure) => {
-                report_change!("ignore_return_value: Dropping a pure member expression");
-                self.changed = true;
-
-                let new = self.make_ignored_expr(
-                    once(obj.take()).chain(prop.take().computed().map(|v| v.expr)),
-                );
-
-                *e = new.unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
-                return;
-            }
-
             _ => {}
         }
 

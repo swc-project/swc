@@ -474,10 +474,10 @@ where
                 let expr: Expr = 0.into();
 
                 let (key, export_item) = &export_id_list[0];
-                let prop = prop_name(key, DUMMY_SP, Default::default()).into();
+                let prop = prop_name(key, Default::default()).into();
                 let export_binding = MemberExpr {
                     obj: Box::new(self.exports().into()),
-                    span: export_item.export_name_span(),
+                    span: export_item.export_name_span().0,
                     prop,
                 };
                 let expr = expr.make_assign_to(op!("="), export_binding.into());
@@ -493,7 +493,7 @@ where
             _ => {
                 let props = export_id_list
                     .iter()
-                    .map(|(key, ..)| prop_name(key, DUMMY_SP, Default::default()))
+                    .map(|(key, ..)| prop_name(key, Default::default()))
                     .map(|key| KeyValueProp {
                         key: key.into(),
                         // `cjs-module-lexer` only support identifier as value
