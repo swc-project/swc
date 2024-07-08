@@ -9,7 +9,9 @@ pub use preset_env_base::{query::Targets, version::Version, BrowserData, Version
 use regenerator::RegeneratorVisitor;
 use serde::Deserialize;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{chain, collections::AHashSet, comments::Comments, FromVariant, Mark, DUMMY_SP};
+use swc_common::{
+    chain, collections::AHashSet, comments::Comments, FromVariant, Mark, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
     compat::{
@@ -512,9 +514,9 @@ impl VisitMut for Polyfills {
                         expr: CallExpr {
                             span,
                             callee: Expr::Ident(Ident {
-                                span: DUMMY_SP.apply_mark(self.unresolved_mark),
+                                ctxt: SyntaxContext::empty().apply_mark(self.unresolved_mark),
                                 sym: "require".into(),
-                                optional: false,
+                                ..Default::default()
                             })
                             .as_callee(),
                             args: vec![Str {
@@ -539,9 +541,9 @@ impl VisitMut for Polyfills {
                         expr: CallExpr {
                             span,
                             callee: Expr::Ident(Ident {
-                                span: DUMMY_SP.apply_mark(self.unresolved_mark),
+                                ctxt: SyntaxContext::empty().apply_mark(self.unresolved_mark),
                                 sym: "require".into(),
-                                optional: false,
+                                ..Default::default()
                             })
                             .as_callee(),
                             args: vec![Str {
@@ -550,7 +552,7 @@ impl VisitMut for Polyfills {
                                 raw: None,
                             }
                             .as_arg()],
-                            type_args: None,
+                            ..Default::default()
                         }
                         .into(),
                     })
