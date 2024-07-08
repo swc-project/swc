@@ -783,10 +783,9 @@ impl Optimizer<'_> {
                 {
                     for decl in &var.decls {
                         match &decl.name {
-                            Pat::Ident(BindingIdent {
-                                id: Ident { sym, .. },
-                                ..
-                            }) if &**sym == "arguments" => return false,
+                            Pat::Ident(BindingIdent { sym, .. }) if &**sym == "arguments" => {
+                                return false
+                            }
                             Pat::Ident(id) => {
                                 if self.vars.has_pending_inline_for(&id.to_id()) {
                                     log_abort!(

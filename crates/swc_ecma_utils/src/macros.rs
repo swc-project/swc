@@ -104,12 +104,8 @@ mod tests {
 
     #[test]
     fn quote_member_expr() {
-        let expr: Box<Expr> = drop_span(member_expr!(
-            Default::default(),
-            span,
-            Function.prototype.bind
-        ))
-        .into();
+        let expr: Box<Expr> =
+            drop_span(member_expr!(Default::default(), Function.prototype.bind)).into();
 
         assert_eq!(
             expr,
