@@ -482,14 +482,14 @@ impl<C: Comments> ClassProperties<C> {
                         }
 
                         ClassMember::PrivateProp(prop) => {
-                            if private_map.contains_key(&prop.key.id.sym) {
-                                let error = format!("duplicate private name #{}.", prop.key.id.sym);
+                            if private_map.contains_key(&prop.key.name) {
+                                let error = format!("duplicate private name #{}.", prop.key.name);
                                 HANDLER.with(|handler| {
-                                    handler.struct_span_err(prop.key.id.span, &error).emit()
+                                    handler.struct_span_err(prop.key.span, &error).emit()
                                 });
                             } else {
                                 private_map.insert(
-                                    prop.key.id.sym.clone(),
+                                    prop.key.nameclone(),
                                     PrivateKind {
                                         is_method: false,
                                         is_static: prop.is_static,

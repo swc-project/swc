@@ -233,8 +233,8 @@ impl ForOf {
             let mut body = match *body {
                 Stmt::Block(b) => b,
                 _ => BlockStmt {
-                    span: DUMMY_SP,
                     stmts: vec![*body],
+                    ..Default::default()
                 },
             };
 

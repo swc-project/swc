@@ -130,7 +130,7 @@ impl VisitMut for BrandCheckHandler<'_> {
 
                 let weak_coll_ident = Ident::new(
                     format!("_{}", n.id.sym).into(),
-                    n.id.span,
+                    n.name.span,
                     SyntaxContext::empty().apply_mark(mark),
                 );
 
@@ -604,17 +604,17 @@ impl<'a> PrivateAccessVisitor<'a> {
         }
 
         let method_name = Ident::new(
-            if n.id.is_reserved_in_any() {
-                format!("__{}", n.id.sym).into()
+            if n.name.is_reserved_in_any() {
+                format!("__{}", n.name).into()
             } else {
-                n.id.sym.clone()
+                n.name.clone()
             },
-            n.id.span,
+            n.span,
             SyntaxContext::empty().apply_mark(mark),
         );
         let ident = Ident::new(
-            format!("_{}", n.id.sym).into(),
-            n.id.span,
+            format!("_{}", n.name).into(),
+            n.span,
             SyntaxContext::empty().apply_mark(mark),
         );
 

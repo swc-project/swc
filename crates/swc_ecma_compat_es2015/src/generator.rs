@@ -77,13 +77,12 @@ impl VisitMut for Wrapper {
                 }],
                 decorators: Default::default(),
                 body: Some(BlockStmt {
-                    span: DUMMY_SP,
                     stmts,
+                    ..Default::default()
                 }),
                 is_generator: false,
                 is_async: false,
-                type_params: Default::default(),
-                return_type: Default::default(),
+                ..Default::default()
             });
             let generator_object = Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,

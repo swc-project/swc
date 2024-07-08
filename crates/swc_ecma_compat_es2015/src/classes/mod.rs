@@ -1060,7 +1060,8 @@ where
                         kind: VarDeclKind::Var,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: quote_ident!(DUMMY_SP.apply_mark(mark), "_this").into(),
+                            name: quote_ident!(SyntaxContext::empty().apply_mark(mark), "_this")
+                                .into(),
                             init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                             definite: false,
                         }],
