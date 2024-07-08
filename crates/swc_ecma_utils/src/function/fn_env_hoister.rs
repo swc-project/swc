@@ -156,7 +156,7 @@ impl FnEnvHoister {
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: id.into(),
-                init: Some(Box::new(Expr::Ident(Ident::new(
+                init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
                     "arguments".into(),
                     DUMMY_SP,
                 )))),
@@ -353,11 +353,10 @@ impl VisitMut for FnEnvHoister {
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         match e {
-            Expr::Ident(Ident { span, sym, .. })
+            Expr::Ident(Ident { ctxt, sym, .. })
                 if !self.arguments_disabled
                     && *sym == "arguments"
-                    && (span.ctxt == self.unresolved_ctxt
-                        || span.ctxt == SyntaxContext::empty()) =>
+                    && (*ctxt == self.unresolved_ctxt || *ctxt == SyntaxContext::empty()) =>
             {
                 let arguments = self
                     .args

@@ -266,9 +266,7 @@ pub fn test_transform<F, P>(
 {
     Tester::run(|tester| {
         let expected = tester.apply_transform(
-            as_folder(::swc_ecma_utils::DropSpan {
-                preserve_ctxt: true,
-            }),
+            as_folder(::swc_ecma_utils::DropSpan),
             "output.js",
             syntax,
             expected,

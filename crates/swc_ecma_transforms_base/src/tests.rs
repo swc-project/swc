@@ -162,9 +162,7 @@ pub(crate) fn test_transform<F, P>(
 {
     crate::tests::Tester::run(|tester| {
         let expected = tester.apply_transform(
-            as_folder(::swc_ecma_utils::DropSpan {
-                preserve_ctxt: true,
-            }),
+            as_folder(::swc_ecma_utils::DropSpan),
             "output.js",
             syntax,
             expected,
@@ -186,9 +184,7 @@ pub(crate) fn test_transform<F, P>(
         let actual = actual
             .fold_with(&mut hygiene_with_config(hygiene_config()))
             .fold_with(&mut fixer(None))
-            .fold_with(&mut as_folder(DropSpan {
-                preserve_ctxt: false,
-            }));
+            .fold_with(&mut as_folder(DropSpan));
 
         if actual == expected {
             return Ok(());
