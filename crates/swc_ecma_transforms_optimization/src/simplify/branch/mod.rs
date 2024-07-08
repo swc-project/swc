@@ -119,7 +119,7 @@ impl VisitMut for Remover {
                 ..
             }) if match &*l {
                 SimpleAssignTarget::Ident(l) => match &**r {
-                    Expr::Ident(r) => l.id.sym == r.sym && l.id.span.ctxt() == r.span.ctxt(),
+                    Expr::Ident(r) => l.id.sym == r.sym && l.id.ctxt == r.ctxt,
                     _ => false,
                 },
                 _ => false,
@@ -1473,7 +1473,7 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
             ..
         }) if match &left {
             SimpleAssignTarget::Ident(l) => match &*right {
-                Expr::Ident(r) => l.id.sym == r.sym && l.id.span.ctxt() == r.span.ctxt(),
+                Expr::Ident(r) => l.id.sym == r.sym && l.id.ctxt == r.ctxt,
                 _ => false,
             },
             _ => false,

@@ -28,7 +28,7 @@ impl IdentLike for BindingIdent {
     }
 
     fn to_id(&self) -> Id {
-        (self.id.sym.clone(), self.id.span.ctxt())
+        (self.id.sym.clone(), self.id.ctxt)
     }
 
     fn into_id(self) -> Id {
@@ -44,19 +44,19 @@ impl IdentLike for (JsWord, Span) {
 
     #[inline]
     fn to_id(&self) -> Id {
-        (self.0.clone(), self.1.ctxt())
+        (self.0.clone(), self.1.ctxt)
     }
 
     #[inline]
     fn into_id(self) -> Id {
-        (self.0, self.1.ctxt())
+        (self.0, self.1.ctxt)
     }
 }
 
 impl IdentLike for (JsWord, SyntaxContext) {
     #[inline]
     fn from_ident(i: &Ident) -> Self {
-        (i.sym.clone(), i.span.ctxt())
+        (i.sym.clone(), i.ctxt)
     }
 
     #[inline]
@@ -78,17 +78,17 @@ impl IdentLike for Ident {
 
     #[inline]
     fn to_id(&self) -> Id {
-        (self.sym.clone(), self.span.ctxt())
+        (self.sym.clone(), self.ctxt)
     }
 
     #[inline]
     fn into_id(self) -> Id {
-        (self.sym, self.span.ctxt())
+        (self.sym, self.ctxt)
     }
 }
 
 #[deprecated = "Use i.to_id() instead"]
 #[inline(always)]
 pub fn id(i: &Ident) -> Id {
-    (i.sym.clone(), i.span.ctxt())
+    (i.sym.clone(), i.ctxt)
 }

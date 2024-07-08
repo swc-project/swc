@@ -104,7 +104,7 @@ impl SystemJs {
     }
 
     fn fold_module_name_ident(&mut self, ident: Ident) -> Expr {
-        if &*ident.sym == "__moduleName" && ident.span.ctxt().outer() == self.unresolved_mark {
+        if &*ident.sym == "__moduleName" && ident.ctxt.outer() == self.unresolved_mark {
             return self
                 .context_ident
                 .clone()
@@ -1122,7 +1122,7 @@ impl Fold for SystemJs {
 fn get_module_export_name(module_export_name: &ModuleExportName) -> Id {
     match &module_export_name {
         ModuleExportName::Ident(ident) => ident.to_id(),
-        ModuleExportName::Str(s) => (s.value.clone(), s.span.ctxt()),
+        ModuleExportName::Str(s) => (s.value.clone(), s.ctxt),
     }
 }
 

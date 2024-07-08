@@ -145,7 +145,7 @@ pub(crate) struct HygieneVisualizer;
 impl Fold for HygieneVisualizer {
     fn fold_ident(&mut self, ident: Ident) -> Ident {
         Ident {
-            sym: format!("{}{:?}", ident.sym, ident.span.ctxt()).into(),
+            sym: format!("{}{:?}", ident.sym, ident.ctxt).into(),
             ..ident
         }
     }

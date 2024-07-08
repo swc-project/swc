@@ -337,14 +337,11 @@ impl<'a> Resolver<'a> {
         if cfg!(debug_assertions) && LOG {
             debug!(
                 "Binding (type = {}) {}{:?} {:?}",
-                self.in_type,
-                ident.sym,
-                ident.span.ctxt(),
-                kind
+                self.in_type, ident.sym, ident.ctxt, kind
             );
         }
 
-        if ident.span.ctxt() != SyntaxContext::empty() {
+        if ident.ctxt != SyntaxContext::empty() {
             return;
         }
 
@@ -364,7 +361,7 @@ impl<'a> Resolver<'a> {
     }
 
     fn mark_block(&mut self, span: &mut Span) {
-        if span.ctxt() != SyntaxContext::empty() {
+        if span.ctxt != SyntaxContext::empty() {
             return;
         }
 
@@ -941,15 +938,10 @@ impl<'a> VisitMut for Resolver<'a> {
                 let Ident { span, sym, .. } = i;
 
                 if cfg!(debug_assertions) && LOG {
-                    debug!(
-                        "IdentRef (type = {}) {}{:?}",
-                        self.in_type,
-                        sym,
-                        span.ctxt()
-                    );
+                    debug!("IdentRef (type = {}) {}{:?}", self.in_type, sym, span.ctxt);
                 }
 
-                if span.ctxt() != SyntaxContext::empty() {
+                if span.ctxt != SyntaxContext::empty() {
                     return;
                 }
 
@@ -957,7 +949,7 @@ impl<'a> VisitMut for Resolver<'a> {
                     let span = span.apply_mark(mark);
 
                     if cfg!(debug_assertions) && LOG {
-                        debug!("\t -> {:?}", span.ctxt());
+                        debug!("\t -> {:?}", span.ctxt);
                     }
                     i.span = span;
                 } else {
@@ -968,7 +960,7 @@ impl<'a> VisitMut for Resolver<'a> {
                     let span = span.apply_mark(self.config.unresolved_mark);
 
                     if cfg!(debug_assertions) && LOG {
-                        debug!("\t -> {:?}", span.ctxt());
+                        debug!("\t -> {:?}", span.ctxt);
                     }
 
                     i.span = span;

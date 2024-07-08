@@ -38,7 +38,7 @@ struct DuplicateBindings {
 impl DuplicateBindings {
     /// Add a binding.
     fn add(&mut self, id: JsWord, info: BindingInfo) {
-        match self.bindings.entry((id.clone(), info.span.ctxt())) {
+        match self.bindings.entry((id.clone(), info.ctxt)) {
             Entry::Occupied(mut prev) => {
                 if !(info.is_function && prev.get().is_function)
                     && (info.unique || prev.get().unique)

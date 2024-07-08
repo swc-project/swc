@@ -95,19 +95,19 @@ impl IdentLike for Id {
 
 impl From<Ident> for Id {
     fn from(i: Ident) -> Self {
-        Id(i.sym, i.span.ctxt())
+        Id(i.sym, i.ctxt)
     }
 }
 
 impl<'a> From<&'a Ident> for Id {
     fn from(i: &Ident) -> Self {
-        Id(i.sym.clone(), i.span.ctxt())
+        Id(i.sym.clone(), i.ctxt)
     }
 }
 
 impl PartialEq<Ident> for Id {
     fn eq(&self, other: &Ident) -> bool {
-        self.0 == other.sym && self.1 == other.span.ctxt()
+        self.0 == other.sym && self.1 == other.ctxt
     }
 }
 

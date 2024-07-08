@@ -39,7 +39,7 @@ impl Fold for HygieneVisualizer {
             return node;
         }
         Ident {
-            sym: format!("{}{:?}", node.sym, node.span.ctxt()).into(),
+            sym: format!("{}{:?}", node.sym, node.ctxt).into(),
             ..node
         }
     }

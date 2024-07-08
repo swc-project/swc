@@ -193,11 +193,11 @@ where
                 module_id: ModuleId,
                 id: Id,
             ) {
-                let remapped = match map.get(&id.ctxt()) {
+                let remapped = match map.get(&id.ctxt) {
                     Some(v) => v,
                     _ => return,
                 };
-                if remapped == id.ctxt() {
+                if remapped == id.ctxt {
                     return;
                 }
                 let reexported = id.clone().with_ctxt(remapped);
@@ -324,7 +324,7 @@ where
                                 continue;
                             }
 
-                            if ctxts.contains(&id.ctxt()) {
+                            if ctxts.contains(&id.ctxt) {
                                 additional_props.entry(module_id).or_default().push(
                                     PropOrSpread::Prop(Box::new(Prop::Shorthand(id.into_ident()))),
                                 );
@@ -848,7 +848,8 @@ where
                                             .map(|id| {
                                                 let exported = Ident::new(
                                                     id.sym.clone(),
-                                                    id.span.with_ctxt(info.export_ctxt()),
+                                                    id.span,
+                                                    info.export_ctxt(),
                                                 );
 
                                                 tracing::trace!(
