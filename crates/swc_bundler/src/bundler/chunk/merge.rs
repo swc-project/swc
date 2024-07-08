@@ -941,7 +941,7 @@ where
                                         injected: true,
                                         ..Default::default()
                                     }
-                                    .encode(),
+                                    .into_with(),
                                 ),
                             },
                         )));

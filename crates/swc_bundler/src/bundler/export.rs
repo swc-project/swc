@@ -290,13 +290,11 @@ where
             ModuleItem::ModuleDecl(ModuleDecl::ExportAll(all)) => {
                 let ctxt = self.ctxt_for(&all.src.value);
                 if let Some((_, export_ctxt)) = ctxt {
-                    all.with = Some(
-                        ExportMetadata {
-                            export_ctxt: Some(export_ctxt),
-                            ..Default::default()
-                        }
-                        .encode(),
-                    );
+                    ExportMetadata {
+                        export_ctxt: Some(export_ctxt),
+                        ..Default::default()
+                    }
+                    .encode(&mut all.with);
                 }
 
                 self.info.items.entry(Some(*all.src.clone())).or_default();

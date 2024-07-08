@@ -9,7 +9,7 @@ use swc_ecma_visit::{noop_fold_type, Fold};
 use crate::{
     bundler::chunk::merge::Ctx,
     modules::Modules,
-    util::{create_with, is_injected, metadata_injected, ExportMetadata},
+    util::{is_injected, ExportMetadata},
     Bundler, Load, ModuleId, Resolve,
 };
 
@@ -87,7 +87,13 @@ where
                                         specifiers: vec![specifier],
                                         src: None,
                                         type_only: false,
-                                        with: Some(create_with(vec![metadata_injected()])),
+                                        with: Some(
+                                            ExportMetadata {
+                                                injected: true,
+                                                ..Default::default()
+                                            }
+                                            .into_with(),
+                                        ),
                                     })),
                                 ));
                             }
