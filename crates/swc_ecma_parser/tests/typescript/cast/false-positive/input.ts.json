@@ -2,31 +2,29 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 15,
-    "ctxt": 0
+    "end": 15
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 15,
-        "ctxt": 0
+        "end": 15
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 1,
-          "end": 14,
-          "ctxt": 0
+          "end": 14
         },
+        "ctxt": 0,
         "callee": {
           "type": "Identifier",
           "span": {
             "start": 1,
-            "end": 2,
-            "ctxt": 0
+            "end": 2
           },
+          "ctxt": 0,
           "value": "f",
           "optional": false
         },
@@ -37,17 +35,16 @@
               "type": "BinaryExpression",
               "span": {
                 "start": 3,
-                "end": 8,
-                "ctxt": 0
+                "end": 8
               },
               "operator": "<",
               "left": {
                 "type": "Identifier",
                 "span": {
                   "start": 3,
-                  "end": 4,
-                  "ctxt": 0
+                  "end": 4
                 },
+                "ctxt": 0,
                 "value": "x",
                 "optional": false
               },
@@ -55,8 +52,7 @@
                 "type": "NumericLiteral",
                 "span": {
                   "start": 7,
-                  "end": 8,
-                  "ctxt": 0
+                  "end": 8
                 },
                 "value": 0.0,
                 "raw": "0"
@@ -69,8 +65,7 @@
               "type": "RegExpLiteral",
               "span": {
                 "start": 10,
-                "end": 13,
-                "ctxt": 0
+                "end": 13
               },
               "pattern": "a",
               "flags": ""

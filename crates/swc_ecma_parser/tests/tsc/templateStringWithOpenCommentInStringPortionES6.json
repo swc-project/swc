@@ -2,31 +2,27 @@
   "type": "Script",
   "span": {
     "start": 17,
-    "end": 76,
-    "ctxt": 0
+    "end": 76
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 17,
-        "end": 76,
-        "ctxt": 0
+        "end": 76
       },
       "expression": {
         "type": "TemplateLiteral",
         "span": {
           "start": 17,
-          "end": 76,
-          "ctxt": 0
+          "end": 76
         },
         "expressions": [
           {
             "type": "NumericLiteral",
             "span": {
               "start": 31,
-              "end": 33,
-              "ctxt": 0
+              "end": 33
             },
             "value": 10.0,
             "raw": "10"
@@ -35,8 +31,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 56,
-              "end": 58,
-              "ctxt": 0
+              "end": 58
             },
             "value": 20.0,
             "raw": "20"
@@ -47,8 +42,7 @@
             "type": "TemplateElement",
             "span": {
               "start": 18,
-              "end": 28,
-              "ctxt": 0
+              "end": 28
             },
             "tail": false,
             "cooked": " /**head  ",
@@ -58,8 +52,7 @@
             "type": "TemplateElement",
             "span": {
               "start": 35,
-              "end": 53,
-              "ctxt": 0
+              "end": 53
             },
             "tail": false,
             "cooked": " // still middle  ",
@@ -69,8 +62,7 @@
             "type": "TemplateElement",
             "span": {
               "start": 60,
-              "end": 75,
-              "ctxt": 0
+              "end": 75
             },
             "tail": true,
             "cooked": " /* still tail ",

@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 121,
-    "ctxt": 0
+    "end": 121
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
         "start": 16,
-        "end": 91,
-        "ctxt": 0
+        "end": 91
       },
       "id": {
         "type": "Identifier",
         "span": {
           "start": 26,
-          "end": 35,
-          "ctxt": 0
+          "end": 35
         },
+        "ctxt": 0,
         "value": "WeirdIter",
         "optional": false
       },
@@ -30,16 +28,15 @@
           "type": "TsExpressionWithTypeArguments",
           "span": {
             "start": 44,
-            "end": 68,
-            "ctxt": 0
+            "end": 68
           },
           "expression": {
             "type": "Identifier",
             "span": {
               "start": 44,
-              "end": 60,
-              "ctxt": 0
+              "end": 60
             },
+            "ctxt": 0,
             "value": "IterableIterator",
             "optional": false
           },
@@ -47,16 +44,14 @@
             "type": "TsTypeParameterInstantiation",
             "span": {
               "start": 60,
-              "end": 68,
-              "ctxt": 0
+              "end": 68
             },
             "params": [
               {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 61,
-                  "end": 67,
-                  "ctxt": 0
+                  "end": 67
                 },
                 "kind": "number"
               }
@@ -68,25 +63,23 @@
         "type": "TsInterfaceBody",
         "span": {
           "start": 69,
-          "end": 91,
-          "ctxt": 0
+          "end": 91
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
               "start": 75,
-              "end": 89,
-              "ctxt": 0
+              "end": 89
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
                 "start": 75,
-                "end": 80,
-                "ctxt": 0
+                "end": 80
               },
+              "ctxt": 0,
               "value": "hello",
               "optional": false
             },
@@ -96,15 +89,13 @@
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 80,
-                "end": 88,
-                "ctxt": 0
+                "end": 88
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 82,
-                  "end": 88,
-                  "ctxt": 0
+                  "end": 88
                 },
                 "kind": "string"
               }
@@ -119,9 +110,9 @@
         "type": "Identifier",
         "span": {
           "start": 102,
-          "end": 104,
-          "ctxt": 0
+          "end": 104
         },
+        "ctxt": 0,
         "value": "g1",
         "optional": false
       },
@@ -130,16 +121,16 @@
       "decorators": [],
       "span": {
         "start": 92,
-        "end": 121,
-        "ctxt": 0
+        "end": 121
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 118,
-          "end": 121,
-          "ctxt": 0
+          "end": 121
         },
+        "ctxt": 0,
         "stmts": []
       },
       "generator": true,
@@ -149,23 +140,21 @@
         "type": "TsTypeAnnotation",
         "span": {
           "start": 106,
-          "end": 117,
-          "ctxt": 0
+          "end": 117
         },
         "typeAnnotation": {
           "type": "TsTypeReference",
           "span": {
             "start": 108,
-            "end": 117,
-            "ctxt": 0
+            "end": 117
           },
           "typeName": {
             "type": "Identifier",
             "span": {
               "start": 108,
-              "end": 117,
-              "ctxt": 0
+              "end": 117
             },
+            "ctxt": 0,
             "value": "WeirdIter",
             "optional": false
           },

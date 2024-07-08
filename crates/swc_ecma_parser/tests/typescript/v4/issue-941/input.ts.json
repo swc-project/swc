@@ -2,55 +2,50 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 31,
-    "ctxt": 0
+    "end": 31
   },
   "body": [
     {
       "type": "TryStatement",
       "span": {
         "start": 1,
-        "end": 31,
-        "ctxt": 0
+        "end": 31
       },
       "block": {
         "type": "BlockStatement",
         "span": {
           "start": 5,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
+        "ctxt": 0,
         "stmts": []
       },
       "handler": {
         "type": "CatchClause",
         "span": {
           "start": 9,
-          "end": 31,
-          "ctxt": 0
+          "end": 31
         },
         "param": {
           "type": "Identifier",
           "span": {
             "start": 16,
-            "end": 17,
-            "ctxt": 0
+            "end": 17
           },
+          "ctxt": 0,
           "value": "e",
           "optional": false,
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
               "start": 17,
-              "end": 26,
-              "ctxt": 0
+              "end": 26
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 19,
-                "end": 26,
-                "ctxt": 0
+                "end": 26
               },
               "kind": "unknown"
             }
@@ -60,9 +55,9 @@
           "type": "BlockStatement",
           "span": {
             "start": 28,
-            "end": 31,
-            "ctxt": 0
+            "end": 31
           },
+          "ctxt": 0,
           "stmts": []
         }
       },

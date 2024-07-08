@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 68,
-    "ctxt": 0
+    "end": 68
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 10,
-          "end": 11,
-          "ctxt": 0
+          "end": 11
         },
+        "ctxt": 0,
         "value": "f",
         "optional": false
       },
@@ -23,24 +22,24 @@
       "decorators": [],
       "span": {
         "start": 1,
-        "end": 68,
-        "ctxt": 0
+        "end": 68
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 14,
-          "end": 68,
-          "ctxt": 0
+          "end": 68
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
               "start": 20,
-              "end": 32,
-              "ctxt": 0
+              "end": 32
             },
+            "ctxt": 0,
             "kind": "var",
             "declare": false,
             "declarations": [
@@ -48,16 +47,15 @@
                 "type": "VariableDeclarator",
                 "span": {
                   "start": 24,
-                  "end": 25,
-                  "ctxt": 0
+                  "end": 25
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
                     "start": 24,
-                    "end": 25,
-                    "ctxt": 0
+                    "end": 25
                   },
+                  "ctxt": 0,
                   "value": "a",
                   "optional": false,
                   "typeAnnotation": null
@@ -69,16 +67,15 @@
                 "type": "VariableDeclarator",
                 "span": {
                   "start": 27,
-                  "end": 28,
-                  "ctxt": 0
+                  "end": 28
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
                     "start": 27,
-                    "end": 28,
-                    "ctxt": 0
+                    "end": 28
                   },
+                  "ctxt": 0,
                   "value": "b",
                   "optional": false,
                   "typeAnnotation": null
@@ -90,16 +87,15 @@
                 "type": "VariableDeclarator",
                 "span": {
                   "start": 30,
-                  "end": 31,
-                  "ctxt": 0
+                  "end": 31
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
                     "start": 30,
-                    "end": 31,
-                    "ctxt": 0
+                    "end": 31
                   },
+                  "ctxt": 0,
                   "value": "c",
                   "optional": false,
                   "typeAnnotation": null
@@ -113,32 +109,29 @@
             "type": "IfStatement",
             "span": {
               "start": 37,
-              "end": 66,
-              "ctxt": 0
+              "end": 66
             },
             "test": {
               "type": "BinaryExpression",
               "span": {
                 "start": 41,
-                "end": 61,
-                "ctxt": 0
+                "end": 61
               },
               "operator": "&&",
               "left": {
                 "type": "BinaryExpression",
                 "span": {
                   "start": 41,
-                  "end": 46,
-                  "ctxt": 0
+                  "end": 46
                 },
                 "operator": "<",
                 "left": {
                   "type": "Identifier",
                   "span": {
                     "start": 41,
-                    "end": 42,
-                    "ctxt": 0
+                    "end": 42
                   },
+                  "ctxt": 0,
                   "value": "a",
                   "optional": false
                 },
@@ -146,9 +139,9 @@
                   "type": "Identifier",
                   "span": {
                     "start": 45,
-                    "end": 46,
-                    "ctxt": 0
+                    "end": 46
                   },
+                  "ctxt": 0,
                   "value": "b",
                   "optional": false
                 }
@@ -157,17 +150,16 @@
                 "type": "BinaryExpression",
                 "span": {
                   "start": 50,
-                  "end": 61,
-                  "ctxt": 0
+                  "end": 61
                 },
                 "operator": "<",
                 "left": {
                   "type": "Identifier",
                   "span": {
                     "start": 50,
-                    "end": 51,
-                    "ctxt": 0
+                    "end": 51
                   },
+                  "ctxt": 0,
                   "value": "b",
                   "optional": false
                 },
@@ -175,24 +167,22 @@
                   "type": "ParenthesisExpression",
                   "span": {
                     "start": 54,
-                    "end": 61,
-                    "ctxt": 0
+                    "end": 61
                   },
                   "expression": {
                     "type": "BinaryExpression",
                     "span": {
                       "start": 55,
-                      "end": 60,
-                      "ctxt": 0
+                      "end": 60
                     },
                     "operator": "+",
                     "left": {
                       "type": "Identifier",
                       "span": {
                         "start": 55,
-                        "end": 56,
-                        "ctxt": 0
+                        "end": 56
                       },
+                      "ctxt": 0,
                       "value": "c",
                       "optional": false
                     },
@@ -200,8 +190,7 @@
                       "type": "NumericLiteral",
                       "span": {
                         "start": 59,
-                        "end": 60,
-                        "ctxt": 0
+                        "end": 60
                       },
                       "value": 1.0,
                       "raw": "1"
@@ -214,9 +203,9 @@
               "type": "BlockStatement",
               "span": {
                 "start": 63,
-                "end": 66,
-                "ctxt": 0
+                "end": 66
               },
+              "ctxt": 0,
               "stmts": []
             },
             "alternate": null

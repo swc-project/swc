@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 39,
-    "end": 97,
-    "ctxt": 0
+    "end": 97
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 39,
-        "end": 97,
-        "ctxt": 0
+        "end": 97
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 43,
-            "end": 97,
-            "ctxt": 0
+            "end": 97
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 43,
-              "end": 44,
-              "ctxt": 0
+              "end": 44
             },
+            "ctxt": 0,
             "value": "v",
             "optional": false,
             "typeAnnotation": null
@@ -38,8 +36,7 @@
             "type": "ObjectExpression",
             "span": {
               "start": 47,
-              "end": 97,
-              "ctxt": 0
+              "end": 97
             },
             "properties": [
               {
@@ -48,23 +45,20 @@
                   "type": "Computed",
                   "span": {
                     "start": 51,
-                    "end": 55,
-                    "ctxt": 0
+                    "end": 55
                   },
                   "expression": {
                     "type": "UnaryExpression",
                     "span": {
                       "start": 52,
-                      "end": 54,
-                      "ctxt": 0
+                      "end": 54
                     },
                     "operator": "-",
                     "argument": {
                       "type": "NumericLiteral",
                       "span": {
                         "start": 53,
-                        "end": 54,
-                        "ctxt": 0
+                        "end": 54
                       },
                       "value": 1.0,
                       "raw": "1"
@@ -75,8 +69,7 @@
                   "type": "ObjectExpression",
                   "span": {
                     "start": 57,
-                    "end": 59,
-                    "ctxt": 0
+                    "end": 59
                   },
                   "properties": []
                 }
@@ -87,23 +80,20 @@
                   "type": "Computed",
                   "span": {
                     "start": 63,
-                    "end": 67,
-                    "ctxt": 0
+                    "end": 67
                   },
                   "expression": {
                     "type": "UnaryExpression",
                     "span": {
                       "start": 64,
-                      "end": 66,
-                      "ctxt": 0
+                      "end": 66
                     },
                     "operator": "+",
                     "argument": {
                       "type": "NumericLiteral",
                       "span": {
                         "start": 65,
-                        "end": 66,
-                        "ctxt": 0
+                        "end": 66
                       },
                       "value": 1.0,
                       "raw": "1"
@@ -114,8 +104,7 @@
                   "type": "ObjectExpression",
                   "span": {
                     "start": 69,
-                    "end": 71,
-                    "ctxt": 0
+                    "end": 71
                   },
                   "properties": []
                 }
@@ -126,23 +115,20 @@
                   "type": "Computed",
                   "span": {
                     "start": 75,
-                    "end": 79,
-                    "ctxt": 0
+                    "end": 79
                   },
                   "expression": {
                     "type": "UnaryExpression",
                     "span": {
                       "start": 76,
-                      "end": 78,
-                      "ctxt": 0
+                      "end": 78
                     },
                     "operator": "~",
                     "argument": {
                       "type": "NumericLiteral",
                       "span": {
                         "start": 77,
-                        "end": 78,
-                        "ctxt": 0
+                        "end": 78
                       },
                       "value": 1.0,
                       "raw": "1"
@@ -153,8 +139,7 @@
                   "type": "ObjectExpression",
                   "span": {
                     "start": 81,
-                    "end": 83,
-                    "ctxt": 0
+                    "end": 83
                   },
                   "properties": []
                 }
@@ -165,23 +150,20 @@
                   "type": "Computed",
                   "span": {
                     "start": 87,
-                    "end": 91,
-                    "ctxt": 0
+                    "end": 91
                   },
                   "expression": {
                     "type": "UnaryExpression",
                     "span": {
                       "start": 88,
-                      "end": 90,
-                      "ctxt": 0
+                      "end": 90
                     },
                     "operator": "!",
                     "argument": {
                       "type": "NumericLiteral",
                       "span": {
                         "start": 89,
-                        "end": 90,
-                        "ctxt": 0
+                        "end": 90
                       },
                       "value": 1.0,
                       "raw": "1"
@@ -192,8 +174,7 @@
                   "type": "ObjectExpression",
                   "span": {
                     "start": 93,
-                    "end": 95,
-                    "ctxt": 0
+                    "end": 95
                   },
                   "properties": []
                 }

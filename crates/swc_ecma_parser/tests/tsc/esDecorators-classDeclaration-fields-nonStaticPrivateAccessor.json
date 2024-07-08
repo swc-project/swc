@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 89,
-    "end": 154,
-    "ctxt": 0
+    "end": 154
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 89,
-        "end": 110,
-        "ctxt": 0
+        "end": 110
       },
+      "ctxt": 0,
       "kind": "let",
       "declare": true,
       "declarations": [
@@ -20,31 +19,28 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 101,
-            "end": 109,
-            "ctxt": 0
+            "end": 109
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 101,
-              "end": 104,
-              "ctxt": 0
+              "end": 104
             },
+            "ctxt": 0,
             "value": "dec",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 104,
-                "end": 109,
-                "ctxt": 0
+                "end": 109
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 106,
-                  "end": 109,
-                  "ctxt": 0
+                  "end": 109
                 },
                 "kind": "any"
               }
@@ -61,51 +57,39 @@
         "type": "Identifier",
         "span": {
           "start": 118,
-          "end": 119,
-          "ctxt": 0
+          "end": 119
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 112,
-        "end": 154,
-        "ctxt": 0
+        "end": 154
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "AutoAccessor",
           "span": {
             "start": 126,
-            "end": 152,
-            "ctxt": 0
+            "end": 152
           },
           "key": {
             "type": "PrivateName",
             "span": {
               "start": 140,
-              "end": 147,
-              "ctxt": 0
+              "end": 147
             },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 141,
-                "end": 147,
-                "ctxt": 0
-              },
-              "value": "field1",
-              "optional": false
-            }
+            "value": "field1"
           },
           "value": {
             "type": "NumericLiteral",
             "span": {
               "start": 150,
-              "end": 151,
-              "ctxt": 0
+              "end": 151
             },
             "value": 0.0,
             "raw": "0"
@@ -117,16 +101,15 @@
               "type": "Decorator",
               "span": {
                 "start": 126,
-                "end": 130,
-                "ctxt": 0
+                "end": 130
               },
               "expression": {
                 "type": "Identifier",
                 "span": {
                   "start": 127,
-                  "end": 130,
-                  "ctxt": 0
+                  "end": 130
                 },
+                "ctxt": 0,
                 "value": "dec",
                 "optional": false
               }

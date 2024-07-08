@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 29,
-    "ctxt": 0
+    "end": 29
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 29,
-        "ctxt": 0
+        "end": 29
       },
+      "ctxt": 0,
       "kind": "let",
       "declare": false,
       "declarations": [
@@ -20,39 +19,36 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 28,
-            "ctxt": 0
+            "end": 28
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 5,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 6,
-                "end": 28,
-                "ctxt": 0
+                "end": 28
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 8,
-                  "end": 28,
-                  "ctxt": 0
+                  "end": 28
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
                     "start": 8,
-                    "end": 13,
-                    "ctxt": 0
+                    "end": 13
                   },
+                  "ctxt": 0,
                   "value": "Array",
                   "optional": false
                 },
@@ -60,24 +56,22 @@
                   "type": "TsTypeParameterInstantiation",
                   "span": {
                     "start": 13,
-                    "end": 28,
-                    "ctxt": 0
+                    "end": 28
                   },
                   "params": [
                     {
                       "type": "TsTypeReference",
                       "span": {
                         "start": 14,
-                        "end": 27,
-                        "ctxt": 0
+                        "end": 27
                       },
                       "typeName": {
                         "type": "Identifier",
                         "span": {
                           "start": 14,
-                          "end": 19,
-                          "ctxt": 0
+                          "end": 19
                         },
+                        "ctxt": 0,
                         "value": "Array",
                         "optional": false
                       },
@@ -85,16 +79,14 @@
                         "type": "TsTypeParameterInstantiation",
                         "span": {
                           "start": 19,
-                          "end": 27,
-                          "ctxt": 0
+                          "end": 27
                         },
                         "params": [
                           {
                             "type": "TsKeywordType",
                             "span": {
                               "start": 20,
-                              "end": 26,
-                              "ctxt": 0
+                              "end": 26
                             },
                             "kind": "number"
                           }

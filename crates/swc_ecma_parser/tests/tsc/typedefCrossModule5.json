@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 123,
-    "end": 203,
-    "ctxt": 0
+    "end": 203
   },
   "body": [
     {
@@ -12,18 +11,18 @@
         "type": "Identifier",
         "span": {
           "start": 129,
-          "end": 132,
-          "ctxt": 0
+          "end": 132
         },
+        "ctxt": 0,
         "value": "Bar",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 123,
-        "end": 135,
-        "ctxt": 0
+        "end": 135
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [],
       "superClass": null,
@@ -38,18 +37,18 @@
         "type": "Identifier",
         "span": {
           "start": 165,
-          "end": 168,
-          "ctxt": 0
+          "end": 168
         },
+        "ctxt": 0,
         "value": "Foo",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 159,
-        "end": 172,
-        "ctxt": 0
+        "end": 172
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [],
       "superClass": null,
@@ -62,9 +61,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 189,
-        "end": 203,
-        "ctxt": 0
+        "end": 203
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -72,16 +71,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 195,
-            "end": 202,
-            "ctxt": 0
+            "end": 202
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 195,
-              "end": 198,
-              "ctxt": 0
+              "end": 198
             },
+            "ctxt": 0,
             "value": "Bar",
             "optional": false,
             "typeAnnotation": null
@@ -90,8 +88,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 201,
-              "end": 202,
-              "ctxt": 0
+              "end": 202
             },
             "value": 3.0,
             "raw": "3"

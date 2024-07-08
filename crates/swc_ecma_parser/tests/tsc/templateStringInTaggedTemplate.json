@@ -2,46 +2,41 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 76,
-    "ctxt": 0
+    "end": 76
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 76,
-        "ctxt": 0
+        "end": 76
       },
       "expression": {
         "type": "TaggedTemplateExpression",
         "span": {
           "start": 1,
-          "end": 76,
-          "ctxt": 0
+          "end": 76
         },
+        "ctxt": 0,
         "tag": {
           "type": "TemplateLiteral",
           "span": {
             "start": 1,
-            "end": 38,
-            "ctxt": 0
+            "end": 38
           },
           "expressions": [
             {
               "type": "TemplateLiteral",
               "span": {
                 "start": 14,
-                "end": 27,
-                "ctxt": 0
+                "end": 27
               },
               "expressions": [
                 {
                   "type": "TemplateLiteral",
                   "span": {
                     "start": 18,
-                    "end": 23,
-                    "ctxt": 0
+                    "end": 23
                   },
                   "expressions": [],
                   "quasis": [
@@ -49,8 +44,7 @@
                       "type": "TemplateElement",
                       "span": {
                         "start": 19,
-                        "end": 22,
-                        "ctxt": 0
+                        "end": 22
                       },
                       "tail": true,
                       "cooked": "TAG",
@@ -64,8 +58,7 @@
                   "type": "TemplateElement",
                   "span": {
                     "start": 15,
-                    "end": 15,
-                    "ctxt": 0
+                    "end": 15
                   },
                   "tail": false,
                   "cooked": "",
@@ -75,8 +68,7 @@
                   "type": "TemplateElement",
                   "span": {
                     "start": 25,
-                    "end": 26,
-                    "ctxt": 0
+                    "end": 26
                   },
                   "tail": true,
                   "cooked": " ",
@@ -90,8 +82,7 @@
               "type": "TemplateElement",
               "span": {
                 "start": 2,
-                "end": 11,
-                "ctxt": 0
+                "end": 11
               },
               "tail": false,
               "cooked": "I AM THE ",
@@ -101,8 +92,7 @@
               "type": "TemplateElement",
               "span": {
                 "start": 29,
-                "end": 37,
-                "ctxt": 0
+                "end": 37
               },
               "tail": true,
               "cooked": " PORTION",
@@ -115,16 +105,14 @@
           "type": "TemplateLiteral",
           "span": {
             "start": 42,
-            "end": 76,
-            "ctxt": 0
+            "end": 76
           },
           "expressions": [
             {
               "type": "StringLiteral",
               "span": {
                 "start": 48,
-                "end": 52,
-                "ctxt": 0
+                "end": 52
               },
               "value": "AM",
               "raw": "\"AM\""
@@ -135,8 +123,7 @@
               "type": "TemplateElement",
               "span": {
                 "start": 43,
-                "end": 45,
-                "ctxt": 0
+                "end": 45
               },
               "tail": false,
               "cooked": "I ",
@@ -146,8 +133,7 @@
               "type": "TemplateElement",
               "span": {
                 "start": 54,
-                "end": 75,
-                "ctxt": 0
+                "end": 75
               },
               "tail": true,
               "cooked": " THE TEMPLATE PORTION",

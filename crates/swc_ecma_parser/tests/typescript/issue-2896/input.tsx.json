@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 35,
-    "ctxt": 0
+    "end": 35
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 21,
-        "ctxt": 0
+        "end": 21
       },
       "expression": {
         "type": "JSXElement",
         "span": {
           "start": 1,
-          "end": 20,
-          "ctxt": 0
+          "end": 20
         },
         "opening": {
           "type": "JSXOpeningElement",
@@ -26,16 +23,15 @@
             "type": "Identifier",
             "span": {
               "start": 2,
-              "end": 5,
-              "ctxt": 0
+              "end": 5
             },
+            "ctxt": 0,
             "value": "div",
             "optional": false
           },
           "span": {
             "start": 1,
-            "end": 6,
-            "ctxt": 0
+            "end": 6
           },
           "attributes": [],
           "selfClosing": false,
@@ -46,8 +42,7 @@
             "type": "JSXText",
             "span": {
               "start": 6,
-              "end": 14,
-              "ctxt": 0
+              "end": 14
             },
             "value": "children",
             "raw": "children"
@@ -57,16 +52,15 @@
           "type": "JSXClosingElement",
           "span": {
             "start": 14,
-            "end": 20,
-            "ctxt": 0
+            "end": 20
           },
           "name": {
             "type": "Identifier",
             "span": {
               "start": 16,
-              "end": 19,
-              "ctxt": 0
+              "end": 19
             },
+            "ctxt": 0,
             "value": "div",
             "optional": false
           }
@@ -77,15 +71,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 22,
-        "end": 35,
-        "ctxt": 0
+        "end": 35
       },
       "expression": {
         "type": "StringLiteral",
         "span": {
           "start": 22,
-          "end": 34,
-          "ctxt": 0
+          "end": 34
         },
         "value": "<>hello</>",
         "raw": "'<>hello</>'"

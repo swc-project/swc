@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 2,
-    "end": 207,
-    "ctxt": 0
+    "end": 207
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 2,
-        "end": 24,
-        "ctxt": 0
+        "end": 24
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,31 +19,28 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 6,
-            "end": 23,
-            "ctxt": 0
+            "end": 23
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 6,
-              "end": 15,
-              "ctxt": 0
+              "end": 15
             },
+            "ctxt": 0,
             "value": "namespace",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 15,
-                "end": 23,
-                "ctxt": 0
+                "end": 23
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 17,
-                  "end": 23,
-                  "ctxt": 0
+                  "end": 23
                 },
                 "kind": "number"
               }
@@ -59,9 +55,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 25,
-        "end": 39,
-        "ctxt": 0
+        "end": 39
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -69,31 +65,28 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 29,
-            "end": 38,
-            "ctxt": 0
+            "end": 38
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 29,
-              "end": 30,
-              "ctxt": 0
+              "end": 30
             },
+            "ctxt": 0,
             "value": "n",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 30,
-                "end": 38,
-                "ctxt": 0
+                "end": 38
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 32,
-                  "end": 38,
-                  "ctxt": 0
+                  "end": 38
                 },
                 "kind": "string"
               }
@@ -108,8 +101,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 41,
-        "end": 207,
-        "ctxt": 0
+        "end": 207
       },
       "declare": false,
       "global": false,
@@ -117,9 +109,9 @@
         "type": "Identifier",
         "span": {
           "start": 51,
-          "end": 60,
-          "ctxt": 0
+          "end": 60
         },
+        "ctxt": 0,
         "value": "container",
         "optional": false
       },
@@ -127,16 +119,14 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 61,
-          "end": 207,
-          "ctxt": 0
+          "end": 207
         },
         "body": [
           {
             "type": "TsModuleDeclaration",
             "span": {
               "start": 67,
-              "end": 172,
-              "ctxt": 0
+              "end": 172
             },
             "declare": false,
             "global": false,
@@ -144,9 +134,9 @@
               "type": "Identifier",
               "span": {
                 "start": 122,
-                "end": 123,
-                "ctxt": 0
+                "end": 123
               },
+              "ctxt": 0,
               "value": "n",
               "optional": false
             },
@@ -154,8 +144,7 @@
               "type": "TsModuleBlock",
               "span": {
                 "start": 169,
-                "end": 172,
-                "ctxt": 0
+                "end": 172
               },
               "body": []
             }

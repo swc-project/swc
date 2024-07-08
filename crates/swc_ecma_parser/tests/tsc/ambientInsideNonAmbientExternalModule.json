@@ -2,24 +2,22 @@
   "type": "Module",
   "span": {
     "start": 17,
-    "end": 148,
-    "ctxt": 0
+    "end": 148
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 17,
-        "end": 38,
-        "ctxt": 0
+        "end": 38
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
           "start": 24,
-          "end": 38,
-          "ctxt": 0
+          "end": 38
         },
+        "ctxt": 0,
         "kind": "var",
         "declare": true,
         "declarations": [
@@ -27,16 +25,15 @@
             "type": "VariableDeclarator",
             "span": {
               "start": 36,
-              "end": 37,
-              "ctxt": 0
+              "end": 37
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 36,
-                "end": 37,
-                "ctxt": 0
+                "end": 37
               },
+              "ctxt": 0,
               "value": "x",
               "optional": false,
               "typeAnnotation": null
@@ -51,8 +48,7 @@
       "type": "ExportDeclaration",
       "span": {
         "start": 39,
-        "end": 67,
-        "ctxt": 0
+        "end": 67
       },
       "declaration": {
         "type": "FunctionDeclaration",
@@ -60,9 +56,9 @@
           "type": "Identifier",
           "span": {
             "start": 63,
-            "end": 64,
-            "ctxt": 0
+            "end": 64
           },
+          "ctxt": 0,
           "value": "f",
           "optional": false
         },
@@ -71,9 +67,9 @@
         "decorators": [],
         "span": {
           "start": 46,
-          "end": 67,
-          "ctxt": 0
+          "end": 67
         },
+        "ctxt": 0,
         "body": null,
         "generator": false,
         "async": false,
@@ -85,8 +81,7 @@
       "type": "ExportDeclaration",
       "span": {
         "start": 68,
-        "end": 94,
-        "ctxt": 0
+        "end": 94
       },
       "declaration": {
         "type": "ClassDeclaration",
@@ -94,18 +89,18 @@
           "type": "Identifier",
           "span": {
             "start": 89,
-            "end": 90,
-            "ctxt": 0
+            "end": 90
           },
+          "ctxt": 0,
           "value": "C",
           "optional": false
         },
         "declare": true,
         "span": {
           "start": 75,
-          "end": 94,
-          "ctxt": 0
+          "end": 94
         },
+        "ctxt": 0,
         "decorators": [],
         "body": [],
         "superClass": null,
@@ -119,15 +114,13 @@
       "type": "ExportDeclaration",
       "span": {
         "start": 95,
-        "end": 120,
-        "ctxt": 0
+        "end": 120
       },
       "declaration": {
         "type": "TsEnumDeclaration",
         "span": {
           "start": 102,
-          "end": 120,
-          "ctxt": 0
+          "end": 120
         },
         "declare": true,
         "isConst": false,
@@ -135,9 +128,9 @@
           "type": "Identifier",
           "span": {
             "start": 115,
-            "end": 116,
-            "ctxt": 0
+            "end": 116
           },
+          "ctxt": 0,
           "value": "E",
           "optional": false
         },
@@ -148,15 +141,13 @@
       "type": "ExportDeclaration",
       "span": {
         "start": 121,
-        "end": 148,
-        "ctxt": 0
+        "end": 148
       },
       "declaration": {
         "type": "TsModuleDeclaration",
         "span": {
           "start": 128,
-          "end": 148,
-          "ctxt": 0
+          "end": 148
         },
         "declare": true,
         "global": false,
@@ -164,9 +155,9 @@
           "type": "Identifier",
           "span": {
             "start": 143,
-            "end": 144,
-            "ctxt": 0
+            "end": 144
           },
+          "ctxt": 0,
           "value": "M",
           "optional": false
         },
@@ -174,8 +165,7 @@
           "type": "TsModuleBlock",
           "span": {
             "start": 145,
-            "end": 148,
-            "ctxt": 0
+            "end": 148
           },
           "body": []
         }

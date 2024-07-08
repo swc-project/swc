@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 44,
-    "ctxt": 0
+    "end": 44
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 16,
-        "end": 44,
-        "ctxt": 0
+        "end": 44
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 20,
-            "end": 43,
-            "ctxt": 0
+            "end": 43
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 20,
-              "end": 21,
-              "ctxt": 0
+              "end": 21
             },
+            "ctxt": 0,
             "value": "v",
             "optional": false,
             "typeAnnotation": null
@@ -38,8 +36,7 @@
             "type": "ObjectExpression",
             "span": {
               "start": 24,
-              "end": 43,
-              "ctxt": 0
+              "end": 43
             },
             "properties": [
               {
@@ -48,16 +45,15 @@
                   "type": "Computed",
                   "span": {
                     "start": 30,
-                    "end": 38,
-                    "ctxt": 0
+                    "end": 38
                   },
                   "expression": {
                     "type": "Identifier",
                     "span": {
                       "start": 31,
-                      "end": 37,
-                      "ctxt": 0
+                      "end": 37
                     },
+                    "ctxt": 0,
                     "value": "public",
                     "optional": false
                   }
@@ -66,8 +62,7 @@
                   "type": "NumericLiteral",
                   "span": {
                     "start": 40,
-                    "end": 41,
-                    "ctxt": 0
+                    "end": 41
                   },
                   "value": 0.0,
                   "raw": "0"

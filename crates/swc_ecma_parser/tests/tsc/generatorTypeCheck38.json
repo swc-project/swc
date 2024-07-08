@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 82,
-    "ctxt": 0
+    "end": 82
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 16,
-        "end": 26,
-        "ctxt": 0
+        "end": 26
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 20,
-            "end": 25,
-            "ctxt": 0
+            "end": 25
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 20,
-              "end": 25,
-              "ctxt": 0
+              "end": 25
             },
+            "ctxt": 0,
             "value": "yield",
             "optional": false,
             "typeAnnotation": null
@@ -45,9 +43,9 @@
         "type": "Identifier",
         "span": {
           "start": 37,
-          "end": 38,
-          "ctxt": 0
+          "end": 38
         },
+        "ctxt": 0,
         "value": "g",
         "optional": false
       },
@@ -56,37 +54,34 @@
       "decorators": [],
       "span": {
         "start": 27,
-        "end": 82,
-        "ctxt": 0
+        "end": 82
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 41,
-          "end": 82,
-          "ctxt": 0
+          "end": 82
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 47,
-              "end": 55,
-              "ctxt": 0
+              "end": 55
             },
             "expression": {
               "type": "YieldExpression",
               "span": {
                 "start": 47,
-                "end": 54,
-                "ctxt": 0
+                "end": 54
               },
               "argument": {
                 "type": "NumericLiteral",
                 "span": {
                   "start": 53,
-                  "end": 54,
-                  "ctxt": 0
+                  "end": 54
                 },
                 "value": 0.0,
                 "raw": "0"
@@ -98,9 +93,9 @@
             "type": "VariableDeclaration",
             "span": {
               "start": 60,
-              "end": 80,
-              "ctxt": 0
+              "end": 80
             },
+            "ctxt": 0,
             "kind": "var",
             "declare": false,
             "declarations": [
@@ -108,39 +103,36 @@
                 "type": "VariableDeclarator",
                 "span": {
                   "start": 64,
-                  "end": 79,
-                  "ctxt": 0
+                  "end": 79
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
                     "start": 64,
-                    "end": 65,
-                    "ctxt": 0
+                    "end": 65
                   },
+                  "ctxt": 0,
                   "value": "v",
                   "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
                       "start": 65,
-                      "end": 79,
-                      "ctxt": 0
+                      "end": 79
                     },
                     "typeAnnotation": {
                       "type": "TsTypeQuery",
                       "span": {
                         "start": 67,
-                        "end": 79,
-                        "ctxt": 0
+                        "end": 79
                       },
                       "exprName": {
                         "type": "Identifier",
                         "span": {
                           "start": 74,
-                          "end": 79,
-                          "ctxt": 0
+                          "end": 79
                         },
+                        "ctxt": 0,
                         "value": "yield",
                         "optional": false
                       },

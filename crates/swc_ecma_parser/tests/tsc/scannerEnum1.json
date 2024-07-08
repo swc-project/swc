@@ -2,23 +2,20 @@
   "type": "Module",
   "span": {
     "start": 5,
-    "end": 72,
-    "ctxt": 0
+    "end": 72
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 5,
-        "end": 72,
-        "ctxt": 0
+        "end": 72
       },
       "declaration": {
         "type": "TsEnumDeclaration",
         "span": {
           "start": 12,
-          "end": 72,
-          "ctxt": 0
+          "end": 72
         },
         "declare": false,
         "isConst": false,
@@ -26,9 +23,9 @@
           "type": "Identifier",
           "span": {
             "start": 17,
-            "end": 30,
-            "ctxt": 0
+            "end": 30
           },
+          "ctxt": 0,
           "value": "CodeGenTarget",
           "optional": false
         },
@@ -37,16 +34,15 @@
             "type": "TsEnumMember",
             "span": {
               "start": 41,
-              "end": 48,
-              "ctxt": 0
+              "end": 48
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 41,
-                "end": 44,
-                "ctxt": 0
+                "end": 44
               },
+              "ctxt": 0,
               "value": "ES3",
               "optional": false
             },
@@ -54,8 +50,7 @@
               "type": "NumericLiteral",
               "span": {
                 "start": 47,
-                "end": 48,
-                "ctxt": 0
+                "end": 48
               },
               "value": 0.0,
               "raw": "0"
@@ -65,16 +60,15 @@
             "type": "TsEnumMember",
             "span": {
               "start": 58,
-              "end": 65,
-              "ctxt": 0
+              "end": 65
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 58,
-                "end": 61,
-                "ctxt": 0
+                "end": 61
               },
+              "ctxt": 0,
               "value": "ES5",
               "optional": false
             },
@@ -82,8 +76,7 @@
               "type": "NumericLiteral",
               "span": {
                 "start": 64,
-                "end": 65,
-                "ctxt": 0
+                "end": 65
               },
               "value": 1.0,
               "raw": "1"

@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 186,
-    "end": 248,
-    "ctxt": 0
+    "end": 248
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 186,
-        "end": 217,
-        "ctxt": 0
+        "end": 217
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 192,
-            "end": 217,
-            "ctxt": 0
+            "end": 217
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 192,
-              "end": 196,
-              "ctxt": 0
+              "end": 196
             },
+            "ctxt": 0,
             "value": "test",
             "optional": false,
             "typeAnnotation": null
@@ -38,17 +36,17 @@
             "type": "ArrowFunctionExpression",
             "span": {
               "start": 199,
-              "end": 217,
-              "ctxt": 0
+              "end": 217
             },
+            "ctxt": 0,
             "params": [
               {
                 "type": "Identifier",
                 "span": {
                   "start": 199,
-                  "end": 206,
-                  "ctxt": 0
+                  "end": 206
                 },
+                "ctxt": 0,
                 "value": "dibbity",
                 "optional": false,
                 "typeAnnotation": null
@@ -58,9 +56,9 @@
               "type": "Identifier",
               "span": {
                 "start": 210,
-                "end": 217,
-                "ctxt": 0
+                "end": 217
               },
+              "ctxt": 0,
               "value": "dibbity",
               "optional": false
             },
@@ -77,23 +75,22 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 219,
-        "end": 226,
-        "ctxt": 0
+        "end": 226
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 219,
-          "end": 226,
-          "ctxt": 0
+          "end": 226
         },
+        "ctxt": 0,
         "callee": {
           "type": "Identifier",
           "span": {
             "start": 219,
-            "end": 223,
-            "ctxt": 0
+            "end": 223
           },
+          "ctxt": 0,
           "value": "test",
           "optional": false
         },
@@ -104,8 +101,7 @@
               "type": "NumericLiteral",
               "span": {
                 "start": 224,
-                "end": 225,
-                "ctxt": 0
+                "end": 225
               },
               "value": 1.0,
               "raw": "1"
@@ -119,23 +115,22 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 238,
-        "end": 248,
-        "ctxt": 0
+        "end": 248
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 238,
-          "end": 248,
-          "ctxt": 0
+          "end": 248
         },
+        "ctxt": 0,
         "callee": {
           "type": "Identifier",
           "span": {
             "start": 238,
-            "end": 242,
-            "ctxt": 0
+            "end": 242
           },
+          "ctxt": 0,
           "value": "test",
           "optional": false
         },
@@ -146,8 +141,7 @@
               "type": "StringLiteral",
               "span": {
                 "start": 243,
-                "end": 247,
-                "ctxt": 0
+                "end": 247
               },
               "value": "hi",
               "raw": "'hi'"

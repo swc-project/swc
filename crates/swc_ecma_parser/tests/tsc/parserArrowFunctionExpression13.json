@@ -2,31 +2,28 @@
   "type": "Script",
   "span": {
     "start": 94,
-    "end": 238,
-    "ctxt": 0
+    "end": 238
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 94,
-        "end": 126,
-        "ctxt": 0
+        "end": 126
       },
       "expression": {
         "type": "ConditionalExpression",
         "span": {
           "start": 94,
-          "end": 125,
-          "ctxt": 0
+          "end": 125
         },
         "test": {
           "type": "Identifier",
           "span": {
             "start": 94,
-            "end": 95,
-            "ctxt": 0
+            "end": 95
           },
+          "ctxt": 0,
           "value": "a",
           "optional": false
         },
@@ -34,24 +31,24 @@
           "type": "ArrowFunctionExpression",
           "span": {
             "start": 98,
-            "end": 107,
-            "ctxt": 0
+            "end": 107
           },
+          "ctxt": 0,
           "params": [],
           "body": {
             "type": "CallExpression",
             "span": {
               "start": 104,
-              "end": 107,
-              "ctxt": 0
+              "end": 107
             },
+            "ctxt": 0,
             "callee": {
               "type": "Identifier",
               "span": {
                 "start": 104,
-                "end": 105,
-                "ctxt": 0
+                "end": 105
               },
+              "ctxt": 0,
               "value": "a",
               "optional": false
             },
@@ -67,16 +64,15 @@
           "type": "ArrowFunctionExpression",
           "span": {
             "start": 110,
-            "end": 125,
-            "ctxt": 0
+            "end": 125
           },
+          "ctxt": 0,
           "params": [],
           "body": {
             "type": "NullLiteral",
             "span": {
               "start": 121,
-              "end": 125,
-              "ctxt": 0
+              "end": 125
             }
           },
           "async": false,
@@ -86,15 +82,13 @@
             "type": "TsTypeAnnotation",
             "span": {
               "start": 112,
-              "end": 117,
-              "ctxt": 0
+              "end": 117
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 114,
-                "end": 117,
-                "ctxt": 0
+                "end": 117
               },
               "kind": "any"
             }
@@ -106,23 +100,21 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 206,
-        "end": 238,
-        "ctxt": 0
+        "end": 238
       },
       "expression": {
         "type": "ConditionalExpression",
         "span": {
           "start": 206,
-          "end": 237,
-          "ctxt": 0
+          "end": 237
         },
         "test": {
           "type": "Identifier",
           "span": {
             "start": 206,
-            "end": 207,
-            "ctxt": 0
+            "end": 207
           },
+          "ctxt": 0,
           "value": "a",
           "optional": false
         },
@@ -130,24 +122,24 @@
           "type": "ArrowFunctionExpression",
           "span": {
             "start": 210,
-            "end": 219,
-            "ctxt": 0
+            "end": 219
           },
+          "ctxt": 0,
           "params": [],
           "body": {
             "type": "CallExpression",
             "span": {
               "start": 216,
-              "end": 219,
-              "ctxt": 0
+              "end": 219
             },
+            "ctxt": 0,
             "callee": {
               "type": "Identifier",
               "span": {
                 "start": 216,
-                "end": 217,
-                "ctxt": 0
+                "end": 217
               },
+              "ctxt": 0,
               "value": "a",
               "optional": false
             },
@@ -163,16 +155,15 @@
           "type": "ArrowFunctionExpression",
           "span": {
             "start": 222,
-            "end": 237,
-            "ctxt": 0
+            "end": 237
           },
+          "ctxt": 0,
           "params": [],
           "body": {
             "type": "NullLiteral",
             "span": {
               "start": 233,
-              "end": 237,
-              "ctxt": 0
+              "end": 237
             }
           },
           "async": false,
@@ -182,15 +173,13 @@
             "type": "TsTypeAnnotation",
             "span": {
               "start": 224,
-              "end": 229,
-              "ctxt": 0
+              "end": 229
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 226,
-                "end": 229,
-                "ctxt": 0
+                "end": 229
               },
               "kind": "any"
             }

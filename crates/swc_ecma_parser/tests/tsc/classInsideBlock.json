@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 35,
-    "ctxt": 0
+    "end": 35
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 10,
-          "end": 13,
-          "ctxt": 0
+          "end": 13
         },
+        "ctxt": 0,
         "value": "foo",
         "optional": false
       },
@@ -23,16 +22,16 @@
       "decorators": [],
       "span": {
         "start": 1,
-        "end": 35,
-        "ctxt": 0
+        "end": 35
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 16,
-          "end": 35,
-          "ctxt": 0
+          "end": 35
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ClassDeclaration",
@@ -40,18 +39,18 @@
               "type": "Identifier",
               "span": {
                 "start": 28,
-                "end": 29,
-                "ctxt": 0
+                "end": 29
               },
+              "ctxt": 0,
               "value": "C",
               "optional": false
             },
             "declare": false,
             "span": {
               "start": 22,
-              "end": 33,
-              "ctxt": 0
+              "end": 33
             },
+            "ctxt": 0,
             "decorators": [],
             "body": [],
             "superClass": null,

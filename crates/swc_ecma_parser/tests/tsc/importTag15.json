@@ -2,31 +2,28 @@
   "type": "Module",
   "span": {
     "start": 135,
-    "end": 326,
-    "ctxt": 0
+    "end": 326
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 135,
-        "end": 157,
-        "ctxt": 0
+        "end": 157
       },
       "declaration": {
         "type": "TsInterfaceDeclaration",
         "span": {
           "start": 142,
-          "end": 157,
-          "ctxt": 0
+          "end": 157
         },
         "id": {
           "type": "Identifier",
           "span": {
             "start": 152,
-            "end": 153,
-            "ctxt": 0
+            "end": 153
           },
+          "ctxt": 0,
           "value": "I",
           "optional": false
         },
@@ -37,8 +34,7 @@
           "type": "TsInterfaceBody",
           "span": {
             "start": 154,
-            "end": 157,
-            "ctxt": 0
+            "end": 157
           },
           "body": []
         }
@@ -50,9 +46,9 @@
         "type": "Identifier",
         "span": {
           "start": 319,
-          "end": 320,
-          "ctxt": 0
+          "end": 320
         },
+        "ctxt": 0,
         "value": "f",
         "optional": false
       },
@@ -62,17 +58,16 @@
           "type": "Parameter",
           "span": {
             "start": 321,
-            "end": 322,
-            "ctxt": 0
+            "end": 322
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
               "start": 321,
-              "end": 322,
-              "ctxt": 0
+              "end": 322
             },
+            "ctxt": 0,
             "value": "a",
             "optional": false,
             "typeAnnotation": null
@@ -82,16 +77,16 @@
       "decorators": [],
       "span": {
         "start": 310,
-        "end": 326,
-        "ctxt": 0
+        "end": 326
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 324,
-          "end": 326,
-          "ctxt": 0
+          "end": 326
         },
+        "ctxt": 0,
         "stmts": []
       },
       "generator": false,

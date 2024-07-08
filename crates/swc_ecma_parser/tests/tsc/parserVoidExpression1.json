@@ -2,31 +2,27 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 8,
-    "ctxt": 0
+    "end": 8
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 8,
-        "ctxt": 0
+        "end": 8
       },
       "expression": {
         "type": "UnaryExpression",
         "span": {
           "start": 1,
-          "end": 7,
-          "ctxt": 0
+          "end": 7
         },
         "operator": "void",
         "argument": {
           "type": "NumericLiteral",
           "span": {
             "start": 6,
-            "end": 7,
-            "ctxt": 0
+            "end": 7
           },
           "value": 0.0,
           "raw": "0"

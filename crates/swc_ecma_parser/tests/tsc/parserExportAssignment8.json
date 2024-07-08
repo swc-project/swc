@@ -2,24 +2,22 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 32,
-    "ctxt": 0
+    "end": 32
   },
   "body": [
     {
       "type": "TsExportAssignment",
       "span": {
         "start": 1,
-        "end": 12,
-        "ctxt": 0
+        "end": 12
       },
       "expression": {
         "type": "Identifier",
         "span": {
           "start": 10,
-          "end": 11,
-          "ctxt": 0
+          "end": 11
         },
+        "ctxt": 0,
         "value": "B",
         "optional": false
       }
@@ -28,8 +26,7 @@
       "type": "ExportDeclaration",
       "span": {
         "start": 14,
-        "end": 32,
-        "ctxt": 0
+        "end": 32
       },
       "declaration": {
         "type": "ClassDeclaration",
@@ -37,18 +34,18 @@
           "type": "Identifier",
           "span": {
             "start": 27,
-            "end": 28,
-            "ctxt": 0
+            "end": 28
           },
+          "ctxt": 0,
           "value": "C",
           "optional": false
         },
         "declare": false,
         "span": {
           "start": 21,
-          "end": 32,
-          "ctxt": 0
+          "end": 32
         },
+        "ctxt": 0,
         "decorators": [],
         "body": [],
         "superClass": null,

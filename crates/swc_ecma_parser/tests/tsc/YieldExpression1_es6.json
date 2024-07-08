@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 17,
-    "end": 23,
-    "ctxt": 0
+    "end": 23
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 17,
-        "end": 23,
-        "ctxt": 0
+        "end": 23
       },
       "expression": {
         "type": "Identifier",
         "span": {
           "start": 17,
-          "end": 22,
-          "ctxt": 0
+          "end": 22
         },
+        "ctxt": 0,
         "value": "yield",
         "optional": false
       }

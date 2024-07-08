@@ -2,39 +2,35 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 11,
-    "ctxt": 0
+    "end": 11
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 11,
-        "ctxt": 0
+        "end": 11
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 1,
-          "end": 10,
-          "ctxt": 0
+          "end": 10
         },
         "operator": "=",
         "left": {
           "type": "ParenthesisExpression",
           "span": {
             "start": 1,
-            "end": 4,
-            "ctxt": 0
+            "end": 4
           },
           "expression": {
             "type": "Identifier",
             "span": {
               "start": 2,
-              "end": 3,
-              "ctxt": 0
+              "end": 3
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false
           }
@@ -43,15 +39,13 @@
           "type": "ParenthesisExpression",
           "span": {
             "start": 7,
-            "end": 10,
-            "ctxt": 0
+            "end": 10
           },
           "expression": {
             "type": "NumericLiteral",
             "span": {
               "start": 8,
-              "end": 9,
-              "ctxt": 0
+              "end": 9
             },
             "value": 6.0,
             "raw": "6"
