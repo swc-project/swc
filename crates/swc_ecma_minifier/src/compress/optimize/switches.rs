@@ -130,6 +130,7 @@ impl Optimizer<'_> {
                         kind: VarDeclKind::Var,
                         declare: Default::default(),
                         decls: var_ids,
+                        ..Default::default()
                     }
                     .into(),
                 )
@@ -161,6 +162,7 @@ impl Optimizer<'_> {
                             kind: VarDeclKind::Var,
                             declare: Default::default(),
                             decls: var_ids,
+                            ..Default::default()
                         }
                         .into(),
                         s.take(),

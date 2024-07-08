@@ -40,7 +40,7 @@ impl SourceMapper for DummySourceMap {
         String::new()
     }
 
-    fn span_to_filename(&self, _: Span) -> FileName {
+    fn span_to_filename(&self, _: Span) -> Lrc<FileName> {
         FileName::Anon
     }
 

@@ -698,7 +698,7 @@ impl VisitMut for TsHygiene {
 
         let ctxt = format!("{:?}", i.ctxt).replace('#', "");
         i.sym = format!("{}__{}", i.sym, ctxt).into();
-        i.span = i.span.with_ctxt(SyntaxContext::empty());
+        i.ctxt = SyntaxContext::empty();
     }
 
     fn visit_mut_prop_name(&mut self, n: &mut PropName) {

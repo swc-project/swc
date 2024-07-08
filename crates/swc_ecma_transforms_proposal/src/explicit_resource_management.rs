@@ -171,6 +171,7 @@ impl ExplicitResourceManagement {
                                 init: Some(decl.expr),
                                 definite: Default::default(),
                             }],
+                            ..Default::default()
                         }))));
                     }
 

@@ -2876,7 +2876,7 @@ impl VisitMut for Optimizer<'_> {
         {
             let ctx = Ctx {
                 is_update_arg: false,
-                has_const_ann: self.has_const_ann(n.span),
+                has_const_ann: self.has_const_ann(n.ctxt),
                 var_kind: Some(n.kind),
                 ..self.ctx
             };
