@@ -148,7 +148,7 @@ impl ExplicitResourceManagement {
                                 specifiers: vec![ExportSpecifier::Named(ExportNamedSpecifier {
                                     span: DUMMY_SP,
                                     orig: ModuleExportName::Ident(ident.clone()),
-                                    exported: Some(ModuleExportName::Ident(Ident::new(
+                                    exported: Some(ModuleExportName::Ident(Ident::new_no_ctxt(
                                         "default".into(),
                                         DUMMY_SP,
                                     ))),

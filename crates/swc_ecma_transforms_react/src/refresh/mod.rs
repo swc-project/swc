@@ -90,7 +90,7 @@ impl<C: Comments> Refresh<C> {
                 match init_expr.as_ref() {
                     // TaggedTpl is for something like styled.div`...`
                     Expr::Arrow(_) | Expr::Fn(_) | Expr::TaggedTpl(_) | Expr::Call(_) => {
-                        return Persist::Component(binding.id.clone())
+                        return Persist::Component(Ident::from(&*binding))
                     }
                     _ => (),
                 }

@@ -304,6 +304,7 @@ impl Swcify for FunctionExpression {
                 is_async: self.is_async.unwrap_or(false),
                 type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
                 return_type: self.return_type.swcify(ctx).flatten().map(Box::new),
+                ..Default::default()
             }),
         }
     }
@@ -646,7 +647,7 @@ impl Swcify for ClassExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ClassExpr {
-            ident: self.id.swcify(ctx).map(|v| v.id),
+            ident: self.id.swcify(ctx).map(|v| v.into()),
             class: Box::new(swc_ecma_ast::Class {
                 span: ctx.span(&self.base),
                 decorators: self.decorators.swcify(ctx).unwrap_or_default(),
