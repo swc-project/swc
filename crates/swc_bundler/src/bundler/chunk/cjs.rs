@@ -202,7 +202,7 @@ where
                             span: node.span,
                             callee: Ident::new("load".into(), i.span, i.ctxt).as_callee(),
                             args: vec![],
-                            type_args: None,
+                            ..Default::default()
                         };
                         self.replaced = true;
                         *node = load;

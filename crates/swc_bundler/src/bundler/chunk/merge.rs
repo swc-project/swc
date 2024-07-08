@@ -950,7 +950,8 @@ where
                                             span: DUMMY_SP,
                                             callee: Ident::new(
                                                 "load".into(),
-                                                DUMMY_SP.with_ctxt(dep.export_ctxt()),
+                                                DUMMY_SP,
+                                                dep.export_ctxt(),
                                             )
                                             .as_callee(),
                                             args: Default::default(),

@@ -121,16 +121,14 @@ where
         let module_fn = Expr::Fn(FnExpr {
             function: Box::new(Function {
                 params: Default::default(),
-                decorators: Default::default(),
-                span: DUMMY_SP,
                 body: Some(BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![return_stmt],
+                    ..Default::default()
                 }),
                 is_generator: false,
                 is_async,
-                type_params: Default::default(),
-                return_type: Default::default(),
+                ..Default::default()
             }),
             ident: None,
         });
@@ -138,8 +136,8 @@ where
         let mut module_expr = Expr::Call(CallExpr {
             span: DUMMY_SP,
             callee: module_fn.as_callee(),
-            type_args: Default::default(),
             args: Default::default(),
+            ..Default::default()
         });
 
         if is_async {
