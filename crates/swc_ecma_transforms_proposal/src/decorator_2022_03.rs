@@ -1637,7 +1637,7 @@ impl VisitMut for Decorator2022_03 {
             args: once(ThisExpr { span: DUMMY_SP }.as_arg())
                 .chain(p.value.take().map(|v| v.as_arg()))
                 .collect(),
-            type_args: Default::default(),
+            ..Default::default()
         })));
 
         let initialize_init = {

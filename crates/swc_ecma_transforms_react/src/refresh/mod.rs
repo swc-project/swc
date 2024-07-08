@@ -96,7 +96,7 @@ impl<C: Comments> Refresh<C> {
                 }
             }
 
-            if let Persist::Component(persistent_id) = get_persistent_id(&Ident::from(&binding)) {
+            if let Persist::Component(persistent_id) = get_persistent_id(&Ident::from(&*binding)) {
                 return match init_expr.as_mut() {
                     Expr::Fn(_) => Persist::Component(persistent_id),
                     Expr::Arrow(ArrowExpr { body, .. }) => {
