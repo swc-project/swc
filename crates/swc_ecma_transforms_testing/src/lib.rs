@@ -240,6 +240,7 @@ impl VisitMut for RegeneratorHandler {
                 kind: VarDeclKind::Var,
                 declare: false,
                 decls: vec![decl],
+                ..Default::default()
             }))))
         }
     }

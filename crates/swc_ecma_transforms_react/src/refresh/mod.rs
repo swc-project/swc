@@ -448,6 +448,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
                             definite: false,
                         })
                         .collect(),
+                    ..Default::default()
                 }
                 .into(),
             );

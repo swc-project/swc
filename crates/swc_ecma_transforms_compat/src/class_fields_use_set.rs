@@ -144,6 +144,7 @@ impl ClassFieldsUseSet {
                         kind: VarDeclKind::Let,
                         declare: false,
                         decls: var_decls,
+                        ..Default::default()
                     }
                     .into(),
                 ))
