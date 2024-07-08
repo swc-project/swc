@@ -176,9 +176,9 @@ impl<'a> HookRegister<'a> {
                                 elems,
                             }))),
                         })],
+                        ..Default::default()
                     }),
-                    type_params: None,
-                    return_type: None,
+                    ..Default::default()
                 }
                 .as_arg(),
             );
@@ -188,7 +188,7 @@ impl<'a> HookRegister<'a> {
             span: DUMMY_SP,
             callee: handle.as_callee(),
             args,
-            type_args: None,
+            ..Default::default()
         })
     }
 
@@ -356,6 +356,7 @@ fn collect_hooks_arrow(body: &mut BlockStmtOrExpr, cm: &SourceMap) -> Option<Hoo
                             arg: Some(Box::new(expr.as_mut().take())),
                         }),
                     ],
+                    ..Default::default()
                 });
                 Some(sig)
             } else {

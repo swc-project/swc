@@ -99,7 +99,7 @@ impl SystemJs {
             span,
             callee: self.export_ident.clone().as_callee(),
             args: vec![quote_str!(name).as_arg(), expr.as_arg()],
-            type_args: None,
+            ..Default::default()
         }
     }
 
@@ -245,7 +245,7 @@ impl SystemJs {
                         props,
                     }
                     .as_arg()],
-                    type_args: None,
+                    ..Default::default()
                 }
                 .into_stmt()]
             }
@@ -348,7 +348,7 @@ impl SystemJs {
                     span: DUMMY_SP,
                     callee: self.export_ident.clone().as_callee(),
                     args: vec![export_obj.as_arg()],
-                    type_args: None,
+                    ..Default::default()
                 }
                 .into_stmt(),
             );

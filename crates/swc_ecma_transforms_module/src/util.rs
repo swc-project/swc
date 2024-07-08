@@ -316,13 +316,12 @@ pub(crate) fn esm_export() -> Function {
         decorators: Default::default(),
         span: DUMMY_SP,
         body: Some(BlockStmt {
-            span: DUMMY_SP,
             stmts: vec![for_in_stmt],
+            ..Default::default()
         }),
         is_generator: false,
         is_async: false,
-        type_params: None,
-        return_type: None,
+        ..Default::default()
     }
 }
 

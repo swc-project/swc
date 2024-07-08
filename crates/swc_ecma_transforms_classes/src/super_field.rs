@@ -448,7 +448,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                         span: DUMMY_SP,
                         callee: helper!(assert_this_initialized),
                         args: vec![this.as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     })
                     .into(),
                     proto_arg,

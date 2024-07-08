@@ -837,6 +837,7 @@ impl VisitMut for Remover {
                             let mut block = Stmt::Block(BlockStmt {
                                 span: s.span,
                                 stmts,
+                                ..Default::default()
                             });
                             block.visit_mut_with(self);
                             return block;
