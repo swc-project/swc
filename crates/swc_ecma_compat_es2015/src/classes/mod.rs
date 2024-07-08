@@ -288,7 +288,7 @@ where
         if let (Pat::Ident(id), Expr::Class(c @ ClassExpr { ident: None, .. })) =
             (&*n.left, &mut *n.right)
         {
-            c.ident = Some(Ident:from(&*id).into_private());
+            c.ident = Some(Ident::from(&*id).into_private());
         }
 
         n.visit_mut_children_with(self);
