@@ -1,5 +1,5 @@
 use rustc_hash::FxHashMap;
-use swc_common::{collections::AHashSet, util::take::Take, EqIgnoreSpan, Mark, Spanned};
+use swc_common::{collections::AHashSet, util::take::Take, EqIgnoreSpan, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::simplify::expr_simplifier;
 use swc_ecma_usage_analyzer::alias::{collect_infects_from, AliasConfig};
@@ -607,9 +607,15 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.has_noinline(decl.span()) {
-            log_abort!("inline: [x] Has noinline");
-            return;
+        match decl {
+            Decl::Fn(f) => {
+                if self.has_noinline(f.function.ctxt) {
+                    log_abort!("inline: [x] Has noinline");
+                    return;
+                }
+            }
+
+            _ => {}
         }
 
         if self.ctx.is_exported {

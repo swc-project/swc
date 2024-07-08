@@ -1504,6 +1504,7 @@ impl VisitMut for Optimizer<'_> {
                     n.body = Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
                         span: DUMMY_SP,
                         stmts,
+                        ..Default::default()
                     }));
                 }
             }
@@ -2611,6 +2612,7 @@ impl VisitMut for Optimizer<'_> {
                         _ => true,
                     })
                     .collect(),
+                ..Default::default()
             });
 
             #[cfg(debug_assertions)]
