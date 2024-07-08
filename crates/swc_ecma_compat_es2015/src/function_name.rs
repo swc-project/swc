@@ -91,7 +91,7 @@ impl VisitMut for FnName {
 
         if let Pat::Ident(ref mut ident) = decl.name {
             let mut folder = Rename {
-                name: Some(prepare(ident.id.clone())),
+                name: Some(prepare(Ident::from(&*ident))),
             };
             decl.init.visit_mut_with(&mut folder);
         }

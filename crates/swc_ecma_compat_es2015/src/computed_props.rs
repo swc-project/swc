@@ -181,9 +181,7 @@ impl VisitMut for ComputedProps {
                                         is_async: false,
                                         is_generator: false,
                                         params: vec![(*param).into()],
-                                        decorators: Default::default(),
-                                        type_params: Default::default(),
-                                        return_type: Default::default(),
+                                        ..Default::default()
                                     }),
                                 ),
                                 _ => unreachable!(),

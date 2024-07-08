@@ -486,6 +486,7 @@ impl ForOf {
             block: BlockStmt {
                 span: DUMMY_SP,
                 stmts: vec![for_stmt],
+                ..Default::default()
             },
             handler: Some(CatchClause {
                 span: DUMMY_SP,
@@ -581,10 +582,12 @@ fn make_finally_block(
                             type_args: Default::default(),
                         }
                         .into_stmt()],
+                        ..Default::default()
                     })),
                     alt: None,
                 }),
             ],
+            ..Default::default()
         },
         handler: None,
         finalizer: Some(BlockStmt {
