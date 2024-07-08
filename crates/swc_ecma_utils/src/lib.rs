@@ -888,9 +888,7 @@ pub trait ExprExt {
                 Lit::Str(Str { value, .. }) => return (Pure, num_from_str(value)),
                 _ => return (Pure, Unknown),
             },
-            Expr::Ident(Ident {
-                sym, span, ctxt, ..
-            }) => match &**sym {
+            Expr::Ident(Ident { sym, ctxt, .. }) => match &**sym {
                 "undefined" | "NaN" if *ctxt == ctx.unresolved_ctxt => f64::NAN,
                 "Infinity" if *ctxt == ctx.unresolved_ctxt => f64::INFINITY,
                 _ => return (Pure, Unknown),

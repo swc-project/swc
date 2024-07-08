@@ -195,6 +195,7 @@ impl Visit for DuplicateBindings {
             d.ident.sym.clone(),
             BindingInfo {
                 span: d.ident.span,
+                ctxt: d.ident.ctxt,
                 unique: true,
                 is_function: false,
             },
@@ -225,6 +226,7 @@ impl Visit for DuplicateBindings {
             d.ident.sym.clone(),
             BindingInfo {
                 span: d.ident.span,
+                ctxt: d.ident.ctxt,
                 unique: self.lexical_function,
                 is_function: true,
             },
@@ -250,6 +252,7 @@ impl Visit for DuplicateBindings {
                 ident.sym.clone(),
                 BindingInfo {
                     span: ident.span,
+                    ctxt: ident.ctxt,
                     unique: true,
                     is_function: false,
                 },
@@ -262,6 +265,7 @@ impl Visit for DuplicateBindings {
                 ident.sym.clone(),
                 BindingInfo {
                     span: ident.span,
+                    ctxt: ident.ctxt,
                     unique: self.lexical_function,
                     is_function: true,
                 },
@@ -280,6 +284,7 @@ impl Visit for DuplicateBindings {
                 s.local.sym.clone(),
                 BindingInfo {
                     span: s.local.span,
+                    ctxt: s.local.ctxt,
                     unique: true,
                     is_function: false,
                 },
@@ -295,6 +300,7 @@ impl Visit for DuplicateBindings {
                 s.local.sym.clone(),
                 BindingInfo {
                     span: s.local.span,
+                    ctxt: s.local.ctxt,
                     unique: true,
                     is_function: false,
                 },
@@ -310,6 +316,7 @@ impl Visit for DuplicateBindings {
                 s.local.sym.clone(),
                 BindingInfo {
                     span: s.local.span,
+                    ctxt: s.local.ctxt,
                     unique: true,
                     is_function: false,
                 },
@@ -325,6 +332,7 @@ impl Visit for DuplicateBindings {
                 s.id.sym.clone(),
                 BindingInfo {
                     span: s.id.span,
+                    ctxt: s.id.ctxt,
                     unique: true,
                     is_function: false,
                 },
@@ -370,9 +378,10 @@ impl Visit for DuplicateBindings {
         if let Pat::Ident(p) = p {
             if self.is_pat_decl {
                 self.add(
-                    p.id.sym.clone(),
+                    p.sym.clone(),
                     BindingInfo {
-                        span: p.id.span,
+                        span: p.span,
+                        ctxt: p.ctxt,
                         unique: self.is_unique_var_kind(),
                         is_function: false,
                     },
