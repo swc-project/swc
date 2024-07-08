@@ -827,7 +827,7 @@ impl<'a> VisitMut for Resolver<'a> {
 
         if let Some(ident) = &mut e.ident {
             self.with_child(ScopeKind::Fn, |child| {
-                child.modify(&ident.sym, &mut ident.ctxt, DeclKind::Function);
+                child.modify(ident, DeclKind::Function);
                 child.with_child(ScopeKind::Fn, |child| {
                     e.function.visit_mut_with(child);
                 });
@@ -931,7 +931,7 @@ impl<'a> VisitMut for Resolver<'a> {
         }
 
         match self.ident_type {
-            IdentType::Binding => self.modify(&i.sym, &mut i.ctxt, self.decl_kind),
+            IdentType::Binding => self.modify(i, self.decl_kind),
             IdentType::Ref => {
                 let Ident { sym, ctxt, .. } = i;
 
@@ -963,7 +963,7 @@ impl<'a> VisitMut for Resolver<'a> {
 
                     i.ctxt = ctxt;
                     // Support hoisting
-                    self.modify(&i.sym, &mut i.ctxt, self.decl_kind)
+                    self.modify(i, self.decl_kind)
                 }
             }
             // We currently does not touch labels
@@ -1224,7 +1224,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_enum_decl(&mut self, decl: &mut TsEnumDecl) {
-        self.modify(&decl.id.sym, &mut decl.id.ctxt, DeclKind::Lexical);
+        self.modify(&mut decl.id, DeclKind::Lexical);
 
         self.with_child(ScopeKind::Block, |child| {
             // add the enum member names as declared symbols for this scope
@@ -1281,7 +1281,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_import_equals_decl(&mut self, n: &mut TsImportEqualsDecl) {
-        self.modify(&n.id.sym, &mut n.id.ctxt, DeclKind::Lexical);
+        self.modify(&mut n.id, DeclKind::Lexical);
 
         n.module_ref.visit_mut_with(self);
     }
@@ -1302,7 +1302,7 @@ impl<'a> VisitMut for Resolver<'a> {
         self.in_type = true;
         self.ident_type = IdentType::Ref;
 
-        self.modify(&n.id.sym, &mut n.id.ctxt, DeclKind::Type);
+        self.modify(&mut n.id, DeclKind::Type);
 
         if !self.config.handle_types {
             self.in_type = old_in_type;
@@ -1356,7 +1356,7 @@ impl<'a> VisitMut for Resolver<'a> {
     fn visit_mut_ts_module_decl(&mut self, decl: &mut TsModuleDecl) {
         match &mut decl.id {
             TsModuleName::Ident(i) => {
-                self.modify(&i.sym, &mut i.ctxt, DeclKind::Lexical);
+                self.modify(i, DeclKind::Lexical);
             }
             TsModuleName::Str(_) => {}
         }
@@ -1369,7 +1369,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl) {
-        self.modify(&n.id.sym, &mut n.id.ctxt, DeclKind::Lexical);
+        self.modify(&mut n.id, DeclKind::Lexical);
 
         n.body.visit_mut_with(self);
     }
@@ -1429,7 +1429,7 @@ impl<'a> VisitMut for Resolver<'a> {
         // always resolve the identifier for type stripping purposes
         let old_in_type = self.in_type;
         self.in_type = true;
-        self.modify(&n.id.sym, &mut n.id.ctxt, DeclKind::Type);
+        self.modify(&mut n.id, DeclKind::Type);
 
         if !self.config.handle_types {
             self.in_type = old_in_type;
@@ -1541,7 +1541,7 @@ impl Hoister<'_, '_> {
             }
         }
 
-        self.resolver.modify(&id.sym, &mut id.ctxt, self.kind)
+        self.resolver.modify(id, self.kind)
     }
 }
 
@@ -1636,8 +1636,7 @@ impl VisitMut for Hoister<'_, '_> {
         if self.in_block {
             return;
         }
-        self.resolver
-            .modify(&node.ident.sym, &mut node.ident.ctxt, DeclKind::Lexical);
+        self.resolver.modify(&mut node.ident, DeclKind::Lexical);
 
         if self.resolver.config.handle_types {
             self.resolver
@@ -1663,16 +1662,14 @@ impl VisitMut for Hoister<'_, '_> {
 
                     let old_in_type = self.resolver.in_type;
                     self.resolver.in_type = true;
-                    self.resolver
-                        .modify(&i.id.sym, &mut i.id.ctxt, DeclKind::Type);
+                    self.resolver.modify(&mut i.id, DeclKind::Type);
                     self.resolver.in_type = old_in_type;
                 }
 
                 Decl::TsTypeAlias(a) => {
                     let old_in_type = self.resolver.in_type;
                     self.resolver.in_type = true;
-                    self.resolver
-                        .modify(&a.id.sym, &mut a.id.ctxt, DeclKind::Type);
+                    self.resolver.modify(&mut a.id, DeclKind::Type);
                     self.resolver.in_type = old_in_type;
                 }
 
@@ -1680,8 +1677,7 @@ impl VisitMut for Hoister<'_, '_> {
                     if !self.in_block {
                         let old_in_type = self.resolver.in_type;
                         self.resolver.in_type = false;
-                        self.resolver
-                            .modify(&e.id.sym, &mut e.id.ctxt, DeclKind::Lexical);
+                        self.resolver.modify(&mut e.id, DeclKind::Lexical);
                         self.resolver.in_type = old_in_type;
                     }
                 }
@@ -1700,8 +1696,7 @@ impl VisitMut for Hoister<'_, '_> {
                         let old_in_type = self.resolver.in_type;
                         self.resolver.in_type = false;
                         let id = v.id.as_mut_ident().unwrap();
-                        self.resolver
-                            .modify(&id.sym, &mut id.ctxt, DeclKind::Lexical);
+                        self.resolver.modify(id, DeclKind::Lexical);
                         self.resolver.in_type = old_in_type;
                     }
                 }
@@ -1716,15 +1711,14 @@ impl VisitMut for Hoister<'_, '_> {
         match &mut node.decl {
             DefaultDecl::Fn(f) => {
                 if let Some(id) = &mut f.ident {
-                    self.resolver.modify(&id.sym, &mut id.ctxt, DeclKind::Var);
+                    self.resolver.modify(id, DeclKind::Var);
                 }
 
                 f.visit_mut_with(self)
             }
             DefaultDecl::Class(c) => {
                 if let Some(id) = &mut c.ident {
-                    self.resolver
-                        .modify(&id.sym, &mut id.ctxt, DeclKind::Lexical);
+                    self.resolver.modify(id, DeclKind::Lexical);
                 }
 
                 c.visit_mut_with(self)
@@ -1757,8 +1751,7 @@ impl VisitMut for Hoister<'_, '_> {
             }
         }
 
-        self.resolver
-            .modify(&node.ident.sym, &mut node.ident.ctxt, DeclKind::Function);
+        self.resolver.modify(&mut node.ident, DeclKind::Function);
     }
 
     #[inline]
@@ -1767,8 +1760,7 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_import_default_specifier(&mut self, n: &mut ImportDefaultSpecifier) {
         n.visit_mut_children_with(self);
 
-        self.resolver
-            .modify(&n.local.sym, &mut n.local.ctxt, DeclKind::Lexical);
+        self.resolver.modify(&mut n.local, DeclKind::Lexical);
 
         if self.resolver.config.handle_types {
             self.resolver
@@ -1781,8 +1773,7 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_import_named_specifier(&mut self, n: &mut ImportNamedSpecifier) {
         n.visit_mut_children_with(self);
 
-        self.resolver
-            .modify(&n.local.sym, &mut n.local.ctxt, DeclKind::Lexical);
+        self.resolver.modify(&mut n.local, DeclKind::Lexical);
 
         if self.resolver.config.handle_types {
             self.resolver
@@ -1795,8 +1786,7 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_import_star_as_specifier(&mut self, n: &mut ImportStarAsSpecifier) {
         n.visit_mut_children_with(self);
 
-        self.resolver
-            .modify(&n.local.sym, &mut n.local.ctxt, DeclKind::Lexical);
+        self.resolver.modify(&mut n.local, DeclKind::Lexical);
 
         if self.resolver.config.handle_types {
             self.resolver
