@@ -2,16 +2,14 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 127,
-    "ctxt": 0
+    "end": 127
   },
   "children": [
     {
       "type": "DocumentType",
       "span": {
         "start": 1,
-        "end": 109,
-        "ctxt": 0
+        "end": 109
       },
       "name": "svg",
       "publicId": null,
@@ -22,8 +20,7 @@
       "type": "Element",
       "span": {
         "start": 110,
-        "end": 127,
-        "ctxt": 0
+        "end": 127
       },
       "tagName": "root",
       "attributes": [],
@@ -32,8 +29,7 @@
           "type": "Text",
           "span": {
             "start": 116,
-            "end": 120,
-            "ctxt": 0
+            "end": 120
           },
           "data": "test",
           "raw": "test"

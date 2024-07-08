@@ -2,16 +2,14 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 77,
-    "ctxt": 0
+    "end": 77
   },
   "children": [
     {
       "type": "ProcessingInstruction",
       "span": {
         "start": 1,
-        "end": 38,
-        "ctxt": 0
+        "end": 38
       },
       "target": "xml",
       "data": "version='1.0'encoding='UTF-8'"
@@ -20,8 +18,7 @@
       "type": "Element",
       "span": {
         "start": 39,
-        "end": 77,
-        "ctxt": 0
+        "end": 77
       },
       "tagName": "root",
       "attributes": [],
@@ -30,8 +27,7 @@
           "type": "Text",
           "span": {
             "start": 45,
-            "end": 50,
-            "ctxt": 0
+            "end": 50
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -40,8 +36,7 @@
           "type": "Element",
           "span": {
             "start": 50,
-            "end": 69,
-            "ctxt": 0
+            "end": 69
           },
           "tagName": "foo",
           "attributes": [],
@@ -50,8 +45,7 @@
               "type": "ProcessingInstruction",
               "span": {
                 "start": 55,
-                "end": 63,
-                "ctxt": 0
+                "end": 63
               },
               "target": "",
               "data": "foo"
@@ -62,8 +56,7 @@
           "type": "Text",
           "span": {
             "start": 69,
-            "end": 70,
-            "ctxt": 0
+            "end": 70
           },
           "data": "\n",
           "raw": "\n"
