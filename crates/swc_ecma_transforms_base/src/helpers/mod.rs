@@ -613,9 +613,7 @@ mod tests {
         crate::tests::Tester::run(|tester| {
             HELPERS.set(&Helpers::new(true), || {
                 let expected = tester.apply_transform(
-                    as_folder(DropSpan {
-                        preserve_ctxt: false,
-                    }),
+                    as_folder(DropSpan),
                     "output.js",
                     Default::default(),
                     "import { _ as _throw } from \"@swc/helpers/_/_throw\";

@@ -136,7 +136,7 @@ impl Visit for IdentRefFinder<'_> {
         e.visit_children_with(self);
 
         match *e {
-            Expr::Ident(ref i) if i.sym == self.ident.0 && i.span.ctxt == self.ident.1 => {
+            Expr::Ident(ref i) if i.sym == self.ident.0 && i.ctxt == self.ident.1 => {
                 self.found = true;
             }
             _ => {}
@@ -486,7 +486,7 @@ impl Visit for Hoister {
     fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
         node.value.visit_with(self);
 
-        self.vars.push(node.key.id.clone());
+        self.vars.push(node.key.clone().into());
     }
 
     fn visit_fn_decl(&mut self, f: &FnDecl) {
@@ -625,7 +625,7 @@ pub trait ExprExt {
     /// Returns `true` if `id` references a global object.
     fn is_global_ref_to(&self, ctx: &ExprCtx, id: &str) -> bool {
         match self.as_expr() {
-            Expr::Ident(i) => i.span.ctxt == ctx.unresolved_ctxt && &*i.sym == id,
+            Expr::Ident(i) => i.ctxt == ctx.unresolved_ctxt && &*i.sym == id,
             _ => false,
         }
     }

@@ -70,7 +70,7 @@ impl Id {
     }
 
     pub fn into_ident(self) -> Ident {
-        Ident::new(self.0, DUMMY_SP.with_ctxt(self.1))
+        Ident::new(self.0, DUMMY_SP, self.1)
     }
 
     pub fn with_ctxt(mut self, ctxt: SyntaxContext) -> Self {
