@@ -513,6 +513,7 @@ where
                     op!("="),
                     member_expr!(
                         SyntaxContext::empty().apply_mark(self.unresolved_mark),
+                        Default::default(),
                         module.exports
                     )
                     .into(),
@@ -601,7 +602,7 @@ pub(crate) fn cjs_dynamic_import(
         (args, vec![p.clone().into()], vec![p.as_arg()])
     };
 
-    let then = member_expr!(Default::default(), Promise.resolve)
+    let then = member_expr!(Default::default(), Default::default(), Promise.resolve)
         // TODO: handle import assert
         .as_call(DUMMY_SP, resolve_args)
         .make_member(quote_ident!("then"));

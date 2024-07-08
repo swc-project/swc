@@ -347,9 +347,8 @@ impl VisitMut for TemplateLiteral {
                             ..Default::default()
                         })
                     },
-                    decorators: Default::default(),
-                    type_params: Default::default(),
-                    return_type: Default::default(),
+
+                    ..Default::default()
                 };
                 self.added.push(Stmt::Decl(Decl::Fn(FnDecl {
                     declare: false,

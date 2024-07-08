@@ -218,7 +218,7 @@ impl Decorator2022_03 {
                     span: DUMMY_SP,
                     callee: init.as_callee(),
                     args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                    type_args: Default::default(),
+                    ..Default::default()
                 })),
             }));
         }

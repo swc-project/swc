@@ -1,7 +1,7 @@
 use std::mem;
 
 use serde::Deserialize;
-use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{ext::ExprRefExt, helper, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
@@ -341,6 +341,7 @@ impl Spread {
                                         return Expr::Call(CallExpr {
                                             span,
                                             callee: member_expr!(
+                                                Default::default(),
                                                 DUMMY_SP,
                                                 Array.prototype.slice.call
                                             )
@@ -354,8 +355,12 @@ impl Spread {
                                 } else {
                                     CallExpr {
                                         span,
-                                        callee: member_expr!(DUMMY_SP, Array.prototype.slice.call)
-                                            .as_callee(),
+                                        callee: member_expr!(
+                                            Default::default(),
+                                            DUMMY_SP,
+                                            Array.prototype.slice.call
+                                        )
+                                        .as_callee(),
                                         args: vec![expr.as_arg()],
                                         ..Default::default()
                                     }
