@@ -203,10 +203,9 @@ impl Spread {
                 items,
                 T::from_stmt(
                     VarDecl {
-                        span: DUMMY_SP,
                         kind: VarDeclKind::Var,
-                        declare: false,
                         decls: self.vars.take(),
+                        ..Default::default()
                     }
                     .into(),
                 ),

@@ -107,10 +107,9 @@ impl VisitMut for OptionalChaining {
         if !self.vars.is_empty() {
             let stmts = vec![
                 Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                    span: DUMMY_SP,
-                    declare: false,
                     kind: VarDeclKind::Var,
                     decls: mem::take(&mut self.vars),
+                    ..Default::default()
                 }))),
                 Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,

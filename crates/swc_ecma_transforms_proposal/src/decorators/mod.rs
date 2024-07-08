@@ -109,15 +109,14 @@ impl Fold for Decorators {
                 let decorate_call = Box::new(self.fold_class_inner(ident.clone(), class));
 
                 VarDecl {
-                    span: DUMMY_SP,
                     kind: VarDeclKind::Let,
-                    declare: false,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
                         name: ident.into(),
                         definite: false,
                         init: Some(decorate_call),
                     }],
+                    ..Default::default()
                 }
                 .into()
             }
