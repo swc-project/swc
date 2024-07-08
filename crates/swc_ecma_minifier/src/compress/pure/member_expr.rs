@@ -533,7 +533,7 @@ impl Pure<'_> {
                                 span: *span,
                                 props: vec![],
                             })),
-                            prop: MemberProp::Ident(Ident::new(key, *span)),
+                            prop: MemberProp::Ident(Ident::new_no_ctxt(key, *span)),
                         })
                     } else {
                         // Invalid key. Replace with side effects plus `undefined`.
