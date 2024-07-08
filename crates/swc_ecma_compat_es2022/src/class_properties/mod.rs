@@ -698,9 +698,10 @@ impl<C: Comments> ClassProperties<C> {
                     let prop_span = prop.span();
 
                     let ident = Ident::new(
-                        format!("_{}", prop.key.id.sym).into(),
+                        format!("_{}", prop.key.name).into(),
                         // We use `self.mark` for private variables.
-                        prop.key.span.apply_mark(self.private.cur_mark()),
+                        prop.key.span,
+                        SyntaxContext::empty().apply_mark(self.private.cur_mark()),
                     );
 
                     if let Some(value) = &mut prop.value {
