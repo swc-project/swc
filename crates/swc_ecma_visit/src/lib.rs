@@ -842,6 +842,7 @@ define!({
     }
     pub struct TaggedTpl {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub tag: Box<Expr>,
         pub type_params: Option<Box<TsTypeParamInstantiation>>,
         pub tpl: Box<Tpl>,

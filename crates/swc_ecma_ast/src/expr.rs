@@ -1129,6 +1129,8 @@ impl Take for Tpl {
 pub struct TaggedTpl {
     pub span: Span,
 
+    pub ctxt: SyntaxContext,
+
     pub tag: Box<Expr>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeParameters"))]
