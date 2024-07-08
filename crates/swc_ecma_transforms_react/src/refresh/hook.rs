@@ -271,13 +271,13 @@ impl<'a> VisitMut for HookRegister<'a> {
                         if let Some(sig) =
                             collect_hooks(&mut f.body.as_mut().unwrap().stmts, self.cm)
                         {
-                            self.gen_hook_register_stmt(id.clone(), sig);
+                            self.gen_hook_register_stmt(Ident::from(&*id), sig);
                         }
                     }
                     Expr::Arrow(ArrowExpr { body, .. }) => {
                         body.visit_mut_with(self);
                         if let Some(sig) = collect_hooks_arrow(body, self.cm) {
-                            self.gen_hook_register_stmt(id.clone(), sig);
+                            self.gen_hook_register_stmt(Ident::from(&*id), sig);
                         }
                     }
                     _ => self.visit_mut_expr(init),
