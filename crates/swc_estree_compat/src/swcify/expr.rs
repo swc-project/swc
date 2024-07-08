@@ -2,7 +2,7 @@ use swc_common::Spanned;
 use swc_ecma_ast::{
     op, ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BinaryOp, BindingIdent,
     BlockStmtOrExpr, CallExpr, Callee, ClassExpr, ComputedPropName, CondExpr, Expr, ExprOrSpread,
-    FnExpr, Function, Import, JSXAttr, JSXAttrOrSpread, JSXAttrValue, JSXEmptyExpr, JSXExpr,
+    FnExpr, Function, Ident, Import, JSXAttr, JSXAttrOrSpread, JSXAttrValue, JSXEmptyExpr, JSXExpr,
     JSXExprContainer, JSXMemberExpr, JSXObject, KeyValueProp, Lit, MemberExpr, MemberProp,
     MetaPropExpr, MetaPropKind, MethodProp, NewExpr, ObjectLit, OptCall, OptChainBase,
     OptChainExpr, ParenExpr, Prop, PropName, PropOrSpread, SeqExpr, SpreadElement, SuperProp,
@@ -670,8 +670,8 @@ impl Swcify for MetaProperty {
     type Output = MetaPropExpr;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        let meta = self.meta.swcify(ctx).into();
-        let prop = self.property.swcify(ctx).into();
+        let meta: Ident = self.meta.swcify(ctx).into();
+        let prop: Ident = self.property.swcify(ctx).into();
         match (&*meta.sym, &*prop.sym) {
             ("new", "target") => MetaPropExpr {
                 kind: MetaPropKind::NewTarget,

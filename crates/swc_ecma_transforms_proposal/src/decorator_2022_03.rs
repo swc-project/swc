@@ -340,8 +340,7 @@ impl Decorator2022_03 {
                     stmts: vec![],
                     ..Default::default()
                 }),
-                accessibility: Default::default(),
-                is_optional: Default::default(),
+                ..Default::default()
             }),
         );
 
@@ -1016,7 +1015,7 @@ impl VisitMut for Decorator2022_03 {
                                         span: DUMMY_SP,
                                         callee: init_proto.clone().as_callee(),
                                         args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                                        type_args: Default::default(),
+                                        ..Default::default()
                                     })))
                                 };
 
@@ -1026,7 +1025,7 @@ impl VisitMut for Decorator2022_03 {
                                 args: once(ThisExpr { span: DUMMY_SP }.as_arg())
                                     .chain(accessor.value.take().map(|v| v.as_arg()))
                                     .collect(),
-                                type_args: Default::default(),
+                                ..Default::default()
                             }));
 
                             Some(Expr::from_exprs(
