@@ -58,7 +58,7 @@ impl VisitMut for ObjectSpread {
                                     span: DUMMY_SP,
                                     callee: callee.clone(),
                                     args: buf.take(),
-                                    type_args: Default::default(),
+                                    ..Default::default()
                                 })
                                 .as_arg()];
                             }
@@ -73,7 +73,7 @@ impl VisitMut for ObjectSpread {
                                         span: DUMMY_SP,
                                         callee: helper!(object_spread_props),
                                         args: buf.take(),
-                                        type_args: Default::default(),
+                                        ..Default::default()
                                     })
                                     .as_arg()];
                                 }
@@ -99,7 +99,7 @@ impl VisitMut for ObjectSpread {
                 span: *span,
                 callee,
                 args,
-                type_args: Default::default(),
+                ..Default::default()
             });
         }
     }

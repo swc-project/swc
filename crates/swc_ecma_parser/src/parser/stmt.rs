@@ -1229,7 +1229,6 @@ impl<'a, I: Tokens> Parser<I> {
                     left,
                     right,
                     body,
-                    ..Default::default()
                 })
             }
             TempForHead::ForOf { left, right } => Stmt::ForOf(ForOfStmt {
@@ -1238,7 +1237,6 @@ impl<'a, I: Tokens> Parser<I> {
                 left,
                 right,
                 body,
-                ..Default::default()
             }),
         })
     }

@@ -663,7 +663,6 @@ fn extend_super(
                             .into()],
                             ..Default::default()
                         }),
-                        ..Default::default()
                     }),
                     Prop::Setter(SetterProp {
                         span: DUMMY_SP,
@@ -682,7 +681,6 @@ fn extend_super(
                             .into_stmt()],
                             ..Default::default()
                         }),
-                        ..Default::default()
                     }),
                 ]
                 .into_iter()
@@ -722,7 +720,6 @@ fn extend_super(
                                 .into()],
                                 ..Default::default()
                             }),
-                            ..Default::default()
                         }),
                         Prop::Setter(SetterProp {
                             span: DUMMY_SP,
@@ -741,7 +738,6 @@ fn extend_super(
                                 .into()],
                                 ..Default::default()
                             }),
-                            ..Default::default()
                         }),
                     ]
                     .into_iter()

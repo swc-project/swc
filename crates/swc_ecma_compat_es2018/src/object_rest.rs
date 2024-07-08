@@ -375,7 +375,7 @@ impl VisitMut for ObjectRest {
                                         .as_call(DUMMY_SP, vec![init.as_arg()])
                                         .as_arg(),
                                 ],
-                                type_args: Default::default(),
+                                ..Default::default()
                             }))),
                             definite: false,
                         });
@@ -910,7 +910,7 @@ fn object_without_properties(
                     .as_call(DUMMY_SP, vec![obj.as_arg()])
                     .as_arg(),
             ],
-            type_args: Default::default(),
+            ..Default::default()
         });
     }
 
@@ -956,12 +956,12 @@ fn object_without_properties(
                     .make_member(Ident::new_no_ctxt("map".into(), DUMMY_SP))
                     .as_callee(),
                     args: vec![helper_expr!(to_property_key).as_arg()],
-                    type_args: Default::default(),
+                    ..Default::default()
                 }
                 .as_arg()
             },
         ],
-        type_args: Default::default(),
+        ..Default::default()
     })
 }
 

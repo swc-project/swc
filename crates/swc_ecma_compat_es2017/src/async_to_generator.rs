@@ -159,7 +159,7 @@ impl<C: Comments> VisitMut for Actual<C> {
                             span: DUMMY_SP,
                             callee: expr.as_callee(),
                             args: vec![],
-                            type_args: Default::default(),
+                            ..Default::default()
                         }))),
                     })))
                     .collect(),
@@ -432,7 +432,7 @@ fn make_fn_ref(mut expr: FnExpr) -> Expr {
         span,
         callee: helper,
         args: vec![expr.as_arg()],
-        type_args: Default::default(),
+        ..Default::default()
     })
 }
 
@@ -477,12 +477,12 @@ impl VisitMut for AsyncFnBodyHandler {
                             span: DUMMY_SP,
                             callee: helper!(async_iterator),
                             args: vec![arg.take().as_arg()],
-                            type_args: Default::default(),
+                            ..Default::default()
                         }
                         .as_arg(),
                         helper_expr!(await_async_generator).as_arg(),
                     ],
-                    type_args: Default::default(),
+                    ..Default::default()
                 }));
                 *expr = Expr::Yield(YieldExpr {
                     span: *span,
@@ -498,7 +498,7 @@ impl VisitMut for AsyncFnBodyHandler {
                         span: *span,
                         callee,
                         args: vec![arg.take().as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }));
                     *expr = Expr::Yield(YieldExpr {
                         span: *span,
@@ -654,7 +654,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     span: DUMMY_SP,
                     callee,
                     args: vec![s.right.as_arg()],
-                    type_args: Default::default(),
+                    ..Default::default()
                 })))
             },
             definite: false,
@@ -685,7 +685,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     span: DUMMY_SP,
                     callee: iter_next.as_callee(),
                     args: Default::default(),
-                    type_args: Default::default(),
+                    ..Default::default()
                 };
 
                 let yield_arg = if is_async_generator {
@@ -693,7 +693,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                         span: DUMMY_SP,
                         callee: helper!(await_async_generator),
                         args: vec![iter_next.as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }))
                 } else {
                     Box::new(Expr::Call(iter_next))
@@ -813,7 +813,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                         span: DUMMY_SP,
                         callee: helper!(await_async_generator),
                         args: vec![iterator_return.as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }))
                 } else {
                     iterator_return
