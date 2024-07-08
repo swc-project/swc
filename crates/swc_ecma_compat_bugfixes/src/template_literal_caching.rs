@@ -75,8 +75,7 @@ impl Fold for TemplateLiteralCaching {
                             body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Ident(t)))),
                             is_async: false,
                             is_generator: false,
-                            type_params: None,
-                            return_type: None,
+                            ..Default::default()
                         })),
                     )
                 }
@@ -124,7 +123,7 @@ impl Fold for TemplateLiteralCaching {
                         .into_iter()
                         .chain(n.tpl.exprs.into_iter().map(|expr| expr.as_arg()))
                         .collect(),
-                    type_args: None,
+                    ..Default::default()
                 })
             }
             _ => n,
