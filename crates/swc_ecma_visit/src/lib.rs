@@ -615,6 +615,7 @@ define!({
     }
     pub struct Constructor {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub key: PropName,
         pub params: Vec<ParamOrTsParamProp>,
         pub body: Option<BlockStmt>,

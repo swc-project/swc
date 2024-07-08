@@ -1,5 +1,5 @@
 use is_macro::Is;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, DUMMY_SP};
 
 use crate::{
     expr::Expr,
@@ -220,6 +220,8 @@ method!(PrivateMethod, "PrivateMethod", PrivateName);
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Constructor {
     pub span: Span,
+
+    pub ctxt: SyntaxContext,
 
     pub key: PropName,
 
