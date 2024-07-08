@@ -1590,7 +1590,6 @@ mod tests {
                 right: Box::new(Expr::Ident(Ident::new_no_ctxt("b".into(), span))),
 
                 body: Box::new(Stmt::Empty(EmptyStmt { span })),
-                ..Default::default()
             })
         )
     }

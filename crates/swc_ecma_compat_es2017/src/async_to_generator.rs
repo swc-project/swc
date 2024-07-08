@@ -797,7 +797,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 .make_member(quote_ident!("return"))
                 .as_callee(),
             args: vec![],
-            type_args: Default::default(),
+            ..Default::default()
         }));
 
         // yield _iterator.return();

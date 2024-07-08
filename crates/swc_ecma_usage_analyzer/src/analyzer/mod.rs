@@ -780,7 +780,7 @@ where
     fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
         n.right.visit_with(self);
 
-        self.with_child(n.ctxt, ScopeKind::Block, |child| {
+        self.with_child(SyntaxContext::empty(), ScopeKind::Block, |child| {
             let head_ctx = Ctx {
                 in_left_of_for_loop: true,
                 ..child.ctx
@@ -807,7 +807,7 @@ where
     fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
         n.right.visit_with(self);
 
-        self.with_child(n.ctxt, ScopeKind::Block, |child| {
+        self.with_child(SyntaxContext::empty(), ScopeKind::Block, |child| {
             let head_ctx = Ctx {
                 in_left_of_for_loop: true,
                 ..child.ctx
