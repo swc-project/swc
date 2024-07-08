@@ -1001,7 +1001,7 @@ impl VisitMut for Generator {
                 // }
 
                 for decl in v.decls.iter() {
-                    self.hoist_variable_declaration(Ident::from(decl.name.as_ident().unwrap()));
+                    self.hoist_variable_declaration(&Ident::from(decl.name.as_ident().unwrap()));
                 }
 
                 let variables = self.get_initialized_variables(v);
@@ -1209,7 +1209,7 @@ impl Generator {
         let mut expression = match property {
             CompiledProp::Prop(p) => match p {
                 Prop::Shorthand(p) => Expr::Assign(AssignExpr {
-                    span: p.span.with_ctxt(SyntaxContext::empty()),
+                    span: p.span,
                     op: op!("="),
                     left: MemberExpr {
                         span: DUMMY_SP,
@@ -1298,7 +1298,7 @@ impl Generator {
                         prop_name_to_expr_value(key).as_arg(),
                         desc.as_arg(),
                     ],
-                    type_args: Default::default(),
+                    ..Default::default()
                 })
             }
         };
@@ -1472,7 +1472,7 @@ impl Generator {
 
     fn transform_and_emit_var_decl_list(&mut self, mut node: Box<VarDecl>) {
         for variable in &node.decls {
-            self.hoist_variable_declaration(variable.name.as_ident().unwrap());
+            self.hoist_variable_declaration(&Ident::from(variable.name.as_ident().unwrap()));
         }
 
         let mut variables = self.get_initialized_variables(&mut node);
