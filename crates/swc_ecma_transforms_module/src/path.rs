@@ -11,7 +11,7 @@ use anyhow::{anyhow, Context, Error};
 use path_clean::PathClean;
 use pathdiff::diff_paths;
 use swc_atoms::JsWord;
-use swc_common::{FileName, Mark, Span, DUMMY_SP};
+use swc_common::{FileName, Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolve::{Resolution, Resolve};
 use swc_ecma_utils::{quote_ident, ExprFactory};
@@ -46,7 +46,11 @@ impl Resolver {
 
         Expr::Call(CallExpr {
             span: DUMMY_SP,
-            callee: quote_ident!(DUMMY_SP.apply_mark(unresolved_mark), "require").as_callee(),
+            callee: quote_ident!(
+                SyntaxContext::empty().apply_mark(unresolved_mark),
+                "require"
+            )
+            .as_callee(),
             args: vec![Lit::Str(Str {
                 span: src_span,
                 raw: None,

@@ -771,7 +771,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                                         ident.as_arg(),
                                         method_name.as_arg(),
                                     ],
-                                    type_args: Default::default(),
+                                    ..Default::default()
                                 }
                                 .into()
                             } else {
@@ -826,7 +826,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                                     span: DUMMY_SP,
                                     callee: get,
                                     args,
-                                    type_args: Default::default(),
+                                    ..Default::default()
                                 }
                                 .into(),
                                 Some(Expr::Ident(var)),
