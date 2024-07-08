@@ -1190,7 +1190,7 @@ where
                     }
 
                     ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
-                        let metadata = ExportMetadata::decode(&export.with);
+                        let metadata = ExportMetadata::decode(export.with.as_deref());
 
                         if let Some(export_ctxt) = metadata.export_ctxt {
                             let reexport = self.scope.get_module(info.id).unwrap().export_ctxt();

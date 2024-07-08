@@ -235,7 +235,7 @@ impl ExportMetadata {
         }
     }
 
-    pub fn decode(with: &Option<Box<ObjectLit>>) -> Self {
+    pub fn decode(with: Option<&ObjectLit>) -> Self {
         let mut data = ExportMetadata::default();
 
         if let Some(with) = with {
@@ -270,24 +270,5 @@ impl ExportMetadata {
 }
 
 pub(crate) fn is_injected(with: &ObjectLit) -> bool {
-    with.props.iter().any(|prop| {
-        match prop {
-            PropOrSpread::Prop(p) => {
-                let Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(Ident { sym, .. }),
-                    ..
-                }) = &**p
-                else {
-                    return false;
-                };
-
-                if *sym == "__swc_bundler__injected__" {
-                    return true;
-                }
-            }
-            _ => {}
-        }
-
-        false
-    })
+    ExportMetadata::decode(Some(with)).injected
 }
