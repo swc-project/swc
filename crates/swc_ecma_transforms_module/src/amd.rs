@@ -270,12 +270,13 @@ where
             .as_arg(),
         );
 
-        n.body = vec![
-            quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "define")
-                .as_call(DUMMY_SP, amd_call_args)
-                .into_stmt()
-                .into(),
-        ];
+        n.body = vec![quote_ident!(
+            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+            "define"
+        )
+        .as_call(DUMMY_SP, amd_call_args)
+        .into_stmt()
+        .into()];
     }
 
     fn visit_mut_script(&mut self, _: &mut Script) {
@@ -554,7 +555,7 @@ fn amd_import_meta_url(span: Span, module: Ident) -> Expr {
             DUMMY_SP,
             Some(vec![
                 module.make_member(quote_ident!("uri")).as_arg(),
-                member_expr!(DUMMY_SP, document.baseURI).as_arg(),
+                member_expr!(SyntaxContext::empty(), document.baseURI).as_arg(),
             ]),
         ))),
         prop: quote_ident!("href").into(),

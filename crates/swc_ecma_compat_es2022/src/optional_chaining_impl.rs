@@ -45,6 +45,7 @@ impl VisitMut for OptionalChaining {
                     span: DUMMY_SP,
                     arg: Some(e.take()),
                 })],
+                ..Default::default()
             };
             stmt.visit_mut_with(self);
 
