@@ -897,6 +897,12 @@ impl Take for MemberExpr {
 
 impl Take for MemberProp {
     fn dummy() -> Self {
+        Default::default()
+    }
+}
+
+impl Default for MemberProp {
+    fn default() -> Self {
         MemberProp::Ident(Ident::dummy())
     }
 }
@@ -904,6 +910,12 @@ impl Take for MemberProp {
 impl Take for SuperProp {
     fn dummy() -> Self {
         SuperProp::Ident(Ident::dummy())
+    }
+}
+
+impl Default for SuperProp {
+    fn default() -> Self {
+        SuperProp::Ident(Default::default())
     }
 }
 
@@ -1420,6 +1432,12 @@ pub enum AssignTargetPat {
 
 impl Take for AssignTargetPat {
     fn dummy() -> Self {
+        Default::default()
+    }
+}
+
+impl Default for AssignTargetPat {
+    fn default() -> Self {
         AssignTargetPat::Invalid(Take::dummy())
     }
 }
@@ -1566,9 +1584,15 @@ impl AssignTarget {
     }
 }
 
+impl Default for AssignTarget {
+    fn default() -> Self {
+        SimpleAssignTarget::dummy().into()
+    }
+}
+
 impl Take for AssignTarget {
     fn dummy() -> Self {
-        SimpleAssignTarget::dummy().into()
+        Default::default()
     }
 }
 
@@ -1590,6 +1614,12 @@ pub enum OptChainBase {
     Member(MemberExpr),
     #[tag("CallExpression")]
     Call(OptCall),
+}
+
+impl Default for OptChainBase {
+    fn default() -> Self {
+        OptChainBase::Member(Default::default())
+    }
 }
 
 #[ast_node("CallExpression")]
