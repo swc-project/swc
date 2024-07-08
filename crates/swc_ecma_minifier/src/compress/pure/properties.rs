@@ -33,7 +33,8 @@ impl Pure<'_> {
                 );
 
                 Some(Ident {
-                    span: s.span.with_ctxt(SyntaxContext::empty()),
+                    span: s.span,
+                    ctxt: Default::default(),
                     sym: s.value.clone(),
                     optional: false,
                 })

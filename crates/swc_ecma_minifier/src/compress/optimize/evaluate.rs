@@ -357,9 +357,8 @@ impl Optimizer<'_> {
                         if l.is_nan() || r.is_nan() {
                             *e = Expr::Ident(Ident::new(
                                 "NaN".into(),
-                                bin.span.with_ctxt(
-                                    SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                                ),
+                                bin.span,
+                                SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
                             ));
                         } else {
                             *e = Expr::Lit(Lit::Num(Number {
