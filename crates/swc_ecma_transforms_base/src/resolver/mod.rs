@@ -2,7 +2,7 @@ use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
-    Mark, Span, SyntaxContext,
+    Mark, SyntaxContext,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default};
@@ -827,7 +827,7 @@ impl<'a> VisitMut for Resolver<'a> {
 
         if let Some(ident) = &mut e.ident {
             self.with_child(ScopeKind::Fn, |child| {
-                child.modify(ident, DeclKind::Function);
+                child.modify(&ident.sym, &mut ident.ctxt, DeclKind::Function);
                 child.with_child(ScopeKind::Fn, |child| {
                     e.function.visit_mut_with(child);
                 });
@@ -1302,7 +1302,7 @@ impl<'a> VisitMut for Resolver<'a> {
         self.in_type = true;
         self.ident_type = IdentType::Ref;
 
-        self.modify(&mut n.id, DeclKind::Type);
+        self.modify(&n.id.sym, &mut n.id.ctxt, DeclKind::Type);
 
         if !self.config.handle_types {
             self.in_type = old_in_type;
@@ -1369,7 +1369,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl) {
-        self.modify(&mut n.id, DeclKind::Lexical);
+        self.modify(&n.id.sym, &mut n.id.ctxt, DeclKind::Lexical);
 
         n.body.visit_mut_with(self);
     }
@@ -1541,7 +1541,7 @@ impl Hoister<'_, '_> {
             }
         }
 
-        self.resolver.modify(id, self.kind)
+        self.resolver.modify(&id.sym, &mut id.ctxt, self.kind)
     }
 }
 
@@ -1636,7 +1636,8 @@ impl VisitMut for Hoister<'_, '_> {
         if self.in_block {
             return;
         }
-        self.resolver.modify(&mut node.ident, DeclKind::Lexical);
+        self.resolver
+            .modify(&node.ident.sym, &mut node.ident.ctxt, DeclKind::Lexical);
 
         if self.resolver.config.handle_types {
             self.resolver
@@ -1715,7 +1716,7 @@ impl VisitMut for Hoister<'_, '_> {
         match &mut node.decl {
             DefaultDecl::Fn(f) => {
                 if let Some(id) = &mut f.ident {
-                    self.resolver.modify(id, DeclKind::Var);
+                    self.resolver.modify(&id.sym, &mut id.ctxt, DeclKind::Var);
                 }
 
                 f.visit_mut_with(self)
@@ -1756,7 +1757,8 @@ impl VisitMut for Hoister<'_, '_> {
             }
         }
 
-        self.resolver.modify(&mut node.ident, DeclKind::Function);
+        self.resolver
+            .modify(&node.ident.sym, &mut node.ident.ctxt, DeclKind::Function);
     }
 
     #[inline]
