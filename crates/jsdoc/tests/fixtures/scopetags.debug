@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..91#0,
+            span: 1..91,
             value: "(scope tags for global objects do not override globalness hence need a container class)\n *",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                         ty: Text {
-                            span: 1..10#0,
+                            span: 1..10,
                             value: "scopetags",
                         },
                     },
@@ -29,63 +29,63 @@
         ],
     },
     JsDoc {
-        span: 117..117#0,
+        span: 117..117,
         description: Text {
-            span: 117..117#0,
+            span: 117..117,
             value: "",
         },
         tags: [
             TagItem {
-                span: 117..122#0,
+                span: 117..122,
                 tag_name: Text {
-                    span: 117..122#0,
+                    span: 117..122,
                     value: "inner",
                 },
                 tag: Inner(
                     InnerTag {
-                        span: 117..122#0,
+                        span: 117..122,
                     },
                 ),
             },
         ],
     },
     JsDoc {
-        span: 145..145#0,
+        span: 145..145,
         description: Text {
-            span: 145..145#0,
+            span: 145..145,
             value: "",
         },
         tags: [
             TagItem {
-                span: 145..153#0,
+                span: 145..153,
                 tag_name: Text {
-                    span: 145..153#0,
+                    span: 145..153,
                     value: "instance",
                 },
                 tag: Instance(
                     InstanceTag {
-                        span: 145..153#0,
+                        span: 145..153,
                     },
                 ),
             },
         ],
     },
     JsDoc {
-        span: 179..179#0,
+        span: 179..179,
         description: Text {
-            span: 179..179#0,
+            span: 179..179,
             value: "",
         },
         tags: [
             TagItem {
-                span: 179..185#0,
+                span: 179..185,
                 tag_name: Text {
-                    span: 179..185#0,
+                    span: 179..185,
                     value: "static",
                 },
                 tag: Static(
                     StaticTag {
-                        span: 179..185#0,
+                        span: 179..185,
                     },
                 ),
             },

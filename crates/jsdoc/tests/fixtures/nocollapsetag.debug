@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..16#0,
+            span: 1..16,
             value: "A namespace.\n *",
         },
         tags: [
             TagItem {
-                span: 1..6#0,
+                span: 1..6,
                 tag_name: Text {
-                    span: 1..6#0,
+                    span: 1..6,
                     value: "const",
                 },
                 tag: Const(
                     ConstTag {
-                        span: 1..6#0,
+                        span: 1..6,
                         ty: None,
                         name: None,
                     },
@@ -23,23 +23,23 @@
         ],
     },
     JsDoc {
-        span: 50..50#0,
+        span: 50..50,
         description: Text {
-            span: 50..50#0,
+            span: 50..50,
             value: "",
         },
         tags: [
             TagItem {
-                span: 50..60#0,
+                span: 50..60,
                 tag_name: Text {
-                    span: 50..60#0,
+                    span: 50..60,
                     value: "nocollapse",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 50..60#0,
+                        span: 50..60,
                         extras: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },

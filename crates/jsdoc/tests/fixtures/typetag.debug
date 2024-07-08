@@ -1,22 +1,22 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..5#0,
+                span: 1..5,
                 tag_name: Text {
-                    span: 1..5#0,
+                    span: 1..5,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 1..5#0,
+                        span: 1..5,
                         name: Text {
-                            span: 1..23#0,
+                            span: 1..23,
                             value: "{string|Array<string>}",
                         },
                     },
@@ -25,23 +25,23 @@
         ],
     },
     JsDoc {
-        span: 51..51#0,
+        span: 51..51,
         description: Text {
-            span: 51..51#0,
+            span: 51..51,
             value: "",
         },
         tags: [
             TagItem {
-                span: 51..55#0,
+                span: 51..55,
                 tag_name: Text {
-                    span: 51..55#0,
+                    span: 51..55,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 51..55#0,
+                        span: 51..55,
                         name: Text {
-                            span: 51..58#0,
+                            span: 51..58,
                             value: "integer",
                         },
                     },
@@ -50,23 +50,23 @@
         ],
     },
     JsDoc {
-        span: 112..112#0,
+        span: 112..112,
         description: Text {
-            span: 112..112#0,
+            span: 112..112,
             value: "",
         },
         tags: [
             TagItem {
-                span: 112..116#0,
+                span: 112..116,
                 tag_name: Text {
-                    span: 112..116#0,
+                    span: 112..116,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 112..116#0,
+                        span: 112..116,
                         name: Text {
-                            span: 112..129#0,
+                            span: 112..129,
                             value: "{!Array.<number>}",
                         },
                     },

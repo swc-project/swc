@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 2..2#0,
+        span: 2..2,
         description: Text {
-            span: 2..2#0,
+            span: 2..2,
             value: "",
         },
         tags: [
             TagItem {
-                span: 2..13#0,
+                span: 2..13,
                 tag_name: Text {
-                    span: 2..13#0,
+                    span: 2..13,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 2..13#0,
+                        span: 2..13,
                         ty: None,
                         name: None,
                     },
@@ -23,54 +23,54 @@
         ],
     },
     JsDoc {
-        span: 45..45#0,
+        span: 45..45,
         description: Text {
-            span: 45..66#0,
+            span: 45..66,
             value: "The current position.",
         },
         tags: [
             TagItem {
-                span: 45..49#0,
+                span: 45..49,
                 tag_name: Text {
-                    span: 45..49#0,
+                    span: 45..49,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 45..49#0,
+                        span: 45..49,
                         name: Text {
-                            span: 45..53#0,
+                            span: 45..53,
                             value: "{object}",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 45..53#0,
+                span: 45..53,
                 tag_name: Text {
-                    span: 45..53#0,
+                    span: 45..53,
                     value: "property",
                 },
                 tag: Property(
                     PropertyTag {
-                        span: 45..53#0,
+                        span: 45..53,
                         name_path: NamePath {
-                            span: 45..106#0,
+                            span: 45..106,
                             components: [
                                 Text {
-                                    span: 45..45#0,
+                                    span: 45..45,
                                     value: "",
                                 },
                             ],
                         },
                         ty: Some(
                             Text {
-                                span: 45..54#0,
+                                span: 45..54,
                                 value: "{boolean}",
                             },
                         ),
                         desc: Text {
-                            span: 45..100#0,
+                            span: 45..100,
                             value: "needsRevalidate Does this point need to be revalidated?",
                         },
                     },
@@ -79,42 +79,42 @@
         ],
     },
     JsDoc {
-        span: 221..261#0,
+        span: 221..261,
         description: Text {
-            span: 221..251#0,
+            span: 221..251,
             value: "The x coordinate of the point.",
         },
         tags: [
             TagItem {
-                span: 221..225#0,
+                span: 221..225,
                 tag_name: Text {
-                    span: 221..225#0,
+                    span: 221..225,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 221..225#0,
+                        span: 221..225,
                         name: Text {
-                            span: 221..229#0,
+                            span: 221..229,
                             value: "{number}",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 221..225#0,
+                span: 221..225,
                 tag_name: Text {
-                    span: 221..225#0,
+                    span: 221..225,
                     value: "name",
                 },
                 tag: Name(
                     NameTag {
-                        span: 221..225#0,
+                        span: 221..225,
                         name_path: NamePath {
-                            span: 221..261#0,
+                            span: 221..261,
                             components: [
                                 Text {
-                                    span: 221..226#0,
+                                    span: 221..226,
                                     value: "point",
                                 },
                             ],
@@ -125,42 +125,42 @@
         ],
     },
     JsDoc {
-        span: 385..463#0,
+        span: 385..463,
         description: Text {
-            span: 385..415#0,
+            span: 385..415,
             value: "The y coordinate of the point.",
         },
         tags: [
             TagItem {
-                span: 385..389#0,
+                span: 385..389,
                 tag_name: Text {
-                    span: 385..389#0,
+                    span: 385..389,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 385..389#0,
+                        span: 385..389,
                         name: Text {
-                            span: 385..393#0,
+                            span: 385..393,
                             value: "{number}",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 385..389#0,
+                span: 385..389,
                 tag_name: Text {
-                    span: 385..389#0,
+                    span: 385..389,
                     value: "name",
                 },
                 tag: Name(
                     NameTag {
-                        span: 385..389#0,
+                        span: 385..389,
                         name_path: NamePath {
-                            span: 385..463#0,
+                            span: 385..463,
                             components: [
                                 Text {
-                                    span: 385..390#0,
+                                    span: 385..390,
                                     value: "point",
                                 },
                             ],
@@ -171,42 +171,42 @@
         ],
     },
     JsDoc {
-        span: 636..713#0,
+        span: 636..713,
         description: Text {
-            span: 636..636#0,
+            span: 636..636,
             value: "",
         },
         tags: [
             TagItem {
-                span: 636..640#0,
+                span: 636..640,
                 tag_name: Text {
-                    span: 636..640#0,
+                    span: 636..640,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 636..640#0,
+                        span: 636..640,
                         name: Text {
-                            span: 636..643#0,
+                            span: 636..643,
                             value: "{Array}",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 636..640#0,
+                span: 636..640,
                 tag_name: Text {
-                    span: 636..640#0,
+                    span: 636..640,
                     value: "name",
                 },
                 tag: Name(
                     NameTag {
-                        span: 636..640#0,
+                        span: 636..640,
                         name_path: NamePath {
-                            span: 636..713#0,
+                            span: 636..713,
                             components: [
                                 Text {
-                                    span: 636..639#0,
+                                    span: 636..639,
                                     value: "map",
                                 },
                             ],
@@ -217,9 +217,9 @@
         ],
     },
     JsDoc {
-        span: 778..778#0,
+        span: 778..778,
         description: Text {
-            span: 778..797#0,
+            span: 778..797,
             value: "The current cursor.",
         },
         tags: [],

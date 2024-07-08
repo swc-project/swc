@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 1..87#0,
+        span: 1..87,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         name: Text {
-                            span: 1..1#0,
+                            span: 1..1,
                             value: "",
                         },
                         ty: Text {
-                            span: 1..11#0,
+                            span: 1..11,
                             value: "connection",
                         },
                     },
@@ -29,24 +29,24 @@
         ],
     },
     JsDoc {
-        span: 113..113#0,
+        span: 113..113,
         description: Text {
-            span: 113..113#0,
+            span: 113..113,
             value: "",
         },
         tags: [
             TagItem {
-                span: 113..124#0,
+                span: 113..124,
                 tag_name: Text {
-                    span: 113..124#0,
+                    span: 113..124,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 113..124#0,
+                        span: 113..124,
                         ty: Some(
                             Text {
-                                span: 113..130#0,
+                                span: 113..130,
                                 value: "module:connection",
                             },
                         ),

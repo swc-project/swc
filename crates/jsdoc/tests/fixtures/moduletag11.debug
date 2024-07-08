@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..16#0,
+            span: 1..16,
             value: "Test module.\n *",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                         ty: Text {
-                            span: 1..4#0,
+                            span: 1..4,
                             value: "foo",
                         },
                     },
@@ -29,25 +29,25 @@
         ],
     },
     JsDoc {
-        span: 41..41#0,
+        span: 41..41,
         description: Text {
-            span: 41..52#0,
+            span: 41..52,
             value: "Test class.",
         },
         tags: [],
     },
     JsDoc {
-        span: 83..83#0,
+        span: 83..83,
         description: Text {
-            span: 83..106#0,
+            span: 83..106,
             value: "Test class constructor.",
         },
         tags: [],
     },
     JsDoc {
-        span: 140..140#0,
+        span: 140..140,
         description: Text {
-            span: 140..152#0,
+            span: 140..152,
             value: "Test method.",
         },
         tags: [],

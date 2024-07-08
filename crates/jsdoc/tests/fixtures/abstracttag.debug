@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..12#0,
+                span: 1..12,
                 tag_name: Text {
-                    span: 1..12#0,
+                    span: 1..12,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 1..12#0,
+                        span: 1..12,
                         ty: None,
                         name: None,
                     },
@@ -23,42 +23,42 @@
         ],
     },
     JsDoc {
-        span: 46..46#0,
+        span: 46..46,
         description: Text {
-            span: 46..46#0,
+            span: 46..46,
             value: "",
         },
         tags: [
             TagItem {
-                span: 46..54#0,
+                span: 46..54,
                 tag_name: Text {
-                    span: 46..54#0,
+                    span: 46..54,
                     value: "abstract",
                 },
                 tag: Abstract(
                     AbstractTag {
-                        span: 46..54#0,
+                        span: 46..54,
                     },
                 ),
             },
         ],
     },
     JsDoc {
-        span: 100..100#0,
+        span: 100..100,
         description: Text {
-            span: 100..100#0,
+            span: 100..100,
             value: "",
         },
         tags: [
             TagItem {
-                span: 100..111#0,
+                span: 100..111,
                 tag_name: Text {
-                    span: 100..111#0,
+                    span: 100..111,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 100..111#0,
+                        span: 100..111,
                         ty: None,
                         name: None,
                     },
@@ -67,21 +67,21 @@
         ],
     },
     JsDoc {
-        span: 150..150#0,
+        span: 150..150,
         description: Text {
-            span: 150..150#0,
+            span: 150..150,
             value: "",
         },
         tags: [
             TagItem {
-                span: 150..157#0,
+                span: 150..157,
                 tag_name: Text {
-                    span: 150..157#0,
+                    span: 150..157,
                     value: "virtual",
                 },
                 tag: Abstract(
                     AbstractTag {
-                        span: 150..157#0,
+                        span: 150..157,
                     },
                 ),
             },

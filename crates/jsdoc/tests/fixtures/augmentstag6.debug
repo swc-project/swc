@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 16..16#0,
+        span: 16..16,
         description: Text {
-            span: 16..16#0,
+            span: 16..16,
             value: "",
         },
         tags: [
             TagItem {
-                span: 16..25#0,
+                span: 16..25,
                 tag_name: Text {
-                    span: 16..25#0,
+                    span: 16..25,
                     value: "interface",
                 },
                 tag: Interface(
                     InterfaceTag {
-                        span: 16..25#0,
+                        span: 16..25,
                         name: None,
                     },
                 ),
@@ -22,32 +22,32 @@
         ],
     },
     JsDoc {
-        span: 61..61#0,
+        span: 61..61,
         description: Text {
-            span: 61..81#0,
+            span: 61..81,
             value: "Open the connection.",
         },
         tags: [],
     },
     JsDoc {
-        span: 134..134#0,
+        span: 134..134,
         description: Text {
-            span: 134..134#0,
+            span: 134..134,
             value: "",
         },
         tags: [
             TagItem {
-                span: 134..143#0,
+                span: 134..143,
                 tag_name: Text {
-                    span: 134..143#0,
+                    span: 134..143,
                     value: "interface",
                 },
                 tag: Interface(
                     InterfaceTag {
-                        span: 134..143#0,
+                        span: 134..143,
                         name: Some(
                             Text {
-                                span: 134..158#0,
+                                span: 134..158,
                                 value: "* @extends {IConnection}",
                             },
                         ),
@@ -57,9 +57,9 @@
         ],
     },
     JsDoc {
-        span: 217..217#0,
+        span: 217..217,
         description: Text {
-            span: 217..238#0,
+            span: 217..238,
             value: "Close the connection.",
         },
         tags: [],

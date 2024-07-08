@@ -1,23 +1,23 @@
 [
     JsDoc {
-        span: 16..16#0,
+        span: 16..16,
         description: Text {
-            span: 16..32#0,
+            span: 16..32,
             value: "Socket class.\n *",
         },
         tags: [
             TagItem {
-                span: 16..21#0,
+                span: 16..21,
                 tag_name: Text {
-                    span: 16..21#0,
+                    span: 16..21,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 16..21#0,
+                        span: 16..21,
                         ty: Some(
                             Text {
-                                span: 16..42#0,
+                                span: 16..42,
                                 value: "* @memberof module:network",
                             },
                         ),
@@ -28,17 +28,17 @@
         ],
     },
     JsDoc {
-        span: 101..101#0,
+        span: 101..101,
         description: Text {
-            span: 101..117#0,
+            span: 101..117,
             value: "Open the socket.",
         },
         tags: [],
     },
     JsDoc {
-        span: 169..169#0,
+        span: 169..169,
         description: Text {
-            span: 169..206#0,
+            span: 169..206,
             value: "Unique identifier for `Socket` class.",
         },
         tags: [],

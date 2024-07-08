@@ -1,22 +1,22 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..4#0,
+                span: 1..4,
                 tag_name: Text {
-                    span: 1..4#0,
+                    span: 1..4,
                     value: "see",
                 },
                 tag: See(
                     SeeTag {
-                        span: 1..4#0,
+                        span: 1..4,
                         text: Text {
-                            span: 1..12#0,
+                            span: 1..12,
                             value: "{@link bar}",
                         },
                     },
@@ -25,23 +25,23 @@
         ],
     },
     JsDoc {
-        span: 48..48#0,
+        span: 48..48,
         description: Text {
-            span: 48..48#0,
+            span: 48..48,
             value: "",
         },
         tags: [
             TagItem {
-                span: 48..51#0,
+                span: 48..51,
                 tag_name: Text {
-                    span: 48..51#0,
+                    span: 48..51,
                     value: "see",
                 },
                 tag: See(
                     SeeTag {
-                        span: 48..51#0,
+                        span: 48..51,
                         text: Text {
-                            span: 48..74#0,
+                            span: 48..74,
                             value: "http://example.com/someref",
                         },
                     },

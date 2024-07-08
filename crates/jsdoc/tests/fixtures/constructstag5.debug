@@ -1,25 +1,25 @@
 [
     JsDoc {
-        span: 37..37#0,
+        span: 37..37,
         description: Text {
-            span: 37..37#0,
+            span: 37..37,
             value: "",
         },
         tags: [
             TagItem {
-                span: 37..42#0,
+                span: 37..42,
                 tag_name: Text {
-                    span: 37..42#0,
+                    span: 37..42,
                     value: "lends",
                 },
                 tag: Lends(
                     LendsTag {
-                        span: 37..42#0,
+                        span: 37..42,
                         name: NamePath {
-                            span: 37..38#0,
+                            span: 37..38,
                             components: [
                                 Text {
-                                    span: 37..41#0,
+                                    span: 37..41,
                                     value: "Duck",
                                 },
                             ],
@@ -30,23 +30,23 @@
         ],
     },
     JsDoc {
-        span: 71..71#0,
+        span: 71..71,
         description: Text {
-            span: 71..89#0,
+            span: 71..89,
             value: "Constructs a duck.",
         },
         tags: [
             TagItem {
-                span: 71..81#0,
+                span: 71..81,
                 tag_name: Text {
-                    span: 71..81#0,
+                    span: 71..81,
                     value: "constructs",
                 },
                 tag: Constructs(
                     ConstructsTag {
-                        span: 71..81#0,
+                        span: 71..81,
                         name: Text {
-                            span: 71..81#0,
+                            span: 71..81,
                             value: "@param tog",
                         },
                     },
@@ -55,9 +55,9 @@
         ],
     },
     JsDoc {
-        span: 245..245#0,
+        span: 245..245,
         description: Text {
-            span: 245..255#0,
+            span: 245..255,
             value: "Say hello.",
         },
         tags: [],

@@ -1,29 +1,29 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..31#0,
+            span: 1..31,
             value: "Increment a number by 1.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 1..6#0,
+                span: 1..6,
                 tag_name: Text {
-                    span: 1..6#0,
+                    span: 1..6,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 1..6#0,
+                        span: 1..6,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 1..9#0,
+                                span: 1..9,
                                 value: "{number}",
                             },
                         ),
                         desc: Text {
-                            span: 1..29#0,
+                            span: 1..29,
                             value: "n - The number to increment.",
                         },
                     },
@@ -32,31 +32,31 @@
         ],
     },
     JsDoc {
-        span: 117..117#0,
+        span: 117..117,
         description: Text {
-            span: 117..146#0,
+            span: 117..146,
             value: "Print a value to the console.",
         },
         tags: [],
     },
     JsDoc {
-        span: 171..175#0,
+        span: 171..175,
         description: Text {
-            span: 171..171#0,
+            span: 171..171,
             value: "",
         },
         tags: [
             TagItem {
-                span: 171..175#0,
+                span: 171..175,
                 tag_name: Text {
-                    span: 171..175#0,
+                    span: 171..175,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 171..175#0,
+                        span: 171..175,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -65,9 +65,9 @@
         ],
     },
     JsDoc {
-        span: 215..215#0,
+        span: 215..215,
         description: Text {
-            span: 215..253#0,
+            span: 215..253,
             value: "Create a class with a `name` property.",
         },
         tags: [],

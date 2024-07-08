@@ -1,8 +1,8 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..34#0,
+            span: 1..34,
             value: "ES 2015 class assigned to a const",
         },
         tags: [],

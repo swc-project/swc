@@ -1,23 +1,23 @@
 [
     JsDoc {
-        span: 16..16#0,
+        span: 16..16,
         description: Text {
-            span: 16..24#0,
+            span: 16..24,
             value: "Asdf.\n *",
         },
         tags: [
             TagItem {
-                span: 16..21#0,
+                span: 16..21,
                 tag_name: Text {
-                    span: 16..21#0,
+                    span: 16..21,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 16..21#0,
+                        span: 16..21,
                         ty: Some(
                             Text {
-                                span: 16..56#0,
+                                span: 16..56,
                                 value: "* @classdesc A description of the class.",
                             },
                         ),
@@ -28,46 +28,46 @@
         ],
     },
     JsDoc {
-        span: 104..104#0,
+        span: 104..104,
         description: Text {
-            span: 104..104#0,
+            span: 104..104,
             value: "",
         },
         tags: [
             TagItem {
-                span: 104..113#0,
+                span: 104..113,
                 tag_name: Text {
-                    span: 104..113#0,
+                    span: 104..113,
                     value: "classdesc",
                 },
                 tag: ClassDesc(
                     JSDocClassDescTag {
-                        span: 104..113#0,
+                        span: 104..113,
                         desc: Text {
-                            span: 104..131#0,
+                            span: 104..131,
                             value: "A description of the class.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 104..109#0,
+                span: 104..109,
                 tag_name: Text {
-                    span: 104..109#0,
+                    span: 104..109,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 104..109#0,
+                        span: 104..109,
                         ty: Some(
                             Text {
-                                span: 104..107#0,
+                                span: 104..107,
                                 value: "Bar",
                             },
                         ),
                         name: Some(
                             Text {
-                                span: 104..118#0,
+                                span: 104..118,
                                 value: "* @constructor",
                             },
                         ),
@@ -77,24 +77,24 @@
         ],
     },
     JsDoc {
-        span: 185..185#0,
+        span: 185..185,
         description: Text {
-            span: 185..202#0,
+            span: 185..202,
             value: "The Baz class.\n *",
         },
         tags: [
             TagItem {
-                span: 185..190#0,
+                span: 185..190,
                 tag_name: Text {
-                    span: 185..190#0,
+                    span: 185..190,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 185..190#0,
+                        span: 185..190,
                         ty: Some(
                             Text {
-                                span: 185..216#0,
+                                span: 185..216,
                                 value: "* Description of the Baz class.",
                             },
                         ),

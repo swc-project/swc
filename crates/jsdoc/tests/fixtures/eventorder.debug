@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 44..44#0,
+        span: 44..44,
         description: Text {
-            span: 44..60#0,
+            span: 44..60,
             value: "Socket class.\n *",
         },
         tags: [
             TagItem {
-                span: 44..49#0,
+                span: 44..49,
                 tag_name: Text {
-                    span: 44..49#0,
+                    span: 44..49,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 44..49#0,
+                        span: 44..49,
                         ty: None,
                         name: None,
                     },
@@ -23,52 +23,52 @@
         ],
     },
     JsDoc {
-        span: 113..113#0,
+        span: 113..113,
         description: Text {
-            span: 113..130#0,
+            span: 113..130,
             value: "Send a packet.\n *",
         },
         tags: [
             TagItem {
-                span: 113..118#0,
+                span: 113..118,
                 tag_name: Text {
-                    span: 113..118#0,
+                    span: 113..118,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 113..118#0,
+                        span: 113..118,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 113..121#0,
+                                span: 113..121,
                                 value: "{Packet}",
                             },
                         ),
                         desc: Text {
-                            span: 113..141#0,
+                            span: 113..141,
                             value: "packet - The packet to send.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 113..119#0,
+                span: 113..119,
                 tag_name: Text {
-                    span: 113..119#0,
+                    span: 113..119,
                     value: "return",
                 },
                 tag: Return(
                     ReturnTag {
-                        span: 113..119#0,
+                        span: 113..119,
                         ty: Some(
                             Text {
-                                span: 113..122#0,
+                                span: 113..122,
                                 value: "{boolean}",
                             },
                         ),
                         description: Text {
-                            span: 113..151#0,
+                            span: 113..151,
                             value: "`true` on success, `false` on failure.",
                         },
                     },
@@ -77,24 +77,24 @@
         ],
     },
     JsDoc {
-        span: 305..305#0,
+        span: 305..305,
         description: Text {
-            span: 305..342#0,
+            span: 305..342,
             value: "Virtual doclet for `Packet` class.\n *",
         },
         tags: [
             TagItem {
-                span: 305..310#0,
+                span: 305..310,
                 tag_name: Text {
-                    span: 305..310#0,
+                    span: 305..310,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 305..310#0,
+                        span: 305..310,
                         ty: Some(
                             Text {
-                                span: 305..311#0,
+                                span: 305..311,
                                 value: "Packet",
                             },
                         ),
@@ -105,9 +105,9 @@
         ],
     },
     JsDoc {
-        span: 369..369#0,
+        span: 369..369,
         description: Text {
-            span: 369..386#0,
+            span: 369..386,
             value: "Close the socket.",
         },
         tags: [],

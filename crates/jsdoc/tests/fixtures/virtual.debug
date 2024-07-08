@@ -1,25 +1,25 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..5#0,
+                span: 1..5,
                 tag_name: Text {
-                    span: 1..5#0,
+                    span: 1..5,
                     value: "name",
                 },
                 tag: Name(
                     NameTag {
-                        span: 1..5#0,
+                        span: 1..5,
                         name_path: NamePath {
-                            span: 1..1#0,
+                            span: 1..1,
                             components: [
                                 Text {
-                                    span: 1..11#0,
+                                    span: 1..11,
                                     value: "dimensions",
                                 },
                             ],

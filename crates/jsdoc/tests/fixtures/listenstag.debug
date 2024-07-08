@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                         ty: Text {
-                            span: 1..9#0,
+                            span: 1..9,
                             value: "myModule",
                         },
                     },
@@ -29,42 +29,42 @@
         ],
     },
     JsDoc {
-        span: 26..66#0,
+        span: 26..66,
         description: Text {
-            span: 26..54#0,
+            span: 26..54,
             value: "An event (has listeners).\n *",
         },
         tags: [
             TagItem {
-                span: 26..31#0,
+                span: 26..31,
                 tag_name: Text {
-                    span: 26..31#0,
+                    span: 26..31,
                     value: "event",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 26..31#0,
+                        span: 26..31,
                         extras: Text {
-                            span: 26..33#0,
+                            span: 26..33,
                             value: "MyEvent",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 26..34#0,
+                span: 26..34,
                 tag_name: Text {
-                    span: 26..34#0,
+                    span: 26..34,
                     value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
-                        span: 26..34#0,
+                        span: 26..34,
                         parent_name_path: NamePath {
-                            span: 26..66#0,
+                            span: 26..66,
                             components: [
                                 Text {
-                                    span: 26..32#0,
+                                    span: 26..32,
                                     value: "module",
                                 },
                             ],
@@ -75,55 +75,55 @@
         ],
     },
     JsDoc {
-        span: 138..138#0,
+        span: 138..138,
         description: Text {
-            span: 138..151#0,
+            span: 138..151,
             value: "A handler.\n *",
         },
         tags: [
             TagItem {
-                span: 138..145#0,
+                span: 138..145,
                 tag_name: Text {
-                    span: 138..145#0,
+                    span: 138..145,
                     value: "listens",
                 },
                 tag: Listens(
                     ListensTag {
-                        span: 138..145#0,
+                        span: 138..145,
                         event_name: Text {
-                            span: 138..161#0,
+                            span: 138..161,
                             value: "module:myModule.MyEvent",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 138..145#0,
+                span: 138..145,
                 tag_name: Text {
-                    span: 138..145#0,
+                    span: 138..145,
                     value: "listens",
                 },
                 tag: Listens(
                     ListensTag {
-                        span: 138..145#0,
+                        span: 138..145,
                         event_name: Text {
-                            span: 138..173#0,
+                            span: 138..173,
                             value: "module:myModule~Events.event:Event2",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 138..145#0,
+                span: 138..145,
                 tag_name: Text {
-                    span: 138..145#0,
+                    span: 138..145,
                     value: "listens",
                 },
                 tag: Listens(
                     ListensTag {
-                        span: 138..145#0,
+                        span: 138..145,
                         event_name: Text {
-                            span: 138..147#0,
+                            span: 138..147,
                             value: "fakeEvent",
                         },
                     },
@@ -132,23 +132,23 @@
         ],
     },
     JsDoc {
-        span: 289..289#0,
+        span: 289..289,
         description: Text {
-            span: 289..308#0,
+            span: 289..308,
             value: "Another handler.\n *",
         },
         tags: [
             TagItem {
-                span: 289..296#0,
+                span: 289..296,
                 tag_name: Text {
-                    span: 289..296#0,
+                    span: 289..296,
                     value: "listens",
                 },
                 tag: Listens(
                     ListensTag {
-                        span: 289..296#0,
+                        span: 289..296,
                         event_name: Text {
-                            span: 289..312#0,
+                            span: 289..312,
                             value: "module:myModule.MyEvent",
                         },
                     },
@@ -157,21 +157,21 @@
         ],
     },
     JsDoc {
-        span: 0..381#0,
+        span: 0..381,
         description: Text {
-            span: 381..396#0,
+            span: 381..396,
             value: "a namespace.\n *",
         },
         tags: [
             TagItem {
-                span: 381..390#0,
+                span: 381..390,
                 tag_name: Text {
-                    span: 381..390#0,
+                    span: 381..390,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: 381..390#0,
+                        span: 381..390,
                         ty: None,
                         name: None,
                     },

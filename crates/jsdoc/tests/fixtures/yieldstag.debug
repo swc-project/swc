@@ -1,28 +1,28 @@
 [
     JsDoc {
-        span: 16..16#0,
+        span: 16..16,
         description: Text {
-            span: 16..65#0,
+            span: 16..65,
             value: "Generate the Fibonacci sequence of numbers.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 16..22#0,
+                span: 16..22,
                 tag_name: Text {
-                    span: 16..22#0,
+                    span: 16..22,
                     value: "yields",
                 },
                 tag: Yield(
                     YieldTag {
-                        span: 16..22#0,
+                        span: 16..22,
                         value: Some(
                             Text {
-                                span: 16..24#0,
+                                span: 16..24,
                                 value: "{number}",
                             },
                         ),
                         description: Text {
-                            span: 16..58#0,
+                            span: 16..58,
                             value: "The next number in the Fibonacci sequence.",
                         },
                     },
@@ -31,29 +31,29 @@
         ],
     },
     JsDoc {
-        span: 163..163#0,
+        span: 163..163,
         description: Text {
-            span: 163..212#0,
+            span: 163..212,
             value: "Generate the Fibonacci sequence of numbers.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 163..169#0,
+                span: 163..169,
                 tag_name: Text {
-                    span: 163..169#0,
+                    span: 163..169,
                     value: "yields",
                 },
                 tag: Yield(
                     YieldTag {
-                        span: 163..169#0,
+                        span: 163..169,
                         value: Some(
                             Text {
-                                span: 163..166#0,
+                                span: 163..166,
                                 value: "The",
                             },
                         ),
                         description: Text {
-                            span: 163..201#0,
+                            span: 163..201,
                             value: "next number in the Fibonacci sequence.",
                         },
                     },
@@ -62,29 +62,29 @@
         ],
     },
     JsDoc {
-        span: 302..302#0,
+        span: 302..302,
         description: Text {
-            span: 302..351#0,
+            span: 302..351,
             value: "Generate the Fibonacci sequence of numbers.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 302..308#0,
+                span: 302..308,
                 tag_name: Text {
-                    span: 302..308#0,
+                    span: 302..308,
                     value: "yields",
                 },
                 tag: Yield(
                     YieldTag {
-                        span: 302..308#0,
+                        span: 302..308,
                         value: Some(
                             Text {
-                                span: 302..310#0,
+                                span: 302..310,
                                 value: "{number}",
                             },
                         ),
                         description: Text {
-                            span: 302..302#0,
+                            span: 302..302,
                             value: "",
                         },
                     },
