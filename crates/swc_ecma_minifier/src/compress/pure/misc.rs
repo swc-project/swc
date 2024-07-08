@@ -930,7 +930,7 @@ impl Pure<'_> {
                 }
             }
 
-            Expr::Call(CallExpr { span, args, .. }) if span.has_mark(self.marks.pure) => {
+            Expr::Call(CallExpr { ctxt, args, .. }) if ctxt.has_mark(self.marks.pure) => {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
@@ -940,7 +940,7 @@ impl Pure<'_> {
                 return;
             }
 
-            Expr::TaggedTpl(TaggedTpl { span, tpl, .. }) if span.has_mark(self.marks.pure) => {
+            Expr::TaggedTpl(TaggedTpl { ctxt, tpl, .. }) if ctxt.has_mark(self.marks.pure) => {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
@@ -950,7 +950,7 @@ impl Pure<'_> {
                 return;
             }
 
-            Expr::New(NewExpr { span, args, .. }) if span.has_mark(self.marks.pure) => {
+            Expr::New(NewExpr { ctxt, args, .. }) if ctxt.has_mark(self.marks.pure) => {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 

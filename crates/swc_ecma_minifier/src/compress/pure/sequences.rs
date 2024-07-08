@@ -165,7 +165,7 @@ impl Pure<'_> {
                             continue;
                         }
 
-                        let span = a_assign.span.with_ctxt(SyntaxContext::empty());
+                        let span = a_assign.span;
 
                         let obj = Box::new(a.take());
 
@@ -178,7 +178,7 @@ impl Pure<'_> {
                             }
                             .as_callee(),
                             args: args.take(),
-                            type_args: Default::default(),
+                            ..Default::default()
                         });
                         b.take();
                         self.changed = true;
