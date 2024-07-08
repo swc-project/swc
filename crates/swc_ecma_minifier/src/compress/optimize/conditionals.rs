@@ -433,7 +433,7 @@ impl Optimizer<'_> {
                             span: test.span(),
                             callee: cons_callee.clone().as_callee(),
                             args: new_args,
-                            type_args: Default::default(),
+                            ..Default::default()
                         }));
                     }
                 }
@@ -468,7 +468,7 @@ impl Optimizer<'_> {
                         span: DUMMY_SP,
                         callee: cons.callee.take(),
                         args,
-                        type_args: Default::default(),
+                        ..Default::default()
                     }));
                 }
 
