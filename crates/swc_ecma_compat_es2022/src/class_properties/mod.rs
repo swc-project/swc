@@ -200,6 +200,7 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                 *body = BlockStmtOrExpr::BlockStmt(BlockStmt {
                     span: DUMMY_SP,
                     stmts,
+                    ..Default::default()
                 });
             }
             _ => body.visit_mut_children_with(self),

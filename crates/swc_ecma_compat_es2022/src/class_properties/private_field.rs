@@ -2,7 +2,7 @@ use std::iter;
 
 use swc_atoms::JsWord;
 use swc_common::{
-    collections::AHashMap, errors::HANDLER, util::take::Take, Mark, Spanned, SyntaxContext,
+    collections::AHashMap, errors::HANDLER, util::take::Take, Mark, Span, Spanned, SyntaxContext,
     DUMMY_SP,
 };
 use swc_ecma_ast::*;
@@ -44,15 +44,15 @@ impl PrivateRecord {
         self.0.pop();
     }
 
-    pub fn get(&self, name: &Ident) -> (Mark, PrivateKind, &Ident) {
+    pub fn get(&self, span: Span, name: &JsWord) -> (Mark, PrivateKind, &Ident) {
         for p in self.0.iter().rev() {
-            if let Some(kind) = p.ident.get(&name.sym) {
+            if let Some(kind) = p.ident.get(&name) {
                 return (p.mark, *kind, &p.class_name);
             }
         }
 
-        let error = format!("private name #{} is not defined.", name.sym);
-        HANDLER.with(|handler| handler.struct_span_err(name.span, &error).emit());
+        let error = format!("private name #{} is not defined.", name);
+        HANDLER.with(|handler| handler.struct_span_err(span, &error).emit());
         (Mark::root(), PrivateKind::default(), &self.0[0].class_name)
     }
 }
