@@ -910,6 +910,7 @@ define!({
     }
     pub struct OptCall {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub callee: Box<Expr>,
         pub args: Vec<ExprOrSpread>,
         pub type_args: Option<Box<TsTypeParamInstantiation>>,

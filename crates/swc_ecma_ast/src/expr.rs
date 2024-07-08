@@ -428,6 +428,12 @@ impl Take for Expr {
     }
 }
 
+impl Default for Expr {
+    fn default() -> Self {
+        Expr::Invalid(Default::default())
+    }
+}
+
 bridge_expr_from!(Ident, Id);
 bridge_expr_from!(FnExpr, Function);
 bridge_expr_from!(ClassExpr, Class);
@@ -947,10 +953,7 @@ pub struct CallExpr {
 impl Take for CallExpr {
     fn dummy() -> Self {
         CallExpr {
-            span: DUMMY_SP,
-            callee: Take::dummy(),
-            args: Take::dummy(),
-            type_args: Take::dummy(),
+            ..Default::default()
         }
     }
 }
@@ -1595,10 +1598,12 @@ pub enum OptChainBase {
 }
 
 #[ast_node("CallExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct OptCall {
     pub span: Span,
+
+    pub ctxt: SyntaxContext,
 
     pub callee: Box<Expr>,
 
@@ -1625,6 +1630,7 @@ impl From<OptChainBase> for Expr {
         match opt {
             OptChainBase::Call(OptCall {
                 span,
+                ctxt,
                 callee,
                 args,
                 type_args,
@@ -1633,6 +1639,7 @@ impl From<OptChainBase> for Expr {
                 args,
                 span,
                 type_args,
+                ctxt,
             }),
             OptChainBase::Member(member) => Self::Member(member),
         }
@@ -1642,10 +1649,7 @@ impl From<OptChainBase> for Expr {
 impl Take for OptCall {
     fn dummy() -> Self {
         Self {
-            span: DUMMY_SP,
-            callee: Take::dummy(),
-            args: Vec::new(),
-            type_args: None,
+            ..Default::default()
         }
     }
 }
@@ -1654,6 +1658,7 @@ impl From<OptCall> for CallExpr {
     fn from(
         OptCall {
             span,
+            ctxt,
             callee,
             args,
             type_args,
@@ -1664,6 +1669,7 @@ impl From<OptCall> for CallExpr {
             callee: Callee::Expr(callee),
             args,
             type_args,
+            ctxt,
         }
     }
 }
