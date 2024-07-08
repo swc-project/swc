@@ -363,7 +363,7 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_binding_ident(&mut self, n: &BindingIdent) {
-        self.visit_pat_id(&n.id);
+        self.visit_pat_id(&Ident::from(n.id));
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]

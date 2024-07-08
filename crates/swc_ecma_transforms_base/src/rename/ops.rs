@@ -643,7 +643,7 @@ where
                 return Err(());
             }
 
-            ident.span = ident.span.with_ctxt(new_ctxt);
+            ident.ctxt = new_ctxt;
             ident.sym = new_sym;
             return Ok(());
         }

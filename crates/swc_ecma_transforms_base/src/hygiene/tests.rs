@@ -21,7 +21,7 @@ fn marker(markers: &[(&str, Mark)]) -> Marker {
 impl Fold for Marker {
     fn fold_ident(&mut self, mut ident: Ident) -> Ident {
         if let Some(mark) = self.map.get(&ident.sym) {
-            ident.span = ident.span.apply_mark(*mark);
+            ident.ctxt = ident.ctxt.apply_mark(*mark);
         }
 
         ident

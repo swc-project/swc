@@ -1779,7 +1779,8 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_import_named_specifier(&mut self, n: &mut ImportNamedSpecifier) {
         n.visit_mut_children_with(self);
 
-        self.resolver.modify(&mut n.local, DeclKind::Lexical);
+        self.resolver
+            .modify(&n.local.sym, &mut n.local.ctxt, DeclKind::Lexical);
 
         if self.resolver.config.handle_types {
             self.resolver
@@ -1809,7 +1810,7 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_pat(&mut self, node: &mut Pat) {
         match node {
             Pat::Ident(i) => {
-                self.add_pat_id(&mut i.id);
+                self.add_pat_id(i);
             }
 
             _ => node.visit_mut_children_with(self),

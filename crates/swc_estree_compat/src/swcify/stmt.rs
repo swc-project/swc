@@ -411,7 +411,7 @@ impl Swcify for ClassDeclaration {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         ClassDecl {
-            ident: self.id.swcify(ctx).id,
+            ident: self.id.swcify(ctx).into(),
             declare: self.declare.unwrap_or_default(),
             class: swc_ecma_ast::Class {
                 span: ctx.span(&self.base),
@@ -586,7 +586,7 @@ impl Swcify for swc_estree_ast::ExportDefaultSpecifier {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::ExportDefaultSpecifier {
-            exported: self.exported.swcify(ctx).id,
+            exported: self.exported.swcify(ctx).into(),
         }
     }
 }
