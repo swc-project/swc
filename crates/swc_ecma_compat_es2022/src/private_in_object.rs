@@ -472,7 +472,7 @@ impl Visit for ClassAnalyzer<'_> {
 
         if n.op == op!("in") {
             if let Expr::PrivateName(left) = &*n.left {
-                self.brand_check_names.insert(left.id.sym.clone());
+                self.brand_check_names.insert(left.name.clone());
             }
         }
     }

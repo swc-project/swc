@@ -489,7 +489,7 @@ impl<C: Comments> ClassProperties<C> {
                                 });
                             } else {
                                 private_map.insert(
-                                    prop.key.nameclone(),
+                                    prop.key.name.clone(),
                                     PrivateKind {
                                         is_method: false,
                                         is_static: prop.is_static,
