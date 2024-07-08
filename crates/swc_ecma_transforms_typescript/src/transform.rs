@@ -592,6 +592,7 @@ impl Transform {
             BlockStmt {
                 span: DUMMY_SP,
                 stmts,
+                ..Default::default()
             },
             is_export,
         );
@@ -986,9 +987,9 @@ impl Transform {
         // NOTE: This is not correct!
         // However, all unresolved_span are used in TsImportExportAssignConfig::Classic
         // which is deprecated and not used in real world.
-        let unresolved_span = DUMMY_SP.apply_mark(self.top_level_mark);
-        let cjs_require = quote_ident!(unresolved_span, "require");
-        let cjs_exports = quote_ident!(unresolved_span, "exports");
+        let unresolved_ctxt = SyntaxContext::empty().apply_mark(self.top_level_mark);
+        let cjs_require = quote_ident!(unresolved_ctxt, "require");
+        let cjs_exports = quote_ident!(unresolved_ctxt, "exports");
 
         let mut cjs_export_assign = None;
 
