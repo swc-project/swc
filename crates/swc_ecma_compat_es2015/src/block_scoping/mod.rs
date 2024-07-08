@@ -806,7 +806,7 @@ impl VisitMut for FlowHelper<'_> {
                     arg: Some(Box::new(Expr::Object(ObjectLit {
                         span,
                         props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                            key: PropName::Ident(Ident::new("v".into(), DUMMY_SP)),
+                            key: PropName::Ident(Ident::new_no_ctxt("v".into(), DUMMY_SP)),
                             value: s.arg.take().unwrap_or_else(|| {
                                 Box::new(Expr::Unary(UnaryExpr {
                                     span: DUMMY_SP,
@@ -869,12 +869,9 @@ impl MutationHandler<'_> {
         for (id, ctxt) in &*self.map {
             exprs.push(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: Ident::new(id.0.clone(), DUMMY_SP.with_ctxt(id.1)).into(),
+                left: Ident::new(id.0.clone(), DUMMY_SP, id.1).into(),
                 op: op!("="),
-                right: Box::new(Expr::Ident(Ident::new(
-                    id.0.clone(),
-                    DUMMY_SP.with_ctxt(*ctxt),
-                ))),
+                right: Box::new(Expr::Ident(Ident::new(id.0.clone(), DUMMY_SP, *ctxt))),
             })));
         }
         exprs.push(orig.unwrap_or_else(|| Expr::undefined(DUMMY_SP)));
@@ -912,7 +909,7 @@ impl VisitMut for MutationHandler<'_> {
 
     fn visit_mut_ident(&mut self, n: &mut Ident) {
         if let Some(&ctxt) = self.map.get(&n.to_id()) {
-            n.span = n.span.with_ctxt(ctxt)
+            n.ctxt = ctxt;
         }
     }
 
