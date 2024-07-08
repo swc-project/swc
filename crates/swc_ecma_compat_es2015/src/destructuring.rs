@@ -74,6 +74,7 @@ macro_rules! impl_for_for_stmt {
                         span: var_decl.span,
                         kind: var_decl.kind,
                         declare: var_decl.declare,
+                        ..Default::default()
                     }
                     .into();
 
@@ -522,6 +523,7 @@ impl Destructuring {
                 kind: VarDeclKind::Let,
                 decls,
                 declare: false,
+                ..Default::default()
             }
             .into();
 
@@ -1045,7 +1047,7 @@ impl Destructuring {
                                 span: DUMMY_SP,
                                 kind: VarDeclKind::Var,
                                 decls: folder.vars,
-                                declare: false,
+                                ..Default::default()
                             }
                             .into(),
                         ));
@@ -1064,7 +1066,7 @@ impl Destructuring {
                                 span: DUMMY_SP,
                                 kind: VarDeclKind::Var,
                                 decls: folder.vars,
-                                declare: false,
+                                ..Default::default()
                             }
                             .into(),
                         ));

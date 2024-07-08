@@ -188,7 +188,7 @@ macro_rules! take_vars {
                         kind: VarDeclKind::Var,
                         decls: self.vars.take(),
 
-                        declare: false,
+                        ..Default::default()
                     }
                     .into(),
                 )
