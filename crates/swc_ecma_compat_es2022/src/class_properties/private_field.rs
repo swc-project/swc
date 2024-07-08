@@ -407,7 +407,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
             }
 
             // Actually this is a call and we should bind `this`.
-            Expr::TaggedTpl(TaggedTpl { span, tag, tpl }) if tag.is_member() => {
+            Expr::TaggedTpl(TaggedTpl { span, tag, tpl, .. }) if tag.is_member() => {
                 let mut tag = tag.take().member().unwrap();
                 tag.visit_mut_with(self);
                 tpl.visit_mut_with(self);

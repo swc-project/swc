@@ -166,6 +166,7 @@ fn wrap_module(
             }))),
             definite: false,
         }],
+        ..Default::default()
     })))
 }
 
@@ -308,6 +309,7 @@ where
                                 )),
                                 definite: false,
                             }],
+                            ..Default::default()
                         }))));
                         return;
                     }
@@ -335,6 +337,7 @@ where
                     }))),
                     definite: false,
                 }],
+                ..Default::default()
             }))));
         }
     }
