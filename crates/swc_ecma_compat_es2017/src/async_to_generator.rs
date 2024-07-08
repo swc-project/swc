@@ -873,9 +873,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
 
     let stmts = vec![
         VarDecl {
-            span: DUMMY_SP,
             kind: VarDeclKind::Var,
-            declare: false,
             decls: vec![
                 // var _iteratorAbruptCompletion = false;
                 VarDeclarator {
@@ -899,6 +897,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     definite: false,
                 },
             ],
+            ..Default::default()
         }
         .into(),
         try_stmt.into(),

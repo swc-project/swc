@@ -130,7 +130,7 @@ macro_rules! impl_for_for_stmt {
                             init: None,
                             definite: false,
                         }],
-                        declare: false,
+                        ..Default::default()
                     }
                     .into()
                 }

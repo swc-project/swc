@@ -276,7 +276,7 @@ impl MemberInitRecord {
                             init: Some(Expr::Object(get_accessor_desc(getter, setter)).into()),
                             definite: false,
                         }],
-                        declare: false,
+                        ..Default::default()
                     }
                     .into()
                 }),
