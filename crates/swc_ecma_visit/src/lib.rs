@@ -1320,14 +1320,12 @@ define!({
     }
     pub struct GetterProp {
         pub span: Span,
-        pub ctxt: SyntaxContext,
         pub key: PropName,
         pub type_ann: Option<Box<TsTypeAnn>>,
         pub body: Option<BlockStmt>,
     }
     pub struct SetterProp {
         pub span: Span,
-        pub ctxt: SyntaxContext,
         pub key: PropName,
         pub this_param: Option<Pat>,
         pub param: Box<Pat>,
@@ -1446,14 +1444,12 @@ define!({
     }
     pub struct ForInStmt {
         pub span: Span,
-        pub ctxt: SyntaxContext,
         pub left: ForHead,
         pub right: Box<Expr>,
         pub body: Box<Stmt>,
     }
     pub struct ForOfStmt {
         pub span: Span,
-        pub ctxt: SyntaxContext,
         pub is_await: bool,
         pub left: ForHead,
         pub right: Box<Expr>,

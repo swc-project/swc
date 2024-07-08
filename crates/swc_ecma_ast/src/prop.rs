@@ -1,5 +1,5 @@
 use is_macro::Is;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::{
     expr::Expr,
@@ -63,7 +63,6 @@ pub struct AssignProp {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct GetterProp {
     pub span: Span,
-    pub ctxt: SyntaxContext,
     pub key: PropName,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
@@ -75,7 +74,6 @@ pub struct GetterProp {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct SetterProp {
     pub span: Span,
-    pub ctxt: SyntaxContext,
     pub key: PropName,
     pub this_param: Option<Pat>,
     pub param: Box<Pat>,
