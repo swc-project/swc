@@ -138,7 +138,8 @@ impl VisitMut for BrandCheckHandler<'_> {
                     span: *span,
                     callee: weak_coll_ident.make_member(quote_ident!("has")).as_callee(),
                     args: vec![right.take().as_arg()],
-                    type_args: Default::default(),
+
+                    ..Default::default()
                 });
             }
 
@@ -364,14 +365,14 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                             value.as_arg(),
                         ],
 
-                        type_args: Default::default(),
+                        ..Default::default()
                     });
                 } else if kind.is_readonly() {
                     let err = CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(read_only_error),
                         args: vec![format!("#{}", n.name).as_arg()],
-                        type_args: None,
+                        ..Default::default()
                     }
                     .into();
                     *e = Expr::Seq(SeqExpr {
@@ -386,7 +387,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                         callee: set,
                         args: vec![this.as_arg(), ident.as_arg(), value.as_arg()],
 
-                        type_args: Default::default(),
+                        ..Default::default()
                     });
                 }
             }
@@ -429,6 +430,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                         })),
                         tpl: tpl.take(),
                         type_params: type_params.take(),
+                        ..Default::default()
                     });
                 } else {
                     *e = Expr::TaggedTpl(TaggedTpl {
@@ -734,7 +736,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                             span: DUMMY_SP,
                             callee: helper,
                             args: vec![format!("#{}", n.name).as_arg()],
-                            type_args: None,
+                            ..Default::default()
                         }
                         .into(),
                     );

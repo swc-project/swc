@@ -605,6 +605,7 @@ impl Decorator2022_03 {
                     body: BlockStmt {
                         span: DUMMY_SP,
                         stmts: vec![Stmt::Decl(Decl::Class(inner_class))],
+                        ..Default::default()
                     },
                 }),
             );

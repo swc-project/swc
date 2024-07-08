@@ -296,7 +296,7 @@ impl MemberInitRecord {
                                     name.as_arg(),
                                     get_method_desc(Box::new(fn_name.into())).as_arg(),
                                 ],
-                                type_args: None,
+                                ..Default::default()
                             }
                             .into(),
                         }))
