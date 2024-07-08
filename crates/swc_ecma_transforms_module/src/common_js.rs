@@ -1,5 +1,6 @@
 use swc_common::{
-    collections::AHashSet, comments::Comments, util::take::Take, FileName, Mark, Span, DUMMY_SP,
+    collections::AHashSet, comments::Comments, util::take::Take, FileName, Mark, Span,
+    SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
@@ -244,7 +245,10 @@ where
             {
                 obj.visit_mut_with(self);
 
-                let require = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "require");
+                let require = quote_ident!(
+                    SyntaxContext::empty().apply_mark(self.unresolved_mark),
+                    "require"
+                );
                 *n = cjs_import_meta_url(*span, require, self.unresolved_mark);
             }
             _ => n.visit_mut_children_with(self),

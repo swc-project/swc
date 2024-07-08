@@ -301,7 +301,7 @@ where
                 });
 
                 let mut require = self.require.clone();
-                require.span = import_span.apply_mark(require.ctxt.outer());
+                require.span = import_span;
 
                 *n = amd_dynamic_import(
                     *span,

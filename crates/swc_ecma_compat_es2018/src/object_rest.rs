@@ -339,7 +339,7 @@ impl VisitMut for ObjectRest {
             //            }
 
             let (var_ident, _) = match decl.name {
-                Pat::Ident(ref i) => (i.id.clone(), false),
+                Pat::Ident(ref i) => (Ident::from(i), false),
 
                 _ => match decl.init {
                     Some(ref e) => alias_if_required(e, "ref"),
@@ -507,7 +507,7 @@ impl ObjectRest {
         if let Some(e1) = decl.init {
             if let Expr::Ident(ref i1) = *e1 {
                 if let Pat::Ident(ref i2) = decl.name {
-                    if *i1 == i2.id {
+                    if i1.to_id() == i2.to_id() {
                         return;
                     }
                 }
@@ -754,7 +754,10 @@ impl ObjectRest {
                             ref value, span, ..
                         }) => {
                             let value = value.clone();
-                            (key, MemberProp::Ident(quote_ident!(span, value)))
+                            (
+                                key,
+                                MemberProp::Ident(quote_ident!(Default::default(), span, value)),
+                            )
                         }
                         PropName::Num(Number { span, value, .. }) => (
                             key,
@@ -950,7 +953,7 @@ fn object_without_properties(
                         span: DUMMY_SP,
                         elems: excluded_props,
                     }
-                    .make_member(Ident::new("map".into(), DUMMY_SP))
+                    .make_member(Ident::new_no_ctxt("map".into(), DUMMY_SP))
                     .as_callee(),
                     args: vec![helper_expr!(to_property_key).as_arg()],
                     type_args: Default::default(),

@@ -20,7 +20,7 @@ impl Swcify for swc_estree_ast::JSXIdentifier {
         Ident {
             span: ctx.span(&self.base),
             sym: self.name,
-            optional: false,
+            ..Default::default()
         }
     }
 }
