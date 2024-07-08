@@ -1264,13 +1264,10 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
     fn visit_var_declarator(&mut self, e: &VarDeclarator) {
-        let prevent_inline = matches!(
-            &e.name,
-            Pat::Ident(BindingIdent {
-                sym: arguments,
+        let prevent_inline = matches!(&e.name, Pat::Ident(BindingIdent {
+                id: Ident { sym: arguments, .. },
                 ..
-            }) if &**arguments == "arguments"
-        );
+            }) if (&**arguments == "arguments"));
         {
             let ctx = Ctx {
                 inline_prevented: self.ctx.inline_prevented || prevent_inline,

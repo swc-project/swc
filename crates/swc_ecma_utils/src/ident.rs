@@ -32,7 +32,7 @@ impl IdentLike for BindingIdent {
     }
 
     fn into_id(self) -> Id {
-        (self.sym, self.ctxt)
+        self.id.into_id()
     }
 }
 

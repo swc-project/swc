@@ -1837,7 +1837,7 @@ impl<I: Tokens> Parser<I> {
                 }
                 match pat {
                     Pat::Ident(BindingIdent {
-                        ref mut span,
+                        id: Ident { ref mut span, .. },
                         ref mut type_ann,
                         ..
                     })
