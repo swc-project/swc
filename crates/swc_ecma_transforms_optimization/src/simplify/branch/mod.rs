@@ -402,8 +402,8 @@ impl VisitMut for Remover {
                         return IfStmt {
                             test,
                             cons: Box::new(Stmt::Block(BlockStmt {
-                                span: DUMMY_SP,
                                 stmts: vec![*cons],
+                                ..Default::default()
                             })),
                             alt,
                             span,
@@ -529,7 +529,7 @@ impl VisitMut for Remover {
                     }
                 }
 
-                Stmt::Block(BlockStmt { span, stmts }) => {
+                Stmt::Block(BlockStmt { span, stmts, ctxt }) => {
                     if stmts.is_empty() {
                         if cfg!(feature = "debug") {
                             debug!("Drooping an empty block statement");
@@ -548,7 +548,7 @@ impl VisitMut for Remover {
                         v.visit_mut_with(self);
                         v
                     } else {
-                        Stmt::Block(BlockStmt { span, stmts })
+                        Stmt::Block(BlockStmt { span, stmts, ctxt })
                     }
                 }
                 Stmt::Try(s) => {
