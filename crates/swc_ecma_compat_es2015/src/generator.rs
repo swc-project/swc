@@ -843,7 +843,7 @@ impl VisitMut for Generator {
 
         if let Some(VarDeclOrExpr::VarDecl(initializer)) = &mut node.init {
             for variable in initializer.decls.iter_mut() {
-                self.hoist_variable_declaration(&Ident::from(&variable.name.as_ident().unwrap()));
+                self.hoist_variable_declaration(&Ident::from(variable.name.as_ident().unwrap()));
             }
 
             let variables = self.get_initialized_variables(initializer);

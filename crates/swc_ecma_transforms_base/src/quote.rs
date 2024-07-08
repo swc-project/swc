@@ -14,7 +14,7 @@ macro_rules! helper_expr {
 
         Expr::from(swc_ecma_utils::quote_ident!(
             ctxt,
-            span,
+            $span,
             concat!("_", stringify!($field_name))
         ))
     }};
