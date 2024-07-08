@@ -659,6 +659,7 @@ define!({
     }
     pub struct VarDecl {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub kind: VarDeclKind,
         pub declare: bool,
         pub decls: Vec<VarDeclarator>,
