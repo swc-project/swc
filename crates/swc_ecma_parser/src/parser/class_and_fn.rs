@@ -1128,6 +1128,7 @@ impl<I: Tokens> Parser<I> {
                         readonly,
                         type_ann,
                         definite,
+                        ctxt: Default::default(),
                     }
                     .into()
                 }

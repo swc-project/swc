@@ -185,7 +185,7 @@ fn lhs_expr_as_new_expr_prod() {
             span,
             callee: lhs("Date.toString"),
             args: Some(vec![]),
-            type_args: None,
+            ..Default::default()
         }))
     );
 }
@@ -285,7 +285,7 @@ fn new_new_no_paren() {
             span,
             callee: expr("new a"),
             args: None,
-            type_args: None,
+            ..Default::default()
         }))
     );
 }

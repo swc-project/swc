@@ -259,7 +259,7 @@ impl AssignFolder {
                                     raw: None,
                                 }
                                 .as_arg()],
-                                type_args: Default::default(),
+                                ..Default::default()
                             }))),
                             definite: false,
                         },
@@ -757,7 +757,7 @@ impl VisitMut for AssignFolder {
                                             span: DUMMY_SP,
                                             callee: helper!(to_array),
                                             args: vec![right.take().as_arg()],
-                                            type_args: Default::default(),
+                                            ..Default::default()
                                         }))
                                     } else {
                                         Box::new(
@@ -768,7 +768,7 @@ impl VisitMut for AssignFolder {
                                                     right.take().as_arg(),
                                                     elems.len().as_arg(),
                                                 ],
-                                                type_args: Default::default(),
+                                                ..Default::default()
                                             }
                                             .into(),
                                         )

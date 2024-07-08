@@ -742,7 +742,7 @@ impl<C: Comments> ClassProperties<C> {
 
                     let value = prop.value.unwrap_or_else(|| Expr::undefined(prop_span));
 
-                    if prop.is_static && prop.span.has_mark(self.c.static_blocks_mark) {
+                    if prop.is_static && prop.ctxt.has_mark(self.c.static_blocks_mark) {
                         let init = MemberInit::StaticBlock(value);
                         extra_inits.push(init);
                         continue;

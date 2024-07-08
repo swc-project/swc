@@ -179,7 +179,7 @@ impl VisitMut for Spread {
                     span: *span,
                     callee: helper!(construct),
                     args: vec![callee.take().as_arg(), args.as_arg()],
-                    type_args: Default::default(),
+                    ..Default::default()
                 });
             }
             _ => {}
@@ -316,14 +316,14 @@ impl Spread {
                                 .make_member(quote_ident!("from"))
                                 .as_callee(),
                             args: vec![expr.as_arg()],
-                            type_args: Default::default(),
+                            ..Default::default()
                         }
                     } else {
                         CallExpr {
                             span,
                             callee: helper!(to_consumable_array),
                             args: vec![expr.as_arg()],
-                            type_args: Default::default(),
+                            ..Default::default()
                         }
                     }
                 }
