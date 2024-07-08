@@ -333,10 +333,10 @@ pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportKV>) ->
             .map(|(export_name, export_item)| {
                 object_define_enumerable(
                     exports.as_arg(),
-                    quote_str!(export_item.export_name_span(), export_name).as_arg(),
+                    quote_str!(export_item.export_name_span().0, export_name).as_arg(),
                     prop_function((
                         "get".into(),
-                        ExportItem::new(DUMMY_SP, export_item.into_local_ident()),
+                        ExportItem::new(Default::default(), export_item.into_local_ident()),
                     ))
                     .into(),
                 )

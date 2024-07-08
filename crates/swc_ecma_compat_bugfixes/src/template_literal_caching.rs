@@ -94,7 +94,7 @@ impl Fold for TemplateLiteralCaching {
                         quasis: n.tpl.quasis,
                         exprs: n.tpl.exprs.iter().map(|_| 0.0.into()).collect(),
                     }),
-                    type_params: None,
+                    ..Default::default()
                 };
 
                 // Install an inline cache at the callsite using the global variable:

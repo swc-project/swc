@@ -9,7 +9,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use crate::module_ref_rewriter::ImportMap;
+use crate::{module_ref_rewriter::ImportMap, SpanCtx};
 
 /// key: module path
 pub type Link = IndexMap<JsWord, LinkItem>;
@@ -727,14 +727,14 @@ impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
 }
 
 #[derive(Debug)]
-pub struct ExportItem(Span, Ident);
+pub struct ExportItem(SpanCtx, Ident);
 
 impl ExportItem {
-    pub fn new(export_name_span: Span, local_ident: Ident) -> Self {
+    pub fn new(export_name_span: SpanCtx, local_ident: Ident) -> Self {
         Self(export_name_span, local_ident)
     }
 
-    pub fn export_name_span(&self) -> Span {
+    pub fn export_name_span(&self) -> SpanCtx {
         self.0
     }
 

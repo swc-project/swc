@@ -205,13 +205,6 @@ impl VisitMut for InfoMarker<'_> {
         });
 
         n.visit_mut_children_with(self);
-
-        if self.state.is_bundle {
-            tracing::info!("Running minifier in the bundle mode");
-            n.span = n.span.apply_mark(self.marks.bundle_of_standalone);
-        } else {
-            tracing::info!("Running minifier in the normal mode");
-        }
     }
 
     fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
