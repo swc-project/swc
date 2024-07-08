@@ -496,7 +496,7 @@ impl Take for ThisExpr {
 
 /// Array literal.
 #[ast_node("ArrayExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ArrayLit {
     pub span: Span,
@@ -516,7 +516,7 @@ impl Take for ArrayLit {
 
 /// Object literal.
 #[ast_node("ObjectExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ObjectLit {
     pub span: Span,
@@ -641,7 +641,7 @@ impl Take for PropOrSpread {
 }
 
 #[ast_node("SpreadElement")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct SpreadElement {
     #[cfg_attr(feature = "serde-impl", serde(rename = "spread"))]
@@ -663,7 +663,7 @@ impl Take for SpreadElement {
 }
 
 #[ast_node("UnaryExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct UnaryExpr {
     pub span: Span,
@@ -686,7 +686,7 @@ impl Take for UnaryExpr {
 }
 
 #[ast_node("UpdateExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct UpdateExpr {
     pub span: Span,
@@ -712,7 +712,7 @@ impl Take for UpdateExpr {
 }
 
 #[ast_node("BinaryExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct BinExpr {
     pub span: Span,
@@ -738,7 +738,7 @@ impl Take for BinExpr {
 
 /// Function expression.
 #[ast_node("FunctionExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct FnExpr {
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "identifier"))]
@@ -772,7 +772,7 @@ bridge_expr_from!(FnExpr, Box<Function>);
 
 /// Class expression.
 #[ast_node("ClassExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ClassExpr {
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "identifier"))]
@@ -802,7 +802,7 @@ bridge_from!(ClassExpr, Box<Class>, Class);
 bridge_expr_from!(ClassExpr, Box<Class>);
 
 #[ast_node("AssignmentExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct AssignExpr {
     pub span: Span,
@@ -833,7 +833,7 @@ impl AssignExpr {
 }
 
 #[ast_node("MemberExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct MemberExpr {
     pub span: Span,
@@ -864,7 +864,7 @@ impl MemberProp {
 }
 
 #[ast_node("SuperPropExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct SuperPropExpr {
     pub span: Span,
@@ -908,7 +908,7 @@ impl Take for SuperProp {
 }
 
 #[ast_node("ConditionalExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct CondExpr {
     pub span: Span,
@@ -952,14 +952,12 @@ pub struct CallExpr {
 
 impl Take for CallExpr {
     fn dummy() -> Self {
-        CallExpr {
-            ..Default::default()
-        }
+        Default::default()
     }
 }
 
 #[ast_node("NewExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct NewExpr {
     pub span: Span,
@@ -978,17 +976,12 @@ pub struct NewExpr {
 
 impl Take for NewExpr {
     fn dummy() -> Self {
-        NewExpr {
-            span: DUMMY_SP,
-            callee: Take::dummy(),
-            args: Take::dummy(),
-            type_args: Take::dummy(),
-        }
+        Default::default()
     }
 }
 
 #[ast_node("SequenceExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct SeqExpr {
     pub span: Span,
@@ -1041,7 +1034,7 @@ impl Take for ArrowExpr {
 }
 
 #[ast_node("YieldExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct YieldExpr {
     pub span: Span,
@@ -1087,7 +1080,7 @@ pub enum MetaPropKind {
 }
 
 #[ast_node("AwaitExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct AwaitExpr {
     pub span: Span,
@@ -1097,7 +1090,7 @@ pub struct AwaitExpr {
 }
 
 #[ast_node("TemplateLiteral")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Tpl {
     pub span: Span,
@@ -1119,7 +1112,7 @@ impl Take for Tpl {
 }
 
 #[ast_node("TaggedTemplateExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TaggedTpl {
     pub span: Span,
@@ -1146,7 +1139,7 @@ impl Take for TaggedTpl {
 }
 
 #[ast_node("TemplateElement")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 pub struct TplElement {
     pub span: Span,
     pub tail: bool,
@@ -1192,7 +1185,7 @@ impl<'a> arbitrary::Arbitrary<'a> for TplElement {
 }
 
 #[ast_node("ParenthesisExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ParenExpr {
     pub span: Span,
@@ -1580,7 +1573,7 @@ impl Take for AssignTarget {
 }
 
 #[ast_node("OptionalChainingExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct OptChainExpr {
     pub span: Span,
