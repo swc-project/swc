@@ -260,7 +260,7 @@ impl<'a> Resolver<'a> {
     fn visit_mut_stmt_within_child_scope(&mut self, s: &mut Stmt) {
         self.with_child(ScopeKind::Block, |child| match s {
             Stmt::Block(s) => {
-                child.mark_block(&mut s.span);
+                child.mark_block(&mut s.ctxt);
                 s.visit_mut_children_with(child);
             }
             _ => s.visit_mut_with(child),
@@ -360,15 +360,15 @@ impl<'a> Resolver<'a> {
         }
     }
 
-    fn mark_block(&mut self, span: &mut Span) {
-        if ctxt != SyntaxContext::empty() {
+    fn mark_block(&mut self, ctxt: &mut SyntaxContext) {
+        if *ctxt != SyntaxContext::empty() {
             return;
         }
 
         let mark = self.current.mark;
 
         if mark != Mark::root() {
-            *span = span.apply_mark(mark)
+            *ctxt = ctxt.apply_mark(mark)
         }
     }
 
@@ -552,7 +552,7 @@ impl<'a> VisitMut for Resolver<'a> {
 
             match &mut *e.body {
                 BlockStmtOrExpr::BlockStmt(s) => {
-                    child.mark_block(&mut s.span);
+                    child.mark_block(&mut s.ctxt);
 
                     let old_strict_mode = child.strict_mode;
 
@@ -597,7 +597,7 @@ impl<'a> VisitMut for Resolver<'a> {
 
     fn visit_mut_block_stmt(&mut self, block: &mut BlockStmt) {
         self.with_child(ScopeKind::Block, |child| {
-            child.mark_block(&mut block.span);
+            child.mark_block(&mut block.ctxt);
             block.visit_mut_children_with(child);
         })
     }
@@ -738,7 +738,7 @@ impl<'a> VisitMut for Resolver<'a> {
 
             match &mut c.body {
                 Some(body) => {
-                    child.mark_block(&mut body.span);
+                    child.mark_block(&mut body.ctxt);
                     body.visit_mut_children_with(child);
                 }
                 None => {}
@@ -873,7 +873,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_function(&mut self, f: &mut Function) {
-        self.mark_block(&mut f.span);
+        self.mark_block(&mut f.ctxt);
         f.type_params.visit_mut_with(self);
 
         self.ident_type = IdentType::Ref;
@@ -899,7 +899,7 @@ impl<'a> VisitMut for Resolver<'a> {
         self.ident_type = IdentType::Ref;
         match &mut f.body {
             Some(body) => {
-                self.mark_block(&mut body.span);
+                self.mark_block(&mut body.ctxt);
                 let old_strict_mode = self.strict_mode;
                 if !self.strict_mode {
                     self.strict_mode = body
@@ -935,35 +935,37 @@ impl<'a> VisitMut for Resolver<'a> {
         match self.ident_type {
             IdentType::Binding => self.modify(i, self.decl_kind),
             IdentType::Ref => {
-                let Ident { span, sym, .. } = i;
+                let Ident {
+                    span, sym, ctxt, ..
+                } = i;
 
                 if cfg!(debug_assertions) && LOG {
                     debug!("IdentRef (type = {}) {}{:?}", self.in_type, sym, ctxt);
                 }
 
-                if ctxt != SyntaxContext::empty() {
+                if *ctxt != SyntaxContext::empty() {
                     return;
                 }
 
                 if let Some(mark) = self.mark_for_ref(sym) {
-                    let span = span.apply_mark(mark);
+                    let ctxt = ctxt.apply_mark(mark);
 
                     if cfg!(debug_assertions) && LOG {
                         debug!("\t -> {:?}", ctxt);
                     }
-                    i.span = span;
+                    i.ctxt = ctxt;
                 } else {
                     if cfg!(debug_assertions) && LOG {
                         debug!("\t -> Unresolved");
                     }
 
-                    let span = span.apply_mark(self.config.unresolved_mark);
+                    let ctxt = ctxt.apply_mark(self.config.unresolved_mark);
 
                     if cfg!(debug_assertions) && LOG {
                         debug!("\t -> {:?}", ctxt);
                     }
 
-                    i.span = span;
+                    i.ctxt = ctxt;
                     // Support hoisting
                     self.modify(i, self.decl_kind)
                 }
@@ -1524,7 +1526,7 @@ struct Hoister<'a, 'b> {
 }
 
 impl Hoister<'_, '_> {
-    fn add_pat_id(&mut self, id: &mut Ident) {
+    fn add_pat_id(&mut self, id: &mut BindingIdent) {
         if self.in_catch_body {
             // If we have a binding, it's different variable.
             if self.resolver.mark_for_ref_inner(&id.sym, true).is_some()
@@ -1556,7 +1558,7 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp) {
         node.visit_mut_children_with(self);
 
-        self.add_pat_id(&mut node.key.id);
+        self.add_pat_id(&mut node.key);
     }
 
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
