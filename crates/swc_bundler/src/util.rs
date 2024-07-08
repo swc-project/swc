@@ -195,13 +195,59 @@ pub(crate) fn metadata_injected() -> Prop {
     metadata("__swc_bundler__injected__", "1")
 }
 
+pub struct ExportMetadata {
+    pub export_ctxt: Option<SyntaxContext>,
+}
+
+impl ExportMetadata {
+    pub fn encode(&self) -> Box<ObjectLit> {
+        let mut props = vec![];
+
+        if let Some(export_ctxt) = self.export_ctxt {
+            props.push(metadata(
+                "__swc_bundler__export_ctxt__",
+                &export_ctxt.as_u32().to_string(),
+            ));
+        }
+
+        create_with(props)
+    }
+
+    pub fn decode(with: &ObjectLit) -> Option<Self> {
+        let mut export_ctxt = None;
+        for prop in &with.props {
+            match prop {
+                PropOrSpread::Prop(p) => match &**p {
+                    Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(Ident { sym, .. }),
+                        value,
+                        ..
+                    }) => {
+                        if *sym == "__swc_bundler__export_ctxt__" {
+                            if let Expr::Lit(Lit::Str(Str { value, .. })) = &**value {
+                                if let Some(v) = value.parse().ok() {
+                                    export_ctxt = Some(SyntaxContext::from_u32(v));
+                                }
+                            }
+                        }
+                    }
+                    _ => {}
+                },
+                _ => {}
+            }
+        }
+
+        Some(ExportMetadata { export_ctxt })
+    }
+}
+
 pub(crate) fn is_injected(with: &ObjectLit) -> bool {
     with.props.iter().any(|prop| {
         match prop {
             PropOrSpread::Prop(p) => {
                 let Prop::KeyValue(KeyValueProp {
                     key: PropName::Ident(Ident { sym, .. }),
-                    value,
+                    ..
                 }) = &**p
                 else {
                     return false;
