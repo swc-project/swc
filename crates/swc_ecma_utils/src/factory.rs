@@ -80,13 +80,9 @@ pub trait ExprFactory: Into<Box<Expr>> {
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn into_lazy_arrow(self, params: Vec<Pat>) -> ArrowExpr {
         ArrowExpr {
-            span: DUMMY_SP,
             params,
             body: Box::new(BlockStmtOrExpr::Expr(self.into())),
-            is_async: false,
-            is_generator: false,
-            type_params: None,
-            return_type: None,
+            ..Default::default()
         }
     }
 
@@ -103,10 +99,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
                 stmts: vec![self.into_return_stmt().into()],
                 ..Default::default()
             }),
-            is_generator: false,
-            is_async: false,
-            type_params: None,
-            return_type: None,
+            ..Default::default()
         }
     }
 

@@ -1363,6 +1363,7 @@ impl<I: Tokens> Parser<I> {
                 is_async,
                 is_generator,
                 return_type,
+                ctxt: Default::default(),
             }))
         })
     }

@@ -455,8 +455,7 @@ impl<I: Tokens> Parser<I> {
                     params,
                     is_async: true,
                     is_generator: false,
-                    return_type: None,
-                    type_params: None,
+                    ..Default::default()
                 })));
             } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!(self, "=>") {
                 if self.ctx().strict && id.is_reserved_in_strict_bind() {
@@ -472,10 +471,7 @@ impl<I: Tokens> Parser<I> {
                     params,
                     is_async: false,
                     is_generator: false,
-                    // TODO
-                    return_type: None,
-                    // TODO
-                    type_params: None,
+                    ..Default::default()
                 })));
             } else {
                 return Ok(Box::new(Expr::Ident(id)));
@@ -822,7 +818,7 @@ impl<I: Tokens> Parser<I> {
                     params,
                     body,
                     return_type: Some(return_type),
-                    type_params: None,
+                    ..Default::default()
                 }))))
             }) {
                 return Ok(expr);
@@ -879,7 +875,7 @@ impl<I: Tokens> Parser<I> {
                 params,
                 body,
                 return_type,
-                type_params: None,
+                ..Default::default()
             };
             if let BlockStmtOrExpr::BlockStmt(..) = &*arrow_expr.body {
                 if let Some(&Token::BinOp(..)) = self.input.cur() {
@@ -1920,8 +1916,7 @@ impl<I: Tokens> Parser<I> {
                             is_async,
                             is_generator: false,
                             params,
-                            type_params: None,
-                            return_type: None,
+                            ..Default::default()
                         }
                         .into(),
                     ),

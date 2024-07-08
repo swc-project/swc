@@ -144,11 +144,7 @@ impl Visit for DuplicateBindings {
             body,
             params,
             decorators,
-            span: _,
-            is_generator: _,
-            is_async: _,
-            type_params: _,
-            return_type: _,
+            ..
         } = f;
         params.visit_with(self);
         decorators.visit_with(self);
@@ -158,15 +154,7 @@ impl Visit for DuplicateBindings {
     }
 
     fn visit_arrow_expr(&mut self, a: &ArrowExpr) {
-        let ArrowExpr {
-            params,
-            body,
-            span: _,
-            is_async: _,
-            is_generator: _,
-            type_params: _,
-            return_type: _,
-        } = a;
+        let ArrowExpr { params, body, .. } = a;
         params.visit_with(self);
         if let BlockStmtOrExpr::BlockStmt(b) = &**body {
             self.visit_with_stmts(&b.stmts, false)

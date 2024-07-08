@@ -745,10 +745,7 @@ fn extend_super(
                     .map(From::from)
                     .collect(),
                 })))),
-                is_async: false,
-                is_generator: false,
-                return_type: None,
-                type_params: None,
+                ..Default::default()
             }))),
             definite: false,
         });
@@ -766,10 +763,7 @@ fn extend_super(
                     span: DUMMY_SP,
                 },
             )))),
-            is_async: false,
-            is_generator: false,
-            return_type: None,
-            type_params: None,
+            ..Default::default()
         }))),
         definite: false,
     }));
@@ -791,10 +785,7 @@ fn extend_super(
                         span: DUMMY_SP,
                     },
                 )))),
-                is_async: false,
-                is_generator: false,
-                return_type: None,
-                type_params: None,
+                ..Default::default()
             }))),
             definite: false,
         });
@@ -818,10 +809,7 @@ fn extend_super(
                     op: op!("="),
                     right: Box::new(Expr::Ident(value)),
                 })))),
-                is_async: false,
-                is_generator: false,
-                return_type: None,
-                type_params: None,
+                ..Default::default()
             }))),
             definite: false,
         }
@@ -849,10 +837,7 @@ fn extend_super(
                     op: op!("="),
                     right: Box::new(Expr::Ident(value)),
                 })))),
-                is_async: false,
-                is_generator: false,
-                return_type: None,
-                type_params: None,
+                ..Default::default()
             }))),
             definite: false,
         });

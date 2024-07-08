@@ -46,7 +46,7 @@ impl OnceMarker {
 impl Fold for OnceMarker {
     fn fold_ident(&mut self, mut ident: Ident) -> Ident {
         if let Some(marks) = self.map.get_mut(&ident.sym) {
-            ident.span = ident.span.apply_mark(marks.remove(0));
+            ident.ctxt = ident.ctxt.apply_mark(marks.remove(0));
         }
 
         ident

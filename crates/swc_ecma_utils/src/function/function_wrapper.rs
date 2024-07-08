@@ -84,12 +84,9 @@ impl<T> FunctionWrapper<T> {
         let function = Box::new(Function {
             span: DUMMY_SP,
             body: Some(block_stmt),
-            params: Default::default(),
             is_generator: false,
             is_async: false,
-            decorators: Default::default(),
-            return_type: Default::default(),
-            type_params: Default::default(),
+            ..Default::default()
         });
 
         FnExpr {
@@ -157,12 +154,9 @@ impl<T> FunctionWrapper<T> {
         let function = Box::new(Function {
             span: DUMMY_SP,
             body: Some(block_stmt),
-            params: Default::default(),
             is_generator: false,
             is_async: false,
-            decorators: Default::default(),
-            return_type: Default::default(),
-            type_params: Default::default(),
+            ..Default::default()
         });
 
         FnExpr {
@@ -224,9 +218,7 @@ impl<T> FunctionWrapper<T> {
                 is_generator: false,
                 params: self.params.take(),
                 body: Some(ref_fn_block_stmt),
-                decorators: Default::default(),
-                type_params: Default::default(),
-                return_type: Default::default(),
+                ..Default::default()
             }),
         };
 
@@ -253,7 +245,6 @@ impl<T> FunctionWrapper<T> {
             ident: name_ident,
             function: Box::new(Function {
                 params: self.params.take(),
-                decorators: Default::default(),
                 span: DUMMY_SP,
                 body: Some(BlockStmt {
                     stmts: vec![apply],
@@ -261,8 +252,8 @@ impl<T> FunctionWrapper<T> {
                 }),
                 is_generator: false,
                 is_async: false,
-                type_params: Default::default(),
-                return_type: Default::default(),
+
+                ..Default::default()
             }),
         }
     }
@@ -309,12 +300,12 @@ impl From<ArrowExpr> for FunctionWrapper<Expr> {
         let function = Box::new(Function {
             span,
             params: params.into_iter().map(Into::into).collect(),
-            decorators: Default::default(),
             body,
             type_params: None,
             return_type: None,
             is_generator,
             is_async,
+            ..Default::default()
         });
 
         let fn_expr = FnExpr {

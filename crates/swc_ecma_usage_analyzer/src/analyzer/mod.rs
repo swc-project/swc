@@ -271,7 +271,10 @@ where
                 }
             }
             AssignTarget::Simple(e) => {
-                self.report_assign_expr_if_ident(e.as_ident().map(|v| &v.id), is_op_assign);
+                self.report_assign_expr_if_ident(
+                    e.as_ident().map(|v| Ident::from(v)),
+                    is_op_assign,
+                );
                 self.mark_mutation_if_member(e.as_member())
             }
         };

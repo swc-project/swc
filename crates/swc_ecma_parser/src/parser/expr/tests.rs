@@ -110,8 +110,7 @@ fn async_arrow() {
             is_generator: false,
             params: vec![],
             body: Box::new(BlockStmtOrExpr::Expr(expr("foo"))),
-            return_type: None,
-            type_params: None,
+            ..Default::default()
         }))
     );
 }
@@ -139,8 +138,7 @@ fn object_rest_pat() {
                 span,
                 ..Default::default()
             })),
-            return_type: None,
-            type_params: None,
+            ..Default::default()
         }))
     );
 }
@@ -215,8 +213,7 @@ fn arrow_fn_no_args() {
             is_generator: false,
             params: vec![],
             body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
-            return_type: None,
-            type_params: None,
+            ..Default::default()
         }))
     );
 }
@@ -230,8 +227,7 @@ fn arrow_fn() {
             is_generator: false,
             params: vec![Pat::Ident(Ident::new_no_ctxt("a".into(), span).into())],
             body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
-            return_type: None,
-            type_params: None,
+            ..Default::default()
         }))
     );
 }
@@ -250,8 +246,8 @@ fn arrow_fn_rest() {
                 type_ann: None
             })],
             body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
-            return_type: None,
-            type_params: None,
+
+            ..Default::default()
         }))
     );
 }
@@ -261,12 +257,9 @@ fn arrow_fn_no_paren() {
         expr("a => 1"),
         Box::new(Expr::Arrow(ArrowExpr {
             span,
-            is_async: false,
-            is_generator: false,
             params: vec![Pat::Ident(Ident::new_no_ctxt("a".into(), span).into())],
             body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
-            type_params: None,
-            return_type: None,
+            ..Default::default()
         }))
     );
 }

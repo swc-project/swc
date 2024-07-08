@@ -2642,6 +2642,7 @@ impl<I: Tokens> Parser<I> {
                 type_params: Some(type_params),
                 params,
                 return_type,
+                ..Default::default()
             }))
         })
     }
