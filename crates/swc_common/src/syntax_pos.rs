@@ -492,11 +492,7 @@ impl Span {
         {
             let lo = BytePos(unsafe { __span_dummy_with_cmt_proxy() });
 
-            return Span {
-                lo,
-                hi: lo,
-                ctxt: SyntaxContext::empty(),
-            };
+            return Span { lo, hi: lo };
         }
 
         #[cfg(not(all(any(feature = "__plugin_mode"), target_arch = "wasm32")))]
