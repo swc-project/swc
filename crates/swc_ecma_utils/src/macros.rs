@@ -104,8 +104,12 @@ mod tests {
 
     #[test]
     fn quote_member_expr() {
-        let expr: Box<Expr> =
-            drop_span(member_expr!(Default::default(), Function.prototype.bind)).into();
+        let expr: Box<Expr> = drop_span(member_expr!(
+            Default::default(),
+            Default::default(),
+            Function.prototype.bind
+        ))
+        .into();
 
         assert_eq!(
             expr,
@@ -113,7 +117,7 @@ mod tests {
                 span,
                 obj: Box::new(Expr::Member(MemberExpr {
                     span,
-                    obj: member_expr!(span, Function),
+                    obj: member_expr!(Default::default(), Default::default(), Function),
                     prop: MemberProp::Ident(quote_ident!("prototype")),
                 })),
                 prop: MemberProp::Ident(quote_ident!("bind")),

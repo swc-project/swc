@@ -46,7 +46,7 @@ impl PrivateRecord {
 
     pub fn get(&self, span: Span, name: &JsWord) -> (Mark, PrivateKind, &Ident) {
         for p in self.0.iter().rev() {
-            if let Some(kind) = p.ident.get(&name) {
+            if let Some(kind) = p.ident.get(name) {
                 return (p.mark, *kind, &p.class_name);
             }
         }

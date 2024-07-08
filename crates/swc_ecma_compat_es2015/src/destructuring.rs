@@ -740,6 +740,7 @@ impl VisitMut for AssignFolder {
                                         span: DUMMY_SP,
                                         callee: member_expr!(
                                             Default::default(),
+                                            Default::default(),
                                             Array.prototype.slice.call
                                         )
                                         .as_callee(),

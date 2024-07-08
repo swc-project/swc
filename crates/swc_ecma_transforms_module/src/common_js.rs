@@ -177,6 +177,7 @@ where
                         op!("="),
                         member_expr!(
                             SyntaxContext::empty().apply_mark(self.unresolved_mark),
+                            Default::default(),
                             module.exports
                         )
                         .into(),

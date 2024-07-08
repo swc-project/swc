@@ -301,7 +301,14 @@ impl Params {
                                     VarDeclarator {
                                         span,
                                         name: len_ident.clone().into(),
-                                        init: Some(member_expr!(span, arguments.length).into()),
+                                        init: Some(
+                                            member_expr!(
+                                                Default::default(),
+                                                span,
+                                                arguments.length
+                                            )
+                                            .into(),
+                                        ),
                                         definite: false,
                                     },
                                     // a1 = new Array(_len - $i)
