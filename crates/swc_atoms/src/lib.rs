@@ -35,9 +35,12 @@ pub struct Atom(hstr::Atom);
 #[cfg(feature = "arbitrary")]
 #[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
 impl<'a> arbitrary::Arbitrary<'a> for Atom {
-    fn arbitrary(rand: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
-        let s: String = arbitrary::Arbitrary::arbitrary(rand)?;
-        s.map(Self::from)
+    fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
+        let sym = u.arbitrary::<String>()?;
+        if sym.is_empty() {
+            return Err(arbitrary::Error::NotEnoughData);
+        }
+        sym.map(Self::from)
     }
 }
 
