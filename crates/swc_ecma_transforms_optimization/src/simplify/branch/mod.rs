@@ -1891,7 +1891,12 @@ fn prepare_loop_body_for_inlining(stmt: Stmt) -> Stmt {
         }
     });
 
-    BlockStmt { span, stmts }.into()
+    BlockStmt {
+        span,
+        stmts,
+        ..Default::default()
+    }
+    .into()
 }
 
 fn has_unconditional_stopper(s: &[Stmt]) -> bool {

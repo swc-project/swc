@@ -540,7 +540,7 @@ where
                     span,
                     callee: jsx.as_callee(),
                     args,
-                    type_args: None,
+                    ..Default::default()
                 })
             }
             Runtime::Classic => {
@@ -557,7 +557,7 @@ where
                                 .filter_map(|c| self.jsx_elem_child_to_expr(c))
                         })
                         .collect(),
-                    type_args: None,
+                    ..Default::default()
                 })
             }
         }

@@ -419,9 +419,7 @@ impl Swcify for ClassDeclaration {
                 body: self.body.swcify(ctx),
                 super_class: self.super_class.swcify(ctx),
                 is_abstract: self.is_abstract.unwrap_or_default(),
-                type_params: None,
-                super_type_params: None,
-                implements: Default::default(),
+                ..Default::default()
             }
             .into(),
         }
