@@ -581,6 +581,7 @@ define!({
     }
     pub struct PrivateProp {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub key: PrivateName,
         pub value: Option<Box<Expr>>,
         pub type_ann: Option<Box<TsTypeAnn>>,

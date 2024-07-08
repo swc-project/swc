@@ -141,6 +141,9 @@ pub struct PrivateProp {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub ctxt: SyntaxContext,
+
     pub key: PrivateName,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
