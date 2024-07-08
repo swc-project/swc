@@ -457,14 +457,14 @@ where
         n.visit_mut_children_with(self);
 
         if let ObjectPatProp::Assign(p) = n {
-            let mut renamed = p.key.id.clone();
+            let mut renamed = Ident::from(&p.key);
             if self.rename_ident(&mut renamed).is_ok() {
                 if renamed.sym == p.key.sym {
                     return;
                 }
 
                 *n = KeyValuePatProp {
-                    key: PropName::Ident(p.key.id.take()),
+                    key: PropName::Ident(p.key.take().into()),
                     value: match p.value.take() {
                         Some(default_expr) => Box::new(Pat::Assign(AssignPat {
                             span: p.span,
@@ -497,7 +497,8 @@ where
                     *prop = Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(Ident {
                             // clear mark
-                            span: i.span.with_ctxt(SyntaxContext::empty()),
+                            span: i.span,
+                            ctxt: SyntaxContext::empty(),
                             ..i.clone()
                         }),
                         value: Box::new(Expr::Ident(renamed)),

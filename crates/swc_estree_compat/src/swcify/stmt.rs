@@ -693,7 +693,7 @@ impl Swcify for swc_estree_ast::ImportSpecifier {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ImportNamedSpecifier {
             span: ctx.span(&self.base),
-            local: self.local.swcify(ctx).id,
+            local: self.local.swcify(ctx).into(),
             imported: Some(self.imported.swcify(ctx)),
             is_type_only: matches!(self.import_kind, Some(ImportKind::Type)),
         }
@@ -706,7 +706,7 @@ impl Swcify for swc_estree_ast::ImportDefaultSpecifier {
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::ImportDefaultSpecifier {
             span: ctx.span(&self.base),
-            local: self.local.swcify(ctx).id,
+            local: self.local.swcify(ctx).into(),
         }
     }
 }
@@ -717,7 +717,7 @@ impl Swcify for ImportNamespaceSpecifier {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ImportStarAsSpecifier {
             span: ctx.span(&self.base),
-            local: self.local.swcify(ctx).id,
+            local: self.local.swcify(ctx).into(),
         }
     }
 }
