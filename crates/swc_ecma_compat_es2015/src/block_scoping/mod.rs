@@ -181,6 +181,7 @@ impl BlockScoping {
                 body => BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![body.take()],
+                    ..Default::default()
                 },
             };
 
