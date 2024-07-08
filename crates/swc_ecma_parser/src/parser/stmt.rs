@@ -1229,6 +1229,7 @@ impl<'a, I: Tokens> Parser<I> {
                     left,
                     right,
                     body,
+                    ..Default::default()
                 })
             }
             TempForHead::ForOf { left, right } => Stmt::ForOf(ForOfStmt {
@@ -1237,6 +1238,7 @@ impl<'a, I: Tokens> Parser<I> {
                 left,
                 right,
                 body,
+                ..Default::default()
             }),
         })
     }
@@ -1590,6 +1592,7 @@ mod tests {
                 right: Box::new(Expr::Ident(Ident::new_no_ctxt("b".into(), span))),
 
                 body: Box::new(Stmt::Empty(EmptyStmt { span })),
+                ..Default::default()
             })
         )
     }

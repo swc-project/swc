@@ -314,6 +314,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                         key,
                                         type_ann: return_type,
                                         body,
+                                        ..Default::default()
                                     })))
                                 },
                             ),
@@ -382,6 +383,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                             body,
                                             param,
                                             this_param: this,
+                                            ..Default::default()
                                         })))
                                     },
                                 )
