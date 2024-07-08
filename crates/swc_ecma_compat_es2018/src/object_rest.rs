@@ -469,7 +469,7 @@ impl ObjectRest {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         decls: folder.mutable_vars,
-                        declare: false,
+                        ..Default::default()
                     }
                     .into(),
                 ));
@@ -481,7 +481,7 @@ impl ObjectRest {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         decls: folder.vars,
-                        declare: false,
+                        ..Default::default()
                     }
                     .into(),
                 ));

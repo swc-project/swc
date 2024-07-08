@@ -102,7 +102,7 @@ impl ClassExtra {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: self.vars,
-                    declare: false,
+                    ..Default::default()
                 })
                 .into(),
             )
@@ -115,7 +115,7 @@ impl ClassExtra {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
                     decls: self.lets,
-                    declare: false,
+                    ..Default::default()
                 })
                 .into(),
             )
@@ -131,7 +131,7 @@ impl ClassExtra {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: self.vars,
-                    declare: false,
+                    ..Default::default()
                 })
                 .into(),
             )
