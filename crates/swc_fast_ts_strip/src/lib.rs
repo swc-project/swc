@@ -9,13 +9,12 @@ use swc_common::{
     BytePos, FileName, SourceMap, Span, Spanned,
 };
 use swc_ecma_ast::{
-    ArrowExpr, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, Decorator, EsVersion,
-    ExportAll, ExportDecl, ExportSpecifier, FnDecl, Ident, ImportDecl, ImportSpecifier,
-    NamedExport, Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment,
-    TsImportEqualsDecl, TsIndexSignature, TsInstantiation, TsInterfaceDecl, TsModuleDecl,
-    TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
-    TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
-    VarDecl,
+    ArrowExpr, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, EsVersion, ExportAll,
+    ExportDecl, ExportSpecifier, FnDecl, Ident, ImportDecl, ImportSpecifier, NamedExport, Param,
+    Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl,
+    TsIndexSignature, TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName,
+    TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
+    TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation, VarDecl,
 };
 use swc_ecma_parser::{
     lexer::Lexer,
@@ -364,12 +363,6 @@ impl Visit for TsStrip {
         self.add_replacement(n.span);
     }
 
-    fn visit_decorator(&mut self, n: &Decorator) {
-        HANDLER.with(|handler| {
-            handler.span_err(n.span, "Decorators are not supported");
-        });
-    }
-
     fn visit_export_all(&mut self, n: &ExportAll) {
         if n.type_only {
             self.add_replacement(n.span);
@@ -419,6 +412,8 @@ impl Visit for TsStrip {
                     let comma = self.get_next_token(import.span_hi());
                     if comma.token == Token::Comma {
                         span = span.with_hi(comma.span.hi);
+                    } else {
+                        debug_assert_eq!(comma.token, Token::RBrace);
                     }
                     self.add_replacement(span);
                 }
@@ -439,6 +434,8 @@ impl Visit for TsStrip {
                     let comma = self.get_next_token(e.span_hi());
                     if comma.token == Token::Comma {
                         span = span.with_hi(comma.span.hi);
+                    } else {
+                        debug_assert_eq!(comma.token, Token::RBrace);
                     }
                     self.add_replacement(span);
                 }
@@ -484,6 +481,8 @@ impl Visit for TsStrip {
             let comma = self.get_next_token(span.hi);
             if comma.token == Token::Comma {
                 span = span.with_hi(comma.span.hi);
+            } else {
+                debug_assert_eq!(comma.token, Token::RParen);
             }
             self.add_replacement(span);
 

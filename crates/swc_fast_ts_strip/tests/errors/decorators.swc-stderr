@@ -1,5 +1,0 @@
-  x Decorators are not supported
-   ,----
- 1 | class Foo { @decorator foo() { } }
-   :             ^^^^^^^^^^
-   `----
