@@ -434,7 +434,7 @@ where
                         span: DUMMY_SP,
                         callee: helper!(wrap_native_super),
                         args: vec![super_class.as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }
                     .as_arg()],
                     Some(super_param),
@@ -514,7 +514,7 @@ where
             }
             .as_callee(),
             args,
-            type_args: Default::default(),
+            ..Default::default()
         };
 
         Expr::Call(call)
@@ -583,7 +583,7 @@ where
                     span: DUMMY_SP,
                     callee: helper!(inherits),
                     args: vec![class_name_sym.as_arg(), super_class_name_sym.as_arg()],
-                    type_args: Default::default(),
+                    ..Default::default()
                 }
                 .into_stmt(),
             );
@@ -608,7 +608,7 @@ where
                                 span: DUMMY_SP,
                                 callee: helper!(create_super),
                                 args: vec![class_name_sym.as_arg()],
-                                type_args: Default::default(),
+                                ..Default::default()
                             }))),
                             definite: Default::default(),
                         }],
@@ -998,7 +998,7 @@ where
                     .chain(iter::once(methods))
                     .chain(static_methods)
                     .collect(),
-                type_args: Default::default(),
+                ..Default::default()
             }
             .into_stmt()
         }

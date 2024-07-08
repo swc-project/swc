@@ -542,7 +542,7 @@ pub(crate) fn amd_dynamic_import(
         span,
         callee: Box::new(quote_ident!("Promise").into()),
         args: Some(vec![promise_executer.as_arg()]),
-        type_args: None,
+        ..Default::default()
     }
     .into()
 }

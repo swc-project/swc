@@ -879,7 +879,7 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_getter_prop(&mut self, n: &GetterProp) {
-        self.with_child(n.ctxt, ScopeKind::Fn, |a| {
+        self.with_child(SyntaxContext::empty(), ScopeKind::Fn, |a| {
             n.key.visit_with(a);
 
             n.body.visit_with(a);
