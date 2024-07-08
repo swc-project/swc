@@ -340,7 +340,7 @@ impl VisitMut for PrivateInObject {
                             span: DUMMY_SP,
                             callee: Box::new(Expr::Ident(quote_ident!("WeakSet"))),
                             args: Some(Default::default()),
-                            type_args: Default::default(),
+                            ..Default::default()
                         }))),
                     );
 
@@ -354,7 +354,7 @@ impl VisitMut for PrivateInObject {
                                     .make_member(quote_ident!("add"))
                                     .as_callee(),
                                 args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                                type_args: Default::default(),
+                                ..Default::default()
                             })));
                     }
                 }
@@ -363,7 +363,7 @@ impl VisitMut for PrivateInObject {
                     span: *span,
                     callee: var_name.make_member(quote_ident!("has")).as_callee(),
                     args: vec![right.take().as_arg()],
-                    type_args: Default::default(),
+                    ..Default::default()
                 });
             }
 
@@ -413,7 +413,7 @@ impl VisitMut for PrivateInObject {
                         span: DUMMY_SP,
                         callee: var_name.make_member(quote_ident!("add")).as_callee(),
                         args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }));
 
                     *init = Box::new(Expr::Seq(SeqExpr {
@@ -429,7 +429,7 @@ impl VisitMut for PrivateInObject {
                             span: DUMMY_SP,
                             callee: var_name.make_member(quote_ident!("add")).as_callee(),
                             args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                            type_args: Default::default(),
+                            ..Default::default()
                         })),
                     })))
                 }

@@ -703,9 +703,10 @@ impl Decorator2022_03 {
                     span: DUMMY_SP,
                     callee: init_class.as_callee(),
                     args: vec![],
-                    type_args: Default::default(),
+                    ..Default::default()
                 }
                 .into_stmt()],
+                ..Default::default()
             },
         }));
         self.state = old_state;

@@ -776,8 +776,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                                     span: DUMMY_SP,
                                     callee: get,
                                     args: vec![this.as_arg(), ident.as_arg()],
-
-                                    type_args: Default::default(),
+                                    ..Default::default()
                                 }
                                 .into()
                             },

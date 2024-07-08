@@ -42,7 +42,7 @@ impl ClassStaticBlock {
                 }
                 .as_callee(),
                 args: Vec::new(),
-                type_args: None,
+                ..Default::default()
             });
 
             Some(Box::new(expr))
