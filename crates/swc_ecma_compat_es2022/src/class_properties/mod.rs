@@ -918,14 +918,14 @@ impl<C: Comments> ClassProperties<C> {
                                     span,
                                     callee: helper!(class_private_field_loose_key),
                                     args: vec![weak_coll_var.sym.as_arg()],
-                                    type_args: Default::default(),
+                                    ..Default::default()
                                 })
                             } else {
                                 Expr::New(NewExpr {
                                     span,
                                     callee: Box::new(Expr::Ident(extra)),
                                     args: Some(Default::default()),
-                                    type_args: Default::default(),
+                                    ..Default::default()
                                 })
                             })),
                         })
