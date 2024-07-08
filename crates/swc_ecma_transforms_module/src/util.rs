@@ -2,7 +2,7 @@ use is_macro::Is;
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_cached::regex::CachedRegex;
-use swc_common::{Span, DUMMY_SP};
+use swc_common::{Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     is_valid_prop_ident, member_expr, private_ident, quote_ident, quote_str, ExprFactory,
@@ -368,9 +368,9 @@ pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportKV>) ->
     }
 }
 
-pub(crate) fn prop_name(key: &str, span: Span) -> IdentOrStr {
+pub(crate) fn prop_name(key: &str, span: Span, ctxt: SyntaxContext) -> IdentOrStr {
     if is_valid_prop_ident(key) {
-        IdentOrStr::Ident(quote_ident!(span, key))
+        IdentOrStr::Ident(quote_ident!(ctxt, span, key))
     } else {
         IdentOrStr::Str(quote_str!(span, key))
     }

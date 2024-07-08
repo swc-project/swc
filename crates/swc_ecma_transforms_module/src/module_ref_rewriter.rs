@@ -52,7 +52,7 @@ impl QueryRef for ImportQuery {
                 };
 
                 if let Some(imported_name) = mod_prop {
-                    let prop = prop_name(imported_name, DUMMY_SP).into();
+                    let prop = prop_name(imported_name, DUMMY_SP, Default::default()).into();
 
                     MemberExpr {
                         obj: Box::new(mod_expr),

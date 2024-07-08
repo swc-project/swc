@@ -474,7 +474,7 @@ where
                 let expr: Expr = 0.into();
 
                 let (key, export_item) = &export_id_list[0];
-                let prop = prop_name(key, DUMMY_SP).into();
+                let prop = prop_name(key, DUMMY_SP, Default::default()).into();
                 let export_binding = MemberExpr {
                     obj: Box::new(self.exports().into()),
                     span: export_item.export_name_span(),
