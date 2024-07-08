@@ -531,7 +531,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                     callee: helper!(class_private_field_loose_base),
                     span: *span,
                     args: vec![obj.take().as_arg(), ident.clone().as_arg()],
-                    type_args: None,
+                    ..Default::default()
                 })
                 .computed_member(ident)
                 .into();
@@ -636,8 +636,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                                 class_name.clone().as_arg(),
                                 ident.as_arg(),
                             ],
-
-                            type_args: Default::default(),
+                            ..Default::default()
                         }
                         .make_member(quote_ident!("value"))
                         .into(),
@@ -657,7 +656,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                                 ident.as_arg(),
                             ],
 
-                            type_args: Default::default(),
+                            ..Default::default()
                         }
                         .make_member(quote_ident!("value"))
                         .into(),
@@ -679,7 +678,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                             class_name.clone().as_arg(),
                             method_name.as_arg(),
                         ],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }),
                     Some(Expr::Ident(class_name.clone())),
                 );
@@ -692,7 +691,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                     span: DUMMY_SP,
                     callee: get,
                     args: vec![obj.as_arg(), class_name.clone().as_arg(), ident.as_arg()],
-                    type_args: Default::default(),
+                    ..Default::default()
                 }),
                 Some(Expr::Ident(class_name.clone())),
             )
@@ -707,7 +706,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                             callee: set,
                             args: vec![obj.clone().as_arg(), ident.as_arg()],
 
-                            type_args: Default::default(),
+                            ..Default::default()
                         }
                         .make_member(quote_ident!("value"))
                         .into(),
@@ -723,7 +722,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                             callee: set,
                             args: vec![obj.clone().as_arg(), ident.as_arg()],
 
-                            type_args: Default::default(),
+                            ..Default::default()
                         }
                         .make_member(quote_ident!("value"))
                         .into(),
