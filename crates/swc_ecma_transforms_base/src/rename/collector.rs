@@ -104,7 +104,7 @@ where
         n.visit_children_with(self);
 
         if self.is_pat_decl {
-            self.add(&Ident::from(&n.id))
+            self.add(&Ident::from(n))
         }
     }
 

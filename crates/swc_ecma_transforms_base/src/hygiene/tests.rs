@@ -432,8 +432,7 @@ fn mark_root() {
                             ..Default::default()
                         }),
                         params: vec![],
-                        type_params: Default::default(),
-                        return_type: Default::default(),
+                        ..Default::default()
                     }),
 
                     declare: false,
@@ -518,8 +517,7 @@ fn fn_args() {
                         pat: quote_ident!("force").into(),
                     }
                     .fold_with(&mut marker(&[("force", mark1)]))],
-                    type_params: Default::default(),
-                    return_type: Default::default(),
+                    ..Default::default()
                 }),
 
                 declare: false,
@@ -559,8 +557,7 @@ fn block_in_fn() {
                         ..Default::default()
                     }),
                     params: vec![],
-                    type_params: Default::default(),
-                    return_type: Default::default(),
+                    ..Default::default()
                 }),
 
                 declare: false,
@@ -612,8 +609,7 @@ fn flat_in_fn() {
                         ..Default::default()
                     }),
                     params: vec![],
-                    type_params: Default::default(),
-                    return_type: Default::default(),
+                    ..Default::default()
                 }),
 
                 declare: false,
@@ -667,8 +663,7 @@ fn params_in_fn() {
                             .into(),
                         },
                     ],
-                    type_params: Default::default(),
-                    return_type: Default::default(),
+                    ..Default::default()
                 }),
 
                 declare: false,

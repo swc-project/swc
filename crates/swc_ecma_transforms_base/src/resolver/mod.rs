@@ -1224,7 +1224,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_enum_decl(&mut self, decl: &mut TsEnumDecl) {
-        self.modify(&mut decl.id, DeclKind::Lexical);
+        self.modify(&decl.id.sym, &mut decl.id.ctxt, DeclKind::Lexical);
 
         self.with_child(ScopeKind::Block, |child| {
             // add the enum member names as declared symbols for this scope
@@ -1281,7 +1281,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_import_equals_decl(&mut self, n: &mut TsImportEqualsDecl) {
-        self.modify(&mut n.id, DeclKind::Lexical);
+        self.modify(&n.id.sym, &mut n.id.ctxt, DeclKind::Lexical);
 
         n.module_ref.visit_mut_with(self);
     }
