@@ -194,13 +194,13 @@ impl EqIgnoreSpan for Ident {
 
 impl From<Id> for Ident {
     fn from(id: Id) -> Self {
-        Ident::new(id.0, SpanWithCtx::new(BytePos::DUMMY, BytePos::DUMMY, id.1))
+        Ident::new(id.0, DUMMY_SP, id.1)
     }
 }
 
 impl From<Ident> for Id {
     fn from(i: Ident) -> Self {
-        (i.sym, i.span.ctxt)
+        (i.sym, i.ctxt)
     }
 }
 
@@ -228,7 +228,7 @@ impl Ident {
 
     /// Creates `Id` using `Atom` and `SyntaxContext` of `self`.
     pub fn to_id(&self) -> Id {
-        (self.sym.clone(), self.span.ctxt)
+        (self.sym.clone(), self.ctxt)
     }
 
     /// Returns true if `c` is a valid character for an identifier start.
@@ -327,15 +327,21 @@ impl Ident {
 
     /// Create a new identifier with the given prefix.
     pub fn with_prefix(&self, prefix: &str) -> Ident {
-        Ident::new(format!("{}{}", prefix, self.sym).into(), self.span)
+        Ident::new(
+            format!("{}{}", prefix, self.sym).into(),
+            self.span,
+            self.ctxt,
+        )
     }
 
     /// Create a private identifier that is unique in the file, but with the
     /// same symbol.
     pub fn into_private(self) -> Ident {
-        let span = self.span.apply_mark(Mark::new());
-
-        Self::new(self.sym, span)
+        Self::new(
+            self.sym,
+            self.span,
+            SyntaxContext::empty().apply_mark(Mark::new()),
+        )
     }
 
     #[inline]
@@ -345,7 +351,7 @@ impl Ident {
 
     /// Create a new identifier with the given position.
     pub fn with_pos(mut self, lo: BytePos, hi: BytePos) -> Ident {
-        self.span.pos = Span::new(lo, hi);
+        self.span = Span::new(lo, hi);
         self
     }
 }
@@ -361,7 +367,7 @@ impl Take for Ident {
 
 impl Display for Ident {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}{:?}", self.sym, self.span.ctxt)
+        write!(f, "{}{:?}", self.sym, self.ctxt)
     }
 }
 
