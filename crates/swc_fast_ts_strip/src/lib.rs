@@ -15,6 +15,13 @@ use swc_ecma_ast::{
     TsIndexSignature, TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName,
     TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
     TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation, VarDecl,
+    ArrowExpr, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, Decorator, EsVersion,
+    ExportAll, ExportDecl, ExportSpecifier, FnDecl, ImportDecl, ImportSpecifier, NamedExport,
+    Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment,
+    TsImportEqualsDecl, TsIndexSignature, TsInstantiation, TsInterfaceDecl, TsModuleDecl,
+    TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
+    TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
+    VarDecl,
 };
 use swc_ecma_parser::{
     lexer::Lexer,

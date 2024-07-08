@@ -14,7 +14,7 @@ pub fn no_dupe_args() -> Box<dyn Rule> {
 #[derive(Debug, Default)]
 struct NoDupeArgs {}
 
-fn error(first: &Ident, second: &Ident) {
+fn error(first: &BindingIdent, second: &BindingIdent) {
     HANDLER.with(|handler| {
         handler
             .struct_span_err(
