@@ -2327,7 +2327,7 @@ export default function waitUntil(callback, options = {}) {
                 ident: Some(Ident {
                     span,
                     sym: "Foo".into(),
-                    optional: false,
+                    ..Default::default()
                 }),
                 class: Box::new(Class {
                     span,

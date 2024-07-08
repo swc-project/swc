@@ -184,6 +184,7 @@ impl FastDts {
                                     span: DUMMY_SP,
                                     name: Pat::Ident(BindingIdent {
                                         span: name_ident.span,
+                                        ctxt: name_ident.ctxt,
                                         sym: name_ident.sym.clone(),
                                         optional: name_ident.optional,
 
@@ -833,7 +834,8 @@ impl FastDts {
                         };
 
                         TsFnParam::Ident(BindingIdent {
-                            span: assign_pat.span.with_empty_ctxt(),
+                            span: assign_pat.span,
+                            ctxt: Default::default(),
                             sym: name,
                             optional: false,
                             type_ann: Some(type_ann(param)),
