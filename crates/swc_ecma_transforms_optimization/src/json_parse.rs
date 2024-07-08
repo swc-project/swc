@@ -78,7 +78,7 @@ impl VisitMut for JsonParse {
                             value: value.into(),
                         })
                         .as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     });
                     return;
                 }

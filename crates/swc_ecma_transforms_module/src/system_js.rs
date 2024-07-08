@@ -1102,7 +1102,7 @@ impl Fold for SystemJs {
                     }
                     .as_arg(),
                 ],
-                type_args: Default::default(),
+                ..Default::default()
             }
             .into_stmt()
             .into()],
