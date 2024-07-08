@@ -587,7 +587,7 @@ impl<'a> VisitMut for Resolver<'a> {
         i.type_ann.visit_mut_with(self);
 
         self.ident_type = ident_type;
-        self.modify(&i.sym,&mut i.ctxt, self.decl_kind)
+        self.modify(&i.sym, &mut i.ctxt, self.decl_kind);
 
         self.in_type = in_type;
         self.ident_type = ident_type;
@@ -615,7 +615,7 @@ impl<'a> VisitMut for Resolver<'a> {
             c.param.visit_mut_with(child);
             child.ident_type = IdentType::Ref;
 
-            child.mark_block(&mut c.body.span);
+            child.mark_block(&mut c.body.ctxt);
             c.body.visit_mut_children_with(child);
         });
     }
@@ -646,7 +646,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
-        self.modify(&mut n.ident, DeclKind::Lexical);
+        self.modify(&n.ident.sym, &mut n.ident.ctxt, DeclKind::Lexical);
 
         n.class.decorators.visit_mut_with(self);
 
@@ -933,9 +933,7 @@ impl<'a> VisitMut for Resolver<'a> {
         match self.ident_type {
             IdentType::Binding => self.modify(&i.sym, &mut i.ctxt, self.decl_kind),
             IdentType::Ref => {
-                let Ident {
-                    span, sym, ctxt, ..
-                } = i;
+                let Ident { sym, ctxt, .. } = i;
 
                 if cfg!(debug_assertions) && LOG {
                     debug!("IdentRef (type = {}) {}{:?}", self.in_type, sym, ctxt);
@@ -965,7 +963,7 @@ impl<'a> VisitMut for Resolver<'a> {
 
                     i.ctxt = ctxt;
                     // Support hoisting
-                    self.modify(i, self.decl_kind)
+                    self.modify(&i.sym, &mut i.ctxt, self.decl_kind)
                 }
             }
             // We currently does not touch labels
@@ -1724,7 +1722,8 @@ impl VisitMut for Hoister<'_, '_> {
             }
             DefaultDecl::Class(c) => {
                 if let Some(id) = &mut c.ident {
-                    self.resolver.modify(&id.sym,&mut id.ctxt, DeclKind::Lexical);
+                    self.resolver
+                        .modify(&id.sym, &mut id.ctxt, DeclKind::Lexical);
                 }
 
                 c.visit_mut_with(self)
@@ -1766,7 +1765,8 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_import_default_specifier(&mut self, n: &mut ImportDefaultSpecifier) {
         n.visit_mut_children_with(self);
 
-        self.resolver.modify(&mut n.local, DeclKind::Lexical);
+        self.resolver
+            .modify(&n.local.sym, &mut n.local.ctxt, DeclKind::Lexical);
 
         if self.resolver.config.handle_types {
             self.resolver
@@ -1792,7 +1792,8 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_import_star_as_specifier(&mut self, n: &mut ImportStarAsSpecifier) {
         n.visit_mut_children_with(self);
 
-        self.resolver.modify(&mut n.local, DeclKind::Lexical);
+        self.resolver
+            .modify(&n.local.sym, &mut n.local.ctxt, DeclKind::Lexical);
 
         if self.resolver.config.handle_types {
             self.resolver
