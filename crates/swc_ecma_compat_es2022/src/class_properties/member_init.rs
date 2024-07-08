@@ -103,7 +103,7 @@ impl MemberInitRecord {
                             span,
                             callee,
                             args,
-                            type_args: Default::default(),
+                            ..Default::default()
                         }
                         .into(),
                     )
@@ -168,7 +168,7 @@ impl MemberInitRecord {
                                 prop_name_to_expr_value(name).as_arg(),
                                 value.as_arg(),
                             ],
-                            type_args: Default::default(),
+                            ..Default::default()
                         })
                     }
                     .into(),
@@ -211,7 +211,7 @@ impl MemberInitRecord {
                                     prop_name_to_expr_value(name).as_arg(),
                                     value.as_arg(),
                                 ],
-                                type_args: Default::default(),
+                                ..Default::default()
                             })
                         })
                         .into(),
@@ -229,7 +229,7 @@ impl MemberInitRecord {
                                     name.as_arg(),
                                     get_value_desc(value).as_arg(),
                                 ],
-                                type_args: None,
+                                ..Default::default()
                             })),
                         })
                     } else {

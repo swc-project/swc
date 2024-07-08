@@ -630,15 +630,15 @@ impl Decorator2022_03 {
                             body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
                                 span: DUMMY_SP,
                                 stmts: last,
+                                ..Default::default()
                             })),
                             is_async: false,
                             is_generator: false,
-                            type_params: Default::default(),
-                            return_type: Default::default(),
+                            ..Default::default()
                         }
                         .as_callee(),
                         args: vec![],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }
                     .into()
                 });
@@ -903,6 +903,7 @@ impl VisitMut for Decorator2022_03 {
                     p.function.body = Some(BlockStmt {
                         span: DUMMY_SP,
                         stmts: vec![call_stmt],
+                        ..Default::default()
                     });
                 }
                 MethodKind::Getter => {
@@ -912,13 +913,14 @@ impl VisitMut for Decorator2022_03 {
                             span: DUMMY_SP,
                             callee: init.as_callee(),
                             args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                            type_args: Default::default(),
+                            ..Default::default()
                         }))),
                     });
 
                     p.function.body = Some(BlockStmt {
                         span: DUMMY_SP,
                         stmts: vec![call_stmt],
+                        ..Default::default()
                     });
                 }
                 MethodKind::Setter => {
@@ -931,13 +933,14 @@ impl VisitMut for Decorator2022_03 {
                                 ThisExpr { span: DUMMY_SP }.as_arg(),
                                 p.function.params[0].pat.clone().expect_ident().id.as_arg(),
                             ],
-                            type_args: Default::default(),
+                            ..Default::default()
                         }))),
                     });
 
                     p.function.body = Some(BlockStmt {
                         span: DUMMY_SP,
                         stmts: vec![call_stmt],
+                        ..Default::default()
                     });
                 }
             }
