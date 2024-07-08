@@ -459,6 +459,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                         callee: expr.make_member(quote_ident!("call")).as_callee(),
                         args: iter::once(this.as_arg()).chain(args.take()).collect(),
                         type_args: type_args.take(),
+                        ..Default::default()
                     });
                 } else {
                     *e = Expr::Call(CallExpr {
@@ -466,6 +467,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                         callee: expr.as_callee(),
                         args: args.take(),
                         type_args: type_args.take(),
+                        ..Default::default()
                     });
                 }
             }

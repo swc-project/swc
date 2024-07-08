@@ -558,10 +558,7 @@ impl Decorator2022_03 {
                     decorators: vec![],
                     body,
                     super_class: c.class.super_class.take(),
-                    is_abstract: Default::default(),
-                    type_params: Default::default(),
-                    super_type_params: Default::default(),
-                    implements: Default::default(),
+                    ..Default::default()
                 }),
             };
 
@@ -619,7 +616,7 @@ impl Decorator2022_03 {
                     span: DUMMY_SP,
                     callee: Callee::Super(Super { span: DUMMY_SP }),
                     args: vec![c.ident.clone().as_arg()],
-                    type_args: Default::default(),
+                    ..Default::default()
                 }
                 .into();
                 let static_call = last_static_block.map(|last| {
@@ -648,7 +645,7 @@ impl Decorator2022_03 {
                     span: DUMMY_SP,
                     callee: init_class.as_callee(),
                     args: Vec::new(),
-                    type_args: Default::default(),
+                    ..Default::default()
                 }
                 .into();
 
@@ -792,7 +789,7 @@ impl VisitMut for Decorator2022_03 {
                         span: DUMMY_SP,
                         callee: init_proto.as_callee(),
                         args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }))],
                 )
             }

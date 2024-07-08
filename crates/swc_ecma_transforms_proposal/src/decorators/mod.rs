@@ -522,10 +522,9 @@ impl Decorators {
                                                     span: DUMMY_SP,
                                                     arg: Some(value),
                                                 })],
+                                                ..Default::default()
                                             }),
-
-                                            type_params: Default::default(),
-                                            return_type: Default::default(),
+                                            ..Default::default()
                                         }
                                         .into(),
                                     }),
@@ -606,10 +605,9 @@ impl Decorators {
                             }))),
                         })))
                         .collect(),
+                        ..Default::default()
                     }),
-
-                    return_type: Default::default(),
-                    type_params: Default::default(),
+                    ..Default::default()
                 }
                 .as_arg()
             })
@@ -637,7 +635,7 @@ fn make_decorate_call(
         )
         .chain(args)
         .collect(),
-        type_args: Default::default(),
+        ..Default::default()
     }
 }
 
