@@ -2,7 +2,7 @@ use swc_common::Spanned;
 use swc_ecma_ast::{
     op, ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BinaryOp, BindingIdent,
     BlockStmtOrExpr, CallExpr, Callee, ClassExpr, ComputedPropName, CondExpr, Expr, ExprOrSpread,
-    FnExpr, Function, Ident, Import, JSXAttr, JSXAttrOrSpread, JSXAttrValue, JSXEmptyExpr, JSXExpr,
+    FnExpr, Function, Import, JSXAttr, JSXAttrOrSpread, JSXAttrValue, JSXEmptyExpr, JSXExpr,
     JSXExprContainer, JSXMemberExpr, JSXObject, KeyValueProp, Lit, MemberExpr, MemberProp,
     MetaPropExpr, MetaPropKind, MethodProp, NewExpr, ObjectLit, OptCall, OptChainBase,
     OptChainExpr, ParenExpr, Prop, PropName, PropOrSpread, SeqExpr, SpreadElement, SuperProp,

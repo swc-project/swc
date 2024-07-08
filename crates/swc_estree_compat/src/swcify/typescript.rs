@@ -129,7 +129,7 @@ impl Swcify for TSEntityName {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            TSEntityName::Id(v) => TsEntityName::Ident(v.swcify(ctx).id),
+            TSEntityName::Id(v) => TsEntityName::Ident(v.swcify(ctx).into()),
             TSEntityName::Qualified(v) => TsEntityName::TsQualifiedName(Box::new(v.swcify(ctx))),
         }
     }
@@ -141,7 +141,7 @@ impl Swcify for TSQualifiedName {
     fn swcify(self, ctx: &Context) -> Self::Output {
         TsQualifiedName {
             left: self.left.swcify(ctx),
-            right: self.right.swcify(ctx).id,
+            right: self.right.swcify(ctx).into(),
         }
     }
 }
