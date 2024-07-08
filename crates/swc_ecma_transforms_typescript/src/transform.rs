@@ -153,9 +153,9 @@ impl VisitMut for Transform {
 
                     let (pat, expr, id) = match param {
                         TsParamPropParam::Ident(binding_ident) => {
-                            let id = binding_ident.id.to_id();
-                            let prop_name = PropName::Ident(binding_ident.id.clone());
-                            let value = binding_ident.id.clone().into();
+                            let id = binding_ident.to_id();
+                            let prop_name = PropName::Ident(Ident::from(&*binding_ident));
+                            let value = Ident::from(&*binding_ident).into();
 
                             (
                                 Pat::Ident(binding_ident.clone()),
