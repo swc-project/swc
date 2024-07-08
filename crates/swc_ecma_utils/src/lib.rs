@@ -497,7 +497,7 @@ impl Visit for Hoister {
         p.visit_children_with(self);
 
         if let Pat::Ident(ref i) = *p {
-            self.vars.push(i.id.clone())
+            self.vars.push(i.clone().into())
         }
     }
 
@@ -903,9 +903,9 @@ pub trait ExprExt {
                 &**arg,
                 Expr::Ident(Ident {
                     sym,
-                    span,
+                    ctxt,
                     ..
-                }) if &**sym == "Infinity" && ctxt == ctx.unresolved_ctxt
+                }) if &**sym == "Infinity" && *ctxt == ctx.unresolved_ctxt
             ) =>
             {
                 -f64::INFINITY
@@ -1000,7 +1000,7 @@ pub trait ExprExt {
                 // converted. unimplemented!("TplLit.
                 // as_string()")
             }
-            Expr::Ident(Ident { ref sym, span, .. }) => match &**sym {
+            Expr::Ident(Ident { ref sym, ctxt, .. }) => match &**sym {
                 "undefined" | "Infinity" | "NaN" if ctxt == ctx.unresolved_ctxt => {
                     Known(Cow::Borrowed(&**sym))
                 }
