@@ -274,7 +274,8 @@ impl Decorator2022_03 {
 
                 let init = Ident::new(
                     format!("_{prefix}_computedKey").into(),
-                    key_ident.span.private(),
+                    key_ident.span,
+                    SyntaxContext::empty().apply_mark(Mark::new()),
                 );
 
                 (Box::new(Expr::Ident(key_ident)), init)
