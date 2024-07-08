@@ -9,7 +9,10 @@ use swc_ecma_utils::{
     FunctionFactory, IsDirective,
 };
 
-use crate::module_decl_strip::{ExportItem, ExportKV};
+use crate::{
+    module_decl_strip::{ExportItem, ExportKV},
+    SpanCtx,
+};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
@@ -369,7 +372,7 @@ pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportKV>) ->
     }
 }
 
-pub(crate) fn prop_name(key: &str, span: Span, ctxt: SyntaxContext) -> IdentOrStr {
+pub(crate) fn prop_name(key: &str, (span, ctxt): SpanCtx) -> IdentOrStr {
     if is_valid_prop_ident(key) {
         IdentOrStr::Ident(quote_ident!(ctxt, span, key))
     } else {
