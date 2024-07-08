@@ -124,11 +124,11 @@ impl VisitMut for OptionalChaining {
                     body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
                         span: DUMMY_SP,
                         stmts,
+                        ..Default::default()
                     })),
                     is_async: false,
                     is_generator: false,
-                    type_params: Default::default(),
-                    return_type: Default::default(),
+                    ..Default::default()
                 })
                 .as_callee(),
                 args: vec![],
