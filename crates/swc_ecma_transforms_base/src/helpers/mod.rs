@@ -70,12 +70,10 @@ macro_rules! add_import_to {
     ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
         let enable = $b.load(Ordering::Relaxed);
         if enable {
+            let ctxt = SyntaxContext::empty().apply_mark($mark);
             let s = ImportSpecifier::Named(ImportNamedSpecifier {
                 span: DUMMY_SP,
-                local: Ident::new(
-                    concat!("_", stringify!($name)).into(),
-                    DUMMY_SP.apply_mark($mark),
-                ),
+                local: Ident::new(concat!("_", stringify!($name)).into(), DUMMY_SP, ctxt),
                 imported: Some(quote_ident!("_").into()),
                 is_type_only: false,
             });
@@ -438,7 +436,7 @@ impl InjectHelpers {
             callee: Expr::Ident(Ident {
                 span: DUMMY_SP.apply_mark(self.global_mark),
                 sym: "require".into(),
-                optional: false,
+                ..Default::default()
             })
             .as_callee(),
             args: vec![Str {
