@@ -587,7 +587,7 @@ impl<'a> VisitMut for Resolver<'a> {
         i.type_ann.visit_mut_with(self);
 
         self.ident_type = ident_type;
-        self.modify(&mut i, self.decl_kind);
+        self.modify(i, self.decl_kind);
 
         self.in_type = in_type;
         self.ident_type = ident_type;
@@ -646,7 +646,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
-        self.modify(&n.ident.sym, &mut n.ident.ctxt, DeclKind::Lexical);
+        self.modify(&mut n.ident, DeclKind::Lexical);
 
         n.class.decorators.visit_mut_with(self);
 
