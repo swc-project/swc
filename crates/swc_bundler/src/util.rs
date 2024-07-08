@@ -18,7 +18,8 @@ const TRACK: bool = false;
 pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
     fn into_module_item(self, injected_ctxt: SyntaxContext, name: &str) -> ModuleItem {
         ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-            span: DUMMY_SP.with_ctxt(injected_ctxt),
+            span: DUMMY_SP,
+            ctxt: injected_ctxt,
             kind: VarDeclKind::Const,
             declare: false,
             decls: if TRACK {
@@ -29,7 +30,7 @@ pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
                         raw: None,
                         value: name.into(),
                     }
-                    .assign_to(Ident::new("INJECTED_FROM".into(), DUMMY_SP)),
+                    .assign_to(Ident::new_no_ctxt("INJECTED_FROM".into(), DUMMY_SP)),
                 ]
             } else {
                 vec![self.into()]
@@ -57,7 +58,7 @@ pub(crate) trait ExprExt: Into<Expr> {
 
         VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(Ident::new(lhs.0, DUMMY_SP.with_ctxt(lhs.1)).into()),
+            name: Pat::Ident(Ident::new(lhs.0, DUMMY_SP, lhs.1).into()),
             init: Some(Box::new(init)),
             definite: false,
         }
@@ -195,13 +196,19 @@ pub(crate) fn metadata_injected() -> Prop {
     metadata("__swc_bundler__injected__", "1")
 }
 
+#[derive(Default)]
 pub struct ExportMetadata {
+    pub injected: bool,
     pub export_ctxt: Option<SyntaxContext>,
 }
 
 impl ExportMetadata {
     pub fn encode(&self) -> Box<ObjectLit> {
         let mut props = vec![];
+
+        if self.injected {
+            props.push(metadata_injected());
+        }
 
         if let Some(export_ctxt) = self.export_ctxt {
             props.push(metadata(
@@ -213,7 +220,8 @@ impl ExportMetadata {
         create_with(props)
     }
 
-    pub fn decode(with: &ObjectLit) -> Option<Self> {
+    pub fn decode(with: &ObjectLit) -> Self {
+        let mut injected = false;
         let mut export_ctxt = None;
         for prop in &with.props {
             match prop {
@@ -223,7 +231,13 @@ impl ExportMetadata {
                         value,
                         ..
                     }) => {
-                        if *sym == "__swc_bundler__export_ctxt__" {
+                        if *sym == "__swc_bundler__injected__" {
+                            if let Expr::Lit(Lit::Str(Str { value, .. })) = &**value {
+                                if value == "1" {
+                                    injected = true;
+                                }
+                            }
+                        } else if *sym == "__swc_bundler__export_ctxt__" {
                             if let Expr::Lit(Lit::Str(Str { value, .. })) = &**value {
                                 if let Some(v) = value.parse().ok() {
                                     export_ctxt = Some(SyntaxContext::from_u32(v));
@@ -237,7 +251,10 @@ impl ExportMetadata {
             }
         }
 
-        Some(ExportMetadata { export_ctxt })
+        ExportMetadata {
+            injected,
+            export_ctxt,
+        }
     }
 }
 

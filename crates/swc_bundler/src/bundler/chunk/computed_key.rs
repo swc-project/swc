@@ -9,7 +9,7 @@ use swc_ecma_visit::{noop_fold_type, Fold};
 use crate::{
     bundler::chunk::merge::Ctx,
     modules::Modules,
-    util::{create_with, is_injected, metadata_injected},
+    util::{create_with, is_injected, metadata_injected, ExportMetadata},
     Bundler, Load, ModuleId, Resolve,
 };
 
@@ -45,7 +45,6 @@ where
             Some(v) => v,
             None => bail!("{:?} should not be wrapped with a function", id),
         };
-        let injected_ctxt = self.injected_ctxt;
 
         let is_async = module.iter().any(|m| contains_top_level_await(m.1));
 
@@ -57,7 +56,6 @@ where
                 //
                 // See: https://github.com/denoland/deno/issues/9200
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                    span,
                     ref specifiers,
                     with: Some(with),
                     ..
@@ -120,7 +118,10 @@ where
             if let ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) = v {
                 // We handle this later.
                 let mut map = ctx.export_stars_in_wrapped.lock();
-                map.entry(id).or_default().push(export.ctxt);
+                let metadata = ExportMetadata::decode(&export.with.as_ref().unwrap());
+                map.entry(id)
+                    .or_default()
+                    .push(metadata.export_ctxt.unwrap());
             }
         });
 
@@ -304,8 +305,11 @@ impl Fold for ExportToReturn {
                     }
                 }
 
+                let md = ExportMetadata::decode(&export.with.as_ref().unwrap());
                 // Ignore export {} specified by user.
-                if export.src.is_none() && export.ctxt != self.synthesized_ctxt {
+                if export.src.is_none()
+                    && md.export_ctxt.unwrap_or_default() != self.synthesized_ctxt
+                {
                     None
                 } else {
                     return ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export));

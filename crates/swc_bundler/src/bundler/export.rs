@@ -9,7 +9,7 @@ use super::{
     load::{Source, Specifier},
     Bundler,
 };
-use crate::{id::Id, load::Load, resolve::Resolve};
+use crate::{id::Id, load::Load, resolve::Resolve, util::ExportMetadata};
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -290,7 +290,12 @@ where
             ModuleItem::ModuleDecl(ModuleDecl::ExportAll(all)) => {
                 let ctxt = self.ctxt_for(&all.src.value);
                 if let Some((_, export_ctxt)) = ctxt {
-                    all.ctxt = export_ctxt;
+                    all.with = Some(
+                        ExportMetadata {
+                            export_ctxt: Some(export_ctxt),
+                        }
+                        .encode(),
+                    );
                 }
 
                 self.info.items.entry(Some(*all.src.clone())).or_default();
