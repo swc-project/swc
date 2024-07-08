@@ -1172,7 +1172,7 @@ fn add_require(imports: Vec<(Ident, Ident)>, src: &str, unresolved_mark: Mark) -
                         raw: None,
                     }))),
                 }],
-                type_args: None,
+                ..Default::default()
             }))),
             definite: false,
         }],

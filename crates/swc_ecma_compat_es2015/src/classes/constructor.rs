@@ -227,7 +227,7 @@ impl VisitMut for ConstructorFolder<'_> {
 
                             call_args
                         },
-                        type_args: Default::default(),
+                        ..Default::default()
                     }));
 
                     if self.super_is_callable_constructor {
@@ -302,7 +302,7 @@ impl VisitMut for ConstructorFolder<'_> {
 
                             call_args
                         },
-                        type_args: Default::default(),
+                        ..Default::default()
                     })),
                     None => Box::new(make_possible_return_value(ReturningMode::Prototype {
                         is_constructor_default: self.is_constructor_default,
@@ -446,14 +446,14 @@ pub(super) fn make_possible_return_value(mode: ReturningMode) -> Expr {
                         // super(foo, bar) => possibleReturnCheck(this, foo, bar)
                         args,
 
-                        type_args: Default::default(),
+                        ..Default::default()
                     }));
 
                     apply.as_arg()
                 }]
             }
         },
-        type_args: Default::default(),
+        ..Default::default()
     })
 }
 
@@ -484,7 +484,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: &mut Constructor) -> bo
                             span: DUMMY_SP,
                             callee: helper!(assert_this_initialized),
                             args: vec![this.as_arg()],
-                            type_args: Default::default(),
+                            ..Default::default()
                         })
                     } else {
                         *expr = Expr::Ident(this);

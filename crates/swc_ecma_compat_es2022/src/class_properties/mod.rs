@@ -769,7 +769,7 @@ impl<C: Comments> ClassProperties<C> {
                                 span,
                                 callee: helper!(class_private_field_loose_key),
                                 args: vec![ident.sym.as_arg()],
-                                type_args: Default::default(),
+                                ..Default::default()
                             }))),
                         });
                     } else if !prop.is_static {
@@ -781,7 +781,7 @@ impl<C: Comments> ClassProperties<C> {
                                 span,
                                 callee: Box::new(Expr::Ident(quote_ident!("WeakMap"))),
                                 args: Some(Default::default()),
-                                type_args: Default::default(),
+                                ..Default::default()
                             }))),
                         });
                     };
