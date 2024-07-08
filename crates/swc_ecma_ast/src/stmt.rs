@@ -165,9 +165,15 @@ impl Clone for Stmt {
     }
 }
 
+impl Default for Stmt {
+    fn default() -> Self {
+        Self::Empty(EmptyStmt { span: DUMMY_SP })
+    }
+}
+
 impl Take for Stmt {
     fn dummy() -> Self {
-        Self::Empty(EmptyStmt { span: DUMMY_SP })
+        Default::default()
     }
 }
 
@@ -338,7 +344,7 @@ pub struct ForInStmt {
 }
 
 #[ast_node("ForOfStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ForOfStmt {
     pub span: Span,
@@ -357,18 +363,12 @@ pub struct ForOfStmt {
 
 impl Take for ForOfStmt {
     fn dummy() -> Self {
-        ForOfStmt {
-            span: DUMMY_SP,
-            is_await: Default::default(),
-            left: Take::dummy(),
-            right: Take::dummy(),
-            body: Take::dummy(),
-        }
+        Default::default()
     }
 }
 
 #[ast_node("SwitchCase")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct SwitchCase {
     pub span: Span,
@@ -392,7 +392,7 @@ impl Take for SwitchCase {
 }
 
 #[ast_node("CatchClause")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct CatchClause {
     pub span: Span,
@@ -426,6 +426,12 @@ bridge_from!(ForHead, Box<Pat>, Pat);
 
 impl Take for ForHead {
     fn dummy() -> Self {
+        Default::default()
+    }
+}
+
+impl Default for ForHead {
+    fn default() -> Self {
         ForHead::Pat(Take::dummy())
     }
 }
