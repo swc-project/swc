@@ -85,6 +85,7 @@ impl<'a> arbitrary::Arbitrary<'a> for Span {
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 pub struct SpanWithCtx {
+    #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub span: Span,
     /// Information about where the macro came from, if this piece of
     /// code was created by a macro expansion.
