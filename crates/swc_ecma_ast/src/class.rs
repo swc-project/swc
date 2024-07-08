@@ -15,7 +15,7 @@ use crate::{
 };
 
 #[ast_node]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Class {
     pub span: Span,
@@ -48,14 +48,7 @@ pub struct Class {
 impl Take for Class {
     fn dummy() -> Self {
         Class {
-            span: DUMMY_SP,
-            decorators: Default::default(),
-            body: Default::default(),
-            super_class: Default::default(),
-            is_abstract: Default::default(),
-            type_params: Default::default(),
-            super_type_params: Default::default(),
-            implements: Default::default(),
+            ..Default::default()
         }
     }
 }
