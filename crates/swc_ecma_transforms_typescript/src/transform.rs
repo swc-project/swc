@@ -113,6 +113,7 @@ impl VisitMut for Transform {
                         declare: false,
                         decls,
                         kind: VarDeclKind::Let,
+                        ..Default::default()
                     }
                     .into(),
                 );
