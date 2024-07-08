@@ -168,7 +168,7 @@ impl Params {
                             span,
                             test: Box::new(Expr::Bin(BinExpr {
                                 span: DUMMY_SP,
-                                left: Box::new(Expr::Ident(ident.id.clone())),
+                                left: Box::new(Expr::Ident(Ident::from(ident))),
                                 op: op!("==="),
                                 right: Expr::undefined(DUMMY_SP),
                             })),
@@ -317,7 +317,7 @@ impl Params {
                                                 // `len` or  `len - $i`
                                                 make_minus_i(&len_ident, true).as_arg()
                                             }]),
-                                            type_args: Default::default(),
+                                            ..Default::default()
                                         }))),
                                         definite: false,
                                     },
@@ -366,7 +366,10 @@ impl Params {
                                     right: Box::new(
                                         MemberExpr {
                                             span: DUMMY_SP,
-                                            obj: Box::new(quote_ident!(span, "arguments").into()),
+                                            obj: Box::new(
+                                                quote_ident!(Default::default(), span, "arguments")
+                                                    .into(),
+                                            ),
                                             prop: MemberProp::Computed(ComputedPropName {
                                                 span,
                                                 expr: prop,
@@ -377,6 +380,7 @@ impl Params {
                                 }
                                 .into_stmt()
                             }],
+                            ..Default::default()
                         })),
                     }))
                 }

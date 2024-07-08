@@ -96,8 +96,8 @@ impl VisitMut for DisplayName {
         if let Pat::Ident(ref ident) = decl.name {
             decl.init.visit_mut_with(&mut Folder {
                 name: Some(Box::new(Expr::Lit(Lit::Str(Str {
-                    span: ident.id.span,
-                    value: ident.id.sym.clone(),
+                    span: ident.span,
+                    value: ident.sym.clone(),
                     raw: None,
                 })))),
             });
