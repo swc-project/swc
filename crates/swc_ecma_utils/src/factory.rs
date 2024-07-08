@@ -101,6 +101,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
             body: Some(BlockStmt {
                 span: DUMMY_SP,
                 stmts: vec![self.into_return_stmt().into()],
+                ..Default::default()
             }),
             is_generator: false,
             is_async: false,

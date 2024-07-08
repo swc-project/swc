@@ -1117,7 +1117,11 @@ impl<'a, I: Tokens> Parser<I> {
         let stmts = self.parse_block_body(allow_directives, false, Some(&tok!('}')))?;
 
         let span = span!(self, start);
-        Ok(BlockStmt { span, stmts })
+        Ok(BlockStmt {
+            span,
+            stmts,
+            ctxt: Default::default(),
+        })
     }
 
     fn parse_labelled_stmt(&mut self, l: Ident) -> PResult<Stmt> {
@@ -1526,7 +1530,7 @@ mod tests {
                 span,
                 block: BlockStmt {
                     span,
-                    stmts: vec![]
+                    ..Default::default()
                 },
                 handler: Some(CatchClause {
                     span,
@@ -1546,7 +1550,7 @@ mod tests {
                     .into(),
                     body: BlockStmt {
                         span,
-                        stmts: vec![]
+                        ..Default::default()
                     }
                 }),
                 finalizer: None
@@ -1606,6 +1610,7 @@ mod tests {
             Stmt::Block(BlockStmt {
                 span,
                 stmts: vec![stmt("1")],
+                ..Default::default()
             })
         );
     }
@@ -2266,6 +2271,7 @@ export default function waitUntil(callback, options = {}) {
                         body: BlockStmt {
                             span,
                             stmts: vec!(stmt("1 + 1;")),
+                            ..Default::default()
                         }
                     }))
                 })
@@ -2298,6 +2304,7 @@ export default function waitUntil(callback, options = {}) {
                             body: BlockStmt {
                                 span,
                                 stmts: vec!(stmt("1 + 1;")),
+                                ..Default::default()
                             },
                         }),
                         ClassMember::StaticBlock(StaticBlock {
@@ -2305,6 +2312,7 @@ export default function waitUntil(callback, options = {}) {
                             body: BlockStmt {
                                 span,
                                 stmts: vec!(stmt("1 + 1;")),
+                                ..Default::default()
                             },
                         })
                     )
@@ -2342,6 +2350,7 @@ export default function waitUntil(callback, options = {}) {
                         body: BlockStmt {
                             span,
                             stmts: vec!(stmt("1 + 1;")),
+                            ..Default::default()
                         }
                     }))
                 })
@@ -2376,6 +2385,7 @@ export default function waitUntil(callback, options = {}) {
                         body: BlockStmt {
                             span,
                             stmts: Vec::new(),
+                            ..Default::default()
                         }
                     }))
                 })

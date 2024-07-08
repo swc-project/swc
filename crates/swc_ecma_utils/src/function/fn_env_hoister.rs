@@ -320,7 +320,6 @@ impl VisitMut for FnEnvHoister {
         if !self.extra_ident.is_empty() {
             if let BlockStmtOrExpr::Expr(e) = b {
                 *b = BlockStmtOrExpr::BlockStmt(BlockStmt {
-                    span: DUMMY_SP,
                     stmts: vec![
                         Stmt::Decl(Decl::Var(Box::new(VarDecl {
                             kind: VarDeclKind::Var,
@@ -343,6 +342,7 @@ impl VisitMut for FnEnvHoister {
                             arg: Some(e.take()),
                         }),
                     ],
+                    ..Default::default()
                 })
             }
         }
@@ -651,7 +651,6 @@ fn extend_super(
                         key: PropName::Ident(quote_ident!("_")),
                         type_ann: None,
                         body: Some(BlockStmt {
-                            span: DUMMY_SP,
                             stmts: vec![Expr::Ident(
                                 get.ident
                                     .get(&key)
@@ -662,6 +661,7 @@ fn extend_super(
                             .as_call(DUMMY_SP, Default::default())
                             .into_return_stmt()
                             .into()],
+                            ..Default::default()
                         }),
                     }),
                     Prop::Setter(SetterProp {
@@ -670,7 +670,6 @@ fn extend_super(
                         this_param: None,
                         param: value.clone().into(),
                         body: Some(BlockStmt {
-                            span: DUMMY_SP,
                             stmts: vec![Expr::Ident(
                                 set.ident
                                     .get(&key)
@@ -680,6 +679,7 @@ fn extend_super(
                             )
                             .as_call(DUMMY_SP, vec![value.as_arg()])
                             .into_stmt()],
+                            ..Default::default()
                         }),
                     }),
                 ]

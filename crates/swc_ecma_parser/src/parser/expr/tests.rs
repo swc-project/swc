@@ -137,7 +137,7 @@ fn object_rest_pat() {
             })],
             body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
                 span,
-                stmts: vec![]
+                ..Default::default()
             })),
             return_type: None,
             type_params: None,
