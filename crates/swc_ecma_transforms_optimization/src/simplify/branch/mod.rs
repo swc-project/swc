@@ -119,7 +119,7 @@ impl VisitMut for Remover {
                 ..
             }) if match &*l {
                 SimpleAssignTarget::Ident(l) => match &**r {
-                    Expr::Ident(r) => l.id.sym == r.sym && l.id.ctxt == r.ctxt,
+                    Expr::Ident(r) => l.sym == r.sym && l.ctxt == r.ctxt,
                     _ => false,
                 },
                 _ => false,

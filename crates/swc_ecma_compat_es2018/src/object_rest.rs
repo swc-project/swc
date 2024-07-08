@@ -528,7 +528,7 @@ impl ObjectRest {
         if let Some(e1) = decl.init {
             if let Expr::Ident(ref i1) = *e1 {
                 if let Pat::Ident(ref i2) = decl.name {
-                    if *i1 == i2.id {
+                    if i1.sym == i2.sym && i1.ctxt == i2.ctxt {
                         return;
                     }
                 }

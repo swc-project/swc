@@ -312,12 +312,12 @@ impl<C: Comments> VisitMut for Actual<C> {
                     ident: None,
                     ref function,
                 }) if function.is_async || function.is_generator => {
-                    self.visit_mut_expr_with_binding(init, Some(id.clone()), false);
+                    self.visit_mut_expr_with_binding(init, Some(Ident::from(&*id)), false);
                     return;
                 }
 
                 Expr::Arrow(arrow_expr) if arrow_expr.is_async || arrow_expr.is_generator => {
-                    self.visit_mut_expr_with_binding(init, Some(id.clone()), false);
+                    self.visit_mut_expr_with_binding(init, Some(Ident::from(&*id)), false);
                     return;
                 }
 

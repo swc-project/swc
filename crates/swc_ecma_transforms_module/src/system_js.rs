@@ -313,7 +313,6 @@ impl SystemJs {
                             ),
                         })),
                         cons: Box::new(Stmt::Block(BlockStmt {
-                            span: DUMMY_SP,
                             stmts: vec![AssignExpr {
                                 span: DUMMY_SP,
                                 op: op!("="),
@@ -321,6 +320,7 @@ impl SystemJs {
                                 right: target.computed_member(key_ident).into(),
                             }
                             .into_stmt()],
+                            ..Default::default()
                         })),
                         alt: None,
                     })],
