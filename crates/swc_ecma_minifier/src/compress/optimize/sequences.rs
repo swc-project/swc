@@ -1282,7 +1282,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if !self.is_skippable_for_seq(a, &Expr::Ident(left_id.clone())) {
+                if !self.is_skippable_for_seq(a, &Expr::Ident(left_id.id.clone())) {
                     return false;
                 }
 

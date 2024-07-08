@@ -324,7 +324,7 @@ where
                                 continue;
                             }
 
-                            if ctxts.contains(&id.ctxt) {
+                            if ctxts.contains(&id.ctxt()) {
                                 additional_props.entry(module_id).or_default().push(
                                     PropOrSpread::Prop(Box::new(Prop::Shorthand(id.into_ident()))),
                                 );

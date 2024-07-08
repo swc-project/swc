@@ -516,7 +516,11 @@ impl Transform {
             rewrite_export_bindings(&mut stmts, id, mutable_export_ids);
         }
 
-        BlockStmt { span, stmts }
+        BlockStmt {
+            span,
+            stmts,
+            ..Default::default()
+        }
     }
 }
 
