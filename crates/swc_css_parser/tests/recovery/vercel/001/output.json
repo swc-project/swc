@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 307,
-    "ctxt": 0
+    "end": 307
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 306,
-        "ctxt": 0
+        "end": 306
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 7,
-          "ctxt": 0
+          "end": 7
         },
         "value": "media",
         "raw": "media"
@@ -27,16 +24,14 @@
         "type": "MediaQueryList",
         "span": {
           "start": 8,
-          "end": 26,
-          "ctxt": 0
+          "end": 26
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 8,
-              "end": 26,
-              "ctxt": 0
+              "end": 26
             },
             "modifier": null,
             "mediaType": null,
@@ -45,23 +40,20 @@
               "type": "MediaCondition",
               "span": {
                 "start": 8,
-                "end": 26,
-                "ctxt": 0
+                "end": 26
               },
               "conditions": [
                 {
                   "type": "MediaFeaturePlain",
                   "span": {
                     "start": 8,
-                    "end": 26,
-                    "ctxt": 0
+                    "end": 26
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
                       "start": 9,
-                      "end": 18,
-                      "ctxt": 0
+                      "end": 18
                     },
                     "value": "min-width",
                     "raw": "min-width"
@@ -70,15 +62,13 @@
                     "type": "Length",
                     "span": {
                       "start": 20,
-                      "end": 25,
-                      "ctxt": 0
+                      "end": 25
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 20,
-                        "end": 23,
-                        "ctxt": 0
+                        "end": 23
                       },
                       "value": 935.0,
                       "raw": "935"
@@ -87,8 +77,7 @@
                       "type": "Ident",
                       "span": {
                         "start": 23,
-                        "end": 25,
-                        "ctxt": 0
+                        "end": 25
                       },
                       "value": "px",
                       "raw": "px"
@@ -104,15 +93,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 27,
-          "end": 306,
-          "ctxt": 0
+          "end": 306
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 27,
-            "end": 28,
-            "ctxt": 0
+            "end": 28
           },
           "token": "LBrace"
         },
@@ -121,31 +108,27 @@
             "type": "QualifiedRule",
             "span": {
               "start": 33,
-              "end": 86,
-              "ctxt": 0
+              "end": 86
             },
             "prelude": {
               "type": "SelectorList",
               "span": {
                 "start": 33,
-                "end": 53,
-                "ctxt": 0
+                "end": 53
               },
               "children": [
                 {
                   "type": "ComplexSelector",
                   "span": {
                     "start": 33,
-                    "end": 53,
-                    "ctxt": 0
+                    "end": 53
                   },
                   "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
                         "start": 33,
-                        "end": 53,
-                        "ctxt": 0
+                        "end": 53
                       },
                       "nestingSelector": null,
                       "typeSelector": null,
@@ -154,15 +137,13 @@
                           "type": "ClassSelector",
                           "span": {
                             "start": 33,
-                            "end": 39,
-                            "ctxt": 0
+                            "end": 39
                           },
                           "text": {
                             "type": "Ident",
                             "span": {
                               "start": 34,
-                              "end": 39,
-                              "ctxt": 0
+                              "end": 39
                             },
                             "value": "video",
                             "raw": "video"
@@ -172,15 +153,13 @@
                           "type": "PseudoClassSelector",
                           "span": {
                             "start": 39,
-                            "end": 53,
-                            "ctxt": 0
+                            "end": 53
                           },
                           "name": {
                             "type": "Ident",
                             "span": {
                               "start": 40,
-                              "end": 49,
-                              "ctxt": 0
+                              "end": 49
                             },
                             "value": "nth-child",
                             "raw": "nth-child"
@@ -190,8 +169,7 @@
                               "type": "AnPlusBNotation",
                               "span": {
                                 "start": 50,
-                                "end": 52,
-                                "ctxt": 0
+                                "end": 52
                               },
                               "a": 4,
                               "aRaw": "4",
@@ -210,15 +188,13 @@
               "type": "SimpleBlock",
               "span": {
                 "start": 54,
-                "end": 86,
-                "ctxt": 0
+                "end": 86
               },
               "name": {
                 "type": "PreservedToken",
                 "span": {
                   "start": 54,
-                  "end": 55,
-                  "ctxt": 0
+                  "end": 55
                 },
                 "token": "LBrace"
               },
@@ -227,15 +203,13 @@
                   "type": "Declaration",
                   "span": {
                     "start": 64,
-                    "end": 79,
-                    "ctxt": 0
+                    "end": 79
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
                       "start": 64,
-                      "end": 76,
-                      "ctxt": 0
+                      "end": 76
                     },
                     "value": "margin-right",
                     "raw": "margin-right"
@@ -245,8 +219,7 @@
                       "type": "Integer",
                       "span": {
                         "start": 78,
-                        "end": 79,
-                        "ctxt": 0
+                        "end": 79
                       },
                       "value": 0,
                       "raw": "0"
@@ -261,31 +234,27 @@
             "type": "QualifiedRule",
             "span": {
               "start": 91,
-              "end": 141,
-              "ctxt": 0
+              "end": 141
             },
             "prelude": {
               "type": "SelectorList",
               "span": {
                 "start": 91,
-                "end": 108,
-                "ctxt": 0
+                "end": 108
               },
               "children": [
                 {
                   "type": "ComplexSelector",
                   "span": {
                     "start": 91,
-                    "end": 108,
-                    "ctxt": 0
+                    "end": 108
                   },
                   "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
                         "start": 91,
-                        "end": 108,
-                        "ctxt": 0
+                        "end": 108
                       },
                       "nestingSelector": null,
                       "typeSelector": null,
@@ -294,15 +263,13 @@
                           "type": "ClassSelector",
                           "span": {
                             "start": 91,
-                            "end": 97,
-                            "ctxt": 0
+                            "end": 97
                           },
                           "text": {
                             "type": "Ident",
                             "span": {
                               "start": 92,
-                              "end": 97,
-                              "ctxt": 0
+                              "end": 97
                             },
                             "value": "video",
                             "raw": "video"
@@ -312,15 +279,13 @@
                           "type": "PseudoClassSelector",
                           "span": {
                             "start": 97,
-                            "end": 108,
-                            "ctxt": 0
+                            "end": 108
                           },
                           "name": {
                             "type": "Ident",
                             "span": {
                               "start": 98,
-                              "end": 108,
-                              "ctxt": 0
+                              "end": 108
                             },
                             "value": "last-child",
                             "raw": "last-child"
@@ -337,15 +302,13 @@
               "type": "SimpleBlock",
               "span": {
                 "start": 109,
-                "end": 141,
-                "ctxt": 0
+                "end": 141
               },
               "name": {
                 "type": "PreservedToken",
                 "span": {
                   "start": 109,
-                  "end": 110,
-                  "ctxt": 0
+                  "end": 110
                 },
                 "token": "LBrace"
               },
@@ -354,15 +317,13 @@
                   "type": "Declaration",
                   "span": {
                     "start": 119,
-                    "end": 134,
-                    "ctxt": 0
+                    "end": 134
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
                       "start": 119,
-                      "end": 131,
-                      "ctxt": 0
+                      "end": 131
                     },
                     "value": "margin-right",
                     "raw": "margin-right"
@@ -372,8 +333,7 @@
                       "type": "Integer",
                       "span": {
                         "start": 133,
-                        "end": 134,
-                        "ctxt": 0
+                        "end": 134
                       },
                       "value": 0,
                       "raw": "0"
@@ -388,31 +348,27 @@
             "type": "QualifiedRule",
             "span": {
               "start": 146,
-              "end": 272,
-              "ctxt": 0
+              "end": 272
             },
             "prelude": {
               "type": "SelectorList",
               "span": {
                 "start": 146,
-                "end": 240,
-                "ctxt": 0
+                "end": 240
               },
               "children": [
                 {
                   "type": "ComplexSelector",
                   "span": {
                     "start": 146,
-                    "end": 164,
-                    "ctxt": 0
+                    "end": 164
                   },
                   "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
                         "start": 146,
-                        "end": 164,
-                        "ctxt": 0
+                        "end": 164
                       },
                       "nestingSelector": null,
                       "typeSelector": null,
@@ -421,15 +377,13 @@
                           "type": "ClassSelector",
                           "span": {
                             "start": 146,
-                            "end": 152,
-                            "ctxt": 0
+                            "end": 152
                           },
                           "text": {
                             "type": "Ident",
                             "span": {
                               "start": 147,
-                              "end": 152,
-                              "ctxt": 0
+                              "end": 152
                             },
                             "value": "video",
                             "raw": "video"
@@ -439,15 +393,13 @@
                           "type": "PseudoClassSelector",
                           "span": {
                             "start": 152,
-                            "end": 164,
-                            "ctxt": 0
+                            "end": 164
                           },
                           "name": {
                             "type": "Ident",
                             "span": {
                               "start": 153,
-                              "end": 164,
-                              "ctxt": 0
+                              "end": 164
                             },
                             "value": "first-child",
                             "raw": "first-child"
@@ -462,16 +414,14 @@
                   "type": "ComplexSelector",
                   "span": {
                     "start": 170,
-                    "end": 189,
-                    "ctxt": 0
+                    "end": 189
                   },
                   "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
                         "start": 170,
-                        "end": 189,
-                        "ctxt": 0
+                        "end": 189
                       },
                       "nestingSelector": null,
                       "typeSelector": null,
@@ -480,15 +430,13 @@
                           "type": "ClassSelector",
                           "span": {
                             "start": 170,
-                            "end": 176,
-                            "ctxt": 0
+                            "end": 176
                           },
                           "text": {
                             "type": "Ident",
                             "span": {
                               "start": 171,
-                              "end": 176,
-                              "ctxt": 0
+                              "end": 176
                             },
                             "value": "video",
                             "raw": "video"
@@ -498,15 +446,13 @@
                           "type": "PseudoClassSelector",
                           "span": {
                             "start": 176,
-                            "end": 189,
-                            "ctxt": 0
+                            "end": 189
                           },
                           "name": {
                             "type": "Ident",
                             "span": {
                               "start": 177,
-                              "end": 186,
-                              "ctxt": 0
+                              "end": 186
                             },
                             "value": "nth-child",
                             "raw": "nth-child"
@@ -516,8 +462,7 @@
                               "type": "AnPlusBNotation",
                               "span": {
                                 "start": 187,
-                                "end": 188,
-                                "ctxt": 0
+                                "end": 188
                               },
                               "a": null,
                               "aRaw": null,
@@ -534,16 +479,14 @@
                   "type": "ComplexSelector",
                   "span": {
                     "start": 195,
-                    "end": 214,
-                    "ctxt": 0
+                    "end": 214
                   },
                   "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
                         "start": 195,
-                        "end": 214,
-                        "ctxt": 0
+                        "end": 214
                       },
                       "nestingSelector": null,
                       "typeSelector": null,
@@ -552,15 +495,13 @@
                           "type": "ClassSelector",
                           "span": {
                             "start": 195,
-                            "end": 201,
-                            "ctxt": 0
+                            "end": 201
                           },
                           "text": {
                             "type": "Ident",
                             "span": {
                               "start": 196,
-                              "end": 201,
-                              "ctxt": 0
+                              "end": 201
                             },
                             "value": "video",
                             "raw": "video"
@@ -570,15 +511,13 @@
                           "type": "PseudoClassSelector",
                           "span": {
                             "start": 201,
-                            "end": 214,
-                            "ctxt": 0
+                            "end": 214
                           },
                           "name": {
                             "type": "Ident",
                             "span": {
                               "start": 202,
-                              "end": 211,
-                              "ctxt": 0
+                              "end": 211
                             },
                             "value": "nth-child",
                             "raw": "nth-child"
@@ -588,8 +527,7 @@
                               "type": "AnPlusBNotation",
                               "span": {
                                 "start": 212,
-                                "end": 213,
-                                "ctxt": 0
+                                "end": 213
                               },
                               "a": null,
                               "aRaw": null,
@@ -606,16 +544,14 @@
                   "type": "ComplexSelector",
                   "span": {
                     "start": 220,
-                    "end": 240,
-                    "ctxt": 0
+                    "end": 240
                   },
                   "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
                         "start": 220,
-                        "end": 240,
-                        "ctxt": 0
+                        "end": 240
                       },
                       "nestingSelector": null,
                       "typeSelector": null,
@@ -624,15 +560,13 @@
                           "type": "ClassSelector",
                           "span": {
                             "start": 220,
-                            "end": 226,
-                            "ctxt": 0
+                            "end": 226
                           },
                           "text": {
                             "type": "Ident",
                             "span": {
                               "start": 221,
-                              "end": 226,
-                              "ctxt": 0
+                              "end": 226
                             },
                             "value": "video",
                             "raw": "video"
@@ -642,15 +576,13 @@
                           "type": "PseudoClassSelector",
                           "span": {
                             "start": 226,
-                            "end": 240,
-                            "ctxt": 0
+                            "end": 240
                           },
                           "name": {
                             "type": "Ident",
                             "span": {
                               "start": 227,
-                              "end": 236,
-                              "ctxt": 0
+                              "end": 236
                             },
                             "value": "nth-child",
                             "raw": "nth-child"
@@ -660,8 +592,7 @@
                               "type": "AnPlusBNotation",
                               "span": {
                                 "start": 237,
-                                "end": 239,
-                                "ctxt": 0
+                                "end": 239
                               },
                               "a": null,
                               "aRaw": null,
@@ -680,15 +611,13 @@
               "type": "SimpleBlock",
               "span": {
                 "start": 241,
-                "end": 272,
-                "ctxt": 0
+                "end": 272
               },
               "name": {
                 "type": "PreservedToken",
                 "span": {
                   "start": 241,
-                  "end": 242,
-                  "ctxt": 0
+                  "end": 242
                 },
                 "token": "LBrace"
               },
@@ -697,15 +626,13 @@
                   "type": "Declaration",
                   "span": {
                     "start": 251,
-                    "end": 265,
-                    "ctxt": 0
+                    "end": 265
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
                       "start": 251,
-                      "end": 262,
-                      "ctxt": 0
+                      "end": 262
                     },
                     "value": "margin-left",
                     "raw": "margin-left"
@@ -715,8 +642,7 @@
                       "type": "Integer",
                       "span": {
                         "start": 264,
-                        "end": 265,
-                        "ctxt": 0
+                        "end": 265
                       },
                       "value": 0,
                       "raw": "0"
@@ -731,16 +657,14 @@
             "type": "ListOfComponentValues",
             "span": {
               "start": 277,
-              "end": 305,
-              "ctxt": 0
+              "end": 305
             },
             "children": [
               {
                 "type": "PreservedToken",
                 "span": {
                   "start": 277,
-                  "end": 304,
-                  "ctxt": 0
+                  "end": 304
                 },
                 "token": {
                   "Ident": {
@@ -753,8 +677,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 304,
-                  "end": 305,
-                  "ctxt": 0
+                  "end": 305
                 },
                 "token": {
                   "WhiteSpace": {

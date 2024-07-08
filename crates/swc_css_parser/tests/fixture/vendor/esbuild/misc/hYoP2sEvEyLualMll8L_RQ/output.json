@@ -2,54 +2,47 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 6,
-    "ctxt": 0
+    "end": 6
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 6,
-        "ctxt": 0
+        "end": 6
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 3,
-          "ctxt": 0
+          "end": 3
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 3,
-              "ctxt": 0
+              "end": 3
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 3,
-                  "ctxt": 0
+                  "end": 3
                 },
                 "nestingSelector": {
                   "type": "NestingSelector",
                   "span": {
                     "start": 1,
-                    "end": 2,
-                    "ctxt": 0
+                    "end": 2
                   }
                 },
                 "typeSelector": {
                   "type": "UniversalSelector",
                   "span": {
                     "start": 2,
-                    "end": 3,
-                    "ctxt": 0
+                    "end": 3
                   },
                   "prefix": null
                 },
@@ -63,15 +56,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 4,
-          "end": 6,
-          "ctxt": 0
+          "end": 6
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 4,
-            "end": 5,
-            "ctxt": 0
+            "end": 5
           },
           "token": "LBrace"
         },

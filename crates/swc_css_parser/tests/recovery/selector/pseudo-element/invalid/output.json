@@ -2,31 +2,27 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 10,
-    "ctxt": 0
+    "end": 10
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 9,
-        "ctxt": 0
+        "end": 9
       },
       "prelude": {
         "type": "ListOfComponentValues",
         "span": {
           "start": 1,
-          "end": 6,
-          "ctxt": 0
+          "end": 6
         },
         "children": [
           {
             "type": "PreservedToken",
             "span": {
               "start": 1,
-              "end": 2,
-              "ctxt": 0
+              "end": 2
             },
             "token": {
               "Ident": {
@@ -39,8 +35,7 @@
             "type": "PreservedToken",
             "span": {
               "start": 2,
-              "end": 3,
-              "ctxt": 0
+              "end": 3
             },
             "token": "Colon"
           },
@@ -48,8 +43,7 @@
             "type": "PreservedToken",
             "span": {
               "start": 3,
-              "end": 4,
-              "ctxt": 0
+              "end": 4
             },
             "token": "Colon"
           },
@@ -57,8 +51,7 @@
             "type": "PreservedToken",
             "span": {
               "start": 4,
-              "end": 5,
-              "ctxt": 0
+              "end": 5
             },
             "token": {
               "Number": {
@@ -72,8 +65,7 @@
             "type": "PreservedToken",
             "span": {
               "start": 5,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
             "token": {
               "WhiteSpace": {
@@ -87,15 +79,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 6,
-          "end": 9,
-          "ctxt": 0
+          "end": 9
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 6,
-            "end": 7,
-            "ctxt": 0
+            "end": 7
           },
           "token": "LBrace"
         },

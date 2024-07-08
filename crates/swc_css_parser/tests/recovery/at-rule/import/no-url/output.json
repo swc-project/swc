@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 35,
-    "ctxt": 0
+    "end": 35
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 21,
-        "ctxt": 0
+        "end": 21
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
         "value": "import",
         "raw": "import"
@@ -27,16 +24,14 @@
         "type": "ListOfComponentValues",
         "span": {
           "start": 8,
-          "end": 20,
-          "ctxt": 0
+          "end": 20
         },
         "children": [
           {
             "type": "PreservedToken",
             "span": {
               "start": 8,
-              "end": 9,
-              "ctxt": 0
+              "end": 9
             },
             "token": {
               "WhiteSpace": {
@@ -48,15 +43,13 @@
             "type": "Function",
             "span": {
               "start": 9,
-              "end": 20,
-              "ctxt": 0
+              "end": 20
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 9,
-                "end": 14,
-                "ctxt": 0
+                "end": 14
               },
               "value": "nourl",
               "raw": "nourl"
@@ -66,8 +59,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 15,
-                  "end": 19,
-                  "ctxt": 0
+                  "end": 19
                 },
                 "token": {
                   "Ident": {
@@ -86,15 +78,13 @@
       "type": "AtRule",
       "span": {
         "start": 22,
-        "end": 34,
-        "ctxt": 0
+        "end": 34
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 23,
-          "end": 29,
-          "ctxt": 0
+          "end": 29
         },
         "value": "import",
         "raw": "import"
@@ -103,16 +93,14 @@
         "type": "ListOfComponentValues",
         "span": {
           "start": 29,
-          "end": 33,
-          "ctxt": 0
+          "end": 33
         },
         "children": [
           {
             "type": "PreservedToken",
             "span": {
               "start": 29,
-              "end": 30,
-              "ctxt": 0
+              "end": 30
             },
             "token": {
               "WhiteSpace": {
@@ -124,8 +112,7 @@
             "type": "PreservedToken",
             "span": {
               "start": 30,
-              "end": 33,
-              "ctxt": 0
+              "end": 33
             },
             "token": {
               "Number": {

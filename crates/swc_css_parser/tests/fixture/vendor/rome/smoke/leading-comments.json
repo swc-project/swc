@@ -4,8 +4,7 @@
       "kind": "Block",
       "span": {
         "start": 79,
-        "end": 124,
-        "ctxt": 0
+        "end": 124
       },
       "text": "/*@media screen and (min-width: 1337px) {*/"
     },
@@ -13,8 +12,7 @@
       "kind": "Block",
       "span": {
         "start": 79,
-        "end": 139,
-        "ctxt": 0
+        "end": 139
       },
       "text": "/*    body {*/"
     },
@@ -22,8 +20,7 @@
       "kind": "Block",
       "span": {
         "start": 79,
-        "end": 169,
-        "ctxt": 0
+        "end": 169
       },
       "text": "/*        background: blue;*/"
     },
@@ -31,8 +28,7 @@
       "kind": "Block",
       "span": {
         "start": 79,
-        "end": 204,
-        "ctxt": 0
+        "end": 204
       },
       "text": "/*        width: calc(2px + 3%);*/"
     },
@@ -40,8 +36,7 @@
       "kind": "Block",
       "span": {
         "start": 79,
-        "end": 214,
-        "ctxt": 0
+        "end": 214
       },
       "text": "/*    }*/"
     },
@@ -49,8 +44,7 @@
       "kind": "Block",
       "span": {
         "start": 79,
-        "end": 220,
-        "ctxt": 0
+        "end": 220
       },
       "text": "/*}*/"
     }
@@ -60,8 +54,7 @@
       "kind": "Block",
       "span": {
         "start": 1,
-        "end": 22,
-        "ctxt": 0
+        "end": 22
       },
       "text": "/*This is a comment*/"
     }

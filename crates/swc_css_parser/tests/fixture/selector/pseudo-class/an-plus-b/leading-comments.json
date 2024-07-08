@@ -4,8 +4,7 @@
       "kind": "Block",
       "span": {
         "start": 1496,
-        "end": 1505,
-        "ctxt": 0
+        "end": 1505
       },
       "text": "/*test*/"
     }
@@ -15,8 +14,7 @@
       "kind": "Block",
       "span": {
         "start": 1511,
-        "end": 1534,
-        "ctxt": 0
+        "end": 1534
       },
       "text": "/*test*/"
     }
@@ -26,8 +24,7 @@
       "kind": "Block",
       "span": {
         "start": 1554,
-        "end": 1563,
-        "ctxt": 0
+        "end": 1563
       },
       "text": "/*test*/"
     }
@@ -37,8 +34,7 @@
       "kind": "Block",
       "span": {
         "start": 1487,
-        "end": 1496,
-        "ctxt": 0
+        "end": 1496
       },
       "text": "/*test*/"
     }
@@ -48,8 +44,7 @@
       "kind": "Block",
       "span": {
         "start": 1459,
-        "end": 1477,
-        "ctxt": 0
+        "end": 1477
       },
       "text": "/*test*/"
     }
@@ -59,8 +54,7 @@
       "kind": "Block",
       "span": {
         "start": 1545,
-        "end": 1554,
-        "ctxt": 0
+        "end": 1554
       },
       "text": "/*test*/"
     }
@@ -70,8 +64,7 @@
       "kind": "Block",
       "span": {
         "start": 1477,
-        "end": 1487,
-        "ctxt": 0
+        "end": 1487
       },
       "text": "/*test*/"
     }
@@ -81,8 +74,7 @@
       "kind": "Block",
       "span": {
         "start": 1534,
-        "end": 1545,
-        "ctxt": 0
+        "end": 1545
       },
       "text": "/*test*/"
     }

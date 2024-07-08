@@ -2,31 +2,27 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 35,
-    "ctxt": 0
+    "end": 35
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 8,
-        "ctxt": 0
+        "end": 8
       },
       "prelude": {
         "type": "ListOfComponentValues",
         "span": {
           "start": 1,
-          "end": 6,
-          "ctxt": 0
+          "end": 6
         },
         "children": [
           {
             "type": "PreservedToken",
             "span": {
               "start": 1,
-              "end": 2,
-              "ctxt": 0
+              "end": 2
             },
             "token": {
               "Ident": {
@@ -39,8 +35,7 @@
             "type": "PreservedToken",
             "span": {
               "start": 2,
-              "end": 3,
-              "ctxt": 0
+              "end": 3
             },
             "token": "Colon"
           },
@@ -48,8 +43,7 @@
             "type": "PreservedToken",
             "span": {
               "start": 3,
-              "end": 4,
-              "ctxt": 0
+              "end": 4
             },
             "token": {
               "WhiteSpace": {
@@ -61,8 +55,7 @@
             "type": "PreservedToken",
             "span": {
               "start": 4,
-              "end": 5,
-              "ctxt": 0
+              "end": 5
             },
             "token": {
               "Ident": {
@@ -75,8 +68,7 @@
             "type": "PreservedToken",
             "span": {
               "start": 5,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
             "token": {
               "WhiteSpace": {
@@ -90,15 +82,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 6,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 6,
-            "end": 7,
-            "ctxt": 0
+            "end": 7
           },
           "token": "LBrace"
         },
@@ -109,23 +99,20 @@
       "type": "QualifiedRule",
       "span": {
         "start": 10,
-        "end": 34,
-        "ctxt": 0
+        "end": 34
       },
       "prelude": {
         "type": "ListOfComponentValues",
         "span": {
           "start": 10,
-          "end": 15,
-          "ctxt": 0
+          "end": 15
         },
         "children": [
           {
             "type": "PreservedToken",
             "span": {
               "start": 10,
-              "end": 11,
-              "ctxt": 0
+              "end": 11
             },
             "token": {
               "Ident": {
@@ -138,8 +125,7 @@
             "type": "PreservedToken",
             "span": {
               "start": 11,
-              "end": 12,
-              "ctxt": 0
+              "end": 12
             },
             "token": "Colon"
           },
@@ -147,8 +133,7 @@
             "type": "PreservedToken",
             "span": {
               "start": 12,
-              "end": 13,
-              "ctxt": 0
+              "end": 13
             },
             "token": {
               "WhiteSpace": {
@@ -160,8 +145,7 @@
             "type": "PreservedToken",
             "span": {
               "start": 13,
-              "end": 14,
-              "ctxt": 0
+              "end": 14
             },
             "token": {
               "Ident": {
@@ -174,8 +158,7 @@
             "type": "PreservedToken",
             "span": {
               "start": 14,
-              "end": 15,
-              "ctxt": 0
+              "end": 15
             },
             "token": {
               "WhiteSpace": {
@@ -189,15 +172,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 15,
-          "end": 34,
-          "ctxt": 0
+          "end": 34
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 15,
-            "end": 16,
-            "ctxt": 0
+            "end": 16
           },
           "token": "LBrace"
         },
@@ -206,15 +187,13 @@
             "type": "Declaration",
             "span": {
               "start": 21,
-              "end": 31,
-              "ctxt": 0
+              "end": 31
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 21,
-                "end": 26,
-                "ctxt": 0
+                "end": 26
               },
               "value": "color",
               "raw": "color"
@@ -224,8 +203,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 28,
-                  "end": 31,
-                  "ctxt": 0
+                  "end": 31
                 },
                 "value": "red",
                 "raw": "red"

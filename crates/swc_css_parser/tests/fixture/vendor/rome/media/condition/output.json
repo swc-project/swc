@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 588,
-    "ctxt": 0
+    "end": 588
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 29,
-        "ctxt": 0
+        "end": 29
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 7,
-          "ctxt": 0
+          "end": 7
         },
         "value": "media",
         "raw": "media"
@@ -27,16 +24,14 @@
         "type": "MediaQueryList",
         "span": {
           "start": 8,
-          "end": 26,
-          "ctxt": 0
+          "end": 26
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 8,
-              "end": 26,
-              "ctxt": 0
+              "end": 26
             },
             "modifier": null,
             "mediaType": null,
@@ -45,23 +40,20 @@
               "type": "MediaCondition",
               "span": {
                 "start": 8,
-                "end": 26,
-                "ctxt": 0
+                "end": 26
               },
               "conditions": [
                 {
                   "type": "MediaFeaturePlain",
                   "span": {
                     "start": 8,
-                    "end": 26,
-                    "ctxt": 0
+                    "end": 26
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
                       "start": 9,
-                      "end": 18,
-                      "ctxt": 0
+                      "end": 18
                     },
                     "value": "min-width",
                     "raw": "min-width"
@@ -70,15 +62,13 @@
                     "type": "Length",
                     "span": {
                       "start": 20,
-                      "end": 25,
-                      "ctxt": 0
+                      "end": 25
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 20,
-                        "end": 23,
-                        "ctxt": 0
+                        "end": 23
                       },
                       "value": 800.0,
                       "raw": "800"
@@ -87,8 +77,7 @@
                       "type": "Ident",
                       "span": {
                         "start": 23,
-                        "end": 25,
-                        "ctxt": 0
+                        "end": 25
                       },
                       "value": "px",
                       "raw": "px"
@@ -104,15 +93,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 27,
-          "end": 29,
-          "ctxt": 0
+          "end": 29
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 27,
-            "end": 28,
-            "ctxt": 0
+            "end": 28
           },
           "token": "LBrace"
         },
@@ -123,15 +110,13 @@
       "type": "AtRule",
       "span": {
         "start": 30,
-        "end": 104,
-        "ctxt": 0
+        "end": 104
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 31,
-          "end": 36,
-          "ctxt": 0
+          "end": 36
         },
         "value": "media",
         "raw": "media"
@@ -140,16 +125,14 @@
         "type": "MediaQueryList",
         "span": {
           "start": 37,
-          "end": 101,
-          "ctxt": 0
+          "end": 101
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 37,
-              "end": 101,
-              "ctxt": 0
+              "end": 101
             },
             "modifier": null,
             "mediaType": null,
@@ -158,23 +141,20 @@
               "type": "MediaCondition",
               "span": {
                 "start": 37,
-                "end": 101,
-                "ctxt": 0
+                "end": 101
               },
               "conditions": [
                 {
                   "type": "MediaFeaturePlain",
                   "span": {
                     "start": 37,
-                    "end": 55,
-                    "ctxt": 0
+                    "end": 55
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
                       "start": 38,
-                      "end": 47,
-                      "ctxt": 0
+                      "end": 47
                     },
                     "value": "min-width",
                     "raw": "min-width"
@@ -183,15 +163,13 @@
                     "type": "Length",
                     "span": {
                       "start": 49,
-                      "end": 54,
-                      "ctxt": 0
+                      "end": 54
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 49,
-                        "end": 52,
-                        "ctxt": 0
+                        "end": 52
                       },
                       "value": 800.0,
                       "raw": "800"
@@ -200,8 +178,7 @@
                       "type": "Ident",
                       "span": {
                         "start": 52,
-                        "end": 54,
-                        "ctxt": 0
+                        "end": 54
                       },
                       "value": "px",
                       "raw": "px"
@@ -212,15 +189,13 @@
                   "type": "MediaAnd",
                   "span": {
                     "start": 56,
-                    "end": 78,
-                    "ctxt": 0
+                    "end": 78
                   },
                   "keyword": {
                     "type": "Ident",
                     "span": {
                       "start": 56,
-                      "end": 59,
-                      "ctxt": 0
+                      "end": 59
                     },
                     "value": "and",
                     "raw": "and"
@@ -229,15 +204,13 @@
                     "type": "MediaFeaturePlain",
                     "span": {
                       "start": 60,
-                      "end": 78,
-                      "ctxt": 0
+                      "end": 78
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 61,
-                        "end": 70,
-                        "ctxt": 0
+                        "end": 70
                       },
                       "value": "min-width",
                       "raw": "min-width"
@@ -246,15 +219,13 @@
                       "type": "Length",
                       "span": {
                         "start": 72,
-                        "end": 77,
-                        "ctxt": 0
+                        "end": 77
                       },
                       "value": {
                         "type": "Number",
                         "span": {
                           "start": 72,
-                          "end": 75,
-                          "ctxt": 0
+                          "end": 75
                         },
                         "value": 800.0,
                         "raw": "800"
@@ -263,8 +234,7 @@
                         "type": "Ident",
                         "span": {
                           "start": 75,
-                          "end": 77,
-                          "ctxt": 0
+                          "end": 77
                         },
                         "value": "px",
                         "raw": "px"
@@ -276,15 +246,13 @@
                   "type": "MediaAnd",
                   "span": {
                     "start": 79,
-                    "end": 101,
-                    "ctxt": 0
+                    "end": 101
                   },
                   "keyword": {
                     "type": "Ident",
                     "span": {
                       "start": 79,
-                      "end": 82,
-                      "ctxt": 0
+                      "end": 82
                     },
                     "value": "and",
                     "raw": "and"
@@ -293,15 +261,13 @@
                     "type": "MediaFeaturePlain",
                     "span": {
                       "start": 83,
-                      "end": 101,
-                      "ctxt": 0
+                      "end": 101
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 84,
-                        "end": 93,
-                        "ctxt": 0
+                        "end": 93
                       },
                       "value": "min-width",
                       "raw": "min-width"
@@ -310,15 +276,13 @@
                       "type": "Length",
                       "span": {
                         "start": 95,
-                        "end": 100,
-                        "ctxt": 0
+                        "end": 100
                       },
                       "value": {
                         "type": "Number",
                         "span": {
                           "start": 95,
-                          "end": 98,
-                          "ctxt": 0
+                          "end": 98
                         },
                         "value": 800.0,
                         "raw": "800"
@@ -327,8 +291,7 @@
                         "type": "Ident",
                         "span": {
                           "start": 98,
-                          "end": 100,
-                          "ctxt": 0
+                          "end": 100
                         },
                         "value": "px",
                         "raw": "px"
@@ -345,15 +308,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 102,
-          "end": 104,
-          "ctxt": 0
+          "end": 104
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 102,
-            "end": 103,
-            "ctxt": 0
+            "end": 103
           },
           "token": "LBrace"
         },
@@ -364,15 +325,13 @@
       "type": "AtRule",
       "span": {
         "start": 105,
-        "end": 202,
-        "ctxt": 0
+        "end": 202
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 106,
-          "end": 111,
-          "ctxt": 0
+          "end": 111
         },
         "value": "media",
         "raw": "media"
@@ -381,16 +340,14 @@
         "type": "MediaQueryList",
         "span": {
           "start": 112,
-          "end": 199,
-          "ctxt": 0
+          "end": 199
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 112,
-              "end": 199,
-              "ctxt": 0
+              "end": 199
             },
             "modifier": null,
             "mediaType": null,
@@ -399,23 +356,20 @@
               "type": "MediaCondition",
               "span": {
                 "start": 112,
-                "end": 199,
-                "ctxt": 0
+                "end": 199
               },
               "conditions": [
                 {
                   "type": "MediaFeaturePlain",
                   "span": {
                     "start": 112,
-                    "end": 130,
-                    "ctxt": 0
+                    "end": 130
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
                       "start": 113,
-                      "end": 122,
-                      "ctxt": 0
+                      "end": 122
                     },
                     "value": "min-width",
                     "raw": "min-width"
@@ -424,15 +378,13 @@
                     "type": "Length",
                     "span": {
                       "start": 124,
-                      "end": 129,
-                      "ctxt": 0
+                      "end": 129
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 124,
-                        "end": 127,
-                        "ctxt": 0
+                        "end": 127
                       },
                       "value": 800.0,
                       "raw": "800"
@@ -441,8 +393,7 @@
                       "type": "Ident",
                       "span": {
                         "start": 127,
-                        "end": 129,
-                        "ctxt": 0
+                        "end": 129
                       },
                       "value": "px",
                       "raw": "px"
@@ -453,15 +404,13 @@
                   "type": "MediaAnd",
                   "span": {
                     "start": 131,
-                    "end": 153,
-                    "ctxt": 0
+                    "end": 153
                   },
                   "keyword": {
                     "type": "Ident",
                     "span": {
                       "start": 131,
-                      "end": 134,
-                      "ctxt": 0
+                      "end": 134
                     },
                     "value": "and",
                     "raw": "and"
@@ -470,15 +419,13 @@
                     "type": "MediaFeaturePlain",
                     "span": {
                       "start": 135,
-                      "end": 153,
-                      "ctxt": 0
+                      "end": 153
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 136,
-                        "end": 145,
-                        "ctxt": 0
+                        "end": 145
                       },
                       "value": "min-width",
                       "raw": "min-width"
@@ -487,15 +434,13 @@
                       "type": "Length",
                       "span": {
                         "start": 147,
-                        "end": 152,
-                        "ctxt": 0
+                        "end": 152
                       },
                       "value": {
                         "type": "Number",
                         "span": {
                           "start": 147,
-                          "end": 150,
-                          "ctxt": 0
+                          "end": 150
                         },
                         "value": 800.0,
                         "raw": "800"
@@ -504,8 +449,7 @@
                         "type": "Ident",
                         "span": {
                           "start": 150,
-                          "end": 152,
-                          "ctxt": 0
+                          "end": 152
                         },
                         "value": "px",
                         "raw": "px"
@@ -517,15 +461,13 @@
                   "type": "MediaAnd",
                   "span": {
                     "start": 154,
-                    "end": 176,
-                    "ctxt": 0
+                    "end": 176
                   },
                   "keyword": {
                     "type": "Ident",
                     "span": {
                       "start": 154,
-                      "end": 157,
-                      "ctxt": 0
+                      "end": 157
                     },
                     "value": "and",
                     "raw": "and"
@@ -534,15 +476,13 @@
                     "type": "MediaFeaturePlain",
                     "span": {
                       "start": 158,
-                      "end": 176,
-                      "ctxt": 0
+                      "end": 176
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 159,
-                        "end": 168,
-                        "ctxt": 0
+                        "end": 168
                       },
                       "value": "min-width",
                       "raw": "min-width"
@@ -551,15 +491,13 @@
                       "type": "Length",
                       "span": {
                         "start": 170,
-                        "end": 175,
-                        "ctxt": 0
+                        "end": 175
                       },
                       "value": {
                         "type": "Number",
                         "span": {
                           "start": 170,
-                          "end": 173,
-                          "ctxt": 0
+                          "end": 173
                         },
                         "value": 800.0,
                         "raw": "800"
@@ -568,8 +506,7 @@
                         "type": "Ident",
                         "span": {
                           "start": 173,
-                          "end": 175,
-                          "ctxt": 0
+                          "end": 175
                         },
                         "value": "px",
                         "raw": "px"
@@ -581,15 +518,13 @@
                   "type": "MediaAnd",
                   "span": {
                     "start": 177,
-                    "end": 199,
-                    "ctxt": 0
+                    "end": 199
                   },
                   "keyword": {
                     "type": "Ident",
                     "span": {
                       "start": 177,
-                      "end": 180,
-                      "ctxt": 0
+                      "end": 180
                     },
                     "value": "and",
                     "raw": "and"
@@ -598,15 +533,13 @@
                     "type": "MediaFeaturePlain",
                     "span": {
                       "start": 181,
-                      "end": 199,
-                      "ctxt": 0
+                      "end": 199
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 182,
-                        "end": 191,
-                        "ctxt": 0
+                        "end": 191
                       },
                       "value": "min-width",
                       "raw": "min-width"
@@ -615,15 +548,13 @@
                       "type": "Length",
                       "span": {
                         "start": 193,
-                        "end": 198,
-                        "ctxt": 0
+                        "end": 198
                       },
                       "value": {
                         "type": "Number",
                         "span": {
                           "start": 193,
-                          "end": 196,
-                          "ctxt": 0
+                          "end": 196
                         },
                         "value": 800.0,
                         "raw": "800"
@@ -632,8 +563,7 @@
                         "type": "Ident",
                         "span": {
                           "start": 196,
-                          "end": 198,
-                          "ctxt": 0
+                          "end": 198
                         },
                         "value": "px",
                         "raw": "px"
@@ -650,15 +580,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 200,
-          "end": 202,
-          "ctxt": 0
+          "end": 202
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 200,
-            "end": 201,
-            "ctxt": 0
+            "end": 201
           },
           "token": "LBrace"
         },
@@ -669,15 +597,13 @@
       "type": "AtRule",
       "span": {
         "start": 203,
-        "end": 235,
-        "ctxt": 0
+        "end": 235
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 204,
-          "end": 209,
-          "ctxt": 0
+          "end": 209
         },
         "value": "media",
         "raw": "media"
@@ -686,16 +612,14 @@
         "type": "MediaQueryList",
         "span": {
           "start": 210,
-          "end": 232,
-          "ctxt": 0
+          "end": 232
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 210,
-              "end": 232,
-              "ctxt": 0
+              "end": 232
             },
             "modifier": null,
             "mediaType": null,
@@ -704,23 +628,20 @@
               "type": "MediaCondition",
               "span": {
                 "start": 210,
-                "end": 232,
-                "ctxt": 0
+                "end": 232
               },
               "conditions": [
                 {
                   "type": "MediaNot",
                   "span": {
                     "start": 210,
-                    "end": 232,
-                    "ctxt": 0
+                    "end": 232
                   },
                   "keyword": {
                     "type": "Ident",
                     "span": {
                       "start": 210,
-                      "end": 213,
-                      "ctxt": 0
+                      "end": 213
                     },
                     "value": "not",
                     "raw": "not"
@@ -729,15 +650,13 @@
                     "type": "MediaFeaturePlain",
                     "span": {
                       "start": 214,
-                      "end": 232,
-                      "ctxt": 0
+                      "end": 232
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 215,
-                        "end": 224,
-                        "ctxt": 0
+                        "end": 224
                       },
                       "value": "min-width",
                       "raw": "min-width"
@@ -746,15 +665,13 @@
                       "type": "Length",
                       "span": {
                         "start": 226,
-                        "end": 231,
-                        "ctxt": 0
+                        "end": 231
                       },
                       "value": {
                         "type": "Number",
                         "span": {
                           "start": 226,
-                          "end": 229,
-                          "ctxt": 0
+                          "end": 229
                         },
                         "value": 800.0,
                         "raw": "800"
@@ -763,8 +680,7 @@
                         "type": "Ident",
                         "span": {
                           "start": 229,
-                          "end": 231,
-                          "ctxt": 0
+                          "end": 231
                         },
                         "value": "px",
                         "raw": "px"
@@ -781,15 +697,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 233,
-          "end": 235,
-          "ctxt": 0
+          "end": 235
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 233,
-            "end": 234,
-            "ctxt": 0
+            "end": 234
           },
           "token": "LBrace"
         },
@@ -800,15 +714,13 @@
       "type": "AtRule",
       "span": {
         "start": 236,
-        "end": 311,
-        "ctxt": 0
+        "end": 311
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 237,
-          "end": 242,
-          "ctxt": 0
+          "end": 242
         },
         "value": "media",
         "raw": "media"
@@ -817,16 +729,14 @@
         "type": "MediaQueryList",
         "span": {
           "start": 243,
-          "end": 308,
-          "ctxt": 0
+          "end": 308
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 243,
-              "end": 308,
-              "ctxt": 0
+              "end": 308
             },
             "modifier": null,
             "mediaType": null,
@@ -835,31 +745,27 @@
               "type": "MediaCondition",
               "span": {
                 "start": 243,
-                "end": 308,
-                "ctxt": 0
+                "end": 308
               },
               "conditions": [
                 {
                   "type": "MediaCondition",
                   "span": {
                     "start": 244,
-                    "end": 285,
-                    "ctxt": 0
+                    "end": 285
                   },
                   "conditions": [
                     {
                       "type": "MediaFeaturePlain",
                       "span": {
                         "start": 244,
-                        "end": 262,
-                        "ctxt": 0
+                        "end": 262
                       },
                       "name": {
                         "type": "Ident",
                         "span": {
                           "start": 245,
-                          "end": 254,
-                          "ctxt": 0
+                          "end": 254
                         },
                         "value": "min-width",
                         "raw": "min-width"
@@ -868,15 +774,13 @@
                         "type": "Length",
                         "span": {
                           "start": 256,
-                          "end": 261,
-                          "ctxt": 0
+                          "end": 261
                         },
                         "value": {
                           "type": "Number",
                           "span": {
                             "start": 256,
-                            "end": 259,
-                            "ctxt": 0
+                            "end": 259
                           },
                           "value": 800.0,
                           "raw": "800"
@@ -885,8 +789,7 @@
                           "type": "Ident",
                           "span": {
                             "start": 259,
-                            "end": 261,
-                            "ctxt": 0
+                            "end": 261
                           },
                           "value": "px",
                           "raw": "px"
@@ -897,15 +800,13 @@
                       "type": "MediaAnd",
                       "span": {
                         "start": 263,
-                        "end": 285,
-                        "ctxt": 0
+                        "end": 285
                       },
                       "keyword": {
                         "type": "Ident",
                         "span": {
                           "start": 263,
-                          "end": 266,
-                          "ctxt": 0
+                          "end": 266
                         },
                         "value": "and",
                         "raw": "and"
@@ -914,15 +815,13 @@
                         "type": "MediaFeaturePlain",
                         "span": {
                           "start": 267,
-                          "end": 285,
-                          "ctxt": 0
+                          "end": 285
                         },
                         "name": {
                           "type": "Ident",
                           "span": {
                             "start": 268,
-                            "end": 277,
-                            "ctxt": 0
+                            "end": 277
                           },
                           "value": "min-width",
                           "raw": "min-width"
@@ -931,15 +830,13 @@
                           "type": "Length",
                           "span": {
                             "start": 279,
-                            "end": 284,
-                            "ctxt": 0
+                            "end": 284
                           },
                           "value": {
                             "type": "Number",
                             "span": {
                               "start": 279,
-                              "end": 282,
-                              "ctxt": 0
+                              "end": 282
                             },
                             "value": 800.0,
                             "raw": "800"
@@ -948,8 +845,7 @@
                             "type": "Ident",
                             "span": {
                               "start": 282,
-                              "end": 284,
-                              "ctxt": 0
+                              "end": 284
                             },
                             "value": "px",
                             "raw": "px"
@@ -963,15 +859,13 @@
                   "type": "MediaOr",
                   "span": {
                     "start": 287,
-                    "end": 308,
-                    "ctxt": 0
+                    "end": 308
                   },
                   "keyword": {
                     "type": "Ident",
                     "span": {
                       "start": 287,
-                      "end": 289,
-                      "ctxt": 0
+                      "end": 289
                     },
                     "value": "or",
                     "raw": "or"
@@ -980,15 +874,13 @@
                     "type": "MediaFeaturePlain",
                     "span": {
                       "start": 290,
-                      "end": 308,
-                      "ctxt": 0
+                      "end": 308
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 291,
-                        "end": 300,
-                        "ctxt": 0
+                        "end": 300
                       },
                       "value": "min-width",
                       "raw": "min-width"
@@ -997,15 +889,13 @@
                       "type": "Length",
                       "span": {
                         "start": 302,
-                        "end": 307,
-                        "ctxt": 0
+                        "end": 307
                       },
                       "value": {
                         "type": "Number",
                         "span": {
                           "start": 302,
-                          "end": 305,
-                          "ctxt": 0
+                          "end": 305
                         },
                         "value": 800.0,
                         "raw": "800"
@@ -1014,8 +904,7 @@
                         "type": "Ident",
                         "span": {
                           "start": 305,
-                          "end": 307,
-                          "ctxt": 0
+                          "end": 307
                         },
                         "value": "px",
                         "raw": "px"
@@ -1032,15 +921,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 309,
-          "end": 311,
-          "ctxt": 0
+          "end": 311
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 309,
-            "end": 310,
-            "ctxt": 0
+            "end": 310
           },
           "token": "LBrace"
         },
@@ -1051,15 +938,13 @@
       "type": "AtRule",
       "span": {
         "start": 312,
-        "end": 387,
-        "ctxt": 0
+        "end": 387
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 313,
-          "end": 318,
-          "ctxt": 0
+          "end": 318
         },
         "value": "media",
         "raw": "media"
@@ -1068,16 +953,14 @@
         "type": "MediaQueryList",
         "span": {
           "start": 319,
-          "end": 384,
-          "ctxt": 0
+          "end": 384
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 319,
-              "end": 384,
-              "ctxt": 0
+              "end": 384
             },
             "modifier": null,
             "mediaType": null,
@@ -1086,23 +969,20 @@
               "type": "MediaCondition",
               "span": {
                 "start": 319,
-                "end": 384,
-                "ctxt": 0
+                "end": 384
               },
               "conditions": [
                 {
                   "type": "MediaFeaturePlain",
                   "span": {
                     "start": 319,
-                    "end": 337,
-                    "ctxt": 0
+                    "end": 337
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
                       "start": 320,
-                      "end": 329,
-                      "ctxt": 0
+                      "end": 329
                     },
                     "value": "min-width",
                     "raw": "min-width"
@@ -1111,15 +991,13 @@
                     "type": "Length",
                     "span": {
                       "start": 331,
-                      "end": 336,
-                      "ctxt": 0
+                      "end": 336
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 331,
-                        "end": 334,
-                        "ctxt": 0
+                        "end": 334
                       },
                       "value": 800.0,
                       "raw": "800"
@@ -1128,8 +1006,7 @@
                       "type": "Ident",
                       "span": {
                         "start": 334,
-                        "end": 336,
-                        "ctxt": 0
+                        "end": 336
                       },
                       "value": "px",
                       "raw": "px"
@@ -1140,15 +1017,13 @@
                   "type": "MediaAnd",
                   "span": {
                     "start": 338,
-                    "end": 384,
-                    "ctxt": 0
+                    "end": 384
                   },
                   "keyword": {
                     "type": "Ident",
                     "span": {
                       "start": 338,
-                      "end": 341,
-                      "ctxt": 0
+                      "end": 341
                     },
                     "value": "and",
                     "raw": "and"
@@ -1157,23 +1032,20 @@
                     "type": "MediaCondition",
                     "span": {
                       "start": 343,
-                      "end": 383,
-                      "ctxt": 0
+                      "end": 383
                     },
                     "conditions": [
                       {
                         "type": "MediaFeaturePlain",
                         "span": {
                           "start": 343,
-                          "end": 361,
-                          "ctxt": 0
+                          "end": 361
                         },
                         "name": {
                           "type": "Ident",
                           "span": {
                             "start": 344,
-                            "end": 353,
-                            "ctxt": 0
+                            "end": 353
                           },
                           "value": "min-width",
                           "raw": "min-width"
@@ -1182,15 +1054,13 @@
                           "type": "Length",
                           "span": {
                             "start": 355,
-                            "end": 360,
-                            "ctxt": 0
+                            "end": 360
                           },
                           "value": {
                             "type": "Number",
                             "span": {
                               "start": 355,
-                              "end": 358,
-                              "ctxt": 0
+                              "end": 358
                             },
                             "value": 800.0,
                             "raw": "800"
@@ -1199,8 +1069,7 @@
                             "type": "Ident",
                             "span": {
                               "start": 358,
-                              "end": 360,
-                              "ctxt": 0
+                              "end": 360
                             },
                             "value": "px",
                             "raw": "px"
@@ -1211,15 +1080,13 @@
                         "type": "MediaOr",
                         "span": {
                           "start": 362,
-                          "end": 383,
-                          "ctxt": 0
+                          "end": 383
                         },
                         "keyword": {
                           "type": "Ident",
                           "span": {
                             "start": 362,
-                            "end": 364,
-                            "ctxt": 0
+                            "end": 364
                           },
                           "value": "or",
                           "raw": "or"
@@ -1228,15 +1095,13 @@
                           "type": "MediaFeaturePlain",
                           "span": {
                             "start": 365,
-                            "end": 383,
-                            "ctxt": 0
+                            "end": 383
                           },
                           "name": {
                             "type": "Ident",
                             "span": {
                               "start": 366,
-                              "end": 375,
-                              "ctxt": 0
+                              "end": 375
                             },
                             "value": "min-width",
                             "raw": "min-width"
@@ -1245,15 +1110,13 @@
                             "type": "Length",
                             "span": {
                               "start": 377,
-                              "end": 382,
-                              "ctxt": 0
+                              "end": 382
                             },
                             "value": {
                               "type": "Number",
                               "span": {
                                 "start": 377,
-                                "end": 380,
-                                "ctxt": 0
+                                "end": 380
                               },
                               "value": 800.0,
                               "raw": "800"
@@ -1262,8 +1125,7 @@
                               "type": "Ident",
                               "span": {
                                 "start": 380,
-                                "end": 382,
-                                "ctxt": 0
+                                "end": 382
                               },
                               "value": "px",
                               "raw": "px"
@@ -1283,15 +1145,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 385,
-          "end": 387,
-          "ctxt": 0
+          "end": 387
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 385,
-            "end": 386,
-            "ctxt": 0
+            "end": 386
           },
           "token": "LBrace"
         },
@@ -1302,15 +1162,13 @@
       "type": "AtRule",
       "span": {
         "start": 388,
-        "end": 487,
-        "ctxt": 0
+        "end": 487
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 389,
-          "end": 394,
-          "ctxt": 0
+          "end": 394
         },
         "value": "media",
         "raw": "media"
@@ -1319,16 +1177,14 @@
         "type": "MediaQueryList",
         "span": {
           "start": 395,
-          "end": 460,
-          "ctxt": 0
+          "end": 460
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 395,
-              "end": 460,
-              "ctxt": 0
+              "end": 460
             },
             "modifier": null,
             "mediaType": null,
@@ -1337,31 +1193,27 @@
               "type": "MediaCondition",
               "span": {
                 "start": 395,
-                "end": 460,
-                "ctxt": 0
+                "end": 460
               },
               "conditions": [
                 {
                   "type": "MediaCondition",
                   "span": {
                     "start": 396,
-                    "end": 437,
-                    "ctxt": 0
+                    "end": 437
                   },
                   "conditions": [
                     {
                       "type": "MediaFeaturePlain",
                       "span": {
                         "start": 396,
-                        "end": 414,
-                        "ctxt": 0
+                        "end": 414
                       },
                       "name": {
                         "type": "Ident",
                         "span": {
                           "start": 397,
-                          "end": 406,
-                          "ctxt": 0
+                          "end": 406
                         },
                         "value": "min-width",
                         "raw": "min-width"
@@ -1370,15 +1222,13 @@
                         "type": "Length",
                         "span": {
                           "start": 408,
-                          "end": 413,
-                          "ctxt": 0
+                          "end": 413
                         },
                         "value": {
                           "type": "Number",
                           "span": {
                             "start": 408,
-                            "end": 411,
-                            "ctxt": 0
+                            "end": 411
                           },
                           "value": 800.0,
                           "raw": "800"
@@ -1387,8 +1237,7 @@
                           "type": "Ident",
                           "span": {
                             "start": 411,
-                            "end": 413,
-                            "ctxt": 0
+                            "end": 413
                           },
                           "value": "px",
                           "raw": "px"
@@ -1399,15 +1248,13 @@
                       "type": "MediaAnd",
                       "span": {
                         "start": 415,
-                        "end": 437,
-                        "ctxt": 0
+                        "end": 437
                       },
                       "keyword": {
                         "type": "Ident",
                         "span": {
                           "start": 415,
-                          "end": 418,
-                          "ctxt": 0
+                          "end": 418
                         },
                         "value": "and",
                         "raw": "and"
@@ -1416,15 +1263,13 @@
                         "type": "MediaFeaturePlain",
                         "span": {
                           "start": 419,
-                          "end": 437,
-                          "ctxt": 0
+                          "end": 437
                         },
                         "name": {
                           "type": "Ident",
                           "span": {
                             "start": 420,
-                            "end": 429,
-                            "ctxt": 0
+                            "end": 429
                           },
                           "value": "min-width",
                           "raw": "min-width"
@@ -1433,15 +1278,13 @@
                           "type": "Length",
                           "span": {
                             "start": 431,
-                            "end": 436,
-                            "ctxt": 0
+                            "end": 436
                           },
                           "value": {
                             "type": "Number",
                             "span": {
                               "start": 431,
-                              "end": 434,
-                              "ctxt": 0
+                              "end": 434
                             },
                             "value": 800.0,
                             "raw": "800"
@@ -1450,8 +1293,7 @@
                             "type": "Ident",
                             "span": {
                               "start": 434,
-                              "end": 436,
-                              "ctxt": 0
+                              "end": 436
                             },
                             "value": "px",
                             "raw": "px"
@@ -1465,15 +1307,13 @@
                   "type": "MediaOr",
                   "span": {
                     "start": 439,
-                    "end": 460,
-                    "ctxt": 0
+                    "end": 460
                   },
                   "keyword": {
                     "type": "Ident",
                     "span": {
                       "start": 439,
-                      "end": 441,
-                      "ctxt": 0
+                      "end": 441
                     },
                     "value": "or",
                     "raw": "or"
@@ -1482,15 +1322,13 @@
                     "type": "MediaFeaturePlain",
                     "span": {
                       "start": 442,
-                      "end": 460,
-                      "ctxt": 0
+                      "end": 460
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 443,
-                        "end": 452,
-                        "ctxt": 0
+                        "end": 452
                       },
                       "value": "min-width",
                       "raw": "min-width"
@@ -1499,15 +1337,13 @@
                       "type": "Length",
                       "span": {
                         "start": 454,
-                        "end": 459,
-                        "ctxt": 0
+                        "end": 459
                       },
                       "value": {
                         "type": "Number",
                         "span": {
                           "start": 454,
-                          "end": 457,
-                          "ctxt": 0
+                          "end": 457
                         },
                         "value": 800.0,
                         "raw": "800"
@@ -1516,8 +1352,7 @@
                         "type": "Ident",
                         "span": {
                           "start": 457,
-                          "end": 459,
-                          "ctxt": 0
+                          "end": 459
                         },
                         "value": "px",
                         "raw": "px"
@@ -1534,15 +1369,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 461,
-          "end": 487,
-          "ctxt": 0
+          "end": 487
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 461,
-            "end": 462,
-            "ctxt": 0
+            "end": 462
           },
           "token": "LBrace"
         },
@@ -1551,54 +1384,47 @@
             "type": "QualifiedRule",
             "span": {
               "start": 464,
-              "end": 471,
-              "ctxt": 0
+              "end": 471
             },
             "prelude": {
               "type": "SelectorList",
               "span": {
                 "start": 464,
-                "end": 465,
-                "ctxt": 0
+                "end": 465
               },
               "children": [
                 {
                   "type": "ComplexSelector",
                   "span": {
                     "start": 464,
-                    "end": 465,
-                    "ctxt": 0
+                    "end": 465
                   },
                   "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
                         "start": 464,
-                        "end": 465,
-                        "ctxt": 0
+                        "end": 465
                       },
                       "nestingSelector": null,
                       "typeSelector": {
                         "type": "TagNameSelector",
                         "span": {
                           "start": 464,
-                          "end": 465,
-                          "ctxt": 0
+                          "end": 465
                         },
                         "name": {
                           "type": "WqName",
                           "span": {
                             "start": 464,
-                            "end": 465,
-                            "ctxt": 0
+                            "end": 465
                           },
                           "prefix": null,
                           "value": {
                             "type": "Ident",
                             "span": {
                               "start": 464,
-                              "end": 465,
-                              "ctxt": 0
+                              "end": 465
                             },
                             "value": "a",
                             "raw": "a"
@@ -1615,15 +1441,13 @@
               "type": "SimpleBlock",
               "span": {
                 "start": 466,
-                "end": 471,
-                "ctxt": 0
+                "end": 471
               },
               "name": {
                 "type": "PreservedToken",
                 "span": {
                   "start": 466,
-                  "end": 467,
-                  "ctxt": 0
+                  "end": 467
                 },
                 "token": "LBrace"
               },
@@ -1634,31 +1458,27 @@
             "type": "QualifiedRule",
             "span": {
               "start": 473,
-              "end": 485,
-              "ctxt": 0
+              "end": 485
             },
             "prelude": {
               "type": "SelectorList",
               "span": {
                 "start": 473,
-                "end": 479,
-                "ctxt": 0
+                "end": 479
               },
               "children": [
                 {
                   "type": "ComplexSelector",
                   "span": {
                     "start": 473,
-                    "end": 479,
-                    "ctxt": 0
+                    "end": 479
                   },
                   "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
                         "start": 473,
-                        "end": 479,
-                        "ctxt": 0
+                        "end": 479
                       },
                       "nestingSelector": null,
                       "typeSelector": null,
@@ -1667,15 +1487,13 @@
                           "type": "ClassSelector",
                           "span": {
                             "start": 473,
-                            "end": 479,
-                            "ctxt": 0
+                            "end": 479
                           },
                           "text": {
                             "type": "Ident",
                             "span": {
                               "start": 474,
-                              "end": 479,
-                              "ctxt": 0
+                              "end": 479
                             },
                             "value": "style",
                             "raw": "style"
@@ -1691,15 +1509,13 @@
               "type": "SimpleBlock",
               "span": {
                 "start": 480,
-                "end": 485,
-                "ctxt": 0
+                "end": 485
               },
               "name": {
                 "type": "PreservedToken",
                 "span": {
                   "start": 480,
-                  "end": 481,
-                  "ctxt": 0
+                  "end": 481
                 },
                 "token": "LBrace"
               },
@@ -1713,15 +1529,13 @@
       "type": "AtRule",
       "span": {
         "start": 488,
-        "end": 587,
-        "ctxt": 0
+        "end": 587
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 489,
-          "end": 494,
-          "ctxt": 0
+          "end": 494
         },
         "value": "media",
         "raw": "media"
@@ -1730,16 +1544,14 @@
         "type": "MediaQueryList",
         "span": {
           "start": 495,
-          "end": 560,
-          "ctxt": 0
+          "end": 560
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 495,
-              "end": 560,
-              "ctxt": 0
+              "end": 560
             },
             "modifier": null,
             "mediaType": null,
@@ -1748,23 +1560,20 @@
               "type": "MediaCondition",
               "span": {
                 "start": 495,
-                "end": 560,
-                "ctxt": 0
+                "end": 560
               },
               "conditions": [
                 {
                   "type": "MediaFeaturePlain",
                   "span": {
                     "start": 495,
-                    "end": 513,
-                    "ctxt": 0
+                    "end": 513
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
                       "start": 496,
-                      "end": 505,
-                      "ctxt": 0
+                      "end": 505
                     },
                     "value": "min-width",
                     "raw": "min-width"
@@ -1773,15 +1582,13 @@
                     "type": "Length",
                     "span": {
                       "start": 507,
-                      "end": 512,
-                      "ctxt": 0
+                      "end": 512
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 507,
-                        "end": 510,
-                        "ctxt": 0
+                        "end": 510
                       },
                       "value": 800.0,
                       "raw": "800"
@@ -1790,8 +1597,7 @@
                       "type": "Ident",
                       "span": {
                         "start": 510,
-                        "end": 512,
-                        "ctxt": 0
+                        "end": 512
                       },
                       "value": "px",
                       "raw": "px"
@@ -1802,15 +1608,13 @@
                   "type": "MediaAnd",
                   "span": {
                     "start": 514,
-                    "end": 560,
-                    "ctxt": 0
+                    "end": 560
                   },
                   "keyword": {
                     "type": "Ident",
                     "span": {
                       "start": 514,
-                      "end": 517,
-                      "ctxt": 0
+                      "end": 517
                     },
                     "value": "and",
                     "raw": "and"
@@ -1819,23 +1623,20 @@
                     "type": "MediaCondition",
                     "span": {
                       "start": 519,
-                      "end": 559,
-                      "ctxt": 0
+                      "end": 559
                     },
                     "conditions": [
                       {
                         "type": "MediaFeaturePlain",
                         "span": {
                           "start": 519,
-                          "end": 537,
-                          "ctxt": 0
+                          "end": 537
                         },
                         "name": {
                           "type": "Ident",
                           "span": {
                             "start": 520,
-                            "end": 529,
-                            "ctxt": 0
+                            "end": 529
                           },
                           "value": "min-width",
                           "raw": "min-width"
@@ -1844,15 +1645,13 @@
                           "type": "Length",
                           "span": {
                             "start": 531,
-                            "end": 536,
-                            "ctxt": 0
+                            "end": 536
                           },
                           "value": {
                             "type": "Number",
                             "span": {
                               "start": 531,
-                              "end": 534,
-                              "ctxt": 0
+                              "end": 534
                             },
                             "value": 800.0,
                             "raw": "800"
@@ -1861,8 +1660,7 @@
                             "type": "Ident",
                             "span": {
                               "start": 534,
-                              "end": 536,
-                              "ctxt": 0
+                              "end": 536
                             },
                             "value": "px",
                             "raw": "px"
@@ -1873,15 +1671,13 @@
                         "type": "MediaOr",
                         "span": {
                           "start": 538,
-                          "end": 559,
-                          "ctxt": 0
+                          "end": 559
                         },
                         "keyword": {
                           "type": "Ident",
                           "span": {
                             "start": 538,
-                            "end": 540,
-                            "ctxt": 0
+                            "end": 540
                           },
                           "value": "or",
                           "raw": "or"
@@ -1890,15 +1686,13 @@
                           "type": "MediaFeaturePlain",
                           "span": {
                             "start": 541,
-                            "end": 559,
-                            "ctxt": 0
+                            "end": 559
                           },
                           "name": {
                             "type": "Ident",
                             "span": {
                               "start": 542,
-                              "end": 551,
-                              "ctxt": 0
+                              "end": 551
                             },
                             "value": "min-width",
                             "raw": "min-width"
@@ -1907,15 +1701,13 @@
                             "type": "Length",
                             "span": {
                               "start": 553,
-                              "end": 558,
-                              "ctxt": 0
+                              "end": 558
                             },
                             "value": {
                               "type": "Number",
                               "span": {
                                 "start": 553,
-                                "end": 556,
-                                "ctxt": 0
+                                "end": 556
                               },
                               "value": 800.0,
                               "raw": "800"
@@ -1924,8 +1716,7 @@
                               "type": "Ident",
                               "span": {
                                 "start": 556,
-                                "end": 558,
-                                "ctxt": 0
+                                "end": 558
                               },
                               "value": "px",
                               "raw": "px"
@@ -1945,15 +1736,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 561,
-          "end": 587,
-          "ctxt": 0
+          "end": 587
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 561,
-            "end": 562,
-            "ctxt": 0
+            "end": 562
           },
           "token": "LBrace"
         },
@@ -1962,54 +1751,47 @@
             "type": "QualifiedRule",
             "span": {
               "start": 564,
-              "end": 571,
-              "ctxt": 0
+              "end": 571
             },
             "prelude": {
               "type": "SelectorList",
               "span": {
                 "start": 564,
-                "end": 565,
-                "ctxt": 0
+                "end": 565
               },
               "children": [
                 {
                   "type": "ComplexSelector",
                   "span": {
                     "start": 564,
-                    "end": 565,
-                    "ctxt": 0
+                    "end": 565
                   },
                   "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
                         "start": 564,
-                        "end": 565,
-                        "ctxt": 0
+                        "end": 565
                       },
                       "nestingSelector": null,
                       "typeSelector": {
                         "type": "TagNameSelector",
                         "span": {
                           "start": 564,
-                          "end": 565,
-                          "ctxt": 0
+                          "end": 565
                         },
                         "name": {
                           "type": "WqName",
                           "span": {
                             "start": 564,
-                            "end": 565,
-                            "ctxt": 0
+                            "end": 565
                           },
                           "prefix": null,
                           "value": {
                             "type": "Ident",
                             "span": {
                               "start": 564,
-                              "end": 565,
-                              "ctxt": 0
+                              "end": 565
                             },
                             "value": "a",
                             "raw": "a"
@@ -2026,15 +1808,13 @@
               "type": "SimpleBlock",
               "span": {
                 "start": 566,
-                "end": 571,
-                "ctxt": 0
+                "end": 571
               },
               "name": {
                 "type": "PreservedToken",
                 "span": {
                   "start": 566,
-                  "end": 567,
-                  "ctxt": 0
+                  "end": 567
                 },
                 "token": "LBrace"
               },
@@ -2045,31 +1825,27 @@
             "type": "QualifiedRule",
             "span": {
               "start": 573,
-              "end": 585,
-              "ctxt": 0
+              "end": 585
             },
             "prelude": {
               "type": "SelectorList",
               "span": {
                 "start": 573,
-                "end": 579,
-                "ctxt": 0
+                "end": 579
               },
               "children": [
                 {
                   "type": "ComplexSelector",
                   "span": {
                     "start": 573,
-                    "end": 579,
-                    "ctxt": 0
+                    "end": 579
                   },
                   "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
                         "start": 573,
-                        "end": 579,
-                        "ctxt": 0
+                        "end": 579
                       },
                       "nestingSelector": null,
                       "typeSelector": null,
@@ -2078,15 +1854,13 @@
                           "type": "ClassSelector",
                           "span": {
                             "start": 573,
-                            "end": 579,
-                            "ctxt": 0
+                            "end": 579
                           },
                           "text": {
                             "type": "Ident",
                             "span": {
                               "start": 574,
-                              "end": 579,
-                              "ctxt": 0
+                              "end": 579
                             },
                             "value": "style",
                             "raw": "style"
@@ -2102,15 +1876,13 @@
               "type": "SimpleBlock",
               "span": {
                 "start": 580,
-                "end": 585,
-                "ctxt": 0
+                "end": 585
               },
               "name": {
                 "type": "PreservedToken",
                 "span": {
                   "start": 580,
-                  "end": 581,
-                  "ctxt": 0
+                  "end": 581
                 },
                 "token": "LBrace"
               },

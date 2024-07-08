@@ -2,62 +2,54 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 30,
-    "ctxt": 0
+    "end": 30
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 30,
-        "ctxt": 0
+        "end": 30
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 2,
-          "ctxt": 0
+          "end": 2
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 2,
-              "ctxt": 0
+              "end": 2
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 2,
-                  "ctxt": 0
+                  "end": 2
                 },
                 "nestingSelector": null,
                 "typeSelector": {
                   "type": "TagNameSelector",
                   "span": {
                     "start": 1,
-                    "end": 2,
-                    "ctxt": 0
+                    "end": 2
                   },
                   "name": {
                     "type": "WqName",
                     "span": {
                       "start": 1,
-                      "end": 2,
-                      "ctxt": 0
+                      "end": 2
                     },
                     "prefix": null,
                     "value": {
                       "type": "Ident",
                       "span": {
                         "start": 1,
-                        "end": 2,
-                        "ctxt": 0
+                        "end": 2
                       },
                       "value": "a",
                       "raw": "a"
@@ -74,15 +66,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 3,
-          "end": 30,
-          "ctxt": 0
+          "end": 30
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 3,
-            "end": 4,
-            "ctxt": 0
+            "end": 4
           },
           "token": "LBrace"
         },
@@ -91,15 +81,13 @@
             "type": "Declaration",
             "span": {
               "start": 9,
-              "end": 29,
-              "ctxt": 0
+              "end": 29
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 9,
-                "end": 13,
-                "ctxt": 0
+                "end": 13
               },
               "value": "prop",
               "raw": "prop"
@@ -109,15 +97,13 @@
                 "type": "Function",
                 "span": {
                   "start": 15,
-                  "end": 26,
-                  "ctxt": 0
+                  "end": 26
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 15,
-                    "end": 18,
-                    "ctxt": 0
+                    "end": 18
                   },
                   "value": "url",
                   "raw": "url"
@@ -127,8 +113,7 @@
                     "type": "PreservedToken",
                     "span": {
                       "start": 19,
-                      "end": 25,
-                      "ctxt": 0
+                      "end": 25
                     },
                     "token": {
                       "String": {
@@ -143,8 +128,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 26,
-                  "end": 27,
-                  "ctxt": 0
+                  "end": 27
                 },
                 "token": {
                   "WhiteSpace": {
@@ -156,8 +140,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 27,
-                  "end": 28,
-                  "ctxt": 0
+                  "end": 28
                 },
                 "token": "Colon"
               }

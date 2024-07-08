@@ -2,39 +2,34 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 75,
-    "ctxt": 0
+    "end": 75
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 74,
-        "ctxt": 0
+        "end": 74
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 7,
-          "ctxt": 0
+          "end": 7
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 7,
-              "ctxt": 0
+              "end": 7
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 7,
-                  "ctxt": 0
+                  "end": 7
                 },
                 "nestingSelector": null,
                 "typeSelector": null,
@@ -43,15 +38,13 @@
                     "type": "ClassSelector",
                     "span": {
                       "start": 1,
-                      "end": 7,
-                      "ctxt": 0
+                      "end": 7
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
                         "start": 2,
-                        "end": 7,
-                        "ctxt": 0
+                        "end": 7
                       },
                       "value": "style",
                       "raw": "style"
@@ -67,15 +60,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 8,
-          "end": 74,
-          "ctxt": 0
+          "end": 74
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 8,
-            "end": 9,
-            "ctxt": 0
+            "end": 9
           },
           "token": "LBrace"
         },
@@ -84,15 +75,13 @@
             "type": "Declaration",
             "span": {
               "start": 11,
-              "end": 71,
-              "ctxt": 0
+              "end": 71
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 11,
-                "end": 32,
-                "ctxt": 0
+                "end": 32
               },
               "value": "grid-template-columns",
               "raw": "grid-template-columns"
@@ -102,15 +91,13 @@
                 "type": "Function",
                 "span": {
                   "start": 34,
-                  "end": 50,
-                  "ctxt": 0
+                  "end": 50
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 34,
-                    "end": 45,
-                    "ctxt": 0
+                    "end": 45
                   },
                   "value": "fit-content",
                   "raw": "fit-content"
@@ -120,15 +107,13 @@
                     "type": "Length",
                     "span": {
                       "start": 46,
-                      "end": 49,
-                      "ctxt": 0
+                      "end": 49
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 46,
-                        "end": 47,
-                        "ctxt": 0
+                        "end": 47
                       },
                       "value": 8.0,
                       "raw": "8"
@@ -137,8 +122,7 @@
                       "type": "Ident",
                       "span": {
                         "start": 47,
-                        "end": 49,
-                        "ctxt": 0
+                        "end": 49
                       },
                       "value": "ch",
                       "raw": "ch"
@@ -150,15 +134,13 @@
                 "type": "Function",
                 "span": {
                   "start": 51,
-                  "end": 67,
-                  "ctxt": 0
+                  "end": 67
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 51,
-                    "end": 62,
-                    "ctxt": 0
+                    "end": 62
                   },
                   "value": "fit-content",
                   "raw": "fit-content"
@@ -168,15 +150,13 @@
                     "type": "Length",
                     "span": {
                       "start": 63,
-                      "end": 66,
-                      "ctxt": 0
+                      "end": 66
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 63,
-                        "end": 64,
-                        "ctxt": 0
+                        "end": 64
                       },
                       "value": 8.0,
                       "raw": "8"
@@ -185,8 +165,7 @@
                       "type": "Ident",
                       "span": {
                         "start": 64,
-                        "end": 66,
-                        "ctxt": 0
+                        "end": 66
                       },
                       "value": "ch",
                       "raw": "ch"
@@ -198,15 +177,13 @@
                 "type": "Flex",
                 "span": {
                   "start": 68,
-                  "end": 71,
-                  "ctxt": 0
+                  "end": 71
                 },
                 "value": {
                   "type": "Number",
                   "span": {
                     "start": 68,
-                    "end": 69,
-                    "ctxt": 0
+                    "end": 69
                   },
                   "value": 1.0,
                   "raw": "1"
@@ -215,8 +192,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 69,
-                    "end": 71,
-                    "ctxt": 0
+                    "end": 71
                   },
                   "value": "fr",
                   "raw": "fr"

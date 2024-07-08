@@ -2,39 +2,34 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 15,
-    "ctxt": 0
+    "end": 15
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 15,
-        "ctxt": 0
+        "end": 15
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 12,
-          "ctxt": 0
+          "end": 12
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 12,
-              "ctxt": 0
+              "end": 12
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 12,
-                  "ctxt": 0
+                  "end": 12
                 },
                 "nestingSelector": null,
                 "typeSelector": null,
@@ -43,36 +38,31 @@
                     "type": "AttributeSelector",
                     "span": {
                       "start": 1,
-                      "end": 12,
-                      "ctxt": 0
+                      "end": 12
                     },
                     "name": {
                       "type": "WqName",
                       "span": {
                         "start": 2,
-                        "end": 11,
-                        "ctxt": 0
+                        "end": 11
                       },
                       "prefix": {
                         "type": "NamespacePrefix",
                         "span": {
                           "start": 2,
-                          "end": 7,
-                          "ctxt": 0
+                          "end": 7
                         },
                         "namespace": {
                           "type": "NamedNamespace",
                           "span": {
                             "start": 2,
-                            "end": 6,
-                            "ctxt": 0
+                            "end": 6
                           },
                           "name": {
                             "type": "Ident",
                             "span": {
                               "start": 2,
-                              "end": 6,
-                              "ctxt": 0
+                              "end": 6
                             },
                             "value": "ns",
                             "raw": "\\6es"
@@ -83,8 +73,7 @@
                         "type": "Ident",
                         "span": {
                           "start": 7,
-                          "end": 11,
-                          "ctxt": 0
+                          "end": 11
                         },
                         "value": "attr",
                         "raw": "attr"
@@ -104,15 +93,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 13,
-          "end": 15,
-          "ctxt": 0
+          "end": 15
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 13,
-            "end": 14,
-            "ctxt": 0
+            "end": 14
           },
           "token": "LBrace"
         },

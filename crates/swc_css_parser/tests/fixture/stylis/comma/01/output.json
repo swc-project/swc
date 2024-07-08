@@ -2,62 +2,54 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 56,
-    "ctxt": 0
+    "end": 56
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 55,
-        "ctxt": 0
+        "end": 55
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 2,
-          "ctxt": 0
+          "end": 2
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 2,
-              "ctxt": 0
+              "end": 2
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 2,
-                  "ctxt": 0
+                  "end": 2
                 },
                 "nestingSelector": null,
                 "typeSelector": {
                   "type": "TagNameSelector",
                   "span": {
                     "start": 1,
-                    "end": 2,
-                    "ctxt": 0
+                    "end": 2
                   },
                   "name": {
                     "type": "WqName",
                     "span": {
                       "start": 1,
-                      "end": 2,
-                      "ctxt": 0
+                      "end": 2
                     },
                     "prefix": null,
                     "value": {
                       "type": "Ident",
                       "span": {
                         "start": 1,
-                        "end": 2,
-                        "ctxt": 0
+                        "end": 2
                       },
                       "value": "a",
                       "raw": "a"
@@ -74,15 +66,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 3,
-          "end": 55,
-          "ctxt": 0
+          "end": 55
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 3,
-            "end": 4,
-            "ctxt": 0
+            "end": 4
           },
           "token": "LBrace"
         },
@@ -91,15 +81,13 @@
             "type": "Declaration",
             "span": {
               "start": 9,
-              "end": 52,
-              "ctxt": 0
+              "end": 52
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 9,
-                "end": 15,
-                "ctxt": 0
+                "end": 15
               },
               "value": "cursor",
               "raw": "cursor"
@@ -109,15 +97,13 @@
                 "type": "Function",
                 "span": {
                   "start": 17,
-                  "end": 43,
-                  "ctxt": 0
+                  "end": 43
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 17,
-                    "end": 26,
-                    "ctxt": 0
+                    "end": 26
                   },
                   "value": "image-set",
                   "raw": "image-set"
@@ -127,15 +113,13 @@
                     "type": "Url",
                     "span": {
                       "start": 27,
-                      "end": 39,
-                      "ctxt": 0
+                      "end": 39
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
                         "start": 27,
-                        "end": 30,
-                        "ctxt": 0
+                        "end": 30
                       },
                       "value": "url",
                       "raw": "url"
@@ -144,8 +128,7 @@
                       "type": "UrlValueRaw",
                       "span": {
                         "start": 31,
-                        "end": 38,
-                        "ctxt": 0
+                        "end": 38
                       },
                       "value": "foo.jpg",
                       "raw": "foo.jpg"
@@ -156,15 +139,13 @@
                     "type": "Resolution",
                     "span": {
                       "start": 40,
-                      "end": 42,
-                      "ctxt": 0
+                      "end": 42
                     },
                     "value": {
                       "type": "Number",
                       "span": {
                         "start": 40,
-                        "end": 41,
-                        "ctxt": 0
+                        "end": 41
                       },
                       "value": 2.0,
                       "raw": "2"
@@ -173,8 +154,7 @@
                       "type": "Ident",
                       "span": {
                         "start": 41,
-                        "end": 42,
-                        "ctxt": 0
+                        "end": 42
                       },
                       "value": "x",
                       "raw": "x"
@@ -186,8 +166,7 @@
                 "type": "Delimiter",
                 "span": {
                   "start": 43,
-                  "end": 44,
-                  "ctxt": 0
+                  "end": 44
                 },
                 "value": ","
               },
@@ -195,8 +174,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 45,
-                  "end": 52,
-                  "ctxt": 0
+                  "end": 52
                 },
                 "value": "pointer",
                 "raw": "pointer"
