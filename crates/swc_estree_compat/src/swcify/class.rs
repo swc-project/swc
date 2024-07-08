@@ -169,6 +169,7 @@ impl Swcify for swc_estree_ast::ClassPrivateProperty {
             is_override: false,
             readonly: false,
             definite: false,
+            ctxt: Default::default(),
         }
     }
 }
@@ -203,7 +204,7 @@ impl Swcify for TSExpressionWithTypeArguments {
         fn swcify_qualified_name(qualified_name: TSQualifiedName, ctx: &Context) -> Box<Expr> {
             Box::new(Expr::Member(MemberExpr {
                 obj: swcify_expr(*qualified_name.left, ctx),
-                prop: MemberProp::Ident(qualified_name.right.swcify(ctx).id),
+                prop: MemberProp::Ident(qualified_name.right.swcify(ctx).into()),
                 span: ctx.span(&qualified_name.base),
             }))
         }

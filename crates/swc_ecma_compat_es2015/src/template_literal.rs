@@ -179,7 +179,7 @@ impl VisitMut for TemplateLiteral {
                                         .into_iter()
                                         .map(|expr| expr.as_arg())
                                         .collect(),
-                                    type_args: Default::default(),
+                                    ..Default::default()
                                 }))
                             }
                         }
@@ -364,13 +364,13 @@ impl VisitMut for TemplateLiteral {
                             span: DUMMY_SP,
                             callee: fn_ident.as_callee(),
                             args: vec![],
-                            type_args: Default::default(),
+                            ..Default::default()
                         }
                         .as_arg(),
                     )
                     .chain(tpl.exprs.take().into_iter().map(|e| e.as_arg()))
                     .collect(),
-                    type_args: Default::default(),
+                    ..Default::default()
                 })
             }
 
