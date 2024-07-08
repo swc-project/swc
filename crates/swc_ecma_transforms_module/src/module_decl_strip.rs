@@ -619,8 +619,8 @@ impl Extend<LinkSpecifier> for LinkItem {
 
 impl LinkItem {
     fn mut_dummy_span(&mut self, span: Span) -> &mut Self {
-        if self.0.is_dummy() {
-            self.0 = span;
+        if self.0 .0.is_dummy() {
+            self.0 .0 = span;
         }
 
         self
@@ -694,14 +694,17 @@ impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
                 // ```
 
                 // foo -> mod.foo
-                import_map.insert(orig.to_id(), (mod_ident.clone(), Some(orig.0.clone())));
+                import_map.insert(
+                    (orig.0.clone(), orig.1 .1),
+                    (mod_ident.clone(), Some(orig.0.clone())),
+                );
 
                 let (export_name, export_name_span) = exported.unwrap_or_else(|| orig.clone());
 
                 // bar -> foo
                 export_obj_prop_list.push((
                     export_name,
-                    ExportItem::new(export_name_span, quote_ident!(orig.1, orig.0)),
+                    ExportItem::new(export_name_span, quote_ident!(orig.1 .1, orig.1 .0, orig.0)),
                 ))
             }
             LinkSpecifier::ExportDefaultAs(_, key, span) => {
@@ -716,12 +719,14 @@ impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
 
                 // foo -> mod.default
                 import_map.insert(
-                    (key.clone(), span).to_id(),
+                    (key.clone(), span.1),
                     (mod_ident.clone(), Some("default".into())),
                 );
 
-                export_obj_prop_list
-                    .push((key.clone(), ExportItem::new(span, quote_ident!(span, key))));
+                export_obj_prop_list.push((
+                    key.clone(),
+                    ExportItem::new(span, quote_ident!(span.1, span.0, key)),
+                ));
             }
             LinkSpecifier::ExportStarAs(key, span) => {
                 *ref_to_mod_ident = true;
