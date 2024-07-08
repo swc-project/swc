@@ -371,7 +371,7 @@ impl SuperReplacer {
                 // strict
                 true.as_arg(),
             ],
-            type_args: Default::default(),
+            ..Default::default()
         })
     }
 

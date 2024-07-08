@@ -45,7 +45,7 @@ impl VisitMut for StickyRegex {
                     span: *span,
                     callee: Box::new(quote_ident!(Default::default(), *span, "RegExp").into()),
                     args: Some(vec![exp.clone().as_arg(), flags.clone().as_arg()]),
-                    type_args: Default::default(),
+                    ..Default::default()
                 })
             }
         }
