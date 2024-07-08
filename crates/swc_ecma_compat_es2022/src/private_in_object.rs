@@ -110,17 +110,17 @@ impl CompilerPass for PrivateInObject {
 
 impl PrivateInObject {
     fn var_name_for_brand_check(&self, n: &PrivateName) -> Ident {
-        let is_static = self.cls.statics.contains(&n.id.sym);
+        let is_static = self.cls.statics.contains(&n.name);
 
         let span = n.span.apply_mark(self.cls.mark);
 
-        if !is_static && self.cls.methods.contains(&n.id.sym) {
+        if !is_static && self.cls.methods.contains(&n.name) {
             if let Some(cls_name) = &self.cls.ident {
                 return Ident::new(format!("_brand_check_{}", cls_name.sym).into(), span);
             }
         }
 
-        Ident::new(format!("_brand_check_{}", n.id.sym).into(), span)
+        Ident::new(format!("_brand_check_{}", n.name).into(), span)
     }
 }
 
@@ -312,8 +312,8 @@ impl VisitMut for PrivateInObject {
             }) if left.is_private_name() => {
                 let left = left.take().expect_private_name();
 
-                let is_static = self.cls.statics.contains(&left.id.sym);
-                let is_method = self.cls.methods.contains(&left.id.sym);
+                let is_static = self.cls.statics.contains(&left.name);
+                let is_method = self.cls.methods.contains(&left.name);
 
                 if let Some(cls_ident) = self.cls.ident.clone() {
                     if is_static && is_method {
@@ -329,7 +329,7 @@ impl VisitMut for PrivateInObject {
 
                 let var_name = self.var_name_for_brand_check(&left);
 
-                if self.cls.privates.contains(&left.id.sym)
+                if self.cls.privates.contains(&left.name)
                     && self.injected_vars.insert(var_name.to_id())
                 {
                     self.cls.vars.push_var(
@@ -389,7 +389,7 @@ impl VisitMut for PrivateInObject {
     fn visit_mut_private_prop(&mut self, n: &mut PrivateProp) {
         n.visit_mut_children_with(self);
 
-        if self.cls.names_used_for_brand_checks.contains(&n.key.id.sym) {
+        if self.cls.names_used_for_brand_checks.contains(&n.key.name) {
             let var_name = self.var_name_for_brand_check(&n.key);
 
             match &mut n.value {
