@@ -73,7 +73,7 @@ impl ParamMetadata {
                 span: DUMMY_SP,
                 callee: helper!(ts, ts_param),
                 args: vec![param_index.as_arg(), decorator_expr.as_arg()],
-                type_args: Default::default(),
+                ..Default::default()
             })),
         }
     }
@@ -270,7 +270,7 @@ impl<'a> Metadata<'a> {
                 span: DUMMY_SP,
                 callee: helper!(ts, ts_metadata),
                 args: vec![design.as_arg(), type_arg],
-                type_args: Default::default(),
+                ..Default::default()
             })),
         }
     }

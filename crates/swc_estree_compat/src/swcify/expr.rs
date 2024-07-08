@@ -250,6 +250,7 @@ impl Swcify for CallExpression {
                 .map(|v| v.expect("failed to swcify arguments"))
                 .collect(),
             type_args: self.type_parameters.swcify(ctx).map(Box::new),
+            ..Default::default()
         }
     }
 }
@@ -417,6 +418,7 @@ impl Swcify for NewExpression {
                     .collect(),
             ),
             type_args: self.type_parameters.swcify(ctx).map(From::from),
+            ..Default::default()
         }
     }
 }
