@@ -2836,7 +2836,7 @@ mod tests {
                     ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(Box::new(TsTypeAliasDecl {
                         span: DUMMY_SP,
                         declare: false,
-                        id: Ident::new("test".into(), DUMMY_SP),
+                        id: Ident::new_no_ctxt("test".into(), DUMMY_SP),
                         type_params: None,
                         type_ann: Box::new(TsType::TsLitType(TsLitType {
                             span: DUMMY_SP,
@@ -2872,7 +2872,7 @@ mod tests {
                     declare: false,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(Ident::new("t".into(), DUMMY_SP).into()),
+                        name: Pat::Ident(Ident::new_no_ctxt("t".into(), DUMMY_SP).into()),
                         init: Some(Box::new(Expr::Unary(UnaryExpr {
                             span: DUMMY_SP,
                             op: op!(unary, "-"),

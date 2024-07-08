@@ -1539,7 +1539,9 @@ mod tests {
                         props: vec![ObjectPatProp::Rest(RestPat {
                             span,
                             dot3_token: span,
-                            arg: Box::new(Pat::Ident(Ident::new("a34".into(), span).into())),
+                            arg: Box::new(Pat::Ident(
+                                Ident::new_no_ctxt("a34".into(), span).into()
+                            )),
                             type_ann: None
                         })],
                         type_ann: None,
@@ -1579,12 +1581,12 @@ mod tests {
                     decls: vec![VarDeclarator {
                         span,
                         init: None,
-                        name: Pat::Ident(Ident::new("a".into(), span).into()),
+                        name: Pat::Ident(Ident::new_no_ctxt("a".into(), span).into()),
                         definite: false,
                     }],
                     declare: false,
                 })),
-                right: Box::new(Expr::Ident(Ident::new("b".into(), span))),
+                right: Box::new(Expr::Ident(Ident::new_no_ctxt("b".into(), span))),
 
                 body: Box::new(Stmt::Empty(EmptyStmt { span })),
             })
@@ -1640,7 +1642,7 @@ mod tests {
                 |p| p.parse_stmt_list_item(true),
             ),
             Stmt::Decl(Decl::Class(ClassDecl {
-                ident: Ident::new("Foo".into(), span),
+                ident: Ident::new_no_ctxt("Foo".into(), span),
                 class: Box::new(Class {
                     span,
                     decorators: vec![
@@ -2072,10 +2074,10 @@ export default function waitUntil(callback, options = {}) {
                             elems: vec![
                                 None,
                                 None,
-                                Some(Pat::Ident(Ident::new("t".into(), span).into()))
+                                Some(Pat::Ident(Ident::new_no_ctxt("t".into(), span).into()))
                             ]
                         }),
-                        init: Some(Box::new(Expr::Ident(Ident::new(
+                        init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
                             "simple_array".into(),
                             span
                         )))),
@@ -2103,11 +2105,14 @@ export default function waitUntil(callback, options = {}) {
                             span,
                             props: vec![ObjectPatProp::Assign(AssignPatProp {
                                 span,
-                                key: Ident::new("num".into(), span).into(),
+                                key: Ident::new_no_ctxt("num".into(), span).into(),
                                 value: None
                             })]
                         }),
-                        init: Some(Box::new(Expr::Ident(Ident::new("obj".into(), span)))),
+                        init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
+                            "obj".into(),
+                            span
+                        )))),
                         definite: false
                     }]
                 }))

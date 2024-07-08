@@ -278,7 +278,7 @@ impl<I: Tokens> Parser<I> {
                         // `import { type xx } from 'mod'`
                         // `import { type xx as yy } from 'mod'`
                         if type_only {
-                            self.emit_err(orig_name.span, SyntaxError::TS2206);
+                            self.emit_err(*orig_name.span, SyntaxError::TS2206);
                         }
 
                         orig_name = possibly_orig_name;
@@ -287,7 +287,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 if eat!(self, "as") {
-                    let local = self.parse_binding_ident()?.id;
+                    let local = self.parse_binding_ident()?.into();
                     return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                         span: Span::new(start, local.span.hi()),
                         local,
@@ -301,7 +301,7 @@ impl<I: Tokens> Parser<I> {
                 // 'ImportedBinding'
                 // 'IdentifierName' as 'ImportedBinding'
                 if self.ctx().is_reserved_word(&orig_name.sym) {
-                    syntax_error!(self, orig_name.span, SyntaxError::ReservedWordInImport)
+                    syntax_error!(self, *orig_name.span, SyntaxError::ReservedWordInImport)
                 }
 
                 let local = orig_name;
@@ -314,7 +314,7 @@ impl<I: Tokens> Parser<I> {
             }
             ModuleExportName::Str(orig_str) => {
                 if eat!(self, "as") {
-                    let local = self.parse_binding_ident()?.id;
+                    let local = self.parse_binding_ident()?.into();
                     Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                         span: Span::new(start, local.span.hi()),
                         local,
@@ -342,7 +342,7 @@ impl<I: Tokens> Parser<I> {
             in_generator: false,
             ..self.ctx()
         };
-        Ok(self.with_ctx(ctx).parse_binding_ident()?.id)
+        Ok(self.with_ctx(ctx).parse_binding_ident()?.into())
     }
 
     fn parse_export(&mut self, mut decorators: Vec<Decorator>) -> PResult<ModuleDecl> {
@@ -497,7 +497,7 @@ impl<I: Tokens> Parser<I> {
                 && (is!(self, "from")
                     || (is!(self, ',') && (peeked_is!(self, '{') || peeked_is!(self, '*'))))
             {
-                export_default = Some(Ident::new("default".into(), self.input.prev_span()))
+                export_default = Some(Ident::new_no_ctxt("default".into(), self.input.prev_span()))
             } else {
                 let expr = self.include_in_expr(true).parse_assignment_expr()?;
                 expect!(self, ';');
@@ -674,7 +674,7 @@ impl<I: Tokens> Parser<I> {
                     match s {
                         ExportSpecifier::Default(default) => {
                             self.emit_err(
-                                default.exported.span,
+                                *default.exported.span,
                                 SyntaxError::ExportExpectFrom(default.exported.sym.clone()),
                             );
                         }

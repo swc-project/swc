@@ -36,7 +36,7 @@ fn expr(s: &'static str) -> Box<Expr> {
 fn regex_expr() -> Box<Expr> {
     Box::new(Expr::Assign(AssignExpr {
         span,
-        left: Ident::new("re".into(), span).into(),
+        left: Ident::new_no_ctxt("re".into(), span).into(),
         op: AssignOp::Assign,
         right: Box::new(Expr::Lit(Lit::Regex(Regex {
             span,
@@ -80,7 +80,7 @@ fn arrow_assign() {
         expr("a = b => false"),
         Box::new(Expr::Assign(AssignExpr {
             span,
-            left: Ident::new("a".into(), span).into(),
+            left: Ident::new_no_ctxt("a".into(), span).into(),
             op: op!("="),
             right: expr("b => false"),
         }))
@@ -130,7 +130,7 @@ fn object_rest_pat() {
                 props: vec![ObjectPatProp::Rest(RestPat {
                     span,
                     dot3_token: span,
-                    arg: Box::new(Pat::Ident(Ident::new("a34".into(), span).into())),
+                    arg: Box::new(Pat::Ident(Ident::new_no_ctxt("a34".into(), span).into())),
                     type_ann: None,
                 })],
                 type_ann: None
@@ -151,17 +151,17 @@ fn object_spread() {
         expr("foo = {a, ...bar, b}"),
         Box::new(Expr::Assign(AssignExpr {
             span,
-            left: Ident::new("foo".into(), span).into(),
+            left: Ident::new_no_ctxt("foo".into(), span).into(),
             op: op!("="),
             right: Box::new(Expr::Object(ObjectLit {
                 span,
                 props: vec![
-                    PropOrSpread::Prop(Box::new(Ident::new("a".into(), span).into())),
+                    PropOrSpread::Prop(Box::new(Ident::new_no_ctxt("a".into(), span).into())),
                     PropOrSpread::Spread(SpreadElement {
                         dot3_token: span,
-                        expr: Box::new(Expr::Ident(Ident::new("bar".into(), span))),
+                        expr: Box::new(Expr::Ident(Ident::new_no_ctxt("bar".into(), span))),
                     }),
-                    PropOrSpread::Prop(Box::new(Ident::new("b".into(), span).into())),
+                    PropOrSpread::Prop(Box::new(Ident::new_no_ctxt("b".into(), span).into())),
                 ]
             }))
         }))
@@ -175,7 +175,7 @@ fn new_expr_should_not_eat_too_much() {
         Box::new(Expr::Member(MemberExpr {
             span,
             obj: member_expr("new Date()"),
-            prop: MemberProp::Ident(Ident::new("toString".into(), span)),
+            prop: MemberProp::Ident(Ident::new_no_ctxt("toString".into(), span)),
         }))
     );
 }
@@ -228,7 +228,7 @@ fn arrow_fn() {
             span,
             is_async: false,
             is_generator: false,
-            params: vec![Pat::Ident(Ident::new("a".into(), span).into())],
+            params: vec![Pat::Ident(Ident::new_no_ctxt("a".into(), span).into())],
             body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
             return_type: None,
             type_params: None,
@@ -246,7 +246,7 @@ fn arrow_fn_rest() {
             params: vec![Pat::Rest(RestPat {
                 span,
                 dot3_token: span,
-                arg: Box::new(Pat::Ident(Ident::new("a".into(), span).into())),
+                arg: Box::new(Pat::Ident(Ident::new_no_ctxt("a".into(), span).into())),
                 type_ann: None
             })],
             body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
@@ -263,7 +263,7 @@ fn arrow_fn_no_paren() {
             span,
             is_async: false,
             is_generator: false,
-            params: vec![Pat::Ident(Ident::new("a".into(), span).into())],
+            params: vec![Pat::Ident(Ident::new_no_ctxt("a".into(), span).into())],
             body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
             type_params: None,
             return_type: None,
@@ -306,7 +306,7 @@ fn array_lit() {
             elems: vec![
                 Some(ExprOrSpread {
                     spread: None,
-                    expr: Box::new(Expr::Ident(Ident::new("a".into(), span))),
+                    expr: Box::new(Expr::Ident(Ident::new_no_ctxt("a".into(), span))),
                 }),
                 None,
                 None,
@@ -314,12 +314,12 @@ fn array_lit() {
                 None,
                 Some(ExprOrSpread {
                     spread: Some(span),
-                    expr: Box::new(Expr::Ident(Ident::new("d".into(), span))),
+                    expr: Box::new(Expr::Ident(Ident::new_no_ctxt("d".into(), span))),
                 }),
                 None,
                 Some(ExprOrSpread {
                     spread: None,
-                    expr: Box::new(Expr::Ident(Ident::new("e".into(), span))),
+                    expr: Box::new(Expr::Ident(Ident::new_no_ctxt("e".into(), span))),
                 }),
             ]
         }))

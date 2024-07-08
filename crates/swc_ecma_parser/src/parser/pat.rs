@@ -928,7 +928,7 @@ mod tests {
     }
 
     fn ident(s: &str) -> Ident {
-        Ident::new(s.into(), span)
+        Ident::new_no_ctxt(s.into(), span)
     }
 
     fn rest() -> Option<Pat> {
