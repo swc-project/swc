@@ -506,7 +506,7 @@ impl Swcify for ObjectProperty {
             key: self.key.swcify(ctx),
             value: match self.value {
                 ObjectPropVal::Pattern(pat) => match pat {
-                    PatternLike::Id(i) => Box::new(Expr::Ident(i.swcify(ctx).id)),
+                    PatternLike::Id(i) => Box::new(Expr::Ident(i.swcify(ctx).into())),
                     _ => {
                         panic!("swc does not support ObjectPropVal::Pattern({:?})", pat)
                     }

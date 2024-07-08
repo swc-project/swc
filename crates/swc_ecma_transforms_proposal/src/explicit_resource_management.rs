@@ -109,7 +109,7 @@ impl ExplicitResourceManagement {
                                 specifiers: vec![ExportSpecifier::Named(ExportNamedSpecifier {
                                     span: DUMMY_SP,
                                     orig: ModuleExportName::Ident(ident.clone()),
-                                    exported: Some(ModuleExportName::Ident(Ident::new(
+                                    exported: Some(ModuleExportName::Ident(Ident::new_no_ctxt(
                                         "default".into(),
                                         DUMMY_SP,
                                     ))),
@@ -348,6 +348,7 @@ impl ExplicitResourceManagement {
             block: BlockStmt {
                 span: DUMMY_SP,
                 stmts: try_body,
+                ..Default::default()
             },
             handler: Some(CatchClause {
                 span: DUMMY_SP,
@@ -355,11 +356,13 @@ impl ExplicitResourceManagement {
                 body: BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![assign_error],
+                    ..Default::default()
                 },
             }),
             finalizer: Some(BlockStmt {
                 span: DUMMY_SP,
                 stmts: vec![dispose_stmt],
+                ..Default::default()
             }),
         };
 
