@@ -4,7 +4,9 @@ use std::{borrow::Cow, mem::transmute};
 use is_macro::Is;
 use string_enum::StringEnum;
 use swc_atoms::Atom;
-use swc_common::{ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
+use swc_common::{
+    ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
+};
 
 use crate::{
     class::Class,
@@ -1003,6 +1005,8 @@ impl Take for SeqExpr {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ArrowExpr {
     pub span: Span,
+
+    pub ctxt: SyntaxContext,
 
     pub params: Vec<Pat>,
 

@@ -804,6 +804,7 @@ define!({
     }
     pub struct ArrowExpr {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub params: Vec<Pat>,
         pub body: Box<BlockStmtOrExpr>,
         pub is_async: bool,
@@ -914,6 +915,7 @@ define!({
         pub params: Vec<Param>,
         pub decorators: Vec<Decorator>,
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub body: Option<BlockStmt>,
         pub is_generator: bool,
         pub is_async: bool,

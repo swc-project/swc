@@ -20,6 +20,8 @@ pub struct Function {
 
     pub span: Span,
 
+    pub ctxt: SyntaxContext,
+
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub body: Option<BlockStmt>,
 
