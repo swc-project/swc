@@ -1136,10 +1136,17 @@ impl Transform {
                     n.push(
                         Stmt::Expr(ExprStmt {
                             span,
-                            expr: Box::new(expr.make_assign_to(
-                                op!("="),
-                                member_expr!(unresolved_span, module.exports).into(),
-                            )),
+                            expr: Box::new(
+                                expr.make_assign_to(
+                                    op!("="),
+                                    member_expr!(
+                                        Default::default(),
+                                        unresolved_span,
+                                        module.exports
+                                    )
+                                    .into(),
+                                ),
+                            ),
                         })
                         .into(),
                     );
@@ -1187,7 +1194,7 @@ impl VisitMut for ExportedPatRewriter {
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         if let Pat::Ident(bid) = n {
-            *n = Pat::Expr(self.id.clone().make_member(take(bid).into()).into());
+            *n = Pat::Expr(self.id.clone().make_member(Ident::from(take(bid))).into());
             return;
         }
 
