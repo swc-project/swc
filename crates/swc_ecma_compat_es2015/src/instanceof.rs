@@ -60,7 +60,6 @@ impl VisitMut for InstanceOf {
             let instanceof_span = Span {
                 lo: left.span_hi(),
                 hi: right.span_lo(),
-                ..*span
             };
 
             *expr = Expr::Call(CallExpr {
