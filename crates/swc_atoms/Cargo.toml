@@ -17,6 +17,7 @@ rkyv-impl = ["__rkyv", "rkyv", "bytecheck"]
 
 [dependencies]
 # bytecheck version should be in sync with rkyv version. Do not bump individually.
+arbitrary  = { workspace = true, optional = true }
 bytecheck  = { workspace = true, optional = true }
 hstr       = { workspace = true }
 once_cell  = { workspace = true }
