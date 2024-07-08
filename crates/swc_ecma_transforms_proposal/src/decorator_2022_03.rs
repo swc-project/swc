@@ -975,11 +975,8 @@ impl VisitMut for Decorator2022_03 {
                                 self.state.private_id_index += 1;
                                 PrivateName {
                                     span: k.span,
-                                    id: Ident::new(
-                                        format!("__{}_{}", k.id.sym, self.state.private_id_index)
-                                            .into(),
-                                        k.id.span,
-                                    ),
+                                    id: format!("__{}_{}", k.id.sym, self.state.private_id_index)
+                                        .into(),
                                 }
                             }
                             Key::Public(k) => {
@@ -1044,6 +1041,7 @@ impl VisitMut for Decorator2022_03 {
                         is_override: false,
                         readonly: false,
                         definite: false,
+                        ctxt: Default::default(),
                     };
 
                     let mut getter_function = Box::new(Function {
@@ -1060,11 +1058,11 @@ impl VisitMut for Decorator2022_03 {
                                     prop: MemberProp::PrivateName(private_field.key.clone()),
                                 }))),
                             })],
+                            ..Default::default()
                         }),
                         is_generator: false,
                         is_async: false,
-                        type_params: None,
-                        return_type: None,
+                        ..Default::default()
                     });
                     let mut setter_function = {
                         let param = private_ident!("_v");
@@ -1095,11 +1093,11 @@ impl VisitMut for Decorator2022_03 {
                                         right: param.clone().into(),
                                     })),
                                 })],
+                                ..Default::default()
                             }),
                             is_generator: false,
                             is_async: false,
-                            type_params: None,
-                            return_type: None,
+                            ..Default::default()
                         })
                     };
 
