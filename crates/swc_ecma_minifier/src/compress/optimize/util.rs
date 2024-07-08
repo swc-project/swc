@@ -5,7 +5,7 @@ use std::{
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, util::take::Take, Mark, Span, DUMMY_SP};
+use swc_common::{collections::AHashSet, util::take::Take, Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
 use swc_ecma_utils::{collect_decls, ExprCtx, ExprExt, Remapper};
@@ -68,13 +68,13 @@ impl<'b> Optimizer<'b> {
     }
 
     /// Check for `/** @const */`.
-    pub(super) fn has_const_ann(&self, span: Span) -> bool {
-        span.has_mark(self.marks.const_ann)
+    pub(super) fn has_const_ann(&self, ctxt: SyntaxContext) -> bool {
+        ctxt.has_mark(self.marks.const_ann)
     }
 
     /// Check for `/*#__NOINLINE__*/`
-    pub(super) fn has_noinline(&self, span: Span) -> bool {
-        span.has_mark(self.marks.noinline)
+    pub(super) fn has_noinline(&self, ctxt: SyntaxContext) -> bool {
+        ctxt.has_mark(self.marks.noinline)
     }
 
     /// RAII guard to change context temporarically
