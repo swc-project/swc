@@ -452,7 +452,10 @@ where
     }
 
     fn exports(&self) -> Ident {
-        quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "exports")
+        quote_ident!(
+            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+            "exports"
+        )
     }
 
     /// emit [cjs-module-lexer](https://github.com/nodejs/cjs-module-lexer) friendly exports list

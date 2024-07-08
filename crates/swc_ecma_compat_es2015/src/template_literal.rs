@@ -325,10 +325,9 @@ impl VisitMut for TemplateLiteral {
                                             span: DUMMY_SP,
                                             arg: Some(Box::new(quote_ident!("data").into())),
                                         })],
+                                        ..Default::default()
                                     }),
-                                    decorators: Default::default(),
-                                    type_params: Default::default(),
-                                    return_type: Default::default(),
+                                    ..Default::default()
                                 }
                                 .into(),
                             })
