@@ -22,6 +22,7 @@ use crate::{
         define_es_module, emit_export_stmts, local_name_for_src, use_strict, ImportInterop,
         VecStmtLike,
     },
+    SpanCtx,
 };
 
 mod config;
@@ -97,7 +98,7 @@ where
 
     const_var_kind: VarDeclKind,
 
-    dep_list: Vec<(Ident, JsWord, Span)>,
+    dep_list: Vec<(Ident, JsWord, SpanCtx)>,
 
     exports: Option<Ident>,
 }

@@ -3,7 +3,7 @@ use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     util::take::Take,
-    Span,
+    Span, SyntaxContext,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, private_ident, quote_ident, ExprFactory};
@@ -458,11 +458,15 @@ impl From<ExportSpecifier> for LinkSpecifier {
                         span, value: sym, ..
                     }),
                 ..
-            }) => Self::ExportStarAs(sym, span),
+            }) => Self::ExportStarAs(sym, (span, SyntaxContext::empty())),
 
             ExportSpecifier::Default(ExportDefaultSpecifier { exported }) => {
                 // https://github.com/tc39/proposal-export-default-from
-                Self::ExportDefaultAs(exported.span, exported.sym, exported.span)
+                Self::ExportDefaultAs(
+                    (exported.span, exported.ctxt),
+                    exported.sym,
+                    (exported.span, exported.ctxt),
+                )
             }
 
             ExportSpecifier::Named(ExportNamedSpecifier {

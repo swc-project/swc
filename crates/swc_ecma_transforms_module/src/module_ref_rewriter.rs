@@ -1,7 +1,7 @@
 use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
-    SyntaxContext, DUMMY_SP,
+    SyntaxContext,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helpers::HELPERS;
