@@ -2410,22 +2410,14 @@ pub fn drop_span<T>(mut t: T) -> T
 where
     T: VisitMutWith<DropSpan>,
 {
-    t.visit_mut_with(&mut DropSpan {
-        preserve_ctxt: false,
-    });
+    t.visit_mut_with(&mut DropSpan {});
     t
 }
 
-pub struct DropSpan {
-    pub preserve_ctxt: bool,
-}
+pub struct DropSpan;
 impl VisitMut for DropSpan {
     fn visit_mut_span(&mut self, span: &mut Span) {
-        *span = if self.preserve_ctxt {
-            DUMMY_SP.with_ctxt(span.ctxt)
-        } else {
-            DUMMY_SP
-        };
+        *span = DUMMY_SP;
     }
 }
 

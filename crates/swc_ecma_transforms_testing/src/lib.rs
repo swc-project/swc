@@ -293,9 +293,7 @@ pub fn test_transform<F, P>(
         }
 
         let actual = actual
-            .fold_with(&mut as_folder(::swc_ecma_utils::DropSpan {
-                preserve_ctxt: true,
-            }))
+            .fold_with(&mut as_folder(::swc_ecma_utils::DropSpan))
             .fold_with(&mut hygiene::hygiene())
             .fold_with(&mut fixer::fixer(Some(&tester.comments)));
 

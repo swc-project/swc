@@ -110,9 +110,7 @@ impl<'a> Tester<'a> {
 
         let module = module
             .fold_with(&mut tr)
-            .fold_with(&mut as_folder(DropSpan {
-                preserve_ctxt: true,
-            }));
+            .fold_with(&mut as_folder(DropSpan {}));
 
         Ok(module)
     }
