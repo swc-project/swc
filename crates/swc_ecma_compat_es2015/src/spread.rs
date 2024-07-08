@@ -1,7 +1,7 @@
 use std::mem;
 
 use serde::Deserialize;
-use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{ext::ExprRefExt, helper, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
@@ -300,7 +300,7 @@ impl Spread {
                 .make_member(quote_ident!("concat"))
                 .as_callee(),
                 args: arg_list,
-                type_args: Default::default(),
+                ..Default::default()
             });
         }
 
@@ -341,12 +341,12 @@ impl Spread {
                                         return Expr::Call(CallExpr {
                                             span,
                                             callee: member_expr!(
-                                                DUMMY_SP,
+                                                SyntaxContext::empty(),
                                                 Array.prototype.slice.call
                                             )
                                             .as_callee(),
                                             args: vec![expr.as_arg()],
-                                            type_args: Default::default(),
+                                            ..Default::default()
                                         });
                                     } else {
                                         return *expr;
@@ -354,10 +354,13 @@ impl Spread {
                                 } else {
                                     CallExpr {
                                         span,
-                                        callee: member_expr!(DUMMY_SP, Array.prototype.slice.call)
-                                            .as_callee(),
+                                        callee: member_expr!(
+                                            SyntaxContext::empty(),
+                                            Array.prototype.slice.call
+                                        )
+                                        .as_callee(),
                                         args: vec![expr.as_arg()],
-                                        type_args: Default::default(),
+                                        ..Default::default()
                                     }
                                     .as_arg()
                                 }

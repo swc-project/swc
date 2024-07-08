@@ -257,7 +257,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                     callee: helper!(class_private_field_loose_base),
                     span: *span,
                     args: vec![obj.take().as_arg(), ident.clone().as_arg()],
-                    type_args: None,
+                    ..Default::default()
                 })
                 .computed_member(ident)
                 .into();

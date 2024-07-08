@@ -668,6 +668,7 @@ impl VisitMut for Params {
                     is_generator: f.is_generator,
                     type_params: f.type_params.take(),
                     return_type: f.return_type.take(),
+                    ..Default::default()
                 });
             }
             _ => e.visit_mut_children_with(self),
