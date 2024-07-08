@@ -1012,6 +1012,7 @@ impl VisitMut for Remover {
                             let mut block = Stmt::Block(BlockStmt {
                                 span: s.span,
                                 stmts,
+                                ..Default::default()
                             });
                             block.visit_mut_with(self);
                             return block;
@@ -1157,6 +1158,7 @@ impl VisitMut for Remover {
                                 BlockStmt {
                                     span: s.span,
                                     stmts: vec![body, test.into_stmt()],
+                                    ..Default::default()
                                 }
                                 .into()
                             } else {
@@ -1365,7 +1367,10 @@ impl Remover {
                         }
 
                         Stmt::Block(BlockStmt {
-                            span, mut stmts, ..
+                            span,
+                            mut stmts,
+                            ctxt,
+                            ..
                         }) => {
                             if stmts.is_empty() {
                                 continue;
@@ -1373,7 +1378,7 @@ impl Remover {
 
                             if !is_ok_to_inline_block(&stmts) {
                                 stmts.visit_mut_with(self);
-                                BlockStmt { span, stmts }.into()
+                                BlockStmt { span, stmts, ctxt }.into()
                             } else {
                                 new_stmts.extend(
                                     stmts

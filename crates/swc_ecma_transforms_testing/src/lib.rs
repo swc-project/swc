@@ -226,7 +226,7 @@ impl VisitMut for RegeneratorHandler {
                 span: DUMMY_SP,
                 callee: quote_ident!("require").as_callee(),
                 args: vec![quote_str!("regenerator-runtime").as_arg()],
-                type_args: Default::default(),
+                ..Default::default()
             }));
 
             let decl = VarDeclarator {

@@ -463,10 +463,9 @@ impl<C: Comments> VisitMut for Refresh<C> {
             items.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
                 expr: Box::new(Expr::Call(CallExpr {
-                    span: DUMMY_SP,
                     callee: quote_ident!(refresh_reg).as_callee(),
                     args: vec![handle.as_arg(), quote_str!(persistent_id.0).as_arg()],
-                    type_args: None,
+                    ..Default::default()
                 })),
             })));
         }

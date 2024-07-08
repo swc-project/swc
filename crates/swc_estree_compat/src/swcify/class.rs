@@ -85,6 +85,7 @@ impl Swcify for swc_estree_ast::ClassMethod {
                 body: Some(self.body.swcify(ctx)),
                 accessibility: self.accessibility.swcify(ctx),
                 is_optional: self.optional.unwrap_or_default(),
+                ..Default::default()
             }
             .into(),
         }
