@@ -211,6 +211,7 @@ impl VisitMut for Transform {
                         declare: false,
                         decls,
                         kind: VarDeclKind::Let,
+                        ..Default::default()
                     }
                     .into(),
                 );
@@ -860,6 +861,7 @@ impl Transform {
                 init: None,
                 definite: false,
             }],
+            ..Default::default()
         };
 
         Some(var_decl)

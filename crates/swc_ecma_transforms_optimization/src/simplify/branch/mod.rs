@@ -874,6 +874,7 @@ impl VisitMut for Remover {
                                                 kind: VarDeclKind::Var,
                                                 declare: Default::default(),
                                                 decls: take(&mut vars),
+                                                ..Default::default()
                                             }
                                             .into(),
                                         )

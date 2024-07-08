@@ -450,6 +450,7 @@ impl VisitMut for ExplicitResourceManagement {
                         }
                     })
                     .collect(),
+                ..Default::default()
             })));
         }
     }

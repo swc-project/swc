@@ -304,6 +304,7 @@ pub(crate) fn esm_export() -> Function {
                 init: None,
                 definite: false,
             }],
+            ..Default::default()
         }
         .into(),
         right: Box::new(all.clone().into()),

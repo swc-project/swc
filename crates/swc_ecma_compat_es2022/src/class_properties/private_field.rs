@@ -407,12 +407,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
             }
 
             // Actually this is a call and we should bind `this`.
-            Expr::TaggedTpl(TaggedTpl {
-                span,
-                tag,
-                tpl,
-                type_params,
-            }) if tag.is_member() => {
+            Expr::TaggedTpl(TaggedTpl { span, tag, tpl }) if tag.is_member() => {
                 let mut tag = tag.take().member().unwrap();
                 tag.visit_mut_with(self);
                 tpl.visit_mut_with(self);
@@ -429,7 +424,6 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                             ..Default::default()
                         })),
                         tpl: tpl.take(),
-                        type_params: type_params.take(),
                         ..Default::default()
                     });
                 } else {
@@ -437,7 +431,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                         span: *span,
                         tag: Box::new(expr),
                         tpl: tpl.take(),
-                        type_params: type_params.take(),
+                        ..Default::default()
                     });
                 }
             }
