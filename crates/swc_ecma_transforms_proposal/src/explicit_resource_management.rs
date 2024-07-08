@@ -125,7 +125,6 @@ impl ExplicitResourceManagement {
                         try_body.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
-                            declare: Default::default(),
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
                                 name: ident.into(),
@@ -136,6 +135,7 @@ impl ExplicitResourceManagement {
                                 }),
                                 definite: Default::default(),
                             }],
+                            ..Default::default()
                         }))));
                     }
 

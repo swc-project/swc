@@ -617,9 +617,10 @@ impl Pure<'_> {
         match e {
             Expr::New(NewExpr {
                 span,
+                ctxt,
                 callee,
                 args,
-                type_args,
+                ..
             }) if callee.is_one_of_global_ref_to(
                 &self.expr_ctx,
                 &[
@@ -649,9 +650,10 @@ impl Pure<'_> {
                 );
                 *e = Expr::Call(CallExpr {
                     span: *span,
+                    ctxt: *ctxt,
                     callee: callee.take().as_callee(),
                     args: args.take().unwrap_or_default(),
-                    type_args: type_args.take(),
+                    ..Default::default()
                 })
             }
             _ => {}

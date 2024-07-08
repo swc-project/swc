@@ -106,8 +106,7 @@ impl Pure<'_> {
                             body: Box::new(BlockStmtOrExpr::Expr(arg)),
                             is_async: m.function.is_async,
                             is_generator: m.function.is_generator,
-                            type_params: Default::default(),
-                            return_type: Default::default(),
+                            ..Default::default()
                         })),
                     });
                     return;
@@ -145,13 +144,11 @@ impl Pure<'_> {
                                     pat,
                                 })
                                 .collect(),
-                            decorators: Default::default(),
                             span: m.span,
                             body: m.body.take().block_stmt(),
                             is_generator: m.is_generator,
                             is_async: m.is_async,
-                            type_params: Default::default(),
-                            return_type: Default::default(),
+                            ..Default::default()
                         }),
                     });
                 }
