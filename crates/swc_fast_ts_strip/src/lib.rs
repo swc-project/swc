@@ -9,15 +9,9 @@ use swc_common::{
     BytePos, FileName, SourceMap, Span, Spanned,
 };
 use swc_ecma_ast::{
-    ArrowExpr, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, EsVersion, ExportAll,
-    ExportDecl, ExportSpecifier, FnDecl, Ident, ImportDecl, ImportSpecifier, NamedExport, Param,
-    Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl,
-    TsIndexSignature, TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName,
-    TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
-    TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation, VarDecl,
     ArrowExpr, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, Decorator, EsVersion,
-    ExportAll, ExportDecl, ExportSpecifier, FnDecl, ImportDecl, ImportSpecifier, NamedExport,
-    Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment,
+    ExportAll, ExportDecl, ExportSpecifier, FnDecl, Ident, ImportDecl, ImportSpecifier,
+    NamedExport, Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment,
     TsImportEqualsDecl, TsIndexSignature, TsInstantiation, TsInterfaceDecl, TsModuleDecl,
     TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
     TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
