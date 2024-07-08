@@ -3072,10 +3072,7 @@ impl VisitMut for IdentRenamer<'_> {
                 i.visit_mut_with(self);
                 if i.sym != cloned.sym || i.ctxt != cloned.ctxt {
                     *node = Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(Ident::new(
-                            cloned.sym,
-                            cloned.span.with_ctxt(SyntaxContext::empty()),
-                        )),
+                        key: PropName::Ident(Ident::new_no_ctxt(cloned.sym, cloned.span)),
                         value: Box::new(Expr::Ident(i.clone())),
                     });
                 }
@@ -3156,8 +3153,8 @@ where
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         match n {
-            Pat::Ident(BindingIdent { id, .. }) => {
-                if let Some(expr) = self.query.query_lhs(id) {
+            Pat::Ident(id) => {
+                if let Some(expr) = self.query.query_lhs(&id.clone().into()) {
                     *n = Pat::Expr(expr);
                 }
             }

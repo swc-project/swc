@@ -18,7 +18,7 @@ where
     R: Resolve,
 {
     fn make_cjs_load_var(&self, info: &TransformedModule, span: Span) -> Ident {
-        Ident::new("load".into(), span.with_ctxt(info.export_ctxt()))
+        Ident::new("load".into(), span, info.export_ctxt())
     }
 
     pub(super) fn replace_cjs_require_calls(
@@ -116,17 +116,13 @@ fn wrap_module(
                 Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(
-                        Ident::new("module".into(), DUMMY_SP.with_ctxt(local_ctxt)).into(),
-                    ),
+                    pat: Pat::Ident(Ident::new("module".into(), DUMMY_SP, local_ctxt).into()),
                 },
                 // exports
                 Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(
-                        Ident::new("exports".into(), DUMMY_SP.with_ctxt(local_ctxt)).into(),
-                    ),
+                    pat: Pat::Ident(Ident::new("exports".into(), DUMMY_SP, local_ctxt).into()),
                 },
             ],
             decorators: vec![],
@@ -204,7 +200,7 @@ where
                         }
                         let load = CallExpr {
                             span: node.span,
-                            callee: Ident::new("load".into(), i.span).as_callee(),
+                            callee: Ident::new("load".into(), i.span, i.ctxt).as_callee(),
                             args: vec![],
                             type_args: None,
                         };
@@ -286,7 +282,7 @@ where
                     },
                     ImportSpecifier::Default(s) => {
                         props.push(ObjectPatProp::KeyValue(KeyValuePatProp {
-                            key: PropName::Ident(Ident::new("default".into(), DUMMY_SP)),
+                            key: PropName::Ident(Ident::new_no_ctxt("default".into(), DUMMY_SP)),
                             value: Box::new(s.local.into()),
                         }));
                     }
@@ -358,7 +354,8 @@ impl VisitMut for DefaultHandler {
                     span: i.span,
                     obj: Box::new(Expr::Ident(Ident::new(
                         "module".into(),
-                        DUMMY_SP.with_ctxt(self.local_ctxt),
+                        DUMMY_SP,
+                        self.local_ctxt,
                     ))),
                     prop: MemberProp::Ident(quote_ident!("exports")),
                 });
