@@ -109,8 +109,8 @@ impl PreferConst {
 
     fn collect_decl_pat(&mut self, initialized: bool, pat: &Pat) {
         match pat {
-            Pat::Ident(BindingIdent { id, .. }) => {
-                self.add_var_meta(id, initialized);
+            Pat::Ident(id) => {
+                self.add_var_meta(&Ident::from(id), initialized);
             }
             Pat::Assign(AssignPat { left, .. }) => {
                 self.collect_decl_pat(initialized, left.as_ref());
@@ -127,7 +127,7 @@ impl PreferConst {
                             self.collect_decl_pat(initialized, value.as_ref());
                         }
                         ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
-                            self.add_var_meta(key, initialized);
+                            self.add_var_meta(&Ident::from(key), initialized);
                         }
                         ObjectPatProp::Rest(RestPat { arg, .. }) => {
                             self.collect_decl_pat(initialized, arg.as_ref());
@@ -177,7 +177,7 @@ impl PreferConst {
                         self.consider_mutation(value.as_ref(), true);
                     }
                     ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
-                        self.consider_mutation_for_ident(key, true);
+                        self.consider_mutation_for_ident(&Ident::from(key), true);
                     }
                     _ => {}
                 });
