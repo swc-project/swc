@@ -24,7 +24,10 @@ macro_rules! enable_helper {
 fn parse(code: &str) -> Vec<Stmt> {
     let cm = SourceMap::new(FilePathMapping::empty());
 
-    let fm = cm.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
+    let fm = cm.new_source_file(
+        FileName::Custom(stringify!($name).into()).into(),
+        code.into(),
+    );
     swc_ecma_parser::parse_file_as_script(
         &fm,
         Default::default(),
@@ -432,7 +435,8 @@ impl InjectHelpers {
         let c = CallExpr {
             span: DUMMY_SP,
             callee: Expr::Ident(Ident {
-                span: DUMMY_SP.apply_mark(self.global_mark),
+                span: DUMMY_SP,
+                ctxt: SyntaxContext::empty().apply_mark(self.global_mark),
                 sym: "require".into(),
                 ..Default::default()
             })

@@ -166,7 +166,7 @@ impl PreferConst {
     fn consider_mutation(&mut self, pat: &Pat, destructuring_assign: bool) {
         match pat {
             Pat::Ident(id) => {
-                self.consider_mutation_for_ident(id, destructuring_assign);
+                self.consider_mutation_for_ident(&Ident::from(id), destructuring_assign);
             }
             Pat::Array(ArrayPat { elems, .. }) => elems.iter().flatten().for_each(|elem| {
                 self.consider_mutation(elem, destructuring_assign);
@@ -236,7 +236,7 @@ impl Visit for PreferConst {
         if let op!("=") = assign_expr.op {
             match &assign_expr.left {
                 AssignTarget::Simple(SimpleAssignTarget::Ident(l)) => {
-                    self.consider_mutation_for_ident(l, false);
+                    self.consider_mutation_for_ident(&Ident::from(l), false);
                 }
 
                 AssignTarget::Pat(pat) => match pat {
@@ -251,7 +251,7 @@ impl Visit for PreferConst {
                                 self.consider_mutation(value.as_ref(), true);
                             }
                             ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
-                                self.consider_mutation_for_ident(key, true);
+                                self.consider_mutation_for_ident(&Ident::from(key), true);
                             }
                             _ => {}
                         });
