@@ -479,11 +479,11 @@ impl VisitMut for Fixer<'_> {
             match &s.left {
                 ForHead::Pat(p)
                     if matches!(&**p, Pat::Ident(BindingIdent {
-                            id: Ident { sym, .. },
+                            sym,
                             ..
                         }) if &**sym == "async") =>
                 {
-                    let expr = Expr::Ident(p.clone().expect_ident().id);
+                    let expr = Expr::Ident(p.clone().expect_ident().into());
                     s.left = ForHead::Pat(Box::new(Pat::Expr(Box::new(expr))));
                 }
                 _ => (),
@@ -522,6 +522,7 @@ impl VisitMut for Fixer<'_> {
             node.cons = Box::new(Stmt::Block(BlockStmt {
                 span: node.cons.span(),
                 stmts: vec![*node.cons.take()],
+                ..Default::default()
             }));
         }
     }
