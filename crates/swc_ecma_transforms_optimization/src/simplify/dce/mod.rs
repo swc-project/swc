@@ -523,7 +523,7 @@ impl Visit for Analyzer<'_> {
 
         if !self.in_var_decl {
             if let Pat::Ident(i) = p {
-                self.add(i.id.to_id(), true);
+                self.add(i.to_id(), true);
             }
         }
     }

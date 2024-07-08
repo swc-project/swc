@@ -639,6 +639,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         let for_loop_body = BlockStmt {
             span: body_span,
             stmts: for_loop_body,
+            ..Default::default()
         };
 
         let mut init_var_decls = vec![];
@@ -737,6 +738,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         BlockStmt {
             span: body_span,
             stmts: vec![for_stmt],
+            ..Default::default()
         }
     };
 
@@ -766,8 +768,8 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             span: DUMMY_SP,
             param: Some(err_param.into()),
             body: BlockStmt {
-                span: DUMMY_SP,
                 stmts: vec![mark_as_errorred, store_error],
+                ..Default::default()
             },
         }
     };
@@ -835,14 +837,14 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 })),
             })),
             cons: Box::new(Stmt::Block(BlockStmt {
-                span: DUMMY_SP,
                 stmts: vec![yield_stmt],
+                ..Default::default()
             })),
             alt: None,
         });
         let body = BlockStmt {
-            span: DUMMY_SP,
             stmts: vec![conditional_yield],
+            ..Default::default()
         };
 
         let inner_try = TryStmt {
@@ -850,14 +852,14 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             block: body,
             handler: None,
             finalizer: Some(BlockStmt {
-                span: DUMMY_SP,
                 stmts: vec![throw_iterator_error],
+                ..Default::default()
             }),
         }
         .into();
         BlockStmt {
-            span: DUMMY_SP,
             stmts: vec![inner_try],
+            ..Default::default()
         }
     };
 

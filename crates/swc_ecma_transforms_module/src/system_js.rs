@@ -1011,13 +1011,12 @@ impl Fold for SystemJs {
             decorators: Default::default(),
             span: DUMMY_SP,
             body: Some(BlockStmt {
-                span: DUMMY_SP,
                 stmts: execute_stmts,
+                ..Default::default()
             }),
             is_generator: false,
             is_async: self.tla,
-            type_params: Default::default(),
-            return_type: Default::default(),
+            ..Default::default()
         });
 
         let return_stmt = ReturnStmt {
@@ -1083,17 +1082,17 @@ impl Fold for SystemJs {
             body: Some(BlockStmt {
                 span: DUMMY_SP,
                 stmts: function_stmts,
+                ..Default::default()
             }),
             is_generator: false,
             is_async: false,
-            type_params: Default::default(),
-            return_type: Default::default(),
+            ..Default::default()
         });
 
         Module {
             body: vec![CallExpr {
                 span: DUMMY_SP,
-                callee: member_expr!(DUMMY_SP, System.register).as_callee(),
+                callee: member_expr!(Default::default(), System.register).as_callee(),
                 args: vec![
                     dep_module_names.as_arg(),
                     FnExpr {
