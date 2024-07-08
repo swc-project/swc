@@ -990,7 +990,7 @@ impl Optimizer<'_> {
                     exprs.push(Box::new(val));
 
                     let mut e = SeqExpr {
-                        span: DUMMY_SP.apply_mark(self.marks.synthesized_seq),
+                        span: DUMMY_SP,
                         exprs,
                     };
                     self.merge_sequences_in_seq_expr(&mut e);
@@ -1014,7 +1014,7 @@ impl Optimizer<'_> {
         }
 
         let mut e = SeqExpr {
-            span: DUMMY_SP.apply_mark(self.marks.synthesized_seq),
+            span: DUMMY_SP,
             exprs,
         };
         self.merge_sequences_in_seq_expr(&mut e);

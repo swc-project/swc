@@ -773,10 +773,7 @@ impl Optimizer<'_> {
             )
         };
 
-        if !self.options.sequences()
-            && !self.options.collapse_vars
-            && !e.span.has_mark(self.marks.synthesized_seq)
-        {
+        if !self.options.sequences() && !self.options.collapse_vars && !e.span.is_dummy() {
             log_abort!("sequences: Disabled && no mark");
             return;
         }
