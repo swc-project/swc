@@ -385,7 +385,7 @@ impl Spread {
                                             .make_member(quote_ident!("concat"))
                                             .as_callee(),
                                             args: vec![expr.as_arg()],
-                                            type_args: Default::default(),
+                                            ..Default::default()
                                         })
                                     } else {
                                         Expr::Call(to_consumable_array(expr, span))
@@ -443,7 +443,7 @@ impl Spread {
                 .as_callee(),
 
             args: buf,
-            type_args: Default::default(),
+            ..Default::default()
         })
     }
 }

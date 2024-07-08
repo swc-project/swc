@@ -30,7 +30,7 @@ impl Config {
                 .map(|(k, v)| {
                     let parse = |s| {
                         let fm = cm.new_source_file(
-                            FileName::Internal(format!("<umd-config-{}.js>", s)),
+                            FileName::Internal(format!("<umd-config-{}.js>", s)).into(),
                             s,
                         );
 

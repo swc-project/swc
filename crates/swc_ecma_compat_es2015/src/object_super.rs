@@ -86,7 +86,7 @@ impl VisitMut for ObjectSuper {
                     if let Prop::Method(MethodProp { key: _, function }) = &mut **prop {
                         function.visit_mut_with(&mut replacer);
                         if !replacer.vars.is_empty() {
-                            if let Some(BlockStmt { span: _, stmts }) = &mut function.body {
+                            if let Some(BlockStmt { span: _, stmts, .. }) = &mut function.body {
                                 prepend_stmt(
                                     stmts,
                                     VarDecl {
@@ -240,7 +240,7 @@ impl SuperReplacer {
                                 arg
                             }))
                             .collect(),
-                        type_args: type_args.take(),
+                        ..Default::default()
                     });
                     return;
                 }

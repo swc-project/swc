@@ -1116,7 +1116,7 @@ impl Generator {
                         elems: expressions,
                     })),
                 }],
-                type_args: Default::default(),
+                ..Default::default()
             })
         } else {
             Expr::Array(ArrayLit {
@@ -1159,7 +1159,7 @@ impl Generator {
                             elems: expressions.take(),
                         }))
                         .as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }))
                 } else {
                     Box::new(
@@ -2307,7 +2307,7 @@ impl Generator {
                     .make_member(quote_ident!("sent"))
                     .as_callee(),
                 args: vec![],
-                type_args: Default::default(),
+                ..Default::default()
             })),
             None,
         );
