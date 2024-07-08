@@ -60,7 +60,7 @@ impl Swcify for TSTypeParameter {
         let span = ctx.span(&self.base);
         TsTypeParam {
             span,
-            name: Ident::new(self.name, span),
+            name: Ident::new_no_ctxt(self.name, span),
             is_in: self.is_in,
             is_out: self.is_out,
             is_const: self.is_const,

@@ -566,7 +566,7 @@ impl VisitMut for Marker {
 
     fn visit_mut_param(&mut self, n: &mut Param) {
         if let Pat::Ident(i) = &n.pat {
-            self.decls.insert(i.id.sym.clone(), self.decl_ctxt);
+            self.decls.insert(i.sym.clone(), self.decl_ctxt);
         }
 
         n.visit_mut_children_with(self);
@@ -586,14 +586,14 @@ impl VisitMut for Marker {
 
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
         if let Pat::Ident(i) = &mut v.name {
-            if &*i.id.sym == "id" || &*i.id.sym == "resource" {
-                i.id.ctxt = self.base;
-                self.decls.insert(i.id.sym.clone(), self.base);
+            if &*i.sym == "id" || &*i.sym == "resource" {
+                i.ctxt = self.base;
+                self.decls.insert(i.sym.clone(), self.base);
                 return;
             }
 
-            if !i.id.sym.starts_with("__") {
-                self.decls.insert(i.id.sym.clone(), self.decl_ctxt);
+            if !i.sym.starts_with("__") {
+                self.decls.insert(i.sym.clone(), self.decl_ctxt);
             }
         }
 

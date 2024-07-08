@@ -278,7 +278,7 @@ where
 
         if n.op == op!("=") {
             let left = match &n.left {
-                AssignTarget::Simple(left) => left.leftmost().map(Ident::to_id),
+                AssignTarget::Simple(left) => left.leftmost().as_deref().map(Ident::to_id),
                 AssignTarget::Pat(..) => None,
             };
 

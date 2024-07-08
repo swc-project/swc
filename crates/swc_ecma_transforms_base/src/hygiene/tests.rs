@@ -420,7 +420,6 @@ fn mark_root() {
                         is_generator: false,
                         decorators: vec![],
                         body: Some(BlockStmt {
-                            span: DUMMY_SP,
                             stmts: vec![
                                 tester
                                     .parse_stmt("actual2.js", "var foo = 'foo';")?
@@ -430,6 +429,7 @@ fn mark_root() {
                                     "_define_property(this, 'bar', foo);",
                                 )?,
                             ],
+                            ..Default::default()
                         }),
                         params: vec![],
                         type_params: Default::default(),
@@ -507,10 +507,10 @@ fn fn_args() {
                     is_generator: false,
                     decorators: vec![],
                     body: Some(BlockStmt {
-                        span: DUMMY_SP,
                         stmts: vec![tester
                             .parse_stmt("actual1.js", "_define_property(this, 'force', force);")?
                             .fold_with(&mut marker(&[("force", mark2)]))],
+                        ..Default::default()
                     }),
                     params: vec![Param {
                         span: DUMMY_SP,
@@ -548,7 +548,6 @@ fn block_in_fn() {
                     is_generator: false,
                     decorators: vec![],
                     body: Some(BlockStmt {
-                        span: DUMMY_SP,
                         stmts: vec![
                             tester
                                 .parse_stmt("actual1.js", "var bar;")?
@@ -557,6 +556,7 @@ fn block_in_fn() {
                                 .parse_stmt("actual2.js", "{ var bar; }")?
                                 .fold_with(&mut marker(&[("bar", mark2)])),
                         ],
+                        ..Default::default()
                     }),
                     params: vec![],
                     type_params: Default::default(),
@@ -601,7 +601,6 @@ fn flat_in_fn() {
                     is_generator: false,
                     decorators: vec![],
                     body: Some(BlockStmt {
-                        span: DUMMY_SP,
                         stmts: vec![
                             tester
                                 .parse_stmt("actual1.js", "var bar;")?
@@ -610,6 +609,7 @@ fn flat_in_fn() {
                                 .parse_stmt("actual2.js", "var bar;")?
                                 .fold_with(&mut marker(&[("bar", mark2)])),
                         ],
+                        ..Default::default()
                     }),
                     params: vec![],
                     type_params: Default::default(),
@@ -643,19 +643,28 @@ fn params_in_fn() {
                     is_generator: false,
                     decorators: vec![],
                     body: Some(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: vec![],
+                        ..Default::default()
                     }),
                     params: vec![
                         Param {
                             span: DUMMY_SP,
                             decorators: Default::default(),
-                            pat: Ident::new("param".into(), DUMMY_SP.apply_mark(mark1)).into(),
+                            pat: Ident::new(
+                                "param".into(),
+                                DUMMY_SP,
+                                SyntaxContext::empty().apply_mark(mark1),
+                            )
+                            .into(),
                         },
                         Param {
                             span: DUMMY_SP,
                             decorators: Default::default(),
-                            pat: Ident::new("param".into(), DUMMY_SP.apply_mark(mark2)).into(),
+                            pat: Ident::new(
+                                "param".into(),
+                                DUMMY_SP,
+                                SyntaxContext::empty().apply_mark(mark2),
+                            )
+                            .into(),
                         },
                     ],
                     type_params: Default::default(),
