@@ -875,6 +875,7 @@ where
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls: vars,
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -1066,6 +1067,7 @@ where
                             init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                             definite: false,
                         }],
+                        ..Default::default()
                     }
                     .into(),
                 );

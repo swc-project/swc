@@ -613,6 +613,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                         kind: VarDeclKind::Const,
                         declare: false,
                         decls: vec![var_decl],
+                        ..Default::default()
                     }
                     .into(),
                 );

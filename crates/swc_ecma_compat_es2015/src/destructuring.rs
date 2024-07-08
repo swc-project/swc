@@ -94,7 +94,7 @@ macro_rules! impl_for_for_stmt {
                         span: var_decl.span(),
                         kind: VarDeclKind::Let,
                         decls,
-                        declare: false,
+                        ..Default::default()
                     }
                     .into();
                     (left, stmt)

@@ -303,10 +303,9 @@ impl ForOf {
                 span,
                 init: Some(
                     VarDecl {
-                        span: DUMMY_SP,
                         kind: VarDeclKind::Var,
-                        declare: false,
                         decls,
+                        ..Default::default()
                     }
                     .into(),
                 ),
