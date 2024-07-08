@@ -4148,7 +4148,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "arrayvec",
  "indexmap 2.2.6",
