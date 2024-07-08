@@ -124,7 +124,7 @@ fn mk_expr() -> Expr {
         span: DUMMY_SP,
         callee: Ident::new_no_ctxt("foo".into(), DUMMY_SP).as_callee(),
         args: vec![],
-        type_args: None,
+        ..Default::default()
     })
 }
 

@@ -196,7 +196,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                                 span: DUMMY_SP,
                                 callee: helper!(assert_this_initialized),
                                 args: vec![ident],
-                                type_args: Default::default(),
+                                ..Default::default()
                             }
                             .as_arg()
                         } else {
@@ -220,7 +220,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                                 arg
                             }))
                             .collect(),
-                        type_args: Default::default(),
+                        ..Default::default()
                     });
                     return;
                 }

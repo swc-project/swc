@@ -245,7 +245,7 @@ impl BlockScoping {
                     .cloned()
                     .map(|i| Ident::new(i.0, DUMMY_SP, i.1).as_arg())
                     .collect(),
-                type_args: None,
+                ..Default::default()
             }
             .into();
 
@@ -308,7 +308,7 @@ impl BlockScoping {
                                         span: Default::default(),
                                         callee,
                                         args: vec![ret.clone().as_arg()],
-                                        type_args: None,
+                                        ..Default::default()
                                     }
                                     .into()
                                 },

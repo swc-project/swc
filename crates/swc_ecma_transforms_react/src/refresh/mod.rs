@@ -179,7 +179,7 @@ impl<C: Comments> Refresh<C> {
                             span,
                             callee: callee.clone(),
                             args,
-                            type_args: None,
+                            ..Default::default()
                         }))
                     }
                     *first_arg = Box::new(make_assign_stmt(reg_ident, first));

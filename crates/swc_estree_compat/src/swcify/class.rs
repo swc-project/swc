@@ -52,6 +52,7 @@ impl Swcify for swc_estree_ast::ClassMethod {
                         is_async: self.is_async.unwrap_or_default(),
                         type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
                         return_type: self.return_type.swcify(ctx).flatten().map(Box::new),
+                        ..Default::default()
                     }
                     .into(),
                     kind: self

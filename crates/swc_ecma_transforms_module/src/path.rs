@@ -53,8 +53,7 @@ impl Resolver {
                 value: src,
             })
             .as_arg()],
-
-            type_args: Default::default(),
+            ..Default::default()
         })
     }
 }
