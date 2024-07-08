@@ -183,10 +183,7 @@ impl FastDts {
                                 decls: vec![VarDeclarator {
                                     span: DUMMY_SP,
                                     name: Pat::Ident(BindingIdent {
-                                        span: name_ident.span,
-                                        ctxt: name_ident.ctxt,
-                                        sym: name_ident.sym.clone(),
-                                        optional: name_ident.optional,
+                                        id: name_ident.clone(),
 
                                         type_ann: Some(type_ann),
                                     }),
