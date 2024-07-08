@@ -420,7 +420,7 @@ impl Spread {
                 span,
                 callee,
                 args: buf,
-                type_args: Default::default(),
+                ..Default::default()
             });
         }
 

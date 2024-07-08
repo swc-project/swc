@@ -1086,7 +1086,7 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_setter_prop(&mut self, n: &SetterProp) {
-        self.with_child(n.ctxt, ScopeKind::Fn, |a| {
+        self.with_child(SyntaxContext::empty(), ScopeKind::Fn, |a| {
             n.key.visit_with(a);
             {
                 let ctx = Ctx {
