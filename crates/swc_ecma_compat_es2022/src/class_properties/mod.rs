@@ -454,12 +454,12 @@ impl<C: Comments> ClassProperties<C> {
                 for member in class.body.iter() {
                     match member {
                         ClassMember::PrivateMethod(method) => {
-                            if let Some(kind) = private_map.get_mut(&method.key.id.sym) {
+                            if let Some(kind) = private_map.get_mut(&method.key.name) {
                                 if dup_private_method(kind, method) {
                                     let error =
-                                        format!("duplicate private name #{}.", method.key.id.sym);
+                                        format!("duplicate private name #{}.", method.key.name);
                                     HANDLER.with(|handler| {
-                                        handler.struct_span_err(method.key.id.span, &error).emit()
+                                        handler.struct_span_err(method.key.span, &error).emit()
                                     });
                                 } else {
                                     match method.kind {
@@ -470,7 +470,7 @@ impl<C: Comments> ClassProperties<C> {
                                 }
                             } else {
                                 private_map.insert(
-                                    method.key.id.sym.clone(),
+                                    method.key.name.clone(),
                                     PrivateKind {
                                         is_method: true,
                                         is_static: method.is_static,

@@ -438,14 +438,14 @@ impl Decorators {
                         fold_method!(method, fn_name, key_prop_value)
                     }
                     ClassMember::PrivateMethod(method) => {
-                        let fn_name = Ident::new(
-                            format!("_{}", method.key.id.sym).into(),
-                            method.key.id.span,
+                        let fn_name = Ident::new_no_ctxt(
+                            format!("_{}", method.key.name).into(),
+                            method.key.span,
                         );
                         let key_prop_value = Box::new(Expr::Lit(Lit::Str(Str {
-                            span: method.key.id.span,
+                            span: method.key.span,
                             raw: None,
-                            value: method.key.id.sym.clone(),
+                            value: method.key.name.clone(),
                         })));
                         fold_method!(method, Some(fn_name), key_prop_value)
                     }

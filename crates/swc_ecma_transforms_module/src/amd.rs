@@ -100,7 +100,10 @@ where
         },
 
         dep_list: Default::default(),
-        require: quote_ident!(DUMMY_SP.apply_mark(unresolved_mark), "require"),
+        require: quote_ident!(
+            SyntaxContext::empty().apply_mark(unresolved_mark),
+            "require"
+        ),
         exports: None,
         module: None,
         found_import_meta: false,
