@@ -37,7 +37,13 @@ impl Babelify for PrivateName {
     fn babelify(self, ctx: &Context) -> Self::Output {
         BabelPrivateName {
             base: ctx.base(self.span),
-            id: self.id.babelify(ctx),
+            id: Identifier {
+                base: ctx.base(self.span),
+                name: self.name,
+                decorators: Default::default(),
+                optional: Default::default(),
+                type_annotation: None,
+            },
         }
     }
 }
