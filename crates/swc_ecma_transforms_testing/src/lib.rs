@@ -131,7 +131,7 @@ impl<'a> Tester<'a> {
     {
         let fm = self
             .cm
-            .new_source_file(FileName::Real(file_name.into()), src.into());
+            .new_source_file(FileName::Real(file_name.into()).into(), src.into());
 
         let mut p = Parser::new(syntax, StringInput::from(&*fm), Some(&self.comments));
         let res = op(&mut p).map_err(|e| e.into_diagnostic(self.handler).emit());
