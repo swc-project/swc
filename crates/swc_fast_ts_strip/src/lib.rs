@@ -412,6 +412,8 @@ impl Visit for TsStrip {
                     let comma = self.get_next_token(import.span_hi());
                     if comma.token == Token::Comma {
                         span = span.with_hi(comma.span.hi);
+                    } else {
+                        debug_assert_eq!(comma.token, Token::RBrace);
                     }
                     self.add_replacement(span);
                 }
@@ -432,6 +434,8 @@ impl Visit for TsStrip {
                     let comma = self.get_next_token(e.span_hi());
                     if comma.token == Token::Comma {
                         span = span.with_hi(comma.span.hi);
+                    } else {
+                        debug_assert_eq!(comma.token, Token::RBrace);
                     }
                     self.add_replacement(span);
                 }
@@ -477,6 +481,8 @@ impl Visit for TsStrip {
             let comma = self.get_next_token(span.hi);
             if comma.token == Token::Comma {
                 span = span.with_hi(comma.span.hi);
+            } else {
+                debug_assert_eq!(comma.token, Token::RParen);
             }
             self.add_replacement(span);
 
