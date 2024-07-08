@@ -95,7 +95,7 @@ impl FnEnvHoister {
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: id.into(),
-                init: Some(Box::new(Expr::Ident(Ident::new(
+                init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
                     "arguments".into(),
                     DUMMY_SP,
                 )))),

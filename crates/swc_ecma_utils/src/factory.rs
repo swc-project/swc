@@ -167,7 +167,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
             span,
             args,
             callee: self
-                .make_member(Ident::new("call".into(), span))
+                .make_member(Ident::new_no_ctxt("call".into(), span))
                 .as_callee(),
             type_args: None,
         })

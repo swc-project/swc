@@ -239,8 +239,7 @@ impl Visit for TsStrip {
             // https://github.com/swc-project/swc/issues/8856
             // let optional_mark = self.get_next_token(n.id.span_hi());
 
-            let optional_mark =
-                self.get_next_token(n.id.span_lo() + BytePos(n.id.sym.len() as u32));
+            let optional_mark = self.get_next_token(n.span_lo() + BytePos(n.sym.len() as u32));
             debug_assert_eq!(optional_mark.token, Token::QuestionMark);
 
             self.add_replacement(optional_mark.span);
