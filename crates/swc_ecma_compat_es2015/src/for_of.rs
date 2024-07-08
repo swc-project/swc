@@ -135,6 +135,7 @@ impl ForOf {
                 _ => BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![*body],
+                    ..Default::default()
                 },
             };
 
@@ -331,6 +332,7 @@ impl ForOf {
             body => BlockStmt {
                 span: DUMMY_SP,
                 stmts: vec![body],
+                ..Default::default()
             },
         };
 

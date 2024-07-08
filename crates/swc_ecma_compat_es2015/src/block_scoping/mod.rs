@@ -243,7 +243,7 @@ impl BlockScoping {
                 args: args
                     .iter()
                     .cloned()
-                    .map(|i| Ident::new(i.0, DUMMY_SP.with_ctxt(i.1)).as_arg())
+                    .map(|i| Ident::new(i.0, DUMMY_SP, i.1).as_arg())
                     .collect(),
                 type_args: None,
             }
@@ -374,6 +374,7 @@ impl BlockScoping {
                     BlockStmt {
                         span: DUMMY_SP,
                         stmts,
+                        ..Default::default()
                     }
                     .into(),
                 );
@@ -404,6 +405,7 @@ impl BlockScoping {
             *body = Box::new(Stmt::Block(BlockStmt {
                 span: Default::default(),
                 stmts: vec![*body.take()],
+                ..Default::default()
             }));
             true
         } else {

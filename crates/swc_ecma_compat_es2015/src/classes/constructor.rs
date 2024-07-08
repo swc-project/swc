@@ -1,6 +1,6 @@
 use std::iter;
 
-use swc_common::{util::take::Take, Mark, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::{get_prototype_of, visit_mut_only_key};
@@ -251,7 +251,7 @@ impl VisitMut for ConstructorFolder<'_> {
 
             *expr = Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
+                left: quote_ident!(SyntaxContext::empty().apply_mark(self.mark), "_this").into(),
                 op: op!("="),
                 right,
             });
@@ -315,7 +315,11 @@ impl VisitMut for ConstructorFolder<'_> {
                     Some(SuperFoldingMode::Assign) => {
                         *stmt = AssignExpr {
                             span: DUMMY_SP,
-                            left: quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
+                            left: quote_ident!(
+                                SyntaxContext::empty().apply_mark(self.mark),
+                                "_this"
+                            )
+                            .into(),
                             op: op!("="),
                             right: expr,
                         }
@@ -328,7 +332,11 @@ impl VisitMut for ConstructorFolder<'_> {
                             kind: VarDeclKind::Var,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                name: quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
+                                name: quote_ident!(
+                                    SyntaxContext::empty().apply_mark(self.mark),
+                                    "_this"
+                                )
+                                .into(),
                                 init: Some(expr),
                                 definite: false,
                             }],
