@@ -1190,10 +1190,12 @@ where
                     }
 
                     ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
-                        let metadata = ExportMetadata::decode(export.with.as_ref().unwrap());
-                        let export_ctxt = metadata.export_ctxt.unwrap();
-                        let reexport = self.scope.get_module(info.id).unwrap().export_ctxt();
-                        ctx.transitive_remap.insert(export_ctxt, reexport);
+                        let metadata = ExportMetadata::decode(&export.with);
+
+                        if let Some(export_ctxt) = metadata.export_ctxt {
+                            let reexport = self.scope.get_module(info.id).unwrap().export_ctxt();
+                            ctx.transitive_remap.insert(export_ctxt, reexport);
+                        }
 
                         new.push(item);
                     }

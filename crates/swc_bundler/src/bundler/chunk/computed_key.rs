@@ -124,10 +124,10 @@ where
             if let ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) = v {
                 // We handle this later.
                 let mut map = ctx.export_stars_in_wrapped.lock();
-                let metadata = ExportMetadata::decode(&export.with.as_ref().unwrap());
-                map.entry(id)
-                    .or_default()
-                    .push(metadata.export_ctxt.unwrap());
+                let data = ExportMetadata::decode(&export.with);
+                if let Some(export_ctxt) = data.export_ctxt {
+                    map.entry(id).or_default().push(export_ctxt);
+                }
             }
         });
 
@@ -311,7 +311,7 @@ impl Fold for ExportToReturn {
                     }
                 }
 
-                let md = ExportMetadata::decode(&export.with.as_ref().unwrap());
+                let md = ExportMetadata::decode(&export.with);
                 // Ignore export {} specified by user.
                 if export.src.is_none()
                     && md.export_ctxt.unwrap_or_default() != self.synthesized_ctxt

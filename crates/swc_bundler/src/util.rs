@@ -235,41 +235,37 @@ impl ExportMetadata {
         }
     }
 
-    pub fn decode(with: &ObjectLit) -> Self {
-        let mut injected = false;
-        let mut export_ctxt = None;
-        for prop in &with.props {
-            match prop {
-                PropOrSpread::Prop(p) => match &**p {
-                    Prop::KeyValue(KeyValueProp {
+    pub fn decode(with: &Option<Box<ObjectLit>>) -> Self {
+        let mut data = ExportMetadata::default();
+
+        if let Some(with) = with {
+            for prop in &with.props {
+                if let PropOrSpread::Prop(p) = prop {
+                    if let Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(Ident { sym, .. }),
                         value,
                         ..
-                    }) => {
+                    }) = &**p
+                    {
                         if *sym == "__swc_bundler__injected__" {
                             if let Expr::Lit(Lit::Str(Str { value, .. })) = &**value {
                                 if value == "1" {
-                                    injected = true;
+                                    data.injected = true;
                                 }
                             }
                         } else if *sym == "__swc_bundler__export_ctxt__" {
                             if let Expr::Lit(Lit::Str(Str { value, .. })) = &**value {
-                                if let Some(v) = value.parse().ok() {
-                                    export_ctxt = Some(SyntaxContext::from_u32(v));
+                                if let Ok(v) = value.parse() {
+                                    data.export_ctxt = Some(SyntaxContext::from_u32(v));
                                 }
                             }
                         }
                     }
-                    _ => {}
-                },
-                _ => {}
+                }
             }
         }
 
-        ExportMetadata {
-            injected,
-            export_ctxt,
-        }
+        data
     }
 }
 
