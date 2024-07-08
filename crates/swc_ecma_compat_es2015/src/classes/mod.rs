@@ -264,7 +264,7 @@ where
         } = d
         {
             if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **init {
-                c.ident = Some(i.id.clone().into_private())
+                c.ident = Some(Ident::from(&*i).into_private())
             }
         }
 
