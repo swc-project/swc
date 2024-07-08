@@ -744,7 +744,7 @@ impl VisitMut for AssignFolder {
                                         )
                                         .as_callee(),
                                         args: vec![right.take().as_arg()],
-                                        type_args: Default::default(),
+                                        ..Default::default()
                                     }))
                                 }
                                 Expr::Array(..) => right.take(),
@@ -820,7 +820,7 @@ impl VisitMut for AssignFolder {
                                             .make_member(quote_ident!("slice"))
                                             .as_callee(),
                                         args: vec![(i as f64).as_arg()],
-                                        type_args: Default::default(),
+                                        ..Default::default()
                                     })),
                                 });
 
@@ -1131,7 +1131,7 @@ fn make_ref_ident_for_array(
                                 span: DUMMY_SP,
                                 callee: helper!(to_array),
                                 args: vec![v.as_arg()],
-                                type_args: Default::default(),
+                                ..Default::default()
                             }
                             .into(),
                         ),
@@ -1140,7 +1140,7 @@ fn make_ref_ident_for_array(
                                 span: DUMMY_SP,
                                 callee: helper!(sliced_to_array),
                                 args: vec![v.as_arg(), value.as_arg()],
-                                type_args: Default::default(),
+                                ..Default::default()
                             }
                             .into(),
                         ),

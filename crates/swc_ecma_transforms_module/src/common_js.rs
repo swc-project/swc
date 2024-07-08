@@ -507,7 +507,11 @@ where
                 }
                 .make_assign_to(
                     op!("="),
-                    member_expr!(DUMMY_SP.apply_mark(self.unresolved_mark), module.exports).into(),
+                    member_expr!(
+                        SyntaxContext::empty().apply_mark(self.unresolved_mark),
+                        module.exports
+                    )
+                    .into(),
                 );
 
                 let expr = BinExpr {

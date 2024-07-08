@@ -1,7 +1,7 @@
 use anyhow::Context;
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, FileName, Mark, Span, DUMMY_SP};
+use swc_common::{collections::AHashMap, FileName, Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     member_expr, private_ident, quote_ident, quote_str, var::VarCollector, ExprFactory,
@@ -1115,7 +1115,7 @@ impl Fold for SystemJs {
 fn get_module_export_name(module_export_name: &ModuleExportName) -> Id {
     match &module_export_name {
         ModuleExportName::Ident(ident) => ident.to_id(),
-        ModuleExportName::Str(s) => (s.value.clone(), s.ctxt),
+        ModuleExportName::Str(s) => (s.value.clone(), SyntaxContext::empty()),
     }
 }
 
