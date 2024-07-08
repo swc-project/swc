@@ -401,7 +401,8 @@ impl SimplifyExpr {
                         } else {
                             Expr::Ident(Ident::new(
                                 "NaN".into(),
-                                span.with_ctxt(self.expr_ctx.unresolved_ctxt),
+                                span,
+                                self.expr_ctx.unresolved_ctxt,
                             ))
                         };
 
@@ -487,7 +488,8 @@ impl SimplifyExpr {
                                     } else {
                                         Expr::Ident(Ident::new(
                                             "NaN".into(),
-                                            span.with_ctxt(self.expr_ctx.unresolved_ctxt),
+                                            span,
+                                            self.expr_ctx.unresolved_ctxt,
                                         ))
                                     };
 
@@ -704,7 +706,8 @@ impl SimplifyExpr {
                             } else {
                                 Expr::Ident(Ident::new(
                                     "NaN".into(),
-                                    span.with_ctxt(self.expr_ctx.unresolved_ctxt),
+                                    span,
+                                    self.expr_ctx.unresolved_ctxt,
                                 ))
                             };
 
@@ -822,7 +825,8 @@ impl SimplifyExpr {
                             *span,
                             Expr::Ident(Ident::new(
                                 "NaN".into(),
-                                span.with_ctxt(self.expr_ctx.unresolved_ctxt),
+                                span,
+                                self.expr_ctx.unresolved_ctxt,
                             )),
                             iter::once(arg.take()),
                         );

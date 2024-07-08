@@ -260,7 +260,7 @@ impl<'a> VisitMut for HookRegister<'a> {
         for decl in n.decls.iter_mut() {
             if let VarDeclarator {
                 // it doesn't quite make sense for other Pat to appear here
-                name: Pat::Ident(BindingIdent { id, .. }),
+                name: Pat::Ident(id),
                 init: Some(init),
                 ..
             } = decl

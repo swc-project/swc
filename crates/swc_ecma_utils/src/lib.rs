@@ -2167,7 +2167,7 @@ pub fn default_constructor(has_super: bool) -> Constructor {
                 pat: Pat::Rest(RestPat {
                     span: DUMMY_SP,
                     dot3_token: DUMMY_SP,
-                    arg: Box::new(Pat::Ident(quote_ident!(span, "args").into())),
+                    arg: Box::new(Pat::Ident(quote_ident!("args").into())),
                     type_ann: Default::default(),
                 }),
             })]
@@ -2182,7 +2182,7 @@ pub fn default_constructor(has_super: bool) -> Constructor {
                     callee: Callee::Super(Super { span: DUMMY_SP }),
                     args: vec![ExprOrSpread {
                         spread: Some(DUMMY_SP),
-                        expr: Box::new(Expr::Ident(quote_ident!(span, "args"))),
+                        expr: Box::new(Expr::Ident(quote_ident!("args"))),
                     }],
                     type_args: Default::default(),
                 }

@@ -221,9 +221,7 @@ mod tests {
 
             let mut v = tester
                 .apply_transform(
-                    as_folder(DropSpan {
-                        preserve_ctxt: false,
-                    }),
+                    as_folder(DropSpan),
                     "global.js",
                     ::swc_ecma_parser::Syntax::default(),
                     &v,
