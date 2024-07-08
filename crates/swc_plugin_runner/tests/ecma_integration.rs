@@ -107,7 +107,7 @@ fn internal() {
         testing::run_test(false, |cm, _handler| {
             eprint!("First run start");
 
-            let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
+            let fm = cm.new_source_file(FileName::Anon.into(), "console.log(foo)".into());
 
             let program = parse_file_as_program(
                 &fm,

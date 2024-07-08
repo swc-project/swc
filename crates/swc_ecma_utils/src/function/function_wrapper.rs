@@ -77,8 +77,8 @@ impl<T> FunctionWrapper<T> {
         .into();
 
         let block_stmt = BlockStmt {
-            span: DUMMY_SP,
             stmts: vec![ref_decl.into(), return_fn_stmt],
+            ..Default::default()
         };
 
         let function = Box::new(Function {
@@ -150,8 +150,8 @@ impl<T> FunctionWrapper<T> {
         });
 
         let block_stmt = BlockStmt {
-            span: DUMMY_SP,
             stmts: vec![ref_stmt, fn_decl_stmt, return_stmt],
+            ..Default::default()
         };
 
         let function = Box::new(Function {
@@ -210,8 +210,8 @@ impl<T> FunctionWrapper<T> {
             .clone();
 
         let ref_fn_block_stmt = BlockStmt {
-            span: DUMMY_SP,
             stmts: vec![assign_stmt, return_ref_apply_stmt],
+            ..Default::default()
         };
 
         // function REF
@@ -256,8 +256,8 @@ impl<T> FunctionWrapper<T> {
                 decorators: Default::default(),
                 span: DUMMY_SP,
                 body: Some(BlockStmt {
-                    span: DUMMY_SP,
                     stmts: vec![apply],
+                    ..Default::default()
                 }),
                 is_generator: false,
                 is_async: false,
@@ -298,11 +298,11 @@ impl From<ArrowExpr> for FunctionWrapper<Expr> {
         let body = Some(match *body {
             BlockStmtOrExpr::BlockStmt(block) => block,
             BlockStmtOrExpr::Expr(expr) => BlockStmt {
-                span: DUMMY_SP,
                 stmts: vec![Stmt::Return(ReturnStmt {
                     span: expr.span(),
                     arg: Some(expr),
                 })],
+                ..Default::default()
             },
         });
 

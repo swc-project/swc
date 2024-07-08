@@ -709,7 +709,6 @@ fn extend_super(
                             key: PropName::Ident(quote_ident!("_")),
                             type_ann: None,
                             body: Some(BlockStmt {
-                                span: DUMMY_SP,
                                 stmts: vec![Expr::Ident(
                                     get.computed
                                         .clone()
@@ -719,6 +718,7 @@ fn extend_super(
                                 .as_call(DUMMY_SP, vec![prop.clone().as_arg()])
                                 .into_return_stmt()
                                 .into()],
+                                ..Default::default()
                             }),
                         }),
                         Prop::Setter(SetterProp {
@@ -727,7 +727,6 @@ fn extend_super(
                             this_param: None,
                             param: value.clone().into(),
                             body: Some(BlockStmt {
-                                span: DUMMY_SP,
                                 stmts: vec![Expr::Ident(
                                     set.computed
                                         .clone()
@@ -737,6 +736,7 @@ fn extend_super(
                                 .as_call(DUMMY_SP, vec![prop.as_arg(), value.as_arg()])
                                 .into_return_stmt()
                                 .into()],
+                                ..Default::default()
                             }),
                         }),
                     ]

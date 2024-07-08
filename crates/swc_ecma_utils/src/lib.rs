@@ -2176,7 +2176,6 @@ pub fn default_constructor(has_super: bool) -> Constructor {
             vec![]
         },
         body: Some(BlockStmt {
-            span: DUMMY_SP,
             stmts: if has_super {
                 vec![CallExpr {
                     span: DUMMY_SP,
@@ -2191,6 +2190,7 @@ pub fn default_constructor(has_super: bool) -> Constructor {
             } else {
                 vec![]
             },
+            ..Default::default()
         }),
     }
 }
