@@ -131,7 +131,7 @@ impl VisitMut for NullishCoalescing {
                             right: Box::new(make_cond(
                                 self.c,
                                 assign.span,
-                                Ident::from(&*i),
+                                &Ident::from(&*i),
                                 Expr::Ident(Ident::from(&*i)),
                                 assign.right.take(),
                             )),
