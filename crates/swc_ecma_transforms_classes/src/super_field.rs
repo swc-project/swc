@@ -1,6 +1,6 @@
 use std::iter;
 
-use swc_common::{util::take::Take, Mark, Span, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{is_rest_arguments, quote_ident, ExprFactory};
@@ -76,11 +76,12 @@ impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
         match n {
             Expr::This(ThisExpr { span }) if self.in_nested_scope => {
                 *n = Expr::Ident(quote_ident!(
-                    span.apply_mark(
+                    SyntaxContext::empty().apply_mark(
                         *self
                             .this_alias_mark
                             .get_or_insert_with(|| Mark::fresh(Mark::root()))
                     ),
+                    *span,
                     "_this"
                 ));
             }
@@ -187,7 +188,8 @@ impl<'a> SuperFieldAccessFolder<'a> {
             {
                 let this = match self.this_alias_mark.or(self.constructor_this_mark) {
                     Some(mark) => {
-                        let ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_this").as_arg();
+                        let ident =
+                            quote_ident!(SyntaxContext::empty().apply_mark(mark), "_this").as_arg();
                         // in constant super, call will be the only place where a assert is needed
                         if self.constant_super {
                             CallExpr {
@@ -349,7 +351,12 @@ impl<'a> SuperFieldAccessFolder<'a> {
         debug_assert_eq!(op, op!("="));
 
         let this_expr = Box::new(match self.constructor_this_mark {
-            Some(mark) => quote_ident!(super_token.apply_mark(mark), "_this").into(),
+            Some(mark) => quote_ident!(
+                SyntaxContext::empty().apply_mark(mark),
+                super_token,
+                "_this"
+            )
+            .into(),
             None => ThisExpr { span: super_token }.into(),
         });
 
