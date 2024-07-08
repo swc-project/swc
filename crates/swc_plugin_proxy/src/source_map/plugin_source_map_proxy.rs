@@ -6,6 +6,7 @@ use swc_common::{
         DistinctSources, FileLinesResult, MalformedSourceMapPositions, PartialFileLinesResult,
         PartialLoc, SmallPos, SpanSnippetError,
     },
+    sync::Lrc,
     BytePos, FileName, Loc, SourceFileAndBytePos, SourceMapper, Span,
 };
 use swc_common::{sync::OnceCell, CharPos, FileLines, SourceFile};
@@ -180,12 +181,14 @@ impl SourceMapper for PluginSourceMapProxy {
         unimplemented!("Sourcemap proxy cannot be called in this context")
     }
 
-    fn span_to_filename(&self, sp: Span) -> FileName {
+    fn span_to_filename(&self, sp: Span) -> Lrc<FileName> {
         #[cfg(target_arch = "wasm32")]
-        return read_returned_result_from_host(|serialized_ptr| unsafe {
-            __span_to_filename_proxy(sp.lo.0, sp.hi.0, serialized_ptr)
-        })
-        .expect("Host should return Filename");
+        return Lrc::new(
+            read_returned_result_from_host(|serialized_ptr| unsafe {
+                __span_to_filename_proxy(sp.lo.0, sp.hi.0, serialized_ptr)
+            })
+            .expect("Host should return Filename"),
+        );
 
         #[cfg(not(target_arch = "wasm32"))]
         unimplemented!("Sourcemap proxy cannot be called in this context")
