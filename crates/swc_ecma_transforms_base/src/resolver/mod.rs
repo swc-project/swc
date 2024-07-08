@@ -333,30 +333,28 @@ impl<'a> Resolver<'a> {
     }
 
     /// Modifies a binding identifier.
-    fn modify(&mut self, ident: &mut Ident, kind: DeclKind) {
+    fn modify(&mut self, sym: &JsWord, ctxt: &mut SyntaxContext, kind: DeclKind) {
         if cfg!(debug_assertions) && LOG {
             debug!(
                 "Binding (type = {}) {}{:?} {:?}",
-                self.in_type, ident.sym, ident.ctxt, kind
+                self.in_type, sym, ctxt, kind
             );
         }
 
-        if ident.ctxt != SyntaxContext::empty() {
+        if *ctxt != SyntaxContext::empty() {
             return;
         }
 
         if self.in_type {
-            self.current.declared_types.insert(ident.sym.clone());
+            self.current.declared_types.insert(sym.clone());
         } else {
-            self.current
-                .declared_symbols
-                .insert(ident.sym.clone(), kind);
+            self.current.declared_symbols.insert(sym.clone(), kind);
         }
 
         let mark = self.current.mark;
 
         if mark != Mark::root() {
-            ident.ctxt = ident.ctxt.apply_mark(mark);
+            *ctxt = ctxt.apply_mark(mark);
         }
     }
 
@@ -1360,7 +1358,7 @@ impl<'a> VisitMut for Resolver<'a> {
     fn visit_mut_ts_module_decl(&mut self, decl: &mut TsModuleDecl) {
         match &mut decl.id {
             TsModuleName::Ident(i) => {
-                self.modify(i, DeclKind::Lexical);
+                self.modify(&i.sym, &mut i.ctxt, DeclKind::Lexical);
             }
             TsModuleName::Str(_) => {}
         }
@@ -1433,7 +1431,7 @@ impl<'a> VisitMut for Resolver<'a> {
         // always resolve the identifier for type stripping purposes
         let old_in_type = self.in_type;
         self.in_type = true;
-        self.modify(&mut n.id, DeclKind::Type);
+        self.modify(&n.id.sym, &mut n.id.ctxt, DeclKind::Type);
 
         if !self.config.handle_types {
             self.in_type = old_in_type;
@@ -1666,14 +1664,16 @@ impl VisitMut for Hoister<'_, '_> {
 
                     let old_in_type = self.resolver.in_type;
                     self.resolver.in_type = true;
-                    self.resolver.modify(&mut i.id, DeclKind::Type);
+                    self.resolver
+                        .modify(&i.id.sym, &mut i.id.ctxt, DeclKind::Type);
                     self.resolver.in_type = old_in_type;
                 }
 
                 Decl::TsTypeAlias(a) => {
                     let old_in_type = self.resolver.in_type;
                     self.resolver.in_type = true;
-                    self.resolver.modify(&mut a.id, DeclKind::Type);
+                    self.resolver
+                        .modify(&a.id.sym, &mut a.id.ctxt, DeclKind::Type);
                     self.resolver.in_type = old_in_type;
                 }
 
@@ -1681,7 +1681,8 @@ impl VisitMut for Hoister<'_, '_> {
                     if !self.in_block {
                         let old_in_type = self.resolver.in_type;
                         self.resolver.in_type = false;
-                        self.resolver.modify(&mut e.id, DeclKind::Lexical);
+                        self.resolver
+                            .modify(&e.id.sym, &mut e.id.ctxt, DeclKind::Lexical);
                         self.resolver.in_type = old_in_type;
                     }
                 }
@@ -1699,8 +1700,9 @@ impl VisitMut for Hoister<'_, '_> {
                     if !self.in_block {
                         let old_in_type = self.resolver.in_type;
                         self.resolver.in_type = false;
+                        let id = v.id.as_mut_ident().unwrap();
                         self.resolver
-                            .modify(v.id.as_mut_ident().unwrap(), DeclKind::Lexical);
+                            .modify(&id.sym, &mut id.ctxt, DeclKind::Lexical);
                         self.resolver.in_type = old_in_type;
                     }
                 }
