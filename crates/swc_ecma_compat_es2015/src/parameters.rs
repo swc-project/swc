@@ -228,13 +228,16 @@ impl Params {
                     // TODO: Optimize (use `arguments` instead of rest argument)
 
                     let mark = Mark::fresh(Mark::root());
-                    let idx_ident = quote_ident!(span.apply_mark(mark), "_key");
-                    let len_ident = quote_ident!(span.apply_mark(mark), "_len");
+                    let idx_ident =
+                        quote_ident!(SyntaxContext::empty().apply_mark(mark), span, "_key");
+                    let len_ident =
+                        quote_ident!(SyntaxContext::empty().apply_mark(mark), span, "_len");
 
                     let arg = match *arg {
-                        Pat::Ident(ident) => ident.id,
+                        Pat::Ident(ident) => ident.into(),
                         arg => {
-                            let tmp_ident = quote_ident!(span.apply_mark(mark), "_tmp");
+                            let tmp_ident =
+                                quote_ident!(SyntaxContext::empty().apply_mark(mark), span, "_tmp");
                             decls_after_unpack.push(VarDeclarator {
                                 span: DUMMY_SP,
                                 name: arg,
