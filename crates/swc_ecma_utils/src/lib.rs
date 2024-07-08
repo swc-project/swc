@@ -1264,8 +1264,8 @@ pub trait ExprExt {
                     || match &**obj {
                         // Allow dummy span
                         Expr::Ident(Ident {
-                            span, sym: math, ..
-                        }) => &**math == "Math" && ctxt == SyntaxContext::empty(),
+                            ctxt, sym: math, ..
+                        }) => &**math == "Math" && *ctxt == SyntaxContext::empty(),
 
                         // Some methods of string are pure
                         Expr::Lit(Lit::Str(..)) => match &*prop.sym {
@@ -2367,7 +2367,7 @@ impl<I: IdentLike> Visit for DestructuringFinder<I> {
 /// Finds all **binding** idents of variables.
 pub struct BindingIdentifierVisitor<F>
 where
-    F: for<'a> FnMut(&'a Ident),
+    F: for<'a> FnMut(&'a BindingIdent),
 {
     op: F,
 }
@@ -2377,7 +2377,7 @@ where
 pub fn for_each_binding_ident<T, F>(node: &T, op: F)
 where
     T: VisitWith<BindingIdentifierVisitor<F>>,
-    F: for<'a> FnMut(&'a Ident),
+    F: for<'a> FnMut(&'a BindingIdent),
 {
     let mut v = BindingIdentifierVisitor { op };
     node.visit_with(&mut v);
@@ -2385,7 +2385,7 @@ where
 
 impl<F> Visit for BindingIdentifierVisitor<F>
 where
-    F: for<'a> FnMut(&'a Ident),
+    F: for<'a> FnMut(&'a BindingIdent),
 {
     noop_visit_type!();
 
@@ -2707,10 +2707,7 @@ impl VisitMut for IdentReplacer<'_> {
                 i.visit_mut_with(self);
                 if i.sym != cloned.sym || i.ctxt != cloned.ctxt {
                     *node = Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(Ident::new(
-                            cloned.sym,
-                            cloned.span.with_ctxt(SyntaxContext::empty()),
-                        )),
+                        key: PropName::Ident(Ident::new_no_ctxt(cloned.sym, cloned.span)),
                         value: Box::new(Expr::Ident(i.clone())),
                     });
                 }
