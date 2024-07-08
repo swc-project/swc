@@ -5,7 +5,8 @@ use std::{
 
 use swc_atoms::JsWord;
 use swc_common::{
-    collections::AHashSet, pass::CompilerPass, util::take::Take, Mark, Spanned, DUMMY_SP,
+    collections::AHashSet, pass::CompilerPass, util::take::Take, Mark, Spanned, SyntaxContext,
+    DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::pass::JsPass;
@@ -112,15 +113,16 @@ impl PrivateInObject {
     fn var_name_for_brand_check(&self, n: &PrivateName) -> Ident {
         let is_static = self.cls.statics.contains(&n.name);
 
-        let span = n.span.apply_mark(self.cls.mark);
+        let span = n.span;
+        let ctxt = SyntaxContext::empty().apply_mark(self.cls.mark);
 
         if !is_static && self.cls.methods.contains(&n.name) {
             if let Some(cls_name) = &self.cls.ident {
-                return Ident::new(format!("_brand_check_{}", cls_name.sym).into(), span);
+                return Ident::new(format!("_brand_check_{}", cls_name.sym).into(), span, ctxt);
             }
         }
 
-        Ident::new(format!("_brand_check_{}", n.name).into(), span)
+        Ident::new(format!("_brand_check_{}", n.name).into(), span, ctxt)
     }
 }
 
@@ -254,6 +256,7 @@ impl VisitMut for PrivateInObject {
                 let mut bs = BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![],
+                    ..Default::default()
                 };
                 bs.stmts.push(Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
@@ -269,8 +272,7 @@ impl VisitMut for PrivateInObject {
                         body: Box::new(BlockStmtOrExpr::BlockStmt(bs)),
                         is_async: false,
                         is_generator: false,
-                        type_params: Default::default(),
-                        return_type: Default::default(),
+                        ..Default::default()
                     }
                     .as_callee(),
                     args: Default::default(),
