@@ -190,6 +190,7 @@ impl FastDts {
                                     init: None,
                                     definite: false,
                                 }],
+                                ..Default::default()
                             },
                         )))));
 
