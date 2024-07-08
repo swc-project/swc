@@ -2367,12 +2367,7 @@ export default function waitUntil(callback, options = {}) {
                 }),
                 class: Box::new(Class {
                     span,
-                    decorators: Vec::new(),
-                    super_class: None,
-                    type_params: None,
-                    super_type_params: None,
                     is_abstract: false,
-                    implements: Vec::new(),
                     body: vec!(ClassMember::StaticBlock(StaticBlock {
                         span,
                         body: BlockStmt {
@@ -2380,7 +2375,8 @@ export default function waitUntil(callback, options = {}) {
                             stmts: Vec::new(),
                             ..Default::default()
                         }
-                    }))
+                    })),
+                    ..Default::default()
                 })
             }))
         );

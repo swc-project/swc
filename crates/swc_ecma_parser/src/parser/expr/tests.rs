@@ -339,7 +339,7 @@ fn iife() {
             span,
             callee: Callee::Expr(expr("(function(){})")),
             args: vec![],
-            type_args: Default::default(),
+            ..Default::default()
         }))
     )
 }
@@ -355,7 +355,7 @@ fn issue_319_1() {
                 spread: None,
                 expr: expr("({ async f() { await g(); } })"),
             }],
-            type_args: Default::default(),
+            ..Default::default()
         }))
     );
 }
@@ -382,7 +382,7 @@ fn issue_328() {
                         raw: Some("'test'".into()),
                     }))),
                 }],
-                type_args: Default::default(),
+                ..Default::default()
             }))
         })
     );

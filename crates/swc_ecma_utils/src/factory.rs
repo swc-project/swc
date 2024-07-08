@@ -173,7 +173,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
             span,
             args,
             callee: self.as_callee(),
-            type_args: None,
+            ..Default::default()
         })
     }
 

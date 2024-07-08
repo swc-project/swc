@@ -930,7 +930,7 @@ impl<I: Tokens> Parser<I> {
                     async_span,
                 )))),
                 args: expr_or_spreads,
-                type_args: None,
+                ..Default::default()
             })));
         }
 
@@ -1389,7 +1389,7 @@ impl<I: Tokens> Parser<I> {
                         span: span!(self, start),
                         callee: obj,
                         args,
-                        type_args: None,
+                        ..Default::default()
                     }
                     .into(),
                     true,
