@@ -489,6 +489,7 @@ impl VisitMut for Params {
                 *body = BlockStmtOrExpr::BlockStmt(BlockStmt {
                     span: DUMMY_SP,
                     stmts,
+                    ..Default::default()
                 });
             }
         }
@@ -526,7 +527,7 @@ impl VisitMut for Params {
         trace!("visit_mut_constructor(parmas.len() = {})", f.params.len());
         f.params.visit_mut_with(self);
 
-        if let Some(BlockStmt { span: _, stmts }) = &mut f.body {
+        if let Some(BlockStmt { stmts, .. }) = &mut f.body {
             let old_rep = self.hoister.take();
 
             stmts.visit_mut_children_with(self);
@@ -596,11 +597,11 @@ impl VisitMut for Params {
                 let mut body = match *f.body.take() {
                     BlockStmtOrExpr::BlockStmt(block) => block,
                     BlockStmtOrExpr::Expr(expr) => BlockStmt {
-                        span: DUMMY_SP,
                         stmts: vec![Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(expr),
                         })],
+                        ..Default::default()
                     },
                 };
 
@@ -614,8 +615,7 @@ impl VisitMut for Params {
                         body: Some(body),
                         is_generator: f.is_generator,
                         is_async: f.is_async,
-                        type_params: Default::default(),
-                        return_type: Default::default(),
+                        ..Default::default()
                     }
                     .into();
                     *e = match (self.in_prop, local_vars) {
@@ -633,9 +633,9 @@ impl VisitMut for Params {
                                         arg: Some(Box::new(func)),
                                     }),
                                 ],
+                                ..Default::default()
                             })),
-                            type_params: Default::default(),
-                            return_type: Default::default(),
+                            ..Default::default()
                         })
                         .as_iife()
                         .into(),
