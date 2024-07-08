@@ -446,7 +446,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 span,
                 callee: Callee::Expr(callee),
                 args,
-                type_args,
+                ..
             }) if callee.is_member() => {
                 let mut callee = callee.take().member().unwrap();
                 callee.visit_mut_with(self);
@@ -458,7 +458,6 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                         span: *span,
                         callee: expr.make_member(quote_ident!("call")).as_callee(),
                         args: iter::once(this.as_arg()).chain(args.take()).collect(),
-                        type_args: type_args.take(),
                         ..Default::default()
                     });
                 } else {
@@ -466,7 +465,6 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                         span: *span,
                         callee: expr.as_callee(),
                         args: args.take(),
-                        type_args: type_args.take(),
                         ..Default::default()
                     });
                 }
