@@ -58,6 +58,16 @@ impl From<BindingIdent> for Box<Expr> {
         Box::new(Expr::Ident(bi.into()))
     }
 }
+impl From<&'_ BindingIdent> for Ident {
+    fn from(bi: &'_ BindingIdent) -> Self {
+        Ident {
+            span: bi.span,
+            ctxt: bi.ctxt,
+            sym: bi.sym.clone(),
+            optional: bi.optional,
+        }
+    }
+}
 
 impl BindingIdent {
     /// See [`Ident::to_id`] for documentation.
