@@ -10,7 +10,7 @@ use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::Bundler;
-use crate::{load::Load, resolve::Resolve};
+use crate::{load::Load, resolve::Resolve, util::ExportMetadata};
 
 #[cfg(test)]
 mod tests;
@@ -231,7 +231,7 @@ where
                         if let Expr::Ident(i) = &mut **callee {
                             self.mark_as_cjs(&src.value);
                             if let Some((_, export_ctxt)) = self.ctxt_for(&src.value) {
-                                i.span = i.span.with_ctxt(export_ctxt);
+                                i.ctxt = export_ctxt;
                             }
                         }
 
@@ -313,7 +313,7 @@ where
                 let prop = match &e.prop {
                     MemberProp::Ident(i) => {
                         let mut i = i.clone();
-                        i.span = i.span.with_ctxt(exported_ctxt);
+                        i.ctxt = exported_ctxt;
                         i
                     }
                     _ => unreachable!(
@@ -382,11 +382,7 @@ where
             }
             Some(ModuleExportName::Str(..)) => unimplemented!("module string names unimplemented"),
             None => {
-                let exported = Ident::new(
-                    orig.sym.clone(),
-                    orig.span,
-                    SyntaxContext::empty().with_ctxt(self.module_ctxt),
-                );
+                let exported = Ident::new(orig.sym.clone(), orig.span, self.module_ctxt);
                 s.exported = Some(ModuleExportName::Ident(exported));
             }
         }
@@ -427,7 +423,11 @@ where
         if !self.deglob_phase {
             if let Some((_, export_ctxt)) = self.ctxt_for(&import.src.value) {
                 // Firstly we attach proper syntax contexts.
-                import.span = import.span.with_ctxt(export_ctxt);
+                ExportMetadata {
+                    export_ctxt: Some(export_ctxt),
+                    ..Default::default()
+                }
+                .encode(&mut import.with);
 
                 // Then we store list of imported identifiers.
                 for specifier in &mut import.specifiers {
@@ -625,7 +625,7 @@ where
 
                     if let Expr::Ident(i) = &mut **callee {
                         if let Some((_, export_ctxt)) = self.ctxt_for(&src.value) {
-                            i.span = i.span.with_ctxt(export_ctxt);
+                            i.ctxt = export_ctxt;
                         }
                     }
 

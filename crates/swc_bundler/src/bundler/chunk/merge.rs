@@ -767,7 +767,7 @@ where
                                         injected: true,
                                         ..Default::default()
                                     }
-                                    .encode(),
+                                    .into_with(),
                                 ),
                             },
                         )));
@@ -819,7 +819,7 @@ where
                                         injected: true,
                                         ..Default::default()
                                     }
-                                    .encode(),
+                                    .into_with(),
                                 ),
                             },
                         )));
@@ -893,7 +893,7 @@ where
                                                 injected: true,
                                                 ..Default::default()
                                             }
-                                            .encode(),
+                                            .into_with(),
                                         ),
                                     }));
                                 extra.push(export);

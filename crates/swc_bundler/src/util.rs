@@ -181,33 +181,40 @@ pub(crate) trait IntoParallelIterator: Sized + IntoIterator {
 #[cfg(not(feature = "rayon"))]
 impl<T> IntoParallelIterator for T where T: IntoIterator {}
 
-pub(crate) fn metadata(key: &str, value: &str) -> Prop {
-    Prop::KeyValue(KeyValueProp {
+fn metadata(key: &str, value: &str) -> PropOrSpread {
+    PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
         key: PropName::Ident(Ident::new_no_ctxt(key.into(), DUMMY_SP)),
         value: Box::new(Expr::Lit(Lit::Str(Str {
             span: DUMMY_SP,
             value: value.into(),
             raw: None,
         }))),
-    })
-}
-
-pub(crate) fn metadata_injected() -> Prop {
-    metadata("__swc_bundler__injected__", "1")
+    })))
 }
 
 #[derive(Default)]
-pub struct ExportMetadata {
+pub(crate) struct ExportMetadata {
     pub injected: bool,
     pub export_ctxt: Option<SyntaxContext>,
 }
 
 impl ExportMetadata {
-    pub fn encode(&self) -> Box<ObjectLit> {
+    pub fn into_with(self) -> Box<ObjectLit> {
+        let mut obj = Some(Box::new(ObjectLit {
+            span: DUMMY_SP,
+            props: vec![],
+        }));
+
+        self.encode(&mut obj);
+
+        obj.unwrap()
+    }
+
+    pub fn encode(&self, to: &mut Option<Box<ObjectLit>>) {
         let mut props = vec![];
 
         if self.injected {
-            props.push(metadata_injected());
+            props.push(metadata("__swc_bundler__injected__", "1"));
         }
 
         if let Some(export_ctxt) = self.export_ctxt {
@@ -217,7 +224,15 @@ impl ExportMetadata {
             ));
         }
 
-        create_with(props)
+        if to.is_none() {
+            *to = Some(Box::new(ObjectLit {
+                span: DUMMY_SP,
+                props,
+            }));
+        } else {
+            let obj = to.as_mut().unwrap();
+            obj.props.extend(props);
+        }
     }
 
     pub fn decode(with: &ObjectLit) -> Self {
@@ -278,16 +293,5 @@ pub(crate) fn is_injected(with: &ObjectLit) -> bool {
         }
 
         false
-    })
-}
-
-pub(crate) fn create_with(props: Vec<Prop>) -> Box<ObjectLit> {
-    Box::new(ObjectLit {
-        span: DUMMY_SP,
-        props: props
-            .into_iter()
-            .map(Box::new)
-            .map(PropOrSpread::Prop)
-            .collect(),
     })
 }
