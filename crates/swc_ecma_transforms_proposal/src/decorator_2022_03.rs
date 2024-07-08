@@ -966,16 +966,16 @@ impl VisitMut for Decorator2022_03 {
                             Key::Private(k) => {
                                 name = Box::new(Expr::Lit(Lit::Str(Str {
                                     span: DUMMY_SP,
-                                    value: k.id.sym.clone(),
+                                    value: k.name.clone(),
                                     raw: None,
                                 })));
-                                init = private_ident!(format!("_init_{}", k.id.sym));
-                                field_name_like = format!("__{}", k.id.sym).into();
+                                init = private_ident!(format!("_init_{}", k.name));
+                                field_name_like = format!("__{}", k.name).into();
 
                                 self.state.private_id_index += 1;
                                 PrivateName {
                                     span: k.span,
-                                    id: format!("__{}_{}", k.id.sym, self.state.private_id_index)
+                                    name: format!("__{}_{}", k.name, self.state.private_id_index)
                                         .into(),
                                 }
                             }
