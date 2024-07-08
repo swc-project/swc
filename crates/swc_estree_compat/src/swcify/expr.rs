@@ -802,6 +802,7 @@ impl Swcify for OptionalCallExpression {
                 callee: self.callee.swcify(ctx),
                 args: self.arguments.swcify(ctx).into_iter().flatten().collect(),
                 type_args: self.type_parameters.swcify(ctx).map(From::from),
+                ..Default::default()
             })),
         }
     }

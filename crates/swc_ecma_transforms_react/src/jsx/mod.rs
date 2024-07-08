@@ -11,7 +11,7 @@ use swc_common::{
     iter::IdentifyLast,
     sync::Lrc,
     util::take::Take,
-    FileName, Mark, SourceMap, Span, Spanned, DUMMY_SP,
+    FileName, Mark, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_config::merge::Merge;
 use swc_ecma_ast::*;
@@ -821,7 +821,7 @@ where
                     span,
                     callee: jsx.as_callee(),
                     args,
-                    type_args: Default::default(),
+                    ..Default::default()
                 })
             }
             Runtime::Classic => {
@@ -1141,10 +1141,7 @@ fn add_require(imports: Vec<(Ident, Ident)>, src: &str, unresolved_mark: Mark) -
                         if imported.sym != local.sym {
                             ObjectPatProp::KeyValue(KeyValuePatProp {
                                 key: PropName::Ident(imported),
-                                value: Box::new(Pat::Ident(BindingIdent {
-                                    id: local,
-                                    type_ann: None,
-                                })),
+                                value: Box::new(Pat::Ident(local.into())),
                             })
                         } else {
                             ObjectPatProp::Assign(AssignPatProp {
@@ -1162,9 +1159,10 @@ fn add_require(imports: Vec<(Ident, Ident)>, src: &str, unresolved_mark: Mark) -
             init: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: Callee::Expr(Box::new(Expr::Ident(Ident {
-                    span: DUMMY_SP.apply_mark(unresolved_mark),
+                    span: SyntaxContext::empty().apply_mark(unresolved_mark),
                     sym: "require".into(),
                     optional: false,
+                    ..Default::default()
                 }))),
                 args: vec![ExprOrSpread {
                     spread: None,
