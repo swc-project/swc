@@ -767,7 +767,9 @@ impl Swcify for OptionalMemberExpression {
                 span: ctx.span(&self.base),
                 obj: self.object.swcify(ctx),
                 prop: match (self.property, self.computed) {
-                    (OptionalMemberExprProp::Id(i), false) => MemberProp::Ident(i.swcify(ctx).id),
+                    (OptionalMemberExprProp::Id(i), false) => {
+                        MemberProp::Ident(i.swcify(ctx).into())
+                    }
                     (OptionalMemberExprProp::Expr(e), true) => {
                         let expr = e.swcify(ctx);
                         MemberProp::Computed(ComputedPropName {

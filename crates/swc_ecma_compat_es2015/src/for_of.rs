@@ -415,6 +415,7 @@ impl ForOf {
                                 callee: right
                                     .computed_member(member_expr!(
                                         Default::default(),
+                                        Default::default(),
                                         Symbol.iterator
                                     ))
                                     .as_callee(),
