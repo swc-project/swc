@@ -738,8 +738,11 @@ impl VisitMut for AssignFolder {
                                 Expr::Ident(Ident { sym, .. }) if &**sym == "arguments" => {
                                     Box::new(Expr::Call(CallExpr {
                                         span: DUMMY_SP,
-                                        callee: member_expr!(DUMMY_SP, Array.prototype.slice.call)
-                                            .as_callee(),
+                                        callee: member_expr!(
+                                            Default::default(),
+                                            Array.prototype.slice.call
+                                        )
+                                        .as_callee(),
                                         args: vec![right.take().as_arg()],
                                         type_args: Default::default(),
                                     }))

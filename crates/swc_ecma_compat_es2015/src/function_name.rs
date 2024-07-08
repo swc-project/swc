@@ -63,7 +63,7 @@ impl VisitMut for FnName {
 
         if let Some(ident) = expr.left.as_ident_mut() {
             let mut folder = Rename {
-                name: Some(ident.clone()),
+                name: Some(Ident::from(&*ident)),
             };
 
             expr.right.visit_mut_with(&mut folder);

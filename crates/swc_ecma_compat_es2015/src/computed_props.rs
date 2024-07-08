@@ -150,10 +150,7 @@ impl VisitMut for ComputedProps {
                             };
                             let (key, function) = match prop {
                                 Prop::Getter(GetterProp {
-                                    span,
-                                    body,
-                                    key,
-                                    type_ann,
+                                    span, body, key, ..
                                 }) => (
                                     key,
                                     Box::new(Function {
@@ -162,9 +159,7 @@ impl VisitMut for ComputedProps {
                                         is_async: false,
                                         is_generator: false,
                                         params: vec![],
-                                        decorators: Default::default(),
-                                        type_params: Default::default(),
-                                        return_type: type_ann,
+                                        ..Default::default()
                                     }),
                                 ),
                                 Prop::Setter(SetterProp {
