@@ -587,7 +587,7 @@ impl<'a> VisitMut for Resolver<'a> {
         i.type_ann.visit_mut_with(self);
 
         self.ident_type = ident_type;
-        i.id.visit_mut_with(self);
+        self.modify(&i.sym,&mut i.ctxt, self.decl_kind)
 
         self.in_type = in_type;
         self.ident_type = ident_type;
@@ -931,7 +931,7 @@ impl<'a> VisitMut for Resolver<'a> {
         }
 
         match self.ident_type {
-            IdentType::Binding => self.modify(i, self.decl_kind),
+            IdentType::Binding => self.modify(&i.sym, &mut i.ctxt, self.decl_kind),
             IdentType::Ref => {
                 let Ident {
                     span, sym, ctxt, ..
@@ -1724,7 +1724,7 @@ impl VisitMut for Hoister<'_, '_> {
             }
             DefaultDecl::Class(c) => {
                 if let Some(id) = &mut c.ident {
-                    self.resolver.modify(id, DeclKind::Lexical);
+                    self.resolver.modify(&id.sym,&mut id.ctxt, DeclKind::Lexical);
                 }
 
                 c.visit_mut_with(self)
