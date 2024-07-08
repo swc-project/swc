@@ -1,7 +1,7 @@
 use std::mem::take;
 
 use serde::Deserialize;
-use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
     helper,
@@ -325,7 +325,8 @@ impl ForOf {
             };
         }
 
-        let var_span = left.span().apply_mark(Mark::fresh(Mark::root()));
+        let var_span = left.span();
+        let var_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
 
         let mut body = match *body {
             Stmt::Block(block) => block,
@@ -336,7 +337,7 @@ impl ForOf {
             },
         };
 
-        let step = quote_ident!(var_span, "_step");
+        let step = quote_ident!(var_ctxt, var_span, "_step");
         let step_value = step.clone().make_member(quote_ident!("value"));
         body.stmts.insert(
             0,
@@ -368,29 +369,30 @@ impl ForOf {
             },
         );
 
-        let iterator = quote_ident!(var_span, "_iterator");
+        let iterator = quote_ident!(var_ctxt, var_span, "_iterator");
         // `_iterator.return`
         let iterator_return = iterator.clone().make_member(quote_ident!("return")).into();
 
-        let normal_completion_ident = Ident::new("_iteratorNormalCompletion".into(), var_span);
+        let normal_completion_ident =
+            Ident::new("_iteratorNormalCompletion".into(), var_span, var_ctxt);
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: normal_completion_ident.clone().into(),
             init: Some(true.into()),
             definite: false,
         });
-        let error_flag_ident = Ident::new("_didIteratorError".into(), var_span);
+        let error_flag_ident = Ident::new("_didIteratorError".into(), var_span, var_ctxt);
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: error_flag_ident.clone().into(),
             init: Some(false.into()),
             definite: false,
         });
-        let error_ident = Ident::new("_iteratorError".into(), var_span);
+        let error_ident = Ident::new("_iteratorError".into(), var_span, var_ctxt);
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: error_ident.clone().into(),
-            init: Some(Box::new(Expr::Ident(Ident::new(
+            init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
                 "undefined".into(),
                 DUMMY_SP,
             )))),
