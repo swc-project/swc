@@ -1,6 +1,6 @@
 use std::mem::take;
 
-use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{
     alias::{collect_infects_from, AccessKind, AliasConfig},
@@ -2256,7 +2256,7 @@ impl Optimizer<'_> {
                         // (console.log(a = 5))
 
                         let left_id = match left.as_ident() {
-                            Some(v) => v,
+                            Some(v) => v.id.clone(),
                             None => {
                                 log_abort!("sequences: Aborting because lhs is not an id");
                                 return Ok(false);
@@ -2294,7 +2294,7 @@ impl Optimizer<'_> {
                             return Ok(false);
                         }
 
-                        (left_id.clone(), Some(right))
+                        (left_id, Some(right))
                     }
                     _ => return Ok(false),
                 }
@@ -2302,7 +2302,7 @@ impl Optimizer<'_> {
 
             Mergable::Var(a) => {
                 let left = match &a.name {
-                    Pat::Ident(i) => Ident::from(i),
+                    Pat::Ident(i) => i.id.clone(),
                     _ => return Ok(false),
                 };
 

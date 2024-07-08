@@ -762,7 +762,8 @@ impl Pure<'_> {
                             );
                             *e = Expr::Ident(Ident::new(
                                 "NaN".into(),
-                                e.span().with_ctxt(SyntaxContext::empty()),
+                                e.span(),
+                                SyntaxContext::empty(),
                             ))
                         }
                     }
