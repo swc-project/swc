@@ -948,7 +948,7 @@ impl VisitMut for Generator {
 
         if let ForHead::VarDecl(initializer) = &mut node.left {
             for variable in &initializer.decls {
-                self.hoist_variable_declaration(variable.name.as_ident().unwrap());
+                self.hoist_variable_declaration(&Ident::from(variable.name.as_ident().unwrap()));
             }
 
             node.right.visit_mut_with(self);
