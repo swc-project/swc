@@ -2183,7 +2183,7 @@ pub fn default_constructor(has_super: bool) -> Constructor {
                         spread: Some(DUMMY_SP),
                         expr: Box::new(Expr::Ident(quote_ident!("args"))),
                     }],
-                    type_args: Default::default(),
+                    ..Default::default()
                 }
                 .into_stmt()]
             } else {

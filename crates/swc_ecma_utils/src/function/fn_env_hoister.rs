@@ -531,7 +531,7 @@ impl VisitMut for FnEnvHoister {
                             span: *span,
                             args: vec![c.expr.take().as_arg()],
                             callee: self.super_get_computed(*span).as_callee(),
-                            type_args: None,
+                            ..Default::default()
                         })
                     };
                 }
@@ -545,7 +545,7 @@ impl VisitMut for FnEnvHoister {
                             span: *span,
                             args: Vec::new(),
                             callee: self.super_get(&id.sym, *span).as_callee(),
-                            type_args: None,
+                            ..Default::default()
                         })
                     };
                 }
