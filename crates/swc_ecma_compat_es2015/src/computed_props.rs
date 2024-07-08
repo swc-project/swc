@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use swc_common::{Mark, Spanned, DUMMY_SP};
+use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{quote_ident, ExprFactory, StmtLike};
@@ -73,10 +73,11 @@ impl VisitMut for ComputedProps {
             }
 
             let mark = Mark::fresh(Mark::root());
-            let obj_ident = quote_ident!(span.apply_mark(mark), "_obj");
+            let obj_ident = quote_ident!(SyntaxContext::empty().apply_mark(mark), span, "_obj");
 
             let mut exprs = Vec::with_capacity(props.len() + 2);
-            let mutator_map = quote_ident!(span.apply_mark(mark), "_mutatorMap");
+            let mutator_map =
+                quote_ident!(SyntaxContext::empty().apply_mark(mark), span, "_mutatorMap");
 
             // Optimization
             let obj_props = {
