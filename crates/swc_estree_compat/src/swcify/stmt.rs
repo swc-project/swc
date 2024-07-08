@@ -37,6 +37,7 @@ impl Swcify for BlockStatement {
                 .into_iter()
                 .map(|v| v.expect_stmt())
                 .collect(),
+            ..Default::default()
         }
     }
 }
@@ -116,7 +117,7 @@ impl Swcify for ContinueStatement {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ContinueStmt {
             span: ctx.span(&self.base),
-            label: self.label.swcify(ctx).map(|v| v.id),
+            label: self.label.swcify(ctx).map(|v| v.into()),
         }
     }
 }
@@ -218,7 +219,7 @@ impl Swcify for FunctionDeclaration {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         FnDecl {
-            ident: self.id.swcify(ctx).map(|v| v.id).unwrap(),
+            ident: self.id.swcify(ctx).map(|v| v.into()).unwrap(),
             declare: false,
             function: swc_ecma_ast::Function {
                 params: self.params.swcify(ctx),
@@ -227,8 +228,7 @@ impl Swcify for FunctionDeclaration {
                 body: Some(self.body.swcify(ctx)),
                 is_generator: false,
                 is_async: self.is_async.unwrap_or_default(),
-                type_params: Default::default(),
-                return_type: Default::default(),
+                ..Default::default()
             }
             .into(),
         }
@@ -680,7 +680,7 @@ impl Swcify for swc_estree_ast::ModuleExportNameType {
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
             swc_estree_ast::ModuleExportNameType::Ident(ident) => {
-                swc_ecma_ast::ModuleExportName::Ident(ident.swcify(ctx).id)
+                swc_ecma_ast::ModuleExportName::Ident(ident.swcify(ctx).into())
             }
             swc_estree_ast::ModuleExportNameType::Str(s) => s.swcify(ctx).into(),
         }

@@ -364,7 +364,7 @@ impl Swcify for MemberExpression {
                 span: ctx.span(&self.base),
                 obj: s.swcify(ctx),
                 prop: match (*self.property, self.computed) {
-                    (MemberExprProp::Id(i), false) => SuperProp::Ident(i.swcify(ctx).id),
+                    (MemberExprProp::Id(i), false) => SuperProp::Ident(i.swcify(ctx).into()),
                     (MemberExprProp::Expr(e), true) => {
                         let expr = e.swcify(ctx);
                         SuperProp::Computed(ComputedPropName {
@@ -379,7 +379,7 @@ impl Swcify for MemberExpression {
                 span: ctx.span(&self.base),
                 obj: self.object.swcify(ctx),
                 prop: match (*self.property, self.computed) {
-                    (MemberExprProp::Id(i), false) => MemberProp::Ident(i.swcify(ctx).id),
+                    (MemberExprProp::Id(i), false) => MemberProp::Ident(i.swcify(ctx).into()),
                     (MemberExprProp::PrivateName(e), false) => {
                         MemberProp::PrivateName(e.swcify(ctx))
                     }
@@ -463,6 +463,7 @@ impl Swcify for ObjectMethod {
                 is_async: self.is_async.unwrap_or(false),
                 type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
                 return_type: self.return_type.swcify(ctx).flatten().map(Box::new),
+                ..Default::default()
             }),
         }
     }
