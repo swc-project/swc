@@ -414,9 +414,7 @@ pub trait StmtExt {
         }
 
         Some(VarDecl {
-            span: DUMMY_SP,
             kind: VarDeclKind::Var,
-            declare: false,
             decls: ids
                 .into_iter()
                 .map(|i| VarDeclarator {
@@ -426,6 +424,7 @@ pub trait StmtExt {
                     definite: false,
                 })
                 .collect(),
+            ..Default::default()
         })
     }
 

@@ -892,6 +892,7 @@ impl<'a, I: Tokens> Parser<I> {
                         kind,
                         declare: false,
                         decls: vec![],
+                        ..Default::default()
                     }));
                 }
                 Err(..) => {}
@@ -952,6 +953,7 @@ impl<'a, I: Tokens> Parser<I> {
             declare: false,
             kind,
             decls,
+            ..Default::default()
         }))
     }
 
@@ -1585,7 +1587,7 @@ mod tests {
                         name: Pat::Ident(Ident::new_no_ctxt("a".into(), span).into()),
                         definite: false,
                     }],
-                    declare: false,
+                    ..Default::default()
                 })),
                 right: Box::new(Expr::Ident(Ident::new_no_ctxt("b".into(), span))),
 
@@ -2082,7 +2084,8 @@ export default function waitUntil(callback, options = {}) {
                             span
                         )))),
                         definite: false
-                    }]
+                    }],
+                    ..Default::default()
                 }))
             ),
             _ => unreachable!(),
@@ -2095,7 +2098,6 @@ export default function waitUntil(callback, options = {}) {
                 v,
                 VarDeclOrExpr::VarDecl(Box::new(VarDecl {
                     span,
-                    declare: false,
                     kind: VarDeclKind::Let,
                     decls: vec![VarDeclarator {
                         span,
@@ -2114,7 +2116,8 @@ export default function waitUntil(callback, options = {}) {
                             span
                         )))),
                         definite: false
-                    }]
+                    }],
+                    ..Default::default()
                 }))
             ),
             _ => unreachable!(),

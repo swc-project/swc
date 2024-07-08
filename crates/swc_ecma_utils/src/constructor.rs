@@ -97,7 +97,7 @@ impl<'a> Fold for Injector<'a> {
                             init: None,
                             definite: false,
                         }],
-                        declare: false,
+                        ..Default::default()
                     })))
                 }));
                 buf.push(stmt);

@@ -125,10 +125,9 @@ pub trait ExprFactory: Into<Box<Expr>> {
         };
 
         VarDecl {
-            span: DUMMY_SP,
             kind,
-            declare: false,
             decls: vec![var_declarator],
+            ..Default::default()
         }
     }
 

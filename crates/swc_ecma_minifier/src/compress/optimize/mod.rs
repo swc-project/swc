@@ -2152,14 +2152,6 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_function(&mut self, n: &mut Function) {
         n.decorators.visit_mut_with(self);
 
-        let is_standalone = n.c.has_mark(self.marks.standalone);
-
-        // We don't dig into standalone function, as it does not share any variable with
-        // outer scope.
-        if self.ctx.skip_standalone && is_standalone {
-            return;
-        }
-
         let old_in_asm = self.ctx.in_asm;
 
         {
@@ -2593,7 +2585,8 @@ impl VisitMut for Optimizer<'_> {
 
             let span = s.span();
             *s = Stmt::Block(BlockStmt {
-                span: span.apply_mark(self.marks.fake_block),
+                span,
+                ctxt: SyntaxContext::empty().apply_mark(self.marks.fake_block),
                 stmts: self
                     .prepend_stmts
                     .take_stmts()

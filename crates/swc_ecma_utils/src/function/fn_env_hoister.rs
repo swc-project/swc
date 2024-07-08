@@ -124,10 +124,9 @@ impl FnEnvHoister {
             None
         } else {
             Some(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                span: DUMMY_SP,
                 kind: VarDeclKind::Var,
-                declare: false,
                 decls,
+                ..Default::default()
             }))))
         }
     }
@@ -182,10 +181,9 @@ impl FnEnvHoister {
         } else {
             (
                 Some(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                    span: DUMMY_SP,
                     kind: VarDeclKind::Var,
-                    declare: false,
                     decls,
+                    ..Default::default()
                 })))),
                 this,
             )
@@ -295,7 +293,6 @@ impl VisitMut for FnEnvHoister {
                 0,
                 Stmt::Decl(Decl::Var(Box::new(VarDecl {
                     kind: VarDeclKind::Var,
-                    span: DUMMY_SP,
                     decls: self
                         .extra_ident
                         .take()
@@ -307,7 +304,7 @@ impl VisitMut for FnEnvHoister {
                             definite: false,
                         })
                         .collect(),
-                    declare: false,
+                    ..Default::default()
                 }))),
             )
         }
@@ -323,7 +320,6 @@ impl VisitMut for FnEnvHoister {
                     stmts: vec![
                         Stmt::Decl(Decl::Var(Box::new(VarDecl {
                             kind: VarDeclKind::Var,
-                            span: DUMMY_SP,
                             decls: self
                                 .extra_ident
                                 .take()
@@ -335,7 +331,7 @@ impl VisitMut for FnEnvHoister {
                                     definite: false,
                                 })
                                 .collect(),
-                            declare: false,
+                            ..Default::default()
                         }))),
                         Stmt::Return(ReturnStmt {
                             span: e.span(),
