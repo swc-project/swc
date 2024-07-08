@@ -449,7 +449,7 @@ fn super_expr() {
                 prop: SuperProp::Ident(Ident {
                     span,
                     sym: "foo".into(),
-                    optional: false
+                    ..Default::default()
                 })
             }))),
             args: Vec::new(),
