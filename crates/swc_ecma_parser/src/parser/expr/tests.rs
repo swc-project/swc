@@ -95,7 +95,7 @@ fn async_call() {
             span,
             callee: Callee::Expr(expr("async")),
             args: vec![],
-            type_args: None,
+            ..Default::default()
         }))
     );
 }
@@ -198,7 +198,7 @@ fn lhs_expr_as_call() {
             span,
             callee: Callee::Expr(lhs("new Date.toString()")),
             args: vec![],
-            type_args: None,
+            ..Default::default()
         }))
     )
 }
@@ -445,8 +445,7 @@ fn super_expr() {
                     ..Default::default()
                 })
             }))),
-            args: Vec::new(),
-            type_args: Default::default(),
+            ..Default::default()
         }))
     );
 }

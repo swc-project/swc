@@ -70,8 +70,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
         CallExpr {
             span: DUMMY_SP,
             callee: self.as_callee(),
-            args: Default::default(),
-            type_args: Default::default(),
+            ..Default::default()
         }
     }
 
@@ -151,7 +150,8 @@ pub trait ExprFactory: Into<Box<Expr>> {
             span,
             callee: apply.as_callee(),
             args: iter::once(this.as_arg()).chain(args).collect(),
-            type_args: None,
+
+            ..Default::default()
         })
     }
 
@@ -163,7 +163,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
             callee: self
                 .make_member(Ident::new_no_ctxt("call".into(), span))
                 .as_callee(),
-            type_args: None,
+            ..Default::default()
         })
     }
 

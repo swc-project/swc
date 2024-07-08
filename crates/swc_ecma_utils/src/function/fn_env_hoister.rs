@@ -418,7 +418,7 @@ impl VisitMut for FnEnvHoister {
                                                     .super_get_computed(DUMMY_SP)
                                                     .as_callee(),
                                                 args: vec![tmp.as_arg()],
-                                                type_args: None,
+                                                ..Default::default()
                                             })),
                                             op,
                                             right: right.take(),
@@ -454,7 +454,7 @@ impl VisitMut for FnEnvHoister {
                                     })
                                     .as_arg()],
                                     callee: callee.as_callee(),
-                                    type_args: None,
+                                    ..Default::default()
                                 });
                             }
                         }
