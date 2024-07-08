@@ -1,5 +1,5 @@
 use is_macro::Is;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, DUMMY_SP};
 
 use crate::{
     class::Decorator,
@@ -10,7 +10,7 @@ use crate::{
 
 /// Common parts of function and method.
 #[ast_node]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Function {
     pub params: Vec<Param>,
@@ -43,14 +43,7 @@ pub struct Function {
 impl Take for Function {
     fn dummy() -> Self {
         Function {
-            params: Take::dummy(),
-            decorators: Take::dummy(),
-            span: DUMMY_SP,
-            body: Take::dummy(),
-            is_generator: false,
-            is_async: false,
-            type_params: Take::dummy(),
-            return_type: Take::dummy(),
+            ..Default::default()
         }
     }
 }

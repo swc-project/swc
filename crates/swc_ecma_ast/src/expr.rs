@@ -1001,7 +1001,7 @@ impl Take for SeqExpr {
 }
 
 #[ast_node("ArrowFunctionExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ArrowExpr {
     pub span: Span,
@@ -1029,13 +1029,7 @@ pub struct ArrowExpr {
 impl Take for ArrowExpr {
     fn dummy() -> Self {
         ArrowExpr {
-            span: DUMMY_SP,
-            params: Take::dummy(),
-            body: Take::dummy(),
-            is_async: false,
-            is_generator: false,
-            type_params: Take::dummy(),
-            return_type: Take::dummy(),
+            ..Default::default()
         }
     }
 }
@@ -1328,6 +1322,12 @@ pub enum BlockStmtOrExpr {
     BlockStmt(BlockStmt),
     #[tag("*")]
     Expr(Box<Expr>),
+}
+
+impl Default for BlockStmtOrExpr {
+    fn default() -> Self {
+        BlockStmtOrExpr::BlockStmt(Default::default())
+    }
 }
 
 impl<T> From<T> for BlockStmtOrExpr
