@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, Span, SyntaxContext};
+use swc_common::{collections::AHashSet, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::hygiene::rename;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
