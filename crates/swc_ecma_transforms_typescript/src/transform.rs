@@ -1146,8 +1146,8 @@ impl Transform {
                                 expr.make_assign_to(
                                     op!("="),
                                     member_expr!(
+                                        unresolved_ctxt,
                                         Default::default(),
-                                        unresolved_span,
                                         module.exports
                                     )
                                     .into(),
