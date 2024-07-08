@@ -72,7 +72,7 @@ impl<'a> arbitrary::Arbitrary<'a> for Span {
         let lo = u.arbitrary::<BytePos>()?;
         let hi = u.arbitrary::<BytePos>()?;
 
-        Ok(Self::new(lo, hi, Default::default()))
+        Ok(Self::new(lo, hi))
     }
 }
 
