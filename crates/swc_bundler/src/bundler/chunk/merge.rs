@@ -777,8 +777,7 @@ where
 
                         // TODO: Check if we really need this.
 
-                        let local =
-                            Ident::new("default".into(), DUMMY_SP.with_ctxt(info.local_ctxt()));
+                        let local = Ident::new("default".into(), DUMMY_SP, info.local_ctxt());
 
                         // Create `const local_default = expr`
                         new.push(
@@ -788,8 +787,7 @@ where
                                 .into_module_item(injected_ctxt, "prepare -> export default expr"),
                         );
 
-                        let exported =
-                            Ident::new("default".into(), DUMMY_SP.with_ctxt(info.export_ctxt()));
+                        let exported = Ident::new("default".into(), DUMMY_SP, info.export_ctxt());
 
                         new.push(
                             local

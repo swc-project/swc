@@ -139,11 +139,11 @@ fn wrap_module(
                         ModuleItem::Stmt(s) => s,
                     })
                     .collect(),
+                ..Default::default()
             }),
             is_generator: false,
             is_async: false,
-            type_params: None,
-            return_type: None,
+            ..Default::default()
         }),
     });
 
