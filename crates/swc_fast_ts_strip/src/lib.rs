@@ -476,10 +476,7 @@ impl Visit for TsStrip {
         if let Some(p) = n.first().filter(|param| {
             matches!(
                 &param.pat,
-                Pat::Ident(BindingIdent {
-                    sym,
-                    ..
-                }) if &**sym == "this"
+                Pat::Ident(id) if id.sym == "this"
             )
         }) {
             let mut span = p.span;

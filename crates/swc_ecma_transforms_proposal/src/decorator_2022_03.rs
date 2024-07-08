@@ -1622,7 +1622,7 @@ impl VisitMut for Decorator2022_03 {
         let decorators = self.preserve_side_effect_of_decorators(p.decorators.take());
         let dec = merge_decorators(decorators);
 
-        let init = private_ident!(format!("_init_{}", p.key.id.sym));
+        let init = private_ident!(format!("_init_{}", p.key.name));
 
         self.extra_vars.push(VarDeclarator {
             span: p.span,

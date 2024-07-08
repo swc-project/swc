@@ -846,21 +846,7 @@ where
     fn visit_function(&mut self, n: &Function) {
         n.decorators.visit_with(self);
 
-        let is_standalone = self
-            .marks
-            .map(|marks| n.ctxt.has_mark(marks.standalone))
-            .unwrap_or_default();
-
-        // We don't dig into standalone function, as it does not share any variable with
-        // outer scope.
-        if self.ctx.skip_standalone && is_standalone {
-            return;
-        }
-
-        let ctx = Ctx {
-            skip_standalone: self.ctx.skip_standalone || is_standalone,
-            ..self.ctx
-        };
+        let ctx = Ctx { ..self.ctx };
 
         self.with_ctx(ctx)
             .with_child(n.ctxt, ScopeKind::Fn, |child| {
@@ -965,7 +951,6 @@ where
 
     fn visit_module(&mut self, n: &Module) {
         let ctx = Ctx {
-            skip_standalone: true,
             is_top_level: true,
             ..self.ctx
         };
@@ -1077,7 +1062,6 @@ where
 
     fn visit_script(&mut self, n: &Script) {
         let ctx = Ctx {
-            skip_standalone: true,
             is_top_level: true,
             ..self.ctx
         };
