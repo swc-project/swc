@@ -1083,7 +1083,7 @@ impl Optimizer<'_> {
         e: &SimpleAssignTarget,
     ) -> bool {
         match e {
-            SimpleAssignTarget::Ident(e) => self.is_ident_skippable_for_seq(a, e),
+            SimpleAssignTarget::Ident(e) => self.is_ident_skippable_for_seq(a, &Ident::from(e)),
             SimpleAssignTarget::Member(e) => self.is_member_expr_skippable_for_seq(a, e),
             _ => false,
         }
