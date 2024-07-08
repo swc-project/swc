@@ -239,15 +239,15 @@ impl<I: Tokens> Parser<I> {
                             }));
                         }
 
-                        let maybe_as = self.parse_binding_ident()?.id;
+                        let maybe_as: Ident = self.parse_binding_ident()?.into();
                         if maybe_as.sym == "as" {
                             if is!(self, IdentName) {
                                 // `import { type as as as } from 'mod'`
                                 // `import { type as as foo } from 'mod'`
-                                let local = self.parse_binding_ident()?.id;
+                                let local: Ident = self.parse_binding_ident()?.into();
 
                                 if type_only {
-                                    self.emit_err(orig_name.span, SyntaxError::TS2206);
+                                    self.emit_err(*orig_name.span, SyntaxError::TS2206);
                                 }
 
                                 return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
@@ -287,7 +287,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 if eat!(self, "as") {
-                    let local = self.parse_binding_ident()?.into();
+                    let local: Ident = self.parse_binding_ident()?.into();
                     return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                         span: Span::new(start, local.span.hi()),
                         local,
@@ -314,7 +314,7 @@ impl<I: Tokens> Parser<I> {
             }
             ModuleExportName::Str(orig_str) => {
                 if eat!(self, "as") {
-                    let local = self.parse_binding_ident()?.into();
+                    let local: Ident = self.parse_binding_ident()?.into();
                     Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                         span: Span::new(start, local.span.hi()),
                         local,
@@ -745,7 +745,7 @@ impl<I: Tokens> Parser<I> {
                         // `export { type as }`
                         if !is!(self, IdentName) {
                             if type_only {
-                                self.emit_err(orig_ident.span, SyntaxError::TS2207);
+                                self.emit_err(*orig_ident.span, SyntaxError::TS2207);
                             }
 
                             return Ok(ExportNamedSpecifier {
@@ -764,7 +764,7 @@ impl<I: Tokens> Parser<I> {
                                 let exported = self.parse_ident_name()?;
 
                                 if type_only {
-                                    self.emit_err(orig_ident.span, SyntaxError::TS2207);
+                                    self.emit_err(*orig_ident.span, SyntaxError::TS2207);
                                 }
 
                                 return Ok(ExportNamedSpecifier {
@@ -795,7 +795,7 @@ impl<I: Tokens> Parser<I> {
                         // `export { type xx }`
                         // `export { type xx as yy }`
                         if type_only {
-                            self.emit_err(orig_ident.span, SyntaxError::TS2207);
+                            self.emit_err(*orig_ident.span, SyntaxError::TS2207);
                         }
 
                         is_type_only = true;

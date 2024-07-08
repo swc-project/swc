@@ -1064,7 +1064,7 @@ impl<I: Tokens> Parser<I> {
         match &*id.sym {
             "string" | "null" | "number" | "object" | "any" | "unknown" | "boolean" | "bigint"
             | "symbol" | "void" | "never" | "intrinsic" => {
-                self.emit_err(id.span, SyntaxError::TS2427);
+                self.emit_err(*id.span, SyntaxError::TS2427);
             }
             _ => {}
         }
@@ -1339,13 +1339,13 @@ impl<I: Tokens> Parser<I> {
         let type_ann_start = cur_pos!(self);
 
         if eat!(self, ',') {
-            self.emit_err(id.id.span, SyntaxError::TS1096);
+            self.emit_err(id.span, SyntaxError::TS1096);
         } else {
             expect!(self, ':');
         }
 
         let type_ann = self.parse_ts_type_ann(/* eat_colon */ false, type_ann_start)?;
-        id.id.span = span!(self, ident_start);
+        id.span.span = span!(self, ident_start);
         id.type_ann = Some(type_ann);
 
         expect!(self, ']');
