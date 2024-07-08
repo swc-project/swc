@@ -68,6 +68,7 @@ impl<'a> HookRegister<'a> {
                 })
                 .collect(),
             declare: false,
+            ..Default::default()
         }
         .into()
     }

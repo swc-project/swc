@@ -388,7 +388,7 @@ where
                 name: ident.into(),
                 definite: false,
             }],
-            declare: false,
+            ..Default::default()
         }
     }
 
@@ -612,6 +612,7 @@ where
                             }))),
                             definite: Default::default(),
                         }],
+                        ..Default::default()
                     }
                     .into(),
                 );
@@ -714,6 +715,7 @@ where
                             declare: false,
                             kind: VarDeclKind::Var,
                             decls: vars,
+                            ..Default::default()
                         }
                         .into(),
                     );
@@ -862,6 +864,7 @@ where
                         init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                         definite: false,
                     }],
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -1081,6 +1084,7 @@ where
                         kind: VarDeclKind::Var,
                         declare: false,
                         decls: vars,
+                        ..Default::default()
                     }
                     .into(),
                 );
@@ -1152,6 +1156,7 @@ where
                                     ),
                                     definite: false,
                                 }],
+                                ..Default::default()
                             }
                             .into(),
                         );

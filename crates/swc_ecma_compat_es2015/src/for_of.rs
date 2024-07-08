@@ -158,6 +158,7 @@ impl ForOf {
                                 init: Some(arr.computed_member(i).into()),
                                 definite: false,
                             }],
+                            ..Default::default()
                         }
                         .into(),
                     )
@@ -351,6 +352,7 @@ impl ForOf {
                             ..var.decls.pop().unwrap()
                         }],
                         declare: false,
+                        ..Default::default()
                     }
                     .into()
                 }
@@ -430,6 +432,7 @@ impl ForOf {
                             definite: false,
                         },
                     ],
+                    ..Default::default()
                 }
                 .into(),
             ),
@@ -639,6 +642,7 @@ impl ParExplode for ForOf {
                     kind: VarDeclKind::Var,
                     decls: take(&mut self.top_level_vars),
                     declare: false,
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -655,6 +659,7 @@ impl ParExplode for ForOf {
                     kind: VarDeclKind::Var,
                     decls: take(&mut self.top_level_vars),
                     declare: false,
+                    ..Default::default()
                 }
                 .into(),
             );

@@ -340,6 +340,7 @@ impl VisitMut for ConstructorFolder<'_> {
                                 init: Some(expr),
                                 definite: false,
                             }],
+                            ..Default::default()
                         })))
                     }
                     None => {

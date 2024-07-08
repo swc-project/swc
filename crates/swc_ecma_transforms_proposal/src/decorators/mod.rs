@@ -258,6 +258,7 @@ impl Fold for Decorators {
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls: take(&mut self.vars),
+                    ..Default::default()
                 }
                 .into(),
             )
