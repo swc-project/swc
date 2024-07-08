@@ -675,6 +675,7 @@ impl UnreachableHandler {
                         definite: false,
                     })
                     .collect(),
+                ..Default::default()
             }
             .into()
         }

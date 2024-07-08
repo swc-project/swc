@@ -138,8 +138,8 @@ where
                     *decl = VarDecl {
                         span,
                         kind: VarDeclKind::Let,
-                        declare: false,
                         decls: vec![var],
+                        ..Default::default()
                     }
                     .into();
                     return;

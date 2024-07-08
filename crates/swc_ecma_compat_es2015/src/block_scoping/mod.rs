@@ -281,13 +281,13 @@ impl BlockScoping {
                     VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
-                        declare: false,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
                             name: ret.clone().into(),
                             init: Some(Box::new(call.take())),
                             definite: false,
                         }],
+                        ..Default::default()
                     }
                     .into(),
                 ];

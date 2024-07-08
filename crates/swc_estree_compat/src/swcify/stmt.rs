@@ -365,6 +365,7 @@ impl Swcify for VariableDeclaration {
             },
             declare: self.declare.unwrap_or_default(),
             decls: self.declarations.swcify(ctx),
+            ..Default::default()
         }
     }
 }
