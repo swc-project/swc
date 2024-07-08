@@ -334,7 +334,7 @@ where
         {
             if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **right {
                 if let AssignTarget::Simple(SimpleAssignTarget::Ident(ident)) = left {
-                    c.ident = Some((**ident).clone().into_private())
+                    c.ident = Some(Ident::from(&*ident).into_private())
                 }
             }
         }
@@ -363,7 +363,8 @@ where
         let mut rhs = self.fold_class(Some(ident.clone()), class);
 
         let mut new_name = ident.clone();
-        new_name.span = new_name.span.apply_mark(Mark::new());
+        new_name.ctxt = new_name.ctxt.apply_mark(Mark::new());
+
         replace_ident(&mut rhs, ident.to_id(), &new_name);
 
         // let VarDecl take every comments except pure
@@ -498,6 +499,7 @@ where
         let body = BlockStmt {
             span: DUMMY_SP,
             stmts,
+            ..Default::default()
         };
 
         let call = CallExpr {
@@ -508,9 +510,7 @@ where
                 is_generator: false,
                 params,
                 body: Some(body),
-                decorators: Default::default(),
-                type_params: Default::default(),
-                return_type: Default::default(),
+                ..Default::default()
             }
             .as_callee(),
             args,
@@ -677,7 +677,7 @@ where
             };
 
             if super_class_ident.is_some() {
-                let this = quote_ident!(DUMMY_SP.apply_mark(this_mark), "_this");
+                let this = quote_ident!(SyntaxContext::empty().apply_mark(this_mark), "_this");
 
                 // We should fold body instead of constructor itself.
                 // Handle `super()`
@@ -766,6 +766,7 @@ where
                     body: Some(BlockStmt {
                         span: DUMMY_SP,
                         stmts: body,
+                        ..Default::default()
                     }),
                     ..constructor
                 }),
@@ -857,7 +858,7 @@ where
                     kind: VarDeclKind::Var,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: quote_ident!(DUMMY_SP.apply_mark(mark), "_this").into(),
+                        name: quote_ident!(SyntaxContext::empty().apply_mark(mark), "_this").into(),
                         init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                         definite: false,
                     }],
@@ -895,7 +896,7 @@ where
         /// { key: "prop" }
         fn mk_key_prop(key: PropName) -> Box<Prop> {
             Box::new(Prop::KeyValue(KeyValueProp {
-                key: PropName::Ident(quote_ident!(key.span(), "key")),
+                key: PropName::Ident(quote_ident!(Default::default(), key.span(), "key")),
                 value: match key {
                     PropName::Ident(i) => Box::new(Expr::Lit(Lit::Str(quote_str!(i.span, i.sym)))),
                     PropName::Str(s) => Box::new(Expr::from(s)),
