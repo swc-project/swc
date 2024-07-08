@@ -180,7 +180,7 @@ impl Take for Stmt {
 bridge_stmt_from!(Box<TryStmt>, TryStmt);
 
 #[ast_node("ExpressionStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ExprStmt {
     pub span: Span,
@@ -204,7 +204,7 @@ pub struct DebuggerStmt {
 }
 
 #[ast_node("WithStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct WithStmt {
     pub span: Span,
@@ -214,7 +214,7 @@ pub struct WithStmt {
 }
 
 #[ast_node("ReturnStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ReturnStmt {
     pub span: Span,
@@ -223,7 +223,7 @@ pub struct ReturnStmt {
 }
 
 #[ast_node("LabeledStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct LabeledStmt {
     pub span: Span,
@@ -232,7 +232,7 @@ pub struct LabeledStmt {
 }
 
 #[ast_node("BreakStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct BreakStmt {
     pub span: Span,
@@ -241,7 +241,7 @@ pub struct BreakStmt {
 }
 
 #[ast_node("ContinueStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ContinueStmt {
     pub span: Span,
@@ -250,7 +250,7 @@ pub struct ContinueStmt {
 }
 
 #[ast_node("IfStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct IfStmt {
     pub span: Span,
@@ -264,7 +264,7 @@ pub struct IfStmt {
 }
 
 #[ast_node("SwitchStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct SwitchStmt {
     pub span: Span,
@@ -273,7 +273,7 @@ pub struct SwitchStmt {
 }
 
 #[ast_node("ThrowStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ThrowStmt {
     pub span: Span,
@@ -282,7 +282,7 @@ pub struct ThrowStmt {
 }
 
 #[ast_node("TryStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TryStmt {
     pub span: Span,
@@ -297,7 +297,7 @@ pub struct TryStmt {
 }
 
 #[ast_node("WhileStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct WhileStmt {
     pub span: Span,
@@ -306,7 +306,7 @@ pub struct WhileStmt {
 }
 
 #[ast_node("DoWhileStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct DoWhileStmt {
     pub span: Span,
@@ -315,7 +315,7 @@ pub struct DoWhileStmt {
 }
 
 #[ast_node("ForStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ForStmt {
     pub span: Span,
@@ -333,7 +333,7 @@ pub struct ForStmt {
 }
 
 #[ast_node("ForInStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ForInStmt {
     pub span: Span,
