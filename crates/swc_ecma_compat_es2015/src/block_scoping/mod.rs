@@ -16,8 +16,7 @@ use swc_ecma_utils::{
     ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, Fold, Visit,
-    VisitMut, VisitMutWith, VisitWith,
+    as_folder, noop_visit_mut_type, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -100,17 +99,19 @@ impl BlockScoping {
     }
 
     fn mark_as_used(&mut self, i: Id) {
-        for (idx, scope) in self.scope.iter_mut().rev().enumerate() {
+        // Only consider the variable used in a non-ScopeKind::Loop, which means it is
+        // captured in a closure
+        for scope in self
+            .scope
+            .iter_mut()
+            .rev()
+            .skip_while(|scope| matches!(scope, ScopeKind::Loop { .. }))
+        {
             if let ScopeKind::Loop {
                 lexical_var, used, ..
             } = scope
             {
-                //
                 if lexical_var.contains(&i) {
-                    if idx == 0 {
-                        return;
-                    }
-
                     used.push(i);
                     return;
                 }
@@ -128,16 +129,6 @@ impl BlockScoping {
     fn handle_capture_of_vars(&mut self, body: &mut Box<Stmt>) {
         let body_stmt = &mut **body;
 
-        {
-            let mut v = FunctionFinder { found: false };
-            body_stmt.visit_with(&mut v);
-            if !v.found {
-                self.scope.pop();
-                return;
-            }
-        }
-
-        //
         if let Some(ScopeKind::Loop {
             args,
             used,
@@ -934,46 +925,4 @@ impl VisitMut for MutationHandler<'_> {
 
         n.arg = Some(Box::new(self.make_reassignment(val)))
     }
-}
-
-#[derive(Debug)]
-struct FunctionFinder {
-    found: bool,
-}
-
-impl Visit for FunctionFinder {
-    noop_visit_type!();
-
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
-        self.found = true;
-    }
-
-    /// Do not recurse into nested loop.
-    ///
-    /// https://github.com/swc-project/swc/issues/2622
-    fn visit_do_while_stmt(&mut self, _: &DoWhileStmt) {}
-
-    /// Do not recurse into nested loop.
-    ///
-    /// https://github.com/swc-project/swc/issues/2622
-    fn visit_for_in_stmt(&mut self, _: &ForInStmt) {}
-
-    /// Do not recurse into nested loop.
-    ///
-    /// https://github.com/swc-project/swc/issues/2622
-    fn visit_for_of_stmt(&mut self, _: &ForOfStmt) {}
-
-    /// Do not recurse into nested loop.
-    ///
-    /// https://github.com/swc-project/swc/issues/2622
-    fn visit_for_stmt(&mut self, _: &ForStmt) {}
-
-    fn visit_function(&mut self, _: &Function) {
-        self.found = true
-    }
-
-    /// Do not recurse into nested loop.
-    ///
-    /// https://github.com/swc-project/swc/issues/2622
-    fn visit_while_stmt(&mut self, _: &WhileStmt) {}
 }
