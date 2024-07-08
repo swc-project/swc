@@ -222,7 +222,7 @@ impl BlockScoping {
                                 Param {
                                     span: DUMMY_SP,
                                     decorators: Default::default(),
-                                    pat: Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(ctxt)).into(),
+                                    pat: Ident::new(i.0.clone(), DUMMY_SP, ctxt).into(),
                                 }
                             })
                             .collect(),
@@ -230,8 +230,7 @@ impl BlockScoping {
                         body: Some(body_stmt),
                         is_generator: flow_helper.has_yield,
                         is_async: flow_helper.has_await,
-                        type_params: None,
-                        return_type: None,
+                        ..Default::default()
                     }
                     .into(),
                 ),
