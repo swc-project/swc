@@ -311,11 +311,7 @@ impl Params {
                                         init: Some(Box::new(Expr::New(NewExpr {
                                             span,
                                             callee: Box::new(
-                                                quote_ident!(
-                                                    DUMMY_SP.with_ctxt(self.unresolved_ctxt),
-                                                    "Array"
-                                                )
-                                                .into(),
+                                                quote_ident!(self.unresolved_ctxt, "Array").into(),
                                             ),
                                             args: Some(vec![{
                                                 // `len` or  `len - $i`

@@ -208,6 +208,7 @@ impl VisitMut for NullishCoalescing {
                 *n = BlockStmtOrExpr::BlockStmt(BlockStmt {
                     span: DUMMY_SP,
                     stmts,
+                    ..Default::default()
                 });
             }
         }
