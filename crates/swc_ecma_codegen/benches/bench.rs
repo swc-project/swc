@@ -81,7 +81,7 @@ const LARGE_PARTIAL_JS: &str = include_str!("large-partial.js");
 
 fn bench_emitter(b: &mut Bencher, s: &str) {
     let _ = ::testing::run_test(true, |cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, s.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), s.into());
         let mut parser = Parser::new(Syntax::default(), StringInput::from(&*fm), None);
 
         let mut src_map_buf = vec![];

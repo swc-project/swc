@@ -1339,7 +1339,7 @@ impl<I: Tokens> Parser<I> {
         let type_ann_start = cur_pos!(self);
 
         if eat!(self, ',') {
-            self.emit_err(id.span, SyntaxError::TS1096);
+            self.emit_err(*id.span, SyntaxError::TS1096);
         } else {
             expect!(self, ':');
         }
