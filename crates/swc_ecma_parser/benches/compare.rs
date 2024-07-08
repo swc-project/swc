@@ -77,7 +77,7 @@ fn bench_cases(c: &mut Criterion) {
         struct RespanFold;
 
         impl Fold for RespanFold {
-            fn fold_span(&mut self, s: Span) -> Span {
+            fn fold_span(&mut self, _: Span) -> Span {
                 DUMMY_SP
             }
         }

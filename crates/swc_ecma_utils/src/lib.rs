@@ -633,9 +633,7 @@ pub trait ExprExt {
     /// Returns `true` if `id` references a global object.
     fn is_one_of_global_ref_to(&self, ctx: &ExprCtx, ids: &[&str]) -> bool {
         match self.as_expr() {
-            Expr::Ident(i) => {
-                i.ctxt == ctx.unresolved_ctxt && ids.iter().any(|id| i.sym == *id)
-            }
+            Expr::Ident(i) => i.ctxt == ctx.unresolved_ctxt && ids.iter().any(|id| i.sym == *id),
             _ => false,
         }
     }
@@ -890,9 +888,11 @@ pub trait ExprExt {
                 Lit::Str(Str { value, .. }) => return (Pure, num_from_str(value)),
                 _ => return (Pure, Unknown),
             },
-            Expr::Ident(Ident { sym, span, .. }) => match &**sym {
-                "undefined" | "NaN" if ctxt == ctx.unresolved_ctxt => f64::NAN,
-                "Infinity" if ctxt == ctx.unresolved_ctxt => f64::INFINITY,
+            Expr::Ident(Ident {
+                sym, span, ctxt, ..
+            }) => match &**sym {
+                "undefined" | "NaN" if *ctxt == ctx.unresolved_ctxt => f64::NAN,
+                "Infinity" if *ctxt == ctx.unresolved_ctxt => f64::INFINITY,
                 _ => return (Pure, Unknown),
             },
             Expr::Unary(UnaryExpr {
