@@ -524,6 +524,7 @@ impl VisitMut for Polyfills {
                             }
                             .as_arg()],
                             type_args: None,
+                            ..Default::default()
                         }
                         .into(),
                     })

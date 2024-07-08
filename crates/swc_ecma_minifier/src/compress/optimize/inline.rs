@@ -607,15 +607,11 @@ impl Optimizer<'_> {
             return;
         }
 
-        match decl {
-            Decl::Fn(f) => {
-                if self.has_noinline(f.function.ctxt) {
-                    log_abort!("inline: [x] Has noinline");
-                    return;
-                }
+        if let Decl::Fn(f) = decl {
+            if self.has_noinline(f.function.ctxt) {
+                log_abort!("inline: [x] Has noinline");
+                return;
             }
-
-            _ => {}
         }
 
         if self.ctx.is_exported {
