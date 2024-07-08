@@ -371,6 +371,7 @@ impl Optimizer<'_> {
                             cons: Box::new(Stmt::Block(BlockStmt {
                                 span: DUMMY_SP,
                                 stmts: case.cons,
+                                ..Default::default()
                             })),
                             alt: None,
                         })
@@ -384,6 +385,7 @@ impl Optimizer<'_> {
                         *s = Stmt::Block(BlockStmt {
                             span: sw.span,
                             stmts,
+                            ..Default::default()
                         })
                     }
                 }
@@ -415,12 +417,14 @@ impl Optimizer<'_> {
                             cons: Stmt::Block(BlockStmt {
                                 span: DUMMY_SP,
                                 stmts: case.cons.take(),
+                                ..Default::default()
                             })
                             .into(),
                             alt: Some(
                                 Stmt::Block(BlockStmt {
                                     span: DUMMY_SP,
                                     stmts: def.cons.take(),
+                                    ..Default::default()
                                 })
                                 .into(),
                             ),
@@ -447,6 +451,7 @@ impl Optimizer<'_> {
                             cons: Stmt::Block(BlockStmt {
                                 span: DUMMY_SP,
                                 stmts: first.cons.take(),
+                                ..Default::default()
                             })
                             .into(),
                             alt: None,
@@ -455,6 +460,7 @@ impl Optimizer<'_> {
                         *s = Stmt::Block(BlockStmt {
                             span: sw.span,
                             stmts,
+                            ..Default::default()
                         })
                     }
                 }
