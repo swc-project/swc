@@ -77,7 +77,7 @@ impl VisitMut for ClassStaticBlock {
         let mut private_names = AHashSet::default();
         for member in &class.body {
             if let ClassMember::PrivateProp(private_property) = member {
-                private_names.insert(private_property.key.id.sym.clone());
+                private_names.insert(private_property.key.name.clone());
             }
         }
 

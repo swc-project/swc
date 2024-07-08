@@ -516,17 +516,16 @@ where
                 )),
             }
             .into()],
+            ..Default::default()
         };
 
         let adapter_fn_expr = Function {
             params: vec![global.into(), factory.into()],
-            decorators: Default::default(),
             span: DUMMY_SP,
             body: Some(adapter_body),
             is_generator: false,
             is_async: false,
-            type_params: None,
-            return_type: None,
+            ..Default::default()
         }
         .into();
 
