@@ -317,7 +317,7 @@ where
                 // require("mod");
                 let import_expr =
                     self.resolver
-                        .make_require_call(self.unresolved_mark, src, src_span);
+                        .make_require_call(self.unresolved_mark, src, src_span.0);
 
                 // _export_star(require("mod"), exports);
                 let import_expr = if link_flag.export_star() {
