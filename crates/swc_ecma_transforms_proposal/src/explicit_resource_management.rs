@@ -398,6 +398,7 @@ impl VisitMut for ExplicitResourceManagement {
             n.body = Box::new(Stmt::Block(BlockStmt {
                 span: DUMMY_SP,
                 stmts: body,
+                ..Default::default()
             }))
         }
     }

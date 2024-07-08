@@ -171,7 +171,7 @@ impl<'a> Tester<'a> {
     ) -> Result<Module, ()> {
         let fm = self
             .cm
-            .new_source_file(FileName::Real(name.into()), src.into());
+            .new_source_file(FileName::Real(name.into()).into(), src.into());
 
         let module = {
             let mut p = Parser::new_from(Lexer::new(

@@ -1093,7 +1093,8 @@ impl Fold for SystemJs {
         Module {
             body: vec![CallExpr {
                 span: DUMMY_SP,
-                callee: member_expr!(Default::default(), System.register).as_callee(),
+                callee: member_expr!(Default::default(), Default::default(), System.register)
+                    .as_callee(),
                 args: vec![
                     dep_module_names.as_arg(),
                     FnExpr {
