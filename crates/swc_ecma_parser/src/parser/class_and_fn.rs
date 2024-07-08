@@ -327,7 +327,7 @@ impl<I: Tokens> Parser<I> {
             span: span!(self, expr.span_lo()),
             callee: Callee::Expr(expr),
             args,
-            type_args: None,
+            ..Default::default()
         })))
     }
 
@@ -1798,8 +1798,7 @@ mod tests {
                         super_class: Some(expr("a")),
                         implements: vec![],
                         is_abstract: false,
-                        super_type_params: None,
-                        type_params: None,
+                        ..Default::default()
                     }),
                 })),
             }))

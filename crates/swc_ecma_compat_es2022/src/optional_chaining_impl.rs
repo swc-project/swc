@@ -133,7 +133,7 @@ impl VisitMut for OptionalChaining {
                 })
                 .as_callee(),
                 args: vec![],
-                type_args: Default::default(),
+                ..Default::default()
             }));
         }
 

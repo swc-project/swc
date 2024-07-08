@@ -1658,11 +1658,9 @@ mod tests {
                         }
                     ],
                     super_class: None,
-                    implements: vec![],
                     body: vec![],
                     is_abstract: false,
-                    super_type_params: None,
-                    type_params: None,
+                    ..Default::default()
                 }),
                 declare: false,
             }))
@@ -2273,7 +2271,8 @@ export default function waitUntil(callback, options = {}) {
                             stmts: vec!(stmt("1 + 1;")),
                             ..Default::default()
                         }
-                    }))
+                    })),
+                    ..Default::default()
                 })
             }))
         );
@@ -2294,10 +2293,7 @@ export default function waitUntil(callback, options = {}) {
                     span,
                     decorators: Vec::new(),
                     super_class: None,
-                    type_params: None,
-                    super_type_params: None,
                     is_abstract: false,
-                    implements: Vec::new(),
                     body: vec!(
                         ClassMember::StaticBlock(StaticBlock {
                             span,
@@ -2315,7 +2311,8 @@ export default function waitUntil(callback, options = {}) {
                                 ..Default::default()
                             },
                         })
-                    )
+                    ),
+                    ..Default::default()
                 })
             }))
         );

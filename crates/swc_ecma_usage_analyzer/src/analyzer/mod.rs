@@ -378,7 +378,7 @@ where
         let inline_prevented = self.ctx.inline_prevented
             || self
                 .marks
-                .map(|marks| n.span.has_mark(marks.noinline))
+                .map(|marks| n.ctxt.has_mark(marks.noinline))
                 .unwrap_or_default();
 
         {
