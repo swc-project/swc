@@ -669,10 +669,7 @@ impl Decorator2022_03 {
                 decorators: Vec::new(),
                 body: c.class.body.take(),
                 super_class: Some(Box::new(helper_expr!(identity))),
-                is_abstract: Default::default(),
-                type_params: Default::default(),
-                super_type_params: Default::default(),
-                implements: Default::default(),
+                ..Default::default()
             });
 
             self.state = old_state;
@@ -681,7 +678,7 @@ impl Decorator2022_03 {
                 span: DUMMY_SP,
                 callee: ClassExpr { ident: None, class }.into(),
                 args: Some(vec![]),
-                type_args: Default::default(),
+                ..Default::default()
             }
             .into_stmt();
         }
@@ -877,7 +874,7 @@ impl VisitMut for Decorator2022_03 {
                             }
                             .as_arg(),
                         ),
-                        Some(p.key.id.sym.clone().as_arg()),
+                        Some(p.key.name.clone().as_arg()),
                         Some(caller.as_arg()),
                     ],
                 }
@@ -1679,6 +1676,7 @@ impl VisitMut for Decorator2022_03 {
                             right: Box::new(Expr::Ident(settter_arg.clone())),
                         })),
                     })],
+                    ..Default::default()
                 }),
                 is_async: false,
                 is_generator: false,
@@ -1688,8 +1686,7 @@ impl VisitMut for Decorator2022_03 {
                     decorators: Default::default(),
                     pat: Pat::Ident(settter_arg.into()),
                 }],
-                type_params: Default::default(),
-                return_type: Default::default(),
+                ..Default::default()
             });
 
             ArrayLit {
@@ -1697,7 +1694,7 @@ impl VisitMut for Decorator2022_03 {
                 elems: vec![
                     dec,
                     Some(if p.is_static { 5.as_arg() } else { 0.as_arg() }),
-                    Some((&*p.key.id.sym).as_arg()),
+                    Some((&*p.key.name).as_arg()),
                     Some(
                         FnExpr {
                             ident: None,
