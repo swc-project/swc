@@ -4,7 +4,7 @@ use std::{
     borrow::Cow,
     cmp, fmt,
     hash::{Hash, Hasher},
-    ops::{Add, Deref, DerefMut, Sub},
+    ops::{Add, Sub},
     path::PathBuf,
     sync::atomic::AtomicU32,
 };
@@ -16,7 +16,7 @@ use url::Url;
 
 use self::hygiene::MarkData;
 pub use self::hygiene::{Mark, SyntaxContext};
-use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lrc, Spanned};
+use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lrc};
 
 mod analyze_source_file;
 pub mod hygiene;
@@ -73,156 +73,6 @@ impl<'a> arbitrary::Arbitrary<'a> for Span {
         let hi = u.arbitrary::<BytePos>()?;
 
         Ok(Self::new(lo, hi, Default::default()))
-    }
-}
-
-/// [Span] with [SyntaxContext].
-#[derive(Clone, Copy, Hash, PartialEq, Eq, Ord, PartialOrd, Serialize, Deserialize)]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
-pub struct SpanWithCtx {
-    #[cfg_attr(feature = "__rkyv", omit_bounds)]
-    pub pos: Span,
-    /// Information about where the macro came from, if this piece of
-    /// code was created by a macro expansion.
-    #[cfg_attr(feature = "__rkyv", omit_bounds)]
-    pub ctxt: SyntaxContext,
-}
-
-impl Spanned for SpanWithCtx {
-    fn span(&self) -> Span {
-        self.pos
-    }
-}
-
-impl Deref for SpanWithCtx {
-    type Target = Span;
-
-    #[inline]
-    fn deref(&self) -> &Self::Target {
-        &self.pos
-    }
-}
-
-impl DerefMut for SpanWithCtx {
-    #[inline]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.pos
-    }
-}
-
-impl std::fmt::Debug for SpanWithCtx {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:?}{:?}", self.pos, self.ctxt)
-    }
-}
-
-impl SpanWithCtx {
-    pub fn new(lo: BytePos, hi: BytePos, ctxt: SyntaxContext) -> Self {
-        Self {
-            pos: Span::new(lo, hi),
-            ctxt,
-        }
-    }
-
-    pub const fn ctxt(self) -> SyntaxContext {
-        self.ctxt
-    }
-
-    pub const fn with_ctxt(&self, ctxt: SyntaxContext) -> Self {
-        Self {
-            pos: self.pos,
-            ctxt,
-        }
-    }
-
-    #[inline]
-    pub fn lo(self) -> BytePos {
-        self.lo
-    }
-
-    #[inline]
-    pub fn with_lo(&self, lo: BytePos) -> Self {
-        Self::new(lo, self.hi, self.ctxt)
-    }
-
-    #[inline]
-    pub fn hi(self) -> BytePos {
-        self.hi
-    }
-
-    #[inline]
-    pub fn with_hi(&self, hi: BytePos) -> Self {
-        Self::new(self.lo, hi, self.ctxt)
-    }
-
-    #[inline]
-    pub fn apply_mark(self, mark: Mark) -> Self {
-        let span = self;
-        span.with_ctxt(span.ctxt.apply_mark(mark))
-    }
-
-    #[inline]
-    pub fn remove_mark(&mut self) -> Mark {
-        let mut span = *self;
-        let mark = span.ctxt.remove_mark();
-        *self = Self::new(span.lo, span.hi, span.ctxt);
-        mark
-    }
-
-    #[inline]
-    pub fn private(self) -> Self {
-        self.apply_mark(Mark::new())
-    }
-
-    #[inline]
-    pub fn adjust(&mut self, expansion: Mark) -> Option<Mark> {
-        let mut span = *self;
-        let mark = span.ctxt.adjust(expansion);
-        *self = Self::new(span.lo, span.hi, span.ctxt);
-        mark
-    }
-
-    #[inline]
-    pub fn glob_adjust(
-        &mut self,
-        expansion: Mark,
-        glob_ctxt: SyntaxContext,
-    ) -> Option<Option<Mark>> {
-        let mut span = *self;
-        let mark = span.ctxt.glob_adjust(expansion, glob_ctxt);
-        *self = Self::new(span.lo, span.hi, span.ctxt);
-        mark
-    }
-
-    #[inline]
-    pub fn reverse_glob_adjust(
-        &mut self,
-        expansion: Mark,
-        glob_ctxt: SyntaxContext,
-    ) -> Option<Option<Mark>> {
-        let mut span = *self;
-        let mark = span.ctxt.reverse_glob_adjust(expansion, glob_ctxt);
-        *self = Self::new(span.lo, span.hi, span.ctxt);
-        mark
-    }
-
-    /// Returns `true` if `self` is marked with `mark`.
-    ///
-    /// Panics if `mark` is not a valid mark.
-    #[inline]
-    pub fn has_mark(self, mark: Mark) -> bool {
-        debug_assert_ne!(
-            mark,
-            Mark::root(),
-            "Cannot check if a span contains a `ROOT` mark"
-        );
-
-        self.ctxt.has_mark(mark)
     }
 }
 
@@ -514,14 +364,6 @@ extern "C" {
 }
 
 impl Span {
-    pub fn with_ctxt(self, ctxt: SyntaxContext) -> SpanWithCtx {
-        SpanWithCtx { pos: self, ctxt }
-    }
-
-    pub fn with_empty_ctxt(self) -> SpanWithCtx {
-        self.with_ctxt(SyntaxContext::empty())
-    }
-
     #[inline]
     pub fn lo(self) -> BytePos {
         self.lo
