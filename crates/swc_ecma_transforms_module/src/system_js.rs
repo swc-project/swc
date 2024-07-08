@@ -143,14 +143,11 @@ impl SystemJs {
                             for (k, v) in self.export_map.iter() {
                                 if to == *k {
                                     for _ in v.iter() {
-                                        exprs.push(Box::new(Expr::Call(
-                                            self.export_call(
-                                                to.0.clone(),
-                                                DUMMY_SP,
-                                                Ident::new(to.0.clone(), DUMMY_SP.with_ctxt(to.1))
-                                                    .into(),
-                                            ),
-                                        )));
+                                        exprs.push(Box::new(Expr::Call(self.export_call(
+                                            to.0.clone(),
+                                            DUMMY_SP,
+                                            Ident::new(to.0.clone(), DUMMY_SP, to.1).into(),
+                                        ))));
                                     }
                                     break;
                                 }
@@ -400,7 +397,7 @@ impl SystemJs {
                     }
                 }
                 self.declare_var_idents
-                    .push(Ident::new(sym, DUMMY_SP.with_ctxt(ctxt)));
+                    .push(Ident::new(sym, DUMMY_SP, ctxt));
             }
 
             if let Some(init) = var_declarator.init {
@@ -441,7 +438,7 @@ impl SystemJs {
                         }
                     }
                     self.declare_var_idents
-                        .push(Ident::new(to.0, DUMMY_SP.with_ctxt(to.1)));
+                        .push(Ident::new(to.0, DUMMY_SP, to.1));
                 }
 
                 ForHead::Pat(var_declarator.name.into())
@@ -851,8 +848,7 @@ impl Fold for SystemJs {
                                     let mut tos: Vec<Id> = vec![];
                                     var_declarator.visit_with(&mut VarCollector { to: &mut tos });
                                     for to in tos {
-                                        let ident =
-                                            Ident::new(to.0.clone(), DUMMY_SP.with_ctxt(to.1));
+                                        let ident = Ident::new(to.0.clone(), DUMMY_SP, to.1);
                                         self.add_export_name(to, ident.sym.clone());
                                     }
                                     decl.decls.push(var_declarator);
@@ -1057,10 +1053,7 @@ impl Fold for SystemJs {
                         .iter()
                         .map(|i| VarDeclarator {
                             span: i.span,
-                            name: Pat::Ident(BindingIdent {
-                                id: i.clone(),
-                                type_ann: None,
-                            }),
+                            name: Pat::Ident(i.clone().into()),
                             init: None,
                             definite: false,
                         })

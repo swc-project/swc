@@ -1,4 +1,8 @@
-use std::{iter, mem, vec};
+use std::{
+    iter,
+    mem::{self, take},
+    vec,
+};
 
 use swc_atoms::JsWord;
 use swc_common::{
@@ -1182,8 +1186,8 @@ impl VisitMut for ExportedPatRewriter {
     }
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
-        if let Pat::Ident(BindingIdent { id, .. }) = n {
-            *n = Pat::Expr(self.id.clone().make_member(id.take()).into());
+        if let Pat::Ident(bid) = n {
+            *n = Pat::Expr(self.id.clone().make_member(take(bid).into()).into());
             return;
         }
 
