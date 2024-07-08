@@ -302,7 +302,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
 
                 let obj = left.obj.clone();
 
-                let (mark, kind, class_name) = self.private.get(&n.id);
+                let (mark, kind, class_name) = self.private.get(n.span, &n.name);
                 if mark == Mark::root() {
                     return;
                 }
@@ -516,10 +516,10 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
             }) = e
             {
                 obj.visit_mut_children_with(self);
-                let (mark, _, _) = self.private.get(&n.id);
+                let (mark, _, _) = self.private.get(n.span, &n.name);
                 let ident = Ident::new(
-                    format!("_{}", n.id.sym).into(),
-                    n.id.span,
+                    format!("_{}", n.name).into(),
+                    n.span,
                     SyntaxContext::empty().apply_mark(mark),
                 );
 
@@ -598,7 +598,7 @@ impl<'a> PrivateAccessVisitor<'a> {
 
         let mut obj = e.obj.take();
 
-        let (mark, kind, class_name) = self.private.get(&n.id);
+        let (mark, kind, class_name) = self.private.get(n.span, &n.name);
         if mark == Mark::root() {
             return (Expr::dummy(), None);
         }
