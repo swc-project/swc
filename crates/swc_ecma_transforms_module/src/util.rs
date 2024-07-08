@@ -168,7 +168,7 @@ pub(super) fn object_define_property(
     prop_name: ExprOrSpread,
     descriptor: ExprOrSpread,
 ) -> Expr {
-    member_expr!(DUMMY_SP, Object.defineProperty)
+    member_expr!(Default::default(), DUMMY_SP, Object.defineProperty)
         .as_call(DUMMY_SP, vec![target, prop_name, descriptor])
 }
 

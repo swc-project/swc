@@ -1179,7 +1179,7 @@ impl VisitMut for Decorator2022_03 {
                                                         args: vec![
                                                             ThisExpr { span: DUMMY_SP }.as_arg()
                                                         ],
-                                                        type_args: Default::default(),
+                                                        ..Default::default()
                                                     }))),
                                                 })],
                                                 ..Default::default()
@@ -1213,7 +1213,7 @@ impl VisitMut for Decorator2022_03 {
                                                             ThisExpr { span: DUMMY_SP }.as_arg(),
                                                             param.as_arg(),
                                                         ],
-                                                        type_args: Default::default(),
+                                                        ..Default::default()
                                                     })),
                                                 })],
                                                 ..Default::default()
@@ -1655,13 +1655,11 @@ impl VisitMut for Decorator2022_03 {
                         span: DUMMY_SP,
                         arg: Some(access_expr.clone().into()),
                     })],
+                    ..Default::default()
                 }),
                 is_async: false,
                 is_generator: false,
-                decorators: Default::default(),
-                params: Default::default(),
-                type_params: Default::default(),
-                return_type: Default::default(),
+                ..Default::default()
             });
             let settter_arg = private_ident!("value");
             let setter = Box::new(Function {

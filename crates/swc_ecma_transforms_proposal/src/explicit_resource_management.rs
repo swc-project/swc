@@ -68,7 +68,7 @@ impl ExplicitResourceManagement {
                     callee: helper!(using_ctx),
                     span: DUMMY_SP,
                     args: Default::default(),
-                    type_args: Default::default(),
+                    ..Default::default()
                 }
                 .into(),
             ),
@@ -331,7 +331,7 @@ impl ExplicitResourceManagement {
                 .make_member(quote_ident!("d"))
                 .as_callee(),
             args: vec![],
-            type_args: Default::default(),
+            ..Default::default()
         };
         let dispose_stmt = if state.has_await {
             Expr::Await(AwaitExpr {
@@ -439,7 +439,7 @@ impl VisitMut for ExplicitResourceManagement {
                                 })
                                 .as_callee(),
                             args: vec![d.init.unwrap().as_arg()],
-                            type_args: Default::default(),
+                            ..Default::default()
                         };
 
                         VarDeclarator {
