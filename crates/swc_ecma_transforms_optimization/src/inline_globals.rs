@@ -100,11 +100,11 @@ impl VisitMut for InlineGlobals {
             }) => {
                 if let Expr::Ident(Ident {
                     ref sym,
-                    span: arg_span,
+                    ctxt: arg_ctxt,
                     ..
                 }) = &**arg
                 {
-                    if self.bindings.contains(&(sym.clone(), arg_ctxt)) {
+                    if self.bindings.contains(&(sym.clone(), *arg_ctxt)) {
                         return;
                     }
 

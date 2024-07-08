@@ -202,7 +202,7 @@ impl Decorator2022_03 {
                 span: DUMMY_SP,
                 callee: helper!(apply_decs_2203_r),
                 args: combined_args,
-                type_args: Default::default(),
+                ..Default::default()
             })),
         }));
 
@@ -417,7 +417,7 @@ impl Decorator2022_03 {
                 span: DUMMY_SP,
                 callee: init_class.as_callee(),
                 args: vec![],
-                type_args: Default::default(),
+                ..Default::default()
             }
             .into_stmt();
 
@@ -515,7 +515,7 @@ impl Decorator2022_03 {
                                             }
                                             .as_callee(),
                                             args: vec![],
-                                            type_args: Default::default(),
+                                            ..Default::default()
                                         })),
                                         value.take(),
                                     ],

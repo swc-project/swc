@@ -124,7 +124,7 @@ impl VisitMut for ConstPropagation<'_> {
                             }
 
                             Expr::Ident(init)
-                                if name.id.span.is_dummy()
+                                if name.span.is_dummy()
                                     || var.span.is_dummy()
                                     || init.span.is_dummy() =>
                             {
