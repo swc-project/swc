@@ -67,9 +67,9 @@ fn file_with_opt(filename: &str, options: Options) -> Result<NormalizedOutput, S
 fn str_with_opt(content: &str, options: Options) -> Result<NormalizedOutput, StdErr> {
     compile_str(
         if options.filename.is_empty() {
-            FileName::Anon
+            FileName::Anon.into()
         } else {
-            FileName::Real(PathBuf::from(&options.filename))
+            FileName::Real(PathBuf::from(&options.filename)).into()
         },
         content,
         options,
@@ -78,7 +78,7 @@ fn str_with_opt(content: &str, options: Options) -> Result<NormalizedOutput, Std
 }
 
 fn compile_str(
-    filename: FileName,
+    filename: Lrc<FileName>,
     content: &str,
     options: Options,
 ) -> Result<TransformOutput, StdErr> {
@@ -695,7 +695,7 @@ fn should_visit() {
             let c = Compiler::new(cm.clone());
 
             let fm = cm.new_source_file(
-                FileName::Anon,
+                FileName::Anon.into(),
                 "
                     import React from 'react';
                     const comp = () => <amp-something className='something' />;
