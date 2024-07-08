@@ -104,7 +104,7 @@ impl VisitMut for InfoMarker<'_> {
                 _ => false,
             }
         {
-            n.span = n.span.apply_mark(self.marks.noinline);
+            n.ctxt = n.ctxt.apply_mark(self.marks.noinline);
         }
 
         // We check callee in some cases because we move comments
@@ -115,14 +115,14 @@ impl VisitMut for InfoMarker<'_> {
         } || has_pure(self.comments, n.span)
         {
             if !n.span.is_dummy_ignoring_cmt() {
-                n.span = n.span.apply_mark(self.marks.pure);
+                n.ctxt = n.ctxt.apply_mark(self.marks.pure);
             }
         } else if let Some(pure_fns) = &self.pure_funcs {
             if let Callee::Expr(e) = &n.callee {
                 // Check for pure_funcs
                 Ident::within_ignored_ctxt(|| {
                     if pure_fns.contains(&NodeIgnoringSpan::borrowed(e)) {
-                        n.span = n.span.apply_mark(self.marks.pure);
+                        n.ctxt = n.ctxt.apply_mark(self.marks.pure);
                     };
                 })
             }
@@ -205,7 +205,7 @@ impl VisitMut for InfoMarker<'_> {
 
         if has_pure(self.comments, n.span) || self.is_pure_callee(&n.tag) {
             if !n.span.is_dummy_ignoring_cmt() {
-                n.span = n.span.apply_mark(self.marks.pure);
+                n.ctxt = n.ctxt.apply_mark(self.marks.pure);
             }
         }
     }
@@ -214,7 +214,7 @@ impl VisitMut for InfoMarker<'_> {
         n.visit_mut_children_with(self);
 
         if has_const_ann(self.comments, n.span) {
-            n.span = n.span.apply_mark(self.marks.const_ann);
+            n.ctxt = n.ctxt.apply_mark(self.marks.const_ann);
         }
     }
 }
