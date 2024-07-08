@@ -65,7 +65,7 @@ impl Visit for ConstAssign {
     }
 
     fn visit_binding_ident(&mut self, n: &BindingIdent) {
-        self.check(&n.id);
+        self.check(&Ident::from(n));
     }
 
     fn visit_update_expr(&mut self, n: &UpdateExpr) {
@@ -140,7 +140,7 @@ impl Visit for Collector<'_> {
 
         if let Some(VarDeclKind::Const) = self.var_decl_kind {
             if let Pat::Ident(i) = p {
-                *self.const_vars.entry(i.to_id()).or_default() = i.id.span;
+                *self.const_vars.entry(i.to_id()).or_default() = i.span;
             }
         }
     }

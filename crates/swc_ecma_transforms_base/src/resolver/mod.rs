@@ -356,7 +356,7 @@ impl<'a> Resolver<'a> {
         let mark = self.current.mark;
 
         if mark != Mark::root() {
-            ident.span = ident.span.apply_mark(mark);
+            ident.ctxt = ident.ctxt.apply_mark(mark);
         }
     }
 

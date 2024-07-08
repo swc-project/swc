@@ -4,7 +4,7 @@ use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     errors::HANDLER,
-    Span,
+    Span, SyntaxContext,
 };
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -18,6 +18,7 @@ pub fn duplicate_bindings() -> Box<dyn Rule> {
 #[derive(Debug, Default, Clone, Copy)]
 struct BindingInfo {
     span: Span,
+    ctxt: SyntaxContext,
     unique: bool,
     is_function: bool,
 }
@@ -129,6 +130,7 @@ impl Visit for DuplicateBindings {
                 p.key.sym.clone(),
                 BindingInfo {
                     span: p.key.span,
+                    ctxt: p.key.ctxt,
                     unique: self.is_unique_var_kind(),
                     is_function: false,
                 },
