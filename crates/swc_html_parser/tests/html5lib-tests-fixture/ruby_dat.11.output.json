@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 44,
-    "ctxt": 0
+    "end": 44
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 44,
-        "ctxt": 0
+        "end": 44
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 7,
-                "end": 37,
-                "ctxt": 0
+                "end": 37
               },
               "tagName": "ruby",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -58,8 +53,7 @@
                   "type": "Text",
                   "span": {
                     "start": 13,
-                    "end": 14,
-                    "ctxt": 0
+                    "end": 14
                   },
                   "data": "a",
                   "raw": "a"
@@ -68,8 +62,7 @@
                   "type": "Element",
                   "span": {
                     "start": 14,
-                    "end": 30,
-                    "ctxt": 0
+                    "end": 30
                   },
                   "tagName": "rtc",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -79,8 +72,7 @@
                       "type": "Text",
                       "span": {
                         "start": 19,
-                        "end": 20,
-                        "ctxt": 0
+                        "end": 20
                       },
                       "data": "b",
                       "raw": "b"
@@ -89,8 +81,7 @@
                       "type": "Element",
                       "span": {
                         "start": 20,
-                        "end": 25,
-                        "ctxt": 0
+                        "end": 25
                       },
                       "tagName": "rt",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -100,8 +91,7 @@
                           "type": "Text",
                           "span": {
                             "start": 24,
-                            "end": 25,
-                            "ctxt": 0
+                            "end": 25
                           },
                           "data": "c",
                           "raw": "c"
@@ -114,8 +104,7 @@
                       "type": "Element",
                       "span": {
                         "start": 25,
-                        "end": 30,
-                        "ctxt": 0
+                        "end": 30
                       },
                       "tagName": "rt",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -125,8 +114,7 @@
                           "type": "Text",
                           "span": {
                             "start": 29,
-                            "end": 30,
-                            "ctxt": 0
+                            "end": 30
                           },
                           "data": "d",
                           "raw": "d"
