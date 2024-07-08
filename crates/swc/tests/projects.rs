@@ -896,7 +896,7 @@ fn issue_1984() {
     testing::run_test2(false, |cm, handler| {
         let c = Compiler::new(cm);
         let fm = c.cm.new_source_file(
-            FileName::Anon,
+            FileName::Anon.into(),
             "
             function Set() {}
             function useSelection(selectionType, derivedHalfSelectedKeys) {
@@ -919,7 +919,7 @@ fn issue_1984() {
 #[test]
 fn opt_source_file_name_1() {
     let map = compile_str(
-        FileName::Real(PathBuf::from("not-unique.js")),
+        FileName::Real(PathBuf::from("not-unique.js")).into(),
         "import Foo from 'foo';",
         Options {
             filename: "unique.js".into(),
@@ -1101,7 +1101,7 @@ function test() {
 
     GLOBALS.set(&globals, || {
         let fm = cm.new_source_file(
-            FileName::Custom(String::from("Test")),
+            FileName::Custom(String::from("Test")).into(),
             TEST_CODE.to_string(),
         );
         let options = Options {
@@ -1136,7 +1136,7 @@ fn issue_7513_2() {
     let output = GLOBALS
         .set(&Default::default(), || {
             try_with_handler(cm.clone(), Default::default(), |handler| {
-                let fm = cm.new_source_file(FileName::Anon, INPUT.to_string());
+                let fm = cm.new_source_file(FileName::Anon.into(), INPUT.to_string());
 
                 c.minify(
                     fm,

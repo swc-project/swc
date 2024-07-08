@@ -270,7 +270,7 @@ fn issue_4112() {
         .print_errors(|cm, handler| {
             let c = Compiler::new(cm.clone());
             let fm = cm.new_source_file(
-                swc_common::FileName::Real("./browser.js".into()),
+                swc_common::FileName::Real("./browser.js".into()).into(),
                 r#""use strict";
 
             export { default as Selection } from "./selection";
@@ -295,7 +295,7 @@ fn issue_4112() {
                 )
                 .expect("failed to process js file");
             let fm2 = cm.new_source_file(
-                swc_common::FileName::Real("./preamble.js".into()),
+                swc_common::FileName::Real("./preamble.js".into()).into(),
                 r#""use strict";
 
             import { React, window } from "easy";
@@ -340,7 +340,7 @@ fn should_work_with_emit_source_map_columns() {
     Tester::new().print_errors(|cm, handler| {
         let c = Compiler::new(cm.clone());
         let fm = cm.new_source_file(
-            swc_common::FileName::Real("./app.js".into()),
+            swc_common::FileName::Real("./app.js".into()).into(),
             r#"import { createElement } from "react";
 
   createElement('div', null, {});
@@ -459,7 +459,7 @@ fn issue_6694() {
     Tester::new().print_errors(|cm, handler| {
         let c = Compiler::new(cm.clone());
         let fm = cm.new_source_file(
-            swc_common::FileName::Real("./app.js".into()),
+            swc_common::FileName::Real("./app.js".into()).into(),
             r#"/**
  * foo
  * @param data foo

@@ -978,7 +978,7 @@ impl Compiler {
             };
 
             let dts_code = if emit_dts && program.is_module() {
-                let mut checker = FastDts::new(fm.name.clone().into());
+                let mut checker = FastDts::new(fm.name.clone());
                 let mut module = program.clone().expect_module();
 
                 let issues = checker.transform(&mut module);
