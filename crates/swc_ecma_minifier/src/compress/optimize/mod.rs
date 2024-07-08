@@ -102,9 +102,6 @@ pub(super) fn optimizer<'a>(
 /// This should not be modified directly. Use `.with_ctx()` instead.
 #[derive(Debug, Default, Clone, Copy)]
 struct Ctx {
-    /// See [crate::marks::Marks]
-    skip_standalone: bool,
-
     /// `true` if the [VarDecl] has const annotation.
     #[allow(dead_code)]
     has_const_ann: bool,
@@ -461,7 +458,7 @@ impl Optimizer<'_> {
                 new.extend(self.prepend_stmts.drain(..).map(T::from_stmt));
 
                 match stmt.try_into_stmt() {
-                    Ok(Stmt::Block(s)) if s.span.has_mark(self.marks.fake_block) => {
+                    Ok(Stmt::Block(s)) if s.ctxt.has_mark(self.marks.fake_block) => {
                         new.extend(s.stmts.into_iter().map(T::from_stmt));
                     }
                     Ok(s) => {
@@ -1308,7 +1305,7 @@ impl Optimizer<'_> {
 
                 // Remove nested blocks
                 if bs.stmts.len() == 1 {
-                    if bs.span.has_mark(self.marks.fake_block) {
+                    if bs.ctxt.has_mark(self.marks.fake_block) {
                         report_change!("Unwrapping a fake block");
                         *s = bs.stmts.take().into_iter().next().unwrap();
                         return;
@@ -2155,7 +2152,7 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_function(&mut self, n: &mut Function) {
         n.decorators.visit_mut_with(self);
 
-        let is_standalone = n.span.has_mark(self.marks.standalone);
+        let is_standalone = n.c.has_mark(self.marks.standalone);
 
         // We don't dig into standalone function, as it does not share any variable with
         // outer scope.
@@ -2167,7 +2164,6 @@ impl VisitMut for Optimizer<'_> {
 
         {
             let ctx = Ctx {
-                skip_standalone: self.ctx.skip_standalone || is_standalone,
                 in_fn_like: true,
                 scope: n.ctxt,
                 top_level: false,
@@ -2298,7 +2294,6 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_script(&mut self, s: &mut Script) {
         let ctx = Ctx {
             top_level: true,
-            skip_standalone: true,
             ..self.ctx
         };
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -2314,7 +2309,6 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         let ctx = Ctx {
             top_level: true,
-            skip_standalone: true,
             ..self.ctx
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts, true);

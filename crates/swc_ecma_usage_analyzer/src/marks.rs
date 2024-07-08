@@ -4,23 +4,6 @@ use swc_common::{Mark, SyntaxContext};
 
 #[derive(Debug, Clone, Copy)]
 pub struct Marks {
-    /// Treat this function as a top level module.
-    ///
-    /// If this mark is applied, the function will be treated as a black box. It
-    /// will not be analyzed by usage analyzer.
-    ///
-    /// # Note
-    ///
-    /// Standalone functions should not depend on any other declarations in the
-    /// outer scope.
-    ///
-    /// This is only applied to [swc_ecma_ast::Function] and it should not be
-    /// nested.
-    pub standalone: Mark,
-
-    //// Applied to [swc_ecma_ast::Module].
-    pub bundle_of_standalone: Mark,
-
     ///  `/** @const */`.
     pub const_ann: Mark,
 
@@ -47,8 +30,6 @@ impl Marks {
         }
 
         Marks {
-            standalone: m(),
-            bundle_of_standalone: m(),
             const_ann: m(),
             noinline: m(),
             pure: m(),

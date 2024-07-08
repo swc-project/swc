@@ -323,7 +323,6 @@ impl Swcify for Identifier {
                 ctxt: Default::default(),
             },
             type_ann: self.type_annotation.swcify(ctx).flatten().map(Box::new),
-            ..Default::default()
         }
     }
 }
