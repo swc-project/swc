@@ -382,7 +382,7 @@ pub(super) fn make_possible_return_value(mode: ReturningMode) -> Expr {
         callee,
         args: match mode {
             ReturningMode::Returning { mark, arg } => {
-                iter::once(quote_ident!(DUMMY_SP.apply_mark(mark), "_this").as_arg())
+                iter::once(quote_ident!(SyntaxContext::empty().apply_mark(mark), "_this").as_arg())
                     .chain(arg.map(|arg| arg.as_arg()))
                     .collect()
             }
@@ -477,7 +477,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: &mut Constructor) -> bo
             match expr {
                 Expr::This(..) => {
                     self.found = true;
-                    let this = quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this");
+                    let this = quote_ident!(SyntaxContext::empty().apply_mark(self.mark), "_this");
 
                     if self.wrap_with_assertion {
                         *expr = Expr::Call(CallExpr {
