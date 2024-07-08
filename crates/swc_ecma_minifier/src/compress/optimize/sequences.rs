@@ -1994,9 +1994,9 @@ impl Optimizer<'_> {
                                     let mut new_b = Box::new(Expr::Ident(shorthand.clone()));
                                     if self.merge_sequential_expr(a, &mut new_b)? {
                                         *prop = Box::new(Prop::KeyValue(KeyValueProp {
-                                            key: Ident::new(
+                                            key: Ident::new_no_ctxt(
                                                 shorthand.sym.clone(),
-                                                shorthand.span.with_ctxt(SyntaxContext::empty()),
+                                                shorthand.span,
                                             )
                                             .into(),
                                             value: new_b.clone(),

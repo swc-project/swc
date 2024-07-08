@@ -244,7 +244,11 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
             {
                 obj.visit_mut_children_with(self);
                 let (mark, _, _) = self.private.get(&n.id);
-                let ident = Ident::new(format!("_{}", n.id.sym).into(), n.id.span.apply_mark(mark));
+                let ident = Ident::new(
+                    format!("_{}", n.id.sym).into(),
+                    n.id.span,
+                    SyntaxContext::empty().apply_mark(mark),
+                );
 
                 *e = Expr::Call(CallExpr {
                     callee: helper!(class_private_field_loose_base),
@@ -300,7 +304,11 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                     return;
                 }
 
-                let ident = Ident::new(format!("_{}", n.id.sym).into(), n.id.span.apply_mark(mark));
+                let ident = Ident::new(
+                    format!("_{}", n.id.sym).into(),
+                    n.id.span,
+                    SyntaxContext::empty().apply_mark(mark),
+                );
 
                 let var = alias_ident_for(&obj, "_ref");
 
@@ -506,7 +514,11 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
             {
                 obj.visit_mut_children_with(self);
                 let (mark, _, _) = self.private.get(&n.id);
-                let ident = Ident::new(format!("_{}", n.id.sym).into(), n.id.span.apply_mark(mark));
+                let ident = Ident::new(
+                    format!("_{}", n.id.sym).into(),
+                    n.id.span,
+                    SyntaxContext::empty().apply_mark(mark),
+                );
 
                 *e = Expr::Call(CallExpr {
                     callee: helper!(class_private_field_loose_base),
@@ -594,9 +606,14 @@ impl<'a> PrivateAccessVisitor<'a> {
             } else {
                 n.id.sym.clone()
             },
-            n.id.span.with_ctxt(SyntaxContext::empty()).apply_mark(mark),
+            n.id.span,
+            SyntaxContext::empty().apply_mark(mark),
         );
-        let ident = Ident::new(format!("_{}", n.id.sym).into(), n.id.span.apply_mark(mark));
+        let ident = Ident::new(
+            format!("_{}", n.id.sym).into(),
+            n.id.span,
+            SyntaxContext::empty().apply_mark(mark),
+        );
 
         if kind.is_static {
             match self.private_access_type {

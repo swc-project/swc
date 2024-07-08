@@ -525,10 +525,7 @@ impl VisitMut for NormalMultiReplacer<'_> {
                 self.changed = true;
 
                 *p = Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(Ident::new(
-                        i.sym.clone(),
-                        i.span.with_ctxt(Default::default()),
-                    )),
+                    key: PropName::Ident(Ident::new_no_ctxt(i.sym.clone(), i.span)),
                     value,
                 });
             }
