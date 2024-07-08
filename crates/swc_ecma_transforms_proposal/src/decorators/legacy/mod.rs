@@ -263,7 +263,7 @@ impl VisitMut for TscDecorator {
                             .with_pos(BytePos::DUMMY, BytePos::DUMMY)
                             .as_arg(),
                     ],
-                    type_args: Default::default(),
+                    ..Default::default()
                 }));
                 self.appended_exprs.push(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,

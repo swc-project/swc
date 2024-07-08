@@ -284,7 +284,7 @@ impl Decorators {
                 span: DUMMY_SP,
                 callee: initialize.clone().as_callee(),
                 args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                type_args: Default::default(),
+                ..Default::default()
             }));
 
             // Inject initialize
