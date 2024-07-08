@@ -413,7 +413,10 @@ impl ForOf {
                             init: Some(Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
                                 callee: right
-                                    .computed_member(member_expr!(DUMMY_SP, Symbol.iterator))
+                                    .computed_member(member_expr!(
+                                        Default::default(),
+                                        Symbol.iterator
+                                    ))
                                     .as_callee(),
                                 args: vec![],
                                 type_args: Default::default(),

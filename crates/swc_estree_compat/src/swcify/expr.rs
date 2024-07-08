@@ -665,8 +665,8 @@ impl Swcify for MetaProperty {
     type Output = MetaPropExpr;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        let meta = self.meta.swcify(ctx).id;
-        let prop = self.property.swcify(ctx).id;
+        let meta = self.meta.swcify(ctx).into();
+        let prop = self.property.swcify(ctx).into();
         match (&*meta.sym, &*prop.sym) {
             ("new", "target") => MetaPropExpr {
                 kind: MetaPropKind::NewTarget,
