@@ -1143,12 +1143,7 @@ pub struct TaggedTpl {
 
 impl Take for TaggedTpl {
     fn dummy() -> Self {
-        TaggedTpl {
-            span: DUMMY_SP,
-            tag: Take::dummy(),
-            type_params: Take::dummy(),
-            tpl: Take::dummy(),
-        }
+        Default::default()
     }
 }
 
