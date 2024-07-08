@@ -59,7 +59,7 @@ pub struct AssignProp {
 }
 
 #[ast_node("GetterProperty")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct GetterProp {
     pub span: Span,
@@ -71,7 +71,7 @@ pub struct GetterProp {
     pub body: Option<BlockStmt>,
 }
 #[ast_node("SetterProperty")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct SetterProp {
     pub span: Span,
