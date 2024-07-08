@@ -157,7 +157,7 @@ impl VisitMut for Spread {
                     span: *span,
                     callee: apply.as_callee(),
                     args: vec![this.as_arg(), args_array.as_arg()],
-                    type_args: None,
+                    ..Default::default()
                 })
             }
             Expr::New(NewExpr {
@@ -341,7 +341,7 @@ impl Spread {
                                         return Expr::Call(CallExpr {
                                             span,
                                             callee: member_expr!(
-                                                SyntaxContext::empty(),
+                                                DUMMY_SP,
                                                 Array.prototype.slice.call
                                             )
                                             .as_callee(),
@@ -354,11 +354,8 @@ impl Spread {
                                 } else {
                                     CallExpr {
                                         span,
-                                        callee: member_expr!(
-                                            SyntaxContext::empty(),
-                                            Array.prototype.slice.call
-                                        )
-                                        .as_callee(),
+                                        callee: member_expr!(DUMMY_SP, Array.prototype.slice.call)
+                                            .as_callee(),
                                         args: vec![expr.as_arg()],
                                         ..Default::default()
                                     }
