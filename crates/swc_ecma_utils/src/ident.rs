@@ -1,5 +1,5 @@
 use swc_atoms::JsWord;
-use swc_common::{Span, SyntaxContext};
+use swc_common::SyntaxContext;
 use swc_ecma_ast::{BindingIdent, Id, Ident};
 
 pub trait IdentLike: Sized + Send + Sync + 'static {
