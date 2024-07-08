@@ -7,6 +7,9 @@
 
 - **(es)** Bump `unicode-id-start` to `v1.2.0` ([#9177](https://github.com/swc-project/swc/issues/9177)) ([9904a53](https://github.com/swc-project/swc/commit/9904a53b7fc4c828c06071c19d08c27b5c1d9f42))
 
+
+- **(es/typescript)** Improve decorator handling of fast strip ([#9178](https://github.com/swc-project/swc/issues/9178)) ([962170f](https://github.com/swc-project/swc/commit/962170fb704e5f0cf7a00c0a9be3e9d7cf4f6b02))
+
 ## [1.6.13] - 2024-07-06
 
 ### Bug Fixes
