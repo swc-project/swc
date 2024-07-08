@@ -964,6 +964,8 @@ impl Take for CallExpr {
 pub struct NewExpr {
     pub span: Span,
 
+    pub ctxt: SyntaxContext,
+
     pub callee: Box<Expr>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "arguments"))]
