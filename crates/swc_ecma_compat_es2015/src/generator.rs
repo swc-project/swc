@@ -105,6 +105,7 @@ impl VisitMut for Wrapper {
                         kind: VarDeclKind::Var,
                         declare: Default::default(),
                         decls: v.hoisted_vars.take(),
+                        ..Default::default()
                     }
                     .into(),
                 )
@@ -117,6 +118,7 @@ impl VisitMut for Wrapper {
                         kind: VarDeclKind::Var,
                         declare: Default::default(),
                         decls: vars,
+                        ..Default::default()
                     }
                     .into(),
                 )

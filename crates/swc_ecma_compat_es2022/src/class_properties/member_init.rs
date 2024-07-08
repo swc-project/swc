@@ -242,7 +242,7 @@ impl MemberInitRecord {
                                 init: Some(Expr::Object(get_value_desc(value)).into()),
                                 definite: false,
                             }],
-                            declare: false,
+                            ..Default::default()
                         }
                         .into()
                     })

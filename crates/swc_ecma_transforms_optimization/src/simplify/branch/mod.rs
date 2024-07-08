@@ -637,7 +637,7 @@ impl VisitMut for Remover {
                                                     init: None,
                                                     ..decl
                                                 }),
-                                                declare: false,
+                                                ..Default::default()
                                             }
                                             .into(),
                                         );

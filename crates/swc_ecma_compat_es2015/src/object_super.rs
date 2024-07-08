@@ -43,6 +43,7 @@ impl VisitMut for ObjectSuper {
                             definite: false,
                         })
                         .collect(),
+                    ..Default::default()
                 }
                 .into(),
             );

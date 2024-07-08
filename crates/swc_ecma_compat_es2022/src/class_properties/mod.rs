@@ -143,7 +143,7 @@ impl ClassExtra {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
                     decls: self.lets,
-                    declare: false,
+                    ..Default::default()
                 })
                 .into(),
             )

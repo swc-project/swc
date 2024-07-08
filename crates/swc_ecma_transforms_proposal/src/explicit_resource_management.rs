@@ -80,6 +80,7 @@ impl ExplicitResourceManagement {
             kind: VarDeclKind::Var,
             declare: false,
             decls: vec![using_ctx_var],
+            ..Default::default()
         }))));
 
         for stmt in stmts.take() {
