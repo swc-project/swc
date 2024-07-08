@@ -333,28 +333,28 @@ impl<'a> Resolver<'a> {
     }
 
     /// Modifies a binding identifier.
-    fn modify(&mut self, sym: &JsWord, ctxt: &mut SyntaxContext, kind: DeclKind) {
+    fn modify(&mut self, id: &mut Ident, kind: DeclKind) {
         if cfg!(debug_assertions) && LOG {
             debug!(
                 "Binding (type = {}) {}{:?} {:?}",
-                self.in_type, sym, ctxt, kind
+                self.in_type, id.sym, id.ctxt, kind
             );
         }
 
-        if *ctxt != SyntaxContext::empty() {
+        if id.ctxt != SyntaxContext::empty() {
             return;
         }
 
         if self.in_type {
-            self.current.declared_types.insert(sym.clone());
+            self.current.declared_types.insert(id.sym.clone());
         } else {
-            self.current.declared_symbols.insert(sym.clone(), kind);
+            self.current.declared_symbols.insert(id.sym.clone(), kind);
         }
 
         let mark = self.current.mark;
 
         if mark != Mark::root() {
-            *ctxt = ctxt.apply_mark(mark);
+            id.ctxt = id.ctxt.apply_mark(mark);
         }
     }
 
@@ -587,7 +587,7 @@ impl<'a> VisitMut for Resolver<'a> {
         i.type_ann.visit_mut_with(self);
 
         self.ident_type = ident_type;
-        self.modify(&i.sym, &mut i.ctxt, self.decl_kind);
+        self.modify(&mut i, self.decl_kind);
 
         self.in_type = in_type;
         self.ident_type = ident_type;
