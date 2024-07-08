@@ -149,8 +149,8 @@ pub(crate) struct HygieneRemover;
 impl VisitMut for HygieneRemover {
     noop_visit_mut_type!();
 
-    fn visit_mut_span(&mut self, s: &mut Span) {
-        *s = s.with_ctxt(SyntaxContext::empty())
+    fn visit_mut_syntax_context(&mut self, n: &mut SyntaxContext) {
+        *n = SyntaxContext::empty();
     }
 }
 
@@ -188,6 +188,33 @@ pub(crate) fn metadata(key: &str, value: &str) -> Prop {
             value: value.into(),
             raw: None,
         }))),
+    })
+}
+
+pub(crate) fn metadata_injected() -> Prop {
+    metadata("__swc_bundler__injected__", "1")
+}
+
+pub(crate) fn is_injected(with: &ObjectLit) -> bool {
+    with.props.iter().any(|prop| {
+        match prop {
+            PropOrSpread::Prop(p) => {
+                let Prop::KeyValue(KeyValueProp {
+                    key: PropName::Ident(Ident { sym, .. }),
+                    value,
+                }) = &**p
+                else {
+                    return false;
+                };
+
+                if *sym == "__swc_bundler__injected__" {
+                    return true;
+                }
+            }
+            _ => {}
+        }
+
+        false
     })
 }
 

@@ -6,7 +6,12 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_top_level_await, find_pat_ids, private_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold};
 
-use crate::{bundler::chunk::merge::Ctx, modules::Modules, Bundler, Load, ModuleId, Resolve};
+use crate::{
+    bundler::chunk::merge::Ctx,
+    modules::Modules,
+    util::{create_with, is_injected, metadata_injected},
+    Bundler, Load, ModuleId, Resolve,
+};
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -54,8 +59,9 @@ where
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
                     span,
                     ref specifiers,
+                    with: Some(with),
                     ..
-                })) if ctxt == injected_ctxt => {
+                })) if is_injected(with) => {
                     for s in specifiers {
                         if let ExportSpecifier::Named(ExportNamedSpecifier {
                             orig,
@@ -79,11 +85,11 @@ where
                                 additional_items.push((
                                     module_id,
                                     ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                                        span: DUMMY_SP.with_ctxt(injected_ctxt),
+                                        span: DUMMY_SP,
                                         specifiers: vec![specifier],
                                         src: None,
                                         type_only: false,
-                                        with: None,
+                                        with: Some(create_with(vec![metadata_injected()])),
                                     })),
                                 ));
                             }
@@ -148,7 +154,8 @@ where
         }
 
         let var_decl = VarDecl {
-            span: span.with_ctxt(self.injected_ctxt),
+            span,
+            ctxt: self.injected_ctxt,
             declare: false,
             kind: VarDeclKind::Const,
             decls: vec![VarDeclarator {
