@@ -2302,7 +2302,7 @@ impl Optimizer<'_> {
 
             Mergable::Var(a) => {
                 let left = match &a.name {
-                    Pat::Ident(i) => i.id.clone(),
+                    Pat::Ident(i) => Ident::from(i),
                     _ => return Ok(false),
                 };
 

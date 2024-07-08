@@ -35,7 +35,8 @@ impl VisitMut for KeywordRenamer {
 
     fn visit_mut_binding_ident(&mut self, n: &mut BindingIdent) {
         if let Some(new) = self.renamed(&n.id) {
-            n.id = new;
+            n.ctxt = new.ctxt;
+            n.sym = new.sym;
         }
     }
 
