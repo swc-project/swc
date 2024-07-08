@@ -112,7 +112,7 @@ impl VisitMut for BrandCheckHandler<'_> {
                     }
                 }
 
-                let (mark, kind, class_name) = self.private.get(&n.id);
+                let (mark, kind, class_name) = self.private.get(n.span, &n.name);
 
                 if mark == Mark::root() {
                     return;
@@ -129,8 +129,8 @@ impl VisitMut for BrandCheckHandler<'_> {
                 }
 
                 let weak_coll_ident = Ident::new(
-                    format!("_{}", n.id.sym).into(),
-                    n.name.span,
+                    format!("_{}", n.name).into(),
+                    n.span,
                     SyntaxContext::empty().apply_mark(mark),
                 );
 
@@ -246,10 +246,10 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
             }) = e
             {
                 obj.visit_mut_children_with(self);
-                let (mark, _, _) = self.private.get(&n.id);
+                let (mark, _, _) = self.private.get(n.span, &n.name);
                 let ident = Ident::new(
-                    format!("_{}", n.id.sym).into(),
-                    n.id.span,
+                    format!("_{}", n.name).into(),
+                    n.span,
                     SyntaxContext::empty().apply_mark(mark),
                 );
 
@@ -308,8 +308,8 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 }
 
                 let ident = Ident::new(
-                    format!("_{}", n.id.sym).into(),
-                    n.id.span,
+                    format!("_{}", n.name).into(),
+                    n.span,
                     SyntaxContext::empty().apply_mark(mark),
                 );
 
@@ -370,7 +370,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                     let err = CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(read_only_error),
-                        args: vec![format!("#{}", n.id.sym).as_arg()],
+                        args: vec![format!("#{}", n.name).as_arg()],
                         type_args: None,
                     }
                     .into();
@@ -733,7 +733,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                         CallExpr {
                             span: DUMMY_SP,
                             callee: helper,
-                            args: vec![format!("#{}", n.id.sym).as_arg()],
+                            args: vec![format!("#{}", n.name).as_arg()],
                             type_args: None,
                         }
                         .into(),
