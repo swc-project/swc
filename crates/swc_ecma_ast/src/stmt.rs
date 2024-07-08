@@ -1,5 +1,5 @@
 use is_macro::Is;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, DUMMY_SP};
 
 use crate::{
     decl::{Decl, VarDecl},
@@ -11,11 +11,13 @@ use crate::{
 
 /// Use when only block statements are allowed.
 #[ast_node("BlockStatement")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct BlockStmt {
     /// Span including the braces.
     pub span: Span,
+
+    pub ctxt: SyntaxContext,
 
     pub stmts: Vec<Stmt>,
 }
@@ -25,6 +27,7 @@ impl Take for BlockStmt {
         BlockStmt {
             span: DUMMY_SP,
             stmts: vec![],
+            ctxt: Default::default(),
         }
     }
 }

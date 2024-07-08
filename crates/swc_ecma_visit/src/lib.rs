@@ -1342,6 +1342,7 @@ define!({
     }
     pub struct BlockStmt {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub stmts: Vec<Stmt>,
     }
     pub enum Stmt {
