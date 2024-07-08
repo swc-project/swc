@@ -150,7 +150,6 @@ impl<C: Comments> VisitMut for Actual<C> {
             is_generator: false,
             params,
             body: Some(BlockStmt {
-                span: DUMMY_SP,
                 stmts: visitor
                     .to_stmt()
                     .into_iter()
@@ -164,10 +163,9 @@ impl<C: Comments> VisitMut for Actual<C> {
                         }))),
                     })))
                     .collect(),
+                ..Default::default()
             }),
-            decorators: Default::default(),
-            type_params: Default::default(),
-            return_type: Default::default(),
+            ..Default::default()
         }
         .into();
     }
@@ -293,10 +291,9 @@ impl<C: Comments> VisitMut for Actual<C> {
                     span: DUMMY_SP,
                     arg: Some(Box::new(fn_ref)),
                 })],
+                ..Default::default()
             }),
-            decorators: Default::default(),
-            return_type: Default::default(),
-            type_params: Default::default(),
+            ..Default::default()
         }
         .into()
     }
@@ -305,7 +302,7 @@ impl<C: Comments> VisitMut for Actual<C> {
 
     fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {
         if let VarDeclarator {
-            name: Pat::Ident(BindingIdent { id, .. }),
+            name: Pat::Ident(id),
             init: Some(init),
             ..
         } = var

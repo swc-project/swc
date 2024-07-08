@@ -91,7 +91,7 @@ impl VisitMut for Exponentiation {
                 right,
             }) => {
                 let lhs: Ident = match left {
-                    _ if left.as_ident().is_some() => left.as_ident().unwrap().clone(),
+                    _ if left.as_ident().is_some() => left.as_ident().unwrap().clone().into(),
 
                     // unimplemented
                     AssignTarget::Simple(ref e) => {

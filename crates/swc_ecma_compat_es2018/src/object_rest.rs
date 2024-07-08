@@ -142,13 +142,15 @@ macro_rules! impl_for_for_stmt {
             for_stmt.left = left;
 
             for_stmt.body = Box::new(Stmt::Block(match &mut *for_stmt.body {
-                Stmt::Block(BlockStmt { span, stmts }) => BlockStmt {
+                Stmt::Block(BlockStmt { span, stmts, ctxt }) => BlockStmt {
                     span: *span,
                     stmts: stmt.into_iter().chain(stmts.take()).collect(),
+                    ctxt: *ctxt,
                 },
                 body => BlockStmt {
                     span: DUMMY_SP,
                     stmts: stmt.into_iter().chain(iter::once(body.take())).collect(),
+                    ..Default::default()
                 },
             }));
 
@@ -217,7 +219,7 @@ impl VisitMut for ObjectRest {
         }) = expr
         {
             let mut var_ident = alias_ident_for(right, "_tmp");
-            var_ident.span = var_ident.span.apply_mark(Mark::new());
+            var_ident.ctxt = var_ident.ctxt.apply_mark(Mark::new());
 
             // println!("Var: var_ident = None");
             self.mutable_vars.push(VarDeclarator {
