@@ -83,7 +83,7 @@ impl PartialInliner {
         F: FnOnce(Lrc<SourceMap>, Module, &mut PartialInliner),
     {
         testing::run_test2(false, |cm, _handler| {
-            let fm = cm.new_source_file(FileName::Anon, src.to_string());
+            let fm = cm.new_source_file(FileName::Anon.into(), src.to_string());
             let marks = Marks::new();
 
             let mut module = parse_file_as_module(
@@ -117,7 +117,7 @@ impl PartialInliner {
             module.visit_mut_with(inliner);
 
             let expected_module = {
-                let fm = cm.new_source_file(FileName::Anon, expected.to_string());
+                let fm = cm.new_source_file(FileName::Anon.into(), expected.to_string());
 
                 parse_file_as_module(
                     &fm,

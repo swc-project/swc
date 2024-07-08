@@ -1822,7 +1822,7 @@ impl Minifier<'_> {
 
         // Left
         let mut left_errors: Vec<_> = vec![];
-        let left_fm = cm.new_source_file(FileName::Anon, left);
+        let left_fm = cm.new_source_file(FileName::Anon.into(), left);
         let syntax = swc_ecma_parser::Syntax::default();
         // Use the latest target for merging
         let target = swc_ecma_ast::EsVersion::latest();
@@ -1866,7 +1866,7 @@ impl Minifier<'_> {
 
         // Right
         let mut right_errors: Vec<_> = vec![];
-        let right_fm = cm.new_source_file(FileName::Anon, right);
+        let right_fm = cm.new_source_file(FileName::Anon.into(), right);
 
         let mut right_program = if is_modules {
             match swc_ecma_parser::parse_file_as_module(
@@ -1969,7 +1969,7 @@ impl Minifier<'_> {
         let mut errors: Vec<_> = vec![];
 
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
-        let fm = cm.new_source_file(FileName::Anon, data);
+        let fm = cm.new_source_file(FileName::Anon.into(), data);
         let mut options = self.get_js_options();
 
         if let swc_ecma_parser::Syntax::Es(es_config) = &mut options.parser.syntax {
@@ -2151,7 +2151,7 @@ impl Minifier<'_> {
         let mut errors: Vec<_> = vec![];
 
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
-        let fm = cm.new_source_file(FileName::Anon, data);
+        let fm = cm.new_source_file(FileName::Anon.into(), data);
 
         let mut options = self.get_css_options();
 
@@ -2308,7 +2308,7 @@ impl Minifier<'_> {
         let mut errors: Vec<_> = vec![];
 
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
-        let fm = cm.new_source_file(FileName::Anon, data);
+        let fm = cm.new_source_file(FileName::Anon.into(), data);
 
         // Emulate content inside conditional comments like content inside the
         // `template` element
