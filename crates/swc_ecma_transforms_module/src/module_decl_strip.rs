@@ -147,7 +147,7 @@ impl VisitMut for ModuleDeclStrip {
                 self.export.extend(
                     find_pat_ids::<_, Ident>(&v.decls)
                         .into_iter()
-                        .map(|id| (id.sym.clone(), ExportItem::new(id.span, id))),
+                        .map(|id| (id.sym.clone(), ExportItem::new((id.span, id.ctxt), id))),
                 );
             }
             _ => {}
@@ -193,13 +193,20 @@ impl VisitMut for ModuleDeclStrip {
 
                     if let Some(exported) = exported {
                         let (export_name, export_name_span) = match exported {
-                            ModuleExportName::Ident(Ident { span, sym, .. }) => (sym, span),
-                            ModuleExportName::Str(Str { span, value, .. }) => (value, span),
+                            ModuleExportName::Ident(Ident {
+                                ctxt, span, sym, ..
+                            }) => (sym, (span, ctxt)),
+                            ModuleExportName::Str(Str { span, value, .. }) => {
+                                (value, (span, Default::default()))
+                            }
                         };
 
                         (export_name, ExportItem::new(export_name_span, orig))
                     } else {
-                        (orig.sym.clone(), ExportItem::new(orig.span, orig))
+                        (
+                            orig.sym.clone(),
+                            ExportItem::new((orig.span, orig.ctxt), orig),
+                        )
                     }
                 }
             }))
