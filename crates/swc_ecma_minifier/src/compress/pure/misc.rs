@@ -1,4 +1,4 @@
-use std::{fmt::Write, iter::once, num::FpCategory};
+use std::{fmt::Write, num::FpCategory};
 
 use rustc_hash::FxHashSet;
 use swc_atoms::{js_word, JsWord};

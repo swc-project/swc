@@ -64,7 +64,8 @@ impl Pure<'_> {
                     {
                         *p = PropName::Ident(Ident::new(
                             s.value.clone(),
-                            s.span.with_ctxt(SyntaxContext::empty()),
+                            s.span,
+                            SyntaxContext::empty(),
                         ));
                     } else {
                         *p = PropName::Str(s.clone());
@@ -91,7 +92,7 @@ impl Pure<'_> {
                 *name = PropName::Ident(Ident {
                     span: s.span,
                     sym: s.value.clone(),
-                    optional: false,
+                    ..Default::default()
                 });
                 return;
             }
