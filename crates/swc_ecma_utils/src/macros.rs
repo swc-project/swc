@@ -63,7 +63,7 @@ macro_rules! quote_expr {
 macro_rules! member_expr {
     ($span:expr, $first:ident) => {{
         use $crate::swc_ecma_ast::Expr;
-        Box::new(Expr::Ident($crate::quote_ident!($span, stringify!($first))))
+        Box::new(Expr::Ident($crate::quote_ident!($crate::swc_common::SyntaxContext::empty(), $span, stringify!($first))))
     }};
 
     ($span:expr, $first:ident . $($rest:tt)+) => {{

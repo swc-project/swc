@@ -449,6 +449,7 @@ impl InjectHelpers {
             .as_arg()],
             type_args: None,
         };
+        let ctxt = SyntaxContext::empty().apply_mark(mark);
         let decl = Decl::Var(
             VarDecl {
                 span: DUMMY_SP,
@@ -457,7 +458,7 @@ impl InjectHelpers {
                 decls: vec![VarDeclarator {
                     span: DUMMY_SP,
                     name: Pat::Ident(
-                        Ident::new(format!("_{}", name).into(), DUMMY_SP.apply_mark(mark)).into(),
+                        Ident::new(format!("_{}", name).into(), DUMMY_SP, ctxt).into(),
                     ),
                     init: Some(c.into()),
                     definite: false,

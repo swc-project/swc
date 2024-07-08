@@ -10,9 +10,10 @@ macro_rules! helper_expr {
         use swc_ecma_utils::{quote_ident, ExprFactory};
 
         let mark = $crate::enable_helper!($field_name);
-        let span = $span.apply_mark(mark);
+        let ctxt = swc_common::SyntaxContext::empty().apply_mark(mark);
 
         Expr::from(swc_ecma_utils::quote_ident!(
+            ctxt,
             span,
             concat!("_", stringify!($field_name))
         ))
