@@ -931,19 +931,23 @@ define!({
     }
 
     pub struct BindingIdent {
-        pub id: Ident,
+        pub span: Span,
+        pub ctxt: SyntaxContext,
+        pub sym: Atom,
+        pub optional: bool,
         pub type_ann: Option<Box<TsTypeAnn>>,
     }
 
     pub struct Ident {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub sym: Atom,
         pub optional: bool,
     }
 
     pub struct PrivateName {
         pub span: Span,
-        pub id: Ident,
+        pub name: Atom,
     }
 
     pub enum JSXObject {
