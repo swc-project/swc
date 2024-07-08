@@ -338,6 +338,7 @@ impl Decorator2022_03 {
                 body: Some(BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![],
+                    ..Default::default()
                 }),
                 accessibility: Default::default(),
                 is_optional: Default::default(),
@@ -805,6 +806,7 @@ impl VisitMut for Decorator2022_03 {
                     body: BlockStmt {
                         span: DUMMY_SP,
                         stmts: self.state.extra_stmts.take(),
+                        ..Default::default()
                     },
                 }),
             );
@@ -827,7 +829,7 @@ impl VisitMut for Decorator2022_03 {
             let decorators = self.preserve_side_effect_of_decorators(p.function.decorators.take());
             let dec = merge_decorators(decorators);
 
-            let init = private_ident!(format!("_call_{}", p.key.id.sym));
+            let init = private_ident!(format!("_call_{}", p.key.name));
 
             self.extra_vars.push(VarDeclarator {
                 span: p.span,
@@ -929,7 +931,7 @@ impl VisitMut for Decorator2022_03 {
                             callee: init.as_callee(),
                             args: vec![
                                 ThisExpr { span: DUMMY_SP }.as_arg(),
-                                p.function.params[0].pat.clone().expect_ident().id.as_arg(),
+                                Ident::from(p.function.params[0].pat.as_ident().unwrap()).as_arg(),
                             ],
                             ..Default::default()
                         }))),
