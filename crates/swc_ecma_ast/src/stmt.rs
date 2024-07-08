@@ -331,6 +331,7 @@ pub struct ForStmt {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ForInStmt {
     pub span: Span,
+    pub ctxt: SyntaxContext,
     pub left: ForHead,
     pub right: Box<Expr>,
     pub body: Box<Stmt>,
@@ -341,6 +342,7 @@ pub struct ForInStmt {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ForOfStmt {
     pub span: Span,
+    pub ctxt: SyntaxContext,
     /// Span of the await token.
     ///
     /// es2018
