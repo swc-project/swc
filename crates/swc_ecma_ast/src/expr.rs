@@ -329,7 +329,7 @@ impl Expr {
     pub fn set_span(&mut self, span: Span) {
         match self {
             Expr::Ident(i) => {
-                i.span.pos = span;
+                i.span = span;
             }
             Expr::This(e) => e.span = span,
             Expr::Array(e) => e.span = span,
@@ -1501,7 +1501,9 @@ bridge_from!(SimpleAssignTarget, BindingIdent, Ident);
 impl SimpleAssignTarget {
     pub fn leftmost(&self) -> Option<Cow<Ident>> {
         match self {
-            SimpleAssignTarget::Ident(i) => Some(Cow::Owned(Ident::new(i.sym.clone(), i.span))),
+            SimpleAssignTarget::Ident(i) => {
+                Some(Cow::Owned(Ident::new(i.sym.clone(), i.span, i.ctxt)))
+            }
             SimpleAssignTarget::Member(MemberExpr { obj, .. }) => obj.leftmost().map(Cow::Borrowed),
             _ => None,
         }

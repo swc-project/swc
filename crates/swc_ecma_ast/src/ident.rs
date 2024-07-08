@@ -4,8 +4,7 @@ use phf::phf_set;
 use scoped_tls::scoped_thread_local;
 use swc_atoms::{js_word, Atom};
 use swc_common::{
-    ast_node, source_map::SpanWithCtx, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span,
-    Spanned, SyntaxContext, DUMMY_SP,
+    ast_node, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 
 use crate::{typescript::TsTypeAnn, Expr};
@@ -29,8 +28,14 @@ use crate::{typescript::TsTypeAnn, Expr};
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub struct BindingIdent {
-    pub span: SpanWithCtx,
+    #[cfg_attr(feature = "__rkyv", omit_bounds)]
+    pub span: Span,
+
+    #[cfg_attr(feature = "__rkyv", omit_bounds)]
+    pub ctxt: SyntaxContext,
+
     #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
+    #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub sym: Atom,
 
     /// TypeScript only. Used in case of an optional parameter.
@@ -57,14 +62,15 @@ impl From<BindingIdent> for Box<Expr> {
 impl BindingIdent {
     /// See [`Ident::to_id`] for documentation.
     pub fn to_id(&self) -> Id {
-        (self.sym.clone(), self.span.ctxt)
+        (self.sym.clone(), self.ctxt)
     }
 }
 
 impl Take for BindingIdent {
     fn dummy() -> Self {
         BindingIdent {
-            span: DUMMY_SP.with_ctxt(SyntaxContext::empty()),
+            span: DUMMY_SP,
+            ctxt: SyntaxContext::empty(),
             sym: Atom::default(),
             optional: false,
             type_ann: None,
@@ -76,6 +82,7 @@ impl From<Ident> for BindingIdent {
     fn from(id: Ident) -> Self {
         BindingIdent {
             span: id.span,
+            ctxt: id.ctxt,
             sym: id.sym,
             optional: false,
             type_ann: None,
@@ -138,7 +145,12 @@ bridge_from!(BindingIdent, Ident, Id);
 #[ast_node("Identifier")]
 #[derive(Eq, Hash)]
 pub struct Ident {
-    pub span: SpanWithCtx,
+    #[cfg_attr(feature = "__rkyv", omit_bounds)]
+    pub span: Span,
+
+    #[cfg_attr(feature = "__rkyv", omit_bounds)]
+    pub ctxt: SyntaxContext,
+
     #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
     pub sym: Atom,
 
@@ -151,6 +163,7 @@ impl From<BindingIdent> for Ident {
     fn from(bi: BindingIdent) -> Self {
         Ident {
             span: bi.span,
+            ctxt: bi.ctxt,
             sym: bi.sym,
             optional: bi.optional,
         }
@@ -171,7 +184,7 @@ impl EqIgnoreSpan for Ident {
             return false;
         }
 
-        if self.span.ctxt == other.span.ctxt {
+        if self.ctxt == other.ctxt {
             return true;
         }
 
@@ -389,22 +402,17 @@ impl AsRef<str> for Ident {
 }
 
 impl Ident {
-    pub const fn new(sym: Atom, span: SpanWithCtx) -> Self {
+    pub const fn new(sym: Atom, span: Span, ctxt: SyntaxContext) -> Self {
         Ident {
             span,
+            ctxt,
             sym,
             optional: false,
         }
     }
 
     pub const fn new_no_ctxt(sym: Atom, span: Span) -> Self {
-        Self::new(
-            sym,
-            SpanWithCtx {
-                pos: span,
-                ctxt: SyntaxContext::empty(),
-            },
-        )
+        Self::new(sym, span, SyntaxContext::empty())
     }
 }
 
