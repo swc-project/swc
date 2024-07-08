@@ -504,7 +504,7 @@ impl VisitMut for Inlining<'_> {
                 PatFoldingMode::Param => {
                     self.declare(
                         i.to_id(),
-                        Some(Cow::Owned(Expr::Ident(i.id.clone()))),
+                        Some(Cow::Owned(Expr::Ident(Ident::from(i)))),
                         false,
                         VarType::Param,
                     );
@@ -512,7 +512,7 @@ impl VisitMut for Inlining<'_> {
                 PatFoldingMode::CatchParam => {
                     self.declare(
                         i.to_id(),
-                        Some(Cow::Owned(Expr::Ident(i.id.clone()))),
+                        Some(Cow::Owned(Expr::Ident(Ident::from(i)))),
                         false,
                         VarType::Var(VarDeclKind::Var),
                     );
