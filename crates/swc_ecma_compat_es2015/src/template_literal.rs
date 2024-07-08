@@ -210,7 +210,7 @@ impl VisitMut for TemplateLiteral {
                                     callee: MemberExpr {
                                         span: DUMMY_SP,
                                         obj,
-                                        prop: MemberProp::Ident(Ident::new(
+                                        prop: MemberProp::Ident(Ident::new_no_ctxt(
                                             "concat".into(),
                                             expr_span,
                                         )),
@@ -220,7 +220,7 @@ impl VisitMut for TemplateLiteral {
                                         .into_iter()
                                         .map(|expr| expr.as_arg())
                                         .collect(),
-                                    type_args: Default::default(),
+                                    ..Default::default()
                                 }))
                             };
                         }

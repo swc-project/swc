@@ -121,7 +121,7 @@ impl MemberInitRecord {
                             name.as_arg(),
                             get_value_desc(value).as_arg(),
                         ],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }
                     .into(),
                 ),
@@ -143,7 +143,7 @@ impl MemberInitRecord {
                             name.as_arg(),
                             get_accessor_desc(getter, setter).as_arg(),
                         ],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }
                     .into(),
                 ),
@@ -263,7 +263,7 @@ impl MemberInitRecord {
                                 name.as_arg(),
                                 get_accessor_desc(getter, setter).as_arg(),
                             ],
-                            type_args: None,
+                            ..Default::default()
                         })),
                     })
                 } else {

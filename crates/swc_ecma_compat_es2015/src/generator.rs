@@ -95,7 +95,7 @@ impl VisitMut for Wrapper {
                     }
                     .as_arg(),
                 ],
-                type_args: Default::default(),
+                ..Default::default()
             }));
             let mut stmts = vec![];
             if !v.hoisted_vars.is_empty() {
@@ -427,7 +427,7 @@ impl VisitMut for Generator {
                             span: DUMMY_SP,
                             callee: helper!(ts, ts_values),
                             args: vec![e.as_arg()],
-                            type_args: Default::default(),
+                            ..Default::default()
                         })
                         .map(Expr::from)
                         .map(Box::new);
@@ -777,7 +777,7 @@ impl VisitMut for Generator {
                 span: node.span,
                 callee: apply.as_callee(),
                 args: once(this_arg.as_arg()).chain(once(arg.as_arg())).collect(),
-                type_args: None,
+                ..Default::default()
             };
             return;
         }
@@ -828,7 +828,7 @@ impl VisitMut for Generator {
                 span: node.span,
                 callee: Box::new(apply),
                 args: None,
-                type_args: None,
+                ..Default::default()
             };
             return;
         }
