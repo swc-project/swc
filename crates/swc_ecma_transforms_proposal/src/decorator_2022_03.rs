@@ -1159,7 +1159,6 @@ impl VisitMut for Decorator2022_03 {
 
                                         getter_function = Box::new(Function {
                                             params: vec![],
-                                            decorators: Default::default(),
                                             span: DUMMY_SP,
                                             body: Some(BlockStmt {
                                                 span: DUMMY_SP,
@@ -1177,11 +1176,11 @@ impl VisitMut for Decorator2022_03 {
                                                         type_args: Default::default(),
                                                     }))),
                                                 })],
+                                                ..Default::default()
                                             }),
                                             is_generator: false,
                                             is_async: false,
-                                            type_params: Default::default(),
-                                            return_type: Default::default(),
+                                            ..Default::default()
                                         });
 
                                         let param = private_ident!("_v");

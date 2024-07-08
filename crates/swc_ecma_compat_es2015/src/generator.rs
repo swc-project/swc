@@ -2274,7 +2274,7 @@ impl Generator {
     fn begin_catch_block(&mut self, variable: VarDeclarator) {
         debug_assert!(self.peek_block_kind() == Some(CodeBlockKind::Exception));
 
-        let name = variable.name.expect_ident().id;
+        let name = variable.name.expect_ident().into();
         self.hoist_variable_declaration(&name);
 
         // ExceptionBlock
