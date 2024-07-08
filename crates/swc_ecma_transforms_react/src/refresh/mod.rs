@@ -484,6 +484,6 @@ fn make_hook_reg(expr: &mut Expr, mut hook: HocHook) {
         span,
         callee: hook.callee,
         args,
-        type_args: None,
+        ..Default::default()
     });
 }

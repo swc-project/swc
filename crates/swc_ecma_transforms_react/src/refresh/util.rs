@@ -62,7 +62,7 @@ pub fn make_call_expr(handle: Ident) -> Expr {
         span: DUMMY_SP,
         callee: handle.as_callee(),
         args: Vec::new(),
-        type_args: None,
+        ..Default::default()
     })
 }
 

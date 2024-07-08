@@ -177,7 +177,7 @@ impl TscDecorator {
             span: DUMMY_SP,
             callee: helper!(ts, ts_decorate),
             args: vec![decorators, target, key, desc],
-            type_args: Default::default(),
+            ..Default::default()
         })));
     }
 }

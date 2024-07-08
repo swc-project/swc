@@ -651,7 +651,7 @@ impl VisitMut for Inlining<'_> {
 
                         if self
                             .scope
-                            .is_inline_prevented(&Expr::Ident(name.id.clone()))
+                            .is_inline_prevented(&Expr::Ident(Ident::from(name)))
                             || !self.scope.has_same_this(&id, node.init.as_deref())
                         {
                             tracing::trace!("Inline is prevented for {:?}", id);

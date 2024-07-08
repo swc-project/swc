@@ -660,6 +660,7 @@ impl Swcify for ClassExpression {
                 type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
                 super_type_params: self.super_type_parameters.swcify(ctx).map(Box::new),
                 implements: self.implements.swcify(ctx).unwrap_or_default(),
+                ..Default::default()
             }),
         }
     }
