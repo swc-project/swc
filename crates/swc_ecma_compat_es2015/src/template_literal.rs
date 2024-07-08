@@ -304,6 +304,7 @@ impl VisitMut for TemplateLiteral {
                                     ..Default::default()
                                 }))),
                             }],
+                            ..Default::default()
                         };
 
                         // _templateObject2 = function () {

@@ -73,6 +73,7 @@ impl Fold for AsyncArrowsInClass {
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls: self.vars.take(),
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -91,6 +92,7 @@ impl Fold for AsyncArrowsInClass {
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls: self.vars.take(),
+                    ..Default::default()
                 }
                 .into(),
             );

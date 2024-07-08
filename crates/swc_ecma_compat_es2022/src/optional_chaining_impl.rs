@@ -410,6 +410,7 @@ impl OptionalChaining {
                         declare: false,
                         kind: VarDeclKind::Var,
                         decls: mem::take(&mut self.vars),
+                        ..Default::default()
                     }
                     .into(),
                 ),

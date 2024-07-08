@@ -124,6 +124,7 @@ impl Params {
                                     kind: VarDeclKind::Let,
                                     decls: vec![decl],
                                     declare: false,
+                                    ..Default::default()
                                 }
                                 .into(),
                             )
@@ -211,6 +212,7 @@ impl Params {
                                     definite: false,
                                 }],
                                 declare: false,
+                                ..Default::default()
                             }
                             .into(),
                         )
@@ -341,6 +343,7 @@ impl Params {
                                     },
                                 ],
                                 declare: false,
+                                ..Default::default()
                             }
                             .into(),
                         ),
@@ -404,6 +407,7 @@ impl Params {
                     kind: VarDeclKind::Let,
                     decls,
                     declare: false,
+                    ..Default::default()
                 }
                 .into(),
             )
@@ -416,6 +420,7 @@ impl Params {
                     kind: VarDeclKind::Let,
                     decls: decls_after_unpack,
                     declare: false,
+                    ..Default::default()
                 }
                 .into(),
             );

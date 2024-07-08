@@ -593,6 +593,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     kind: VarDeclKind::Let,
                     declare: false,
                     decls: vec![value_var],
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -676,6 +677,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls: init_var_decls,
+                    ..Default::default()
                 }
                 .into(),
             ),
