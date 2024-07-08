@@ -624,6 +624,7 @@ impl<I: Tokens> Parser<I> {
                     callee,
                     args,
                     type_args,
+                    ..Default::default()
                 })));
 
                 // We should parse subscripts for MemberExpression.
@@ -638,6 +639,7 @@ impl<I: Tokens> Parser<I> {
                 callee,
                 args: None,
                 type_args,
+                ..Default::default()
             })));
         }
 
