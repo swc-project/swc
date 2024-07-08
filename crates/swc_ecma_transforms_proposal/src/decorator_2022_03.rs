@@ -1551,6 +1551,7 @@ impl VisitMut for Decorator2022_03 {
                         kind: VarDeclKind::Let,
                         decls: self.extra_lets.take(),
                         declare: false,
+                        ..Default::default()
                     })))
                     .into(),
                 );
@@ -1582,6 +1583,7 @@ impl VisitMut for Decorator2022_03 {
                     kind: VarDeclKind::Var,
                     decls: self.extra_vars.take(),
                     declare: false,
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -1750,6 +1752,7 @@ impl VisitMut for Decorator2022_03 {
                         kind: VarDeclKind::Let,
                         decls: self.extra_lets.take(),
                         declare: false,
+                        ..Default::default()
                     }))),
                 );
             }
@@ -1776,6 +1779,7 @@ impl VisitMut for Decorator2022_03 {
                     kind: VarDeclKind::Var,
                     decls: self.extra_vars.take(),
                     declare: false,
+                    ..Default::default()
                 }
                 .into(),
             );

@@ -809,6 +809,7 @@ impl VisitMut for Remover {
                                         kind: VarDeclKind::Var,
                                         decls,
                                         declare: false,
+                                        ..Default::default()
                                     }
                                     .into(),
                                 );
@@ -1069,6 +1070,7 @@ impl VisitMut for Remover {
                                     kind: VarDeclKind::Var,
                                     decls,
                                     declare: false,
+                                    ..Default::default()
                                 }
                                 .into();
                             }
@@ -1352,6 +1354,7 @@ impl Remover {
                                         kind: VarDeclKind::Var,
                                         decls,
                                         declare: false,
+                                        ..Default::default()
                                     }
                                     .into(),
                                 ));

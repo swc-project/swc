@@ -71,6 +71,7 @@ impl TscDecorator {
                         kind: VarDeclKind::Var,
                         declare: Default::default(),
                         decls: self.vars.take(),
+                        ..Default::default()
                     }
                     .into(),
                 ));

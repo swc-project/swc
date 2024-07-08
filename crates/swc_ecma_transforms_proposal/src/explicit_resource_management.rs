@@ -192,6 +192,7 @@ impl ExplicitResourceManagement {
                                     kind: VarDeclKind::Var,
                                     declare: false,
                                     decls: vec![var],
+                                    ..Default::default()
                                 })))));
 
                                 try_body.push(Stmt::Decl(e.decl));
@@ -248,6 +249,7 @@ impl ExplicitResourceManagement {
                                     kind: VarDeclKind::Var,
                                     declare: false,
                                     decls: var_decls,
+                                    ..Default::default()
                                 })))));
 
                                 try_body.push(Stmt::Decl(e.decl));
@@ -392,6 +394,7 @@ impl VisitMut for ExplicitResourceManagement {
                 kind: VarDeclKind::Const,
                 declare: false,
                 decls: decl.decls.take(),
+                ..Default::default()
             }));
 
             let mut body = vec![*n.body.take()];

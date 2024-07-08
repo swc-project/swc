@@ -1056,6 +1056,7 @@ impl Fold for SystemJs {
                             definite: false,
                         })
                         .collect(),
+                    ..Default::default()
                 }
                 .into(),
             );

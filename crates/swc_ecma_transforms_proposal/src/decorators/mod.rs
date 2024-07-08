@@ -193,6 +193,7 @@ impl Fold for Decorators {
                                 init: Some(decorate_call),
                                 definite: false,
                             }],
+                            ..Default::default()
                         }
                         .into(),
                     );
