@@ -870,6 +870,7 @@ impl<I: Tokens> Parser<I> {
                     is_optional,
                     params,
                     body,
+                    ..Default::default()
                 }));
             } else {
                 return self.make_method(

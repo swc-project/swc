@@ -990,15 +990,12 @@ impl VisitMut for Decorator2022_03 {
                                 self.state.private_id_index += 1;
 
                                 PrivateName {
-                                    span: init.span.with_ctxt(SyntaxContext::empty()),
-                                    id: Ident::new(
-                                        format!(
-                                            "{field_name_like}_{}",
-                                            self.state.private_id_index
-                                        )
-                                        .into(),
-                                        init.span.with_ctxt(SyntaxContext::empty()),
-                                    ),
+                                    span: init.span,
+                                    name: format!(
+                                        "{field_name_like}_{}",
+                                        self.state.private_id_index
+                                    )
+                                    .into(),
                                 }
                             }
                         },

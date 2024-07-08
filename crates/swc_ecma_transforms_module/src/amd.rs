@@ -555,7 +555,7 @@ fn amd_import_meta_url(span: Span, module: Ident) -> Expr {
             DUMMY_SP,
             Some(vec![
                 module.make_member(quote_ident!("uri")).as_arg(),
-                member_expr!(SyntaxContext::empty(), document.baseURI).as_arg(),
+                member_expr!(DUMMY_SP, document.baseURI).as_arg(),
             ]),
         ))),
         prop: quote_ident!("href").into(),

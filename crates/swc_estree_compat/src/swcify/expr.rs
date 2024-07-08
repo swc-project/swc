@@ -294,7 +294,7 @@ impl Swcify for FunctionExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         FnExpr {
-            ident: self.id.swcify(ctx).map(|v| v.id),
+            ident: self.id.swcify(ctx).map(|v| v.into()),
             function: Box::new(Function {
                 params: self.params.swcify(ctx),
                 decorators: Default::default(),
