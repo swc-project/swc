@@ -163,7 +163,7 @@ fn wrap_module(
             init: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: Ident::new("__swcpack_require__".into(), DUMMY_SP, helper_ctxt)
-                    .make_member(Ident::new("bind".into(), DUMMY_SP))
+                    .make_member(Ident::new_no_ctxt("bind".into(), DUMMY_SP))
                     .as_callee(),
                 args: vec![Expr::undefined(DUMMY_SP).as_arg(), module_fn.as_arg()],
                 type_args: None,

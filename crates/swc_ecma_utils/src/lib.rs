@@ -2771,7 +2771,7 @@ where
         node.value.visit_with(self);
 
         if self.is_pat_decl {
-            self.add(&node.key);
+            self.add(&node.key.clone().into());
         }
     }
 
@@ -2836,7 +2836,7 @@ where
 
         if self.is_pat_decl {
             if let Pat::Ident(i) = node {
-                self.add(&i.id)
+                self.add(&i.clone().into())
             }
         }
     }
@@ -3042,7 +3042,7 @@ impl VisitMut for IdentRenamer<'_> {
                 match p.value.take() {
                     Some(default) => {
                         *i = ObjectPatProp::KeyValue(KeyValuePatProp {
-                            key: PropName::Ident(orig.id),
+                            key: PropName::Ident(orig.clone().into()),
                             value: Box::new(Pat::Assign(AssignPat {
                                 span: DUMMY_SP,
                                 left: p.key.clone().into(),
@@ -3052,7 +3052,7 @@ impl VisitMut for IdentRenamer<'_> {
                     }
                     None => {
                         *i = ObjectPatProp::KeyValue(KeyValuePatProp {
-                            key: PropName::Ident(orig.id),
+                            key: PropName::Ident(orig.clone().into()),
                             value: p.key.clone().into(),
                         });
                     }

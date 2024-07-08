@@ -485,7 +485,7 @@ where
                                 self.idents_to_deglob.insert(id.clone());
                                 ImportSpecifier::Named(ImportNamedSpecifier {
                                     span: DUMMY_SP,
-                                    local: Ident::new(id.0, DUMMY_SP.with_ctxt(id.1)),
+                                    local: Ident::new(id.0, DUMMY_SP, id.1),
                                     imported: None,
                                     is_type_only: false,
                                 })
