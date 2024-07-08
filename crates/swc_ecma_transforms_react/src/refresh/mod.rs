@@ -416,10 +416,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
                             span: DUMMY_SP,
                             expr: Box::new(make_assign_stmt(
                                 ident.clone(),
-                                Box::new(Expr::Ident(Ident::new(
-                                    name.0.clone(),
-                                    DUMMY_SP.with_ctxt(name.1),
-                                ))),
+                                Box::new(Expr::Ident(Ident::new(name.0.clone(), DUMMY_SP, name.1))),
                             )),
                         })))
                     }

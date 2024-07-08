@@ -52,7 +52,7 @@ pub fn operate(
         .filename
         .map_or(FileName::Anon, |f| FileName::Real(f.into()));
 
-    let fm = cm.new_source_file(filename, input);
+    let fm = cm.new_source_file(filename.into(), input);
 
     let syntax = Syntax::Typescript(options.parser);
     let target = EsVersion::latest();
@@ -470,7 +470,7 @@ impl Visit for TsStrip {
             matches!(
                 &param.pat,
                 Pat::Ident(BindingIdent {
-                    id: Ident { sym, .. },
+                    sym,
                     ..
                 }) if &**sym == "this"
             )
