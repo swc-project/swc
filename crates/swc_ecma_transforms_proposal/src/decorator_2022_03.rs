@@ -506,12 +506,12 @@ impl Decorator2022_03 {
                                                     BlockStmt {
                                                         span: DUMMY_SP,
                                                         stmts: last_static_block,
+                                                        ..Default::default()
                                                     },
                                                 )),
                                                 is_async: false,
                                                 is_generator: false,
-                                                type_params: Default::default(),
-                                                return_type: Default::default(),
+                                                ..Default::default()
                                             }
                                             .as_callee(),
                                             args: vec![],

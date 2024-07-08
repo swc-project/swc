@@ -1776,7 +1776,9 @@ impl Generator {
             let variable = match node.left {
                 ForHead::VarDecl(initializer) => {
                     for variable in initializer.decls.iter() {
-                        self.hoist_variable_declaration(variable.name.as_ident().unwrap());
+                        self.hoist_variable_declaration(&Ident::from(
+                            variable.name.as_ident().unwrap(),
+                        ));
                     }
 
                     initializer.decls[0].name.clone()
