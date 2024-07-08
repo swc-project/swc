@@ -1030,10 +1030,10 @@ impl VisitMut for TreeShaker {
             };
 
             if can_drop
-                && self.can_drop_binding(i.id.to_id(), self.var_decl_kind == Some(VarDeclKind::Var))
+                && self.can_drop_binding(i.to_id(), self.var_decl_kind == Some(VarDeclKind::Var))
             {
                 self.changed = true;
-                debug!("Dropping {} because it's not used", i.id);
+                debug!("Dropping {} because it's not used", i);
                 v.name.take();
             }
         }

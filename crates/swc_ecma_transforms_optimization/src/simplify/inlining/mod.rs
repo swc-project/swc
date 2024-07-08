@@ -692,7 +692,7 @@ impl VisitMut for Inlining<'_> {
                                 let e = *e;
                                 if self
                                     .scope
-                                    .is_inline_prevented(&Expr::Ident(name.id.clone()))
+                                    .is_inline_prevented(&Expr::Ident(Ident::from(name)))
                                 {
                                     node.init = Some(Box::new(e));
                                     return;
