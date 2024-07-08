@@ -1,4 +1,7 @@
-use std::fmt::Display;
+use std::{
+    fmt::Display,
+    ops::{Deref, DerefMut},
+};
 
 use phf::phf_set;
 use scoped_tls::scoped_thread_local;
@@ -28,23 +31,28 @@ use crate::{typescript::TsTypeAnn, Expr};
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub struct BindingIdent {
+    #[span]
+    #[cfg_attr(feature = "serde-impl", serde(flatten))]
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
-    pub span: Span,
-
-    #[cfg_attr(feature = "__rkyv", omit_bounds)]
-    pub ctxt: SyntaxContext,
-
-    #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
-    #[cfg_attr(feature = "__rkyv", omit_bounds)]
-    pub sym: Atom,
-
-    /// TypeScript only. Used in case of an optional parameter.
-    #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub optional: bool,
+    pub id: Ident,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub type_ann: Option<Box<TsTypeAnn>>,
+}
+
+impl Deref for BindingIdent {
+    type Target = Ident;
+
+    fn deref(&self) -> &Self::Target {
+        &self.id
+    }
+}
+
+impl DerefMut for BindingIdent {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.id
+    }
 }
 
 impl AsRef<str> for BindingIdent {
@@ -78,24 +86,15 @@ impl BindingIdent {
 
 impl Take for BindingIdent {
     fn dummy() -> Self {
-        BindingIdent {
-            span: DUMMY_SP,
-            ctxt: SyntaxContext::empty(),
-            sym: Atom::default(),
-            optional: false,
-            type_ann: None,
-        }
+        Default::default()
     }
 }
 
 impl From<Ident> for BindingIdent {
     fn from(id: Ident) -> Self {
         BindingIdent {
-            span: id.span,
-            ctxt: id.ctxt,
-            sym: id.sym,
-            optional: false,
-            type_ann: None,
+            id,
+            ..Default::default()
         }
     }
 }
@@ -171,12 +170,7 @@ pub struct Ident {
 
 impl From<BindingIdent> for Ident {
     fn from(bi: BindingIdent) -> Self {
-        Ident {
-            span: bi.span,
-            ctxt: bi.ctxt,
-            sym: bi.sym,
-            optional: bi.optional,
-        }
+        bi.id
     }
 }
 

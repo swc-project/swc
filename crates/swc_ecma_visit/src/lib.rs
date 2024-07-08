@@ -939,10 +939,7 @@ define!({
     }
 
     pub struct BindingIdent {
-        pub span: Span,
-        pub ctxt: SyntaxContext,
-        pub sym: Atom,
-        pub optional: bool,
+        pub id: Ident,
         pub type_ann: Option<Box<TsTypeAnn>>,
     }
 
