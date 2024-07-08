@@ -239,7 +239,7 @@ impl VisitMut for ComputedProps {
                         span,
                         callee: helper!(define_property),
                         args: vec![exprs.pop().unwrap().as_arg(), key.as_arg(), value.as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }));
                     break;
                 }
@@ -260,7 +260,7 @@ impl VisitMut for ComputedProps {
                         span,
                         callee: helper!(define_property),
                         args: vec![obj_ident.clone().as_arg(), key.as_arg(), value.as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }))
                 });
             }
@@ -290,7 +290,7 @@ impl VisitMut for ComputedProps {
                     span: *span,
                     callee: helper!(define_enumerable_properties),
                     args: vec![obj_ident.clone().as_arg(), mutator_map.as_arg()],
-                    type_args: Default::default(),
+                    ..Default::default()
                 })));
             }
 

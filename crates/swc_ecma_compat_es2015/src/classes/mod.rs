@@ -1232,7 +1232,7 @@ fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
             Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
             class_name_sym.as_arg(),
         ],
-        type_args: Default::default(),
+        ..Default::default()
     }
     .into_stmt();
 
