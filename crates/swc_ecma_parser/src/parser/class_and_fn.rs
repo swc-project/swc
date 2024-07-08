@@ -1518,7 +1518,7 @@ impl IsInvalidClassName for Ident {
     fn invalid_class_name(&self) -> Option<Span> {
         match &*self.sym {
             "string" | "null" | "number" | "object" | "any" | "unknown" | "boolean" | "bigint"
-            | "symbol" | "void" | "never" | "intrinsic" => Some(*self.span),
+            | "symbol" | "void" | "never" | "intrinsic" => Some(self.span),
             _ => None,
         }
     }

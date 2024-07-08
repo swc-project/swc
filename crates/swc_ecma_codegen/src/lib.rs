@@ -1140,7 +1140,7 @@ where
 
         let parens = !self.cfg.minify
             || match node.params.as_slice() {
-                [Pat::Ident(i)] => self.has_trailing_comment(*i.span),
+                [Pat::Ident(i)] => self.has_trailing_comment(i.span),
                 _ => true,
             };
 
@@ -1799,7 +1799,7 @@ where
         match node {
             PropName::Ident(ident) => {
                 // TODO: Use write_symbol when ident is a symbol.
-                self.emit_leading_comments_of_span(*ident.span, false)?;
+                self.emit_leading_comments_of_span(ident.span, false)?;
 
                 // Source map
                 self.wr.commit_pending_semi()?;
@@ -2344,7 +2344,7 @@ where
 
     #[emitter]
     fn emit_binding_ident(&mut self, ident: &BindingIdent) -> Result {
-        self.emit_ident_like(*ident.span, &ident.sym, ident.optional)?;
+        self.emit_ident_like(ident.span, &ident.sym, ident.optional)?;
 
         if let Some(ty) = &ident.type_ann {
             punct!(":");
@@ -2360,7 +2360,7 @@ where
 
     #[emitter]
     fn emit_ident(&mut self, ident: &Ident) -> Result {
-        self.emit_ident_like(*ident.span, &ident.sym, ident.optional)?;
+        self.emit_ident_like(ident.span, &ident.sym, ident.optional)?;
     }
 
     fn emit_ident_like(&mut self, span: Span, sym: &Atom, optional: bool) -> Result {
@@ -3095,7 +3095,7 @@ where
     fn simple_assign_target_has_leading_comment(&self, arg: &SimpleAssignTarget) -> bool {
         match arg {
             SimpleAssignTarget::Ident(i) => {
-                span_has_leading_comment(self.comments.as_ref().unwrap(), *i.span)
+                span_has_leading_comment(self.comments.as_ref().unwrap(), i.span)
             }
             SimpleAssignTarget::Member(m) => {
                 if self.has_leading_comment(&m.obj) {
