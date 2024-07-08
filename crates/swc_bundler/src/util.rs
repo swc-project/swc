@@ -179,3 +179,25 @@ pub(crate) trait IntoParallelIterator: Sized + IntoIterator {
 
 #[cfg(not(feature = "rayon"))]
 impl<T> IntoParallelIterator for T where T: IntoIterator {}
+
+pub(crate) fn metadata(key: &str, value: &str) -> Prop {
+    Prop::KeyValue(KeyValueProp {
+        key: PropName::Ident(Ident::new_no_ctxt(key.into(), DUMMY_SP)),
+        value: Box::new(Expr::Lit(Lit::Str(Str {
+            span: DUMMY_SP,
+            value: value.into(),
+            raw: None,
+        }))),
+    })
+}
+
+pub(crate) fn create_with(props: Vec<Prop>) -> Box<ObjectLit> {
+    Box::new(ObjectLit {
+        span: DUMMY_SP,
+        props: props
+            .into_iter()
+            .map(Box::new)
+            .map(PropOrSpread::Prop)
+            .collect(),
+    })
+}
