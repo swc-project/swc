@@ -45,6 +45,7 @@ impl NullishCoalescing {
                         kind: VarDeclKind::Var,
                         decls: take(&mut self.vars),
                         declare: false,
+                        ..Default::default()
                     }
                     .into(),
                 ));
@@ -198,6 +199,7 @@ impl VisitMut for NullishCoalescing {
                         kind: VarDeclKind::Var,
                         decls: self.vars.take(),
                         declare: false,
+                        ..Default::default()
                     }
                     .into(),
                     Stmt::Return(ReturnStmt {

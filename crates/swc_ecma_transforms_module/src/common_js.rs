@@ -227,13 +227,13 @@ where
                     }
                 });
 
-                let require_span = import_span.apply_mark(self.unresolved_mark);
+                let unresolved_ctxt = SyntaxContext::empty().apply_mark(self.unresolved_mark);
 
                 *n = cjs_dynamic_import(
                     *span,
                     self.pure_span(),
                     args.take(),
-                    quote_ident!(require_span, "require"),
+                    quote_ident!(unresolved_ctxt, *import_span, "require"),
                     self.config.import_interop(),
                     self.support_arrow,
                     is_lit_path,

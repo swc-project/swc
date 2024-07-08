@@ -46,6 +46,7 @@ impl TemplateLiteralCaching {
                 kind: VarDeclKind::Let,
                 declare: false,
                 decls: self.decls.clone(),
+                ..Default::default()
             }))));
         }
         None

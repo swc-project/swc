@@ -455,6 +455,7 @@ impl VisitMut for PrivateInObject {
                     kind: VarDeclKind::Var,
                     declare: Default::default(),
                     decls: take(&mut self.vars),
+                    ..Default::default()
                 }
                 .into(),
             );
