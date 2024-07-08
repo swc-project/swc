@@ -141,6 +141,26 @@ impl SpanWithCtx {
     }
 
     #[inline]
+    pub fn lo(self) -> BytePos {
+        self.lo
+    }
+
+    #[inline]
+    pub fn with_lo(&self, lo: BytePos) -> Self {
+        Self::new(lo, self.hi, self.ctxt)
+    }
+
+    #[inline]
+    pub fn hi(self) -> BytePos {
+        self.hi
+    }
+
+    #[inline]
+    pub fn with_hi(&self, hi: BytePos) -> Self {
+        Self::new(self.lo, hi, self.ctxt)
+    }
+
+    #[inline]
     pub fn apply_mark(self, mark: Mark) -> Self {
         let span = self;
         span.with_ctxt(span.ctxt.apply_mark(mark))
