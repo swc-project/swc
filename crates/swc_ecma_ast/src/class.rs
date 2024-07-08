@@ -20,6 +20,8 @@ use crate::{
 pub struct Class {
     pub span: Span,
 
+    pub ctxt: SyntaxContext,
+
     #[cfg_attr(c, serde(default))]
     pub decorators: Vec<Decorator>,
 

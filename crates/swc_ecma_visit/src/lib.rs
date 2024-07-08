@@ -542,6 +542,7 @@ define!({
 
     pub struct Class {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub decorators: Vec<Decorator>,
         pub body: Vec<ClassMember>,
         pub super_class: Option<Box<Expr>>,
