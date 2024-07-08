@@ -587,7 +587,7 @@ impl<'a> VisitMut for Resolver<'a> {
         i.type_ann.visit_mut_with(self);
 
         self.ident_type = ident_type;
-        self.modify(i, self.decl_kind);
+        i.id.visit_mut_with(self);
 
         self.in_type = in_type;
         self.ident_type = ident_type;
