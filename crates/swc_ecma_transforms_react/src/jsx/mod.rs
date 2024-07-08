@@ -154,7 +154,7 @@ pub fn parse_expr_for_jsx(
 fn apply_mark(e: &mut Expr, mark: Mark) {
     match e {
         Expr::Ident(i) => {
-            i.span = i.span.apply_mark(mark);
+            i.ctxt = i.ctxt.apply_mark(mark);
         }
         Expr::Member(MemberExpr { obj, .. }) => {
             apply_mark(obj, mark);

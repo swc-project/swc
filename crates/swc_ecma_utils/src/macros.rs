@@ -74,7 +74,7 @@ macro_rules! member_expr {
 
     (@EXT, $span:expr, $obj:expr, $first:ident . $($rest:tt)* ) => {{
         use $crate::swc_ecma_ast::MemberProp;
-        let prop = MemberProp::Ident($crate::quote_ident!($span, stringify!($first)));
+        let prop = MemberProp::Ident($crate::quote_ident!(Default::default(), $span, stringify!($first)));
 
         member_expr!(@EXT, $span, Box::new(Expr::Member(MemberExpr{
             span: $crate::swc_common::DUMMY_SP,
@@ -85,7 +85,7 @@ macro_rules! member_expr {
 
     (@EXT, $span:expr, $obj:expr,  $first:ident) => {{
         use $crate::swc_ecma_ast::*;
-        let prop = MemberProp::Ident($crate::quote_ident!($span, stringify!($first)));
+        let prop = MemberProp::Ident($crate::quote_ident!(Default::default(), $span, stringify!($first)));
 
         MemberExpr{
             span: $crate::swc_common::DUMMY_SP,

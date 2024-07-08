@@ -301,7 +301,7 @@ impl VisitMut for TemplateLiteral {
                                         .chain(raw)
                                         .collect()
                                     },
-                                    type_args: Default::default(),
+                                    ..Default::default()
                                 }))),
                             }],
                         };
@@ -344,6 +344,7 @@ impl VisitMut for TemplateLiteral {
                                     arg: Some(Box::new(quote_ident!("data").into())),
                                 }),
                             ],
+                            ..Default::default()
                         })
                     },
                     decorators: Default::default(),
