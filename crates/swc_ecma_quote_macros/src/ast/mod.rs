@@ -1,4 +1,4 @@
-use swc_common::Span;
+use swc_common::{source_map::SpanWithCtx, Span};
 use swc_ecma_ast::*;
 use syn::{parse_quote, ExprBlock};
 
@@ -126,6 +126,12 @@ impl_struct!(Invalid, [span]);
 impl ToCode for Span {
     fn to_code(&self, _: &Ctx) -> syn::Expr {
         parse_quote!(swc_core::common::DUMMY_SP)
+    }
+}
+
+impl ToCode for SpanWithCtx {
+    fn to_code(&self, _: &Ctx) -> syn::Expr {
+        parse_quote!(swc_core::common::DUMMY_SP.with_empty_ctxt())
     }
 }
 
