@@ -440,11 +440,11 @@ where
                         .clone()
                         .as_call(
                             DUMMY_SP,
-                            vec![quote_str!(src_span, src_path.clone()).as_arg()],
+                            vec![quote_str!(src_span.0, src_path.clone()).as_arg()],
                         )
                         .as_arg(),
                 );
-                amd_dep_list.push(Some(quote_str!(src_span, src_path.clone()).as_arg()));
+                amd_dep_list.push(Some(quote_str!(src_span.0, src_path.clone()).as_arg()));
 
                 let global_dep = {
                     let dep_name = self.config.global_name(&src_path);

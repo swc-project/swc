@@ -3,7 +3,7 @@ use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     util::take::Take,
-    Span, SyntaxContext,
+    Mark, Span, SyntaxContext,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, private_ident, quote_ident, ExprFactory};
@@ -479,14 +479,14 @@ impl From<ExportSpecifier> for LinkSpecifier {
                     ModuleExportName::Ident(Ident { span, sym, .. })
                     | ModuleExportName::Str(Str {
                         span, value: sym, ..
-                    }) => (sym, span.private()),
+                    }) => (sym, (span, SyntaxContext::empty().apply_mark(Mark::new()))),
                 };
 
                 let exported = exported.map(|exported| match exported {
                     ModuleExportName::Ident(Ident { span, sym, .. })
                     | ModuleExportName::Str(Str {
                         span, value: sym, ..
-                    }) => (sym, span.private()),
+                    }) => (sym, (span, SyntaxContext::empty().apply_mark(Mark::new()))),
                 });
 
                 match (&*orig.0, orig.1) {

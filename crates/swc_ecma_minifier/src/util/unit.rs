@@ -40,8 +40,6 @@ pub(crate) trait CompileUnit:
     fn apply<V>(&mut self, visitor: &mut V)
     where
         V: VisitMut;
-
-    fn remove_mark(&mut self) -> Mark;
 }
 
 impl CompileUnit for Module {
@@ -58,9 +56,7 @@ impl CompileUnit for Module {
                 .clone()
                 .fold_with(&mut fixer(None))
                 .fold_with(&mut hygiene())
-                .fold_with(&mut as_folder(DropSpan {
-                    preserve_ctxt: false,
-                })),
+                .fold_with(&mut as_folder(DropSpan {})),
             true,
         )
     }
@@ -72,10 +68,6 @@ impl CompileUnit for Module {
         self.visit_mut_with(&mut *visitor);
 
         crate::debug::invoke_module(self);
-    }
-
-    fn remove_mark(&mut self) -> Mark {
-        Mark::root()
     }
 }
 
@@ -93,9 +85,7 @@ impl CompileUnit for Script {
                 .clone()
                 .fold_with(&mut fixer(None))
                 .fold_with(&mut hygiene())
-                .fold_with(&mut as_folder(DropSpan {
-                    preserve_ctxt: false,
-                })),
+                .fold_with(&mut as_folder(DropSpan {})),
             true,
         )
     }
@@ -107,10 +97,6 @@ impl CompileUnit for Script {
         self.visit_mut_with(&mut *visitor);
 
         crate::debug::invoke_script(self);
-    }
-
-    fn remove_mark(&mut self) -> Mark {
-        Mark::root()
     }
 }
 
@@ -128,9 +114,7 @@ impl CompileUnit for FnExpr {
                 .clone()
                 .fold_with(&mut fixer(None))
                 .fold_with(&mut hygiene())
-                .fold_with(&mut as_folder(DropSpan {
-                    preserve_ctxt: false,
-                })),
+                .fold_with(&mut as_folder(DropSpan {})),
             true,
         )
     }
@@ -144,9 +128,5 @@ impl CompileUnit for FnExpr {
         {
             self.visit_with(&mut AssertValid);
         }
-    }
-
-    fn remove_mark(&mut self) -> Mark {
-        self.function.span.remove_mark()
     }
 }

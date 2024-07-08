@@ -81,7 +81,7 @@ impl BuiltConfig {
                 quote_ident!(s)
             }
             FileName::Custom(s) => {
-                let s = self.global_name(&s);
+                let s = self.global_name(s);
                 quote_ident!(s)
             }
             _ => unimplemented!("determine_export_name({:?})", filename),

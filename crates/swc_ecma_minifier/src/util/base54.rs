@@ -41,7 +41,7 @@ impl SourceMapper for DummySourceMap {
     }
 
     fn span_to_filename(&self, _: Span) -> Lrc<FileName> {
-        FileName::Anon
+        FileName::Anon.into()
     }
 
     fn merge_spans(&self, _: Span, _: Span) -> Option<Span> {

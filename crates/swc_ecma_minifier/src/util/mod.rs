@@ -179,15 +179,6 @@ impl ExprOptExt for Expr {
     }
 }
 
-pub(crate) trait SpanExt: Into<Span> {
-    fn with_mark(self, mark: Mark) -> Span {
-        let span = self.into();
-        span.apply_mark(mark)
-    }
-}
-
-impl SpanExt for Span {}
-
 pub(crate) fn contains_leaping_continue_with_label<N>(n: &N, label: Id) -> bool
 where
     N: VisitWith<LeapFinder>,
