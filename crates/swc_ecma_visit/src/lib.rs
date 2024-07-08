@@ -790,6 +790,7 @@ define!({
     }
     pub struct CallExpr {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub callee: Callee,
         pub args: Vec<ExprOrSpread>,
         pub type_args: Option<Box<TsTypeParamInstantiation>>,

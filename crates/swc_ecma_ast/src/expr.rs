@@ -928,10 +928,11 @@ impl Take for CondExpr {
 }
 
 #[ast_node("CallExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct CallExpr {
     pub span: Span,
+    pub ctxt: SyntaxContext,
 
     pub callee: Callee,
 
@@ -1218,6 +1219,12 @@ pub enum Callee {
     Expr(Box<Expr>),
 }
 
+impl Default for Callee {
+    fn default() -> Self {
+        Callee::Super(Default::default())
+    }
+}
+
 impl Take for Callee {
     fn dummy() -> Self {
         Callee::Super(Take::dummy())
@@ -1225,7 +1232,7 @@ impl Take for Callee {
 }
 
 #[ast_node("Super")]
-#[derive(Eq, Hash, Copy, EqIgnoreSpan)]
+#[derive(Eq, Hash, Copy, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Super {
     pub span: Span,
