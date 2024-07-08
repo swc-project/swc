@@ -42,7 +42,6 @@ pub(crate) fn info_marker<'a>(
 
 #[derive(Default)]
 struct State {
-    is_bundle: bool,
     is_in_export: bool,
 }
 

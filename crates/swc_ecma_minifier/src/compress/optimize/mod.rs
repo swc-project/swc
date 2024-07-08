@@ -2599,7 +2599,6 @@ impl VisitMut for Optimizer<'_> {
                         _ => true,
                     })
                     .collect(),
-                ..Default::default()
             });
 
             #[cfg(debug_assertions)]
