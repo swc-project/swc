@@ -782,7 +782,7 @@ impl Swcify for OptionalMemberExprProp {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            OptionalMemberExprProp::Id(v) => Box::new(Expr::Ident(v.swcify(ctx).id)),
+            OptionalMemberExprProp::Id(v) => Box::new(Expr::Ident(v.swcify(ctx).into())),
             OptionalMemberExprProp::Expr(v) => v.swcify(ctx),
         }
     }

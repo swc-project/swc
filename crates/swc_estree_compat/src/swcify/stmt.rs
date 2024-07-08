@@ -105,7 +105,7 @@ impl Swcify for BreakStatement {
     fn swcify(self, ctx: &Context) -> Self::Output {
         BreakStmt {
             span: ctx.span(&self.base),
-            label: self.label.swcify(ctx).map(|v| v.id),
+            label: self.label.swcify(ctx).map(|v| v.into()),
         }
     }
 }
@@ -258,7 +258,7 @@ impl Swcify for LabeledStatement {
     fn swcify(self, ctx: &Context) -> Self::Output {
         LabeledStmt {
             span: ctx.span(&self.base),
-            label: self.label.swcify(ctx).id,
+            label: self.label.swcify(ctx).into(),
             body: Box::new(self.body.swcify(ctx).expect_stmt()),
         }
     }
@@ -474,7 +474,7 @@ impl Swcify for IdOrString {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            IdOrString::Id(v) => PropName::Ident(v.swcify(ctx).id),
+            IdOrString::Id(v) => PropName::Ident(v.swcify(ctx).into()),
             IdOrString::String(v) => PropName::Str(v.swcify(ctx)),
         }
     }
