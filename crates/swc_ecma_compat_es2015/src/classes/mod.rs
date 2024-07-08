@@ -3,7 +3,7 @@ use std::iter;
 use serde::Deserialize;
 use swc_common::{
     collections::ARandomState, comments::Comments, util::take::Take, BytePos, Mark, Span, Spanned,
-    DUMMY_SP,
+    SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
@@ -1089,7 +1089,11 @@ where
                     match prop_name {
                         Expr::Ident(ident) => Some(private_ident!(ident.span, ident.sym)),
                         Expr::Lit(Lit::Str(Str { span, value, .. })) if is_valid_ident(&value) => {
-                            Some(Ident::new(value, span.private()))
+                            Some(Ident::new(
+                                value,
+                                span,
+                                SyntaxContext::empty().apply_mark(Mark::new()),
+                            ))
                         }
                         _ => None,
                     }

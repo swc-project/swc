@@ -33,9 +33,7 @@ fn parse(code: &str) -> Vec<Stmt> {
         &mut vec![],
     )
     .map(|mut script| {
-        script.body.visit_mut_with(&mut DropSpan {
-            preserve_ctxt: false,
-        });
+        script.body.visit_mut_with(&mut DropSpan);
         script.body
     })
     .map_err(|e| {

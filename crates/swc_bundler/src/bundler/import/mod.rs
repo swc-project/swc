@@ -382,7 +382,11 @@ where
             }
             Some(ModuleExportName::Str(..)) => unimplemented!("module string names unimplemented"),
             None => {
-                let exported = Ident::new(orig.sym.clone(), orig.span.with_ctxt(self.module_ctxt));
+                let exported = Ident::new(
+                    orig.sym.clone(),
+                    orig.span,
+                    SyntaxContext::empty().with_ctxt(self.module_ctxt),
+                );
                 s.exported = Some(ModuleExportName::Ident(exported));
             }
         }

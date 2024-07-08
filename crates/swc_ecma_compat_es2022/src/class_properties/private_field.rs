@@ -128,8 +128,11 @@ impl VisitMut for BrandCheckHandler<'_> {
                     return;
                 }
 
-                let weak_coll_ident =
-                    Ident::new(format!("_{}", n.id.sym).into(), n.id.span.apply_mark(mark));
+                let weak_coll_ident = Ident::new(
+                    format!("_{}", n.id.sym).into(),
+                    n.id.span,
+                    SyntaxContext::empty().apply_mark(mark),
+                );
 
                 *e = Expr::Call(CallExpr {
                     span: *span,
