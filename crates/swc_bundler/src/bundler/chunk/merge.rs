@@ -193,11 +193,11 @@ where
                 module_id: ModuleId,
                 id: Id,
             ) {
-                let remapped = match map.get(&id.ctxt) {
+                let remapped = match map.get(&id.ctxt()) {
                     Some(v) => v,
                     _ => return,
                 };
-                if remapped == id.ctxt {
+                if remapped == id.ctxt() {
                     return;
                 }
                 let reexported = id.clone().with_ctxt(remapped);
@@ -954,8 +954,7 @@ where
                                                 dep.export_ctxt(),
                                             )
                                             .as_callee(),
-                                            args: Default::default(),
-                                            type_args: Default::default(),
+                                            ..Default::default()
                                         }))),
                                         definite: Default::default(),
                                     });

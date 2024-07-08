@@ -2936,7 +2936,8 @@ impl VisitMut for Optimizer<'_> {
                 var.init = None
             }
 
-            if id.is_dummy() {
+            // Dummy check.
+            if id.sym.is_empty() {
                 var.name = Pat::dummy();
             }
         };
