@@ -2,7 +2,7 @@ use std::{collections::VecDeque, iter::once, mem::take};
 
 use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
-use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_utils::{
@@ -229,16 +229,24 @@ impl Decorator2022_03 {
         match name {
             PropName::Ident(i) => (
                 Box::new(Expr::Lit(Lit::Str(Str {
-                    span: i.span.with_ctxt(SyntaxContext::empty()),
+                    span: i.span,
                     value: i.sym.clone(),
                     raw: None,
                 }))),
-                Ident::new(format!("_{prefix}_{}", i.sym).into(), i.span.private()),
+                Ident::new(
+                    format!("_{prefix}_{}", i.sym).into(),
+                    i.span,
+                    SyntaxContext::empty().apply_mark(Mark::new()),
+                ),
             ),
             PropName::Computed(c) if c.expr.is_ident() => match &*c.expr {
                 Expr::Ident(i) => (
                     Box::new(Expr::Ident(i.clone())),
-                    Ident::new(format!("_{prefix}_{}", i.sym).into(), i.span.private()),
+                    Ident::new(
+                        format!("_{prefix}_{}", i.sym).into(),
+                        i.span,
+                        SyntaxContext::empty().apply_mark(Mark::new()),
+                    ),
                 ),
                 _ => {
                     unreachable!()
@@ -1210,11 +1218,11 @@ impl VisitMut for Decorator2022_03 {
                                                         type_args: Default::default(),
                                                     })),
                                                 })],
+                                                ..Default::default()
                                             }),
                                             is_generator: false,
                                             is_async: false,
-                                            type_params: Default::default(),
-                                            return_type: Default::default(),
+                                            ..Default::default()
                                         });
 
                                         data
