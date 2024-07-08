@@ -2,7 +2,7 @@ use is_macro::Is;
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_cached::regex::CachedRegex;
-use swc_common::{Span, SyntaxContext, DUMMY_SP};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     is_valid_prop_ident, member_expr, private_ident, quote_ident, quote_str, ExprFactory,

@@ -24,6 +24,7 @@ use crate::{
         define_es_module, emit_export_stmts, local_name_for_src, use_strict, ImportInterop,
         VecStmtLike,
     },
+    SpanCtx,
 };
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -123,7 +124,7 @@ where
     support_arrow: bool,
     const_var_kind: VarDeclKind,
 
-    dep_list: Vec<(Ident, JsWord, Span)>,
+    dep_list: Vec<(Ident, JsWord, SpanCtx)>,
     require: Ident,
     exports: Option<Ident>,
     module: Option<Ident>,
@@ -237,7 +238,7 @@ where
                     Resolver::Default => src_path,
                 };
 
-                elems.push(Some(quote_str!(src_span, src_path).as_arg()));
+                elems.push(Some(quote_str!(src_span.0, src_path).as_arg()));
                 params.push(ident.into());
             });
 

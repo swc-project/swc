@@ -131,10 +131,7 @@ impl Pure<'_> {
 
                 self.changed = true;
 
-                Some(Ident::new(
-                    s.value.clone(),
-                    s.span.with_ctxt(SyntaxContext::empty()),
-                ))
+                Some(Ident::new_no_ctxt(s.value.clone(), s.span))
             }
             _ => None,
         }

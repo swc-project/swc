@@ -379,8 +379,8 @@ pub enum LinkSpecifier {
     /// ```
     /// Note: orig will never be `default`
     ExportNamed {
-        orig: (JsWord, Span),
-        exported: Option<(JsWord, Span)>,
+        orig: (JsWord, SpanCtx),
+        exported: Option<(JsWord, SpanCtx)>,
     },
 
     /// ```javascript
@@ -389,13 +389,13 @@ pub enum LinkSpecifier {
     /// export { default as foo } from "mod";
     /// ```
     /// (default_span, local_sym, local_span)
-    ExportDefaultAs(Span, JsWord, Span),
+    ExportDefaultAs(SpanCtx, JsWord, SpanCtx),
 
     /// ```javascript
     /// export * as foo from "mod";
     /// export * as "bar" from "mod";
     /// ```
-    ExportStarAs(JsWord, Span),
+    ExportStarAs(JsWord, SpanCtx),
 
     /// ```javascript
     /// export * from "mod";
@@ -500,7 +500,7 @@ impl From<ExportSpecifier> for LinkSpecifier {
 }
 
 #[derive(Debug, Default)]
-pub struct LinkItem(pub Span, pub AHashSet<LinkSpecifier>, pub LinkFlag);
+pub struct LinkItem(pub SpanCtx, pub AHashSet<LinkSpecifier>, pub LinkFlag);
 
 use bitflags::bitflags;
 
