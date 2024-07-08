@@ -67,7 +67,7 @@ impl VisitMut for InstanceOf {
                 span: *span,
                 callee: helper!(instanceof_span, instanceof),
                 args: vec![left.take().as_arg(), right.take().as_arg()],
-                type_args: Default::default(),
+                ..Default::default()
             });
         }
     }

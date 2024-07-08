@@ -272,7 +272,7 @@ fn new_no_paren() {
             span,
             callee: expr("a"),
             args: None,
-            type_args: None,
+            ..Default::default()
         }))
     );
 }

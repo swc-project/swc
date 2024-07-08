@@ -291,7 +291,7 @@ impl ForOf {
                         span: DUMMY_SP,
                         callee: iterator.as_callee(),
                         args: vec![],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }
                     .into(),
                 }
@@ -419,7 +419,7 @@ impl ForOf {
                                     ))
                                     .as_callee(),
                                 args: vec![],
-                                type_args: Default::default(),
+                                ..Default::default()
                             }))),
                             definite: false,
                         },
@@ -448,7 +448,7 @@ impl ForOf {
                             // `_iterator.next`
                             callee: iterator.make_member(quote_ident!("next")).as_callee(),
                             args: vec![],
-                            type_args: Default::default(),
+                            ..Default::default()
                         })),
                     }));
 
@@ -579,7 +579,7 @@ fn make_finally_block(
                             span: DUMMY_SP,
                             callee: iterator_return.as_callee(),
                             args: vec![],
-                            type_args: Default::default(),
+                            ..Default::default()
                         }
                         .into_stmt()],
                         ..Default::default()
