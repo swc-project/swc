@@ -143,7 +143,7 @@ bridge_from!(BindingIdent, Ident, Id);
 /// There's a type named [Id] which only contains minimal information to
 /// distinguish identifiers.
 #[ast_node("Identifier")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Default)]
 pub struct Ident {
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub span: Span,
