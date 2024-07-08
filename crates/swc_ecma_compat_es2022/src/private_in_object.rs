@@ -138,20 +138,20 @@ impl VisitMut for PrivateInObject {
         for m in &n.body {
             match m {
                 ClassMember::PrivateMethod(m) => {
-                    self.cls.privates.insert(m.key.id.sym.clone());
+                    self.cls.privates.insert(m.key.name.clone());
 
-                    self.cls.methods.push(m.key.id.sym.clone());
+                    self.cls.methods.push(m.key.name.clone());
 
                     if m.is_static {
-                        self.cls.statics.push(m.key.id.sym.clone());
+                        self.cls.statics.push(m.key.name.clone());
                     }
                 }
 
                 ClassMember::PrivateProp(m) => {
-                    self.cls.privates.insert(m.key.id.sym.clone());
+                    self.cls.privates.insert(m.key.name.clone());
 
                     if m.is_static {
-                        self.cls.statics.push(m.key.id.sym.clone());
+                        self.cls.statics.push(m.key.name.clone());
                     }
                 }
 
