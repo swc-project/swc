@@ -63,7 +63,7 @@ macro_rules! impl_for_for_stmt {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Let,
                             decls,
-                            declare: false,
+                            ..Default::default()
                         }
                         .into(),
                     ));
@@ -637,7 +637,7 @@ impl ObjectRest {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
                             decls: mem::take(&mut self.vars),
-                            declare: false,
+                            ..Default::default()
                         }
                         .into(),
                     )

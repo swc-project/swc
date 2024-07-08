@@ -263,9 +263,7 @@ impl SystemJs {
             let target = quote_ident!(local_name_for_src(&meta.src));
             meta.setter_fn_stmts.push(
                 VarDecl {
-                    span: DUMMY_SP,
                     kind: VarDeclKind::Var,
-                    declare: false,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
                         name: export_obj.clone().into(),
@@ -275,21 +273,21 @@ impl SystemJs {
                         }))),
                         definite: false,
                     }],
+                    ..Default::default()
                 }
                 .into(),
             );
             meta.setter_fn_stmts.push(Stmt::ForIn(ForInStmt {
                 span: DUMMY_SP,
                 left: VarDecl {
-                    span: DUMMY_SP,
                     kind: VarDeclKind::Var,
-                    declare: false,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
                         name: key_ident.clone().into(),
                         init: None,
                         definite: false,
                     }],
+                    ..Default::default()
                 }
                 .into(),
                 right: Box::new(Expr::Ident(target.clone())),
