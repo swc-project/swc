@@ -1001,7 +1001,7 @@ impl VisitMut for Generator {
                 // }
 
                 for decl in v.decls.iter() {
-                    self.hoist_variable_declaration(decl.name.as_ident().unwrap());
+                    self.hoist_variable_declaration(Ident::from(decl.name.as_ident().unwrap()));
                 }
 
                 let variables = self.get_initialized_variables(v);

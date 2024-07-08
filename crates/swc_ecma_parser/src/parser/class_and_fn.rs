@@ -180,6 +180,7 @@ impl<I: Tokens> Parser<I> {
                     super_type_params,
                     body,
                     implements,
+                    ..Default::default()
                 }),
             ))
         })

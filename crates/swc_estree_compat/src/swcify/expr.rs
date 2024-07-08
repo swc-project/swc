@@ -485,7 +485,7 @@ impl Swcify for ObjectKey {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            ObjectKey::Id(v) => PropName::Ident(v.swcify(ctx).id),
+            ObjectKey::Id(v) => PropName::Ident(v.swcify(ctx).into()),
             ObjectKey::String(v) => PropName::Str(v.swcify(ctx)),
             ObjectKey::Numeric(v) => PropName::Num(v.swcify(ctx)),
             ObjectKey::Expr(v) => {
