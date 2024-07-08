@@ -360,10 +360,9 @@ impl ComputedProps {
             if !folder.vars.is_empty() {
                 stmts_updated.push(T::from_stmt(
                     VarDecl {
-                        span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         decls: folder.vars,
-                        declare: false,
+                        ..Default::default()
                     }
                     .into(),
                 ));

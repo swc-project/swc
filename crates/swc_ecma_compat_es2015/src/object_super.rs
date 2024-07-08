@@ -58,7 +58,6 @@ impl VisitMut for ObjectSuper {
                 VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
-                    declare: false,
                     decls: self
                         .extra_vars
                         .drain(..)
@@ -69,6 +68,7 @@ impl VisitMut for ObjectSuper {
                             definite: false,
                         })
                         .collect(),
+                    ..Default::default()
                 }
                 .into(),
             );

@@ -187,6 +187,7 @@ impl ForOf {
                         kind: VarDeclKind::Let,
                         declare: false,
                         decls,
+                        ..Default::default()
                     }
                     .into(),
                 ),
@@ -249,15 +250,14 @@ impl ForOf {
                     prepend_stmt(
                         &mut body.stmts,
                         VarDecl {
-                            span: DUMMY_SP,
                             kind: var.kind,
-                            declare: false,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
                                 name: var.decls.into_iter().next().unwrap().name,
                                 init: Some(step.clone().make_member(quote_ident!("value")).into()),
                                 definite: false,
                             }],
+                            ..Default::default()
                         }
                         .into(),
                     )
