@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 120,
-    "end": 151,
-    "ctxt": 0
+    "end": 151
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 120,
-        "end": 151,
-        "ctxt": 0
+        "end": 151
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 126,
-            "end": 151,
-            "ctxt": 0
+            "end": 151
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 126,
-              "end": 132,
-              "ctxt": 0
+              "end": 132
             },
+            "ctxt": 0,
             "value": "remove",
             "optional": false,
             "typeAnnotation": null
@@ -38,17 +36,17 @@
             "type": "ArrowFunctionExpression",
             "span": {
               "start": 135,
-              "end": 151,
-              "ctxt": 0
+              "end": 151
             },
+            "ctxt": 0,
             "params": [
               {
                 "type": "Identifier",
                 "span": {
                   "start": 136,
-                  "end": 139,
-                  "ctxt": 0
+                  "end": 139
                 },
+                "ctxt": 0,
                 "value": "map",
                 "optional": false,
                 "typeAnnotation": null
@@ -57,9 +55,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 141,
-                  "end": 144,
-                  "ctxt": 0
+                  "end": 144
                 },
+                "ctxt": 0,
                 "value": "key",
                 "optional": false,
                 "typeAnnotation": null
@@ -69,9 +67,9 @@
               "type": "BlockStatement",
               "span": {
                 "start": 149,
-                "end": 151,
-                "ctxt": 0
+                "end": 151
               },
+              "ctxt": 0,
               "stmts": []
             },
             "async": false,

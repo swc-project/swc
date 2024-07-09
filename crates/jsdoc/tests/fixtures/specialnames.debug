@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 0..1#0,
+        span: 0..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..10#0,
+                span: 1..10,
                 tag_name: Text {
-                    span: 1..10#0,
+                    span: 1..10,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: 1..10#0,
+                        span: 1..10,
                         ty: None,
                         name: None,
                     },
@@ -23,29 +23,29 @@
         ],
     },
     JsDoc {
-        span: 43..43#0,
+        span: 43..43,
         description: Text {
-            span: 43..54#0,
+            span: 43..54,
             value: "document me",
         },
         tags: [],
     },
     JsDoc {
-        span: 0..94#0,
+        span: 0..94,
         description: Text {
-            span: 94..94#0,
+            span: 94..94,
             value: "",
         },
         tags: [
             TagItem {
-                span: 94..103#0,
+                span: 94..103,
                 tag_name: Text {
-                    span: 94..103#0,
+                    span: 94..103,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: 94..103#0,
+                        span: 94..103,
                         ty: None,
                         name: None,
                     },
@@ -54,17 +54,17 @@
         ],
     },
     JsDoc {
-        span: 134..134#0,
+        span: 134..134,
         description: Text {
-            span: 134..145#0,
+            span: 134..145,
             value: "document me",
         },
         tags: [],
     },
     JsDoc {
-        span: 184..184#0,
+        span: 184..184,
         description: Text {
-            span: 184..195#0,
+            span: 184..195,
             value: "document me",
         },
         tags: [],

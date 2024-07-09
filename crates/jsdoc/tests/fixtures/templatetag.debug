@@ -1,46 +1,46 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..6#0,
+                span: 1..6,
                 tag_name: Text {
-                    span: 1..6#0,
+                    span: 1..6,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 1..6#0,
+                        span: 1..6,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 1..4#0,
+                                span: 1..4,
                                 value: "{T}",
                             },
                         ),
                         desc: Text {
-                            span: 1..2#0,
+                            span: 1..2,
                             value: "t",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 1..12#0,
+                span: 1..12,
                 tag_name: Text {
-                    span: 1..12#0,
+                    span: 1..12,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 1..12#0,
+                        span: 1..12,
                         ty: Some(
                             Text {
-                                span: 1..14#0,
+                                span: 1..14,
                                 value: "* @template T",
                             },
                         ),

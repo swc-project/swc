@@ -1,29 +1,29 @@
 [
     JsDoc {
-        span: 36..36#0,
+        span: 36..36,
         description: Text {
-            span: 36..36#0,
+            span: 36..36,
             value: "",
         },
         tags: [
             TagItem {
-                span: 36..41#0,
+                span: 36..41,
                 tag_name: Text {
-                    span: 36..41#0,
+                    span: 36..41,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 36..41#0,
+                        span: 36..41,
                         ty: Some(
                             Text {
-                                span: 36..63#0,
+                                span: 36..63,
                                 value: "@alias trackr.CookieManager",
                             },
                         ),
                         name: Some(
                             Text {
-                                span: 36..54#0,
+                                span: 36..54,
                                 value: "@param {object} kv",
                             },
                         ),
@@ -33,9 +33,9 @@
         ],
     },
     JsDoc {
-        span: 144..144#0,
+        span: 144..144,
         description: Text {
-            span: 144..155#0,
+            span: 144..155,
             value: "document me",
         },
         tags: [],

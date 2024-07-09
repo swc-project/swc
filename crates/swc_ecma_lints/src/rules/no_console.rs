@@ -48,7 +48,7 @@ impl NoConsole {
     }
 
     fn check(&self, span: Span, ident: &Ident, method: &JsWord) {
-        if &*ident.sym == "console" && ident.span.ctxt == self.unresolved_ctxt {
+        if &*ident.sym == "console" && ident.ctxt == self.unresolved_ctxt {
             if let Some(allow) = &self.allow {
                 if allow.contains(method) {
                     return;

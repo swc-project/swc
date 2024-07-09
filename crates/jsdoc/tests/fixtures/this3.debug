@@ -1,8 +1,8 @@
 [
     JsDoc {
-        span: 34..34#0,
+        span: 34..34,
         description: Text {
-            span: 34..45#0,
+            span: 34..45,
             value: "document me",
         },
         tags: [],

@@ -1,4 +1,4 @@
-use std::{fmt::Write, iter::once, num::FpCategory};
+use std::{fmt::Write, num::FpCategory};
 
 use rustc_hash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
@@ -617,9 +617,10 @@ impl Pure<'_> {
         match e {
             Expr::New(NewExpr {
                 span,
+                ctxt,
                 callee,
                 args,
-                type_args,
+                ..
             }) if callee.is_one_of_global_ref_to(
                 &self.expr_ctx,
                 &[
@@ -649,9 +650,10 @@ impl Pure<'_> {
                 );
                 *e = Expr::Call(CallExpr {
                     span: *span,
+                    ctxt: *ctxt,
                     callee: callee.take().as_callee(),
                     args: args.take().unwrap_or_default(),
-                    type_args: type_args.take(),
+                    ..Default::default()
                 })
             }
             _ => {}
@@ -928,7 +930,7 @@ impl Pure<'_> {
                 }
             }
 
-            Expr::Call(CallExpr { span, args, .. }) if span.has_mark(self.marks.pure) => {
+            Expr::Call(CallExpr { ctxt, args, .. }) if ctxt.has_mark(self.marks.pure) => {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
@@ -938,7 +940,7 @@ impl Pure<'_> {
                 return;
             }
 
-            Expr::TaggedTpl(TaggedTpl { span, tpl, .. }) if span.has_mark(self.marks.pure) => {
+            Expr::TaggedTpl(TaggedTpl { ctxt, tpl, .. }) if ctxt.has_mark(self.marks.pure) => {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
@@ -948,26 +950,12 @@ impl Pure<'_> {
                 return;
             }
 
-            Expr::New(NewExpr { span, args, .. }) if span.has_mark(self.marks.pure) => {
+            Expr::New(NewExpr { ctxt, args, .. }) if ctxt.has_mark(self.marks.pure) => {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
                 let new =
                     self.make_ignored_expr(args.take().into_iter().flatten().map(|arg| arg.expr));
-
-                *e = new.unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
-                return;
-            }
-
-            Expr::Member(MemberExpr {
-                span, obj, prop, ..
-            }) if span.has_mark(self.marks.pure) => {
-                report_change!("ignore_return_value: Dropping a pure member expression");
-                self.changed = true;
-
-                let new = self.make_ignored_expr(
-                    once(obj.take()).chain(prop.take().computed().map(|v| v.expr)),
-                );
 
                 *e = new.unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
                 return;
@@ -1020,7 +1008,7 @@ impl Pure<'_> {
 
         if let Expr::Ident(i) = e {
             // If it's not a top level, it's a reference to a declared variable.
-            if i.span.ctxt.outer() == self.marks.unresolved_mark {
+            if i.ctxt.outer() == self.marks.unresolved_mark {
                 if self.options.side_effects
                     || (self.options.unused && opts.drop_global_refs_if_unused)
                 {
@@ -1129,7 +1117,7 @@ impl Pure<'_> {
                 }
 
                 Expr::Ident(i) => {
-                    if i.span.ctxt.outer() != self.marks.unresolved_mark {
+                    if i.ctxt.outer() != self.marks.unresolved_mark {
                         report_change!("Dropping an identifier as it's declared");
 
                         self.changed = true;
@@ -1217,9 +1205,7 @@ impl Pure<'_> {
                     // Convert `a = a` to `a`.
                     if let Some(l) = assign.left.as_ident() {
                         if let Expr::Ident(r) = &*assign.right {
-                            if l.to_id() == r.to_id()
-                                && l.span.ctxt != self.expr_ctx.unresolved_ctxt
-                            {
+                            if l.to_id() == r.to_id() && l.ctxt != self.expr_ctx.unresolved_ctxt {
                                 self.changed = true;
                                 *e = *assign.right.take();
                             }
@@ -1514,7 +1500,7 @@ impl Pure<'_> {
         if self.options.pristine_globals {
             if let Expr::Member(MemberExpr { obj, prop, .. }) = e {
                 if let Expr::Ident(obj) = &**obj {
-                    if obj.span.ctxt.outer() == self.marks.unresolved_mark {
+                    if obj.ctxt.outer() == self.marks.unresolved_mark {
                         if is_pure_member_access(obj, prop) {
                             self.changed = true;
                             report_change!("Remving pure member access to global var");

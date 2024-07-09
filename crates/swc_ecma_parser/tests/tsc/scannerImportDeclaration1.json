@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 51,
-    "ctxt": 0
+    "end": 51
   },
   "body": [
     {
       "type": "TsImportEqualsDeclaration",
       "span": {
         "start": 1,
-        "end": 51,
-        "ctxt": 0
+        "end": 51
       },
       "isExport": false,
       "isTypeOnly": false,
@@ -19,9 +17,9 @@
         "type": "Identifier",
         "span": {
           "start": 8,
-          "end": 18,
-          "ctxt": 0
+          "end": 18
         },
+        "ctxt": 0,
         "value": "TypeScript",
         "optional": false
       },
@@ -31,9 +29,9 @@
           "type": "Identifier",
           "span": {
             "start": 21,
-            "end": 39,
-            "ctxt": 0
+            "end": 39
           },
+          "ctxt": 0,
           "value": "TypeScriptServices",
           "optional": false
         },
@@ -41,9 +39,9 @@
           "type": "Identifier",
           "span": {
             "start": 40,
-            "end": 50,
-            "ctxt": 0
+            "end": 50
           },
+          "ctxt": 0,
           "value": "TypeScript",
           "optional": false
         }

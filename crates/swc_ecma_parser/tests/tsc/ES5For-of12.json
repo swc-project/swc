@@ -2,32 +2,28 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 25,
-    "ctxt": 0
+    "end": 25
   },
   "body": [
     {
       "type": "ForOfStatement",
       "span": {
         "start": 1,
-        "end": 25,
-        "ctxt": 0
+        "end": 25
       },
       "await": false,
       "left": {
         "type": "ArrayPattern",
         "span": {
           "start": 6,
-          "end": 10,
-          "ctxt": 0
+          "end": 10
         },
         "elements": [
           {
             "type": "StringLiteral",
             "span": {
               "start": 7,
-              "end": 9,
-              "ctxt": 0
+              "end": 9
             },
             "value": "",
             "raw": "\"\""
@@ -40,8 +36,7 @@
         "type": "ArrayExpression",
         "span": {
           "start": 14,
-          "end": 20,
-          "ctxt": 0
+          "end": 20
         },
         "elements": [
           {
@@ -50,8 +45,7 @@
               "type": "ArrayExpression",
               "span": {
                 "start": 15,
-                "end": 19,
-                "ctxt": 0
+                "end": 19
               },
               "elements": [
                 {
@@ -60,8 +54,7 @@
                     "type": "StringLiteral",
                     "span": {
                       "start": 16,
-                      "end": 18,
-                      "ctxt": 0
+                      "end": 18
                     },
                     "value": "",
                     "raw": "\"\""
@@ -76,9 +69,9 @@
         "type": "BlockStatement",
         "span": {
           "start": 22,
-          "end": 25,
-          "ctxt": 0
+          "end": 25
         },
+        "ctxt": 0,
         "stmts": []
       }
     }

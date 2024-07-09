@@ -1,6 +1,6 @@
 use std::ops::{Deref, DerefMut};
 
-use swc_common::{Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_css_ast::*;
 
 use super::{
@@ -51,9 +51,7 @@ where
 
     pub(super) fn create_locv(&self, children: Vec<ComponentValue>) -> ListOfComponentValues {
         let span = match (children.first(), children.last()) {
-            (Some(first), Some(last)) => {
-                Span::new(first.span_lo(), last.span_hi(), SyntaxContext::empty())
-            }
+            (Some(first), Some(last)) => Span::new(first.span_lo(), last.span_hi()),
             _ => DUMMY_SP,
         };
 

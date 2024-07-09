@@ -36,7 +36,7 @@ criterion_main!(files);
 fn run(src: &str) {
     testing::run_test2(false, |cm, handler| {
         HANDLER.set(&handler, || {
-            let fm = cm.new_source_file(FileName::Anon, src.into());
+            let fm = cm.new_source_file(FileName::Anon.into(), src.into());
 
             let mut errors = vec![];
             let mut ss: Stylesheet =

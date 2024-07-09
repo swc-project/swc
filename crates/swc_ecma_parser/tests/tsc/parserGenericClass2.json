@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 17,
-    "ctxt": 0
+    "end": 17
   },
   "body": [
     {
@@ -12,18 +11,18 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 17,
-        "ctxt": 0
+        "end": 17
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [],
       "superClass": null,
@@ -32,24 +31,22 @@
         "type": "TsTypeParameterDeclaration",
         "span": {
           "start": 8,
-          "end": 13,
-          "ctxt": 0
+          "end": 13
         },
         "parameters": [
           {
             "type": "TsTypeParameter",
             "span": {
               "start": 9,
-              "end": 10,
-              "ctxt": 0
+              "end": 10
             },
             "name": {
               "type": "Identifier",
               "span": {
                 "start": 9,
-                "end": 10,
-                "ctxt": 0
+                "end": 10
               },
+              "ctxt": 0,
               "value": "K",
               "optional": false
             },
@@ -63,16 +60,15 @@
             "type": "TsTypeParameter",
             "span": {
               "start": 11,
-              "end": 12,
-              "ctxt": 0
+              "end": 12
             },
             "name": {
               "type": "Identifier",
               "span": {
                 "start": 11,
-                "end": 12,
-                "ctxt": 0
+                "end": 12
               },
+              "ctxt": 0,
               "value": "V",
               "optional": false
             },

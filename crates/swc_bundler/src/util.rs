@@ -2,7 +2,7 @@
 
 use std::hash::Hash;
 
-use swc_common::{Span, SyntaxContext, DUMMY_SP};
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
@@ -18,7 +18,8 @@ const TRACK: bool = false;
 pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
     fn into_module_item(self, injected_ctxt: SyntaxContext, name: &str) -> ModuleItem {
         ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-            span: DUMMY_SP.with_ctxt(injected_ctxt),
+            span: DUMMY_SP,
+            ctxt: injected_ctxt,
             kind: VarDeclKind::Const,
             declare: false,
             decls: if TRACK {
@@ -29,7 +30,7 @@ pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
                         raw: None,
                         value: name.into(),
                     }
-                    .assign_to(Ident::new("INJECTED_FROM".into(), DUMMY_SP)),
+                    .assign_to(Ident::new_no_ctxt("INJECTED_FROM".into(), DUMMY_SP)),
                 ]
             } else {
                 vec![self.into()]
@@ -57,7 +58,7 @@ pub(crate) trait ExprExt: Into<Expr> {
 
         VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(Ident::new(lhs.0, DUMMY_SP.with_ctxt(lhs.1)).into()),
+            name: Pat::Ident(Ident::new(lhs.0, DUMMY_SP, lhs.1).into()),
             init: Some(Box::new(init)),
             definite: false,
         }
@@ -149,8 +150,8 @@ pub(crate) struct HygieneRemover;
 impl VisitMut for HygieneRemover {
     noop_visit_mut_type!();
 
-    fn visit_mut_span(&mut self, s: &mut Span) {
-        *s = s.with_ctxt(SyntaxContext::empty())
+    fn visit_mut_syntax_context(&mut self, n: &mut SyntaxContext) {
+        *n = SyntaxContext::empty();
     }
 }
 
@@ -179,3 +180,95 @@ pub(crate) trait IntoParallelIterator: Sized + IntoIterator {
 
 #[cfg(not(feature = "rayon"))]
 impl<T> IntoParallelIterator for T where T: IntoIterator {}
+
+fn metadata(key: &str, value: &str) -> PropOrSpread {
+    PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+        key: PropName::Ident(Ident::new_no_ctxt(key.into(), DUMMY_SP)),
+        value: Box::new(Expr::Lit(Lit::Str(Str {
+            span: DUMMY_SP,
+            value: value.into(),
+            raw: None,
+        }))),
+    })))
+}
+
+#[derive(Debug, Default)]
+pub(crate) struct ExportMetadata {
+    pub injected: bool,
+    pub export_ctxt: Option<SyntaxContext>,
+}
+
+impl ExportMetadata {
+    pub fn into_with(self) -> Box<ObjectLit> {
+        let mut obj = Some(Box::new(ObjectLit {
+            span: DUMMY_SP,
+            props: vec![],
+        }));
+
+        self.encode(&mut obj);
+
+        obj.unwrap()
+    }
+
+    pub fn encode(&self, to: &mut Option<Box<ObjectLit>>) {
+        let mut props = vec![];
+
+        if self.injected {
+            props.push(metadata("__swc_bundler__injected__", "1"));
+        }
+
+        if let Some(export_ctxt) = self.export_ctxt {
+            props.push(metadata(
+                "__swc_bundler__export_ctxt__",
+                &export_ctxt.as_u32().to_string(),
+            ));
+        }
+
+        if to.is_none() {
+            *to = Some(Box::new(ObjectLit {
+                span: DUMMY_SP,
+                props,
+            }));
+        } else {
+            let obj = to.as_mut().unwrap();
+            obj.props.extend(props);
+        }
+    }
+
+    pub fn decode(with: Option<&ObjectLit>) -> Self {
+        let mut data = ExportMetadata::default();
+
+        if let Some(with) = with {
+            for prop in &with.props {
+                if let PropOrSpread::Prop(p) = prop {
+                    if let Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(Ident { sym, .. }),
+                        value,
+                        ..
+                    }) = &**p
+                    {
+                        if *sym == "__swc_bundler__injected__" {
+                            if let Expr::Lit(Lit::Str(Str { value, .. })) = &**value {
+                                if value == "1" {
+                                    data.injected = true;
+                                }
+                            }
+                        } else if *sym == "__swc_bundler__export_ctxt__" {
+                            if let Expr::Lit(Lit::Str(Str { value, .. })) = &**value {
+                                if let Ok(v) = value.parse() {
+                                    data.export_ctxt = Some(SyntaxContext::from_u32(v));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        data
+    }
+}
+
+pub(crate) fn is_injected(with: &ObjectLit) -> bool {
+    ExportMetadata::decode(Some(with)).injected
+}

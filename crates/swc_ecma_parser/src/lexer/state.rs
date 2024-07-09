@@ -316,7 +316,7 @@ impl Lexer<'_> {
                     }
 
                     if had_line_break_before_last && self.is_str("<<<<<< ") {
-                        let span = Span::new(cur_pos, cur_pos + BytePos(7), Default::default());
+                        let span = Span::new(cur_pos, cur_pos + BytePos(7));
 
                         self.emit_error_span(span, SyntaxError::TS1185);
                         self.skip_line_comment(6);

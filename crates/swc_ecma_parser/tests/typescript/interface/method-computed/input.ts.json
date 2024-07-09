@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 81,
-    "ctxt": 0
+    "end": 81
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
         "start": 1,
-        "end": 81,
-        "ctxt": 0
+        "end": 81
       },
       "id": {
         "type": "Identifier",
         "span": {
           "start": 11,
-          "end": 12,
-          "ctxt": 0
+          "end": 12
         },
+        "ctxt": 0,
         "value": "I",
         "optional": false
       },
@@ -30,31 +28,28 @@
         "type": "TsInterfaceBody",
         "span": {
           "start": 13,
-          "end": 81,
-          "ctxt": 0
+          "end": 81
         },
         "body": [
           {
             "type": "TsMethodSignature",
             "span": {
               "start": 19,
-              "end": 45,
-              "ctxt": 0
+              "end": 45
             },
             "key": {
               "type": "MemberExpression",
               "span": {
                 "start": 20,
-                "end": 35,
-                "ctxt": 0
+                "end": 35
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 20,
-                  "end": 26,
-                  "ctxt": 0
+                  "end": 26
                 },
+                "ctxt": 0,
                 "value": "Symbol",
                 "optional": false
               },
@@ -62,9 +57,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 27,
-                  "end": 35,
-                  "ctxt": 0
+                  "end": 35
                 },
+                "ctxt": 0,
                 "value": "iterator",
                 "optional": false
               }
@@ -76,15 +71,13 @@
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 38,
-                "end": 44,
-                "ctxt": 0
+                "end": 44
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 40,
-                  "end": 44,
-                  "ctxt": 0
+                  "end": 44
                 },
                 "kind": "void"
               }
@@ -95,23 +88,21 @@
             "type": "TsMethodSignature",
             "span": {
               "start": 50,
-              "end": 79,
-              "ctxt": 0
+              "end": 79
             },
             "key": {
               "type": "MemberExpression",
               "span": {
                 "start": 51,
-                "end": 66,
-                "ctxt": 0
+                "end": 66
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 51,
-                  "end": 57,
-                  "ctxt": 0
+                  "end": 57
                 },
+                "ctxt": 0,
                 "value": "Symbol",
                 "optional": false
               },
@@ -119,9 +110,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 58,
-                  "end": 66,
-                  "ctxt": 0
+                  "end": 66
                 },
+                "ctxt": 0,
                 "value": "iterator",
                 "optional": false
               }
@@ -133,15 +124,13 @@
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 70,
-                "end": 78,
-                "ctxt": 0
+                "end": 78
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 72,
-                  "end": 78,
-                  "ctxt": 0
+                  "end": 78
                 },
                 "kind": "number"
               }

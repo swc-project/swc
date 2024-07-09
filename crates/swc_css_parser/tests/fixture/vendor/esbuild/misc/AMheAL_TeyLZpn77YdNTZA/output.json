@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 29,
-    "ctxt": 0
+    "end": 29
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 29,
-        "ctxt": 0
+        "end": 29
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 11,
-          "ctxt": 0
+          "end": 11
         },
         "value": "keyframes",
         "raw": "keyframes"
@@ -27,8 +24,7 @@
         "type": "CustomIdent",
         "span": {
           "start": 12,
-          "end": 15,
-          "ctxt": 0
+          "end": 15
         },
         "value": "abc",
         "raw": "abc"
@@ -37,15 +33,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 16,
-          "end": 29,
-          "ctxt": 0
+          "end": 29
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 16,
-            "end": 17,
-            "ctxt": 0
+            "end": 17
           },
           "token": "LBrace"
         },
@@ -54,16 +48,14 @@
             "type": "KeyframeBlock",
             "span": {
               "start": 18,
-              "end": 27,
-              "ctxt": 0
+              "end": 27
             },
             "prelude": [
               {
                 "type": "Ident",
                 "span": {
                   "start": 18,
-                  "end": 24,
-                  "ctxt": 0
+                  "end": 24
                 },
                 "value": "from",
                 "raw": "\\66rom"
@@ -73,15 +65,13 @@
               "type": "SimpleBlock",
               "span": {
                 "start": 25,
-                "end": 27,
-                "ctxt": 0
+                "end": 27
               },
               "name": {
                 "type": "PreservedToken",
                 "span": {
                   "start": 25,
-                  "end": 26,
-                  "ctxt": 0
+                  "end": 26
                 },
                 "token": "LBrace"
               },

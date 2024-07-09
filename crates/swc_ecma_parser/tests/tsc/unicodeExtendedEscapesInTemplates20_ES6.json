@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 18,
-    "end": 125,
-    "ctxt": 0
+    "end": 125
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 18,
-        "end": 125,
-        "ctxt": 0
+        "end": 125
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 22,
-            "end": 124,
-            "ctxt": 0
+            "end": 124
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 22,
-              "end": 23,
-              "ctxt": 0
+              "end": 23
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -38,16 +36,14 @@
             "type": "TemplateLiteral",
             "span": {
               "start": 26,
-              "end": 124,
-              "ctxt": 0
+              "end": 124
             },
             "expressions": [
               {
                 "type": "TemplateLiteral",
                 "span": {
                   "start": 59,
-                  "end": 92,
-                  "ctxt": 0
+                  "end": 92
                 },
                 "expressions": [],
                 "quasis": [
@@ -55,8 +51,7 @@
                     "type": "TemplateElement",
                     "span": {
                       "start": 60,
-                      "end": 91,
-                      "ctxt": 0
+                      "end": 91
                     },
                     "tail": true,
                     "cooked": "    ",
@@ -70,8 +65,7 @@
                 "type": "TemplateElement",
                 "span": {
                   "start": 27,
-                  "end": 57,
-                  "ctxt": 0
+                  "end": 57
                 },
                 "tail": false,
                 "cooked": "Hello",
@@ -81,8 +75,7 @@
                 "type": "TemplateElement",
                 "span": {
                   "start": 93,
-                  "end": 123,
-                  "ctxt": 0
+                  "end": 123
                 },
                 "tail": true,
                 "cooked": "world",

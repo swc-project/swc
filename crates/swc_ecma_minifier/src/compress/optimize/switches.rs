@@ -1,4 +1,4 @@
-use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmt, ExprExt, ExprFactory, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -130,6 +130,7 @@ impl Optimizer<'_> {
                         kind: VarDeclKind::Var,
                         declare: Default::default(),
                         decls: var_ids,
+                        ..Default::default()
                     }
                     .into(),
                 )
@@ -145,8 +146,8 @@ impl Optimizer<'_> {
 
             stmts.extend(last.cons);
             *s = Stmt::Block(BlockStmt {
-                span: DUMMY_SP,
                 stmts,
+                ..Default::default()
             })
         } else {
             report_change!("switches: Removing unreachable cases from a constant switch");
@@ -155,17 +156,18 @@ impl Optimizer<'_> {
 
             if !var_ids.is_empty() {
                 *s = Stmt::Block(BlockStmt {
-                    span: DUMMY_SP,
                     stmts: vec![
                         VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
                             declare: Default::default(),
                             decls: var_ids,
+                            ..Default::default()
                         }
                         .into(),
                         s.take(),
                     ],
+                    ..Default::default()
                 })
             }
         }
@@ -306,10 +308,14 @@ impl Optimizer<'_> {
                         if let Some(Stmt::Break(BreakStmt { label: None, .. })) =
                             cases[i].cons.last()
                         {
-                            cases[i].cons[..(cases[i].cons.len() - 1)]
-                                .eq_ignore_span(&cases[j].cons)
+                            SyntaxContext::within_ignored_ctxt(|| {
+                                cases[i].cons[..(cases[i].cons.len() - 1)]
+                                    .eq_ignore_span(&cases[j].cons)
+                            })
                         } else {
-                            cases[i].cons.eq_ignore_span(&cases[j].cons)
+                            SyntaxContext::within_ignored_ctxt(|| {
+                                cases[i].cons.eq_ignore_span(&cases[j].cons)
+                            })
                         }
                     };
 
@@ -371,6 +377,7 @@ impl Optimizer<'_> {
                             cons: Box::new(Stmt::Block(BlockStmt {
                                 span: DUMMY_SP,
                                 stmts: case.cons,
+                                ..Default::default()
                             })),
                             alt: None,
                         })
@@ -384,6 +391,7 @@ impl Optimizer<'_> {
                         *s = Stmt::Block(BlockStmt {
                             span: sw.span,
                             stmts,
+                            ..Default::default()
                         })
                     }
                 }
@@ -415,12 +423,14 @@ impl Optimizer<'_> {
                             cons: Stmt::Block(BlockStmt {
                                 span: DUMMY_SP,
                                 stmts: case.cons.take(),
+                                ..Default::default()
                             })
                             .into(),
                             alt: Some(
                                 Stmt::Block(BlockStmt {
                                     span: DUMMY_SP,
                                     stmts: def.cons.take(),
+                                    ..Default::default()
                                 })
                                 .into(),
                             ),
@@ -447,6 +457,7 @@ impl Optimizer<'_> {
                             cons: Stmt::Block(BlockStmt {
                                 span: DUMMY_SP,
                                 stmts: first.cons.take(),
+                                ..Default::default()
                             })
                             .into(),
                             alt: None,
@@ -455,6 +466,7 @@ impl Optimizer<'_> {
                         *s = Stmt::Block(BlockStmt {
                             span: sw.span,
                             stmts,
+                            ..Default::default()
                         })
                     }
                 }

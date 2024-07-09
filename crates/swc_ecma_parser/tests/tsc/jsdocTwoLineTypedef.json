@@ -2,25 +2,23 @@
   "type": "Script",
   "span": {
     "start": 80,
-    "end": 105,
-    "ctxt": 0
+    "end": 105
   },
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
         "start": 80,
-        "end": 105,
-        "ctxt": 0
+        "end": 105
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
           "start": 85,
-          "end": 97,
-          "ctxt": 0
+          "end": 97
         },
+        "ctxt": 0,
         "value": "LoadCallback",
         "optional": false
       },
@@ -29,8 +27,7 @@
         "type": "TsKeywordType",
         "span": {
           "start": 100,
-          "end": 104,
-          "ctxt": 0
+          "end": 104
         },
         "kind": "void"
       }

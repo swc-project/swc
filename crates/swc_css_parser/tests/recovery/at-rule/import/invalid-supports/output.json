@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 46,
-    "ctxt": 0
+    "end": 46
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 45,
-        "ctxt": 0
+        "end": 45
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
         "value": "import",
         "raw": "import"
@@ -27,22 +24,19 @@
         "type": "ImportPrelude",
         "span": {
           "start": 9,
-          "end": 44,
-          "ctxt": 0
+          "end": 44
         },
         "href": {
           "type": "Url",
           "span": {
             "start": 9,
-            "end": 26,
-            "ctxt": 0
+            "end": 26
           },
           "name": {
             "type": "Ident",
             "span": {
               "start": 9,
-              "end": 12,
-              "ctxt": 0
+              "end": 12
             },
             "value": "url",
             "raw": "url"
@@ -51,8 +45,7 @@
             "type": "String",
             "span": {
               "start": 13,
-              "end": 25,
-              "ctxt": 0
+              "end": 25
             },
             "value": "./test.css",
             "raw": "\"./test.css\""
@@ -64,22 +57,19 @@
           "type": "ImportCondition",
           "span": {
             "start": 27,
-            "end": 44,
-            "ctxt": 0
+            "end": 44
           },
           "supports": {
             "type": "Function",
             "span": {
               "start": 27,
-              "end": 44,
-              "ctxt": 0
+              "end": 44
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 27,
-                "end": 35,
-                "ctxt": 0
+                "end": 35
               },
               "value": "supports",
               "raw": "supports"
@@ -89,8 +79,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 36,
-                  "end": 43,
-                  "ctxt": 0
+                  "end": 43
                 },
                 "token": {
                   "Ident": {

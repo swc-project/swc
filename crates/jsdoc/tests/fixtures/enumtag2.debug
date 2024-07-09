@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 1..7#0,
+        span: 1..7,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                         ty: Text {
-                            span: 1..3#0,
+                            span: 1..3,
                             value: "my",
                         },
                     },
@@ -29,42 +29,42 @@
         ],
     },
     JsDoc {
-        span: 26..36#0,
+        span: 26..36,
         description: Text {
-            span: 26..56#0,
+            span: 26..56,
             value: "Enum for quad-state values.\n *",
         },
         tags: [
             TagItem {
-                span: 26..30#0,
+                span: 26..30,
                 tag_name: Text {
-                    span: 26..30#0,
+                    span: 26..30,
                     value: "enum",
                 },
                 tag: Enum(
                     EnumTag {
-                        span: 26..30#0,
+                        span: 26..30,
                         ty: Text {
-                            span: 26..34#0,
+                            span: 26..34,
                             value: "{number}",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 26..34#0,
+                span: 26..34,
                 tag_name: Text {
-                    span: 26..34#0,
+                    span: 26..34,
                     value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
-                        span: 26..34#0,
+                        span: 26..34,
                         parent_name_path: NamePath {
-                            span: 26..36#0,
+                            span: 26..36,
                             components: [
                                 Text {
-                                    span: 26..32#0,
+                                    span: 26..32,
                                     value: "module",
                                 },
                             ],
@@ -75,31 +75,31 @@
         ],
     },
     JsDoc {
-        span: 154..154#0,
+        span: 154..154,
         description: Text {
-            span: 154..158#0,
+            span: 154..158,
             value: "true",
         },
         tags: [],
     },
     JsDoc {
-        span: 229..229#0,
+        span: 229..229,
         description: Text {
-            span: 229..260#0,
+            span: 229..260,
             value: "Enum for penta-state values.\n *",
         },
         tags: [
             TagItem {
-                span: 229..233#0,
+                span: 229..233,
                 tag_name: Text {
-                    span: 229..233#0,
+                    span: 229..233,
                     value: "enum",
                 },
                 tag: Enum(
                     EnumTag {
-                        span: 229..233#0,
+                        span: 229..233,
                         ty: Text {
-                            span: 229..237#0,
+                            span: 229..237,
                             value: "{number}",
                         },
                     },
@@ -108,23 +108,23 @@
         ],
     },
     JsDoc {
-        span: 308..308#0,
+        span: 308..308,
         description: Text {
-            span: 308..353#0,
+            span: 308..353,
             value: "Enum for penta-state values, BUT SHOUTIER.\n *",
         },
         tags: [
             TagItem {
-                span: 308..312#0,
+                span: 308..312,
                 tag_name: Text {
-                    span: 308..312#0,
+                    span: 308..312,
                     value: "enum",
                 },
                 tag: Enum(
                     EnumTag {
-                        span: 308..312#0,
+                        span: 308..312,
                         ty: Text {
-                            span: 308..316#0,
+                            span: 308..316,
                             value: "{number}",
                         },
                     },
@@ -133,9 +133,9 @@
         ],
     },
     JsDoc {
-        span: 407..407#0,
+        span: 407..407,
         description: Text {
-            span: 407..411#0,
+            span: 407..411,
             value: "true",
         },
         tags: [],

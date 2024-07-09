@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 18,
-    "ctxt": 0
+    "end": 18
   },
   "body": [
     {
       "type": "ForInStatement",
       "span": {
         "start": 1,
-        "end": 18,
-        "ctxt": 0
+        "end": 18
       },
       "left": {
         "type": "ObjectPattern",
         "span": {
           "start": 6,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
         "properties": [],
         "optional": false,
@@ -28,9 +25,9 @@
         "type": "Identifier",
         "span": {
           "start": 12,
-          "end": 13,
-          "ctxt": 0
+          "end": 13
         },
+        "ctxt": 0,
         "value": "b",
         "optional": false
       },
@@ -38,9 +35,9 @@
         "type": "BlockStatement",
         "span": {
           "start": 15,
-          "end": 18,
-          "ctxt": 0
+          "end": 18
         },
+        "ctxt": 0,
         "stmts": []
       }
     }

@@ -124,6 +124,7 @@ impl Params {
                                     kind: VarDeclKind::Let,
                                     decls: vec![decl],
                                     declare: false,
+                                    ..Default::default()
                                 }
                                 .into(),
                             )
@@ -168,7 +169,7 @@ impl Params {
                             span,
                             test: Box::new(Expr::Bin(BinExpr {
                                 span: DUMMY_SP,
-                                left: Box::new(Expr::Ident(ident.id.clone())),
+                                left: Box::new(Expr::Ident(Ident::from(ident))),
                                 op: op!("==="),
                                 right: Expr::undefined(DUMMY_SP),
                             })),
@@ -211,6 +212,7 @@ impl Params {
                                     definite: false,
                                 }],
                                 declare: false,
+                                ..Default::default()
                             }
                             .into(),
                         )
@@ -228,13 +230,16 @@ impl Params {
                     // TODO: Optimize (use `arguments` instead of rest argument)
 
                     let mark = Mark::fresh(Mark::root());
-                    let idx_ident = quote_ident!(span.apply_mark(mark), "_key");
-                    let len_ident = quote_ident!(span.apply_mark(mark), "_len");
+                    let idx_ident =
+                        quote_ident!(SyntaxContext::empty().apply_mark(mark), span, "_key");
+                    let len_ident =
+                        quote_ident!(SyntaxContext::empty().apply_mark(mark), span, "_len");
 
                     let arg = match *arg {
-                        Pat::Ident(ident) => ident.id,
+                        Pat::Ident(ident) => ident.into(),
                         arg => {
-                            let tmp_ident = quote_ident!(span.apply_mark(mark), "_tmp");
+                            let tmp_ident =
+                                quote_ident!(SyntaxContext::empty().apply_mark(mark), span, "_tmp");
                             decls_after_unpack.push(VarDeclarator {
                                 span: DUMMY_SP,
                                 name: arg,
@@ -298,7 +303,14 @@ impl Params {
                                     VarDeclarator {
                                         span,
                                         name: len_ident.clone().into(),
-                                        init: Some(member_expr!(span, arguments.length).into()),
+                                        init: Some(
+                                            member_expr!(
+                                                Default::default(),
+                                                span,
+                                                arguments.length
+                                            )
+                                            .into(),
+                                        ),
                                         definite: false,
                                     },
                                     // a1 = new Array(_len - $i)
@@ -308,17 +320,13 @@ impl Params {
                                         init: Some(Box::new(Expr::New(NewExpr {
                                             span,
                                             callee: Box::new(
-                                                quote_ident!(
-                                                    DUMMY_SP.with_ctxt(self.unresolved_ctxt),
-                                                    "Array"
-                                                )
-                                                .into(),
+                                                quote_ident!(self.unresolved_ctxt, "Array").into(),
                                             ),
                                             args: Some(vec![{
                                                 // `len` or  `len - $i`
                                                 make_minus_i(&len_ident, true).as_arg()
                                             }]),
-                                            type_args: Default::default(),
+                                            ..Default::default()
                                         }))),
                                         definite: false,
                                     },
@@ -335,6 +343,7 @@ impl Params {
                                     },
                                 ],
                                 declare: false,
+                                ..Default::default()
                             }
                             .into(),
                         ),
@@ -367,7 +376,10 @@ impl Params {
                                     right: Box::new(
                                         MemberExpr {
                                             span: DUMMY_SP,
-                                            obj: Box::new(quote_ident!(span, "arguments").into()),
+                                            obj: Box::new(
+                                                quote_ident!(Default::default(), span, "arguments")
+                                                    .into(),
+                                            ),
                                             prop: MemberProp::Computed(ComputedPropName {
                                                 span,
                                                 expr: prop,
@@ -378,6 +390,7 @@ impl Params {
                                 }
                                 .into_stmt()
                             }],
+                            ..Default::default()
                         })),
                     }))
                 }
@@ -394,6 +407,7 @@ impl Params {
                     kind: VarDeclKind::Let,
                     decls,
                     declare: false,
+                    ..Default::default()
                 }
                 .into(),
             )
@@ -406,6 +420,7 @@ impl Params {
                     kind: VarDeclKind::Let,
                     decls: decls_after_unpack,
                     declare: false,
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -489,6 +504,7 @@ impl VisitMut for Params {
                 *body = BlockStmtOrExpr::BlockStmt(BlockStmt {
                     span: DUMMY_SP,
                     stmts,
+                    ..Default::default()
                 });
             }
         }
@@ -526,7 +542,7 @@ impl VisitMut for Params {
         trace!("visit_mut_constructor(parmas.len() = {})", f.params.len());
         f.params.visit_mut_with(self);
 
-        if let Some(BlockStmt { span: _, stmts }) = &mut f.body {
+        if let Some(BlockStmt { stmts, .. }) = &mut f.body {
             let old_rep = self.hoister.take();
 
             stmts.visit_mut_children_with(self);
@@ -596,11 +612,11 @@ impl VisitMut for Params {
                 let mut body = match *f.body.take() {
                     BlockStmtOrExpr::BlockStmt(block) => block,
                     BlockStmtOrExpr::Expr(expr) => BlockStmt {
-                        span: DUMMY_SP,
                         stmts: vec![Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(expr),
                         })],
+                        ..Default::default()
                     },
                 };
 
@@ -614,8 +630,7 @@ impl VisitMut for Params {
                         body: Some(body),
                         is_generator: f.is_generator,
                         is_async: f.is_async,
-                        type_params: Default::default(),
-                        return_type: Default::default(),
+                        ..Default::default()
                     }
                     .into();
                     *e = match (self.in_prop, local_vars) {
@@ -633,9 +648,9 @@ impl VisitMut for Params {
                                         arg: Some(Box::new(func)),
                                     }),
                                 ],
+                                ..Default::default()
                             })),
-                            type_params: Default::default(),
-                            return_type: Default::default(),
+                            ..Default::default()
                         })
                         .as_iife()
                         .into(),
@@ -668,6 +683,7 @@ impl VisitMut for Params {
                     is_generator: f.is_generator,
                     type_params: f.type_params.take(),
                     return_type: f.return_type.take(),
+                    ..Default::default()
                 });
             }
             _ => e.visit_mut_children_with(self),
@@ -768,13 +784,13 @@ impl VisitMut for Params {
 }
 
 fn make_arg_nth(n: usize) -> MemberExpr {
-    Expr::Ident(Ident::new("arguments".into(), DUMMY_SP)).computed_member(n)
+    Expr::Ident(Ident::new_no_ctxt("arguments".into(), DUMMY_SP)).computed_member(n)
 }
 
 fn check_arg_len(n: usize) -> Expr {
     Expr::Bin(BinExpr {
-        left: Expr::Ident(Ident::new("arguments".into(), DUMMY_SP))
-            .make_member(Ident::new("length".into(), DUMMY_SP))
+        left: Expr::Ident(Ident::new_no_ctxt("arguments".into(), DUMMY_SP))
+            .make_member(Ident::new_no_ctxt("length".into(), DUMMY_SP))
             .into(),
         op: op!(">"),
         right: n.into(),

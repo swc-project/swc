@@ -1,7 +1,7 @@
 extern crate swc_malloc;
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_common::{FileName, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{FileName, Span, DUMMY_SP};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_visit::{Fold, FoldWith, VisitMut, VisitMutWith};
@@ -13,7 +13,7 @@ where
     F: FnMut(Module) -> Module,
 {
     let _ = ::testing::run_test(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
 
         let mut parser = Parser::new(Syntax::default(), StringInput::from(&*fm), None);
         let module = parser.parse_module().map_err(|_| ()).unwrap();
@@ -50,10 +50,6 @@ fn bench_cases(c: &mut Criterion) {
 
         impl VisitMut for RespanVisitMut {
             fn visit_mut_span(&mut self, span: &mut Span) {
-                if span.ctxt != SyntaxContext::empty() {
-                    panic!()
-                }
-
                 *span = DUMMY_SP;
             }
         }
@@ -81,10 +77,7 @@ fn bench_cases(c: &mut Criterion) {
         struct RespanFold;
 
         impl Fold for RespanFold {
-            fn fold_span(&mut self, s: Span) -> Span {
-                if s.ctxt != SyntaxContext::empty() {
-                    panic!()
-                }
+            fn fold_span(&mut self, _: Span) -> Span {
                 DUMMY_SP
             }
         }

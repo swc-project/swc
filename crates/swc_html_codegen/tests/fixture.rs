@@ -192,7 +192,7 @@ fn verify_document(
 
         gen.emit(&document).unwrap();
 
-        let new_fm = cm.new_source_file(FileName::Anon, html_str);
+        let new_fm = cm.new_source_file(FileName::Anon.into(), html_str);
         let mut parsed_errors = vec![];
         let mut document_parsed_again =
             parse_file_as_document(&new_fm, parser_config, &mut parsed_errors).map_err(|err| {
@@ -257,7 +257,7 @@ fn verify_document_fragment(
 
         gen.emit(&document_fragment).unwrap();
 
-        let new_fm = cm.new_source_file(FileName::Anon, html_str);
+        let new_fm = cm.new_source_file(FileName::Anon.into(), html_str);
         let mut parsed_errors = vec![];
         let mut document_fragment_parsed_again = parse_file_as_document_fragment(
             &new_fm,

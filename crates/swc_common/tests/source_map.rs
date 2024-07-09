@@ -1,7 +1,7 @@
 #![cfg(feature = "concurrent")]
 
 use rayon::{prelude::*, ThreadPoolBuilder};
-use swc_common::{FileName, FilePathMapping, SourceMap};
+use swc_common::{sync::Lrc, FileName, FilePathMapping, SourceMap};
 
 #[test]
 fn stress() {
@@ -10,7 +10,7 @@ fn stress() {
 
     (0..10000).into_par_iter().for_each(|_| {
         fm.new_source_file(
-            FileName::Anon,
+            Lrc::new(FileName::Anon),
             "@Entity()
 export class Product extends TimestampedEntity {
   @PrimaryGeneratedColumn('uuid')

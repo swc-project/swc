@@ -2,7 +2,7 @@ use std::{collections::VecDeque, iter::once, mem::take};
 
 use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
-use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_utils::{
@@ -202,7 +202,7 @@ impl Decorator2022_03 {
                 span: DUMMY_SP,
                 callee: helper!(apply_decs_2203_r),
                 args: combined_args,
-                type_args: Default::default(),
+                ..Default::default()
             })),
         }));
 
@@ -218,7 +218,7 @@ impl Decorator2022_03 {
                     span: DUMMY_SP,
                     callee: init.as_callee(),
                     args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                    type_args: Default::default(),
+                    ..Default::default()
                 })),
             }));
         }
@@ -229,16 +229,24 @@ impl Decorator2022_03 {
         match name {
             PropName::Ident(i) => (
                 Box::new(Expr::Lit(Lit::Str(Str {
-                    span: i.span.with_ctxt(SyntaxContext::empty()),
+                    span: i.span,
                     value: i.sym.clone(),
                     raw: None,
                 }))),
-                Ident::new(format!("_{prefix}_{}", i.sym).into(), i.span.private()),
+                Ident::new(
+                    format!("_{prefix}_{}", i.sym).into(),
+                    i.span,
+                    SyntaxContext::empty().apply_mark(Mark::new()),
+                ),
             ),
             PropName::Computed(c) if c.expr.is_ident() => match &*c.expr {
                 Expr::Ident(i) => (
                     Box::new(Expr::Ident(i.clone())),
-                    Ident::new(format!("_{prefix}_{}", i.sym).into(), i.span.private()),
+                    Ident::new(
+                        format!("_{prefix}_{}", i.sym).into(),
+                        i.span,
+                        SyntaxContext::empty().apply_mark(Mark::new()),
+                    ),
                 ),
                 _ => {
                     unreachable!()
@@ -266,7 +274,8 @@ impl Decorator2022_03 {
 
                 let init = Ident::new(
                     format!("_{prefix}_computedKey").into(),
-                    key_ident.span.private(),
+                    key_ident.span,
+                    SyntaxContext::empty().apply_mark(Mark::new()),
                 );
 
                 (Box::new(Expr::Ident(key_ident)), init)
@@ -329,9 +338,9 @@ impl Decorator2022_03 {
                 body: Some(BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![],
+                    ..Default::default()
                 }),
-                accessibility: Default::default(),
-                is_optional: Default::default(),
+                ..Default::default()
             }),
         );
 
@@ -408,7 +417,7 @@ impl Decorator2022_03 {
                 span: DUMMY_SP,
                 callee: init_class.as_callee(),
                 args: vec![],
-                type_args: Default::default(),
+                ..Default::default()
             }
             .into_stmt();
 
@@ -417,6 +426,7 @@ impl Decorator2022_03 {
                 body: BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![call_stmt],
+                    ..Default::default()
                 },
             }));
         }
@@ -496,16 +506,16 @@ impl Decorator2022_03 {
                                                     BlockStmt {
                                                         span: DUMMY_SP,
                                                         stmts: last_static_block,
+                                                        ..Default::default()
                                                     },
                                                 )),
                                                 is_async: false,
                                                 is_generator: false,
-                                                type_params: Default::default(),
-                                                return_type: Default::default(),
+                                                ..Default::default()
                                             }
                                             .as_callee(),
                                             args: vec![],
-                                            type_args: Default::default(),
+                                            ..Default::default()
                                         })),
                                         value.take(),
                                     ],
@@ -548,10 +558,7 @@ impl Decorator2022_03 {
                     decorators: vec![],
                     body,
                     super_class: c.class.super_class.take(),
-                    is_abstract: Default::default(),
-                    type_params: Default::default(),
-                    super_type_params: Default::default(),
-                    implements: Default::default(),
+                    ..Default::default()
                 }),
             };
 
@@ -595,6 +602,7 @@ impl Decorator2022_03 {
                     body: BlockStmt {
                         span: DUMMY_SP,
                         stmts: vec![Stmt::Decl(Decl::Class(inner_class))],
+                        ..Default::default()
                     },
                 }),
             );
@@ -608,7 +616,7 @@ impl Decorator2022_03 {
                     span: DUMMY_SP,
                     callee: Callee::Super(Super { span: DUMMY_SP }),
                     args: vec![c.ident.clone().as_arg()],
-                    type_args: Default::default(),
+                    ..Default::default()
                 }
                 .into();
                 let static_call = last_static_block.map(|last| {
@@ -620,15 +628,15 @@ impl Decorator2022_03 {
                             body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
                                 span: DUMMY_SP,
                                 stmts: last,
+                                ..Default::default()
                             })),
                             is_async: false,
                             is_generator: false,
-                            type_params: Default::default(),
-                            return_type: Default::default(),
+                            ..Default::default()
                         }
                         .as_callee(),
                         args: vec![],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }
                     .into()
                 });
@@ -637,7 +645,7 @@ impl Decorator2022_03 {
                     span: DUMMY_SP,
                     callee: init_class.as_callee(),
                     args: Vec::new(),
-                    type_args: Default::default(),
+                    ..Default::default()
                 }
                 .into();
 
@@ -659,10 +667,7 @@ impl Decorator2022_03 {
                 decorators: Vec::new(),
                 body: c.class.body.take(),
                 super_class: Some(Box::new(helper_expr!(identity))),
-                is_abstract: Default::default(),
-                type_params: Default::default(),
-                super_type_params: Default::default(),
-                implements: Default::default(),
+                ..Default::default()
             });
 
             self.state = old_state;
@@ -671,7 +676,7 @@ impl Decorator2022_03 {
                 span: DUMMY_SP,
                 callee: ClassExpr { ident: None, class }.into(),
                 args: Some(vec![]),
-                type_args: Default::default(),
+                ..Default::default()
             }
             .into_stmt();
         }
@@ -693,9 +698,10 @@ impl Decorator2022_03 {
                     span: DUMMY_SP,
                     callee: init_class.as_callee(),
                     args: vec![],
-                    type_args: Default::default(),
+                    ..Default::default()
                 }
                 .into_stmt()],
+                ..Default::default()
             },
         }));
         self.state = old_state;
@@ -783,7 +789,7 @@ impl VisitMut for Decorator2022_03 {
                         span: DUMMY_SP,
                         callee: init_proto.as_callee(),
                         args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }))],
                 )
             }
@@ -799,6 +805,7 @@ impl VisitMut for Decorator2022_03 {
                     body: BlockStmt {
                         span: DUMMY_SP,
                         stmts: self.state.extra_stmts.take(),
+                        ..Default::default()
                     },
                 }),
             );
@@ -821,7 +828,7 @@ impl VisitMut for Decorator2022_03 {
             let decorators = self.preserve_side_effect_of_decorators(p.function.decorators.take());
             let dec = merge_decorators(decorators);
 
-            let init = private_ident!(format!("_call_{}", p.key.id.sym));
+            let init = private_ident!(format!("_call_{}", p.key.name));
 
             self.extra_vars.push(VarDeclarator {
                 span: p.span,
@@ -866,7 +873,7 @@ impl VisitMut for Decorator2022_03 {
                             }
                             .as_arg(),
                         ),
-                        Some(p.key.id.sym.clone().as_arg()),
+                        Some(p.key.name.clone().as_arg()),
                         Some(caller.as_arg()),
                     ],
                 }
@@ -895,6 +902,7 @@ impl VisitMut for Decorator2022_03 {
                     p.function.body = Some(BlockStmt {
                         span: DUMMY_SP,
                         stmts: vec![call_stmt],
+                        ..Default::default()
                     });
                 }
                 MethodKind::Getter => {
@@ -904,13 +912,14 @@ impl VisitMut for Decorator2022_03 {
                             span: DUMMY_SP,
                             callee: init.as_callee(),
                             args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                            type_args: Default::default(),
+                            ..Default::default()
                         }))),
                     });
 
                     p.function.body = Some(BlockStmt {
                         span: DUMMY_SP,
                         stmts: vec![call_stmt],
+                        ..Default::default()
                     });
                 }
                 MethodKind::Setter => {
@@ -921,15 +930,16 @@ impl VisitMut for Decorator2022_03 {
                             callee: init.as_callee(),
                             args: vec![
                                 ThisExpr { span: DUMMY_SP }.as_arg(),
-                                p.function.params[0].pat.clone().expect_ident().id.as_arg(),
+                                Ident::from(p.function.params[0].pat.as_ident().unwrap()).as_arg(),
                             ],
-                            type_args: Default::default(),
+                            ..Default::default()
                         }))),
                     });
 
                     p.function.body = Some(BlockStmt {
                         span: DUMMY_SP,
                         stmts: vec![call_stmt],
+                        ..Default::default()
                     });
                 }
             }
@@ -955,20 +965,17 @@ impl VisitMut for Decorator2022_03 {
                             Key::Private(k) => {
                                 name = Box::new(Expr::Lit(Lit::Str(Str {
                                     span: DUMMY_SP,
-                                    value: k.id.sym.clone(),
+                                    value: k.name.clone(),
                                     raw: None,
                                 })));
-                                init = private_ident!(format!("_init_{}", k.id.sym));
-                                field_name_like = format!("__{}", k.id.sym).into();
+                                init = private_ident!(format!("_init_{}", k.name));
+                                field_name_like = format!("__{}", k.name).into();
 
                                 self.state.private_id_index += 1;
                                 PrivateName {
                                     span: k.span,
-                                    id: Ident::new(
-                                        format!("__{}_{}", k.id.sym, self.state.private_id_index)
-                                            .into(),
-                                        k.id.span,
-                                    ),
+                                    name: format!("__{}_{}", k.name, self.state.private_id_index)
+                                        .into(),
                                 }
                             }
                             Key::Public(k) => {
@@ -980,15 +987,12 @@ impl VisitMut for Decorator2022_03 {
                                 self.state.private_id_index += 1;
 
                                 PrivateName {
-                                    span: init.span.with_ctxt(SyntaxContext::empty()),
-                                    id: Ident::new(
-                                        format!(
-                                            "{field_name_like}_{}",
-                                            self.state.private_id_index
-                                        )
-                                        .into(),
-                                        init.span.with_ctxt(SyntaxContext::empty()),
-                                    ),
+                                    span: init.span,
+                                    name: format!(
+                                        "{field_name_like}_{}",
+                                        self.state.private_id_index
+                                    )
+                                    .into(),
                                 }
                             }
                         },
@@ -1011,7 +1015,7 @@ impl VisitMut for Decorator2022_03 {
                                         span: DUMMY_SP,
                                         callee: init_proto.clone().as_callee(),
                                         args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                                        type_args: Default::default(),
+                                        ..Default::default()
                                     })))
                                 };
 
@@ -1021,7 +1025,7 @@ impl VisitMut for Decorator2022_03 {
                                 args: once(ThisExpr { span: DUMMY_SP }.as_arg())
                                     .chain(accessor.value.take().map(|v| v.as_arg()))
                                     .collect(),
-                                type_args: Default::default(),
+                                ..Default::default()
                             }));
 
                             Some(Expr::from_exprs(
@@ -1036,6 +1040,7 @@ impl VisitMut for Decorator2022_03 {
                         is_override: false,
                         readonly: false,
                         definite: false,
+                        ctxt: Default::default(),
                     };
 
                     let mut getter_function = Box::new(Function {
@@ -1052,11 +1057,11 @@ impl VisitMut for Decorator2022_03 {
                                     prop: MemberProp::PrivateName(private_field.key.clone()),
                                 }))),
                             })],
+                            ..Default::default()
                         }),
                         is_generator: false,
                         is_async: false,
-                        type_params: None,
-                        return_type: None,
+                        ..Default::default()
                     });
                     let mut setter_function = {
                         let param = private_ident!("_v");
@@ -1087,11 +1092,11 @@ impl VisitMut for Decorator2022_03 {
                                         right: param.clone().into(),
                                     })),
                                 })],
+                                ..Default::default()
                             }),
                             is_generator: false,
                             is_async: false,
-                            type_params: None,
-                            return_type: None,
+                            ..Default::default()
                         })
                     };
 
@@ -1159,7 +1164,6 @@ impl VisitMut for Decorator2022_03 {
 
                                         getter_function = Box::new(Function {
                                             params: vec![],
-                                            decorators: Default::default(),
                                             span: DUMMY_SP,
                                             body: Some(BlockStmt {
                                                 span: DUMMY_SP,
@@ -1174,14 +1178,14 @@ impl VisitMut for Decorator2022_03 {
                                                         args: vec![
                                                             ThisExpr { span: DUMMY_SP }.as_arg()
                                                         ],
-                                                        type_args: Default::default(),
+                                                        ..Default::default()
                                                     }))),
                                                 })],
+                                                ..Default::default()
                                             }),
                                             is_generator: false,
                                             is_async: false,
-                                            type_params: Default::default(),
-                                            return_type: Default::default(),
+                                            ..Default::default()
                                         });
 
                                         let param = private_ident!("_v");
@@ -1208,14 +1212,14 @@ impl VisitMut for Decorator2022_03 {
                                                             ThisExpr { span: DUMMY_SP }.as_arg(),
                                                             param.as_arg(),
                                                         ],
-                                                        type_args: Default::default(),
+                                                        ..Default::default()
                                                     })),
                                                 })],
+                                                ..Default::default()
                                             }),
                                             is_generator: false,
                                             is_async: false,
-                                            type_params: Default::default(),
-                                            return_type: Default::default(),
+                                            ..Default::default()
                                         });
 
                                         data
@@ -1436,7 +1440,8 @@ impl VisitMut for Decorator2022_03 {
             args: once(ThisExpr { span: DUMMY_SP }.as_arg())
                 .chain(p.value.take().map(|v| v.as_arg()))
                 .collect(),
-            type_args: Default::default(),
+
+            ..Default::default()
         })));
 
         let initialize_init = {
@@ -1546,6 +1551,7 @@ impl VisitMut for Decorator2022_03 {
                         kind: VarDeclKind::Let,
                         decls: self.extra_lets.take(),
                         declare: false,
+                        ..Default::default()
                     })))
                     .into(),
                 );
@@ -1577,6 +1583,7 @@ impl VisitMut for Decorator2022_03 {
                     kind: VarDeclKind::Var,
                     decls: self.extra_vars.take(),
                     declare: false,
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -1617,7 +1624,7 @@ impl VisitMut for Decorator2022_03 {
         let decorators = self.preserve_side_effect_of_decorators(p.decorators.take());
         let dec = merge_decorators(decorators);
 
-        let init = private_ident!(format!("_init_{}", p.key.id.sym));
+        let init = private_ident!(format!("_init_{}", p.key.name));
 
         self.extra_vars.push(VarDeclarator {
             span: p.span,
@@ -1632,7 +1639,7 @@ impl VisitMut for Decorator2022_03 {
             args: once(ThisExpr { span: DUMMY_SP }.as_arg())
                 .chain(p.value.take().map(|v| v.as_arg()))
                 .collect(),
-            type_args: Default::default(),
+            ..Default::default()
         })));
 
         let initialize_init = {
@@ -1650,13 +1657,11 @@ impl VisitMut for Decorator2022_03 {
                         span: DUMMY_SP,
                         arg: Some(access_expr.clone().into()),
                     })],
+                    ..Default::default()
                 }),
                 is_async: false,
                 is_generator: false,
-                decorators: Default::default(),
-                params: Default::default(),
-                type_params: Default::default(),
-                return_type: Default::default(),
+                ..Default::default()
             });
             let settter_arg = private_ident!("value");
             let setter = Box::new(Function {
@@ -1672,6 +1677,7 @@ impl VisitMut for Decorator2022_03 {
                             right: Box::new(Expr::Ident(settter_arg.clone())),
                         })),
                     })],
+                    ..Default::default()
                 }),
                 is_async: false,
                 is_generator: false,
@@ -1681,8 +1687,7 @@ impl VisitMut for Decorator2022_03 {
                     decorators: Default::default(),
                     pat: Pat::Ident(settter_arg.into()),
                 }],
-                type_params: Default::default(),
-                return_type: Default::default(),
+                ..Default::default()
             });
 
             ArrayLit {
@@ -1690,7 +1695,7 @@ impl VisitMut for Decorator2022_03 {
                 elems: vec![
                     dec,
                     Some(if p.is_static { 5.as_arg() } else { 0.as_arg() }),
-                    Some((&*p.key.id.sym).as_arg()),
+                    Some((&*p.key.name).as_arg()),
                     Some(
                         FnExpr {
                             ident: None,
@@ -1747,6 +1752,7 @@ impl VisitMut for Decorator2022_03 {
                         kind: VarDeclKind::Let,
                         decls: self.extra_lets.take(),
                         declare: false,
+                        ..Default::default()
                     }))),
                 );
             }
@@ -1773,6 +1779,7 @@ impl VisitMut for Decorator2022_03 {
                     kind: VarDeclKind::Var,
                     decls: self.extra_vars.take(),
                     declare: false,
+                    ..Default::default()
                 }
                 .into(),
             );

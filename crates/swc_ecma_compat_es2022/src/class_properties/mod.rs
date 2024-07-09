@@ -102,7 +102,7 @@ impl ClassExtra {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: self.vars,
-                    declare: false,
+                    ..Default::default()
                 })
                 .into(),
             )
@@ -115,7 +115,7 @@ impl ClassExtra {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
                     decls: self.lets,
-                    declare: false,
+                    ..Default::default()
                 })
                 .into(),
             )
@@ -131,7 +131,7 @@ impl ClassExtra {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: self.vars,
-                    declare: false,
+                    ..Default::default()
                 })
                 .into(),
             )
@@ -143,7 +143,7 @@ impl ClassExtra {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
                     decls: self.lets,
-                    declare: false,
+                    ..Default::default()
                 })
                 .into(),
             )
@@ -200,6 +200,7 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                 *body = BlockStmtOrExpr::BlockStmt(BlockStmt {
                     span: DUMMY_SP,
                     stmts,
+                    ..Default::default()
                 });
             }
             _ => body.visit_mut_children_with(self),
@@ -454,12 +455,12 @@ impl<C: Comments> ClassProperties<C> {
                 for member in class.body.iter() {
                     match member {
                         ClassMember::PrivateMethod(method) => {
-                            if let Some(kind) = private_map.get_mut(&method.key.id.sym) {
+                            if let Some(kind) = private_map.get_mut(&method.key.name) {
                                 if dup_private_method(kind, method) {
                                     let error =
-                                        format!("duplicate private name #{}.", method.key.id.sym);
+                                        format!("duplicate private name #{}.", method.key.name);
                                     HANDLER.with(|handler| {
-                                        handler.struct_span_err(method.key.id.span, &error).emit()
+                                        handler.struct_span_err(method.key.span, &error).emit()
                                     });
                                 } else {
                                     match method.kind {
@@ -470,7 +471,7 @@ impl<C: Comments> ClassProperties<C> {
                                 }
                             } else {
                                 private_map.insert(
-                                    method.key.id.sym.clone(),
+                                    method.key.name.clone(),
                                     PrivateKind {
                                         is_method: true,
                                         is_static: method.is_static,
@@ -482,14 +483,14 @@ impl<C: Comments> ClassProperties<C> {
                         }
 
                         ClassMember::PrivateProp(prop) => {
-                            if private_map.contains_key(&prop.key.id.sym) {
-                                let error = format!("duplicate private name #{}.", prop.key.id.sym);
+                            if private_map.contains_key(&prop.key.name) {
+                                let error = format!("duplicate private name #{}.", prop.key.name);
                                 HANDLER.with(|handler| {
-                                    handler.struct_span_err(prop.key.id.span, &error).emit()
+                                    handler.struct_span_err(prop.key.span, &error).emit()
                                 });
                             } else {
                                 private_map.insert(
-                                    prop.key.id.sym.clone(),
+                                    prop.key.name.clone(),
                                     PrivateKind {
                                         is_method: false,
                                         is_static: prop.is_static,
@@ -698,9 +699,10 @@ impl<C: Comments> ClassProperties<C> {
                     let prop_span = prop.span();
 
                     let ident = Ident::new(
-                        format!("_{}", prop.key.id.sym).into(),
+                        format!("_{}", prop.key.name).into(),
                         // We use `self.mark` for private variables.
-                        prop.key.span.apply_mark(self.private.cur_mark()),
+                        prop.key.span,
+                        SyntaxContext::empty().apply_mark(self.private.cur_mark()),
                     );
 
                     if let Some(value) = &mut prop.value {
@@ -740,7 +742,7 @@ impl<C: Comments> ClassProperties<C> {
 
                     let value = prop.value.unwrap_or_else(|| Expr::undefined(prop_span));
 
-                    if prop.is_static && prop.span.has_mark(self.c.static_blocks_mark) {
+                    if prop.is_static && prop.ctxt.has_mark(self.c.static_blocks_mark) {
                         let init = MemberInit::StaticBlock(value);
                         extra_inits.push(init);
                         continue;
@@ -767,7 +769,7 @@ impl<C: Comments> ClassProperties<C> {
                                 span,
                                 callee: helper!(class_private_field_loose_key),
                                 args: vec![ident.sym.as_arg()],
-                                type_args: Default::default(),
+                                ..Default::default()
                             }))),
                         });
                     } else if !prop.is_static {
@@ -779,7 +781,7 @@ impl<C: Comments> ClassProperties<C> {
                                 span,
                                 callee: Box::new(Expr::Ident(quote_ident!("WeakMap"))),
                                 args: Some(Default::default()),
-                                type_args: Default::default(),
+                                ..Default::default()
                             }))),
                         });
                     };
@@ -800,26 +802,25 @@ impl<C: Comments> ClassProperties<C> {
 
                     let fn_name = Ident::new(
                         match method.kind {
-                            MethodKind::Getter => format!("get_{}", method.key.id.sym).into(),
-                            MethodKind::Setter => format!("set_{}", method.key.id.sym).into(),
+                            MethodKind::Getter => format!("get_{}", method.key.name).into(),
+                            MethodKind::Setter => format!("set_{}", method.key.name).into(),
                             MethodKind::Method => {
-                                if method.key.id.is_reserved_in_any() {
-                                    format!("__{}", method.key.id.sym).into()
+                                if method.key.name.is_reserved_in_any() {
+                                    format!("__{}", method.key.name).into()
                                 } else {
-                                    method.key.id.sym.clone()
+                                    method.key.name.clone()
                                 }
                             }
                         },
-                        method
-                            .span
-                            .with_ctxt(SyntaxContext::empty())
-                            .apply_mark(self.private.cur_mark()),
+                        method.span,
+                        SyntaxContext::empty().apply_mark(self.private.cur_mark()),
                     );
 
                     let weak_coll_var = Ident::new(
-                        format!("_{}", method.key.id.sym).into(),
+                        format!("_{}", method.key.name).into(),
                         // We use `self.mark` for private variables.
-                        method.key.span.apply_mark(self.private.cur_mark()),
+                        method.key.span,
+                        SyntaxContext::empty().apply_mark(self.private.cur_mark()),
                     );
                     method.function.visit_with(&mut UsedNameCollector {
                         used_names: &mut used_names,
@@ -917,14 +918,14 @@ impl<C: Comments> ClassProperties<C> {
                                     span,
                                     callee: helper!(class_private_field_loose_key),
                                     args: vec![weak_coll_var.sym.as_arg()],
-                                    type_args: Default::default(),
+                                    ..Default::default()
                                 })
                             } else {
                                 Expr::New(NewExpr {
                                     span,
                                     callee: Box::new(Expr::Ident(extra)),
                                     args: Some(Default::default()),
-                                    type_args: Default::default(),
+                                    ..Default::default()
                                 })
                             })),
                         })

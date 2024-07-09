@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 17,
-    "end": 46,
-    "ctxt": 0
+    "end": 46
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 17,
-        "end": 46,
-        "ctxt": 0
+        "end": 46
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 21,
-            "end": 45,
-            "ctxt": 0
+            "end": 45
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 21,
-              "end": 22,
-              "ctxt": 0
+              "end": 22
             },
+            "ctxt": 0,
             "value": "o",
             "optional": false,
             "typeAnnotation": null
@@ -38,8 +36,7 @@
             "type": "ObjectExpression",
             "span": {
               "start": 25,
-              "end": 45,
-              "ctxt": 0
+              "end": 45
             },
             "properties": [
               {
@@ -48,23 +45,20 @@
                   "type": "Computed",
                   "span": {
                     "start": 31,
-                    "end": 40,
-                    "ctxt": 0
+                    "end": 40
                   },
                   "expression": {
                     "type": "BinaryExpression",
                     "span": {
                       "start": 32,
-                      "end": 39,
-                      "ctxt": 0
+                      "end": 39
                     },
                     "operator": "||",
                     "left": {
                       "type": "StringLiteral",
                       "span": {
                         "start": 32,
-                        "end": 34,
-                        "ctxt": 0
+                        "end": 34
                       },
                       "value": "",
                       "raw": "\"\""
@@ -73,8 +67,7 @@
                       "type": "NumericLiteral",
                       "span": {
                         "start": 38,
-                        "end": 39,
-                        "ctxt": 0
+                        "end": 39
                       },
                       "value": 0.0,
                       "raw": "0"
@@ -85,8 +78,7 @@
                   "type": "NumericLiteral",
                   "span": {
                     "start": 42,
-                    "end": 43,
-                    "ctxt": 0
+                    "end": 43
                   },
                   "value": 0.0,
                   "raw": "0"

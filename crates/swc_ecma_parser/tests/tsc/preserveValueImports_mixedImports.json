@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 104,
-    "end": 346,
-    "ctxt": 0
+    "end": 346
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 104,
-        "end": 134,
-        "ctxt": 0
+        "end": 134
       },
       "declaration": {
         "type": "FunctionDeclaration",
@@ -19,9 +17,9 @@
           "type": "Identifier",
           "span": {
             "start": 120,
-            "end": 129,
-            "ctxt": 0
+            "end": 129
           },
+          "ctxt": 0,
           "value": "Component",
           "optional": false
         },
@@ -30,16 +28,16 @@
         "decorators": [],
         "span": {
           "start": 111,
-          "end": 134,
-          "ctxt": 0
+          "end": 134
         },
+        "ctxt": 0,
         "body": {
           "type": "BlockStatement",
           "span": {
             "start": 132,
-            "end": 134,
-            "ctxt": 0
+            "end": 134
           },
+          "ctxt": 0,
           "stmts": []
         },
         "generator": false,
@@ -52,23 +50,21 @@
       "type": "ExportDeclaration",
       "span": {
         "start": 135,
-        "end": 169,
-        "ctxt": 0
+        "end": 169
       },
       "declaration": {
         "type": "TsInterfaceDeclaration",
         "span": {
           "start": 142,
-          "end": 169,
-          "ctxt": 0
+          "end": 169
         },
         "id": {
           "type": "Identifier",
           "span": {
             "start": 152,
-            "end": 166,
-            "ctxt": 0
+            "end": 166
           },
+          "ctxt": 0,
           "value": "ComponentProps",
           "optional": false
         },
@@ -79,8 +75,7 @@
           "type": "TsInterfaceBody",
           "span": {
             "start": 167,
-            "end": 169,
-            "ctxt": 0
+            "end": 169
           },
           "body": []
         }
@@ -90,24 +85,22 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 195,
-        "end": 252,
-        "ctxt": 0
+        "end": 252
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
             "start": 204,
-            "end": 213,
-            "ctxt": 0
+            "end": 213
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 204,
-              "end": 213,
-              "ctxt": 0
+              "end": 213
             },
+            "ctxt": 0,
             "value": "Component",
             "optional": false
           },
@@ -118,16 +111,15 @@
           "type": "ImportSpecifier",
           "span": {
             "start": 215,
-            "end": 229,
-            "ctxt": 0
+            "end": 229
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 215,
-              "end": 229,
-              "ctxt": 0
+              "end": 229
             },
+            "ctxt": 0,
             "value": "ComponentProps",
             "optional": false
           },
@@ -139,8 +131,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 237,
-          "end": 251,
-          "ctxt": 0
+          "end": 251
         },
         "value": "./exports.js",
         "raw": "\"./exports.js\""
@@ -153,24 +144,22 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 284,
-        "end": 346,
-        "ctxt": 0
+        "end": 346
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
             "start": 293,
-            "end": 302,
-            "ctxt": 0
+            "end": 302
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 293,
-              "end": 302,
-              "ctxt": 0
+              "end": 302
             },
+            "ctxt": 0,
             "value": "Component",
             "optional": false
           },
@@ -181,16 +170,15 @@
           "type": "ImportSpecifier",
           "span": {
             "start": 304,
-            "end": 323,
-            "ctxt": 0
+            "end": 323
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 309,
-              "end": 323,
-              "ctxt": 0
+              "end": 323
             },
+            "ctxt": 0,
             "value": "ComponentProps",
             "optional": false
           },
@@ -202,8 +190,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 331,
-          "end": 345,
-          "ctxt": 0
+          "end": 345
         },
         "value": "./exports.js",
         "raw": "\"./exports.js\""

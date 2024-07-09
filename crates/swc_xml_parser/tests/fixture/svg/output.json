@@ -2,16 +2,14 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 1545,
-    "ctxt": 0
+    "end": 1545
   },
   "children": [
     {
       "type": "ProcessingInstruction",
       "span": {
         "start": 1,
-        "end": 39,
-        "ctxt": 0
+        "end": 39
       },
       "target": "xml",
       "data": "version=\"1.0\" encoding=\"UTF-8\""
@@ -20,8 +18,7 @@
       "type": "Comment",
       "span": {
         "start": 40,
-        "end": 138,
-        "ctxt": 0
+        "end": 138
       },
       "data": " Generator: Adobe Illustrator 13.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 14948)  ",
       "raw": "<!-- Generator: Adobe Illustrator 13.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 14948)  -->"
@@ -30,8 +27,7 @@
       "type": "DocumentType",
       "span": {
         "start": 139,
-        "end": 245,
-        "ctxt": 0
+        "end": 245
       },
       "name": "svg",
       "publicId": "-//W3C//DTD SVG 1.0//EN",
@@ -42,8 +38,7 @@
       "type": "Element",
       "span": {
         "start": 246,
-        "end": 1544,
-        "ctxt": 0
+        "end": 1544
       },
       "tagName": "svg",
       "attributes": [
@@ -51,8 +46,7 @@
           "type": "Attribute",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "namespace": null,
           "prefix": null,
@@ -65,8 +59,7 @@
           "type": "Attribute",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "namespace": null,
           "prefix": null,
@@ -79,8 +72,7 @@
           "type": "Attribute",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "namespace": null,
           "prefix": null,
@@ -93,8 +85,7 @@
           "type": "Attribute",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "namespace": null,
           "prefix": null,
@@ -107,8 +98,7 @@
           "type": "Attribute",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "namespace": null,
           "prefix": null,
@@ -121,8 +111,7 @@
           "type": "Attribute",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "namespace": null,
           "prefix": null,
@@ -135,8 +124,7 @@
           "type": "Attribute",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "namespace": null,
           "prefix": null,
@@ -149,8 +137,7 @@
           "type": "Attribute",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "namespace": null,
           "prefix": null,
@@ -163,8 +150,7 @@
           "type": "Attribute",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "namespace": null,
           "prefix": null,
@@ -177,8 +163,7 @@
           "type": "Attribute",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "namespace": null,
           "prefix": null,
@@ -191,8 +176,7 @@
           "type": "Attribute",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "namespace": null,
           "prefix": null,
@@ -207,8 +191,7 @@
           "type": "Text",
           "span": {
             "start": 484,
-            "end": 485,
-            "ctxt": 0
+            "end": 485
           },
           "data": "\n",
           "raw": "\n"
@@ -217,8 +200,7 @@
           "type": "Element",
           "span": {
             "start": 485,
-            "end": 1537,
-            "ctxt": 0
+            "end": 1537
           },
           "tagName": "g",
           "attributes": [],
@@ -227,8 +209,7 @@
               "type": "Text",
               "span": {
                 "start": 488,
-                "end": 490,
-                "ctxt": 0
+                "end": 490
               },
               "data": "\n\t",
               "raw": "\n\t"
@@ -237,8 +218,7 @@
               "type": "Element",
               "span": {
                 "start": 490,
-                "end": 549,
-                "ctxt": 0
+                "end": 549
               },
               "tagName": "circle",
               "attributes": [
@@ -246,8 +226,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 0,
-                    "end": 0,
-                    "ctxt": 0
+                    "end": 0
                   },
                   "namespace": null,
                   "prefix": null,
@@ -260,8 +239,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 0,
-                    "end": 0,
-                    "ctxt": 0
+                    "end": 0
                   },
                   "namespace": null,
                   "prefix": null,
@@ -274,8 +252,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 0,
-                    "end": 0,
-                    "ctxt": 0
+                    "end": 0
                   },
                   "namespace": null,
                   "prefix": null,
@@ -288,8 +265,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 0,
-                    "end": 0,
-                    "ctxt": 0
+                    "end": 0
                   },
                   "namespace": null,
                   "prefix": null,
@@ -305,8 +281,7 @@
               "type": "Text",
               "span": {
                 "start": 549,
-                "end": 554,
-                "ctxt": 0
+                "end": 554
               },
               "data": "\n    ",
               "raw": "\n    "
@@ -315,8 +290,7 @@
               "type": "Element",
               "span": {
                 "start": 554,
-                "end": 1532,
-                "ctxt": 0
+                "end": 1532
               },
               "tagName": "g",
               "attributes": [],
@@ -325,8 +299,7 @@
                   "type": "Text",
                   "span": {
                     "start": 557,
-                    "end": 560,
-                    "ctxt": 0
+                    "end": 560
                   },
                   "data": "\n\t\t",
                   "raw": "\n\t\t"
@@ -335,8 +308,7 @@
                   "type": "Element",
                   "span": {
                     "start": 560,
-                    "end": 1526,
-                    "ctxt": 0
+                    "end": 1526
                   },
                   "tagName": "path",
                   "attributes": [
@@ -344,8 +316,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 0,
-                        "end": 0,
-                        "ctxt": 0
+                        "end": 0
                       },
                       "namespace": null,
                       "prefix": null,
@@ -361,8 +332,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1526,
-                    "end": 1528,
-                    "ctxt": 0
+                    "end": 1528
                   },
                   "data": "\n\t",
                   "raw": "\n\t"
@@ -373,8 +343,7 @@
               "type": "Text",
               "span": {
                 "start": 1532,
-                "end": 1533,
-                "ctxt": 0
+                "end": 1533
               },
               "data": "\n",
               "raw": "\n"
@@ -385,8 +354,7 @@
           "type": "Text",
           "span": {
             "start": 1537,
-            "end": 1538,
-            "ctxt": 0
+            "end": 1538
           },
           "data": "\n",
           "raw": "\n"

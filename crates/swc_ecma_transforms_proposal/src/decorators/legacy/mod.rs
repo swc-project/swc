@@ -71,6 +71,7 @@ impl TscDecorator {
                         kind: VarDeclKind::Var,
                         declare: Default::default(),
                         decls: self.vars.take(),
+                        ..Default::default()
                     }
                     .into(),
                 ));
@@ -177,7 +178,7 @@ impl TscDecorator {
             span: DUMMY_SP,
             callee: helper!(ts, ts_decorate),
             args: vec![decorators, target, key, desc],
-            type_args: Default::default(),
+            ..Default::default()
         })));
     }
 }
@@ -263,7 +264,7 @@ impl VisitMut for TscDecorator {
                             .with_pos(BytePos::DUMMY, BytePos::DUMMY)
                             .as_arg(),
                     ],
-                    type_args: Default::default(),
+                    ..Default::default()
                 }));
                 self.appended_exprs.push(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,

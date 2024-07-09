@@ -1,45 +1,45 @@
 [
     JsDoc {
-        span: 22..22#0,
+        span: 22..22,
         description: Text {
-            span: 22..22#0,
+            span: 22..22,
             value: "",
         },
         tags: [
             TagItem {
-                span: 22..32#0,
+                span: 22..32,
                 tag_name: Text {
-                    span: 22..32#0,
+                    span: 22..32,
                     value: "constructs",
                 },
                 tag: Constructs(
                     ConstructsTag {
-                        span: 22..32#0,
+                        span: 22..32,
                         name: Text {
-                            span: 22..26#0,
+                            span: 22..26,
                             value: "Menu",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 22..27#0,
+                span: 22..27,
                 tag_name: Text {
-                    span: 22..27#0,
+                    span: 22..27,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 22..27#0,
+                        span: 22..27,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 22..27#0,
+                                span: 22..27,
                                 value: "items",
                             },
                         ),
                         desc: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -48,26 +48,26 @@
         ],
     },
     JsDoc {
-        span: 125..125#0,
+        span: 125..125,
         description: Text {
-            span: 125..125#0,
+            span: 125..125,
             value: "",
         },
         tags: [
             TagItem {
-                span: 125..133#0,
+                span: 125..133,
                 tag_name: Text {
-                    span: 125..133#0,
+                    span: 125..133,
                     value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
-                        span: 125..133#0,
+                        span: 125..133,
                         parent_name_path: NamePath {
-                            span: 125..135#0,
+                            span: 125..135,
                             components: [
                                 Text {
-                                    span: 125..129#0,
+                                    span: 125..129,
                                     value: "Menu",
                                 },
                             ],

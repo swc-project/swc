@@ -2,32 +2,29 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 63,
-    "ctxt": 0
+    "end": 63
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 1,
-        "end": 24,
-        "ctxt": 0
+        "end": 24
       },
       "declaration": {
         "type": "TsTypeAliasDeclaration",
         "span": {
           "start": 8,
-          "end": 24,
-          "ctxt": 0
+          "end": 24
         },
         "declare": false,
         "id": {
           "type": "Identifier",
           "span": {
             "start": 13,
-            "end": 14,
-            "ctxt": 0
+            "end": 14
           },
+          "ctxt": 0,
           "value": "T",
           "optional": false
         },
@@ -36,8 +33,7 @@
           "type": "TsKeywordType",
           "span": {
             "start": 17,
-            "end": 23,
-            "ctxt": 0
+            "end": 23
           },
           "kind": "number"
         }
@@ -47,15 +43,13 @@
       "type": "ExportDeclaration",
       "span": {
         "start": 25,
-        "end": 41,
-        "ctxt": 0
+        "end": 41
       },
       "declaration": {
         "type": "TsEnumDeclaration",
         "span": {
           "start": 32,
-          "end": 41,
-          "ctxt": 0
+          "end": 41
         },
         "declare": false,
         "isConst": false,
@@ -63,9 +57,9 @@
           "type": "Identifier",
           "span": {
             "start": 37,
-            "end": 38,
-            "ctxt": 0
+            "end": 38
           },
+          "ctxt": 0,
           "value": "E",
           "optional": false
         },
@@ -76,23 +70,21 @@
       "type": "ExportDeclaration",
       "span": {
         "start": 42,
-        "end": 63,
-        "ctxt": 0
+        "end": 63
       },
       "declaration": {
         "type": "TsInterfaceDeclaration",
         "span": {
           "start": 49,
-          "end": 63,
-          "ctxt": 0
+          "end": 63
         },
         "id": {
           "type": "Identifier",
           "span": {
             "start": 59,
-            "end": 60,
-            "ctxt": 0
+            "end": 60
           },
+          "ctxt": 0,
           "value": "I",
           "optional": false
         },
@@ -103,8 +95,7 @@
           "type": "TsInterfaceBody",
           "span": {
             "start": 61,
-            "end": 63,
-            "ctxt": 0
+            "end": 63
           },
           "body": []
         }

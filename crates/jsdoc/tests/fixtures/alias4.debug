@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                         ty: Text {
-                            span: 1..7#0,
+                            span: 1..7,
                             value: "jacket",
                         },
                     },
@@ -29,24 +29,24 @@
         ],
     },
     JsDoc {
-        span: 58..58#0,
+        span: 58..58,
         description: Text {
-            span: 58..91#0,
+            span: 58..91,
             value: "Jacket constructor.\n     *\n     *",
         },
         tags: [
             TagItem {
-                span: 58..69#0,
+                span: 58..69,
                 tag_name: Text {
-                    span: 58..69#0,
+                    span: 58..69,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 58..69#0,
+                        span: 58..69,
                         ty: Some(
                             Text {
-                                span: 58..80#0,
+                                span: 58..80,
                                 value: "* @alias module:jacket",
                             },
                         ),

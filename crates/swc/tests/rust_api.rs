@@ -26,7 +26,7 @@ fn test_visit_mut() {
         let c = Compiler::new(cm.clone());
 
         let fm = cm.new_source_file(
-            FileName::Anon,
+            FileName::Anon.into(),
             "
                 console.log(5 as const)
             "
@@ -66,7 +66,7 @@ fn shopify_1_check_filename() {
         let c = Compiler::new(cm.clone());
 
         let fm = cm.new_source_file(
-            FileName::Anon,
+            FileName::Anon.into(),
             "
             import React from 'react';
             import { useI18n } from '@shopify/react-i18n';
@@ -165,7 +165,7 @@ fn shopify_2_same_opt() {
         };
 
         let fm = cm.new_source_file(
-            FileName::Real("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()),
+            FileName::Real("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()).into(),
             "
             import React from 'react';
             import { useI18n } from '@shopify/react-i18n';
@@ -233,7 +233,7 @@ fn shopify_3_reduce_defaults() {
         };
 
         let fm = cm.new_source_file(
-            FileName::Real("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()),
+            FileName::Real("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()).into(),
             "
             import React from 'react';
             import { useI18n } from '@shopify/react-i18n';
@@ -296,7 +296,7 @@ fn shopify_4_reduce_more() {
         };
 
         let fm = cm.new_source_file(
-            FileName::Real("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()),
+            FileName::Real("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()).into(),
             "
             import React from 'react';
             import { useI18n } from '@shopify/react-i18n';

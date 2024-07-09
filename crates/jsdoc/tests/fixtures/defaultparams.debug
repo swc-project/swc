@@ -1,29 +1,29 @@
 [
     JsDoc {
-        span: 126..126#0,
+        span: 126..126,
         description: Text {
-            span: 126..158#0,
+            span: 126..158,
             value: "Set the user's first name.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 126..131#0,
+                span: 126..131,
                 tag_name: Text {
-                    span: 126..131#0,
+                    span: 126..131,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 126..131#0,
+                        span: 126..131,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 126..134#0,
+                                span: 126..134,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 126..160#0,
+                            span: 126..160,
                             value: "firstName - The user's first name.",
                         },
                     },
@@ -32,30 +32,30 @@
         ],
     },
     JsDoc {
-        span: 269..269#0,
+        span: 269..269,
         description: Text {
-            span: 269..300#0,
+            span: 269..300,
             value: "Set the user's last name.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 269..274#0,
+                span: 269..274,
                 tag_name: Text {
-                    span: 269..274#0,
+                    span: 269..274,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 269..274#0,
+                        span: 269..274,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 269..277#0,
+                                span: 269..277,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 269..309#0,
+                            span: 269..309,
                             value: "[lastName=Braun] - The user's last name.",
                         },
                     },
@@ -64,76 +64,76 @@
         ],
     },
     JsDoc {
-        span: 414..414#0,
+        span: 414..414,
         description: Text {
-            span: 414..465#0,
+            span: 414..465,
             value: "Set the user's first, middle, and last names.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 414..419#0,
+                span: 414..419,
                 tag_name: Text {
-                    span: 414..419#0,
+                    span: 414..419,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 414..419#0,
+                        span: 414..419,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 414..422#0,
+                                span: 414..422,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 414..448#0,
+                            span: 414..448,
                             value: "firstName - The user's first name.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 414..419#0,
+                span: 414..419,
                 tag_name: Text {
-                    span: 414..419#0,
+                    span: 414..419,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 414..419#0,
+                        span: 414..419,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 414..422#0,
+                                span: 414..422,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 414..450#0,
+                            span: 414..450,
                             value: "middleName - The user's middle name.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 414..419#0,
+                span: 414..419,
                 tag_name: Text {
-                    span: 414..419#0,
+                    span: 414..419,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 414..419#0,
+                        span: 414..419,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 414..422#0,
+                                span: 414..422,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 414..446#0,
+                            span: 414..446,
                             value: "lastName - The user's last name.",
                         },
                     },
@@ -142,30 +142,30 @@
         ],
     },
     JsDoc {
-        span: 712..712#0,
+        span: 712..712,
         description: Text {
-            span: 712..741#0,
+            span: 712..741,
             value: "Set the user's manager.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 712..717#0,
+                span: 712..717,
                 tag_name: Text {
-                    span: 712..717#0,
+                    span: 712..717,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 712..717#0,
+                        span: 712..717,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 712..721#0,
+                                span: 712..721,
                                 value: "{Manager}",
                             },
                         ),
                         desc: Text {
-                            span: 712..734#0,
+                            span: 712..734,
                             value: "manager - The manager.",
                         },
                     },
@@ -174,30 +174,30 @@
         ],
     },
     JsDoc {
-        span: 831..831#0,
+        span: 831..831,
         description: Text {
-            span: 831..878#0,
+            span: 831..878,
             value: "Set whether the user is currently active.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 831..836#0,
+                span: 831..836,
                 tag_name: Text {
-                    span: 831..836#0,
+                    span: 831..836,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 831..836#0,
+                        span: 831..836,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 831..840#0,
+                                span: 831..840,
                                 value: "{boolean}",
                             },
                         ),
                         desc: Text {
-                            span: 831..886#0,
+                            span: 831..886,
                             value: "isActive - Set to `true` if active; otherwise, `false`.",
                         },
                     },
@@ -206,30 +206,30 @@
         ],
     },
     JsDoc {
-        span: 1003..1003#0,
+        span: 1003..1003,
         description: Text {
-            span: 1003..1050#0,
+            span: 1003..1050,
             value: "Set the year in which the employee was born.\n *",
         },
         tags: [
             TagItem {
-                span: 1003..1008#0,
+                span: 1003..1008,
                 tag_name: Text {
-                    span: 1003..1008#0,
+                    span: 1003..1008,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 1003..1008#0,
+                        span: 1003..1008,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 1003..1011#0,
+                                span: 1003..1011,
                                 value: "{number}",
                             },
                         ),
                         desc: Text {
-                            span: 1003..1036#0,
+                            span: 1003..1036,
                             value: "year - The four-digit birth year.",
                         },
                     },
@@ -238,30 +238,30 @@
         ],
     },
     JsDoc {
-        span: 1151..1151#0,
+        span: 1151..1151,
         description: Text {
-            span: 1151..1229#0,
+            span: 1151..1229,
             value: "Set the name of the user's dog. At this time, only one dog is supported.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 1151..1156#0,
+                span: 1151..1156,
                 tag_name: Text {
-                    span: 1151..1156#0,
+                    span: 1151..1156,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 1151..1156#0,
+                        span: 1151..1156,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 1151..1159#0,
+                                span: 1151..1159,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 1151..1188#0,
+                            span: 1151..1188,
                             value: "dogName - The name of the user's dog.",
                         },
                     },
@@ -270,30 +270,30 @@
         ],
     },
     JsDoc {
-        span: 1333..1333#0,
+        span: 1333..1333,
         description: Text {
-            span: 1333..1378#0,
+            span: 1333..1378,
             value: "Set the user's favorite pizza toppings.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 1333..1338#0,
+                span: 1333..1338,
                 tag_name: Text {
-                    span: 1333..1338#0,
+                    span: 1333..1338,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 1333..1338#0,
+                        span: 1333..1338,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 1333..1348#0,
+                                span: 1333..1348,
                                 value: "{PizzaToppings}",
                             },
                         ),
                         desc: Text {
-                            span: 1333..1373#0,
+                            span: 1333..1373,
                             value: "toppings - The user's favorite toppings.",
                         },
                     },
@@ -302,30 +302,30 @@
         ],
     },
     JsDoc {
-        span: 1519..1519#0,
+        span: 1519..1519,
         description: Text {
-            span: 1519..1557#0,
+            span: 1519..1557,
             value: "Set whether the user is a ninja.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 1519..1524#0,
+                span: 1519..1524,
                 tag_name: Text {
-                    span: 1519..1524#0,
+                    span: 1519..1524,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 1519..1524#0,
+                        span: 1519..1524,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 1519..1528#0,
+                                span: 1519..1528,
                                 value: "{boolean}",
                             },
                         ),
                         desc: Text {
-                            span: 1519..1586#0,
+                            span: 1519..1586,
                             value: "isNinja - Set to `true` if the user is a ninja; otherwise, `false`.",
                         },
                     },

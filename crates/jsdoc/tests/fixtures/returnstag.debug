@@ -1,28 +1,28 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..8#0,
+                span: 1..8,
                 tag_name: Text {
-                    span: 1..8#0,
+                    span: 1..8,
                     value: "returns",
                 },
                 tag: Return(
                     ReturnTag {
-                        span: 1..8#0,
+                        span: 1..8,
                         ty: Some(
                             Text {
-                                span: 1..23#0,
+                                span: 1..23,
                                 value: "{string|Array<string>}",
                             },
                         ),
                         description: Text {
-                            span: 1..32#0,
+                            span: 1..32,
                             value: "The names of the found item(s).",
                         },
                     },
@@ -31,29 +31,29 @@
         ],
     },
     JsDoc {
-        span: 108..108#0,
+        span: 108..108,
         description: Text {
-            span: 108..108#0,
+            span: 108..108,
             value: "",
         },
         tags: [
             TagItem {
-                span: 108..115#0,
+                span: 108..115,
                 tag_name: Text {
-                    span: 108..115#0,
+                    span: 108..115,
                     value: "returns",
                 },
                 tag: Return(
                     ReturnTag {
-                        span: 108..115#0,
+                        span: 108..115,
                         ty: Some(
                             Text {
-                                span: 108..117#0,
+                                span: 108..117,
                                 value: "{!string}",
                             },
                         ),
                         description: Text {
-                            span: 108..129#0,
+                            span: 108..129,
                             value: "The name, if defined.",
                         },
                     },
@@ -62,29 +62,29 @@
         ],
     },
     JsDoc {
-        span: 184..184#0,
+        span: 184..184,
         description: Text {
-            span: 184..184#0,
+            span: 184..184,
             value: "",
         },
         tags: [
             TagItem {
-                span: 184..190#0,
+                span: 184..190,
                 tag_name: Text {
-                    span: 184..190#0,
+                    span: 184..190,
                     value: "return",
                 },
                 tag: Return(
                     ReturnTag {
-                        span: 184..190#0,
+                        span: 184..190,
                         ty: Some(
                             Text {
-                                span: 184..187#0,
+                                span: 184..187,
                                 value: "The",
                             },
                         ),
                         description: Text {
-                            span: 184..195#0,
+                            span: 184..195,
                             value: "binding id.",
                         },
                     },
@@ -93,29 +93,29 @@
         ],
     },
     JsDoc {
-        span: 248..248#0,
+        span: 248..248,
         description: Text {
-            span: 248..248#0,
+            span: 248..248,
             value: "",
         },
         tags: [
             TagItem {
-                span: 248..254#0,
+                span: 248..254,
                 tag_name: Text {
-                    span: 248..254#0,
+                    span: 248..254,
                     value: "return",
                 },
                 tag: Return(
                     ReturnTag {
-                        span: 248..254#0,
+                        span: 248..254,
                         ty: Some(
                             Text {
-                                span: 248..250#0,
+                                span: 248..250,
                                 value: "An",
                             },
                         ),
                         description: Text {
-                            span: 248..284#0,
+                            span: 248..284,
                             value: "object to be passed to {@link find}.",
                         },
                     },

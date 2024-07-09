@@ -1,25 +1,25 @@
 [
     JsDoc {
-        span: 0..35#0,
+        span: 0..35,
         description: Text {
-            span: 35..55#0,
+            span: 35..55,
             value: "Give x another name.",
         },
         tags: [
             TagItem {
-                span: 35..40#0,
+                span: 35..40,
                 tag_name: Text {
-                    span: 35..40#0,
+                    span: 35..40,
                     value: "alias",
                 },
                 tag: Alias(
                     AliasTag {
-                        span: 35..40#0,
+                        span: 35..40,
                         name_path: NamePath {
-                            span: 35..59#0,
+                            span: 35..59,
                             components: [
                                 Text {
-                                    span: 35..43#0,
+                                    span: 35..43,
                                     value: "myObject",
                                 },
                             ],
@@ -28,14 +28,14 @@
                 ),
             },
             TagItem {
-                span: 35..44#0,
+                span: 35..44,
                 tag_name: Text {
-                    span: 35..44#0,
+                    span: 35..44,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: 35..44#0,
+                        span: 35..44,
                         ty: None,
                         name: None,
                     },
@@ -44,9 +44,9 @@
         ],
     },
     JsDoc {
-        span: 133..133#0,
+        span: 133..133,
         description: Text {
-            span: 133..144#0,
+            span: 133..144,
             value: "document me",
         },
         tags: [],

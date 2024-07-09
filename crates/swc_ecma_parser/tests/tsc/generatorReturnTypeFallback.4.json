@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 283,
-    "end": 331,
-    "ctxt": 0
+    "end": 331
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 293,
-          "end": 294,
-          "ctxt": 0
+          "end": 294
         },
+        "ctxt": 0,
         "value": "f",
         "optional": false
       },
@@ -23,24 +22,24 @@
       "decorators": [],
       "span": {
         "start": 283,
-        "end": 331,
-        "ctxt": 0
+        "end": 331
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 297,
-          "end": 331,
-          "ctxt": 0
+          "end": 331
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
               "start": 303,
-              "end": 329,
-              "ctxt": 0
+              "end": 329
             },
+            "ctxt": 0,
             "kind": "const",
             "declare": false,
             "declarations": [
@@ -48,31 +47,28 @@
                 "type": "VariableDeclarator",
                 "span": {
                   "start": 309,
-                  "end": 328,
-                  "ctxt": 0
+                  "end": 328
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
                     "start": 309,
-                    "end": 310,
-                    "ctxt": 0
+                    "end": 310
                   },
+                  "ctxt": 0,
                   "value": "x",
                   "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
                       "start": 310,
-                      "end": 318,
-                      "ctxt": 0
+                      "end": 318
                     },
                     "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
                         "start": 312,
-                        "end": 318,
-                        "ctxt": 0
+                        "end": 318
                       },
                       "kind": "string"
                     }
@@ -82,15 +78,13 @@
                   "type": "YieldExpression",
                   "span": {
                     "start": 321,
-                    "end": 328,
-                    "ctxt": 0
+                    "end": 328
                   },
                   "argument": {
                     "type": "NumericLiteral",
                     "span": {
                       "start": 327,
-                      "end": 328,
-                      "ctxt": 0
+                      "end": 328
                     },
                     "value": 1.0,
                     "raw": "1"

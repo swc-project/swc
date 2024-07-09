@@ -45,7 +45,7 @@ fn test() {
     );
     let start_pos = file_map.start_pos + BytePos(1);
     let end_pos = file_map.end_pos - BytePos(1);
-    let full = Span::new(start_pos, end_pos, Default::default());
+    let full = Span::new(start_pos, end_pos);
 
     let handler = Handler::with_tty_emitter(ColorConfig::Always, false, false, Some(Arc::new(cm)));
 
@@ -65,11 +65,7 @@ fn test() {
             Some(DiagnosticId::Lint("WITH_STMT".into())),
             "Lint: With statement",
         )
-        .span(Span::new(
-            start_pos + BytePos(21),
-            start_pos + BytePos(25),
-            Default::default(),
-        ))
+        .span(Span::new(start_pos + BytePos(21), start_pos + BytePos(25)))
         .emit();
     })
 }

@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 18,
-    "end": 95,
-    "ctxt": 0
+    "end": 95
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 18,
-        "end": 95,
-        "ctxt": 0
+        "end": 95
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 22,
-            "end": 94,
-            "ctxt": 0
+            "end": 94
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 22,
-              "end": 23,
-              "ctxt": 0
+              "end": 23
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -38,8 +36,7 @@
             "type": "StringLiteral",
             "span": {
               "start": 26,
-              "end": 94,
-              "ctxt": 0
+              "end": 94
             },
             "value": "Hello world",
             "raw": "\"\\u{48}\\u{65}\\u{6c}\\u{6c}\\u{6f}\\u{20}\\u{77}\\u{6f}\\u{72}\\u{6c}\\u{64}\""

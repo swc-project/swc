@@ -1,4 +1,8 @@
-use std::{iter, mem, vec};
+use std::{
+    iter,
+    mem::{self, take},
+    vec,
+};
 
 use swc_atoms::JsWord;
 use swc_common::{
@@ -109,6 +113,7 @@ impl VisitMut for Transform {
                         declare: false,
                         decls,
                         kind: VarDeclKind::Let,
+                        ..Default::default()
                     }
                     .into(),
                 );
@@ -149,9 +154,9 @@ impl VisitMut for Transform {
 
                     let (pat, expr, id) = match param {
                         TsParamPropParam::Ident(binding_ident) => {
-                            let id = binding_ident.id.to_id();
-                            let prop_name = PropName::Ident(binding_ident.id.clone());
-                            let value = binding_ident.id.clone().into();
+                            let id = binding_ident.to_id();
+                            let prop_name = PropName::Ident(Ident::from(&*binding_ident));
+                            let value = Ident::from(&*binding_ident).into();
 
                             (
                                 Pat::Ident(binding_ident.clone()),
@@ -207,6 +212,7 @@ impl VisitMut for Transform {
                         declare: false,
                         decls,
                         kind: VarDeclKind::Let,
+                        ..Default::default()
                     }
                     .into(),
                 );
@@ -431,6 +437,7 @@ impl Transform {
         BlockStmt {
             span,
             stmts: vec![expr.into_stmt()],
+            ..Default::default()
         }
     }
 
@@ -511,7 +518,11 @@ impl Transform {
             rewrite_export_bindings(&mut stmts, id, mutable_export_ids);
         }
 
-        BlockStmt { span, stmts }
+        BlockStmt {
+            span,
+            stmts,
+            ..Default::default()
+        }
     }
 }
 
@@ -588,6 +599,7 @@ impl Transform {
             BlockStmt {
                 span: DUMMY_SP,
                 stmts,
+                ..Default::default()
             },
             is_export,
         );
@@ -850,6 +862,7 @@ impl Transform {
                 init: None,
                 definite: false,
             }],
+            ..Default::default()
         };
 
         Some(var_decl)
@@ -982,16 +995,16 @@ impl Transform {
         // NOTE: This is not correct!
         // However, all unresolved_span are used in TsImportExportAssignConfig::Classic
         // which is deprecated and not used in real world.
-        let unresolved_span = DUMMY_SP.apply_mark(self.top_level_mark);
-        let cjs_require = quote_ident!(unresolved_span, "require");
-        let cjs_exports = quote_ident!(unresolved_span, "exports");
+        let unresolved_ctxt = SyntaxContext::empty().apply_mark(self.top_level_mark);
+        let cjs_require = quote_ident!(unresolved_ctxt, "require");
+        let cjs_exports = quote_ident!(unresolved_ctxt, "exports");
 
         let mut cjs_export_assign = None;
 
         for mut module_item in n.take() {
             match &mut module_item {
                 ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(decl)) if !decl.is_type_only => {
-                    debug_assert_eq!(decl.id.span.ctxt(), self.top_level_ctxt);
+                    debug_assert_eq!(decl.id.ctxt, self.top_level_ctxt);
 
                     match &mut decl.module_ref {
                         // import foo = bar.baz
@@ -1132,10 +1145,17 @@ impl Transform {
                     n.push(
                         Stmt::Expr(ExprStmt {
                             span,
-                            expr: Box::new(expr.make_assign_to(
-                                op!("="),
-                                member_expr!(unresolved_span, module.exports).into(),
-                            )),
+                            expr: Box::new(
+                                expr.make_assign_to(
+                                    op!("="),
+                                    member_expr!(
+                                        unresolved_ctxt,
+                                        Default::default(),
+                                        module.exports
+                                    )
+                                    .into(),
+                                ),
+                            ),
                         })
                         .into(),
                     );
@@ -1182,8 +1202,8 @@ impl VisitMut for ExportedPatRewriter {
     }
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
-        if let Pat::Ident(BindingIdent { id, .. }) = n {
-            *n = Pat::Expr(self.id.clone().make_member(id.take()).into());
+        if let Pat::Ident(bid) = n {
+            *n = Pat::Expr(self.id.clone().make_member(Ident::from(take(bid))).into());
             return;
         }
 

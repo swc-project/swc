@@ -1,22 +1,22 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..11#0,
+                span: 1..11,
                 tag_name: Text {
-                    span: 1..11#0,
+                    span: 1..11,
                     value: "deprecated",
                 },
                 tag: Deprecated(
                     DeprecatedTag {
-                        span: 1..11#0,
+                        span: 1..11,
                         text: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -25,23 +25,23 @@
         ],
     },
     JsDoc {
-        span: 41..41#0,
+        span: 41..41,
         description: Text {
-            span: 41..41#0,
+            span: 41..41,
             value: "",
         },
         tags: [
             TagItem {
-                span: 41..51#0,
+                span: 41..51,
                 tag_name: Text {
-                    span: 41..51#0,
+                    span: 41..51,
                     value: "deprecated",
                 },
                 tag: Deprecated(
                     DeprecatedTag {
-                        span: 41..51#0,
+                        span: 41..51,
                         text: Text {
-                            span: 41..58#0,
+                            span: 41..58,
                             value: "since version 2.0",
                         },
                     },

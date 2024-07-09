@@ -1,42 +1,42 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..50#0,
+            span: 1..50,
             value: "An example of a server-side JavaScript module.\n *",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         name: Text {
-                            span: 1..6#0,
+                            span: 1..6,
                             value: "world",
                         },
                         ty: Text {
-                            span: 1..6#0,
+                            span: 1..6,
                             value: "hello",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 1..8#0,
+                span: 1..8,
                 tag_name: Text {
-                    span: 1..8#0,
+                    span: 1..8,
                     value: "example",
                 },
                 tag: Example(
                     ExampleTag {
-                        span: 1..8#0,
+                        span: 1..8,
                         text: Text {
-                            span: 1..58#0,
+                            span: 1..58,
                             value: "*    var g = require('hello/world').sayHello('Gracie');\n ",
                         },
                     },
@@ -45,52 +45,52 @@
         ],
     },
     JsDoc {
-        span: 152..152#0,
+        span: 152..152,
         description: Text {
-            span: 152..175#0,
+            span: 152..175,
             value: "Generate a greeting.\n *",
         },
         tags: [
             TagItem {
-                span: 152..157#0,
+                span: 152..157,
                 tag_name: Text {
-                    span: 152..157#0,
+                    span: 152..157,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 152..157#0,
+                        span: 152..157,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 152..160#0,
+                                span: 152..160,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 152..191#0,
+                            span: 152..191,
                             value: "[subject=\"world\"] To whom we say hello.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 152..159#0,
+                span: 152..159,
                 tag_name: Text {
-                    span: 152..159#0,
+                    span: 152..159,
                     value: "returns",
                 },
                 tag: Return(
                     ReturnTag {
-                        span: 152..159#0,
+                        span: 152..159,
                         ty: Some(
                             Text {
-                                span: 152..160#0,
+                                span: 152..160,
                                 value: "{string}",
                             },
                         ),
                         description: Text {
-                            span: 152..152#0,
+                            span: 152..152,
                             value: "",
                         },
                     },
@@ -99,52 +99,52 @@
         ],
     },
     JsDoc {
-        span: 351..351#0,
+        span: 351..351,
         description: Text {
-            span: 351..381#0,
+            span: 351..381,
             value: "Generate a morose farewell.\n *",
         },
         tags: [
             TagItem {
-                span: 351..356#0,
+                span: 351..356,
                 tag_name: Text {
-                    span: 351..356#0,
+                    span: 351..356,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 351..356#0,
+                        span: 351..356,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 351..359#0,
+                                span: 351..359,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 351..392#0,
+                            span: 351..392,
                             value: "[subject=\"world\"] To whom we say goodbye.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 351..358#0,
+                span: 351..358,
                 tag_name: Text {
-                    span: 351..358#0,
+                    span: 351..358,
                     value: "returns",
                 },
                 tag: Return(
                     ReturnTag {
-                        span: 351..358#0,
+                        span: 351..358,
                         ty: Some(
                             Text {
-                                span: 351..359#0,
+                                span: 351..359,
                                 value: "{string}",
                             },
                         ),
                         description: Text {
-                            span: 351..351#0,
+                            span: 351..351,
                             value: "",
                         },
                     },

@@ -1,37 +1,37 @@
 [
     JsDoc {
-        span: 16..16#0,
+        span: 16..16,
         description: Text {
-            span: 16..44#0,
+            span: 16..44,
             value: "Class representing a widget.",
         },
         tags: [],
     },
     JsDoc {
-        span: 71..71#0,
+        span: 71..71,
         description: Text {
-            span: 71..121#0,
+            span: 71..121,
             value: "Add users who can access the widget.\n     *\n     *",
         },
         tags: [
             TagItem {
-                span: 71..76#0,
+                span: 71..76,
                 tag_name: Text {
-                    span: 71..76#0,
+                    span: 71..76,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 71..76#0,
+                        span: 71..76,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 71..77#0,
+                                span: 71..77,
                                 value: "{User}",
                             },
                         ),
                         desc: Text {
-                            span: 71..115#0,
+                            span: 71..115,
                             value: "users - The users who can access the widget.",
                         },
                     },

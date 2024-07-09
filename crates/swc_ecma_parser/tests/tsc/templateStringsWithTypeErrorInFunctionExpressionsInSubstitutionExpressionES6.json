@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 17,
-    "end": 59,
-    "ctxt": 0
+    "end": 59
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 17,
-        "end": 59,
-        "ctxt": 0
+        "end": 59
       },
       "expression": {
         "type": "TemplateLiteral",
         "span": {
           "start": 17,
-          "end": 58,
-          "ctxt": 0
+          "end": 58
         },
         "expressions": [
           {
@@ -29,32 +26,29 @@
                 "type": "Parameter",
                 "span": {
                   "start": 30,
-                  "end": 39,
-                  "ctxt": 0
+                  "end": 39
                 },
                 "decorators": [],
                 "pat": {
                   "type": "Identifier",
                   "span": {
                     "start": 30,
-                    "end": 31,
-                    "ctxt": 0
+                    "end": 31
                   },
+                  "ctxt": 0,
                   "value": "x",
                   "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
                       "start": 31,
-                      "end": 39,
-                      "ctxt": 0
+                      "end": 39
                     },
                     "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
                         "start": 33,
-                        "end": 39,
-                        "ctxt": 0
+                        "end": 39
                       },
                       "kind": "number"
                     }
@@ -65,39 +59,37 @@
             "decorators": [],
             "span": {
               "start": 20,
-              "end": 55,
-              "ctxt": 0
+              "end": 55
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 41,
-                "end": 55,
-                "ctxt": 0
+                "end": 55
               },
+              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ExpressionStatement",
                   "span": {
                     "start": 43,
-                    "end": 53,
-                    "ctxt": 0
+                    "end": 53
                   },
                   "expression": {
                     "type": "AssignmentExpression",
                     "span": {
                       "start": 43,
-                      "end": 52,
-                      "ctxt": 0
+                      "end": 52
                     },
                     "operator": "=",
                     "left": {
                       "type": "Identifier",
                       "span": {
                         "start": 43,
-                        "end": 44,
-                        "ctxt": 0
+                        "end": 44
                       },
+                      "ctxt": 0,
                       "value": "x",
                       "optional": false,
                       "typeAnnotation": null
@@ -106,8 +98,7 @@
                       "type": "StringLiteral",
                       "span": {
                         "start": 47,
-                        "end": 52,
-                        "ctxt": 0
+                        "end": 52
                       },
                       "value": "bad",
                       "raw": "\"bad\""
@@ -127,8 +118,7 @@
             "type": "TemplateElement",
             "span": {
               "start": 18,
-              "end": 18,
-              "ctxt": 0
+              "end": 18
             },
             "tail": false,
             "cooked": "",
@@ -138,8 +128,7 @@
             "type": "TemplateElement",
             "span": {
               "start": 57,
-              "end": 57,
-              "ctxt": 0
+              "end": 57
             },
             "tail": true,
             "cooked": "",

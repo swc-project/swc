@@ -3,7 +3,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use swc_common::{comments::SingleThreadedComments, FileName, Span};
+use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, Span};
 use swc_css_ast::*;
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType, LineFeed},
@@ -649,7 +649,7 @@ fn parse_again(input: PathBuf) {
 
         eprintln!("==== ==== Codegen ==== ====\n{}\n", css_str);
 
-        let new_fm = cm.new_source_file(FileName::Anon, css_str);
+        let new_fm = cm.new_source_file(Lrc::new(FileName::Anon), css_str);
         let mut parsed_errors = vec![];
         let mut parsed: Stylesheet = parse_file(
             &new_fm,

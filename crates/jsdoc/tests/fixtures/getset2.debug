@@ -1,30 +1,30 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..16#0,
+            span: 1..16,
             value: "Employee class.",
         },
         tags: [],
     },
     JsDoc {
-        span: 45..45#0,
+        span: 45..45,
         description: Text {
-            span: 45..61#0,
+            span: 45..61,
             value: "Location.\n     *",
         },
         tags: [
             TagItem {
-                span: 45..49#0,
+                span: 45..49,
                 tag_name: Text {
-                    span: 45..49#0,
+                    span: 45..49,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 45..49#0,
+                        span: 45..49,
                         name: Text {
-                            span: 45..53#0,
+                            span: 45..53,
                             value: "{string}",
                         },
                     },
@@ -33,23 +33,23 @@
         ],
     },
     JsDoc {
-        span: 159..168#0,
+        span: 159..168,
         description: Text {
-            span: 159..159#0,
+            span: 159..159,
             value: "",
         },
         tags: [
             TagItem {
-                span: 159..163#0,
+                span: 159..163,
                 tag_name: Text {
-                    span: 159..163#0,
+                    span: 159..163,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 159..163#0,
+                        span: 159..163,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },

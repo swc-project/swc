@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 54,
-    "ctxt": 0
+    "end": 54
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 1,
-        "end": 54,
-        "ctxt": 0
+        "end": 54
       },
       "declaration": {
         "type": "FunctionDeclaration",
@@ -19,9 +17,9 @@
           "type": "Identifier",
           "span": {
             "start": 25,
-            "end": 31,
-            "ctxt": 0
+            "end": 31
           },
+          "ctxt": 0,
           "value": "someFn",
           "optional": false
         },
@@ -31,32 +29,29 @@
             "type": "Parameter",
             "span": {
               "start": 32,
-              "end": 44,
-              "ctxt": 0
+              "end": 44
             },
             "decorators": [],
             "pat": {
               "type": "Identifier",
               "span": {
                 "start": 32,
-                "end": 36,
-                "ctxt": 0
+                "end": 36
               },
+              "ctxt": 0,
               "value": "some",
               "optional": false,
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
                   "start": 36,
-                  "end": 44,
-                  "ctxt": 0
+                  "end": 44
                 },
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
                     "start": 38,
-                    "end": 44,
-                    "ctxt": 0
+                    "end": 44
                   },
                   "kind": "string"
                 }
@@ -67,9 +62,9 @@
         "decorators": [],
         "span": {
           "start": 8,
-          "end": 54,
-          "ctxt": 0
+          "end": 54
         },
+        "ctxt": 0,
         "body": null,
         "generator": false,
         "async": false,
@@ -78,15 +73,13 @@
           "type": "TsTypeAnnotation",
           "span": {
             "start": 45,
-            "end": 53,
-            "ctxt": 0
+            "end": 53
           },
           "typeAnnotation": {
             "type": "TsKeywordType",
             "span": {
               "start": 47,
-              "end": 53,
-              "ctxt": 0
+              "end": 53
             },
             "kind": "string"
           }

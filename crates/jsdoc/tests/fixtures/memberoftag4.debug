@@ -1,23 +1,23 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..22#0,
+            span: 1..22,
             value: "Namespace doStuff.\n *",
         },
         tags: [
             TagItem {
-                span: 1..10#0,
+                span: 1..10,
                 tag_name: Text {
-                    span: 1..10#0,
+                    span: 1..10,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: 1..10#0,
+                        span: 1..10,
                         ty: Some(
                             Text {
-                                span: 1..8#0,
+                                span: 1..8,
                                 value: "doStuff",
                             },
                         ),
@@ -28,26 +28,26 @@
         ],
     },
     JsDoc {
-        span: 54..54#0,
+        span: 54..54,
         description: Text {
-            span: 54..102#0,
+            span: 54..102,
             value: "Function with the same name as its namespace.\n *",
         },
         tags: [
             TagItem {
-                span: 54..62#0,
+                span: 54..62,
                 tag_name: Text {
-                    span: 54..62#0,
+                    span: 54..62,
                     value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
-                        span: 54..62#0,
+                        span: 54..62,
                         parent_name_path: NamePath {
-                            span: 54..55#0,
+                            span: 54..55,
                             components: [
                                 Text {
-                                    span: 54..61#0,
+                                    span: 54..61,
                                     value: "doStuff",
                                 },
                             ],
@@ -58,26 +58,26 @@
         ],
     },
     JsDoc {
-        span: 155..155#0,
+        span: 155..155,
         description: Text {
-            span: 155..208#0,
+            span: 155..208,
             value: "Function with a different name than the namespace.\n *",
         },
         tags: [
             TagItem {
-                span: 155..163#0,
+                span: 155..163,
                 tag_name: Text {
-                    span: 155..163#0,
+                    span: 155..163,
                     value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
-                        span: 155..163#0,
+                        span: 155..163,
                         parent_name_path: NamePath {
-                            span: 155..156#0,
+                            span: 155..156,
                             components: [
                                 Text {
-                                    span: 155..162#0,
+                                    span: 155..162,
                                     value: "doStuff",
                                 },
                             ],

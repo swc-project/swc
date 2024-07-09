@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                         ty: Text {
-                            span: 1..2#0,
+                            span: 1..2,
                             value: "M",
                         },
                     },
@@ -29,51 +29,51 @@
         ],
     },
     JsDoc {
-        span: 20..20#0,
+        span: 20..20,
         description: Text {
-            span: 20..62#0,
+            span: 20..62,
             value: "The differnet kind of mouse buttons.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 20..27#0,
+                span: 20..27,
                 tag_name: Text {
-                    span: 20..27#0,
+                    span: 20..27,
                     value: "summary",
                 },
                 tag: Summary(
                     SummaryTag {
-                        span: 20..27#0,
+                        span: 20..27,
                         text: Text {
-                            span: 20..29#0,
+                            span: 20..29,
                             value: "Blah blah",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 20..28#0,
+                span: 20..28,
                 tag_name: Text {
-                    span: 20..28#0,
+                    span: 20..28,
                     value: "readonly",
                 },
                 tag: Readonly(
                     ReadonlyTag {
-                        span: 20..28#0,
+                        span: 20..28,
                     },
                 ),
             },
             TagItem {
-                span: 20..24#0,
+                span: 20..24,
                 tag_name: Text {
-                    span: 20..24#0,
+                    span: 20..24,
                     value: "enum",
                 },
                 tag: Enum(
                     EnumTag {
-                        span: 20..24#0,
+                        span: 20..24,
                         ty: Text {
-                            span: 20..29#0,
+                            span: 20..29,
                             value: "{string} ",
                         },
                     },

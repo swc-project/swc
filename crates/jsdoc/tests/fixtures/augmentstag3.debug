@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 74..74#0,
+        span: 74..74,
         description: Text {
-            span: 74..74#0,
+            span: 74..74,
             value: "",
         },
         tags: [
             TagItem {
-                span: 74..79#0,
+                span: 74..79,
                 tag_name: Text {
-                    span: 74..79#0,
+                    span: 74..79,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 74..79#0,
+                        span: 74..79,
                         ty: None,
                         name: None,
                     },
@@ -23,29 +23,29 @@
         ],
     },
     JsDoc {
-        span: 107..107#0,
+        span: 107..107,
         description: Text {
-            span: 107..116#0,
+            span: 107..116,
             value: "A method.",
         },
         tags: [],
     },
     JsDoc {
-        span: 165..165#0,
+        span: 165..165,
         description: Text {
-            span: 165..165#0,
+            span: 165..165,
             value: "",
         },
         tags: [
             TagItem {
-                span: 165..170#0,
+                span: 165..170,
                 tag_name: Text {
-                    span: 165..170#0,
+                    span: 165..170,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 165..170#0,
+                        span: 165..170,
                         ty: None,
                         name: None,
                     },
@@ -54,32 +54,32 @@
         ],
     },
     JsDoc {
-        span: 198..198#0,
+        span: 198..198,
         description: Text {
-            span: 198..213#0,
+            span: 198..213,
             value: "Another method.",
         },
         tags: [],
     },
     JsDoc {
-        span: 261..261#0,
+        span: 261..261,
         description: Text {
-            span: 261..261#0,
+            span: 261..261,
             value: "",
         },
         tags: [
             TagItem {
-                span: 261..266#0,
+                span: 261..266,
                 tag_name: Text {
-                    span: 261..266#0,
+                    span: 261..266,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 261..266#0,
+                        span: 261..266,
                         ty: Some(
                             Text {
-                                span: 261..276#0,
+                                span: 261..276,
                                 value: "* @augments Foo",
                             },
                         ),
@@ -88,19 +88,19 @@
                 ),
             },
             TagItem {
-                span: 261..269#0,
+                span: 261..269,
                 tag_name: Text {
-                    span: 261..269#0,
+                    span: 261..269,
                     value: "augments",
                 },
                 tag: Augments(
                     AugmentsTag {
-                        span: 261..269#0,
+                        span: 261..269,
                         class: NamePath {
-                            span: 261..261#0,
+                            span: 261..261,
                             components: [
                                 Text {
-                                    span: 261..264#0,
+                                    span: 261..264,
                                     value: "Bar",
                                 },
                             ],

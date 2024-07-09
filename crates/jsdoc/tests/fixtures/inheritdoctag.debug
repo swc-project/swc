@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..17#0,
+            span: 1..17,
             value: "Parent class.\n *",
         },
         tags: [
             TagItem {
-                span: 1..6#0,
+                span: 1..6,
                 tag_name: Text {
-                    span: 1..6#0,
+                    span: 1..6,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 1..6#0,
+                        span: 1..6,
                         ty: None,
                         name: None,
                     },
@@ -23,53 +23,53 @@
         ],
     },
     JsDoc {
-        span: 62..62#0,
+        span: 62..62,
         description: Text {
-            span: 62..85#0,
+            span: 62..85,
             value: "Open the connection.\n *",
         },
         tags: [
             TagItem {
-                span: 62..69#0,
+                span: 62..69,
                 tag_name: Text {
-                    span: 62..69#0,
+                    span: 62..69,
                     value: "virtual",
                 },
                 tag: Abstract(
                     AbstractTag {
-                        span: 62..69#0,
+                        span: 62..69,
                     },
                 ),
             },
         ],
     },
     JsDoc {
-        span: 150..150#0,
+        span: 150..150,
         description: Text {
-            span: 150..171#0,
+            span: 150..171,
             value: "Close the connection.",
         },
         tags: [],
     },
     JsDoc {
-        span: 228..228#0,
+        span: 228..228,
         description: Text {
-            span: 228..289#0,
+            span: 228..289,
             value: "Read the specified number of bytes from the connection.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 228..236#0,
+                span: 228..236,
                 tag_name: Text {
-                    span: 228..236#0,
+                    span: 228..236,
                     value: "function",
                 },
                 tag: Function(
                     FunctionTag {
-                        span: 228..236#0,
+                        span: 228..236,
                         name: Some(
                             Text {
-                                span: 228..243#0,
+                                span: 228..243,
                                 value: "Connection#read",
                             },
                         ),
@@ -77,45 +77,45 @@
                 ),
             },
             TagItem {
-                span: 228..233#0,
+                span: 228..233,
                 tag_name: Text {
-                    span: 228..233#0,
+                    span: 228..233,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 228..233#0,
+                        span: 228..233,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 228..236#0,
+                                span: 228..236,
                                 value: "{number}",
                             },
                         ),
                         desc: Text {
-                            span: 228..264#0,
+                            span: 228..264,
                             value: "bytes - The number of bytes to read.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 228..234#0,
+                span: 228..234,
                 tag_name: Text {
-                    span: 228..234#0,
+                    span: 228..234,
                     value: "return",
                 },
                 tag: Return(
                     ReturnTag {
-                        span: 228..234#0,
+                        span: 228..234,
                         ty: Some(
                             Text {
-                                span: 228..236#0,
+                                span: 228..236,
                                 value: "{Buffer}",
                             },
                         ),
                         description: Text {
-                            span: 228..253#0,
+                            span: 228..253,
                             value: "The bytes that were read.",
                         },
                     },
@@ -124,24 +124,24 @@
         ],
     },
     JsDoc {
-        span: 478..478#0,
+        span: 478..478,
         description: Text {
-            span: 478..493#0,
+            span: 478..493,
             value: "Child class.\n *",
         },
         tags: [
             TagItem {
-                span: 478..483#0,
+                span: 478..483,
                 tag_name: Text {
-                    span: 478..483#0,
+                    span: 478..483,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 478..483#0,
+                        span: 478..483,
                         ty: Some(
                             Text {
-                                span: 478..499#0,
+                                span: 478..499,
                                 value: "* @extends Connection",
                             },
                         ),
@@ -152,86 +152,86 @@
         ],
     },
     JsDoc {
-        span: 557..557#0,
+        span: 557..557,
         description: Text {
-            span: 557..557#0,
+            span: 557..557,
             value: "",
         },
         tags: [
             TagItem {
-                span: 557..567#0,
+                span: 557..567,
                 tag_name: Text {
-                    span: 557..567#0,
+                    span: 557..567,
                     value: "inheritdoc",
                 },
                 tag: InheritDoc(
                     InheritDocTag {
-                        span: 557..567#0,
+                        span: 557..567,
                     },
                 ),
             },
         ],
     },
     JsDoc {
-        span: 616..616#0,
+        span: 616..616,
         description: Text {
-            span: 616..636#0,
+            span: 616..636,
             value: "Close the socket.\n *",
         },
         tags: [
             TagItem {
-                span: 616..621#0,
+                span: 616..621,
                 tag_name: Text {
-                    span: 616..621#0,
+                    span: 616..621,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 616..621#0,
+                        span: 616..621,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 616..624#0,
+                                span: 616..624,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 616..678#0,
+                            span: 616..678,
                             value: "message - A message explaining why the socket is being closed.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 616..626#0,
+                span: 616..626,
                 tag_name: Text {
-                    span: 616..626#0,
+                    span: 616..626,
                     value: "inheritdoc",
                 },
                 tag: InheritDoc(
                     InheritDocTag {
-                        span: 616..626#0,
+                        span: 616..626,
                     },
                 ),
             },
         ],
     },
     JsDoc {
-        span: 783..783#0,
+        span: 783..783,
         description: Text {
-            span: 783..783#0,
+            span: 783..783,
             value: "",
         },
         tags: [
             TagItem {
-                span: 783..793#0,
+                span: 783..793,
                 tag_name: Text {
-                    span: 783..793#0,
+                    span: 783..793,
                     value: "inheritdoc",
                 },
                 tag: InheritDoc(
                     InheritDocTag {
-                        span: 783..793#0,
+                        span: 783..793,
                     },
                 ),
             },

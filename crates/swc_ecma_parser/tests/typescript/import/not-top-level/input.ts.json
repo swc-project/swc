@@ -2,16 +2,14 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 51,
-    "ctxt": 0
+    "end": 51
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
         "start": 1,
-        "end": 51,
-        "ctxt": 0
+        "end": 51
       },
       "declare": true,
       "global": false,
@@ -19,8 +17,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 16,
-          "end": 19,
-          "ctxt": 0
+          "end": 19
         },
         "value": "m",
         "raw": "\"m\""
@@ -29,32 +26,29 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 20,
-          "end": 51,
-          "ctxt": 0
+          "end": 51
         },
         "body": [
           {
             "type": "ImportDeclaration",
             "span": {
               "start": 26,
-              "end": 49,
-              "ctxt": 0
+              "end": 49
             },
             "specifiers": [
               {
                 "type": "ImportNamespaceSpecifier",
                 "span": {
                   "start": 33,
-                  "end": 39,
-                  "ctxt": 0
+                  "end": 39
                 },
                 "local": {
                   "type": "Identifier",
                   "span": {
                     "start": 38,
-                    "end": 39,
-                    "ctxt": 0
+                    "end": 39
                   },
+                  "ctxt": 0,
                   "value": "a",
                   "optional": false
                 }
@@ -64,8 +58,7 @@
               "type": "StringLiteral",
               "span": {
                 "start": 45,
-                "end": 48,
-                "ctxt": 0
+                "end": 48
               },
               "value": "a",
               "raw": "\"a\""

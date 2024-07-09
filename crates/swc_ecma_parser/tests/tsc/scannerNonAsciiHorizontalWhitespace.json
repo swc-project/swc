@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 47,
-    "end": 135,
-    "ctxt": 0
+    "end": 135
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 47,
-        "end": 67,
-        "ctxt": 0
+        "end": 67
       },
       "expression": {
         "type": "StringLiteral",
         "span": {
           "start": 47,
-          "end": 67,
-          "ctxt": 0
+          "end": 67
         },
         "value": "  function f() {}",
         "raw": "\"  function f() {}\""
@@ -28,15 +25,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 115,
-        "end": 135,
-        "ctxt": 0
+        "end": 135
       },
       "expression": {
         "type": "StringLiteral",
         "span": {
           "start": 115,
-          "end": 135,
-          "ctxt": 0
+          "end": 135
         },
         "value": "  function f() {}",
         "raw": "\"  function f() {}\""

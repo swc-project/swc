@@ -2,16 +2,14 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 41,
-    "ctxt": 0
+    "end": 41
   },
   "children": [
     {
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 41,
-        "ctxt": 0
+        "end": 41
       },
       "tagName": "root",
       "attributes": [],
@@ -20,8 +18,7 @@
           "type": "Text",
           "span": {
             "start": 7,
-            "end": 34,
-            "ctxt": 0
+            "end": 34
           },
           "data": "\n    <>\n    \n    < aa >\n",
           "raw": "\n    <>\n    \n    < aa >\n"

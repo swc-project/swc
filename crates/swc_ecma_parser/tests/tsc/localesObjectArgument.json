@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 21,
-    "end": 2028,
-    "ctxt": 0
+    "end": 2028
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 21,
-        "end": 59,
-        "ctxt": 0
+        "end": 59
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 27,
-            "end": 58,
-            "ctxt": 0
+            "end": 58
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 27,
-              "end": 31,
-              "ctxt": 0
+              "end": 31
             },
+            "ctxt": 0,
             "value": "enUS",
             "optional": false,
             "typeAnnotation": null
@@ -38,23 +36,22 @@
             "type": "NewExpression",
             "span": {
               "start": 34,
-              "end": 58,
-              "ctxt": 0
+              "end": 58
             },
+            "ctxt": 0,
             "callee": {
               "type": "MemberExpression",
               "span": {
                 "start": 38,
-                "end": 49,
-                "ctxt": 0
+                "end": 49
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 38,
-                  "end": 42,
-                  "ctxt": 0
+                  "end": 42
                 },
+                "ctxt": 0,
                 "value": "Intl",
                 "optional": false
               },
@@ -62,9 +59,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 43,
-                  "end": 49,
-                  "ctxt": 0
+                  "end": 49
                 },
+                "ctxt": 0,
                 "value": "Locale",
                 "optional": false
               }
@@ -76,8 +73,7 @@
                   "type": "StringLiteral",
                   "span": {
                     "start": 50,
-                    "end": 57,
-                    "ctxt": 0
+                    "end": 57
                   },
                   "value": "en-US",
                   "raw": "\"en-US\""
@@ -94,9 +90,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 60,
-        "end": 98,
-        "ctxt": 0
+        "end": 98
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -104,16 +100,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 66,
-            "end": 97,
-            "ctxt": 0
+            "end": 97
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 66,
-              "end": 70,
-              "ctxt": 0
+              "end": 70
             },
+            "ctxt": 0,
             "value": "deDE",
             "optional": false,
             "typeAnnotation": null
@@ -122,23 +117,22 @@
             "type": "NewExpression",
             "span": {
               "start": 73,
-              "end": 97,
-              "ctxt": 0
+              "end": 97
             },
+            "ctxt": 0,
             "callee": {
               "type": "MemberExpression",
               "span": {
                 "start": 77,
-                "end": 88,
-                "ctxt": 0
+                "end": 88
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 77,
-                  "end": 81,
-                  "ctxt": 0
+                  "end": 81
                 },
+                "ctxt": 0,
                 "value": "Intl",
                 "optional": false
               },
@@ -146,9 +140,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 82,
-                  "end": 88,
-                  "ctxt": 0
+                  "end": 88
                 },
+                "ctxt": 0,
                 "value": "Locale",
                 "optional": false
               }
@@ -160,8 +154,7 @@
                   "type": "StringLiteral",
                   "span": {
                     "start": 89,
-                    "end": 96,
-                    "ctxt": 0
+                    "end": 96
                   },
                   "value": "de-DE",
                   "raw": "\"de-DE\""
@@ -178,9 +171,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 99,
-        "end": 137,
-        "ctxt": 0
+        "end": 137
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -188,16 +181,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 105,
-            "end": 136,
-            "ctxt": 0
+            "end": 136
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 105,
-              "end": 109,
-              "ctxt": 0
+              "end": 109
             },
+            "ctxt": 0,
             "value": "jaJP",
             "optional": false,
             "typeAnnotation": null
@@ -206,23 +198,22 @@
             "type": "NewExpression",
             "span": {
               "start": 112,
-              "end": 136,
-              "ctxt": 0
+              "end": 136
             },
+            "ctxt": 0,
             "callee": {
               "type": "MemberExpression",
               "span": {
                 "start": 116,
-                "end": 127,
-                "ctxt": 0
+                "end": 127
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 116,
-                  "end": 120,
-                  "ctxt": 0
+                  "end": 120
                 },
+                "ctxt": 0,
                 "value": "Intl",
                 "optional": false
               },
@@ -230,9 +221,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 121,
-                  "end": 127,
-                  "ctxt": 0
+                  "end": 127
                 },
+                "ctxt": 0,
                 "value": "Locale",
                 "optional": false
               }
@@ -244,8 +235,7 @@
                   "type": "StringLiteral",
                   "span": {
                     "start": 128,
-                    "end": 135,
-                    "ctxt": 0
+                    "end": 135
                   },
                   "value": "ja-JP",
                   "raw": "\"ja-JP\""
@@ -262,9 +252,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 139,
-        "end": 162,
-        "ctxt": 0
+        "end": 162
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -272,16 +262,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 145,
-            "end": 161,
-            "ctxt": 0
+            "end": 161
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 145,
-              "end": 148,
-              "ctxt": 0
+              "end": 148
             },
+            "ctxt": 0,
             "value": "now",
             "optional": false,
             "typeAnnotation": null
@@ -290,16 +279,16 @@
             "type": "NewExpression",
             "span": {
               "start": 151,
-              "end": 161,
-              "ctxt": 0
+              "end": 161
             },
+            "ctxt": 0,
             "callee": {
               "type": "Identifier",
               "span": {
                 "start": 155,
-                "end": 159,
-                "ctxt": 0
+                "end": 159
               },
+              "ctxt": 0,
               "value": "Date",
               "optional": false
             },
@@ -314,9 +303,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 163,
-        "end": 180,
-        "ctxt": 0
+        "end": 180
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -324,16 +313,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 169,
-            "end": 179,
-            "ctxt": 0
+            "end": 179
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 169,
-              "end": 172,
-              "ctxt": 0
+              "end": 172
             },
+            "ctxt": 0,
             "value": "num",
             "optional": false,
             "typeAnnotation": null
@@ -342,8 +330,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 175,
-              "end": 179,
-              "ctxt": 0
+              "end": 179
             },
             "value": 1000.0,
             "raw": "1000"
@@ -356,9 +343,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 181,
-        "end": 216,
-        "ctxt": 0
+        "end": 216
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -366,16 +353,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 187,
-            "end": 215,
-            "ctxt": 0
+            "end": 215
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 187,
-              "end": 193,
-              "ctxt": 0
+              "end": 193
             },
+            "ctxt": 0,
             "value": "bigint",
             "optional": false,
             "typeAnnotation": null
@@ -384,8 +370,7 @@
             "type": "BigIntLiteral",
             "span": {
               "start": 196,
-              "end": 215,
-              "ctxt": 0
+              "end": 215
             },
             "value": [
               1,
@@ -404,9 +389,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 217,
-        "end": 232,
-        "ctxt": 0
+        "end": 232
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -414,16 +399,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 223,
-            "end": 231,
-            "ctxt": 0
+            "end": 231
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 223,
-              "end": 226,
-              "ctxt": 0
+              "end": 226
             },
+            "ctxt": 0,
             "value": "str",
             "optional": false,
             "typeAnnotation": null
@@ -432,8 +416,7 @@
             "type": "StringLiteral",
             "span": {
               "start": 229,
-              "end": 231,
-              "ctxt": 0
+              "end": 231
             },
             "value": "",
             "raw": "\"\""
@@ -446,9 +429,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 234,
-        "end": 297,
-        "ctxt": 0
+        "end": 297
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -456,39 +439,36 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 240,
-            "end": 296,
-            "ctxt": 0
+            "end": 296
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 240,
-              "end": 255,
-              "ctxt": 0
+              "end": 255
             },
+            "ctxt": 0,
             "value": "readonlyLocales",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 255,
-                "end": 275,
-                "ctxt": 0
+                "end": 275
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 257,
-                  "end": 275,
-                  "ctxt": 0
+                  "end": 275
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
                     "start": 257,
-                    "end": 265,
-                    "ctxt": 0
+                    "end": 265
                   },
+                  "ctxt": 0,
                   "value": "Readonly",
                   "optional": false
                 },
@@ -496,23 +476,20 @@
                   "type": "TsTypeParameterInstantiation",
                   "span": {
                     "start": 265,
-                    "end": 275,
-                    "ctxt": 0
+                    "end": 275
                   },
                   "params": [
                     {
                       "type": "TsArrayType",
                       "span": {
                         "start": 266,
-                        "end": 274,
-                        "ctxt": 0
+                        "end": 274
                       },
                       "elemType": {
                         "type": "TsKeywordType",
                         "span": {
                           "start": 266,
-                          "end": 272,
-                          "ctxt": 0
+                          "end": 272
                         },
                         "kind": "string"
                       }
@@ -526,8 +503,7 @@
             "type": "ArrayExpression",
             "span": {
               "start": 278,
-              "end": 296,
-              "ctxt": 0
+              "end": 296
             },
             "elements": [
               {
@@ -536,8 +512,7 @@
                   "type": "StringLiteral",
                   "span": {
                     "start": 279,
-                    "end": 286,
-                    "ctxt": 0
+                    "end": 286
                   },
                   "value": "de-DE",
                   "raw": "'de-DE'"
@@ -549,8 +524,7 @@
                   "type": "StringLiteral",
                   "span": {
                     "start": 288,
-                    "end": 295,
-                    "ctxt": 0
+                    "end": 295
                   },
                   "value": "ja-JP",
                   "raw": "'ja-JP'"
@@ -566,30 +540,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 299,
-        "end": 324,
-        "ctxt": 0
+        "end": 324
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 299,
-          "end": 323,
-          "ctxt": 0
+          "end": 323
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 299,
-            "end": 317,
-            "ctxt": 0
+            "end": 317
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 299,
-              "end": 302,
-              "ctxt": 0
+              "end": 302
             },
+            "ctxt": 0,
             "value": "now",
             "optional": false
           },
@@ -597,9 +569,9 @@
             "type": "Identifier",
             "span": {
               "start": 303,
-              "end": 317,
-              "ctxt": 0
+              "end": 317
             },
+            "ctxt": 0,
             "value": "toLocaleString",
             "optional": false
           }
@@ -611,9 +583,9 @@
               "type": "Identifier",
               "span": {
                 "start": 318,
-                "end": 322,
-                "ctxt": 0
+                "end": 322
               },
+              "ctxt": 0,
               "value": "enUS",
               "optional": false
             }
@@ -626,30 +598,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 325,
-        "end": 354,
-        "ctxt": 0
+        "end": 354
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 325,
-          "end": 353,
-          "ctxt": 0
+          "end": 353
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 325,
-            "end": 347,
-            "ctxt": 0
+            "end": 347
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 325,
-              "end": 328,
-              "ctxt": 0
+              "end": 328
             },
+            "ctxt": 0,
             "value": "now",
             "optional": false
           },
@@ -657,9 +627,9 @@
             "type": "Identifier",
             "span": {
               "start": 329,
-              "end": 347,
-              "ctxt": 0
+              "end": 347
             },
+            "ctxt": 0,
             "value": "toLocaleDateString",
             "optional": false
           }
@@ -671,9 +641,9 @@
               "type": "Identifier",
               "span": {
                 "start": 348,
-                "end": 352,
-                "ctxt": 0
+                "end": 352
               },
+              "ctxt": 0,
               "value": "enUS",
               "optional": false
             }
@@ -686,30 +656,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 355,
-        "end": 384,
-        "ctxt": 0
+        "end": 384
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 355,
-          "end": 383,
-          "ctxt": 0
+          "end": 383
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 355,
-            "end": 377,
-            "ctxt": 0
+            "end": 377
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 355,
-              "end": 358,
-              "ctxt": 0
+              "end": 358
             },
+            "ctxt": 0,
             "value": "now",
             "optional": false
           },
@@ -717,9 +685,9 @@
             "type": "Identifier",
             "span": {
               "start": 359,
-              "end": 377,
-              "ctxt": 0
+              "end": 377
             },
+            "ctxt": 0,
             "value": "toLocaleTimeString",
             "optional": false
           }
@@ -731,9 +699,9 @@
               "type": "Identifier",
               "span": {
                 "start": 378,
-                "end": 382,
-                "ctxt": 0
+                "end": 382
               },
+              "ctxt": 0,
               "value": "enUS",
               "optional": false
             }
@@ -746,30 +714,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 385,
-        "end": 418,
-        "ctxt": 0
+        "end": 418
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 385,
-          "end": 417,
-          "ctxt": 0
+          "end": 417
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 385,
-            "end": 403,
-            "ctxt": 0
+            "end": 403
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 385,
-              "end": 388,
-              "ctxt": 0
+              "end": 388
             },
+            "ctxt": 0,
             "value": "now",
             "optional": false
           },
@@ -777,9 +743,9 @@
             "type": "Identifier",
             "span": {
               "start": 389,
-              "end": 403,
-              "ctxt": 0
+              "end": 403
             },
+            "ctxt": 0,
             "value": "toLocaleString",
             "optional": false
           }
@@ -791,8 +757,7 @@
               "type": "ArrayExpression",
               "span": {
                 "start": 404,
-                "end": 416,
-                "ctxt": 0
+                "end": 416
               },
               "elements": [
                 {
@@ -801,9 +766,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 405,
-                      "end": 409,
-                      "ctxt": 0
+                      "end": 409
                     },
+                    "ctxt": 0,
                     "value": "deDE",
                     "optional": false
                   }
@@ -814,9 +779,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 411,
-                      "end": 415,
-                      "ctxt": 0
+                      "end": 415
                     },
+                    "ctxt": 0,
                     "value": "jaJP",
                     "optional": false
                   }
@@ -832,30 +797,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 419,
-        "end": 456,
-        "ctxt": 0
+        "end": 456
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 419,
-          "end": 455,
-          "ctxt": 0
+          "end": 455
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 419,
-            "end": 441,
-            "ctxt": 0
+            "end": 441
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 419,
-              "end": 422,
-              "ctxt": 0
+              "end": 422
             },
+            "ctxt": 0,
             "value": "now",
             "optional": false
           },
@@ -863,9 +826,9 @@
             "type": "Identifier",
             "span": {
               "start": 423,
-              "end": 441,
-              "ctxt": 0
+              "end": 441
             },
+            "ctxt": 0,
             "value": "toLocaleDateString",
             "optional": false
           }
@@ -877,8 +840,7 @@
               "type": "ArrayExpression",
               "span": {
                 "start": 442,
-                "end": 454,
-                "ctxt": 0
+                "end": 454
               },
               "elements": [
                 {
@@ -887,9 +849,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 443,
-                      "end": 447,
-                      "ctxt": 0
+                      "end": 447
                     },
+                    "ctxt": 0,
                     "value": "deDE",
                     "optional": false
                   }
@@ -900,9 +862,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 449,
-                      "end": 453,
-                      "ctxt": 0
+                      "end": 453
                     },
+                    "ctxt": 0,
                     "value": "jaJP",
                     "optional": false
                   }
@@ -918,30 +880,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 457,
-        "end": 494,
-        "ctxt": 0
+        "end": 494
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 457,
-          "end": 493,
-          "ctxt": 0
+          "end": 493
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 457,
-            "end": 479,
-            "ctxt": 0
+            "end": 479
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 457,
-              "end": 460,
-              "ctxt": 0
+              "end": 460
             },
+            "ctxt": 0,
             "value": "now",
             "optional": false
           },
@@ -949,9 +909,9 @@
             "type": "Identifier",
             "span": {
               "start": 461,
-              "end": 479,
-              "ctxt": 0
+              "end": 479
             },
+            "ctxt": 0,
             "value": "toLocaleTimeString",
             "optional": false
           }
@@ -963,8 +923,7 @@
               "type": "ArrayExpression",
               "span": {
                 "start": 480,
-                "end": 492,
-                "ctxt": 0
+                "end": 492
               },
               "elements": [
                 {
@@ -973,9 +932,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 481,
-                      "end": 485,
-                      "ctxt": 0
+                      "end": 485
                     },
+                    "ctxt": 0,
                     "value": "deDE",
                     "optional": false
                   }
@@ -986,9 +945,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 487,
-                      "end": 491,
-                      "ctxt": 0
+                      "end": 491
                     },
+                    "ctxt": 0,
                     "value": "jaJP",
                     "optional": false
                   }
@@ -1004,30 +963,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 496,
-        "end": 521,
-        "ctxt": 0
+        "end": 521
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 496,
-          "end": 520,
-          "ctxt": 0
+          "end": 520
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 496,
-            "end": 514,
-            "ctxt": 0
+            "end": 514
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 496,
-              "end": 499,
-              "ctxt": 0
+              "end": 499
             },
+            "ctxt": 0,
             "value": "num",
             "optional": false
           },
@@ -1035,9 +992,9 @@
             "type": "Identifier",
             "span": {
               "start": 500,
-              "end": 514,
-              "ctxt": 0
+              "end": 514
             },
+            "ctxt": 0,
             "value": "toLocaleString",
             "optional": false
           }
@@ -1049,9 +1006,9 @@
               "type": "Identifier",
               "span": {
                 "start": 515,
-                "end": 519,
-                "ctxt": 0
+                "end": 519
               },
+              "ctxt": 0,
               "value": "enUS",
               "optional": false
             }
@@ -1064,30 +1021,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 522,
-        "end": 555,
-        "ctxt": 0
+        "end": 555
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 522,
-          "end": 554,
-          "ctxt": 0
+          "end": 554
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 522,
-            "end": 540,
-            "ctxt": 0
+            "end": 540
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 522,
-              "end": 525,
-              "ctxt": 0
+              "end": 525
             },
+            "ctxt": 0,
             "value": "num",
             "optional": false
           },
@@ -1095,9 +1050,9 @@
             "type": "Identifier",
             "span": {
               "start": 526,
-              "end": 540,
-              "ctxt": 0
+              "end": 540
             },
+            "ctxt": 0,
             "value": "toLocaleString",
             "optional": false
           }
@@ -1109,8 +1064,7 @@
               "type": "ArrayExpression",
               "span": {
                 "start": 541,
-                "end": 553,
-                "ctxt": 0
+                "end": 553
               },
               "elements": [
                 {
@@ -1119,9 +1073,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 542,
-                      "end": 546,
-                      "ctxt": 0
+                      "end": 546
                     },
+                    "ctxt": 0,
                     "value": "deDE",
                     "optional": false
                   }
@@ -1132,9 +1086,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 548,
-                      "end": 552,
-                      "ctxt": 0
+                      "end": 552
                     },
+                    "ctxt": 0,
                     "value": "jaJP",
                     "optional": false
                   }
@@ -1150,30 +1104,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 557,
-        "end": 585,
-        "ctxt": 0
+        "end": 585
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 557,
-          "end": 584,
-          "ctxt": 0
+          "end": 584
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 557,
-            "end": 578,
-            "ctxt": 0
+            "end": 578
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 557,
-              "end": 563,
-              "ctxt": 0
+              "end": 563
             },
+            "ctxt": 0,
             "value": "bigint",
             "optional": false
           },
@@ -1181,9 +1133,9 @@
             "type": "Identifier",
             "span": {
               "start": 564,
-              "end": 578,
-              "ctxt": 0
+              "end": 578
             },
+            "ctxt": 0,
             "value": "toLocaleString",
             "optional": false
           }
@@ -1195,9 +1147,9 @@
               "type": "Identifier",
               "span": {
                 "start": 579,
-                "end": 583,
-                "ctxt": 0
+                "end": 583
               },
+              "ctxt": 0,
               "value": "enUS",
               "optional": false
             }
@@ -1210,30 +1162,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 586,
-        "end": 622,
-        "ctxt": 0
+        "end": 622
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 586,
-          "end": 621,
-          "ctxt": 0
+          "end": 621
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 586,
-            "end": 607,
-            "ctxt": 0
+            "end": 607
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 586,
-              "end": 592,
-              "ctxt": 0
+              "end": 592
             },
+            "ctxt": 0,
             "value": "bigint",
             "optional": false
           },
@@ -1241,9 +1191,9 @@
             "type": "Identifier",
             "span": {
               "start": 593,
-              "end": 607,
-              "ctxt": 0
+              "end": 607
             },
+            "ctxt": 0,
             "value": "toLocaleString",
             "optional": false
           }
@@ -1255,8 +1205,7 @@
               "type": "ArrayExpression",
               "span": {
                 "start": 608,
-                "end": 620,
-                "ctxt": 0
+                "end": 620
               },
               "elements": [
                 {
@@ -1265,9 +1214,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 609,
-                      "end": 613,
-                      "ctxt": 0
+                      "end": 613
                     },
+                    "ctxt": 0,
                     "value": "deDE",
                     "optional": false
                   }
@@ -1278,9 +1227,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 615,
-                      "end": 619,
-                      "ctxt": 0
+                      "end": 619
                     },
+                    "ctxt": 0,
                     "value": "jaJP",
                     "optional": false
                   }
@@ -1296,30 +1245,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 624,
-        "end": 652,
-        "ctxt": 0
+        "end": 652
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 624,
-          "end": 651,
-          "ctxt": 0
+          "end": 651
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 624,
-            "end": 645,
-            "ctxt": 0
+            "end": 645
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 624,
-              "end": 627,
-              "ctxt": 0
+              "end": 627
             },
+            "ctxt": 0,
             "value": "str",
             "optional": false
           },
@@ -1327,9 +1274,9 @@
             "type": "Identifier",
             "span": {
               "start": 628,
-              "end": 645,
-              "ctxt": 0
+              "end": 645
             },
+            "ctxt": 0,
             "value": "toLocaleLowerCase",
             "optional": false
           }
@@ -1341,9 +1288,9 @@
               "type": "Identifier",
               "span": {
                 "start": 646,
-                "end": 650,
-                "ctxt": 0
+                "end": 650
               },
+              "ctxt": 0,
               "value": "enUS",
               "optional": false
             }
@@ -1356,30 +1303,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 653,
-        "end": 689,
-        "ctxt": 0
+        "end": 689
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 653,
-          "end": 688,
-          "ctxt": 0
+          "end": 688
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 653,
-            "end": 674,
-            "ctxt": 0
+            "end": 674
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 653,
-              "end": 656,
-              "ctxt": 0
+              "end": 656
             },
+            "ctxt": 0,
             "value": "str",
             "optional": false
           },
@@ -1387,9 +1332,9 @@
             "type": "Identifier",
             "span": {
               "start": 657,
-              "end": 674,
-              "ctxt": 0
+              "end": 674
             },
+            "ctxt": 0,
             "value": "toLocaleLowerCase",
             "optional": false
           }
@@ -1401,8 +1346,7 @@
               "type": "ArrayExpression",
               "span": {
                 "start": 675,
-                "end": 687,
-                "ctxt": 0
+                "end": 687
               },
               "elements": [
                 {
@@ -1411,9 +1355,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 676,
-                      "end": 680,
-                      "ctxt": 0
+                      "end": 680
                     },
+                    "ctxt": 0,
                     "value": "deDE",
                     "optional": false
                   }
@@ -1424,9 +1368,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 682,
-                      "end": 686,
-                      "ctxt": 0
+                      "end": 686
                     },
+                    "ctxt": 0,
                     "value": "jaJP",
                     "optional": false
                   }
@@ -1442,30 +1386,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 690,
-        "end": 718,
-        "ctxt": 0
+        "end": 718
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 690,
-          "end": 717,
-          "ctxt": 0
+          "end": 717
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 690,
-            "end": 711,
-            "ctxt": 0
+            "end": 711
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 690,
-              "end": 693,
-              "ctxt": 0
+              "end": 693
             },
+            "ctxt": 0,
             "value": "str",
             "optional": false
           },
@@ -1473,9 +1415,9 @@
             "type": "Identifier",
             "span": {
               "start": 694,
-              "end": 711,
-              "ctxt": 0
+              "end": 711
             },
+            "ctxt": 0,
             "value": "toLocaleUpperCase",
             "optional": false
           }
@@ -1487,9 +1429,9 @@
               "type": "Identifier",
               "span": {
                 "start": 712,
-                "end": 716,
-                "ctxt": 0
+                "end": 716
               },
+              "ctxt": 0,
               "value": "enUS",
               "optional": false
             }
@@ -1502,30 +1444,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 719,
-        "end": 755,
-        "ctxt": 0
+        "end": 755
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 719,
-          "end": 754,
-          "ctxt": 0
+          "end": 754
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 719,
-            "end": 740,
-            "ctxt": 0
+            "end": 740
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 719,
-              "end": 722,
-              "ctxt": 0
+              "end": 722
             },
+            "ctxt": 0,
             "value": "str",
             "optional": false
           },
@@ -1533,9 +1473,9 @@
             "type": "Identifier",
             "span": {
               "start": 723,
-              "end": 740,
-              "ctxt": 0
+              "end": 740
             },
+            "ctxt": 0,
             "value": "toLocaleUpperCase",
             "optional": false
           }
@@ -1547,8 +1487,7 @@
               "type": "ArrayExpression",
               "span": {
                 "start": 741,
-                "end": 753,
-                "ctxt": 0
+                "end": 753
               },
               "elements": [
                 {
@@ -1557,9 +1496,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 742,
-                      "end": 746,
-                      "ctxt": 0
+                      "end": 746
                     },
+                    "ctxt": 0,
                     "value": "deDE",
                     "optional": false
                   }
@@ -1570,9 +1509,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 748,
-                      "end": 752,
-                      "ctxt": 0
+                      "end": 752
                     },
+                    "ctxt": 0,
                     "value": "jaJP",
                     "optional": false
                   }
@@ -1588,30 +1527,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 756,
-        "end": 785,
-        "ctxt": 0
+        "end": 785
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 756,
-          "end": 784,
-          "ctxt": 0
+          "end": 784
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 756,
-            "end": 773,
-            "ctxt": 0
+            "end": 773
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 756,
-              "end": 759,
-              "ctxt": 0
+              "end": 759
             },
+            "ctxt": 0,
             "value": "str",
             "optional": false
           },
@@ -1619,9 +1556,9 @@
             "type": "Identifier",
             "span": {
               "start": 760,
-              "end": 773,
-              "ctxt": 0
+              "end": 773
             },
+            "ctxt": 0,
             "value": "localeCompare",
             "optional": false
           }
@@ -1633,9 +1570,9 @@
               "type": "Identifier",
               "span": {
                 "start": 774,
-                "end": 777,
-                "ctxt": 0
+                "end": 777
               },
+              "ctxt": 0,
               "value": "str",
               "optional": false
             }
@@ -1646,9 +1583,9 @@
               "type": "Identifier",
               "span": {
                 "start": 779,
-                "end": 783,
-                "ctxt": 0
+                "end": 783
               },
+              "ctxt": 0,
               "value": "enUS",
               "optional": false
             }
@@ -1661,30 +1598,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 786,
-        "end": 823,
-        "ctxt": 0
+        "end": 823
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 786,
-          "end": 822,
-          "ctxt": 0
+          "end": 822
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 786,
-            "end": 803,
-            "ctxt": 0
+            "end": 803
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 786,
-              "end": 789,
-              "ctxt": 0
+              "end": 789
             },
+            "ctxt": 0,
             "value": "str",
             "optional": false
           },
@@ -1692,9 +1627,9 @@
             "type": "Identifier",
             "span": {
               "start": 790,
-              "end": 803,
-              "ctxt": 0
+              "end": 803
             },
+            "ctxt": 0,
             "value": "localeCompare",
             "optional": false
           }
@@ -1706,9 +1641,9 @@
               "type": "Identifier",
               "span": {
                 "start": 804,
-                "end": 807,
-                "ctxt": 0
+                "end": 807
               },
+              "ctxt": 0,
               "value": "str",
               "optional": false
             }
@@ -1719,8 +1654,7 @@
               "type": "ArrayExpression",
               "span": {
                 "start": 809,
-                "end": 821,
-                "ctxt": 0
+                "end": 821
               },
               "elements": [
                 {
@@ -1729,9 +1663,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 810,
-                      "end": 814,
-                      "ctxt": 0
+                      "end": 814
                     },
+                    "ctxt": 0,
                     "value": "deDE",
                     "optional": false
                   }
@@ -1742,9 +1676,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 816,
-                      "end": 820,
-                      "ctxt": 0
+                      "end": 820
                     },
+                    "ctxt": 0,
                     "value": "jaJP",
                     "optional": false
                   }
@@ -1760,30 +1694,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 825,
-        "end": 852,
-        "ctxt": 0
+        "end": 852
       },
       "expression": {
         "type": "NewExpression",
         "span": {
           "start": 825,
-          "end": 851,
-          "ctxt": 0
+          "end": 851
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 829,
-            "end": 845,
-            "ctxt": 0
+            "end": 845
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 829,
-              "end": 833,
-              "ctxt": 0
+              "end": 833
             },
+            "ctxt": 0,
             "value": "Intl",
             "optional": false
           },
@@ -1791,9 +1723,9 @@
             "type": "Identifier",
             "span": {
               "start": 834,
-              "end": 845,
-              "ctxt": 0
+              "end": 845
             },
+            "ctxt": 0,
             "value": "PluralRules",
             "optional": false
           }
@@ -1805,9 +1737,9 @@
               "type": "Identifier",
               "span": {
                 "start": 846,
-                "end": 850,
-                "ctxt": 0
+                "end": 850
               },
+              "ctxt": 0,
               "value": "enUS",
               "optional": false
             }
@@ -1820,30 +1752,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 853,
-        "end": 888,
-        "ctxt": 0
+        "end": 888
       },
       "expression": {
         "type": "NewExpression",
         "span": {
           "start": 853,
-          "end": 887,
-          "ctxt": 0
+          "end": 887
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 857,
-            "end": 873,
-            "ctxt": 0
+            "end": 873
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 857,
-              "end": 861,
-              "ctxt": 0
+              "end": 861
             },
+            "ctxt": 0,
             "value": "Intl",
             "optional": false
           },
@@ -1851,9 +1781,9 @@
             "type": "Identifier",
             "span": {
               "start": 862,
-              "end": 873,
-              "ctxt": 0
+              "end": 873
             },
+            "ctxt": 0,
             "value": "PluralRules",
             "optional": false
           }
@@ -1865,8 +1795,7 @@
               "type": "ArrayExpression",
               "span": {
                 "start": 874,
-                "end": 886,
-                "ctxt": 0
+                "end": 886
               },
               "elements": [
                 {
@@ -1875,9 +1804,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 875,
-                      "end": 879,
-                      "ctxt": 0
+                      "end": 879
                     },
+                    "ctxt": 0,
                     "value": "deDE",
                     "optional": false
                   }
@@ -1888,9 +1817,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 881,
-                      "end": 885,
-                      "ctxt": 0
+                      "end": 885
                     },
+                    "ctxt": 0,
                     "value": "jaJP",
                     "optional": false
                   }
@@ -1906,30 +1835,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 889,
-        "end": 927,
-        "ctxt": 0
+        "end": 927
       },
       "expression": {
         "type": "NewExpression",
         "span": {
           "start": 889,
-          "end": 926,
-          "ctxt": 0
+          "end": 926
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 893,
-            "end": 909,
-            "ctxt": 0
+            "end": 909
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 893,
-              "end": 897,
-              "ctxt": 0
+              "end": 897
             },
+            "ctxt": 0,
             "value": "Intl",
             "optional": false
           },
@@ -1937,9 +1864,9 @@
             "type": "Identifier",
             "span": {
               "start": 898,
-              "end": 909,
-              "ctxt": 0
+              "end": 909
             },
+            "ctxt": 0,
             "value": "PluralRules",
             "optional": false
           }
@@ -1951,9 +1878,9 @@
               "type": "Identifier",
               "span": {
                 "start": 910,
-                "end": 925,
-                "ctxt": 0
+                "end": 925
               },
+              "ctxt": 0,
               "value": "readonlyLocales",
               "optional": false
             }
@@ -1966,37 +1893,34 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 928,
-        "end": 970,
-        "ctxt": 0
+        "end": 970
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 928,
-          "end": 969,
-          "ctxt": 0
+          "end": 969
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 928,
-            "end": 963,
-            "ctxt": 0
+            "end": 963
           },
           "object": {
             "type": "MemberExpression",
             "span": {
               "start": 928,
-              "end": 944,
-              "ctxt": 0
+              "end": 944
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 928,
-                "end": 932,
-                "ctxt": 0
+                "end": 932
               },
+              "ctxt": 0,
               "value": "Intl",
               "optional": false
             },
@@ -2004,9 +1928,9 @@
               "type": "Identifier",
               "span": {
                 "start": 933,
-                "end": 944,
-                "ctxt": 0
+                "end": 944
               },
+              "ctxt": 0,
               "value": "PluralRules",
               "optional": false
             }
@@ -2015,9 +1939,9 @@
             "type": "Identifier",
             "span": {
               "start": 945,
-              "end": 963,
-              "ctxt": 0
+              "end": 963
             },
+            "ctxt": 0,
             "value": "supportedLocalesOf",
             "optional": false
           }
@@ -2029,9 +1953,9 @@
               "type": "Identifier",
               "span": {
                 "start": 964,
-                "end": 968,
-                "ctxt": 0
+                "end": 968
               },
+              "ctxt": 0,
               "value": "enUS",
               "optional": false
             }
@@ -2044,37 +1968,34 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 971,
-        "end": 1021,
-        "ctxt": 0
+        "end": 1021
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 971,
-          "end": 1020,
-          "ctxt": 0
+          "end": 1020
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 971,
-            "end": 1006,
-            "ctxt": 0
+            "end": 1006
           },
           "object": {
             "type": "MemberExpression",
             "span": {
               "start": 971,
-              "end": 987,
-              "ctxt": 0
+              "end": 987
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 971,
-                "end": 975,
-                "ctxt": 0
+                "end": 975
               },
+              "ctxt": 0,
               "value": "Intl",
               "optional": false
             },
@@ -2082,9 +2003,9 @@
               "type": "Identifier",
               "span": {
                 "start": 976,
-                "end": 987,
-                "ctxt": 0
+                "end": 987
               },
+              "ctxt": 0,
               "value": "PluralRules",
               "optional": false
             }
@@ -2093,9 +2014,9 @@
             "type": "Identifier",
             "span": {
               "start": 988,
-              "end": 1006,
-              "ctxt": 0
+              "end": 1006
             },
+            "ctxt": 0,
             "value": "supportedLocalesOf",
             "optional": false
           }
@@ -2107,8 +2028,7 @@
               "type": "ArrayExpression",
               "span": {
                 "start": 1007,
-                "end": 1019,
-                "ctxt": 0
+                "end": 1019
               },
               "elements": [
                 {
@@ -2117,9 +2037,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1008,
-                      "end": 1012,
-                      "ctxt": 0
+                      "end": 1012
                     },
+                    "ctxt": 0,
                     "value": "deDE",
                     "optional": false
                   }
@@ -2130,9 +2050,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1014,
-                      "end": 1018,
-                      "ctxt": 0
+                      "end": 1018
                     },
+                    "ctxt": 0,
                     "value": "jaJP",
                     "optional": false
                   }
@@ -2148,37 +2068,34 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1022,
-        "end": 1075,
-        "ctxt": 0
+        "end": 1075
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 1022,
-          "end": 1074,
-          "ctxt": 0
+          "end": 1074
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1022,
-            "end": 1057,
-            "ctxt": 0
+            "end": 1057
           },
           "object": {
             "type": "MemberExpression",
             "span": {
               "start": 1022,
-              "end": 1038,
-              "ctxt": 0
+              "end": 1038
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 1022,
-                "end": 1026,
-                "ctxt": 0
+                "end": 1026
               },
+              "ctxt": 0,
               "value": "Intl",
               "optional": false
             },
@@ -2186,9 +2103,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1027,
-                "end": 1038,
-                "ctxt": 0
+                "end": 1038
               },
+              "ctxt": 0,
               "value": "PluralRules",
               "optional": false
             }
@@ -2197,9 +2114,9 @@
             "type": "Identifier",
             "span": {
               "start": 1039,
-              "end": 1057,
-              "ctxt": 0
+              "end": 1057
             },
+            "ctxt": 0,
             "value": "supportedLocalesOf",
             "optional": false
           }
@@ -2211,9 +2128,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1058,
-                "end": 1073,
-                "ctxt": 0
+                "end": 1073
               },
+              "ctxt": 0,
               "value": "readonlyLocales",
               "optional": false
             }
@@ -2226,30 +2143,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1077,
-        "end": 1111,
-        "ctxt": 0
+        "end": 1111
       },
       "expression": {
         "type": "NewExpression",
         "span": {
           "start": 1077,
-          "end": 1110,
-          "ctxt": 0
+          "end": 1110
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1081,
-            "end": 1104,
-            "ctxt": 0
+            "end": 1104
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 1081,
-              "end": 1085,
-              "ctxt": 0
+              "end": 1085
             },
+            "ctxt": 0,
             "value": "Intl",
             "optional": false
           },
@@ -2257,9 +2172,9 @@
             "type": "Identifier",
             "span": {
               "start": 1086,
-              "end": 1104,
-              "ctxt": 0
+              "end": 1104
             },
+            "ctxt": 0,
             "value": "RelativeTimeFormat",
             "optional": false
           }
@@ -2271,9 +2186,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1105,
-                "end": 1109,
-                "ctxt": 0
+                "end": 1109
               },
+              "ctxt": 0,
               "value": "enUS",
               "optional": false
             }
@@ -2286,30 +2201,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1112,
-        "end": 1154,
-        "ctxt": 0
+        "end": 1154
       },
       "expression": {
         "type": "NewExpression",
         "span": {
           "start": 1112,
-          "end": 1153,
-          "ctxt": 0
+          "end": 1153
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1116,
-            "end": 1139,
-            "ctxt": 0
+            "end": 1139
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 1116,
-              "end": 1120,
-              "ctxt": 0
+              "end": 1120
             },
+            "ctxt": 0,
             "value": "Intl",
             "optional": false
           },
@@ -2317,9 +2230,9 @@
             "type": "Identifier",
             "span": {
               "start": 1121,
-              "end": 1139,
-              "ctxt": 0
+              "end": 1139
             },
+            "ctxt": 0,
             "value": "RelativeTimeFormat",
             "optional": false
           }
@@ -2331,8 +2244,7 @@
               "type": "ArrayExpression",
               "span": {
                 "start": 1140,
-                "end": 1152,
-                "ctxt": 0
+                "end": 1152
               },
               "elements": [
                 {
@@ -2341,9 +2253,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1141,
-                      "end": 1145,
-                      "ctxt": 0
+                      "end": 1145
                     },
+                    "ctxt": 0,
                     "value": "deDE",
                     "optional": false
                   }
@@ -2354,9 +2266,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1147,
-                      "end": 1151,
-                      "ctxt": 0
+                      "end": 1151
                     },
+                    "ctxt": 0,
                     "value": "jaJP",
                     "optional": false
                   }
@@ -2372,30 +2284,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1155,
-        "end": 1200,
-        "ctxt": 0
+        "end": 1200
       },
       "expression": {
         "type": "NewExpression",
         "span": {
           "start": 1155,
-          "end": 1199,
-          "ctxt": 0
+          "end": 1199
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1159,
-            "end": 1182,
-            "ctxt": 0
+            "end": 1182
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 1159,
-              "end": 1163,
-              "ctxt": 0
+              "end": 1163
             },
+            "ctxt": 0,
             "value": "Intl",
             "optional": false
           },
@@ -2403,9 +2313,9 @@
             "type": "Identifier",
             "span": {
               "start": 1164,
-              "end": 1182,
-              "ctxt": 0
+              "end": 1182
             },
+            "ctxt": 0,
             "value": "RelativeTimeFormat",
             "optional": false
           }
@@ -2417,9 +2327,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1183,
-                "end": 1198,
-                "ctxt": 0
+                "end": 1198
               },
+              "ctxt": 0,
               "value": "readonlyLocales",
               "optional": false
             }
@@ -2432,37 +2342,34 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1201,
-        "end": 1250,
-        "ctxt": 0
+        "end": 1250
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 1201,
-          "end": 1249,
-          "ctxt": 0
+          "end": 1249
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1201,
-            "end": 1243,
-            "ctxt": 0
+            "end": 1243
           },
           "object": {
             "type": "MemberExpression",
             "span": {
               "start": 1201,
-              "end": 1224,
-              "ctxt": 0
+              "end": 1224
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 1201,
-                "end": 1205,
-                "ctxt": 0
+                "end": 1205
               },
+              "ctxt": 0,
               "value": "Intl",
               "optional": false
             },
@@ -2470,9 +2377,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1206,
-                "end": 1224,
-                "ctxt": 0
+                "end": 1224
               },
+              "ctxt": 0,
               "value": "RelativeTimeFormat",
               "optional": false
             }
@@ -2481,9 +2388,9 @@
             "type": "Identifier",
             "span": {
               "start": 1225,
-              "end": 1243,
-              "ctxt": 0
+              "end": 1243
             },
+            "ctxt": 0,
             "value": "supportedLocalesOf",
             "optional": false
           }
@@ -2495,9 +2402,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1244,
-                "end": 1248,
-                "ctxt": 0
+                "end": 1248
               },
+              "ctxt": 0,
               "value": "enUS",
               "optional": false
             }
@@ -2510,37 +2417,34 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1251,
-        "end": 1308,
-        "ctxt": 0
+        "end": 1308
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 1251,
-          "end": 1307,
-          "ctxt": 0
+          "end": 1307
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1251,
-            "end": 1293,
-            "ctxt": 0
+            "end": 1293
           },
           "object": {
             "type": "MemberExpression",
             "span": {
               "start": 1251,
-              "end": 1274,
-              "ctxt": 0
+              "end": 1274
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 1251,
-                "end": 1255,
-                "ctxt": 0
+                "end": 1255
               },
+              "ctxt": 0,
               "value": "Intl",
               "optional": false
             },
@@ -2548,9 +2452,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1256,
-                "end": 1274,
-                "ctxt": 0
+                "end": 1274
               },
+              "ctxt": 0,
               "value": "RelativeTimeFormat",
               "optional": false
             }
@@ -2559,9 +2463,9 @@
             "type": "Identifier",
             "span": {
               "start": 1275,
-              "end": 1293,
-              "ctxt": 0
+              "end": 1293
             },
+            "ctxt": 0,
             "value": "supportedLocalesOf",
             "optional": false
           }
@@ -2573,8 +2477,7 @@
               "type": "ArrayExpression",
               "span": {
                 "start": 1294,
-                "end": 1306,
-                "ctxt": 0
+                "end": 1306
               },
               "elements": [
                 {
@@ -2583,9 +2486,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1295,
-                      "end": 1299,
-                      "ctxt": 0
+                      "end": 1299
                     },
+                    "ctxt": 0,
                     "value": "deDE",
                     "optional": false
                   }
@@ -2596,9 +2499,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1301,
-                      "end": 1305,
-                      "ctxt": 0
+                      "end": 1305
                     },
+                    "ctxt": 0,
                     "value": "jaJP",
                     "optional": false
                   }
@@ -2614,37 +2517,34 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1309,
-        "end": 1369,
-        "ctxt": 0
+        "end": 1369
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 1309,
-          "end": 1368,
-          "ctxt": 0
+          "end": 1368
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1309,
-            "end": 1351,
-            "ctxt": 0
+            "end": 1351
           },
           "object": {
             "type": "MemberExpression",
             "span": {
               "start": 1309,
-              "end": 1332,
-              "ctxt": 0
+              "end": 1332
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 1309,
-                "end": 1313,
-                "ctxt": 0
+                "end": 1313
               },
+              "ctxt": 0,
               "value": "Intl",
               "optional": false
             },
@@ -2652,9 +2552,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1314,
-                "end": 1332,
-                "ctxt": 0
+                "end": 1332
               },
+              "ctxt": 0,
               "value": "RelativeTimeFormat",
               "optional": false
             }
@@ -2663,9 +2563,9 @@
             "type": "Identifier",
             "span": {
               "start": 1333,
-              "end": 1351,
-              "ctxt": 0
+              "end": 1351
             },
+            "ctxt": 0,
             "value": "supportedLocalesOf",
             "optional": false
           }
@@ -2677,9 +2577,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1352,
-                "end": 1367,
-                "ctxt": 0
+                "end": 1367
               },
+              "ctxt": 0,
               "value": "readonlyLocales",
               "optional": false
             }
@@ -2692,30 +2592,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1371,
-        "end": 1395,
-        "ctxt": 0
+        "end": 1395
       },
       "expression": {
         "type": "NewExpression",
         "span": {
           "start": 1371,
-          "end": 1394,
-          "ctxt": 0
+          "end": 1394
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1375,
-            "end": 1388,
-            "ctxt": 0
+            "end": 1388
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 1375,
-              "end": 1379,
-              "ctxt": 0
+              "end": 1379
             },
+            "ctxt": 0,
             "value": "Intl",
             "optional": false
           },
@@ -2723,9 +2621,9 @@
             "type": "Identifier",
             "span": {
               "start": 1380,
-              "end": 1388,
-              "ctxt": 0
+              "end": 1388
             },
+            "ctxt": 0,
             "value": "Collator",
             "optional": false
           }
@@ -2737,9 +2635,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1389,
-                "end": 1393,
-                "ctxt": 0
+                "end": 1393
               },
+              "ctxt": 0,
               "value": "enUS",
               "optional": false
             }
@@ -2752,30 +2650,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1396,
-        "end": 1428,
-        "ctxt": 0
+        "end": 1428
       },
       "expression": {
         "type": "NewExpression",
         "span": {
           "start": 1396,
-          "end": 1427,
-          "ctxt": 0
+          "end": 1427
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1400,
-            "end": 1413,
-            "ctxt": 0
+            "end": 1413
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 1400,
-              "end": 1404,
-              "ctxt": 0
+              "end": 1404
             },
+            "ctxt": 0,
             "value": "Intl",
             "optional": false
           },
@@ -2783,9 +2679,9 @@
             "type": "Identifier",
             "span": {
               "start": 1405,
-              "end": 1413,
-              "ctxt": 0
+              "end": 1413
             },
+            "ctxt": 0,
             "value": "Collator",
             "optional": false
           }
@@ -2797,8 +2693,7 @@
               "type": "ArrayExpression",
               "span": {
                 "start": 1414,
-                "end": 1426,
-                "ctxt": 0
+                "end": 1426
               },
               "elements": [
                 {
@@ -2807,9 +2702,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1415,
-                      "end": 1419,
-                      "ctxt": 0
+                      "end": 1419
                     },
+                    "ctxt": 0,
                     "value": "deDE",
                     "optional": false
                   }
@@ -2820,9 +2715,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1421,
-                      "end": 1425,
-                      "ctxt": 0
+                      "end": 1425
                     },
+                    "ctxt": 0,
                     "value": "jaJP",
                     "optional": false
                   }
@@ -2838,30 +2733,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1429,
-        "end": 1464,
-        "ctxt": 0
+        "end": 1464
       },
       "expression": {
         "type": "NewExpression",
         "span": {
           "start": 1429,
-          "end": 1463,
-          "ctxt": 0
+          "end": 1463
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1433,
-            "end": 1446,
-            "ctxt": 0
+            "end": 1446
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 1433,
-              "end": 1437,
-              "ctxt": 0
+              "end": 1437
             },
+            "ctxt": 0,
             "value": "Intl",
             "optional": false
           },
@@ -2869,9 +2762,9 @@
             "type": "Identifier",
             "span": {
               "start": 1438,
-              "end": 1446,
-              "ctxt": 0
+              "end": 1446
             },
+            "ctxt": 0,
             "value": "Collator",
             "optional": false
           }
@@ -2883,9 +2776,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1447,
-                "end": 1462,
-                "ctxt": 0
+                "end": 1462
               },
+              "ctxt": 0,
               "value": "readonlyLocales",
               "optional": false
             }
@@ -2898,37 +2791,34 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1465,
-        "end": 1504,
-        "ctxt": 0
+        "end": 1504
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 1465,
-          "end": 1503,
-          "ctxt": 0
+          "end": 1503
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1465,
-            "end": 1497,
-            "ctxt": 0
+            "end": 1497
           },
           "object": {
             "type": "MemberExpression",
             "span": {
               "start": 1465,
-              "end": 1478,
-              "ctxt": 0
+              "end": 1478
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 1465,
-                "end": 1469,
-                "ctxt": 0
+                "end": 1469
               },
+              "ctxt": 0,
               "value": "Intl",
               "optional": false
             },
@@ -2936,9 +2826,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1470,
-                "end": 1478,
-                "ctxt": 0
+                "end": 1478
               },
+              "ctxt": 0,
               "value": "Collator",
               "optional": false
             }
@@ -2947,9 +2837,9 @@
             "type": "Identifier",
             "span": {
               "start": 1479,
-              "end": 1497,
-              "ctxt": 0
+              "end": 1497
             },
+            "ctxt": 0,
             "value": "supportedLocalesOf",
             "optional": false
           }
@@ -2961,9 +2851,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1498,
-                "end": 1502,
-                "ctxt": 0
+                "end": 1502
               },
+              "ctxt": 0,
               "value": "enUS",
               "optional": false
             }
@@ -2976,37 +2866,34 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1505,
-        "end": 1552,
-        "ctxt": 0
+        "end": 1552
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 1505,
-          "end": 1551,
-          "ctxt": 0
+          "end": 1551
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1505,
-            "end": 1537,
-            "ctxt": 0
+            "end": 1537
           },
           "object": {
             "type": "MemberExpression",
             "span": {
               "start": 1505,
-              "end": 1518,
-              "ctxt": 0
+              "end": 1518
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 1505,
-                "end": 1509,
-                "ctxt": 0
+                "end": 1509
               },
+              "ctxt": 0,
               "value": "Intl",
               "optional": false
             },
@@ -3014,9 +2901,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1510,
-                "end": 1518,
-                "ctxt": 0
+                "end": 1518
               },
+              "ctxt": 0,
               "value": "Collator",
               "optional": false
             }
@@ -3025,9 +2912,9 @@
             "type": "Identifier",
             "span": {
               "start": 1519,
-              "end": 1537,
-              "ctxt": 0
+              "end": 1537
             },
+            "ctxt": 0,
             "value": "supportedLocalesOf",
             "optional": false
           }
@@ -3039,8 +2926,7 @@
               "type": "ArrayExpression",
               "span": {
                 "start": 1538,
-                "end": 1550,
-                "ctxt": 0
+                "end": 1550
               },
               "elements": [
                 {
@@ -3049,9 +2935,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1539,
-                      "end": 1543,
-                      "ctxt": 0
+                      "end": 1543
                     },
+                    "ctxt": 0,
                     "value": "deDE",
                     "optional": false
                   }
@@ -3062,9 +2948,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1545,
-                      "end": 1549,
-                      "ctxt": 0
+                      "end": 1549
                     },
+                    "ctxt": 0,
                     "value": "jaJP",
                     "optional": false
                   }
@@ -3080,30 +2966,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1554,
-        "end": 1584,
-        "ctxt": 0
+        "end": 1584
       },
       "expression": {
         "type": "NewExpression",
         "span": {
           "start": 1554,
-          "end": 1583,
-          "ctxt": 0
+          "end": 1583
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1558,
-            "end": 1577,
-            "ctxt": 0
+            "end": 1577
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 1558,
-              "end": 1562,
-              "ctxt": 0
+              "end": 1562
             },
+            "ctxt": 0,
             "value": "Intl",
             "optional": false
           },
@@ -3111,9 +2995,9 @@
             "type": "Identifier",
             "span": {
               "start": 1563,
-              "end": 1577,
-              "ctxt": 0
+              "end": 1577
             },
+            "ctxt": 0,
             "value": "DateTimeFormat",
             "optional": false
           }
@@ -3125,9 +3009,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1578,
-                "end": 1582,
-                "ctxt": 0
+                "end": 1582
               },
+              "ctxt": 0,
               "value": "enUS",
               "optional": false
             }
@@ -3140,30 +3024,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1585,
-        "end": 1623,
-        "ctxt": 0
+        "end": 1623
       },
       "expression": {
         "type": "NewExpression",
         "span": {
           "start": 1585,
-          "end": 1622,
-          "ctxt": 0
+          "end": 1622
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1589,
-            "end": 1608,
-            "ctxt": 0
+            "end": 1608
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 1589,
-              "end": 1593,
-              "ctxt": 0
+              "end": 1593
             },
+            "ctxt": 0,
             "value": "Intl",
             "optional": false
           },
@@ -3171,9 +3053,9 @@
             "type": "Identifier",
             "span": {
               "start": 1594,
-              "end": 1608,
-              "ctxt": 0
+              "end": 1608
             },
+            "ctxt": 0,
             "value": "DateTimeFormat",
             "optional": false
           }
@@ -3185,8 +3067,7 @@
               "type": "ArrayExpression",
               "span": {
                 "start": 1609,
-                "end": 1621,
-                "ctxt": 0
+                "end": 1621
               },
               "elements": [
                 {
@@ -3195,9 +3076,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1610,
-                      "end": 1614,
-                      "ctxt": 0
+                      "end": 1614
                     },
+                    "ctxt": 0,
                     "value": "deDE",
                     "optional": false
                   }
@@ -3208,9 +3089,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1616,
-                      "end": 1620,
-                      "ctxt": 0
+                      "end": 1620
                     },
+                    "ctxt": 0,
                     "value": "jaJP",
                     "optional": false
                   }
@@ -3226,30 +3107,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1624,
-        "end": 1665,
-        "ctxt": 0
+        "end": 1665
       },
       "expression": {
         "type": "NewExpression",
         "span": {
           "start": 1624,
-          "end": 1664,
-          "ctxt": 0
+          "end": 1664
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1628,
-            "end": 1647,
-            "ctxt": 0
+            "end": 1647
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 1628,
-              "end": 1632,
-              "ctxt": 0
+              "end": 1632
             },
+            "ctxt": 0,
             "value": "Intl",
             "optional": false
           },
@@ -3257,9 +3136,9 @@
             "type": "Identifier",
             "span": {
               "start": 1633,
-              "end": 1647,
-              "ctxt": 0
+              "end": 1647
             },
+            "ctxt": 0,
             "value": "DateTimeFormat",
             "optional": false
           }
@@ -3271,9 +3150,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1648,
-                "end": 1663,
-                "ctxt": 0
+                "end": 1663
               },
+              "ctxt": 0,
               "value": "readonlyLocales",
               "optional": false
             }
@@ -3286,37 +3165,34 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1666,
-        "end": 1711,
-        "ctxt": 0
+        "end": 1711
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 1666,
-          "end": 1710,
-          "ctxt": 0
+          "end": 1710
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1666,
-            "end": 1704,
-            "ctxt": 0
+            "end": 1704
           },
           "object": {
             "type": "MemberExpression",
             "span": {
               "start": 1666,
-              "end": 1685,
-              "ctxt": 0
+              "end": 1685
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 1666,
-                "end": 1670,
-                "ctxt": 0
+                "end": 1670
               },
+              "ctxt": 0,
               "value": "Intl",
               "optional": false
             },
@@ -3324,9 +3200,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1671,
-                "end": 1685,
-                "ctxt": 0
+                "end": 1685
               },
+              "ctxt": 0,
               "value": "DateTimeFormat",
               "optional": false
             }
@@ -3335,9 +3211,9 @@
             "type": "Identifier",
             "span": {
               "start": 1686,
-              "end": 1704,
-              "ctxt": 0
+              "end": 1704
             },
+            "ctxt": 0,
             "value": "supportedLocalesOf",
             "optional": false
           }
@@ -3349,9 +3225,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1705,
-                "end": 1709,
-                "ctxt": 0
+                "end": 1709
               },
+              "ctxt": 0,
               "value": "enUS",
               "optional": false
             }
@@ -3364,37 +3240,34 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1712,
-        "end": 1765,
-        "ctxt": 0
+        "end": 1765
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 1712,
-          "end": 1764,
-          "ctxt": 0
+          "end": 1764
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1712,
-            "end": 1750,
-            "ctxt": 0
+            "end": 1750
           },
           "object": {
             "type": "MemberExpression",
             "span": {
               "start": 1712,
-              "end": 1731,
-              "ctxt": 0
+              "end": 1731
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 1712,
-                "end": 1716,
-                "ctxt": 0
+                "end": 1716
               },
+              "ctxt": 0,
               "value": "Intl",
               "optional": false
             },
@@ -3402,9 +3275,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1717,
-                "end": 1731,
-                "ctxt": 0
+                "end": 1731
               },
+              "ctxt": 0,
               "value": "DateTimeFormat",
               "optional": false
             }
@@ -3413,9 +3286,9 @@
             "type": "Identifier",
             "span": {
               "start": 1732,
-              "end": 1750,
-              "ctxt": 0
+              "end": 1750
             },
+            "ctxt": 0,
             "value": "supportedLocalesOf",
             "optional": false
           }
@@ -3427,8 +3300,7 @@
               "type": "ArrayExpression",
               "span": {
                 "start": 1751,
-                "end": 1763,
-                "ctxt": 0
+                "end": 1763
               },
               "elements": [
                 {
@@ -3437,9 +3309,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1752,
-                      "end": 1756,
-                      "ctxt": 0
+                      "end": 1756
                     },
+                    "ctxt": 0,
                     "value": "deDE",
                     "optional": false
                   }
@@ -3450,9 +3322,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1758,
-                      "end": 1762,
-                      "ctxt": 0
+                      "end": 1762
                     },
+                    "ctxt": 0,
                     "value": "jaJP",
                     "optional": false
                   }
@@ -3468,37 +3340,34 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1766,
-        "end": 1822,
-        "ctxt": 0
+        "end": 1822
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 1766,
-          "end": 1821,
-          "ctxt": 0
+          "end": 1821
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1766,
-            "end": 1804,
-            "ctxt": 0
+            "end": 1804
           },
           "object": {
             "type": "MemberExpression",
             "span": {
               "start": 1766,
-              "end": 1785,
-              "ctxt": 0
+              "end": 1785
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 1766,
-                "end": 1770,
-                "ctxt": 0
+                "end": 1770
               },
+              "ctxt": 0,
               "value": "Intl",
               "optional": false
             },
@@ -3506,9 +3375,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1771,
-                "end": 1785,
-                "ctxt": 0
+                "end": 1785
               },
+              "ctxt": 0,
               "value": "DateTimeFormat",
               "optional": false
             }
@@ -3517,9 +3386,9 @@
             "type": "Identifier",
             "span": {
               "start": 1786,
-              "end": 1804,
-              "ctxt": 0
+              "end": 1804
             },
+            "ctxt": 0,
             "value": "supportedLocalesOf",
             "optional": false
           }
@@ -3531,9 +3400,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1805,
-                "end": 1820,
-                "ctxt": 0
+                "end": 1820
               },
+              "ctxt": 0,
               "value": "readonlyLocales",
               "optional": false
             }
@@ -3546,30 +3415,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1824,
-        "end": 1852,
-        "ctxt": 0
+        "end": 1852
       },
       "expression": {
         "type": "NewExpression",
         "span": {
           "start": 1824,
-          "end": 1851,
-          "ctxt": 0
+          "end": 1851
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1828,
-            "end": 1845,
-            "ctxt": 0
+            "end": 1845
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 1828,
-              "end": 1832,
-              "ctxt": 0
+              "end": 1832
             },
+            "ctxt": 0,
             "value": "Intl",
             "optional": false
           },
@@ -3577,9 +3444,9 @@
             "type": "Identifier",
             "span": {
               "start": 1833,
-              "end": 1845,
-              "ctxt": 0
+              "end": 1845
             },
+            "ctxt": 0,
             "value": "NumberFormat",
             "optional": false
           }
@@ -3591,9 +3458,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1846,
-                "end": 1850,
-                "ctxt": 0
+                "end": 1850
               },
+              "ctxt": 0,
               "value": "enUS",
               "optional": false
             }
@@ -3606,30 +3473,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1853,
-        "end": 1889,
-        "ctxt": 0
+        "end": 1889
       },
       "expression": {
         "type": "NewExpression",
         "span": {
           "start": 1853,
-          "end": 1888,
-          "ctxt": 0
+          "end": 1888
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1857,
-            "end": 1874,
-            "ctxt": 0
+            "end": 1874
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 1857,
-              "end": 1861,
-              "ctxt": 0
+              "end": 1861
             },
+            "ctxt": 0,
             "value": "Intl",
             "optional": false
           },
@@ -3637,9 +3502,9 @@
             "type": "Identifier",
             "span": {
               "start": 1862,
-              "end": 1874,
-              "ctxt": 0
+              "end": 1874
             },
+            "ctxt": 0,
             "value": "NumberFormat",
             "optional": false
           }
@@ -3651,8 +3516,7 @@
               "type": "ArrayExpression",
               "span": {
                 "start": 1875,
-                "end": 1887,
-                "ctxt": 0
+                "end": 1887
               },
               "elements": [
                 {
@@ -3661,9 +3525,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1876,
-                      "end": 1880,
-                      "ctxt": 0
+                      "end": 1880
                     },
+                    "ctxt": 0,
                     "value": "deDE",
                     "optional": false
                   }
@@ -3674,9 +3538,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1882,
-                      "end": 1886,
-                      "ctxt": 0
+                      "end": 1886
                     },
+                    "ctxt": 0,
                     "value": "jaJP",
                     "optional": false
                   }
@@ -3692,30 +3556,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1890,
-        "end": 1929,
-        "ctxt": 0
+        "end": 1929
       },
       "expression": {
         "type": "NewExpression",
         "span": {
           "start": 1890,
-          "end": 1928,
-          "ctxt": 0
+          "end": 1928
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1894,
-            "end": 1911,
-            "ctxt": 0
+            "end": 1911
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 1894,
-              "end": 1898,
-              "ctxt": 0
+              "end": 1898
             },
+            "ctxt": 0,
             "value": "Intl",
             "optional": false
           },
@@ -3723,9 +3585,9 @@
             "type": "Identifier",
             "span": {
               "start": 1899,
-              "end": 1911,
-              "ctxt": 0
+              "end": 1911
             },
+            "ctxt": 0,
             "value": "NumberFormat",
             "optional": false
           }
@@ -3737,9 +3599,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1912,
-                "end": 1927,
-                "ctxt": 0
+                "end": 1927
               },
+              "ctxt": 0,
               "value": "readonlyLocales",
               "optional": false
             }
@@ -3752,37 +3614,34 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1930,
-        "end": 1973,
-        "ctxt": 0
+        "end": 1973
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 1930,
-          "end": 1972,
-          "ctxt": 0
+          "end": 1972
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1930,
-            "end": 1966,
-            "ctxt": 0
+            "end": 1966
           },
           "object": {
             "type": "MemberExpression",
             "span": {
               "start": 1930,
-              "end": 1947,
-              "ctxt": 0
+              "end": 1947
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 1930,
-                "end": 1934,
-                "ctxt": 0
+                "end": 1934
               },
+              "ctxt": 0,
               "value": "Intl",
               "optional": false
             },
@@ -3790,9 +3649,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1935,
-                "end": 1947,
-                "ctxt": 0
+                "end": 1947
               },
+              "ctxt": 0,
               "value": "NumberFormat",
               "optional": false
             }
@@ -3801,9 +3660,9 @@
             "type": "Identifier",
             "span": {
               "start": 1948,
-              "end": 1966,
-              "ctxt": 0
+              "end": 1966
             },
+            "ctxt": 0,
             "value": "supportedLocalesOf",
             "optional": false
           }
@@ -3815,9 +3674,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1967,
-                "end": 1971,
-                "ctxt": 0
+                "end": 1971
               },
+              "ctxt": 0,
               "value": "enUS",
               "optional": false
             }
@@ -3830,37 +3689,34 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 1974,
-        "end": 2028,
-        "ctxt": 0
+        "end": 2028
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 1974,
-          "end": 2027,
-          "ctxt": 0
+          "end": 2027
         },
+        "ctxt": 0,
         "callee": {
           "type": "MemberExpression",
           "span": {
             "start": 1974,
-            "end": 2010,
-            "ctxt": 0
+            "end": 2010
           },
           "object": {
             "type": "MemberExpression",
             "span": {
               "start": 1974,
-              "end": 1991,
-              "ctxt": 0
+              "end": 1991
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 1974,
-                "end": 1978,
-                "ctxt": 0
+                "end": 1978
               },
+              "ctxt": 0,
               "value": "Intl",
               "optional": false
             },
@@ -3868,9 +3724,9 @@
               "type": "Identifier",
               "span": {
                 "start": 1979,
-                "end": 1991,
-                "ctxt": 0
+                "end": 1991
               },
+              "ctxt": 0,
               "value": "NumberFormat",
               "optional": false
             }
@@ -3879,9 +3735,9 @@
             "type": "Identifier",
             "span": {
               "start": 1992,
-              "end": 2010,
-              "ctxt": 0
+              "end": 2010
             },
+            "ctxt": 0,
             "value": "supportedLocalesOf",
             "optional": false
           }
@@ -3893,9 +3749,9 @@
               "type": "Identifier",
               "span": {
                 "start": 2011,
-                "end": 2026,
-                "ctxt": 0
+                "end": 2026
               },
+              "ctxt": 0,
               "value": "readonlyLocales",
               "optional": false
             }

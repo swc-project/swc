@@ -2,32 +2,29 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 24,
-    "ctxt": 0
+    "end": 24
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 1,
-        "end": 24,
-        "ctxt": 0
+        "end": 24
       },
       "declaration": {
         "type": "TsTypeAliasDeclaration",
         "span": {
           "start": 8,
-          "end": 24,
-          "ctxt": 0
+          "end": 24
         },
         "declare": false,
         "id": {
           "type": "Identifier",
           "span": {
             "start": 13,
-            "end": 14,
-            "ctxt": 0
+            "end": 14
           },
+          "ctxt": 0,
           "value": "T",
           "optional": false
         },
@@ -36,8 +33,7 @@
           "type": "TsKeywordType",
           "span": {
             "start": 17,
-            "end": 23,
-            "ctxt": 0
+            "end": 23
           },
           "kind": "number"
         }

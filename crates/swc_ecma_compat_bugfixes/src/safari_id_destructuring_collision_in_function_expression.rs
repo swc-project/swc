@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, Span};
+use swc_common::{collections::AHashSet, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::hygiene::rename;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -14,7 +14,7 @@ pub fn safari_id_destructuring_collision_in_function_expression() -> impl Fold +
 #[derive(Default, Clone)]
 struct SafariIdDestructuringCollisionInFunctionExpression {
     fn_expr_name: JsWord,
-    destructured_id_span: Option<Span>,
+    destructured_id_span: Option<SyntaxContext>,
     other_ident_symbols: AHashSet<JsWord>,
     in_body: bool,
 }
@@ -22,7 +22,7 @@ struct SafariIdDestructuringCollisionInFunctionExpression {
 impl SafariIdDestructuringCollisionInFunctionExpression {
     fn visit_mut_pat_id(&mut self, id: &Ident) {
         if !self.in_body && self.fn_expr_name == id.sym {
-            self.destructured_id_span = Some(id.span);
+            self.destructured_id_span = Some(id.ctxt);
         } else {
             self.other_ident_symbols.insert(id.sym.clone());
         }
@@ -34,13 +34,13 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
     noop_visit_mut_type!();
 
     fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
-        self.visit_mut_pat_id(&n.key);
+        self.visit_mut_pat_id(&Ident::from(&n.key));
 
         n.value.visit_mut_with(self);
     }
 
     fn visit_mut_binding_ident(&mut self, binding_ident: &mut BindingIdent) {
-        self.visit_mut_pat_id(&binding_ident.id)
+        self.visit_mut_pat_id(&Ident::from(&*binding_ident))
     }
 
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
@@ -55,7 +55,7 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
             self.in_body = true;
             n.function.body.visit_mut_children_with(self);
 
-            if let Some(id_span) = self.destructured_id_span.take() {
+            if let Some(id_ctxt) = self.destructured_id_span.take() {
                 let mut rename_map = HashMap::default();
                 let new_id: JsWord = {
                     let mut id_value: JsWord = format!("_{}", self.fn_expr_name).into();
@@ -66,7 +66,7 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
                     }
                     id_value
                 };
-                let id = (self.fn_expr_name.clone(), id_span.ctxt());
+                let id = (self.fn_expr_name.clone(), id_ctxt);
                 rename_map.insert(id, new_id);
                 n.function.visit_mut_children_with(&mut rename(&rename_map));
             }

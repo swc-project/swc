@@ -77,15 +77,6 @@ exports[`transform in strip-only mode should throw an error when it encounters a
 "
 `;
 
-exports[`transform in strip-only mode should throw an error with a descriptive message when it encounters a decorator 1`] = `
-"  x Decorators are not supported
-   ,----
- 1 | class Foo { @decorator foo() {} }
-   :             ^^^^^^^^^^
-   \`----
-"
-`;
-
 exports[`transform should strip types 1`] = `
 "
         export const foo         = 1;

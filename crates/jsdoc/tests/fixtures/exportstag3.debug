@@ -1,22 +1,22 @@
 [
     JsDoc {
-        span: 13..13#0,
+        span: 13..13,
         description: Text {
-            span: 13..65#0,
+            span: 13..65,
             value: "Utility functions to ease working with DOM elements.",
         },
         tags: [
             TagItem {
-                span: 13..20#0,
+                span: 13..20,
                 tag_name: Text {
-                    span: 13..20#0,
+                    span: 13..20,
                     value: "exports",
                 },
                 tag: Exports(
                     ExportsTag {
-                        span: 13..20#0,
+                        span: 13..20,
                         module_name: Text {
-                            span: 13..23#0,
+                            span: 13..23,
                             value: "html/utils",
                         },
                     },
@@ -25,17 +25,17 @@
         ],
     },
     JsDoc {
-        span: 169..169#0,
+        span: 169..169,
         description: Text {
-            span: 169..211#0,
+            span: 169..211,
             value: "Get the value of a property on an element.",
         },
         tags: [],
     },
     JsDoc {
-        span: 340..340#0,
+        span: 340..340,
         description: Text {
-            span: 340..388#0,
+            span: 340..388,
             value: "Determine if an element is in the document head.",
         },
         tags: [],

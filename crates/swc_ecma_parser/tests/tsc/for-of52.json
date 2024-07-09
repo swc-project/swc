@@ -2,25 +2,23 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 43,
-    "ctxt": 0
+    "end": 43
   },
   "body": [
     {
       "type": "ForOfStatement",
       "span": {
         "start": 16,
-        "end": 43,
-        "ctxt": 0
+        "end": 43
       },
       "await": false,
       "left": {
         "type": "VariableDeclaration",
         "span": {
           "start": 21,
-          "end": 31,
-          "ctxt": 0
+          "end": 31
         },
+        "ctxt": 0,
         "kind": "let",
         "declare": false,
         "declarations": [
@@ -28,24 +26,22 @@
             "type": "VariableDeclarator",
             "span": {
               "start": 25,
-              "end": 31,
-              "ctxt": 0
+              "end": 31
             },
             "id": {
               "type": "ArrayPattern",
               "span": {
                 "start": 25,
-                "end": 31,
-                "ctxt": 0
+                "end": 31
               },
               "elements": [
                 {
                   "type": "Identifier",
                   "span": {
                     "start": 26,
-                    "end": 27,
-                    "ctxt": 0
+                    "end": 27
                   },
+                  "ctxt": 0,
                   "value": "v",
                   "optional": false,
                   "typeAnnotation": null
@@ -54,9 +50,9 @@
                   "type": "Identifier",
                   "span": {
                     "start": 29,
-                    "end": 30,
-                    "ctxt": 0
+                    "end": 30
                   },
+                  "ctxt": 0,
                   "value": "v",
                   "optional": false,
                   "typeAnnotation": null
@@ -74,8 +70,7 @@
         "type": "ArrayExpression",
         "span": {
           "start": 35,
-          "end": 39,
-          "ctxt": 0
+          "end": 39
         },
         "elements": [
           {
@@ -84,8 +79,7 @@
               "type": "ArrayExpression",
               "span": {
                 "start": 36,
-                "end": 38,
-                "ctxt": 0
+                "end": 38
               },
               "elements": []
             }
@@ -96,9 +90,9 @@
         "type": "BlockStatement",
         "span": {
           "start": 41,
-          "end": 43,
-          "ctxt": 0
+          "end": 43
         },
+        "ctxt": 0,
         "stmts": []
       }
     }

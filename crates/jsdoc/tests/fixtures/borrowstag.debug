@@ -1,24 +1,24 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..10#0,
+                span: 1..10,
                 tag_name: Text {
-                    span: 1..10#0,
+                    span: 1..10,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: 1..10#0,
+                        span: 1..10,
                         ty: None,
                         name: Some(
                             Text {
-                                span: 1..22#0,
+                                span: 1..22,
                                 value: "borrows trstr as trim",
                             },
                         ),
@@ -28,30 +28,30 @@
         ],
     },
     JsDoc {
-        span: 81..81#0,
+        span: 81..81,
         description: Text {
-            span: 81..120#0,
+            span: 81..120,
             value: "Remove whitespace from around a string.",
         },
         tags: [
             TagItem {
-                span: 81..86#0,
+                span: 81..86,
                 tag_name: Text {
-                    span: 81..86#0,
+                    span: 81..86,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 81..86#0,
+                        span: 81..86,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 81..89#0,
+                                span: 81..89,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 81..84#0,
+                            span: 81..84,
                             value: "str",
                         },
                     },

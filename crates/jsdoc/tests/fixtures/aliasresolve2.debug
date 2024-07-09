@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 0..1#0,
+        span: 0..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..10#0,
+                span: 1..10,
                 tag_name: Text {
-                    span: 1..10#0,
+                    span: 1..10,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: 1..10#0,
+                        span: 1..10,
                         ty: None,
                         name: None,
                     },
@@ -23,25 +23,25 @@
         ],
     },
     JsDoc {
-        span: 36..36#0,
+        span: 36..36,
         description: Text {
-            span: 36..36#0,
+            span: 36..36,
             value: "",
         },
         tags: [
             TagItem {
-                span: 36..45#0,
+                span: 36..45,
                 tag_name: Text {
-                    span: 36..45#0,
+                    span: 36..45,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: 36..45#0,
+                        span: 36..45,
                         ty: None,
                         name: Some(
                             Text {
-                                span: 36..46#0,
+                                span: 36..46,
                                 value: "@alias A.F",
                             },
                         ),
@@ -51,29 +51,29 @@
         ],
     },
     JsDoc {
-        span: 105..105#0,
+        span: 105..105,
         description: Text {
-            span: 105..105#0,
+            span: 105..105,
             value: "",
         },
         tags: [
             TagItem {
-                span: 105..111#0,
+                span: 105..111,
                 tag_name: Text {
-                    span: 105..111#0,
+                    span: 105..111,
                     value: "return",
                 },
                 tag: Return(
                     ReturnTag {
-                        span: 105..111#0,
+                        span: 105..111,
                         ty: Some(
                             Text {
-                                span: 105..113#0,
+                                span: 105..113,
                                 value: "{String}",
                             },
                         ),
                         description: Text {
-                            span: 105..105#0,
+                            span: 105..105,
                             value: "",
                         },
                     },

@@ -2,23 +2,20 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 31,
-    "ctxt": 0
+    "end": 31
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 1,
-        "end": 31,
-        "ctxt": 0
+        "end": 31
       },
       "declaration": {
         "type": "TsEnumDeclaration",
         "span": {
           "start": 8,
-          "end": 31,
-          "ctxt": 0
+          "end": 31
         },
         "declare": true,
         "isConst": true,
@@ -26,9 +23,9 @@
           "type": "Identifier",
           "span": {
             "start": 27,
-            "end": 28,
-            "ctxt": 0
+            "end": 28
           },
+          "ctxt": 0,
           "value": "E",
           "optional": false
         },

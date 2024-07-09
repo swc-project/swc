@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 37,
-    "end": 100,
-    "ctxt": 0
+    "end": 100
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 37,
-        "end": 71,
-        "ctxt": 0
+        "end": 71
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 43,
-            "end": 71,
-            "ctxt": 0
+            "end": 71
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 43,
-              "end": 44,
-              "ctxt": 0
+              "end": 44
             },
+            "ctxt": 0,
             "value": "C",
             "optional": false,
             "typeAnnotation": null
@@ -39,35 +37,25 @@
             "identifier": null,
             "span": {
               "start": 47,
-              "end": 71,
-              "ctxt": 0
+              "end": 71
             },
+            "ctxt": 0,
             "decorators": [],
             "body": [
               {
                 "type": "PrivateProperty",
                 "span": {
                   "start": 59,
-                  "end": 69,
-                  "ctxt": 0
+                  "end": 69
                 },
+                "ctxt": 0,
                 "key": {
                   "type": "PrivateName",
                   "span": {
                     "start": 66,
-                    "end": 68,
-                    "ctxt": 0
+                    "end": 68
                   },
-                  "id": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 67,
-                      "end": 68,
-                      "ctxt": 0
-                    },
-                    "value": "x",
-                    "optional": false
-                  }
+                  "value": "x"
                 },
                 "value": null,
                 "typeAnnotation": null,
@@ -96,44 +84,34 @@
         "type": "Identifier",
         "span": {
           "start": 79,
-          "end": 81,
-          "ctxt": 0
+          "end": 81
         },
+        "ctxt": 0,
         "value": "C2",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 73,
-        "end": 100,
-        "ctxt": 0
+        "end": 100
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "PrivateProperty",
           "span": {
             "start": 88,
-            "end": 98,
-            "ctxt": 0
+            "end": 98
           },
+          "ctxt": 0,
           "key": {
             "type": "PrivateName",
             "span": {
               "start": 95,
-              "end": 97,
-              "ctxt": 0
+              "end": 97
             },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 96,
-                "end": 97,
-                "ctxt": 0
-              },
-              "value": "x",
-              "optional": false
-            }
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": null,

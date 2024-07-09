@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 24,
-    "ctxt": 0
+    "end": 24
   },
   "body": [
     {
       "type": "LabeledStatement",
       "span": {
         "start": 1,
-        "end": 24,
-        "ctxt": 0
+        "end": 24
       },
       "label": {
         "type": "Identifier",
         "span": {
           "start": 1,
-          "end": 7,
-          "ctxt": 0
+          "end": 7
         },
+        "ctxt": 0,
         "value": "target",
         "optional": false
       },
@@ -27,16 +25,15 @@
         "type": "BreakStatement",
         "span": {
           "start": 11,
-          "end": 24,
-          "ctxt": 0
+          "end": 24
         },
         "label": {
           "type": "Identifier",
           "span": {
             "start": 17,
-            "end": 23,
-            "ctxt": 0
+            "end": 23
           },
+          "ctxt": 0,
           "value": "target",
           "optional": false
         }

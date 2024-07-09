@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 34,
-    "end": 112,
-    "ctxt": 0
+    "end": 112
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 34,
-        "end": 40,
-        "ctxt": 0
+        "end": 40
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 38,
-            "end": 39,
-            "ctxt": 0
+            "end": 39
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 38,
-              "end": 39,
-              "ctxt": 0
+              "end": 39
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -45,9 +43,9 @@
         "type": "Identifier",
         "span": {
           "start": 92,
-          "end": 93,
-          "ctxt": 0
+          "end": 93
         },
+        "ctxt": 0,
         "value": "f",
         "optional": false
       },
@@ -56,31 +54,30 @@
       "decorators": [],
       "span": {
         "start": 83,
-        "end": 112,
-        "ctxt": 0
+        "end": 112
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 96,
-          "end": 112,
-          "ctxt": 0
+          "end": 112
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
               "start": 102,
-              "end": 110,
-              "ctxt": 0
+              "end": 110
             },
             "argument": {
               "type": "Identifier",
               "span": {
                 "start": 109,
-                "end": 110,
-                "ctxt": 0
+                "end": 110
               },
+              "ctxt": 0,
               "value": "x",
               "optional": false
             }

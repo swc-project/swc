@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 135,
-    "end": 252,
-    "ctxt": 0
+    "end": 252
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 144,
-          "end": 145,
-          "ctxt": 0
+          "end": 145
         },
+        "ctxt": 0,
         "value": "f",
         "optional": false
       },
@@ -24,29 +23,26 @@
           "type": "Parameter",
           "span": {
             "start": 146,
-            "end": 153,
-            "ctxt": 0
+            "end": 153
           },
           "decorators": [],
           "pat": {
             "type": "RestElement",
             "span": {
               "start": 146,
-              "end": 153,
-              "ctxt": 0
+              "end": 153
             },
             "rest": {
               "start": 146,
-              "end": 149,
-              "ctxt": 0
+              "end": 149
             },
             "argument": {
               "type": "Identifier",
               "span": {
                 "start": 149,
-                "end": 153,
-                "ctxt": 0
+                "end": 153
               },
+              "ctxt": 0,
               "value": "args",
               "optional": false,
               "typeAnnotation": null
@@ -58,30 +54,28 @@
       "decorators": [],
       "span": {
         "start": 135,
-        "end": 174,
-        "ctxt": 0
+        "end": 174
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 155,
-          "end": 174,
-          "ctxt": 0
+          "end": 174
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
               "start": 161,
-              "end": 172,
-              "ctxt": 0
+              "end": 172
             },
             "argument": {
               "type": "NullLiteral",
               "span": {
                 "start": 168,
-                "end": 172,
-                "ctxt": 0
+                "end": 172
               }
             }
           }
@@ -96,9 +90,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 192,
-        "end": 198,
-        "ctxt": 0
+        "end": 198
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -106,16 +100,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 196,
-            "end": 197,
-            "ctxt": 0
+            "end": 197
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 196,
-              "end": 197,
-              "ctxt": 0
+              "end": 197
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -131,9 +124,9 @@
         "type": "Identifier",
         "span": {
           "start": 242,
-          "end": 245,
-          "ctxt": 0
+          "end": 245
         },
+        "ctxt": 0,
         "value": "cbf",
         "optional": false
       },
@@ -143,17 +136,16 @@
           "type": "Parameter",
           "span": {
             "start": 246,
-            "end": 247,
-            "ctxt": 0
+            "end": 247
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
               "start": 246,
-              "end": 247,
-              "ctxt": 0
+              "end": 247
             },
+            "ctxt": 0,
             "value": "f",
             "optional": false,
             "typeAnnotation": null
@@ -163,16 +155,16 @@
       "decorators": [],
       "span": {
         "start": 233,
-        "end": 252,
-        "ctxt": 0
+        "end": 252
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 249,
-          "end": 252,
-          "ctxt": 0
+          "end": 252
         },
+        "ctxt": 0,
         "stmts": []
       },
       "generator": false,

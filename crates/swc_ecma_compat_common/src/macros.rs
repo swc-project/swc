@@ -38,11 +38,11 @@ macro_rules! impl_visit_mut_fn {
                 &mut match &mut *f.body {
                     BlockStmtOrExpr::BlockStmt(block) => block.take(),
                     BlockStmtOrExpr::Expr(expr) => BlockStmt {
-                        span: DUMMY_SP,
                         stmts: vec![Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(expr.take()),
                         })],
+                        ..Default::default()
                     },
                 },
             );

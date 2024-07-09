@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 539,
-    "ctxt": 0
+    "end": 539
   },
   "mode": "no-quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "DocumentType",
       "span": {
         "start": 1,
-        "end": 110,
-        "ctxt": 0
+        "end": 110
       },
       "name": "html",
       "publicId": "-//W3C//DTD HTML 4.01 Frameset//EN",
@@ -23,8 +21,7 @@
       "type": "Element",
       "span": {
         "start": 111,
-        "end": 539,
-        "ctxt": 0
+        "end": 539
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -34,8 +31,7 @@
           "type": "Element",
           "span": {
             "start": 118,
-            "end": 239,
-            "ctxt": 0
+            "end": 239
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -45,8 +41,7 @@
               "type": "Text",
               "span": {
                 "start": 124,
-                "end": 129,
-                "ctxt": 0
+                "end": 129
               },
               "data": "\n    ",
               "raw": "\n    "
@@ -55,8 +50,7 @@
               "type": "Element",
               "span": {
                 "start": 129,
-                "end": 196,
-                "ctxt": 0
+                "end": 196
               },
               "tagName": "meta",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -65,8 +59,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 135,
-                    "end": 160,
-                    "ctxt": 0
+                    "end": 160
                   },
                   "namespace": null,
                   "prefix": null,
@@ -79,8 +72,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 161,
-                    "end": 195,
-                    "ctxt": 0
+                    "end": 195
                   },
                   "namespace": null,
                   "prefix": null,
@@ -98,8 +90,7 @@
               "type": "Text",
               "span": {
                 "start": 196,
-                "end": 201,
-                "ctxt": 0
+                "end": 201
               },
               "data": "\n    ",
               "raw": "\n    "
@@ -108,8 +99,7 @@
               "type": "Element",
               "span": {
                 "start": 201,
-                "end": 231,
-                "ctxt": 0
+                "end": 231
               },
               "tagName": "title",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -119,8 +109,7 @@
                   "type": "Text",
                   "span": {
                     "start": 208,
-                    "end": 223,
-                    "ctxt": 0
+                    "end": 223
                   },
                   "data": "Тег FRAMESET",
                   "raw": "Тег FRAMESET"
@@ -133,8 +122,7 @@
               "type": "Text",
               "span": {
                 "start": 231,
-                "end": 232,
-                "ctxt": 0
+                "end": 232
               },
               "data": "\n",
               "raw": "\n"
@@ -147,8 +135,7 @@
           "type": "Text",
           "span": {
             "start": 239,
-            "end": 241,
-            "ctxt": 0
+            "end": 241
           },
           "data": "\n\n",
           "raw": "\n\n"
@@ -157,8 +144,7 @@
           "type": "Element",
           "span": {
             "start": 241,
-            "end": 516,
-            "ctxt": 0
+            "end": 516
           },
           "tagName": "frameset",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -167,8 +153,7 @@
               "type": "Attribute",
               "span": {
                 "start": 251,
-                "end": 262,
-                "ctxt": 0
+                "end": 262
               },
               "namespace": null,
               "prefix": null,
@@ -181,8 +166,7 @@
               "type": "Attribute",
               "span": {
                 "start": 263,
-                "end": 271,
-                "ctxt": 0
+                "end": 271
               },
               "namespace": null,
               "prefix": null,
@@ -197,8 +181,7 @@
               "type": "Text",
               "span": {
                 "start": 272,
-                "end": 277,
-                "ctxt": 0
+                "end": 277
               },
               "data": "\n    ",
               "raw": "\n    "
@@ -207,8 +190,7 @@
               "type": "Element",
               "span": {
                 "start": 277,
-                "end": 339,
-                "ctxt": 0
+                "end": 339
               },
               "tagName": "frame",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -217,8 +199,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 284,
-                    "end": 298,
-                    "ctxt": 0
+                    "end": 298
                   },
                   "namespace": null,
                   "prefix": null,
@@ -231,8 +212,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 299,
-                    "end": 314,
-                    "ctxt": 0
+                    "end": 314
                   },
                   "namespace": null,
                   "prefix": null,
@@ -245,8 +225,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 315,
-                    "end": 329,
-                    "ctxt": 0
+                    "end": 329
                   },
                   "namespace": null,
                   "prefix": null,
@@ -259,8 +238,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 330,
-                    "end": 338,
-                    "ctxt": 0
+                    "end": 338
                   },
                   "namespace": null,
                   "prefix": null,
@@ -278,8 +256,7 @@
               "type": "Text",
               "span": {
                 "start": 339,
-                "end": 344,
-                "ctxt": 0
+                "end": 344
               },
               "data": "\n    ",
               "raw": "\n    "
@@ -288,8 +265,7 @@
               "type": "Element",
               "span": {
                 "start": 344,
-                "end": 504,
-                "ctxt": 0
+                "end": 504
               },
               "tagName": "frameset",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -298,8 +274,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 354,
-                    "end": 365,
-                    "ctxt": 0
+                    "end": 365
                   },
                   "namespace": null,
                   "prefix": null,
@@ -314,8 +289,7 @@
                   "type": "Text",
                   "span": {
                     "start": 366,
-                    "end": 375,
-                    "ctxt": 0
+                    "end": 375
                   },
                   "data": "\n        ",
                   "raw": "\n        "
@@ -324,8 +298,7 @@
                   "type": "Element",
                   "span": {
                     "start": 375,
-                    "end": 439,
-                    "ctxt": 0
+                    "end": 439
                   },
                   "tagName": "frame",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -334,8 +307,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 382,
-                        "end": 397,
-                        "ctxt": 0
+                        "end": 397
                       },
                       "namespace": null,
                       "prefix": null,
@@ -348,8 +320,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 398,
-                        "end": 414,
-                        "ctxt": 0
+                        "end": 414
                       },
                       "namespace": null,
                       "prefix": null,
@@ -362,8 +333,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 415,
-                        "end": 429,
-                        "ctxt": 0
+                        "end": 429
                       },
                       "namespace": null,
                       "prefix": null,
@@ -376,8 +346,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 430,
-                        "end": 438,
-                        "ctxt": 0
+                        "end": 438
                       },
                       "namespace": null,
                       "prefix": null,
@@ -395,8 +364,7 @@
                   "type": "Text",
                   "span": {
                     "start": 439,
-                    "end": 448,
-                    "ctxt": 0
+                    "end": 448
                   },
                   "data": "\n        ",
                   "raw": "\n        "
@@ -405,8 +373,7 @@
                   "type": "Element",
                   "span": {
                     "start": 448,
-                    "end": 488,
-                    "ctxt": 0
+                    "end": 488
                   },
                   "tagName": "frame",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -415,8 +382,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 455,
-                        "end": 470,
-                        "ctxt": 0
+                        "end": 470
                       },
                       "namespace": null,
                       "prefix": null,
@@ -429,8 +395,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 471,
-                        "end": 487,
-                        "ctxt": 0
+                        "end": 487
                       },
                       "namespace": null,
                       "prefix": null,
@@ -448,8 +413,7 @@
                   "type": "Text",
                   "span": {
                     "start": 488,
-                    "end": 493,
-                    "ctxt": 0
+                    "end": 493
                   },
                   "data": "\n    ",
                   "raw": "\n    "
@@ -462,8 +426,7 @@
               "type": "Text",
               "span": {
                 "start": 504,
-                "end": 505,
-                "ctxt": 0
+                "end": 505
               },
               "data": "\n",
               "raw": "\n"
@@ -476,8 +439,7 @@
           "type": "Text",
           "span": {
             "start": 516,
-            "end": 539,
-            "ctxt": 0
+            "end": 539
           },
           "data": "\n\n\n\n",
           "raw": "\n\n\n\n"

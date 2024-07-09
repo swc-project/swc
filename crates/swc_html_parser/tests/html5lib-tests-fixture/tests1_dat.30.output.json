@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 65,
-    "ctxt": 0
+    "end": 65
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 52,
-                "ctxt": 0
+                "end": 52
               },
               "tagName": "a",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -58,8 +53,7 @@
                   "type": "Element",
                   "span": {
                     "start": 41,
-                    "end": 44,
-                    "ctxt": 0
+                    "end": 44
                   },
                   "tagName": "a",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -72,8 +66,7 @@
                   "type": "Element",
                   "span": {
                     "start": 4,
-                    "end": 52,
-                    "ctxt": 0
+                    "end": 52
                   },
                   "tagName": "table",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -83,8 +76,7 @@
                       "type": "Element",
                       "span": {
                         "start": 0,
-                        "end": 0,
-                        "ctxt": 0
+                        "end": 0
                       },
                       "tagName": "tbody",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -94,8 +86,7 @@
                           "type": "Element",
                           "span": {
                             "start": 0,
-                            "end": 0,
-                            "ctxt": 0
+                            "end": 0
                           },
                           "tagName": "tr",
                           "namespace": "http://www.w3.org/1999/xhtml",
@@ -105,8 +96,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 11,
-                                "end": 36,
-                                "ctxt": 0
+                                "end": 36
                               },
                               "tagName": "td",
                               "namespace": "http://www.w3.org/1999/xhtml",
@@ -116,8 +106,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 15,
-                                    "end": 33,
-                                    "ctxt": 0
+                                    "end": 33
                                   },
                                   "tagName": "a",
                                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -127,8 +116,7 @@
                                       "type": "Element",
                                       "span": {
                                         "start": 18,
-                                        "end": 33,
-                                        "ctxt": 0
+                                        "end": 33
                                       },
                                       "tagName": "table",
                                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -145,8 +133,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 33,
-                                    "end": 36,
-                                    "ctxt": 0
+                                    "end": 36
                                   },
                                   "tagName": "a",
                                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -179,8 +166,7 @@
               "type": "Element",
               "span": {
                 "start": 41,
-                "end": 61,
-                "ctxt": 0
+                "end": 61
               },
               "tagName": "a",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -190,8 +176,7 @@
                   "type": "Element",
                   "span": {
                     "start": 52,
-                    "end": 60,
-                    "ctxt": 0
+                    "end": 60
                   },
                   "tagName": "b",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -201,8 +186,7 @@
                       "type": "Text",
                       "span": {
                         "start": 55,
-                        "end": 56,
-                        "ctxt": 0
+                        "end": 56
                       },
                       "data": "X",
                       "raw": "X"
@@ -215,8 +199,7 @@
                   "type": "Text",
                   "span": {
                     "start": 60,
-                    "end": 61,
-                    "ctxt": 0
+                    "end": 61
                   },
                   "data": "C",
                   "raw": "C"
@@ -229,8 +212,7 @@
               "type": "Element",
               "span": {
                 "start": 61,
-                "end": 65,
-                "ctxt": 0
+                "end": 65
               },
               "tagName": "a",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -240,8 +222,7 @@
                   "type": "Text",
                   "span": {
                     "start": 64,
-                    "end": 65,
-                    "ctxt": 0
+                    "end": 65
                   },
                   "data": "Y",
                   "raw": "Y"

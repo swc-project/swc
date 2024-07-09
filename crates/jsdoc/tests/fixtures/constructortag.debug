@@ -1,29 +1,29 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..41#0,
+            span: 1..41,
             value: "Describe your constructor function here.",
         },
         tags: [
             TagItem {
-                span: 1..6#0,
+                span: 1..6,
                 tag_name: Text {
-                    span: 1..6#0,
+                    span: 1..6,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 1..6#0,
+                        span: 1..6,
                         ty: Some(
                             Text {
-                                span: 1..26#0,
+                                span: 1..26,
                                 value: "Describe your class here.",
                             },
                         ),
                         name: Some(
                             Text {
-                                span: 1..13#0,
+                                span: 1..13,
                                 value: "@constructor",
                             },
                         ),
@@ -31,39 +31,39 @@
                 ),
             },
             TagItem {
-                span: 1..6#0,
+                span: 1..6,
                 tag_name: Text {
-                    span: 1..6#0,
+                    span: 1..6,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 1..6#0,
+                        span: 1..6,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 1..9#0,
+                                span: 1..9,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 1..4#0,
+                            span: 1..4,
                             value: "url",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "throws",
                 },
                 tag: Throw(
                     ThrowTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         text: Text {
-                            span: 1..13#0,
+                            span: 1..13,
                             value: "MalformedURL",
                         },
                     },
@@ -72,9 +72,9 @@
         ],
     },
     JsDoc {
-        span: 181..181#0,
+        span: 181..181,
         description: Text {
-            span: 181..207#0,
+            span: 181..207,
             value: "Document your method here.",
         },
         tags: [],

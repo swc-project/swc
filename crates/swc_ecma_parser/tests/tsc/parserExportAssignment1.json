@@ -2,24 +2,22 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 13,
-    "ctxt": 0
+    "end": 13
   },
   "body": [
     {
       "type": "TsExportAssignment",
       "span": {
         "start": 1,
-        "end": 13,
-        "ctxt": 0
+        "end": 13
       },
       "expression": {
         "type": "Identifier",
         "span": {
           "start": 10,
-          "end": 13,
-          "ctxt": 0
+          "end": 13
         },
+        "ctxt": 0,
         "value": "foo",
         "optional": false
       }

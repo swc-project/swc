@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 24,
-    "ctxt": 0
+    "end": 24
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
         "start": 1,
-        "end": 24,
-        "ctxt": 0
+        "end": 24
       },
       "id": {
         "type": "Identifier",
         "span": {
           "start": 11,
-          "end": 12,
-          "ctxt": 0
+          "end": 12
         },
+        "ctxt": 0,
         "value": "I",
         "optional": false
       },
@@ -30,23 +28,20 @@
         "type": "TsInterfaceBody",
         "span": {
           "start": 13,
-          "end": 24,
-          "ctxt": 0
+          "end": 24
         },
         "body": [
           {
             "type": "TsMethodSignature",
             "span": {
               "start": 17,
-              "end": 22,
-              "ctxt": 0
+              "end": 22
             },
             "key": {
               "type": "NumericLiteral",
               "span": {
                 "start": 17,
-                "end": 18,
-                "ctxt": 0
+                "end": 18
               },
               "value": 1.0,
               "raw": "1"

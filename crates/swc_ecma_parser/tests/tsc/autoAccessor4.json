@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 66,
-    "end": 174,
-    "ctxt": 0
+    "end": 174
   },
   "body": [
     {
@@ -12,33 +11,31 @@
         "type": "Identifier",
         "span": {
           "start": 72,
-          "end": 74,
-          "ctxt": 0
+          "end": 74
         },
+        "ctxt": 0,
         "value": "C1",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 66,
-        "end": 174,
-        "ctxt": 0
+        "end": 174
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "AutoAccessor",
           "span": {
             "start": 81,
-            "end": 97,
-            "ctxt": 0
+            "end": 97
           },
           "key": {
             "type": "NumericLiteral",
             "span": {
               "start": 90,
-              "end": 91,
-              "ctxt": 0
+              "end": 91
             },
             "value": 0.0,
             "raw": "0"
@@ -48,15 +45,13 @@
             "type": "TsTypeAnnotation",
             "span": {
               "start": 91,
-              "end": 96,
-              "ctxt": 0
+              "end": 96
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 93,
-                "end": 96,
-                "ctxt": 0
+                "end": 96
               },
               "kind": "any"
             }
@@ -72,15 +67,13 @@
           "type": "AutoAccessor",
           "span": {
             "start": 102,
-            "end": 117,
-            "ctxt": 0
+            "end": 117
           },
           "key": {
             "type": "NumericLiteral",
             "span": {
               "start": 111,
-              "end": 112,
-              "ctxt": 0
+              "end": 112
             },
             "value": 1.0,
             "raw": "1"
@@ -89,8 +82,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 115,
-              "end": 116,
-              "ctxt": 0
+              "end": 116
             },
             "value": 1.0,
             "raw": "1"
@@ -107,15 +99,13 @@
           "type": "AutoAccessor",
           "span": {
             "start": 122,
-            "end": 145,
-            "ctxt": 0
+            "end": 145
           },
           "key": {
             "type": "NumericLiteral",
             "span": {
               "start": 138,
-              "end": 139,
-              "ctxt": 0
+              "end": 139
             },
             "value": 2.0,
             "raw": "2"
@@ -125,15 +115,13 @@
             "type": "TsTypeAnnotation",
             "span": {
               "start": 139,
-              "end": 144,
-              "ctxt": 0
+              "end": 144
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 141,
-                "end": 144,
-                "ctxt": 0
+                "end": 144
               },
               "kind": "any"
             }
@@ -149,15 +137,13 @@
           "type": "AutoAccessor",
           "span": {
             "start": 150,
-            "end": 172,
-            "ctxt": 0
+            "end": 172
           },
           "key": {
             "type": "NumericLiteral",
             "span": {
               "start": 166,
-              "end": 167,
-              "ctxt": 0
+              "end": 167
             },
             "value": 3.0,
             "raw": "3"
@@ -166,8 +152,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 170,
-              "end": 171,
-              "ctxt": 0
+              "end": 171
             },
             "value": 2.0,
             "raw": "2"

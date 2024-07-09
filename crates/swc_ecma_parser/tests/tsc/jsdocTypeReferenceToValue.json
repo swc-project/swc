@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 103,
-    "end": 157,
-    "ctxt": 0
+    "end": 157
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 112,
-          "end": 119,
-          "ctxt": 0
+          "end": 119
         },
+        "ctxt": 0,
         "value": "process",
         "optional": false
       },
@@ -24,17 +23,16 @@
           "type": "Parameter",
           "span": {
             "start": 120,
-            "end": 125,
-            "ctxt": 0
+            "end": 125
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
               "start": 120,
-              "end": 125,
-              "ctxt": 0
+              "end": 125
             },
+            "ctxt": 0,
             "value": "image",
             "optional": false,
             "typeAnnotation": null
@@ -44,38 +42,37 @@
       "decorators": [],
       "span": {
         "start": 103,
-        "end": 157,
-        "ctxt": 0
+        "end": 157
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 127,
-          "end": 157,
-          "ctxt": 0
+          "end": 157
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
               "start": 133,
-              "end": 155,
-              "ctxt": 0
+              "end": 155
             },
             "argument": {
               "type": "NewExpression",
               "span": {
                 "start": 140,
-                "end": 155,
-                "ctxt": 0
+                "end": 155
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 144,
-                  "end": 149,
-                  "ctxt": 0
+                  "end": 149
                 },
+                "ctxt": 0,
                 "value": "image",
                 "optional": false
               },
@@ -86,8 +83,7 @@
                     "type": "NumericLiteral",
                     "span": {
                       "start": 150,
-                      "end": 151,
-                      "ctxt": 0
+                      "end": 151
                     },
                     "value": 1.0,
                     "raw": "1"
@@ -99,8 +95,7 @@
                     "type": "NumericLiteral",
                     "span": {
                       "start": 153,
-                      "end": 154,
-                      "ctxt": 0
+                      "end": 154
                     },
                     "value": 1.0,
                     "raw": "1"

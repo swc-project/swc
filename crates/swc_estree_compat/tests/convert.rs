@@ -136,7 +136,7 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
         Some(cm.clone()),
     ));
     let compiler = Compiler::new(cm.clone());
-    let fm = compiler.cm.new_source_file(FileName::Anon, src);
+    let fm = compiler.cm.new_source_file(FileName::Anon.into(), src);
 
     let comments = compiler.comments().clone();
 

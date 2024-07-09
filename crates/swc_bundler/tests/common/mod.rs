@@ -110,7 +110,7 @@ impl Load for Loader {
                 let src = load_url(url.clone())?;
 
                 self.cm
-                    .new_source_file(FileName::Custom(url.to_string()), src)
+                    .new_source_file(FileName::Custom(url.to_string()).into(), src)
             }
             _ => unreachable!(),
         };

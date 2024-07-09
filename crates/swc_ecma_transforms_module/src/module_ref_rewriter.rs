@@ -1,7 +1,7 @@
 use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
-    SyntaxContext, DUMMY_SP,
+    SyntaxContext,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helpers::HELPERS;
@@ -42,7 +42,7 @@ impl QueryRef for ImportQuery {
             .get(&ident.to_id())
             .map(|(mod_ident, mod_prop)| -> Box<Expr> {
                 let mut mod_ident = mod_ident.clone();
-                let span = ident.span.with_ctxt(mod_ident.span.ctxt);
+                let span = ident.span;
                 mod_ident.span = span;
 
                 let mod_expr = if self.lazy_record.contains(&mod_ident.to_id()) {
@@ -52,7 +52,7 @@ impl QueryRef for ImportQuery {
                 };
 
                 if let Some(imported_name) = mod_prop {
-                    let prop = prop_name(imported_name, DUMMY_SP).into();
+                    let prop = prop_name(imported_name, Default::default()).into();
 
                     MemberExpr {
                         obj: Box::new(mod_expr),
@@ -77,7 +77,7 @@ impl QueryRef for ImportQuery {
     }
 
     fn should_fix_this(&self, ident: &Ident) -> bool {
-        if self.helper_ctxt.iter().any(|ctxt| ctxt == &ident.span.ctxt) {
+        if self.helper_ctxt.iter().any(|ctxt| ctxt == &ident.ctxt) {
             return false;
         }
 

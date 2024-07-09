@@ -115,7 +115,7 @@ impl<I: Input> Iterator for Lexer<'_, I> {
                     .override_pos
                     .take()
                     .unwrap_or_else(|| self.input.last_pos());
-                let span = Span::new(self.start_pos, end, Default::default());
+                let span = Span::new(self.start_pos, end);
 
                 let token_and_span = TokenAndSpan { span, token };
 
@@ -238,7 +238,7 @@ where
     #[cold]
     fn emit_error(&mut self, kind: ErrorKind) {
         self.errors.borrow_mut().push(Error::new(
-            Span::new(self.cur_pos, self.input.last_pos(), Default::default()),
+            Span::new(self.cur_pos, self.input.last_pos()),
             kind,
         ));
     }
@@ -519,11 +519,7 @@ where
                             break;
                         }
                         None => {
-                            let span = Span::new(
-                                self.start_pos,
-                                self.input.last_pos(),
-                                Default::default(),
-                            );
+                            let span = Span::new(self.start_pos, self.input.last_pos());
 
                             self.errors
                                 .borrow_mut()

@@ -2,23 +2,20 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 52,
-    "ctxt": 0
+    "end": 52
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 52,
-        "ctxt": 0
+        "end": 52
       },
       "expression": {
         "type": "JSXElement",
         "span": {
           "start": 1,
-          "end": 52,
-          "ctxt": 0
+          "end": 52
         },
         "opening": {
           "type": "JSXOpeningElement",
@@ -26,32 +23,30 @@
             "type": "Identifier",
             "span": {
               "start": 2,
-              "end": 9,
-              "ctxt": 0
+              "end": 9
             },
+            "ctxt": 0,
             "value": "AbC-def",
             "optional": false
           },
           "span": {
             "start": 1,
-            "end": 33,
-            "ctxt": 0
+            "end": 33
           },
           "attributes": [
             {
               "type": "JSXAttribute",
               "span": {
                 "start": 12,
-                "end": 32,
-                "ctxt": 0
+                "end": 32
               },
               "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 12,
-                  "end": 16,
-                  "ctxt": 0
+                  "end": 16
                 },
+                "ctxt": 0,
                 "value": "test",
                 "optional": false
               },
@@ -59,8 +54,7 @@
                 "type": "StringLiteral",
                 "span": {
                   "start": 17,
-                  "end": 32,
-                  "ctxt": 0
+                  "end": 32
                 },
                 "value": "&&",
                 "raw": "\"&#x0026;&#38;\""
@@ -75,8 +69,7 @@
             "type": "JSXText",
             "span": {
               "start": 33,
-              "end": 42,
-              "ctxt": 0
+              "end": 42
             },
             "value": "\nbar\nbaz\n",
             "raw": "\nbar\nbaz\n"
@@ -86,16 +79,15 @@
           "type": "JSXClosingElement",
           "span": {
             "start": 42,
-            "end": 52,
-            "ctxt": 0
+            "end": 52
           },
           "name": {
             "type": "Identifier",
             "span": {
               "start": 44,
-              "end": 51,
-              "ctxt": 0
+              "end": 51
             },
+            "ctxt": 0,
             "value": "AbC-def",
             "optional": false
           }

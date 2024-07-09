@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 21,
-    "end": 56,
-    "ctxt": 0
+    "end": 56
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 21,
-        "end": 31,
-        "ctxt": 0
+        "end": 31
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 25,
-            "end": 30,
-            "ctxt": 0
+            "end": 30
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 25,
-              "end": 30,
-              "ctxt": 0
+              "end": 30
             },
+            "ctxt": 0,
             "value": "async",
             "optional": false,
             "typeAnnotation": null
@@ -43,24 +41,22 @@
       "type": "ForOfStatement",
       "span": {
         "start": 32,
-        "end": 56,
-        "ctxt": 0
+        "end": 56
       },
       "await": false,
       "left": {
         "type": "ParenthesisExpression",
         "span": {
           "start": 37,
-          "end": 44,
-          "ctxt": 0
+          "end": 44
         },
         "expression": {
           "type": "Identifier",
           "span": {
             "start": 38,
-            "end": 43,
-            "ctxt": 0
+            "end": 43
           },
+          "ctxt": 0,
           "value": "async",
           "optional": false
         }
@@ -69,8 +65,7 @@
         "type": "ArrayExpression",
         "span": {
           "start": 48,
-          "end": 54,
-          "ctxt": 0
+          "end": 54
         },
         "elements": [
           {
@@ -79,8 +74,7 @@
               "type": "NumericLiteral",
               "span": {
                 "start": 49,
-                "end": 50,
-                "ctxt": 0
+                "end": 50
               },
               "value": 1.0,
               "raw": "1"
@@ -92,8 +86,7 @@
               "type": "NumericLiteral",
               "span": {
                 "start": 52,
-                "end": 53,
-                "ctxt": 0
+                "end": 53
               },
               "value": 2.0,
               "raw": "2"
@@ -105,8 +98,7 @@
         "type": "EmptyStatement",
         "span": {
           "start": 55,
-          "end": 56,
-          "ctxt": 0
+          "end": 56
         }
       }
     }

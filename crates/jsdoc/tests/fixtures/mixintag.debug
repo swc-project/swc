@@ -1,22 +1,22 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..133#0,
+            span: 1..133,
             value: "This provides methods used for event handling. It's not meant to\n * be used directly, except as a provider of related methods.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 1..6#0,
+                span: 1..6,
                 tag_name: Text {
-                    span: 1..6#0,
+                    span: 1..6,
                     value: "mixin",
                 },
                 tag: Mixin(
                     MixinTag {
-                        span: 1..6#0,
+                        span: 1..6,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -25,40 +25,40 @@
         ],
     },
     JsDoc {
-        span: 173..173#0,
+        span: 173..173,
         description: Text {
-            span: 173..189#0,
+            span: 173..189,
             value: "fires something.",
         },
         tags: [],
     },
     JsDoc {
-        span: 228..228#0,
+        span: 228..228,
         description: Text {
-            span: 228..245#0,
+            span: 228..245,
             value: "handles a signal.",
         },
         tags: [],
     },
     JsDoc {
-        span: 280..280#0,
+        span: 280..280,
         description: Text {
-            span: 280..280#0,
+            span: 280..280,
             value: "",
         },
         tags: [
             TagItem {
-                span: 280..291#0,
+                span: 280..291,
                 tag_name: Text {
-                    span: 280..291#0,
+                    span: 280..291,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 280..291#0,
+                        span: 280..291,
                         ty: Some(
                             Text {
-                                span: 280..297#0,
+                                span: 280..297,
                                 value: "* @mixes Eventful",
                             },
                         ),

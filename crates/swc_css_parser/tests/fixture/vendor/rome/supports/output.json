@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 371,
-    "ctxt": 0
+    "end": 371
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 34,
-        "ctxt": 0
+        "end": 34
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 10,
-          "ctxt": 0
+          "end": 10
         },
         "value": "supports",
         "raw": "supports"
@@ -27,23 +24,20 @@
         "type": "SupportsCondition",
         "span": {
           "start": 11,
-          "end": 30,
-          "ctxt": 0
+          "end": 30
         },
         "conditions": [
           {
             "type": "SupportsNot",
             "span": {
               "start": 11,
-              "end": 30,
-              "ctxt": 0
+              "end": 30
             },
             "keyword": {
               "type": "Ident",
               "span": {
                 "start": 11,
-                "end": 14,
-                "ctxt": 0
+                "end": 14
               },
               "value": "not",
               "raw": "not"
@@ -52,15 +46,13 @@
               "type": "Declaration",
               "span": {
                 "start": 16,
-                "end": 29,
-                "ctxt": 0
+                "end": 29
               },
               "name": {
                 "type": "Ident",
                 "span": {
                   "start": 16,
-                  "end": 23,
-                  "ctxt": 0
+                  "end": 23
                 },
                 "value": "display",
                 "raw": "display"
@@ -70,8 +62,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 25,
-                    "end": 29,
-                    "ctxt": 0
+                    "end": 29
                   },
                   "value": "flex",
                   "raw": "flex"
@@ -86,15 +77,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 31,
-          "end": 34,
-          "ctxt": 0
+          "end": 34
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 31,
-            "end": 32,
-            "ctxt": 0
+            "end": 32
           },
           "token": "LBrace"
         },
@@ -105,15 +94,13 @@
       "type": "AtRule",
       "span": {
         "start": 36,
-        "end": 247,
-        "ctxt": 0
+        "end": 247
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 37,
-          "end": 45,
-          "ctxt": 0
+          "end": 45
         },
         "value": "supports",
         "raw": "supports"
@@ -122,23 +109,20 @@
         "type": "SupportsCondition",
         "span": {
           "start": 46,
-          "end": 244,
-          "ctxt": 0
+          "end": 244
         },
         "conditions": [
           {
             "type": "Declaration",
             "span": {
               "start": 48,
-              "end": 80,
-              "ctxt": 0
+              "end": 80
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 48,
-                "end": 58,
-                "ctxt": 0
+                "end": 58
               },
               "value": "box-shadow",
               "raw": "box-shadow"
@@ -148,8 +132,7 @@
                 "type": "Integer",
                 "span": {
                   "start": 60,
-                  "end": 61,
-                  "ctxt": 0
+                  "end": 61
                 },
                 "value": 0,
                 "raw": "0"
@@ -158,8 +141,7 @@
                 "type": "Integer",
                 "span": {
                   "start": 62,
-                  "end": 63,
-                  "ctxt": 0
+                  "end": 63
                 },
                 "value": 0,
                 "raw": "0"
@@ -168,15 +150,13 @@
                 "type": "Length",
                 "span": {
                   "start": 64,
-                  "end": 67,
-                  "ctxt": 0
+                  "end": 67
                 },
                 "value": {
                   "type": "Number",
                   "span": {
                     "start": 64,
-                    "end": 65,
-                    "ctxt": 0
+                    "end": 65
                   },
                   "value": 2.0,
                   "raw": "2"
@@ -185,8 +165,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 65,
-                    "end": 67,
-                    "ctxt": 0
+                    "end": 67
                   },
                   "value": "px",
                   "raw": "px"
@@ -196,8 +175,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 68,
-                  "end": 73,
-                  "ctxt": 0
+                  "end": 73
                 },
                 "value": "black",
                 "raw": "black"
@@ -206,8 +184,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 74,
-                  "end": 79,
-                  "ctxt": 0
+                  "end": 79
                 },
                 "value": "inset",
                 "raw": "inset"
@@ -219,15 +196,13 @@
             "type": "SupportsOr",
             "span": {
               "start": 82,
-              "end": 135,
-              "ctxt": 0
+              "end": 135
             },
             "keyword": {
               "type": "Ident",
               "span": {
                 "start": 82,
-                "end": 84,
-                "ctxt": 0
+                "end": 84
               },
               "value": "or",
               "raw": "or"
@@ -236,15 +211,13 @@
               "type": "Declaration",
               "span": {
                 "start": 97,
-                "end": 134,
-                "ctxt": 0
+                "end": 134
               },
               "name": {
                 "type": "Ident",
                 "span": {
                   "start": 97,
-                  "end": 112,
-                  "ctxt": 0
+                  "end": 112
                 },
                 "value": "-moz-box-shadow",
                 "raw": "-moz-box-shadow"
@@ -254,8 +227,7 @@
                   "type": "Integer",
                   "span": {
                     "start": 114,
-                    "end": 115,
-                    "ctxt": 0
+                    "end": 115
                   },
                   "value": 0,
                   "raw": "0"
@@ -264,8 +236,7 @@
                   "type": "Integer",
                   "span": {
                     "start": 116,
-                    "end": 117,
-                    "ctxt": 0
+                    "end": 117
                   },
                   "value": 0,
                   "raw": "0"
@@ -274,15 +245,13 @@
                   "type": "Length",
                   "span": {
                     "start": 118,
-                    "end": 121,
-                    "ctxt": 0
+                    "end": 121
                   },
                   "value": {
                     "type": "Number",
                     "span": {
                       "start": 118,
-                      "end": 119,
-                      "ctxt": 0
+                      "end": 119
                     },
                     "value": 2.0,
                     "raw": "2"
@@ -291,8 +260,7 @@
                     "type": "Ident",
                     "span": {
                       "start": 119,
-                      "end": 121,
-                      "ctxt": 0
+                      "end": 121
                     },
                     "value": "px",
                     "raw": "px"
@@ -302,8 +270,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 122,
-                    "end": 127,
-                    "ctxt": 0
+                    "end": 127
                   },
                   "value": "black",
                   "raw": "black"
@@ -312,8 +279,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 128,
-                    "end": 133,
-                    "ctxt": 0
+                    "end": 133
                   },
                   "value": "inset",
                   "raw": "inset"
@@ -326,15 +292,13 @@
             "type": "SupportsOr",
             "span": {
               "start": 136,
-              "end": 192,
-              "ctxt": 0
+              "end": 192
             },
             "keyword": {
               "type": "Ident",
               "span": {
                 "start": 136,
-                "end": 138,
-                "ctxt": 0
+                "end": 138
               },
               "value": "or",
               "raw": "or"
@@ -343,15 +307,13 @@
               "type": "Declaration",
               "span": {
                 "start": 151,
-                "end": 191,
-                "ctxt": 0
+                "end": 191
               },
               "name": {
                 "type": "Ident",
                 "span": {
                   "start": 151,
-                  "end": 169,
-                  "ctxt": 0
+                  "end": 169
                 },
                 "value": "-webkit-box-shadow",
                 "raw": "-webkit-box-shadow"
@@ -361,8 +323,7 @@
                   "type": "Integer",
                   "span": {
                     "start": 171,
-                    "end": 172,
-                    "ctxt": 0
+                    "end": 172
                   },
                   "value": 0,
                   "raw": "0"
@@ -371,8 +332,7 @@
                   "type": "Integer",
                   "span": {
                     "start": 173,
-                    "end": 174,
-                    "ctxt": 0
+                    "end": 174
                   },
                   "value": 0,
                   "raw": "0"
@@ -381,15 +341,13 @@
                   "type": "Length",
                   "span": {
                     "start": 175,
-                    "end": 178,
-                    "ctxt": 0
+                    "end": 178
                   },
                   "value": {
                     "type": "Number",
                     "span": {
                       "start": 175,
-                      "end": 176,
-                      "ctxt": 0
+                      "end": 176
                     },
                     "value": 2.0,
                     "raw": "2"
@@ -398,8 +356,7 @@
                     "type": "Ident",
                     "span": {
                       "start": 176,
-                      "end": 178,
-                      "ctxt": 0
+                      "end": 178
                     },
                     "value": "px",
                     "raw": "px"
@@ -409,8 +366,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 179,
-                    "end": 184,
-                    "ctxt": 0
+                    "end": 184
                   },
                   "value": "black",
                   "raw": "black"
@@ -419,8 +375,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 185,
-                    "end": 190,
-                    "ctxt": 0
+                    "end": 190
                   },
                   "value": "inset",
                   "raw": "inset"
@@ -433,15 +388,13 @@
             "type": "SupportsOr",
             "span": {
               "start": 193,
-              "end": 244,
-              "ctxt": 0
+              "end": 244
             },
             "keyword": {
               "type": "Ident",
               "span": {
                 "start": 193,
-                "end": 195,
-                "ctxt": 0
+                "end": 195
               },
               "value": "or",
               "raw": "or"
@@ -450,15 +403,13 @@
               "type": "Declaration",
               "span": {
                 "start": 208,
-                "end": 243,
-                "ctxt": 0
+                "end": 243
               },
               "name": {
                 "type": "Ident",
                 "span": {
                   "start": 208,
-                  "end": 221,
-                  "ctxt": 0
+                  "end": 221
                 },
                 "value": "-o-box-shadow",
                 "raw": "-o-box-shadow"
@@ -468,8 +419,7 @@
                   "type": "Integer",
                   "span": {
                     "start": 223,
-                    "end": 224,
-                    "ctxt": 0
+                    "end": 224
                   },
                   "value": 0,
                   "raw": "0"
@@ -478,8 +428,7 @@
                   "type": "Integer",
                   "span": {
                     "start": 225,
-                    "end": 226,
-                    "ctxt": 0
+                    "end": 226
                   },
                   "value": 0,
                   "raw": "0"
@@ -488,15 +437,13 @@
                   "type": "Length",
                   "span": {
                     "start": 227,
-                    "end": 230,
-                    "ctxt": 0
+                    "end": 230
                   },
                   "value": {
                     "type": "Number",
                     "span": {
                       "start": 227,
-                      "end": 228,
-                      "ctxt": 0
+                      "end": 228
                     },
                     "value": 2.0,
                     "raw": "2"
@@ -505,8 +452,7 @@
                     "type": "Ident",
                     "span": {
                       "start": 228,
-                      "end": 230,
-                      "ctxt": 0
+                      "end": 230
                     },
                     "value": "px",
                     "raw": "px"
@@ -516,8 +462,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 231,
-                    "end": 236,
-                    "ctxt": 0
+                    "end": 236
                   },
                   "value": "black",
                   "raw": "black"
@@ -526,8 +471,7 @@
                   "type": "Ident",
                   "span": {
                     "start": 237,
-                    "end": 242,
-                    "ctxt": 0
+                    "end": 242
                   },
                   "value": "inset",
                   "raw": "inset"
@@ -542,15 +486,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 245,
-          "end": 247,
-          "ctxt": 0
+          "end": 247
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 245,
-            "end": 246,
-            "ctxt": 0
+            "end": 246
           },
           "token": "LBrace"
         },
@@ -561,15 +503,13 @@
       "type": "AtRule",
       "span": {
         "start": 250,
-        "end": 370,
-        "ctxt": 0
+        "end": 370
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 251,
-          "end": 259,
-          "ctxt": 0
+          "end": 259
         },
         "value": "supports",
         "raw": "supports"
@@ -578,31 +518,27 @@
         "type": "SupportsCondition",
         "span": {
           "start": 260,
-          "end": 367,
-          "ctxt": 0
+          "end": 367
         },
         "conditions": [
           {
             "type": "SupportsCondition",
             "span": {
               "start": 261,
-              "end": 325,
-              "ctxt": 0
+              "end": 325
             },
             "conditions": [
               {
                 "type": "Declaration",
                 "span": {
                   "start": 262,
-                  "end": 288,
-                  "ctxt": 0
+                  "end": 288
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 262,
-                    "end": 281,
-                    "ctxt": 0
+                    "end": 281
                   },
                   "value": "transition-property",
                   "raw": "transition-property"
@@ -612,8 +548,7 @@
                     "type": "Ident",
                     "span": {
                       "start": 283,
-                      "end": 288,
-                      "ctxt": 0
+                      "end": 288
                     },
                     "value": "color",
                     "raw": "color"
@@ -625,15 +560,13 @@
                 "type": "SupportsOr",
                 "span": {
                   "start": 290,
-                  "end": 325,
-                  "ctxt": 0
+                  "end": 325
                 },
                 "keyword": {
                   "type": "Ident",
                   "span": {
                     "start": 290,
-                    "end": 292,
-                    "ctxt": 0
+                    "end": 292
                   },
                   "value": "or",
                   "raw": "or"
@@ -642,15 +575,13 @@
                   "type": "Declaration",
                   "span": {
                     "start": 305,
-                    "end": 324,
-                    "ctxt": 0
+                    "end": 324
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
                       "start": 305,
-                      "end": 319,
-                      "ctxt": 0
+                      "end": 319
                     },
                     "value": "animation-name",
                     "raw": "animation-name"
@@ -660,8 +591,7 @@
                       "type": "Ident",
                       "span": {
                         "start": 321,
-                        "end": 324,
-                        "ctxt": 0
+                        "end": 324
                       },
                       "value": "foo",
                       "raw": "foo"
@@ -676,15 +606,13 @@
             "type": "SupportsAnd",
             "span": {
               "start": 327,
-              "end": 367,
-              "ctxt": 0
+              "end": 367
             },
             "keyword": {
               "type": "Ident",
               "span": {
                 "start": 327,
-                "end": 330,
-                "ctxt": 0
+                "end": 330
               },
               "value": "and",
               "raw": "and"
@@ -693,15 +621,13 @@
               "type": "Declaration",
               "span": {
                 "start": 342,
-                "end": 366,
-                "ctxt": 0
+                "end": 366
               },
               "name": {
                 "type": "Ident",
                 "span": {
                   "start": 342,
-                  "end": 351,
-                  "ctxt": 0
+                  "end": 351
                 },
                 "value": "transform",
                 "raw": "transform"
@@ -711,15 +637,13 @@
                   "type": "Function",
                   "span": {
                     "start": 353,
-                    "end": 366,
-                    "ctxt": 0
+                    "end": 366
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
                       "start": 353,
-                      "end": 359,
-                      "ctxt": 0
+                      "end": 359
                     },
                     "value": "rotate",
                     "raw": "rotate"
@@ -729,15 +653,13 @@
                       "type": "Angle",
                       "span": {
                         "start": 360,
-                        "end": 365,
-                        "ctxt": 0
+                        "end": 365
                       },
                       "value": {
                         "type": "Number",
                         "span": {
                           "start": 360,
-                          "end": 362,
-                          "ctxt": 0
+                          "end": 362
                         },
                         "value": 10.0,
                         "raw": "10"
@@ -746,8 +668,7 @@
                         "type": "Ident",
                         "span": {
                           "start": 362,
-                          "end": 365,
-                          "ctxt": 0
+                          "end": 365
                         },
                         "value": "deg",
                         "raw": "deg"
@@ -765,15 +686,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 368,
-          "end": 370,
-          "ctxt": 0
+          "end": 370
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 368,
-            "end": 369,
-            "ctxt": 0
+            "end": 369
           },
           "token": "LBrace"
         },

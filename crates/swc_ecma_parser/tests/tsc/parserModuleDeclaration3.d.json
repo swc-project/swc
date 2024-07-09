@@ -2,16 +2,14 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 21,
-    "ctxt": 0
+    "end": 21
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
         "start": 1,
-        "end": 21,
-        "ctxt": 0
+        "end": 21
       },
       "declare": true,
       "global": false,
@@ -19,9 +17,9 @@
         "type": "Identifier",
         "span": {
           "start": 16,
-          "end": 17,
-          "ctxt": 0
+          "end": 17
         },
+        "ctxt": 0,
         "value": "M",
         "optional": false
       },
@@ -29,8 +27,7 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 18,
-          "end": 21,
-          "ctxt": 0
+          "end": 21
         },
         "body": []
       }

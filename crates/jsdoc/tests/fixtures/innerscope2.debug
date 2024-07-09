@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..12#0,
+                span: 1..12,
                 tag_name: Text {
-                    span: 1..12#0,
+                    span: 1..12,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 1..12#0,
+                        span: 1..12,
                         ty: None,
                         name: None,
                     },
@@ -23,25 +23,25 @@
         ],
     },
     JsDoc {
-        span: 72..72#0,
+        span: 72..72,
         description: Text {
-            span: 72..83#0,
+            span: 72..83,
             value: "document me",
         },
         tags: [],
     },
     JsDoc {
-        span: 167..167#0,
+        span: 167..167,
         description: Text {
-            span: 167..178#0,
+            span: 167..178,
             value: "document me",
         },
         tags: [],
     },
     JsDoc {
-        span: 228..228#0,
+        span: 228..228,
         description: Text {
-            span: 228..239#0,
+            span: 228..239,
             value: "document me",
         },
         tags: [],

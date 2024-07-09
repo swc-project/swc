@@ -6,7 +6,7 @@ SingleThreadedComments {
             ): [
                 Comment {
                     kind: Line,
-                    span: 2..9#0,
+                    span: 2..9,
                     text: "/ ref",
                 },
             ],

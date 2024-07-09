@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 117,
-    "ctxt": 0
+    "end": 117
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 27,
-        "ctxt": 0
+        "end": 27
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 7,
-            "end": 20,
-            "ctxt": 0
+            "end": 20
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -54,8 +50,7 @@
       "type": "Comment",
       "span": {
         "start": 27,
-        "end": 45,
-        "ctxt": 0
+        "end": 45
       },
       "data": " Comment A ",
       "raw": "<!-- Comment A -->"
@@ -64,8 +59,7 @@
       "type": "Comment",
       "span": {
         "start": 45,
-        "end": 63,
-        "ctxt": 0
+        "end": 63
       },
       "data": " Comment B ",
       "raw": "<!-- Comment B -->"
@@ -74,8 +68,7 @@
       "type": "Comment",
       "span": {
         "start": 63,
-        "end": 81,
-        "ctxt": 0
+        "end": 81
       },
       "data": " Comment C ",
       "raw": "<!-- Comment C -->"
@@ -84,8 +77,7 @@
       "type": "Comment",
       "span": {
         "start": 81,
-        "end": 99,
-        "ctxt": 0
+        "end": 99
       },
       "data": " Comment D ",
       "raw": "<!-- Comment D -->"
@@ -94,8 +86,7 @@
       "type": "Comment",
       "span": {
         "start": 99,
-        "end": 117,
-        "ctxt": 0
+        "end": 117
       },
       "data": " Comment E ",
       "raw": "<!-- Comment E -->"

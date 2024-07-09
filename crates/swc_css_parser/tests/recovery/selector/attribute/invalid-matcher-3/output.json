@@ -2,31 +2,27 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 46,
-    "ctxt": 0
+    "end": 46
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 45,
-        "ctxt": 0
+        "end": 45
       },
       "prelude": {
         "type": "ListOfComponentValues",
         "span": {
           "start": 1,
-          "end": 25,
-          "ctxt": 0
+          "end": 25
         },
         "children": [
           {
             "type": "PreservedToken",
             "span": {
               "start": 1,
-              "end": 2,
-              "ctxt": 0
+              "end": 2
             },
             "token": {
               "Ident": {
@@ -39,15 +35,13 @@
             "type": "SimpleBlock",
             "span": {
               "start": 2,
-              "end": 24,
-              "ctxt": 0
+              "end": 24
             },
             "name": {
               "type": "PreservedToken",
               "span": {
                 "start": 2,
-                "end": 3,
-                "ctxt": 0
+                "end": 3
               },
               "token": "LBracket"
             },
@@ -56,8 +50,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 3,
-                  "end": 8,
-                  "ctxt": 0
+                  "end": 8
                 },
                 "token": {
                   "Ident": {
@@ -70,8 +63,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 8,
-                  "end": 9,
-                  "ctxt": 0
+                  "end": 9
                 },
                 "token": {
                   "WhiteSpace": {
@@ -83,8 +75,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 9,
-                  "end": 10,
-                  "ctxt": 0
+                  "end": 10
                 },
                 "token": {
                   "Delim": {
@@ -96,8 +87,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 10,
-                  "end": 11,
-                  "ctxt": 0
+                  "end": 11
                 },
                 "token": {
                   "WhiteSpace": {
@@ -109,8 +99,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 11,
-                  "end": 12,
-                  "ctxt": 0
+                  "end": 12
                 },
                 "token": {
                   "Delim": {
@@ -122,8 +111,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 12,
-                  "end": 13,
-                  "ctxt": 0
+                  "end": 13
                 },
                 "token": {
                   "WhiteSpace": {
@@ -135,8 +123,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 13,
-                  "end": 20,
-                  "ctxt": 0
+                  "end": 20
                 },
                 "token": {
                   "String": {
@@ -149,8 +136,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 20,
-                  "end": 21,
-                  "ctxt": 0
+                  "end": 21
                 },
                 "token": {
                   "WhiteSpace": {
@@ -162,8 +148,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 21,
-                  "end": 22,
-                  "ctxt": 0
+                  "end": 22
                 },
                 "token": {
                   "Ident": {
@@ -176,8 +161,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 22,
-                  "end": 23,
-                  "ctxt": 0
+                  "end": 23
                 },
                 "token": {
                   "WhiteSpace": {
@@ -191,8 +175,7 @@
             "type": "PreservedToken",
             "span": {
               "start": 24,
-              "end": 25,
-              "ctxt": 0
+              "end": 25
             },
             "token": {
               "WhiteSpace": {
@@ -206,15 +189,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 25,
-          "end": 45,
-          "ctxt": 0
+          "end": 45
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 25,
-            "end": 26,
-            "ctxt": 0
+            "end": 26
           },
           "token": "LBrace"
         },
@@ -223,15 +204,13 @@
             "type": "Declaration",
             "span": {
               "start": 29,
-              "end": 42,
-              "ctxt": 0
+              "end": 42
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 29,
-                "end": 34,
-                "ctxt": 0
+                "end": 34
               },
               "value": "color",
               "raw": "color"
@@ -241,8 +220,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 36,
-                  "end": 42,
-                  "ctxt": 0
+                  "end": 42
                 },
                 "value": "purple",
                 "raw": "purple"

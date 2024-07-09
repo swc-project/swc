@@ -504,7 +504,7 @@ impl VisitMut for Inlining<'_> {
                 PatFoldingMode::Param => {
                     self.declare(
                         i.to_id(),
-                        Some(Cow::Owned(Expr::Ident(i.id.clone()))),
+                        Some(Cow::Owned(Expr::Ident(Ident::from(i)))),
                         false,
                         VarType::Param,
                     );
@@ -512,7 +512,7 @@ impl VisitMut for Inlining<'_> {
                 PatFoldingMode::CatchParam => {
                     self.declare(
                         i.to_id(),
-                        Some(Cow::Owned(Expr::Ident(i.id.clone()))),
+                        Some(Cow::Owned(Expr::Ident(Ident::from(i)))),
                         false,
                         VarType::Var(VarDeclKind::Var),
                     );
@@ -651,7 +651,7 @@ impl VisitMut for Inlining<'_> {
 
                         if self
                             .scope
-                            .is_inline_prevented(&Expr::Ident(name.id.clone()))
+                            .is_inline_prevented(&Expr::Ident(Ident::from(name)))
                             || !self.scope.has_same_this(&id, node.init.as_deref())
                         {
                             tracing::trace!("Inline is prevented for {:?}", id);
@@ -692,7 +692,7 @@ impl VisitMut for Inlining<'_> {
                                 let e = *e;
                                 if self
                                     .scope
-                                    .is_inline_prevented(&Expr::Ident(name.id.clone()))
+                                    .is_inline_prevented(&Expr::Ident(Ident::from(name)))
                                 {
                                     node.init = Some(Box::new(e));
                                     return;

@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 133,
-    "ctxt": 0
+    "end": 133
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 1,
-            "end": 133,
-            "ctxt": 0
+            "end": 133
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Text",
               "span": {
                 "start": 7,
-                "end": 8,
-                "ctxt": 0
+                "end": 8
               },
               "data": "\n",
               "raw": "\n"
@@ -57,8 +52,7 @@
               "type": "Element",
               "span": {
                 "start": 8,
-                "end": 44,
-                "ctxt": 0
+                "end": 44
               },
               "tagName": "template",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -68,16 +62,14 @@
                 "type": "DocumentFragment",
                 "span": {
                   "start": 8,
-                  "end": 44,
-                  "ctxt": 0
+                  "end": 44
                 },
                 "children": [
                   {
                     "type": "Element",
                     "span": {
                       "start": 18,
-                      "end": 23,
-                      "ctxt": 0
+                      "end": 23
                     },
                     "tagName": "col",
                     "namespace": "http://www.w3.org/1999/xhtml",
@@ -94,8 +86,7 @@
               "type": "Text",
               "span": {
                 "start": 44,
-                "end": 45,
-                "ctxt": 0
+                "end": 45
               },
               "data": "\n",
               "raw": "\n"
@@ -104,8 +95,7 @@
               "type": "Element",
               "span": {
                 "start": 45,
-                "end": 87,
-                "ctxt": 0
+                "end": 87
               },
               "tagName": "template",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -115,16 +105,14 @@
                 "type": "DocumentFragment",
                 "span": {
                   "start": 45,
-                  "end": 87,
-                  "ctxt": 0
+                  "end": 87
                 },
                 "children": [
                   {
                     "type": "Element",
                     "span": {
                       "start": 55,
-                      "end": 60,
-                      "ctxt": 0
+                      "end": 60
                     },
                     "tagName": "col",
                     "namespace": "http://www.w3.org/1999/xhtml",
@@ -141,8 +129,7 @@
               "type": "Text",
               "span": {
                 "start": 87,
-                "end": 88,
-                "ctxt": 0
+                "end": 88
               },
               "data": "\n",
               "raw": "\n"
@@ -151,8 +138,7 @@
               "type": "Element",
               "span": {
                 "start": 88,
-                "end": 125,
-                "ctxt": 0
+                "end": 125
               },
               "tagName": "template",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -162,16 +148,14 @@
                 "type": "DocumentFragment",
                 "span": {
                   "start": 88,
-                  "end": 125,
-                  "ctxt": 0
+                  "end": 125
                 },
                 "children": [
                   {
                     "type": "Element",
                     "span": {
                       "start": 98,
-                      "end": 103,
-                      "ctxt": 0
+                      "end": 103
                     },
                     "tagName": "col",
                     "namespace": "http://www.w3.org/1999/xhtml",
@@ -188,8 +172,7 @@
               "type": "Text",
               "span": {
                 "start": 125,
-                "end": 126,
-                "ctxt": 0
+                "end": 126
               },
               "data": "\n",
               "raw": "\n"

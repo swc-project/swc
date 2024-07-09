@@ -129,7 +129,7 @@ fn identity(entry: PathBuf) {
 
         println!("---------------- JS ----------------\n\n{}", js_content);
 
-        let js_fm = cm.new_source_file(FileName::Anon, js_content.clone());
+        let js_fm = cm.new_source_file(FileName::Anon.into(), js_content.clone());
 
         let mut parser: Parser<Lexer> = Parser::new(
             Syntax::Es(EsSyntax {

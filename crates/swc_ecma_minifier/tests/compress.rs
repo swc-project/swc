@@ -527,7 +527,7 @@ fn fixture(input: PathBuf) {
 
         let expected = {
             let expected = read_to_string(dir.join("output.js")).unwrap();
-            let fm = cm.new_source_file(FileName::Custom("expected.js".into()), expected);
+            let fm = cm.new_source_file(FileName::Custom("expected.js".into()).into(), expected);
             let lexer = Lexer::new(
                 Default::default(),
                 Default::default(),
@@ -580,7 +580,7 @@ fn fixture(input: PathBuf) {
             let identical = (|| -> Option<()> {
                 let expected = {
                     let expected = read_to_string(dir.join("output.terser.js")).ok()?;
-                    let fm = cm.new_source_file(FileName::Anon, expected);
+                    let fm = cm.new_source_file(FileName::Anon.into(), expected);
                     let lexer = Lexer::new(
                         Default::default(),
                         Default::default(),

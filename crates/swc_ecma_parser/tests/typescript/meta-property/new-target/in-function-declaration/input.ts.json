@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 102,
-    "ctxt": 0
+    "end": 102
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 10,
-          "end": 12,
-          "ctxt": 0
+          "end": 12
         },
+        "ctxt": 0,
         "value": "f1",
         "optional": false
       },
@@ -23,30 +22,28 @@
       "decorators": [],
       "span": {
         "start": 1,
-        "end": 34,
-        "ctxt": 0
+        "end": 34
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 15,
-          "end": 34,
-          "ctxt": 0
+          "end": 34
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 21,
-              "end": 32,
-              "ctxt": 0
+              "end": 32
             },
             "expression": {
               "type": "MetaProperty",
               "span": {
                 "start": 21,
-                "end": 31,
-                "ctxt": 0
+                "end": 31
               },
               "kind": "new.target"
             }
@@ -64,9 +61,9 @@
         "type": "Identifier",
         "span": {
           "start": 45,
-          "end": 47,
-          "ctxt": 0
+          "end": 47
         },
+        "ctxt": 0,
         "value": "f2",
         "optional": false
       },
@@ -75,24 +72,24 @@
       "decorators": [],
       "span": {
         "start": 36,
-        "end": 102,
-        "ctxt": 0
+        "end": 102
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 50,
-          "end": 102,
-          "ctxt": 0
+          "end": 102
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
               "start": 56,
-              "end": 100,
-              "ctxt": 0
+              "end": 100
             },
+            "ctxt": 0,
             "kind": "const",
             "declare": false,
             "declarations": [
@@ -100,16 +97,15 @@
                 "type": "VariableDeclarator",
                 "span": {
                   "start": 62,
-                  "end": 99,
-                  "ctxt": 0
+                  "end": 99
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
                     "start": 62,
-                    "end": 63,
-                    "ctxt": 0
+                    "end": 63
                   },
+                  "ctxt": 0,
                   "value": "a",
                   "optional": false,
                   "typeAnnotation": null
@@ -118,31 +114,29 @@
                   "type": "ArrowFunctionExpression",
                   "span": {
                     "start": 66,
-                    "end": 99,
-                    "ctxt": 0
+                    "end": 99
                   },
+                  "ctxt": 0,
                   "params": [],
                   "body": {
                     "type": "BlockStatement",
                     "span": {
                       "start": 72,
-                      "end": 99,
-                      "ctxt": 0
+                      "end": 99
                     },
+                    "ctxt": 0,
                     "stmts": [
                       {
                         "type": "ExpressionStatement",
                         "span": {
                           "start": 82,
-                          "end": 93,
-                          "ctxt": 0
+                          "end": 93
                         },
                         "expression": {
                           "type": "MetaProperty",
                           "span": {
                             "start": 82,
-                            "end": 92,
-                            "ctxt": 0
+                            "end": 92
                           },
                           "kind": "new.target"
                         }

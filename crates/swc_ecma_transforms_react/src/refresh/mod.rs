@@ -35,7 +35,7 @@ enum Persist {
 }
 fn get_persistent_id(ident: &Ident) -> Persist {
     if ident.sym.starts_with(|c: char| c.is_ascii_uppercase()) {
-        if cfg!(debug_assertions) && ident.span.ctxt == SyntaxContext::empty() {
+        if cfg!(debug_assertions) && ident.ctxt == SyntaxContext::empty() {
             panic!("`{}` should be resolved", ident)
         }
         Persist::Component(ident.clone())
@@ -90,13 +90,13 @@ impl<C: Comments> Refresh<C> {
                 match init_expr.as_ref() {
                     // TaggedTpl is for something like styled.div`...`
                     Expr::Arrow(_) | Expr::Fn(_) | Expr::TaggedTpl(_) | Expr::Call(_) => {
-                        return Persist::Component(binding.id.clone())
+                        return Persist::Component(Ident::from(&*binding))
                     }
                     _ => (),
                 }
             }
 
-            if let Persist::Component(persistent_id) = get_persistent_id(&binding.id) {
+            if let Persist::Component(persistent_id) = get_persistent_id(&Ident::from(&*binding)) {
                 return match init_expr.as_mut() {
                     Expr::Fn(_) => Persist::Component(persistent_id),
                     Expr::Arrow(ArrowExpr { body, .. }) => {
@@ -179,7 +179,7 @@ impl<C: Comments> Refresh<C> {
                             span,
                             callee: callee.clone(),
                             args,
-                            type_args: None,
+                            ..Default::default()
                         }))
                     }
                     *first_arg = Box::new(make_assign_stmt(reg_ident, first));
@@ -416,10 +416,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
                             span: DUMMY_SP,
                             expr: Box::new(make_assign_stmt(
                                 ident.clone(),
-                                Box::new(Expr::Ident(Ident::new(
-                                    name.0.clone(),
-                                    DUMMY_SP.with_ctxt(name.1),
-                                ))),
+                                Box::new(Expr::Ident(Ident::new(name.0.clone(), DUMMY_SP, name.1))),
                             )),
                         })))
                     }
@@ -451,6 +448,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
                             definite: false,
                         })
                         .collect(),
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -466,10 +464,9 @@ impl<C: Comments> VisitMut for Refresh<C> {
             items.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
                 expr: Box::new(Expr::Call(CallExpr {
-                    span: DUMMY_SP,
                     callee: quote_ident!(refresh_reg).as_callee(),
                     args: vec![handle.as_arg(), quote_str!(persistent_id.0).as_arg()],
-                    type_args: None,
+                    ..Default::default()
                 })),
             })));
         }
@@ -488,6 +485,6 @@ fn make_hook_reg(expr: &mut Expr, mut hook: HocHook) {
         span,
         callee: hook.callee,
         args,
-        type_args: None,
+        ..Default::default()
     });
 }

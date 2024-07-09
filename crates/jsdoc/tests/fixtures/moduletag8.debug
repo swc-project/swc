@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 1..7#0,
+        span: 1..7,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                         ty: Text {
-                            span: 1..6#0,
+                            span: 1..6,
                             value: "color",
                         },
                     },
@@ -29,45 +29,45 @@
         ],
     },
     JsDoc {
-        span: 29..29#0,
+        span: 29..29,
         description: Text {
-            span: 29..52#0,
+            span: 29..52,
             value: "The name of the module.",
         },
         tags: [],
     },
     JsDoc {
-        span: 90..90#0,
+        span: 90..90,
         description: Text {
-            span: 90..120#0,
+            span: 90..120,
             value: "The most recent blended color.",
         },
         tags: [],
     },
     JsDoc {
-        span: 158..158#0,
+        span: 158..158,
         description: Text {
-            span: 158..184#0,
+            span: 158..184,
             value: "Blend two colors together.",
         },
         tags: [],
     },
     JsDoc {
-        span: 322..322#0,
+        span: 322..322,
         description: Text {
-            span: 322..376#0,
+            span: 322..376,
             value: "Get the red, green, and blue values of a color.\n     *",
         },
         tags: [
             TagItem {
-                span: 322..330#0,
+                span: 322..330,
                 tag_name: Text {
-                    span: 322..330#0,
+                    span: 322..330,
                     value: "function",
                 },
                 tag: Function(
                     FunctionTag {
-                        span: 322..330#0,
+                        span: 322..330,
                         name: None,
                     },
                 ),

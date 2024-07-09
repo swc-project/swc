@@ -15,7 +15,7 @@ static SOURCE: &str = include_str!("../../swc_ecma_minifier/benches/full/typescr
 macro_rules! tr {
     ($b:expr, $tr:expr) => {
         let _ = ::testing::run_test(false, |cm, handler| {
-            let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+            let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
 
             let mut parser = Parser::new(
                 Syntax::Typescript(Default::default()),

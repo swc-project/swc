@@ -68,6 +68,7 @@ impl<'a> HookRegister<'a> {
                 })
                 .collect(),
             declare: false,
+            ..Default::default()
         }
         .into()
     }
@@ -128,7 +129,7 @@ impl<'a> HookRegister<'a> {
                 _ => None,
             };
             if !ident
-                .map(|id| self.current_scope.contains(&id.span.ctxt))
+                .map(|id| self.current_scope.contains(&id.ctxt))
                 .unwrap_or(false)
             {
                 // We don't have anything to put in the array because Hook is out of scope.
@@ -176,9 +177,9 @@ impl<'a> HookRegister<'a> {
                                 elems,
                             }))),
                         })],
+                        ..Default::default()
                     }),
-                    type_params: None,
-                    return_type: None,
+                    ..Default::default()
                 }
                 .as_arg(),
             );
@@ -188,7 +189,7 @@ impl<'a> HookRegister<'a> {
             span: DUMMY_SP,
             callee: handle.as_callee(),
             args,
-            type_args: None,
+            ..Default::default()
         })
     }
 
@@ -208,7 +209,7 @@ impl<'a> VisitMut for HookRegister<'a> {
         let old_ident = self.ident.take();
         let old_stmts = self.extra_stmt.take();
 
-        self.current_scope.push(b.span.ctxt);
+        self.current_scope.push(b.ctxt);
 
         let stmt_count = b.stmts.len();
         let stmts = mem::replace(&mut b.stmts, Vec::with_capacity(stmt_count));
@@ -260,7 +261,7 @@ impl<'a> VisitMut for HookRegister<'a> {
         for decl in n.decls.iter_mut() {
             if let VarDeclarator {
                 // it doesn't quite make sense for other Pat to appear here
-                name: Pat::Ident(BindingIdent { id, .. }),
+                name: Pat::Ident(id),
                 init: Some(init),
                 ..
             } = decl
@@ -271,13 +272,13 @@ impl<'a> VisitMut for HookRegister<'a> {
                         if let Some(sig) =
                             collect_hooks(&mut f.body.as_mut().unwrap().stmts, self.cm)
                         {
-                            self.gen_hook_register_stmt(id.clone(), sig);
+                            self.gen_hook_register_stmt(Ident::from(&*id), sig);
                         }
                     }
                     Expr::Arrow(ArrowExpr { body, .. }) => {
                         body.visit_mut_with(self);
                         if let Some(sig) = collect_hooks_arrow(body, self.cm) {
-                            self.gen_hook_register_stmt(id.clone(), sig);
+                            self.gen_hook_register_stmt(Ident::from(&*id), sig);
                         }
                     }
                     _ => self.visit_mut_expr(init),
@@ -356,6 +357,7 @@ fn collect_hooks_arrow(body: &mut BlockStmtOrExpr, cm: &SourceMap) -> Option<Hoo
                             arg: Some(Box::new(expr.as_mut().take())),
                         }),
                     ],
+                    ..Default::default()
                 });
                 Some(sig)
             } else {

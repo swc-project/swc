@@ -2,16 +2,14 @@
   "type": "DocumentFragment",
   "span": {
     "start": 1,
-    "end": 25,
-    "ctxt": 0
+    "end": 25
   },
   "children": [
     {
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 25,
-        "ctxt": 0
+        "end": 25
       },
       "tagName": "svg",
       "namespace": "http://www.w3.org/2000/svg",
@@ -21,8 +19,7 @@
           "type": "Element",
           "span": {
             "start": 6,
-            "end": 25,
-            "ctxt": 0
+            "end": 25
           },
           "tagName": "tr",
           "namespace": "http://www.w3.org/2000/svg",
@@ -32,8 +29,7 @@
               "type": "Element",
               "span": {
                 "start": 10,
-                "end": 25,
-                "ctxt": 0
+                "end": 25
               },
               "tagName": "td",
               "namespace": "http://www.w3.org/2000/svg",
@@ -43,8 +39,7 @@
                   "type": "Element",
                   "span": {
                     "start": 14,
-                    "end": 25,
-                    "ctxt": 0
+                    "end": 25
                   },
                   "tagName": "title",
                   "namespace": "http://www.w3.org/2000/svg",

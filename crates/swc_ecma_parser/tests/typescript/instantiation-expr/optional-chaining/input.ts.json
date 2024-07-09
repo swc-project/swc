@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 26,
-    "ctxt": 0
+    "end": 26
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 26,
-        "ctxt": 0
+        "end": 26
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 7,
-            "end": 25,
-            "ctxt": 0
+            "end": 25
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 7,
-              "end": 9,
-              "ctxt": 0
+              "end": 9
             },
+            "ctxt": 0,
             "value": "b3",
             "optional": false,
             "typeAnnotation": null
@@ -38,31 +36,29 @@
             "type": "OptionalChainingExpression",
             "span": {
               "start": 12,
-              "end": 25,
-              "ctxt": 0
+              "end": 25
             },
             "optional": true,
             "base": {
               "type": "CallExpression",
               "span": {
                 "start": 12,
-                "end": 25,
-                "ctxt": 0
+                "end": 25
               },
+              "ctxt": 0,
               "callee": {
                 "type": "TsInstantiation",
                 "span": {
                   "start": 12,
-                  "end": 21,
-                  "ctxt": 0
+                  "end": 21
                 },
                 "expression": {
                   "type": "Identifier",
                   "span": {
                     "start": 12,
-                    "end": 13,
-                    "ctxt": 0
+                    "end": 13
                   },
+                  "ctxt": 0,
                   "value": "f",
                   "optional": false
                 },
@@ -70,16 +66,14 @@
                   "type": "TsTypeParameterInstantiation",
                   "span": {
                     "start": 13,
-                    "end": 21,
-                    "ctxt": 0
+                    "end": 21
                   },
                   "params": [
                     {
                       "type": "TsKeywordType",
                       "span": {
                         "start": 14,
-                        "end": 20,
-                        "ctxt": 0
+                        "end": 20
                       },
                       "kind": "number"
                     }

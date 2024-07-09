@@ -2,39 +2,34 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 84,
-    "ctxt": 0
+    "end": 84
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 83,
-        "ctxt": 0
+        "end": 83
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 7,
-          "ctxt": 0
+          "end": 7
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 7,
-              "ctxt": 0
+              "end": 7
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 7,
-                  "ctxt": 0
+                  "end": 7
                 },
                 "nestingSelector": null,
                 "typeSelector": null,
@@ -43,15 +38,13 @@
                     "type": "ClassSelector",
                     "span": {
                       "start": 1,
-                      "end": 7,
-                      "ctxt": 0
+                      "end": 7
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
                         "start": 2,
-                        "end": 7,
-                        "ctxt": 0
+                        "end": 7
                       },
                       "value": "class",
                       "raw": "class"
@@ -67,15 +60,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 8,
-          "end": 83,
-          "ctxt": 0
+          "end": 83
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 8,
-            "end": 9,
-            "ctxt": 0
+            "end": 9
           },
           "token": "LBrace"
         },
@@ -84,15 +75,13 @@
             "type": "Declaration",
             "span": {
               "start": 14,
-              "end": 44,
-              "ctxt": 0
+              "end": 44
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 14,
-                "end": 27,
-                "ctxt": 0
+                "end": 27
               },
               "value": "unicode-range",
               "raw": "unicode-range"
@@ -102,8 +91,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 29,
-                  "end": 30,
-                  "ctxt": 0
+                  "end": 30
                 },
                 "token": {
                   "Ident": {
@@ -116,8 +104,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 30,
-                  "end": 44,
-                  "ctxt": 0
+                  "end": 44
                 },
                 "token": {
                   "Dimension": {
@@ -136,15 +123,13 @@
             "type": "Declaration",
             "span": {
               "start": 50,
-              "end": 80,
-              "ctxt": 0
+              "end": 80
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 50,
-                "end": 63,
-                "ctxt": 0
+                "end": 63
               },
               "value": "unicode-range",
               "raw": "unicode-range"
@@ -154,8 +139,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 65,
-                  "end": 66,
-                  "ctxt": 0
+                  "end": 66
                 },
                 "token": {
                   "Ident": {
@@ -168,8 +152,7 @@
                 "type": "PreservedToken",
                 "span": {
                   "start": 66,
-                  "end": 80,
-                  "ctxt": 0
+                  "end": 80
                 },
                 "token": {
                   "Dimension": {

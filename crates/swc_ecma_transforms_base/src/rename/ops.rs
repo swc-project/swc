@@ -32,7 +32,7 @@ where
         }
 
         let mut orig_name = ident.clone();
-        orig_name.span.ctxt = SyntaxContext::empty();
+        orig_name.ctxt = SyntaxContext::empty();
 
         {
             // Remove span hygiene of the class.
@@ -138,8 +138,8 @@ where
                     *decl = VarDecl {
                         span,
                         kind: VarDeclKind::Let,
-                        declare: false,
                         decls: vec![var],
+                        ..Default::default()
                     }
                     .into();
                     return;
@@ -457,14 +457,14 @@ where
         n.visit_mut_children_with(self);
 
         if let ObjectPatProp::Assign(p) = n {
-            let mut renamed = p.key.id.clone();
+            let mut renamed = Ident::from(&p.key);
             if self.rename_ident(&mut renamed).is_ok() {
                 if renamed.sym == p.key.sym {
                     return;
                 }
 
                 *n = KeyValuePatProp {
-                    key: PropName::Ident(p.key.id.take()),
+                    key: PropName::Ident(p.key.take().into()),
                     value: match p.value.take() {
                         Some(default_expr) => Box::new(Pat::Assign(AssignPat {
                             span: p.span,
@@ -497,7 +497,8 @@ where
                     *prop = Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(Ident {
                             // clear mark
-                            span: i.span.with_ctxt(SyntaxContext::empty()),
+                            span: i.span,
+                            ctxt: SyntaxContext::empty(),
                             ..i.clone()
                         }),
                         value: Box::new(Expr::Ident(renamed)),
@@ -642,7 +643,7 @@ where
                 return Err(());
             }
 
-            ident.span = ident.span.with_ctxt(new_ctxt);
+            ident.ctxt = new_ctxt;
             ident.sym = new_sym;
             return Ok(());
         }

@@ -1,22 +1,22 @@
 [
     JsDoc {
-        span: 1..28#0,
+        span: 1..28,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..9#0,
+                span: 1..9,
                 tag_name: Text {
-                    span: 1..9#0,
+                    span: 1..9,
                     value: "preserve",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 1..9#0,
+                        span: 1..9,
                         extras: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },

@@ -40,8 +40,8 @@ impl SourceMapper for DummySourceMap {
         String::new()
     }
 
-    fn span_to_filename(&self, _: Span) -> FileName {
-        FileName::Anon
+    fn span_to_filename(&self, _: Span) -> Lrc<FileName> {
+        FileName::Anon.into()
     }
 
     fn merge_spans(&self, _: Span, _: Span) -> Option<Span> {
@@ -301,7 +301,7 @@ impl Visit for CharFreqAnalyzer<'_> {
     visit_obj_and_computed!();
 
     fn visit_ident(&mut self, i: &Ident) {
-        if i.sym != "arguments" && i.span.ctxt == self.unresolved_ctxt {
+        if i.sym != "arguments" && i.ctxt == self.unresolved_ctxt {
             return;
         }
 

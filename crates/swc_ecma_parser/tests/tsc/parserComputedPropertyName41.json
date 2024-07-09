@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 47,
-    "ctxt": 0
+    "end": 47
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 16,
-        "end": 47,
-        "ctxt": 0
+        "end": 47
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 20,
-            "end": 47,
-            "ctxt": 0
+            "end": 47
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 20,
-              "end": 21,
-              "ctxt": 0
+              "end": 21
             },
+            "ctxt": 0,
             "value": "v",
             "optional": false,
             "typeAnnotation": null
@@ -38,8 +36,7 @@
             "type": "ObjectExpression",
             "span": {
               "start": 24,
-              "end": 47,
-              "ctxt": 0
+              "end": 47
             },
             "properties": [
               {
@@ -48,23 +45,20 @@
                   "type": "Computed",
                   "span": {
                     "start": 30,
-                    "end": 39,
-                    "ctxt": 0
+                    "end": 39
                   },
                   "expression": {
                     "type": "BinaryExpression",
                     "span": {
                       "start": 31,
-                      "end": 38,
-                      "ctxt": 0
+                      "end": 38
                     },
                     "operator": "in",
                     "left": {
                       "type": "NumericLiteral",
                       "span": {
                         "start": 31,
-                        "end": 32,
-                        "ctxt": 0
+                        "end": 32
                       },
                       "value": 0.0,
                       "raw": "0"
@@ -73,8 +67,7 @@
                       "type": "ArrayExpression",
                       "span": {
                         "start": 36,
-                        "end": 38,
-                        "ctxt": 0
+                        "end": 38
                       },
                       "elements": []
                     }
@@ -84,8 +77,7 @@
                   "type": "BooleanLiteral",
                   "span": {
                     "start": 41,
-                    "end": 45,
-                    "ctxt": 0
+                    "end": 45
                   },
                   "value": true
                 }
