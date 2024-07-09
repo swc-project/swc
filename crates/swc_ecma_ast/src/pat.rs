@@ -150,13 +150,13 @@ pub struct RestPat {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ObjectPatProp {
     #[tag("KeyValuePatternProperty")]
-    KeyValue(KeyValuePatProp),
+    KeyValue(Box<KeyValuePatProp>),
 
     #[tag("AssignmentPatternProperty")]
-    Assign(AssignPatProp),
+    Assign(Box<AssignPatProp>),
 
     #[tag("RestElement")]
-    Rest(RestPat),
+    Rest(Box<RestPat>),
 }
 
 /// `{key: value}`
