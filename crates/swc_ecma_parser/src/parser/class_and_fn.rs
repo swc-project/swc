@@ -423,7 +423,7 @@ impl<I: Tokens> Parser<I> {
             {
                 // Property named `declare`
 
-                let key = Key::Public(PropName::Ident(Ident::new_no_ctxt(
+                let key = Key::Public(PropName::Ident(IdentName::new(
                     "declare".into(),
                     span!(self, start),
                 )));
@@ -471,7 +471,7 @@ impl<I: Tokens> Parser<I> {
         if let Some(accessor_token) = accessor_token {
             // Handle accessor(){}
             if self.is_class_method() {
-                let key = Key::Public(PropName::Ident(Ident::new_no_ctxt(
+                let key = Key::Public(PropName::Ident(IdentName::new(
                     "accessor".into(),
                     accessor_token,
                 )));
@@ -497,7 +497,7 @@ impl<I: Tokens> Parser<I> {
             {
                 // Property named `accessor`
 
-                let key = Key::Public(PropName::Ident(Ident::new_no_ctxt(
+                let key = Key::Public(PropName::Ident(IdentName::new(
                     "accessor".into(),
                     accessor_token,
                 )));
@@ -522,7 +522,7 @@ impl<I: Tokens> Parser<I> {
         if let Some(static_token) = static_token {
             // Handle static(){}
             if self.is_class_method() {
-                let key = Key::Public(PropName::Ident(Ident::new_no_ctxt(
+                let key = Key::Public(PropName::Ident(IdentName::new(
                     "static".into(),
                     static_token,
                 )));
@@ -553,7 +553,7 @@ impl<I: Tokens> Parser<I> {
                 //   {}
                 let is_parsing_static_blocks = is!(self, '{');
                 if !is_parsing_static_blocks {
-                    let key = Key::Public(PropName::Ident(Ident::new_no_ctxt(
+                    let key = Key::Public(PropName::Ident(IdentName::new(
                         "static".into(),
                         static_token,
                     )));
@@ -753,8 +753,8 @@ impl<I: Tokens> Parser<I> {
         }
 
         trace_cur!(self, parse_class_member_with_is_static__normal_class_member);
-        let mut key = if readonly.is_some() && is_one_of!(self, '!', ':') {
-            Key::Public(PropName::Ident(Ident::new_no_ctxt(
+        let key = if readonly.is_some() && is_one_of!(self, '!', ':') {
+            Key::Public(PropName::Ident(IdentName::new(
                 "readonly".into(),
                 readonly.unwrap(),
             )))
@@ -762,10 +762,6 @@ impl<I: Tokens> Parser<I> {
             self.parse_class_prop_name()?
         };
         let is_optional = self.input.syntax().typescript() && eat!(self, '?');
-
-        if let Key::Public(PropName::Ident(i)) = &mut key {
-            i.optional = is_optional;
-        }
 
         if self.is_class_method() {
             // handle a(){} / get(){} / set(){} / async(){}
@@ -1733,7 +1729,7 @@ impl IsSimpleParameterList for Vec<ParamOrTsParamProp> {
 fn is_constructor(key: &Key) -> bool {
     matches!(
         &key,
-        Key::Public(PropName::Ident(Ident {
+        Key::Public(PropName::Ident(IdentName {
             sym: constructor,
             ..
         })) | Key::Public(PropName::Str(Str {
