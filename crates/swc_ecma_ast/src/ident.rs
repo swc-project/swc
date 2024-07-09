@@ -167,6 +167,14 @@ pub struct Ident {
     pub optional: bool,
 }
 
+#[ast_node("IdentifierName")]
+#[derive(Eq, Hash, Default)]
+pub struct IdentName {
+    pub span: Span,
+
+    pub sym: Atom,
+}
+
 impl From<BindingIdent> for Ident {
     fn from(bi: BindingIdent) -> Self {
         bi.id
