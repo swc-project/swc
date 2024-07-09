@@ -317,7 +317,7 @@ impl Spread {
             if let Some(arg) = arg {
                 let ExprOrSpread { expr, spread } = arg;
 
-                fn to_consumable_array(expr: Box<Expr>, span: Span) -> CallExpr {
+                fn to_consumable_array(expr: Expr, span: Span) -> CallExpr {
                     if matches!(*expr, Expr::Lit(Lit::Str(..))) {
                         CallExpr {
                             span,

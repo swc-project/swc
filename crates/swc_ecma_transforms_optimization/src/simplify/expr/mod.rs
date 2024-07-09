@@ -1699,7 +1699,7 @@ impl VisitMut for SimplifyExpr {
         });
     }
 
-    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Expr>) {
         self.maybe_par(cpu_count() * 8, n, |v, n| {
             n.visit_mut_with(v);
         });
@@ -1709,7 +1709,7 @@ impl VisitMut for SimplifyExpr {
 /// make a new boolean expression preserving side effects, if any.
 fn make_bool_expr<I>(ctx: &ExprCtx, span: Span, value: bool, orig: I) -> Box<Expr>
 where
-    I: IntoIterator<Item = Box<Expr>>,
+    I: IntoIterator<Item = Expr>,
 {
     ctx.preserve_effects(span, Lit::Bool(Bool { value, span }).into(), orig)
 }

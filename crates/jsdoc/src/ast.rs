@@ -232,7 +232,7 @@ pub struct ExprWithTypeArgs {
     pub span: Span,
 
     // TODO parent: HeritageClause | JSDocAugmentsTag | JSDocImplementsTag;
-    pub expr: Box<Expr>,
+    pub expr: Expr,
 }
 
 #[ast_node]

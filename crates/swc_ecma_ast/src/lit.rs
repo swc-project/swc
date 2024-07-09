@@ -289,7 +289,7 @@ bridge_from!(Str, Atom, Cow<'_, str>);
 /// If you are creating a boolean literal with a dummy span, please use
 /// `true.into()` or `false.into()`, instead of creating this struct directly.
 ///
-/// All of `Box<Expr>`, `Expr`, `Lit`, `Bool` implements `From<bool>`.
+/// All of `Expr`, `Expr`, `Lit`, `Bool` implements `From<bool>`.
 #[ast_node("BooleanLiteral")]
 #[derive(Copy, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -372,7 +372,7 @@ impl<'a> arbitrary::Arbitrary<'a> for Regex {
 /// If you are creating a numeric literal with a dummy span, please use
 /// `literal.into()`, instead of creating this struct directly.
 ///
-/// All of `Box<Expr>`, `Expr`, `Lit`, `Number` implements `From<64>` and
+/// All of `Expr`, `Expr`, `Lit`, `Number` implements `From<64>` and
 /// `From<usize>`.
 
 #[ast_node("NumericLiteral")]

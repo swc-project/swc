@@ -26,7 +26,7 @@ pub(super) struct ObjectRest {
     /// Variables which should be declared using `var`
     pub mutable_vars: Vec<VarDeclarator>,
     /// Assignment expressions.
-    pub exprs: Vec<Box<Expr>>,
+    pub exprs: Vec<Expr>,
     pub config: Config,
 }
 
@@ -653,7 +653,7 @@ impl ObjectRest {
         &mut self,
         index: &mut usize,
         pat: Pat,
-        obj: Box<Expr>,
+        obj: Expr,
         use_expr_for_assign: bool,
         use_member_for_array: bool,
     ) -> Pat {
@@ -891,7 +891,7 @@ impl ObjectRest {
 
 #[tracing::instrument(level = "info", skip_all)]
 fn object_without_properties(
-    obj: Box<Expr>,
+    obj: Expr,
     excluded_props: Vec<Option<ExprOrSpread>>,
     no_symbol: bool,
 ) -> Expr {

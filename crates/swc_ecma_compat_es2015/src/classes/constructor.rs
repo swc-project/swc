@@ -367,7 +367,7 @@ pub(super) enum ReturningMode {
     Returning {
         /// Mark for `_this`
         mark: Mark,
-        arg: Option<Box<Expr>>,
+        arg: Option<Expr>,
     },
 
     /// `super()` call

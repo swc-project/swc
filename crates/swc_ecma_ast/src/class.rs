@@ -29,7 +29,7 @@ pub struct Class {
     pub body: Vec<ClassMember>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub super_class: Option<Box<Expr>>,
+    pub super_class: Option<Expr>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub is_abstract: bool,
@@ -99,7 +99,7 @@ pub struct ClassProp {
     pub key: PropName,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub value: Option<Box<Expr>>,
+    pub value: Option<Expr>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
@@ -147,7 +147,7 @@ pub struct PrivateProp {
     pub key: PrivateName,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub value: Option<Box<Expr>>,
+    pub value: Option<Expr>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
@@ -242,7 +242,7 @@ pub struct Decorator {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
-    pub expr: Box<Expr>,
+    pub expr: Expr,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, EqIgnoreSpan)]
@@ -318,7 +318,7 @@ pub struct AutoAccessor {
     pub key: Key,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub value: Option<Box<Expr>>,
+    pub value: Option<Expr>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,

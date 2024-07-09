@@ -33,7 +33,7 @@ pub enum Pat {
 
     /// Only for for-in / for-of loops. This is *syntactically* valid.
     #[tag("*")]
-    Expr(Box<Expr>),
+    Expr(Expr),
 }
 
 // Implement Clone without inline to avoid multiple copies of the
@@ -124,7 +124,7 @@ pub struct AssignPat {
 
     pub left: Box<Pat>,
 
-    pub right: Box<Expr>,
+    pub right: Expr,
 }
 
 /// EsTree `RestElement`
@@ -180,5 +180,5 @@ pub struct AssignPatProp {
     pub key: BindingIdent,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub value: Option<Box<Expr>>,
+    pub value: Option<Expr>,
 }

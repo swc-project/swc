@@ -5,7 +5,7 @@ use super::*;
 
 impl<I: Tokens> Parser<I> {
     #[cfg(feature = "verify")]
-    pub(in crate::parser) fn verify_expr(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
+    pub(in crate::parser) fn verify_expr(&mut self, expr: Expr) -> PResult<Expr> {
         let mut v = Verifier { errors: vec![] };
 
         v.visit_expr(&expr);
@@ -18,7 +18,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     #[cfg(not(feature = "verify"))]
-    pub(in crate::parser) fn verify_expr(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
+    pub(in crate::parser) fn verify_expr(&mut self, expr: Expr) -> PResult<Expr> {
         Ok(expr)
     }
 }

@@ -17,7 +17,7 @@ struct ConstPropagation<'a> {
 struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
     /// Stores only inlinable constant variables.
-    vars: AHashMap<Id, Box<Expr>>,
+    vars: AHashMap<Id, Expr>,
 }
 
 impl<'a> Scope<'a> {
@@ -28,7 +28,7 @@ impl<'a> Scope<'a> {
         }
     }
 
-    fn find_var(&self, id: &Id) -> Option<&Box<Expr>> {
+    fn find_var(&self, id: &Id) -> Option<&Expr> {
         if let Some(v) = self.vars.get(id) {
             return Some(v);
         }
