@@ -150,9 +150,9 @@ pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<
                 } else {
                     let fm = c.cm.new_source_file(
                         if options.filename.is_empty() {
-                            FileName::Anon
+                            FileName::Anon.into()
                         } else {
-                            FileName::Real(options.filename.clone().into())
+                            FileName::Real(options.filename.clone().into()).into()
                         },
                         s,
                     );
