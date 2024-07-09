@@ -73,7 +73,7 @@ impl From<Pat> for Param {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ParamOrTsParamProp {
     #[tag("TsParameterProperty")]
-    TsParamProp(TsParamProp),
+    TsParamProp(Box<TsParamProp>),
     #[tag("Parameter")]
     Param(Param),
 }

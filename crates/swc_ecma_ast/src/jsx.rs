@@ -89,9 +89,9 @@ pub enum JSXElementName {
     #[tag("Identifier")]
     Ident(Ident),
     #[tag("JSXMemberExpression")]
-    JSXMemberExpr(JSXMemberExpr),
+    JSXMemberExpr(Box<JSXMemberExpr>),
     #[tag("JSXNamespacedName")]
-    JSXNamespacedName(JSXNamespacedName),
+    JSXNamespacedName(Box<JSXNamespacedName>),
 }
 
 impl Take for JSXElementName {
@@ -168,7 +168,7 @@ pub enum JSXAttrName {
     #[tag("Identifier")]
     Ident(IdentName),
     #[tag("JSXNamespacedName")]
-    JSXNamespacedName(JSXNamespacedName),
+    JSXNamespacedName(Box<JSXNamespacedName>),
 }
 
 #[ast_node]
@@ -184,13 +184,13 @@ pub enum JSXAttrValue {
     Lit(Lit),
 
     #[tag("JSXExpressionContainer")]
-    JSXExprContainer(JSXExprContainer),
+    JSXExprContainer(Box<JSXExprContainer>),
 
     #[tag("JSXElement")]
     JSXElement(Box<JSXElement>),
 
     #[tag("JSXFragment")]
-    JSXFragment(JSXFragment),
+    JSXFragment(Box<JSXFragment>),
 }
 
 #[ast_node("JSXText")]
@@ -242,16 +242,16 @@ pub enum JSXElementChild {
     JSXText(JSXText),
 
     #[tag("JSXExpressionContainer")]
-    JSXExprContainer(JSXExprContainer),
+    JSXExprContainer(Box<JSXExprContainer>),
 
     #[tag("JSXSpreadChild")]
-    JSXSpreadChild(JSXSpreadChild),
+    JSXSpreadChild(Box<JSXSpreadChild>),
 
     #[tag("JSXElement")]
     JSXElement(Box<JSXElement>),
 
     #[tag("JSXFragment")]
-    JSXFragment(JSXFragment),
+    JSXFragment(Box<JSXFragment>),
 }
 
 #[ast_node("JSXFragment")]
