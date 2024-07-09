@@ -238,9 +238,11 @@ pub(super) trait ExprExt {
             | Expr::Class(..)
             | Expr::Tpl(..)
             | Expr::TaggedTpl(..) => false,
-            Expr::Paren(ParenExpr { expr, .. }) => expr.is_valid_simple_assignment_target(strict),
+            Expr::Paren(box ParenExpr { expr, .. }) => {
+                expr.is_valid_simple_assignment_target(strict)
+            }
 
-            Expr::Member(MemberExpr { obj, .. }) => match obj.as_ref() {
+            Expr::Member(box MemberExpr { obj, .. }) => match obj.as_ref() {
                 Expr::Member(..) => obj.is_valid_simple_assignment_target(strict),
                 Expr::OptChain(..) => false,
                 _ => true,
@@ -277,11 +279,11 @@ pub(super) trait ExprExt {
             | Expr::JSXFragment(..) => false,
 
             // typescript
-            Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
-            | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
-            | Expr::TsAs(TsAsExpr { ref expr, .. })
-            | Expr::TsInstantiation(TsInstantiation { ref expr, .. })
-            | Expr::TsSatisfies(TsSatisfiesExpr { ref expr, .. }) => {
+            Expr::TsNonNull(box TsNonNullExpr { ref expr, .. })
+            | Expr::TsTypeAssertion(box TsTypeAssertion { ref expr, .. })
+            | Expr::TsAs(box TsAsExpr { ref expr, .. })
+            | Expr::TsInstantiation(box TsInstantiation { ref expr, .. })
+            | Expr::TsSatisfies(box TsSatisfiesExpr { ref expr, .. }) => {
                 expr.is_valid_simple_assignment_target(strict)
             }
 
