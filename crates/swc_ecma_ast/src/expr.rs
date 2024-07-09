@@ -336,11 +336,13 @@ impl Expr {
         if exprs.len() == 1 {
             exprs.remove(0)
         } else {
-            Box::new(SeqExpr {
-                span: DUMMY_SP,
-                exprs,
-            })
-            .into()
+            Box::new(
+                SeqExpr {
+                    span: DUMMY_SP,
+                    exprs,
+                }
+                .into(),
+            )
         }
     }
 
@@ -353,7 +355,7 @@ impl Expr {
     ///
     /// This preserves SyntaxContext of [`Expr::Ident`], and noop for
     /// [`Expr::JSXMember`] and [`Expr::JSXNamespacedName`].
-    pub fn with_span(mut self, span: Span) -> Box<Expr> {
+    pub fn with_span(mut self, span: Span) -> Self {
         self.set_span(span);
         self
     }
@@ -530,13 +532,13 @@ impl ObjectLit {
                     Prop::KeyValue(kv) => {
                         let key = match &kv.key {
                             PropName::Ident(i) => i.clone(),
-                            PropName::Str(s) => Ident::new_no_ctxt(s.value.clone(), s.span),
+                            PropName::Str(s) => IdentName::new(s.value.clone(), s.span),
                             _ => return None,
                         };
 
                         values.push(ImportWithItem {
                             key,
-                            value: match &kv.value {
+                            value: match &*kv.value {
                                 Expr::Lit(s) => {
                                     let Lit::Str(s) = &**s else { return None };
                                     s.clone()

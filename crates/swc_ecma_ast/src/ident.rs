@@ -430,6 +430,12 @@ impl Ident {
     }
 }
 
+impl IdentName {
+    pub const fn new(sym: Atom, span: Span) -> Self {
+        IdentName { span, sym }
+    }
+}
+
 static RESERVED: phf::Set<&str> = phf_set!(
     "break",
     "case",
