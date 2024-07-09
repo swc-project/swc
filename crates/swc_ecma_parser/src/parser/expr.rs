@@ -1723,11 +1723,7 @@ impl<I: Tokens> Parser<I> {
             }
             match *cur!(self, true) {
                 Token::JSXText { .. } => {
-                    return self
-                        .parse_jsx_text()
-                        .map(Lit::JSXText)
-                        .map(Expr::Lit)
-                        .map(Box::new);
+                    return self.parse_jsx_text().map(Lit::JSXText).map(Expr::from);
                 }
                 Token::JSXTagStart => {
                     return self.parse_jsx_element().map(into_expr);
