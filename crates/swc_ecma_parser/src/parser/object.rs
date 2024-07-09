@@ -308,7 +308,7 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
                                         parser.emit_err(key_span, SyntaxError::TS1056);
                                     }
 
-                                    PropOrSpread::Prop(Box::new(Prop::Getter(GetterProp {
+                                    PropOrSpread::Prop(Prop::Getter(Box::new(GetterProp {
                                         span: span!(parser, start),
                                         key,
                                         type_ann: return_type,
@@ -375,7 +375,7 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
                                         );
 
                                         // debug_assert_eq!(params.len(), 1);
-                                        PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
+                                        PropOrSpread::Prop(Prop::Setter(Box::new(SetterProp {
                                             span: span!(parser, start),
                                             key,
                                             body,
@@ -395,7 +395,7 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
                                 is_generator,
                             )
                             .map(|function| {
-                                PropOrSpread::Prop(Box::new(Prop::Method(MethodProp {
+                                PropOrSpread::Prop(Prop::Method(Box::new(MethodProp {
                                     key,
                                     function,
                                 })))
