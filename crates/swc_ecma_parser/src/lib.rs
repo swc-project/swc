@@ -125,6 +125,7 @@
 #![allow(clippy::match_like_matches_macro)]
 #![feature(box_patterns)] // TODO
 
+use either::Either;
 use error::Error;
 use lexer::Lexer;
 use serde::{Deserialize, Serialize};
@@ -145,6 +146,8 @@ pub mod token;
 pub mod error;
 pub mod lexer;
 mod parser;
+
+type EitherBoxed<A, B> = Either<Box<A>, Box<B>>;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(deny_unknown_fields, tag = "syntax")]
