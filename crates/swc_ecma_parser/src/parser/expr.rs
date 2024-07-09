@@ -924,15 +924,12 @@ impl<I: Tokens> Parser<I> {
             .collect::<Result<Vec<_>, _>>()?;
         if let Some(async_span) = async_span {
             // It's a call expression
-            return Ok(Expr::Call(CallExpr {
+            return Ok(Expr::Call(Box::new(CallExpr {
                 span: span!(self, async_span.lo()),
-                callee: Callee::Expr(Box::new(Expr::Ident(Ident::new_no_ctxt(
-                    "async".into(),
-                    async_span,
-                )))),
+                callee: Callee::Expr(Expr::Ident(Ident::new_no_ctxt("async".into(), async_span))),
                 args: expr_or_spreads,
                 ..Default::default()
-            }));
+            })));
         }
 
         // It was not head of arrow function.
