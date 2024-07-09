@@ -452,11 +452,11 @@ fn get_qualified_jsx_name(name: &JSXElementName) -> JsWord {
     }
     match *name {
         JSXElementName::Ident(ref i) => i.sym.clone(),
-        JSXElementName::JSXNamespacedName(JSXNamespacedName { ref ns, ref name }) => {
-            format!("{}:{}", ns.sym, name.sym).into()
-        }
-        JSXElementName::JSXMemberExpr(JSXMemberExpr { ref obj, ref prop }) => {
-            format!("{}.{}", get_qualified_obj_name(obj), prop.sym).into()
-        }
+        JSXElementName::JSXNamespacedName(JSXNamespacedName {
+            ref ns, ref name, ..
+        }) => format!("{}:{}", ns.sym, name.sym).into(),
+        JSXElementName::JSXMemberExpr(JSXMemberExpr {
+            ref obj, ref prop, ..
+        }) => format!("{}.{}", get_qualified_obj_name(obj), prop.sym).into(),
     }
 }

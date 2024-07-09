@@ -52,7 +52,7 @@ impl<I: Tokens> Parser<I> {
 
     /// Use this when spec says "IdentifierName".
     /// This allows idents like `catch`.
-    pub(super) fn parse_ident_name(&mut self) -> PResult<Ident> {
+    pub(super) fn parse_ident_name(&mut self) -> PResult<IdentName> {
         let in_type = self.ctx().in_type;
 
         let start = cur_pos!(self);
@@ -71,7 +71,7 @@ impl<I: Tokens> Parser<I> {
             _ => syntax_error!(self, SyntaxError::ExpectedIdent),
         };
 
-        Ok(Ident::new_no_ctxt(w, span!(self, start)))
+        Ok(IdentName::new(w, span!(self, start)))
     }
 
     // https://tc39.es/ecma262/#prod-ModuleExportName
