@@ -192,7 +192,7 @@ fn metadata(key: &str, value: &str) -> PropOrSpread {
     })))
 }
 
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub(crate) struct ExportMetadata {
     pub injected: bool,
     pub export_ctxt: Option<SyntaxContext>,

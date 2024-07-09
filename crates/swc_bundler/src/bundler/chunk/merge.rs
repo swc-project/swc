@@ -619,12 +619,18 @@ where
                                 },
                                 ImportSpecifier::Default(s) => {
                                     new.push(
-                                        Ident::new_no_ctxt("default".into(), import.span)
-                                            .assign_to(s.local.clone())
-                                            .into_module_item(
-                                                injected_ctxt,
-                                                "prepare -> default import",
-                                            ),
+                                        Ident::new(
+                                            "default".into(),
+                                            import.span,
+                                            ExportMetadata::decode(import.with.as_deref())
+                                                .export_ctxt
+                                                .unwrap(),
+                                        )
+                                        .assign_to(s.local.clone())
+                                        .into_module_item(
+                                            injected_ctxt,
+                                            "prepare -> default import",
+                                        ),
                                     );
                                 }
                                 ImportSpecifier::Namespace(s) => {
