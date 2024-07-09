@@ -2264,7 +2264,7 @@ export default function waitUntil(callback, options = {}) {
         let src = "class Foo { static { 1 + 1; } }";
         assert_eq_ignore_span!(
             test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr()),
-            Box::new(Expr::Class(ClassExpr {
+            Expr::Class(Box::new(ClassExpr {
                 ident: Some(Ident {
                     span,
                     sym: "Foo".into(),
