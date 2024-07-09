@@ -2,16 +2,14 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 36,
-    "ctxt": 0
+    "end": 36
   },
   "children": [
     {
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 36,
-        "ctxt": 0
+        "end": 36
       },
       "tagName": "root",
       "attributes": [],
@@ -20,8 +18,7 @@
           "type": "Text",
           "span": {
             "start": 7,
-            "end": 12,
-            "ctxt": 0
+            "end": 12
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -30,8 +27,7 @@
           "type": "Element",
           "span": {
             "start": 12,
-            "end": 28,
-            "ctxt": 0
+            "end": 28
           },
           "tagName": "c",
           "attributes": [
@@ -39,8 +35,7 @@
               "type": "Attribute",
               "span": {
                 "start": 15,
-                "end": 23,
-                "ctxt": 0
+                "end": 23
               },
               "namespace": null,
               "prefix": null,
@@ -56,8 +51,7 @@
           "type": "Text",
           "span": {
             "start": 28,
-            "end": 29,
-            "ctxt": 0
+            "end": 29
           },
           "data": "\n",
           "raw": "\n"

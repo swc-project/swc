@@ -762,7 +762,8 @@ impl Pure<'_> {
                             );
                             *e = Expr::Ident(Ident::new(
                                 "NaN".into(),
-                                e.span().with_ctxt(SyntaxContext::empty()),
+                                e.span(),
+                                SyntaxContext::empty(),
                             ))
                         }
                     }
@@ -800,7 +801,8 @@ impl Pure<'_> {
                             );
                             *e = Expr::Ident(Ident::new(
                                 "NaN".into(),
-                                e.span().with_ctxt(SyntaxContext::empty()),
+                                e.span(),
+                                SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
                             ))
                         }
                     }

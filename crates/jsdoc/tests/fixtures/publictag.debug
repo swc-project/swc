@@ -1,23 +1,23 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..20#0,
+            span: 1..20,
             value: "Public class.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 1..6#0,
+                span: 1..6,
                 tag_name: Text {
-                    span: 1..6#0,
+                    span: 1..6,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 1..6#0,
+                        span: 1..6,
                         ty: Some(
                             Text {
-                                span: 1..10#0,
+                                span: 1..10,
                                 value: "* @public",
                             },
                         ),

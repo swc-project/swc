@@ -144,6 +144,7 @@ impl ClassFieldsUseSet {
                         kind: VarDeclKind::Let,
                         declare: false,
                         decls: var_decls,
+                        ..Default::default()
                     }
                     .into(),
                 ))
@@ -204,6 +205,7 @@ impl VisitMut for FieldsHandler {
                                 body: BlockStmt {
                                     span: DUMMY_SP,
                                     stmts: vec![init_expr.into_stmt()],
+                                    ..Default::default()
                                 },
                             }
                             .into();
@@ -312,6 +314,7 @@ impl VisitMut for ComputedFieldsHandler {
                     body: BlockStmt {
                         span: DUMMY_SP,
                         stmts: self.static_init_blocks.take(),
+                        ..Default::default()
                     },
                 }
                 .into(),

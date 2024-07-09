@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 136,
-    "end": 166,
-    "ctxt": 0
+    "end": 166
   },
   "body": [
     {
       "type": "TsImportEqualsDeclaration",
       "span": {
         "start": 136,
-        "end": 166,
-        "ctxt": 0
+        "end": 166
       },
       "isExport": false,
       "isTypeOnly": false,
@@ -19,9 +17,9 @@
         "type": "Identifier",
         "span": {
           "start": 143,
-          "end": 146,
-          "ctxt": 0
+          "end": 146
         },
+        "ctxt": 0,
         "value": "foo",
         "optional": false
       },
@@ -29,15 +27,13 @@
         "type": "TsExternalModuleReference",
         "span": {
           "start": 149,
-          "end": 165,
-          "ctxt": 0
+          "end": 165
         },
         "expression": {
           "type": "StringLiteral",
           "span": {
             "start": 157,
-            "end": 164,
-            "ctxt": 0
+            "end": 164
           },
           "value": "./foo",
           "raw": "\"./foo\""

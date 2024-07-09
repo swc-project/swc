@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 146,
-    "ctxt": 0
+    "end": 146
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 16,
-        "end": 97,
-        "ctxt": 0
+        "end": 97
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,54 +19,49 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 20,
-            "end": 96,
-            "ctxt": 0
+            "end": 96
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 20,
-              "end": 48,
-              "ctxt": 0
+              "end": 48
             },
+            "ctxt": 0,
             "value": "iterableWithOptionalIterator",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 48,
-                "end": 96,
-                "ctxt": 0
+                "end": 96
               },
               "typeAnnotation": {
                 "type": "TsTypeLiteral",
                 "span": {
                   "start": 50,
-                  "end": 96,
-                  "ctxt": 0
+                  "end": 96
                 },
                 "members": [
                   {
                     "type": "TsMethodSignature",
                     "span": {
                       "start": 56,
-                      "end": 94,
-                      "ctxt": 0
+                      "end": 94
                     },
                     "key": {
                       "type": "MemberExpression",
                       "span": {
                         "start": 57,
-                        "end": 72,
-                        "ctxt": 0
+                        "end": 72
                       },
                       "object": {
                         "type": "Identifier",
                         "span": {
                           "start": 57,
-                          "end": 63,
-                          "ctxt": 0
+                          "end": 63
                         },
+                        "ctxt": 0,
                         "value": "Symbol",
                         "optional": false
                       },
@@ -75,9 +69,9 @@
                         "type": "Identifier",
                         "span": {
                           "start": 64,
-                          "end": 72,
-                          "ctxt": 0
+                          "end": 72
                         },
+                        "ctxt": 0,
                         "value": "iterator",
                         "optional": false
                       }
@@ -89,23 +83,21 @@
                       "type": "TsTypeAnnotation",
                       "span": {
                         "start": 76,
-                        "end": 94,
-                        "ctxt": 0
+                        "end": 94
                       },
                       "typeAnnotation": {
                         "type": "TsTypeReference",
                         "span": {
                           "start": 78,
-                          "end": 94,
-                          "ctxt": 0
+                          "end": 94
                         },
                         "typeName": {
                           "type": "Identifier",
                           "span": {
                             "start": 78,
-                            "end": 86,
-                            "ctxt": 0
+                            "end": 86
                           },
+                          "ctxt": 0,
                           "value": "Iterator",
                           "optional": false
                         },
@@ -113,16 +105,14 @@
                           "type": "TsTypeParameterInstantiation",
                           "span": {
                             "start": 86,
-                            "end": 94,
-                            "ctxt": 0
+                            "end": 94
                           },
                           "params": [
                             {
                               "type": "TsKeywordType",
                               "span": {
                                 "start": 87,
-                                "end": 93,
-                                "ctxt": 0
+                                "end": 93
                               },
                               "kind": "string"
                             }
@@ -145,17 +135,16 @@
       "type": "ForOfStatement",
       "span": {
         "start": 99,
-        "end": 146,
-        "ctxt": 0
+        "end": 146
       },
       "await": false,
       "left": {
         "type": "VariableDeclaration",
         "span": {
           "start": 104,
-          "end": 109,
-          "ctxt": 0
+          "end": 109
         },
+        "ctxt": 0,
         "kind": "var",
         "declare": false,
         "declarations": [
@@ -163,16 +152,15 @@
             "type": "VariableDeclarator",
             "span": {
               "start": 108,
-              "end": 109,
-              "ctxt": 0
+              "end": 109
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 108,
-                "end": 109,
-                "ctxt": 0
+                "end": 109
               },
+              "ctxt": 0,
               "value": "v",
               "optional": false,
               "typeAnnotation": null
@@ -186,9 +174,9 @@
         "type": "Identifier",
         "span": {
           "start": 113,
-          "end": 141,
-          "ctxt": 0
+          "end": 141
         },
+        "ctxt": 0,
         "value": "iterableWithOptionalIterator",
         "optional": false
       },
@@ -196,9 +184,9 @@
         "type": "BlockStatement",
         "span": {
           "start": 143,
-          "end": 146,
-          "ctxt": 0
+          "end": 146
         },
+        "ctxt": 0,
         "stmts": []
       }
     }

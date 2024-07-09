@@ -2,46 +2,41 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 18,
-    "ctxt": 0
+    "end": 18
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 18,
-        "ctxt": 0
+        "end": 18
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 1,
-          "end": 18,
-          "ctxt": 0
+          "end": 18
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
             "start": 1,
-            "end": 14,
-            "ctxt": 0
+            "end": 14
           },
           "object": {
             "type": "MemberExpression",
             "span": {
               "start": 1,
-              "end": 7,
-              "ctxt": 0
+              "end": 7
             },
             "object": {
               "type": "Identifier",
               "span": {
                 "start": 1,
-                "end": 4,
-                "ctxt": 0
+                "end": 4
               },
+              "ctxt": 0,
               "value": "obj",
               "optional": false
             },
@@ -49,15 +44,13 @@
               "type": "Computed",
               "span": {
                 "start": 4,
-                "end": 7,
-                "ctxt": 0
+                "end": 7
               },
               "expression": {
                 "type": "NumericLiteral",
                 "span": {
                   "start": 5,
-                  "end": 6,
-                  "ctxt": 0
+                  "end": 6
                 },
                 "value": 0.0,
                 "raw": "0"
@@ -68,15 +61,13 @@
             "type": "Computed",
             "span": {
               "start": 7,
-              "end": 14,
-              "ctxt": 0
+              "end": 14
             },
             "expression": {
               "type": "StringLiteral",
               "span": {
                 "start": 8,
-                "end": 13,
-                "ctxt": 0
+                "end": 13
               },
               "value": "foo",
               "raw": "'foo'"
@@ -87,8 +78,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 17,
-            "end": 18,
-            "ctxt": 0
+            "end": 18
           },
           "value": 1.0,
           "raw": "1"

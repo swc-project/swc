@@ -117,6 +117,7 @@ impl Pure<'_> {
                     Box::new(Stmt::Block(BlockStmt {
                         span: DUMMY_SP,
                         stmts: cons,
+                        ..Default::default()
                     }))
                 };
 
@@ -152,6 +153,7 @@ impl Pure<'_> {
                     *alt_of_alt = Box::new(Stmt::Block(BlockStmt {
                         span: DUMMY_SP,
                         stmts: vec![*alt_of_alt.take()],
+                        ..Default::default()
                     }));
                 }
                 _ => {

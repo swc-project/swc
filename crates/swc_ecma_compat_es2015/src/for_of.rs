@@ -1,7 +1,7 @@
 use std::mem::take;
 
 use serde::Deserialize;
-use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
     helper,
@@ -135,6 +135,7 @@ impl ForOf {
                 _ => BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![*body],
+                    ..Default::default()
                 },
             };
 
@@ -157,6 +158,7 @@ impl ForOf {
                                 init: Some(arr.computed_member(i).into()),
                                 definite: false,
                             }],
+                            ..Default::default()
                         }
                         .into(),
                     )
@@ -186,6 +188,7 @@ impl ForOf {
                         kind: VarDeclKind::Let,
                         declare: false,
                         decls,
+                        ..Default::default()
                     }
                     .into(),
                 ),
@@ -218,7 +221,7 @@ impl ForOf {
                         span: DUMMY_SP,
                         callee: helper!(create_for_of_iterator_helper_loose),
                         args: vec![right.as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }))),
                     definite: Default::default(),
                 },
@@ -233,8 +236,8 @@ impl ForOf {
             let mut body = match *body {
                 Stmt::Block(b) => b,
                 _ => BlockStmt {
-                    span: DUMMY_SP,
                     stmts: vec![*body],
+                    ..Default::default()
                 },
             };
 
@@ -248,15 +251,14 @@ impl ForOf {
                     prepend_stmt(
                         &mut body.stmts,
                         VarDecl {
-                            span: DUMMY_SP,
                             kind: var.kind,
-                            declare: false,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
                                 name: var.decls.into_iter().next().unwrap().name,
                                 init: Some(step.clone().make_member(quote_ident!("value")).into()),
                                 definite: false,
                             }],
+                            ..Default::default()
                         }
                         .into(),
                     )
@@ -290,7 +292,7 @@ impl ForOf {
                         span: DUMMY_SP,
                         callee: iterator.as_callee(),
                         args: vec![],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }
                     .into(),
                 }
@@ -302,10 +304,9 @@ impl ForOf {
                 span,
                 init: Some(
                     VarDecl {
-                        span: DUMMY_SP,
                         kind: VarDeclKind::Var,
-                        declare: false,
                         decls,
+                        ..Default::default()
                     }
                     .into(),
                 ),
@@ -324,17 +325,19 @@ impl ForOf {
             };
         }
 
-        let var_span = left.span().apply_mark(Mark::fresh(Mark::root()));
+        let var_span = left.span();
+        let var_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
 
         let mut body = match *body {
             Stmt::Block(block) => block,
             body => BlockStmt {
                 span: DUMMY_SP,
                 stmts: vec![body],
+                ..Default::default()
             },
         };
 
-        let step = quote_ident!(var_span, "_step");
+        let step = quote_ident!(var_ctxt, var_span, "_step");
         let step_value = step.clone().make_member(quote_ident!("value"));
         body.stmts.insert(
             0,
@@ -349,6 +352,7 @@ impl ForOf {
                             ..var.decls.pop().unwrap()
                         }],
                         declare: false,
+                        ..Default::default()
                     }
                     .into()
                 }
@@ -366,29 +370,30 @@ impl ForOf {
             },
         );
 
-        let iterator = quote_ident!(var_span, "_iterator");
+        let iterator = quote_ident!(var_ctxt, var_span, "_iterator");
         // `_iterator.return`
         let iterator_return = iterator.clone().make_member(quote_ident!("return")).into();
 
-        let normal_completion_ident = Ident::new("_iteratorNormalCompletion".into(), var_span);
+        let normal_completion_ident =
+            Ident::new("_iteratorNormalCompletion".into(), var_span, var_ctxt);
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: normal_completion_ident.clone().into(),
             init: Some(true.into()),
             definite: false,
         });
-        let error_flag_ident = Ident::new("_didIteratorError".into(), var_span);
+        let error_flag_ident = Ident::new("_didIteratorError".into(), var_span, var_ctxt);
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: error_flag_ident.clone().into(),
             init: Some(false.into()),
             definite: false,
         });
-        let error_ident = Ident::new("_iteratorError".into(), var_span);
+        let error_ident = Ident::new("_iteratorError".into(), var_span, var_ctxt);
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: error_ident.clone().into(),
-            init: Some(Box::new(Expr::Ident(Ident::new(
+            init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
                 "undefined".into(),
                 DUMMY_SP,
             )))),
@@ -409,10 +414,14 @@ impl ForOf {
                             init: Some(Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
                                 callee: right
-                                    .computed_member(member_expr!(DUMMY_SP, Symbol.iterator))
+                                    .computed_member(member_expr!(
+                                        Default::default(),
+                                        Default::default(),
+                                        Symbol.iterator
+                                    ))
                                     .as_callee(),
                                 args: vec![],
-                                type_args: Default::default(),
+                                ..Default::default()
                             }))),
                             definite: false,
                         },
@@ -423,6 +432,7 @@ impl ForOf {
                             definite: false,
                         },
                     ],
+                    ..Default::default()
                 }
                 .into(),
             ),
@@ -441,7 +451,7 @@ impl ForOf {
                             // `_iterator.next`
                             callee: iterator.make_member(quote_ident!("next")).as_callee(),
                             args: vec![],
-                            type_args: Default::default(),
+                            ..Default::default()
                         })),
                     }));
 
@@ -479,6 +489,7 @@ impl ForOf {
             block: BlockStmt {
                 span: DUMMY_SP,
                 stmts: vec![for_stmt],
+                ..Default::default()
             },
             handler: Some(CatchClause {
                 span: DUMMY_SP,
@@ -486,7 +497,6 @@ impl ForOf {
                 // _didIteratorError = true;
                 // _iteratorError = err;
                 body: BlockStmt {
-                    span: DUMMY_SP,
                     stmts: vec![
                         // _didIteratorError = true;
                         AssignExpr {
@@ -505,16 +515,17 @@ impl ForOf {
                         }
                         .into_stmt(),
                     ],
+                    ..Default::default()
                 },
             }),
             finalizer: Some(BlockStmt {
-                span: DUMMY_SP,
                 stmts: vec![make_finally_block(
                     iterator_return,
                     &normal_completion_ident,
                     error_flag_ident,
                     error_ident,
                 )],
+                ..Default::default()
             }),
         }
         .into()
@@ -571,18 +582,18 @@ fn make_finally_block(
                             span: DUMMY_SP,
                             callee: iterator_return.as_callee(),
                             args: vec![],
-                            type_args: Default::default(),
+                            ..Default::default()
                         }
                         .into_stmt()],
+                        ..Default::default()
                     })),
                     alt: None,
                 }),
             ],
+            ..Default::default()
         },
         handler: None,
         finalizer: Some(BlockStmt {
-            span: DUMMY_SP,
-
             stmts: vec![
                 // if (_didIteratorError) {
                 //   throw _iteratorError;
@@ -591,15 +602,16 @@ fn make_finally_block(
                     span: DUMMY_SP,
                     test: Box::new(Expr::Ident(error_flag_ident)),
                     cons: Box::new(Stmt::Block(BlockStmt {
-                        span: DUMMY_SP,
                         stmts: vec![Stmt::Throw(ThrowStmt {
                             span: DUMMY_SP,
                             arg: Box::new(Expr::Ident(error_ident)),
                         })],
+                        ..Default::default()
                     })),
                     alt: None,
                 }),
             ],
+            ..Default::default()
         }),
     }
     .into()
@@ -630,6 +642,7 @@ impl ParExplode for ForOf {
                     kind: VarDeclKind::Var,
                     decls: take(&mut self.top_level_vars),
                     declare: false,
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -646,6 +659,7 @@ impl ParExplode for ForOf {
                     kind: VarDeclKind::Var,
                     decls: take(&mut self.top_level_vars),
                     declare: false,
+                    ..Default::default()
                 }
                 .into(),
             );

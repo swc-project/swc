@@ -53,13 +53,13 @@ impl From<TsEnumRecordValue> for Expr {
             TsEnumRecordValue::Number(num) if f64::is_nan(num) => Expr::Ident(Ident {
                 span: DUMMY_SP,
                 sym: "NaN".into(),
-                optional: false,
+                ..Default::default()
             }),
             TsEnumRecordValue::Number(num) if f64::is_infinite(num) => {
                 let value = Expr::Ident(Ident {
                     span: DUMMY_SP,
                     sym: "Infinity".into(),
-                    optional: false,
+                    ..Default::default()
                 });
 
                 if f64::is_sign_negative(num) {
@@ -107,13 +107,13 @@ impl<'a> EnumValueComputer<'a> {
         match *expr {
             Expr::Lit(Lit::Str(s)) => TsEnumRecordValue::String(s.value),
             Expr::Lit(Lit::Num(n)) => TsEnumRecordValue::Number(n.value),
-            Expr::Ident(Ident { span, sym, .. })
-                if &*sym == "NaN" && span.ctxt.has_mark(self.top_level_mark) =>
+            Expr::Ident(Ident { ctxt, sym, .. })
+                if &*sym == "NaN" && ctxt.has_mark(self.top_level_mark) =>
             {
                 TsEnumRecordValue::Number(f64::NAN)
             }
-            Expr::Ident(Ident { span, sym, .. })
-                if &*sym == "Infinity" && span.ctxt.has_mark(self.top_level_mark) =>
+            Expr::Ident(Ident { ctxt, sym, .. })
+                if &*sym == "Infinity" && ctxt.has_mark(self.top_level_mark) =>
             {
                 TsEnumRecordValue::Number(f64::INFINITY)
             }

@@ -239,6 +239,7 @@ impl Hoister<'_> {
                                         kind: VarDeclKind::Var,
                                         declare: false,
                                         decls: var_decls.take(),
+                                        ..Default::default()
                                     }
                                     .into(),
                                 ));
@@ -258,6 +259,7 @@ impl Hoister<'_> {
                 kind: VarDeclKind::Var,
                 declare: false,
                 decls: var_decls,
+                ..Default::default()
             }
             .into(),
         ));

@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 38,
-    "ctxt": 0
+    "end": 38
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 38,
-        "ctxt": 0
+        "end": 38
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 7,
-            "end": 38,
-            "ctxt": 0
+            "end": 38
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 7,
-              "end": 8,
-              "ctxt": 0
+              "end": 8
             },
+            "ctxt": 0,
             "value": "r",
             "optional": false,
             "typeAnnotation": null
@@ -38,17 +36,17 @@
             "type": "ArrowFunctionExpression",
             "span": {
               "start": 9,
-              "end": 38,
-              "ctxt": 0
+              "end": 38
             },
+            "ctxt": 0,
             "params": [
               {
                 "type": "Identifier",
                 "span": {
                   "start": 9,
-                  "end": 10,
-                  "ctxt": 0
+                  "end": 10
                 },
+                "ctxt": 0,
                 "value": "n",
                 "optional": false,
                 "typeAnnotation": null
@@ -58,30 +56,27 @@
               "type": "BlockStatement",
               "span": {
                 "start": 12,
-                "end": 38,
-                "ctxt": 0
+                "end": 38
               },
+              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
                     "start": 13,
-                    "end": 37,
-                    "ctxt": 0
+                    "end": 37
                   },
                   "argument": {
                     "type": "ConditionalExpression",
                     "span": {
                       "start": 20,
-                      "end": 37,
-                      "ctxt": 0
+                      "end": 37
                     },
                     "test": {
                       "type": "BooleanLiteral",
                       "span": {
                         "start": 20,
-                        "end": 24,
-                        "ctxt": 0
+                        "end": 24
                       },
                       "value": true
                     },
@@ -89,15 +84,13 @@
                       "type": "ParenthesisExpression",
                       "span": {
                         "start": 25,
-                        "end": 31,
-                        "ctxt": 0
+                        "end": 31
                       },
                       "expression": {
                         "type": "BooleanLiteral",
                         "span": {
                           "start": 26,
-                          "end": 30,
-                          "ctxt": 0
+                          "end": 30
                         },
                         "value": true
                       }
@@ -106,17 +99,17 @@
                       "type": "ArrowFunctionExpression",
                       "span": {
                         "start": 32,
-                        "end": 37,
-                        "ctxt": 0
+                        "end": 37
                       },
+                      "ctxt": 0,
                       "params": [
                         {
                           "type": "Identifier",
                           "span": {
                             "start": 32,
-                            "end": 33,
-                            "ctxt": 0
+                            "end": 33
                           },
+                          "ctxt": 0,
                           "value": "t",
                           "optional": false,
                           "typeAnnotation": null
@@ -126,9 +119,9 @@
                         "type": "BlockStatement",
                         "span": {
                           "start": 35,
-                          "end": 37,
-                          "ctxt": 0
+                          "end": 37
                         },
+                        "ctxt": 0,
                         "stmts": []
                       },
                       "async": false,

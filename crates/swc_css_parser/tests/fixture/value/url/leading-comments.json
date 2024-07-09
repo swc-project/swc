@@ -4,8 +4,7 @@
       "kind": "Block",
       "span": {
         "start": 466,
-        "end": 541,
-        "ctxt": 0
+        "end": 541
       },
       "text": "/* A <url-modifier> is either an <ident> or a functional notation. */"
     }

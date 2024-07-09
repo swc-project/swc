@@ -2,16 +2,14 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 343,
-    "ctxt": 0
+    "end": 343
   },
   "children": [
     {
       "type": "ProcessingInstruction",
       "span": {
         "start": 1,
-        "end": 39,
-        "ctxt": 0
+        "end": 39
       },
       "target": "xml",
       "data": "version=\"1.0\" encoding=\"UTF-8\""
@@ -20,8 +18,7 @@
       "type": "ProcessingInstruction",
       "span": {
         "start": 40,
-        "end": 90,
-        "ctxt": 0
+        "end": 90
       },
       "target": "xml-stylesheet",
       "data": "href=\"copy.css\" type=\"text/css\""
@@ -30,8 +27,7 @@
       "type": "Element",
       "span": {
         "start": 91,
-        "end": 343,
-        "ctxt": 0
+        "end": 343
       },
       "tagName": "root",
       "attributes": [],
@@ -40,8 +36,7 @@
           "type": "Text",
           "span": {
             "start": 97,
-            "end": 102,
-            "ctxt": 0
+            "end": 102
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -50,8 +45,7 @@
           "type": "Element",
           "span": {
             "start": 102,
-            "end": 116,
-            "ctxt": 0
+            "end": 116
           },
           "tagName": "h",
           "attributes": [
@@ -59,8 +53,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -76,8 +69,7 @@
           "type": "Text",
           "span": {
             "start": 116,
-            "end": 121,
-            "ctxt": 0
+            "end": 121
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -86,8 +78,7 @@
           "type": "Element",
           "span": {
             "start": 121,
-            "end": 135,
-            "ctxt": 0
+            "end": 135
           },
           "tagName": "h",
           "attributes": [
@@ -95,8 +86,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -112,8 +102,7 @@
           "type": "Text",
           "span": {
             "start": 135,
-            "end": 140,
-            "ctxt": 0
+            "end": 140
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -122,8 +111,7 @@
           "type": "Element",
           "span": {
             "start": 140,
-            "end": 168,
-            "ctxt": 0
+            "end": 168
           },
           "tagName": "test",
           "attributes": [
@@ -131,8 +119,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -148,8 +135,7 @@
           "type": "Text",
           "span": {
             "start": 168,
-            "end": 173,
-            "ctxt": 0
+            "end": 173
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -158,8 +144,7 @@
           "type": "Element",
           "span": {
             "start": 173,
-            "end": 201,
-            "ctxt": 0
+            "end": 201
           },
           "tagName": "test",
           "attributes": [
@@ -167,8 +152,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -184,8 +168,7 @@
           "type": "Text",
           "span": {
             "start": 201,
-            "end": 206,
-            "ctxt": 0
+            "end": 206
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -194,8 +177,7 @@
           "type": "Element",
           "span": {
             "start": 206,
-            "end": 239,
-            "ctxt": 0
+            "end": 239
           },
           "tagName": "Geschlecht",
           "attributes": [],
@@ -204,8 +186,7 @@
               "type": "Text",
               "span": {
                 "start": 218,
-                "end": 226,
-                "ctxt": 0
+                "end": 226
               },
               "data": "♂",
               "raw": "empty"
@@ -216,8 +197,7 @@
           "type": "Text",
           "span": {
             "start": 239,
-            "end": 244,
-            "ctxt": 0
+            "end": 244
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -226,8 +206,7 @@
           "type": "Element",
           "span": {
             "start": 244,
-            "end": 292,
-            "ctxt": 0
+            "end": 292
           },
           "tagName": "copyright",
           "attributes": [],
@@ -236,8 +215,7 @@
               "type": "Text",
               "span": {
                 "start": 255,
-                "end": 280,
-                "ctxt": 0
+                "end": 280
               },
               "data": "O'Reilly & Associates",
               "raw": "O'Reilly &amp; Associates"
@@ -248,8 +226,7 @@
           "type": "Text",
           "span": {
             "start": 292,
-            "end": 297,
-            "ctxt": 0
+            "end": 297
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -258,8 +235,7 @@
           "type": "Element",
           "span": {
             "start": 297,
-            "end": 335,
-            "ctxt": 0
+            "end": 335
           },
           "tagName": "foo",
           "attributes": [],
@@ -268,8 +244,7 @@
               "type": "Text",
               "span": {
                 "start": 302,
-                "end": 329,
-                "ctxt": 0
+                "end": 329
               },
               "data": "©©™™",
               "raw": "emptyemptyemptyempty"
@@ -280,8 +255,7 @@
           "type": "Text",
           "span": {
             "start": 335,
-            "end": 336,
-            "ctxt": 0
+            "end": 336
           },
           "data": "\n",
           "raw": "\n"

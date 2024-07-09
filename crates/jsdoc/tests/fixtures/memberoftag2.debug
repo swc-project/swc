@@ -1,25 +1,25 @@
 [
     JsDoc {
-        span: 41..41#0,
+        span: 41..41,
         description: Text {
-            span: 41..41#0,
+            span: 41..41,
             value: "",
         },
         tags: [
             TagItem {
-                span: 41..49#0,
+                span: 41..49,
                 tag_name: Text {
-                    span: 41..49#0,
+                    span: 41..49,
                     value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
-                        span: 41..49#0,
+                        span: 41..49,
                         parent_name_path: NamePath {
-                            span: 41..41#0,
+                            span: 41..41,
                             components: [
                                 Text {
-                                    span: 41..51#0,
+                                    span: 41..51,
                                     value: "Observable",
                                 },
                             ],
@@ -30,26 +30,26 @@
         ],
     },
     JsDoc {
-        span: 97..107#0,
+        span: 97..107,
         description: Text {
-            span: 97..97#0,
+            span: 97..97,
             value: "",
         },
         tags: [
             TagItem {
-                span: 97..105#0,
+                span: 97..105,
                 tag_name: Text {
-                    span: 97..105#0,
+                    span: 97..105,
                     value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
-                        span: 97..105#0,
+                        span: 97..105,
                         parent_name_path: NamePath {
-                            span: 97..107#0,
+                            span: 97..107,
                             components: [
                                 Text {
-                                    span: 97..107#0,
+                                    span: 97..107,
                                     value: "Observable",
                                 },
                             ],

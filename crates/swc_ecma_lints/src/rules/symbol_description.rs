@@ -52,7 +52,7 @@ impl SymbolDescription {
     }
 
     fn is_symbol_call(&self, ident: &Ident) -> bool {
-        if ident.span.ctxt != self.unresolved_ctxt {
+        if ident.ctxt != self.unresolved_ctxt {
             return false;
         }
 

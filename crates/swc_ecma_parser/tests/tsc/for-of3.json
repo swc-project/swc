@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 47,
-    "ctxt": 0
+    "end": 47
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 16,
-        "end": 27,
-        "ctxt": 0
+        "end": 27
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,31 +19,28 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 20,
-            "end": 26,
-            "ctxt": 0
+            "end": 26
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 20,
-              "end": 21,
-              "ctxt": 0
+              "end": 21
             },
+            "ctxt": 0,
             "value": "v",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 21,
-                "end": 26,
-                "ctxt": 0
+                "end": 26
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 23,
-                  "end": 26,
-                  "ctxt": 0
+                  "end": 26
                 },
                 "kind": "any"
               }
@@ -59,16 +55,14 @@
       "type": "ForOfStatement",
       "span": {
         "start": 28,
-        "end": 47,
-        "ctxt": 0
+        "end": 47
       },
       "await": false,
       "left": {
         "type": "UpdateExpression",
         "span": {
           "start": 33,
-          "end": 36,
-          "ctxt": 0
+          "end": 36
         },
         "operator": "++",
         "prefix": false,
@@ -76,9 +70,9 @@
           "type": "Identifier",
           "span": {
             "start": 33,
-            "end": 34,
-            "ctxt": 0
+            "end": 34
           },
+          "ctxt": 0,
           "value": "v",
           "optional": false
         }
@@ -87,8 +81,7 @@
         "type": "ArrayExpression",
         "span": {
           "start": 40,
-          "end": 42,
-          "ctxt": 0
+          "end": 42
         },
         "elements": []
       },
@@ -96,9 +89,9 @@
         "type": "BlockStatement",
         "span": {
           "start": 44,
-          "end": 47,
-          "ctxt": 0
+          "end": 47
         },
+        "ctxt": 0,
         "stmts": []
       }
     }

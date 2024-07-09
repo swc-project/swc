@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 0..1#0,
+        span: 0..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..10#0,
+                span: 1..10,
                 tag_name: Text {
-                    span: 1..10#0,
+                    span: 1..10,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: 1..10#0,
+                        span: 1..10,
                         ty: None,
                         name: None,
                     },
@@ -23,24 +23,24 @@
         ],
     },
     JsDoc {
-        span: 32..32#0,
+        span: 32..32,
         description: Text {
-            span: 32..32#0,
+            span: 32..32,
             value: "",
         },
         tags: [
             TagItem {
-                span: 32..41#0,
+                span: 32..41,
                 tag_name: Text {
-                    span: 32..41#0,
+                    span: 32..41,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: 32..41#0,
+                        span: 32..41,
                         ty: Some(
                             Text {
-                                span: 32..35#0,
+                                span: 32..35,
                                 value: "Foo",
                             },
                         ),
@@ -51,24 +51,24 @@
         ],
     },
     JsDoc {
-        span: 54..58#0,
+        span: 54..58,
         description: Text {
-            span: 54..54#0,
+            span: 54..54,
             value: "",
         },
         tags: [
             TagItem {
-                span: 54..63#0,
+                span: 54..63,
                 tag_name: Text {
-                    span: 54..63#0,
+                    span: 54..63,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: 54..63#0,
+                        span: 54..63,
                         ty: Some(
                             Text {
-                                span: 54..64#0,
+                                span: 54..64,
                                 value: "{function}",
                             },
                         ),
@@ -79,21 +79,21 @@
         ],
     },
     JsDoc {
-        span: 0..88#0,
+        span: 0..88,
         description: Text {
-            span: 88..88#0,
+            span: 88..88,
             value: "",
         },
         tags: [
             TagItem {
-                span: 88..97#0,
+                span: 88..97,
                 tag_name: Text {
-                    span: 88..97#0,
+                    span: 88..97,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: 88..97#0,
+                        span: 88..97,
                         ty: None,
                         name: None,
                     },
@@ -102,9 +102,9 @@
         ],
     },
     JsDoc {
-        span: 117..117#0,
+        span: 117..117,
         description: Text {
-            span: 117..143#0,
+            span: 117..143,
             value: "Member of the namespace S.",
         },
         tags: [],

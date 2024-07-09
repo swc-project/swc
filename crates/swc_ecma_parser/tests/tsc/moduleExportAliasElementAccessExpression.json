@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 116,
-    "end": 275,
-    "ctxt": 0
+    "end": 275
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 125,
-          "end": 126,
-          "ctxt": 0
+          "end": 126
         },
+        "ctxt": 0,
         "value": "D",
         "optional": false
       },
@@ -23,16 +22,16 @@
       "decorators": [],
       "span": {
         "start": 116,
-        "end": 133,
-        "ctxt": 0
+        "end": 133
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 130,
-          "end": 133,
-          "ctxt": 0
+          "end": 133
         },
+        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -44,31 +43,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 134,
-        "end": 151,
-        "ctxt": 0
+        "end": 151
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 134,
-          "end": 150,
-          "ctxt": 0
+          "end": 150
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
             "start": 134,
-            "end": 146,
-            "ctxt": 0
+            "end": 146
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 134,
-              "end": 141,
-              "ctxt": 0
+              "end": 141
             },
+            "ctxt": 0,
             "value": "exports",
             "optional": false
           },
@@ -76,15 +72,13 @@
             "type": "Computed",
             "span": {
               "start": 141,
-              "end": 146,
-              "ctxt": 0
+              "end": 146
             },
             "expression": {
               "type": "StringLiteral",
               "span": {
                 "start": 142,
-                "end": 145,
-                "ctxt": 0
+                "end": 145
               },
               "value": "D",
               "raw": "\"D\""
@@ -95,9 +89,9 @@
           "type": "Identifier",
           "span": {
             "start": 149,
-            "end": 150,
-            "ctxt": 0
+            "end": 150
           },
+          "ctxt": 0,
           "value": "D",
           "optional": false
         }
@@ -107,31 +101,28 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 242,
-        "end": 275,
-        "ctxt": 0
+        "end": 275
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 242,
-          "end": 274,
-          "ctxt": 0
+          "end": 274
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
             "start": 242,
-            "end": 270,
-            "ctxt": 0
+            "end": 270
           },
           "object": {
             "type": "Identifier",
             "span": {
               "start": 242,
-              "end": 249,
-              "ctxt": 0
+              "end": 249
             },
+            "ctxt": 0,
             "value": "exports",
             "optional": false
           },
@@ -139,15 +130,13 @@
             "type": "Computed",
             "span": {
               "start": 249,
-              "end": 270,
-              "ctxt": 0
+              "end": 270
             },
             "expression": {
               "type": "StringLiteral",
               "span": {
                 "start": 250,
-                "end": 269,
-                "ctxt": 0
+                "end": 269
               },
               "value": "Does not work yet",
               "raw": "\"Does not work yet\""
@@ -158,9 +147,9 @@
           "type": "Identifier",
           "span": {
             "start": 273,
-            "end": 274,
-            "ctxt": 0
+            "end": 274
           },
+          "ctxt": 0,
           "value": "D",
           "optional": false
         }

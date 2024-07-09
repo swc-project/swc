@@ -1,10 +1,12 @@
 #![allow(clippy::vec_box)]
-use std::mem::transmute;
+use std::{borrow::Cow, mem::transmute};
 
 use is_macro::Is;
 use string_enum::StringEnum;
 use swc_atoms::Atom;
-use swc_common::{ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
+use swc_common::{
+    ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
+};
 
 use crate::{
     class::Class,
@@ -329,7 +331,7 @@ impl Expr {
     pub fn set_span(&mut self, span: Span) {
         match self {
             Expr::Ident(i) => {
-                i.span = span.with_ctxt(i.span.ctxt);
+                i.span = span;
             }
             Expr::This(e) => e.span = span,
             Expr::Array(e) => e.span = span,
@@ -426,6 +428,12 @@ impl Take for Expr {
     }
 }
 
+impl Default for Expr {
+    fn default() -> Self {
+        Expr::Invalid(Default::default())
+    }
+}
+
 bridge_expr_from!(Ident, Id);
 bridge_expr_from!(FnExpr, Function);
 bridge_expr_from!(ClassExpr, Class);
@@ -488,7 +496,7 @@ impl Take for ThisExpr {
 
 /// Array literal.
 #[ast_node("ArrayExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ArrayLit {
     pub span: Span,
@@ -508,7 +516,7 @@ impl Take for ArrayLit {
 
 /// Object literal.
 #[ast_node("ObjectExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ObjectLit {
     pub span: Span,
@@ -530,7 +538,7 @@ impl ObjectLit {
                     Prop::KeyValue(kv) => {
                         let key = match &kv.key {
                             PropName::Ident(i) => i.clone(),
-                            PropName::Str(s) => Ident::new(s.value.clone(), s.span),
+                            PropName::Str(s) => Ident::new_no_ctxt(s.value.clone(), s.span),
                             _ => return None,
                         };
 
@@ -633,7 +641,7 @@ impl Take for PropOrSpread {
 }
 
 #[ast_node("SpreadElement")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct SpreadElement {
     #[cfg_attr(feature = "serde-impl", serde(rename = "spread"))]
@@ -655,7 +663,7 @@ impl Take for SpreadElement {
 }
 
 #[ast_node("UnaryExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct UnaryExpr {
     pub span: Span,
@@ -678,7 +686,7 @@ impl Take for UnaryExpr {
 }
 
 #[ast_node("UpdateExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct UpdateExpr {
     pub span: Span,
@@ -704,7 +712,7 @@ impl Take for UpdateExpr {
 }
 
 #[ast_node("BinaryExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct BinExpr {
     pub span: Span,
@@ -730,7 +738,7 @@ impl Take for BinExpr {
 
 /// Function expression.
 #[ast_node("FunctionExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct FnExpr {
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "identifier"))]
@@ -764,7 +772,7 @@ bridge_expr_from!(FnExpr, Box<Function>);
 
 /// Class expression.
 #[ast_node("ClassExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ClassExpr {
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "identifier"))]
@@ -794,7 +802,7 @@ bridge_from!(ClassExpr, Box<Class>, Class);
 bridge_expr_from!(ClassExpr, Box<Class>);
 
 #[ast_node("AssignmentExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct AssignExpr {
     pub span: Span,
@@ -825,7 +833,7 @@ impl AssignExpr {
 }
 
 #[ast_node("MemberExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct MemberExpr {
     pub span: Span,
@@ -856,7 +864,7 @@ impl MemberProp {
 }
 
 #[ast_node("SuperPropExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct SuperPropExpr {
     pub span: Span,
@@ -889,6 +897,12 @@ impl Take for MemberExpr {
 
 impl Take for MemberProp {
     fn dummy() -> Self {
+        Default::default()
+    }
+}
+
+impl Default for MemberProp {
+    fn default() -> Self {
         MemberProp::Ident(Ident::dummy())
     }
 }
@@ -899,8 +913,14 @@ impl Take for SuperProp {
     }
 }
 
+impl Default for SuperProp {
+    fn default() -> Self {
+        SuperProp::Ident(Default::default())
+    }
+}
+
 #[ast_node("ConditionalExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct CondExpr {
     pub span: Span,
@@ -926,10 +946,11 @@ impl Take for CondExpr {
 }
 
 #[ast_node("CallExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct CallExpr {
     pub span: Span,
+    pub ctxt: SyntaxContext,
 
     pub callee: Callee,
 
@@ -943,20 +964,17 @@ pub struct CallExpr {
 
 impl Take for CallExpr {
     fn dummy() -> Self {
-        CallExpr {
-            span: DUMMY_SP,
-            callee: Take::dummy(),
-            args: Take::dummy(),
-            type_args: Take::dummy(),
-        }
+        Default::default()
     }
 }
 
 #[ast_node("NewExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct NewExpr {
     pub span: Span,
+
+    pub ctxt: SyntaxContext,
 
     pub callee: Box<Expr>,
 
@@ -970,17 +988,12 @@ pub struct NewExpr {
 
 impl Take for NewExpr {
     fn dummy() -> Self {
-        NewExpr {
-            span: DUMMY_SP,
-            callee: Take::dummy(),
-            args: Take::dummy(),
-            type_args: Take::dummy(),
-        }
+        Default::default()
     }
 }
 
 #[ast_node("SequenceExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct SeqExpr {
     pub span: Span,
@@ -999,10 +1012,12 @@ impl Take for SeqExpr {
 }
 
 #[ast_node("ArrowFunctionExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ArrowExpr {
     pub span: Span,
+
+    pub ctxt: SyntaxContext,
 
     pub params: Vec<Pat>,
 
@@ -1025,19 +1040,13 @@ pub struct ArrowExpr {
 impl Take for ArrowExpr {
     fn dummy() -> Self {
         ArrowExpr {
-            span: DUMMY_SP,
-            params: Take::dummy(),
-            body: Take::dummy(),
-            is_async: false,
-            is_generator: false,
-            type_params: Take::dummy(),
-            return_type: Take::dummy(),
+            ..Default::default()
         }
     }
 }
 
 #[ast_node("YieldExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct YieldExpr {
     pub span: Span,
@@ -1083,7 +1092,7 @@ pub enum MetaPropKind {
 }
 
 #[ast_node("AwaitExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct AwaitExpr {
     pub span: Span,
@@ -1093,7 +1102,7 @@ pub struct AwaitExpr {
 }
 
 #[ast_node("TemplateLiteral")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Tpl {
     pub span: Span,
@@ -1115,10 +1124,12 @@ impl Take for Tpl {
 }
 
 #[ast_node("TaggedTemplateExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TaggedTpl {
     pub span: Span,
+
+    pub ctxt: SyntaxContext,
 
     pub tag: Box<Expr>,
 
@@ -1132,17 +1143,12 @@ pub struct TaggedTpl {
 
 impl Take for TaggedTpl {
     fn dummy() -> Self {
-        TaggedTpl {
-            span: DUMMY_SP,
-            tag: Take::dummy(),
-            type_params: Take::dummy(),
-            tpl: Take::dummy(),
-        }
+        Default::default()
     }
 }
 
 #[ast_node("TemplateElement")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 pub struct TplElement {
     pub span: Span,
     pub tail: bool,
@@ -1188,7 +1194,7 @@ impl<'a> arbitrary::Arbitrary<'a> for TplElement {
 }
 
 #[ast_node("ParenthesisExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ParenExpr {
     pub span: Span,
@@ -1220,6 +1226,12 @@ pub enum Callee {
     Expr(Box<Expr>),
 }
 
+impl Default for Callee {
+    fn default() -> Self {
+        Callee::Super(Default::default())
+    }
+}
+
 impl Take for Callee {
     fn dummy() -> Self {
         Callee::Super(Take::dummy())
@@ -1227,7 +1239,7 @@ impl Take for Callee {
 }
 
 #[ast_node("Super")]
-#[derive(Eq, Hash, Copy, EqIgnoreSpan)]
+#[derive(Eq, Hash, Copy, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Super {
     pub span: Span,
@@ -1326,6 +1338,12 @@ pub enum BlockStmtOrExpr {
     Expr(Box<Expr>),
 }
 
+impl Default for BlockStmtOrExpr {
+    fn default() -> Self {
+        BlockStmtOrExpr::BlockStmt(Default::default())
+    }
+}
+
 impl<T> From<T> for BlockStmtOrExpr
 where
     T: Into<Expr>,
@@ -1411,6 +1429,12 @@ pub enum AssignTargetPat {
 
 impl Take for AssignTargetPat {
     fn dummy() -> Self {
+        Default::default()
+    }
+}
+
+impl Default for AssignTargetPat {
+    fn default() -> Self {
         AssignTargetPat::Invalid(Take::dummy())
     }
 }
@@ -1499,10 +1523,12 @@ impl TryFrom<Box<Expr>> for SimpleAssignTarget {
 bridge_from!(SimpleAssignTarget, BindingIdent, Ident);
 
 impl SimpleAssignTarget {
-    pub fn leftmost(&self) -> Option<&Ident> {
+    pub fn leftmost(&self) -> Option<Cow<Ident>> {
         match self {
-            SimpleAssignTarget::Ident(i) => Some(&i.id),
-            SimpleAssignTarget::Member(MemberExpr { obj, .. }) => obj.leftmost(),
+            SimpleAssignTarget::Ident(i) => {
+                Some(Cow::Owned(Ident::new(i.sym.clone(), i.span, i.ctxt)))
+            }
+            SimpleAssignTarget::Member(MemberExpr { obj, .. }) => obj.leftmost().map(Cow::Borrowed),
             _ => None,
         }
     }
@@ -1530,7 +1556,7 @@ bridge_from!(AssignTarget, AssignTargetPat, ObjectPat);
 impl From<SimpleAssignTarget> for Box<Expr> {
     fn from(s: SimpleAssignTarget) -> Self {
         match s {
-            SimpleAssignTarget::Ident(i) => Box::new(Expr::Ident(i.id)),
+            SimpleAssignTarget::Ident(i) => Box::new(Expr::Ident(i.into())),
             SimpleAssignTarget::Member(m) => Box::new(Expr::Member(m)),
             SimpleAssignTarget::SuperProp(s) => Box::new(Expr::SuperProp(s)),
             SimpleAssignTarget::Paren(s) => Box::new(Expr::Paren(s)),
@@ -1546,23 +1572,29 @@ impl From<SimpleAssignTarget> for Box<Expr> {
 }
 
 impl AssignTarget {
-    pub fn as_ident(&self) -> Option<&Ident> {
-        Some(&self.as_simple()?.as_ident()?.id)
+    pub fn as_ident(&self) -> Option<&BindingIdent> {
+        self.as_simple()?.as_ident()
     }
 
-    pub fn as_ident_mut(&mut self) -> Option<&mut Ident> {
-        Some(&mut self.as_mut_simple()?.as_mut_ident()?.id)
+    pub fn as_ident_mut(&mut self) -> Option<&mut BindingIdent> {
+        self.as_mut_simple()?.as_mut_ident()
+    }
+}
+
+impl Default for AssignTarget {
+    fn default() -> Self {
+        SimpleAssignTarget::dummy().into()
     }
 }
 
 impl Take for AssignTarget {
     fn dummy() -> Self {
-        SimpleAssignTarget::dummy().into()
+        Default::default()
     }
 }
 
 #[ast_node("OptionalChainingExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct OptChainExpr {
     pub span: Span,
@@ -1581,11 +1613,19 @@ pub enum OptChainBase {
     Call(OptCall),
 }
 
+impl Default for OptChainBase {
+    fn default() -> Self {
+        OptChainBase::Member(Default::default())
+    }
+}
+
 #[ast_node("CallExpression")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct OptCall {
     pub span: Span,
+
+    pub ctxt: SyntaxContext,
 
     pub callee: Box<Expr>,
 
@@ -1612,6 +1652,7 @@ impl From<OptChainBase> for Expr {
         match opt {
             OptChainBase::Call(OptCall {
                 span,
+                ctxt,
                 callee,
                 args,
                 type_args,
@@ -1620,6 +1661,7 @@ impl From<OptChainBase> for Expr {
                 args,
                 span,
                 type_args,
+                ctxt,
             }),
             OptChainBase::Member(member) => Self::Member(member),
         }
@@ -1629,10 +1671,7 @@ impl From<OptChainBase> for Expr {
 impl Take for OptCall {
     fn dummy() -> Self {
         Self {
-            span: DUMMY_SP,
-            callee: Take::dummy(),
-            args: Vec::new(),
-            type_args: None,
+            ..Default::default()
         }
     }
 }
@@ -1641,6 +1680,7 @@ impl From<OptCall> for CallExpr {
     fn from(
         OptCall {
             span,
+            ctxt,
             callee,
             args,
             type_args,
@@ -1651,6 +1691,7 @@ impl From<OptCall> for CallExpr {
             callee: Callee::Expr(callee),
             args,
             type_args,
+            ctxt,
         }
     }
 }

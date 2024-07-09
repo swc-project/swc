@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 2,
-    "end": 31,
-    "ctxt": 0
+    "end": 31
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 2,
-        "end": 18,
-        "ctxt": 0
+        "end": 18
       },
+      "ctxt": 0,
       "kind": "let",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 6,
-            "end": 17,
-            "ctxt": 0
+            "end": 17
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 6,
-              "end": 12,
-              "ctxt": 0
+              "end": 12
             },
+            "ctxt": 0,
             "value": "module",
             "optional": false,
             "typeAnnotation": null
@@ -38,8 +36,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 15,
-              "end": 17,
-              "ctxt": 0
+              "end": 17
             },
             "value": 10.0,
             "raw": "10"
@@ -52,24 +49,22 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 19,
-        "end": 31,
-        "ctxt": 0
+        "end": 31
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
           "start": 19,
-          "end": 31,
-          "ctxt": 0
+          "end": 31
         },
         "operator": "in",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 19,
-            "end": 25,
-            "ctxt": 0
+            "end": 25
           },
+          "ctxt": 0,
           "value": "module",
           "optional": false
         },
@@ -77,8 +72,7 @@
           "type": "ObjectExpression",
           "span": {
             "start": 29,
-            "end": 31,
-            "ctxt": 0
+            "end": 31
           },
           "properties": []
         }

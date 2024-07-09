@@ -2,25 +2,23 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 28,
-    "ctxt": 0
+    "end": 28
   },
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
         "start": 1,
-        "end": 14,
-        "ctxt": 0
+        "end": 14
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
           "start": 6,
-          "end": 7,
-          "ctxt": 0
+          "end": 7
         },
+        "ctxt": 0,
         "value": "A",
         "optional": false
       },
@@ -29,15 +27,13 @@
         "type": "TsLiteralType",
         "span": {
           "start": 10,
-          "end": 13,
-          "ctxt": 0
+          "end": 13
         },
         "literal": {
           "type": "TemplateLiteral",
           "span": {
             "start": 10,
-            "end": 13,
-            "ctxt": 0
+            "end": 13
           },
           "types": [],
           "quasis": [
@@ -45,8 +41,7 @@
               "type": "TemplateElement",
               "span": {
                 "start": 11,
-                "end": 12,
-                "ctxt": 0
+                "end": 12
               },
               "tail": true,
               "cooked": "<",
@@ -60,17 +55,16 @@
       "type": "TsTypeAliasDeclaration",
       "span": {
         "start": 15,
-        "end": 28,
-        "ctxt": 0
+        "end": 28
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
           "start": 20,
-          "end": 21,
-          "ctxt": 0
+          "end": 21
         },
+        "ctxt": 0,
         "value": "B",
         "optional": false
       },
@@ -79,15 +73,13 @@
         "type": "TsLiteralType",
         "span": {
           "start": 24,
-          "end": 27,
-          "ctxt": 0
+          "end": 27
         },
         "literal": {
           "type": "TemplateLiteral",
           "span": {
             "start": 24,
-            "end": 27,
-            "ctxt": 0
+            "end": 27
           },
           "types": [],
           "quasis": [
@@ -95,8 +87,7 @@
               "type": "TemplateElement",
               "span": {
                 "start": 25,
-                "end": 26,
-                "ctxt": 0
+                "end": 26
               },
               "tail": true,
               "cooked": ">",

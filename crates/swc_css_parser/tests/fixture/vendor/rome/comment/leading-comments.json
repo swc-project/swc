@@ -4,8 +4,7 @@
       "kind": "Block",
       "span": {
         "start": 39,
-        "end": 53,
-        "ctxt": 0
+        "end": 53
       },
       "text": "/* comment */"
     }
@@ -15,8 +14,7 @@
       "kind": "Block",
       "span": {
         "start": 68,
-        "end": 82,
-        "ctxt": 0
+        "end": 82
       },
       "text": "/* comment */"
     }
@@ -26,8 +24,7 @@
       "kind": "Block",
       "span": {
         "start": 94,
-        "end": 108,
-        "ctxt": 0
+        "end": 108
       },
       "text": "/* comment */"
     }
@@ -37,8 +34,7 @@
       "kind": "Block",
       "span": {
         "start": 1,
-        "end": 19,
-        "ctxt": 0
+        "end": 19
       },
       "text": "/*\n * comments\n */"
     }

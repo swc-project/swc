@@ -3,7 +3,7 @@
 use std::time::Instant;
 
 use rustc_hash::FxHashSet;
-use swc_common::{util::take::Take, Mark, Span, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{stack_size::maybe_grow_default, ModuleItemLike, StmtLike, Value};
 use swc_ecma_visit::{standard_only_visit, visit_obj_and_computed, Visit, VisitWith};
@@ -178,15 +178,6 @@ impl ExprOptExt for Expr {
         self
     }
 }
-
-pub(crate) trait SpanExt: Into<Span> {
-    fn with_mark(self, mark: Mark) -> Span {
-        let span = self.into();
-        span.apply_mark(mark)
-    }
-}
-
-impl SpanExt for Span {}
 
 pub(crate) fn contains_leaping_continue_with_label<N>(n: &N, label: Id) -> bool
 where

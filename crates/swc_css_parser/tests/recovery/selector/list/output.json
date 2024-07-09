@@ -2,31 +2,27 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 7,
-    "ctxt": 0
+    "end": 7
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 6,
-        "ctxt": 0
+        "end": 6
       },
       "prelude": {
         "type": "ListOfComponentValues",
         "span": {
           "start": 1,
-          "end": 3,
-          "ctxt": 0
+          "end": 3
         },
         "children": [
           {
             "type": "PreservedToken",
             "span": {
               "start": 1,
-              "end": 2,
-              "ctxt": 0
+              "end": 2
             },
             "token": "Comma"
           },
@@ -34,8 +30,7 @@
             "type": "PreservedToken",
             "span": {
               "start": 2,
-              "end": 3,
-              "ctxt": 0
+              "end": 3
             },
             "token": {
               "WhiteSpace": {
@@ -49,15 +44,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 3,
-          "end": 6,
-          "ctxt": 0
+          "end": 6
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 3,
-            "end": 4,
-            "ctxt": 0
+            "end": 4
           },
           "token": "LBrace"
         },

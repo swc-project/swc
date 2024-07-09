@@ -2,16 +2,14 @@
   "type": "DocumentFragment",
   "span": {
     "start": 1,
-    "end": 14,
-    "ctxt": 0
+    "end": 14
   },
   "children": [
     {
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 4,
-        "ctxt": 0
+        "end": 4
       },
       "tagName": "a",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -24,8 +22,7 @@
       "type": "Element",
       "span": {
         "start": 4,
-        "end": 14,
-        "ctxt": 0
+        "end": 14
       },
       "tagName": "caption",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -35,8 +32,7 @@
           "type": "Text",
           "span": {
             "start": 13,
-            "end": 14,
-            "ctxt": 0
+            "end": 14
           },
           "data": "a",
           "raw": "a"

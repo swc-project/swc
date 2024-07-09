@@ -4,8 +4,7 @@
       "kind": "Block",
       "span": {
         "start": 419,
-        "end": 432,
-        "ctxt": 0
+        "end": 432
       },
       "text": "/* filter */"
     }
@@ -15,8 +14,7 @@
       "kind": "Block",
       "span": {
         "start": 453,
-        "end": 461,
-        "ctxt": 0
+        "end": 461
       },
       "text": "/* a */"
     }
@@ -26,8 +24,7 @@
       "kind": "Block",
       "span": {
         "start": 395,
-        "end": 419,
-        "ctxt": 0
+        "end": 419
       },
       "text": "/* near */"
     }

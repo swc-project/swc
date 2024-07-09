@@ -4,8 +4,7 @@
       "kind": "Block",
       "span": {
         "start": 1311,
-        "end": 1393,
-        "ctxt": 0
+        "end": 1393
       },
       "text": "/* valid, starts with a colon,\n       and equivalent to the previous rule. */"
     }
@@ -15,8 +14,7 @@
       "kind": "Block",
       "span": {
         "start": 1225,
-        "end": 1278,
-        "ctxt": 0
+        "end": 1278
       },
       "text": "/* valid, no longer starts with an identifier */"
     }
@@ -26,8 +24,7 @@
       "kind": "Block",
       "span": {
         "start": 559,
-        "end": 578,
-        "ctxt": 0
+        "end": 578
       },
       "text": "/* TODO fix me */"
     },
@@ -35,8 +32,7 @@
       "kind": "Block",
       "span": {
         "start": 559,
-        "end": 589,
-        "ctxt": 0
+        "end": 589
       },
       "text": "/*.foo {*/"
     },
@@ -44,8 +40,7 @@
       "kind": "Block",
       "span": {
         "start": 559,
-        "end": 610,
-        "ctxt": 0
+        "end": 610
       },
       "text": "/*    color: blue;*/"
     },
@@ -53,8 +48,7 @@
       "kind": "Block",
       "span": {
         "start": 559,
-        "end": 639,
-        "ctxt": 0
+        "end": 639
       },
       "text": "/*    && { padding: 2ch; }*/"
     },
@@ -62,8 +56,7 @@
       "kind": "Block",
       "span": {
         "start": 559,
-        "end": 645,
-        "ctxt": 0
+        "end": 645
       },
       "text": "/*}*/"
     }

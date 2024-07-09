@@ -2,31 +2,28 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 23,
-    "ctxt": 0
+    "end": 23
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 1,
-        "end": 23,
-        "ctxt": 0
+        "end": 23
       },
       "declaration": {
         "type": "TsInterfaceDeclaration",
         "span": {
           "start": 8,
-          "end": 23,
-          "ctxt": 0
+          "end": 23
         },
         "id": {
           "type": "Identifier",
           "span": {
             "start": 18,
-            "end": 19,
-            "ctxt": 0
+            "end": 19
           },
+          "ctxt": 0,
           "value": "I",
           "optional": false
         },
@@ -37,8 +34,7 @@
           "type": "TsInterfaceBody",
           "span": {
             "start": 20,
-            "end": 23,
-            "ctxt": 0
+            "end": 23
           },
           "body": []
         }

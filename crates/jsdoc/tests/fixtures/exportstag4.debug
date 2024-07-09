@@ -1,22 +1,22 @@
 [
     JsDoc {
-        span: 12..24#0,
+        span: 12..24,
         description: Text {
-            span: 12..12#0,
+            span: 12..12,
             value: "",
         },
         tags: [
             TagItem {
-                span: 12..19#0,
+                span: 12..19,
                 tag_name: Text {
-                    span: 12..19#0,
+                    span: 12..19,
                     value: "exports",
                 },
                 tag: Exports(
                     ExportsTag {
-                        span: 12..19#0,
+                        span: 12..19,
                         module_name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -25,21 +25,21 @@
         ],
     },
     JsDoc {
-        span: 64..64#0,
+        span: 64..64,
         description: Text {
-            span: 64..64#0,
+            span: 64..64,
             value: "",
         },
         tags: [
             TagItem {
-                span: 64..69#0,
+                span: 64..69,
                 tag_name: Text {
-                    span: 64..69#0,
+                    span: 64..69,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 64..69#0,
+                        span: 64..69,
                         ty: None,
                         name: None,
                     },
@@ -48,9 +48,9 @@
         ],
     },
     JsDoc {
-        span: 115..115#0,
+        span: 115..115,
         description: Text {
-            span: 115..126#0,
+            span: 115..126,
             value: "Some method",
         },
         tags: [],

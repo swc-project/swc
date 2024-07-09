@@ -45,6 +45,7 @@ impl VisitMut for OptionalChaining {
                     span: DUMMY_SP,
                     arg: Some(e.take()),
                 })],
+                ..Default::default()
             };
             stmt.visit_mut_with(self);
 
@@ -106,10 +107,9 @@ impl VisitMut for OptionalChaining {
         if !self.vars.is_empty() {
             let stmts = vec![
                 Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                    span: DUMMY_SP,
-                    declare: false,
                     kind: VarDeclKind::Var,
                     decls: mem::take(&mut self.vars),
+                    ..Default::default()
                 }))),
                 Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
@@ -124,15 +124,15 @@ impl VisitMut for OptionalChaining {
                     body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
                         span: DUMMY_SP,
                         stmts,
+                        ..Default::default()
                     })),
                     is_async: false,
                     is_generator: false,
-                    type_params: Default::default(),
-                    return_type: Default::default(),
+                    ..Default::default()
                 })
                 .as_callee(),
                 args: vec![],
-                type_args: Default::default(),
+                ..Default::default()
             }));
         }
 
@@ -365,7 +365,7 @@ impl OptionalChaining {
         }
 
         match expr {
-            Expr::Ident(i) if i.span.ctxt != self.unresolved_ctxt => false,
+            Expr::Ident(i) if i.ctxt != self.unresolved_ctxt => false,
             _ => {
                 if is_call && self.c.pure_getter {
                     !is_simple_member(expr)
@@ -410,6 +410,7 @@ impl OptionalChaining {
                         declare: false,
                         kind: VarDeclKind::Var,
                         decls: mem::take(&mut self.vars),
+                        ..Default::default()
                     }
                     .into(),
                 ),

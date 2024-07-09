@@ -34,7 +34,7 @@ impl Optimizer<'_> {
                         *prop = MemberProp::Ident(Ident {
                             span: s.span,
                             sym: s.take().value,
-                            optional: false,
+                            ..Default::default()
                         })
                     }
                 }
@@ -56,7 +56,7 @@ impl Optimizer<'_> {
                         *prop = SuperProp::Ident(Ident {
                             span: s.span,
                             sym: s.take().value,
-                            optional: false,
+                            ..Default::default()
                         })
                     }
                 }

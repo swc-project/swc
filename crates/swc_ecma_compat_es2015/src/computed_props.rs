@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use swc_common::{Mark, Spanned, DUMMY_SP};
+use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{quote_ident, ExprFactory, StmtLike};
@@ -74,10 +74,14 @@ impl VisitMut for ComputedProps {
             }
 
             let mark = Mark::fresh(Mark::root());
-            let obj_ident = quote_ident!(span.apply_mark(mark), "_obj");
+            let obj_ident = quote_ident!(SyntaxContext::empty().apply_mark(mark), *span, "_obj");
 
             let mut exprs = Vec::with_capacity(props.len() + 2);
-            let mutator_map = quote_ident!(span.apply_mark(mark), "_mutatorMap");
+            let mutator_map = quote_ident!(
+                SyntaxContext::empty().apply_mark(mark),
+                *span,
+                "_mutatorMap"
+            );
 
             // Optimization
             let obj_props = {
@@ -151,10 +155,7 @@ impl VisitMut for ComputedProps {
                             };
                             let (key, function) = match prop {
                                 Prop::Getter(GetterProp {
-                                    span,
-                                    body,
-                                    key,
-                                    type_ann,
+                                    span, body, key, ..
                                 }) => (
                                     key,
                                     Box::new(Function {
@@ -163,9 +164,7 @@ impl VisitMut for ComputedProps {
                                         is_async: false,
                                         is_generator: false,
                                         params: vec![],
-                                        decorators: Default::default(),
-                                        type_params: Default::default(),
-                                        return_type: type_ann,
+                                        ..Default::default()
                                     }),
                                 ),
                                 Prop::Setter(SetterProp {
@@ -182,9 +181,7 @@ impl VisitMut for ComputedProps {
                                         is_async: false,
                                         is_generator: false,
                                         params: vec![(*param).into()],
-                                        decorators: Default::default(),
-                                        type_params: Default::default(),
-                                        return_type: Default::default(),
+                                        ..Default::default()
                                     }),
                                 ),
                                 _ => unreachable!(),
@@ -243,7 +240,7 @@ impl VisitMut for ComputedProps {
                         span,
                         callee: helper!(define_property),
                         args: vec![exprs.pop().unwrap().as_arg(), key.as_arg(), value.as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }));
                     break;
                 }
@@ -264,7 +261,7 @@ impl VisitMut for ComputedProps {
                         span,
                         callee: helper!(define_property),
                         args: vec![obj_ident.clone().as_arg(), key.as_arg(), value.as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }))
                 });
             }
@@ -294,7 +291,7 @@ impl VisitMut for ComputedProps {
                     span: *span,
                     callee: helper!(define_enumerable_properties),
                     args: vec![obj_ident.clone().as_arg(), mutator_map.as_arg()],
-                    type_args: Default::default(),
+                    ..Default::default()
                 })));
             }
 
@@ -364,10 +361,9 @@ impl ComputedProps {
             if !folder.vars.is_empty() {
                 stmts_updated.push(T::from_stmt(
                     VarDecl {
-                        span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         decls: folder.vars,
-                        declare: false,
+                        ..Default::default()
                     }
                     .into(),
                 ));

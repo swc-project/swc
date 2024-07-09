@@ -2,23 +2,20 @@
   "type": "Module",
   "span": {
     "start": 142,
-    "end": 424,
-    "ctxt": 0
+    "end": 424
   },
   "body": [
     {
       "type": "ExportDefaultExpression",
       "span": {
         "start": 142,
-        "end": 164,
-        "ctxt": 0
+        "end": 164
       },
       "expression": {
         "type": "StringLiteral",
         "span": {
           "start": 157,
-          "end": 163,
-          "ctxt": 0
+          "end": 163
         },
         "value": "a.js",
         "raw": "\"a.js\""
@@ -28,15 +25,13 @@
       "type": "ExportDefaultExpression",
       "span": {
         "start": 197,
-        "end": 222,
-        "ctxt": 0
+        "end": 222
       },
       "expression": {
         "type": "StringLiteral",
         "span": {
           "start": 212,
-          "end": 221,
-          "ctxt": 0
+          "end": 221
         },
         "value": "a.js.js",
         "raw": "\"a.js.js\""
@@ -46,15 +41,13 @@
       "type": "ExportDefaultExpression",
       "span": {
         "start": 260,
-        "end": 290,
-        "ctxt": 0
+        "end": 290
       },
       "expression": {
         "type": "StringLiteral",
         "span": {
           "start": 275,
-          "end": 289,
-          "ctxt": 0
+          "end": 289
         },
         "value": "dir/index.ts",
         "raw": "\"dir/index.ts\""
@@ -64,15 +57,13 @@
       "type": "ExportDefaultExpression",
       "span": {
         "start": 322,
-        "end": 346,
-        "ctxt": 0
+        "end": 346
       },
       "expression": {
         "type": "StringLiteral",
         "span": {
           "start": 337,
-          "end": 345,
-          "ctxt": 0
+          "end": 345
         },
         "value": "dir.js",
         "raw": "\"dir.js\""
@@ -82,24 +73,22 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 376,
-        "end": 399,
-        "ctxt": 0
+        "end": 399
       },
       "specifiers": [
         {
           "type": "ImportDefaultSpecifier",
           "span": {
             "start": 383,
-            "end": 384,
-            "ctxt": 0
+            "end": 384
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 383,
-              "end": 384,
-              "ctxt": 0
+              "end": 384
             },
+            "ctxt": 0,
             "value": "a",
             "optional": false
           }
@@ -109,8 +98,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 390,
-          "end": 398,
-          "ctxt": 0
+          "end": 398
         },
         "value": "./a.js",
         "raw": "\"./a.js\""
@@ -123,24 +111,22 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 400,
-        "end": 424,
-        "ctxt": 0
+        "end": 424
       },
       "specifiers": [
         {
           "type": "ImportDefaultSpecifier",
           "span": {
             "start": 407,
-            "end": 410,
-            "ctxt": 0
+            "end": 410
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 407,
-              "end": 410,
-              "ctxt": 0
+              "end": 410
             },
+            "ctxt": 0,
             "value": "dir",
             "optional": false
           }
@@ -150,8 +136,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 416,
-          "end": 423,
-          "ctxt": 0
+          "end": 423
         },
         "value": "./dir",
         "raw": "\"./dir\""

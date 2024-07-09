@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 197,
-    "ctxt": 0
+    "end": 197
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 197,
-        "ctxt": 0
+        "end": 197
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 7,
-            "end": 197,
-            "ctxt": 0
+            "end": 197
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 7,
-              "end": 14,
-              "ctxt": 0
+              "end": 14
             },
+            "ctxt": 0,
             "value": "content",
             "optional": false,
             "typeAnnotation": null
@@ -38,8 +36,7 @@
             "type": "TemplateLiteral",
             "span": {
               "start": 17,
-              "end": 197,
-              "ctxt": 0
+              "end": 197
             },
             "expressions": [],
             "quasis": [
@@ -47,8 +44,7 @@
                 "type": "TemplateElement",
                 "span": {
                   "start": 18,
-                  "end": 196,
-                  "ctxt": 0
+                  "end": 196
                 },
                 "tail": true,
                 "cooked": "--------------------------366796e1c748a2fb\r\nContent-Disposition: form-data; name=\"payload\"\r\nContent-Type: text/plain\r\n\r\nCONTENT\r\n--------------------------366796e1c748a2fb--",

@@ -149,8 +149,8 @@ impl NoUseBeforeDefine {
 
     fn check_pat(&self, es6_var_check: bool, pat: &Pat) {
         match pat {
-            Pat::Ident(BindingIdent { id, .. }) => {
-                self.check_ident(es6_var_check, id);
+            Pat::Ident(id) => {
+                self.check_ident(es6_var_check, &Ident::from(id));
             }
             Pat::Array(ArrayPat { elems, .. }) => {
                 elems.iter().for_each(|elem| {
@@ -162,7 +162,7 @@ impl NoUseBeforeDefine {
             Pat::Object(ObjectPat { props, .. }) => {
                 props.iter().for_each(|prop| match prop {
                     ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
-                        self.check_ident(es6_var_check, key);
+                        self.check_ident(es6_var_check, &Ident::from(key));
                     }
                     ObjectPatProp::KeyValue(KeyValuePatProp { value, .. }) => {
                         self.check_pat(es6_var_check, value.as_ref());

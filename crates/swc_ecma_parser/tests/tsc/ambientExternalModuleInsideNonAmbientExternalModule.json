@@ -2,23 +2,20 @@
   "type": "Module",
   "span": {
     "start": 16,
-    "end": 45,
-    "ctxt": 0
+    "end": 45
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 16,
-        "end": 45,
-        "ctxt": 0
+        "end": 45
       },
       "declaration": {
         "type": "TsModuleDeclaration",
         "span": {
           "start": 23,
-          "end": 45,
-          "ctxt": 0
+          "end": 45
         },
         "declare": true,
         "global": false,
@@ -26,8 +23,7 @@
           "type": "StringLiteral",
           "span": {
             "start": 38,
-            "end": 41,
-            "ctxt": 0
+            "end": 41
           },
           "value": "M",
           "raw": "\"M\""
@@ -36,8 +32,7 @@
           "type": "TsModuleBlock",
           "span": {
             "start": 42,
-            "end": 45,
-            "ctxt": 0
+            "end": 45
           },
           "body": []
         }

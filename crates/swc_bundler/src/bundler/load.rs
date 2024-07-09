@@ -364,7 +364,7 @@ where
                         }
                         ImportSpecifier::Default(s) => specifiers.push(Specifier::Specific {
                             local: s.local.into(),
-                            alias: Some(Id::new("default".into(), s.span.ctxt())),
+                            alias: Some(Id::new("default".into(), SyntaxContext::empty())),
                         }),
                         ImportSpecifier::Namespace(s) => {
                             specifiers.push(Specifier::Namespace {
@@ -489,6 +489,6 @@ impl VisitMut for ClearMark {
     standard_only_visit_mut!();
 
     fn visit_mut_ident(&mut self, ident: &mut Ident) {
-        ident.span.ctxt = SyntaxContext::empty();
+        ident.ctxt = SyntaxContext::empty();
     }
 }

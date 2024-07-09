@@ -1,6 +1,6 @@
 use std::iter;
 
-use swc_common::{util::take::Take, Mark, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::{get_prototype_of, visit_mut_only_key};
@@ -135,9 +135,7 @@ pub(super) fn constructor_fn(c: Constructor) -> Box<Function> {
         body: c.body,
         is_async: false,
         is_generator: false,
-
-        type_params: Default::default(),
-        return_type: Default::default(),
+        ..Default::default()
     }
     .into()
 }
@@ -229,7 +227,7 @@ impl VisitMut for ConstructorFolder<'_> {
 
                             call_args
                         },
-                        type_args: Default::default(),
+                        ..Default::default()
                     }));
 
                     if self.super_is_callable_constructor {
@@ -253,7 +251,7 @@ impl VisitMut for ConstructorFolder<'_> {
 
             *expr = Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
+                left: quote_ident!(SyntaxContext::empty().apply_mark(self.mark), "_this").into(),
                 op: op!("="),
                 right,
             });
@@ -304,7 +302,7 @@ impl VisitMut for ConstructorFolder<'_> {
 
                             call_args
                         },
-                        type_args: Default::default(),
+                        ..Default::default()
                     })),
                     None => Box::new(make_possible_return_value(ReturningMode::Prototype {
                         is_constructor_default: self.is_constructor_default,
@@ -317,7 +315,11 @@ impl VisitMut for ConstructorFolder<'_> {
                     Some(SuperFoldingMode::Assign) => {
                         *stmt = AssignExpr {
                             span: DUMMY_SP,
-                            left: quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
+                            left: quote_ident!(
+                                SyntaxContext::empty().apply_mark(self.mark),
+                                "_this"
+                            )
+                            .into(),
                             op: op!("="),
                             right: expr,
                         }
@@ -330,10 +332,15 @@ impl VisitMut for ConstructorFolder<'_> {
                             kind: VarDeclKind::Var,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                name: quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
+                                name: quote_ident!(
+                                    SyntaxContext::empty().apply_mark(self.mark),
+                                    "_this"
+                                )
+                                .into(),
                                 init: Some(expr),
                                 definite: false,
                             }],
+                            ..Default::default()
                         })))
                     }
                     None => {
@@ -376,7 +383,7 @@ pub(super) fn make_possible_return_value(mode: ReturningMode) -> Expr {
         callee,
         args: match mode {
             ReturningMode::Returning { mark, arg } => {
-                iter::once(quote_ident!(DUMMY_SP.apply_mark(mark), "_this").as_arg())
+                iter::once(quote_ident!(SyntaxContext::empty().apply_mark(mark), "_this").as_arg())
                     .chain(arg.map(|arg| arg.as_arg()))
                     .collect()
             }
@@ -440,14 +447,14 @@ pub(super) fn make_possible_return_value(mode: ReturningMode) -> Expr {
                         // super(foo, bar) => possibleReturnCheck(this, foo, bar)
                         args,
 
-                        type_args: Default::default(),
+                        ..Default::default()
                     }));
 
                     apply.as_arg()
                 }]
             }
         },
-        type_args: Default::default(),
+        ..Default::default()
     })
 }
 
@@ -471,14 +478,14 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: &mut Constructor) -> bo
             match expr {
                 Expr::This(..) => {
                     self.found = true;
-                    let this = quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this");
+                    let this = quote_ident!(SyntaxContext::empty().apply_mark(self.mark), "_this");
 
                     if self.wrap_with_assertion {
                         *expr = Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: helper!(assert_this_initialized),
                             args: vec![this.as_arg()],
-                            type_args: Default::default(),
+                            ..Default::default()
                         })
                     } else {
                         *expr = Expr::Ident(this);

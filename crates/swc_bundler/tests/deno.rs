@@ -1112,7 +1112,7 @@ impl swc_bundler::Hook for Hook {
 
         Ok(vec![
             KeyValueProp {
-                key: PropName::Ident(Ident::new("url".into(), span)),
+                key: PropName::Ident(Ident::new_no_ctxt("url".into(), span)),
                 value: Box::new(Expr::Lit(Lit::Str(Str {
                     span,
                     raw: None,
@@ -1120,7 +1120,7 @@ impl swc_bundler::Hook for Hook {
                 }))),
             },
             KeyValueProp {
-                key: PropName::Ident(Ident::new("main".into(), span)),
+                key: PropName::Ident(Ident::new_no_ctxt("main".into(), span)),
                 value: Box::new(if module_record.is_entry {
                     Expr::Member(MemberExpr {
                         span,
@@ -1128,7 +1128,7 @@ impl swc_bundler::Hook for Hook {
                             span,
                             kind: MetaPropKind::ImportMeta,
                         })),
-                        prop: MemberProp::Ident(Ident::new("main".into(), span)),
+                        prop: MemberProp::Ident(Ident::new_no_ctxt("main".into(), span)),
                     })
                 } else {
                     Expr::Lit(Lit::Bool(Bool { span, value: false }))

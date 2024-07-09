@@ -2,23 +2,20 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 33,
-    "ctxt": 0
+    "end": 33
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 13,
-        "ctxt": 0
+        "end": 13
       },
       "expression": {
         "type": "JSXElement",
         "span": {
           "start": 1,
-          "end": 12,
-          "ctxt": 0
+          "end": 12
         },
         "opening": {
           "type": "JSXOpeningElement",
@@ -28,9 +25,9 @@
               "type": "Identifier",
               "span": {
                 "start": 2,
-                "end": 5,
-                "ctxt": 0
+                "end": 5
               },
+              "ctxt": 0,
               "value": "Foo",
               "optional": false
             },
@@ -38,17 +35,16 @@
               "type": "Identifier",
               "span": {
                 "start": 6,
-                "end": 9,
-                "ctxt": 0
+                "end": 9
               },
+              "ctxt": 0,
               "value": "Bar",
               "optional": false
             }
           },
           "span": {
             "start": 1,
-            "end": 12,
-            "ctxt": 0
+            "end": 12
           },
           "attributes": [],
           "selfClosing": true,
@@ -62,15 +58,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 14,
-        "end": 33,
-        "ctxt": 0
+        "end": 33
       },
       "expression": {
         "type": "JSXElement",
         "span": {
           "start": 14,
-          "end": 33,
-          "ctxt": 0
+          "end": 33
         },
         "opening": {
           "type": "JSXOpeningElement",
@@ -80,9 +74,9 @@
               "type": "Identifier",
               "span": {
                 "start": 15,
-                "end": 18,
-                "ctxt": 0
+                "end": 18
               },
+              "ctxt": 0,
               "value": "Foo",
               "optional": false
             },
@@ -90,17 +84,16 @@
               "type": "Identifier",
               "span": {
                 "start": 19,
-                "end": 22,
-                "ctxt": 0
+                "end": 22
               },
+              "ctxt": 0,
               "value": "Bar",
               "optional": false
             }
           },
           "span": {
             "start": 14,
-            "end": 23,
-            "ctxt": 0
+            "end": 23
           },
           "attributes": [],
           "selfClosing": false,
@@ -111,8 +104,7 @@
           "type": "JSXClosingElement",
           "span": {
             "start": 23,
-            "end": 33,
-            "ctxt": 0
+            "end": 33
           },
           "name": {
             "type": "JSXNamespacedName",
@@ -120,9 +112,9 @@
               "type": "Identifier",
               "span": {
                 "start": 25,
-                "end": 28,
-                "ctxt": 0
+                "end": 28
               },
+              "ctxt": 0,
               "value": "Foo",
               "optional": false
             },
@@ -130,9 +122,9 @@
               "type": "Identifier",
               "span": {
                 "start": 29,
-                "end": 32,
-                "ctxt": 0
+                "end": 32
               },
+              "ctxt": 0,
               "value": "Bar",
               "optional": false
             }

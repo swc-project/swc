@@ -662,7 +662,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 cases.push(SwitchCase {
-                    span: Span::new(case_start, p.input.prev_span().hi, Default::default()),
+                    span: Span::new(case_start, p.input.prev_span().hi),
                     test,
                     cons,
                 });
@@ -709,10 +709,7 @@ impl<'a, I: Tokens> Parser<I> {
         let finalizer = self.parse_finally_block()?;
 
         if handler.is_none() && finalizer.is_none() {
-            self.emit_err(
-                Span::new(catch_start, catch_start, Default::default()),
-                SyntaxError::TS1005,
-            );
+            self.emit_err(Span::new(catch_start, catch_start), SyntaxError::TS1005);
         }
 
         let span = span!(self, start);
@@ -887,7 +884,7 @@ impl<'a, I: Tokens> Parser<I> {
             match res {
                 Ok(true) => {
                     let pos = var_span.hi();
-                    let span = Span::new(pos, pos, Default::default());
+                    let span = Span::new(pos, pos);
                     self.emit_err(span, SyntaxError::TS1123);
 
                     return Ok(Box::new(VarDecl {
@@ -895,6 +892,7 @@ impl<'a, I: Tokens> Parser<I> {
                         kind,
                         declare: false,
                         decls: vec![],
+                        ..Default::default()
                     }));
                 }
                 Err(..) => {}
@@ -925,7 +923,7 @@ impl<'a, I: Tokens> Parser<I> {
             if is_exact!(self, ';') || eof!(self) {
                 let prev_span = self.input.prev_span();
                 let span = if prev_span == var_span {
-                    Span::new(prev_span.hi, prev_span.hi, Default::default())
+                    Span::new(prev_span.hi, prev_span.hi)
                 } else {
                     prev_span
                 };
@@ -955,6 +953,7 @@ impl<'a, I: Tokens> Parser<I> {
             declare: false,
             kind,
             decls,
+            ..Default::default()
         }))
     }
 
@@ -1120,7 +1119,11 @@ impl<'a, I: Tokens> Parser<I> {
         let stmts = self.parse_block_body(allow_directives, false, Some(&tok!('}')))?;
 
         let span = span!(self, start);
-        Ok(BlockStmt { span, stmts })
+        Ok(BlockStmt {
+            span,
+            stmts,
+            ctxt: Default::default(),
+        })
     }
 
     fn parse_labelled_stmt(&mut self, l: Ident) -> PResult<Stmt> {
@@ -1529,7 +1532,7 @@ mod tests {
                 span,
                 block: BlockStmt {
                     span,
-                    stmts: vec![]
+                    ..Default::default()
                 },
                 handler: Some(CatchClause {
                     span,
@@ -1539,7 +1542,9 @@ mod tests {
                         props: vec![ObjectPatProp::Rest(RestPat {
                             span,
                             dot3_token: span,
-                            arg: Box::new(Pat::Ident(Ident::new("a34".into(), span).into())),
+                            arg: Box::new(Pat::Ident(
+                                Ident::new_no_ctxt("a34".into(), span).into()
+                            )),
                             type_ann: None
                         })],
                         type_ann: None,
@@ -1547,7 +1552,7 @@ mod tests {
                     .into(),
                     body: BlockStmt {
                         span,
-                        stmts: vec![]
+                        ..Default::default()
                     }
                 }),
                 finalizer: None
@@ -1579,12 +1584,12 @@ mod tests {
                     decls: vec![VarDeclarator {
                         span,
                         init: None,
-                        name: Pat::Ident(Ident::new("a".into(), span).into()),
+                        name: Pat::Ident(Ident::new_no_ctxt("a".into(), span).into()),
                         definite: false,
                     }],
-                    declare: false,
+                    ..Default::default()
                 })),
-                right: Box::new(Expr::Ident(Ident::new("b".into(), span))),
+                right: Box::new(Expr::Ident(Ident::new_no_ctxt("b".into(), span))),
 
                 body: Box::new(Stmt::Empty(EmptyStmt { span })),
             })
@@ -1607,6 +1612,7 @@ mod tests {
             Stmt::Block(BlockStmt {
                 span,
                 stmts: vec![stmt("1")],
+                ..Default::default()
             })
         );
     }
@@ -1640,7 +1646,7 @@ mod tests {
                 |p| p.parse_stmt_list_item(true),
             ),
             Stmt::Decl(Decl::Class(ClassDecl {
-                ident: Ident::new("Foo".into(), span),
+                ident: Ident::new_no_ctxt("Foo".into(), span),
                 class: Box::new(Class {
                     span,
                     decorators: vec![
@@ -1654,11 +1660,9 @@ mod tests {
                         }
                     ],
                     super_class: None,
-                    implements: vec![],
                     body: vec![],
                     is_abstract: false,
-                    super_type_params: None,
-                    type_params: None,
+                    ..Default::default()
                 }),
                 declare: false,
             }))
@@ -2072,15 +2076,16 @@ export default function waitUntil(callback, options = {}) {
                             elems: vec![
                                 None,
                                 None,
-                                Some(Pat::Ident(Ident::new("t".into(), span).into()))
+                                Some(Pat::Ident(Ident::new_no_ctxt("t".into(), span).into()))
                             ]
                         }),
-                        init: Some(Box::new(Expr::Ident(Ident::new(
+                        init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
                             "simple_array".into(),
                             span
                         )))),
                         definite: false
-                    }]
+                    }],
+                    ..Default::default()
                 }))
             ),
             _ => unreachable!(),
@@ -2093,7 +2098,6 @@ export default function waitUntil(callback, options = {}) {
                 v,
                 VarDeclOrExpr::VarDecl(Box::new(VarDecl {
                     span,
-                    declare: false,
                     kind: VarDeclKind::Let,
                     decls: vec![VarDeclarator {
                         span,
@@ -2103,13 +2107,17 @@ export default function waitUntil(callback, options = {}) {
                             span,
                             props: vec![ObjectPatProp::Assign(AssignPatProp {
                                 span,
-                                key: Ident::new("num".into(), span).into(),
+                                key: Ident::new_no_ctxt("num".into(), span).into(),
                                 value: None
                             })]
                         }),
-                        init: Some(Box::new(Expr::Ident(Ident::new("obj".into(), span)))),
+                        init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
+                            "obj".into(),
+                            span
+                        )))),
                         definite: false
-                    }]
+                    }],
+                    ..Default::default()
                 }))
             ),
             _ => unreachable!(),
@@ -2249,7 +2257,7 @@ export default function waitUntil(callback, options = {}) {
                 ident: Some(Ident {
                     span,
                     sym: "Foo".into(),
-                    optional: false,
+                    ..Default::default()
                 }),
                 class: Box::new(Class {
                     span,
@@ -2264,8 +2272,10 @@ export default function waitUntil(callback, options = {}) {
                         body: BlockStmt {
                             span,
                             stmts: vec!(stmt("1 + 1;")),
+                            ..Default::default()
                         }
-                    }))
+                    })),
+                    ..Default::default()
                 })
             }))
         );
@@ -2280,22 +2290,20 @@ export default function waitUntil(callback, options = {}) {
                 ident: Some(Ident {
                     span,
                     sym: "Foo".into(),
-                    optional: false,
+                    ..Default::default()
                 }),
                 class: Box::new(Class {
                     span,
                     decorators: Vec::new(),
                     super_class: None,
-                    type_params: None,
-                    super_type_params: None,
                     is_abstract: false,
-                    implements: Vec::new(),
                     body: vec!(
                         ClassMember::StaticBlock(StaticBlock {
                             span,
                             body: BlockStmt {
                                 span,
                                 stmts: vec!(stmt("1 + 1;")),
+                                ..Default::default()
                             },
                         }),
                         ClassMember::StaticBlock(StaticBlock {
@@ -2303,9 +2311,11 @@ export default function waitUntil(callback, options = {}) {
                             body: BlockStmt {
                                 span,
                                 stmts: vec!(stmt("1 + 1;")),
+                                ..Default::default()
                             },
                         })
-                    )
+                    ),
+                    ..Default::default()
                 })
             }))
         );
@@ -2325,23 +2335,20 @@ export default function waitUntil(callback, options = {}) {
                 ident: Some(Ident {
                     span,
                     sym: "Foo".into(),
-                    optional: false,
+                    ..Default::default()
                 }),
                 class: Box::new(Class {
                     span,
-                    decorators: Vec::new(),
-                    super_class: None,
-                    type_params: None,
-                    super_type_params: None,
                     is_abstract: false,
-                    implements: Vec::new(),
                     body: vec!(ClassMember::StaticBlock(StaticBlock {
                         span,
                         body: BlockStmt {
                             span,
                             stmts: vec!(stmt("1 + 1;")),
+                            ..Default::default()
                         }
-                    }))
+                    })),
+                    ..Default::default()
                 })
             }))
         );
@@ -2359,23 +2366,20 @@ export default function waitUntil(callback, options = {}) {
                 ident: Some(Ident {
                     span,
                     sym: "Foo".into(),
-                    optional: false,
+                    ..Default::default()
                 }),
                 class: Box::new(Class {
                     span,
-                    decorators: Vec::new(),
-                    super_class: None,
-                    type_params: None,
-                    super_type_params: None,
                     is_abstract: false,
-                    implements: Vec::new(),
                     body: vec!(ClassMember::StaticBlock(StaticBlock {
                         span,
                         body: BlockStmt {
                             span,
                             stmts: Vec::new(),
+                            ..Default::default()
                         }
-                    }))
+                    })),
+                    ..Default::default()
                 })
             }))
         );

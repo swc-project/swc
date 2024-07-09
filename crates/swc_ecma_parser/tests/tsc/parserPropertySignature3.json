@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 25,
-    "ctxt": 0
+    "end": 25
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
         "start": 1,
-        "end": 25,
-        "ctxt": 0
+        "end": 25
       },
       "id": {
         "type": "Identifier",
         "span": {
           "start": 11,
-          "end": 12,
-          "ctxt": 0
+          "end": 12
         },
+        "ctxt": 0,
         "value": "I",
         "optional": false
       },
@@ -30,25 +28,23 @@
         "type": "TsInterfaceBody",
         "span": {
           "start": 13,
-          "end": 25,
-          "ctxt": 0
+          "end": 25
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
               "start": 17,
-              "end": 23,
-              "ctxt": 0
+              "end": 23
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
                 "start": 17,
-                "end": 18,
-                "ctxt": 0
+                "end": 18
               },
+              "ctxt": 0,
               "value": "C",
               "optional": false
             },
@@ -58,15 +54,13 @@
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 18,
-                "end": 22,
-                "ctxt": 0
+                "end": 22
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 19,
-                  "end": 22,
-                  "ctxt": 0
+                  "end": 22
                 },
                 "kind": "any"
               }

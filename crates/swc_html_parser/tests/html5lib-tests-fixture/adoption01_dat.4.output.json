@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 35,
-    "ctxt": 0
+    "end": 35
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 5,
-                "ctxt": 0
+                "end": 5
               },
               "tagName": "a",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -58,8 +53,7 @@
                   "type": "Text",
                   "span": {
                     "start": 4,
-                    "end": 5,
-                    "ctxt": 0
+                    "end": 5
                   },
                   "data": "1",
                   "raw": "1"
@@ -72,8 +66,7 @@
               "type": "Element",
               "span": {
                 "start": 5,
-                "end": 35,
-                "ctxt": 0
+                "end": 35
               },
               "tagName": "div",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -83,8 +76,7 @@
                   "type": "Element",
                   "span": {
                     "start": 10,
-                    "end": 11,
-                    "ctxt": 0
+                    "end": 11
                   },
                   "tagName": "a",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -94,8 +86,7 @@
                       "type": "Text",
                       "span": {
                         "start": 10,
-                        "end": 11,
-                        "ctxt": 0
+                        "end": 11
                       },
                       "data": "2",
                       "raw": "2"
@@ -108,8 +99,7 @@
                   "type": "Element",
                   "span": {
                     "start": 11,
-                    "end": 28,
-                    "ctxt": 0
+                    "end": 28
                   },
                   "tagName": "div",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -119,8 +109,7 @@
                       "type": "Element",
                       "span": {
                         "start": 16,
-                        "end": 21,
-                        "ctxt": 0
+                        "end": 21
                       },
                       "tagName": "a",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -130,8 +119,7 @@
                           "type": "Text",
                           "span": {
                             "start": 16,
-                            "end": 17,
-                            "ctxt": 0
+                            "end": 17
                           },
                           "data": "3",
                           "raw": "3"
@@ -144,8 +132,7 @@
                       "type": "Text",
                       "span": {
                         "start": 21,
-                        "end": 22,
-                        "ctxt": 0
+                        "end": 22
                       },
                       "data": "4",
                       "raw": "4"
@@ -158,8 +145,7 @@
                   "type": "Text",
                   "span": {
                     "start": 28,
-                    "end": 29,
-                    "ctxt": 0
+                    "end": 29
                   },
                   "data": "5",
                   "raw": "5"

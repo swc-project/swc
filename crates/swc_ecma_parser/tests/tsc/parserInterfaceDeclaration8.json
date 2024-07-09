@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 21,
-    "ctxt": 0
+    "end": 21
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
         "start": 1,
-        "end": 21,
-        "ctxt": 0
+        "end": 21
       },
       "id": {
         "type": "Identifier",
         "span": {
           "start": 11,
-          "end": 17,
-          "ctxt": 0
+          "end": 17
         },
+        "ctxt": 0,
         "value": "string",
         "optional": false
       },
@@ -30,8 +28,7 @@
         "type": "TsInterfaceBody",
         "span": {
           "start": 18,
-          "end": 21,
-          "ctxt": 0
+          "end": 21
         },
         "body": []
       }

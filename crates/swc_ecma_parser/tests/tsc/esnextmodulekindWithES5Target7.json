@@ -2,23 +2,20 @@
   "type": "Module",
   "span": {
     "start": 37,
-    "end": 126,
-    "ctxt": 0
+    "end": 126
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 37,
-        "end": 74,
-        "ctxt": 0
+        "end": 74
       },
       "declaration": {
         "type": "TsModuleDeclaration",
         "span": {
           "start": 44,
-          "end": 74,
-          "ctxt": 0
+          "end": 74
         },
         "declare": false,
         "global": false,
@@ -26,9 +23,9 @@
           "type": "Identifier",
           "span": {
             "start": 54,
-            "end": 55,
-            "ctxt": 0
+            "end": 55
           },
+          "ctxt": 0,
           "value": "N",
           "optional": false
         },
@@ -36,17 +33,16 @@
           "type": "TsModuleBlock",
           "span": {
             "start": 56,
-            "end": 74,
-            "ctxt": 0
+            "end": 74
           },
           "body": [
             {
               "type": "VariableDeclaration",
               "span": {
                 "start": 62,
-                "end": 72,
-                "ctxt": 0
+                "end": 72
               },
+              "ctxt": 0,
               "kind": "var",
               "declare": false,
               "declarations": [
@@ -54,16 +50,15 @@
                   "type": "VariableDeclarator",
                   "span": {
                     "start": 66,
-                    "end": 71,
-                    "ctxt": 0
+                    "end": 71
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
                       "start": 66,
-                      "end": 67,
-                      "ctxt": 0
+                      "end": 67
                     },
+                    "ctxt": 0,
                     "value": "x",
                     "optional": false,
                     "typeAnnotation": null
@@ -72,8 +67,7 @@
                     "type": "NumericLiteral",
                     "span": {
                       "start": 70,
-                      "end": 71,
-                      "ctxt": 0
+                      "end": 71
                     },
                     "value": 0.0,
                     "raw": "0"
@@ -90,15 +84,13 @@
       "type": "ExportDeclaration",
       "span": {
         "start": 76,
-        "end": 126,
-        "ctxt": 0
+        "end": 126
       },
       "declaration": {
         "type": "TsModuleDeclaration",
         "span": {
           "start": 83,
-          "end": 126,
-          "ctxt": 0
+          "end": 126
         },
         "declare": false,
         "global": false,
@@ -106,9 +98,9 @@
           "type": "Identifier",
           "span": {
             "start": 93,
-            "end": 95,
-            "ctxt": 0
+            "end": 95
           },
+          "ctxt": 0,
           "value": "N2",
           "optional": false
         },
@@ -116,31 +108,28 @@
           "type": "TsModuleBlock",
           "span": {
             "start": 96,
-            "end": 126,
-            "ctxt": 0
+            "end": 126
           },
           "body": [
             {
               "type": "ExportDeclaration",
               "span": {
                 "start": 102,
-                "end": 124,
-                "ctxt": 0
+                "end": 124
               },
               "declaration": {
                 "type": "TsInterfaceDeclaration",
                 "span": {
                   "start": 109,
-                  "end": 124,
-                  "ctxt": 0
+                  "end": 124
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
                     "start": 119,
-                    "end": 120,
-                    "ctxt": 0
+                    "end": 120
                   },
+                  "ctxt": 0,
                   "value": "I",
                   "optional": false
                 },
@@ -151,8 +140,7 @@
                   "type": "TsInterfaceBody",
                   "span": {
                     "start": 121,
-                    "end": 124,
-                    "ctxt": 0
+                    "end": 124
                   },
                   "body": []
                 }

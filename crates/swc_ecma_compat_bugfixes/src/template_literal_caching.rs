@@ -46,6 +46,7 @@ impl TemplateLiteralCaching {
                 kind: VarDeclKind::Let,
                 declare: false,
                 decls: self.decls.clone(),
+                ..Default::default()
             }))));
         }
         None
@@ -75,8 +76,7 @@ impl Fold for TemplateLiteralCaching {
                             body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Ident(t)))),
                             is_async: false,
                             is_generator: false,
-                            type_params: None,
-                            return_type: None,
+                            ..Default::default()
                         })),
                     )
                 }
@@ -94,7 +94,7 @@ impl Fold for TemplateLiteralCaching {
                         quasis: n.tpl.quasis,
                         exprs: n.tpl.exprs.iter().map(|_| 0.0.into()).collect(),
                     }),
-                    type_params: None,
+                    ..Default::default()
                 };
 
                 // Install an inline cache at the callsite using the global variable:
@@ -124,7 +124,7 @@ impl Fold for TemplateLiteralCaching {
                         .into_iter()
                         .chain(n.tpl.exprs.into_iter().map(|expr| expr.as_arg()))
                         .collect(),
-                    type_args: None,
+                    ..Default::default()
                 })
             }
             _ => n,

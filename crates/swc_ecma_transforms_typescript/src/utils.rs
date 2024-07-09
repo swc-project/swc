@@ -135,8 +135,7 @@ impl Factory {
             body: Some(body),
             is_generator: false,
             is_async: false,
-            type_params: None,
-            return_type: None,
+            ..Default::default()
         }
     }
 }

@@ -357,9 +357,8 @@ impl Optimizer<'_> {
                         if l.is_nan() || r.is_nan() {
                             *e = Expr::Ident(Ident::new(
                                 "NaN".into(),
-                                bin.span.with_ctxt(
-                                    SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                                ),
+                                bin.span,
+                                SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
                             ));
                         } else {
                             *e = Expr::Lit(Lit::Num(Number {
@@ -404,9 +403,8 @@ impl Optimizer<'_> {
                             // Sign does not matter for NaN
                             *e = Expr::Ident(Ident::new(
                                 "NaN".into(),
-                                bin.span.with_ctxt(
-                                    SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                                ),
+                                bin.span,
+                                SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
                             ));
                         }
                         (FpCategory::Normal, FpCategory::Zero) => {
@@ -415,17 +413,14 @@ impl Optimizer<'_> {
 
                             // Sign does not matter for NaN
                             *e = if ln.is_sign_positive() == rn.is_sign_positive() {
-                                Expr::Ident(Ident::new(
-                                    "Infinity".into(),
-                                    bin.span.with_ctxt(SyntaxContext::empty()),
-                                ))
+                                Expr::Ident(Ident::new_no_ctxt("Infinity".into(), bin.span))
                             } else {
                                 Expr::Unary(UnaryExpr {
                                     span: bin.span,
                                     op: op!(unary, "-"),
-                                    arg: Box::new(Expr::Ident(Ident::new(
+                                    arg: Box::new(Expr::Ident(Ident::new_no_ctxt(
                                         "Infinity".into(),
-                                        bin.span.with_ctxt(SyntaxContext::empty()),
+                                        bin.span,
                                     ))),
                                 })
                             };

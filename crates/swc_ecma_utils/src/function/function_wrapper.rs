@@ -54,7 +54,6 @@ impl<T> FunctionWrapper<T> {
         let ref_ident = private_ident!("_ref");
 
         let ref_decl: Decl = VarDecl {
-            span: DUMMY_SP,
             kind: VarDeclKind::Var,
             decls: vec![VarDeclarator {
                 span: DUMMY_SP,
@@ -62,7 +61,7 @@ impl<T> FunctionWrapper<T> {
                 init: Some(Box::new(self.function.take())),
                 definite: false,
             }],
-            declare: false,
+            ..Default::default()
         }
         .into();
 
@@ -77,19 +76,16 @@ impl<T> FunctionWrapper<T> {
         .into();
 
         let block_stmt = BlockStmt {
-            span: DUMMY_SP,
             stmts: vec![ref_decl.into(), return_fn_stmt],
+            ..Default::default()
         };
 
         let function = Box::new(Function {
             span: DUMMY_SP,
             body: Some(block_stmt),
-            params: Default::default(),
             is_generator: false,
             is_async: false,
-            decorators: Default::default(),
-            return_type: Default::default(),
-            type_params: Default::default(),
+            ..Default::default()
         });
 
         FnExpr {
@@ -118,7 +114,6 @@ impl<T> FunctionWrapper<T> {
 
         let ref_stmt: Stmt = Stmt::Decl(
             VarDecl {
-                span: DUMMY_SP,
                 kind: VarDeclKind::Var,
                 decls: vec![VarDeclarator {
                     span: DUMMY_SP,
@@ -126,7 +121,8 @@ impl<T> FunctionWrapper<T> {
                     init: Some(Box::new(self.function.take())),
                     definite: false,
                 }],
-                declare: false,
+
+                ..Default::default()
             }
             .into(),
         );
@@ -150,19 +146,16 @@ impl<T> FunctionWrapper<T> {
         });
 
         let block_stmt = BlockStmt {
-            span: DUMMY_SP,
             stmts: vec![ref_stmt, fn_decl_stmt, return_stmt],
+            ..Default::default()
         };
 
         let function = Box::new(Function {
             span: DUMMY_SP,
             body: Some(block_stmt),
-            params: Default::default(),
             is_generator: false,
             is_async: false,
-            decorators: Default::default(),
-            return_type: Default::default(),
-            type_params: Default::default(),
+            ..Default::default()
         });
 
         FnExpr {
@@ -210,8 +203,8 @@ impl<T> FunctionWrapper<T> {
             .clone();
 
         let ref_fn_block_stmt = BlockStmt {
-            span: DUMMY_SP,
             stmts: vec![assign_stmt, return_ref_apply_stmt],
+            ..Default::default()
         };
 
         // function REF
@@ -224,9 +217,7 @@ impl<T> FunctionWrapper<T> {
                 is_generator: false,
                 params: self.params.take(),
                 body: Some(ref_fn_block_stmt),
-                decorators: Default::default(),
-                type_params: Default::default(),
-                return_type: Default::default(),
+                ..Default::default()
             }),
         };
 
@@ -253,16 +244,15 @@ impl<T> FunctionWrapper<T> {
             ident: name_ident,
             function: Box::new(Function {
                 params: self.params.take(),
-                decorators: Default::default(),
                 span: DUMMY_SP,
                 body: Some(BlockStmt {
-                    span: DUMMY_SP,
                     stmts: vec![apply],
+                    ..Default::default()
                 }),
                 is_generator: false,
                 is_async: false,
-                type_params: Default::default(),
-                return_type: Default::default(),
+
+                ..Default::default()
             }),
         }
     }
@@ -298,23 +288,23 @@ impl From<ArrowExpr> for FunctionWrapper<Expr> {
         let body = Some(match *body {
             BlockStmtOrExpr::BlockStmt(block) => block,
             BlockStmtOrExpr::Expr(expr) => BlockStmt {
-                span: DUMMY_SP,
                 stmts: vec![Stmt::Return(ReturnStmt {
                     span: expr.span(),
                     arg: Some(expr),
                 })],
+                ..Default::default()
             },
         });
 
         let function = Box::new(Function {
             span,
             params: params.into_iter().map(Into::into).collect(),
-            decorators: Default::default(),
             body,
             type_params: None,
             return_type: None,
             is_generator,
             is_async,
+            ..Default::default()
         });
 
         let fn_expr = FnExpr {

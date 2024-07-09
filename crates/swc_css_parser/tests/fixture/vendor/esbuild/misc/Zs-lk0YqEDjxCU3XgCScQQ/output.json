@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 20,
-    "ctxt": 0
+    "end": 20
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 20,
-        "ctxt": 0
+        "end": 20
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
         "value": "import",
         "raw": "import"
@@ -27,15 +24,13 @@
         "type": "ImportPrelude",
         "span": {
           "start": 9,
-          "end": 19,
-          "ctxt": 0
+          "end": 19
         },
         "href": {
           "type": "String",
           "span": {
             "start": 9,
-            "end": 18,
-            "ctxt": 0
+            "end": 18
           },
           "value": "foo.css",
           "raw": "\"foo.css\""

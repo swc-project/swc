@@ -1,22 +1,22 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..8#0,
+                span: 1..8,
                 tag_name: Text {
-                    span: 1..8#0,
+                    span: 1..8,
                     value: "example",
                 },
                 tag: Example(
                     ExampleTag {
-                        span: 1..8#0,
+                        span: 1..8,
                         text: Text {
-                            span: 1..47#0,
+                            span: 1..47,
                             value: "* console.log(\"foo\");\n * console.log(\"bar\");\n ",
                         },
                     },
@@ -25,39 +25,39 @@
         ],
     },
     JsDoc {
-        span: 72..72#0,
+        span: 72..72,
         description: Text {
-            span: 72..72#0,
+            span: 72..72,
             value: "",
         },
         tags: [
             TagItem {
-                span: 72..79#0,
+                span: 72..79,
                 tag_name: Text {
-                    span: 72..79#0,
+                    span: 72..79,
                     value: "example",
                 },
                 tag: Example(
                     ExampleTag {
-                        span: 72..79#0,
+                        span: 72..79,
                         text: Text {
-                            span: 72..120#0,
+                            span: 72..120,
                             value: "* console.log(\"foo\");\n * console.log(\"bar\");\n * ",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 72..79#0,
+                span: 72..79,
                 tag_name: Text {
-                    span: 72..79#0,
+                    span: 72..79,
                     value: "example",
                 },
                 tag: Example(
                     ExampleTag {
-                        span: 72..79#0,
+                        span: 72..79,
                         text: Text {
-                            span: 72..114#0,
+                            span: 72..114,
                             value: "* <caption>Example 2</caption>\n * 1 + 2;\n ",
                         },
                     },

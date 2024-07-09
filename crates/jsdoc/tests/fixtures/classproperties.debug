@@ -1,32 +1,32 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..14#0,
+            span: 1..14,
             value: "Sample class.",
         },
         tags: [],
     },
     JsDoc {
-        span: 36..36#0,
+        span: 36..36,
         description: Text {
-            span: 36..52#0,
+            span: 36..52,
             value: "Public property.",
         },
         tags: [],
     },
     JsDoc {
-        span: 76..76#0,
+        span: 76..76,
         description: Text {
-            span: 76..93#0,
+            span: 76..93,
             value: "Private property.",
         },
         tags: [],
     },
     JsDoc {
-        span: 118..118#0,
+        span: 118..118,
         description: Text {
-            span: 118..156#0,
+            span: 118..156,
             value: "Property with no value assigned to it.",
         },
         tags: [],

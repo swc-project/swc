@@ -109,8 +109,8 @@ impl PreferConst {
 
     fn collect_decl_pat(&mut self, initialized: bool, pat: &Pat) {
         match pat {
-            Pat::Ident(BindingIdent { id, .. }) => {
-                self.add_var_meta(id, initialized);
+            Pat::Ident(id) => {
+                self.add_var_meta(&Ident::from(id), initialized);
             }
             Pat::Assign(AssignPat { left, .. }) => {
                 self.collect_decl_pat(initialized, left.as_ref());
@@ -127,7 +127,7 @@ impl PreferConst {
                             self.collect_decl_pat(initialized, value.as_ref());
                         }
                         ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
-                            self.add_var_meta(key, initialized);
+                            self.add_var_meta(&Ident::from(key), initialized);
                         }
                         ObjectPatProp::Rest(RestPat { arg, .. }) => {
                             self.collect_decl_pat(initialized, arg.as_ref());
@@ -165,8 +165,8 @@ impl PreferConst {
 
     fn consider_mutation(&mut self, pat: &Pat, destructuring_assign: bool) {
         match pat {
-            Pat::Ident(BindingIdent { id, .. }) => {
-                self.consider_mutation_for_ident(id, destructuring_assign);
+            Pat::Ident(id) => {
+                self.consider_mutation_for_ident(&Ident::from(id), destructuring_assign);
             }
             Pat::Array(ArrayPat { elems, .. }) => elems.iter().flatten().for_each(|elem| {
                 self.consider_mutation(elem, destructuring_assign);
@@ -177,7 +177,7 @@ impl PreferConst {
                         self.consider_mutation(value.as_ref(), true);
                     }
                     ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
-                        self.consider_mutation_for_ident(key, true);
+                        self.consider_mutation_for_ident(&Ident::from(key), true);
                     }
                     _ => {}
                 });
@@ -236,7 +236,7 @@ impl Visit for PreferConst {
         if let op!("=") = assign_expr.op {
             match &assign_expr.left {
                 AssignTarget::Simple(SimpleAssignTarget::Ident(l)) => {
-                    self.consider_mutation_for_ident(l, false);
+                    self.consider_mutation_for_ident(&Ident::from(l), false);
                 }
 
                 AssignTarget::Pat(pat) => match pat {
@@ -251,7 +251,7 @@ impl Visit for PreferConst {
                                 self.consider_mutation(value.as_ref(), true);
                             }
                             ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
-                                self.consider_mutation_for_ident(key, true);
+                                self.consider_mutation_for_ident(&Ident::from(key), true);
                             }
                             _ => {}
                         });

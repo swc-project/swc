@@ -401,7 +401,8 @@ impl SimplifyExpr {
                         } else {
                             Expr::Ident(Ident::new(
                                 "NaN".into(),
-                                span.with_ctxt(self.expr_ctx.unresolved_ctxt),
+                                *span,
+                                self.expr_ctx.unresolved_ctxt,
                             ))
                         };
 
@@ -487,7 +488,8 @@ impl SimplifyExpr {
                                     } else {
                                         Expr::Ident(Ident::new(
                                             "NaN".into(),
-                                            span.with_ctxt(self.expr_ctx.unresolved_ctxt),
+                                            span,
+                                            self.expr_ctx.unresolved_ctxt,
                                         ))
                                     };
 
@@ -704,7 +706,8 @@ impl SimplifyExpr {
                             } else {
                                 Expr::Ident(Ident::new(
                                     "NaN".into(),
-                                    span.with_ctxt(self.expr_ctx.unresolved_ctxt),
+                                    *span,
+                                    self.expr_ctx.unresolved_ctxt,
                                 ))
                             };
 
@@ -822,7 +825,8 @@ impl SimplifyExpr {
                             *span,
                             Expr::Ident(Ident::new(
                                 "NaN".into(),
-                                span.with_ctxt(self.expr_ctx.unresolved_ctxt),
+                                *span,
+                                self.expr_ctx.unresolved_ctxt,
                             )),
                             iter::once(arg.take()),
                         );
@@ -1050,17 +1054,17 @@ impl SimplifyExpr {
                 &Expr::Ident(
                     Ident {
                         sym: ref li,
-                        span: l_span,
+                        ctxt: l_ctxt,
                         ..
                     },
                     ..,
                 ),
                 &Expr::Ident(Ident {
                     sym: ref ri,
-                    span: r_span,
+                    ctxt: r_ctxt,
                     ..
                 }),
-            ) if !will_negate && li == ri && l_span.ctxt == r_span.ctxt => {
+            ) if !will_negate && li == ri && l_ctxt == r_ctxt => {
                 return Known(false);
             }
             // Special case: `typeof a < typeof a` is always false.

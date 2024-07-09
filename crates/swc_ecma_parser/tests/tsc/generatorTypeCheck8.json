@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 118,
-    "ctxt": 0
+    "end": 118
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
         "start": 16,
-        "end": 85,
-        "ctxt": 0
+        "end": 85
       },
       "id": {
         "type": "Identifier",
         "span": {
           "start": 26,
-          "end": 38,
-          "ctxt": 0
+          "end": 38
         },
+        "ctxt": 0,
         "value": "BadGenerator",
         "optional": false
       },
@@ -30,16 +28,15 @@
           "type": "TsExpressionWithTypeArguments",
           "span": {
             "start": 47,
-            "end": 63,
-            "ctxt": 0
+            "end": 63
           },
           "expression": {
             "type": "Identifier",
             "span": {
               "start": 47,
-              "end": 55,
-              "ctxt": 0
+              "end": 55
             },
+            "ctxt": 0,
             "value": "Iterator",
             "optional": false
           },
@@ -47,16 +44,14 @@
             "type": "TsTypeParameterInstantiation",
             "span": {
               "start": 55,
-              "end": 63,
-              "ctxt": 0
+              "end": 63
             },
             "params": [
               {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 56,
-                  "end": 62,
-                  "ctxt": 0
+                  "end": 62
                 },
                 "kind": "number"
               }
@@ -67,16 +62,15 @@
           "type": "TsExpressionWithTypeArguments",
           "span": {
             "start": 65,
-            "end": 81,
-            "ctxt": 0
+            "end": 81
           },
           "expression": {
             "type": "Identifier",
             "span": {
               "start": 65,
-              "end": 73,
-              "ctxt": 0
+              "end": 73
             },
+            "ctxt": 0,
             "value": "Iterable",
             "optional": false
           },
@@ -84,16 +78,14 @@
             "type": "TsTypeParameterInstantiation",
             "span": {
               "start": 73,
-              "end": 81,
-              "ctxt": 0
+              "end": 81
             },
             "params": [
               {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 74,
-                  "end": 80,
-                  "ctxt": 0
+                  "end": 80
                 },
                 "kind": "string"
               }
@@ -105,8 +97,7 @@
         "type": "TsInterfaceBody",
         "span": {
           "start": 82,
-          "end": 85,
-          "ctxt": 0
+          "end": 85
         },
         "body": []
       }
@@ -117,9 +108,9 @@
         "type": "Identifier",
         "span": {
           "start": 96,
-          "end": 98,
-          "ctxt": 0
+          "end": 98
         },
+        "ctxt": 0,
         "value": "g3",
         "optional": false
       },
@@ -128,16 +119,16 @@
       "decorators": [],
       "span": {
         "start": 86,
-        "end": 118,
-        "ctxt": 0
+        "end": 118
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 115,
-          "end": 118,
-          "ctxt": 0
+          "end": 118
         },
+        "ctxt": 0,
         "stmts": []
       },
       "generator": true,
@@ -147,23 +138,21 @@
         "type": "TsTypeAnnotation",
         "span": {
           "start": 100,
-          "end": 114,
-          "ctxt": 0
+          "end": 114
         },
         "typeAnnotation": {
           "type": "TsTypeReference",
           "span": {
             "start": 102,
-            "end": 114,
-            "ctxt": 0
+            "end": 114
           },
           "typeName": {
             "type": "Identifier",
             "span": {
               "start": 102,
-              "end": 114,
-              "ctxt": 0
+              "end": 114
             },
+            "ctxt": 0,
             "value": "BadGenerator",
             "optional": false
           },

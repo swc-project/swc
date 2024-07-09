@@ -2,25 +2,23 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 149,
-    "ctxt": 0
+    "end": 149
   },
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
         "start": 1,
-        "end": 33,
-        "ctxt": 0
+        "end": 33
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
           "start": 6,
-          "end": 13,
-          "ctxt": 0
+          "end": 13
         },
+        "ctxt": 0,
         "value": "Strings",
         "optional": false
       },
@@ -29,24 +27,21 @@
         "type": "TsTupleType",
         "span": {
           "start": 16,
-          "end": 32,
-          "ctxt": 0
+          "end": 32
         },
         "elemTypes": [
           {
             "type": "TsTupleElement",
             "span": {
               "start": 17,
-              "end": 23,
-              "ctxt": 0
+              "end": 23
             },
             "label": null,
             "ty": {
               "type": "TsKeywordType",
               "span": {
                 "start": 17,
-                "end": 23,
-                "ctxt": 0
+                "end": 23
               },
               "kind": "string"
             }
@@ -55,16 +50,14 @@
             "type": "TsTupleElement",
             "span": {
               "start": 25,
-              "end": 31,
-              "ctxt": 0
+              "end": 31
             },
             "label": null,
             "ty": {
               "type": "TsKeywordType",
               "span": {
                 "start": 25,
-                "end": 31,
-                "ctxt": 0
+                "end": 31
               },
               "kind": "string"
             }
@@ -76,17 +69,16 @@
       "type": "TsTypeAliasDeclaration",
       "span": {
         "start": 34,
-        "end": 66,
-        "ctxt": 0
+        "end": 66
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
           "start": 39,
-          "end": 46,
-          "ctxt": 0
+          "end": 46
         },
+        "ctxt": 0,
         "value": "Numbers",
         "optional": false
       },
@@ -95,24 +87,21 @@
         "type": "TsTupleType",
         "span": {
           "start": 49,
-          "end": 65,
-          "ctxt": 0
+          "end": 65
         },
         "elemTypes": [
           {
             "type": "TsTupleElement",
             "span": {
               "start": 50,
-              "end": 56,
-              "ctxt": 0
+              "end": 56
             },
             "label": null,
             "ty": {
               "type": "TsKeywordType",
               "span": {
                 "start": 50,
-                "end": 56,
-                "ctxt": 0
+                "end": 56
               },
               "kind": "number"
             }
@@ -121,16 +110,14 @@
             "type": "TsTupleElement",
             "span": {
               "start": 58,
-              "end": 64,
-              "ctxt": 0
+              "end": 64
             },
             "label": null,
             "ty": {
               "type": "TsKeywordType",
               "span": {
                 "start": 58,
-                "end": 64,
-                "ctxt": 0
+                "end": 64
               },
               "kind": "number"
             }
@@ -142,17 +129,16 @@
       "type": "TsTypeAliasDeclaration",
       "span": {
         "start": 104,
-        "end": 149,
-        "ctxt": 0
+        "end": 149
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
           "start": 109,
-          "end": 121,
-          "ctxt": 0
+          "end": 121
         },
+        "ctxt": 0,
         "value": "StrStrNumNum",
         "optional": false
       },
@@ -161,39 +147,35 @@
         "type": "TsTupleType",
         "span": {
           "start": 124,
-          "end": 148,
-          "ctxt": 0
+          "end": 148
         },
         "elemTypes": [
           {
             "type": "TsTupleElement",
             "span": {
               "start": 125,
-              "end": 135,
-              "ctxt": 0
+              "end": 135
             },
             "label": null,
             "ty": {
               "type": "TsRestType",
               "span": {
                 "start": 125,
-                "end": 135,
-                "ctxt": 0
+                "end": 135
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 128,
-                  "end": 135,
-                  "ctxt": 0
+                  "end": 135
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
                     "start": 128,
-                    "end": 135,
-                    "ctxt": 0
+                    "end": 135
                   },
+                  "ctxt": 0,
                   "value": "Strings",
                   "optional": false
                 },
@@ -205,31 +187,28 @@
             "type": "TsTupleElement",
             "span": {
               "start": 137,
-              "end": 147,
-              "ctxt": 0
+              "end": 147
             },
             "label": null,
             "ty": {
               "type": "TsRestType",
               "span": {
                 "start": 137,
-                "end": 147,
-                "ctxt": 0
+                "end": 147
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 140,
-                  "end": 147,
-                  "ctxt": 0
+                  "end": 147
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
                     "start": 140,
-                    "end": 147,
-                    "ctxt": 0
+                    "end": 147
                   },
+                  "ctxt": 0,
                   "value": "Numbers",
                   "optional": false
                 },

@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 16..16#0,
+        span: 16..16,
         description: Text {
-            span: 16..16#0,
+            span: 16..16,
             value: "",
         },
         tags: [
             TagItem {
-                span: 16..25#0,
+                span: 16..25,
                 tag_name: Text {
-                    span: 16..25#0,
+                    span: 16..25,
                     value: "interface",
                 },
                 tag: Interface(
                     InterfaceTag {
-                        span: 16..25#0,
+                        span: 16..25,
                         name: None,
                     },
                 ),
@@ -22,23 +22,23 @@
         ],
     },
     JsDoc {
-        span: 61..61#0,
+        span: 61..61,
         description: Text {
-            span: 61..61#0,
+            span: 61..61,
             value: "",
         },
         tags: [
             TagItem {
-                span: 61..65#0,
+                span: 61..65,
                 tag_name: Text {
-                    span: 61..65#0,
+                    span: 61..65,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 61..65#0,
+                        span: 61..65,
                         name: Text {
-                            span: 61..69#0,
+                            span: 61..69,
                             value: "{string}",
                         },
                     },
@@ -47,23 +47,23 @@
         ],
     },
     JsDoc {
-        span: 121..121#0,
+        span: 121..121,
         description: Text {
-            span: 121..121#0,
+            span: 121..121,
             value: "",
         },
         tags: [
             TagItem {
-                span: 121..125#0,
+                span: 121..125,
                 tag_name: Text {
-                    span: 121..125#0,
+                    span: 121..125,
                     value: "enum",
                 },
                 tag: Enum(
                     EnumTag {
-                        span: 121..125#0,
+                        span: 121..125,
                         ty: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -72,40 +72,40 @@
         ],
     },
     JsDoc {
-        span: 189..189#0,
+        span: 189..189,
         description: Text {
-            span: 189..207#0,
+            span: 189..207,
             value: "before each method",
         },
         tags: [],
     },
     JsDoc {
-        span: 266..266#0,
+        span: 266..266,
         description: Text {
-            span: 266..276#0,
+            span: 266..276,
             value: "it method.",
         },
         tags: [],
     },
     JsDoc {
-        span: 327..327#0,
+        span: 327..327,
         description: Text {
-            span: 327..327#0,
+            span: 327..327,
             value: "",
         },
         tags: [
             TagItem {
-                span: 327..338#0,
+                span: 327..338,
                 tag_name: Text {
-                    span: 327..338#0,
+                    span: 327..338,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 327..338#0,
+                        span: 327..338,
                         ty: Some(
                             Text {
-                                span: 327..350#0,
+                                span: 327..350,
                                 value: "* @implements {ITester}",
                             },
                         ),
@@ -116,23 +116,23 @@
         ],
     },
     JsDoc {
-        span: 400..409#0,
+        span: 400..409,
         description: Text {
-            span: 400..400#0,
+            span: 400..400,
             value: "",
         },
         tags: [
             TagItem {
-                span: 400..404#0,
+                span: 400..404,
                 tag_name: Text {
-                    span: 400..404#0,
+                    span: 400..404,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 400..404#0,
+                        span: 400..404,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -141,23 +141,23 @@
         ],
     },
     JsDoc {
-        span: 457..457#0,
+        span: 457..457,
         description: Text {
-            span: 457..457#0,
+            span: 457..457,
             value: "",
         },
         tags: [
             TagItem {
-                span: 457..461#0,
+                span: 457..461,
                 tag_name: Text {
-                    span: 457..461#0,
+                    span: 457..461,
                     value: "enum",
                 },
                 tag: Enum(
                     EnumTag {
-                        span: 457..461#0,
+                        span: 457..461,
                         ty: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -166,37 +166,37 @@
         ],
     },
     JsDoc {
-        span: 492..492#0,
+        span: 492..492,
         description: Text {
-            span: 492..503#0,
+            span: 492..503,
             value: "keyboard up",
         },
         tags: [],
     },
     JsDoc {
-        span: 561..561#0,
+        span: 561..561,
         description: Text {
-            span: 561..591#0,
+            span: 561..591,
             value: "my tester's beforeEach method.",
         },
         tags: [],
     },
     JsDoc {
-        span: 690..690#0,
+        span: 690..690,
         description: Text {
-            span: 690..690#0,
+            span: 690..690,
             value: "",
         },
         tags: [
             TagItem {
-                span: 690..699#0,
+                span: 690..699,
                 tag_name: Text {
-                    span: 690..699#0,
+                    span: 690..699,
                     value: "interface",
                 },
                 tag: Interface(
                     InterfaceTag {
-                        span: 690..699#0,
+                        span: 690..699,
                         name: None,
                     },
                 ),
@@ -204,32 +204,32 @@
         ],
     },
     JsDoc {
-        span: 734..734#0,
+        span: 734..734,
         description: Text {
-            span: 734..764#0,
+            span: 734..764,
             value: "Interface for doing some work.",
         },
         tags: [],
     },
     JsDoc {
-        span: 813..813#0,
+        span: 813..813,
         description: Text {
-            span: 813..813#0,
+            span: 813..813,
             value: "",
         },
         tags: [
             TagItem {
-                span: 813..824#0,
+                span: 813..824,
                 tag_name: Text {
-                    span: 813..824#0,
+                    span: 813..824,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 813..824#0,
+                        span: 813..824,
                         ty: Some(
                             Text {
-                                span: 813..836#0,
+                                span: 813..836,
                                 value: "* @implements {IWorker}",
                             },
                         ),
@@ -240,32 +240,32 @@
         ],
     },
     JsDoc {
-        span: 885..885#0,
+        span: 885..885,
         description: Text {
-            span: 885..898#0,
+            span: 885..898,
             value: "Do some work.",
         },
         tags: [],
     },
     JsDoc {
-        span: 992..992#0,
+        span: 992..992,
         description: Text {
-            span: 992..992#0,
+            span: 992..992,
             value: "",
         },
         tags: [
             TagItem {
-                span: 992..1003#0,
+                span: 992..1003,
                 tag_name: Text {
-                    span: 992..1003#0,
+                    span: 992..1003,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 992..1003#0,
+                        span: 992..1003,
                         ty: Some(
                             Text {
-                                span: 992..1015#0,
+                                span: 992..1015,
                                 value: "* @implements {IWorker}",
                             },
                         ),

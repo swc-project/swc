@@ -2,23 +2,20 @@
   "type": "Module",
   "span": {
     "start": 66,
-    "end": 132,
-    "ctxt": 0
+    "end": 132
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 66,
-        "end": 95,
-        "ctxt": 0
+        "end": 95
       },
       "declaration": {
         "type": "TsEnumDeclaration",
         "span": {
           "start": 73,
-          "end": 95,
-          "ctxt": 0
+          "end": 95
         },
         "declare": false,
         "isConst": false,
@@ -26,9 +23,9 @@
           "type": "Identifier",
           "span": {
             "start": 78,
-            "end": 80,
-            "ctxt": 0
+            "end": 80
           },
+          "ctxt": 0,
           "value": "E1",
           "optional": false
         },
@@ -37,16 +34,15 @@
             "type": "TsEnumMember",
             "span": {
               "start": 87,
-              "end": 93,
-              "ctxt": 0
+              "end": 93
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 87,
-                "end": 93,
-                "ctxt": 0
+                "end": 93
               },
+              "ctxt": 0,
               "value": "value1",
               "optional": false
             },
@@ -59,15 +55,13 @@
       "type": "ExportDeclaration",
       "span": {
         "start": 97,
-        "end": 132,
-        "ctxt": 0
+        "end": 132
       },
       "declaration": {
         "type": "TsEnumDeclaration",
         "span": {
           "start": 104,
-          "end": 132,
-          "ctxt": 0
+          "end": 132
         },
         "declare": false,
         "isConst": true,
@@ -75,9 +69,9 @@
           "type": "Identifier",
           "span": {
             "start": 115,
-            "end": 117,
-            "ctxt": 0
+            "end": 117
           },
+          "ctxt": 0,
           "value": "E2",
           "optional": false
         },
@@ -86,16 +80,15 @@
             "type": "TsEnumMember",
             "span": {
               "start": 124,
-              "end": 130,
-              "ctxt": 0
+              "end": 130
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 124,
-                "end": 130,
-                "ctxt": 0
+                "end": 130
               },
+              "ctxt": 0,
               "value": "value1",
               "optional": false
             },

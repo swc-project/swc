@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                         ty: Text {
-                            span: 1..4#0,
+                            span: 1..4,
                             value: "uid",
                         },
                     },
@@ -29,21 +29,21 @@
         ],
     },
     JsDoc {
-        span: 0..21#0,
+        span: 0..21,
         description: Text {
-            span: 21..21#0,
+            span: 21..21,
             value: "",
         },
         tags: [
             TagItem {
-                span: 21..30#0,
+                span: 21..30,
                 tag_name: Text {
-                    span: 21..30#0,
+                    span: 21..30,
                     value: "protected",
                 },
                 tag: Protected(
                     ProtectedTag {
-                        span: 21..30#0,
+                        span: 21..30,
                         ty: None,
                     },
                 ),
@@ -51,21 +51,21 @@
         ],
     },
     JsDoc {
-        span: 0..60#0,
+        span: 0..60,
         description: Text {
-            span: 60..60#0,
+            span: 60..60,
             value: "",
         },
         tags: [
             TagItem {
-                span: 60..69#0,
+                span: 60..69,
                 tag_name: Text {
-                    span: 60..69#0,
+                    span: 60..69,
                     value: "protected",
                 },
                 tag: Protected(
                     ProtectedTag {
-                        span: 60..69#0,
+                        span: 60..69,
                         ty: None,
                     },
                 ),
@@ -73,25 +73,25 @@
         ],
     },
     JsDoc {
-        span: 101..101#0,
+        span: 101..101,
         description: Text {
-            span: 101..113#0,
+            span: 101..113,
             value: "Root object.",
         },
         tags: [],
     },
     JsDoc {
-        span: 138..138#0,
+        span: 138..138,
         description: Text {
-            span: 138..157#0,
+            span: 138..157,
             value: "Obtain a unique ID.",
         },
         tags: [],
     },
     JsDoc {
-        span: 231..231#0,
+        span: 231..231,
         description: Text {
-            span: 231..268#0,
+            span: 231..268,
             value: "Associate an object with a unique ID.",
         },
         tags: [],

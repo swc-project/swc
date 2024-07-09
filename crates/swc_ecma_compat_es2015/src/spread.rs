@@ -151,14 +151,14 @@ impl VisitMut for Spread {
                 let apply = MemberExpr {
                     span: DUMMY_SP,
                     obj: callee_updated.unwrap_or_else(|| callee.take()),
-                    prop: MemberProp::Ident(Ident::new("apply".into(), *span)),
+                    prop: MemberProp::Ident(Ident::new_no_ctxt("apply".into(), *span)),
                 };
 
                 *e = Expr::Call(CallExpr {
                     span: *span,
                     callee: apply.as_callee(),
                     args: vec![this.as_arg(), args_array.as_arg()],
-                    type_args: None,
+                    ..Default::default()
                 })
             }
             Expr::New(NewExpr {
@@ -180,7 +180,7 @@ impl VisitMut for Spread {
                     span: *span,
                     callee: helper!(construct),
                     args: vec![callee.take().as_arg(), args.as_arg()],
-                    type_args: Default::default(),
+                    ..Default::default()
                 });
             }
             _ => {}
@@ -204,10 +204,9 @@ impl Spread {
                 items,
                 T::from_stmt(
                     VarDecl {
-                        span: DUMMY_SP,
                         kind: VarDeclKind::Var,
-                        declare: false,
                         decls: self.vars.take(),
+                        ..Default::default()
                     }
                     .into(),
                 ),
@@ -301,7 +300,7 @@ impl Spread {
                 .make_member(quote_ident!("concat"))
                 .as_callee(),
                 args: arg_list,
-                type_args: Default::default(),
+                ..Default::default()
             });
         }
 
@@ -317,14 +316,14 @@ impl Spread {
                                 .make_member(quote_ident!("from"))
                                 .as_callee(),
                             args: vec![expr.as_arg()],
-                            type_args: Default::default(),
+                            ..Default::default()
                         }
                     } else {
                         CallExpr {
                             span,
                             callee: helper!(to_consumable_array),
                             args: vec![expr.as_arg()],
-                            type_args: Default::default(),
+                            ..Default::default()
                         }
                     }
                 }
@@ -342,12 +341,13 @@ impl Spread {
                                         return Expr::Call(CallExpr {
                                             span,
                                             callee: member_expr!(
+                                                Default::default(),
                                                 DUMMY_SP,
                                                 Array.prototype.slice.call
                                             )
                                             .as_callee(),
                                             args: vec![expr.as_arg()],
-                                            type_args: Default::default(),
+                                            ..Default::default()
                                         });
                                     } else {
                                         return *expr;
@@ -355,10 +355,14 @@ impl Spread {
                                 } else {
                                     CallExpr {
                                         span,
-                                        callee: member_expr!(DUMMY_SP, Array.prototype.slice.call)
-                                            .as_callee(),
+                                        callee: member_expr!(
+                                            Default::default(),
+                                            DUMMY_SP,
+                                            Array.prototype.slice.call
+                                        )
+                                        .as_callee(),
                                         args: vec![expr.as_arg()],
-                                        type_args: Default::default(),
+                                        ..Default::default()
                                     }
                                     .as_arg()
                                 }
@@ -383,7 +387,7 @@ impl Spread {
                                             .make_member(quote_ident!("concat"))
                                             .as_callee(),
                                             args: vec![expr.as_arg()],
-                                            type_args: Default::default(),
+                                            ..Default::default()
                                         })
                                     } else {
                                         Expr::Call(to_consumable_array(expr, span))
@@ -411,14 +415,14 @@ impl Spread {
             let callee = buf
                 .remove(0)
                 .expr
-                .make_member(Ident::new("concat".into(), DUMMY_SP))
+                .make_member(Ident::new_no_ctxt("concat".into(), DUMMY_SP))
                 .as_callee();
 
             return Expr::Call(CallExpr {
                 span,
                 callee,
                 args: buf,
-                type_args: Default::default(),
+                ..Default::default()
             });
         }
 
@@ -437,11 +441,11 @@ impl Spread {
                         elems: vec![],
                     })
                 })
-                .make_member(Ident::new("concat".into(), span))
+                .make_member(Ident::new_no_ctxt("concat".into(), span))
                 .as_callee(),
 
             args: buf,
-            type_args: Default::default(),
+            ..Default::default()
         })
     }
 }

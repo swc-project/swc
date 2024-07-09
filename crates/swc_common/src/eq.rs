@@ -2,7 +2,7 @@ use std::{cell::RefCell, rc::Rc, sync::Arc};
 
 use num_bigint::BigInt;
 
-use crate::{BytePos, Span, SyntaxContext};
+use crate::{BytePos, Span};
 
 /// Derive with `#[derive(EqIgnoreSpan)]`.
 pub trait EqIgnoreSpan {
@@ -128,7 +128,7 @@ macro_rules! eq {
     };
 }
 
-eq!(SyntaxContext, BytePos);
+eq!(BytePos);
 eq!(bool);
 eq!(usize, u8, u16, u32, u64, u128);
 eq!(isize, i8, i16, i32, i64, i128);

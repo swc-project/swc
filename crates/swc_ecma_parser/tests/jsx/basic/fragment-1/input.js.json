@@ -2,30 +2,26 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 6,
-    "ctxt": 0
+    "end": 6
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 6,
-        "ctxt": 0
+        "end": 6
       },
       "expression": {
         "type": "JSXFragment",
         "span": {
           "start": 1,
-          "end": 6,
-          "ctxt": 0
+          "end": 6
         },
         "opening": {
           "type": "JSXOpeningFragment",
           "span": {
             "start": 1,
-            "end": 3,
-            "ctxt": 0
+            "end": 3
           }
         },
         "children": [],
@@ -33,8 +29,7 @@
           "type": "JSXClosingFragment",
           "span": {
             "start": 3,
-            "end": 6,
-            "ctxt": 0
+            "end": 6
           }
         }
       }

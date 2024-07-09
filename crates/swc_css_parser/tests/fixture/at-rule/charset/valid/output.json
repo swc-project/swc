@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 19,
-    "ctxt": 0
+    "end": 19
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 18,
-        "ctxt": 0
+        "end": 18
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 9,
-          "ctxt": 0
+          "end": 9
         },
         "value": "charset",
         "raw": "charset"
@@ -27,8 +24,7 @@
         "type": "String",
         "span": {
           "start": 10,
-          "end": 17,
-          "ctxt": 0
+          "end": 17
         },
         "value": "utf-8",
         "raw": "\"utf-8\""

@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 233,
-    "ctxt": 0
+    "end": 233
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
         "start": 1,
-        "end": 233,
-        "ctxt": 0
+        "end": 233
       },
       "id": {
         "type": "Identifier",
         "span": {
           "start": 11,
-          "end": 19,
-          "ctxt": 0
+          "end": 19
         },
+        "ctxt": 0,
         "value": "Document",
         "optional": false
       },
@@ -30,24 +28,22 @@
         "type": "TsInterfaceBody",
         "span": {
           "start": 20,
-          "end": 233,
-          "ctxt": 0
+          "end": 233
         },
         "body": [
           {
             "type": "TsMethodSignature",
             "span": {
               "start": 26,
-              "end": 70,
-              "ctxt": 0
+              "end": 70
             },
             "key": {
               "type": "Identifier",
               "span": {
                 "start": 26,
-                "end": 39,
-                "ctxt": 0
+                "end": 39
               },
+              "ctxt": 0,
               "value": "createElement",
               "optional": false
             },
@@ -58,24 +54,22 @@
                 "type": "Identifier",
                 "span": {
                   "start": 40,
-                  "end": 47,
-                  "ctxt": 0
+                  "end": 47
                 },
+                "ctxt": 0,
                 "value": "tagName",
                 "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
                     "start": 47,
-                    "end": 55,
-                    "ctxt": 0
+                    "end": 55
                   },
                   "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
                       "start": 49,
-                      "end": 55,
-                      "ctxt": 0
+                      "end": 55
                     },
                     "kind": "string"
                   }
@@ -86,23 +80,21 @@
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 56,
-                "end": 69,
-                "ctxt": 0
+                "end": 69
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 58,
-                  "end": 69,
-                  "ctxt": 0
+                  "end": 69
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
                     "start": 58,
-                    "end": 69,
-                    "ctxt": 0
+                    "end": 69
                   },
+                  "ctxt": 0,
                   "value": "HTMLElement",
                   "optional": false
                 },
@@ -115,16 +107,15 @@
             "type": "TsMethodSignature",
             "span": {
               "start": 75,
-              "end": 127,
-              "ctxt": 0
+              "end": 127
             },
             "key": {
               "type": "Identifier",
               "span": {
                 "start": 75,
-                "end": 88,
-                "ctxt": 0
+                "end": 88
               },
+              "ctxt": 0,
               "value": "createElement",
               "optional": false
             },
@@ -135,31 +126,28 @@
                 "type": "Identifier",
                 "span": {
                   "start": 89,
-                  "end": 96,
-                  "ctxt": 0
+                  "end": 96
                 },
+                "ctxt": 0,
                 "value": "tagName",
                 "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
                     "start": 96,
-                    "end": 106,
-                    "ctxt": 0
+                    "end": 106
                   },
                   "typeAnnotation": {
                     "type": "TsLiteralType",
                     "span": {
                       "start": 98,
-                      "end": 106,
-                      "ctxt": 0
+                      "end": 106
                     },
                     "literal": {
                       "type": "StringLiteral",
                       "span": {
                         "start": 98,
-                        "end": 106,
-                        "ctxt": 0
+                        "end": 106
                       },
                       "value": "canvas",
                       "raw": "'canvas'"
@@ -172,23 +160,21 @@
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 107,
-                "end": 126,
-                "ctxt": 0
+                "end": 126
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 109,
-                  "end": 126,
-                  "ctxt": 0
+                  "end": 126
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
                     "start": 109,
-                    "end": 126,
-                    "ctxt": 0
+                    "end": 126
                   },
+                  "ctxt": 0,
                   "value": "HTMLCanvasElement",
                   "optional": false
                 },
@@ -201,16 +187,15 @@
             "type": "TsMethodSignature",
             "span": {
               "start": 132,
-              "end": 178,
-              "ctxt": 0
+              "end": 178
             },
             "key": {
               "type": "Identifier",
               "span": {
                 "start": 132,
-                "end": 145,
-                "ctxt": 0
+                "end": 145
               },
+              "ctxt": 0,
               "value": "createElement",
               "optional": false
             },
@@ -221,31 +206,28 @@
                 "type": "Identifier",
                 "span": {
                   "start": 146,
-                  "end": 153,
-                  "ctxt": 0
+                  "end": 153
                 },
+                "ctxt": 0,
                 "value": "tagName",
                 "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
                     "start": 153,
-                    "end": 160,
-                    "ctxt": 0
+                    "end": 160
                   },
                   "typeAnnotation": {
                     "type": "TsLiteralType",
                     "span": {
                       "start": 155,
-                      "end": 160,
-                      "ctxt": 0
+                      "end": 160
                     },
                     "literal": {
                       "type": "StringLiteral",
                       "span": {
                         "start": 155,
-                        "end": 160,
-                        "ctxt": 0
+                        "end": 160
                       },
                       "value": "div",
                       "raw": "'div'"
@@ -258,23 +240,21 @@
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 161,
-                "end": 177,
-                "ctxt": 0
+                "end": 177
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 163,
-                  "end": 177,
-                  "ctxt": 0
+                  "end": 177
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
                     "start": 163,
-                    "end": 177,
-                    "ctxt": 0
+                    "end": 177
                   },
+                  "ctxt": 0,
                   "value": "HTMLDivElement",
                   "optional": false
                 },
@@ -287,16 +267,15 @@
             "type": "TsMethodSignature",
             "span": {
               "start": 183,
-              "end": 231,
-              "ctxt": 0
+              "end": 231
             },
             "key": {
               "type": "Identifier",
               "span": {
                 "start": 183,
-                "end": 196,
-                "ctxt": 0
+                "end": 196
               },
+              "ctxt": 0,
               "value": "createElement",
               "optional": false
             },
@@ -307,31 +286,28 @@
                 "type": "Identifier",
                 "span": {
                   "start": 197,
-                  "end": 204,
-                  "ctxt": 0
+                  "end": 204
                 },
+                "ctxt": 0,
                 "value": "tagName",
                 "optional": false,
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
                     "start": 204,
-                    "end": 212,
-                    "ctxt": 0
+                    "end": 212
                   },
                   "typeAnnotation": {
                     "type": "TsLiteralType",
                     "span": {
                       "start": 206,
-                      "end": 212,
-                      "ctxt": 0
+                      "end": 212
                     },
                     "literal": {
                       "type": "StringLiteral",
                       "span": {
                         "start": 206,
-                        "end": 212,
-                        "ctxt": 0
+                        "end": 212
                       },
                       "value": "span",
                       "raw": "'span'"
@@ -344,23 +320,21 @@
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 213,
-                "end": 230,
-                "ctxt": 0
+                "end": 230
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 215,
-                  "end": 230,
-                  "ctxt": 0
+                  "end": 230
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
                     "start": 215,
-                    "end": 230,
-                    "ctxt": 0
+                    "end": 230
                   },
+                  "ctxt": 0,
                   "value": "HTMLSpanElement",
                   "optional": false
                 },

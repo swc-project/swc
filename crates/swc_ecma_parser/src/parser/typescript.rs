@@ -2,7 +2,7 @@ use std::fmt::Write;
 
 use either::Either;
 use swc_atoms::js_word;
-use swc_common::{Spanned, SyntaxContext};
+use swc_common::Spanned;
 
 use super::*;
 use crate::{lexer::TokenContexts, parser::class_and_fn::IsSimpleParameterList, token::Keyword};
@@ -197,10 +197,7 @@ impl<I: Tokens> Parser<I> {
         while eat!(self, '.') {
             let dot_start = cur_pos!(self);
             if !is!(self, '#') && !is!(self, IdentName) {
-                self.emit_err(
-                    Span::new(dot_start, dot_start, Default::default()),
-                    SyntaxError::TS1003,
-                );
+                self.emit_err(Span::new(dot_start, dot_start), SyntaxError::TS1003);
                 return Ok(entity);
             }
 
@@ -762,7 +759,7 @@ impl<I: Tokens> Parser<I> {
 
                 expect!(self, ']');
 
-                TsEnumMemberId::Ident(Ident::new(js_word!(""), span!(self, start)))
+                TsEnumMemberId::Ident(Ident::new_no_ctxt(js_word!(""), span!(self, start)))
             }
             _ => self.parse_ident_name().map(TsEnumMemberId::from)?,
         };
@@ -775,10 +772,7 @@ impl<I: Tokens> Parser<I> {
             let start = cur_pos!(self);
             bump!(self);
             store!(self, ',');
-            self.emit_err(
-                Span::new(start, start, SyntaxContext::empty()),
-                SyntaxError::TS1005,
-            );
+            self.emit_err(Span::new(start, start), SyntaxError::TS1005);
             None
         };
 
@@ -1345,13 +1339,13 @@ impl<I: Tokens> Parser<I> {
         let type_ann_start = cur_pos!(self);
 
         if eat!(self, ',') {
-            self.emit_err(id.id.span, SyntaxError::TS1096);
+            self.emit_err(id.span, SyntaxError::TS1096);
         } else {
             expect!(self, ':');
         }
 
         let type_ann = self.parse_ts_type_ann(/* eat_colon */ false, type_ann_start)?;
-        id.id.span = span!(self, ident_start);
+        id.span = span!(self, ident_start);
         id.type_ann = Some(type_ann);
 
         expect!(self, ']');
@@ -2648,6 +2642,7 @@ impl<I: Tokens> Parser<I> {
                 type_params: Some(type_params),
                 params,
                 return_type,
+                ..Default::default()
             }))
         })
     }
@@ -2842,7 +2837,7 @@ mod tests {
                     ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(Box::new(TsTypeAliasDecl {
                         span: DUMMY_SP,
                         declare: false,
-                        id: Ident::new("test".into(), DUMMY_SP),
+                        id: Ident::new_no_ctxt("test".into(), DUMMY_SP),
                         type_params: None,
                         type_ann: Box::new(TsType::TsLitType(TsLitType {
                             span: DUMMY_SP,
@@ -2878,7 +2873,7 @@ mod tests {
                     declare: false,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(Ident::new("t".into(), DUMMY_SP).into()),
+                        name: Pat::Ident(Ident::new_no_ctxt("t".into(), DUMMY_SP).into()),
                         init: Some(Box::new(Expr::Unary(UnaryExpr {
                             span: DUMMY_SP,
                             op: op!(unary, "-"),
@@ -2890,6 +2885,7 @@ mod tests {
                         }))),
                         definite: false,
                     }],
+                    ..Default::default()
                 }))));
                 vec![second]
             },

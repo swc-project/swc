@@ -10,7 +10,7 @@ static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
 
 fn module_clone(b: &mut Bencher) {
     let _ = ::testing::run_test(false, |cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
 
         let mut errors = vec![];
         let module = parse_file_as_module(
@@ -36,7 +36,7 @@ fn module_clone(b: &mut Bencher) {
 
 fn fold_empty(b: &mut Bencher) {
     let _ = ::testing::run_test(false, |cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
 
         let mut errors = vec![];
         let module = parse_file_as_module(
@@ -66,7 +66,7 @@ fn fold_empty(b: &mut Bencher) {
 
 fn fold_noop_impl_all(b: &mut Bencher) {
     let _ = ::testing::run_test(false, |cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
 
         let mut errors = vec![];
         let module = parse_file_as_module(
@@ -94,7 +94,7 @@ fn fold_noop_impl_all(b: &mut Bencher) {
 
 fn fold_noop_impl_vec(b: &mut Bencher) {
     let _ = ::testing::run_test(false, |cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
         let mut errors = vec![];
         let module = parse_file_as_module(
             &fm,
@@ -122,9 +122,9 @@ fn fold_noop_impl_vec(b: &mut Bencher) {
 fn mk_expr() -> Expr {
     Expr::Call(CallExpr {
         span: DUMMY_SP,
-        callee: Ident::new("foo".into(), DUMMY_SP).as_callee(),
+        callee: Ident::new_no_ctxt("foo".into(), DUMMY_SP).as_callee(),
         args: vec![],
-        type_args: None,
+        ..Default::default()
     })
 }
 
@@ -190,7 +190,7 @@ fn visit_contains_this(b: &mut Bencher) {
     }
 
     let _ = ::testing::run_test(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
         let lexer = Lexer::new(
             Syntax::Typescript(Default::default()),
             Default::default(),

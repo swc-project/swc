@@ -95,7 +95,7 @@ impl FnEnvHoister {
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: id.into(),
-                init: Some(Box::new(Expr::Ident(Ident::new(
+                init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
                     "arguments".into(),
                     DUMMY_SP,
                 )))),
@@ -124,10 +124,9 @@ impl FnEnvHoister {
             None
         } else {
             Some(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                span: DUMMY_SP,
                 kind: VarDeclKind::Var,
-                declare: false,
                 decls,
+                ..Default::default()
             }))))
         }
     }
@@ -156,7 +155,7 @@ impl FnEnvHoister {
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: id.into(),
-                init: Some(Box::new(Expr::Ident(Ident::new(
+                init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
                     "arguments".into(),
                     DUMMY_SP,
                 )))),
@@ -182,10 +181,9 @@ impl FnEnvHoister {
         } else {
             (
                 Some(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                    span: DUMMY_SP,
                     kind: VarDeclKind::Var,
-                    declare: false,
                     decls,
+                    ..Default::default()
                 })))),
                 this,
             )
@@ -295,7 +293,6 @@ impl VisitMut for FnEnvHoister {
                 0,
                 Stmt::Decl(Decl::Var(Box::new(VarDecl {
                     kind: VarDeclKind::Var,
-                    span: DUMMY_SP,
                     decls: self
                         .extra_ident
                         .take()
@@ -307,7 +304,7 @@ impl VisitMut for FnEnvHoister {
                             definite: false,
                         })
                         .collect(),
-                    declare: false,
+                    ..Default::default()
                 }))),
             )
         }
@@ -320,11 +317,9 @@ impl VisitMut for FnEnvHoister {
         if !self.extra_ident.is_empty() {
             if let BlockStmtOrExpr::Expr(e) = b {
                 *b = BlockStmtOrExpr::BlockStmt(BlockStmt {
-                    span: DUMMY_SP,
                     stmts: vec![
                         Stmt::Decl(Decl::Var(Box::new(VarDecl {
                             kind: VarDeclKind::Var,
-                            span: DUMMY_SP,
                             decls: self
                                 .extra_ident
                                 .take()
@@ -336,13 +331,14 @@ impl VisitMut for FnEnvHoister {
                                     definite: false,
                                 })
                                 .collect(),
-                            declare: false,
+                            ..Default::default()
                         }))),
                         Stmt::Return(ReturnStmt {
                             span: e.span(),
                             arg: Some(e.take()),
                         }),
                     ],
+                    ..Default::default()
                 })
             }
         }
@@ -353,11 +349,10 @@ impl VisitMut for FnEnvHoister {
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         match e {
-            Expr::Ident(Ident { span, sym, .. })
+            Expr::Ident(Ident { ctxt, sym, .. })
                 if !self.arguments_disabled
                     && *sym == "arguments"
-                    && (span.ctxt == self.unresolved_ctxt
-                        || span.ctxt == SyntaxContext::empty()) =>
+                    && (*ctxt == self.unresolved_ctxt || *ctxt == SyntaxContext::empty()) =>
             {
                 let arguments = self
                     .args
@@ -419,7 +414,7 @@ impl VisitMut for FnEnvHoister {
                                                     .super_get_computed(DUMMY_SP)
                                                     .as_callee(),
                                                 args: vec![tmp.as_arg()],
-                                                type_args: None,
+                                                ..Default::default()
                                             })),
                                             op,
                                             right: right.take(),
@@ -433,7 +428,7 @@ impl VisitMut for FnEnvHoister {
                                     span: *span,
                                     args,
                                     callee: callee.as_callee(),
-                                    type_args: None,
+                                    ..Default::default()
                                 });
                             }
                             SuperProp::Ident(id) => {
@@ -455,7 +450,7 @@ impl VisitMut for FnEnvHoister {
                                     })
                                     .as_arg()],
                                     callee: callee.as_callee(),
-                                    type_args: None,
+                                    ..Default::default()
                                 });
                             }
                         }
@@ -479,7 +474,7 @@ impl VisitMut for FnEnvHoister {
                                     span: *span,
                                     args: vec![c.expr.take().as_arg()],
                                     callee: callee.as_callee(),
-                                    type_args: None,
+                                    ..Default::default()
                                 });
                                 let mut new_args = args.take();
 
@@ -493,7 +488,7 @@ impl VisitMut for FnEnvHoister {
                                     span: *span,
                                     args: Vec::new(),
                                     callee: callee.as_callee(),
-                                    type_args: None,
+                                    ..Default::default()
                                 });
                                 let mut new_args = args.take();
 
@@ -523,7 +518,7 @@ impl VisitMut for FnEnvHoister {
                             span: *span,
                             args: vec![c.expr.take().as_arg()],
                             callee: self.super_update_computed(*span).as_callee(),
-                            type_args: None,
+                            ..Default::default()
                         })
                         .make_member(quote_ident!("_"))
                         .into()
@@ -532,7 +527,7 @@ impl VisitMut for FnEnvHoister {
                             span: *span,
                             args: vec![c.expr.take().as_arg()],
                             callee: self.super_get_computed(*span).as_callee(),
-                            type_args: None,
+                            ..Default::default()
                         })
                     };
                 }
@@ -546,7 +541,7 @@ impl VisitMut for FnEnvHoister {
                             span: *span,
                             args: Vec::new(),
                             callee: self.super_get(&id.sym, *span).as_callee(),
-                            type_args: None,
+                            ..Default::default()
                         })
                     };
                 }
@@ -652,7 +647,6 @@ fn extend_super(
                         key: PropName::Ident(quote_ident!("_")),
                         type_ann: None,
                         body: Some(BlockStmt {
-                            span: DUMMY_SP,
                             stmts: vec![Expr::Ident(
                                 get.ident
                                     .get(&key)
@@ -663,6 +657,7 @@ fn extend_super(
                             .as_call(DUMMY_SP, Default::default())
                             .into_return_stmt()
                             .into()],
+                            ..Default::default()
                         }),
                     }),
                     Prop::Setter(SetterProp {
@@ -671,7 +666,6 @@ fn extend_super(
                         this_param: None,
                         param: value.clone().into(),
                         body: Some(BlockStmt {
-                            span: DUMMY_SP,
                             stmts: vec![Expr::Ident(
                                 set.ident
                                     .get(&key)
@@ -681,6 +675,7 @@ fn extend_super(
                             )
                             .as_call(DUMMY_SP, vec![value.as_arg()])
                             .into_stmt()],
+                            ..Default::default()
                         }),
                     }),
                 ]
@@ -710,7 +705,6 @@ fn extend_super(
                             key: PropName::Ident(quote_ident!("_")),
                             type_ann: None,
                             body: Some(BlockStmt {
-                                span: DUMMY_SP,
                                 stmts: vec![Expr::Ident(
                                     get.computed
                                         .clone()
@@ -720,6 +714,7 @@ fn extend_super(
                                 .as_call(DUMMY_SP, vec![prop.clone().as_arg()])
                                 .into_return_stmt()
                                 .into()],
+                                ..Default::default()
                             }),
                         }),
                         Prop::Setter(SetterProp {
@@ -728,7 +723,6 @@ fn extend_super(
                             this_param: None,
                             param: value.clone().into(),
                             body: Some(BlockStmt {
-                                span: DUMMY_SP,
                                 stmts: vec![Expr::Ident(
                                     set.computed
                                         .clone()
@@ -738,6 +732,7 @@ fn extend_super(
                                 .as_call(DUMMY_SP, vec![prop.as_arg(), value.as_arg()])
                                 .into_return_stmt()
                                 .into()],
+                                ..Default::default()
                             }),
                         }),
                     ]
@@ -746,10 +741,7 @@ fn extend_super(
                     .map(From::from)
                     .collect(),
                 })))),
-                is_async: false,
-                is_generator: false,
-                return_type: None,
-                type_params: None,
+                ..Default::default()
             }))),
             definite: false,
         });
@@ -767,10 +759,7 @@ fn extend_super(
                     span: DUMMY_SP,
                 },
             )))),
-            is_async: false,
-            is_generator: false,
-            return_type: None,
-            type_params: None,
+            ..Default::default()
         }))),
         definite: false,
     }));
@@ -792,10 +781,7 @@ fn extend_super(
                         span: DUMMY_SP,
                     },
                 )))),
-                is_async: false,
-                is_generator: false,
-                return_type: None,
-                type_params: None,
+                ..Default::default()
             }))),
             definite: false,
         });
@@ -819,10 +805,7 @@ fn extend_super(
                     op: op!("="),
                     right: Box::new(Expr::Ident(value)),
                 })))),
-                is_async: false,
-                is_generator: false,
-                return_type: None,
-                type_params: None,
+                ..Default::default()
             }))),
             definite: false,
         }
@@ -850,10 +833,7 @@ fn extend_super(
                     op: op!("="),
                     right: Box::new(Expr::Ident(value)),
                 })))),
-                is_async: false,
-                is_generator: false,
-                return_type: None,
-                type_params: None,
+                ..Default::default()
             }))),
             definite: false,
         });

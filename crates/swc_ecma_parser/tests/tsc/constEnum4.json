@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 87,
-    "ctxt": 0
+    "end": 87
   },
   "body": [
     {
       "type": "IfStatement",
       "span": {
         "start": 1,
-        "end": 87,
-        "ctxt": 0
+        "end": 87
       },
       "test": {
         "type": "NumericLiteral",
         "span": {
           "start": 5,
-          "end": 6,
-          "ctxt": 0
+          "end": 6
         },
         "value": 1.0,
         "raw": "1"
@@ -27,8 +24,7 @@
         "type": "TsEnumDeclaration",
         "span": {
           "start": 12,
-          "end": 28,
-          "ctxt": 0
+          "end": 28
         },
         "declare": false,
         "isConst": true,
@@ -36,9 +32,9 @@
           "type": "Identifier",
           "span": {
             "start": 23,
-            "end": 24,
-            "ctxt": 0
+            "end": 24
           },
+          "ctxt": 0,
           "value": "A",
           "optional": false
         },
@@ -48,15 +44,13 @@
         "type": "IfStatement",
         "span": {
           "start": 34,
-          "end": 87,
-          "ctxt": 0
+          "end": 87
         },
         "test": {
           "type": "NumericLiteral",
           "span": {
             "start": 38,
-            "end": 39,
-            "ctxt": 0
+            "end": 39
           },
           "value": 2.0,
           "raw": "2"
@@ -65,8 +59,7 @@
           "type": "TsEnumDeclaration",
           "span": {
             "start": 45,
-            "end": 61,
-            "ctxt": 0
+            "end": 61
           },
           "declare": false,
           "isConst": true,
@@ -74,9 +67,9 @@
             "type": "Identifier",
             "span": {
               "start": 56,
-              "end": 57,
-              "ctxt": 0
+              "end": 57
             },
+            "ctxt": 0,
             "value": "B",
             "optional": false
           },
@@ -86,8 +79,7 @@
           "type": "TsEnumDeclaration",
           "span": {
             "start": 71,
-            "end": 87,
-            "ctxt": 0
+            "end": 87
           },
           "declare": false,
           "isConst": true,
@@ -95,9 +87,9 @@
             "type": "Identifier",
             "span": {
               "start": 82,
-              "end": 83,
-              "ctxt": 0
+              "end": 83
             },
+            "ctxt": 0,
             "value": "C",
             "optional": false
           },

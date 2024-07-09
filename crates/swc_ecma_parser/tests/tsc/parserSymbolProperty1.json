@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 62,
-    "ctxt": 0
+    "end": 62
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
         "start": 16,
-        "end": 62,
-        "ctxt": 0
+        "end": 62
       },
       "id": {
         "type": "Identifier",
         "span": {
           "start": 26,
-          "end": 27,
-          "ctxt": 0
+          "end": 27
         },
+        "ctxt": 0,
         "value": "I",
         "optional": false
       },
@@ -30,32 +28,29 @@
         "type": "TsInterfaceBody",
         "span": {
           "start": 28,
-          "end": 62,
-          "ctxt": 0
+          "end": 62
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
               "start": 34,
-              "end": 60,
-              "ctxt": 0
+              "end": 60
             },
             "readonly": false,
             "key": {
               "type": "MemberExpression",
               "span": {
                 "start": 35,
-                "end": 50,
-                "ctxt": 0
+                "end": 50
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 35,
-                  "end": 41,
-                  "ctxt": 0
+                  "end": 41
                 },
+                "ctxt": 0,
                 "value": "Symbol",
                 "optional": false
               },
@@ -63,9 +58,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 42,
-                  "end": 50,
-                  "ctxt": 0
+                  "end": 50
                 },
+                "ctxt": 0,
                 "value": "iterator",
                 "optional": false
               }
@@ -76,15 +71,13 @@
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 51,
-                "end": 59,
-                "ctxt": 0
+                "end": 59
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 53,
-                  "end": 59,
-                  "ctxt": 0
+                  "end": 59
                 },
                 "kind": "string"
               }

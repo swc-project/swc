@@ -2,62 +2,54 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 274,
-    "ctxt": 0
+    "end": 274
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 273,
-        "ctxt": 0
+        "end": 273
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 2,
-          "ctxt": 0
+          "end": 2
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 2,
-              "ctxt": 0
+              "end": 2
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 2,
-                  "ctxt": 0
+                  "end": 2
                 },
                 "nestingSelector": null,
                 "typeSelector": {
                   "type": "TagNameSelector",
                   "span": {
                     "start": 1,
-                    "end": 2,
-                    "ctxt": 0
+                    "end": 2
                   },
                   "name": {
                     "type": "WqName",
                     "span": {
                       "start": 1,
-                      "end": 2,
-                      "ctxt": 0
+                      "end": 2
                     },
                     "prefix": null,
                     "value": {
                       "type": "Ident",
                       "span": {
                         "start": 1,
-                        "end": 2,
-                        "ctxt": 0
+                        "end": 2
                       },
                       "value": "a",
                       "raw": "a"
@@ -74,15 +66,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 3,
-          "end": 273,
-          "ctxt": 0
+          "end": 273
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 3,
-            "end": 4,
-            "ctxt": 0
+            "end": 4
           },
           "token": "LBrace"
         },
@@ -91,15 +81,13 @@
             "type": "Declaration",
             "span": {
               "start": 7,
-              "end": 21,
-              "ctxt": 0
+              "end": 21
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 7,
-                "end": 12,
-                "ctxt": 0
+                "end": 12
               },
               "value": "color",
               "raw": "color"
@@ -109,8 +97,7 @@
                 "type": "HexColor",
                 "span": {
                   "start": 14,
-                  "end": 21,
-                  "ctxt": 0
+                  "end": 21
                 },
                 "value": "000000",
                 "raw": "000000"
@@ -122,15 +109,13 @@
             "type": "Declaration",
             "span": {
               "start": 25,
-              "end": 39,
-              "ctxt": 0
+              "end": 39
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 25,
-                "end": 30,
-                "ctxt": 0
+                "end": 30
               },
               "value": "color",
               "raw": "color"
@@ -140,8 +125,7 @@
                 "type": "HexColor",
                 "span": {
                   "start": 32,
-                  "end": 39,
-                  "ctxt": 0
+                  "end": 39
                 },
                 "value": "ffffff",
                 "raw": "ffffff"
@@ -153,15 +137,13 @@
             "type": "Declaration",
             "span": {
               "start": 43,
-              "end": 57,
-              "ctxt": 0
+              "end": 57
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 43,
-                "end": 48,
-                "ctxt": 0
+                "end": 48
               },
               "value": "color",
               "raw": "color"
@@ -171,8 +153,7 @@
                 "type": "HexColor",
                 "span": {
                   "start": 50,
-                  "end": 57,
-                  "ctxt": 0
+                  "end": 57
                 },
                 "value": "FFFFFF",
                 "raw": "FFFFFF"
@@ -184,15 +165,13 @@
             "type": "Declaration",
             "span": {
               "start": 61,
-              "end": 77,
-              "ctxt": 0
+              "end": 77
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 61,
-                "end": 66,
-                "ctxt": 0
+                "end": 66
               },
               "value": "color",
               "raw": "color"
@@ -202,8 +181,7 @@
                 "type": "HexColor",
                 "span": {
                   "start": 68,
-                  "end": 77,
-                  "ctxt": 0
+                  "end": 77
                 },
                 "value": "0000ffcc",
                 "raw": "0000ffcc"
@@ -215,15 +193,13 @@
             "type": "Declaration",
             "span": {
               "start": 81,
-              "end": 97,
-              "ctxt": 0
+              "end": 97
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 81,
-                "end": 86,
-                "ctxt": 0
+                "end": 86
               },
               "value": "color",
               "raw": "color"
@@ -233,8 +209,7 @@
                 "type": "HexColor",
                 "span": {
                   "start": 88,
-                  "end": 97,
-                  "ctxt": 0
+                  "end": 97
                 },
                 "value": "0000FFCC",
                 "raw": "0000FFCC"
@@ -246,15 +221,13 @@
             "type": "Declaration",
             "span": {
               "start": 101,
-              "end": 112,
-              "ctxt": 0
+              "end": 112
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 101,
-                "end": 106,
-                "ctxt": 0
+                "end": 106
               },
               "value": "color",
               "raw": "color"
@@ -264,8 +237,7 @@
                 "type": "HexColor",
                 "span": {
                   "start": 108,
-                  "end": 112,
-                  "ctxt": 0
+                  "end": 112
                 },
                 "value": "000",
                 "raw": "000"
@@ -277,15 +249,13 @@
             "type": "Declaration",
             "span": {
               "start": 116,
-              "end": 127,
-              "ctxt": 0
+              "end": 127
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 116,
-                "end": 121,
-                "ctxt": 0
+                "end": 121
               },
               "value": "color",
               "raw": "color"
@@ -295,8 +265,7 @@
                 "type": "HexColor",
                 "span": {
                   "start": 123,
-                  "end": 127,
-                  "ctxt": 0
+                  "end": 127
                 },
                 "value": "fff",
                 "raw": "fff"
@@ -308,15 +277,13 @@
             "type": "Declaration",
             "span": {
               "start": 131,
-              "end": 142,
-              "ctxt": 0
+              "end": 142
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 131,
-                "end": 136,
-                "ctxt": 0
+                "end": 136
               },
               "value": "color",
               "raw": "color"
@@ -326,8 +293,7 @@
                 "type": "HexColor",
                 "span": {
                   "start": 138,
-                  "end": 142,
-                  "ctxt": 0
+                  "end": 142
                 },
                 "value": "FFF",
                 "raw": "FFF"
@@ -339,15 +305,13 @@
             "type": "Declaration",
             "span": {
               "start": 146,
-              "end": 158,
-              "ctxt": 0
+              "end": 158
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 146,
-                "end": 151,
-                "ctxt": 0
+                "end": 151
               },
               "value": "color",
               "raw": "color"
@@ -357,8 +321,7 @@
                 "type": "HexColor",
                 "span": {
                   "start": 153,
-                  "end": 158,
-                  "ctxt": 0
+                  "end": 158
                 },
                 "value": "0000",
                 "raw": "0000"
@@ -370,15 +333,13 @@
             "type": "Declaration",
             "span": {
               "start": 162,
-              "end": 174,
-              "ctxt": 0
+              "end": 174
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 162,
-                "end": 167,
-                "ctxt": 0
+                "end": 167
               },
               "value": "color",
               "raw": "color"
@@ -388,8 +349,7 @@
                 "type": "HexColor",
                 "span": {
                   "start": 169,
-                  "end": 174,
-                  "ctxt": 0
+                  "end": 174
                 },
                 "value": "ffff",
                 "raw": "ffff"
@@ -401,15 +361,13 @@
             "type": "Declaration",
             "span": {
               "start": 178,
-              "end": 190,
-              "ctxt": 0
+              "end": 190
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 178,
-                "end": 183,
-                "ctxt": 0
+                "end": 183
               },
               "value": "color",
               "raw": "color"
@@ -419,8 +377,7 @@
                 "type": "HexColor",
                 "span": {
                   "start": 185,
-                  "end": 190,
-                  "ctxt": 0
+                  "end": 190
                 },
                 "value": "FFFF",
                 "raw": "FFFF"
@@ -432,15 +389,13 @@
             "type": "Declaration",
             "span": {
               "start": 194,
-              "end": 203,
-              "ctxt": 0
+              "end": 203
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 194,
-                "end": 199,
-                "ctxt": 0
+                "end": 199
               },
               "value": "color",
               "raw": "color"
@@ -450,8 +405,7 @@
                 "type": "HexColor",
                 "span": {
                   "start": 201,
-                  "end": 203,
-                  "ctxt": 0
+                  "end": 203
                 },
                 "value": "1",
                 "raw": "1"
@@ -463,15 +417,13 @@
             "type": "Declaration",
             "span": {
               "start": 207,
-              "end": 217,
-              "ctxt": 0
+              "end": 217
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 207,
-                "end": 212,
-                "ctxt": 0
+                "end": 212
               },
               "value": "color",
               "raw": "color"
@@ -481,8 +433,7 @@
                 "type": "HexColor",
                 "span": {
                   "start": 214,
-                  "end": 217,
-                  "ctxt": 0
+                  "end": 217
                 },
                 "value": "FF",
                 "raw": "FF"
@@ -494,15 +445,13 @@
             "type": "Declaration",
             "span": {
               "start": 221,
-              "end": 238,
-              "ctxt": 0
+              "end": 238
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 221,
-                "end": 226,
-                "ctxt": 0
+                "end": 226
               },
               "value": "color",
               "raw": "color"
@@ -512,8 +461,7 @@
                 "type": "HexColor",
                 "span": {
                   "start": 228,
-                  "end": 238,
-                  "ctxt": 0
+                  "end": 238
                 },
                 "value": "123456789",
                 "raw": "123456789"
@@ -525,15 +473,13 @@
             "type": "Declaration",
             "span": {
               "start": 242,
-              "end": 253,
-              "ctxt": 0
+              "end": 253
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 242,
-                "end": 247,
-                "ctxt": 0
+                "end": 247
               },
               "value": "color",
               "raw": "color"
@@ -543,8 +489,7 @@
                 "type": "HexColor",
                 "span": {
                   "start": 249,
-                  "end": 253,
-                  "ctxt": 0
+                  "end": 253
                 },
                 "value": "abc",
                 "raw": "abc"
@@ -556,15 +501,13 @@
             "type": "Declaration",
             "span": {
               "start": 257,
-              "end": 270,
-              "ctxt": 0
+              "end": 270
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 257,
-                "end": 262,
-                "ctxt": 0
+                "end": 262
               },
               "value": "color",
               "raw": "color"
@@ -574,8 +517,7 @@
                 "type": "HexColor",
                 "span": {
                   "start": 264,
-                  "end": 270,
-                  "ctxt": 0
+                  "end": 270
                 },
                 "value": "aaa",
                 "raw": "aa\\61"

@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 39,
-    "end": 103,
-    "ctxt": 0
+    "end": 103
   },
   "body": [
     {
       "type": "ExportDefaultDeclaration",
       "span": {
         "start": 39,
-        "end": 70,
-        "ctxt": 0
+        "end": 70
       },
       "decl": {
         "type": "FunctionExpression",
@@ -19,9 +17,9 @@
           "type": "Identifier",
           "span": {
             "start": 63,
-            "end": 64,
-            "ctxt": 0
+            "end": 64
           },
+          "ctxt": 0,
           "value": "f",
           "optional": false
         },
@@ -29,16 +27,16 @@
         "decorators": [],
         "span": {
           "start": 54,
-          "end": 70,
-          "ctxt": 0
+          "end": 70
         },
+        "ctxt": 0,
         "body": {
           "type": "BlockStatement",
           "span": {
             "start": 67,
-            "end": 70,
-            "ctxt": 0
+            "end": 70
           },
+          "ctxt": 0,
           "stmts": []
         },
         "generator": false,
@@ -51,8 +49,7 @@
       "type": "ExportDefaultDeclaration",
       "span": {
         "start": 72,
-        "end": 103,
-        "ctxt": 0
+        "end": 103
       },
       "decl": {
         "type": "FunctionExpression",
@@ -60,9 +57,9 @@
           "type": "Identifier",
           "span": {
             "start": 96,
-            "end": 97,
-            "ctxt": 0
+            "end": 97
           },
+          "ctxt": 0,
           "value": "f",
           "optional": false
         },
@@ -70,16 +67,16 @@
         "decorators": [],
         "span": {
           "start": 87,
-          "end": 103,
-          "ctxt": 0
+          "end": 103
         },
+        "ctxt": 0,
         "body": {
           "type": "BlockStatement",
           "span": {
             "start": 100,
-            "end": 103,
-            "ctxt": 0
+            "end": 103
           },
+          "ctxt": 0,
           "stmts": []
         },
         "generator": false,

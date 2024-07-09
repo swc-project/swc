@@ -2,16 +2,14 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 58,
-    "ctxt": 0
+    "end": 58
   },
   "children": [
     {
       "type": "DocumentType",
       "span": {
         "start": 1,
-        "end": 39,
-        "ctxt": 0
+        "end": 39
       },
       "name": "greeting",
       "publicId": null,
@@ -22,8 +20,7 @@
       "type": "Element",
       "span": {
         "start": 40,
-        "end": 57,
-        "ctxt": 0
+        "end": 57
       },
       "tagName": "root",
       "attributes": [],
@@ -32,8 +29,7 @@
           "type": "Text",
           "span": {
             "start": 46,
-            "end": 50,
-            "ctxt": 0
+            "end": 50
           },
           "data": "Text",
           "raw": "Text"

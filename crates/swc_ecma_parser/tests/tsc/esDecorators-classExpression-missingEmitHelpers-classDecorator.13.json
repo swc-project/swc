@@ -2,17 +2,16 @@
   "type": "Module",
   "span": {
     "start": 146,
-    "end": 299,
-    "ctxt": 0
+    "end": 299
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 146,
-        "end": 167,
-        "ctxt": 0
+        "end": 167
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": true,
       "declarations": [
@@ -20,31 +19,28 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 158,
-            "end": 166,
-            "ctxt": 0
+            "end": 166
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 158,
-              "end": 161,
-              "ctxt": 0
+              "end": 161
             },
+            "ctxt": 0,
             "value": "dec",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 161,
-                "end": 166,
-                "ctxt": 0
+                "end": 166
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 163,
-                  "end": 166,
-                  "ctxt": 0
+                  "end": 166
                 },
                 "kind": "any"
               }
@@ -59,16 +55,15 @@
       "type": "ExportDeclaration",
       "span": {
         "start": 228,
-        "end": 263,
-        "ctxt": 0
+        "end": 263
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
           "start": 235,
-          "end": 263,
-          "ctxt": 0
+          "end": 263
         },
+        "ctxt": 0,
         "kind": "const",
         "declare": false,
         "declarations": [
@@ -76,16 +71,15 @@
             "type": "VariableDeclarator",
             "span": {
               "start": 241,
-              "end": 262,
-              "ctxt": 0
+              "end": 262
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 241,
-                "end": 242,
-                "ctxt": 0
+                "end": 242
               },
+              "ctxt": 0,
               "value": "C",
               "optional": false,
               "typeAnnotation": null
@@ -94,39 +88,36 @@
               "type": "ParenthesisExpression",
               "span": {
                 "start": 245,
-                "end": 262,
-                "ctxt": 0
+                "end": 262
               },
               "expression": {
                 "type": "ParenthesisExpression",
                 "span": {
                   "start": 246,
-                  "end": 261,
-                  "ctxt": 0
+                  "end": 261
                 },
                 "expression": {
                   "type": "ClassExpression",
                   "identifier": null,
                   "span": {
                     "start": 247,
-                    "end": 260,
-                    "ctxt": 0
+                    "end": 260
                   },
+                  "ctxt": 0,
                   "decorators": [
                     {
                       "type": "Decorator",
                       "span": {
                         "start": 247,
-                        "end": 251,
-                        "ctxt": 0
+                        "end": 251
                       },
                       "expression": {
                         "type": "Identifier",
                         "span": {
                           "start": 248,
-                          "end": 251,
-                          "ctxt": 0
+                          "end": 251
                         },
+                        "ctxt": 0,
                         "value": "dec",
                         "optional": false
                       }
@@ -150,8 +141,7 @@
       "type": "ExportNamedDeclaration",
       "span": {
         "start": 290,
-        "end": 299,
-        "ctxt": 0
+        "end": 299
       },
       "specifiers": [],
       "source": null,

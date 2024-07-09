@@ -1,23 +1,23 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..10#0,
+                span: 1..10,
                 tag_name: Text {
-                    span: 1..10#0,
+                    span: 1..10,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: 1..10#0,
+                        span: 1..10,
                         ty: Some(
                             Text {
-                                span: 1..5#0,
+                                span: 1..5,
                                 value: "anim",
                             },
                         ),
@@ -28,24 +28,24 @@
         ],
     },
     JsDoc {
-        span: 29..29#0,
+        span: 29..29,
         description: Text {
-            span: 29..29#0,
+            span: 29..29,
             value: "",
         },
         tags: [
             TagItem {
-                span: 29..35#0,
+                span: 29..35,
                 tag_name: Text {
-                    span: 29..35#0,
+                    span: 29..35,
                     value: "method",
                 },
                 tag: Function(
                     FunctionTag {
-                        span: 29..35#0,
+                        span: 29..35,
                         name: Some(
                             Text {
-                                span: 29..43#0,
+                                span: 29..43,
                                 value: "anim.fadein(1)",
                             },
                         ),
@@ -53,100 +53,100 @@
                 ),
             },
             TagItem {
-                span: 29..33#0,
+                span: 29..33,
                 tag_name: Text {
-                    span: 29..33#0,
+                    span: 29..33,
                     value: "desc",
                 },
                 tag: Description(
                     DescriptionTag {
-                        span: 29..33#0,
+                        span: 29..33,
                         text: Text {
-                            span: 29..81#0,
+                            span: 29..81,
                             value: "Show the nodelist elements by fading them to opaque.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 29..34#0,
+                span: 29..34,
                 tag_name: Text {
-                    span: 29..34#0,
+                    span: 29..34,
                     value: "since",
                 },
                 tag: Since(
                     SinceTag {
-                        span: 29..34#0,
+                        span: 29..34,
                         version: Text {
-                            span: 29..32#0,
+                            span: 29..32,
                             value: "1.0",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 29..34#0,
+                span: 29..34,
                 tag_name: Text {
-                    span: 29..34#0,
+                    span: 29..34,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 29..34#0,
+                        span: 29..34,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 29..37#0,
+                                span: 29..37,
                                 value: "{number}",
                             },
                         ),
                         desc: Text {
-                            span: 29..76#0,
+                            span: 29..76,
                             value: "[duration=400] How long the animation will run.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 29..34#0,
+                span: 29..34,
                 tag_name: Text {
-                    span: 29..34#0,
+                    span: 29..34,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 29..34#0,
+                        span: 29..34,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 29..39#0,
+                                span: 29..39,
                                 value: "{function}",
                             },
                         ),
                         desc: Text {
-                            span: 29..82#0,
+                            span: 29..82,
                             value: "[callback]     Called once the animation is complete.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 29..36#0,
+                span: 29..36,
                 tag_name: Text {
-                    span: 29..36#0,
+                    span: 29..36,
                     value: "returns",
                 },
                 tag: Return(
                     ReturnTag {
-                        span: 29..36#0,
+                        span: 29..36,
                         ty: Some(
                             Text {
-                                span: 29..35#0,
+                                span: 29..35,
                                 value: "{this}",
                             },
                         ),
                         description: Text {
-                            span: 29..29#0,
+                            span: 29..29,
                             value: "",
                         },
                     },
@@ -155,24 +155,24 @@
         ],
     },
     JsDoc {
-        span: 309..309#0,
+        span: 309..309,
         description: Text {
-            span: 309..309#0,
+            span: 309..309,
             value: "",
         },
         tags: [
             TagItem {
-                span: 309..315#0,
+                span: 309..315,
                 tag_name: Text {
-                    span: 309..315#0,
+                    span: 309..315,
                     value: "method",
                 },
                 tag: Function(
                     FunctionTag {
-                        span: 309..315#0,
+                        span: 309..315,
                         name: Some(
                             Text {
-                                span: 309..323#0,
+                                span: 309..323,
                                 value: "anim.fadein(2)",
                             },
                         ),
@@ -180,123 +180,123 @@
                 ),
             },
             TagItem {
-                span: 309..313#0,
+                span: 309..313,
                 tag_name: Text {
-                    span: 309..313#0,
+                    span: 309..313,
                     value: "desc",
                 },
                 tag: Description(
                     DescriptionTag {
-                        span: 309..313#0,
+                        span: 309..313,
                         text: Text {
-                            span: 309..361#0,
+                            span: 309..361,
                             value: "Show the nodelist elements by fading them to opaque.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 309..314#0,
+                span: 309..314,
                 tag_name: Text {
-                    span: 309..314#0,
+                    span: 309..314,
                     value: "since",
                 },
                 tag: Since(
                     SinceTag {
-                        span: 309..314#0,
+                        span: 309..314,
                         version: Text {
-                            span: 309..314#0,
+                            span: 309..314,
                             value: "1.4.3",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 309..314#0,
+                span: 309..314,
                 tag_name: Text {
-                    span: 309..314#0,
+                    span: 309..314,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 309..314#0,
+                        span: 309..314,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 309..317#0,
+                                span: 309..317,
                                 value: "{number}",
                             },
                         ),
                         desc: Text {
-                            span: 309..356#0,
+                            span: 309..356,
                             value: "[duration=400] How long the animation will run.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 309..314#0,
+                span: 309..314,
                 tag_name: Text {
-                    span: 309..314#0,
+                    span: 309..314,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 309..314#0,
+                        span: 309..314,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 309..317#0,
+                                span: 309..317,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 309..363#0,
+                            span: 309..363,
                             value: "[easing=swing] The easing function for the transition.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 309..314#0,
+                span: 309..314,
                 tag_name: Text {
-                    span: 309..314#0,
+                    span: 309..314,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 309..314#0,
+                        span: 309..314,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 309..319#0,
+                                span: 309..319,
                                 value: "{function}",
                             },
                         ),
                         desc: Text {
-                            span: 309..362#0,
+                            span: 309..362,
                             value: "[callback]     Called once the animation is complete.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 309..316#0,
+                span: 309..316,
                 tag_name: Text {
-                    span: 309..316#0,
+                    span: 309..316,
                     value: "returns",
                 },
                 tag: Return(
                     ReturnTag {
-                        span: 309..316#0,
+                        span: 309..316,
                         ty: Some(
                             Text {
-                                span: 309..315#0,
+                                span: 309..315,
                                 value: "{this}",
                             },
                         ),
                         description: Text {
-                            span: 309..309#0,
+                            span: 309..309,
                             value: "",
                         },
                     },

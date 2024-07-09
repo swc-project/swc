@@ -524,7 +524,7 @@ impl Visit for Analyzer<'_> {
 
         if !self.in_var_decl {
             if let Pat::Ident(i) = p {
-                self.add(i.id.to_id(), true);
+                self.add(i.to_id(), true);
             }
         }
     }
@@ -1031,10 +1031,10 @@ impl VisitMut for TreeShaker {
             };
 
             if can_drop
-                && self.can_drop_binding(i.id.to_id(), self.var_decl_kind == Some(VarDeclKind::Var))
+                && self.can_drop_binding(i.to_id(), self.var_decl_kind == Some(VarDeclKind::Var))
             {
                 self.changed = true;
-                debug!("Dropping {} because it's not used", i.id);
+                debug!("Dropping {} because it's not used", i);
                 v.name.take();
             }
         }

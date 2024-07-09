@@ -33,7 +33,8 @@ impl Pure<'_> {
                 );
 
                 Some(Ident {
-                    span: s.span.with_ctxt(SyntaxContext::empty()),
+                    span: s.span,
+                    ctxt: Default::default(),
                     sym: s.value.clone(),
                     optional: false,
                 })
@@ -63,7 +64,8 @@ impl Pure<'_> {
                     {
                         *p = PropName::Ident(Ident::new(
                             s.value.clone(),
-                            s.span.with_ctxt(SyntaxContext::empty()),
+                            s.span,
+                            SyntaxContext::empty(),
                         ));
                     } else {
                         *p = PropName::Str(s.clone());
@@ -90,7 +92,7 @@ impl Pure<'_> {
                 *name = PropName::Ident(Ident {
                     span: s.span,
                     sym: s.value.clone(),
-                    optional: false,
+                    ..Default::default()
                 });
                 return;
             }
@@ -129,10 +131,7 @@ impl Pure<'_> {
 
                 self.changed = true;
 
-                Some(Ident::new(
-                    s.value.clone(),
-                    s.span.with_ctxt(SyntaxContext::empty()),
-                ))
+                Some(Ident::new_no_ctxt(s.value.clone(), s.span))
             }
             _ => None,
         }

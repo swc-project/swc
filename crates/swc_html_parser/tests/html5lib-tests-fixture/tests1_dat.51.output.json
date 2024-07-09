@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 15,
-    "ctxt": 0
+    "end": 15
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 4,
-                "ctxt": 0
+                "end": 4
               },
               "tagName": "b",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -61,8 +56,7 @@
               "type": "Element",
               "span": {
                 "start": 4,
-                "end": 15,
-                "ctxt": 0
+                "end": 15
               },
               "tagName": "p",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -72,8 +66,7 @@
                   "type": "Element",
                   "span": {
                     "start": 7,
-                    "end": 11,
-                    "ctxt": 0
+                    "end": 11
                   },
                   "tagName": "b",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -86,8 +79,7 @@
                   "type": "Text",
                   "span": {
                     "start": 11,
-                    "end": 15,
-                    "ctxt": 0
+                    "end": 15
                   },
                   "data": "TEST",
                   "raw": "TEST"

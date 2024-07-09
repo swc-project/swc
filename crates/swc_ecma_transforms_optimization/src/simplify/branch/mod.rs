@@ -120,7 +120,7 @@ impl VisitMut for Remover {
                 ..
             }) if match &*l {
                 SimpleAssignTarget::Ident(l) => match &**r {
-                    Expr::Ident(r) => l.id.sym == r.sym && l.id.span.ctxt() == r.span.ctxt(),
+                    Expr::Ident(r) => l.sym == r.sym && l.ctxt == r.ctxt,
                     _ => false,
                 },
                 _ => false,
@@ -403,8 +403,8 @@ impl VisitMut for Remover {
                         return IfStmt {
                             test,
                             cons: Box::new(Stmt::Block(BlockStmt {
-                                span: DUMMY_SP,
                                 stmts: vec![*cons],
+                                ..Default::default()
                             })),
                             alt,
                             span,
@@ -453,7 +453,11 @@ impl VisitMut for Remover {
 
                         self.changed = true;
 
-                        let mut block = Stmt::Block(BlockStmt { span, stmts });
+                        let mut block = Stmt::Block(BlockStmt {
+                            span,
+                            stmts,
+                            ..Default::default()
+                        });
                         block.visit_mut_with(self);
                         return block;
                     }
@@ -530,7 +534,7 @@ impl VisitMut for Remover {
                     }
                 }
 
-                Stmt::Block(BlockStmt { span, stmts }) => {
+                Stmt::Block(BlockStmt { span, stmts, ctxt }) => {
                     if stmts.is_empty() {
                         if cfg!(feature = "debug") {
                             debug!("Drooping an empty block statement");
@@ -549,7 +553,7 @@ impl VisitMut for Remover {
                         v.visit_mut_with(self);
                         v
                     } else {
-                        Stmt::Block(BlockStmt { span, stmts })
+                        Stmt::Block(BlockStmt { span, stmts, ctxt })
                     }
                 }
                 Stmt::Try(s) => {
@@ -634,7 +638,7 @@ impl VisitMut for Remover {
                                                     init: None,
                                                     ..decl
                                                 }),
-                                                declare: false,
+                                                ..Default::default()
                                             }
                                             .into(),
                                         );
@@ -699,6 +703,7 @@ impl VisitMut for Remover {
                         let mut block = Stmt::Block(BlockStmt {
                             span: s.span,
                             stmts,
+                            ..Default::default()
                         });
                         block.visit_mut_with(self);
                         return block;
@@ -805,6 +810,7 @@ impl VisitMut for Remover {
                                         kind: VarDeclKind::Var,
                                         decls,
                                         declare: false,
+                                        ..Default::default()
                                     }
                                     .into(),
                                 );
@@ -833,6 +839,7 @@ impl VisitMut for Remover {
                             let mut block = Stmt::Block(BlockStmt {
                                 span: s.span,
                                 stmts,
+                                ..Default::default()
                             });
                             block.visit_mut_with(self);
                             return block;
@@ -869,6 +876,7 @@ impl VisitMut for Remover {
                                                 kind: VarDeclKind::Var,
                                                 declare: Default::default(),
                                                 decls: take(&mut vars),
+                                                ..Default::default()
                                             }
                                             .into(),
                                         )
@@ -877,6 +885,7 @@ impl VisitMut for Remover {
                                     let mut block = Stmt::Block(BlockStmt {
                                         span: s.span,
                                         stmts,
+                                        ..Default::default()
                                     });
 
                                     block.visit_mut_with(self);
@@ -1012,6 +1021,7 @@ impl VisitMut for Remover {
                             let mut block = Stmt::Block(BlockStmt {
                                 span: s.span,
                                 stmts,
+                                ..Default::default()
                             });
                             block.visit_mut_with(self);
                             return block;
@@ -1061,6 +1071,7 @@ impl VisitMut for Remover {
                                     kind: VarDeclKind::Var,
                                     decls,
                                     declare: false,
+                                    ..Default::default()
                                 }
                                 .into();
                             }
@@ -1157,6 +1168,7 @@ impl VisitMut for Remover {
                                 BlockStmt {
                                     span: s.span,
                                     stmts: vec![body, test.into_stmt()],
+                                    ..Default::default()
                                 }
                                 .into()
                             } else {
@@ -1343,6 +1355,7 @@ impl Remover {
                                         kind: VarDeclKind::Var,
                                         decls,
                                         declare: false,
+                                        ..Default::default()
                                     }
                                     .into(),
                                 ));
@@ -1365,7 +1378,10 @@ impl Remover {
                         }
 
                         Stmt::Block(BlockStmt {
-                            span, mut stmts, ..
+                            span,
+                            mut stmts,
+                            ctxt,
+                            ..
                         }) => {
                             if stmts.is_empty() {
                                 continue;
@@ -1373,7 +1389,7 @@ impl Remover {
 
                             if !is_ok_to_inline_block(&stmts) {
                                 stmts.visit_mut_with(self);
-                                BlockStmt { span, stmts }.into()
+                                BlockStmt { span, stmts, ctxt }.into()
                             } else {
                                 new_stmts.extend(
                                     stmts
@@ -1474,7 +1490,7 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
             ..
         }) if match &left {
             SimpleAssignTarget::Ident(l) => match &*right {
-                Expr::Ident(r) => l.id.sym == r.sym && l.id.span.ctxt() == r.span.ctxt(),
+                Expr::Ident(r) => l.sym == r.sym && l.ctxt == r.ctxt,
                 _ => false,
             },
             _ => false,
@@ -1886,7 +1902,12 @@ fn prepare_loop_body_for_inlining(stmt: Stmt) -> Stmt {
         }
     });
 
-    BlockStmt { span, stmts }.into()
+    BlockStmt {
+        span,
+        stmts,
+        ..Default::default()
+    }
+    .into()
 }
 
 fn has_unconditional_stopper(s: &[Stmt]) -> bool {

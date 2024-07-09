@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 184,
-    "end": 670,
-    "ctxt": 0
+    "end": 670
   },
   "body": [
     {
       "type": "ExportNamedDeclaration",
       "span": {
         "start": 184,
-        "end": 194,
-        "ctxt": 0
+        "end": 194
       },
       "specifiers": [],
       "source": null,
@@ -22,8 +20,7 @@
       "type": "ExportNamedDeclaration",
       "span": {
         "start": 219,
-        "end": 229,
-        "ctxt": 0
+        "end": 229
       },
       "specifiers": [],
       "source": null,
@@ -34,8 +31,7 @@
       "type": "ExportNamedDeclaration",
       "span": {
         "start": 255,
-        "end": 265,
-        "ctxt": 0
+        "end": 265
       },
       "specifiers": [],
       "source": null,
@@ -46,16 +42,14 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 287,
-        "end": 312,
-        "ctxt": 0
+        "end": 312
       },
       "specifiers": [],
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 302,
-          "end": 311,
-          "ctxt": 0
+          "end": 311
         },
         "value": "./ts.js",
         "raw": "\"./ts.js\""
@@ -68,16 +62,14 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 313,
-        "end": 338,
-        "ctxt": 0
+        "end": 338
       },
       "specifiers": [],
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 328,
-          "end": 337,
-          "ctxt": 0
+          "end": 337
         },
         "value": "./ts.ts",
         "raw": "\"./ts.ts\""
@@ -90,16 +82,14 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 339,
-        "end": 371,
-        "ctxt": 0
+        "end": 371
       },
       "specifiers": [],
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 359,
-          "end": 370,
-          "ctxt": 0
+          "end": 370
         },
         "value": "./ts.d.ts",
         "raw": "\"./ts.d.ts\""
@@ -112,16 +102,14 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 373,
-        "end": 399,
-        "ctxt": 0
+        "end": 399
       },
       "specifiers": [],
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 388,
-          "end": 398,
-          "ctxt": 0
+          "end": 398
         },
         "value": "./tsx.js",
         "raw": "\"./tsx.js\""
@@ -134,16 +122,14 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 400,
-        "end": 427,
-        "ctxt": 0
+        "end": 427
       },
       "specifiers": [],
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 415,
-          "end": 426,
-          "ctxt": 0
+          "end": 426
         },
         "value": "./tsx.jsx",
         "raw": "\"./tsx.jsx\""
@@ -156,16 +142,14 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 428,
-        "end": 454,
-        "ctxt": 0
+        "end": 454
       },
       "specifiers": [],
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 443,
-          "end": 453,
-          "ctxt": 0
+          "end": 453
         },
         "value": "./tsx.ts",
         "raw": "\"./tsx.ts\""
@@ -178,16 +162,14 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 455,
-        "end": 482,
-        "ctxt": 0
+        "end": 482
       },
       "specifiers": [],
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 470,
-          "end": 481,
-          "ctxt": 0
+          "end": 481
         },
         "value": "./tsx.tsx",
         "raw": "\"./tsx.tsx\""
@@ -200,16 +182,14 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 483,
-        "end": 516,
-        "ctxt": 0
+        "end": 516
       },
       "specifiers": [],
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 503,
-          "end": 515,
-          "ctxt": 0
+          "end": 515
         },
         "value": "./tsx.d.ts",
         "raw": "\"./tsx.d.ts\""
@@ -222,16 +202,14 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 518,
-        "end": 544,
-        "ctxt": 0
+        "end": 544
       },
       "specifiers": [],
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 533,
-          "end": 543,
-          "ctxt": 0
+          "end": 543
         },
         "value": "./dts.js",
         "raw": "\"./dts.js\""
@@ -244,16 +222,14 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 545,
-        "end": 571,
-        "ctxt": 0
+        "end": 571
       },
       "specifiers": [],
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 560,
-          "end": 570,
-          "ctxt": 0
+          "end": 570
         },
         "value": "./dts.ts",
         "raw": "\"./dts.ts\""
@@ -266,16 +242,14 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 572,
-        "end": 605,
-        "ctxt": 0
+        "end": 605
       },
       "specifiers": [],
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 592,
-          "end": 604,
-          "ctxt": 0
+          "end": 604
         },
         "value": "./dts.d.ts",
         "raw": "\"./dts.d.ts\""
@@ -288,16 +262,14 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 627,
-        "end": 670,
-        "ctxt": 0
+        "end": 670
       },
       "specifiers": [],
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 642,
-          "end": 669,
-          "ctxt": 0
+          "end": 669
         },
         "value": "./thisfiledoesnotexist.ts",
         "raw": "\"./thisfiledoesnotexist.ts\""

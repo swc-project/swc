@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                         ty: Text {
-                            span: 1..9#0,
+                            span: 1..9,
                             value: "mysocket",
                         },
                     },
@@ -29,53 +29,53 @@
         ],
     },
     JsDoc {
-        span: 26..26#0,
+        span: 26..26,
         description: Text {
-            span: 26..26#0,
+            span: 26..26,
             value: "",
         },
         tags: [
             TagItem {
-                span: 26..31#0,
+                span: 26..31,
                 tag_name: Text {
-                    span: 26..31#0,
+                    span: 26..31,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 26..31#0,
+                        span: 26..31,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 26..34#0,
+                                span: 26..34,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 26..37#0,
+                            span: 26..37,
                             value: "- Hostname.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 26..31#0,
+                span: 26..31,
                 tag_name: Text {
-                    span: 26..31#0,
+                    span: 26..31,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 26..31#0,
+                        span: 26..31,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 26..34#0,
+                                span: 26..34,
                                 value: "{number}",
                             },
                         ),
                         desc: Text {
-                            span: 26..40#0,
+                            span: 26..40,
                             value: "- Port number.",
                         },
                     },

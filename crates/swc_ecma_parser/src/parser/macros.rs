@@ -240,7 +240,7 @@ macro_rules! cur {
             Some(c) => Ok(c),
             None => {
                 let pos = $p.input.last_pos();
-                let last = Span::new(pos, pos, Default::default());
+                let last = Span::new(pos, pos);
 
                 Err(crate::error::Error::new(
                     last,
@@ -264,7 +264,7 @@ macro_rules! cur {
             },
             None => {
                 let pos = $p.input.last_pos();
-                let last = Span::new(pos, pos, Default::default());
+                let last = Span::new(pos, pos);
                 let err = crate::error::Error::new(last, crate::error::SyntaxError::Eof);
                 return Err(err);
             }
@@ -345,7 +345,7 @@ macro_rules! span {
                 start.0, end.0
             )
         }
-        ::swc_common::Span::new(start, end, ::swc_common::SyntaxContext::empty())
+        ::swc_common::Span::new(start, end)
     }};
 }
 

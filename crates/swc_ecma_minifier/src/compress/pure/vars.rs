@@ -279,6 +279,7 @@ impl Pure<'_> {
                                 kind: target,
                                 declare: Default::default(),
                                 decls: prepender.vars,
+                                ..Default::default()
                             }
                             .into(),
                         ),

@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 47,
-    "end": 95,
-    "ctxt": 0
+    "end": 95
   },
   "body": [
     {
       "type": "ExportNamedDeclaration",
       "span": {
         "start": 47,
-        "end": 58,
-        "ctxt": 0
+        "end": 58
       },
       "specifiers": [],
       "source": null,
@@ -22,8 +20,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 60,
-        "end": 95,
-        "ctxt": 0
+        "end": 95
       },
       "declare": true,
       "global": true,
@@ -31,9 +28,9 @@
         "type": "Identifier",
         "span": {
           "start": 68,
-          "end": 74,
-          "ctxt": 0
+          "end": 74
         },
+        "ctxt": 0,
         "value": "global",
         "optional": false
       },
@@ -41,17 +38,16 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 75,
-          "end": 95,
-          "ctxt": 0
+          "end": 95
         },
         "body": [
           {
             "type": "VariableDeclaration",
             "span": {
               "start": 79,
-              "end": 93,
-              "ctxt": 0
+              "end": 93
             },
+            "ctxt": 0,
             "kind": "var",
             "declare": false,
             "declarations": [
@@ -59,31 +55,28 @@
                 "type": "VariableDeclarator",
                 "span": {
                   "start": 83,
-                  "end": 92,
-                  "ctxt": 0
+                  "end": 92
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
                     "start": 83,
-                    "end": 84,
-                    "ctxt": 0
+                    "end": 84
                   },
+                  "ctxt": 0,
                   "value": "x",
                   "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
                       "start": 84,
-                      "end": 92,
-                      "ctxt": 0
+                      "end": 92
                     },
                     "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
                         "start": 86,
-                        "end": 92,
-                        "ctxt": 0
+                        "end": 92
                       },
                       "kind": "number"
                     }

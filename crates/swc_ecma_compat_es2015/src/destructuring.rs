@@ -75,6 +75,7 @@ macro_rules! impl_for_for_stmt {
                         span: var_decl.span,
                         kind: var_decl.kind,
                         declare: var_decl.declare,
+                        ..Default::default()
                     }
                     .into();
 
@@ -95,7 +96,7 @@ macro_rules! impl_for_for_stmt {
                         span: var_decl.span(),
                         kind: VarDeclKind::Let,
                         decls,
-                        declare: false,
+                        ..Default::default()
                     }
                     .into();
                     (left, stmt)
@@ -127,13 +128,14 @@ macro_rules! impl_for_for_stmt {
             for_stmt.left = left;
 
             for_stmt.body = Box::new(Stmt::Block(match &mut *for_stmt.body {
-                Stmt::Block(BlockStmt { span, stmts }) => BlockStmt {
+                Stmt::Block(BlockStmt { span, stmts, ctxt }) => BlockStmt {
                     span: *span,
                     stmts: iter::once(stmt).chain(stmts.take()).collect(),
+                    ctxt: *ctxt,
                 },
                 body => BlockStmt {
-                    span: DUMMY_SP,
                     stmts: vec![stmt, body.take()],
+                    ..Default::default()
                 },
             }));
         }
@@ -259,7 +261,7 @@ impl AssignFolder {
                                     raw: None,
                                 }
                                 .as_arg()],
-                                type_args: Default::default(),
+                                ..Default::default()
                             }))),
                             definite: false,
                         },
@@ -422,7 +424,7 @@ impl AssignFolder {
             }) => {
                 let init = if let Some(init) = decl.init {
                     let tmp_ident = match &*init {
-                        Expr::Ident(ref i) if i.span.ctxt() != SyntaxContext::empty() => i.clone(),
+                        Expr::Ident(ref i) if i.ctxt != SyntaxContext::empty() => i.clone(),
 
                         _ => {
                             let tmp_ident = private_ident!(span, "tmp");
@@ -522,6 +524,7 @@ impl Destructuring {
                 kind: VarDeclKind::Let,
                 decls,
                 declare: false,
+                ..Default::default()
             }
             .into();
 
@@ -738,10 +741,14 @@ impl VisitMut for AssignFolder {
                                 Expr::Ident(Ident { sym, .. }) if &**sym == "arguments" => {
                                     Box::new(Expr::Call(CallExpr {
                                         span: DUMMY_SP,
-                                        callee: member_expr!(DUMMY_SP, Array.prototype.slice.call)
-                                            .as_callee(),
+                                        callee: member_expr!(
+                                            Default::default(),
+                                            Default::default(),
+                                            Array.prototype.slice.call
+                                        )
+                                        .as_callee(),
                                         args: vec![right.take().as_arg()],
-                                        type_args: Default::default(),
+                                        ..Default::default()
                                     }))
                                 }
                                 Expr::Array(..) => right.take(),
@@ -754,7 +761,7 @@ impl VisitMut for AssignFolder {
                                             span: DUMMY_SP,
                                             callee: helper!(to_array),
                                             args: vec![right.take().as_arg()],
-                                            type_args: Default::default(),
+                                            ..Default::default()
                                         }))
                                     } else {
                                         Box::new(
@@ -765,7 +772,7 @@ impl VisitMut for AssignFolder {
                                                     right.take().as_arg(),
                                                     elems.len().as_arg(),
                                                 ],
-                                                type_args: Default::default(),
+                                                ..Default::default()
                                             }
                                             .into(),
                                         )
@@ -817,7 +824,7 @@ impl VisitMut for AssignFolder {
                                             .make_member(quote_ident!("slice"))
                                             .as_callee(),
                                         args: vec![(i as f64).as_arg()],
-                                        type_args: Default::default(),
+                                        ..Default::default()
                                     })),
                                 });
 
@@ -1041,7 +1048,7 @@ impl Destructuring {
                                 span: DUMMY_SP,
                                 kind: VarDeclKind::Var,
                                 decls: folder.vars,
-                                declare: false,
+                                ..Default::default()
                             }
                             .into(),
                         ));
@@ -1060,7 +1067,7 @@ impl Destructuring {
                                 span: DUMMY_SP,
                                 kind: VarDeclKind::Var,
                                 decls: folder.vars,
-                                declare: false,
+                                ..Default::default()
                             }
                             .into(),
                         ));
@@ -1128,7 +1135,7 @@ fn make_ref_ident_for_array(
                                 span: DUMMY_SP,
                                 callee: helper!(to_array),
                                 args: vec![v.as_arg()],
-                                type_args: Default::default(),
+                                ..Default::default()
                             }
                             .into(),
                         ),
@@ -1137,7 +1144,7 @@ fn make_ref_ident_for_array(
                                 span: DUMMY_SP,
                                 callee: helper!(sliced_to_array),
                                 args: vec![v.as_arg(), value.as_arg()],
-                                type_args: Default::default(),
+                                ..Default::default()
                             }
                             .into(),
                         ),

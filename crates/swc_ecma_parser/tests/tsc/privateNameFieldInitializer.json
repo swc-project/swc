@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 21,
-    "end": 69,
-    "ctxt": 0
+    "end": 69
   },
   "body": [
     {
@@ -12,51 +11,40 @@
         "type": "Identifier",
         "span": {
           "start": 27,
-          "end": 28,
-          "ctxt": 0
+          "end": 28
         },
+        "ctxt": 0,
         "value": "A",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 21,
-        "end": 69,
-        "ctxt": 0
+        "end": 69
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "PrivateProperty",
           "span": {
             "start": 35,
-            "end": 47,
-            "ctxt": 0
+            "end": 47
           },
+          "ctxt": 0,
           "key": {
             "type": "PrivateName",
             "span": {
               "start": 35,
-              "end": 41,
-              "ctxt": 0
+              "end": 41
             },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 36,
-                "end": 41,
-                "ctxt": 0
-              },
-              "value": "field",
-              "optional": false
-            }
+            "value": "field"
           },
           "value": {
             "type": "NumericLiteral",
             "span": {
               "start": 44,
-              "end": 46,
-              "ctxt": 0
+              "end": 46
             },
             "value": 10.0,
             "raw": "10"
@@ -74,26 +62,16 @@
           "type": "PrivateProperty",
           "span": {
             "start": 52,
-            "end": 67,
-            "ctxt": 0
+            "end": 67
           },
+          "ctxt": 0,
           "key": {
             "type": "PrivateName",
             "span": {
               "start": 52,
-              "end": 66,
-              "ctxt": 0
+              "end": 66
             },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 53,
-                "end": 66,
-                "ctxt": 0
-              },
-              "value": "uninitialized",
-              "optional": false
-            }
+            "value": "uninitialized"
           },
           "value": null,
           "typeAnnotation": null,

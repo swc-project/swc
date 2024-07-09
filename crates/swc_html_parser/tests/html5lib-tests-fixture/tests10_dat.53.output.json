@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 154,
-    "ctxt": 0
+    "end": 154
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 154,
-                "ctxt": 0
+                "end": 154
               },
               "tagName": "math",
               "namespace": "http://www.w3.org/1998/Math/MathML",
@@ -58,8 +53,7 @@
                   "type": "Element",
                   "span": {
                     "start": 7,
-                    "end": 150,
-                    "ctxt": 0
+                    "end": 150
                   },
                   "tagName": "annotation-xml",
                   "namespace": "http://www.w3.org/1998/Math/MathML",
@@ -69,8 +63,7 @@
                       "type": "Element",
                       "span": {
                         "start": 23,
-                        "end": 133,
-                        "ctxt": 0
+                        "end": 133
                       },
                       "tagName": "svg",
                       "namespace": "http://www.w3.org/2000/svg",
@@ -80,8 +73,7 @@
                           "type": "Element",
                           "span": {
                             "start": 28,
-                            "end": 114,
-                            "ctxt": 0
+                            "end": 114
                           },
                           "tagName": "foreignObject",
                           "namespace": "http://www.w3.org/2000/svg",
@@ -91,8 +83,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 43,
-                                "end": 85,
-                                "ctxt": 0
+                                "end": 85
                               },
                               "tagName": "math",
                               "namespace": "http://www.w3.org/1998/Math/MathML",
@@ -102,8 +93,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 49,
-                                    "end": 69,
-                                    "ctxt": 0
+                                    "end": 69
                                   },
                                   "tagName": "mi",
                                   "namespace": "http://www.w3.org/1998/Math/MathML",
@@ -113,8 +103,7 @@
                                       "type": "Element",
                                       "span": {
                                         "start": 53,
-                                        "end": 64,
-                                        "ctxt": 0
+                                        "end": 64
                                       },
                                       "tagName": "svg",
                                       "namespace": "http://www.w3.org/2000/svg",
@@ -131,8 +120,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 69,
-                                    "end": 78,
-                                    "ctxt": 0
+                                    "end": 78
                                   },
                                   "tagName": "mo",
                                   "namespace": "http://www.w3.org/1998/Math/MathML",
@@ -149,8 +137,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 85,
-                                "end": 98,
-                                "ctxt": 0
+                                "end": 98
                               },
                               "tagName": "span",
                               "namespace": "http://www.w3.org/1999/xhtml",
@@ -167,8 +154,7 @@
                           "type": "Element",
                           "span": {
                             "start": 114,
-                            "end": 127,
-                            "ctxt": 0
+                            "end": 127
                           },
                           "tagName": "path",
                           "namespace": "http://www.w3.org/2000/svg",
@@ -189,8 +175,7 @@
                   "type": "Element",
                   "span": {
                     "start": 150,
-                    "end": 154,
-                    "ctxt": 0
+                    "end": 154
                   },
                   "tagName": "mi",
                   "namespace": "http://www.w3.org/1998/Math/MathML",

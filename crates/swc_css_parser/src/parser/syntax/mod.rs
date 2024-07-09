@@ -29,7 +29,7 @@ where
 
         // Return the stylesheet.
         Ok(Stylesheet {
-            span: Span::new(start.lo, last, Default::default()),
+            span: Span::new(start.lo, last),
             rules,
         })
     }
@@ -150,13 +150,13 @@ where
         let is_dashed_ident = at_keyword_name.0.starts_with("--");
         let name = if is_dashed_ident {
             AtRuleName::DashedIdent(DashedIdent {
-                span: Span::new(span.lo + BytePos(1), span.hi, Default::default()),
+                span: Span::new(span.lo + BytePos(1), span.hi),
                 value: self.input.atom(&at_keyword_name.0[2..]),
                 raw: Some(at_keyword_name.1),
             })
         } else {
             AtRuleName::Ident(Ident {
-                span: Span::new(span.lo + BytePos(1), span.hi, Default::default()),
+                span: Span::new(span.lo + BytePos(1), span.hi),
                 value: at_keyword_name.0,
                 raw: Some(at_keyword_name.1),
             })
@@ -350,11 +350,8 @@ where
                     if let Some(StyleBlock::ListOfComponentValues(list_of_component_values)) =
                         declarations.last_mut()
                     {
-                        list_of_component_values.span = Span::new(
-                            list_of_component_values.span_lo(),
-                            token_and_span.span_hi(),
-                            Default::default(),
-                        );
+                        list_of_component_values.span =
+                            Span::new(list_of_component_values.span_lo(), token_and_span.span_hi());
                         list_of_component_values
                             .children
                             .push(ComponentValue::PreservedToken(Box::new(token_and_span)));
@@ -500,11 +497,8 @@ where
                         list_of_component_values,
                     )) = declarations.last_mut()
                     {
-                        list_of_component_values.span = Span::new(
-                            list_of_component_values.span_lo(),
-                            token_and_span.span_hi(),
-                            Default::default(),
-                        );
+                        list_of_component_values.span =
+                            Span::new(list_of_component_values.span_lo(), token_and_span.span_hi());
                         list_of_component_values
                             .children
                             .push(ComponentValue::PreservedToken(Box::new(token_and_span)));
@@ -746,11 +740,7 @@ where
         if let (Some(exclamation_point_span), Some(important_ident)) =
             (exclamation_point_span, important_ident)
         {
-            let span = Span::new(
-                exclamation_point_span.lo,
-                important_ident.span_hi(),
-                Default::default(),
-            );
+            let span = Span::new(exclamation_point_span.lo, important_ident.span_hi());
             let value = match important_ident.token {
                 Token::Ident { value, raw, .. } => (value, raw),
                 _ => {
@@ -944,13 +934,13 @@ where
         let is_dashed_ident = function_name.0.starts_with("--");
         let name = if is_dashed_ident {
             FunctionName::DashedIdent(DashedIdent {
-                span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
+                span: Span::new(span.lo, span.hi - BytePos(1)),
                 value: self.input.atom(&function_name.0[2..]),
                 raw: Some(function_name.1),
             })
         } else {
             FunctionName::Ident(Ident {
-                span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
+                span: Span::new(span.lo, span.hi - BytePos(1)),
                 value: function_name.0,
                 raw: Some(function_name.1),
             })

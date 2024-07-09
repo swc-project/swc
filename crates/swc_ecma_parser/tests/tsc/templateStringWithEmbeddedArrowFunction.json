@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 29,
-    "ctxt": 0
+    "end": 29
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 29,
-        "ctxt": 0
+        "end": 29
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 28,
-            "ctxt": 0
+            "end": 28
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 5,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -38,25 +36,24 @@
             "type": "TemplateLiteral",
             "span": {
               "start": 9,
-              "end": 28,
-              "ctxt": 0
+              "end": 28
             },
             "expressions": [
               {
                 "type": "ArrowFunctionExpression",
                 "span": {
                   "start": 16,
-                  "end": 22,
-                  "ctxt": 0
+                  "end": 22
                 },
+                "ctxt": 0,
                 "params": [
                   {
                     "type": "Identifier",
                     "span": {
                       "start": 16,
-                      "end": 17,
-                      "ctxt": 0
+                      "end": 17
                     },
+                    "ctxt": 0,
                     "value": "x",
                     "optional": false,
                     "typeAnnotation": null
@@ -66,9 +63,9 @@
                   "type": "Identifier",
                   "span": {
                     "start": 21,
-                    "end": 22,
-                    "ctxt": 0
+                    "end": 22
                   },
+                  "ctxt": 0,
                   "value": "x",
                   "optional": false
                 },
@@ -83,8 +80,7 @@
                 "type": "TemplateElement",
                 "span": {
                   "start": 10,
-                  "end": 13,
-                  "ctxt": 0
+                  "end": 13
                 },
                 "tail": false,
                 "cooked": "abc",
@@ -94,8 +90,7 @@
                 "type": "TemplateElement",
                 "span": {
                   "start": 24,
-                  "end": 27,
-                  "ctxt": 0
+                  "end": 27
                 },
                 "tail": true,
                 "cooked": "def",
