@@ -998,6 +998,7 @@ where
                                             .into(),
                                         ),
                                         name: Pat::Ident(mod_var.clone().into()),
+                                        name: mod_var.clone().into().into(),
                                         init: Some(
                                             CallExpr {
                                                 span: DUMMY_SP,
@@ -1022,6 +1023,7 @@ where
                                                             span: s.span,
                                                             name: name.clone().into(),
                                                             name: Pat::Ident(name.clone().into()),
+                                                            name: name.clone().into().into(),
                                                             init: Some(mod_var.clone().into()),
                                                             definite: Default::default(),
                                                         });
@@ -1037,6 +1039,7 @@ where
                                                 vars.push(VarDeclarator {
                                                     span: DUMMY_SP,
                                                     name: s.exported.clone().into(),
+                                                    name: s.exported.clone().into().into(),
                                                     init: Some(
                                                         mod_var
                                                             .clone()
@@ -1068,6 +1071,7 @@ where
                                                 vars.push(VarDeclarator {
                                                     span: s.span,
                                                     name: exported.clone().unwrap().into(),
+                                                    name: exported.clone().unwrap().into().into(),
                                                     init: Some(
                                                         mod_var
                                                             .clone()

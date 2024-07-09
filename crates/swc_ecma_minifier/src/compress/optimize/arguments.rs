@@ -136,6 +136,7 @@ impl ArgReplacer<'_> {
                     span: DUMMY_SP,
                     decorators: Default::default(),
                     pat: private_ident!(format!("argument_{}", start)).into(),
+                    pat: private_ident!(format!("argument_{}", start)).into().into(),
                 };
                 start += 1;
                 p

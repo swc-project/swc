@@ -481,6 +481,14 @@ where
                             right: default_expr,
                         }
                         .into(),
+                        Some(default_expr) => Box::new(
+                            AssignPat {
+                                span: p.span,
+                                left: renamed.into(),
+                                right: default_expr,
+                            }
+                            .into(),
+                        ),
                         None => renamed.into(),
                     },
                 }

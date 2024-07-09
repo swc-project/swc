@@ -60,6 +60,8 @@ pub(crate) trait ExprExt: Into<Expr> {
         VarDeclarator {
             span: DUMMY_SP,
             name: Ident::new(lhs.0, DUMMY_SP, lhs.1).into(),
+            name: Pat::Ident(Ident::new(lhs.0, DUMMY_SP, lhs.1).into()),
+            name: Ident::new(lhs.0, DUMMY_SP, lhs.1).into().into(),
             init: Some(Box::new(init)),
             definite: false,
         }
