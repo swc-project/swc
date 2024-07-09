@@ -188,7 +188,18 @@ boxed_variants!(
         TaggedTpl,
         ArrowExpr,
         ClassExpr,
-        YieldExpr
+        YieldExpr,
+        ParenExpr,
+        JSXMemberExpr,
+        JSXNamespacedName,
+        JSXElement,
+        JSXFragment,
+        TsTypeAssertion,
+        TsConstAssertion,
+        TsNonNullExpr,
+        TsAsExpr,
+        TsInstantiation,
+        TsSatisfiesExpr
     ]
 );
 
