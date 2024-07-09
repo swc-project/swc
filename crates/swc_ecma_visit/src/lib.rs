@@ -1299,9 +1299,9 @@ define!({
         pub type_ann: Option<Box<TsTypeAnn>>,
     }
     pub enum ObjectPatProp {
-        KeyValue(KeyValuePatProp),
-        Assign(AssignPatProp),
-        Rest(RestPat),
+        KeyValue(Box<KeyValuePatProp>),
+        Assign(Box<AssignPatProp>),
+        Rest(Box<RestPat>),
     }
     pub struct KeyValuePatProp {
         pub key: PropName,
