@@ -4,7 +4,6 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, 
 use crate::{
     decl::{Decl, VarDecl},
     expr::Expr,
-    ident::Ident,
     pat::Pat,
     IdentName, Lit, Str, UsingDecl,
 };

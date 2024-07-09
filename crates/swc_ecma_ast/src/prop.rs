@@ -108,6 +108,7 @@ pub enum PropName {
     BigInt(BigInt),
 }
 
+bridge_from!(PropName, IdentName, Ident);
 bridge_from!(PropName, Ident, Id);
 
 impl Default for PropName {
