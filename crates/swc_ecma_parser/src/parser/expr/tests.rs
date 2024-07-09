@@ -38,11 +38,12 @@ fn regex_expr() -> Expr {
         span,
         left: Ident::new_no_ctxt("re".into(), span).into(),
         op: AssignOp::Assign,
-        right: Box::new(Expr::Lit(Lit::Regex(Regex {
+        right: Lit::Regex(Regex {
             span,
             exp: "w+".into(),
             flags: "".into(),
-        }))),
+        })
+        .into(),
     }
     .into()
 }
