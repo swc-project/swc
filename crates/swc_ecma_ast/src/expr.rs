@@ -624,10 +624,8 @@ pub enum PropOrSpread {
     Spread(SpreadElement),
 
     #[tag("*")]
-    Prop(Box<Prop>),
+    Prop(Prop),
 }
-
-bridge_from!(PropOrSpread, Box<Prop>, Prop);
 
 impl Take for PropOrSpread {
     fn dummy() -> Self {
