@@ -459,7 +459,6 @@ pub enum ForHead {
 }
 
 bridge_from!(ForHead, Box<VarDecl>, VarDecl);
-bridge_from!(ForHead, Pat, Pat);
 
 impl Take for ForHead {
     fn dummy() -> Self {
