@@ -188,7 +188,7 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
             trace_cur!(self, parse_object_prop_error);
 
             self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
-            return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+            return Ok(PropOrSpread::Prop(Prop::KeyValue(Box::new(KeyValueProp {
                 key,
                 value: Invalid {
                     span: span!(self, start),
@@ -203,7 +203,7 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
         // { a: expr, }
         if eat!(self, ':') {
             let value = self.include_in_expr(true).parse_assignment_expr()?;
-            return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+            return Ok(PropOrSpread::Prop(Prop::KeyValue(Box::new(KeyValueProp {
                 key,
                 value,
             }))));
@@ -225,7 +225,7 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
                     false,
                     false,
                 )
-                .map(|function| Box::new(Prop::Method(MethodProp { key, function })))
+                .map(|function| Prop::Method(Box::new(MethodProp { key, function })))
                 .map(PropOrSpread::Prop);
         }
 
@@ -249,13 +249,13 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
 
             if eat!(self, '=') {
                 let value = self.include_in_expr(true).parse_assignment_expr()?;
-                return Ok(PropOrSpread::Prop(Box::new(Prop::Assign(AssignProp {
+                return Ok(PropOrSpread::Prop(Prop::Assign(Box::new(AssignProp {
                     key: ident,
                     value,
                 }))));
             }
 
-            return Ok(PropOrSpread::Prop(Box::new(Prop::from(ident))));
+            return Ok(PropOrSpread::Prop(Prop::from(ident)));
         }
 
         // get a(){}
