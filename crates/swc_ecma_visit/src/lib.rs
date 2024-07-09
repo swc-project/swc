@@ -1746,7 +1746,7 @@ define!({
     }
     pub enum TsParamPropParam {
         Ident(BindingIdent),
-        Assign(AssignPat),
+        Assign(Box<AssignPat>),
     }
     pub struct TsQualifiedName {
         pub span: Span,
