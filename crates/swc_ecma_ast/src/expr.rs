@@ -601,7 +601,7 @@ impl ImportWith {
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, EqIgnoreSpan)]
 pub struct ImportWithItem {
-    pub key: Ident,
+    pub key: IdentName,
     pub value: Str,
 }
 
@@ -889,13 +889,13 @@ impl Take for MemberProp {
 
 impl Default for MemberProp {
     fn default() -> Self {
-        MemberProp::Ident(Ident::dummy())
+        MemberProp::Ident(Default::default())
     }
 }
 
 impl Take for SuperProp {
     fn dummy() -> Self {
-        SuperProp::Ident(Ident::dummy())
+        SuperProp::Ident(Default::default())
     }
 }
 
@@ -1306,7 +1306,7 @@ impl Spanned for ExprOrSpread {
 }
 
 impl From<Box<Expr>> for ExprOrSpread {
-    fn from(expr: Expr) -> Self {
+    fn from(expr: Box<Expr>) -> Self {
         Self { expr, spread: None }
     }
 }
@@ -1380,7 +1380,7 @@ impl TryFrom<Pat> for AssignTarget {
 impl TryFrom<Box<Expr>> for AssignTarget {
     type Error = Expr;
 
-    fn try_from(e: Expr) -> Result<Self, Self::Error> {
+    fn try_from(e: Box<Expr>) -> Result<Self, Self::Error> {
         Ok(Self::Simple(SimpleAssignTarget::try_from(e)?))
     }
 }
@@ -1483,8 +1483,8 @@ boxed_variants!(
 impl TryFrom<Box<Expr>> for SimpleAssignTarget {
     type Error = Expr;
 
-    fn try_from(e: Expr) -> Result<Self, Self::Error> {
-        Ok(match e {
+    fn try_from(e: Box<Expr>) -> Result<Self, Self::Error> {
+        Ok(match *e {
             Expr::Ident(i) => SimpleAssignTarget::Ident(i.into()),
             Expr::Member(m) => SimpleAssignTarget::Member(m),
             Expr::SuperProp(s) => SimpleAssignTarget::SuperProp(s),
