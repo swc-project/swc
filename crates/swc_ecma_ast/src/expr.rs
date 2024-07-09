@@ -34,27 +34,27 @@ pub enum Expr {
     This(ThisExpr),
 
     #[tag("ArrayExpression")]
-    Array(ArrayLit),
+    Array(Box<ArrayLit>),
 
     #[tag("ObjectExpression")]
-    Object(ObjectLit),
+    Object(Box<ObjectLit>),
 
     #[tag("FunctionExpression")]
     #[is(name = "fn_expr")]
     Fn(FnExpr),
 
     #[tag("UnaryExpression")]
-    Unary(UnaryExpr),
+    Unary(Box<UnaryExpr>),
 
     /// `++v`, `--v`, `v++`, `v--`
     #[tag("UpdateExpression")]
-    Update(UpdateExpr),
+    Update(Box<UpdateExpr>),
 
     #[tag("BinaryExpression")]
-    Bin(BinExpr),
+    Bin(Box<BinExpr>),
 
     #[tag("AssignmentExpression")]
-    Assign(AssignExpr),
+    Assign(Box<AssignExpr>),
 
     //
     // Logical {
@@ -68,24 +68,24 @@ pub enum Expr {
     /// computed is false, the node corresponds to a static (a.b) member
     /// expression and property is an Identifier.
     #[tag("MemberExpression")]
-    Member(MemberExpr),
+    Member(Box<MemberExpr>),
 
     #[tag("SuperPropExpression")]
-    SuperProp(SuperPropExpr),
+    SuperProp(Box<SuperPropExpr>),
 
     /// true ? 'a' : 'b'
     #[tag("ConditionalExpression")]
-    Cond(CondExpr),
+    Cond(Box<CondExpr>),
 
     #[tag("CallExpression")]
-    Call(CallExpr),
+    Call(Box<CallExpr>),
 
     /// `new Cat()`
     #[tag("NewExpression")]
-    New(NewExpr),
+    New(Box<NewExpr>),
 
     #[tag("SequenceExpression")]
-    Seq(SeqExpr),
+    Seq(Box<SeqExpr>),
 
     #[tag("Identifier")]
     Ident(Ident),
@@ -97,39 +97,39 @@ pub enum Expr {
     #[tag("RegExpLiteral")]
     #[tag("JSXText")]
     #[tag("BigIntLiteral")]
-    Lit(Lit),
+    Lit(Box<Lit>),
 
     #[tag("TemplateLiteral")]
-    Tpl(Tpl),
+    Tpl(Box<Tpl>),
 
     #[tag("TaggedTemplateExpression")]
-    TaggedTpl(TaggedTpl),
+    TaggedTpl(Box<TaggedTpl>),
 
     #[tag("ArrowFunctionExpression")]
-    Arrow(ArrowExpr),
+    Arrow(Box<ArrowExpr>),
 
     #[tag("ClassExpression")]
-    Class(ClassExpr),
+    Class(Box<ClassExpr>),
 
     #[tag("YieldExpression")]
     #[is(name = "yield_expr")]
-    Yield(YieldExpr),
+    Yield(Box<YieldExpr>),
 
     #[tag("MetaProperty")]
     MetaProp(MetaPropExpr),
 
     #[tag("AwaitExpression")]
     #[is(name = "await_expr")]
-    Await(AwaitExpr),
+    Await(Box<AwaitExpr>),
 
     #[tag("ParenthesisExpression")]
-    Paren(ParenExpr),
+    Paren(Box<ParenExpr>),
 
     #[tag("JSXMemberExpression")]
-    JSXMember(JSXMemberExpr),
+    JSXMember(Box<JSXMemberExpr>),
 
     #[tag("JSXNamespacedName")]
-    JSXNamespacedName(JSXNamespacedName),
+    JSXNamespacedName(Box<JSXNamespacedName>),
 
     #[tag("JSXEmptyExpression")]
     JSXEmpty(JSXEmptyExpr),
@@ -138,25 +138,25 @@ pub enum Expr {
     JSXElement(Box<JSXElement>),
 
     #[tag("JSXFragment")]
-    JSXFragment(JSXFragment),
+    JSXFragment(Box<JSXFragment>),
 
     #[tag("TsTypeAssertion")]
-    TsTypeAssertion(TsTypeAssertion),
+    TsTypeAssertion(Box<TsTypeAssertion>),
 
     #[tag("TsConstAssertion")]
-    TsConstAssertion(TsConstAssertion),
+    TsConstAssertion(Box<TsConstAssertion>),
 
     #[tag("TsNonNullExpression")]
-    TsNonNull(TsNonNullExpr),
+    TsNonNull(Box<TsNonNullExpr>),
 
     #[tag("TsAsExpression")]
-    TsAs(TsAsExpr),
+    TsAs(Box<TsAsExpr>),
 
     #[tag("TsInstantiation")]
-    TsInstantiation(TsInstantiation),
+    TsInstantiation(Box<TsInstantiation>),
 
     #[tag("TsSatisfiesExpression")]
-    TsSatisfies(TsSatisfiesExpr),
+    TsSatisfies(Box<TsSatisfiesExpr>),
 
     #[tag("PrivateName")]
     PrivateName(PrivateName),
@@ -670,16 +670,12 @@ pub struct UnaryExpr {
     pub op: UnaryOp,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
-    pub arg: Expr,
+    pub arg: Box<Expr>,
 }
 
 impl Take for UnaryExpr {
     fn dummy() -> Self {
-        UnaryExpr {
-            span: DUMMY_SP,
-            op: op!("!"),
-            arg: Take::dummy(),
-        }
+        Default::default()
     }
 }
 
@@ -700,12 +696,7 @@ pub struct UpdateExpr {
 
 impl Take for UpdateExpr {
     fn dummy() -> Self {
-        UpdateExpr {
-            span: DUMMY_SP,
-            op: op!("++"),
-            prefix: false,
-            arg: Take::dummy(),
-        }
+        Default::default()
     }
 }
 
