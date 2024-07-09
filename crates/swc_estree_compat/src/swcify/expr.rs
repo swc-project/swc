@@ -42,6 +42,7 @@ impl Swcify for Expression {
             Expression::Func(e) => e.swcify(ctx).into(),
             Expression::Id(e) => e.swcify(ctx).id.into(),
             Expression::Id(e) => e.swcify(ctx).into().into(),
+            Expression::Id(e) => e.swcify(ctx).into(),
             Expression::Literal(Literal::String(e)) => e.swcify(ctx).into(),
             Expression::Literal(Literal::Numeric(e)) => e.swcify(ctx).into(),
             Expression::Literal(Literal::Null(e)) => Lit::from(e.swcify(ctx)).into(),
