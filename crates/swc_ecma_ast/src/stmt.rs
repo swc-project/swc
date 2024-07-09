@@ -451,7 +451,7 @@ pub enum VarDeclOrExpr {
     VarDecl(Box<VarDecl>),
 
     #[tag("*")]
-    Expr(Expr),
+    Expr(Box<Expr>),
 }
 
 bridge_from!(VarDeclOrExpr, Box<VarDecl>, VarDecl);

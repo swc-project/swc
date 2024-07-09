@@ -858,7 +858,7 @@ define!({
     pub enum Callee {
         Super(Super),
         Import(Import),
-        Expr(Expr),
+        Expr(Box<Expr>),
     }
     pub struct Super {
         pub span: Span,
@@ -873,7 +873,7 @@ define!({
     }
     pub enum BlockStmtOrExpr {
         BlockStmt(Box<BlockStmt>),
-        Expr(Expr),
+        Expr(Box<Expr>),
     }
 
     pub enum AssignTarget {
@@ -976,7 +976,7 @@ define!({
     }
     pub enum JSXExpr {
         JSXEmptyExpr(JSXEmptyExpr),
-        Expr(Expr),
+        Expr(Box<Expr>),
     }
     pub struct JSXSpreadChild {
         pub span: Span,
@@ -1262,7 +1262,7 @@ define!({
         Object(Box<ObjectPat>),
         Assign(Box<AssignPat>),
         Invalid(Invalid),
-        Expr(Expr),
+        Expr(Box<Expr>),
     }
     pub struct ArrayPat {
         pub span: Span,
@@ -1471,7 +1471,7 @@ define!({
     }
     pub enum VarDeclOrExpr {
         VarDecl(Box<VarDecl>),
-        Expr(Expr),
+        Expr(Box<Expr>),
     }
     pub struct TsTypeAnn {
         pub span: Span,

@@ -70,7 +70,7 @@ pub enum JSXExpr {
     #[tag("JSXEmptyExpression")]
     JSXEmptyExpr(JSXEmptyExpr),
     #[tag("*")]
-    Expr(Expr),
+    Expr(Box<Expr>),
 }
 
 #[ast_node("JSXSpreadChild")]

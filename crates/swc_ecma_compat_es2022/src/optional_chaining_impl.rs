@@ -154,7 +154,7 @@ impl VisitMut for OptionalChaining {
 #[derive(Debug, Clone)]
 enum Memo {
     Cache(Ident),
-    Raw(Expr),
+    Raw(Box<Expr>),
 }
 
 impl Memo {

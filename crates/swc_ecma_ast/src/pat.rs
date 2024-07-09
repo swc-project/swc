@@ -33,7 +33,7 @@ pub enum Pat {
 
     /// Only for for-in / for-of loops. This is *syntactically* valid.
     #[tag("*")]
-    Expr(Expr),
+    Expr(Box<Expr>),
 }
 
 boxed_variants!(Pat, [ArrayPat, ObjectPat, AssignPat, RestPat]);

@@ -1209,7 +1209,7 @@ pub enum Callee {
     Import(Import),
 
     #[tag("*")]
-    Expr(Expr),
+    Expr(Box<Expr>),
 }
 
 impl Default for Callee {
@@ -1319,7 +1319,7 @@ pub enum BlockStmtOrExpr {
     #[tag("BlockStatement")]
     BlockStmt(Box<BlockStmt>),
     #[tag("*")]
-    Expr(Expr),
+    Expr(Box<Expr>),
 }
 
 boxed_variants!(BlockStmtOrExpr, [BlockStmt]);

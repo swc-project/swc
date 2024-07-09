@@ -18,7 +18,7 @@ pub(crate) type TsEnumRecord = AHashMap<TsEnumRecordKey, TsEnumRecordValue>;
 pub(crate) enum TsEnumRecordValue {
     String(JsWord),
     Number(f64),
-    Opaque(Expr),
+    Opaque(Box<Expr>),
     Void,
 }
 

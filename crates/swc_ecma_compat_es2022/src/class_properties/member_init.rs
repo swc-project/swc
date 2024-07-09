@@ -11,7 +11,7 @@ pub(super) enum MemberInit {
     PrivProp(PrivProp),
     PrivMethod(PrivMethod),
     PrivAccessor(PrivAccessor),
-    StaticBlock(Expr),
+    StaticBlock(Box<Expr>),
 }
 
 pub(super) struct PubProp {
