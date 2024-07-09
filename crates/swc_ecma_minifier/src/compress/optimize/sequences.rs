@@ -1,6 +1,6 @@
 use std::mem::take;
 
-use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{
     alias::{collect_infects_from, AccessKind, AliasConfig},
@@ -448,7 +448,7 @@ impl Optimizer<'_> {
         }) = e
         {
             if let (Some(id), Expr::Seq(seq)) = (left.as_ident(), &mut **right) {
-                if id.span.ctxt == self.expr_ctx.unresolved_ctxt {
+                if id.ctxt == self.expr_ctx.unresolved_ctxt {
                     return;
                 }
                 // Do we really need this?
@@ -511,7 +511,7 @@ impl Optimizer<'_> {
                 &*e.exprs[e.exprs.len() - 2]
             {
                 if let Some(lhs) = assign.left.as_ident() {
-                    if lhs.sym == last_id.sym && lhs.span.ctxt == last_id.span.ctxt {
+                    if lhs.sym == last_id.sym && lhs.ctxt == last_id.ctxt {
                         e.exprs.pop();
                         self.changed = true;
                         report_change!("sequences: Shifting assignment");
@@ -773,10 +773,7 @@ impl Optimizer<'_> {
             )
         };
 
-        if !self.options.sequences()
-            && !self.options.collapse_vars
-            && !e.span.has_mark(self.marks.synthesized_seq)
-        {
+        if !self.options.sequences() && !self.options.collapse_vars && !e.span.is_dummy() {
             log_abort!("sequences: Disabled && no mark");
             return;
         }
@@ -1083,14 +1080,14 @@ impl Optimizer<'_> {
         e: &SimpleAssignTarget,
     ) -> bool {
         match e {
-            SimpleAssignTarget::Ident(e) => self.is_ident_skippable_for_seq(a, e),
+            SimpleAssignTarget::Ident(e) => self.is_ident_skippable_for_seq(a, &Ident::from(e)),
             SimpleAssignTarget::Member(e) => self.is_member_expr_skippable_for_seq(a, e),
             _ => false,
         }
     }
 
     fn is_ident_skippable_for_seq(&self, a: Option<&Mergable>, e: &Ident) -> bool {
-        if e.span.ctxt == self.expr_ctx.unresolved_ctxt
+        if e.ctxt == self.expr_ctx.unresolved_ctxt
             && self.options.pristine_globals
             && is_global_var_with_pure_property_access(&e.sym)
         {
@@ -1282,7 +1279,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if !self.is_skippable_for_seq(a, &Expr::Ident(left_id.clone())) {
+                if !self.is_skippable_for_seq(a, &Expr::Ident(left_id.id.clone())) {
                     return false;
                 }
 
@@ -1788,7 +1785,7 @@ impl Optimizer<'_> {
                     return Ok(false);
                 };
 
-                if !self.is_skippable_for_seq(Some(a), &Expr::Ident(b_left.clone())) {
+                if !self.is_skippable_for_seq(Some(a), &Expr::Ident(b_left.id.clone())) {
                     // Let's be safe
                     if IdentUsageFinder::find(&b_left.to_id(), &b_assign.right) {
                         return Ok(false);
@@ -1994,9 +1991,9 @@ impl Optimizer<'_> {
                                     let mut new_b = Box::new(Expr::Ident(shorthand.clone()));
                                     if self.merge_sequential_expr(a, &mut new_b)? {
                                         *prop = Box::new(Prop::KeyValue(KeyValueProp {
-                                            key: Ident::new(
+                                            key: Ident::new_no_ctxt(
                                                 shorthand.sym.clone(),
-                                                shorthand.span.with_ctxt(SyntaxContext::empty()),
+                                                shorthand.span,
                                             )
                                             .into(),
                                             value: new_b.clone(),
@@ -2256,7 +2253,7 @@ impl Optimizer<'_> {
                         // (console.log(a = 5))
 
                         let left_id = match left.as_ident() {
-                            Some(v) => v,
+                            Some(v) => v.id.clone(),
                             None => {
                                 log_abort!("sequences: Aborting because lhs is not an id");
                                 return Ok(false);
@@ -2277,7 +2274,7 @@ impl Optimizer<'_> {
                                 log_abort!(
                                     "sequences: Declared as fn expr ({}, {:?})",
                                     left_id.sym,
-                                    left_id.span.ctxt
+                                    left_id.ctxt
                                 );
                                 return Ok(false);
                             }
@@ -2294,7 +2291,7 @@ impl Optimizer<'_> {
                             return Ok(false);
                         }
 
-                        (left_id.clone(), Some(right))
+                        (left_id, Some(right))
                     }
                     _ => return Ok(false),
                 }
@@ -2509,7 +2506,7 @@ impl Optimizer<'_> {
                 log_abort!(
                     "sequences: Aborting because of usage counts ({}{:?}, ref = {}, pat = {})",
                     left_id.sym,
-                    left_id.span.ctxt,
+                    left_id.ctxt,
                     v.expr_usage,
                     v.pat_usage
                 );
@@ -2522,7 +2519,7 @@ impl Optimizer<'_> {
         report_change!(
             "sequences: Inlining sequential expressions (`{}{:?}`)",
             left_id.sym,
-            left_id.span.ctxt
+            left_id.ctxt
         );
 
         let to = take_a(a, false, false);
@@ -2585,7 +2582,7 @@ impl Visit for UsageCounter<'_> {
     standard_only_visit!();
 
     fn visit_ident(&mut self, i: &Ident) {
-        if self.target.sym == i.sym && self.target.span.ctxt == i.span.ctxt {
+        if self.target.sym == i.sym && self.target.ctxt == i.ctxt {
             if self.in_abort {
                 self.abort = true;
                 return;

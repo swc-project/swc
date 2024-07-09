@@ -1,22 +1,22 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..31#0,
+            span: 1..31,
             value: "My structural interface.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "record",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         extras: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },

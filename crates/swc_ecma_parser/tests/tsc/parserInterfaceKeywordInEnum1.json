@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 43,
-    "ctxt": 0
+    "end": 43
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 14,
-        "ctxt": 0
+        "end": 14
       },
       "expression": {
         "type": "StringLiteral",
         "span": {
           "start": 1,
-          "end": 13,
-          "ctxt": 0
+          "end": 13
         },
         "value": "use strict",
         "raw": "\"use strict\""
@@ -28,8 +25,7 @@
       "type": "TsEnumDeclaration",
       "span": {
         "start": 16,
-        "end": 43,
-        "ctxt": 0
+        "end": 43
       },
       "declare": false,
       "isConst": false,
@@ -37,9 +33,9 @@
         "type": "Identifier",
         "span": {
           "start": 21,
-          "end": 24,
-          "ctxt": 0
+          "end": 24
         },
+        "ctxt": 0,
         "value": "Bar",
         "optional": false
       },
@@ -48,16 +44,15 @@
           "type": "TsEnumMember",
           "span": {
             "start": 31,
-            "end": 40,
-            "ctxt": 0
+            "end": 40
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 31,
-              "end": 40,
-              "ctxt": 0
+              "end": 40
             },
+            "ctxt": 0,
             "value": "interface",
             "optional": false
           },

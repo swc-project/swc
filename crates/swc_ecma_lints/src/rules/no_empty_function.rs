@@ -263,7 +263,7 @@ impl Visit for NoEmptyFunction {
     noop_visit_type!();
 
     fn visit_function(&mut self, function: &Function) {
-        if let Some(BlockStmt { stmts, span }) = &function.body {
+        if let Some(BlockStmt { stmts, span, .. }) = &function.body {
             if self.consider_comments && self.has_comment_in_body(span) {
                 return;
             }
@@ -290,7 +290,7 @@ impl Visit for NoEmptyFunction {
     }
 
     fn visit_arrow_expr(&mut self, function: &ArrowExpr) {
-        if let BlockStmtOrExpr::BlockStmt(BlockStmt { stmts, span }) = &*function.body {
+        if let BlockStmtOrExpr::BlockStmt(BlockStmt { stmts, span, .. }) = &*function.body {
             if self.consider_comments && self.has_comment_in_body(span) {
                 return;
             }
@@ -317,7 +317,7 @@ impl Visit for NoEmptyFunction {
     }
 
     fn visit_constructor(&mut self, constructor: &Constructor) {
-        if let Some(BlockStmt { span, stmts }) = &constructor.body {
+        if let Some(BlockStmt { span, stmts, .. }) = &constructor.body {
             if self.consider_comments && self.has_comment_in_body(span) {
                 return;
             }
@@ -347,7 +347,7 @@ impl Visit for NoEmptyFunction {
     fn visit_class_method(&mut self, class_method: &ClassMethod) {
         let method = &class_method.function;
 
-        if let Some(BlockStmt { span, stmts }) = &method.body {
+        if let Some(BlockStmt { span, stmts, .. }) = &method.body {
             if self.consider_comments && self.has_comment_in_body(span) {
                 return;
             }

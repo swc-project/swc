@@ -2,16 +2,14 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 21,
-    "ctxt": 0
+    "end": 21
   },
   "children": [
     {
       "type": "ProcessingInstruction",
       "span": {
         "start": 1,
-        "end": 21,
-        "ctxt": 0
+        "end": 21
       },
       "target": "",
       "data": "xml version='1.0'"

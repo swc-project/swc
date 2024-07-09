@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 16..16#0,
+        span: 16..16,
         description: Text {
-            span: 16..16#0,
+            span: 16..16,
             value: "",
         },
         tags: [
             TagItem {
-                span: 16..21#0,
+                span: 16..21,
                 tag_name: Text {
-                    span: 16..21#0,
+                    span: 16..21,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 16..21#0,
+                        span: 16..21,
                         ty: None,
                         name: None,
                     },
@@ -23,17 +23,17 @@
         ],
     },
     JsDoc {
-        span: 58..58#0,
+        span: 58..58,
         description: Text {
-            span: 58..70#0,
+            span: 58..70,
             value: "Port number.",
         },
         tags: [],
     },
     JsDoc {
-        span: 110..110#0,
+        span: 110..110,
         description: Text {
-            span: 110..128#0,
+            span: 110..128,
             value: "Open a connection.",
         },
         tags: [],

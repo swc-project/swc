@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 18,
-    "ctxt": 0
+    "end": 18
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 18,
-        "ctxt": 0
+        "end": 18
       },
       "expression": {
         "type": "UpdateExpression",
         "span": {
           "start": 1,
-          "end": 18,
-          "ctxt": 0
+          "end": 18
         },
         "operator": "++",
         "prefix": true,
@@ -30,17 +27,16 @@
               "type": "Parameter",
               "span": {
                 "start": 12,
-                "end": 13,
-                "ctxt": 0
+                "end": 13
               },
               "decorators": [],
               "pat": {
                 "type": "Identifier",
                 "span": {
                   "start": 12,
-                  "end": 13,
-                  "ctxt": 0
+                  "end": 13
                 },
+                "ctxt": 0,
                 "value": "e",
                 "optional": false,
                 "typeAnnotation": null
@@ -50,16 +46,16 @@
           "decorators": [],
           "span": {
             "start": 3,
-            "end": 18,
-            "ctxt": 0
+            "end": 18
           },
+          "ctxt": 0,
           "body": {
             "type": "BlockStatement",
             "span": {
               "start": 15,
-              "end": 18,
-              "ctxt": 0
+              "end": 18
             },
+            "ctxt": 0,
             "stmts": []
           },
           "generator": false,

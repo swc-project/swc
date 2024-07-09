@@ -4,8 +4,7 @@
       "kind": "Line",
       "span": {
         "start": 6,
-        "end": 27,
-        "ctxt": 0
+        "end": 27
       },
       "text": " Line comment\n"
     }

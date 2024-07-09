@@ -121,9 +121,8 @@ impl Optimizer<'_> {
                     if l.value == 0.0 && r.value == 0.0 {
                         *n = Expr::Ident(Ident::new(
                             "NaN".into(),
-                            span.with_ctxt(
-                                SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                            ),
+                            *span,
+                            SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
                         ));
                         self.changed = true;
                         report_change!("strings: Evaluated 0 / 0 => NaN in string context");

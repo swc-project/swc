@@ -82,8 +82,7 @@ impl VisitMut for TypeOfSymbol {
                         span: *span,
                         callee: helper!(*span, type_of),
                         args: vec![arg.take().as_arg()],
-
-                        type_args: Default::default(),
+                        ..Default::default()
                     });
 
                     *expr = Expr::Cond(CondExpr {
@@ -99,7 +98,7 @@ impl VisitMut for TypeOfSymbol {
                         callee: helper!(*span, type_of),
                         args: vec![arg.take().as_arg()],
 
-                        type_args: Default::default(),
+                        ..Default::default()
                     });
 
                     *expr = call;

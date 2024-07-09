@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 18,
-    "end": 42,
-    "ctxt": 0
+    "end": 42
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 18,
-        "end": 42,
-        "ctxt": 0
+        "end": 42
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 22,
-            "end": 41,
-            "ctxt": 0
+            "end": 41
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 22,
-              "end": 23,
-              "ctxt": 0
+              "end": 23
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -38,8 +36,7 @@
             "type": "TemplateLiteral",
             "span": {
               "start": 26,
-              "end": 41,
-              "ctxt": 0
+              "end": 41
             },
             "expressions": [],
             "quasis": [
@@ -47,8 +44,7 @@
                 "type": "TemplateElement",
                 "span": {
                   "start": 27,
-                  "end": 40,
-                  "ctxt": 0
+                  "end": 40
                 },
                 "tail": true,
                 "cooked": "   20",

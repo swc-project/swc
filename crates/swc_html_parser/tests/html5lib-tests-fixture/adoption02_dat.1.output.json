@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 36,
-    "ctxt": 0
+    "end": 36
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 4,
-                "ctxt": 0
+                "end": 4
               },
               "tagName": "a",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -61,8 +56,7 @@
               "type": "Element",
               "span": {
                 "start": 4,
-                "end": 36,
-                "ctxt": 0
+                "end": 36
               },
               "tagName": "div",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -72,8 +66,7 @@
                   "type": "Element",
                   "span": {
                     "start": 9,
-                    "end": 24,
-                    "ctxt": 0
+                    "end": 24
                   },
                   "tagName": "a",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -83,8 +76,7 @@
                       "type": "Element",
                       "span": {
                         "start": 9,
-                        "end": 24,
-                        "ctxt": 0
+                        "end": 24
                       },
                       "tagName": "style",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -101,8 +93,7 @@
                   "type": "Element",
                   "span": {
                     "start": 24,
-                    "end": 36,
-                    "ctxt": 0
+                    "end": 36
                   },
                   "tagName": "address",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -112,8 +103,7 @@
                       "type": "Element",
                       "span": {
                         "start": 33,
-                        "end": 36,
-                        "ctxt": 0
+                        "end": 36
                       },
                       "tagName": "a",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -126,8 +116,7 @@
                       "type": "Element",
                       "span": {
                         "start": 33,
-                        "end": 36,
-                        "ctxt": 0
+                        "end": 36
                       },
                       "tagName": "a",
                       "namespace": "http://www.w3.org/1999/xhtml",

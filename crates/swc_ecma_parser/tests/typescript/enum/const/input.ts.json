@@ -2,16 +2,14 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 16,
-    "ctxt": 0
+    "end": 16
   },
   "body": [
     {
       "type": "TsEnumDeclaration",
       "span": {
         "start": 1,
-        "end": 16,
-        "ctxt": 0
+        "end": 16
       },
       "declare": false,
       "isConst": true,
@@ -19,9 +17,9 @@
         "type": "Identifier",
         "span": {
           "start": 12,
-          "end": 13,
-          "ctxt": 0
+          "end": 13
         },
+        "ctxt": 0,
         "value": "E",
         "optional": false
       },

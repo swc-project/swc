@@ -2,75 +2,65 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 8,
-    "ctxt": 0
+    "end": 8
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 8,
-        "ctxt": 0
+        "end": 8
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 5,
-          "ctxt": 0
+          "end": 5
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 5,
-              "ctxt": 0
+              "end": 5
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 5,
-                  "ctxt": 0
+                  "end": 5
                 },
                 "nestingSelector": {
                   "type": "NestingSelector",
                   "span": {
                     "start": 1,
-                    "end": 2,
-                    "ctxt": 0
+                    "end": 2
                   }
                 },
                 "typeSelector": {
                   "type": "TagNameSelector",
                   "span": {
                     "start": 2,
-                    "end": 5,
-                    "ctxt": 0
+                    "end": 5
                   },
                   "name": {
                     "type": "WqName",
                     "span": {
                       "start": 2,
-                      "end": 5,
-                      "ctxt": 0
+                      "end": 5
                     },
                     "prefix": {
                       "type": "NamespacePrefix",
                       "span": {
                         "start": 2,
-                        "end": 4,
-                        "ctxt": 0
+                        "end": 4
                       },
                       "namespace": {
                         "type": "AnyNamespace",
                         "span": {
                           "start": 2,
-                          "end": 3,
-                          "ctxt": 0
+                          "end": 3
                         }
                       }
                     },
@@ -78,8 +68,7 @@
                       "type": "Ident",
                       "span": {
                         "start": 4,
-                        "end": 5,
-                        "ctxt": 0
+                        "end": 5
                       },
                       "value": "b",
                       "raw": "b"
@@ -96,15 +85,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 6,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 6,
-            "end": 7,
-            "ctxt": 0
+            "end": 7
           },
           "token": "LBrace"
         },

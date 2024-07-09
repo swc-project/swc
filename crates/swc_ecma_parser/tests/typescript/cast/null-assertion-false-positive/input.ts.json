@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 5,
-    "ctxt": 0
+    "end": 5
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 2,
-        "ctxt": 0
+        "end": 2
       },
       "expression": {
         "type": "Identifier",
         "span": {
           "start": 1,
-          "end": 2,
-          "ctxt": 0
+          "end": 2
         },
+        "ctxt": 0,
         "value": "a",
         "optional": false
       }
@@ -28,24 +26,22 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 3,
-        "end": 5,
-        "ctxt": 0
+        "end": 5
       },
       "expression": {
         "type": "UnaryExpression",
         "span": {
           "start": 3,
-          "end": 5,
-          "ctxt": 0
+          "end": 5
         },
         "operator": "!",
         "argument": {
           "type": "Identifier",
           "span": {
             "start": 4,
-            "end": 5,
-            "ctxt": 0
+            "end": 5
           },
+          "ctxt": 0,
           "value": "b",
           "optional": false
         }

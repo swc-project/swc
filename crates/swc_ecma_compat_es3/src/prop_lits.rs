@@ -50,7 +50,7 @@ impl Fold for PropertyLiteral {
                 if value.is_reserved() || !is_valid_ident(&value) {
                     PropName::Str(Str { span, raw, value })
                 } else {
-                    PropName::Ident(Ident::new(value, span))
+                    PropName::Ident(Ident::new_no_ctxt(value, span))
                 }
             }
             PropName::Ident(i) => {

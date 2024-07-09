@@ -2,31 +2,28 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 4,
-    "ctxt": 0
+    "end": 4
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 4,
-        "ctxt": 0
+        "end": 4
       },
       "expression": {
         "type": "TsNonNullExpression",
         "span": {
           "start": 1,
-          "end": 3,
-          "ctxt": 0
+          "end": 3
         },
         "expression": {
           "type": "Identifier",
           "span": {
             "start": 1,
-            "end": 2,
-            "ctxt": 0
+            "end": 2
           },
+          "ctxt": 0,
           "value": "x",
           "optional": false
         }

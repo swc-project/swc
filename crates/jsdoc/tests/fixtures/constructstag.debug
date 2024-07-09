@@ -1,77 +1,77 @@
 [
     JsDoc {
-        span: 30..30#0,
+        span: 30..30,
         description: Text {
-            span: 30..70#0,
+            span: 30..70,
             value: "Document your constructor function here.",
         },
         tags: [
             TagItem {
-                span: 30..40#0,
+                span: 30..40,
                 tag_name: Text {
-                    span: 30..40#0,
+                    span: 30..40,
                     value: "constructs",
                 },
                 tag: Constructs(
                     ConstructsTag {
-                        span: 30..40#0,
+                        span: 30..40,
                         name: Text {
-                            span: 30..39#0,
+                            span: 30..39,
                             value: "TextBlock",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 30..39#0,
+                span: 30..39,
                 tag_name: Text {
-                    span: 30..39#0,
+                    span: 30..39,
                     value: "classdesc",
                 },
                 tag: ClassDesc(
                     JSDocClassDescTag {
-                        span: 30..39#0,
+                        span: 30..39,
                         desc: Text {
-                            span: 30..54#0,
+                            span: 30..54,
                             value: "Describe your class here",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 30..35#0,
+                span: 30..35,
                 tag_name: Text {
-                    span: 30..35#0,
+                    span: 30..35,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 30..35#0,
+                        span: 30..35,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 30..38#0,
+                                span: 30..38,
                                 value: "{object}",
                             },
                         ),
                         desc: Text {
-                            span: 30..34#0,
+                            span: 30..34,
                             value: "opts",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 30..36#0,
+                span: 30..36,
                 tag_name: Text {
-                    span: 30..36#0,
+                    span: 30..36,
                     value: "throws",
                 },
                 tag: Throw(
                     ThrowTag {
-                        span: 30..36#0,
+                        span: 30..36,
                         text: Text {
-                            span: 30..41#0,
+                            span: 30..41,
                             value: "MissingNode",
                         },
                     },
@@ -80,26 +80,26 @@
         ],
     },
     JsDoc {
-        span: 272..272#0,
+        span: 272..272,
         description: Text {
-            span: 272..298#0,
+            span: 272..298,
             value: "Document your method here.",
         },
         tags: [
             TagItem {
-                span: 272..280#0,
+                span: 272..280,
                 tag_name: Text {
-                    span: 272..280#0,
+                    span: 272..280,
                     value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
-                        span: 272..280#0,
+                        span: 272..280,
                         parent_name_path: NamePath {
-                            span: 272..278#0,
+                            span: 272..278,
                             components: [
                                 Text {
-                                    span: 272..281#0,
+                                    span: 272..281,
                                     value: "TextBlock",
                                 },
                             ],

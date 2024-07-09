@@ -68,7 +68,7 @@ impl ExplicitResourceManagement {
                     callee: helper!(using_ctx),
                     span: DUMMY_SP,
                     args: Default::default(),
-                    type_args: Default::default(),
+                    ..Default::default()
                 }
                 .into(),
             ),
@@ -80,6 +80,7 @@ impl ExplicitResourceManagement {
             kind: VarDeclKind::Var,
             declare: false,
             decls: vec![using_ctx_var],
+            ..Default::default()
         }))));
 
         for stmt in stmts.take() {
@@ -109,7 +110,7 @@ impl ExplicitResourceManagement {
                                 specifiers: vec![ExportSpecifier::Named(ExportNamedSpecifier {
                                     span: DUMMY_SP,
                                     orig: ModuleExportName::Ident(ident.clone()),
-                                    exported: Some(ModuleExportName::Ident(Ident::new(
+                                    exported: Some(ModuleExportName::Ident(Ident::new_no_ctxt(
                                         "default".into(),
                                         DUMMY_SP,
                                     ))),
@@ -124,7 +125,6 @@ impl ExplicitResourceManagement {
                         try_body.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
-                            declare: Default::default(),
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
                                 name: ident.into(),
@@ -135,6 +135,7 @@ impl ExplicitResourceManagement {
                                 }),
                                 definite: Default::default(),
                             }],
+                            ..Default::default()
                         }))));
                     }
 
@@ -148,7 +149,7 @@ impl ExplicitResourceManagement {
                                 specifiers: vec![ExportSpecifier::Named(ExportNamedSpecifier {
                                     span: DUMMY_SP,
                                     orig: ModuleExportName::Ident(ident.clone()),
-                                    exported: Some(ModuleExportName::Ident(Ident::new(
+                                    exported: Some(ModuleExportName::Ident(Ident::new_no_ctxt(
                                         "default".into(),
                                         DUMMY_SP,
                                     ))),
@@ -170,6 +171,7 @@ impl ExplicitResourceManagement {
                                 init: Some(decl.expr),
                                 definite: Default::default(),
                             }],
+                            ..Default::default()
                         }))));
                     }
 
@@ -191,6 +193,7 @@ impl ExplicitResourceManagement {
                                     kind: VarDeclKind::Var,
                                     declare: false,
                                     decls: vec![var],
+                                    ..Default::default()
                                 })))));
 
                                 try_body.push(Stmt::Decl(e.decl));
@@ -247,6 +250,7 @@ impl ExplicitResourceManagement {
                                     kind: VarDeclKind::Var,
                                     declare: false,
                                     decls: var_decls,
+                                    ..Default::default()
                                 })))));
 
                                 try_body.push(Stmt::Decl(e.decl));
@@ -331,7 +335,7 @@ impl ExplicitResourceManagement {
                 .make_member(quote_ident!("d"))
                 .as_callee(),
             args: vec![],
-            type_args: Default::default(),
+            ..Default::default()
         };
         let dispose_stmt = if state.has_await {
             Expr::Await(AwaitExpr {
@@ -348,6 +352,7 @@ impl ExplicitResourceManagement {
             block: BlockStmt {
                 span: DUMMY_SP,
                 stmts: try_body,
+                ..Default::default()
             },
             handler: Some(CatchClause {
                 span: DUMMY_SP,
@@ -355,11 +360,13 @@ impl ExplicitResourceManagement {
                 body: BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![assign_error],
+                    ..Default::default()
                 },
             }),
             finalizer: Some(BlockStmt {
                 span: DUMMY_SP,
                 stmts: vec![dispose_stmt],
+                ..Default::default()
             }),
         };
 
@@ -388,6 +395,7 @@ impl VisitMut for ExplicitResourceManagement {
                 kind: VarDeclKind::Const,
                 declare: false,
                 decls: decl.decls.take(),
+                ..Default::default()
             }));
 
             let mut body = vec![*n.body.take()];
@@ -395,6 +403,7 @@ impl VisitMut for ExplicitResourceManagement {
             n.body = Box::new(Stmt::Block(BlockStmt {
                 span: DUMMY_SP,
                 stmts: body,
+                ..Default::default()
             }))
         }
     }
@@ -436,7 +445,7 @@ impl VisitMut for ExplicitResourceManagement {
                                 })
                                 .as_callee(),
                             args: vec![d.init.unwrap().as_arg()],
-                            type_args: Default::default(),
+                            ..Default::default()
                         };
 
                         VarDeclarator {
@@ -445,6 +454,7 @@ impl VisitMut for ExplicitResourceManagement {
                         }
                     })
                     .collect(),
+                ..Default::default()
             })));
         }
     }

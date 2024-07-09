@@ -32,7 +32,7 @@ impl<'a> VisitMut for ClassNameTdzFolder<'a> {
                                 }
                                 .as_arg()],
 
-                                type_args: Default::default(),
+                                ..Default::default()
                             })),
                             Box::new(Expr::Ident(i.clone())),
                         ],

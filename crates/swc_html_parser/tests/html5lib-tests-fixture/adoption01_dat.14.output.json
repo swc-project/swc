@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 33,
-    "ctxt": 0
+    "end": 33
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 33,
-                "ctxt": 0
+                "end": 33
               },
               "tagName": "div",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -58,8 +53,7 @@
                   "type": "Element",
                   "span": {
                     "start": 6,
-                    "end": 24,
-                    "ctxt": 0
+                    "end": 24
                   },
                   "tagName": "a",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -69,8 +63,7 @@
                       "type": "Element",
                       "span": {
                         "start": 9,
-                        "end": 24,
-                        "ctxt": 0
+                        "end": 24
                       },
                       "tagName": "b",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -80,8 +73,7 @@
                           "type": "Element",
                           "span": {
                             "start": 12,
-                            "end": 24,
-                            "ctxt": 0
+                            "end": 24
                           },
                           "tagName": "u",
                           "namespace": "http://www.w3.org/1999/xhtml",
@@ -91,8 +83,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 15,
-                                "end": 24,
-                                "ctxt": 0
+                                "end": 24
                               },
                               "tagName": "i",
                               "namespace": "http://www.w3.org/1999/xhtml",
@@ -102,8 +93,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 18,
-                                    "end": 24,
-                                    "ctxt": 0
+                                    "end": 24
                                   },
                                   "tagName": "code",
                                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -132,8 +122,7 @@
                   "type": "Element",
                   "span": {
                     "start": 12,
-                    "end": 33,
-                    "ctxt": 0
+                    "end": 33
                   },
                   "tagName": "u",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -143,8 +132,7 @@
                       "type": "Element",
                       "span": {
                         "start": 15,
-                        "end": 33,
-                        "ctxt": 0
+                        "end": 33
                       },
                       "tagName": "i",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -154,8 +142,7 @@
                           "type": "Element",
                           "span": {
                             "start": 18,
-                            "end": 33,
-                            "ctxt": 0
+                            "end": 33
                           },
                           "tagName": "code",
                           "namespace": "http://www.w3.org/1999/xhtml",
@@ -165,8 +152,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 24,
-                                "end": 33,
-                                "ctxt": 0
+                                "end": 33
                               },
                               "tagName": "div",
                               "namespace": "http://www.w3.org/1999/xhtml",
@@ -176,8 +162,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 29,
-                                    "end": 33,
-                                    "ctxt": 0
+                                    "end": 33
                                   },
                                   "tagName": "a",
                                   "namespace": "http://www.w3.org/1999/xhtml",

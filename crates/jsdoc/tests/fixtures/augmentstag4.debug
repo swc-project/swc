@@ -1,23 +1,23 @@
 [
     JsDoc {
-        span: 49..49#0,
+        span: 49..49,
         description: Text {
-            span: 49..49#0,
+            span: 49..49,
             value: "",
         },
         tags: [
             TagItem {
-                span: 49..60#0,
+                span: 49..60,
                 tag_name: Text {
-                    span: 49..60#0,
+                    span: 49..60,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 49..60#0,
+                        span: 49..60,
                         ty: Some(
                             Text {
-                                span: 49..72#0,
+                                span: 49..72,
                                 value: "* @classdesc Base class",
                             },
                         ),
@@ -28,40 +28,40 @@
         ],
     },
     JsDoc {
-        span: 126..126#0,
+        span: 126..126,
         description: Text {
-            span: 126..132#0,
+            span: 126..132,
             value: "member",
         },
         tags: [],
     },
     JsDoc {
-        span: 169..169#0,
+        span: 169..169,
         description: Text {
-            span: 169..183#0,
+            span: 169..183,
             value: "another member",
         },
         tags: [],
     },
     JsDoc {
-        span: 218..218#0,
+        span: 218..218,
         description: Text {
-            span: 218..248#0,
+            span: 218..248,
             value: "explicitly named member\n     *",
         },
         tags: [
             TagItem {
-                span: 218..226#0,
+                span: 218..226,
                 tag_name: Text {
-                    span: 218..226#0,
+                    span: 218..226,
                     value: "function",
                 },
                 tag: Function(
                     FunctionTag {
-                        span: 218..226#0,
+                        span: 218..226,
                         name: Some(
                             Text {
-                                span: 218..228#0,
+                                span: 218..228,
                                 value: "Base#test3",
                             },
                         ),
@@ -71,30 +71,30 @@
         ],
     },
     JsDoc {
-        span: 325..325#0,
+        span: 325..325,
         description: Text {
-            span: 325..325#0,
+            span: 325..325,
             value: "",
         },
         tags: [
             TagItem {
-                span: 325..336#0,
+                span: 325..336,
                 tag_name: Text {
-                    span: 325..336#0,
+                    span: 325..336,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 325..336#0,
+                        span: 325..336,
                         ty: Some(
                             Text {
-                                span: 325..340#0,
+                                span: 325..340,
                                 value: "* @extends Base",
                             },
                         ),
                         name: Some(
                             Text {
-                                span: 325..355#0,
+                                span: 325..355,
                                 value: "* @classdesc Extension of Base",
                             },
                         ),

@@ -2,32 +2,29 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 32,
-    "ctxt": 0
+    "end": 32
   },
   "body": [
     {
       "type": "ExportNamedDeclaration",
       "span": {
         "start": 1,
-        "end": 32,
-        "ctxt": 0
+        "end": 32
       },
       "specifiers": [
         {
           "type": "ExportSpecifier",
           "span": {
             "start": 10,
-            "end": 13,
-            "ctxt": 0
+            "end": 13
           },
           "orig": {
             "type": "Identifier",
             "span": {
               "start": 10,
-              "end": 13,
-              "ctxt": 0
+              "end": 13
             },
+            "ctxt": 0,
             "value": "foo",
             "optional": false
           },
@@ -39,8 +36,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 21,
-          "end": 31,
-          "ctxt": 0
+          "end": 31
         },
         "value": "foo.json",
         "raw": "\"foo.json\""

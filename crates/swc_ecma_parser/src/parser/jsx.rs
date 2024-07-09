@@ -1,5 +1,5 @@
 use either::Either;
-use swc_common::{Spanned, SyntaxContext};
+use swc_common::Spanned;
 
 use super::*;
 
@@ -17,7 +17,7 @@ impl<I: Tokens> Parser<I> {
             Token::JSXName { .. } => match bump!(self) {
                 Token::JSXName { name } => {
                     let span = self.input.prev_span();
-                    Ok(Ident::new(name, span))
+                    Ok(Ident::new_no_ctxt(name, span))
                 }
                 _ => unreachable!(),
             },
@@ -115,7 +115,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         Ok(JSXEmptyExpr {
-            span: Span::new(start, start, SyntaxContext::empty()),
+            span: Span::new(start, start),
         })
     }
 

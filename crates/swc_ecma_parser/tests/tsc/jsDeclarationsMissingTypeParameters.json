@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 151,
-    "end": 420,
-    "ctxt": 0
+    "end": 420
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 160,
-          "end": 161,
-          "ctxt": 0
+          "end": 161
         },
+        "ctxt": 0,
         "value": "x",
         "optional": false
       },
@@ -24,17 +23,16 @@
           "type": "Parameter",
           "span": {
             "start": 162,
-            "end": 163,
-            "ctxt": 0
+            "end": 163
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
               "start": 162,
-              "end": 163,
-              "ctxt": 0
+              "end": 163
             },
+            "ctxt": 0,
             "value": "y",
             "optional": false,
             "typeAnnotation": null
@@ -44,16 +42,16 @@
       "decorators": [],
       "span": {
         "start": 151,
-        "end": 168,
-        "ctxt": 0
+        "end": 168
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 165,
-          "end": 168,
-          "ctxt": 0
+          "end": 168
         },
+        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -67,9 +65,9 @@
         "type": "Identifier",
         "span": {
           "start": 240,
-          "end": 241,
-          "ctxt": 0
+          "end": 241
         },
+        "ctxt": 0,
         "value": "y",
         "optional": false
       },
@@ -79,17 +77,16 @@
           "type": "Parameter",
           "span": {
             "start": 242,
-            "end": 246,
-            "ctxt": 0
+            "end": 246
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
               "start": 242,
-              "end": 246,
-              "ctxt": 0
+              "end": 246
             },
+            "ctxt": 0,
             "value": "func",
             "optional": false,
             "typeAnnotation": null
@@ -99,23 +96,22 @@
       "decorators": [],
       "span": {
         "start": 231,
-        "end": 259,
-        "ctxt": 0
+        "end": 259
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 248,
-          "end": 259,
-          "ctxt": 0
+          "end": 259
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
               "start": 250,
-              "end": 257,
-              "ctxt": 0
+              "end": 257
             },
             "argument": null
           }
@@ -132,9 +128,9 @@
         "type": "Identifier",
         "span": {
           "start": 325,
-          "end": 326,
-          "ctxt": 0
+          "end": 326
         },
+        "ctxt": 0,
         "value": "z",
         "optional": false
       },
@@ -143,30 +139,28 @@
       "decorators": [],
       "span": {
         "start": 316,
-        "end": 345,
-        "ctxt": 0
+        "end": 345
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 329,
-          "end": 345,
-          "ctxt": 0
+          "end": 345
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
               "start": 331,
-              "end": 344,
-              "ctxt": 0
+              "end": 344
             },
             "argument": {
               "type": "NullLiteral",
               "span": {
                 "start": 338,
-                "end": 342,
-                "ctxt": 0
+                "end": 342
               }
             }
           }
@@ -183,9 +177,9 @@
         "type": "Identifier",
         "span": {
           "start": 400,
-          "end": 401,
-          "ctxt": 0
+          "end": 401
         },
+        "ctxt": 0,
         "value": "w",
         "optional": false
       },
@@ -194,30 +188,28 @@
       "decorators": [],
       "span": {
         "start": 391,
-        "end": 420,
-        "ctxt": 0
+        "end": 420
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 404,
-          "end": 420,
-          "ctxt": 0
+          "end": 420
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
               "start": 406,
-              "end": 418,
-              "ctxt": 0
+              "end": 418
             },
             "argument": {
               "type": "NullLiteral",
               "span": {
                 "start": 413,
-                "end": 417,
-                "ctxt": 0
+                "end": 417
               }
             }
           }

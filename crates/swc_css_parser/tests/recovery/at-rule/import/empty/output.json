@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 11,
-    "ctxt": 0
+    "end": 11
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 10,
-        "ctxt": 0
+        "end": 10
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
         "value": "import",
         "raw": "import"
@@ -27,16 +24,14 @@
         "type": "ListOfComponentValues",
         "span": {
           "start": 8,
-          "end": 9,
-          "ctxt": 0
+          "end": 9
         },
         "children": [
           {
             "type": "PreservedToken",
             "span": {
               "start": 8,
-              "end": 9,
-              "ctxt": 0
+              "end": 9
             },
             "token": {
               "WhiteSpace": {

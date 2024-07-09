@@ -1,70 +1,70 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..53#0,
+            span: 1..53,
             value: "An automated documentation generator for JavaScript.",
         },
         tags: [
             TagItem {
-                span: 1..8#0,
+                span: 1..8,
                 tag_name: Text {
-                    span: 1..8#0,
+                    span: 1..8,
                     value: "project",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 1..8#0,
+                        span: 1..8,
                         extras: Text {
-                            span: 1..6#0,
+                            span: 1..6,
                             value: "JSDoc",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 1..8#0,
+                span: 1..8,
                 tag_name: Text {
-                    span: 1..8#0,
+                    span: 1..8,
                     value: "version",
                 },
                 tag: Version(
                     VersionTag {
-                        span: 1..8#0,
+                        span: 1..8,
                         value: Text {
-                            span: 1..6#0,
+                            span: 1..6,
                             value: "3.0.0",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 1..10#0,
+                span: 1..10,
                 tag_name: Text {
-                    span: 1..10#0,
+                    span: 1..10,
                     value: "copyright",
                 },
                 tag: Copyright(
                     CopyrightTag {
-                        span: 1..10#0,
+                        span: 1..10,
                         text: Text {
-                            span: 1..45#0,
+                            span: 1..45,
                             value: "2011 (c) Michael Mathews <micmath@gmail.com>",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 1..8#0,
+                span: 1..8,
                 tag_name: Text {
-                    span: 1..8#0,
+                    span: 1..8,
                     value: "license",
                 },
                 tag: License(
                     LicenseTag {
-                        span: 1..8#0,
+                        span: 1..8,
                         identifier: Text {
-                            span: 1..62#0,
+                            span: 1..62,
                             value: "Apache Version 2 <http://www.apache.org/licenses/LICENSE-2.0>",
                         },
                     },

@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 133,
-    "end": 185,
-    "ctxt": 0
+    "end": 185
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 142,
-          "end": 152,
-          "ctxt": 0
+          "end": 152
         },
+        "ctxt": 0,
         "value": "Dependency",
         "optional": false
       },
@@ -24,17 +23,16 @@
           "type": "Parameter",
           "span": {
             "start": 153,
-            "end": 154,
-            "ctxt": 0
+            "end": 154
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
               "start": 153,
-              "end": 154,
-              "ctxt": 0
+              "end": 154
             },
+            "ctxt": 0,
             "value": "j",
             "optional": false,
             "typeAnnotation": null
@@ -44,31 +42,30 @@
       "decorators": [],
       "span": {
         "start": 133,
-        "end": 170,
-        "ctxt": 0
+        "end": 170
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 156,
-          "end": 170,
-          "ctxt": 0
+          "end": 170
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
               "start": 160,
-              "end": 168,
-              "ctxt": 0
+              "end": 168
             },
             "argument": {
               "type": "Identifier",
               "span": {
                 "start": 167,
-                "end": 168,
-                "ctxt": 0
+                "end": 168
               },
+              "ctxt": 0,
               "value": "j",
               "optional": false
             }
@@ -84,23 +81,22 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 171,
-        "end": 185,
-        "ctxt": 0
+        "end": 185
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 171,
-          "end": 185,
-          "ctxt": 0
+          "end": 185
         },
+        "ctxt": 0,
         "callee": {
           "type": "Identifier",
           "span": {
             "start": 171,
-            "end": 181,
-            "ctxt": 0
+            "end": 181
           },
+          "ctxt": 0,
           "value": "Dependency",
           "optional": false
         },
@@ -111,8 +107,7 @@
               "type": "ObjectExpression",
               "span": {
                 "start": 182,
-                "end": 184,
-                "ctxt": 0
+                "end": 184
               },
               "properties": []
             }

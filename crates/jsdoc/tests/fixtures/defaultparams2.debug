@@ -1,37 +1,37 @@
 [
     JsDoc {
-        span: 16..16#0,
+        span: 16..16,
         description: Text {
-            span: 16..50#0,
+            span: 16..50,
             value: "Class representing pizza toppings.",
         },
         tags: [],
     },
     JsDoc {
-        span: 84..84#0,
+        span: 84..84,
         description: Text {
-            span: 84..147#0,
+            span: 84..147,
             value: "Set whether sardines are included in the pizza toppings.\n     *",
         },
         tags: [
             TagItem {
-                span: 84..89#0,
+                span: 84..89,
                 tag_name: Text {
-                    span: 84..89#0,
+                    span: 84..89,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 84..89#0,
+                        span: 84..89,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 84..93#0,
+                                span: 84..93,
                                 value: "{boolean}",
                             },
                         ),
                         desc: Text {
-                            span: 84..140#0,
+                            span: 84..140,
                             value: "[bool] `true` to include sardines, `false` to omit them.",
                         },
                     },

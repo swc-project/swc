@@ -14,7 +14,7 @@ pub(crate) struct Helpers {
 
 fn parse(code: &'static str, name: &'static str) -> Vec<ModuleItem> {
     let cm = SourceMap::new(FilePathMapping::empty());
-    let fm = cm.new_source_file(FileName::Custom(name.into()), code.into());
+    let fm = cm.new_source_file(FileName::Custom(name.into()).into(), code.into());
     parse_file_as_module(
         &fm,
         Default::default(),

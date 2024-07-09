@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 13,
-    "ctxt": 0
+    "end": 13
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 13,
-        "ctxt": 0
+        "end": 13
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 12,
-          "ctxt": 0
+          "end": 12
         },
         "value": "u,nknown",
         "raw": "u\\2cnknown"

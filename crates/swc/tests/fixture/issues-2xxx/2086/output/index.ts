@@ -1,1 +1,1 @@
-export default class t{#t;constructor(t){this.#t=t}#e(){setTimeout(()=>{this.#t.textContent="TESTED"},1e3)}run(){this.#e()}}
+export default class e{#e;constructor(e){this.#e=e}#t(){setTimeout(()=>{this.#e.textContent="TESTED"},1e3)}run(){this.#t()}}

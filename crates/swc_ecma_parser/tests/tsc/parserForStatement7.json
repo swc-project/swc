@@ -2,31 +2,29 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 25,
-    "ctxt": 0
+    "end": 25
   },
   "body": [
     {
       "type": "ForInStatement",
       "span": {
         "start": 1,
-        "end": 25,
-        "ctxt": 0
+        "end": 25
       },
       "left": {
         "type": "NewExpression",
         "span": {
           "start": 6,
-          "end": 15,
-          "ctxt": 0
+          "end": 15
         },
+        "ctxt": 0,
         "callee": {
           "type": "Identifier",
           "span": {
             "start": 10,
-            "end": 13,
-            "ctxt": 0
+            "end": 13
           },
+          "ctxt": 0,
           "value": "foo",
           "optional": false
         },
@@ -37,9 +35,9 @@
         "type": "Identifier",
         "span": {
           "start": 19,
-          "end": 20,
-          "ctxt": 0
+          "end": 20
         },
+        "ctxt": 0,
         "value": "b",
         "optional": false
       },
@@ -47,9 +45,9 @@
         "type": "BlockStatement",
         "span": {
           "start": 22,
-          "end": 25,
-          "ctxt": 0
+          "end": 25
         },
+        "ctxt": 0,
         "stmts": []
       }
     }

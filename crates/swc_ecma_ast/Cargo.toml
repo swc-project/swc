@@ -18,7 +18,7 @@ bench = false
 [features]
 __rkyv = []
 default = []
-fuzzing = ["arbitrary", "swc_common/arbitrary"]
+fuzzing = ["arbitrary", "swc_atoms/arbitrary", "swc_common/arbitrary"]
 rkyv-impl = [
   "__rkyv",
   "rkyv",

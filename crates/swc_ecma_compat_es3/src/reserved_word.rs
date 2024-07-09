@@ -72,7 +72,7 @@ impl VisitMut for ReservedWord {
                 })) => {
                     if var.decls.iter().all(|var| {
                         if let Pat::Ident(i) = &var.name {
-                            !i.id.sym.is_reserved_in_es3()
+                            !i.sym.is_reserved_in_es3()
                         } else {
                             true
                         }
@@ -81,7 +81,7 @@ impl VisitMut for ReservedWord {
                     }
 
                     for var in &var.decls {
-                        let ident = var.name.clone().expect_ident().id;
+                        let ident = Ident::from(var.name.clone().expect_ident());
 
                         if !ident.is_reserved_in_es3() {
                             return;

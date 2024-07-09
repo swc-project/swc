@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 67,
-    "ctxt": 0
+    "end": 67
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 26,
-          "end": 27,
-          "ctxt": 0
+          "end": 27
         },
+        "ctxt": 0,
         "value": "g",
         "optional": false
       },
@@ -23,16 +22,16 @@
       "decorators": [],
       "span": {
         "start": 16,
-        "end": 67,
-        "ctxt": 0
+        "end": 67
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 30,
-          "end": 67,
-          "ctxt": 0
+          "end": 67
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ClassDeclaration",
@@ -40,40 +39,37 @@
               "type": "Identifier",
               "span": {
                 "start": 42,
-                "end": 43,
-                "ctxt": 0
+                "end": 43
               },
+              "ctxt": 0,
               "value": "C",
               "optional": false
             },
             "declare": false,
             "span": {
               "start": 36,
-              "end": 65,
-              "ctxt": 0
+              "end": 65
             },
+            "ctxt": 0,
             "decorators": [],
             "body": [],
             "superClass": {
               "type": "ParenthesisExpression",
               "span": {
                 "start": 52,
-                "end": 61,
-                "ctxt": 0
+                "end": 61
               },
               "expression": {
                 "type": "YieldExpression",
                 "span": {
                   "start": 53,
-                  "end": 60,
-                  "ctxt": 0
+                  "end": 60
                 },
                 "argument": {
                   "type": "NumericLiteral",
                   "span": {
                     "start": 59,
-                    "end": 60,
-                    "ctxt": 0
+                    "end": 60
                   },
                   "value": 0.0,
                   "raw": "0"

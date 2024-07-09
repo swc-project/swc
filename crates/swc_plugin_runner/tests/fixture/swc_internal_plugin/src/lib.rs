@@ -69,7 +69,7 @@ pub fn process(program: Program, metadata: TransformPluginProgramMetadata) -> Pr
 
     let _stmt = quote!(
         "const $name = 4;" as Stmt,
-        name = Ident::new("ref".into(), DUMMY_SP)
+        name = Ident::new_no_ctxt("ref".into(), DUMMY_SP)
     );
 
     dbg!();

@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 74,
-    "ctxt": 0
+    "end": 74
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 10,
-          "end": 14,
-          "ctxt": 0
+          "end": 14
         },
+        "ctxt": 0,
         "value": "Form",
         "optional": false
       },
@@ -23,37 +22,34 @@
       "decorators": [],
       "span": {
         "start": 1,
-        "end": 74,
-        "ctxt": 0
+        "end": 74
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 17,
-          "end": 74,
-          "ctxt": 0
+          "end": 74
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
               "start": 23,
-              "end": 70,
-              "ctxt": 0
+              "end": 70
             },
             "argument": {
               "type": "ParenthesisExpression",
               "span": {
                 "start": 30,
-                "end": 69,
-                "ctxt": 0
+                "end": 69
               },
               "expression": {
                 "type": "JSXElement",
                 "span": {
                   "start": 38,
-                  "end": 63,
-                  "ctxt": 0
+                  "end": 63
                 },
                 "opening": {
                   "type": "JSXOpeningElement",
@@ -61,16 +57,15 @@
                     "type": "Identifier",
                     "span": {
                       "start": 39,
-                      "end": 45,
-                      "ctxt": 0
+                      "end": 45
                     },
+                    "ctxt": 0,
                     "value": "Select",
                     "optional": false
                   },
                   "span": {
                     "start": 38,
-                    "end": 54,
-                    "ctxt": 0
+                    "end": 54
                   },
                   "attributes": [],
                   "selfClosing": false,
@@ -78,16 +73,14 @@
                     "type": "TsTypeParameterInstantiation",
                     "span": {
                       "start": 45,
-                      "end": 53,
-                      "ctxt": 0
+                      "end": 53
                     },
                     "params": [
                       {
                         "type": "TsKeywordType",
                         "span": {
                           "start": 46,
-                          "end": 52,
-                          "ctxt": 0
+                          "end": 52
                         },
                         "kind": "string"
                       }
@@ -99,16 +92,15 @@
                   "type": "JSXClosingElement",
                   "span": {
                     "start": 54,
-                    "end": 63,
-                    "ctxt": 0
+                    "end": 63
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
                       "start": 56,
-                      "end": 62,
-                      "ctxt": 0
+                      "end": 62
                     },
+                    "ctxt": 0,
                     "value": "Select",
                     "optional": false
                   }

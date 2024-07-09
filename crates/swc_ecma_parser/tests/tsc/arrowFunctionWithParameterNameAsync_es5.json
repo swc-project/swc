@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 70,
-    "end": 95,
-    "ctxt": 0
+    "end": 95
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 70,
-        "end": 95,
-        "ctxt": 0
+        "end": 95
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 76,
-            "end": 94,
-            "ctxt": 0
+            "end": 94
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 76,
-              "end": 77,
-              "ctxt": 0
+              "end": 77
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -38,17 +36,17 @@
             "type": "ArrowFunctionExpression",
             "span": {
               "start": 80,
-              "end": 94,
-              "ctxt": 0
+              "end": 94
             },
+            "ctxt": 0,
             "params": [
               {
                 "type": "Identifier",
                 "span": {
                   "start": 80,
-                  "end": 85,
-                  "ctxt": 0
+                  "end": 85
                 },
+                "ctxt": 0,
                 "value": "async",
                 "optional": false,
                 "typeAnnotation": null
@@ -58,9 +56,9 @@
               "type": "Identifier",
               "span": {
                 "start": 89,
-                "end": 94,
-                "ctxt": 0
+                "end": 94
               },
+              "ctxt": 0,
               "value": "async",
               "optional": false
             },

@@ -2,16 +2,14 @@
   "type": "DocumentFragment",
   "span": {
     "start": 1,
-    "end": 8,
-    "ctxt": 0
+    "end": 8
   },
   "children": [
     {
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 4,
-        "ctxt": 0
+        "end": 4
       },
       "tagName": "a",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -24,8 +22,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "tbody",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -35,8 +32,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "tr",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -46,8 +42,7 @@
               "type": "Element",
               "span": {
                 "start": 4,
-                "end": 8,
-                "ctxt": 0
+                "end": 8
               },
               "tagName": "td",
               "namespace": "http://www.w3.org/1999/xhtml",

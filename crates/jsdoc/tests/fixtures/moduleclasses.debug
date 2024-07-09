@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                         ty: Text {
-                            span: 1..4#0,
+                            span: 1..4,
                             value: "foo",
                         },
                     },
@@ -29,49 +29,49 @@
         ],
     },
     JsDoc {
-        span: 21..21#0,
+        span: 21..21,
         description: Text {
-            span: 21..31#0,
+            span: 21..31,
             value: "Bar class.",
         },
         tags: [],
     },
     JsDoc {
-        span: 55..55#0,
+        span: 55..55,
         description: Text {
-            span: 55..71#0,
+            span: 55..71,
             value: "Construct a Bar.",
         },
         tags: [],
     },
     JsDoc {
-        span: 107..107#0,
+        span: 107..107,
         description: Text {
-            span: 107..119#0,
+            span: 107..119,
             value: "bar property",
         },
         tags: [],
     },
     JsDoc {
-        span: 158..158#0,
+        span: 158..158,
         description: Text {
-            span: 158..168#0,
+            span: 158..168,
             value: "Baz class.",
         },
         tags: [],
     },
     JsDoc {
-        span: 199..199#0,
+        span: 199..199,
         description: Text {
-            span: 199..215#0,
+            span: 199..215,
             value: "Construct a Baz.",
         },
         tags: [],
     },
     JsDoc {
-        span: 251..251#0,
+        span: 251..251,
         description: Text {
-            span: 251..263#0,
+            span: 251..263,
             value: "baz property",
         },
         tags: [],

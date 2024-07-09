@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 242,
-    "ctxt": 0
+    "end": 242
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 242,
-        "ctxt": 0
+        "end": 242
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 8,
-            "end": 235,
-            "ctxt": 0
+            "end": 235
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Text",
               "span": {
                 "start": 14,
-                "end": 15,
-                "ctxt": 0
+                "end": 15
               },
               "data": "\n",
               "raw": "\n"
@@ -57,8 +52,7 @@
               "type": "Element",
               "span": {
                 "start": 15,
-                "end": 24,
-                "ctxt": 0
+                "end": 24
               },
               "tagName": "b",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -68,8 +62,7 @@
                   "type": "Element",
                   "span": {
                     "start": 18,
-                    "end": 24,
-                    "ctxt": 0
+                    "end": 24
                   },
                   "tagName": "nobr",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -86,8 +79,7 @@
               "type": "Element",
               "span": {
                 "start": 24,
-                "end": 235,
-                "ctxt": 0
+                "end": 235
               },
               "tagName": "div",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -97,8 +89,7 @@
                   "type": "Element",
                   "span": {
                     "start": 29,
-                    "end": 181,
-                    "ctxt": 0
+                    "end": 181
                   },
                   "tagName": "b",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -108,8 +99,7 @@
                       "type": "Element",
                       "span": {
                         "start": 29,
-                        "end": 71,
-                        "ctxt": 0
+                        "end": 71
                       },
                       "tagName": "nobr",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -119,8 +109,7 @@
                           "type": "Text",
                           "span": {
                             "start": 29,
-                            "end": 64,
-                            "ctxt": 0
+                            "end": 64
                           },
                           "data": "This text is in a div inside a nobr",
                           "raw": "This text is in a div inside a nobr"
@@ -133,8 +122,7 @@
                       "type": "Text",
                       "span": {
                         "start": 71,
-                        "end": 177,
-                        "ctxt": 0
+                        "end": 177
                       },
                       "data": "More text that should not be in the nobr, i.e., the\nnobr should have closed the div inside it implicitly. ",
                       "raw": "More text that should not be in the nobr, i.e., the\nnobr should have closed the div inside it implicitly. "
@@ -147,8 +135,7 @@
                   "type": "Element",
                   "span": {
                     "start": 181,
-                    "end": 226,
-                    "ctxt": 0
+                    "end": 226
                   },
                   "tagName": "pre",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -158,8 +145,7 @@
                       "type": "Text",
                       "span": {
                         "start": 186,
-                        "end": 220,
-                        "ctxt": 0
+                        "end": 220
                       },
                       "data": "A pre tag outside everything else.",
                       "raw": "A pre tag outside everything else."
@@ -172,8 +158,7 @@
                   "type": "Text",
                   "span": {
                     "start": 226,
-                    "end": 235,
-                    "ctxt": 0
+                    "end": 235
                   },
                   "data": "\n\n",
                   "raw": "\n\n"

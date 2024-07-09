@@ -1,23 +1,23 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..8#0,
+                span: 1..8,
                 tag_name: Text {
-                    span: 1..8#0,
+                    span: 1..8,
                     value: "private",
                 },
                 tag: Private(
                     PrivateTag {
-                        span: 1..8#0,
+                        span: 1..8,
                         ty: Some(
                             Text {
-                                span: 1..26#0,
+                                span: 1..26,
                                 value: "{Object.<string, number>}",
                             },
                         ),

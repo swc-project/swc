@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 84,
-    "end": 149,
-    "ctxt": 0
+    "end": 149
   },
   "body": [
     {
       "type": "UsingDeclaration",
       "span": {
         "start": 84,
-        "end": 104,
-        "ctxt": 0
+        "end": 104
       },
       "isAwait": true,
       "decls": [
@@ -19,16 +17,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 96,
-            "end": 104,
-            "ctxt": 0
+            "end": 104
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 96,
-              "end": 97,
-              "ctxt": 0
+              "end": 97
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -37,8 +34,7 @@
             "type": "NullLiteral",
             "span": {
               "start": 100,
-              "end": 104,
-              "ctxt": 0
+              "end": 104
             }
           },
           "definite": false
@@ -49,8 +45,7 @@
       "type": "EmptyStatement",
       "span": {
         "start": 104,
-        "end": 105,
-        "ctxt": 0
+        "end": 105
       }
     },
     {
@@ -59,9 +54,9 @@
         "type": "Identifier",
         "span": {
           "start": 116,
-          "end": 117,
-          "ctxt": 0
+          "end": 117
         },
+        "ctxt": 0,
         "value": "f",
         "optional": false
       },
@@ -70,23 +65,22 @@
       "decorators": [],
       "span": {
         "start": 107,
-        "end": 149,
-        "ctxt": 0
+        "end": 149
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 120,
-          "end": 149,
-          "ctxt": 0
+          "end": 149
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "UsingDeclaration",
             "span": {
               "start": 126,
-              "end": 146,
-              "ctxt": 0
+              "end": 146
             },
             "isAwait": true,
             "decls": [
@@ -94,16 +88,15 @@
                 "type": "VariableDeclarator",
                 "span": {
                   "start": 138,
-                  "end": 146,
-                  "ctxt": 0
+                  "end": 146
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
                     "start": 138,
-                    "end": 139,
-                    "ctxt": 0
+                    "end": 139
                   },
+                  "ctxt": 0,
                   "value": "x",
                   "optional": false,
                   "typeAnnotation": null
@@ -112,8 +105,7 @@
                   "type": "NullLiteral",
                   "span": {
                     "start": 142,
-                    "end": 146,
-                    "ctxt": 0
+                    "end": 146
                   }
                 },
                 "definite": false
@@ -124,8 +116,7 @@
             "type": "EmptyStatement",
             "span": {
               "start": 146,
-              "end": 147,
-              "ctxt": 0
+              "end": 147
             }
           }
         ]

@@ -169,7 +169,7 @@ impl FastDts {
                     }
 
                     let name = self.gen_unique_name();
-                    let name_ident = Ident::new(name, DUMMY_SP);
+                    let name_ident = Ident::new_no_ctxt(name, DUMMY_SP);
                     let type_ann = self
                         .expr_to_ts_type(export.expr.clone(), false, true)
                         .map(type_ann);
@@ -184,11 +184,13 @@ impl FastDts {
                                     span: DUMMY_SP,
                                     name: Pat::Ident(BindingIdent {
                                         id: name_ident.clone(),
+
                                         type_ann: Some(type_ann),
                                     }),
                                     init: None,
                                     definite: false,
                                 }],
+                                ..Default::default()
                             },
                         )))));
 
@@ -824,13 +826,18 @@ impl FastDts {
                 self.expr_to_ts_type(assign_pat.right, false, false)
                     .map(|param| {
                         let name = if let Pat::Ident(ident) = *assign_pat.left {
-                            ident.id.sym.clone()
+                            ident.sym.clone()
                         } else {
                             self.gen_unique_name()
                         };
 
                         TsFnParam::Ident(BindingIdent {
-                            id: Ident::new(name, assign_pat.span),
+                            id: Ident {
+                                span: assign_pat.span,
+                                ctxt: Default::default(),
+                                sym: name,
+                                optional: false,
+                            },
                             type_ann: Some(type_ann(param)),
                         })
                     })
@@ -865,7 +872,7 @@ fn type_ann(ts_type: Box<TsType>) -> Box<TsTypeAnn> {
 fn type_ref(name: Atom) -> TsTypeRef {
     TsTypeRef {
         span: DUMMY_SP,
-        type_name: TsEntityName::Ident(Ident::new(name, DUMMY_SP)),
+        type_name: TsEntityName::Ident(Ident::new_no_ctxt(name, DUMMY_SP)),
         type_params: None,
     }
 }

@@ -1,24 +1,24 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..12#0,
+            span: 1..12,
             value: "document me",
         },
         tags: [],
     },
     JsDoc {
-        span: 38..38#0,
+        span: 38..38,
         description: Text {
-            span: 38..49#0,
+            span: 38..49,
             value: "document me",
         },
         tags: [],
     },
     JsDoc {
-        span: 83..83#0,
+        span: 83..83,
         description: Text {
-            span: 83..94#0,
+            span: 83..94,
             value: "document me",
         },
         tags: [],

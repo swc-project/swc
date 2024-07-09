@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 146,
-    "end": 408,
-    "ctxt": 0
+    "end": 408
   },
   "body": [
     {
       "type": "ExportNamedDeclaration",
       "span": {
         "start": 146,
-        "end": 156,
-        "ctxt": 0
+        "end": 156
       },
       "specifiers": [],
       "source": null,
@@ -22,16 +20,14 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 188,
-        "end": 218,
-        "ctxt": 0
+        "end": 218
       },
       "specifiers": [],
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 203,
-          "end": 217,
-          "ctxt": 0
+          "end": 217
         },
         "value": "./module.mjs",
         "raw": "\"./module.mjs\""
@@ -44,16 +40,14 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 250,
-        "end": 280,
-        "ctxt": 0
+        "end": 280
       },
       "specifiers": [],
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 265,
-          "end": 279,
-          "ctxt": 0
+          "end": 279
         },
         "value": "./module.mjs",
         "raw": "\"./module.mjs\""
@@ -66,16 +60,14 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 314,
-        "end": 344,
-        "ctxt": 0
+        "end": 344
       },
       "specifiers": [],
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 329,
-          "end": 343,
-          "ctxt": 0
+          "end": 343
         },
         "value": "./module.mjs",
         "raw": "\"./module.mjs\""
@@ -88,16 +80,14 @@
       "type": "ImportDeclaration",
       "span": {
         "start": 378,
-        "end": 408,
-        "ctxt": 0
+        "end": 408
       },
       "specifiers": [],
       "source": {
         "type": "StringLiteral",
         "span": {
           "start": 393,
-          "end": 407,
-          "ctxt": 0
+          "end": 407
         },
         "value": "./module.mjs",
         "raw": "\"./module.mjs\""

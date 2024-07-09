@@ -3,7 +3,7 @@ extern crate test;
 use std::{ops::Range, str};
 
 use swc_atoms::Atom;
-use swc_common::{BytePos, Span, SyntaxContext};
+use swc_common::{BytePos, Span};
 use swc_ecma_ast::{AssignOp, AssignOp::*};
 use test::{black_box, Bencher};
 
@@ -27,7 +27,6 @@ fn sp(r: Range<usize>) -> Span {
         lo: BytePos((r.start + 1) as u32),
         // +1 as bytepos starts at 1
         hi: BytePos((r.end + 1) as u32),
-        ctxt: Default::default(),
     }
 }
 
@@ -52,7 +51,6 @@ impl SpanRange for usize {
             // +1 as bytepos starts at 1
             // +1 as hi is exclusive
             BytePos((self + 1 + 1) as _),
-            Default::default(),
         )
     }
 }
@@ -68,7 +66,6 @@ impl SpanRange for Range<usize> {
             BytePos((self.start + 1) as _),
             // +1 as bytepos starts at 1
             BytePos((self.end + 1) as _),
-            Default::default(),
         )
     }
 }
@@ -184,7 +181,6 @@ fn test262_lexer_error_0001() {
                 span: Span {
                     lo: BytePos(1),
                     hi: BytePos(5),
-                    ctxt: Default::default(),
                 }
             },
             Dot.span(4..5),
@@ -289,7 +285,6 @@ fn tpl_invalid_unicode_escape() {
                     Span {
                         lo: BytePos(2),
                         hi: BytePos(4),
-                        ctxt: SyntaxContext::empty(),
                     },
                     SyntaxError::BadCharacterEscapeSequence {
                         expected: "4 hex characters"
@@ -309,7 +304,6 @@ fn tpl_invalid_unicode_escape() {
                     Span {
                         lo: BytePos(2),
                         hi: BytePos(5),
-                        ctxt: SyntaxContext::empty(),
                     },
                     SyntaxError::BadCharacterEscapeSequence {
                         expected: "1-6 hex characters"
@@ -329,7 +323,6 @@ fn tpl_invalid_unicode_escape() {
                     Span {
                         lo: BytePos(2),
                         hi: BytePos(4),
-                        ctxt: SyntaxContext::empty(),
                     },
                     SyntaxError::BadCharacterEscapeSequence {
                         expected: "2 hex characters"
@@ -507,7 +500,6 @@ fn simple_regex() {
                 span: Span {
                     lo: BytePos(1),
                     hi: BytePos(2),
-                    ctxt: Default::default(),
                 },
             },
             42.span(1..3),
@@ -752,7 +744,6 @@ fn migrated_0006() {
                 span: Span {
                     lo: BytePos(5),
                     hi: BytePos(7),
-                    ctxt: Default::default(),
                 }
             },
             BinOp(Div).span(6),

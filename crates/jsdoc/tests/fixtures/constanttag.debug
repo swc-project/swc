@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..9#0,
+                span: 1..9,
                 tag_name: Text {
-                    span: 1..9#0,
+                    span: 1..9,
                     value: "constant",
                 },
                 tag: Const(
                     ConstTag {
-                        span: 1..9#0,
+                        span: 1..9,
                         ty: None,
                         name: None,
                     },
@@ -23,21 +23,21 @@
         ],
     },
     JsDoc {
-        span: 32..36#0,
+        span: 32..36,
         description: Text {
-            span: 32..32#0,
+            span: 32..32,
             value: "",
         },
         tags: [
             TagItem {
-                span: 32..37#0,
+                span: 32..37,
                 tag_name: Text {
-                    span: 32..37#0,
+                    span: 32..37,
                     value: "const",
                 },
                 tag: Const(
                     ConstTag {
-                        span: 32..37#0,
+                        span: 32..37,
                         ty: None,
                         name: None,
                     },
@@ -46,21 +46,21 @@
         ],
     },
     JsDoc {
-        span: 51..64#0,
+        span: 51..64,
         description: Text {
-            span: 51..51#0,
+            span: 51..51,
             value: "",
         },
         tags: [
             TagItem {
-                span: 51..56#0,
+                span: 51..56,
                 tag_name: Text {
-                    span: 51..56#0,
+                    span: 51..56,
                     value: "const",
                 },
                 tag: Const(
                     ConstTag {
-                        span: 51..56#0,
+                        span: 51..56,
                         ty: None,
                         name: None,
                     },
@@ -69,21 +69,21 @@
         ],
     },
     JsDoc {
-        span: 79..88#0,
+        span: 79..88,
         description: Text {
-            span: 79..79#0,
+            span: 79..79,
             value: "",
         },
         tags: [
             TagItem {
-                span: 79..84#0,
+                span: 79..84,
                 tag_name: Text {
-                    span: 79..84#0,
+                    span: 79..84,
                     value: "const",
                 },
                 tag: Const(
                     ConstTag {
-                        span: 79..84#0,
+                        span: 79..84,
                         ty: None,
                         name: None,
                     },
@@ -92,21 +92,21 @@
         ],
     },
     JsDoc {
-        span: 116..132#0,
+        span: 116..132,
         description: Text {
-            span: 116..116#0,
+            span: 116..116,
             value: "",
         },
         tags: [
             TagItem {
-                span: 116..121#0,
+                span: 116..121,
                 tag_name: Text {
-                    span: 116..121#0,
+                    span: 116..121,
                     value: "const",
                 },
                 tag: Const(
                     ConstTag {
-                        span: 116..121#0,
+                        span: 116..121,
                         ty: None,
                         name: None,
                     },
@@ -115,21 +115,21 @@
         ],
     },
     JsDoc {
-        span: 161..168#0,
+        span: 161..168,
         description: Text {
-            span: 161..161#0,
+            span: 161..161,
             value: "",
         },
         tags: [
             TagItem {
-                span: 161..166#0,
+                span: 161..166,
                 tag_name: Text {
-                    span: 161..166#0,
+                    span: 161..166,
                     value: "const",
                 },
                 tag: Const(
                     ConstTag {
-                        span: 161..166#0,
+                        span: 161..166,
                         ty: None,
                         name: None,
                     },
@@ -138,9 +138,9 @@
         ],
     },
     JsDoc {
-        span: 197..197#0,
+        span: 197..197,
         description: Text {
-            span: 197..216#0,
+            span: 197..216,
             value: "auto-detected const",
         },
         tags: [],

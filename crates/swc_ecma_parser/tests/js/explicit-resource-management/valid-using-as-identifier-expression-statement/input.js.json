@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 27,
-    "ctxt": 0
+    "end": 27
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 6,
-        "ctxt": 0
+        "end": 6
       },
       "expression": {
         "type": "Identifier",
         "span": {
           "start": 1,
-          "end": 6,
-          "ctxt": 0
+          "end": 6
         },
+        "ctxt": 0,
         "value": "using",
         "optional": false
       }
@@ -28,24 +26,22 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 7,
-        "end": 27,
-        "ctxt": 0
+        "end": 27
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 7,
-          "end": 27,
-          "ctxt": 0
+          "end": 27
         },
         "operator": "=",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 7,
-            "end": 13,
-            "ctxt": 0
+            "end": 13
           },
+          "ctxt": 0,
           "value": "reader",
           "optional": false,
           "typeAnnotation": null
@@ -54,16 +50,16 @@
           "type": "CallExpression",
           "span": {
             "start": 16,
-            "end": 27,
-            "ctxt": 0
+            "end": 27
           },
+          "ctxt": 0,
           "callee": {
             "type": "Identifier",
             "span": {
               "start": 16,
-              "end": 25,
-              "ctxt": 0
+              "end": 25
             },
+            "ctxt": 0,
             "value": "getReader",
             "optional": false
           },

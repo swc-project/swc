@@ -1,38 +1,38 @@
 [
     JsDoc {
-        span: 20..20#0,
+        span: 20..20,
         description: Text {
-            span: 20..20#0,
+            span: 20..20,
             value: "",
         },
         tags: [
             TagItem {
-                span: 20..24#0,
+                span: 20..24,
                 tag_name: Text {
-                    span: 20..24#0,
+                    span: 20..24,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 20..24#0,
+                        span: 20..24,
                         name: Text {
-                            span: 20..28#0,
+                            span: 20..28,
                             value: "{string}",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 20..32#0,
+                span: 20..32,
                 tag_name: Text {
-                    span: 20..32#0,
+                    span: 20..32,
                     value: "implicitCast",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 20..32#0,
+                        span: 20..32,
                         extras: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },

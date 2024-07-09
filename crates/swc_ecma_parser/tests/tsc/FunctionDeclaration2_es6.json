@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 17,
-    "end": 38,
-    "ctxt": 0
+    "end": 38
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 26,
-          "end": 27,
-          "ctxt": 0
+          "end": 27
         },
+        "ctxt": 0,
         "value": "f",
         "optional": false
       },
@@ -24,17 +23,16 @@
           "type": "Parameter",
           "span": {
             "start": 28,
-            "end": 33,
-            "ctxt": 0
+            "end": 33
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
               "start": 28,
-              "end": 33,
-              "ctxt": 0
+              "end": 33
             },
+            "ctxt": 0,
             "value": "yield",
             "optional": false,
             "typeAnnotation": null
@@ -44,16 +42,16 @@
       "decorators": [],
       "span": {
         "start": 17,
-        "end": 38,
-        "ctxt": 0
+        "end": 38
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 35,
-          "end": 38,
-          "ctxt": 0
+          "end": 38
         },
+        "ctxt": 0,
         "stmts": []
       },
       "generator": false,

@@ -1,42 +1,42 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         name: Text {
-                            span: 1..14#0,
+                            span: 1..14,
                             value: "Photo/manager",
                         },
                         ty: Text {
-                            span: 1..4#0,
+                            span: 1..4,
                             value: "foo",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 1..5#0,
+                span: 1..5,
                 tag_name: Text {
-                    span: 1..5#0,
+                    span: 1..5,
                     value: "desc",
                 },
                 tag: Description(
                     DescriptionTag {
-                        span: 1..5#0,
+                        span: 1..5,
                         text: Text {
-                            span: 1..31#0,
+                            span: 1..31,
                             value: "Manage a collection of photos.",
                         },
                     },
@@ -45,30 +45,30 @@
         ],
     },
     JsDoc {
-        span: 72..72#0,
+        span: 72..72,
         description: Text {
-            span: 72..101#0,
+            span: 72..101,
             value: "Construct a new Photo manager",
         },
         tags: [
             TagItem {
-                span: 72..83#0,
+                span: 72..83,
                 tag_name: Text {
-                    span: 72..83#0,
+                    span: 72..83,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 72..83#0,
+                        span: 72..83,
                         ty: Some(
                             Text {
-                                span: 72..96#0,
+                                span: 72..96,
                                 value: "module:foo/Photo/manager",
                             },
                         ),
                         name: Some(
                             Text {
-                                span: 72..142#0,
+                                span: 72..142,
                                 value: "@param {String} collectionId The identifier of the managed collection.",
                             },
                         ),
@@ -78,24 +78,24 @@
         ],
     },
     JsDoc {
-        span: 265..265#0,
+        span: 265..265,
         description: Text {
-            span: 265..265#0,
+            span: 265..265,
             value: "",
         },
         tags: [
             TagItem {
-                span: 265..273#0,
+                span: 265..273,
                 tag_name: Text {
-                    span: 265..273#0,
+                    span: 265..273,
                     value: "function",
                 },
                 tag: Function(
                     FunctionTag {
-                        span: 265..273#0,
+                        span: 265..273,
                         name: Some(
                             Text {
-                                span: 265..298#0,
+                                span: 265..298,
                                 value: "module:foo/Photo/manager#getPhoto",
                             },
                         ),
@@ -103,23 +103,23 @@
                 ),
             },
             TagItem {
-                span: 265..270#0,
+                span: 265..270,
                 tag_name: Text {
-                    span: 265..270#0,
+                    span: 265..270,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 265..270#0,
+                        span: 265..270,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 265..273#0,
+                                span: 265..273,
                                 value: "{String}",
                             },
                         ),
                         desc: Text {
-                            span: 265..274#0,
+                            span: 265..274,
                             value: "photoName",
                         },
                     },

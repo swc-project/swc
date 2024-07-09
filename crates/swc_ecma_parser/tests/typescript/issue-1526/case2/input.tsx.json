@@ -2,24 +2,22 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 30,
-    "ctxt": 0
+    "end": 30
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 1,
-        "end": 30,
-        "ctxt": 0
+        "end": 30
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
           "start": 8,
-          "end": 30,
-          "ctxt": 0
+          "end": 30
         },
+        "ctxt": 0,
         "kind": "const",
         "declare": false,
         "declarations": [
@@ -27,16 +25,15 @@
             "type": "VariableDeclarator",
             "span": {
               "start": 14,
-              "end": 29,
-              "ctxt": 0
+              "end": 29
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 14,
-                "end": 17,
-                "ctxt": 0
+                "end": 17
               },
+              "ctxt": 0,
               "value": "bar",
               "optional": false,
               "typeAnnotation": null
@@ -45,17 +42,17 @@
               "type": "ArrowFunctionExpression",
               "span": {
                 "start": 20,
-                "end": 29,
-                "ctxt": 0
+                "end": 29
               },
+              "ctxt": 0,
               "params": [],
               "body": {
                 "type": "BlockStatement",
                 "span": {
                   "start": 26,
-                  "end": 29,
-                  "ctxt": 0
+                  "end": 29
                 },
+                "ctxt": 0,
                 "stmts": []
               },
               "async": false,

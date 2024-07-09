@@ -252,7 +252,7 @@ where
                         Some(AtRulePrelude::LayerPrelude(LayerPrelude::NameList(
                             LayerNameList {
                                 name_list,
-                                span: Span::new(first.lo, last.hi, Default::default()),
+                                span: Span::new(first.lo, last.hi),
                             },
                         )))
                     };
@@ -1017,7 +1017,7 @@ where
         };
 
         Ok(SupportsCondition {
-            span: Span::new(start_pos, last_pos, Default::default()),
+            span: Span::new(start_pos, last_pos),
             conditions,
         })
     }
@@ -1354,7 +1354,7 @@ where
         };
 
         Ok(MediaQueryList {
-            span: Span::new(start_pos, last_pos, Default::default()),
+            span: Span::new(start_pos, last_pos),
             queries,
         })
     }
@@ -1406,7 +1406,7 @@ where
             };
 
             return Ok(MediaQuery {
-                span: Span::new(start_pos, end_pos, Default::default()),
+                span: Span::new(start_pos, end_pos),
                 modifier,
                 media_type,
                 keyword,
@@ -1421,7 +1421,7 @@ where
         let condition: MediaCondition = self.parse()?;
 
         Ok(MediaQuery {
-            span: Span::new(start_pos, condition.span.hi, Default::default()),
+            span: Span::new(start_pos, condition.span.hi),
             modifier: None,
             media_type: None,
             keyword: None,
@@ -1503,7 +1503,7 @@ where
         };
 
         Ok(MediaCondition {
-            span: Span::new(start_pos, last_pos, Default::default()),
+            span: Span::new(start_pos, last_pos),
             conditions,
         })
     }
@@ -1547,7 +1547,7 @@ where
         };
 
         Ok(MediaConditionWithoutOr {
-            span: Span::new(start_pos, last_pos, Default::default()),
+            span: Span::new(start_pos, last_pos),
             conditions,
         })
     }
@@ -1958,7 +1958,7 @@ where
         };
 
         Ok(PageSelectorList {
-            span: Span::new(start_pos, last_pos, Default::default()),
+            span: Span::new(start_pos, last_pos),
             selectors,
         })
     }
@@ -2093,7 +2093,7 @@ where
         let query: ContainerQuery = self.parse()?;
 
         Ok(ContainerCondition {
-            span: Span::new(start_pos, query.span.hi, Default::default()),
+            span: Span::new(start_pos, query.span.hi),
             name,
             query,
         })
@@ -2171,7 +2171,7 @@ where
         }
 
         Ok(ContainerQuery {
-            span: Span::new(start_pos, last_pos, Default::default()),
+            span: Span::new(start_pos, last_pos),
             queries,
         })
     }

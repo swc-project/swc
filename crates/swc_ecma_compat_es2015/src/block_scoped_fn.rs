@@ -56,7 +56,7 @@ impl VisitMut for BlockScopedFns {
                             }))),
                             definite: false,
                         }],
-                        declare: false,
+                        ..Default::default()
                     }
                     .into(),
                 )

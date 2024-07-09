@@ -2,38 +2,33 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 15,
-    "ctxt": 0
+    "end": 15
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 15,
-        "ctxt": 0
+        "end": 15
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
           "start": 1,
-          "end": 14,
-          "ctxt": 0
+          "end": 14
         },
         "operator": "<",
         "left": {
           "type": "ParenthesisExpression",
           "span": {
             "start": 1,
-            "end": 10,
-            "ctxt": 0
+            "end": 10
           },
           "expression": {
             "type": "JSXElement",
             "span": {
               "start": 2,
-              "end": 9,
-              "ctxt": 0
+              "end": 9
             },
             "opening": {
               "type": "JSXOpeningElement",
@@ -41,16 +36,15 @@
                 "type": "Identifier",
                 "span": {
                   "start": 3,
-                  "end": 6,
-                  "ctxt": 0
+                  "end": 6
                 },
+                "ctxt": 0,
                 "value": "div",
                 "optional": false
               },
               "span": {
                 "start": 2,
-                "end": 9,
-                "ctxt": 0
+                "end": 9
               },
               "attributes": [],
               "selfClosing": true,
@@ -64,9 +58,9 @@
           "type": "Identifier",
           "span": {
             "start": 13,
-            "end": 14,
-            "ctxt": 0
+            "end": 14
           },
+          "ctxt": 0,
           "value": "x",
           "optional": false
         }

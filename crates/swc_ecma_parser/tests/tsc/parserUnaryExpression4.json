@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 6,
-    "ctxt": 0
+    "end": 6
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 6,
-        "ctxt": 0
+        "end": 6
       },
       "expression": {
         "type": "UpdateExpression",
         "span": {
           "start": 1,
-          "end": 5,
-          "ctxt": 0
+          "end": 5
         },
         "operator": "++",
         "prefix": true,
@@ -26,8 +23,7 @@
           "type": "ObjectExpression",
           "span": {
             "start": 3,
-            "end": 5,
-            "ctxt": 0
+            "end": 5
           },
           "properties": []
         }

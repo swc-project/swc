@@ -63,7 +63,7 @@ macro_rules! impl_for_for_stmt {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Let,
                             decls,
-                            declare: false,
+                            ..Default::default()
                         }
                         .into(),
                     ));
@@ -130,7 +130,7 @@ macro_rules! impl_for_for_stmt {
                             init: None,
                             definite: false,
                         }],
-                        declare: false,
+                        ..Default::default()
                     }
                     .into()
                 }
@@ -142,13 +142,15 @@ macro_rules! impl_for_for_stmt {
             for_stmt.left = left;
 
             for_stmt.body = Box::new(Stmt::Block(match &mut *for_stmt.body {
-                Stmt::Block(BlockStmt { span, stmts }) => BlockStmt {
+                Stmt::Block(BlockStmt { span, stmts, ctxt }) => BlockStmt {
                     span: *span,
                     stmts: stmt.into_iter().chain(stmts.take()).collect(),
+                    ctxt: *ctxt,
                 },
                 body => BlockStmt {
                     span: DUMMY_SP,
                     stmts: stmt.into_iter().chain(iter::once(body.take())).collect(),
+                    ..Default::default()
                 },
             }));
 
@@ -217,7 +219,7 @@ impl VisitMut for ObjectRest {
         }) = expr
         {
             let mut var_ident = alias_ident_for(right, "_tmp");
-            var_ident.span = var_ident.span.apply_mark(Mark::new());
+            var_ident.ctxt = var_ident.ctxt.apply_mark(Mark::new());
 
             // println!("Var: var_ident = None");
             self.mutable_vars.push(VarDeclarator {
@@ -337,7 +339,7 @@ impl VisitMut for ObjectRest {
             //            }
 
             let (var_ident, _) = match decl.name {
-                Pat::Ident(ref i) => (i.id.clone(), false),
+                Pat::Ident(ref i) => (Ident::from(i), false),
 
                 _ => match decl.init {
                     Some(ref e) => alias_if_required(e, "ref"),
@@ -373,7 +375,7 @@ impl VisitMut for ObjectRest {
                                         .as_call(DUMMY_SP, vec![init.as_arg()])
                                         .as_arg(),
                                 ],
-                                type_args: Default::default(),
+                                ..Default::default()
                             }))),
                             definite: false,
                         });
@@ -467,7 +469,7 @@ impl ObjectRest {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         decls: folder.mutable_vars,
-                        declare: false,
+                        ..Default::default()
                     }
                     .into(),
                 ));
@@ -479,7 +481,7 @@ impl ObjectRest {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         decls: folder.vars,
-                        declare: false,
+                        ..Default::default()
                     }
                     .into(),
                 ));
@@ -505,7 +507,7 @@ impl ObjectRest {
         if let Some(e1) = decl.init {
             if let Expr::Ident(ref i1) = *e1 {
                 if let Pat::Ident(ref i2) = decl.name {
-                    if *i1 == i2.id {
+                    if i1.to_id() == i2.to_id() {
                         return;
                     }
                 }
@@ -526,7 +528,7 @@ impl ObjectRest {
         if let Some(e1) = decl.init {
             if let Expr::Ident(ref i1) = *e1 {
                 if let Pat::Ident(ref i2) = decl.name {
-                    if *i1 == i2.id {
+                    if i1.sym == i2.sym && i1.ctxt == i2.ctxt {
                         return;
                     }
                 }
@@ -635,7 +637,7 @@ impl ObjectRest {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
                             decls: mem::take(&mut self.vars),
-                            declare: false,
+                            ..Default::default()
                         }
                         .into(),
                     )
@@ -752,7 +754,10 @@ impl ObjectRest {
                             ref value, span, ..
                         }) => {
                             let value = value.clone();
-                            (key, MemberProp::Ident(quote_ident!(span, value)))
+                            (
+                                key,
+                                MemberProp::Ident(quote_ident!(Default::default(), span, value)),
+                            )
                         }
                         PropName::Num(Number { span, value, .. }) => (
                             key,
@@ -905,7 +910,7 @@ fn object_without_properties(
                     .as_call(DUMMY_SP, vec![obj.as_arg()])
                     .as_arg(),
             ],
-            type_args: Default::default(),
+            ..Default::default()
         });
     }
 
@@ -948,15 +953,15 @@ fn object_without_properties(
                         span: DUMMY_SP,
                         elems: excluded_props,
                     }
-                    .make_member(Ident::new("map".into(), DUMMY_SP))
+                    .make_member(Ident::new_no_ctxt("map".into(), DUMMY_SP))
                     .as_callee(),
                     args: vec![helper_expr!(to_property_key).as_arg()],
-                    type_args: Default::default(),
+                    ..Default::default()
                 }
                 .as_arg()
             },
         ],
-        type_args: Default::default(),
+        ..Default::default()
     })
 }
 

@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..12#0,
+                span: 1..12,
                 tag_name: Text {
-                    span: 1..12#0,
+                    span: 1..12,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 1..12#0,
+                        span: 1..12,
                         ty: None,
                         name: None,
                     },
@@ -23,26 +23,26 @@
         ],
     },
     JsDoc {
-        span: 76..76#0,
+        span: 76..76,
         description: Text {
-            span: 76..76#0,
+            span: 76..76,
             value: "",
         },
         tags: [
             TagItem {
-                span: 76..80#0,
+                span: 76..80,
                 tag_name: Text {
-                    span: 76..80#0,
+                    span: 76..80,
                     value: "this",
                 },
                 tag: This(
                     ThisTag {
-                        span: 76..80#0,
+                        span: 76..80,
                         name_path: NamePath {
-                            span: 76..76#0,
+                            span: 76..76,
                             components: [
                                 Text {
-                                    span: 76..79#0,
+                                    span: 76..79,
                                     value: "Foo",
                                 },
                             ],
@@ -53,9 +53,9 @@
         ],
     },
     JsDoc {
-        span: 122..122#0,
+        span: 122..122,
         description: Text {
-            span: 122..133#0,
+            span: 122..133,
             value: "document me",
         },
         tags: [],

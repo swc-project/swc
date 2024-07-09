@@ -317,7 +317,7 @@ mod tests {
         F: FnOnce(StringInput<'_>),
     {
         let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
-        let fm = cm.new_source_file(FileName::Real("testing".into()), src.into());
+        let fm = cm.new_source_file(FileName::Real("testing".into()).into(), src.into());
 
         f((&*fm).into())
     }

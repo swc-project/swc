@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 48,
-    "end": 90,
-    "ctxt": 0
+    "end": 90
   },
   "body": [
     {
       "type": "SwitchStatement",
       "span": {
         "start": 48,
-        "end": 90,
-        "ctxt": 0
+        "end": 90
       },
       "discriminant": {
         "type": "NumericLiteral",
         "span": {
           "start": 56,
-          "end": 58,
-          "ctxt": 0
+          "end": 58
         },
         "value": 12.0,
         "raw": "12"
@@ -28,15 +25,13 @@
           "type": "SwitchCase",
           "span": {
             "start": 66,
-            "end": 88,
-            "ctxt": 0
+            "end": 88
           },
           "test": {
             "type": "NumericLiteral",
             "span": {
               "start": 71,
-              "end": 72,
-              "ctxt": 0
+              "end": 72
             },
             "value": 5.0,
             "raw": "5"
@@ -46,8 +41,7 @@
               "type": "BreakStatement",
               "span": {
                 "start": 82,
-                "end": 88,
-                "ctxt": 0
+                "end": 88
               },
               "label": null
             }

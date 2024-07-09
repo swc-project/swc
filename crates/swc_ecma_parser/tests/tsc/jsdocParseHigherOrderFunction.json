@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 164,
-    "end": 188,
-    "ctxt": 0
+    "end": 188
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 164,
-        "end": 188,
-        "ctxt": 0
+        "end": 188
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 168,
-            "end": 188,
-            "ctxt": 0
+            "end": 188
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 168,
-              "end": 169,
-              "ctxt": 0
+              "end": 169
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -38,17 +36,17 @@
             "type": "ArrowFunctionExpression",
             "span": {
               "start": 172,
-              "end": 188,
-              "ctxt": 0
+              "end": 188
             },
+            "ctxt": 0,
             "params": [
               {
                 "type": "Identifier",
                 "span": {
                   "start": 173,
-                  "end": 174,
-                  "ctxt": 0
+                  "end": 174
                 },
+                "ctxt": 0,
                 "value": "s",
                 "optional": false,
                 "typeAnnotation": null
@@ -57,9 +55,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 176,
-                  "end": 178,
-                  "ctxt": 0
+                  "end": 178
                 },
+                "ctxt": 0,
                 "value": "id",
                 "optional": false,
                 "typeAnnotation": null
@@ -69,16 +67,16 @@
               "type": "CallExpression",
               "span": {
                 "start": 183,
-                "end": 188,
-                "ctxt": 0
+                "end": 188
               },
+              "ctxt": 0,
               "callee": {
                 "type": "Identifier",
                 "span": {
                   "start": 183,
-                  "end": 185,
-                  "ctxt": 0
+                  "end": 185
                 },
+                "ctxt": 0,
                 "value": "id",
                 "optional": false
               },
@@ -89,9 +87,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 186,
-                      "end": 187,
-                      "ctxt": 0
+                      "end": 187
                     },
+                    "ctxt": 0,
                     "value": "s",
                     "optional": false
                   }

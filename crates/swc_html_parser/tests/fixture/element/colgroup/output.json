@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 440,
-    "ctxt": 0
+    "end": 440
   },
   "mode": "no-quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "DocumentType",
       "span": {
         "start": 1,
-        "end": 16,
-        "ctxt": 0
+        "end": 16
       },
       "name": "html",
       "publicId": null,
@@ -23,8 +21,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 440,
-        "ctxt": 0
+        "end": 440
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -33,8 +30,7 @@
           "type": "Attribute",
           "span": {
             "start": 23,
-            "end": 32,
-            "ctxt": 0
+            "end": 32
           },
           "namespace": null,
           "prefix": null,
@@ -49,8 +45,7 @@
           "type": "Element",
           "span": {
             "start": 34,
-            "end": 76,
-            "ctxt": 0
+            "end": 76
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -60,8 +55,7 @@
               "type": "Text",
               "span": {
                 "start": 40,
-                "end": 45,
-                "ctxt": 0
+                "end": 45
               },
               "data": "\n    ",
               "raw": "\n    "
@@ -70,8 +64,7 @@
               "type": "Element",
               "span": {
                 "start": 45,
-                "end": 68,
-                "ctxt": 0
+                "end": 68
               },
               "tagName": "title",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -81,8 +74,7 @@
                   "type": "Text",
                   "span": {
                     "start": 52,
-                    "end": 60,
-                    "ctxt": 0
+                    "end": 60
                   },
                   "data": "Document",
                   "raw": "Document"
@@ -95,8 +87,7 @@
               "type": "Text",
               "span": {
                 "start": 68,
-                "end": 69,
-                "ctxt": 0
+                "end": 69
               },
               "data": "\n",
               "raw": "\n"
@@ -109,8 +100,7 @@
           "type": "Text",
           "span": {
             "start": 76,
-            "end": 77,
-            "ctxt": 0
+            "end": 77
           },
           "data": "\n",
           "raw": "\n"
@@ -119,8 +109,7 @@
           "type": "Element",
           "span": {
             "start": 77,
-            "end": 433,
-            "ctxt": 0
+            "end": 433
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -130,8 +119,7 @@
               "type": "Text",
               "span": {
                 "start": 83,
-                "end": 84,
-                "ctxt": 0
+                "end": 84
               },
               "data": "\n",
               "raw": "\n"
@@ -140,8 +128,7 @@
               "type": "Element",
               "span": {
                 "start": 84,
-                "end": 424,
-                "ctxt": 0
+                "end": 424
               },
               "tagName": "table",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -151,8 +138,7 @@
                   "type": "Text",
                   "span": {
                     "start": 91,
-                    "end": 96,
-                    "ctxt": 0
+                    "end": 96
                   },
                   "data": "\n    ",
                   "raw": "\n    "
@@ -161,8 +147,7 @@
                   "type": "Element",
                   "span": {
                     "start": 96,
-                    "end": 139,
-                    "ctxt": 0
+                    "end": 139
                   },
                   "tagName": "caption",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -172,8 +157,7 @@
                       "type": "Text",
                       "span": {
                         "start": 105,
-                        "end": 129,
-                        "ctxt": 0
+                        "end": 129
                       },
                       "data": "Superheros and sidekicks",
                       "raw": "Superheros and sidekicks"
@@ -186,8 +170,7 @@
                   "type": "Text",
                   "span": {
                     "start": 139,
-                    "end": 144,
-                    "ctxt": 0
+                    "end": 144
                   },
                   "data": "\n    ",
                   "raw": "\n    "
@@ -196,8 +179,7 @@
                   "type": "Element",
                   "span": {
                     "start": 144,
-                    "end": 227,
-                    "ctxt": 0
+                    "end": 227
                   },
                   "tagName": "colgroup",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -207,8 +189,7 @@
                       "type": "Element",
                       "span": {
                         "start": 154,
-                        "end": 159,
-                        "ctxt": 0
+                        "end": 159
                       },
                       "tagName": "col",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -221,8 +202,7 @@
                       "type": "Element",
                       "span": {
                         "start": 159,
-                        "end": 188,
-                        "ctxt": 0
+                        "end": 188
                       },
                       "tagName": "col",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -231,8 +211,7 @@
                           "type": "Attribute",
                           "span": {
                             "start": 164,
-                            "end": 172,
-                            "ctxt": 0
+                            "end": 172
                           },
                           "namespace": null,
                           "prefix": null,
@@ -245,8 +224,7 @@
                           "type": "Attribute",
                           "span": {
                             "start": 173,
-                            "end": 187,
-                            "ctxt": 0
+                            "end": 187
                           },
                           "namespace": null,
                           "prefix": null,
@@ -264,8 +242,7 @@
                       "type": "Element",
                       "span": {
                         "start": 188,
-                        "end": 216,
-                        "ctxt": 0
+                        "end": 216
                       },
                       "tagName": "col",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -274,8 +251,7 @@
                           "type": "Attribute",
                           "span": {
                             "start": 193,
-                            "end": 201,
-                            "ctxt": 0
+                            "end": 201
                           },
                           "namespace": null,
                           "prefix": null,
@@ -288,8 +264,7 @@
                           "type": "Attribute",
                           "span": {
                             "start": 202,
-                            "end": 215,
-                            "ctxt": 0
+                            "end": 215
                           },
                           "namespace": null,
                           "prefix": null,
@@ -311,8 +286,7 @@
                   "type": "Text",
                   "span": {
                     "start": 227,
-                    "end": 232,
-                    "ctxt": 0
+                    "end": 232
                   },
                   "data": "\n    ",
                   "raw": "\n    "
@@ -321,8 +295,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 0,
-                    "ctxt": 0
+                    "end": 0
                   },
                   "tagName": "tbody",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -332,8 +305,7 @@
                       "type": "Element",
                       "span": {
                         "start": 232,
-                        "end": 415,
-                        "ctxt": 0
+                        "end": 415
                       },
                       "tagName": "tr",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -343,8 +315,7 @@
                           "type": "Text",
                           "span": {
                             "start": 236,
-                            "end": 245,
-                            "ctxt": 0
+                            "end": 245
                           },
                           "data": "\n        ",
                           "raw": "\n        "
@@ -353,8 +324,7 @@
                           "type": "Element",
                           "span": {
                             "start": 245,
-                            "end": 256,
-                            "ctxt": 0
+                            "end": 256
                           },
                           "tagName": "td",
                           "namespace": "http://www.w3.org/1999/xhtml",
@@ -364,8 +334,7 @@
                               "type": "Text",
                               "span": {
                                 "start": 249,
-                                "end": 251,
-                                "ctxt": 0
+                                "end": 251
                               },
                               "data": " ",
                               "raw": " "
@@ -378,8 +347,7 @@
                           "type": "Text",
                           "span": {
                             "start": 256,
-                            "end": 265,
-                            "ctxt": 0
+                            "end": 265
                           },
                           "data": "\n        ",
                           "raw": "\n        "
@@ -388,8 +356,7 @@
                           "type": "Element",
                           "span": {
                             "start": 265,
-                            "end": 292,
-                            "ctxt": 0
+                            "end": 292
                           },
                           "tagName": "th",
                           "namespace": "http://www.w3.org/1999/xhtml",
@@ -398,8 +365,7 @@
                               "type": "Attribute",
                               "span": {
                                 "start": 269,
-                                "end": 280,
-                                "ctxt": 0
+                                "end": 280
                               },
                               "namespace": null,
                               "prefix": null,
@@ -414,8 +380,7 @@
                               "type": "Text",
                               "span": {
                                 "start": 281,
-                                "end": 287,
-                                "ctxt": 0
+                                "end": 287
                               },
                               "data": "Batman",
                               "raw": "Batman"
@@ -428,8 +393,7 @@
                           "type": "Text",
                           "span": {
                             "start": 292,
-                            "end": 301,
-                            "ctxt": 0
+                            "end": 301
                           },
                           "data": "\n        ",
                           "raw": "\n        "
@@ -438,8 +402,7 @@
                           "type": "Element",
                           "span": {
                             "start": 301,
-                            "end": 327,
-                            "ctxt": 0
+                            "end": 327
                           },
                           "tagName": "th",
                           "namespace": "http://www.w3.org/1999/xhtml",
@@ -448,8 +411,7 @@
                               "type": "Attribute",
                               "span": {
                                 "start": 305,
-                                "end": 316,
-                                "ctxt": 0
+                                "end": 316
                               },
                               "namespace": null,
                               "prefix": null,
@@ -464,8 +426,7 @@
                               "type": "Text",
                               "span": {
                                 "start": 317,
-                                "end": 322,
-                                "ctxt": 0
+                                "end": 322
                               },
                               "data": "Robin",
                               "raw": "Robin"
@@ -478,8 +439,7 @@
                           "type": "Text",
                           "span": {
                             "start": 327,
-                            "end": 336,
-                            "ctxt": 0
+                            "end": 336
                           },
                           "data": "\n        ",
                           "raw": "\n        "
@@ -488,8 +448,7 @@
                           "type": "Element",
                           "span": {
                             "start": 336,
-                            "end": 366,
-                            "ctxt": 0
+                            "end": 366
                           },
                           "tagName": "th",
                           "namespace": "http://www.w3.org/1999/xhtml",
@@ -498,8 +457,7 @@
                               "type": "Attribute",
                               "span": {
                                 "start": 340,
-                                "end": 351,
-                                "ctxt": 0
+                                "end": 351
                               },
                               "namespace": null,
                               "prefix": null,
@@ -514,8 +472,7 @@
                               "type": "Text",
                               "span": {
                                 "start": 352,
-                                "end": 361,
-                                "ctxt": 0
+                                "end": 361
                               },
                               "data": "The Flash",
                               "raw": "The Flash"
@@ -528,8 +485,7 @@
                           "type": "Text",
                           "span": {
                             "start": 366,
-                            "end": 375,
-                            "ctxt": 0
+                            "end": 375
                           },
                           "data": "\n        ",
                           "raw": "\n        "
@@ -538,8 +494,7 @@
                           "type": "Element",
                           "span": {
                             "start": 375,
-                            "end": 405,
-                            "ctxt": 0
+                            "end": 405
                           },
                           "tagName": "th",
                           "namespace": "http://www.w3.org/1999/xhtml",
@@ -548,8 +503,7 @@
                               "type": "Attribute",
                               "span": {
                                 "start": 379,
-                                "end": 390,
-                                "ctxt": 0
+                                "end": 390
                               },
                               "namespace": null,
                               "prefix": null,
@@ -564,8 +518,7 @@
                               "type": "Text",
                               "span": {
                                 "start": 391,
-                                "end": 400,
-                                "ctxt": 0
+                                "end": 400
                               },
                               "data": "Kid Flash",
                               "raw": "Kid Flash"
@@ -578,8 +531,7 @@
                           "type": "Text",
                           "span": {
                             "start": 405,
-                            "end": 410,
-                            "ctxt": 0
+                            "end": 410
                           },
                           "data": "\n    ",
                           "raw": "\n    "
@@ -592,8 +544,7 @@
                       "type": "Text",
                       "span": {
                         "start": 415,
-                        "end": 416,
-                        "ctxt": 0
+                        "end": 416
                       },
                       "data": "\n",
                       "raw": "\n"
@@ -610,8 +561,7 @@
               "type": "Text",
               "span": {
                 "start": 424,
-                "end": 433,
-                "ctxt": 0
+                "end": 433
               },
               "data": "\n\n",
               "raw": "\n\n"

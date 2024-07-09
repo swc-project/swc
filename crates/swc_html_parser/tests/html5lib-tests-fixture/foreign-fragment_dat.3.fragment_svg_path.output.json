@@ -2,16 +2,14 @@
   "type": "DocumentFragment",
   "span": {
     "start": 1,
-    "end": 12,
-    "ctxt": 0
+    "end": 12
   },
   "children": [
     {
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 12,
-        "ctxt": 0
+        "end": 12
       },
       "tagName": "g",
       "namespace": "http://www.w3.org/2000/svg",
@@ -21,8 +19,7 @@
           "type": "Text",
           "span": {
             "start": 11,
-            "end": 12,
-            "ctxt": 0
+            "end": 12
           },
           "data": "X",
           "raw": "X"

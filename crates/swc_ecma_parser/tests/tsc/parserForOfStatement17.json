@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 35,
-    "ctxt": 0
+    "end": 35
   },
   "body": [
     {
       "type": "ForStatement",
       "span": {
         "start": 16,
-        "end": 35,
-        "ctxt": 0
+        "end": 35
       },
       "init": {
         "type": "VariableDeclaration",
         "span": {
           "start": 21,
-          "end": 27,
-          "ctxt": 0
+          "end": 27
         },
+        "ctxt": 0,
         "kind": "var",
         "declare": false,
         "declarations": [
@@ -27,16 +25,15 @@
             "type": "VariableDeclarator",
             "span": {
               "start": 25,
-              "end": 27,
-              "ctxt": 0
+              "end": 27
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 25,
-                "end": 27,
-                "ctxt": 0
+                "end": 27
               },
+              "ctxt": 0,
               "value": "of",
               "optional": false,
               "typeAnnotation": null
@@ -52,9 +49,9 @@
         "type": "BlockStatement",
         "span": {
           "start": 32,
-          "end": 35,
-          "ctxt": 0
+          "end": 35
         },
+        "ctxt": 0,
         "stmts": []
       }
     }

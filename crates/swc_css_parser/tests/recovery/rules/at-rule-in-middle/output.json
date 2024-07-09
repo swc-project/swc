@@ -2,62 +2,54 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 49,
-    "ctxt": 0
+    "end": 49
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 17,
-        "ctxt": 0
+        "end": 17
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 2,
-          "ctxt": 0
+          "end": 2
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 2,
-              "ctxt": 0
+              "end": 2
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 2,
-                  "ctxt": 0
+                  "end": 2
                 },
                 "nestingSelector": null,
                 "typeSelector": {
                   "type": "TagNameSelector",
                   "span": {
                     "start": 1,
-                    "end": 2,
-                    "ctxt": 0
+                    "end": 2
                   },
                   "name": {
                     "type": "WqName",
                     "span": {
                       "start": 1,
-                      "end": 2,
-                      "ctxt": 0
+                      "end": 2
                     },
                     "prefix": null,
                     "value": {
                       "type": "Ident",
                       "span": {
                         "start": 1,
-                        "end": 2,
-                        "ctxt": 0
+                        "end": 2
                       },
                       "value": "a",
                       "raw": "a"
@@ -74,15 +66,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 3,
-          "end": 17,
-          "ctxt": 0
+          "end": 17
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 3,
-            "end": 4,
-            "ctxt": 0
+            "end": 4
           },
           "token": "LBrace"
         },
@@ -91,15 +81,13 @@
             "type": "Declaration",
             "span": {
               "start": 5,
-              "end": 16,
-              "ctxt": 0
+              "end": 16
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 5,
-                "end": 10,
-                "ctxt": 0
+                "end": 10
               },
               "value": "color",
               "raw": "color"
@@ -109,8 +97,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 12,
-                  "end": 15,
-                  "ctxt": 0
+                  "end": 15
                 },
                 "value": "red",
                 "raw": "red"
@@ -125,15 +112,13 @@
       "type": "AtRule",
       "span": {
         "start": 19,
-        "end": 28,
-        "ctxt": 0
+        "end": 28
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 20,
-          "end": 25,
-          "ctxt": 0
+          "end": 25
         },
         "value": "media",
         "raw": "media"
@@ -143,15 +128,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 26,
-          "end": 28,
-          "ctxt": 0
+          "end": 28
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 26,
-            "end": 27,
-            "ctxt": 0
+            "end": 27
           },
           "token": "LBrace"
         },
@@ -162,23 +145,20 @@
       "type": "QualifiedRule",
       "span": {
         "start": 28,
-        "end": 48,
-        "ctxt": 0
+        "end": 48
       },
       "prelude": {
         "type": "ListOfComponentValues",
         "span": {
           "start": 28,
-          "end": 33,
-          "ctxt": 0
+          "end": 33
         },
         "children": [
           {
             "type": "PreservedToken",
             "span": {
               "start": 28,
-              "end": 29,
-              "ctxt": 0
+              "end": 29
             },
             "token": "Semi"
           },
@@ -186,8 +166,7 @@
             "type": "PreservedToken",
             "span": {
               "start": 29,
-              "end": 31,
-              "ctxt": 0
+              "end": 31
             },
             "token": {
               "WhiteSpace": {
@@ -199,8 +178,7 @@
             "type": "PreservedToken",
             "span": {
               "start": 31,
-              "end": 32,
-              "ctxt": 0
+              "end": 32
             },
             "token": {
               "Ident": {
@@ -213,8 +191,7 @@
             "type": "PreservedToken",
             "span": {
               "start": 32,
-              "end": 33,
-              "ctxt": 0
+              "end": 33
             },
             "token": {
               "WhiteSpace": {
@@ -228,15 +205,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 33,
-          "end": 48,
-          "ctxt": 0
+          "end": 48
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 33,
-            "end": 34,
-            "ctxt": 0
+            "end": 34
           },
           "token": "LBrace"
         },
@@ -245,15 +220,13 @@
             "type": "Declaration",
             "span": {
               "start": 35,
-              "end": 47,
-              "ctxt": 0
+              "end": 47
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 35,
-                "end": 40,
-                "ctxt": 0
+                "end": 40
               },
               "value": "color",
               "raw": "color"
@@ -263,8 +236,7 @@
                 "type": "Ident",
                 "span": {
                   "start": 42,
-                  "end": 46,
-                  "ctxt": 0
+                  "end": 46
                 },
                 "value": "blue",
                 "raw": "blue"

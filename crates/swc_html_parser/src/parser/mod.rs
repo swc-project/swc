@@ -157,7 +157,7 @@ where
         };
 
         Ok(Document {
-            span: Span::new(start.lo(), last, Default::default()),
+            span: Span::new(start.lo(), last),
             mode,
             children,
         })
@@ -361,7 +361,7 @@ where
         let last = self.input.last_pos()?;
 
         Ok(DocumentFragment {
-            span: Span::new(start.lo(), last, Default::default()),
+            span: Span::new(start.lo(), last),
             children,
         })
     }
@@ -445,7 +445,7 @@ where
                                 end_children
                             };
 
-                            Span::new(start_span.lo(), end.hi(), Default::default())
+                            Span::new(start_span.lo(), end.hi())
                         };
 
                         Child::Element(Element {
@@ -470,7 +470,7 @@ where
                                 },
                             };
 
-                            Span::new(start_span.lo(), end_span.hi(), Default::default())
+                            Span::new(start_span.lo(), end_span.hi())
                         };
                         let (children, content) =
                             if namespace == Namespace::HTML && &tag_name == "template" {
@@ -499,7 +499,7 @@ where
             }
             Data::Text { data, raw } => {
                 let span = if let Some(end_span) = node.end_span.take() {
-                    Span::new(start_span.lo(), end_span.hi(), Default::default())
+                    Span::new(start_span.lo(), end_span.hi())
                 } else {
                     start_span
                 };
@@ -545,7 +545,7 @@ where
                     let last_pos = self.input.last_pos()?;
 
                     TokenAndInfo {
-                        span: Span::new(start_pos, last_pos, Default::default()),
+                        span: Span::new(start_pos, last_pos),
                         acknowledged: false,
                         token: Token::Eof,
                     }
@@ -7485,7 +7485,7 @@ where
             };
             let new_element = self.create_element_for_token(
                 formatting_element.2.token.clone(),
-                Span::new(start_span, token_and_info.span.hi(), Default::default()),
+                Span::new(start_span, token_and_info.span.hi()),
                 Some(Namespace::HTML),
                 None,
             );

@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 31,
-    "ctxt": 0
+    "end": 31
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 17,
-        "ctxt": 0
+        "end": 17
       },
       "expression": {
         "type": "JSXElement",
         "span": {
           "start": 1,
-          "end": 16,
-          "ctxt": 0
+          "end": 16
         },
         "opening": {
           "type": "JSXOpeningElement",
@@ -26,16 +23,15 @@
             "type": "Identifier",
             "span": {
               "start": 2,
-              "end": 3,
-              "ctxt": 0
+              "end": 3
             },
+            "ctxt": 0,
             "value": "C",
             "optional": false
           },
           "span": {
             "start": 1,
-            "end": 12,
-            "ctxt": 0
+            "end": 12
           },
           "attributes": [],
           "selfClosing": false,
@@ -43,16 +39,14 @@
             "type": "TsTypeParameterInstantiation",
             "span": {
               "start": 3,
-              "end": 11,
-              "ctxt": 0
+              "end": 11
             },
             "params": [
               {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 4,
-                  "end": 10,
-                  "ctxt": 0
+                  "end": 10
                 },
                 "kind": "number"
               }
@@ -64,16 +58,15 @@
           "type": "JSXClosingElement",
           "span": {
             "start": 12,
-            "end": 16,
-            "ctxt": 0
+            "end": 16
           },
           "name": {
             "type": "Identifier",
             "span": {
               "start": 14,
-              "end": 15,
-              "ctxt": 0
+              "end": 15
             },
+            "ctxt": 0,
             "value": "C",
             "optional": false
           }
@@ -84,15 +77,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 18,
-        "end": 31,
-        "ctxt": 0
+        "end": 31
       },
       "expression": {
         "type": "JSXElement",
         "span": {
           "start": 18,
-          "end": 30,
-          "ctxt": 0
+          "end": 30
         },
         "opening": {
           "type": "JSXOpeningElement",
@@ -100,16 +91,15 @@
             "type": "Identifier",
             "span": {
               "start": 19,
-              "end": 20,
-              "ctxt": 0
+              "end": 20
             },
+            "ctxt": 0,
             "value": "C",
             "optional": false
           },
           "span": {
             "start": 18,
-            "end": 30,
-            "ctxt": 0
+            "end": 30
           },
           "attributes": [],
           "selfClosing": true,
@@ -117,16 +107,14 @@
             "type": "TsTypeParameterInstantiation",
             "span": {
               "start": 20,
-              "end": 28,
-              "ctxt": 0
+              "end": 28
             },
             "params": [
               {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 21,
-                  "end": 27,
-                  "ctxt": 0
+                  "end": 27
                 },
                 "kind": "number"
               }

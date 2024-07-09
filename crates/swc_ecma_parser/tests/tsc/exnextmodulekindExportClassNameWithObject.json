@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 36,
-    "end": 58,
-    "ctxt": 0
+    "end": 58
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 36,
-        "end": 58,
-        "ctxt": 0
+        "end": 58
       },
       "declaration": {
         "type": "ClassDeclaration",
@@ -19,18 +17,18 @@
           "type": "Identifier",
           "span": {
             "start": 49,
-            "end": 55,
-            "ctxt": 0
+            "end": 55
           },
+          "ctxt": 0,
           "value": "Object",
           "optional": false
         },
         "declare": false,
         "span": {
           "start": 43,
-          "end": 58,
-          "ctxt": 0
+          "end": 58
         },
+        "ctxt": 0,
         "decorators": [],
         "body": [],
         "superClass": null,

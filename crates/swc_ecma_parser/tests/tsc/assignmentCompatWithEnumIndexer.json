@@ -2,16 +2,14 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 47,
-    "ctxt": 0
+    "end": 47
   },
   "body": [
     {
       "type": "TsEnumDeclaration",
       "span": {
         "start": 1,
-        "end": 17,
-        "ctxt": 0
+        "end": 17
       },
       "declare": false,
       "isConst": false,
@@ -19,9 +17,9 @@
         "type": "Identifier",
         "span": {
           "start": 6,
-          "end": 7,
-          "ctxt": 0
+          "end": 7
         },
+        "ctxt": 0,
         "value": "E",
         "optional": false
       },
@@ -30,16 +28,15 @@
           "type": "TsEnumMember",
           "span": {
             "start": 14,
-            "end": 15,
-            "ctxt": 0
+            "end": 15
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 14,
-              "end": 15,
-              "ctxt": 0
+              "end": 15
             },
+            "ctxt": 0,
             "value": "A",
             "optional": false
           },
@@ -51,9 +48,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 19,
-        "end": 47,
-        "ctxt": 0
+        "end": 47
       },
+      "ctxt": 0,
       "kind": "let",
       "declare": false,
       "declarations": [
@@ -61,39 +58,36 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 23,
-            "end": 47,
-            "ctxt": 0
+            "end": 47
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 23,
-              "end": 26,
-              "ctxt": 0
+              "end": 26
             },
+            "ctxt": 0,
             "value": "foo",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 26,
-                "end": 42,
-                "ctxt": 0
+                "end": 42
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 28,
-                  "end": 42,
-                  "ctxt": 0
+                  "end": 42
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
                     "start": 28,
-                    "end": 34,
-                    "ctxt": 0
+                    "end": 34
                   },
+                  "ctxt": 0,
                   "value": "Record",
                   "optional": false
                 },
@@ -101,24 +95,22 @@
                   "type": "TsTypeParameterInstantiation",
                   "span": {
                     "start": 34,
-                    "end": 42,
-                    "ctxt": 0
+                    "end": 42
                   },
                   "params": [
                     {
                       "type": "TsTypeReference",
                       "span": {
                         "start": 35,
-                        "end": 36,
-                        "ctxt": 0
+                        "end": 36
                       },
                       "typeName": {
                         "type": "Identifier",
                         "span": {
                           "start": 35,
-                          "end": 36,
-                          "ctxt": 0
+                          "end": 36
                         },
+                        "ctxt": 0,
                         "value": "E",
                         "optional": false
                       },
@@ -128,8 +120,7 @@
                       "type": "TsKeywordType",
                       "span": {
                         "start": 38,
-                        "end": 41,
-                        "ctxt": 0
+                        "end": 41
                       },
                       "kind": "any"
                     }
@@ -142,8 +133,7 @@
             "type": "ObjectExpression",
             "span": {
               "start": 45,
-              "end": 47,
-              "ctxt": 0
+              "end": 47
             },
             "properties": []
           },

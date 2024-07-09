@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 153,
-    "end": 329,
-    "ctxt": 0
+    "end": 329
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 153,
-        "end": 178,
-        "ctxt": 0
+        "end": 178
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 159,
-            "end": 177,
-            "ctxt": 0
+            "end": 177
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 159,
-              "end": 160,
-              "ctxt": 0
+              "end": 160
             },
+            "ctxt": 0,
             "value": "f",
             "optional": false,
             "typeAnnotation": null
@@ -38,17 +36,17 @@
             "type": "ArrowFunctionExpression",
             "span": {
               "start": 163,
-              "end": 177,
-              "ctxt": 0
+              "end": 177
             },
+            "ctxt": 0,
             "params": [
               {
                 "type": "Identifier",
                 "span": {
                   "start": 164,
-                  "end": 169,
-                  "ctxt": 0
+                  "end": 169
                 },
+                "ctxt": 0,
                 "value": "value",
                 "optional": false,
                 "typeAnnotation": null
@@ -58,9 +56,9 @@
               "type": "BlockStatement",
               "span": {
                 "start": 174,
-                "end": 177,
-                "ctxt": 0
+                "end": 177
               },
+              "ctxt": 0,
               "stmts": []
             },
             "async": false,
@@ -78,9 +76,9 @@
         "type": "Identifier",
         "span": {
           "start": 223,
-          "end": 224,
-          "ctxt": 0
+          "end": 224
         },
+        "ctxt": 0,
         "value": "g",
         "optional": false
       },
@@ -90,17 +88,16 @@
           "type": "Parameter",
           "span": {
             "start": 225,
-            "end": 226,
-            "ctxt": 0
+            "end": 226
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
               "start": 225,
-              "end": 226,
-              "ctxt": 0
+              "end": 226
             },
+            "ctxt": 0,
             "value": "s",
             "optional": false,
             "typeAnnotation": null
@@ -110,16 +107,16 @@
       "decorators": [],
       "span": {
         "start": 214,
-        "end": 231,
-        "ctxt": 0
+        "end": 231
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 228,
-          "end": 231,
-          "ctxt": 0
+          "end": 231
         },
+        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -133,9 +130,9 @@
         "type": "Identifier",
         "span": {
           "start": 276,
-          "end": 277,
-          "ctxt": 0
+          "end": 277
         },
+        "ctxt": 0,
         "value": "h",
         "optional": false
       },
@@ -145,17 +142,16 @@
           "type": "Parameter",
           "span": {
             "start": 278,
-            "end": 279,
-            "ctxt": 0
+            "end": 279
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
               "start": 278,
-              "end": 279,
-              "ctxt": 0
+              "end": 279
             },
+            "ctxt": 0,
             "value": "s",
             "optional": false,
             "typeAnnotation": null
@@ -165,16 +161,16 @@
       "decorators": [],
       "span": {
         "start": 267,
-        "end": 284,
-        "ctxt": 0
+        "end": 284
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 281,
-          "end": 284,
-          "ctxt": 0
+          "end": 284
         },
+        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -186,23 +182,22 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 286,
-        "end": 289,
-        "ctxt": 0
+        "end": 289
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 286,
-          "end": 289,
-          "ctxt": 0
+          "end": 289
         },
+        "ctxt": 0,
         "callee": {
           "type": "Identifier",
           "span": {
             "start": 286,
-            "end": 287,
-            "ctxt": 0
+            "end": 287
           },
+          "ctxt": 0,
           "value": "f",
           "optional": false
         },
@@ -214,23 +209,22 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 306,
-        "end": 309,
-        "ctxt": 0
+        "end": 309
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 306,
-          "end": 309,
-          "ctxt": 0
+          "end": 309
         },
+        "ctxt": 0,
         "callee": {
           "type": "Identifier",
           "span": {
             "start": 306,
-            "end": 307,
-            "ctxt": 0
+            "end": 307
           },
+          "ctxt": 0,
           "value": "g",
           "optional": false
         },
@@ -242,23 +236,22 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 326,
-        "end": 329,
-        "ctxt": 0
+        "end": 329
       },
       "expression": {
         "type": "CallExpression",
         "span": {
           "start": 326,
-          "end": 329,
-          "ctxt": 0
+          "end": 329
         },
+        "ctxt": 0,
         "callee": {
           "type": "Identifier",
           "span": {
             "start": 326,
-            "end": 327,
-            "ctxt": 0
+            "end": 327
           },
+          "ctxt": 0,
           "value": "h",
           "optional": false
         },

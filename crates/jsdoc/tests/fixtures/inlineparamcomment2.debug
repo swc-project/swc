@@ -1,22 +1,22 @@
 [
     JsDoc {
-        span: 30..39#0,
+        span: 30..39,
         description: Text {
-            span: 30..30#0,
+            span: 30..30,
             value: "",
         },
         tags: [
             TagItem {
-                span: 30..34#0,
+                span: 30..34,
                 tag_name: Text {
-                    span: 30..34#0,
+                    span: 30..34,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 30..34#0,
+                        span: 30..34,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -25,23 +25,23 @@
         ],
     },
     JsDoc {
-        span: 62..71#0,
+        span: 62..71,
         description: Text {
-            span: 62..62#0,
+            span: 62..62,
             value: "",
         },
         tags: [
             TagItem {
-                span: 62..66#0,
+                span: 62..66,
                 tag_name: Text {
-                    span: 62..66#0,
+                    span: 62..66,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 62..66#0,
+                        span: 62..66,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },

@@ -1,23 +1,23 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..12#0,
+                span: 1..12,
                 tag_name: Text {
-                    span: 1..12#0,
+                    span: 1..12,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 1..12#0,
+                        span: 1..12,
                         ty: Some(
                             Text {
-                                span: 1..18#0,
+                                span: 1..18,
                                 value: "@memberof mathlib",
                             },
                         ),
@@ -28,27 +28,27 @@
         ],
     },
     JsDoc {
-        span: 0..67#0,
+        span: 0..67,
         description: Text {
-            span: 67..67#0,
+            span: 67..67,
             value: "",
         },
         tags: [
             TagItem {
-                span: 67..73#0,
+                span: 67..73,
                 tag_name: Text {
-                    span: 67..73#0,
+                    span: 67..73,
                     value: "member",
                 },
                 tag: Member(
                     MemberTag {
-                        span: 67..73#0,
+                        span: 67..73,
                         ty: Text {
-                            span: 67..67#0,
+                            span: 67..67,
                             value: "",
                         },
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -57,21 +57,21 @@
         ],
     },
     JsDoc {
-        span: 0..106#0,
+        span: 0..106,
         description: Text {
-            span: 106..106#0,
+            span: 106..106,
             value: "",
         },
         tags: [
             TagItem {
-                span: 106..115#0,
+                span: 106..115,
                 tag_name: Text {
-                    span: 106..115#0,
+                    span: 106..115,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: 106..115#0,
+                        span: 106..115,
                         ty: None,
                         name: None,
                     },

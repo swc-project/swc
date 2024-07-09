@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 17,
-    "end": 45,
-    "ctxt": 0
+    "end": 45
   },
   "body": [
     {
@@ -12,33 +11,31 @@
         "type": "Identifier",
         "span": {
           "start": 23,
-          "end": 24,
-          "ctxt": 0
+          "end": 24
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 17,
-        "end": 45,
-        "ctxt": 0
+        "end": 45
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
             "start": 29,
-            "end": 43,
-            "ctxt": 0
+            "end": 43
           },
           "key": {
             "type": "StringLiteral",
             "span": {
               "start": 33,
-              "end": 36,
-              "ctxt": 0
+              "end": 36
             },
             "value": "a",
             "raw": "\"a\""
@@ -49,17 +46,16 @@
                 "type": "Parameter",
                 "span": {
                   "start": 37,
-                  "end": 38,
-                  "ctxt": 0
+                  "end": 38
                 },
                 "decorators": [],
                 "pat": {
                   "type": "Identifier",
                   "span": {
                     "start": 37,
-                    "end": 38,
-                    "ctxt": 0
+                    "end": 38
                   },
+                  "ctxt": 0,
                   "value": "i",
                   "optional": false,
                   "typeAnnotation": null
@@ -69,16 +65,16 @@
             "decorators": [],
             "span": {
               "start": 29,
-              "end": 43,
-              "ctxt": 0
+              "end": 43
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 40,
-                "end": 43,
-                "ctxt": 0
+                "end": 43
               },
+              "ctxt": 0,
               "stmts": []
             },
             "generator": false,

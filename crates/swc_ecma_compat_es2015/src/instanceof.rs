@@ -60,14 +60,13 @@ impl VisitMut for InstanceOf {
             let instanceof_span = Span {
                 lo: left.span_hi(),
                 hi: right.span_lo(),
-                ..*span
             };
 
             *expr = Expr::Call(CallExpr {
                 span: *span,
                 callee: helper!(instanceof_span, instanceof),
                 args: vec![left.take().as_arg(), right.take().as_arg()],
-                type_args: Default::default(),
+                ..Default::default()
             });
         }
     }

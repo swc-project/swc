@@ -2,16 +2,14 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 70,
-    "ctxt": 0
+    "end": 70
   },
   "children": [
     {
       "type": "ProcessingInstruction",
       "span": {
         "start": 1,
-        "end": 39,
-        "ctxt": 0
+        "end": 39
       },
       "target": "xml",
       "data": "version=\"1.0\" encoding=\"UTF-8\""
@@ -20,8 +18,7 @@
       "type": "Element",
       "span": {
         "start": 40,
-        "end": 70,
-        "ctxt": 0
+        "end": 70
       },
       "tagName": "root",
       "attributes": [],
@@ -30,8 +27,7 @@
           "type": "Text",
           "span": {
             "start": 46,
-            "end": 51,
-            "ctxt": 0
+            "end": 51
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -40,8 +36,7 @@
           "type": "Comment",
           "span": {
             "start": 51,
-            "end": 70,
-            "ctxt": 0
+            "end": 70
           },
           "data": "<!x--\n</root>\n\n",
           "raw": "<!--<!x--\n</root>\n\n"

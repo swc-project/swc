@@ -53,7 +53,7 @@ impl<'a> Tester<'a> {
     {
         let fm = self
             .cm
-            .new_source_file(FileName::Real(file_name.into()), src.into());
+            .new_source_file(FileName::Real(file_name.into()).into(), src.into());
 
         let mut p = Parser::new(syntax, StringInput::from(&*fm), Some(&self.comments));
         let res = op(&mut p).map_err(|e| e.into_diagnostic(self.handler).emit());
@@ -93,7 +93,7 @@ impl<'a> Tester<'a> {
     ) -> Result<Module, ()> {
         let fm = self
             .cm
-            .new_source_file(FileName::Real(name.into()), src.into());
+            .new_source_file(FileName::Real(name.into()).into(), src.into());
 
         let module = {
             let mut p = Parser::new(syntax, StringInput::from(&*fm), Some(&self.comments));
@@ -110,9 +110,7 @@ impl<'a> Tester<'a> {
 
         let module = module
             .fold_with(&mut tr)
-            .fold_with(&mut as_folder(DropSpan {
-                preserve_ctxt: true,
-            }));
+            .fold_with(&mut as_folder(DropSpan {}));
 
         Ok(module)
     }
@@ -145,7 +143,7 @@ pub(crate) struct HygieneVisualizer;
 impl Fold for HygieneVisualizer {
     fn fold_ident(&mut self, ident: Ident) -> Ident {
         Ident {
-            sym: format!("{}{:?}", ident.sym, ident.span.ctxt()).into(),
+            sym: format!("{}{:?}", ident.sym, ident.ctxt).into(),
             ..ident
         }
     }
@@ -164,9 +162,7 @@ pub(crate) fn test_transform<F, P>(
 {
     crate::tests::Tester::run(|tester| {
         let expected = tester.apply_transform(
-            as_folder(::swc_ecma_utils::DropSpan {
-                preserve_ctxt: true,
-            }),
+            as_folder(::swc_ecma_utils::DropSpan),
             "output.js",
             syntax,
             expected,
@@ -188,9 +184,7 @@ pub(crate) fn test_transform<F, P>(
         let actual = actual
             .fold_with(&mut hygiene_with_config(hygiene_config()))
             .fold_with(&mut fixer(None))
-            .fold_with(&mut as_folder(DropSpan {
-                preserve_ctxt: false,
-            }));
+            .fold_with(&mut as_folder(DropSpan));
 
         if actual == expected {
             return Ok(());

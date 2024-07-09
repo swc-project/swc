@@ -151,7 +151,6 @@ impl<C: Comments> VisitMut for Actual<C> {
             is_generator: false,
             params,
             body: Some(BlockStmt {
-                span: DUMMY_SP,
                 stmts: visitor
                     .to_stmt()
                     .into_iter()
@@ -161,14 +160,13 @@ impl<C: Comments> VisitMut for Actual<C> {
                             span: DUMMY_SP,
                             callee: expr.as_callee(),
                             args: vec![],
-                            type_args: Default::default(),
+                            ..Default::default()
                         }))),
                     })))
                     .collect(),
+                ..Default::default()
             }),
-            decorators: Default::default(),
-            type_params: Default::default(),
-            return_type: Default::default(),
+            ..Default::default()
         }
         .into();
     }
@@ -279,7 +277,7 @@ impl<C: Comments> VisitMut for Actual<C> {
                 span: DUMMY_SP,
                 callee: fn_ref.as_callee(),
                 args: vec![],
-                type_args: Default::default(),
+                ..Default::default()
             })
         };
 
@@ -294,10 +292,9 @@ impl<C: Comments> VisitMut for Actual<C> {
                     span: DUMMY_SP,
                     arg: Some(Box::new(fn_ref)),
                 })],
+                ..Default::default()
             }),
-            decorators: Default::default(),
-            return_type: Default::default(),
-            type_params: Default::default(),
+            ..Default::default()
         }
         .into()
     }
@@ -306,7 +303,7 @@ impl<C: Comments> VisitMut for Actual<C> {
 
     fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {
         if let VarDeclarator {
-            name: Pat::Ident(BindingIdent { id, .. }),
+            name: Pat::Ident(id),
             init: Some(init),
             ..
         } = var
@@ -316,12 +313,12 @@ impl<C: Comments> VisitMut for Actual<C> {
                     ident: None,
                     ref function,
                 }) if function.is_async || function.is_generator => {
-                    self.visit_mut_expr_with_binding(init, Some(id.clone()), false);
+                    self.visit_mut_expr_with_binding(init, Some(Ident::from(&*id)), false);
                     return;
                 }
 
                 Expr::Arrow(arrow_expr) if arrow_expr.is_async || arrow_expr.is_generator => {
-                    self.visit_mut_expr_with_binding(init, Some(id.clone()), false);
+                    self.visit_mut_expr_with_binding(init, Some(Ident::from(&*id)), false);
                     return;
                 }
 
@@ -436,7 +433,7 @@ fn make_fn_ref(mut expr: FnExpr) -> Expr {
         span,
         callee: helper,
         args: vec![expr.as_arg()],
-        type_args: Default::default(),
+        ..Default::default()
     })
 }
 
@@ -481,12 +478,12 @@ impl VisitMut for AsyncFnBodyHandler {
                             span: DUMMY_SP,
                             callee: helper!(async_iterator),
                             args: vec![arg.take().as_arg()],
-                            type_args: Default::default(),
+                            ..Default::default()
                         }
                         .as_arg(),
                         helper_expr!(await_async_generator).as_arg(),
                     ],
-                    type_args: Default::default(),
+                    ..Default::default()
                 }));
                 *expr = Expr::Yield(YieldExpr {
                     span: *span,
@@ -502,7 +499,7 @@ impl VisitMut for AsyncFnBodyHandler {
                         span: *span,
                         callee,
                         args: vec![arg.take().as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }));
                     *expr = Expr::Yield(YieldExpr {
                         span: *span,
@@ -597,6 +594,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     kind: VarDeclKind::Let,
                     declare: false,
                     decls: vec![value_var],
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -617,6 +615,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                         kind: VarDeclKind::Const,
                         declare: false,
                         decls: vec![var_decl],
+                        ..Default::default()
                     }
                     .into(),
                 );
@@ -643,6 +642,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         let for_loop_body = BlockStmt {
             span: body_span,
             stmts: for_loop_body,
+            ..Default::default()
         };
 
         let mut init_var_decls = vec![];
@@ -657,7 +657,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     span: DUMMY_SP,
                     callee,
                     args: vec![s.right.as_arg()],
-                    type_args: Default::default(),
+                    ..Default::default()
                 })))
             },
             definite: false,
@@ -678,6 +678,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls: init_var_decls,
+                    ..Default::default()
                 }
                 .into(),
             ),
@@ -688,7 +689,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     span: DUMMY_SP,
                     callee: iter_next.as_callee(),
                     args: Default::default(),
-                    type_args: Default::default(),
+                    ..Default::default()
                 };
 
                 let yield_arg = if is_async_generator {
@@ -696,7 +697,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                         span: DUMMY_SP,
                         callee: helper!(await_async_generator),
                         args: vec![iter_next.as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }))
                 } else {
                     Box::new(Expr::Call(iter_next))
@@ -741,6 +742,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         BlockStmt {
             span: body_span,
             stmts: vec![for_stmt],
+            ..Default::default()
         }
     };
 
@@ -770,8 +772,8 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             span: DUMMY_SP,
             param: Some(err_param.into()),
             body: BlockStmt {
-                span: DUMMY_SP,
                 stmts: vec![mark_as_errorred, store_error],
+                ..Default::default()
             },
         }
     };
@@ -787,6 +789,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             cons: Box::new(Stmt::Block(BlockStmt {
                 span: DUMMY_SP,
                 stmts: vec![throw_iterator_error],
+                ..Default::default()
             })),
             alt: None,
         });
@@ -798,7 +801,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 .make_member(quote_ident!("return"))
                 .as_callee(),
             args: vec![],
-            type_args: Default::default(),
+            ..Default::default()
         }));
 
         // yield _iterator.return();
@@ -814,7 +817,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                         span: DUMMY_SP,
                         callee: helper!(await_async_generator),
                         args: vec![iterator_return.as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }))
                 } else {
                     iterator_return
@@ -839,14 +842,14 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 })),
             })),
             cons: Box::new(Stmt::Block(BlockStmt {
-                span: DUMMY_SP,
                 stmts: vec![yield_stmt],
+                ..Default::default()
             })),
             alt: None,
         });
         let body = BlockStmt {
-            span: DUMMY_SP,
             stmts: vec![conditional_yield],
+            ..Default::default()
         };
 
         let inner_try = TryStmt {
@@ -854,14 +857,14 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             block: body,
             handler: None,
             finalizer: Some(BlockStmt {
-                span: DUMMY_SP,
                 stmts: vec![throw_iterator_error],
+                ..Default::default()
             }),
         }
         .into();
         BlockStmt {
-            span: DUMMY_SP,
             stmts: vec![inner_try],
+            ..Default::default()
         }
     };
 
@@ -874,9 +877,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
 
     let stmts = vec![
         VarDecl {
-            span: DUMMY_SP,
             kind: VarDeclKind::Var,
-            declare: false,
             decls: vec![
                 // var _iteratorAbruptCompletion = false;
                 VarDeclarator {
@@ -900,6 +901,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     definite: false,
                 },
             ],
+            ..Default::default()
         }
         .into(),
         try_stmt.into(),
@@ -908,5 +910,6 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
     *stmt = Stmt::Block(BlockStmt {
         span: s.span,
         stmts,
+        ..Default::default()
     })
 }

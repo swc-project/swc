@@ -102,9 +102,6 @@ pub(super) fn optimizer<'a>(
 /// This should not be modified directly. Use `.with_ctx()` instead.
 #[derive(Debug, Default, Clone, Copy)]
 struct Ctx {
-    /// See [crate::marks::Marks]
-    skip_standalone: bool,
-
     /// `true` if the [VarDecl] has const annotation.
     #[allow(dead_code)]
     has_const_ann: bool,
@@ -329,7 +326,7 @@ impl Optimizer<'_> {
             return false;
         }
 
-        if id.span.ctxt != self.marks.top_level_ctxt {
+        if id.ctxt != self.marks.top_level_ctxt {
             return true;
         }
 
@@ -461,7 +458,7 @@ impl Optimizer<'_> {
                 new.extend(self.prepend_stmts.drain(..).map(T::from_stmt));
 
                 match stmt.try_into_stmt() {
-                    Ok(Stmt::Block(s)) if s.span.has_mark(self.marks.fake_block) => {
+                    Ok(Stmt::Block(s)) if s.ctxt.has_mark(self.marks.fake_block) => {
                         new.extend(s.stmts.into_iter().map(T::from_stmt));
                     }
                     Ok(s) => {
@@ -546,7 +543,7 @@ impl Optimizer<'_> {
             Expr::Bin(BinExpr {
                 left, op, right, ..
             }) => match &**left {
-                Expr::Ident(r) if lhs.sym == r.sym && lhs.span.ctxt == r.span.ctxt => (op, right),
+                Expr::Ident(r) if lhs.sym == r.sym && lhs.ctxt == r.ctxt => (op, right),
                 _ => return,
             },
             _ => return,
@@ -1286,7 +1283,7 @@ impl Optimizer<'_> {
                 }
             }
 
-            Expr::Ident(id) if id.span.ctxt != self.expr_ctx.unresolved_ctxt => {
+            Expr::Ident(id) if id.ctxt != self.expr_ctx.unresolved_ctxt => {
                 report_change!("ignore_return_value: Dropping a declared ident {}", id);
                 self.changed = true;
                 return None;
@@ -1308,7 +1305,7 @@ impl Optimizer<'_> {
 
                 // Remove nested blocks
                 if bs.stmts.len() == 1 {
-                    if bs.span.has_mark(self.marks.fake_block) {
+                    if bs.ctxt.has_mark(self.marks.fake_block) {
                         report_change!("Unwrapping a fake block");
                         *s = bs.stmts.take().into_iter().next().unwrap();
                         return;
@@ -1504,6 +1501,7 @@ impl VisitMut for Optimizer<'_> {
                     n.body = Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
                         span: DUMMY_SP,
                         stmts,
+                        ..Default::default()
                     }));
                 }
             }
@@ -1584,7 +1582,7 @@ impl VisitMut for Optimizer<'_> {
         let ctx = Ctx {
             top_level: false,
             in_block: true,
-            scope: n.span.ctxt,
+            scope: n.ctxt,
             in_param: false,
             ..self.ctx
         };
@@ -2154,21 +2152,12 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_function(&mut self, n: &mut Function) {
         n.decorators.visit_mut_with(self);
 
-        let is_standalone = n.span.has_mark(self.marks.standalone);
-
-        // We don't dig into standalone function, as it does not share any variable with
-        // outer scope.
-        if self.ctx.skip_standalone && is_standalone {
-            return;
-        }
-
         let old_in_asm = self.ctx.in_asm;
 
         {
             let ctx = Ctx {
-                skip_standalone: self.ctx.skip_standalone || is_standalone,
                 in_fn_like: true,
-                scope: n.span.ctxt,
+                scope: n.ctxt,
                 top_level: false,
 
                 ..self.ctx
@@ -2297,7 +2286,6 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_script(&mut self, s: &mut Script) {
         let ctx = Ctx {
             top_level: true,
-            skip_standalone: true,
             ..self.ctx
         };
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -2313,7 +2301,6 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         let ctx = Ctx {
             top_level: true,
-            skip_standalone: true,
             ..self.ctx
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts, true);
@@ -2598,7 +2585,8 @@ impl VisitMut for Optimizer<'_> {
 
             let span = s.span();
             *s = Stmt::Block(BlockStmt {
-                span: span.apply_mark(self.marks.fake_block),
+                span,
+                ctxt: SyntaxContext::empty().apply_mark(self.marks.fake_block),
                 stmts: self
                     .prepend_stmts
                     .take_stmts()
@@ -2887,7 +2875,7 @@ impl VisitMut for Optimizer<'_> {
         {
             let ctx = Ctx {
                 is_update_arg: false,
-                has_const_ann: self.has_const_ann(n.span),
+                has_const_ann: self.has_const_ann(n.ctxt),
                 var_kind: Some(n.kind),
                 ..self.ctx
             };
@@ -2936,7 +2924,8 @@ impl VisitMut for Optimizer<'_> {
                 var.init = None
             }
 
-            if id.is_dummy() {
+            // Dummy check.
+            if id.sym.is_empty() {
                 var.name = Pat::dummy();
             }
         };

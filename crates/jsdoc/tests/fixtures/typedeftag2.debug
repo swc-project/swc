@@ -1,31 +1,31 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..8#0,
+                span: 1..8,
                 tag_name: Text {
-                    span: 1..8#0,
+                    span: 1..8,
                     value: "typedef",
                 },
                 tag: TypeDef(
                     TypeDefTag {
-                        span: 1..8#0,
+                        span: 1..8,
                         ty: Some(
                             Text {
-                                span: 1..18#0,
+                                span: 1..18,
                                 value: "{(string|number)}",
                             },
                         ),
                         name_path: NamePath {
-                            span: 1..1#0,
+                            span: 1..1,
                             components: [
                                 Text {
-                                    span: 1..1#0,
+                                    span: 1..1,
                                     value: "",
                                 },
                             ],

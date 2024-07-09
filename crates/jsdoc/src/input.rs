@@ -34,7 +34,7 @@ impl<'i> Input<'i> {
 
     #[inline(always)]
     pub fn span(self) -> Span {
-        Span::new(self.start, self.end, Default::default())
+        Span::new(self.start, self.end)
     }
 }
 
@@ -57,7 +57,7 @@ impl_slice!(RangeTo);
 impl<'i> From<Input<'i>> for Text {
     fn from(i: Input) -> Self {
         Self {
-            span: Span::new(i.start, i.end, Default::default()),
+            span: Span::new(i.start, i.end),
             value: i.src.into(),
         }
     }

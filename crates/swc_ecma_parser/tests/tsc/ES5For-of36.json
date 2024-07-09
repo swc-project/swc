@@ -2,25 +2,23 @@
   "type": "Script",
   "span": {
     "start": 48,
-    "end": 100,
-    "ctxt": 0
+    "end": 100
   },
   "body": [
     {
       "type": "ForOfStatement",
       "span": {
         "start": 48,
-        "end": 100,
-        "ctxt": 0
+        "end": 100
       },
       "await": false,
       "left": {
         "type": "VariableDeclaration",
         "span": {
           "start": 53,
-          "end": 71,
-          "ctxt": 0
+          "end": 71
         },
+        "ctxt": 0,
         "kind": "let",
         "declare": false,
         "declarations": [
@@ -28,31 +26,28 @@
             "type": "VariableDeclarator",
             "span": {
               "start": 57,
-              "end": 71,
-              "ctxt": 0
+              "end": 71
             },
             "id": {
               "type": "ArrayPattern",
               "span": {
                 "start": 57,
-                "end": 71,
-                "ctxt": 0
+                "end": 71
               },
               "elements": [
                 {
                   "type": "AssignmentPattern",
                   "span": {
                     "start": 58,
-                    "end": 63,
-                    "ctxt": 0
+                    "end": 63
                   },
                   "left": {
                     "type": "Identifier",
                     "span": {
                       "start": 58,
-                      "end": 59,
-                      "ctxt": 0
+                      "end": 59
                     },
+                    "ctxt": 0,
                     "value": "a",
                     "optional": false,
                     "typeAnnotation": null
@@ -61,8 +56,7 @@
                     "type": "NumericLiteral",
                     "span": {
                       "start": 62,
-                      "end": 63,
-                      "ctxt": 0
+                      "end": 63
                     },
                     "value": 0.0,
                     "raw": "0"
@@ -72,16 +66,15 @@
                   "type": "AssignmentPattern",
                   "span": {
                     "start": 65,
-                    "end": 70,
-                    "ctxt": 0
+                    "end": 70
                   },
                   "left": {
                     "type": "Identifier",
                     "span": {
                       "start": 65,
-                      "end": 66,
-                      "ctxt": 0
+                      "end": 66
                     },
+                    "ctxt": 0,
                     "value": "b",
                     "optional": false,
                     "typeAnnotation": null
@@ -90,8 +83,7 @@
                     "type": "NumericLiteral",
                     "span": {
                       "start": 69,
-                      "end": 70,
-                      "ctxt": 0
+                      "end": 70
                     },
                     "value": 1.0,
                     "raw": "1"
@@ -110,8 +102,7 @@
         "type": "ArrayExpression",
         "span": {
           "start": 75,
-          "end": 81,
-          "ctxt": 0
+          "end": 81
         },
         "elements": [
           {
@@ -120,8 +111,7 @@
               "type": "NumericLiteral",
               "span": {
                 "start": 76,
-                "end": 77,
-                "ctxt": 0
+                "end": 77
               },
               "value": 2.0,
               "raw": "2"
@@ -133,8 +123,7 @@
               "type": "NumericLiteral",
               "span": {
                 "start": 79,
-                "end": 80,
-                "ctxt": 0
+                "end": 80
               },
               "value": 3.0,
               "raw": "3"
@@ -146,24 +135,23 @@
         "type": "BlockStatement",
         "span": {
           "start": 83,
-          "end": 100,
-          "ctxt": 0
+          "end": 100
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 89,
-              "end": 91,
-              "ctxt": 0
+              "end": 91
             },
             "expression": {
               "type": "Identifier",
               "span": {
                 "start": 89,
-                "end": 90,
-                "ctxt": 0
+                "end": 90
               },
+              "ctxt": 0,
               "value": "a",
               "optional": false
             }
@@ -172,16 +160,15 @@
             "type": "ExpressionStatement",
             "span": {
               "start": 96,
-              "end": 98,
-              "ctxt": 0
+              "end": 98
             },
             "expression": {
               "type": "Identifier",
               "span": {
                 "start": 96,
-                "end": 97,
-                "ctxt": 0
+                "end": 97
               },
+              "ctxt": 0,
               "value": "b",
               "optional": false
             }

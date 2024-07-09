@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 17,
-    "end": 58,
-    "ctxt": 0
+    "end": 58
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 17,
-        "end": 58,
-        "ctxt": 0
+        "end": 58
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 21,
-            "end": 57,
-            "ctxt": 0
+            "end": 57
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 21,
-              "end": 22,
-              "ctxt": 0
+              "end": 22
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -38,24 +36,21 @@
             "type": "BinaryExpression",
             "span": {
               "start": 25,
-              "end": 57,
-              "ctxt": 0
+              "end": 57
             },
             "operator": "instanceof",
             "left": {
               "type": "TemplateLiteral",
               "span": {
                 "start": 25,
-                "end": 39,
-                "ctxt": 0
+                "end": 39
               },
               "expressions": [
                 {
                   "type": "NumericLiteral",
                   "span": {
                     "start": 32,
-                    "end": 33,
-                    "ctxt": 0
+                    "end": 33
                   },
                   "value": 0.0,
                   "raw": "0"
@@ -66,8 +61,7 @@
                   "type": "TemplateElement",
                   "span": {
                     "start": 26,
-                    "end": 29,
-                    "ctxt": 0
+                    "end": 29
                   },
                   "tail": false,
                   "cooked": "abc",
@@ -77,8 +71,7 @@
                   "type": "TemplateElement",
                   "span": {
                     "start": 35,
-                    "end": 38,
-                    "ctxt": 0
+                    "end": 38
                   },
                   "tail": true,
                   "cooked": "def",
@@ -90,9 +83,9 @@
               "type": "Identifier",
               "span": {
                 "start": 51,
-                "end": 57,
-                "ctxt": 0
+                "end": 57
               },
+              "ctxt": 0,
               "value": "String",
               "optional": false
             }

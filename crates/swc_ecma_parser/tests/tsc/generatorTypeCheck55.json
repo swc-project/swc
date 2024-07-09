@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 73,
-    "ctxt": 0
+    "end": 73
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 26,
-          "end": 27,
-          "ctxt": 0
+          "end": 27
         },
+        "ctxt": 0,
         "value": "g",
         "optional": false
       },
@@ -23,24 +22,24 @@
       "decorators": [],
       "span": {
         "start": 16,
-        "end": 73,
-        "ctxt": 0
+        "end": 73
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 30,
-          "end": 73,
-          "ctxt": 0
+          "end": 73
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
               "start": 36,
-              "end": 71,
-              "ctxt": 0
+              "end": 71
             },
+            "ctxt": 0,
             "kind": "var",
             "declare": false,
             "declarations": [
@@ -48,16 +47,15 @@
                 "type": "VariableDeclarator",
                 "span": {
                   "start": 40,
-                  "end": 70,
-                  "ctxt": 0
+                  "end": 70
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
                     "start": 40,
-                    "end": 41,
-                    "ctxt": 0
+                    "end": 41
                   },
+                  "ctxt": 0,
                   "value": "x",
                   "optional": false,
                   "typeAnnotation": null
@@ -68,32 +66,30 @@
                     "type": "Identifier",
                     "span": {
                       "start": 50,
-                      "end": 51,
-                      "ctxt": 0
+                      "end": 51
                     },
+                    "ctxt": 0,
                     "value": "C",
                     "optional": false
                   },
                   "span": {
                     "start": 44,
-                    "end": 70,
-                    "ctxt": 0
+                    "end": 70
                   },
+                  "ctxt": 0,
                   "decorators": [],
                   "body": [],
                   "superClass": {
                     "type": "ParenthesisExpression",
                     "span": {
                       "start": 60,
-                      "end": 67,
-                      "ctxt": 0
+                      "end": 67
                     },
                     "expression": {
                       "type": "YieldExpression",
                       "span": {
                         "start": 61,
-                        "end": 66,
-                        "ctxt": 0
+                        "end": 66
                       },
                       "argument": null,
                       "delegate": false

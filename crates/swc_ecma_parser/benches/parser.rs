@@ -7,7 +7,7 @@ use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsSyntax};
 fn bench_module(b: &mut Bencher, syntax: Syntax, src: &'static str) {
     let _ = ::testing::run_test(false, |cm, _| {
         let comments = SingleThreadedComments::default();
-        let fm = cm.new_source_file(FileName::Anon, src.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), src.into());
 
         b.iter(|| {
             let _ = black_box({

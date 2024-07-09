@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 30,
-    "ctxt": 0
+    "end": 30
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 30,
-        "ctxt": 0
+        "end": 30
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
         "value": "import",
         "raw": "import"
@@ -27,22 +24,19 @@
         "type": "ImportPrelude",
         "span": {
           "start": 9,
-          "end": 29,
-          "ctxt": 0
+          "end": 29
         },
         "href": {
           "type": "Url",
           "span": {
             "start": 9,
-            "end": 23,
-            "ctxt": 0
+            "end": 23
           },
           "name": {
             "type": "Ident",
             "span": {
               "start": 9,
-              "end": 12,
-              "ctxt": 0
+              "end": 12
             },
             "value": "url",
             "raw": "url"
@@ -51,8 +45,7 @@
             "type": "String",
             "span": {
               "start": 13,
-              "end": 22,
-              "ctxt": 0
+              "end": 22
             },
             "value": "foo.css",
             "raw": "\"foo.css\""
@@ -64,32 +57,28 @@
           "type": "ImportCondition",
           "span": {
             "start": 24,
-            "end": 29,
-            "ctxt": 0
+            "end": 29
           },
           "supports": null,
           "media": {
             "type": "MediaQueryList",
             "span": {
               "start": 24,
-              "end": 29,
-              "ctxt": 0
+              "end": 29
             },
             "queries": [
               {
                 "type": "MediaQuery",
                 "span": {
                   "start": 24,
-                  "end": 29,
-                  "ctxt": 0
+                  "end": 29
                 },
                 "modifier": null,
                 "mediaType": {
                   "type": "Ident",
                   "span": {
                     "start": 24,
-                    "end": 29,
-                    "ctxt": 0
+                    "end": 29
                   },
                   "value": "print",
                   "raw": "print"

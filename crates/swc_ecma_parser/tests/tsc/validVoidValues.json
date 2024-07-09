@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 38,
-    "ctxt": 0
+    "end": 38
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 13,
-        "ctxt": 0
+        "end": 13
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,31 +19,28 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 12,
-            "ctxt": 0
+            "end": 12
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 5,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 6,
-                "end": 12,
-                "ctxt": 0
+                "end": 12
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 8,
-                  "end": 12,
-                  "ctxt": 0
+                  "end": 12
                 },
                 "kind": "void"
               }
@@ -59,24 +55,22 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 14,
-        "end": 28,
-        "ctxt": 0
+        "end": 28
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 14,
-          "end": 27,
-          "ctxt": 0
+          "end": 27
         },
         "operator": "=",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 14,
-            "end": 15,
-            "ctxt": 0
+            "end": 15
           },
+          "ctxt": 0,
           "value": "x",
           "optional": false,
           "typeAnnotation": null
@@ -85,9 +79,9 @@
           "type": "Identifier",
           "span": {
             "start": 18,
-            "end": 27,
-            "ctxt": 0
+            "end": 27
           },
+          "ctxt": 0,
           "value": "undefined",
           "optional": false
         }
@@ -97,24 +91,22 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 29,
-        "end": 38,
-        "ctxt": 0
+        "end": 38
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 29,
-          "end": 37,
-          "ctxt": 0
+          "end": 37
         },
         "operator": "=",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 29,
-            "end": 30,
-            "ctxt": 0
+            "end": 30
           },
+          "ctxt": 0,
           "value": "x",
           "optional": false,
           "typeAnnotation": null
@@ -123,8 +115,7 @@
           "type": "NullLiteral",
           "span": {
             "start": 33,
-            "end": 37,
-            "ctxt": 0
+            "end": 37
           }
         }
       }

@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 50,
-    "ctxt": 0
+    "end": 50
   },
   "body": [
     {
@@ -12,48 +11,45 @@
         "type": "Identifier",
         "span": {
           "start": 22,
-          "end": 23,
-          "ctxt": 0
+          "end": 23
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 16,
-        "end": 50,
-        "ctxt": 0
+        "end": 50
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
           "span": {
             "start": 30,
-            "end": 48,
-            "ctxt": 0
+            "end": 48
           },
           "key": {
             "type": "Computed",
             "span": {
               "start": 30,
-              "end": 43,
-              "ctxt": 0
+              "end": 43
             },
             "expression": {
               "type": "ConditionalExpression",
               "span": {
                 "start": 31,
-                "end": 42,
-                "ctxt": 0
+                "end": 42
               },
               "test": {
                 "type": "Identifier",
                 "span": {
                   "start": 31,
-                  "end": 32,
-                  "ctxt": 0
+                  "end": 32
                 },
+                "ctxt": 0,
                 "value": "a",
                 "optional": false
               },
@@ -61,8 +57,7 @@
                 "type": "StringLiteral",
                 "span": {
                   "start": 35,
-                  "end": 37,
-                  "ctxt": 0
+                  "end": 37
                 },
                 "value": "",
                 "raw": "\"\""
@@ -71,8 +66,7 @@
                 "type": "StringLiteral",
                 "span": {
                   "start": 40,
-                  "end": 42,
-                  "ctxt": 0
+                  "end": 42
                 },
                 "value": "",
                 "raw": "\"\""
@@ -84,16 +78,16 @@
             "decorators": [],
             "span": {
               "start": 30,
-              "end": 48,
-              "ctxt": 0
+              "end": 48
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 46,
-                "end": 48,
-                "ctxt": 0
+                "end": 48
               },
+              "ctxt": 0,
               "stmts": []
             },
             "generator": false,

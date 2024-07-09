@@ -109,15 +109,14 @@ impl Fold for Decorators {
                 let decorate_call = Box::new(self.fold_class_inner(ident.clone(), class));
 
                 VarDecl {
-                    span: DUMMY_SP,
                     kind: VarDeclKind::Let,
-                    declare: false,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
                         name: ident.into(),
                         definite: false,
                         init: Some(decorate_call),
                     }],
+                    ..Default::default()
                 }
                 .into()
             }
@@ -194,6 +193,7 @@ impl Fold for Decorators {
                                 init: Some(decorate_call),
                                 definite: false,
                             }],
+                            ..Default::default()
                         }
                         .into(),
                     );
@@ -259,6 +259,7 @@ impl Fold for Decorators {
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls: take(&mut self.vars),
+                    ..Default::default()
                 }
                 .into(),
             )
@@ -284,7 +285,7 @@ impl Decorators {
                 span: DUMMY_SP,
                 callee: initialize.clone().as_callee(),
                 args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                type_args: Default::default(),
+                ..Default::default()
             }));
 
             // Inject initialize
@@ -430,7 +431,9 @@ impl Decorators {
                     ClassMember::Method(method) => {
                         let fn_name = match method.key {
                             PropName::Ident(ref i) => Some(i.clone()),
-                            PropName::Str(ref s) => Some(Ident::new(s.value.clone(), s.span)),
+                            PropName::Str(ref s) => {
+                                Some(Ident::new_no_ctxt(s.value.clone(), s.span))
+                            }
                             _ => None,
                         };
                         let key_prop_value = Box::new(prop_name_to_expr_value(method.key.clone()));
@@ -438,14 +441,14 @@ impl Decorators {
                         fold_method!(method, fn_name, key_prop_value)
                     }
                     ClassMember::PrivateMethod(method) => {
-                        let fn_name = Ident::new(
-                            format!("_{}", method.key.id.sym).into(),
-                            method.key.id.span,
+                        let fn_name = Ident::new_no_ctxt(
+                            format!("_{}", method.key.name).into(),
+                            method.key.span,
                         );
                         let key_prop_value = Box::new(Expr::Lit(Lit::Str(Str {
-                            span: method.key.id.span,
+                            span: method.key.span,
                             raw: None,
-                            value: method.key.id.sym.clone(),
+                            value: method.key.name.clone(),
                         })));
                         fold_method!(method, Some(fn_name), key_prop_value)
                     }
@@ -522,10 +525,9 @@ impl Decorators {
                                                     span: DUMMY_SP,
                                                     arg: Some(value),
                                                 })],
+                                                ..Default::default()
                                             }),
-
-                                            type_params: Default::default(),
-                                            return_type: Default::default(),
+                                            ..Default::default()
                                         }
                                         .into(),
                                     }),
@@ -606,10 +608,9 @@ impl Decorators {
                             }))),
                         })))
                         .collect(),
+                        ..Default::default()
                     }),
-
-                    return_type: Default::default(),
-                    type_params: Default::default(),
+                    ..Default::default()
                 }
                 .as_arg()
             })
@@ -637,7 +638,7 @@ fn make_decorate_call(
         )
         .chain(args)
         .collect(),
-        type_args: Default::default(),
+        ..Default::default()
     }
 }
 

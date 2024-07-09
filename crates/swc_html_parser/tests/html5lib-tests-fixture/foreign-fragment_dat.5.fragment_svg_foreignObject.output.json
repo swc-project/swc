@@ -2,16 +2,14 @@
   "type": "DocumentFragment",
   "span": {
     "start": 1,
-    "end": 18,
-    "ctxt": 0
+    "end": 18
   },
   "children": [
     {
       "type": "Text",
       "span": {
         "start": 17,
-        "end": 18,
-        "ctxt": 0
+        "end": 18
       },
       "data": "X",
       "raw": "X"

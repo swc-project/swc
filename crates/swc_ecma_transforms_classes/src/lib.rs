@@ -19,6 +19,6 @@ pub fn get_prototype_of(obj: Box<Expr>) -> Box<Expr> {
         span: DUMMY_SP,
         callee: helper!(get_prototype_of),
         args: vec![obj.as_arg()],
-        type_args: Default::default(),
+        ..Default::default()
     }))
 }

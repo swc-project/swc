@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 50,
-    "ctxt": 0
+    "end": 50
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 10,
-          "end": 14,
-          "ctxt": 0
+          "end": 14
         },
+        "ctxt": 0,
         "value": "data",
         "optional": false
       },
@@ -23,9 +22,9 @@
       "decorators": [],
       "span": {
         "start": 1,
-        "end": 25,
-        "ctxt": 0
+        "end": 25
       },
+      "ctxt": 0,
       "body": null,
       "generator": false,
       "async": false,
@@ -34,15 +33,13 @@
         "type": "TsTypeAnnotation",
         "span": {
           "start": 16,
-          "end": 24,
-          "ctxt": 0
+          "end": 24
         },
         "typeAnnotation": {
           "type": "TsKeywordType",
           "span": {
             "start": 18,
-            "end": 24,
-            "ctxt": 0
+            "end": 24
           },
           "kind": "string"
         }
@@ -54,9 +51,9 @@
         "type": "Identifier",
         "span": {
           "start": 35,
-          "end": 39,
-          "ctxt": 0
+          "end": 39
         },
+        "ctxt": 0,
         "value": "next",
         "optional": false
       },
@@ -65,9 +62,9 @@
       "decorators": [],
       "span": {
         "start": 26,
-        "end": 50,
-        "ctxt": 0
+        "end": 50
       },
+      "ctxt": 0,
       "body": null,
       "generator": false,
       "async": false,
@@ -76,15 +73,13 @@
         "type": "TsTypeAnnotation",
         "span": {
           "start": 41,
-          "end": 49,
-          "ctxt": 0
+          "end": 49
         },
         "typeAnnotation": {
           "type": "TsKeywordType",
           "span": {
             "start": 43,
-            "end": 49,
-            "ctxt": 0
+            "end": 49
           },
           "kind": "string"
         }

@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 112,
-    "end": 218,
-    "ctxt": 0
+    "end": 218
   },
   "body": [
     {
@@ -12,34 +11,33 @@
         "type": "Identifier",
         "span": {
           "start": 118,
-          "end": 119,
-          "ctxt": 0
+          "end": 119
         },
+        "ctxt": 0,
         "value": "A",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 112,
-        "end": 218,
-        "ctxt": 0
+        "end": 218
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "AutoAccessor",
           "span": {
             "start": 154,
-            "end": 176,
-            "ctxt": 0
+            "end": 176
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 170,
-              "end": 171,
-              "ctxt": 0
+              "end": 171
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false
           },
@@ -47,8 +45,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 174,
-              "end": 175,
-              "ctxt": 0
+              "end": 175
             },
             "value": 1.0,
             "raw": "1"
@@ -65,16 +62,15 @@
           "type": "AutoAccessor",
           "span": {
             "start": 201,
-            "end": 216,
-            "ctxt": 0
+            "end": 216
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 210,
-              "end": 211,
-              "ctxt": 0
+              "end": 211
             },
+            "ctxt": 0,
             "value": "y",
             "optional": false
           },
@@ -82,8 +78,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 214,
-              "end": 215,
-              "ctxt": 0
+              "end": 215
             },
             "value": 2.0,
             "raw": "2"
