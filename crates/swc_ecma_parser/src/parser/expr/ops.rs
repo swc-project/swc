@@ -50,20 +50,20 @@ impl<I: Tokens> Parser<I> {
         loop {
             let (next_left, next_prec) = self.parse_bin_op_recursively_inner(left, min_prec)?;
 
-            match &*next_left {
-                Expr::Bin(BinExpr {
+            match &next_left {
+                Expr::Bin(box BinExpr {
                     span,
                     left,
                     op: op!("&&"),
                     ..
                 })
-                | Expr::Bin(BinExpr {
+                | Expr::Bin(box BinExpr {
                     span,
                     left,
                     op: op!("||"),
                     ..
                 }) => {
-                    if let Expr::Bin(BinExpr { op: op!("??"), .. }) = &**left {
+                    if let Expr::Bin(box BinExpr { op: op!("??"), .. }) = left {
                         self.emit_err(*span, SyntaxError::NullishCoalescingWithLogicalOp);
                     }
                 }
@@ -171,7 +171,7 @@ impl<I: Tokens> Parser<I> {
                 op.precedence()
             );
         }
-        match *left {
+        match left {
             // This is invalid syntax.
             Expr::Unary { .. } | Expr::Await(..) if op == op!("**") => {
                 // Correct implementation would be returning Ok(left) and
@@ -215,15 +215,15 @@ impl<I: Tokens> Parser<I> {
          * throw it
          */
         if op == op!("??") {
-            match *left {
-                Expr::Bin(BinExpr { span, op, .. }) if op == op!("&&") || op == op!("||") => {
+            match left {
+                Expr::Bin(box BinExpr { span, op, .. }) if op == op!("&&") || op == op!("||") => {
                     self.emit_err(span, SyntaxError::NullishCoalescingWithLogicalOp);
                 }
                 _ => {}
             }
 
-            match *right {
-                Expr::Bin(BinExpr { span, op, .. }) if op == op!("&&") || op == op!("||") => {
+            match right {
+                Expr::Bin(box BinExpr { span, op, .. }) if op == op!("&&") || op == op!("||") => {
                     self.emit_err(span, SyntaxError::NullishCoalescingWithLogicalOp);
                 }
                 _ => {}
@@ -259,10 +259,7 @@ impl<I: Tokens> Parser<I> {
                 .into());
             }
 
-            return self
-                .parse_ts_type_assertion(start)
-                .map(Expr::from)
-                .map(Box::new);
+            return self.parse_ts_type_assertion(start).map(Expr::from);
         }
 
         // Parse update expression
@@ -315,7 +312,7 @@ impl<I: Tokens> Parser<I> {
             };
 
             if op == op!("delete") {
-                if let Expr::Ident(ref i) = *arg {
+                if let Expr::Ident(ref i) = arg {
                     self.emit_strict_mode_err(i.span, SyntaxError::TS1102)
                 }
             }
@@ -431,7 +428,7 @@ mod tests {
     fn simple() {
         assert_eq_ignore_span!(
             bin("5 + 4 * 7"),
-            Box::new(Expr::Bin(BinExpr {
+            Expr::Bin(Box::new(BinExpr {
                 span,
                 op: op!(bin, "+"),
                 left: bin("5"),
@@ -444,7 +441,7 @@ mod tests {
     fn same_prec() {
         assert_eq_ignore_span!(
             bin("5 + 4 + 7"),
-            Box::new(Expr::Bin(BinExpr {
+            Expr::Bin(Box::new(BinExpr {
                 span,
                 op: op!(bin, "+"),
                 left: bin("5 + 4"),
