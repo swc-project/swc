@@ -34,24 +34,24 @@ pub enum Expr {
     This(ThisExpr),
 
     #[tag("ArrayExpression")]
-    Array(Box<ArrayLit>),
+    Array(ArrayLit),
 
     #[tag("ObjectExpression")]
-    Object(Box<ObjectLit>),
+    Object(ObjectLit),
 
     #[tag("FunctionExpression")]
     #[is(name = "fn_expr")]
     Fn(FnExpr),
 
     #[tag("UnaryExpression")]
-    Unary(Box<UnaryExpr>),
+    Unary(UnaryExpr),
 
     /// `++v`, `--v`, `v++`, `v--`
     #[tag("UpdateExpression")]
     Update(Box<UpdateExpr>),
 
     #[tag("BinaryExpression")]
-    Bin(Box<BinExpr>),
+    Bin(BinExpr),
 
     #[tag("AssignmentExpression")]
     Assign(Box<AssignExpr>),
@@ -71,7 +71,7 @@ pub enum Expr {
     Member(MemberExpr),
 
     #[tag("SuperPropExpression")]
-    SuperProp(Box<SuperPropExpr>),
+    SuperProp(SuperPropExpr),
 
     /// true ? 'a' : 'b'
     #[tag("ConditionalExpression")]
@@ -97,7 +97,7 @@ pub enum Expr {
     #[tag("RegExpLiteral")]
     #[tag("JSXText")]
     #[tag("BigIntLiteral")]
-    Lit(Box<Lit>),
+    Lit(Lit),
 
     #[tag("TemplateLiteral")]
     Tpl(Box<Tpl>),
@@ -123,7 +123,7 @@ pub enum Expr {
     Await(Box<AwaitExpr>),
 
     #[tag("ParenthesisExpression")]
-    Paren(Box<ParenExpr>),
+    Paren(ParenExpr),
 
     #[tag("JSXMemberExpression")]
     JSXMember(Box<JSXMemberExpr>),
@@ -1446,9 +1446,9 @@ pub enum SimpleAssignTarget {
     #[tag("MemberExpression")]
     Member(MemberExpr),
     #[tag("SuperPropExpression")]
-    SuperProp(Box<SuperPropExpr>),
+    SuperProp(SuperPropExpr),
     #[tag("ParenthesisExpression")]
-    Paren(Box<ParenExpr>),
+    Paren(ParenExpr),
     #[tag("OptionalChainingExpression")]
     OptChain(OptChainExpr),
     #[tag("TsAsExpression")]
