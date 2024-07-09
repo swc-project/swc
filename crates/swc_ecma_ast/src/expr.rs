@@ -463,7 +463,7 @@ impl Take for Expr {
 
 impl Default for Expr {
     fn default() -> Self {
-        Default::default().into()
+        Expr::Invalid(Default::default())
     }
 }
 
