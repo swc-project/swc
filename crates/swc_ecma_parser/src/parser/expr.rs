@@ -233,12 +233,12 @@ impl<I: Tokens> Parser<I> {
             };
             let alt = self.with_ctx(ctx).parse_assignment_expr()?;
             let span = Span::new(start, alt.span_hi());
-            Ok(Expr::Cond(CondExpr {
+            Ok(Expr::Cond(Box::new(CondExpr {
                 span,
                 test,
                 cons,
                 alt,
-            }))
+            })))
         } else {
             Ok(test)
         }
@@ -262,9 +262,9 @@ impl<I: Tokens> Parser<I> {
             match tok {
                 tok!("this") => {
                     self.input.bump();
-                    return Ok(Box::new(Expr::This(ThisExpr {
+                    return Ok(Expr::This(ThisExpr {
                         span: span!(self, start),
-                    })));
+                    }));
                 }
 
                 tok!("async") => {
@@ -282,7 +282,7 @@ impl<I: Tokens> Parser<I> {
                             assert_and_bump!(p, "async");
                             p.try_parse_ts_generic_async_arrow_fn(start)
                         }) {
-                            return Ok(Box::new(Expr::Arrow(res)));
+                            return Ok(Expr::Arrow(res));
                         }
                     }
 
@@ -359,7 +359,7 @@ impl<I: Tokens> Parser<I> {
                                     self.emit_err(span, SyntaxError::DuplicatedRegExpFlags(*flag));
                                 }
 
-                                return Ok(Box::new(Expr::Lit(Lit::Regex(Regex {
+                                return Ok(Expr::Lit(Box::new(Lit::Regex(Regex {
                                     span,
                                     exp,
                                     flags,
@@ -377,7 +377,7 @@ impl<I: Tokens> Parser<I> {
                     };
 
                     // parse template literal
-                    return Ok(Box::new(Expr::Tpl(self.with_ctx(ctx).parse_tpl(false)?)));
+                    return Ok(Expr::Tpl(self.with_ctx(ctx).parse_tpl(false)?));
                 }
 
                 tok!('(') => {
