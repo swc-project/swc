@@ -435,11 +435,11 @@ impl<I: Tokens> Parser<I> {
                 if self.input.syntax().typescript() && ident.sym == "as" && !is!(self, "=>") {
                     // async as type
                     let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;
-                    return Ok(Expr::TsAs(TsAsExpr {
+                    return Ok(Expr::TsAs(Box::new(TsAsExpr {
                         span: span!(self, start),
-                        expr: Box::new(Expr::Ident(id)),
+                        expr: Expr::Ident(id),
                         type_ann,
-                    }));
+                    })));
                 }
 
                 // async a => body
@@ -449,14 +449,14 @@ impl<I: Tokens> Parser<I> {
                 let body =
                     self.parse_fn_body(true, false, true, params.is_simple_parameter_list())?;
 
-                return Ok(Expr::Arrow(ArrowExpr {
+                return Ok(Expr::Arrow(Box::new(ArrowExpr {
                     span: span!(self, start),
                     body,
                     params,
                     is_async: true,
                     is_generator: false,
                     ..Default::default()
-                }));
+                })));
             } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!(self, "=>") {
                 if self.ctx().strict && id.is_reserved_in_strict_bind() {
                     self.emit_strict_mode_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
@@ -465,14 +465,14 @@ impl<I: Tokens> Parser<I> {
                 let body =
                     self.parse_fn_body(false, false, true, params.is_simple_parameter_list())?;
 
-                return Ok(Expr::Arrow(ArrowExpr {
+                return Ok(Expr::Arrow(Box::new(ArrowExpr {
                     span: span!(self, start),
                     body,
                     params,
                     is_async: false,
                     is_generator: false,
                     ..Default::default()
-                }));
+                })));
             } else {
                 return Ok(Expr::Ident(id));
             }
@@ -522,7 +522,7 @@ impl<I: Tokens> Parser<I> {
         expect!(self, ']');
 
         let span = span!(self, start);
-        Ok(Box::new(Expr::Array(ArrayLit { span, elems })))
+        Ok(Expr::Array(Box::new(ArrayLit { span, elems })))
     }
 
     #[allow(dead_code)]
@@ -549,10 +549,10 @@ impl<I: Tokens> Parser<I> {
             if eat!(self, '.') {
                 if eat!(self, "target") {
                     let span = span!(self, start);
-                    let expr = Box::new(Expr::MetaProp(MetaPropExpr {
+                    let expr = Expr::MetaProp(MetaPropExpr {
                         span,
                         kind: MetaPropKind::NewTarget,
-                    }));
+                    });
 
                     let ctx = self.ctx();
                     if (!ctx.inside_non_arrow_function_scope) && !ctx.in_parameters && !ctx.in_class
@@ -571,7 +571,7 @@ impl<I: Tokens> Parser<I> {
             return_if_arrow!(self, callee);
 
             if is_new_expr {
-                match *callee {
+                match callee {
                     Expr::OptChain(OptChainExpr {
                         span,
                         optional: true,
@@ -579,16 +579,16 @@ impl<I: Tokens> Parser<I> {
                     }) => {
                         syntax_error!(self, span, SyntaxError::OptChainCannotFollowConstructorCall)
                     }
-                    Expr::Member(MemberExpr { ref obj, .. }) => {
+                    Expr::Member(box MemberExpr { ref obj, .. }) => {
                         if let Expr::OptChain(OptChainExpr {
                             span,
                             optional: true,
                             ..
-                        }) = **obj
+                        }) = obj
                         {
                             syntax_error!(
                                 self,
-                                span,
+                                *span,
                                 SyntaxError::OptChainCannotFollowConstructorCall
                             )
                         }
@@ -619,7 +619,7 @@ impl<I: Tokens> Parser<I> {
                 // Parsed with 'MemberExpression' production.
                 let args = self.parse_args(false).map(Some)?;
 
-                let new_expr = Callee::Expr(Box::new(Expr::New(NewExpr {
+                let new_expr = Callee::Expr(Expr::New(Box::new(NewExpr {
                     span: span!(self, start),
                     callee,
                     args,
@@ -634,7 +634,7 @@ impl<I: Tokens> Parser<I> {
 
             // Parsed with 'NewExpression' production.
 
-            return Ok(Box::new(Expr::New(NewExpr {
+            return Ok(Expr::New(Box::new(NewExpr {
                 span: span!(self, start),
                 callee,
                 args: None,
