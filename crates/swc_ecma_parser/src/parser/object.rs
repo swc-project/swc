@@ -469,19 +469,22 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
 
             let arg = self.parse_binding_pat_or_ident()?;
 
-            return Ok(ObjectPatProp::Rest(RestPat {
+            return Ok(ObjectPatProp::Rest(Box::new(RestPat {
                 span: span!(self, start),
                 dot3_token,
                 arg,
                 type_ann: None,
-            }));
+            })));
         }
 
         let key = self.parse_prop_name()?;
         if eat!(self, ':') {
             let value = self.parse_binding_element()?;
 
-            return Ok(ObjectPatProp::KeyValue(KeyValuePatProp { key, value }));
+            return Ok(ObjectPatProp::KeyValue(Box::new(KeyValuePatProp {
+                key,
+                value,
+            })));
         }
         let key = match key {
             PropName::Ident(ident) => ident,
@@ -500,10 +503,10 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
             None
         };
 
-        Ok(ObjectPatProp::Assign(AssignPatProp {
+        Ok(ObjectPatProp::Assign(Box::new(AssignPatProp {
             span: span!(self, start),
             key: key.into(),
             value,
-        }))
+        })))
     }
 }

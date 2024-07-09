@@ -139,12 +139,12 @@ fn object_rest_pat() {
             params: vec![Pat::Object(Box::new(ObjectPat {
                 span,
                 optional: false,
-                props: vec![ObjectPatProp::Rest(RestPat {
+                props: vec![ObjectPatProp::Rest(Box::new(RestPat {
                     span,
                     dot3_token: span,
                     arg: Pat::Ident(Ident::new_no_ctxt("a34".into(), span).into()),
                     type_ann: None,
-                })],
+                }))],
                 type_ann: None
             }))],
             body: Box::new(BlockStmtOrExpr::BlockStmt(Box::new(BlockStmt {
