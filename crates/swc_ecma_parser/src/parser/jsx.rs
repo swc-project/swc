@@ -210,13 +210,13 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_jsx_opening_element_at(
         &mut self,
         start: BytePos,
-    ) -> PResult<EitherBoxed<JSXOpeningFragment, JSXOpeningElement>> {
+    ) -> PResult<Either<JSXOpeningFragment, Box<JSXOpeningElement>>> {
         debug_assert!(self.input.syntax().jsx());
 
         if eat!(self, JSXTagEnd) {
-            return Ok(Either::Left(Box::new(JSXOpeningFragment {
+            return Ok(Either::Left(JSXOpeningFragment {
                 span: span!(self, start),
-            })));
+            }));
         }
 
         let ctx = Context {
@@ -257,13 +257,13 @@ impl<I: Tokens> Parser<I> {
         if !eat!(self, JSXTagEnd) & !(self.ctx().in_forced_jsx_context && eat!(self, '>')) {
             unexpected!(self, "> (jsx closing tag)");
         }
-        Ok(JSXOpeningElement {
+        Ok(Box::new(JSXOpeningElement {
             span: span!(self, start),
             name,
             attrs,
             self_closing,
             type_args,
-        })
+        }))
     }
 
     /// Parses JSX closing tag starting after "</".
@@ -470,5 +470,11 @@ fn get_qualified_jsx_name(name: &JSXElementName) -> JsWord {
         JSXElementName::JSXMemberExpr(JSXMemberExpr {
             ref obj, ref prop, ..
         }) => format!("{}.{}", get_qualified_obj_name(obj), prop.sym).into(),
+        JSXElementName::JSXNamespacedName(box JSXNamespacedName { ref ns, ref name }) => {
+            format!("{}:{}", ns.sym, name.sym).into()
+        }
+        JSXElementName::JSXMemberExpr(box JSXMemberExpr { ref obj, ref prop }) => {
+            format!("{}.{}", get_qualified_obj_name(obj), prop.sym).into()
+        }
     }
 }
