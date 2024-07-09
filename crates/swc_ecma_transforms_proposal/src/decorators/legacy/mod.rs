@@ -40,8 +40,8 @@ pub(super) struct TscDecorator {
 
     /// Used for computed keys, and this variables are not initialized.
     vars: Vec<VarDeclarator>,
-    appended_exprs: Vec<Expr>,
-    prepended_exprs: Vec<Expr>,
+    appended_exprs: Vec<Box<Expr>>,
+    prepended_exprs: Vec<Box<Expr>>,
 
     class_name: Option<Ident>,
 

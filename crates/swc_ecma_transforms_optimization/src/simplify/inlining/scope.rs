@@ -98,7 +98,7 @@ impl Inlining<'_> {
     pub(super) fn declare(
         &mut self,
         id: Id,
-        init: Option<Cow<Expr>>,
+        init: Option<Cow<Box<Expr>>>,
         is_change: bool,
         kind: VarType,
     ) {
@@ -246,7 +246,7 @@ pub(super) struct Scope<'a> {
     unresolved_usages: AHashSet<Id>,
 
     /// Simple optimization. We don't need complex scope analysis.
-    pub constants: AHashMap<Id, Option<Expr>>,
+    pub constants: AHashMap<Id, Option<Box<Expr>>>,
 }
 
 impl<'a> Scope<'a> {
@@ -653,7 +653,7 @@ pub(super) struct VarInfo {
     inline_prevented: Cell<bool>,
     this_sensitive: Cell<bool>,
 
-    pub value: RefCell<Option<Expr>>,
+    pub value: RefCell<Option<Box<Expr>>>,
     pub is_undefined: Cell<bool>,
 
     hoisted: Cell<bool>,

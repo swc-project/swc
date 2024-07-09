@@ -5,7 +5,7 @@ use swc_ecma_ast::*;
 
 /// Extension methods for [Expr].
 ///
-/// Note that many types implements `Into<Expr>` and you can do like
+/// Note that many types implements `Into<Box<Expr>>` and you can do like
 ///
 /// ```rust
 /// use swc_ecma_utils::ExprFactory;
@@ -13,9 +13,9 @@ use swc_ecma_ast::*;
 /// let _args = vec![0f64.as_arg()];
 /// ```
 ///
-/// to create literals. Almost all rust core types implements `Into<Expr>`.
+/// to create literals. Almost all rust core types implements `Into<Box<Expr>>`.
 #[allow(clippy::wrong_self_convention)]
-pub trait ExprFactory: Into<Expr> {
+pub trait ExprFactory: Into<Box<Expr>> {
     /// Creates an [ExprOrSpread] using the given [Expr].
     ///
     /// This is recommended way to create [ExprOrSpread].
@@ -142,7 +142,7 @@ pub trait ExprFactory: Into<Expr> {
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn apply(self, span: Span, this: Expr, args: Vec<ExprOrSpread>) -> Expr {
+    fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Expr {
         let apply = self.make_member(Ident::new_no_ctxt("apply".into(), span));
 
         CallExpr {
@@ -220,7 +220,7 @@ pub trait ExprFactory: Into<Expr> {
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn make_eq<T>(self, right: T) -> Expr
     where
-        T: Into<Expr>,
+        T: Into<Box<Expr>>,
     {
         self.make_bin(op!("==="), right)
     }
@@ -229,7 +229,7 @@ pub trait ExprFactory: Into<Expr> {
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn make_bin<T>(self, op: BinaryOp, right: T) -> Expr
     where
-        T: Into<Expr>,
+        T: Into<Box<Expr>>,
     {
         let right = Box::new(right.into());
 
@@ -271,7 +271,7 @@ pub trait ExprFactory: Into<Expr> {
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn computed_member<T>(self, prop: T) -> MemberExpr
     where
-        T: Into<Expr>,
+        T: Into<Box<Expr>>,
     {
         MemberExpr {
             obj: self.into(),
@@ -284,7 +284,7 @@ pub trait ExprFactory: Into<Expr> {
     }
 }
 
-impl<T: Into<Expr>> ExprFactory for T {}
+impl<T: Into<Box<Expr>>> ExprFactory for T {}
 
 pub trait IntoIndirectCall
 where

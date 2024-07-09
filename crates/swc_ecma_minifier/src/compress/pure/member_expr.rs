@@ -245,7 +245,7 @@ impl Pure<'_> {
         &mut self,
         obj: &mut Expr,
         prop: &MemberProp,
-    ) -> Option<Expr> {
+    ) -> Option<Box<Expr>> {
         if !self.options.pristine_globals || self.ctx.is_lhs_of_assign || self.ctx.is_callee {
             return None;
         }
@@ -319,7 +319,7 @@ impl Pure<'_> {
                 let replacement = self.optimize_member_expr(exprs.last_mut()?, prop)?;
 
                 // Replace last element with replacement
-                let mut exprs: Vec<Expr> = exprs.drain(..(exprs.len() - 1)).collect();
+                let mut exprs: Vec<Box<Expr>> = exprs.drain(..(exprs.len() - 1)).collect();
                 exprs.push(Box::new(replacement));
 
                 Some(SeqExpr { span: *span, exprs }.into())

@@ -41,7 +41,7 @@ pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
 
 impl<T> VarDeclaratorExt for T where T: Into<VarDeclarator> {}
 
-pub(crate) trait ExprExt: Into<Expr> {
+pub(crate) trait ExprExt: Into<Box<Expr>> {
     #[track_caller]
     fn assign_to<T>(self, lhs: T) -> VarDeclarator
     where
@@ -65,7 +65,7 @@ pub(crate) trait ExprExt: Into<Expr> {
     }
 }
 
-impl<T> ExprExt for T where T: Into<Expr> {}
+impl<T> ExprExt for T where T: Into<Box<Expr>> {}
 
 #[derive(Debug)]
 pub(crate) struct CHashSet<V>

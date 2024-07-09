@@ -1699,7 +1699,7 @@ impl VisitMut for SimplifyExpr {
         });
     }
 
-    fn visit_mut_exprs(&mut self, n: &mut Vec<Expr>) {
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
         self.maybe_par(cpu_count() * 8, n, |v, n| {
             n.visit_mut_with(v);
         });
@@ -1756,7 +1756,7 @@ fn need_zero_for_this(e: &Expr) -> bool {
 /// Gets the value of the given key from the given object properties, if the key
 /// exists. If the key does exist, `Some` is returned and the property is
 /// removed from the given properties.
-fn get_key_value(key: &str, props: &mut Vec<PropOrSpread>) -> Option<Expr> {
+fn get_key_value(key: &str, props: &mut Vec<PropOrSpread>) -> Option<Box<Expr>> {
     // It's impossible to know the value for certain if a spread property exists.
     let has_spread = props.iter().any(|prop| prop.is_spread());
 

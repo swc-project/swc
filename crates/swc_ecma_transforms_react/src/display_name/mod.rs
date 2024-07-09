@@ -119,7 +119,7 @@ impl VisitMut for DisplayName {
 }
 
 struct Folder {
-    name: Option<Expr>,
+    name: Option<Box<Expr>>,
 }
 
 impl VisitMut for Folder {

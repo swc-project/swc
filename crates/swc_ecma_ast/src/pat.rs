@@ -123,7 +123,7 @@ pub struct AssignPat {
 
     pub left: Pat,
 
-    pub right: Expr,
+    pub right: Box<Expr>,
 }
 
 /// EsTree `RestElement`
@@ -179,5 +179,5 @@ pub struct AssignPatProp {
     pub key: BindingIdent,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub value: Option<Expr>,
+    pub value: Option<Box<Expr>>,
 }

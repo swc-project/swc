@@ -598,7 +598,7 @@ impl<'a> PrivateAccessVisitor<'a> {
         &mut self,
         e: &mut MemberExpr,
         obj_alias: Option<Ident>,
-    ) -> (Expr, Option<Expr>) {
+    ) -> (Expr, Option<Box<Expr>>) {
         let is_alias_initialized = obj_alias.is_some();
 
         let n = match &e.prop {

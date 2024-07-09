@@ -469,7 +469,7 @@ impl InjectHelpers {
         Stmt::Decl(decl)
     }
 
-    fn map_helper_ref_ident(&mut self, ref_ident: &Ident) -> Option<Expr> {
+    fn map_helper_ref_ident(&mut self, ref_ident: &Ident) -> Option<Box<Expr>> {
         self.helper_ctxt
             .filter(|ctxt| ctxt == &ref_ident.ctxt)
             .map(|_| {

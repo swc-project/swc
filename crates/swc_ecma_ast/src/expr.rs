@@ -60,15 +60,15 @@ pub enum Expr {
     // Logical {
     //
     //     op: LogicalOp,
-    //     left: Expr,
-    //     right: Expr,
+    //     left: Box<Expr>,
+    //     right: Box<Expr>,
     // },
     /// A member expression. If computed is true, the node corresponds to a
     /// computed (a[b]) member expression and property is an Expression. If
     /// computed is false, the node corresponds to a static (a.b) member
     /// expression and property is an Identifier.
     #[tag("MemberExpression")]
-    Member(Box<MemberExpr>),
+    Member(MemberExpr),
 
     #[tag("SuperPropExpression")]
     SuperProp(Box<SuperPropExpr>),
@@ -330,7 +330,7 @@ impl Expr {
     /// # Panics
     ///
     /// Panics if `exprs` is empty.
-    pub fn from_exprs(mut exprs: Vec<Expr>) -> Expr {
+    pub fn from_exprs(mut exprs: Vec<Box<Expr>>) -> Expr {
         debug_assert!(!exprs.is_empty(), "`exprs` must not be empty");
 
         if exprs.len() == 1 {
@@ -643,7 +643,7 @@ pub struct SpreadElement {
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "arguments"))]
     #[span(hi)]
-    pub expr: Expr,
+    pub expr: Box<Expr>,
 }
 
 impl Take for SpreadElement {
@@ -665,7 +665,7 @@ pub struct UnaryExpr {
     pub op: UnaryOp,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
-    pub arg: Expr,
+    pub arg: Box<Expr>,
 }
 
 impl Take for UnaryExpr {
@@ -686,7 +686,7 @@ pub struct UpdateExpr {
     pub prefix: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
-    pub arg: Expr,
+    pub arg: Box<Expr>,
 }
 
 impl Take for UpdateExpr {
@@ -704,9 +704,9 @@ pub struct BinExpr {
     #[cfg_attr(feature = "serde-impl", serde(rename = "operator"))]
     pub op: BinaryOp,
 
-    pub left: Expr,
+    pub left: Box<Expr>,
 
-    pub right: Expr,
+    pub right: Box<Expr>,
 }
 
 impl Take for BinExpr {
@@ -796,7 +796,7 @@ pub struct AssignExpr {
 
     pub left: AssignTarget,
 
-    pub right: Expr,
+    pub right: Box<Expr>,
 }
 
 impl Take for AssignExpr {
@@ -823,7 +823,7 @@ pub struct MemberExpr {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "object"))]
-    pub obj: Expr,
+    pub obj: Box<Expr>,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "property"))]
     pub prop: MemberProp,
@@ -909,13 +909,13 @@ impl Default for SuperProp {
 pub struct CondExpr {
     pub span: Span,
 
-    pub test: Expr,
+    pub test: Box<Expr>,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "consequent"))]
-    pub cons: Expr,
+    pub cons: Box<Expr>,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "alternate"))]
-    pub alt: Expr,
+    pub alt: Box<Expr>,
 }
 
 impl Take for CondExpr {
@@ -960,7 +960,7 @@ pub struct NewExpr {
 
     pub ctxt: SyntaxContext,
 
-    pub callee: Expr,
+    pub callee: Box<Expr>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "arguments"))]
     pub args: Option<Vec<ExprOrSpread>>,
@@ -983,7 +983,7 @@ pub struct SeqExpr {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "expressions"))]
-    pub exprs: Vec<Expr>,
+    pub exprs: Vec<Box<Expr>>,
 }
 
 impl Take for SeqExpr {
@@ -1036,7 +1036,7 @@ pub struct YieldExpr {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "argument"))]
-    pub arg: Option<Expr>,
+    pub arg: Option<Box<Expr>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub delegate: bool,
@@ -1082,7 +1082,7 @@ pub struct AwaitExpr {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
-    pub arg: Expr,
+    pub arg: Box<Expr>,
 }
 
 #[ast_node("TemplateLiteral")]
@@ -1092,7 +1092,7 @@ pub struct Tpl {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "expressions"))]
-    pub exprs: Vec<Expr>,
+    pub exprs: Vec<Box<Expr>>,
 
     pub quasis: Vec<TplElement>,
 }
@@ -1115,7 +1115,7 @@ pub struct TaggedTpl {
 
     pub ctxt: SyntaxContext,
 
-    pub tag: Expr,
+    pub tag: Box<Expr>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeParameters"))]
     pub type_params: Option<Box<TsTypeParamInstantiation>>,
@@ -1184,7 +1184,7 @@ pub struct ParenExpr {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
-    pub expr: Expr,
+    pub expr: Box<Expr>,
 }
 impl Take for ParenExpr {
     fn dummy() -> Self {
@@ -1276,7 +1276,7 @@ pub struct ExprOrSpread {
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
-    pub expr: Expr,
+    pub expr: Box<Expr>,
 }
 
 impl Spanned for ExprOrSpread {
@@ -1303,7 +1303,7 @@ impl Spanned for ExprOrSpread {
     }
 }
 
-impl From<Expr> for ExprOrSpread {
+impl From<Box<Expr>> for ExprOrSpread {
     fn from(expr: Expr) -> Self {
         Self { expr, spread: None }
     }
@@ -1375,7 +1375,7 @@ impl TryFrom<Pat> for AssignTarget {
     }
 }
 
-impl TryFrom<Expr> for AssignTarget {
+impl TryFrom<Box<Expr>> for AssignTarget {
     type Error = Expr;
 
     fn try_from(e: Expr) -> Result<Self, Self::Error> {
@@ -1442,7 +1442,7 @@ pub enum SimpleAssignTarget {
     #[tag("Identifier")]
     Ident(BindingIdent),
     #[tag("MemberExpression")]
-    Member(Box<MemberExpr>),
+    Member(MemberExpr),
     #[tag("SuperPropExpression")]
     SuperProp(Box<SuperPropExpr>),
     #[tag("ParenthesisExpression")]
@@ -1478,7 +1478,7 @@ boxed_variants!(
     ]
 );
 
-impl TryFrom<Expr> for SimpleAssignTarget {
+impl TryFrom<Box<Expr>> for SimpleAssignTarget {
     type Error = Expr;
 
     fn try_from(e: Expr) -> Result<Self, Self::Error> {
@@ -1586,7 +1586,7 @@ pub struct OptChainExpr {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum OptChainBase {
     #[tag("MemberExpression")]
-    Member(Box<MemberExpr>),
+    Member(MemberExpr),
     #[tag("CallExpression")]
     Call(Box<OptCall>),
 }
@@ -1605,7 +1605,7 @@ pub struct OptCall {
 
     pub ctxt: SyntaxContext,
 
-    pub callee: Expr,
+    pub callee: Box<Expr>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "arguments"))]
     pub args: Vec<ExprOrSpread>,

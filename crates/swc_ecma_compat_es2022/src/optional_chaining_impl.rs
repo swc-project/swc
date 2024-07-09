@@ -425,7 +425,7 @@ impl OptionalChaining {
     }
 }
 
-fn init_and_eq_null_or_undefined(i: &Memo, init: Expr, no_document_all: bool) -> Expr {
+fn init_and_eq_null_or_undefined(i: &Memo, init: Box<Expr>, no_document_all: bool) -> Expr {
     let lhs = match i {
         Memo::Cache(i) => AssignExpr {
             span: DUMMY_SP,

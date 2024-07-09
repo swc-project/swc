@@ -120,7 +120,7 @@ impl<I: Tokens> Parser<I> {
     }
 }
 
-impl<I: Tokens> ParseObject<Expr> for Parser<I> {
+impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
     type Prop = PropOrSpread;
 
     fn make_object(
@@ -128,7 +128,7 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
         span: Span,
         props: Vec<Self::Prop>,
         trailing_comma: Option<Span>,
-    ) -> PResult<Expr> {
+    ) -> PResult<Box<Expr>> {
         if let Some(trailing_comma) = trailing_comma {
             self.state.trailing_commas.insert(span.lo, trailing_comma);
         }

@@ -861,7 +861,7 @@ impl Optimizer<'_> {
         &mut self,
         params: &[Ident],
         args: &mut [ExprOrSpread],
-        exprs: &mut Vec<Expr>,
+        exprs: &mut Vec<Box<Expr>>,
     ) -> Vec<VarDeclarator> {
         let mut vars = Vec::new();
 
@@ -921,7 +921,7 @@ impl Optimizer<'_> {
         params: &[Ident],
         body: &mut BlockStmt,
         args: &mut [ExprOrSpread],
-    ) -> Option<Expr> {
+    ) -> Option<Box<Expr>> {
         if !self.can_inline_fn_like(params, &*body) {
             return None;
         }

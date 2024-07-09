@@ -10,7 +10,7 @@ mod tests;
 mod verifier;
 
 impl<I: Tokens> Parser<I> {
-    pub fn parse_expr(&mut self) -> PResult<Expr> {
+    pub fn parse_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_expr);
 
         let _tracing = debug_tracing!(self, "parse_expr");
@@ -36,7 +36,7 @@ impl<I: Tokens> Parser<I> {
 
     ///`parseMaybeAssign` (overridden)
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
-    pub(super) fn parse_assignment_expr(&mut self) -> PResult<Expr> {
+    pub(super) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr);
 
         if self.input.syntax().typescript() && self.input.syntax().jsx() {
@@ -78,7 +78,7 @@ impl<I: Tokens> Parser<I> {
     ///
     /// `parseMaybeAssign`
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
-    fn parse_assignment_expr_base(&mut self) -> PResult<Expr> {
+    fn parse_assignment_expr_base(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr_base);
         let start = self.input.cur_span();
 
@@ -152,7 +152,7 @@ impl<I: Tokens> Parser<I> {
         self.finish_assignment_expr(start, cond)
     }
 
-    fn finish_assignment_expr(&mut self, start: BytePos, cond: Expr) -> PResult<Expr> {
+    fn finish_assignment_expr(&mut self, start: BytePos, cond: Expr) -> PResult<Box<Expr>> {
         trace_cur!(self, finish_assignment_expr);
 
         match self.input.cur() {
@@ -211,7 +211,7 @@ impl<I: Tokens> Parser<I> {
 
     /// Spec: 'ConditionalExpression'
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
-    fn parse_cond_expr(&mut self) -> PResult<Expr> {
+    fn parse_cond_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_cond_expr);
 
         let start = cur_pos!(self);
@@ -249,7 +249,7 @@ impl<I: Tokens> Parser<I> {
 
     /// Parse a primary expression or arrow function
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
-    pub(super) fn parse_primary_expr(&mut self) -> PResult<Expr> {
+    pub(super) fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_primary_expr);
 
         let _ = self.input.cur();
@@ -494,7 +494,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
-    fn parse_array_lit(&mut self) -> PResult<Expr> {
+    fn parse_array_lit(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_array_lit);
 
         let start = cur_pos!(self);
@@ -530,13 +530,13 @@ impl<I: Tokens> Parser<I> {
     }
 
     #[allow(dead_code)]
-    fn parse_member_expr(&mut self) -> PResult<Expr> {
+    fn parse_member_expr(&mut self) -> PResult<Box<Expr>> {
         self.parse_member_expr_or_new_expr(false)
     }
 
     /// `is_new_expr`: true iff we are parsing production 'NewExpression'.
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
-    fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Expr> {
+    fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
         let ctx = Context {
             should_not_lex_lt_or_gt_as_type: true,
             ..self.ctx()
@@ -545,7 +545,7 @@ impl<I: Tokens> Parser<I> {
             .parse_member_expr_or_new_expr_inner(is_new_expr)
     }
 
-    fn parse_member_expr_or_new_expr_inner(&mut self, is_new_expr: bool) -> PResult<Expr> {
+    fn parse_member_expr_or_new_expr_inner(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_member_expr_or_new_expr);
 
         let start = cur_pos!(self);
@@ -687,7 +687,7 @@ impl<I: Tokens> Parser<I> {
     /// Parse `NewExpression`.
     /// This includes `MemberExpression`.
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
-    pub(super) fn parse_new_expr(&mut self) -> PResult<Expr> {
+    pub(super) fn parse_new_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_new_expr);
 
         self.parse_member_expr_or_new_expr(true)
@@ -772,7 +772,7 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         can_be_arrow: bool,
         async_span: Option<Span>,
-    ) -> PResult<Expr> {
+    ) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_paren_expr_or_arrow_fn);
 
         let expr_start = async_span.map(|x| x.lo()).unwrap_or_else(|| cur_pos!(self));
@@ -1004,7 +1004,10 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    fn parse_tpl_elements(&mut self, is_tagged_tpl: bool) -> PResult<(Vec<Expr>, Vec<TplElement>)> {
+    fn parse_tpl_elements(
+        &mut self,
+        is_tagged_tpl: bool,
+    ) -> PResult<(Vec<Box<Expr>>, Vec<TplElement>)> {
         trace_cur!(self, parse_tpl_elements);
 
         let mut exprs = vec![];
@@ -1027,7 +1030,7 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_tagged_tpl(
         &mut self,
-        tag: Expr,
+        tag: Box<Expr>,
         type_params: Option<Box<TsTypeParamInstantiation>>,
     ) -> PResult<TaggedTpl> {
         let tagged_tpl_start = tag.span_lo();
@@ -1106,7 +1109,7 @@ impl<I: Tokens> Parser<I> {
         mut obj: Callee,
         no_call: bool,
         no_computed_member: bool,
-    ) -> PResult<Expr> {
+    ) -> PResult<Box<Expr>> {
         let start = obj.span().lo;
         loop {
             obj = match self.parse_subscript(start, obj, no_call, no_computed_member)? {
@@ -1572,7 +1575,7 @@ impl<I: Tokens> Parser<I> {
 
     /// Parse call, dot, and `[]`-subscript expressions.
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
-    pub(super) fn parse_lhs_expr(&mut self) -> PResult<Expr> {
+    pub(super) fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_lhs_expr);
 
         let start = cur_pos!(self);
@@ -1701,7 +1704,7 @@ impl<I: Tokens> Parser<I> {
         Ok(callee)
     }
 
-    pub(super) fn parse_for_head_prefix(&mut self) -> PResult<Expr> {
+    pub(super) fn parse_for_head_prefix(&mut self) -> PResult<Box<Expr>> {
         self.parse_expr()
     }
 
@@ -1980,7 +1983,7 @@ pub(in crate::parser) enum AssignTargetOrSpread {
 /// simple leaf methods.
 
 impl<I: Tokens> Parser<I> {
-    fn parse_yield_expr(&mut self) -> PResult<Expr> {
+    fn parse_yield_expr(&mut self) -> PResult<Box<Expr>> {
         let start = cur_pos!(self);
 
         assert_and_bump!(self, "yield");
@@ -2089,7 +2092,7 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         start: BytePos,
         no_call: bool,
-    ) -> PResult<Expr> {
+    ) -> PResult<Box<Expr>> {
         if eat!(self, '.') {
             self.state.found_module_item = true;
 
@@ -2123,7 +2126,7 @@ impl<I: Tokens> Parser<I> {
         start: BytePos,
         no_call: bool,
         phase: ImportPhase,
-    ) -> PResult<Expr> {
+    ) -> PResult<Box<Expr>> {
         let import = Callee::Import(Import {
             span: span!(self, start),
             phase,

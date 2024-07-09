@@ -1406,16 +1406,16 @@ impl<'a, I: Tokens> Parser<I> {
 enum TempForHead {
     For {
         init: Option<VarDeclOrExpr>,
-        test: Option<Expr>,
-        update: Option<Expr>,
+        test: Option<Box<Expr>>,
+        update: Option<Box<Expr>>,
     },
     ForIn {
         left: ForHead,
-        right: Expr,
+        right: Box<Expr>,
     },
     ForOf {
         left: ForHead,
-        right: Expr,
+        right: Box<Expr>,
     },
 }
 

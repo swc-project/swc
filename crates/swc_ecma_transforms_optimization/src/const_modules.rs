@@ -43,8 +43,8 @@ pub fn const_modules(
     })
 }
 
-fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Expr> {
-    static CACHE: Lazy<DashMap<String, Arc<Expr>, ARandomState>> = Lazy::new(DashMap::default);
+fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Box<Expr>> {
+    static CACHE: Lazy<DashMap<String, Arc<Box<Expr>>, ARandomState>> = Lazy::new(DashMap::default);
 
     let fm = cm.new_source_file(
         FileName::Internal(format!("<const-module-{}.js>", name)).into(),
@@ -82,14 +82,14 @@ fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Expr> {
 }
 
 struct ConstModules {
-    globals: HashMap<JsWord, HashMap<JsWord, Arc<Expr>>>,
+    globals: HashMap<JsWord, HashMap<JsWord, Arc<Box<Expr>>>>,
     scope: Scope,
 }
 
 #[derive(Default)]
 struct Scope {
     namespace: HashSet<Id>,
-    imported: HashMap<JsWord, Arc<Expr>>,
+    imported: HashMap<JsWord, Arc<Box<Expr>>>,
 }
 
 impl VisitMut for ConstModules {

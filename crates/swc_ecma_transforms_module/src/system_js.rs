@@ -31,7 +31,7 @@ struct SystemJs {
     declare_var_idents: Vec<Ident>,
     export_map: AHashMap<Id, Vec<JsWord>>,
     export_names: Vec<JsWord>,
-    export_values: Vec<Expr>,
+    export_values: Vec<Box<Expr>>,
     tla: bool,
     enter_async_fn: u32,
     root_fn_decl_idents: Vec<Ident>,
@@ -87,7 +87,7 @@ pub fn system_js_with_resolver(
 
 struct ModuleItemMeta {
     export_names: Vec<JsWord>,
-    export_values: Vec<Expr>,
+    export_values: Vec<Box<Expr>>,
     has_export_all: bool,
     src: JsWord,
     setter_fn_stmts: Vec<Stmt>,
@@ -226,7 +226,7 @@ impl SystemJs {
     fn build_export_call(
         &mut self,
         export_names: &mut Vec<JsWord>,
-        export_values: &mut Vec<Expr>,
+        export_values: &mut Vec<Box<Expr>>,
     ) -> Vec<Stmt> {
         match export_names.len() {
             0 => vec![],
@@ -385,7 +385,7 @@ impl SystemJs {
     }
 
     #[allow(clippy::boxed_local)]
-    fn hoist_var_decl(&mut self, var_decl: Box<VarDecl>) -> Option<Expr> {
+    fn hoist_var_decl(&mut self, var_decl: Box<VarDecl>) -> Option<Box<Expr>> {
         let mut exprs = vec![];
         for var_declarator in var_decl.decls {
             let mut tos: Vec<Id> = vec![];

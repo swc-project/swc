@@ -112,7 +112,7 @@ impl Optimizer<'_> {
     ///
     /// - `1 == 1` => `true`
     /// - `1 == 2` => `false`
-    pub(super) fn optimize_lit_cmp(&mut self, n: &mut BinExpr) -> Option<Expr> {
+    pub(super) fn optimize_lit_cmp(&mut self, n: &mut BinExpr) -> Option<Box<Expr>> {
         if n.op != op!("==") && n.op != op!("!=") {
             return None;
         }

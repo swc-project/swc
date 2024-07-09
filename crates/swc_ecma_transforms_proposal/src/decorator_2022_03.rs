@@ -26,7 +26,7 @@ struct Decorator2022_03 {
     state: ClassState,
 
     /// Prepended before the class
-    pre_class_inits: Vec<Expr>,
+    pre_class_inits: Vec<Box<Expr>>,
 
     rename_map: FxHashMap<Id, Id>,
 

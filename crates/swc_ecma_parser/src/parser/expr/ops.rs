@@ -5,7 +5,7 @@ use super::*;
 
 impl<I: Tokens> Parser<I> {
     /// Name from spec: 'LogicalORExpression'
-    pub(super) fn parse_bin_expr(&mut self) -> PResult<Expr> {
+    pub(super) fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_bin_expr);
 
         let ctx = self.ctx();
@@ -44,9 +44,9 @@ impl<I: Tokens> Parser<I> {
     /// `parseExprOp`
     pub(in crate::parser) fn parse_bin_op_recursively(
         &mut self,
-        mut left: Expr,
+        mut left: Box<Expr>,
         mut min_prec: u8,
-    ) -> PResult<Expr> {
+    ) -> PResult<Box<Expr>> {
         loop {
             let (next_left, next_prec) = self.parse_bin_op_recursively_inner(left, min_prec)?;
 
@@ -82,7 +82,7 @@ impl<I: Tokens> Parser<I> {
     /// Returns `(left, Some(next_prec))` or `(expr, None)`.
     fn parse_bin_op_recursively_inner(
         &mut self,
-        left: Expr,
+        left: Box<Expr>,
         min_prec: u8,
     ) -> PResult<(Expr, Option<u8>)> {
         const PREC_OF_IN: u8 = 7;
@@ -244,7 +244,7 @@ impl<I: Tokens> Parser<I> {
     /// Parse unary expression and update expression.
     ///
     /// spec: 'UnaryExpression'
-    pub(in crate::parser) fn parse_unary_expr(&mut self) -> PResult<Expr> {
+    pub(in crate::parser) fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_unary_expr);
         let start = cur_pos!(self);
 
@@ -369,7 +369,7 @@ impl<I: Tokens> Parser<I> {
     pub(crate) fn parse_await_expr(
         &mut self,
         start_of_await_token: Option<BytePos>,
-    ) -> PResult<Expr> {
+    ) -> PResult<Box<Expr>> {
         let start = start_of_await_token.unwrap_or_else(|| cur_pos!(self));
 
         if start_of_await_token.is_none() {

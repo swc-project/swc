@@ -115,7 +115,7 @@ pub fn parse_expr_for_jsx(
     name: &str,
     src: String,
     top_level_mark: Mark,
-) -> Arc<Expr> {
+) -> Arc<Box<Expr>> {
     let fm = cm.new_source_file(
         FileName::Internal(format!("jsx-config-{}.js", name)).into(),
         src,
@@ -250,9 +250,9 @@ where
     import_fragment: Option<Ident>,
     top_level_node: bool,
 
-    pragma: Arc<Expr>,
+    pragma: Arc<Box<Expr>>,
     comments: Option<C>,
-    pragma_frag: Arc<Expr>,
+    pragma_frag: Arc<Box<Expr>>,
     development: bool,
     throw_if_namespace: bool,
 }
@@ -265,10 +265,10 @@ pub struct JsxDirectives {
     pub import_source: Option<JsWord>,
 
     /// Parsed from `@jsx`
-    pub pragma: Option<Arc<Expr>>,
+    pub pragma: Option<Arc<Box<Expr>>>,
 
     /// Parsed from `@jsxFrag`
-    pub pragma_frag: Option<Arc<Expr>>,
+    pub pragma_frag: Option<Arc<Box<Expr>>>,
 }
 
 fn respan(e: &mut Expr, span: Span) {
@@ -1326,7 +1326,7 @@ fn jsx_text_to_str(t: Atom) -> JsWord {
     buf.into()
 }
 
-fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Expr> {
+fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
     Some(match v {
         JSXAttrValue::Lit(Lit::Str(s)) => {
             let value = transform_jsx_attr_str(&s.value);

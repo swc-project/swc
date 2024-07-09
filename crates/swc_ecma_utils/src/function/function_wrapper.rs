@@ -7,7 +7,7 @@ use crate::ExprFactory;
 
 pub struct FunctionWrapper<T> {
     pub binding_ident: Option<Ident>,
-    pub function: Expr,
+    pub function: Box<Expr>,
 
     pub ignore_function_name: bool,
     pub ignore_function_length: bool,
@@ -258,7 +258,7 @@ impl<T> FunctionWrapper<T> {
     }
 }
 
-impl From<FnExpr> for FunctionWrapper<Expr> {
+impl From<FnExpr> for FunctionWrapper<Box<Expr>> {
     fn from(mut fn_expr: FnExpr) -> Self {
         let function_ident = fn_expr.ident.take();
         let params = Self::get_params(fn_expr.function.params.iter());
@@ -274,7 +274,7 @@ impl From<FnExpr> for FunctionWrapper<Expr> {
     }
 }
 
-impl From<ArrowExpr> for FunctionWrapper<Expr> {
+impl From<ArrowExpr> for FunctionWrapper<Box<Expr>> {
     fn from(
         ArrowExpr {
             span,
@@ -325,7 +325,7 @@ impl From<ArrowExpr> for FunctionWrapper<Expr> {
 }
 
 #[allow(clippy::from_over_into)]
-impl Into<Expr> for FunctionWrapper<Expr> {
+impl Into<Box<Expr>> for FunctionWrapper<Box<Expr>> {
     /// If a function has a function name, it may be called recursively.
     /// We use the named expression to hoist the function name internally
     /// Therefore, its recursive calls refer to the correct identity.
@@ -410,8 +410,8 @@ impl From<FunctionWrapper<FnDecl>> for FnWrapperResult<FnDecl, FnDecl> {
     }
 }
 
-impl From<FunctionWrapper<Expr>> for FnWrapperResult<FnExpr, FnDecl> {
-    fn from(mut value: FunctionWrapper<Expr>) -> Self {
+impl From<FunctionWrapper<Box<Expr>>> for FnWrapperResult<FnExpr, FnDecl> {
+    fn from(mut value: FunctionWrapper<Box<Expr>>) -> Self {
         let name_ident = value
             .function_ident
             .clone()

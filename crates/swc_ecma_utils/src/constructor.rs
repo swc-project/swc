@@ -6,7 +6,7 @@ use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitM
 
 use crate::{prepend_stmts, ExprFactory};
 
-pub fn inject_after_super(c: &mut Constructor, mut exprs: Vec<Expr>) {
+pub fn inject_after_super(c: &mut Constructor, mut exprs: Vec<Box<Expr>>) {
     // Allow using super multiple time
     let mut folder = Injector {
         exprs: &mut exprs,
@@ -30,7 +30,7 @@ pub fn inject_after_super(c: &mut Constructor, mut exprs: Vec<Expr>) {
 
 struct Injector<'a> {
     injected: bool,
-    exprs: &'a mut Vec<Expr>,
+    exprs: &'a mut Vec<Box<Expr>>,
 }
 
 impl<'a> Fold for Injector<'a> {
@@ -111,7 +111,7 @@ impl<'a> Fold for Injector<'a> {
 /// Handles code like `foo(super())`
 struct ExprInjector<'a> {
     injected: bool,
-    exprs: &'a mut Vec<Expr>,
+    exprs: &'a mut Vec<Box<Expr>>,
     injected_tmp: Option<Ident>,
 }
 

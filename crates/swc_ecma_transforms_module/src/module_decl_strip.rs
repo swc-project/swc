@@ -28,7 +28,7 @@ pub struct ModuleDeclStrip {
     pub export: Export,
 
     /// `export = ` detected
-    pub export_assign: Option<Expr>,
+    pub export_assign: Option<Box<Expr>>,
 
     pub has_module_decl: bool,
 

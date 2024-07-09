@@ -140,7 +140,7 @@ pub(crate) trait ExprOptExt: Sized {
         }
     }
 
-    fn prepend_exprs(&mut self, mut exprs: Vec<Expr>) {
+    fn prepend_exprs(&mut self, mut exprs: Vec<Box<Expr>>) {
         if exprs.is_empty() {
             return;
         }

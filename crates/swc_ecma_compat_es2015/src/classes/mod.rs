@@ -106,9 +106,9 @@ pub struct Config {
 
 struct Data {
     key_prop: Box<PropName>,
-    method: Option<Expr>,
-    set: Option<Expr>,
-    get: Option<Expr>,
+    method: Option<Box<Expr>>,
+    set: Option<Box<Expr>>,
+    get: Option<Box<Expr>>,
 }
 
 #[swc_trace]

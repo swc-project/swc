@@ -29,7 +29,7 @@ struct TemplateLiteralCaching {
 }
 
 impl TemplateLiteralCaching {
-    fn create_binding(&mut self, name: Ident, init: Option<Expr>) {
+    fn create_binding(&mut self, name: Ident, init: Option<Box<Expr>>) {
         let init = init.map(Box::new);
         self.decls.push(VarDeclarator {
             span: DUMMY_SP,

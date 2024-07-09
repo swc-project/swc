@@ -674,7 +674,7 @@ impl Optimizer<'_> {
     /// Returns [None] if expression is side-effect-free.
     /// If an expression has a side effect, only side effects are returned.
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    fn ignore_return_value(&mut self, e: &mut Expr) -> Option<Expr> {
+    fn ignore_return_value(&mut self, e: &mut Expr) -> Option<Box<Expr>> {
         self.optimize_bang_within_logical_ops(e, true);
 
         self.compress_cond_to_logical_ignoring_return_value(e);
@@ -721,11 +721,12 @@ impl Optimizer<'_> {
                     return Some(cls.take().into());
                 }
 
-                let exprs: Vec<Expr> = extract_class_side_effect(&self.expr_ctx, *cls.class.take())
-                    .into_iter()
-                    .filter_map(|mut e| self.ignore_return_value(&mut e))
-                    .map(Box::new)
-                    .collect();
+                let exprs: Vec<Box<Expr>> =
+                    extract_class_side_effect(&self.expr_ctx, *cls.class.take())
+                        .into_iter()
+                        .filter_map(|mut e| self.ignore_return_value(&mut e))
+                        .map(Box::new)
+                        .collect();
 
                 if exprs.is_empty() {
                     return None;

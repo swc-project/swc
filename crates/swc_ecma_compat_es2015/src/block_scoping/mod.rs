@@ -143,7 +143,7 @@ impl BlockScoping {
             let mut env_hoister =
                 FnEnvHoister::new(SyntaxContext::empty().apply_mark(self.unresolved_mark));
             body_stmt.visit_mut_with(&mut env_hoister);
-            let mut inits: Vec<Expr> = vec![];
+            let mut inits: Vec<Box<Expr>> = vec![];
 
             for mut var in env_hoister.to_decl() {
                 if let Some(init) = var.init.take() {
@@ -871,7 +871,7 @@ struct MutationHandler<'a> {
 }
 
 impl MutationHandler<'_> {
-    fn make_reassignment(&self, orig: Option<Expr>) -> Expr {
+    fn make_reassignment(&self, orig: Option<Box<Expr>>) -> Expr {
         if self.map.is_empty() {
             return *orig.unwrap_or_else(|| DUMMY_SP.into());
         }

@@ -263,7 +263,7 @@ pub struct CompressOptions {
 
     #[cfg_attr(feature = "extra-serde", serde(default))]
     #[cfg_attr(feature = "extra-serde", serde(alias = "pure_funcs"))]
-    pub pure_funcs: Vec<Expr>,
+    pub pure_funcs: Vec<Box<Expr>>,
 
     #[cfg_attr(feature = "extra-serde", serde(default = "true_by_default"))]
     #[cfg_attr(feature = "extra-serde", serde(alias = "reduce_funcs"))]

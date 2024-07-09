@@ -359,7 +359,7 @@ impl Optimizer<'_> {
         cons: &mut Expr,
         alt: &mut Expr,
         is_for_if_stmt: bool,
-    ) -> Option<Expr> {
+    ) -> Option<Box<Expr>> {
         debug_assert_valid(cons);
         debug_assert_valid(alt);
 

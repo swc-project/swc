@@ -184,7 +184,7 @@ impl Evaluator {
         Some(EvalResult::Lit(self.eval_as_expr(e)?.lit()?))
     }
 
-    fn eval_as_expr(&mut self, e: &Expr) -> Option<Expr> {
+    fn eval_as_expr(&mut self, e: &Expr) -> Option<Box<Expr>> {
         match e {
             Expr::Ident(i) => {
                 self.run();

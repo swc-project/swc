@@ -5,14 +5,14 @@ use crate::lexer::TokenContext;
 
 /// Parser for function expression and function declaration.
 impl<I: Tokens> Parser<I> {
-    pub(super) fn parse_async_fn_expr(&mut self) -> PResult<Expr> {
+    pub(super) fn parse_async_fn_expr(&mut self) -> PResult<Box<Expr>> {
         let start = cur_pos!(self);
         expect!(self, "async");
         self.parse_fn(None, Some(start), vec![])
     }
 
     /// Parse function expression
-    pub(super) fn parse_fn_expr(&mut self) -> PResult<Expr> {
+    pub(super) fn parse_fn_expr(&mut self) -> PResult<Box<Expr>> {
         self.parse_fn(None, None, vec![])
     }
 
@@ -58,7 +58,7 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         start: BytePos,
         decorators: Vec<Decorator>,
-    ) -> PResult<Expr> {
+    ) -> PResult<Box<Expr>> {
         self.parse_class(start, start, decorators, false)
     }
 
@@ -308,7 +308,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    fn parse_maybe_decorator_args(&mut self, expr: Expr) -> PResult<Expr> {
+    fn parse_maybe_decorator_args(&mut self, expr: Expr) -> PResult<Box<Expr>> {
         let type_args = if self.input.syntax().typescript() && is!(self, '<') {
             Some(self.parse_ts_type_args()?)
         } else {

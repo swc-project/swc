@@ -656,7 +656,7 @@ fn cjs_import_meta_url(span: Span, require: Ident, unresolved_mark: Mark) -> Exp
 ///   return data;
 /// }
 /// ```
-pub fn lazy_require(expr: Expr, mod_ident: Ident, var_kind: VarDeclKind) -> FnDecl {
+pub fn lazy_require(expr: Box<Expr>, mod_ident: Ident, var_kind: VarDeclKind) -> FnDecl {
     let data = private_ident!("data");
     let data_decl = expr.into_var_decl(var_kind, data.clone().into());
     let data_stmt = data_decl.into();

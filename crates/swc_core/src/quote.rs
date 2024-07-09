@@ -8,7 +8,7 @@
 ///  - Option<T> where T is supported type
 ///  - Box<T> where T is supported type
 ///
-/// For example, `Expr` and `Option<Expr>` are supported.
+/// For example, `Expr` and `Option<Box<Expr>>` are supported.
 ///
 /// # Variable substitution
 ///

@@ -835,7 +835,7 @@ impl Babelify for TsExprWithTypeArgs {
     type Output = TSExpressionWithTypeArguments;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        fn babelify_expr(expr: Expr, ctx: &Context) -> TSEntityName {
+        fn babelify_expr(expr: Box<Expr>, ctx: &Context) -> TSEntityName {
             match expr {
                 Expr::Ident(id) => TSEntityName::Id(id.babelify(ctx)),
                 Expr::Member(e) => TSEntityName::Qualified(TSQualifiedName {

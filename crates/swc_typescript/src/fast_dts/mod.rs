@@ -239,7 +239,7 @@ impl FastDts {
 
     fn expr_to_ts_type(
         &mut self,
-        e: Expr,
+        e: Box<Expr>,
         as_const: bool,
         as_readonly: bool,
     ) -> Option<Box<TsType>> {
@@ -713,7 +713,7 @@ impl FastDts {
 
     fn infer_expr_fallback_any(
         &mut self,
-        expr: Expr,
+        expr: Box<Expr>,
         as_const: bool,
         as_readonly: bool,
     ) -> Option<Box<TsTypeAnn>> {

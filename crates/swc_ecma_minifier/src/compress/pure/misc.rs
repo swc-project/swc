@@ -339,7 +339,11 @@ impl Pure<'_> {
     }
 
     /// `new RegExp("([Sap]+)", "ig")` => `/([Sap]+)/gi`
-    fn optimize_regex(&mut self, args: &mut Vec<ExprOrSpread>, span: &mut Span) -> Option<Expr> {
+    fn optimize_regex(
+        &mut self,
+        args: &mut Vec<ExprOrSpread>,
+        span: &mut Span,
+    ) -> Option<Box<Expr>> {
         fn valid_pattern(pattern: &Expr) -> Option<JsWord> {
             if let Expr::Lit(Lit::Str(s)) = pattern {
                 if s.value.contains(|c: char| {
@@ -419,7 +423,11 @@ impl Pure<'_> {
     }
 
     /// Array() -> []
-    fn optimize_array(&mut self, args: &mut Vec<ExprOrSpread>, span: &mut Span) -> Option<Expr> {
+    fn optimize_array(
+        &mut self,
+        args: &mut Vec<ExprOrSpread>,
+        span: &mut Span,
+    ) -> Option<Box<Expr>> {
         if args.len() == 1 {
             if let ExprOrSpread { spread: None, expr } = &args[0] {
                 match &**expr {
@@ -460,7 +468,11 @@ impl Pure<'_> {
     }
 
     /// Object -> {}
-    fn optimize_object(&mut self, args: &mut Vec<ExprOrSpread>, span: &mut Span) -> Option<Expr> {
+    fn optimize_object(
+        &mut self,
+        args: &mut Vec<ExprOrSpread>,
+        span: &mut Span,
+    ) -> Option<Box<Expr>> {
         if args.is_empty() {
             Some(
                 ObjectLit {
@@ -737,7 +749,7 @@ impl Pure<'_> {
         span: Span,
         elems: &mut Vec<Option<ExprOrSpread>>,
         sep: &str,
-    ) -> Option<Expr> {
+    ) -> Option<Box<Expr>> {
         if !self.options.evaluate {
             return None;
         }
@@ -870,7 +882,7 @@ impl Pure<'_> {
         }
     }
 
-    fn make_ignored_expr(&mut self, exprs: impl Iterator<Item = Expr>) -> Option<Expr> {
+    fn make_ignored_expr(&mut self, exprs: impl Iterator<Item = Expr>) -> Option<Box<Expr>> {
         let mut exprs = exprs
             .filter_map(|mut e| {
                 self.ignore_return_value(

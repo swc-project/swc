@@ -2204,7 +2204,12 @@ pub fn is_rest_arguments(e: &ExprOrSpread) -> bool {
     e.expr.is_ident_ref_to("arguments")
 }
 
-pub fn opt_chain_test(left: Expr, right: Expr, span: Span, no_document_all: bool) -> Expr {
+pub fn opt_chain_test(
+    left: Box<Expr>,
+    right: Box<Expr>,
+    span: Span,
+    no_document_all: bool,
+) -> Expr {
     if no_document_all {
         BinExpr {
             span,
@@ -2456,7 +2461,7 @@ impl<'a> IdentUsageFinder<'a> {
 impl ExprCtx {
     /// make a new expression which evaluates `val` preserving side effects, if
     /// any.
-    pub fn preserve_effects<I>(&self, span: Span, val: Expr, exprs: I) -> Expr
+    pub fn preserve_effects<I>(&self, span: Span, val: Box<Expr>, exprs: I) -> Expr
     where
         I: IntoIterator<Item = Expr>,
     {
@@ -2479,7 +2484,7 @@ impl ExprCtx {
     /// This function preserves order and conditions. (think a() ? yield b() :
     /// c())
     #[allow(clippy::vec_box)]
-    pub fn extract_side_effects_to(&self, to: &mut Vec<Expr>, expr: Expr) {
+    pub fn extract_side_effects_to(&self, to: &mut Vec<Box<Expr>>, expr: Expr) {
         match expr {
             Expr::Lit(..)
             | Expr::This(..)
@@ -3085,10 +3090,10 @@ impl VisitMut for IdentRenamer<'_> {
 }
 
 pub trait QueryRef {
-    fn query_ref(&self, _ident: &Ident) -> Option<Expr> {
+    fn query_ref(&self, _ident: &Ident) -> Option<Box<Expr>> {
         None
     }
-    fn query_lhs(&self, _ident: &Ident) -> Option<Expr> {
+    fn query_lhs(&self, _ident: &Ident) -> Option<Box<Expr>> {
         None
     }
 

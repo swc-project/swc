@@ -17,13 +17,13 @@ pub(super) enum MemberInit {
 pub(super) struct PubProp {
     pub span: Span,
     pub name: PropName,
-    pub value: Expr,
+    pub value: Box<Expr>,
 }
 
 pub(super) struct PrivProp {
     pub span: Span,
     pub name: Ident,
-    pub value: Expr,
+    pub value: Box<Expr>,
 }
 
 pub(super) struct PrivMethod {
@@ -73,7 +73,7 @@ impl MemberInitRecord {
         }
     }
 
-    pub fn into_init(self) -> Vec<Expr> {
+    pub fn into_init(self) -> Vec<Box<Expr>> {
         let mut normal_init = vec![];
         let mut value_init = vec![];
         for init in self.record {

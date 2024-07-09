@@ -79,7 +79,7 @@ pub enum JSXExpr {
 pub struct JSXSpreadChild {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
-    pub expr: Expr,
+    pub expr: Box<Expr>,
 }
 
 #[ast_node]

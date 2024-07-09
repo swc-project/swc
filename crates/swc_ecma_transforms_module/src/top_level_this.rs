@@ -3,7 +3,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub struct TopLevelThis {
     found: bool,
-    this: Expr,
+    this: Box<Expr>,
 }
 
 pub(crate) fn top_level_this<V>(node: &mut V, replace_with: Expr) -> bool

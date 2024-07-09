@@ -349,7 +349,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
         super_token: Span,
         prop: SuperProp,
         op: AssignOp,
-        rhs: Expr,
+        rhs: Box<Expr>,
     ) -> Expr {
         debug_assert_eq!(op, op!("="));
 
