@@ -462,6 +462,11 @@ impl<I: Tokens> Parser<I> {
                     }
                     .into());
                     }));
+                    return Ok(Expr::TsAs(Box::new(TsAsExpr {
+                        span: span!(self, start),
+                        expr: Expr::Ident(id),
+                        type_ann,
+                    })));
                 }
 
                 // async a => body
@@ -473,6 +478,7 @@ impl<I: Tokens> Parser<I> {
 
                 return Ok(ArrowExpr {
                 return Ok(Expr::Arrow(ArrowExpr {
+                return Ok(Expr::Arrow(Box::new(ArrowExpr {
                     span: span!(self, start),
                     body,
                     params,
@@ -483,6 +489,7 @@ impl<I: Tokens> Parser<I> {
                 .into());
                 })));
                 }));
+                })));
             } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!(self, "=>") {
                 if self.ctx().strict && id.is_reserved_in_strict_bind() {
                     self.emit_strict_mode_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
@@ -493,6 +500,7 @@ impl<I: Tokens> Parser<I> {
 
                 return Ok(ArrowExpr {
                 return Ok(Expr::Arrow(ArrowExpr {
+                return Ok(Expr::Arrow(Box::new(ArrowExpr {
                     span: span!(self, start),
                     body,
                     params,
@@ -504,6 +512,7 @@ impl<I: Tokens> Parser<I> {
             } else {
                 return Ok(id.into());
                 }));
+                })));
             } else {
                 return Ok(Expr::Ident(id));
             }
@@ -560,6 +569,7 @@ impl<I: Tokens> Parser<I> {
 
         let span = span!(self, start);
         Ok(ArrayLit { span, elems }.into())
+        Ok(Expr::Array(Box::new(ArrayLit { span, elems })))
     }
 
     #[allow(dead_code)]
@@ -591,6 +601,10 @@ impl<I: Tokens> Parser<I> {
                         kind: MetaPropKind::NewTarget,
                     }
                     .into();
+                    let expr = Expr::MetaProp(MetaPropExpr {
+                        span,
+                        kind: MetaPropKind::NewTarget,
+                    });
 
                     let ctx = self.ctx();
                     if (!ctx.inside_non_arrow_function_scope) && !ctx.in_parameters && !ctx.in_class
@@ -609,7 +623,7 @@ impl<I: Tokens> Parser<I> {
             return_if_arrow!(self, callee);
 
             if is_new_expr {
-                match *callee {
+                match callee {
                     Expr::OptChain(OptChainExpr {
                         span,
                         optional: true,
@@ -617,16 +631,16 @@ impl<I: Tokens> Parser<I> {
                     }) => {
                         syntax_error!(self, span, SyntaxError::OptChainCannotFollowConstructorCall)
                     }
-                    Expr::Member(MemberExpr { ref obj, .. }) => {
+                    Expr::Member(box MemberExpr { ref obj, .. }) => {
                         if let Expr::OptChain(OptChainExpr {
                             span,
                             optional: true,
                             ..
-                        }) = **obj
+                        }) = obj
                         {
                             syntax_error!(
                                 self,
-                                span,
+                                *span,
                                 SyntaxError::OptChainCannotFollowConstructorCall
                             )
                         }
@@ -667,6 +681,14 @@ impl<I: Tokens> Parser<I> {
                     }
                     .into(),
                 );
+                let new_expr = Callee::Expr(Box::new(Expr::New(NewExpr {
+                let new_expr = Callee::Expr(Expr::New(Box::new(NewExpr {
+                    span: span!(self, start),
+                    callee,
+                    args,
+                    type_args,
+                    ..Default::default()
+                })));
 
                 // We should parse subscripts for MemberExpression.
                 // Because it's left recursive.
@@ -676,6 +698,7 @@ impl<I: Tokens> Parser<I> {
             // Parsed with 'NewExpression' production.
 
             return Ok(NewExpr {
+            return Ok(Expr::New(Box::new(NewExpr {
                 span: span!(self, start),
                 callee,
                 args: None,
