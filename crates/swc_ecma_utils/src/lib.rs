@@ -410,6 +410,7 @@ pub trait StmtExt {
                 .map(|i| VarDeclarator {
                     span: i.span,
                     name: i.into(),
+                    name: i.into().into(),
                     init: None,
                     definite: false,
                 })
@@ -3046,6 +3047,14 @@ impl VisitMut for IdentRenamer<'_> {
                                 right: default,
                             }
                             .into(),
+                            value: Box::new(
+                                AssignPat {
+                                    span: DUMMY_SP,
+                                    left: p.key.clone().into(),
+                                    right: default,
+                                }
+                                .into(),
+                            ),
                         });
                     }
                     None => {

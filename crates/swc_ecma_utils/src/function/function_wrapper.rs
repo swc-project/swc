@@ -34,6 +34,7 @@ impl<T> FunctionWrapper<T> {
                     span: param.span,
                     decorators: param.decorators.clone(),
                     pat: private_ident!("_").into(),
+                    pat: private_ident!("_").into().into(),
                 }),
                 _ => None,
             })

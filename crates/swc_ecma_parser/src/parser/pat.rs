@@ -958,6 +958,7 @@ mod tests {
                 dot3_token: span,
                 type_ann: None,
                 arg: ident("tail").into(),
+                arg: Box::new(Pat::Ident(ident("tail").into())),
             }
             .into(),
         )

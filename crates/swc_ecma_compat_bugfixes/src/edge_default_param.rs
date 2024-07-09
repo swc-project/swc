@@ -50,6 +50,14 @@ impl VisitMut for EdgeDefaultParam {
                         right: value.clone(),
                     }
                     .into(),
+                    value: Box::new(
+                        AssignPat {
+                            span: *span,
+                            left: key.clone().into(),
+                            right: value.clone(),
+                        }
+                        .into(),
+                    ),
                 });
 
                 n.props[idx] = prop;

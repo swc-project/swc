@@ -122,6 +122,7 @@ impl TscDecorator {
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
                     name: var_name.clone().into(),
+                    name: var_name.clone().into().into(),
                     init: None,
                     definite: Default::default(),
                 });
@@ -306,6 +307,7 @@ impl VisitMut for TscDecorator {
             self.vars.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: var_name.clone().into(),
+                name: var_name.clone().into().into(),
                 init: None,
                 definite: Default::default(),
             });

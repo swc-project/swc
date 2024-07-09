@@ -904,6 +904,7 @@ impl Optimizer<'_> {
             vars.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: param.clone().into(),
+                name: param.clone().into().into(),
                 init: if self.ctx.executed_multiple_time && no_arg {
                     Some(DUMMY_SP.into())
                 } else {
