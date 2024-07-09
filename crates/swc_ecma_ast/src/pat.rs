@@ -14,7 +14,7 @@ use crate::{
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Pat {
     #[tag("Identifier")]
-    Ident(Box<BindingIdent>),
+    Ident(BindingIdent),
 
     #[tag("ArrayPattern")]
     Array(Box<ArrayPat>),
