@@ -545,7 +545,7 @@ define!({
         pub ctxt: SyntaxContext,
         pub decorators: Vec<Decorator>,
         pub body: Vec<ClassMember>,
-        pub super_class: Option<Box<Expr>>,
+        pub super_class: Option<Expr>,
         pub is_abstract: bool,
         pub type_params: Option<Box<TsTypeParamDecl>>,
         pub super_type_params: Option<Box<TsTypeParamInstantiation>>,
@@ -567,7 +567,7 @@ define!({
     pub struct ClassProp {
         pub span: Span,
         pub key: PropName,
-        pub value: Option<Box<Expr>>,
+        pub value: Option<Expr>,
         pub type_ann: Option<Box<TsTypeAnn>>,
         pub is_static: bool,
         pub decorators: Vec<Decorator>,
@@ -583,7 +583,7 @@ define!({
         pub span: Span,
         pub ctxt: SyntaxContext,
         pub key: PrivateName,
-        pub value: Option<Box<Expr>>,
+        pub value: Option<Expr>,
         pub type_ann: Option<Box<TsTypeAnn>>,
         pub is_static: bool,
         pub decorators: Vec<Decorator>,
@@ -626,7 +626,7 @@ define!({
     }
     pub struct Decorator {
         pub span: Span,
-        pub expr: Box<Expr>,
+        pub expr: Expr,
     }
     pub struct StaticBlock {
         pub span: Span,
@@ -672,7 +672,7 @@ define!({
     pub struct VarDeclarator {
         pub span: Span,
         pub name: Pat,
-        pub init: Option<Box<Expr>>,
+        pub init: Option<Expr>,
         pub definite: bool,
     }
     pub enum Expr {
@@ -732,24 +732,24 @@ define!({
     }
     pub struct SpreadElement {
         pub dot3_token: Span,
-        pub expr: Box<Expr>,
+        pub expr: Expr,
     }
     pub struct UnaryExpr {
         pub span: Span,
         pub op: UnaryOp,
-        pub arg: Box<Expr>,
+        pub arg: Expr,
     }
     pub struct UpdateExpr {
         pub span: Span,
         pub op: UpdateOp,
         pub prefix: bool,
-        pub arg: Box<Expr>,
+        pub arg: Expr,
     }
     pub struct BinExpr {
         pub span: Span,
         pub op: BinaryOp,
-        pub left: Box<Expr>,
-        pub right: Box<Expr>,
+        pub left: Expr,
+        pub right: Expr,
     }
     pub struct FnExpr {
         pub ident: Option<Ident>,
@@ -763,11 +763,11 @@ define!({
         pub span: Span,
         pub op: AssignOp,
         pub left: AssignTarget,
-        pub right: Box<Expr>,
+        pub right: Expr,
     }
     pub struct MemberExpr {
         pub span: Span,
-        pub obj: Box<Expr>,
+        pub obj: Expr,
         pub prop: MemberProp,
     }
     pub enum MemberProp {
@@ -786,9 +786,9 @@ define!({
     }
     pub struct CondExpr {
         pub span: Span,
-        pub test: Box<Expr>,
-        pub cons: Box<Expr>,
-        pub alt: Box<Expr>,
+        pub test: Expr,
+        pub cons: Expr,
+        pub alt: Expr,
     }
     pub struct CallExpr {
         pub span: Span,
@@ -800,13 +800,13 @@ define!({
     pub struct NewExpr {
         pub span: Span,
         pub ctxt: SyntaxContext,
-        pub callee: Box<Expr>,
+        pub callee: Expr,
         pub args: Option<Vec<ExprOrSpread>>,
         pub type_args: Option<Box<TsTypeParamInstantiation>>,
     }
     pub struct SeqExpr {
         pub span: Span,
-        pub exprs: Vec<Box<Expr>>,
+        pub exprs: Vec<Expr>,
     }
     pub struct ArrowExpr {
         pub span: Span,
@@ -820,7 +820,7 @@ define!({
     }
     pub struct YieldExpr {
         pub span: Span,
-        pub arg: Option<Box<Expr>>,
+        pub arg: Option<Expr>,
         pub delegate: bool,
     }
     pub struct MetaPropExpr {
@@ -833,17 +833,17 @@ define!({
     }
     pub struct AwaitExpr {
         pub span: Span,
-        pub arg: Box<Expr>,
+        pub arg: Expr,
     }
     pub struct Tpl {
         pub span: Span,
-        pub exprs: Vec<Box<Expr>>,
+        pub exprs: Vec<Expr>,
         pub quasis: Vec<TplElement>,
     }
     pub struct TaggedTpl {
         pub span: Span,
         pub ctxt: SyntaxContext,
-        pub tag: Box<Expr>,
+        pub tag: Expr,
         pub type_params: Option<Box<TsTypeParamInstantiation>>,
         pub tpl: Box<Tpl>,
     }
@@ -855,12 +855,12 @@ define!({
     }
     pub struct ParenExpr {
         pub span: Span,
-        pub expr: Box<Expr>,
+        pub expr: Expr,
     }
     pub enum Callee {
         Super(Super),
         Import(Import),
-        Expr(Box<Expr>),
+        Expr(Expr),
     }
     pub struct Super {
         pub span: Span,
@@ -871,11 +871,11 @@ define!({
     }
     pub struct ExprOrSpread {
         pub spread: Option<Span>,
-        pub expr: Box<Expr>,
+        pub expr: Expr,
     }
     pub enum BlockStmtOrExpr {
         BlockStmt(BlockStmt),
-        Expr(Box<Expr>),
+        Expr(Expr),
     }
 
     pub enum AssignTarget {
@@ -915,7 +915,7 @@ define!({
     pub struct OptCall {
         pub span: Span,
         pub ctxt: SyntaxContext,
-        pub callee: Box<Expr>,
+        pub callee: Expr,
         pub args: Vec<ExprOrSpread>,
         pub type_args: Option<Box<TsTypeParamInstantiation>>,
     }
@@ -985,11 +985,11 @@ define!({
     }
     pub enum JSXExpr {
         JSXEmptyExpr(JSXEmptyExpr),
-        Expr(Box<Expr>),
+        Expr(Expr),
     }
     pub struct JSXSpreadChild {
         pub span: Span,
-        pub expr: Box<Expr>,
+        pub expr: Expr,
     }
     pub enum JSXElementName {
         Ident(Ident),
@@ -1128,7 +1128,7 @@ define!({
     }
     pub struct ExportDefaultExpr {
         pub span: Span,
-        pub expr: Box<Expr>,
+        pub expr: Expr,
     }
     pub struct ExportDecl {
         pub span: Span,
@@ -1271,7 +1271,7 @@ define!({
         Object(ObjectPat),
         Assign(AssignPat),
         Invalid(Invalid),
-        Expr(Box<Expr>),
+        Expr(Expr),
     }
     pub struct ArrayPat {
         pub span: Span,
@@ -1288,7 +1288,7 @@ define!({
     pub struct AssignPat {
         pub span: Span,
         pub left: Box<Pat>,
-        pub right: Box<Expr>,
+        pub right: Expr,
     }
     pub struct RestPat {
         pub span: Span,
@@ -1308,7 +1308,7 @@ define!({
     pub struct AssignPatProp {
         pub span: Span,
         pub key: BindingIdent,
-        pub value: Option<Box<Expr>>,
+        pub value: Option<Expr>,
     }
     pub enum Prop {
         Shorthand(Ident),
@@ -1320,12 +1320,12 @@ define!({
     }
     pub struct KeyValueProp {
         pub key: PropName,
-        pub value: Box<Expr>,
+        pub value: Expr,
     }
     pub struct AssignProp {
         pub span: Span,
         pub key: Ident,
-        pub value: Box<Expr>,
+        pub value: Expr,
     }
     pub struct GetterProp {
         pub span: Span,
@@ -1353,7 +1353,7 @@ define!({
     }
     pub struct ComputedPropName {
         pub span: Span,
-        pub expr: Box<Expr>,
+        pub expr: Expr,
     }
     pub struct BlockStmt {
         pub span: Span,
@@ -1383,7 +1383,7 @@ define!({
     }
     pub struct ExprStmt {
         pub span: Span,
-        pub expr: Box<Expr>,
+        pub expr: Expr,
     }
     pub struct EmptyStmt {
         pub span: Span,
@@ -1393,12 +1393,12 @@ define!({
     }
     pub struct WithStmt {
         pub span: Span,
-        pub obj: Box<Expr>,
+        pub obj: Expr,
         pub body: Box<Stmt>,
     }
     pub struct ReturnStmt {
         pub span: Span,
-        pub arg: Option<Box<Expr>>,
+        pub arg: Option<Expr>,
     }
     pub struct LabeledStmt {
         pub span: Span,
@@ -1415,18 +1415,18 @@ define!({
     }
     pub struct IfStmt {
         pub span: Span,
-        pub test: Box<Expr>,
+        pub test: Expr,
         pub cons: Box<Stmt>,
         pub alt: Option<Box<Stmt>>,
     }
     pub struct SwitchStmt {
         pub span: Span,
-        pub discriminant: Box<Expr>,
+        pub discriminant: Expr,
         pub cases: Vec<SwitchCase>,
     }
     pub struct ThrowStmt {
         pub span: Span,
-        pub arg: Box<Expr>,
+        pub arg: Expr,
     }
     pub struct TryStmt {
         pub span: Span,
@@ -1436,37 +1436,37 @@ define!({
     }
     pub struct WhileStmt {
         pub span: Span,
-        pub test: Box<Expr>,
+        pub test: Expr,
         pub body: Box<Stmt>,
     }
     pub struct DoWhileStmt {
         pub span: Span,
-        pub test: Box<Expr>,
+        pub test: Expr,
         pub body: Box<Stmt>,
     }
     pub struct ForStmt {
         pub span: Span,
         pub init: Option<VarDeclOrExpr>,
-        pub test: Option<Box<Expr>>,
-        pub update: Option<Box<Expr>>,
+        pub test: Option<Expr>,
+        pub update: Option<Expr>,
         pub body: Box<Stmt>,
     }
     pub struct ForInStmt {
         pub span: Span,
         pub left: ForHead,
-        pub right: Box<Expr>,
+        pub right: Expr,
         pub body: Box<Stmt>,
     }
     pub struct ForOfStmt {
         pub span: Span,
         pub is_await: bool,
         pub left: ForHead,
-        pub right: Box<Expr>,
+        pub right: Expr,
         pub body: Box<Stmt>,
     }
     pub struct SwitchCase {
         pub span: Span,
-        pub test: Option<Box<Expr>>,
+        pub test: Option<Expr>,
         pub cons: Vec<Stmt>,
     }
     pub struct CatchClause {
@@ -1481,7 +1481,7 @@ define!({
     }
     pub enum VarDeclOrExpr {
         VarDecl(Box<VarDecl>),
-        Expr(Box<Expr>),
+        Expr(Expr),
     }
     pub struct TsTypeAnn {
         pub span: Span,
@@ -1549,7 +1549,7 @@ define!({
     pub struct TsPropertySignature {
         pub span: Span,
         pub readonly: bool,
-        pub key: Box<Expr>,
+        pub key: Expr,
         pub computed: bool,
         pub optional: bool,
         pub type_ann: Option<Box<TsTypeAnn>>,
@@ -1557,20 +1557,20 @@ define!({
 
     pub struct TsGetterSignature {
         pub span: Span,
-        pub key: Box<Expr>,
+        pub key: Expr,
         pub computed: bool,
         pub type_ann: Option<Box<TsTypeAnn>>,
     }
 
     pub struct TsSetterSignature {
         pub span: Span,
-        pub key: Box<Expr>,
+        pub key: Expr,
         pub computed: bool,
         pub param: TsFnParam,
     }
     pub struct TsMethodSignature {
         pub span: Span,
-        pub key: Box<Expr>,
+        pub key: Expr,
         pub computed: bool,
         pub optional: bool,
         pub params: Vec<TsFnParam>,
@@ -1795,7 +1795,7 @@ define!({
     }
     pub struct TsExprWithTypeArgs {
         pub span: Span,
-        pub expr: Box<Expr>,
+        pub expr: Expr,
         pub type_args: Option<Box<TsTypeParamInstantiation>>,
     }
     pub struct TsTypeAliasDecl {
@@ -1815,7 +1815,7 @@ define!({
     pub struct TsEnumMember {
         pub span: Span,
         pub id: TsEnumMemberId,
-        pub init: Option<Box<Expr>>,
+        pub init: Option<Expr>,
     }
     pub enum TsEnumMemberId {
         Ident(Ident),
@@ -1864,7 +1864,7 @@ define!({
     }
     pub struct TsExportAssignment {
         pub span: Span,
-        pub expr: Box<Expr>,
+        pub expr: Expr,
     }
     pub struct TsNamespaceExportDecl {
         pub span: Span,
@@ -1872,17 +1872,17 @@ define!({
     }
     pub struct TsAsExpr {
         pub span: Span,
-        pub expr: Box<Expr>,
+        pub expr: Expr,
         pub type_ann: Box<TsType>,
     }
     pub struct TsTypeAssertion {
         pub span: Span,
-        pub expr: Box<Expr>,
+        pub expr: Expr,
         pub type_ann: Box<TsType>,
     }
     pub struct TsNonNullExpr {
         pub span: Span,
-        pub expr: Box<Expr>,
+        pub expr: Expr,
     }
     pub enum Accessibility {
         Public,
@@ -1891,18 +1891,18 @@ define!({
     }
     pub struct TsConstAssertion {
         pub span: Span,
-        pub expr: Box<Expr>,
+        pub expr: Expr,
     }
 
     pub struct TsInstantiation {
         pub span: Span,
-        pub expr: Box<Expr>,
+        pub expr: Expr,
         pub type_args: Box<TsTypeParamInstantiation>,
     }
 
     pub struct TsSatisfiesExpr {
         pub span: Span,
-        pub expr: Box<Expr>,
+        pub expr: Expr,
         pub type_ann: Box<TsType>,
     }
 
@@ -1914,7 +1914,7 @@ define!({
     pub struct AutoAccessor {
         pub span: Span,
         pub key: Key,
-        pub value: Option<Box<Expr>>,
+        pub value: Option<Expr>,
         pub type_ann: Option<Box<TsTypeAnn>>,
         pub is_static: bool,
         pub decorators: Vec<Decorator>,

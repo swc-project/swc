@@ -765,6 +765,6 @@ impl Babelify for AssignTargetPat {
 // pub struct OptChainExpr {
 //     pub span: Span,
 //     pub question_dot_token: Span,
-//     pub expr: Box<Expr>,
+//     pub expr: Expr,
 // }
 //

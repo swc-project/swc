@@ -1413,16 +1413,16 @@ impl<'a, I: Tokens> Parser<I> {
 enum TempForHead {
     For {
         init: Option<VarDeclOrExpr>,
-        test: Option<Box<Expr>>,
-        update: Option<Box<Expr>>,
+        test: Option<Expr>,
+        update: Option<Expr>,
     },
     ForIn {
         left: ForHead,
-        right: Box<Expr>,
+        right: Expr,
     },
     ForOf {
         left: ForHead,
-        right: Box<Expr>,
+        right: Expr,
     },
 }
 
@@ -1516,7 +1516,7 @@ mod tests {
     fn module_item(s: &'static str) -> ModuleItem {
         test_parser(s, Syntax::default(), |p| p.parse_stmt_like(true, true))
     }
-    fn expr(s: &'static str) -> Box<Expr> {
+    fn expr(s: &'static str) -> Expr {
         test_parser(s, Syntax::default(), |p| p.parse_expr())
     }
 

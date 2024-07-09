@@ -505,7 +505,7 @@ macro_rules! expose {
     };
 }
 
-expose!(parse_file_as_expr, Box<Expr>, |p| {
+expose!(parse_file_as_expr, Expr, |p| {
     // This allow to parse `import.meta`
     p.input().ctx.can_be_module = true;
     p.parse_expr()

@@ -61,7 +61,7 @@ impl AsRef<str> for BindingIdent {
     }
 }
 
-impl From<BindingIdent> for Box<Expr> {
+impl From<BindingIdent> for Expr {
     fn from(bi: BindingIdent) -> Self {
         Box::new(Expr::Ident(bi.into()))
     }

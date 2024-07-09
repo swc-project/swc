@@ -60,8 +60,8 @@ pub enum Expr {
     // Logical {
     //
     //     op: LogicalOp,
-    //     left: Box<Expr>,
-    //     right: Box<Expr>,
+    //     left: Expr,
+    //     right: Expr,
     // },
     /// A member expression. If computed is true, the node corresponds to a
     /// computed (a[b]) member expression and property is an Expression. If
@@ -168,7 +168,7 @@ pub enum Expr {
     Invalid(Invalid),
 }
 
-bridge_from!(Box<Expr>, Box<JSXElement>, JSXElement);
+bridge_from!(Expr, Box<JSXElement>, JSXElement);
 
 // Memory layout depends on the version of rustc.
 // #[cfg(target_pointer_width = "64")]
@@ -177,7 +177,7 @@ bridge_from!(Box<Expr>, Box<JSXElement>, JSXElement);
 impl Expr {
     /// Creates `void 0`.
     #[inline]
-    pub fn undefined(span: Span) -> Box<Expr> {
+    pub fn undefined(span: Span) -> Expr {
         UnaryExpr {
             span,
             op: op!("void"),
@@ -296,7 +296,7 @@ impl Expr {
     /// # Panics
     ///
     /// Panics if `exprs` is empty.
-    pub fn from_exprs(mut exprs: Vec<Box<Expr>>) -> Box<Expr> {
+    pub fn from_exprs(mut exprs: Vec<Expr>) -> Expr {
         debug_assert!(!exprs.is_empty(), "`exprs` must not be empty");
 
         if exprs.len() == 1 {
@@ -436,7 +436,7 @@ bridge_expr_from!(ClassExpr, Class);
 
 macro_rules! boxed_expr {
     ($T:ty) => {
-        bridge_from!(Box<Expr>, Expr, $T);
+        bridge_from!(Expr, Expr, $T);
     };
 }
 
@@ -454,7 +454,7 @@ boxed_expr!(CondExpr);
 boxed_expr!(CallExpr);
 boxed_expr!(NewExpr);
 boxed_expr!(SeqExpr);
-bridge_from!(Box<Expr>, Expr, Ident);
+bridge_from!(Expr, Expr, Ident);
 boxed_expr!(Lit);
 boxed_expr!(Tpl);
 boxed_expr!(TaggedTpl);
@@ -648,7 +648,7 @@ pub struct SpreadElement {
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "arguments"))]
     #[span(hi)]
-    pub expr: Box<Expr>,
+    pub expr: Expr,
 }
 
 impl Take for SpreadElement {
@@ -670,7 +670,7 @@ pub struct UnaryExpr {
     pub op: UnaryOp,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
-    pub arg: Box<Expr>,
+    pub arg: Expr,
 }
 
 impl Take for UnaryExpr {
@@ -695,7 +695,7 @@ pub struct UpdateExpr {
     pub prefix: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
-    pub arg: Box<Expr>,
+    pub arg: Expr,
 }
 
 impl Take for UpdateExpr {
@@ -718,9 +718,9 @@ pub struct BinExpr {
     #[cfg_attr(feature = "serde-impl", serde(rename = "operator"))]
     pub op: BinaryOp,
 
-    pub left: Box<Expr>,
+    pub left: Expr,
 
-    pub right: Box<Expr>,
+    pub right: Expr,
 }
 
 impl Take for BinExpr {
@@ -810,7 +810,7 @@ pub struct AssignExpr {
 
     pub left: AssignTarget,
 
-    pub right: Box<Expr>,
+    pub right: Expr,
 }
 
 impl Take for AssignExpr {
@@ -837,7 +837,7 @@ pub struct MemberExpr {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "object"))]
-    pub obj: Box<Expr>,
+    pub obj: Expr,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "property"))]
     pub prop: MemberProp,
@@ -923,13 +923,13 @@ impl Default for SuperProp {
 pub struct CondExpr {
     pub span: Span,
 
-    pub test: Box<Expr>,
+    pub test: Expr,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "consequent"))]
-    pub cons: Box<Expr>,
+    pub cons: Expr,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "alternate"))]
-    pub alt: Box<Expr>,
+    pub alt: Expr,
 }
 
 impl Take for CondExpr {
@@ -974,7 +974,7 @@ pub struct NewExpr {
 
     pub ctxt: SyntaxContext,
 
-    pub callee: Box<Expr>,
+    pub callee: Expr,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "arguments"))]
     pub args: Option<Vec<ExprOrSpread>>,
@@ -997,7 +997,7 @@ pub struct SeqExpr {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "expressions"))]
-    pub exprs: Vec<Box<Expr>>,
+    pub exprs: Vec<Expr>,
 }
 
 impl Take for SeqExpr {
@@ -1050,7 +1050,7 @@ pub struct YieldExpr {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "argument"))]
-    pub arg: Option<Box<Expr>>,
+    pub arg: Option<Expr>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub delegate: bool,
@@ -1096,7 +1096,7 @@ pub struct AwaitExpr {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
-    pub arg: Box<Expr>,
+    pub arg: Expr,
 }
 
 #[ast_node("TemplateLiteral")]
@@ -1106,7 +1106,7 @@ pub struct Tpl {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "expressions"))]
-    pub exprs: Vec<Box<Expr>>,
+    pub exprs: Vec<Expr>,
 
     pub quasis: Vec<TplElement>,
 }
@@ -1129,7 +1129,7 @@ pub struct TaggedTpl {
 
     pub ctxt: SyntaxContext,
 
-    pub tag: Box<Expr>,
+    pub tag: Expr,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeParameters"))]
     pub type_params: Option<Box<TsTypeParamInstantiation>>,
@@ -1198,7 +1198,7 @@ pub struct ParenExpr {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
-    pub expr: Box<Expr>,
+    pub expr: Expr,
 }
 impl Take for ParenExpr {
     fn dummy() -> Self {
@@ -1221,7 +1221,7 @@ pub enum Callee {
     Import(Import),
 
     #[tag("*")]
-    Expr(Box<Expr>),
+    Expr(Expr),
 }
 
 impl Default for Callee {
@@ -1290,7 +1290,7 @@ pub struct ExprOrSpread {
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
-    pub expr: Box<Expr>,
+    pub expr: Expr,
 }
 
 impl Spanned for ExprOrSpread {
@@ -1317,13 +1317,13 @@ impl Spanned for ExprOrSpread {
     }
 }
 
-impl From<Box<Expr>> for ExprOrSpread {
-    fn from(expr: Box<Expr>) -> Self {
+impl From<Expr> for ExprOrSpread {
+    fn from(expr: Expr) -> Self {
         Self { expr, spread: None }
     }
 }
 
-bridge_from!(ExprOrSpread, Box<Expr>, Expr);
+bridge_from!(ExprOrSpread, Expr, Expr);
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
@@ -1333,7 +1333,7 @@ pub enum BlockStmtOrExpr {
     #[tag("BlockStatement")]
     BlockStmt(BlockStmt),
     #[tag("*")]
-    Expr(Box<Expr>),
+    Expr(Expr),
 }
 
 impl Default for BlockStmtOrExpr {
@@ -1405,10 +1405,10 @@ impl TryFrom<Box<Pat>> for AssignTarget {
     }
 }
 
-impl TryFrom<Box<Expr>> for AssignTarget {
-    type Error = Box<Expr>;
+impl TryFrom<Expr> for AssignTarget {
+    type Error = Expr;
 
-    fn try_from(e: Box<Expr>) -> Result<Self, Self::Error> {
+    fn try_from(e: Expr) -> Result<Self, Self::Error> {
         Ok(Self::Simple(SimpleAssignTarget::try_from(e)?))
     }
 }
@@ -1498,10 +1498,10 @@ pub enum SimpleAssignTarget {
     Invalid(Invalid),
 }
 
-impl TryFrom<Box<Expr>> for SimpleAssignTarget {
-    type Error = Box<Expr>;
+impl TryFrom<Expr> for SimpleAssignTarget {
+    type Error = Expr;
 
-    fn try_from(e: Box<Expr>) -> Result<Self, Self::Error> {
+    fn try_from(e: Expr) -> Result<Self, Self::Error> {
         Ok(match *e {
             Expr::Ident(i) => SimpleAssignTarget::Ident(i.into()),
             Expr::Member(m) => SimpleAssignTarget::Member(m),
@@ -1551,7 +1551,7 @@ bridge_from!(AssignTarget, SimpleAssignTarget, TsTypeAssertion);
 bridge_from!(AssignTarget, AssignTargetPat, ArrayPat);
 bridge_from!(AssignTarget, AssignTargetPat, ObjectPat);
 
-impl From<SimpleAssignTarget> for Box<Expr> {
+impl From<SimpleAssignTarget> for Expr {
     fn from(s: SimpleAssignTarget) -> Self {
         match s {
             SimpleAssignTarget::Ident(i) => i.into(),
@@ -1625,7 +1625,7 @@ pub struct OptCall {
 
     pub ctxt: SyntaxContext,
 
-    pub callee: Box<Expr>,
+    pub callee: Expr,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "arguments"))]
     pub args: Vec<ExprOrSpread>,

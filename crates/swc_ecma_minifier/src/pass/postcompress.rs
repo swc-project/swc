@@ -134,7 +134,7 @@ impl VisitMut for PostcompressOptimizer<'_> {
         }
     }
 
-    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Expr>) {
         self.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, n| {
             n.visit_mut_with(v);
         });

@@ -1372,7 +1372,7 @@ impl<I: Tokens> Parser<I> {
     /// `parsePropertyName` in babel.
     ///
     /// Returns `(computed, key)`.
-    fn parse_ts_property_name(&mut self) -> PResult<(bool, Box<Expr>)> {
+    fn parse_ts_property_name(&mut self) -> PResult<(bool, Expr)> {
         let (computed, key) = if eat!(self, '[') {
             let key = self.parse_assignment_expr()?;
             expect!(self, ']');

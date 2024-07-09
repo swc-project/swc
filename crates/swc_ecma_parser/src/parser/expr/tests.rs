@@ -13,19 +13,19 @@ fn syntax() -> Syntax {
     })
 }
 
-fn lhs(s: &'static str) -> Box<Expr> {
+fn lhs(s: &'static str) -> Expr {
     test_parser(s, syntax(), |p| p.parse_lhs_expr())
 }
 
-fn new_expr(s: &'static str) -> Box<Expr> {
+fn new_expr(s: &'static str) -> Expr {
     test_parser(s, syntax(), |p| p.parse_new_expr())
 }
 
-fn member_expr(s: &'static str) -> Box<Expr> {
+fn member_expr(s: &'static str) -> Expr {
     test_parser(s, syntax(), |p| p.parse_member_expr())
 }
 
-fn expr(s: &'static str) -> Box<Expr> {
+fn expr(s: &'static str) -> Expr {
     test_parser(s, syntax(), |p| {
         p.parse_stmt(true).map(|stmt| match stmt {
             Stmt::Expr(expr) => expr.expr,
@@ -35,6 +35,8 @@ fn expr(s: &'static str) -> Box<Expr> {
 }
 fn regex_expr() -> Box<Expr> {
     AssignExpr {
+fn regex_expr() -> Expr {
+    Box::new(Expr::Assign(AssignExpr {
         span,
         left: Ident::new_no_ctxt("re".into(), span).into(),
         op: AssignOp::Assign,

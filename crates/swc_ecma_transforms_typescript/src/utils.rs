@@ -96,7 +96,7 @@ impl AsEnumOrModule for ModuleItem {
 
 ///
 /// this.prop = value
-pub(crate) fn assign_value_to_this_prop(prop_name: PropName, value: Expr) -> Box<Expr> {
+pub(crate) fn assign_value_to_this_prop(prop_name: PropName, value: Expr) -> Expr {
     let target = MemberExpr {
         obj: ThisExpr { span: DUMMY_SP }.into(),
         span: DUMMY_SP,
@@ -112,7 +112,7 @@ pub(crate) fn assign_value_to_this_prop(prop_name: PropName, value: Expr) -> Box
 pub(crate) fn assign_value_to_this_private_prop(
     private_name: PrivateName,
     value: Expr,
-) -> Box<Expr> {
+) -> Expr {
     let target = MemberExpr {
         obj: ThisExpr { span: DUMMY_SP }.into(),
         span: DUMMY_SP,
