@@ -16,10 +16,10 @@ use crate::{
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Decl {
     #[tag("ClassDeclaration")]
-    Class(ClassDecl),
+    Class(Box<ClassDecl>),
     #[tag("FunctionDeclaration")]
     #[is(name = "fn_decl")]
-    Fn(FnDecl),
+    Fn(Box<FnDecl>),
     #[tag("VariableDeclaration")]
     Var(Box<VarDecl>),
     #[tag("UsingDeclaration")]
@@ -86,6 +86,14 @@ decl_from_boxed!(
     TsEnumDecl,
     TsModuleDecl
 );
+bridge_decl_from!(Box<ClassDecl>, VarDecl);
+bridge_decl_from!(Box<FnDecl>, VarDecl);
+bridge_decl_from!(Box<VarDecl>, VarDecl);
+bridge_decl_from!(Box<UsingDecl>, UsingDecl);
+bridge_decl_from!(Box<TsInterfaceDecl>, TsInterfaceDecl);
+bridge_decl_from!(Box<TsTypeAliasDecl>, TsTypeAliasDecl);
+bridge_decl_from!(Box<TsEnumDecl>, TsEnumDecl);
+bridge_decl_from!(Box<TsModuleDecl>, TsModuleDecl);
 
 impl Take for Decl {
     fn dummy() -> Self {
