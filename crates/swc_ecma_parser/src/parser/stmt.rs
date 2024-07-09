@@ -1148,7 +1148,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             let body = Box::new(if is!(p, "function") {
                 let f = p.parse_fn_decl(vec![])?;
-                if let Decl::Fn(FnDecl { function, .. }) = &f {
+                if let Decl::Fn(box FnDecl { function, .. }) = &f {
                     if p.ctx().strict {
                         p.emit_err(function.span, SyntaxError::LabelledFunctionInStrict)
                     }
