@@ -185,6 +185,7 @@ boxed_variants!(
         SeqExpr,
         Lit,
         Tpl,
+        AwaitExpr,
         TaggedTpl,
         ArrowExpr,
         ClassExpr,
