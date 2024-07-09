@@ -363,20 +363,15 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
                                             this = Some(params.remove(0).pat);
                                         }
 
-                                        let param = Box::new(
-                                            params
-                                                .into_iter()
-                                                .next()
-                                                .map(|v| v.pat)
-                                                .unwrap_or_else(|| {
-                                                    parser.emit_err(
-                                                        key_span,
-                                                        SyntaxError::SetterParam,
-                                                    );
+                                        let param = params
+                                            .into_iter()
+                                            .next()
+                                            .map(|v| v.pat)
+                                            .unwrap_or_else(|| {
+                                                parser.emit_err(key_span, SyntaxError::SetterParam);
 
-                                                    Invalid { span: DUMMY_SP }.into()
-                                                }),
-                                        );
+                                                Invalid { span: DUMMY_SP }.into()
+                                            });
 
                                         // debug_assert_eq!(params.len(), 1);
                                         PropOrSpread::Prop(Prop::Setter(Box::new(SetterProp {
@@ -436,7 +431,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
         for (i, p) in props.iter().enumerate() {
             if i == len - 1 {
                 if let ObjectPatProp::Rest(ref rest) = p {
-                    match *rest.arg {
+                    match &rest.arg {
                         Pat::Ident(..) => {
                             if let Some(trailing_comma) = trailing_comma {
                                 self.emit_err(trailing_comma, SyntaxError::CommaAfterRestElement);
@@ -472,7 +467,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
             // spread element
             let dot3_token = span!(self, start);
 
-            let arg = Box::new(self.parse_binding_pat_or_ident()?);
+            let arg = self.parse_binding_pat_or_ident()?;
 
             return Ok(ObjectPatProp::Rest(RestPat {
                 span: span!(self, start),
@@ -484,7 +479,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
 
         let key = self.parse_prop_name()?;
         if eat!(self, ':') {
-            let value = Box::new(self.parse_binding_element()?);
+            let value = self.parse_binding_element()?;
 
             return Ok(ObjectPatProp::KeyValue(KeyValuePatProp { key, value }));
         }
