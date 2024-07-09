@@ -207,7 +207,7 @@ macro_rules! bridge_from {
 }
 
 macro_rules! boxed_variants {
-    ($e:ident, [$($variant:ident,)*]) => {
+    ($e:ident, [$($variant:ident),*]) => {
         $(
             bridge_from!(Box<$e>, $e,$variant);
             bridge_from!($e, Box<$variant>, $variant);

@@ -190,7 +190,7 @@ boxed_variants!(
         ArrowExpr,
         ClassExpr,
         YieldExpr,
-        MetaPropExpr,
+        MetaPropExpr
     ]
 );
 
@@ -462,49 +462,6 @@ bridge_expr_from!(Ident, Id);
 bridge_expr_from!(FnExpr, Function);
 bridge_expr_from!(ClassExpr, Class);
 
-macro_rules! boxed_expr {
-    ($T:ty) => {
-        bridge_from!(Expr, Expr, $T);
-    };
-}
-
-boxed_expr!(ThisExpr);
-boxed_expr!(ArrayLit);
-boxed_expr!(ObjectLit);
-boxed_expr!(FnExpr);
-boxed_expr!(UnaryExpr);
-boxed_expr!(UpdateExpr);
-boxed_expr!(BinExpr);
-boxed_expr!(AssignExpr);
-boxed_expr!(MemberExpr);
-boxed_expr!(SuperPropExpr);
-boxed_expr!(CondExpr);
-boxed_expr!(CallExpr);
-boxed_expr!(NewExpr);
-boxed_expr!(SeqExpr);
-bridge_from!(Expr, Expr, Ident);
-boxed_expr!(Lit);
-boxed_expr!(Tpl);
-boxed_expr!(TaggedTpl);
-boxed_expr!(ArrowExpr);
-boxed_expr!(ClassExpr);
-boxed_expr!(YieldExpr);
-boxed_expr!(MetaPropExpr);
-boxed_expr!(AwaitExpr);
-boxed_expr!(ParenExpr);
-boxed_expr!(JSXMemberExpr);
-boxed_expr!(JSXNamespacedName);
-boxed_expr!(JSXEmptyExpr);
-boxed_expr!(Box<JSXElement>);
-boxed_expr!(JSXFragment);
-boxed_expr!(TsTypeAssertion);
-boxed_expr!(TsConstAssertion);
-boxed_expr!(TsNonNullExpr);
-boxed_expr!(TsAsExpr);
-boxed_expr!(TsInstantiation);
-boxed_expr!(PrivateName);
-boxed_expr!(OptChainExpr);
-
 #[ast_node("ThisExpression")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -599,7 +556,7 @@ impl From<ImportWith> for ObjectLit {
                 .map(|item| {
                     PropOrSpread::Prop(Prop::KeyValue(Box::new(KeyValueProp {
                         key: PropName::Ident(item.key),
-                        value: Box::new(Expr::Lit(Lit::Str(item.value))),
+                        value: Expr::Lit(Box::new(Lit::Str(item.value))),
                     })))
                 })
                 .collect(),
@@ -1354,18 +1311,11 @@ pub enum BlockStmtOrExpr {
     Expr(Expr),
 }
 
+boxed_variants!(BlockStmtOrExpr, [BlockStmt]);
+
 impl Default for BlockStmtOrExpr {
     fn default() -> Self {
         BlockStmtOrExpr::BlockStmt(Default::default())
-    }
-}
-
-impl<T> From<T> for BlockStmtOrExpr
-where
-    T: Into<Expr>,
-{
-    fn from(e: T) -> Self {
-        Self::Expr(e.into())
     }
 }
 
