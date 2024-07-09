@@ -446,14 +446,16 @@ pub enum TsFnParam {
     Ident(BindingIdent),
 
     #[tag("ArrayPattern")]
-    Array(ArrayPat),
+    Array(Box<ArrayPat>),
 
     #[tag("RestElement")]
-    Rest(RestPat),
+    Rest(Box<RestPat>),
 
     #[tag("ObjectPattern")]
-    Object(ObjectPat),
+    Object(Box<ObjectPat>),
 }
+
+boxed_variants!(TsFnParam, [ArrayPat, RestPat, ObjectPat]);
 
 #[ast_node("TsFunctionType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
