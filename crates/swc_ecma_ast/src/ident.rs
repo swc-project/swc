@@ -180,19 +180,13 @@ impl From<&'_ str> for Ident {
     }
 }
 
-scoped_thread_local!(static EQ_IGNORE_SPAN_IGNORE_CTXT: ());
-
 impl EqIgnoreSpan for Ident {
     fn eq_ignore_span(&self, other: &Self) -> bool {
         if self.sym != other.sym {
             return false;
         }
 
-        if self.ctxt == other.ctxt {
-            return true;
-        }
-
-        EQ_IGNORE_SPAN_IGNORE_CTXT.is_set()
+        self.ctx.eq_ignore_span(&other.ctx)
     }
 }
 
@@ -220,7 +214,7 @@ impl Ident {
     where
         F: FnOnce() -> Ret,
     {
-        EQ_IGNORE_SPAN_IGNORE_CTXT.set(&(), op)
+        SyntaxContext::within_ignored_ctxt(op)
     }
 
     /// Preserve syntax context while drop `span.lo` and `span.hi`.
