@@ -435,11 +435,11 @@ impl<I: Tokens> Parser<I> {
                 if self.input.syntax().typescript() && ident.sym == "as" && !is!(self, "=>") {
                     // async as type
                     let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;
-                    return Ok(Box::new(Expr::TsAs(TsAsExpr {
+                    return Ok(Expr::TsAs(TsAsExpr {
                         span: span!(self, start),
                         expr: Box::new(Expr::Ident(id)),
                         type_ann,
-                    })));
+                    }));
                 }
 
                 // async a => body
@@ -449,14 +449,14 @@ impl<I: Tokens> Parser<I> {
                 let body =
                     self.parse_fn_body(true, false, true, params.is_simple_parameter_list())?;
 
-                return Ok(Box::new(Expr::Arrow(ArrowExpr {
+                return Ok(Expr::Arrow(ArrowExpr {
                     span: span!(self, start),
                     body,
                     params,
                     is_async: true,
                     is_generator: false,
                     ..Default::default()
-                })));
+                }));
             } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!(self, "=>") {
                 if self.ctx().strict && id.is_reserved_in_strict_bind() {
                     self.emit_strict_mode_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
@@ -465,25 +465,25 @@ impl<I: Tokens> Parser<I> {
                 let body =
                     self.parse_fn_body(false, false, true, params.is_simple_parameter_list())?;
 
-                return Ok(Box::new(Expr::Arrow(ArrowExpr {
+                return Ok(Expr::Arrow(ArrowExpr {
                     span: span!(self, start),
                     body,
                     params,
                     is_async: false,
                     is_generator: false,
                     ..Default::default()
-                })));
+                }));
             } else {
-                return Ok(Box::new(Expr::Ident(id)));
+                return Ok(Expr::Ident(id));
             }
         }
 
         if eat!(self, '#') {
             let id = self.parse_ident_name()?;
-            return Ok(Box::new(Expr::PrivateName(PrivateName {
+            return Ok(Expr::PrivateName(PrivateName {
                 span: span!(self, start),
                 name: id.sym,
-            })));
+            }));
         }
 
         syntax_error!(self, self.input.cur_span(), SyntaxError::TS1109)
