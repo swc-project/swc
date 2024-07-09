@@ -80,7 +80,7 @@ fn regex_multi_line_comment_with_lines() {
 fn arrow_assign() {
     assert_eq_ignore_span!(
         expr("a = b => false"),
-        Box::new(Expr::Assign(AssignExpr {
+        Expr::Assign(Box::new(AssignExpr {
             span,
             left: Ident::new_no_ctxt("a".into(), span).into(),
             op: op!("="),
@@ -93,7 +93,7 @@ fn arrow_assign() {
 fn async_call() {
     assert_eq_ignore_span!(
         expr("async()"),
-        Box::new(Expr::Call(CallExpr {
+        Expr::Call(Box::new(CallExpr {
             span,
             callee: Callee::Expr(expr("async")),
             args: vec![],
@@ -106,7 +106,7 @@ fn async_call() {
 fn async_arrow() {
     assert_eq_ignore_span!(
         expr("async () => foo"),
-        Box::new(Expr::Arrow(ArrowExpr {
+        Expr::Arrow(Box::new(ArrowExpr {
             span,
             is_async: true,
             is_generator: false,
@@ -121,11 +121,11 @@ fn async_arrow() {
 fn object_rest_pat() {
     assert_eq_ignore_span!(
         expr("({ ...a34 }) => {}"),
-        Box::new(Expr::Arrow(ArrowExpr {
+        Expr::Arrow(Box::new(ArrowExpr {
             span,
             is_async: false,
             is_generator: false,
-            params: vec![Pat::Object(ObjectPat {
+            params: vec![Pat::Object(Box::new(ObjectPat {
                 span,
                 optional: false,
                 props: vec![ObjectPatProp::Rest(RestPat {
@@ -135,11 +135,11 @@ fn object_rest_pat() {
                     type_ann: None,
                 })],
                 type_ann: None
-            })],
-            body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
+            }))],
+            body: Box::new(BlockStmtOrExpr::BlockStmt(Box::new(BlockStmt {
                 span,
                 ..Default::default()
-            })),
+            }))),
             ..Default::default()
         }))
     );
@@ -149,19 +149,19 @@ fn object_rest_pat() {
 fn object_spread() {
     assert_eq_ignore_span!(
         expr("foo = {a, ...bar, b}"),
-        Box::new(Expr::Assign(AssignExpr {
+        Expr::Assign(Box::new(AssignExpr {
             span,
             left: Ident::new_no_ctxt("foo".into(), span).into(),
             op: op!("="),
-            right: Box::new(Expr::Object(ObjectLit {
+            right: Expr::Object(Box::new(ObjectLit {
                 span,
                 props: vec![
-                    PropOrSpread::Prop(Box::new(Ident::new_no_ctxt("a".into(), span).into())),
+                    PropOrSpread::Prop(Ident::new_no_ctxt("a".into(), span).into()),
                     PropOrSpread::Spread(SpreadElement {
                         dot3_token: span,
-                        expr: Box::new(Expr::Ident(Ident::new_no_ctxt("bar".into(), span))),
+                        expr: Expr::Ident(Ident::new_no_ctxt("bar".into(), span)),
                     }),
-                    PropOrSpread::Prop(Box::new(Ident::new_no_ctxt("b".into(), span).into())),
+                    PropOrSpread::Prop(Ident::new_no_ctxt("b".into(), span).into()),
                 ]
             }))
         }))
@@ -172,7 +172,7 @@ fn object_spread() {
 fn new_expr_should_not_eat_too_much() {
     assert_eq_ignore_span!(
         new_expr("new Date().toString()"),
-        Box::new(Expr::Member(MemberExpr {
+        Expr::Member(Box::new(MemberExpr {
             span,
             obj: member_expr("new Date()"),
             prop: MemberProp::Ident(Ident::new_no_ctxt("toString".into(), span)),
@@ -183,7 +183,7 @@ fn new_expr_should_not_eat_too_much() {
 fn lhs_expr_as_new_expr_prod() {
     assert_eq_ignore_span!(
         lhs("new Date.toString()"),
-        Box::new(Expr::New(NewExpr {
+        Expr::New(Box::new(NewExpr {
             span,
             callee: lhs("Date.toString"),
             args: Some(vec![]),
@@ -196,7 +196,7 @@ fn lhs_expr_as_new_expr_prod() {
 fn lhs_expr_as_call() {
     assert_eq_ignore_span!(
         lhs("new Date.toString()()"),
-        Box::new(Expr::Call(CallExpr {
+        Expr::Call(Box::new(CallExpr {
             span,
             callee: Callee::Expr(lhs("new Date.toString()")),
             args: vec![],
@@ -209,7 +209,7 @@ fn lhs_expr_as_call() {
 fn arrow_fn_no_args() {
     assert_eq_ignore_span!(
         expr("() => 1"),
-        Box::new(Expr::Arrow(ArrowExpr {
+        Expr::Arrow(Box::new(ArrowExpr {
             span,
             is_async: false,
             is_generator: false,
@@ -223,7 +223,7 @@ fn arrow_fn_no_args() {
 fn arrow_fn() {
     assert_eq_ignore_span!(
         expr("(a) => 1"),
-        Box::new(Expr::Arrow(ArrowExpr {
+        Expr::Arrow(Box::new(ArrowExpr {
             span,
             is_async: false,
             is_generator: false,
@@ -237,16 +237,16 @@ fn arrow_fn() {
 fn arrow_fn_rest() {
     assert_eq_ignore_span!(
         expr("(...a) => 1"),
-        Box::new(Expr::Arrow(ArrowExpr {
+        Expr::Arrow(Box::new(ArrowExpr {
             span,
             is_async: false,
             is_generator: false,
-            params: vec![Pat::Rest(RestPat {
+            params: vec![Pat::Rest(Box::new(RestPat {
                 span,
                 dot3_token: span,
                 arg: Box::new(Pat::Ident(Ident::new_no_ctxt("a".into(), span).into())),
                 type_ann: None
-            })],
+            }))],
             body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
 
             ..Default::default()
@@ -257,7 +257,7 @@ fn arrow_fn_rest() {
 fn arrow_fn_no_paren() {
     assert_eq_ignore_span!(
         expr("a => 1"),
-        Box::new(Expr::Arrow(ArrowExpr {
+        Expr::Arrow(Box::new(ArrowExpr {
             span,
             params: vec![Pat::Ident(Ident::new_no_ctxt("a".into(), span).into())],
             body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
@@ -270,7 +270,7 @@ fn arrow_fn_no_paren() {
 fn new_no_paren() {
     assert_eq_ignore_span!(
         expr("new a"),
-        Box::new(Expr::New(NewExpr {
+        Expr::New(Box::new(NewExpr {
             span,
             callee: expr("a"),
             args: None,
@@ -283,7 +283,7 @@ fn new_no_paren() {
 fn new_new_no_paren() {
     assert_eq_ignore_span!(
         expr("new new a"),
-        Box::new(Expr::New(NewExpr {
+        Expr::New(Box::new(NewExpr {
             span,
             callee: expr("new a"),
             args: None,
@@ -296,12 +296,12 @@ fn new_new_no_paren() {
 fn array_lit() {
     assert_eq_ignore_span!(
         expr("[a,,,,, ...d,, e]"),
-        Box::new(Expr::Array(ArrayLit {
+        Expr::Array(Box::new(ArrayLit {
             span,
             elems: vec![
                 Some(ExprOrSpread {
                     spread: None,
-                    expr: Box::new(Expr::Ident(Ident::new_no_ctxt("a".into(), span))),
+                    expr: Expr::Ident(Ident::new_no_ctxt("a".into(), span)),
                 }),
                 None,
                 None,
@@ -309,12 +309,12 @@ fn array_lit() {
                 None,
                 Some(ExprOrSpread {
                     spread: Some(span),
-                    expr: Box::new(Expr::Ident(Ident::new_no_ctxt("d".into(), span))),
+                    expr: Expr::Ident(Ident::new_no_ctxt("d".into(), span)),
                 }),
                 None,
                 Some(ExprOrSpread {
                     spread: None,
-                    expr: Box::new(Expr::Ident(Ident::new_no_ctxt("e".into(), span))),
+                    expr: Expr::Ident(Ident::new_no_ctxt("e".into(), span)),
                 }),
             ]
         }))
@@ -325,7 +325,7 @@ fn array_lit() {
 fn max_integer() {
     assert_eq_ignore_span!(
         expr("1.7976931348623157e+308"),
-        Box::new(Expr::Lit(Lit::Num(Number {
+        Expr::Lit(Box::new(Lit::Num(Number {
             span,
             value: 1.797_693_134_862_315_7e308,
             raw: Some("1.7976931348623157e+308".into()),
@@ -337,7 +337,7 @@ fn max_integer() {
 fn iife() {
     assert_eq_ignore_span!(
         expr("(function(){})()"),
-        Box::new(Expr::Call(CallExpr {
+        Expr::Call(Box::new(CallExpr {
             span,
             callee: Callee::Expr(expr("(function(){})")),
             args: vec![],
@@ -350,7 +350,7 @@ fn iife() {
 fn issue_319_1() {
     assert_eq_ignore_span!(
         expr("obj(({ async f() { await g(); } }));"),
-        Box::new(Expr::Call(CallExpr {
+        Expr::Call(Box::new(CallExpr {
             span,
             callee: Callee::Expr(expr("obj")),
             args: vec![ExprOrSpread {
@@ -370,7 +370,7 @@ fn issue_328() {
         }),
         Stmt::Expr(ExprStmt {
             span,
-            expr: Box::new(Expr::Call(CallExpr {
+            expr: Expr::Call(Box::new(CallExpr {
                 span,
                 callee: Callee::Import(Import {
                     span,
@@ -378,11 +378,11 @@ fn issue_328() {
                 }),
                 args: vec![ExprOrSpread {
                     spread: None,
-                    expr: Box::new(Expr::Lit(Lit::Str(Str {
+                    expr: Expr::Lit(Lit::Str(Str {
                         span,
                         value: "test".into(),
                         raw: Some("'test'".into()),
-                    }))),
+                    })),
                 }],
                 ..Default::default()
             }))
@@ -407,7 +407,7 @@ fn issue_350() {
 ok\
 hehe.";"#,
         ),
-        Box::new(Expr::Lit(Lit::Str(Str {
+        Expr::Lit(Box::new(Lit::Str(Str {
             span,
             value: "okokhehe.".into(),
             raw: Some("\"ok\\\nok\\\nhehe.\"".into()),
