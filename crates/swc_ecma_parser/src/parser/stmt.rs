@@ -2077,10 +2077,7 @@ export default function waitUntil(callback, options = {}) {
                                 Some(Pat::Ident(Ident::new_no_ctxt("t".into(), span).into()))
                             ]
                         })),
-                        init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
-                            "simple_array".into(),
-                            span
-                        )))),
+                        init: Some(Expr::Ident(Ident::new_no_ctxt("simple_array".into(), span))),
                         definite: false
                     }],
                     ..Default::default()
@@ -2099,20 +2096,17 @@ export default function waitUntil(callback, options = {}) {
                     kind: VarDeclKind::Let,
                     decls: vec![VarDeclarator {
                         span,
-                        name: Pat::Object(ObjectPat {
+                        name: Pat::Object(Box::new(ObjectPat {
                             optional: false,
                             type_ann: None,
                             span,
-                            props: vec![ObjectPatProp::Assign(AssignPatProp {
+                            props: vec![ObjectPatProp::Assign(Box::new(AssignPatProp {
                                 span,
                                 key: Ident::new_no_ctxt("num".into(), span).into(),
                                 value: None
-                            })]
-                        }),
-                        init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
-                            "obj".into(),
-                            span
-                        )))),
+                            }))]
+                        })),
+                        init: Some(Expr::Ident(Ident::new_no_ctxt("obj".into(), span))),
                         definite: false
                     }],
                     ..Default::default()
