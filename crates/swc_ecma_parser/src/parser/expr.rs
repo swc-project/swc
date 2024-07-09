@@ -455,11 +455,13 @@ impl<I: Tokens> Parser<I> {
                     // async as type
                     let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;
                     return Ok(TsAsExpr {
+                    return Ok(Expr::TsAs(TsAsExpr {
                         span: span!(self, start),
                         expr: Box::new(id.into()),
                         type_ann,
                     }
                     .into());
+                    }));
                 }
 
                 // async a => body
@@ -470,6 +472,7 @@ impl<I: Tokens> Parser<I> {
                     self.parse_fn_body(true, false, true, params.is_simple_parameter_list())?;
 
                 return Ok(ArrowExpr {
+                return Ok(Expr::Arrow(ArrowExpr {
                     span: span!(self, start),
                     body,
                     params,
@@ -478,6 +481,8 @@ impl<I: Tokens> Parser<I> {
                     ..Default::default()
                 }
                 .into());
+                })));
+                }));
             } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!(self, "=>") {
                 if self.ctx().strict && id.is_reserved_in_strict_bind() {
                     self.emit_strict_mode_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
@@ -487,6 +492,7 @@ impl<I: Tokens> Parser<I> {
                     self.parse_fn_body(false, false, true, params.is_simple_parameter_list())?;
 
                 return Ok(ArrowExpr {
+                return Ok(Expr::Arrow(ArrowExpr {
                     span: span!(self, start),
                     body,
                     params,
@@ -497,6 +503,9 @@ impl<I: Tokens> Parser<I> {
                 .into());
             } else {
                 return Ok(id.into());
+                }));
+            } else {
+                return Ok(Expr::Ident(id));
             }
         }
 
@@ -507,6 +516,11 @@ impl<I: Tokens> Parser<I> {
                 name: id.sym,
             }
             .into());
+            })));
+            return Ok(Expr::PrivateName(PrivateName {
+                span: span!(self, start),
+                name: id.sym,
+            }));
         }
 
         syntax_error!(self, self.input.cur_span(), SyntaxError::TS1109)
