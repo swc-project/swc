@@ -100,7 +100,7 @@ impl From<Ident> for BindingIdent {
 
 bridge_from!(BindingIdent, Ident, Id);
 
-/// A complete identifier with span.
+/// Identifier Reference.
 ///
 /// Identifier of swc consists of two parts. The first one is symbol, which is
 /// stored using an interned string, [Atom] . The second
@@ -168,7 +168,7 @@ pub struct Ident {
 }
 
 #[ast_node("IdentifierName")]
-#[derive(Eq, Hash, Default)]
+#[derive(Eq, EqIgnoreSpan, Hash, Default)]
 pub struct IdentName {
     pub span: Span,
 

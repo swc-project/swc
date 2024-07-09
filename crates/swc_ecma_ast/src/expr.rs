@@ -22,8 +22,8 @@ use crate::{
         TsAsExpr, TsConstAssertion, TsInstantiation, TsNonNullExpr, TsSatisfiesExpr, TsTypeAnn,
         TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
     },
-    ArrayPat, BindingIdent, ComputedPropName, Id, ImportPhase, Invalid, KeyValueProp, Number,
-    ObjectPat, PropName, Str,
+    ArrayPat, BindingIdent, ComputedPropName, Id, IdentName, ImportPhase, Invalid, KeyValueProp,
+    Number, ObjectPat, PropName, Str,
 };
 
 #[ast_node(no_clone)]
@@ -834,7 +834,7 @@ pub struct MemberExpr {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum MemberProp {
     #[tag("Identifier")]
-    Ident(Ident),
+    Ident(IdentName),
     #[tag("PrivateName")]
     PrivateName(PrivateName),
     #[tag("Computed")]
@@ -864,7 +864,7 @@ pub struct SuperPropExpr {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum SuperProp {
     #[tag("Identifier")]
-    Ident(Ident),
+    Ident(IdentName),
     #[tag("Computed")]
     Computed(Box<ComputedPropName>),
 }

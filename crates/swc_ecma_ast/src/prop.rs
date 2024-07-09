@@ -8,7 +8,7 @@ use crate::{
     lit::{BigInt, Number, Str},
     stmt::BlockStmt,
     typescript::TsTypeAnn,
-    Id, MemberProp, Pat,
+    Id, IdentName, MemberProp, Pat,
 };
 
 #[ast_node]
@@ -96,7 +96,7 @@ pub struct MethodProp {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum PropName {
     #[tag("Identifier")]
-    Ident(Ident),
+    Ident(IdentName),
     /// String literal.
     #[tag("StringLiteral")]
     Str(Str),

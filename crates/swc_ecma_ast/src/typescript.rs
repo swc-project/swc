@@ -21,7 +21,7 @@ use crate::{
     lit::{Bool, Number, Str},
     module::ModuleItem,
     pat::{ArrayPat, AssignPat, ObjectPat, Pat, RestPat},
-    BigInt, BindingIdent, TplElement,
+    BigInt, BindingIdent, IdentName, TplElement,
 };
 
 #[ast_node("TsTypeAnnotation")]
@@ -107,7 +107,7 @@ pub struct TsQualifiedName {
     #[span(lo)]
     pub left: TsEntityName,
     #[span(hi)]
-    pub right: Ident,
+    pub right: IdentName,
 }
 
 #[ast_node]
@@ -966,7 +966,7 @@ pub struct TsNamespaceDecl {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsModuleName {
     #[tag("Identifier")]
-    Ident(Ident),
+    Ident(IdentName),
 
     #[tag("StringLiteral")]
     Str(Str),
