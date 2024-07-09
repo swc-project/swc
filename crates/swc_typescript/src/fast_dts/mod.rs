@@ -90,7 +90,7 @@ impl FastDts {
             let is_overload = match &item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
                 | ModuleItem::Stmt(Stmt::Decl(decl)) => match decl {
-                    Decl::Fn(FnDecl {
+                    Decl::Fn(box FnDecl {
                         function, declare, ..
                     }) => !declare && function.body.is_none(),
                     _ => false,
