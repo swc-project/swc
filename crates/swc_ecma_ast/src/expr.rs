@@ -1522,17 +1522,17 @@ bridge_from!(AssignTarget, AssignTargetPat, ObjectPat);
 impl From<SimpleAssignTarget> for Expr {
     fn from(s: SimpleAssignTarget) -> Self {
         match s {
-            SimpleAssignTarget::Ident(i) => Box::new(Expr::Ident(i.into())),
-            SimpleAssignTarget::Member(m) => Box::new(Expr::Member(m)),
-            SimpleAssignTarget::SuperProp(s) => Box::new(Expr::SuperProp(s)),
-            SimpleAssignTarget::Paren(s) => Box::new(Expr::Paren(s)),
-            SimpleAssignTarget::OptChain(s) => Box::new(Expr::OptChain(s)),
-            SimpleAssignTarget::TsAs(a) => Box::new(Expr::TsAs(a)),
-            SimpleAssignTarget::TsSatisfies(s) => Box::new(Expr::TsSatisfies(s)),
-            SimpleAssignTarget::TsNonNull(n) => Box::new(Expr::TsNonNull(n)),
-            SimpleAssignTarget::TsTypeAssertion(a) => Box::new(Expr::TsTypeAssertion(a)),
-            SimpleAssignTarget::TsInstantiation(a) => Box::new(Expr::TsInstantiation(a)),
-            SimpleAssignTarget::Invalid(i) => Box::new(Expr::Invalid(i)),
+            SimpleAssignTarget::Ident(i) => (Expr::Ident(i.into())),
+            SimpleAssignTarget::Member(m) => (Expr::Member(m)),
+            SimpleAssignTarget::SuperProp(s) => (Expr::SuperProp(s)),
+            SimpleAssignTarget::Paren(s) => (Expr::Paren(s)),
+            SimpleAssignTarget::OptChain(s) => (Expr::OptChain(s)),
+            SimpleAssignTarget::TsAs(a) => (Expr::TsAs(a)),
+            SimpleAssignTarget::TsSatisfies(s) => (Expr::TsSatisfies(s)),
+            SimpleAssignTarget::TsNonNull(n) => (Expr::TsNonNull(n)),
+            SimpleAssignTarget::TsTypeAssertion(a) => (Expr::TsTypeAssertion(a)),
+            SimpleAssignTarget::TsInstantiation(a) => (Expr::TsInstantiation(a)),
+            SimpleAssignTarget::Invalid(i) => (Expr::Invalid(i)),
         }
     }
 }
@@ -1605,30 +1605,31 @@ pub struct OptCall {
 
 impl Take for OptChainExpr {
     fn dummy() -> Self {
-        Self {
-            span: DUMMY_SP,
-            optional: false,
-            base: Box::new(OptChainBase::Member(Take::dummy())),
-        }
+        Default::default()
     }
 }
 
 impl From<OptChainBase> for Expr {
     fn from(opt: OptChainBase) -> Self {
         match opt {
-            OptChainBase::Call(OptCall {
-                span,
-                ctxt,
-                callee,
-                args,
-                type_args,
-            }) => Self::Call(CallExpr {
-                callee: Callee::Expr(callee),
-                args,
-                span,
-                type_args,
-                ctxt,
-            }),
+            OptChainBase::Call(c) => {
+                let OptCall {
+                    span,
+                    ctxt,
+                    callee,
+                    args,
+                    type_args,
+                } = *c;
+
+                CallExpr {
+                    callee: Callee::Expr(callee),
+                    args,
+                    span,
+                    type_args,
+                    ctxt,
+                }
+                .into()
+            }
             OptChainBase::Member(member) => Self::Member(member),
         }
     }
