@@ -632,27 +632,27 @@ impl<I: Tokens> Parser<I> {
                             match prop {
                                 PropOrSpread::Prop(prop) => match prop {
                                     Prop::Shorthand(id) => {
-                                        Ok(ObjectPatProp::Assign(AssignPatProp {
+                                        Ok(ObjectPatProp::Assign(Box::new(AssignPatProp {
                                             span: id.span(),
                                             key: id.into(),
                                             value: None,
-                                        }))
+                                        })))
                                     }
                                     Prop::KeyValue(kv_prop) => {
-                                        Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
+                                        Ok(ObjectPatProp::KeyValue(Box::new(KeyValuePatProp {
                                             key: kv_prop.key,
                                             value: self.reparse_expr_as_pat(
                                                 pat_ty.element(),
                                                 kv_prop.value,
                                             )?,
-                                        }))
+                                        })))
                                     }
                                     Prop::Assign(assign_prop) => {
-                                        Ok(ObjectPatProp::Assign(AssignPatProp {
+                                        Ok(ObjectPatProp::Assign(Box::new(AssignPatProp {
                                             span,
                                             key: assign_prop.key.into(),
                                             value: Some(assign_prop.value),
-                                        }))
+                                        })))
                                     }
                                     _ => syntax_error!(self, prop.span(), SyntaxError::InvalidPat),
                                 },
@@ -685,12 +685,12 @@ impl<I: Tokens> Parser<I> {
                                         self.emit_err(span, SyntaxError::TS1048)
                                     };
 
-                                    Ok(ObjectPatProp::Rest(RestPat {
+                                    Ok(ObjectPatProp::Rest(Box::new(RestPat {
                                         span,
                                         dot3_token,
                                         arg: pat,
                                         type_ann: None,
-                                    }))
+                                    })))
                                 }
                             }
                         })
@@ -907,11 +907,11 @@ impl<I: Tokens> Parser<I> {
             Pat::Object(obj) => {
                 for prop in obj.props.iter() {
                     match prop {
-                        ObjectPatProp::KeyValue(KeyValuePatProp { value, .. })
-                        | ObjectPatProp::Rest(RestPat { arg: value, .. }) => {
+                        ObjectPatProp::KeyValue(box KeyValuePatProp { value, .. })
+                        | ObjectPatProp::Rest(box RestPat { arg: value, .. }) => {
                             self.pat_is_valid_argument_in_strict(value)
                         }
-                        ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
+                        ObjectPatProp::Assign(box AssignPatProp { key, .. }) => {
                             if key.is_reserved_in_strict_bind() {
                                 self.emit_strict_mode_err(
                                     key.span,
@@ -1128,12 +1128,12 @@ mod tests {
                 span,
                 type_ann: None,
                 optional: false,
-                props: vec![ObjectPatProp::Rest(RestPat {
+                props: vec![ObjectPatProp::Rest(Box::new(RestPat {
                     span,
                     dot3_token: span,
                     type_ann: None,
                     arg: Pat::Ident(ident("obj").into())
-                })]
+                }))]
             }))
         );
     }
@@ -1142,20 +1142,20 @@ mod tests {
     fn object_binding_pattern_with_prop() {
         assert_eq_ignore_span!(
             object_pat("{prop = 10 }"),
-            Pat::Object(ObjectPat {
+            Pat::Object(Box::new(ObjectPat {
                 span,
                 type_ann: None,
                 optional: false,
-                props: vec![ObjectPatProp::Assign(AssignPatProp {
+                props: vec![ObjectPatProp::Assign(Box::new(AssignPatProp {
                     span,
                     key: ident("prop").into(),
-                    value: Some(Box::new(Expr::Lit(Lit::Num(Number {
+                    value: Some(Expr::Lit(Box::new(Lit::Num(Number {
                         span,
                         value: 10.0,
                         raw: Some("10".into())
                     }))))
-                })]
-            })
+                }))]
+            }))
         );
     }
 
@@ -1168,7 +1168,7 @@ mod tests {
                     span,
                     op: AssignOp::Assign,
                     left: ident(assign_name).into(),
-                    right: Box::new(expr),
+                    right: expr,
                 }
                 .into(),
             })))
@@ -1182,7 +1182,7 @@ mod tests {
                 span,
                 type_ann: None,
                 optional: false,
-                props: vec![ObjectPatProp::Assign(AssignPatProp {
+                props: vec![ObjectPatProp::Assign(Box::new(AssignPatProp {
                     span,
                     key: ident("obj").into(),
                     value: Some(Expr::Object(Box::new(ObjectLit {
@@ -1230,13 +1230,13 @@ mod tests {
                                     span,
                                     elems: vec![Some(ExprOrSpread {
                                         spread: Some(span),
-                                        expr: Box::new(Expr::Ident(ident("tail")))
+                                        expr: Expr::Ident(ident("tail"))
                                     })]
                                 }))
                             ),
                         ]
                     })))
-                })]
+                }))]
             }))
         );
     }
