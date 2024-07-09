@@ -78,7 +78,7 @@ impl<I: Tokens> Parser<I> {
 
             return Ok(AssignPat {
                 span: span!(self, start),
-                left: Box::new(left),
+                left,
                 right,
             }
             .into());
@@ -121,7 +121,7 @@ impl<I: Tokens> Parser<I> {
                 let pat = RestPat {
                     span: rest_span,
                     dot3_token,
-                    arg: Box::new(pat),
+                    arg: pat,
                     type_ann: None,
                 }
                 .into();
@@ -265,7 +265,7 @@ impl<I: Tokens> Parser<I> {
 
             AssignPat {
                 span: span!(self, start),
-                left: Box::new(pat),
+                left: pat,
                 right,
             }
             .into()
@@ -311,7 +311,7 @@ impl<I: Tokens> Parser<I> {
                 let pat = RestPat {
                     span: rest_span,
                     dot3_token,
-                    arg: Box::new(pat),
+                    arg: pat,
                     type_ann,
                 }
                 .into();
@@ -419,7 +419,7 @@ impl<I: Tokens> Parser<I> {
                     self.emit_err(pat.span(), SyntaxError::TS1048);
                     pat = AssignPat {
                         span: span!(self, pat_start),
-                        left: Box::new(pat),
+                        left: pat,
                         right,
                     }
                     .into();
@@ -437,7 +437,7 @@ impl<I: Tokens> Parser<I> {
                 let pat = RestPat {
                     span: rest_span,
                     dot3_token,
-                    arg: Box::new(pat),
+                    arg: pat,
                     type_ann,
                 }
                 .into();
@@ -608,7 +608,7 @@ impl<I: Tokens> Parser<I> {
                     span,
                     left: match left {
                         AssignTarget::Simple(left) => {
-                            Box::new(self.reparse_expr_as_pat(pat_ty, left.into())?)
+                            self.reparse_expr_as_pat(pat_ty, left.into())?
                         }
                         AssignTarget::Pat(pat) => pat.into(),
                     },
@@ -641,10 +641,10 @@ impl<I: Tokens> Parser<I> {
                                     Prop::KeyValue(kv_prop) => {
                                         Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
                                             key: kv_prop.key,
-                                            value: Box::new(self.reparse_expr_as_pat(
+                                            value: self.reparse_expr_as_pat(
                                                 pat_ty.element(),
                                                 kv_prop.value,
-                                            )?),
+                                            )?,
                                         }))
                                     }
                                     Prop::Assign(assign_prop) => {
@@ -688,7 +688,7 @@ impl<I: Tokens> Parser<I> {
                                     Ok(ObjectPatProp::Rest(RestPat {
                                         span,
                                         dot3_token,
-                                        arg: Box::new(pat),
+                                        arg: pat,
                                         type_ann: None,
                                     }))
                                 }
@@ -765,7 +765,7 @@ impl<I: Tokens> Parser<I> {
                                     RestPat {
                                         span: expr_span,
                                         dot3_token,
-                                        arg: Box::new(pat),
+                                        arg: pat,
                                         type_ann: None,
                                     }
                                     .into()
@@ -859,7 +859,7 @@ impl<I: Tokens> Parser<I> {
                     RestPat {
                         span: expr_span,
                         dot3_token,
-                        arg: Box::new(pat),
+                        arg: pat,
                         type_ann: None,
                     }
                     .into()
@@ -959,6 +959,7 @@ mod tests {
                 type_ann: None,
                 arg: ident("tail").into(),
                 arg: Box::new(Pat::Ident(ident("tail").into())),
+                arg: Pat::Ident(ident("tail").into()),
             }
             .into(),
         )
@@ -1071,7 +1072,7 @@ mod tests {
                     None,
                     Some(Pat::Assign(Box::new(AssignPat {
                         span,
-                        left: Box::new(Pat::Ident(ident("a").into())),
+                        left: Pat::Ident(ident("a").into()),
                         right: Expr::Lit(Box::new(Lit::Num(Number {
                             span,
                             value: 1.0,
@@ -1088,12 +1089,12 @@ mod tests {
     fn array_binding_pattern_tail_with_elems() {
         assert_eq_ignore_span!(
             array_pat("[,,,...tail]"),
-            Pat::Array(ArrayPat {
+            Pat::Array(Box::new(ArrayPat {
                 span,
                 optional: false,
                 elems: vec![None, None, None, rest()],
                 type_ann: None
-            })
+            }))
         );
     }
 
@@ -1101,27 +1102,27 @@ mod tests {
     fn array_binding_pattern_tail_inside_tail() {
         assert_eq_ignore_span!(
             array_pat("[,,,...[...tail]]"),
-            Pat::Array(ArrayPat {
+            Pat::Array(Box::new(ArrayPat {
                 span,
                 optional: false,
                 elems: vec![
                     None,
                     None,
                     None,
-                    Some(Pat::Rest(RestPat {
+                    Some(Pat::Rest(Box::new(RestPat {
                         span,
                         dot3_token: span,
                         type_ann: None,
-                        arg: Box::new(Pat::Array(ArrayPat {
+                        arg: Pat::Array(Box::new(ArrayPat {
                             span,
                             optional: false,
                             elems: vec![rest()],
                             type_ann: None
                         }))
-                    }))
+                    })))
                 ],
                 type_ann: None
-            })
+            }))
         );
     }
 
@@ -1129,7 +1130,7 @@ mod tests {
     fn object_binding_pattern_tail() {
         assert_eq_ignore_span!(
             object_pat("{...obj}"),
-            Pat::Object(ObjectPat {
+            Pat::Object(Box::new(ObjectPat {
                 span,
                 type_ann: None,
                 optional: false,
@@ -1137,9 +1138,9 @@ mod tests {
                     span,
                     dot3_token: span,
                     type_ann: None,
-                    arg: Box::new(Pat::Ident(ident("obj").into()))
+                    arg: Pat::Ident(ident("obj").into())
                 })]
-            })
+            }))
         );
     }
 
