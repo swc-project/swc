@@ -3,7 +3,7 @@ use std::iter;
 use serde::Deserialize;
 use swc_common::{
     collections::ARandomState, comments::Comments, util::take::Take, BytePos, Mark, Span, Spanned,
-    DUMMY_SP,
+    SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
@@ -264,7 +264,7 @@ where
         } = d
         {
             if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **init {
-                c.ident = Some(i.id.clone().into_private())
+                c.ident = Some(Ident::from(&*i).into_private())
             }
         }
 
@@ -275,7 +275,7 @@ where
     fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
         if let Some(value) = &mut n.value {
             if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **value {
-                c.ident = Some((*n.key).clone().into_private());
+                c.ident = Some(Ident::from(&n.key).into_private());
             }
         }
 
@@ -285,12 +285,10 @@ where
     /// `let [c = class /* c */ {}] = [];`
     /// `function foo(bar = class /* bar */ {}) {}`
     fn visit_mut_assign_pat(&mut self, n: &mut AssignPat) {
-        if let (
-            Pat::Ident(BindingIdent { id, .. }),
-            Expr::Class(c @ ClassExpr { ident: None, .. }),
-        ) = (&*n.left, &mut *n.right)
+        if let (Pat::Ident(id), Expr::Class(c @ ClassExpr { ident: None, .. })) =
+            (&*n.left, &mut *n.right)
         {
-            c.ident = Some(id.clone().into_private())
+            c.ident = Some(Ident::from(id).into_private());
         }
 
         n.visit_mut_children_with(self);
@@ -336,7 +334,7 @@ where
         {
             if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **right {
                 if let AssignTarget::Simple(SimpleAssignTarget::Ident(ident)) = left {
-                    c.ident = Some((**ident).clone().into_private())
+                    c.ident = Some(Ident::from(&*ident).into_private())
                 }
             }
         }
@@ -365,7 +363,8 @@ where
         let mut rhs = self.fold_class(Some(ident.clone()), class);
 
         let mut new_name = ident.clone();
-        new_name.span = new_name.span.apply_mark(Mark::new());
+        new_name.ctxt = new_name.ctxt.apply_mark(Mark::new());
+
         replace_ident(&mut rhs, ident.to_id(), &new_name);
 
         // let VarDecl take every comments except pure
@@ -389,7 +388,7 @@ where
                 name: ident.into(),
                 definite: false,
             }],
-            declare: false,
+            ..Default::default()
         }
     }
 
@@ -435,7 +434,7 @@ where
                         span: DUMMY_SP,
                         callee: helper!(wrap_native_super),
                         args: vec![super_class.as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }
                     .as_arg()],
                     Some(super_param),
@@ -500,6 +499,7 @@ where
         let body = BlockStmt {
             span: DUMMY_SP,
             stmts,
+            ..Default::default()
         };
 
         let call = CallExpr {
@@ -510,13 +510,11 @@ where
                 is_generator: false,
                 params,
                 body: Some(body),
-                decorators: Default::default(),
-                type_params: Default::default(),
-                return_type: Default::default(),
+                ..Default::default()
             }
             .as_callee(),
             args,
-            type_args: Default::default(),
+            ..Default::default()
         };
 
         Expr::Call(call)
@@ -560,18 +558,18 @@ where
 
             let mut class_name_sym = class_name.clone();
             class_name_sym.span = DUMMY_SP;
-            class_name_sym.span.ctxt = class_name.span.ctxt;
+            class_name_sym.ctxt = class_name.ctxt;
 
             let mut super_class_name_sym = super_class_ident.clone();
             super_class_name_sym.span = DUMMY_SP;
-            super_class_name_sym.span.ctxt = super_class_ident.span.ctxt;
+            super_class_name_sym.ctxt = super_class_ident.ctxt;
 
             stmts.push(
                 CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(inherits),
                     args: vec![class_name_sym.as_arg(), super_class_name_sym.as_arg()],
-                    type_args: Default::default(),
+                    ..Default::default()
                 }
                 .into_stmt(),
             );
@@ -581,7 +579,7 @@ where
             let var = private_ident!("_super");
             let mut class_name_sym = class_name.clone();
             class_name_sym.span = DUMMY_SP;
-            class_name_sym.span.ctxt = class_name.span.ctxt;
+            class_name_sym.ctxt = class_name.ctxt;
 
             if !self.config.super_is_callable_constructor {
                 stmts.push(
@@ -596,10 +594,11 @@ where
                                 span: DUMMY_SP,
                                 callee: helper!(create_super),
                                 args: vec![class_name_sym.as_arg()],
-                                type_args: Default::default(),
+                                ..Default::default()
                             }))),
                             definite: Default::default(),
                         }],
+                        ..Default::default()
                     }
                     .into(),
                 );
@@ -665,7 +664,7 @@ where
             };
 
             if super_class_ident.is_some() {
-                let this = quote_ident!(DUMMY_SP.apply_mark(this_mark), "_this");
+                let this = quote_ident!(SyntaxContext::empty().apply_mark(this_mark), "_this");
 
                 // We should fold body instead of constructor itself.
                 // Handle `super()`
@@ -702,6 +701,7 @@ where
                             declare: false,
                             kind: VarDeclKind::Var,
                             decls: vars,
+                            ..Default::default()
                         }
                         .into(),
                     );
@@ -754,6 +754,7 @@ where
                     body: Some(BlockStmt {
                         span: DUMMY_SP,
                         stmts: body,
+                        ..Default::default()
                     }),
                     ..constructor
                 }),
@@ -797,7 +798,7 @@ where
 
         let mut class_name_sym = class_name.clone();
         class_name_sym.span = DUMMY_SP;
-        class_name_sym.span.ctxt = class_name.span.ctxt;
+        class_name_sym.ctxt = class_name.ctxt;
 
         // `return Foo`
         stmts.push(Stmt::Return(ReturnStmt {
@@ -845,10 +846,11 @@ where
                     kind: VarDeclKind::Var,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: quote_ident!(DUMMY_SP.apply_mark(mark), "_this").into(),
+                        name: quote_ident!(SyntaxContext::empty().apply_mark(mark), "_this").into(),
                         init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                         definite: false,
                     }],
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -862,6 +864,7 @@ where
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls: vars,
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -883,7 +886,7 @@ where
         /// { key: "prop" }
         fn mk_key_prop(key: PropName) -> Box<Prop> {
             Box::new(Prop::KeyValue(KeyValueProp {
-                key: PropName::Ident(quote_ident!(key.span(), "key")),
+                key: PropName::Ident(quote_ident!(Default::default(), key.span(), "key")),
                 value: match key {
                     PropName::Ident(i) => Box::new(Expr::Lit(Lit::Str(quote_str!(i.span, i.sym)))),
                     PropName::Str(s) => Box::new(Expr::from(s)),
@@ -976,7 +979,7 @@ where
         ) -> Stmt {
             let mut class_name_sym = class_name.clone();
             class_name_sym.span = DUMMY_SP;
-            class_name_sym.span.ctxt = class_name.span.ctxt;
+            class_name_sym.ctxt = class_name.ctxt;
 
             CallExpr {
                 span: DUMMY_SP,
@@ -985,7 +988,7 @@ where
                     .chain(iter::once(methods))
                     .chain(static_methods)
                     .collect(),
-                type_args: Default::default(),
+                ..Default::default()
             }
             .into_stmt()
         }
@@ -1048,10 +1051,12 @@ where
                         kind: VarDeclKind::Var,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: quote_ident!(DUMMY_SP.apply_mark(mark), "_this").into(),
+                            name: quote_ident!(SyntaxContext::empty().apply_mark(mark), "_this")
+                                .into(),
                             init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                             definite: false,
                         }],
+                        ..Default::default()
                     }
                     .into(),
                 );
@@ -1065,6 +1070,7 @@ where
                         kind: VarDeclKind::Var,
                         declare: false,
                         decls: vars,
+                        ..Default::default()
                     }
                     .into(),
                 );
@@ -1075,7 +1081,11 @@ where
                     match prop_name {
                         Expr::Ident(ident) => Some(private_ident!(ident.span, ident.sym)),
                         Expr::Lit(Lit::Str(Str { span, value, .. })) if is_valid_ident(&value) => {
-                            Some(Ident::new(value, span.private()))
+                            Some(Ident::new(
+                                value,
+                                span,
+                                SyntaxContext::empty().apply_mark(Mark::new()),
+                            ))
                         }
                         _ => None,
                     }
@@ -1132,6 +1142,7 @@ where
                                     ),
                                     definite: false,
                                 }],
+                                ..Default::default()
                             }
                             .into(),
                         );
@@ -1205,7 +1216,7 @@ where
 fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
     let mut class_name_sym = name.clone();
     class_name_sym.span = DUMMY_SP;
-    class_name_sym.span.ctxt = name.span.ctxt;
+    class_name_sym.ctxt = name.ctxt;
 
     let class_call_check = CallExpr {
         span: DUMMY_SP,
@@ -1214,7 +1225,7 @@ fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
             Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
             class_name_sym.as_arg(),
         ],
-        type_args: Default::default(),
+        ..Default::default()
     }
     .into_stmt();
 

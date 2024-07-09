@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 125,
-    "end": 175,
-    "ctxt": 0
+    "end": 175
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 134,
-          "end": 137,
-          "ctxt": 0
+          "end": 137
         },
+        "ctxt": 0,
         "value": "foo",
         "optional": false
       },
@@ -24,39 +23,35 @@
           "type": "Parameter",
           "span": {
             "start": 138,
-            "end": 152,
-            "ctxt": 0
+            "end": 152
           },
           "decorators": [],
           "pat": {
             "type": "AssignmentPattern",
             "span": {
               "start": 138,
-              "end": 152,
-              "ctxt": 0
+              "end": 152
             },
             "left": {
               "type": "ObjectPattern",
               "span": {
                 "start": 138,
-                "end": 147,
-                "ctxt": 0
+                "end": 147
               },
               "properties": [
                 {
                   "type": "AssignmentPatternProperty",
                   "span": {
                     "start": 140,
-                    "end": 145,
-                    "ctxt": 0
+                    "end": 145
                   },
                   "key": {
                     "type": "Identifier",
                     "span": {
                       "start": 140,
-                      "end": 145,
-                      "ctxt": 0
+                      "end": 145
                     },
+                    "ctxt": 0,
                     "value": "cause",
                     "optional": false,
                     "typeAnnotation": null
@@ -71,8 +66,7 @@
               "type": "ObjectExpression",
               "span": {
                 "start": 150,
-                "end": 152,
-                "ctxt": 0
+                "end": 152
               },
               "properties": []
             }
@@ -82,31 +76,30 @@
       "decorators": [],
       "span": {
         "start": 125,
-        "end": 175,
-        "ctxt": 0
+        "end": 175
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 154,
-          "end": 175,
-          "ctxt": 0
+          "end": 175
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
               "start": 160,
-              "end": 173,
-              "ctxt": 0
+              "end": 173
             },
             "argument": {
               "type": "Identifier",
               "span": {
                 "start": 167,
-                "end": 172,
-                "ctxt": 0
+                "end": 172
               },
+              "ctxt": 0,
               "value": "cause",
               "optional": false
             }

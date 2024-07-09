@@ -110,7 +110,7 @@ impl<I: Tokens> Parser<I> {
                         ref mut type_params,
                         ..
                     }) => {
-                        *span = Span::new(type_parameters.span.lo, span.hi, Default::default());
+                        *span = Span::new(type_parameters.span.lo, span.hi);
                         *type_params = Some(type_parameters);
                     }
                     _ => unexpected!(p, "("),
@@ -232,7 +232,7 @@ impl<I: Tokens> Parser<I> {
                 ..self.ctx()
             };
             let alt = self.with_ctx(ctx).parse_assignment_expr()?;
-            let span = Span::new(start, alt.span_hi(), Default::default());
+            let span = Span::new(start, alt.span_hi());
             Ok(Box::new(Expr::Cond(CondExpr {
                 span,
                 test,
@@ -432,7 +432,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 let ident = self.parse_binding_ident()?;
-                if self.input.syntax().typescript() && ident.id.sym == "as" && !is!(self, "=>") {
+                if self.input.syntax().typescript() && ident.sym == "as" && !is!(self, "=>") {
                     // async as type
                     let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;
                     return Ok(Box::new(Expr::TsAs(TsAsExpr {
@@ -455,8 +455,7 @@ impl<I: Tokens> Parser<I> {
                     params,
                     is_async: true,
                     is_generator: false,
-                    return_type: None,
-                    type_params: None,
+                    ..Default::default()
                 })));
             } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!(self, "=>") {
                 if self.ctx().strict && id.is_reserved_in_strict_bind() {
@@ -472,10 +471,7 @@ impl<I: Tokens> Parser<I> {
                     params,
                     is_async: false,
                     is_generator: false,
-                    // TODO
-                    return_type: None,
-                    // TODO
-                    type_params: None,
+                    ..Default::default()
                 })));
             } else {
                 return Ok(Box::new(Expr::Ident(id)));
@@ -486,7 +482,7 @@ impl<I: Tokens> Parser<I> {
             let id = self.parse_ident_name()?;
             return Ok(Box::new(Expr::PrivateName(PrivateName {
                 span: span!(self, start),
-                id,
+                name: id.sym,
             })));
         }
 
@@ -628,6 +624,7 @@ impl<I: Tokens> Parser<I> {
                     callee,
                     args,
                     type_args,
+                    ..Default::default()
                 })));
 
                 // We should parse subscripts for MemberExpression.
@@ -642,6 +639,7 @@ impl<I: Tokens> Parser<I> {
                 callee,
                 args: None,
                 type_args,
+                ..Default::default()
             })));
         }
 
@@ -822,7 +820,7 @@ impl<I: Tokens> Parser<I> {
                     params,
                     body,
                     return_type: Some(return_type),
-                    type_params: None,
+                    ..Default::default()
                 }))))
             }) {
                 return Ok(expr);
@@ -879,7 +877,7 @@ impl<I: Tokens> Parser<I> {
                 params,
                 body,
                 return_type,
-                type_params: None,
+                ..Default::default()
             };
             if let BlockStmtOrExpr::BlockStmt(..) = &*arrow_expr.body {
                 if let Some(&Token::BinOp(..)) = self.input.cur() {
@@ -929,12 +927,12 @@ impl<I: Tokens> Parser<I> {
             // It's a call expression
             return Ok(Box::new(Expr::Call(CallExpr {
                 span: span!(self, async_span.lo()),
-                callee: Callee::Expr(Box::new(Expr::Ident(Ident::new(
+                callee: Callee::Expr(Box::new(Expr::Ident(Ident::new_no_ctxt(
                     "async".into(),
                     async_span,
                 )))),
                 args: expr_or_spreads,
-                type_args: None,
+                ..Default::default()
             })));
         }
 
@@ -943,7 +941,7 @@ impl<I: Tokens> Parser<I> {
         if expr_or_spreads.is_empty() {
             syntax_error!(
                 self,
-                Span::new(expr_start, last_pos!(self), Default::default()),
+                Span::new(expr_start, last_pos!(self),),
                 SyntaxError::EmptyParenExpr
             );
         }
@@ -983,7 +981,6 @@ impl<I: Tokens> Parser<I> {
                 span: Span::new(
                     exprs.first().unwrap().span_lo(),
                     exprs.last().unwrap().span_hi(),
-                    Default::default(),
                 ),
                 exprs,
             }));
@@ -1039,6 +1036,7 @@ impl<I: Tokens> Parser<I> {
             tag,
             type_params,
             tpl,
+            ..Default::default()
         })
     }
 
@@ -1199,6 +1197,7 @@ impl<I: Tokens> Parser<I> {
                                             callee: obj.expect_expr(),
                                             type_args: Some(type_args),
                                             args,
+                                            ..Default::default()
                                         })),
                                         optional: false,
                                     })),
@@ -1213,6 +1212,7 @@ impl<I: Tokens> Parser<I> {
                                 callee: obj,
                                 type_args: Some(type_args),
                                 args,
+                                ..Default::default()
                             })),
                             true,
                         )))
@@ -1282,10 +1282,10 @@ impl<I: Tokens> Parser<I> {
             let bracket_lo = self.input.prev_span().lo;
             let prop = self.include_in_expr(true).parse_expr()?;
             expect!(self, ']');
-            let span = Span::new(obj.span_lo(), self.input.last_pos(), Default::default());
+            let span = Span::new(obj.span_lo(), self.input.last_pos());
             debug_assert_eq!(obj.span_lo(), span.lo());
             let prop = ComputedPropName {
-                span: Span::new(bracket_lo, self.input.last_pos(), Default::default()),
+                span: Span::new(bracket_lo, self.input.last_pos()),
                 expr: prop,
             };
 
@@ -1383,6 +1383,7 @@ impl<I: Tokens> Parser<I> {
                                 callee,
                                 args,
                                 type_args,
+                                ..Default::default()
                             })),
                         })),
                         true,
@@ -1394,7 +1395,7 @@ impl<I: Tokens> Parser<I> {
                         span: span!(self, start),
                         callee: obj,
                         args,
-                        type_args: None,
+                        ..Default::default()
                     }
                     .into(),
                     true,
@@ -1440,6 +1441,7 @@ impl<I: Tokens> Parser<I> {
                                         callee,
                                         args,
                                         type_args: None,
+                                        ..Default::default()
                                     })
                                 }
                             }
@@ -1651,6 +1653,7 @@ impl<I: Tokens> Parser<I> {
                             callee: e,
                             args,
                             type_args,
+                            ..Default::default()
                         })),
                         optional: false,
                     }))
@@ -1661,6 +1664,7 @@ impl<I: Tokens> Parser<I> {
                     callee,
                     args,
                     type_args,
+                    ..Default::default()
                 })),
             };
 
@@ -1791,7 +1795,7 @@ impl<I: Tokens> Parser<I> {
                         arg = ExprOrSpread {
                             spread: None,
                             expr: Box::new(Expr::Cond(CondExpr {
-                                span: Span::new(start, alt.span_hi(), Default::default()),
+                                span: Span::new(start, alt.span_hi()),
 
                                 test,
                                 cons,
@@ -1820,7 +1824,7 @@ impl<I: Tokens> Parser<I> {
                 let mut pat = self.reparse_expr_as_pat(PatType::BindingPat, arg.expr)?;
                 if optional {
                     match pat {
-                        Pat::Ident(ref mut i) => i.id.optional = true,
+                        Pat::Ident(ref mut i) => i.optional = true,
                         _ => unreachable!(),
                     }
                 }
@@ -1855,8 +1859,7 @@ impl<I: Tokens> Parser<I> {
                     }) => {
                         let new_type_ann = self.try_parse_ts_type_ann()?;
                         if new_type_ann.is_some() {
-                            *span =
-                                Span::new(pat_start, self.input.prev_span().hi, Default::default());
+                            *span = Span::new(pat_start, self.input.prev_span().hi);
                         }
                         *type_ann = new_type_ann;
                     }
@@ -1922,8 +1925,7 @@ impl<I: Tokens> Parser<I> {
                             is_async,
                             is_generator: false,
                             params,
-                            type_params: None,
-                            return_type: None,
+                            ..Default::default()
                         }
                         .into(),
                     ),

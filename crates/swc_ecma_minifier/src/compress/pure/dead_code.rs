@@ -264,6 +264,7 @@ impl Pure<'_> {
                         kind: VarDeclKind::Var,
                         decls,
                         declare: false,
+                        ..Default::default()
                     })
                     .into(),
                 );
@@ -537,6 +538,7 @@ impl Pure<'_> {
                                             kind: VarDeclKind::Var,
                                             declare: Default::default(),
                                             decls: var_ids,
+                                            ..Default::default()
                                         }
                                         .into(),
                                     ))
@@ -561,6 +563,7 @@ impl Pure<'_> {
                                             kind: VarDeclKind::Var,
                                             declare: Default::default(),
                                             decls: var_ids,
+                                            ..Default::default()
                                         }
                                         .into(),
                                     ))

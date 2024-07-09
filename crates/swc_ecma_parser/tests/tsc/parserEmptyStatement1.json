@@ -2,33 +2,30 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 17,
-    "ctxt": 0
+    "end": 17
   },
   "body": [
     {
       "type": "EmptyStatement",
       "span": {
         "start": 1,
-        "end": 2,
-        "ctxt": 0
+        "end": 2
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 3,
-        "end": 4,
-        "ctxt": 0
+        "end": 4
       }
     },
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 5,
-        "end": 15,
-        "ctxt": 0
+        "end": 15
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -36,16 +33,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 9,
-            "end": 14,
-            "ctxt": 0
+            "end": 14
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 9,
-              "end": 10,
-              "ctxt": 0
+              "end": 10
             },
+            "ctxt": 0,
             "value": "a",
             "optional": false,
             "typeAnnotation": null
@@ -54,8 +50,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 13,
-              "end": 14,
-              "ctxt": 0
+              "end": 14
             },
             "value": 1.0,
             "raw": "1"
@@ -68,8 +63,7 @@
       "type": "EmptyStatement",
       "span": {
         "start": 16,
-        "end": 17,
-        "ctxt": 0
+        "end": 17
       }
     }
   ],

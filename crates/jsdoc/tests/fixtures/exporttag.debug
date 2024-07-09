@@ -1,23 +1,23 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..16#0,
+            span: 1..16,
             value: "My class.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 1..12#0,
+                span: 1..12,
                 tag_name: Text {
-                    span: 1..12#0,
+                    span: 1..12,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 1..12#0,
+                        span: 1..12,
                         ty: Some(
                             Text {
-                                span: 1..10#0,
+                                span: 1..10,
                                 value: "* @export",
                             },
                         ),
@@ -28,23 +28,23 @@
         ],
     },
     JsDoc {
-        span: 75..75#0,
+        span: 75..75,
         description: Text {
-            span: 75..98#0,
+            span: 75..98,
             value: "My public method.\n *\n *",
         },
         tags: [
             TagItem {
-                span: 75..81#0,
+                span: 75..81,
                 tag_name: Text {
-                    span: 75..81#0,
+                    span: 75..81,
                     value: "export",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 75..81#0,
+                        span: 75..81,
                         extras: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },

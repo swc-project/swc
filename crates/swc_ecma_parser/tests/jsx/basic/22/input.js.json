@@ -2,23 +2,20 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 53,
-    "ctxt": 0
+    "end": 53
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 53,
-        "ctxt": 0
+        "end": 53
       },
       "expression": {
         "type": "JSXElement",
         "span": {
           "start": 1,
-          "end": 52,
-          "ctxt": 0
+          "end": 52
         },
         "opening": {
           "type": "JSXOpeningElement",
@@ -26,16 +23,15 @@
             "type": "Identifier",
             "span": {
               "start": 2,
-              "end": 5,
-              "ctxt": 0
+              "end": 5
             },
+            "ctxt": 0,
             "value": "div",
             "optional": false
           },
           "span": {
             "start": 1,
-            "end": 6,
-            "ctxt": 0
+            "end": 6
           },
           "attributes": [],
           "selfClosing": false,
@@ -46,8 +42,7 @@
             "type": "JSXText",
             "span": {
               "start": 6,
-              "end": 46,
-              "ctxt": 0
+              "end": 46
             },
             "value": "this should not parse as unicode: \\u00a0",
             "raw": "this should not parse as unicode: \\u00a0"
@@ -57,16 +52,15 @@
           "type": "JSXClosingElement",
           "span": {
             "start": 46,
-            "end": 52,
-            "ctxt": 0
+            "end": 52
           },
           "name": {
             "type": "Identifier",
             "span": {
               "start": 48,
-              "end": 51,
-              "ctxt": 0
+              "end": 51
             },
+            "ctxt": 0,
             "value": "div",
             "optional": false
           }

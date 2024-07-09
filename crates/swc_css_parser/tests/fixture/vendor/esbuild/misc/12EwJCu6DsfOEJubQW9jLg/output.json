@@ -2,62 +2,54 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 60,
-    "ctxt": 0
+    "end": 60
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 60,
-        "ctxt": 0
+        "end": 60
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 2,
-          "ctxt": 0
+          "end": 2
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 2,
-              "ctxt": 0
+              "end": 2
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 2,
-                  "ctxt": 0
+                  "end": 2
                 },
                 "nestingSelector": null,
                 "typeSelector": {
                   "type": "TagNameSelector",
                   "span": {
                     "start": 1,
-                    "end": 2,
-                    "ctxt": 0
+                    "end": 2
                   },
                   "name": {
                     "type": "WqName",
                     "span": {
                       "start": 1,
-                      "end": 2,
-                      "ctxt": 0
+                      "end": 2
                     },
                     "prefix": null,
                     "value": {
                       "type": "Ident",
                       "span": {
                         "start": 1,
-                        "end": 2,
-                        "ctxt": 0
+                        "end": 2
                       },
                       "value": "a",
                       "raw": "a"
@@ -74,15 +66,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 3,
-          "end": 60,
-          "ctxt": 0
+          "end": 60
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 3,
-            "end": 4,
-            "ctxt": 0
+            "end": 4
           },
           "token": "LBrace"
         },
@@ -91,15 +81,13 @@
             "type": "Declaration",
             "span": {
               "start": 5,
-              "end": 27,
-              "ctxt": 0
+              "end": 27
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 5,
-                "end": 18,
-                "ctxt": 0
+                "end": 18
               },
               "value": "border-radius",
               "raw": "border-radius"
@@ -109,8 +97,7 @@
                 "type": "Integer",
                 "span": {
                   "start": 20,
-                  "end": 21,
-                  "ctxt": 0
+                  "end": 21
                 },
                 "value": 1,
                 "raw": "1"
@@ -119,8 +106,7 @@
                 "type": "Integer",
                 "span": {
                   "start": 22,
-                  "end": 23,
-                  "ctxt": 0
+                  "end": 23
                 },
                 "value": 2,
                 "raw": "2"
@@ -129,8 +115,7 @@
                 "type": "Integer",
                 "span": {
                   "start": 24,
-                  "end": 25,
-                  "ctxt": 0
+                  "end": 25
                 },
                 "value": 3,
                 "raw": "3"
@@ -139,8 +124,7 @@
                 "type": "Integer",
                 "span": {
                   "start": 26,
-                  "end": 27,
-                  "ctxt": 0
+                  "end": 27
                 },
                 "value": 4,
                 "raw": "4"
@@ -152,15 +136,13 @@
             "type": "Declaration",
             "span": {
               "start": 29,
-              "end": 57,
-              "ctxt": 0
+              "end": 57
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 29,
-                "end": 52,
-                "ctxt": 0
+                "end": 52
               },
               "value": "border-top-right-radius",
               "raw": "border-top-right-radius"
@@ -170,8 +152,7 @@
                 "type": "Integer",
                 "span": {
                   "start": 54,
-                  "end": 55,
-                  "ctxt": 0
+                  "end": 55
                 },
                 "value": 5,
                 "raw": "5"
@@ -180,8 +161,7 @@
                 "type": "Integer",
                 "span": {
                   "start": 56,
-                  "end": 57,
-                  "ctxt": 0
+                  "end": 57
                 },
                 "value": 6,
                 "raw": "6"

@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 45,
-    "ctxt": 0
+    "end": 45
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -33,8 +30,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 18,
-                "ctxt": 0
+                "end": 18
               },
               "tagName": "script",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 24,
-                "end": 39,
-                "ctxt": 0
+                "end": 39
               },
               "tagName": "title",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -65,8 +60,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -76,8 +70,7 @@
               "type": "Element",
               "span": {
                 "start": 39,
-                "end": 42,
-                "ctxt": 0
+                "end": 42
               },
               "tagName": "p",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -90,8 +83,7 @@
               "type": "Element",
               "span": {
                 "start": 42,
-                "end": 45,
-                "ctxt": 0
+                "end": 45
               },
               "tagName": "p",
               "namespace": "http://www.w3.org/1999/xhtml",

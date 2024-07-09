@@ -169,7 +169,7 @@ impl VisitMut for TemplateLiteral {
                                     callee: MemberExpr {
                                         span: DUMMY_SP,
                                         obj,
-                                        prop: MemberProp::Ident(Ident::new(
+                                        prop: MemberProp::Ident(Ident::new_no_ctxt(
                                             "concat".into(),
                                             expr_span,
                                         )),
@@ -179,7 +179,7 @@ impl VisitMut for TemplateLiteral {
                                         .into_iter()
                                         .map(|expr| expr.as_arg())
                                         .collect(),
-                                    type_args: Default::default(),
+                                    ..Default::default()
                                 }))
                             }
                         }
@@ -210,7 +210,7 @@ impl VisitMut for TemplateLiteral {
                                     callee: MemberExpr {
                                         span: DUMMY_SP,
                                         obj,
-                                        prop: MemberProp::Ident(Ident::new(
+                                        prop: MemberProp::Ident(Ident::new_no_ctxt(
                                             "concat".into(),
                                             expr_span,
                                         )),
@@ -220,7 +220,7 @@ impl VisitMut for TemplateLiteral {
                                         .into_iter()
                                         .map(|expr| expr.as_arg())
                                         .collect(),
-                                    type_args: Default::default(),
+                                    ..Default::default()
                                 }))
                             };
                         }
@@ -301,9 +301,10 @@ impl VisitMut for TemplateLiteral {
                                         .chain(raw)
                                         .collect()
                                     },
-                                    type_args: Default::default(),
+                                    ..Default::default()
                                 }))),
                             }],
+                            ..Default::default()
                         };
 
                         // _templateObject2 = function () {
@@ -325,10 +326,9 @@ impl VisitMut for TemplateLiteral {
                                             span: DUMMY_SP,
                                             arg: Some(Box::new(quote_ident!("data").into())),
                                         })],
+                                        ..Default::default()
                                     }),
-                                    decorators: Default::default(),
-                                    type_params: Default::default(),
-                                    return_type: Default::default(),
+                                    ..Default::default()
                                 }
                                 .into(),
                             })
@@ -345,11 +345,11 @@ impl VisitMut for TemplateLiteral {
                                     arg: Some(Box::new(quote_ident!("data").into())),
                                 }),
                             ],
+                            ..Default::default()
                         })
                     },
-                    decorators: Default::default(),
-                    type_params: Default::default(),
-                    return_type: Default::default(),
+
+                    ..Default::default()
                 };
                 self.added.push(Stmt::Decl(Decl::Fn(FnDecl {
                     declare: false,
@@ -365,13 +365,13 @@ impl VisitMut for TemplateLiteral {
                             span: DUMMY_SP,
                             callee: fn_ident.as_callee(),
                             args: vec![],
-                            type_args: Default::default(),
+                            ..Default::default()
                         }
                         .as_arg(),
                     )
                     .chain(tpl.exprs.take().into_iter().map(|e| e.as_arg()))
                     .collect(),
-                    type_args: Default::default(),
+                    ..Default::default()
                 })
             }
 

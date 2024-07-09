@@ -44,13 +44,13 @@ where
 }
 
 fn span(start: usize, end: usize) -> Span {
-    Span::new(BytePos(start as _), BytePos(end as _), Default::default())
+    Span::new(BytePos(start as _), BytePos(end as _))
 }
 
 #[test]
 fn test_1() {
     output("1.ans", |cm, h| {
-        let _fm = cm.new_source_file(FileName::Anon, "123456789".into());
+        let _fm = cm.new_source_file(FileName::Anon.into(), "123456789".into());
 
         h.struct_span_err(span(1, 3), "test")
             .span_label(span(1, 4), "label")
@@ -61,7 +61,7 @@ fn test_1() {
 #[test]
 fn test_2() {
     output("2.ans", |cm, h| {
-        let _fm = cm.new_source_file(FileName::Anon, "123456789".into());
+        let _fm = cm.new_source_file(FileName::Anon.into(), "123456789".into());
 
         let mut d = h.struct_span_err(span(1, 3), "test");
 

@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 56,
-    "end": 194,
-    "ctxt": 0
+    "end": 194
   },
   "body": [
     {
@@ -12,51 +11,40 @@
         "type": "Identifier",
         "span": {
           "start": 62,
-          "end": 63,
-          "ctxt": 0
+          "end": 63
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 56,
-        "end": 194,
-        "ctxt": 0
+        "end": 194
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "PrivateProperty",
           "span": {
             "start": 68,
-            "end": 83,
-            "ctxt": 0
+            "end": 83
           },
+          "ctxt": 0,
           "key": {
             "type": "PrivateName",
             "span": {
               "start": 75,
-              "end": 78,
-              "ctxt": 0
+              "end": 78
             },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 76,
-                "end": 78,
-                "ctxt": 0
-              },
-              "value": "_1",
-              "optional": false
-            }
+            "value": "_1"
           },
           "value": {
             "type": "NumericLiteral",
             "span": {
               "start": 81,
-              "end": 82,
-              "ctxt": 0
+              "end": 82
             },
             "value": 1.0,
             "raw": "1"
@@ -74,33 +62,22 @@
           "type": "PrivateProperty",
           "span": {
             "start": 86,
-            "end": 101,
-            "ctxt": 0
+            "end": 101
           },
+          "ctxt": 0,
           "key": {
             "type": "PrivateName",
             "span": {
               "start": 93,
-              "end": 96,
-              "ctxt": 0
+              "end": 96
             },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 94,
-                "end": 96,
-                "ctxt": 0
-              },
-              "value": "_3",
-              "optional": false
-            }
+            "value": "_3"
           },
           "value": {
             "type": "NumericLiteral",
             "span": {
               "start": 99,
-              "end": 100,
-              "ctxt": 0
+              "end": 100
             },
             "value": 1.0,
             "raw": "1"
@@ -118,33 +95,22 @@
           "type": "PrivateProperty",
           "span": {
             "start": 104,
-            "end": 119,
-            "ctxt": 0
+            "end": 119
           },
+          "ctxt": 0,
           "key": {
             "type": "PrivateName",
             "span": {
               "start": 111,
-              "end": 114,
-              "ctxt": 0
+              "end": 114
             },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 112,
-                "end": 114,
-                "ctxt": 0
-              },
-              "value": "_5",
-              "optional": false
-            }
+            "value": "_5"
           },
           "value": {
             "type": "NumericLiteral",
             "span": {
               "start": 117,
-              "end": 118,
-              "ctxt": 0
+              "end": 118
             },
             "value": 1.0,
             "raw": "1"
@@ -162,16 +128,15 @@
           "type": "StaticBlock",
           "span": {
             "start": 123,
-            "end": 132,
-            "ctxt": 0
+            "end": 132
           },
           "body": {
             "type": "BlockStatement",
             "span": {
               "start": 130,
-              "end": 132,
-              "ctxt": 0
+              "end": 132
             },
+            "ctxt": 0,
             "stmts": []
           }
         },
@@ -179,16 +144,15 @@
           "type": "StaticBlock",
           "span": {
             "start": 135,
-            "end": 144,
-            "ctxt": 0
+            "end": 144
           },
           "body": {
             "type": "BlockStatement",
             "span": {
               "start": 142,
-              "end": 144,
-              "ctxt": 0
+              "end": 144
             },
+            "ctxt": 0,
             "stmts": []
           }
         },
@@ -196,16 +160,15 @@
           "type": "StaticBlock",
           "span": {
             "start": 147,
-            "end": 156,
-            "ctxt": 0
+            "end": 156
           },
           "body": {
             "type": "BlockStatement",
             "span": {
               "start": 154,
-              "end": 156,
-              "ctxt": 0
+              "end": 156
             },
+            "ctxt": 0,
             "stmts": []
           }
         },
@@ -213,16 +176,15 @@
           "type": "StaticBlock",
           "span": {
             "start": 159,
-            "end": 168,
-            "ctxt": 0
+            "end": 168
           },
           "body": {
             "type": "BlockStatement",
             "span": {
               "start": 166,
-              "end": 168,
-              "ctxt": 0
+              "end": 168
             },
+            "ctxt": 0,
             "stmts": []
           }
         },
@@ -230,16 +192,15 @@
           "type": "StaticBlock",
           "span": {
             "start": 171,
-            "end": 180,
-            "ctxt": 0
+            "end": 180
           },
           "body": {
             "type": "BlockStatement",
             "span": {
               "start": 178,
-              "end": 180,
-              "ctxt": 0
+              "end": 180
             },
+            "ctxt": 0,
             "stmts": []
           }
         },
@@ -247,16 +208,15 @@
           "type": "StaticBlock",
           "span": {
             "start": 183,
-            "end": 192,
-            "ctxt": 0
+            "end": 192
           },
           "body": {
             "type": "BlockStatement",
             "span": {
               "start": 190,
-              "end": 192,
-              "ctxt": 0
+              "end": 192
             },
+            "ctxt": 0,
             "stmts": []
           }
         }

@@ -30,7 +30,7 @@ impl Config {
                 .map(|(k, v)| {
                     let parse = |s| {
                         let fm = cm.new_source_file(
-                            FileName::Internal(format!("<umd-config-{}.js>", s)),
+                            FileName::Internal(format!("<umd-config-{}.js>", s)).into(),
                             s,
                         );
 
@@ -62,7 +62,7 @@ pub(super) struct BuiltConfig {
 }
 
 impl BuiltConfig {
-    pub fn global_name(&self, src: &JsWord) -> JsWord {
+    pub fn global_name(&self, src: &str) -> JsWord {
         if !src.contains('/') {
             return src.to_camel_case().into();
         }
@@ -70,18 +70,18 @@ impl BuiltConfig {
         src.split('/').last().unwrap().to_camel_case().into()
     }
 
-    pub fn determine_export_name(&self, filename: FileName) -> Ident {
-        match filename {
+    pub fn determine_export_name(&self, filename: Lrc<FileName>) -> Ident {
+        match &*filename {
             FileName::Real(ref path) => {
                 let s = match path.file_stem() {
-                    Some(stem) => self.global_name(&stem.to_string_lossy().into()),
-                    None => self.global_name(&path.display().to_string().into()),
+                    Some(stem) => self.global_name(&stem.to_string_lossy()),
+                    None => self.global_name(&path.display().to_string()),
                 };
 
                 quote_ident!(s)
             }
             FileName::Custom(s) => {
-                let s = self.global_name(&s.into());
+                let s = self.global_name(s);
                 quote_ident!(s)
             }
             _ => unimplemented!("determine_export_name({:?})", filename),

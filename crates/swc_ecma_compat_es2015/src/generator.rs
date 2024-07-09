@@ -77,13 +77,12 @@ impl VisitMut for Wrapper {
                 }],
                 decorators: Default::default(),
                 body: Some(BlockStmt {
-                    span: DUMMY_SP,
                     stmts,
+                    ..Default::default()
                 }),
                 is_generator: false,
                 is_async: false,
-                type_params: Default::default(),
-                return_type: Default::default(),
+                ..Default::default()
             });
             let generator_object = Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
@@ -96,7 +95,7 @@ impl VisitMut for Wrapper {
                     }
                     .as_arg(),
                 ],
-                type_args: Default::default(),
+                ..Default::default()
             }));
             let mut stmts = vec![];
             if !v.hoisted_vars.is_empty() {
@@ -106,6 +105,7 @@ impl VisitMut for Wrapper {
                         kind: VarDeclKind::Var,
                         declare: Default::default(),
                         decls: v.hoisted_vars.take(),
+                        ..Default::default()
                     }
                     .into(),
                 )
@@ -118,6 +118,7 @@ impl VisitMut for Wrapper {
                         kind: VarDeclKind::Var,
                         declare: Default::default(),
                         decls: vars,
+                        ..Default::default()
                     }
                     .into(),
                 )
@@ -428,7 +429,7 @@ impl VisitMut for Generator {
                             span: DUMMY_SP,
                             callee: helper!(ts, ts_values),
                             args: vec![e.as_arg()],
-                            type_args: Default::default(),
+                            ..Default::default()
                         })
                         .map(Expr::from)
                         .map(Box::new);
@@ -772,13 +773,13 @@ impl VisitMut for Generator {
             let mut args = node.args.take().into_iter().map(Some).collect::<Vec<_>>();
             let arg = self.visit_elements(&mut args, None, None);
 
-            let apply = callee.make_member(Ident::new("apply".into(), node.span));
+            let apply = callee.make_member(Ident::new_no_ctxt("apply".into(), node.span));
 
             *node = CallExpr {
                 span: node.span,
                 callee: apply.as_callee(),
                 args: once(this_arg.as_arg()).chain(once(arg.as_arg())).collect(),
-                type_args: None,
+                ..Default::default()
             };
             return;
         }
@@ -829,7 +830,7 @@ impl VisitMut for Generator {
                 span: node.span,
                 callee: Box::new(apply),
                 args: None,
-                type_args: None,
+                ..Default::default()
             };
             return;
         }
@@ -844,7 +845,7 @@ impl VisitMut for Generator {
 
         if let Some(VarDeclOrExpr::VarDecl(initializer)) = &mut node.init {
             for variable in initializer.decls.iter_mut() {
-                self.hoist_variable_declaration(variable.name.as_ident().unwrap());
+                self.hoist_variable_declaration(&Ident::from(variable.name.as_ident().unwrap()));
             }
 
             let variables = self.get_initialized_variables(initializer);
@@ -949,7 +950,7 @@ impl VisitMut for Generator {
 
         if let ForHead::VarDecl(initializer) = &mut node.left {
             for variable in &initializer.decls {
-                self.hoist_variable_declaration(variable.name.as_ident().unwrap());
+                self.hoist_variable_declaration(&Ident::from(variable.name.as_ident().unwrap()));
             }
 
             node.right.visit_mut_with(self);
@@ -1002,7 +1003,7 @@ impl VisitMut for Generator {
                 // }
 
                 for decl in v.decls.iter() {
-                    self.hoist_variable_declaration(decl.name.as_ident().unwrap());
+                    self.hoist_variable_declaration(&Ident::from(decl.name.as_ident().unwrap()));
                 }
 
                 let variables = self.get_initialized_variables(v);
@@ -1117,7 +1118,7 @@ impl Generator {
                         elems: expressions,
                     })),
                 }],
-                type_args: Default::default(),
+                ..Default::default()
             })
         } else {
             Expr::Array(ArrayLit {
@@ -1160,7 +1161,7 @@ impl Generator {
                             elems: expressions.take(),
                         }))
                         .as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     }))
                 } else {
                     Box::new(
@@ -1210,7 +1211,7 @@ impl Generator {
         let mut expression = match property {
             CompiledProp::Prop(p) => match p {
                 Prop::Shorthand(p) => Expr::Assign(AssignExpr {
-                    span: p.span.with_ctxt(SyntaxContext::empty()),
+                    span: p.span,
                     op: op!("="),
                     left: MemberExpr {
                         span: DUMMY_SP,
@@ -1262,13 +1263,11 @@ impl Generator {
                             key: quote_ident!("get").into(),
                             value: Function {
                                 params: vec![],
-                                decorators: Default::default(),
                                 span: g.span,
                                 body: g.body,
                                 is_generator: false,
                                 is_async: false,
-                                type_params: Default::default(),
-                                return_type: Default::default(),
+                                ..Default::default()
                             }
                             .into(),
                         })
@@ -1278,13 +1277,11 @@ impl Generator {
                                 key: quote_ident!("set").into(),
                                 value: Function {
                                     params: vec![(*s.param).into()],
-                                    decorators: Default::default(),
                                     span: s.span,
                                     body: s.body,
                                     is_generator: false,
                                     is_async: false,
-                                    type_params: Default::default(),
-                                    return_type: Default::default(),
+                                    ..Default::default()
                                 }
                                 .into(),
                             }
@@ -1303,7 +1300,7 @@ impl Generator {
                         prop_name_to_expr_value(key).as_arg(),
                         desc.as_arg(),
                     ],
-                    type_args: Default::default(),
+                    ..Default::default()
                 })
             }
         };
@@ -1477,7 +1474,7 @@ impl Generator {
 
     fn transform_and_emit_var_decl_list(&mut self, mut node: Box<VarDecl>) {
         for variable in &node.decls {
-            self.hoist_variable_declaration(variable.name.as_ident().unwrap());
+            self.hoist_variable_declaration(&Ident::from(variable.name.as_ident().unwrap()));
         }
 
         let mut variables = self.get_initialized_variables(&mut node);
@@ -1757,7 +1754,7 @@ impl Generator {
                             .make_member(quote_ident!("push"))
                             .as_callee(),
                         args: vec![key.as_arg()],
-                        type_args: Default::default(),
+                        ..Default::default()
                     })),
                 })),
             }));
@@ -1781,7 +1778,9 @@ impl Generator {
             let variable = match node.left {
                 ForHead::VarDecl(initializer) => {
                     for variable in initializer.decls.iter() {
-                        self.hoist_variable_declaration(variable.name.as_ident().unwrap());
+                        self.hoist_variable_declaration(&Ident::from(
+                            variable.name.as_ident().unwrap(),
+                        ));
                     }
 
                     initializer.decls[0].name.clone()
@@ -2279,7 +2278,7 @@ impl Generator {
     fn begin_catch_block(&mut self, variable: VarDeclarator) {
         debug_assert!(self.peek_block_kind() == Some(CodeBlockKind::Exception));
 
-        let name = variable.name.expect_ident().id;
+        let name = variable.name.expect_ident().into();
         self.hoist_variable_declaration(&name);
 
         // ExceptionBlock
@@ -2310,7 +2309,7 @@ impl Generator {
                     .make_member(quote_ident!("sent"))
                     .as_callee(),
                 args: vec![],
-                type_args: Default::default(),
+                ..Default::default()
             })),
             None,
         );
@@ -2595,11 +2594,7 @@ impl Generator {
                         .push(expr);
                 }
                 return Box::new(Expr::Invalid(Invalid {
-                    span: Span::new(
-                        BytePos(label.0 as _),
-                        BytePos(label.0 as _),
-                        Default::default(),
-                    ),
+                    span: Span::new(BytePos(label.0 as _), BytePos(label.0 as _)),
                 }));
             }
         }
@@ -2672,7 +2667,7 @@ impl Generator {
                 .make_member(quote_ident!("sent"))
                 .as_callee(),
             args: vec![],
-            type_args: Default::default(),
+            ..Default::default()
         }))
     }
 
@@ -2943,6 +2938,7 @@ impl Generator {
                         body: Box::new(Stmt::Block(BlockStmt {
                             span: DUMMY_SP,
                             stmts,
+                            ..Default::default()
                         })),
                     })];
                 }
@@ -2997,7 +2993,7 @@ impl Generator {
                                 ],
                             }
                             .as_arg()],
-                            type_args: Default::default(),
+                            ..Default::default()
                         })),
                     }),
                 );

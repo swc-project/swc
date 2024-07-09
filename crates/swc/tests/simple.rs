@@ -12,7 +12,7 @@ fn compile(src: &str, options: Options) -> String {
         .print_errors(|cm, handler| {
             let c = Compiler::new(cm.clone());
 
-            let fm = cm.new_source_file(FileName::Real("input.js".into()), src.into());
+            let fm = cm.new_source_file(FileName::Real("input.js".into()).into(), src.into());
             let s = c.process_js_file(fm, &handler, &options);
 
             match s {

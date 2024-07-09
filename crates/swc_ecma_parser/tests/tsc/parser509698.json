@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 48,
-    "end": 107,
-    "ctxt": 0
+    "end": 107
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 65,
-          "end": 68,
-          "ctxt": 0
+          "end": 68
         },
+        "ctxt": 0,
         "value": "foo",
         "optional": false
       },
@@ -23,9 +22,9 @@
       "decorators": [],
       "span": {
         "start": 48,
-        "end": 77,
-        "ctxt": 0
+        "end": 77
       },
+      "ctxt": 0,
       "body": null,
       "generator": false,
       "async": false,
@@ -34,15 +33,13 @@
         "type": "TsTypeAnnotation",
         "span": {
           "start": 70,
-          "end": 76,
-          "ctxt": 0
+          "end": 76
         },
         "typeAnnotation": {
           "type": "TsKeywordType",
           "span": {
             "start": 72,
-            "end": 76,
-            "ctxt": 0
+            "end": 76
           },
           "kind": "void"
         }
@@ -54,9 +51,9 @@
         "type": "Identifier",
         "span": {
           "start": 95,
-          "end": 98,
-          "ctxt": 0
+          "end": 98
         },
+        "ctxt": 0,
         "value": "bar",
         "optional": false
       },
@@ -65,9 +62,9 @@
       "decorators": [],
       "span": {
         "start": 78,
-        "end": 107,
-        "ctxt": 0
+        "end": 107
       },
+      "ctxt": 0,
       "body": null,
       "generator": false,
       "async": false,
@@ -76,15 +73,13 @@
         "type": "TsTypeAnnotation",
         "span": {
           "start": 100,
-          "end": 106,
-          "ctxt": 0
+          "end": 106
         },
         "typeAnnotation": {
           "type": "TsKeywordType",
           "span": {
             "start": 102,
-            "end": 106,
-            "ctxt": 0
+            "end": 106
           },
           "kind": "void"
         }

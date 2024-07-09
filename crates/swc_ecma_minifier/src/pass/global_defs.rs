@@ -53,13 +53,13 @@ impl VisitMut for GlobalDefs {
 
         match n {
             Expr::Ident(i) => {
-                if i.span.ctxt != self.unresolved_ctxt && i.span.ctxt != self.top_level_ctxt {
+                if i.ctxt != self.unresolved_ctxt && i.ctxt != self.top_level_ctxt {
                     return;
                 }
             }
             Expr::Member(MemberExpr { obj, .. }) => {
                 if let Expr::Ident(i) = &**obj {
-                    if i.span.ctxt != self.unresolved_ctxt && i.span.ctxt != self.top_level_ctxt {
+                    if i.ctxt != self.unresolved_ctxt && i.ctxt != self.top_level_ctxt {
                         return;
                     }
                 }

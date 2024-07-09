@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..29#0,
+            span: 1..29,
             value: "Describe the module here.\n *",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         name: Text {
-                            span: 1..7#0,
+                            span: 1..7,
                             value: "config",
                         },
                         ty: Text {
-                            span: 1..9#0,
+                            span: 1..9,
                             value: "mymodule",
                         },
                     },
@@ -29,38 +29,38 @@
         ],
     },
     JsDoc {
-        span: 66..66#0,
+        span: 66..66,
         description: Text {
-            span: 66..90#0,
+            span: 66..90,
             value: "Describe the class here.",
         },
         tags: [],
     },
     JsDoc {
-        span: 132..132#0,
+        span: 132..132,
         description: Text {
-            span: 132..166#0,
+            span: 132..166,
             value: "Create a new configuration.\n     *",
         },
         tags: [
             TagItem {
-                span: 132..137#0,
+                span: 132..137,
                 tag_name: Text {
-                    span: 132..137#0,
+                    span: 132..137,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 132..137#0,
+                        span: 132..137,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 132..140#0,
+                                span: 132..140,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 132..134#0,
+                            span: 132..134,
                             value: "id",
                         },
                     },
@@ -69,37 +69,37 @@
         ],
     },
     JsDoc {
-        span: 235..235#0,
+        span: 235..235,
         description: Text {
-            span: 235..247#0,
+            span: 235..247,
             value: "Document me.",
         },
         tags: [],
     },
     JsDoc {
-        span: 288..288#0,
+        span: 288..288,
         description: Text {
-            span: 288..327#0,
+            span: 288..327,
             value: "Get the configuration ID.\n     *\n     *",
         },
         tags: [
             TagItem {
-                span: 288..294#0,
+                span: 288..294,
                 tag_name: Text {
-                    span: 288..294#0,
+                    span: 288..294,
                     value: "return",
                 },
                 tag: Return(
                     ReturnTag {
-                        span: 288..294#0,
+                        span: 288..294,
                         ty: Some(
                             Text {
-                                span: 288..296#0,
+                                span: 288..296,
                                 value: "{string}",
                             },
                         ),
                         description: Text {
-                            span: 288..309#0,
+                            span: 288..309,
                             value: "The configuration ID.",
                         },
                     },

@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 1..7#0,
+        span: 1..7,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                         ty: Text {
-                            span: 1..6#0,
+                            span: 1..6,
                             value: "color",
                         },
                     },
@@ -29,9 +29,9 @@
         ],
     },
     JsDoc {
-        span: 50..50#0,
+        span: 50..50,
         description: Text {
-            span: 50..76#0,
+            span: 50..76,
             value: "Blend two colors together.",
         },
         tags: [],

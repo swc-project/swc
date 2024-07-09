@@ -32,7 +32,7 @@ impl<I: Tokens> Parser<I> {
         let id = self.parse_ident_name()?;
         Ok(PrivateName {
             span: span!(self, start),
-            id,
+            name: id.sym,
         })
     }
 
@@ -71,7 +71,7 @@ impl<I: Tokens> Parser<I> {
             _ => syntax_error!(self, SyntaxError::ExpectedIdent),
         };
 
-        Ok(Ident::new(w, span!(self, start)))
+        Ok(Ident::new_no_ctxt(w, span!(self, start)))
     }
 
     // https://tc39.es/ecma262/#prod-ModuleExportName
@@ -174,6 +174,6 @@ impl<I: Tokens> Parser<I> {
             }
         })?;
 
-        Ok(Ident::new(word, span!(self, start)))
+        Ok(Ident::new_no_ctxt(word, span!(self, start)))
     }
 }

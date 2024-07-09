@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..6#0,
+                span: 1..6,
                 tag_name: Text {
-                    span: 1..6#0,
+                    span: 1..6,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 1..6#0,
+                        span: 1..6,
                         ty: None,
                         name: None,
                     },
@@ -23,26 +23,26 @@
         ],
     },
     JsDoc {
-        span: 69..71#0,
+        span: 69..71,
         description: Text {
-            span: 69..69#0,
+            span: 69..69,
             value: "",
         },
         tags: [
             TagItem {
-                span: 69..74#0,
+                span: 69..74,
                 tag_name: Text {
-                    span: 69..74#0,
+                    span: 69..74,
                     value: "lends",
                 },
                 tag: Lends(
                     LendsTag {
-                        span: 69..74#0,
+                        span: 69..74,
                         name: NamePath {
-                            span: 69..71#0,
+                            span: 69..71,
                             components: [
                                 Text {
-                                    span: 69..73#0,
+                                    span: 69..73,
                                     value: "Base",
                                 },
                             ],
@@ -53,23 +53,23 @@
         ],
     },
     JsDoc {
-        span: 96..123#0,
+        span: 96..123,
         description: Text {
-            span: 96..113#0,
+            span: 96..113,
             value: "Description for {",
         },
         tags: [
             TagItem {
-                span: 96..100#0,
+                span: 96..100,
                 tag_name: Text {
-                    span: 96..100#0,
+                    span: 96..100,
                     value: "link",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 96..100#0,
+                        span: 96..100,
                         extras: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -78,23 +78,23 @@
         ],
     },
     JsDoc {
-        span: 197..219#0,
+        span: 197..219,
         description: Text {
-            span: 197..214#0,
+            span: 197..214,
             value: "Description for {",
         },
         tags: [
             TagItem {
-                span: 197..201#0,
+                span: 197..201,
                 tag_name: Text {
-                    span: 197..201#0,
+                    span: 197..201,
                     value: "link",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 197..201#0,
+                        span: 197..201,
                         extras: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -103,21 +103,21 @@
         ],
     },
     JsDoc {
-        span: 286..286#0,
+        span: 286..286,
         description: Text {
-            span: 286..286#0,
+            span: 286..286,
             value: "",
         },
         tags: [
             TagItem {
-                span: 286..291#0,
+                span: 286..291,
                 tag_name: Text {
-                    span: 286..291#0,
+                    span: 286..291,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 286..291#0,
+                        span: 286..291,
                         ty: None,
                         name: None,
                     },
@@ -126,26 +126,26 @@
         ],
     },
     JsDoc {
-        span: 339..341#0,
+        span: 339..341,
         description: Text {
-            span: 339..339#0,
+            span: 339..339,
             value: "",
         },
         tags: [
             TagItem {
-                span: 339..344#0,
+                span: 339..344,
                 tag_name: Text {
-                    span: 339..344#0,
+                    span: 339..344,
                     value: "lends",
                 },
                 tag: Lends(
                     LendsTag {
-                        span: 339..344#0,
+                        span: 339..344,
                         name: NamePath {
-                            span: 339..341#0,
+                            span: 339..341,
                             components: [
                                 Text {
-                                    span: 339..343#0,
+                                    span: 339..343,
                                     value: "Base",
                                 },
                             ],
@@ -156,23 +156,23 @@
         ],
     },
     JsDoc {
-        span: 366..393#0,
+        span: 366..393,
         description: Text {
-            span: 366..383#0,
+            span: 366..383,
             value: "Description for {",
         },
         tags: [
             TagItem {
-                span: 366..370#0,
+                span: 366..370,
                 tag_name: Text {
-                    span: 366..370#0,
+                    span: 366..370,
                     value: "link",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 366..370#0,
+                        span: 366..370,
                         extras: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -181,23 +181,23 @@
         ],
     },
     JsDoc {
-        span: 467..489#0,
+        span: 467..489,
         description: Text {
-            span: 467..484#0,
+            span: 467..484,
             value: "Description for {",
         },
         tags: [
             TagItem {
-                span: 467..471#0,
+                span: 467..471,
                 tag_name: Text {
-                    span: 467..471#0,
+                    span: 467..471,
                     value: "link",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: 467..471#0,
+                        span: 467..471,
                         extras: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -206,30 +206,30 @@
         ],
     },
     JsDoc {
-        span: 556..556#0,
+        span: 556..556,
         description: Text {
-            span: 556..556#0,
+            span: 556..556,
             value: "",
         },
         tags: [
             TagItem {
-                span: 556..561#0,
+                span: 556..561,
                 tag_name: Text {
-                    span: 556..561#0,
+                    span: 556..561,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 556..561#0,
+                        span: 556..561,
                         ty: Some(
                             Text {
-                                span: 556..573#0,
+                                span: 556..573,
                                 value: "* @augments Base0",
                             },
                         ),
                         name: Some(
                             Text {
-                                span: 556..573#0,
+                                span: 556..573,
                                 value: "* @augments Base1",
                             },
                         ),

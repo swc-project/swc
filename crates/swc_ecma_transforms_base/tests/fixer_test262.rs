@@ -382,8 +382,6 @@ where
     T: FoldWith<Normalizer> + VisitMutWith<DropSpan>,
 {
     let mut node = node.fold_with(&mut Normalizer);
-    node.visit_mut_with(&mut DropSpan {
-        preserve_ctxt: false,
-    });
+    node.visit_mut_with(&mut DropSpan);
     node
 }

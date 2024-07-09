@@ -72,7 +72,7 @@ impl NoParamReassign {
 
     fn collect_function_params(&mut self, pat: &Pat) {
         match pat {
-            Pat::Ident(BindingIdent { id, .. }) => {
+            Pat::Ident(id) => {
                 self.scoped_params
                     .get_mut(self.scopes.last().unwrap())
                     .unwrap()
@@ -175,7 +175,7 @@ impl NoParamReassign {
             },
             AssignTarget::Simple(expr) => match expr {
                 SimpleAssignTarget::Ident(ident) => {
-                    if self.is_satisfying_function_param(ident) {
+                    if self.is_satisfying_function_param(&Ident::from(ident)) {
                         self.emit_report(ident.span, &ident.sym);
                     }
                 }
@@ -213,7 +213,7 @@ impl NoParamReassign {
     fn check_object_pat(&self, ObjectPat { props, .. }: &ObjectPat) {
         props.iter().for_each(|prop| match prop {
             ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
-                if self.is_satisfying_function_param(key) {
+                if self.is_satisfying_function_param(&Ident::from(key)) {
                     self.emit_report(key.span, &key.sym);
                 }
             }
@@ -226,8 +226,8 @@ impl NoParamReassign {
 
     fn check_pat(&self, pat: &Pat) {
         match pat {
-            Pat::Ident(BindingIdent { id, .. }) => {
-                if self.is_satisfying_function_param(id) {
+            Pat::Ident(id) => {
+                if self.is_satisfying_function_param(&Ident::from(id)) {
                     self.emit_report(id.span, &id.sym);
                 }
             }

@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 48,
-    "ctxt": 0
+    "end": 48
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 32,
-        "ctxt": 0
+        "end": 32
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,24 +19,22 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 31,
-            "ctxt": 0
+            "end": 31
           },
           "id": {
             "type": "ArrayPattern",
             "span": {
               "start": 5,
-              "end": 11,
-              "ctxt": 0
+              "end": 11
             },
             "elements": [
               {
                 "type": "Identifier",
                 "span": {
                   "start": 6,
-                  "end": 7,
-                  "ctxt": 0
+                  "end": 7
                 },
+                "ctxt": 0,
                 "value": "a",
                 "optional": false,
                 "typeAnnotation": null
@@ -46,9 +43,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 9,
-                  "end": 10,
-                  "ctxt": 0
+                  "end": 10
                 },
+                "ctxt": 0,
                 "value": "b",
                 "optional": false,
                 "typeAnnotation": null
@@ -61,8 +58,7 @@
             "type": "ArrayExpression",
             "span": {
               "start": 14,
-              "end": 31,
-              "ctxt": 0
+              "end": 31
             },
             "elements": [
               {
@@ -71,9 +67,9 @@
                   "type": "Identifier",
                   "span": {
                     "start": 15,
-                    "end": 24,
-                    "ctxt": 0
+                    "end": 24
                   },
+                  "ctxt": 0,
                   "value": "undefined",
                   "optional": false
                 }
@@ -84,8 +80,7 @@
                   "type": "NullLiteral",
                   "span": {
                     "start": 26,
-                    "end": 30,
-                    "ctxt": 0
+                    "end": 30
                   }
                 }
               }
@@ -99,24 +94,22 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 33,
-        "end": 40,
-        "ctxt": 0
+        "end": 40
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 33,
-          "end": 39,
-          "ctxt": 0
+          "end": 39
         },
         "operator": "=",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 33,
-            "end": 34,
-            "ctxt": 0
+            "end": 34
           },
+          "ctxt": 0,
           "value": "a",
           "optional": false,
           "typeAnnotation": null
@@ -125,8 +118,7 @@
           "type": "StringLiteral",
           "span": {
             "start": 37,
-            "end": 39,
-            "ctxt": 0
+            "end": 39
           },
           "value": "",
           "raw": "\"\""
@@ -137,24 +129,22 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 41,
-        "end": 48,
-        "ctxt": 0
+        "end": 48
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 41,
-          "end": 47,
-          "ctxt": 0
+          "end": 47
         },
         "operator": "=",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 41,
-            "end": 42,
-            "ctxt": 0
+            "end": 42
           },
+          "ctxt": 0,
           "value": "b",
           "optional": false,
           "typeAnnotation": null
@@ -163,8 +153,7 @@
           "type": "StringLiteral",
           "span": {
             "start": 45,
-            "end": 47,
-            "ctxt": 0
+            "end": 47
           },
           "value": "",
           "raw": "\"\""

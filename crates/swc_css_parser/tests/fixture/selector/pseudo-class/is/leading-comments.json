@@ -4,8 +4,7 @@
       "kind": "Block",
       "span": {
         "start": 323,
-        "end": 353,
-        "ctxt": 0
+        "end": 353
       },
       "text": "/*:is(:valid, foo < bar) {}*/"
     },
@@ -13,8 +12,7 @@
       "kind": "Block",
       "span": {
         "start": 323,
-        "end": 375,
-        "ctxt": 0
+        "end": 375
       },
       "text": "/*:is(foo < bar) {}*/"
     }
@@ -24,8 +22,7 @@
       "kind": "Block",
       "span": {
         "start": 701,
-        "end": 718,
-        "ctxt": 0
+        "end": 718
       },
       "text": "/* Forgiving */"
     }

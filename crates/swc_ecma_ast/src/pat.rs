@@ -53,9 +53,14 @@ impl Clone for Pat {
     }
 }
 
+impl Default for Pat {
+    fn default() -> Self {
+        Pat::Invalid(Invalid { span: DUMMY_SP })
+    }
+}
 impl Take for Pat {
     fn dummy() -> Self {
-        Pat::Invalid(Invalid { span: DUMMY_SP })
+        Default::default()
     }
 }
 

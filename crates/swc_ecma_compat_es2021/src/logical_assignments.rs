@@ -187,10 +187,9 @@ impl VisitMut for Operators {
             prepend_stmt(
                 n,
                 VarDecl {
-                    span: DUMMY_SP,
                     kind: VarDeclKind::Var,
-                    declare: false,
                     decls: vars,
+                    ..Default::default()
                 }
                 .into(),
             )
@@ -206,10 +205,9 @@ impl VisitMut for Operators {
             prepend_stmt(
                 n,
                 VarDecl {
-                    span: DUMMY_SP,
                     kind: VarDeclKind::Var,
-                    declare: false,
                     decls: vars,
+                    ..Default::default()
                 }
                 .into(),
             )

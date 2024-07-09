@@ -2,16 +2,14 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 526,
-    "ctxt": 0
+    "end": 526
   },
   "children": [
     {
       "type": "ProcessingInstruction",
       "span": {
         "start": 1,
-        "end": 39,
-        "ctxt": 0
+        "end": 39
       },
       "target": "xml",
       "data": "version=\"1.0\" encoding=\"UTF-8\""
@@ -20,8 +18,7 @@
       "type": "Element",
       "span": {
         "start": 41,
-        "end": 525,
-        "ctxt": 0
+        "end": 525
       },
       "tagName": "foo",
       "attributes": [],
@@ -30,8 +27,7 @@
           "type": "Text",
           "span": {
             "start": 46,
-            "end": 51,
-            "ctxt": 0
+            "end": 51
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -40,8 +36,7 @@
           "type": "Comment",
           "span": {
             "start": 51,
-            "end": 72,
-            "ctxt": 0
+            "end": 72
           },
           "data": " def='NT-Char'",
           "raw": "<!-- def='NT-Char'-->"
@@ -50,8 +45,7 @@
           "type": "Comment",
           "span": {
             "start": 72,
-            "end": 77,
-            "ctxt": 0
+            "end": 77
           },
           "data": "",
           "raw": "<!-->"
@@ -60,8 +54,7 @@
           "type": "Text",
           "span": {
             "start": 77,
-            "end": 97,
-            "ctxt": 0
+            "end": 97
           },
           "data": "Char* ']]>' ",
           "raw": "Char* ']]&gt;' "
@@ -70,8 +63,7 @@
           "type": "Element",
           "span": {
             "start": 97,
-            "end": 124,
-            "ctxt": 0
+            "end": 124
           },
           "tagName": "nt",
           "attributes": [
@@ -79,8 +71,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -95,8 +86,7 @@
               "type": "Text",
               "span": {
                 "start": 115,
-                "end": 119,
-                "ctxt": 0
+                "end": 119
               },
               "data": "Char",
               "raw": "Char"
@@ -107,8 +97,7 @@
           "type": "Text",
           "span": {
             "start": 124,
-            "end": 143,
-            "ctxt": 0
+            "end": 143
           },
           "data": "*))\n']]>'\n",
           "raw": "*))\n']]&gt;'\n"
@@ -117,8 +106,7 @@
           "type": "Element",
           "span": {
             "start": 143,
-            "end": 168,
-            "ctxt": 0
+            "end": 168
           },
           "tagName": "com",
           "attributes": [],
@@ -127,8 +115,7 @@
               "type": "Text",
               "span": {
                 "start": 148,
-                "end": 162,
-                "ctxt": 0
+                "end": 162
               },
               "data": "CDATA sections",
               "raw": "CDATA sections"
@@ -139,8 +126,7 @@
           "type": "Text",
           "span": {
             "start": 168,
-            "end": 169,
-            "ctxt": 0
+            "end": 169
           },
           "data": "\n",
           "raw": "\n"
@@ -149,8 +135,7 @@
           "type": "Element",
           "span": {
             "start": 169,
-            "end": 298,
-            "ctxt": 0
+            "end": 298
           },
           "tagName": "rhs",
           "attributes": [],
@@ -159,8 +144,7 @@
               "type": "Text",
               "span": {
                 "start": 174,
-                "end": 192,
-                "ctxt": 0
+                "end": 192
               },
               "data": "| '<!DOCTYPE'\n(",
               "raw": "| '&lt;!DOCTYPE'\n("
@@ -169,8 +153,7 @@
               "type": "Element",
               "span": {
                 "start": 192,
-                "end": 219,
-                "ctxt": 0
+                "end": 219
               },
               "tagName": "nt",
               "attributes": [
@@ -178,8 +161,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 0,
-                    "end": 0,
-                    "ctxt": 0
+                    "end": 0
                   },
                   "namespace": null,
                   "prefix": null,
@@ -194,8 +176,7 @@
                   "type": "Text",
                   "span": {
                     "start": 210,
-                    "end": 214,
-                    "ctxt": 0
+                    "end": 214
                   },
                   "data": "Char",
                   "raw": "Char"
@@ -206,8 +187,7 @@
               "type": "Text",
               "span": {
                 "start": 219,
-                "end": 241,
-                "ctxt": 0
+                "end": 241
               },
               "data": " - ('[' | ']'))+\n('['\n",
               "raw": " - ('[' | ']'))+\n('['\n"
@@ -216,8 +196,7 @@
               "type": "Element",
               "span": {
                 "start": 241,
-                "end": 278,
-                "ctxt": 0
+                "end": 278
               },
               "tagName": "nt",
               "attributes": [
@@ -225,8 +204,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 0,
-                    "end": 0,
-                    "ctxt": 0
+                    "end": 0
                   },
                   "namespace": null,
                   "prefix": null,
@@ -241,8 +219,7 @@
                   "type": "Text",
                   "span": {
                     "start": 264,
-                    "end": 273,
-                    "ctxt": 0
+                    "end": 273
                   },
                   "data": "simpleDTD",
                   "raw": "simpleDTD"
@@ -253,8 +230,7 @@
               "type": "Text",
               "span": {
                 "start": 278,
-                "end": 292,
-                "ctxt": 0
+                "end": 292
               },
               "data": "*\n']')? '>'",
               "raw": "*\n']')? '&gt;'"
@@ -265,8 +241,7 @@
           "type": "Text",
           "span": {
             "start": 298,
-            "end": 299,
-            "ctxt": 0
+            "end": 299
           },
           "data": "\n",
           "raw": "\n"
@@ -275,8 +250,7 @@
           "type": "Element",
           "span": {
             "start": 299,
-            "end": 330,
-            "ctxt": 0
+            "end": 330
           },
           "tagName": "com",
           "attributes": [],
@@ -285,8 +259,7 @@
               "type": "Text",
               "span": {
                 "start": 304,
-                "end": 324,
-                "ctxt": 0
+                "end": 324
               },
               "data": "doc type declaration",
               "raw": "doc type declaration"
@@ -297,8 +270,7 @@
           "type": "Text",
           "span": {
             "start": 330,
-            "end": 331,
-            "ctxt": 0
+            "end": 331
           },
           "data": "\n",
           "raw": "\n"
@@ -307,8 +279,7 @@
           "type": "Element",
           "span": {
             "start": 331,
-            "end": 519,
-            "ctxt": 0
+            "end": 519
           },
           "tagName": "prod",
           "attributes": [
@@ -316,8 +287,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -332,8 +302,7 @@
               "type": "Element",
               "span": {
                 "start": 355,
-                "end": 375,
-                "ctxt": 0
+                "end": 375
               },
               "tagName": "lhs",
               "attributes": [],
@@ -342,8 +311,7 @@
                   "type": "Text",
                   "span": {
                     "start": 360,
-                    "end": 369,
-                    "ctxt": 0
+                    "end": 369
                   },
                   "data": "simpleDTD",
                   "raw": "simpleDTD"
@@ -354,8 +322,7 @@
               "type": "Text",
               "span": {
                 "start": 375,
-                "end": 376,
-                "ctxt": 0
+                "end": 376
               },
               "data": "\n",
               "raw": "\n"
@@ -364,8 +331,7 @@
               "type": "Element",
               "span": {
                 "start": 376,
-                "end": 515,
-                "ctxt": 0
+                "end": 515
               },
               "tagName": "rhs",
               "attributes": [],
@@ -374,8 +340,7 @@
                   "type": "Text",
                   "span": {
                     "start": 381,
-                    "end": 396,
-                    "ctxt": 0
+                    "end": 396
                   },
                   "data": "'<!&como;'\n(",
                   "raw": "'&lt;!&como;'\n("
@@ -384,8 +349,7 @@
                   "type": "Element",
                   "span": {
                     "start": 396,
-                    "end": 423,
-                    "ctxt": 0
+                    "end": 423
                   },
                   "tagName": "nt",
                   "attributes": [
@@ -393,8 +357,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 0,
-                        "end": 0,
-                        "ctxt": 0
+                        "end": 0
                       },
                       "namespace": null,
                       "prefix": null,
@@ -409,8 +372,7 @@
                       "type": "Text",
                       "span": {
                         "start": 414,
-                        "end": 418,
-                        "ctxt": 0
+                        "end": 418
                       },
                       "data": "Char",
                       "raw": "Char"
@@ -421,8 +383,7 @@
                   "type": "Text",
                   "span": {
                     "start": 423,
-                    "end": 428,
-                    "ctxt": 0
+                    "end": 428
                   },
                   "data": "* -\n(",
                   "raw": "* -\n("
@@ -431,8 +392,7 @@
                   "type": "Element",
                   "span": {
                     "start": 428,
-                    "end": 455,
-                    "ctxt": 0
+                    "end": 455
                   },
                   "tagName": "nt",
                   "attributes": [
@@ -440,8 +400,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 0,
-                        "end": 0,
-                        "ctxt": 0
+                        "end": 0
                       },
                       "namespace": null,
                       "prefix": null,
@@ -456,8 +415,7 @@
                       "type": "Text",
                       "span": {
                         "start": 446,
-                        "end": 450,
-                        "ctxt": 0
+                        "end": 450
                       },
                       "data": "Char",
                       "raw": "Char"
@@ -468,8 +426,7 @@
                   "type": "Text",
                   "span": {
                     "start": 455,
-                    "end": 466,
-                    "ctxt": 0
+                    "end": 466
                   },
                   "data": "* '&comc;' ",
                   "raw": "* '&comc;' "
@@ -478,8 +435,7 @@
                   "type": "Element",
                   "span": {
                     "start": 466,
-                    "end": 493,
-                    "ctxt": 0
+                    "end": 493
                   },
                   "tagName": "nt",
                   "attributes": [
@@ -487,8 +443,7 @@
                       "type": "Attribute",
                       "span": {
                         "start": 0,
-                        "end": 0,
-                        "ctxt": 0
+                        "end": 0
                       },
                       "namespace": null,
                       "prefix": null,
@@ -503,8 +458,7 @@
                       "type": "Text",
                       "span": {
                         "start": 484,
-                        "end": 488,
-                        "ctxt": 0
+                        "end": 488
                       },
                       "data": "Char",
                       "raw": "Char"
@@ -515,8 +469,7 @@
                   "type": "Text",
                   "span": {
                     "start": 493,
-                    "end": 509,
-                    "ctxt": 0
+                    "end": 509
                   },
                   "data": "*))\n'&comc;>'",
                   "raw": "*))\n'&comc;&gt;'"
@@ -527,8 +480,7 @@
               "type": "Text",
               "span": {
                 "start": 515,
-                "end": 519,
-                "ctxt": 0
+                "end": 519
               },
               "data": "-->\n",
               "raw": "-->\n"

@@ -45,6 +45,7 @@ impl NullishCoalescing {
                         kind: VarDeclKind::Var,
                         decls: take(&mut self.vars),
                         declare: false,
+                        ..Default::default()
                     }
                     .into(),
                 ));
@@ -131,8 +132,8 @@ impl VisitMut for NullishCoalescing {
                             right: Box::new(make_cond(
                                 self.c,
                                 assign.span,
-                                &i.id,
-                                Expr::Ident(i.id.clone()),
+                                &Ident::from(&*i),
+                                Expr::Ident(Ident::from(&*i)),
                                 assign.right.take(),
                             )),
                         });
@@ -198,6 +199,7 @@ impl VisitMut for NullishCoalescing {
                         kind: VarDeclKind::Var,
                         decls: self.vars.take(),
                         declare: false,
+                        ..Default::default()
                     }
                     .into(),
                     Stmt::Return(ReturnStmt {
@@ -208,6 +210,7 @@ impl VisitMut for NullishCoalescing {
                 *n = BlockStmtOrExpr::BlockStmt(BlockStmt {
                     span: DUMMY_SP,
                     stmts,
+                    ..Default::default()
                 });
             }
         }

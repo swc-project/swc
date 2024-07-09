@@ -1,7 +1,8 @@
 use anyhow::Context;
 use swc_atoms::JsWord;
 use swc_common::{
-    comments::Comments, sync::Lrc, util::take::Take, FileName, Mark, SourceMap, Span, DUMMY_SP,
+    comments::Comments, sync::Lrc, util::take::Take, FileName, Mark, SourceMap, Span,
+    SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
@@ -21,6 +22,7 @@ use crate::{
         define_es_module, emit_export_stmts, local_name_for_src, use_strict, ImportInterop,
         VecStmtLike,
     },
+    SpanCtx,
 };
 
 mod config;
@@ -96,7 +98,7 @@ where
 
     const_var_kind: VarDeclKind,
 
-    dep_list: Vec<(Ident, JsWord, Span)>,
+    dep_list: Vec<(Ident, JsWord, SpanCtx)>,
 
     exports: Option<Ident>,
 }
@@ -183,13 +185,12 @@ where
             decorators: Default::default(),
             span: DUMMY_SP,
             body: Some(BlockStmt {
-                span: DUMMY_SP,
                 stmts,
+                ..Default::default()
             }),
             is_generator: false,
             is_async: false,
-            type_params: None,
-            return_type: None,
+            ..Default::default()
         }
         .into();
 
@@ -369,12 +370,27 @@ where
         }
 
         // define unresolved ref
-        let module = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "module");
+        let module = quote_ident!(
+            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+            "module"
+        );
 
-        let require = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "require");
-        let define = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "define");
-        let global_this = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "globalThis");
-        let js_self = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "self");
+        let require = quote_ident!(
+            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+            "require"
+        );
+        let define = quote_ident!(
+            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+            "define"
+        );
+        let global_this = quote_ident!(
+            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+            "globalThis"
+        );
+        let js_self = quote_ident!(
+            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+            "self"
+        );
 
         // adapter arguments
         let global = private_ident!("global");
@@ -424,11 +440,11 @@ where
                         .clone()
                         .as_call(
                             DUMMY_SP,
-                            vec![quote_str!(src_span, src_path.clone()).as_arg()],
+                            vec![quote_str!(src_span.0, src_path.clone()).as_arg()],
                         )
                         .as_arg(),
                 );
-                amd_dep_list.push(Some(quote_str!(src_span, src_path.clone()).as_arg()));
+                amd_dep_list.push(Some(quote_str!(src_span.0, src_path.clone()).as_arg()));
 
                 let global_dep = {
                     let dep_name = self.config.global_name(&src_path);
@@ -501,17 +517,16 @@ where
                 )),
             }
             .into()],
+            ..Default::default()
         };
 
         let adapter_fn_expr = Function {
             params: vec![global.into(), factory.into()],
-            decorators: Default::default(),
             span: DUMMY_SP,
             body: Some(adapter_body),
             is_generator: false,
             is_async: false,
-            type_params: None,
-            return_type: None,
+            ..Default::default()
         }
         .into();
 

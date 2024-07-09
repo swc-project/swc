@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 16..16#0,
+        span: 16..16,
         description: Text {
-            span: 16..16#0,
+            span: 16..16,
             value: "",
         },
         tags: [
             TagItem {
-                span: 16..22#0,
+                span: 16..22,
                 tag_name: Text {
-                    span: 16..22#0,
+                    span: 16..22,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 16..22#0,
+                        span: 16..22,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                         ty: Text {
-                            span: 16..24#0,
+                            span: 16..24,
                             value: "template",
                         },
                     },
@@ -29,24 +29,24 @@
         ],
     },
     JsDoc {
-        span: 41..41#0,
+        span: 41..41,
         description: Text {
-            span: 41..41#0,
+            span: 41..41,
             value: "",
         },
         tags: [
             TagItem {
-                span: 41..46#0,
+                span: 41..46,
                 tag_name: Text {
-                    span: 41..46#0,
+                    span: 41..46,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 41..46#0,
+                        span: 41..46,
                         ty: Some(
                             Text {
-                                span: 41..74#0,
+                                span: 41..74,
                                 value: "* @alias module:template.Template",
                             },
                         ),
@@ -57,9 +57,9 @@
         ],
     },
     JsDoc {
-        span: 145..145#0,
+        span: 145..145,
         description: Text {
-            span: 145..155#0,
+            span: 145..155,
             value: "View file.",
         },
         tags: [],

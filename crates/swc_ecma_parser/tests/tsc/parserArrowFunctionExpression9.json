@@ -2,31 +2,28 @@
   "type": "Script",
   "span": {
     "start": 94,
-    "end": 164,
-    "ctxt": 0
+    "end": 164
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 94,
-        "end": 110,
-        "ctxt": 0
+        "end": 110
       },
       "expression": {
         "type": "ConditionalExpression",
         "span": {
           "start": 94,
-          "end": 110,
-          "ctxt": 0
+          "end": 110
         },
         "test": {
           "type": "Identifier",
           "span": {
             "start": 94,
-            "end": 95,
-            "ctxt": 0
+            "end": 95
           },
+          "ctxt": 0,
           "value": "b",
           "optional": false
         },
@@ -34,16 +31,15 @@
           "type": "ParenthesisExpression",
           "span": {
             "start": 98,
-            "end": 101,
-            "ctxt": 0
+            "end": 101
           },
           "expression": {
             "type": "Identifier",
             "span": {
               "start": 99,
-              "end": 100,
-              "ctxt": 0
+              "end": 100
             },
+            "ctxt": 0,
             "value": "c",
             "optional": false
           }
@@ -52,17 +48,17 @@
           "type": "ArrowFunctionExpression",
           "span": {
             "start": 104,
-            "end": 110,
-            "ctxt": 0
+            "end": 110
           },
+          "ctxt": 0,
           "params": [
             {
               "type": "Identifier",
               "span": {
                 "start": 104,
-                "end": 105,
-                "ctxt": 0
+                "end": 105
               },
+              "ctxt": 0,
               "value": "d",
               "optional": false,
               "typeAnnotation": null
@@ -72,9 +68,9 @@
             "type": "Identifier",
             "span": {
               "start": 109,
-              "end": 110,
-              "ctxt": 0
+              "end": 110
             },
+            "ctxt": 0,
             "value": "e",
             "optional": false
           },
@@ -89,23 +85,21 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 148,
-        "end": 164,
-        "ctxt": 0
+        "end": 164
       },
       "expression": {
         "type": "ConditionalExpression",
         "span": {
           "start": 148,
-          "end": 164,
-          "ctxt": 0
+          "end": 164
         },
         "test": {
           "type": "Identifier",
           "span": {
             "start": 148,
-            "end": 149,
-            "ctxt": 0
+            "end": 149
           },
+          "ctxt": 0,
           "value": "b",
           "optional": false
         },
@@ -113,16 +107,15 @@
           "type": "ParenthesisExpression",
           "span": {
             "start": 152,
-            "end": 155,
-            "ctxt": 0
+            "end": 155
           },
           "expression": {
             "type": "Identifier",
             "span": {
               "start": 153,
-              "end": 154,
-              "ctxt": 0
+              "end": 154
             },
+            "ctxt": 0,
             "value": "c",
             "optional": false
           }
@@ -131,17 +124,17 @@
           "type": "ArrowFunctionExpression",
           "span": {
             "start": 158,
-            "end": 164,
-            "ctxt": 0
+            "end": 164
           },
+          "ctxt": 0,
           "params": [
             {
               "type": "Identifier",
               "span": {
                 "start": 158,
-                "end": 159,
-                "ctxt": 0
+                "end": 159
               },
+              "ctxt": 0,
               "value": "d",
               "optional": false,
               "typeAnnotation": null
@@ -151,9 +144,9 @@
             "type": "Identifier",
             "span": {
               "start": 163,
-              "end": 164,
-              "ctxt": 0
+              "end": 164
             },
+            "ctxt": 0,
             "value": "e",
             "optional": false
           },

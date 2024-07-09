@@ -2,61 +2,53 @@
   "type": "Script",
   "span": {
     "start": 119,
-    "end": 138,
-    "ctxt": 0
+    "end": 138
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 119,
-        "end": 138,
-        "ctxt": 0
+        "end": 138
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 119,
-          "end": 138,
-          "ctxt": 0
+          "end": 138
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
             "start": 119,
-            "end": 134,
-            "ctxt": 0
+            "end": 134
           },
           "object": {
             "type": "ThisExpression",
             "span": {
               "start": 119,
-              "end": 123,
-              "ctxt": 0
+              "end": 123
             }
           },
           "property": {
             "type": "Computed",
             "span": {
               "start": 123,
-              "end": 134,
-              "ctxt": 0
+              "end": 134
             },
             "expression": {
               "type": "BinaryExpression",
               "span": {
                 "start": 124,
-                "end": 133,
-                "ctxt": 0
+                "end": 133
               },
               "operator": "+",
               "left": {
                 "type": "StringLiteral",
                 "span": {
                   "start": 124,
-                  "end": 127,
-                  "ctxt": 0
+                  "end": 127
                 },
                 "value": "a",
                 "raw": "\"a\""
@@ -65,8 +57,7 @@
                 "type": "StringLiteral",
                 "span": {
                   "start": 130,
-                  "end": 133,
-                  "ctxt": 0
+                  "end": 133
                 },
                 "value": "b",
                 "raw": "\"b\""
@@ -78,8 +69,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 137,
-            "end": 138,
-            "ctxt": 0
+            "end": 138
           },
           "value": 0.0,
           "raw": "0"

@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 32,
-    "ctxt": 0
+    "end": 32
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 31,
-        "ctxt": 0
+        "end": 31
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 7,
-          "ctxt": 0
+          "end": 7
         },
         "value": "media",
         "raw": "media"
@@ -27,16 +24,14 @@
         "type": "MediaQueryList",
         "span": {
           "start": 8,
-          "end": 28,
-          "ctxt": 0
+          "end": 28
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
               "start": 8,
-              "end": 28,
-              "ctxt": 0
+              "end": 28
             },
             "modifier": null,
             "mediaType": null,
@@ -45,23 +40,20 @@
               "type": "MediaCondition",
               "span": {
                 "start": 8,
-                "end": 28,
-                "ctxt": 0
+                "end": 28
               },
               "conditions": [
                 {
                   "type": "MediaFeaturePlain",
                   "span": {
                     "start": 8,
-                    "end": 28,
-                    "ctxt": 0
+                    "end": 28
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
                       "start": 9,
-                      "end": 21,
-                      "ctxt": 0
+                      "end": 21
                     },
                     "value": "aspect-ratio",
                     "raw": "aspect-ratio"
@@ -70,15 +62,13 @@
                     "type": "Ratio",
                     "span": {
                       "start": 23,
-                      "end": 27,
-                      "ctxt": 0
+                      "end": 27
                     },
                     "left": {
                       "type": "Number",
                       "span": {
                         "start": 23,
-                        "end": 25,
-                        "ctxt": 0
+                        "end": 25
                       },
                       "value": 12.0,
                       "raw": "12"
@@ -87,8 +77,7 @@
                       "type": "Number",
                       "span": {
                         "start": 26,
-                        "end": 27,
-                        "ctxt": 0
+                        "end": 27
                       },
                       "value": 9.0,
                       "raw": "9"
@@ -104,15 +93,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 29,
-          "end": 31,
-          "ctxt": 0
+          "end": 31
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 29,
-            "end": 30,
-            "ctxt": 0
+            "end": 30
           },
           "token": "LBrace"
         },

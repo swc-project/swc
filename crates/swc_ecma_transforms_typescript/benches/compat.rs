@@ -10,6 +10,8 @@ static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
 
 fn module(cm: Lrc<SourceMap>) -> Program {
     let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+fn module(cm: Lrc<SourceMap>) -> Module {
+    let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
     let lexer = Lexer::new(
         Syntax::Typescript(Default::default()),
         Default::default(),

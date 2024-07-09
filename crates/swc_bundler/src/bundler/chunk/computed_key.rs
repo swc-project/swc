@@ -6,7 +6,12 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_top_level_await, find_pat_ids, private_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold};
 
-use crate::{bundler::chunk::merge::Ctx, modules::Modules, Bundler, Load, ModuleId, Resolve};
+use crate::{
+    bundler::chunk::merge::Ctx,
+    modules::Modules,
+    util::{is_injected, ExportMetadata},
+    Bundler, Load, ModuleId, Resolve,
+};
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -40,7 +45,6 @@ where
             Some(v) => v,
             None => bail!("{:?} should not be wrapped with a function", id),
         };
-        let injected_ctxt = self.injected_ctxt;
 
         let is_async = module.iter().any(|m| contains_top_level_await(m.1));
 
@@ -52,10 +56,10 @@ where
                 //
                 // See: https://github.com/denoland/deno/issues/9200
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                    span,
                     ref specifiers,
+                    with: Some(with),
                     ..
-                })) if span.ctxt == injected_ctxt => {
+                })) if is_injected(with) => {
                     for s in specifiers {
                         if let ExportSpecifier::Named(ExportNamedSpecifier {
                             orig,
@@ -69,7 +73,7 @@ where
                                     unimplemented!("module string names unimplemented")
                                 }
                             };
-                            if ctx.transitive_remap.get(&exported.span.ctxt).is_some() {
+                            if ctx.transitive_remap.get(&exported.ctxt).is_some() {
                                 let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
                                     span: DUMMY_SP,
                                     orig: orig.clone(),
@@ -79,11 +83,17 @@ where
                                 additional_items.push((
                                     module_id,
                                     ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                                        span: DUMMY_SP.with_ctxt(injected_ctxt),
+                                        span: DUMMY_SP,
                                         specifiers: vec![specifier],
                                         src: None,
                                         type_only: false,
-                                        with: None,
+                                        with: Some(
+                                            ExportMetadata {
+                                                injected: true,
+                                                ..Default::default()
+                                            }
+                                            .into_with(),
+                                        ),
                                     })),
                                 ));
                             }
@@ -114,23 +124,24 @@ where
             if let ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) = v {
                 // We handle this later.
                 let mut map = ctx.export_stars_in_wrapped.lock();
-                map.entry(id).or_default().push(export.span.ctxt);
+                let data = ExportMetadata::decode(export.with.as_deref());
+                if let Some(export_ctxt) = data.export_ctxt {
+                    map.entry(id).or_default().push(export_ctxt);
+                }
             }
         });
 
         let module_fn = Expr::Fn(FnExpr {
             function: Box::new(Function {
                 params: Default::default(),
-                decorators: Default::default(),
-                span: DUMMY_SP,
                 body: Some(BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![return_stmt],
+                    ..Default::default()
                 }),
                 is_generator: false,
                 is_async,
-                type_params: Default::default(),
-                return_type: Default::default(),
+                ..Default::default()
             }),
             ident: None,
         });
@@ -138,8 +149,8 @@ where
         let mut module_expr = Expr::Call(CallExpr {
             span: DUMMY_SP,
             callee: module_fn.as_callee(),
-            type_args: Default::default(),
             args: Default::default(),
+            ..Default::default()
         });
 
         if is_async {
@@ -150,7 +161,8 @@ where
         }
 
         let var_decl = VarDecl {
-            span: span.with_ctxt(self.injected_ctxt),
+            span,
+            ctxt: self.injected_ctxt,
             declare: false,
             kind: VarDeclKind::Const,
             decls: vec![VarDeclarator {
@@ -187,13 +199,13 @@ struct ExportToReturn {
 
 impl ExportToReturn {
     fn export_id(&mut self, mut i: Ident) {
-        i.span.ctxt = SyntaxContext::empty();
+        i.ctxt = SyntaxContext::empty();
         self.return_props
             .push(PropOrSpread::Prop(Box::new(Prop::Shorthand(i))));
     }
 
     fn export_key_value(&mut self, mut key: Ident, value: Ident) {
-        key.span.ctxt = SyntaxContext::empty();
+        key.ctxt = SyntaxContext::empty();
 
         self.return_props
             .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
@@ -238,7 +250,10 @@ impl Fold for ExportToReturn {
                     let ident = expr.ident;
                     let ident = ident.unwrap_or_else(|| private_ident!("_default_decl"));
 
-                    self.export_key_value(Ident::new("default".into(), export.span), ident.clone());
+                    self.export_key_value(
+                        Ident::new_no_ctxt("default".into(), export.span),
+                        ident.clone(),
+                    );
 
                     Some(Stmt::Decl(Decl::Class(ClassDecl {
                         ident,
@@ -250,7 +265,10 @@ impl Fold for ExportToReturn {
                     let ident = expr.ident;
                     let ident = ident.unwrap_or_else(|| private_ident!("_default_decl"));
 
-                    self.export_key_value(Ident::new("default".into(), export.span), ident.clone());
+                    self.export_key_value(
+                        Ident::new_no_ctxt("default".into(), export.span),
+                        ident.clone(),
+                    );
 
                     Some(Stmt::Decl(Decl::Fn(FnDecl {
                         ident,
@@ -293,8 +311,11 @@ impl Fold for ExportToReturn {
                     }
                 }
 
+                let md = ExportMetadata::decode(export.with.as_deref());
                 // Ignore export {} specified by user.
-                if export.src.is_none() && export.span.ctxt != self.synthesized_ctxt {
+                if export.src.is_none()
+                    && md.export_ctxt.unwrap_or_default() != self.synthesized_ctxt
+                {
                     None
                 } else {
                     return ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export));

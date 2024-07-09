@@ -1,53 +1,53 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..38#0,
+            span: 1..38,
             value: "Describe the Subscription class here.",
         },
         tags: [],
     },
     JsDoc {
-        span: 75..75#0,
+        span: 75..75,
         description: Text {
-            span: 75..119#0,
+            span: 75..119,
             value: "Describe the constructor here.\n     *\n     *",
         },
         tags: [
             TagItem {
-                span: 75..80#0,
+                span: 75..80,
                 tag_name: Text {
-                    span: 75..80#0,
+                    span: 75..80,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 75..80#0,
+                        span: 75..80,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 75..83#0,
+                                span: 75..83,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 75..111#0,
+                            span: 75..111,
                             value: "name - The name of the subscription.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 75..82#0,
+                span: 75..82,
                 tag_name: Text {
-                    span: 75..82#0,
+                    span: 75..82,
                     value: "example",
                 },
                 tag: Example(
                     ExampleTag {
-                        span: 75..82#0,
+                        span: 75..82,
                         text: Text {
-                            span: 75..121#0,
+                            span: 75..121,
                             value: "* var subscription = new Subscription();\n     ",
                         },
                     },
@@ -56,46 +56,46 @@
         ],
     },
     JsDoc {
-        span: 284..284#0,
+        span: 284..284,
         description: Text {
-            span: 284..317#0,
+            span: 284..317,
             value: "Force the subscription to expire.",
         },
         tags: [],
     },
     JsDoc {
-        span: 344..344#0,
+        span: 344..344,
         description: Text {
-            span: 344..379#0,
+            span: 344..379,
             value: "Describe the Subscriber class here.",
         },
         tags: [],
     },
     JsDoc {
-        span: 426..426#0,
+        span: 426..426,
         description: Text {
-            span: 426..470#0,
+            span: 426..470,
             value: "Describe the constructor here.\n     *\n     *",
         },
         tags: [
             TagItem {
-                span: 426..431#0,
+                span: 426..431,
                 tag_name: Text {
-                    span: 426..431#0,
+                    span: 426..431,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 426..431#0,
+                        span: 426..431,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 426..434#0,
+                                span: 426..434,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 426..460#0,
+                            span: 426..460,
                             value: "name - The name of the subscriber.",
                         },
                     },
@@ -104,29 +104,29 @@
         ],
     },
     JsDoc {
-        span: 571..571#0,
+        span: 571..571,
         description: Text {
-            span: 571..615#0,
+            span: 571..615,
             value: "Check whether the subscriber has a callback.",
         },
         tags: [],
     },
     JsDoc {
-        span: 0..647#0,
+        span: 0..647,
         description: Text {
-            span: 647..669#0,
+            span: 647..669,
             value: "Subclass namespace.\n *",
         },
         tags: [
             TagItem {
-                span: 647..656#0,
+                span: 647..656,
                 tag_name: Text {
-                    span: 647..656#0,
+                    span: 647..656,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: 647..656#0,
+                        span: 647..656,
                         ty: None,
                         name: None,
                     },
@@ -135,21 +135,21 @@
         ],
     },
     JsDoc {
-        span: 714..714#0,
+        span: 714..714,
         description: Text {
-            span: 714..748#0,
+            span: 714..748,
             value: "Expiring subscription subclass.\n *",
         },
         tags: [
             TagItem {
-                span: 714..719#0,
+                span: 714..719,
                 tag_name: Text {
-                    span: 714..719#0,
+                    span: 714..719,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 714..719#0,
+                        span: 714..719,
                         ty: None,
                         name: None,
                     },
@@ -158,30 +158,30 @@
         ],
     },
     JsDoc {
-        span: 834..834#0,
+        span: 834..834,
         description: Text {
-            span: 834..878#0,
+            span: 834..878,
             value: "Describe the constructor here.\n     *\n     *",
         },
         tags: [
             TagItem {
-                span: 834..839#0,
+                span: 834..839,
                 tag_name: Text {
-                    span: 834..839#0,
+                    span: 834..839,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 834..839#0,
+                        span: 834..839,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 834..842#0,
+                                span: 834..842,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: 834..870#0,
+                            span: 834..870,
                             value: "name - The name of the subscription.",
                         },
                     },
@@ -190,26 +190,26 @@
         ],
     },
     JsDoc {
-        span: 979..979#0,
+        span: 979..979,
         description: Text {
-            span: 979..979#0,
+            span: 979..979,
             value: "",
         },
         tags: [
             TagItem {
-                span: 979..987#0,
+                span: 979..987,
                 tag_name: Text {
-                    span: 979..987#0,
+                    span: 979..987,
                     value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
-                        span: 979..987#0,
+                        span: 979..987,
                         parent_name_path: NamePath {
-                            span: 979..979#0,
+                            span: 979..979,
                             components: [
                                 Text {
-                                    span: 979..989#0,
+                                    span: 979..989,
                                     value: "subclasses",
                                 },
                             ],
@@ -220,9 +220,9 @@
         ],
     },
     JsDoc {
-        span: 1039..1039#0,
+        span: 1039..1039,
         description: Text {
-            span: 1039..1055#0,
+            span: 1039..1055,
             value: "Instance method.",
         },
         tags: [],

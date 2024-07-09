@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 41,
-    "ctxt": 0
+    "end": 41
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 41,
-        "ctxt": 0
+        "end": 41
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 7,
-            "end": 40,
-            "ctxt": 0
+            "end": 40
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 7,
-              "end": 8,
-              "ctxt": 0
+              "end": 8
             },
+            "ctxt": 0,
             "value": "t",
             "optional": false,
             "typeAnnotation": null
@@ -38,8 +36,7 @@
             "type": "JSXElement",
             "span": {
               "start": 11,
-              "end": 40,
-              "ctxt": 0
+              "end": 40
             },
             "opening": {
               "type": "JSXOpeningElement",
@@ -47,16 +44,15 @@
                 "type": "Identifier",
                 "span": {
                   "start": 12,
-                  "end": 18,
-                  "ctxt": 0
+                  "end": 18
                 },
+                "ctxt": 0,
                 "value": "Switch",
                 "optional": false
               },
               "span": {
                 "start": 11,
-                "end": 19,
-                "ctxt": 0
+                "end": 19
               },
               "attributes": [],
               "selfClosing": false,
@@ -67,8 +63,7 @@
                 "type": "JSXText",
                 "span": {
                   "start": 19,
-                  "end": 31,
-                  "ctxt": 0
+                  "end": 31
                 },
                 "value": "// 1 /* 2 */",
                 "raw": "// 1 /* 2 */"
@@ -78,16 +73,15 @@
               "type": "JSXClosingElement",
               "span": {
                 "start": 31,
-                "end": 40,
-                "ctxt": 0
+                "end": 40
               },
               "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 33,
-                  "end": 39,
-                  "ctxt": 0
+                  "end": 39
                 },
+                "ctxt": 0,
                 "value": "Switch",
                 "optional": false
               }

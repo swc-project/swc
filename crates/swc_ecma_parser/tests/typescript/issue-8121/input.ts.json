@@ -2,25 +2,23 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 20,
-    "ctxt": 0
+    "end": 20
   },
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
         "start": 1,
-        "end": 20,
-        "ctxt": 0
+        "end": 20
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
           "start": 6,
-          "end": 15,
-          "ctxt": 0
+          "end": 15
         },
+        "ctxt": 0,
         "value": "satisfies",
         "optional": false
       },
@@ -29,15 +27,13 @@
         "type": "TsLiteralType",
         "span": {
           "start": 18,
-          "end": 19,
-          "ctxt": 0
+          "end": 19
         },
         "literal": {
           "type": "NumericLiteral",
           "span": {
             "start": 18,
-            "end": 19,
-            "ctxt": 0
+            "end": 19
           },
           "value": 0.0,
           "raw": "0"

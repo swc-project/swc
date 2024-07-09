@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 953,
-    "ctxt": 0
+    "end": 953
   },
   "mode": "no-quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "DocumentType",
       "span": {
         "start": 1,
-        "end": 16,
-        "ctxt": 0
+        "end": 16
       },
       "name": "html",
       "publicId": null,
@@ -23,8 +21,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -34,8 +31,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -48,8 +44,7 @@
           "type": "Element",
           "span": {
             "start": 16,
-            "end": 953,
-            "ctxt": 0
+            "end": 953
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -59,8 +54,7 @@
               "type": "Element",
               "span": {
                 "start": 22,
-                "end": 953,
-                "ctxt": 0
+                "end": 953
               },
               "tagName": "math",
               "namespace": "http://www.w3.org/1998/Math/MathML",
@@ -69,8 +63,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 28,
-                    "end": 44,
-                    "ctxt": 0
+                    "end": 44
                   },
                   "namespace": null,
                   "prefix": null,
@@ -83,8 +76,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 45,
-                    "end": 61,
-                    "ctxt": 0
+                    "end": 61
                   },
                   "namespace": null,
                   "prefix": null,
@@ -97,8 +89,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 62,
-                    "end": 78,
-                    "ctxt": 0
+                    "end": 78
                   },
                   "namespace": null,
                   "prefix": null,
@@ -111,8 +102,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 79,
-                    "end": 93,
-                    "ctxt": 0
+                    "end": 93
                   },
                   "namespace": null,
                   "prefix": null,
@@ -125,8 +115,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 94,
-                    "end": 105,
-                    "ctxt": 0
+                    "end": 105
                   },
                   "namespace": null,
                   "prefix": null,
@@ -139,8 +128,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 106,
-                    "end": 122,
-                    "ctxt": 0
+                    "end": 122
                   },
                   "namespace": null,
                   "prefix": null,
@@ -153,8 +141,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 123,
-                    "end": 141,
-                    "ctxt": 0
+                    "end": 141
                   },
                   "namespace": null,
                   "prefix": null,
@@ -167,8 +154,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 142,
-                    "end": 153,
-                    "ctxt": 0
+                    "end": 153
                   },
                   "namespace": null,
                   "prefix": null,
@@ -181,8 +167,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 154,
-                    "end": 168,
-                    "ctxt": 0
+                    "end": 168
                   },
                   "namespace": null,
                   "prefix": null,
@@ -195,8 +180,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 169,
-                    "end": 180,
-                    "ctxt": 0
+                    "end": 180
                   },
                   "namespace": null,
                   "prefix": null,
@@ -209,8 +193,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 181,
-                    "end": 201,
-                    "ctxt": 0
+                    "end": 201
                   },
                   "namespace": null,
                   "prefix": null,
@@ -223,8 +206,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 202,
-                    "end": 218,
-                    "ctxt": 0
+                    "end": 218
                   },
                   "namespace": null,
                   "prefix": null,
@@ -237,8 +219,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 219,
-                    "end": 234,
-                    "ctxt": 0
+                    "end": 234
                   },
                   "namespace": null,
                   "prefix": null,
@@ -251,8 +232,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 235,
-                    "end": 254,
-                    "ctxt": 0
+                    "end": 254
                   },
                   "namespace": null,
                   "prefix": null,
@@ -265,8 +245,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 255,
-                    "end": 267,
-                    "ctxt": 0
+                    "end": 267
                   },
                   "namespace": null,
                   "prefix": null,
@@ -279,8 +258,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 268,
-                    "end": 281,
-                    "ctxt": 0
+                    "end": 281
                   },
                   "namespace": null,
                   "prefix": null,
@@ -293,8 +271,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 282,
-                    "end": 293,
-                    "ctxt": 0
+                    "end": 293
                   },
                   "namespace": null,
                   "prefix": null,
@@ -307,8 +284,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 294,
-                    "end": 309,
-                    "ctxt": 0
+                    "end": 309
                   },
                   "namespace": null,
                   "prefix": null,
@@ -321,8 +297,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 310,
-                    "end": 330,
-                    "ctxt": 0
+                    "end": 330
                   },
                   "namespace": null,
                   "prefix": null,
@@ -335,8 +310,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 331,
-                    "end": 346,
-                    "ctxt": 0
+                    "end": 346
                   },
                   "namespace": null,
                   "prefix": null,
@@ -349,8 +323,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 347,
-                    "end": 361,
-                    "ctxt": 0
+                    "end": 361
                   },
                   "namespace": null,
                   "prefix": null,
@@ -363,8 +336,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 362,
-                    "end": 376,
-                    "ctxt": 0
+                    "end": 376
                   },
                   "namespace": null,
                   "prefix": null,
@@ -377,8 +349,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 377,
-                    "end": 396,
-                    "ctxt": 0
+                    "end": 396
                   },
                   "namespace": null,
                   "prefix": null,
@@ -391,8 +362,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 397,
-                    "end": 409,
-                    "ctxt": 0
+                    "end": 409
                   },
                   "namespace": null,
                   "prefix": null,
@@ -405,8 +375,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 410,
-                    "end": 423,
-                    "ctxt": 0
+                    "end": 423
                   },
                   "namespace": null,
                   "prefix": null,
@@ -419,8 +388,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 424,
-                    "end": 437,
-                    "ctxt": 0
+                    "end": 437
                   },
                   "namespace": null,
                   "prefix": null,
@@ -433,8 +401,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 438,
-                    "end": 460,
-                    "ctxt": 0
+                    "end": 460
                   },
                   "namespace": null,
                   "prefix": null,
@@ -447,8 +414,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 461,
-                    "end": 480,
-                    "ctxt": 0
+                    "end": 480
                   },
                   "namespace": null,
                   "prefix": null,
@@ -461,8 +427,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 481,
-                    "end": 496,
-                    "ctxt": 0
+                    "end": 496
                   },
                   "namespace": null,
                   "prefix": null,
@@ -475,8 +440,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 497,
-                    "end": 509,
-                    "ctxt": 0
+                    "end": 509
                   },
                   "namespace": null,
                   "prefix": null,
@@ -489,8 +453,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 510,
-                    "end": 522,
-                    "ctxt": 0
+                    "end": 522
                   },
                   "namespace": null,
                   "prefix": null,
@@ -503,8 +466,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 523,
-                    "end": 535,
-                    "ctxt": 0
+                    "end": 535
                   },
                   "namespace": null,
                   "prefix": null,
@@ -517,8 +479,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 536,
-                    "end": 552,
-                    "ctxt": 0
+                    "end": 552
                   },
                   "namespace": null,
                   "prefix": null,
@@ -531,8 +492,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 553,
-                    "end": 575,
-                    "ctxt": 0
+                    "end": 575
                   },
                   "namespace": null,
                   "prefix": null,
@@ -545,8 +505,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 576,
-                    "end": 593,
-                    "ctxt": 0
+                    "end": 593
                   },
                   "namespace": null,
                   "prefix": null,
@@ -559,8 +518,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 594,
-                    "end": 601,
-                    "ctxt": 0
+                    "end": 601
                   },
                   "namespace": null,
                   "prefix": null,
@@ -573,8 +531,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 602,
-                    "end": 609,
-                    "ctxt": 0
+                    "end": 609
                   },
                   "namespace": null,
                   "prefix": null,
@@ -587,8 +544,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 610,
-                    "end": 624,
-                    "ctxt": 0
+                    "end": 624
                   },
                   "namespace": null,
                   "prefix": null,
@@ -601,8 +557,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 625,
-                    "end": 637,
-                    "ctxt": 0
+                    "end": 637
                   },
                   "namespace": null,
                   "prefix": null,
@@ -615,8 +570,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 638,
-                    "end": 659,
-                    "ctxt": 0
+                    "end": 659
                   },
                   "namespace": null,
                   "prefix": null,
@@ -629,8 +583,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 660,
-                    "end": 679,
-                    "ctxt": 0
+                    "end": 679
                   },
                   "namespace": null,
                   "prefix": null,
@@ -643,8 +596,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 680,
-                    "end": 699,
-                    "ctxt": 0
+                    "end": 699
                   },
                   "namespace": null,
                   "prefix": null,
@@ -657,8 +609,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 700,
-                    "end": 719,
-                    "ctxt": 0
+                    "end": 719
                   },
                   "namespace": null,
                   "prefix": null,
@@ -671,8 +622,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 720,
-                    "end": 735,
-                    "ctxt": 0
+                    "end": 735
                   },
                   "namespace": null,
                   "prefix": null,
@@ -685,8 +635,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 736,
-                    "end": 750,
-                    "ctxt": 0
+                    "end": 750
                   },
                   "namespace": null,
                   "prefix": null,
@@ -699,8 +648,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 751,
-                    "end": 766,
-                    "ctxt": 0
+                    "end": 766
                   },
                   "namespace": null,
                   "prefix": null,
@@ -713,8 +661,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 767,
-                    "end": 781,
-                    "ctxt": 0
+                    "end": 781
                   },
                   "namespace": null,
                   "prefix": null,
@@ -727,8 +674,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 782,
-                    "end": 797,
-                    "ctxt": 0
+                    "end": 797
                   },
                   "namespace": null,
                   "prefix": null,
@@ -741,8 +687,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 798,
-                    "end": 815,
-                    "ctxt": 0
+                    "end": 815
                   },
                   "namespace": null,
                   "prefix": null,
@@ -755,8 +700,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 816,
-                    "end": 830,
-                    "ctxt": 0
+                    "end": 830
                   },
                   "namespace": null,
                   "prefix": null,
@@ -769,8 +713,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 831,
-                    "end": 841,
-                    "ctxt": 0
+                    "end": 841
                   },
                   "namespace": null,
                   "prefix": null,
@@ -783,8 +726,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 842,
-                    "end": 852,
-                    "ctxt": 0
+                    "end": 852
                   },
                   "namespace": null,
                   "prefix": null,
@@ -797,8 +739,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 853,
-                    "end": 866,
-                    "ctxt": 0
+                    "end": 866
                   },
                   "namespace": null,
                   "prefix": null,
@@ -811,8 +752,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 867,
-                    "end": 877,
-                    "ctxt": 0
+                    "end": 877
                   },
                   "namespace": null,
                   "prefix": null,
@@ -825,8 +765,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 878,
-                    "end": 891,
-                    "ctxt": 0
+                    "end": 891
                   },
                   "namespace": null,
                   "prefix": null,
@@ -839,8 +778,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 892,
-                    "end": 911,
-                    "ctxt": 0
+                    "end": 911
                   },
                   "namespace": null,
                   "prefix": null,
@@ -853,8 +791,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 912,
-                    "end": 931,
-                    "ctxt": 0
+                    "end": 931
                   },
                   "namespace": null,
                   "prefix": null,
@@ -867,8 +804,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 932,
-                    "end": 945,
-                    "ctxt": 0
+                    "end": 945
                   },
                   "namespace": null,
                   "prefix": null,

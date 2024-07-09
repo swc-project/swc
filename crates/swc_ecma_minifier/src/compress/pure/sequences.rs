@@ -1,4 +1,4 @@
-use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
 
@@ -20,7 +20,7 @@ impl Pure<'_> {
         ) {
             // Check if lhs is same as `ident`.
             if let AssignTarget::Simple(SimpleAssignTarget::Ident(left)) = &assign.left {
-                if left.id.sym == ident.sym && left.id.span.ctxt == ident.span.ctxt {
+                if left.id.sym == ident.sym && left.id.ctxt == ident.ctxt {
                     report_change!(
                         "drop_useless_ident_ref_in_seq: Dropping `{}` as it's useless",
                         left.id
@@ -165,7 +165,7 @@ impl Pure<'_> {
                             continue;
                         }
 
-                        let span = a_assign.span.with_ctxt(SyntaxContext::empty());
+                        let span = a_assign.span;
 
                         let obj = Box::new(a.take());
 
@@ -178,7 +178,7 @@ impl Pure<'_> {
                             }
                             .as_callee(),
                             args: args.take(),
-                            type_args: Default::default(),
+                            ..Default::default()
                         });
                         b.take();
                         self.changed = true;

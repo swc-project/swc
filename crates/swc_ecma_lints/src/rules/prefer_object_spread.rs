@@ -112,7 +112,7 @@ impl PreferObjectSpread {
 
     fn is_global_object(&self, expr: &Expr) -> bool {
         if let Expr::Ident(ident) = expr {
-            return ident.sym == "Object" && ident.span.ctxt == self.unresolved_ctxt;
+            return ident.sym == "Object" && ident.ctxt == self.unresolved_ctxt;
         }
 
         false

@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 46,
-    "ctxt": 0
+    "end": 46
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 46,
-                "ctxt": 0
+                "end": 46
               },
               "tagName": "table",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -58,8 +53,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 0,
-                    "ctxt": 0
+                    "end": 0
                   },
                   "tagName": "tbody",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -69,8 +63,7 @@
                       "type": "Element",
                       "span": {
                         "start": 8,
-                        "end": 46,
-                        "ctxt": 0
+                        "end": 46
                       },
                       "tagName": "tr",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -80,8 +73,7 @@
                           "type": "Element",
                           "span": {
                             "start": 12,
-                            "end": 27,
-                            "ctxt": 0
+                            "end": 27
                           },
                           "tagName": "td",
                           "namespace": "http://www.w3.org/1999/xhtml",
@@ -91,8 +83,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 16,
-                                "end": 27,
-                                "ctxt": 0
+                                "end": 27
                               },
                               "tagName": "svg",
                               "namespace": "http://www.w3.org/2000/svg",
@@ -102,8 +93,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 21,
-                                    "end": 27,
-                                    "ctxt": 0
+                                    "end": 27
                                   },
                                   "tagName": "desc",
                                   "namespace": "http://www.w3.org/2000/svg",
@@ -124,8 +114,7 @@
                           "type": "Element",
                           "span": {
                             "start": 27,
-                            "end": 46,
-                            "ctxt": 0
+                            "end": 46
                           },
                           "tagName": "td",
                           "namespace": "http://www.w3.org/1999/xhtml",
@@ -135,8 +124,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 38,
-                                "end": 46,
-                                "ctxt": 0
+                                "end": 46
                               },
                               "tagName": "circle",
                               "namespace": "http://www.w3.org/1999/xhtml",

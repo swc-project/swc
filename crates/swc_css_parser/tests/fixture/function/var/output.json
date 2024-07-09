@@ -2,62 +2,54 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 79,
-    "ctxt": 0
+    "end": 79
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 78,
-        "ctxt": 0
+        "end": 78
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 4,
-          "ctxt": 0
+          "end": 4
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 4,
-              "ctxt": 0
+              "end": 4
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 4,
-                  "ctxt": 0
+                  "end": 4
                 },
                 "nestingSelector": null,
                 "typeSelector": {
                   "type": "TagNameSelector",
                   "span": {
                     "start": 1,
-                    "end": 4,
-                    "ctxt": 0
+                    "end": 4
                   },
                   "name": {
                     "type": "WqName",
                     "span": {
                       "start": 1,
-                      "end": 4,
-                      "ctxt": 0
+                      "end": 4
                     },
                     "prefix": null,
                     "value": {
                       "type": "Ident",
                       "span": {
                         "start": 1,
-                        "end": 4,
-                        "ctxt": 0
+                        "end": 4
                       },
                       "value": "div",
                       "raw": "div"
@@ -74,15 +66,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 5,
-          "end": 78,
-          "ctxt": 0
+          "end": 78
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 5,
-            "end": 6,
-            "ctxt": 0
+            "end": 6
           },
           "token": "LBrace"
         },
@@ -91,15 +81,13 @@
             "type": "Declaration",
             "span": {
               "start": 11,
-              "end": 26,
-              "ctxt": 0
+              "end": 26
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 11,
-                "end": 16,
-                "ctxt": 0
+                "end": 16
               },
               "value": "color",
               "raw": "color"
@@ -109,15 +97,13 @@
                 "type": "Function",
                 "span": {
                   "start": 18,
-                  "end": 26,
-                  "ctxt": 0
+                  "end": 26
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 18,
-                    "end": 21,
-                    "ctxt": 0
+                    "end": 21
                   },
                   "value": "var",
                   "raw": "var"
@@ -127,8 +113,7 @@
                     "type": "DashedIdent",
                     "span": {
                       "start": 22,
-                      "end": 25,
-                      "ctxt": 0
+                      "end": 25
                     },
                     "value": "a",
                     "raw": "--a"
@@ -142,15 +127,13 @@
             "type": "Declaration",
             "span": {
               "start": 32,
-              "end": 48,
-              "ctxt": 0
+              "end": 48
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 32,
-                "end": 37,
-                "ctxt": 0
+                "end": 37
               },
               "value": "color",
               "raw": "color"
@@ -160,15 +143,13 @@
                 "type": "Function",
                 "span": {
                   "start": 39,
-                  "end": 48,
-                  "ctxt": 0
+                  "end": 48
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 39,
-                    "end": 42,
-                    "ctxt": 0
+                    "end": 42
                   },
                   "value": "var",
                   "raw": "var"
@@ -178,8 +159,7 @@
                     "type": "DashedIdent",
                     "span": {
                       "start": 43,
-                      "end": 46,
-                      "ctxt": 0
+                      "end": 46
                     },
                     "value": "a",
                     "raw": "--a"
@@ -188,8 +168,7 @@
                     "type": "Delimiter",
                     "span": {
                       "start": 46,
-                      "end": 47,
-                      "ctxt": 0
+                      "end": 47
                     },
                     "value": ","
                   }
@@ -202,15 +181,13 @@
             "type": "Declaration",
             "span": {
               "start": 54,
-              "end": 75,
-              "ctxt": 0
+              "end": 75
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 54,
-                "end": 59,
-                "ctxt": 0
+                "end": 59
               },
               "value": "color",
               "raw": "color"
@@ -220,15 +197,13 @@
                 "type": "Function",
                 "span": {
                   "start": 61,
-                  "end": 75,
-                  "ctxt": 0
+                  "end": 75
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 61,
-                    "end": 64,
-                    "ctxt": 0
+                    "end": 64
                   },
                   "value": "var",
                   "raw": "var"
@@ -238,8 +213,7 @@
                     "type": "DashedIdent",
                     "span": {
                       "start": 65,
-                      "end": 68,
-                      "ctxt": 0
+                      "end": 68
                     },
                     "value": "a",
                     "raw": "--a"
@@ -248,8 +222,7 @@
                     "type": "Delimiter",
                     "span": {
                       "start": 68,
-                      "end": 69,
-                      "ctxt": 0
+                      "end": 69
                     },
                     "value": ","
                   },
@@ -257,8 +230,7 @@
                     "type": "Ident",
                     "span": {
                       "start": 70,
-                      "end": 74,
-                      "ctxt": 0
+                      "end": 74
                     },
                     "value": "blue",
                     "raw": "blue"

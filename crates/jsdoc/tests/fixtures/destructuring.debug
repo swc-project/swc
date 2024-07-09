@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 1..14#0,
+        span: 1..14,
         description: Text {
-            span: 1..46#0,
+            span: 1..46,
             value: "A builder function for the Stick application;",
         },
         tags: [
             TagItem {
-                span: 1..4#0,
+                span: 1..4,
                 tag_name: Text {
-                    span: 1..4#0,
+                    span: 1..4,
                     value: "var",
                 },
                 tag: Member(
                     MemberTag {
-                        span: 1..4#0,
+                        span: 1..4,
                         ty: Text {
-                            span: 1..1#0,
+                            span: 1..1,
                             value: "",
                         },
                         name: Text {
-                            span: 1..9#0,
+                            span: 1..9,
                             value: "function",
                         },
                     },

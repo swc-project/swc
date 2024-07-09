@@ -26,7 +26,7 @@ fn mk() -> swc::Compiler {
 
 fn parse(c: &swc::Compiler) -> (Arc<SourceFile>, Program) {
     let fm = c.cm.new_source_file(
-        FileName::Real("rxjs/src/internal/Observable.ts".into()),
+        FileName::Real("rxjs/src/internal/Observable.ts".into()).into(),
         SOURCE.to_string(),
     );
     let handler = Handler::with_emitter_writer(Box::new(io::stderr()), Some(c.cm.clone()));
@@ -153,7 +153,7 @@ fn bench_full(b: &mut Bencher, opts: &Options) {
                 let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
                 let fm = c.cm.new_source_file(
-                    FileName::Real("rxjs/src/internal/Observable.ts".into()),
+                    FileName::Real("rxjs/src/internal/Observable.ts".into()).into(),
                     SOURCE.to_string(),
                 );
                 let _ = c.process_js_file(fm, &handler, opts).unwrap();

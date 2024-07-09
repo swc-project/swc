@@ -16,8 +16,8 @@ pub(super) fn load_json_as_module(fm: &Arc<SourceFile>) -> Result<Module, Error>
             op: op!("="),
             left: MemberExpr {
                 span: DUMMY_SP,
-                obj: Box::new(Expr::Ident(Ident::new("module".into(), DUMMY_SP))),
-                prop: MemberProp::Ident(Ident::new("exports".into(), DUMMY_SP)),
+                obj: Box::new(Expr::Ident(Ident::new_no_ctxt("module".into(), DUMMY_SP))),
+                prop: MemberProp::Ident(Ident::new_no_ctxt("exports".into(), DUMMY_SP)),
             }
             .into(),
             right: expr,

@@ -19,8 +19,10 @@ fn main() {
                     skip_filename: false,
                 },
                 |handler| {
-                    let fm =
-                        cm.new_source_file(FileName::Custom("foo.js".into()), "this ?= foo".into());
+                    let fm = cm.new_source_file(
+                        FileName::Custom("foo.js".into()).into(),
+                        "this ?= foo".into(),
+                    );
 
                     c.process_js_file(fm, handler, &Default::default())
                         .context("failed to process file")

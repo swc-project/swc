@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 13,
-    "ctxt": 0
+    "end": 13
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 13,
-        "ctxt": 0
+        "end": 13
       },
+      "ctxt": 0,
       "kind": "let",
       "declare": false,
       "declarations": [
@@ -20,47 +19,43 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 12,
-            "ctxt": 0
+            "end": 12
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 5,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 6,
-                "end": 12,
-                "ctxt": 0
+                "end": 12
               },
               "typeAnnotation": {
                 "type": "TsIndexedAccessType",
                 "span": {
                   "start": 8,
-                  "end": 12,
-                  "ctxt": 0
+                  "end": 12
                 },
                 "readonly": false,
                 "objectType": {
                   "type": "TsTypeReference",
                   "span": {
                     "start": 8,
-                    "end": 9,
-                    "ctxt": 0
+                    "end": 9
                   },
                   "typeName": {
                     "type": "Identifier",
                     "span": {
                       "start": 8,
-                      "end": 9,
-                      "ctxt": 0
+                      "end": 9
                     },
+                    "ctxt": 0,
                     "value": "T",
                     "optional": false
                   },
@@ -70,16 +65,15 @@
                   "type": "TsTypeReference",
                   "span": {
                     "start": 10,
-                    "end": 11,
-                    "ctxt": 0
+                    "end": 11
                   },
                   "typeName": {
                     "type": "Identifier",
                     "span": {
                       "start": 10,
-                      "end": 11,
-                      "ctxt": 0
+                      "end": 11
                     },
+                    "ctxt": 0,
                     "value": "K",
                     "optional": false
                   },

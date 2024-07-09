@@ -43,6 +43,7 @@ impl VisitMut for ObjectSuper {
                             definite: false,
                         })
                         .collect(),
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -57,7 +58,6 @@ impl VisitMut for ObjectSuper {
                 VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
-                    declare: false,
                     decls: self
                         .extra_vars
                         .drain(..)
@@ -68,6 +68,7 @@ impl VisitMut for ObjectSuper {
                             definite: false,
                         })
                         .collect(),
+                    ..Default::default()
                 }
                 .into(),
             );
@@ -86,7 +87,7 @@ impl VisitMut for ObjectSuper {
                     if let Prop::Method(MethodProp { key: _, function }) = &mut **prop {
                         function.visit_mut_with(&mut replacer);
                         if !replacer.vars.is_empty() {
-                            if let Some(BlockStmt { span: _, stmts }) = &mut function.body {
+                            if let Some(BlockStmt { span: _, stmts, .. }) = &mut function.body {
                                 prepend_stmt(
                                     stmts,
                                     VarDecl {
@@ -103,6 +104,7 @@ impl VisitMut for ObjectSuper {
                                                 definite: false,
                                             })
                                             .collect(),
+                                        ..Default::default()
                                     }
                                     .into(),
                                 );
@@ -178,7 +180,8 @@ impl SuperReplacer {
             span: DUMMY_SP,
             callee: helper!(get_prototype_of),
             args: vec![self.get_obj_ref().as_arg()],
-            type_args: Default::default(),
+
+            ..Default::default()
         })
         .as_arg()
     }
@@ -210,7 +213,6 @@ impl SuperReplacer {
         if let Expr::Call(CallExpr {
             callee: Callee::Expr(callee_expr),
             args,
-            type_args,
             ..
         }) = n
         {
@@ -240,7 +242,7 @@ impl SuperReplacer {
                                 arg
                             }))
                             .collect(),
-                        type_args: type_args.take(),
+                        ..Default::default()
                     });
                     return;
                 }
@@ -254,7 +256,7 @@ impl SuperReplacer {
                     }
                     .as_callee(),
                     args: iter::once(this).chain(args.take()).collect(),
-                    type_args: type_args.take(),
+                    ..Default::default()
                 });
             }
         }
@@ -341,7 +343,7 @@ impl SuperReplacer {
             span: super_token,
             callee: helper!(get),
             args: vec![proto, prop, ThisExpr { span: super_token }.as_arg()],
-            type_args: Default::default(),
+            ..Default::default()
         })
     }
 
@@ -371,7 +373,7 @@ impl SuperReplacer {
                 // strict
                 true.as_arg(),
             ],
-            type_args: Default::default(),
+            ..Default::default()
         })
     }
 

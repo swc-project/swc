@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 39,
-    "ctxt": 0
+    "end": 39
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 19,
-        "ctxt": 0
+        "end": 19
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,39 +19,36 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 18,
-            "ctxt": 0
+            "end": 18
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 5,
-              "end": 8,
-              "ctxt": 0
+              "end": 8
             },
+            "ctxt": 0,
             "value": "tag",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 8,
-                "end": 18,
-                "ctxt": 0
+                "end": 18
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 10,
-                  "end": 18,
-                  "ctxt": 0
+                  "end": 18
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
                     "start": 10,
-                    "end": 18,
-                    "ctxt": 0
+                    "end": 18
                   },
+                  "ctxt": 0,
                   "value": "Function",
                   "optional": false
                 },
@@ -69,23 +65,22 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 20,
-        "end": 39,
-        "ctxt": 0
+        "end": 39
       },
       "expression": {
         "type": "TaggedTemplateExpression",
         "span": {
           "start": 20,
-          "end": 38,
-          "ctxt": 0
+          "end": 38
         },
+        "ctxt": 0,
         "tag": {
           "type": "Identifier",
           "span": {
             "start": 20,
-            "end": 23,
-            "ctxt": 0
+            "end": 23
           },
+          "ctxt": 0,
           "value": "tag",
           "optional": false
         },
@@ -94,8 +89,7 @@
           "type": "TemplateLiteral",
           "span": {
             "start": 24,
-            "end": 38,
-            "ctxt": 0
+            "end": 38
           },
           "expressions": [],
           "quasis": [
@@ -103,8 +97,7 @@
               "type": "TemplateElement",
               "span": {
                 "start": 25,
-                "end": 37,
-                "ctxt": 0
+                "end": 37
               },
               "tail": true,
               "cooked": "Hello world!",

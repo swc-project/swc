@@ -131,7 +131,7 @@ impl<'a> Tester<'a> {
     {
         let fm = self
             .cm
-            .new_source_file(FileName::Real(file_name.into()), src.into());
+            .new_source_file(FileName::Real(file_name.into()).into(), src.into());
 
         let mut p = Parser::new(syntax, StringInput::from(&*fm), Some(&self.comments));
         let res = op(&mut p).map_err(|e| e.into_diagnostic(self.handler).emit());
@@ -171,7 +171,7 @@ impl<'a> Tester<'a> {
     ) -> Result<Module, ()> {
         let fm = self
             .cm
-            .new_source_file(FileName::Real(name.into()), src.into());
+            .new_source_file(FileName::Real(name.into()).into(), src.into());
 
         let module = {
             let mut p = Parser::new_from(Lexer::new(
@@ -226,7 +226,7 @@ impl VisitMut for RegeneratorHandler {
                 span: DUMMY_SP,
                 callee: quote_ident!("require").as_callee(),
                 args: vec![quote_str!("regenerator-runtime").as_arg()],
-                type_args: Default::default(),
+                ..Default::default()
             }));
 
             let decl = VarDeclarator {
@@ -240,6 +240,7 @@ impl VisitMut for RegeneratorHandler {
                 kind: VarDeclKind::Var,
                 declare: false,
                 decls: vec![decl],
+                ..Default::default()
             }))))
         }
     }
@@ -266,9 +267,7 @@ pub fn test_transform<F, P>(
 {
     Tester::run(|tester| {
         let expected = tester.apply_transform(
-            as_folder(::swc_ecma_utils::DropSpan {
-                preserve_ctxt: true,
-            }),
+            as_folder(::swc_ecma_utils::DropSpan),
             "output.js",
             syntax,
             expected,
@@ -293,9 +292,7 @@ pub fn test_transform<F, P>(
         }
 
         let actual = actual
-            .fold_with(&mut as_folder(::swc_ecma_utils::DropSpan {
-                preserve_ctxt: true,
-            }))
+            .fold_with(&mut as_folder(::swc_ecma_utils::DropSpan))
             .fold_with(&mut hygiene::hygiene())
             .fold_with(&mut fixer::fixer(Some(&tester.comments)));
 
@@ -731,7 +728,7 @@ pub struct HygieneTester;
 impl Fold for HygieneTester {
     fn fold_ident(&mut self, ident: Ident) -> Ident {
         Ident {
-            sym: format!("{}__{}", ident.sym, ident.span.ctxt.as_u32()).into(),
+            sym: format!("{}__{}", ident.sym, ident.ctxt.as_u32()).into(),
             ..ident
         }
     }
@@ -755,7 +752,7 @@ pub struct HygieneVisualizer;
 impl Fold for HygieneVisualizer {
     fn fold_ident(&mut self, ident: Ident) -> Ident {
         Ident {
-            sym: format!("{}{:?}", ident.sym, ident.span.ctxt()).into(),
+            sym: format!("{}{:?}", ident.sym, ident.ctxt).into(),
             ..ident
         }
     }

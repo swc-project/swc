@@ -62,7 +62,7 @@ impl VisitMut for ConstPropagation<'_> {
         match &n.exported {
             Some(ModuleExportName::Ident(exported)) => match &n.orig {
                 ModuleExportName::Ident(orig) => {
-                    if exported.sym == orig.sym && exported.span.ctxt == orig.span.ctxt {
+                    if exported.sym == orig.sym && exported.ctxt == orig.ctxt {
                         n.exported = None;
                     }
                 }
@@ -124,7 +124,7 @@ impl VisitMut for ConstPropagation<'_> {
                             }
 
                             Expr::Ident(init)
-                                if name.id.span.is_dummy()
+                                if name.span.is_dummy()
                                     || var.span.is_dummy()
                                     || init.span.is_dummy() =>
                             {

@@ -1,25 +1,25 @@
 [
     JsDoc {
-        span: 61..71#0,
+        span: 61..71,
         description: Text {
-            span: 61..61#0,
+            span: 61..61,
             value: "",
         },
         tags: [
             TagItem {
-                span: 61..66#0,
+                span: 61..66,
                 tag_name: Text {
-                    span: 61..66#0,
+                    span: 61..66,
                     value: "lends",
                 },
                 tag: Lends(
                     LendsTag {
-                        span: 61..66#0,
+                        span: 61..66,
                         name: NamePath {
-                            span: 61..71#0,
+                            span: 61..71,
                             components: [
                                 Text {
-                                    span: 61..67#0,
+                                    span: 61..67,
                                     value: "Person",
                                 },
                             ],
@@ -30,23 +30,23 @@
         ],
     },
     JsDoc {
-        span: 114..114#0,
+        span: 114..114,
         description: Text {
-            span: 114..114#0,
+            span: 114..114,
             value: "",
         },
         tags: [
             TagItem {
-                span: 114..124#0,
+                span: 114..124,
                 tag_name: Text {
-                    span: 114..124#0,
+                    span: 114..124,
                     value: "constructs",
                 },
                 tag: Constructs(
                     ConstructsTag {
-                        span: 114..124#0,
+                        span: 114..124,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -55,34 +55,34 @@
         ],
     },
     JsDoc {
-        span: 235..235#0,
+        span: 235..235,
         description: Text {
-            span: 235..251#0,
+            span: 235..251,
             value: "Speak a message.",
         },
         tags: [],
     },
     JsDoc {
-        span: 419..429#0,
+        span: 419..429,
         description: Text {
-            span: 419..419#0,
+            span: 419..419,
             value: "",
         },
         tags: [
             TagItem {
-                span: 419..424#0,
+                span: 419..424,
                 tag_name: Text {
-                    span: 419..424#0,
+                    span: 419..424,
                     value: "lends",
                 },
                 tag: Lends(
                     LendsTag {
-                        span: 419..424#0,
+                        span: 419..424,
                         name: NamePath {
-                            span: 419..429#0,
+                            span: 419..429,
                             components: [
                                 Text {
-                                    span: 419..424#0,
+                                    span: 419..424,
                                     value: "Robot",
                                 },
                             ],
@@ -93,23 +93,23 @@
         ],
     },
     JsDoc {
-        span: 471..471#0,
+        span: 471..471,
         description: Text {
-            span: 471..471#0,
+            span: 471..471,
             value: "",
         },
         tags: [
             TagItem {
-                span: 471..481#0,
+                span: 471..481,
                 tag_name: Text {
-                    span: 471..481#0,
+                    span: 471..481,
                     value: "constructs",
                 },
                 tag: Constructs(
                     ConstructsTag {
-                        span: 471..481#0,
+                        span: 471..481,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -118,9 +118,9 @@
         ],
     },
     JsDoc {
-        span: 592..592#0,
+        span: 592..592,
         description: Text {
-            span: 592..606#0,
+            span: 592..606,
             value: "Feign emotion.",
         },
         tags: [],

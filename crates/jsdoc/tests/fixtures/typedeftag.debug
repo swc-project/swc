@@ -1,31 +1,31 @@
 [
     JsDoc {
-        span: 1..17#0,
+        span: 1..17,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..8#0,
+                span: 1..8,
                 tag_name: Text {
-                    span: 1..8#0,
+                    span: 1..8,
                     value: "typedef",
                 },
                 tag: TypeDef(
                     TypeDefTag {
-                        span: 1..8#0,
+                        span: 1..8,
                         ty: Some(
                             Text {
-                                span: 1..18#0,
+                                span: 1..18,
                                 value: "{(string|number)}",
                             },
                         ),
                         name_path: NamePath {
-                            span: 1..17#0,
+                            span: 1..17,
                             components: [
                                 Text {
-                                    span: 1..1#0,
+                                    span: 1..1,
                                     value: "",
                                 },
                             ],
@@ -36,32 +36,32 @@
         ],
     },
     JsDoc {
-        span: 52..52#0,
+        span: 52..52,
         description: Text {
-            span: 52..52#0,
+            span: 52..52,
             value: "",
         },
         tags: [
             TagItem {
-                span: 52..59#0,
+                span: 52..59,
                 tag_name: Text {
-                    span: 52..59#0,
+                    span: 52..59,
                     value: "typedef",
                 },
                 tag: TypeDef(
                     TypeDefTag {
-                        span: 52..59#0,
+                        span: 52..59,
                         ty: Some(
                             Text {
-                                span: 52..60#0,
+                                span: 52..60,
                                 value: "{string}",
                             },
                         ),
                         name_path: NamePath {
-                            span: 52..52#0,
+                            span: 52..52,
                             components: [
                                 Text {
-                                    span: 52..52#0,
+                                    span: 52..52,
                                     value: "",
                                 },
                             ],
@@ -72,32 +72,32 @@
         ],
     },
     JsDoc {
-        span: 93..105#0,
+        span: 93..105,
         description: Text {
-            span: 93..93#0,
+            span: 93..93,
             value: "",
         },
         tags: [
             TagItem {
-                span: 93..100#0,
+                span: 93..100,
                 tag_name: Text {
-                    span: 93..100#0,
+                    span: 93..100,
                     value: "typedef",
                 },
                 tag: TypeDef(
                     TypeDefTag {
-                        span: 93..100#0,
+                        span: 93..100,
                         ty: Some(
                             Text {
-                                span: 93..110#0,
+                                span: 93..110,
                                 value: "{calc.NumberLike}",
                             },
                         ),
                         name_path: NamePath {
-                            span: 93..105#0,
+                            span: 93..105,
                             components: [
                                 Text {
-                                    span: 93..93#0,
+                                    span: 93..93,
                                     value: "",
                                 },
                             ],
@@ -108,30 +108,30 @@
         ],
     },
     JsDoc {
-        span: 154..178#0,
+        span: 154..178,
         description: Text {
-            span: 154..154#0,
+            span: 154..154,
             value: "",
         },
         tags: [
             TagItem {
-                span: 154..159#0,
+                span: 154..159,
                 tag_name: Text {
-                    span: 154..159#0,
+                    span: 154..159,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 154..159#0,
+                        span: 154..159,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 154..171#0,
+                                span: 154..171,
                                 value: "{calc.NumberLike}",
                             },
                         ),
                         desc: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },

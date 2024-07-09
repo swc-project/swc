@@ -1,6 +1,6 @@
 use is_macro::Is;
 use string_enum::StringEnum;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, DUMMY_SP};
 
 use crate::{
     class::Class,
@@ -101,10 +101,12 @@ impl Take for ClassDecl {
 }
 
 #[ast_node("VariableDeclaration")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct VarDecl {
     pub span: Span,
+
+    pub ctxt: SyntaxContext,
 
     pub kind: VarDeclKind,
 
@@ -117,16 +119,11 @@ pub struct VarDecl {
 
 impl Take for VarDecl {
     fn dummy() -> Self {
-        VarDecl {
-            span: DUMMY_SP,
-            kind: VarDeclKind::Var,
-            declare: Default::default(),
-            decls: Take::dummy(),
-        }
+        Default::default()
     }
 }
 
-#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(
     any(feature = "rkyv-impl"),
@@ -136,6 +133,7 @@ impl Take for VarDecl {
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
 pub enum VarDeclKind {
     /// `var`
+    #[default]
     Var,
     /// `let`
     Let,

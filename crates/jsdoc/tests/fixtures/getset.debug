@@ -1,20 +1,20 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..6#0,
+                span: 1..6,
                 tag_name: Text {
-                    span: 1..6#0,
+                    span: 1..6,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 1..6#0,
+                        span: 1..6,
                         ty: None,
                         name: None,
                     },
@@ -23,26 +23,26 @@
         ],
     },
     JsDoc {
-        span: 43..43#0,
+        span: 43..43,
         description: Text {
-            span: 43..43#0,
+            span: 43..43,
             value: "",
         },
         tags: [
             TagItem {
-                span: 43..48#0,
+                span: 43..48,
                 tag_name: Text {
-                    span: 43..48#0,
+                    span: 43..48,
                     value: "lends",
                 },
                 tag: Lends(
                     LendsTag {
-                        span: 43..48#0,
+                        span: 43..48,
                         name: NamePath {
-                            span: 43..44#0,
+                            span: 43..44,
                             components: [
                                 Text {
-                                    span: 43..49#0,
+                                    span: 43..49,
                                     value: "Person",
                                 },
                             ],
@@ -53,39 +53,39 @@
         ],
     },
     JsDoc {
-        span: 79..79#0,
+        span: 79..79,
         description: Text {
-            span: 79..101#0,
+            span: 79..101,
             value: "Set up initial values.",
         },
         tags: [],
     },
     JsDoc {
-        span: 166..166#0,
+        span: 166..166,
         description: Text {
-            span: 166..182#0,
+            span: 166..182,
             value: "Speak a message.",
         },
         tags: [],
     },
     JsDoc {
-        span: 295..295#0,
+        span: 295..295,
         description: Text {
-            span: 295..329#0,
+            span: 295..329,
             value: "The name of the person.\n         *",
         },
         tags: [
             TagItem {
-                span: 295..299#0,
+                span: 295..299,
                 tag_name: Text {
-                    span: 295..299#0,
+                    span: 295..299,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 295..299#0,
+                        span: 295..299,
                         name: Text {
-                            span: 295..303#0,
+                            span: 295..303,
                             value: "{string}",
                         },
                     },
@@ -94,46 +94,46 @@
         ],
     },
     JsDoc {
-        span: 444..444#0,
+        span: 444..444,
         description: Text {
-            span: 444..444#0,
+            span: 444..444,
             value: "",
         },
         tags: [
             TagItem {
-                span: 444..448#0,
+                span: 444..448,
                 tag_name: Text {
-                    span: 444..448#0,
+                    span: 444..448,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 444..448#0,
+                        span: 444..448,
                         name: Text {
-                            span: 444..452#0,
+                            span: 444..452,
                             value: "{string}",
                         },
                     },
                 ),
             },
             TagItem {
-                span: 444..449#0,
+                span: 444..449,
                 tag_name: Text {
-                    span: 444..449#0,
+                    span: 444..449,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: 444..449#0,
+                        span: 444..449,
                         name: None,
                         ty: Some(
                             Text {
-                                span: 444..447#0,
+                                span: 444..447,
                                 value: "val",
                             },
                         ),
                         desc: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                     },
@@ -142,23 +142,23 @@
         ],
     },
     JsDoc {
-        span: 583..583#0,
+        span: 583..583,
         description: Text {
-            span: 583..583#0,
+            span: 583..583,
             value: "",
         },
         tags: [
             TagItem {
-                span: 583..587#0,
+                span: 583..587,
                 tag_name: Text {
-                    span: 583..587#0,
+                    span: 583..587,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: 583..587#0,
+                        span: 583..587,
                         name: Text {
-                            span: 583..591#0,
+                            span: 583..591,
                             value: "{number}",
                         },
                     },

@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 81,
-    "ctxt": 0
+    "end": 81
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 16,
-        "end": 32,
-        "ctxt": 0
+        "end": 32
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,31 +19,28 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 20,
-            "end": 31,
-            "ctxt": 0
+            "end": 31
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 20,
-              "end": 23,
-              "ctxt": 0
+              "end": 23
             },
+            "ctxt": 0,
             "value": "sym",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 23,
-                "end": 31,
-                "ctxt": 0
+                "end": 31
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 25,
-                  "end": 31,
-                  "ctxt": 0
+                  "end": 31
                 },
                 "kind": "symbol"
               }
@@ -59,9 +55,9 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 33,
-        "end": 52,
-        "ctxt": 0
+        "end": 52
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -69,39 +65,36 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 37,
-            "end": 51,
-            "ctxt": 0
+            "end": 51
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 37,
-              "end": 43,
-              "ctxt": 0
+              "end": 43
             },
+            "ctxt": 0,
             "value": "symObj",
             "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 43,
-                "end": 51,
-                "ctxt": 0
+                "end": 51
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 45,
-                  "end": 51,
-                  "ctxt": 0
+                  "end": 51
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
                     "start": 45,
-                    "end": 51,
-                    "ctxt": 0
+                    "end": 51
                   },
+                  "ctxt": 0,
                   "value": "Symbol",
                   "optional": false
                 },
@@ -118,24 +111,22 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 54,
-        "end": 67,
-        "ctxt": 0
+        "end": 67
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 54,
-          "end": 66,
-          "ctxt": 0
+          "end": 66
         },
         "operator": "=",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 54,
-            "end": 60,
-            "ctxt": 0
+            "end": 60
           },
+          "ctxt": 0,
           "value": "symObj",
           "optional": false,
           "typeAnnotation": null
@@ -144,9 +135,9 @@
           "type": "Identifier",
           "span": {
             "start": 63,
-            "end": 66,
-            "ctxt": 0
+            "end": 66
           },
+          "ctxt": 0,
           "value": "sym",
           "optional": false
         }
@@ -156,24 +147,22 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 68,
-        "end": 81,
-        "ctxt": 0
+        "end": 81
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 68,
-          "end": 80,
-          "ctxt": 0
+          "end": 80
         },
         "operator": "=",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 68,
-            "end": 71,
-            "ctxt": 0
+            "end": 71
           },
+          "ctxt": 0,
           "value": "sym",
           "optional": false,
           "typeAnnotation": null
@@ -182,9 +171,9 @@
           "type": "Identifier",
           "span": {
             "start": 74,
-            "end": 80,
-            "ctxt": 0
+            "end": 80
           },
+          "ctxt": 0,
           "value": "symObj",
           "optional": false
         }

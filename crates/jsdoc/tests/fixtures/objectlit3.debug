@@ -1,32 +1,32 @@
 [
     JsDoc {
-        span: 1..1#0,
+        span: 1..1,
         description: Text {
-            span: 1..38#0,
+            span: 1..38,
             value: "Tokens that can appear in the stream.",
         },
         tags: [],
     },
     JsDoc {
-        span: 62..62#0,
+        span: 62..62,
         description: Text {
-            span: 62..79#0,
+            span: 62..79,
             value: "Open parenthesis.",
         },
         tags: [],
     },
     JsDoc {
-        span: 97..97#0,
+        span: 97..97,
         description: Text {
-            span: 97..136#0,
+            span: 97..136,
             value: "Executed before the token is processed.",
         },
         tags: [],
     },
     JsDoc {
-        span: 176..176#0,
+        span: 176..176,
         description: Text {
-            span: 176..214#0,
+            span: 176..214,
             value: "Executed after the token is processed.",
         },
         tags: [],

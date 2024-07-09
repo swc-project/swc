@@ -2,16 +2,14 @@
   "type": "DocumentFragment",
   "span": {
     "start": 1,
-    "end": 50,
-    "ctxt": 0
+    "end": 50
   },
   "children": [
     {
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 8,
-        "ctxt": 0
+        "end": 8
       },
       "tagName": "b",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -24,8 +22,7 @@
       "type": "Element",
       "span": {
         "start": 8,
-        "end": 17,
-        "ctxt": 0
+        "end": 17
       },
       "tagName": "mglyph",
       "namespace": "http://www.w3.org/1998/Math/MathML",
@@ -38,8 +35,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 24,
-        "ctxt": 0
+        "end": 24
       },
       "tagName": "i",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -52,8 +48,7 @@
       "type": "Element",
       "span": {
         "start": 24,
-        "end": 37,
-        "ctxt": 0
+        "end": 37
       },
       "tagName": "malignmark",
       "namespace": "http://www.w3.org/1998/Math/MathML",
@@ -66,8 +61,7 @@
       "type": "Element",
       "span": {
         "start": 37,
-        "end": 44,
-        "ctxt": 0
+        "end": 44
       },
       "tagName": "u",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -80,8 +74,7 @@
       "type": "Element",
       "span": {
         "start": 44,
-        "end": 50,
-        "ctxt": 0
+        "end": 50
       },
       "tagName": "mi",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -91,8 +84,7 @@
           "type": "Text",
           "span": {
             "start": 49,
-            "end": 50,
-            "ctxt": 0
+            "end": 50
           },
           "data": "X",
           "raw": "X"

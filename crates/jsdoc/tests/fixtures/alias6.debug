@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 16..16#0,
+        span: 16..16,
         description: Text {
-            span: 16..16#0,
+            span: 16..16,
             value: "",
         },
         tags: [
             TagItem {
-                span: 16..22#0,
+                span: 16..22,
                 tag_name: Text {
-                    span: 16..22#0,
+                    span: 16..22,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 16..22#0,
+                        span: 16..22,
                         name: Text {
-                            span: 0..0#0,
+                            span: 0..0,
                             value: "",
                         },
                         ty: Text {
-                            span: 16..23#0,
+                            span: 16..23,
                             value: "example",
                         },
                     },
@@ -29,26 +29,26 @@
         ],
     },
     JsDoc {
-        span: 40..48#0,
+        span: 40..48,
         description: Text {
-            span: 40..40#0,
+            span: 40..40,
             value: "",
         },
         tags: [
             TagItem {
-                span: 40..45#0,
+                span: 40..45,
                 tag_name: Text {
-                    span: 40..45#0,
+                    span: 40..45,
                     value: "alias",
                 },
                 tag: Alias(
                     AliasTag {
-                        span: 40..45#0,
+                        span: 40..45,
                         name_path: NamePath {
-                            span: 40..48#0,
+                            span: 40..48,
                             components: [
                                 Text {
-                                    span: 40..46#0,
+                                    span: 40..46,
                                     value: "module",
                                 },
                             ],

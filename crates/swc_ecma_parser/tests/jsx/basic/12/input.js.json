@@ -2,23 +2,20 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 42,
-    "ctxt": 0
+    "end": 42
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 42,
-        "ctxt": 0
+        "end": 42
       },
       "expression": {
         "type": "JSXElement",
         "span": {
           "start": 1,
-          "end": 42,
-          "ctxt": 0
+          "end": 42
         },
         "opening": {
           "type": "JSXOpeningElement",
@@ -26,16 +23,15 @@
             "type": "Identifier",
             "span": {
               "start": 2,
-              "end": 5,
-              "ctxt": 0
+              "end": 5
             },
+            "ctxt": 0,
             "value": "div",
             "optional": false
           },
           "span": {
             "start": 1,
-            "end": 6,
-            "ctxt": 0
+            "end": 6
           },
           "attributes": [],
           "selfClosing": false,
@@ -46,8 +42,7 @@
             "type": "JSXElement",
             "span": {
               "start": 6,
-              "end": 12,
-              "ctxt": 0
+              "end": 12
             },
             "opening": {
               "type": "JSXOpeningElement",
@@ -55,16 +50,15 @@
                 "type": "Identifier",
                 "span": {
                   "start": 7,
-                  "end": 9,
-                  "ctxt": 0
+                  "end": 9
                 },
+                "ctxt": 0,
                 "value": "br",
                 "optional": false
               },
               "span": {
                 "start": 6,
-                "end": 12,
-                "ctxt": 0
+                "end": 12
               },
               "attributes": [],
               "selfClosing": true,
@@ -77,8 +71,7 @@
             "type": "JSXText",
             "span": {
               "start": 12,
-              "end": 36,
-              "ctxt": 0
+              "end": 36
             },
             "value": "7x invalid-js-identifier",
             "raw": "7x invalid-js-identifier"
@@ -88,16 +81,15 @@
           "type": "JSXClosingElement",
           "span": {
             "start": 36,
-            "end": 42,
-            "ctxt": 0
+            "end": 42
           },
           "name": {
             "type": "Identifier",
             "span": {
               "start": 38,
-              "end": 41,
-              "ctxt": 0
+              "end": 41
             },
+            "ctxt": 0,
             "value": "div",
             "optional": false
           }

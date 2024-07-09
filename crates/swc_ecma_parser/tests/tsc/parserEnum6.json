@@ -2,16 +2,14 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 27,
-    "ctxt": 0
+    "end": 27
   },
   "body": [
     {
       "type": "TsEnumDeclaration",
       "span": {
         "start": 1,
-        "end": 27,
-        "ctxt": 0
+        "end": 27
       },
       "declare": false,
       "isConst": false,
@@ -19,9 +17,9 @@
         "type": "Identifier",
         "span": {
           "start": 6,
-          "end": 7,
-          "ctxt": 0
+          "end": 7
         },
+        "ctxt": 0,
         "value": "E",
         "optional": false
       },
@@ -30,15 +28,13 @@
           "type": "TsEnumMember",
           "span": {
             "start": 12,
-            "end": 15,
-            "ctxt": 0
+            "end": 15
           },
           "id": {
             "type": "StringLiteral",
             "span": {
               "start": 12,
-              "end": 15,
-              "ctxt": 0
+              "end": 15
             },
             "value": "A",
             "raw": "\"A\""
@@ -49,15 +45,13 @@
           "type": "TsEnumMember",
           "span": {
             "start": 17,
-            "end": 20,
-            "ctxt": 0
+            "end": 20
           },
           "id": {
             "type": "StringLiteral",
             "span": {
               "start": 17,
-              "end": 20,
-              "ctxt": 0
+              "end": 20
             },
             "value": "B",
             "raw": "\"B\""
@@ -68,15 +62,13 @@
           "type": "TsEnumMember",
           "span": {
             "start": 22,
-            "end": 25,
-            "ctxt": 0
+            "end": 25
           },
           "id": {
             "type": "StringLiteral",
             "span": {
               "start": 22,
-              "end": 25,
-              "ctxt": 0
+              "end": 25
             },
             "value": "C",
             "raw": "\"C\""

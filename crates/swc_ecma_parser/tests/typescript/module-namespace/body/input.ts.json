@@ -2,16 +2,14 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 33,
-    "ctxt": 0
+    "end": 33
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
         "start": 1,
-        "end": 33,
-        "ctxt": 0
+        "end": 33
       },
       "declare": false,
       "global": false,
@@ -19,9 +17,9 @@
         "type": "Identifier",
         "span": {
           "start": 11,
-          "end": 12,
-          "ctxt": 0
+          "end": 12
         },
+        "ctxt": 0,
         "value": "N",
         "optional": false
       },
@@ -29,17 +27,16 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 13,
-          "end": 33,
-          "ctxt": 0
+          "end": 33
         },
         "body": [
           {
             "type": "VariableDeclaration",
             "span": {
               "start": 19,
-              "end": 31,
-              "ctxt": 0
+              "end": 31
             },
+            "ctxt": 0,
             "kind": "const",
             "declare": false,
             "declarations": [
@@ -47,16 +44,15 @@
                 "type": "VariableDeclarator",
                 "span": {
                   "start": 25,
-                  "end": 30,
-                  "ctxt": 0
+                  "end": 30
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
                     "start": 25,
-                    "end": 26,
-                    "ctxt": 0
+                    "end": 26
                   },
+                  "ctxt": 0,
                   "value": "x",
                   "optional": false,
                   "typeAnnotation": null
@@ -65,8 +61,7 @@
                   "type": "NumericLiteral",
                   "span": {
                     "start": 29,
-                    "end": 30,
-                    "ctxt": 0
+                    "end": 30
                   },
                   "value": 0.0,
                   "raw": "0"

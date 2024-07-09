@@ -2,46 +2,41 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 20,
-    "ctxt": 0
+    "end": 20
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 20,
-        "ctxt": 0
+        "end": 20
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 1,
-          "end": 19,
-          "ctxt": 0
+          "end": 19
         },
         "operator": "=",
         "left": {
           "type": "ParenthesisExpression",
           "span": {
             "start": 1,
-            "end": 14,
-            "ctxt": 0
+            "end": 14
           },
           "expression": {
             "type": "TsAsExpression",
             "span": {
               "start": 2,
-              "end": 13,
-              "ctxt": 0
+              "end": 13
             },
             "expression": {
               "type": "Identifier",
               "span": {
                 "start": 2,
-                "end": 3,
-                "ctxt": 0
+                "end": 3
               },
+              "ctxt": 0,
               "value": "a",
               "optional": false
             },
@@ -49,8 +44,7 @@
               "type": "TsKeywordType",
               "span": {
                 "start": 7,
-                "end": 13,
-                "ctxt": 0
+                "end": 13
               },
               "kind": "number"
             }
@@ -60,8 +54,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 17,
-            "end": 19,
-            "ctxt": 0
+            "end": 19
           },
           "value": 42.0,
           "raw": "42"

@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 66,
-    "ctxt": 0
+    "end": 66
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 52,
-        "ctxt": 0
+        "end": 52
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 7,
-            "end": 45,
-            "ctxt": 0
+            "end": 45
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Text",
               "span": {
                 "start": 27,
-                "end": 28,
-                "ctxt": 0
+                "end": 28
               },
               "data": "x",
               "raw": "x"
@@ -57,8 +52,7 @@
               "type": "Comment",
               "span": {
                 "start": 28,
-                "end": 45,
-                "ctxt": 0
+                "end": 45
               },
               "data": " Hi there ",
               "raw": "<!-- Hi there -->"
@@ -75,8 +69,7 @@
       "type": "Comment",
       "span": {
         "start": 52,
-        "end": 66,
-        "ctxt": 0
+        "end": 66
       },
       "data": " Again ",
       "raw": "<!-- Again -->"

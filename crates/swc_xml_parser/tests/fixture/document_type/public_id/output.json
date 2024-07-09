@@ -2,16 +2,14 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 71,
-    "ctxt": 0
+    "end": 71
   },
   "children": [
     {
       "type": "DocumentType",
       "span": {
         "start": 1,
-        "end": 53,
-        "ctxt": 0
+        "end": 53
       },
       "name": "greeting",
       "publicId": "hello.dtd",
@@ -22,8 +20,7 @@
       "type": "Element",
       "span": {
         "start": 54,
-        "end": 71,
-        "ctxt": 0
+        "end": 71
       },
       "tagName": "root",
       "attributes": [],
@@ -32,8 +29,7 @@
           "type": "Text",
           "span": {
             "start": 60,
-            "end": 64,
-            "ctxt": 0
+            "end": 64
           },
           "data": "test",
           "raw": "test"

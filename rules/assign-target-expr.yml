@@ -1,7 +1,0 @@
-language: rust
-id: use-into-instead-of-assign-target-expr
-rule:
-    all:
-        - kind: call_expression
-        - pattern: "AssignTarget::Simple($ARG)"
-fix: $ARG.into()

@@ -239,19 +239,19 @@ impl<I: Tokens> Parser<I> {
                             }));
                         }
 
-                        let maybe_as = self.parse_binding_ident()?.id;
+                        let maybe_as: Ident = self.parse_binding_ident()?.into();
                         if maybe_as.sym == "as" {
                             if is!(self, IdentName) {
                                 // `import { type as as as } from 'mod'`
                                 // `import { type as as foo } from 'mod'`
-                                let local = self.parse_binding_ident()?.id;
+                                let local: Ident = self.parse_binding_ident()?.into();
 
                                 if type_only {
                                     self.emit_err(orig_name.span, SyntaxError::TS2206);
                                 }
 
                                 return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
-                                    span: Span::new(start, orig_name.span.hi(), Default::default()),
+                                    span: Span::new(start, orig_name.span.hi()),
                                     local,
                                     imported: Some(ModuleExportName::Ident(possibly_orig_name)),
                                     is_type_only: true,
@@ -259,7 +259,7 @@ impl<I: Tokens> Parser<I> {
                             } else {
                                 // `import { type as as } from 'mod'`
                                 return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
-                                    span: Span::new(start, maybe_as.span.hi(), Default::default()),
+                                    span: Span::new(start, maybe_as.span.hi()),
                                     local: maybe_as,
                                     imported: Some(ModuleExportName::Ident(orig_name)),
                                     is_type_only: false,
@@ -268,7 +268,7 @@ impl<I: Tokens> Parser<I> {
                         } else {
                             // `import { type as xxx } from 'mod'`
                             return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
-                                span: Span::new(start, orig_name.span.hi(), Default::default()),
+                                span: Span::new(start, orig_name.span.hi()),
                                 local: maybe_as,
                                 imported: Some(ModuleExportName::Ident(orig_name)),
                                 is_type_only: false,
@@ -287,9 +287,9 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 if eat!(self, "as") {
-                    let local = self.parse_binding_ident()?.id;
+                    let local: Ident = self.parse_binding_ident()?.into();
                     return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
-                        span: Span::new(start, local.span.hi(), Default::default()),
+                        span: Span::new(start, local.span.hi()),
                         local,
                         imported: Some(ModuleExportName::Ident(orig_name)),
                         is_type_only,
@@ -314,9 +314,9 @@ impl<I: Tokens> Parser<I> {
             }
             ModuleExportName::Str(orig_str) => {
                 if eat!(self, "as") {
-                    let local = self.parse_binding_ident()?.id;
+                    let local: Ident = self.parse_binding_ident()?.into();
                     Ok(ImportSpecifier::Named(ImportNamedSpecifier {
-                        span: Span::new(start, local.span.hi(), Default::default()),
+                        span: Span::new(start, local.span.hi()),
                         local,
                         imported: Some(ModuleExportName::Str(orig_str)),
                         is_type_only: false,
@@ -342,7 +342,7 @@ impl<I: Tokens> Parser<I> {
             in_generator: false,
             ..self.ctx()
         };
-        Ok(self.with_ctx(ctx).parse_binding_ident()?.id)
+        Ok(self.with_ctx(ctx).parse_binding_ident()?.into())
     }
 
     fn parse_export(&mut self, mut decorators: Vec<Decorator>) -> PResult<ModuleDecl> {
@@ -497,7 +497,7 @@ impl<I: Tokens> Parser<I> {
                 && (is!(self, "from")
                     || (is!(self, ',') && (peeked_is!(self, '{') || peeked_is!(self, '*'))))
             {
-                export_default = Some(Ident::new("default".into(), self.input.prev_span()))
+                export_default = Some(Ident::new_no_ctxt("default".into(), self.input.prev_span()))
             } else {
                 let expr = self.include_in_expr(true).parse_assignment_expr()?;
                 expect!(self, ';');
@@ -768,11 +768,7 @@ impl<I: Tokens> Parser<I> {
                                 }
 
                                 return Ok(ExportNamedSpecifier {
-                                    span: Span::new(
-                                        start,
-                                        orig_ident.span.hi(),
-                                        Default::default(),
-                                    ),
+                                    span: Span::new(start, orig_ident.span.hi()),
                                     orig: ModuleExportName::Ident(possibly_orig),
                                     exported: Some(ModuleExportName::Ident(exported)),
                                     is_type_only: true,
@@ -780,11 +776,7 @@ impl<I: Tokens> Parser<I> {
                             } else {
                                 // `export { type as as }`
                                 return Ok(ExportNamedSpecifier {
-                                    span: Span::new(
-                                        start,
-                                        orig_ident.span.hi(),
-                                        Default::default(),
-                                    ),
+                                    span: Span::new(start, orig_ident.span.hi()),
                                     orig: ModuleExportName::Ident(orig_ident),
                                     exported: Some(ModuleExportName::Ident(maybe_as)),
                                     is_type_only: false,
@@ -793,7 +785,7 @@ impl<I: Tokens> Parser<I> {
                         } else {
                             // `export { type as xxx }`
                             return Ok(ExportNamedSpecifier {
-                                span: Span::new(start, orig_ident.span.hi(), Default::default()),
+                                span: Span::new(start, orig_ident.span.hi()),
                                 orig: ModuleExportName::Ident(orig_ident),
                                 exported: Some(ModuleExportName::Ident(maybe_as)),
                                 is_type_only: false,

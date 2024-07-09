@@ -2,31 +2,28 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 57,
-    "ctxt": 0
+    "end": 57
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 57,
-        "ctxt": 0
+        "end": 57
       },
       "expression": {
         "type": "ConditionalExpression",
         "span": {
           "start": 1,
-          "end": 56,
-          "ctxt": 0
+          "end": 56
         },
         "test": {
           "type": "Identifier",
           "span": {
             "start": 1,
-            "end": 9,
-            "ctxt": 0
+            "end": 9
           },
+          "ctxt": 0,
           "value": "referrer",
           "optional": false
         },
@@ -34,8 +31,7 @@
           "type": "BooleanLiteral",
           "span": {
             "start": 12,
-            "end": 17,
-            "ctxt": 0
+            "end": 17
           },
           "value": false
         },
@@ -43,16 +39,15 @@
           "type": "ArrowFunctionExpression",
           "span": {
             "start": 20,
-            "end": 56,
-            "ctxt": 0
+            "end": 56
           },
+          "ctxt": 0,
           "params": [
             {
               "type": "ArrayPattern",
               "span": {
                 "start": 21,
-                "end": 34,
-                "ctxt": 0
+                "end": 34
               },
               "elements": [
                 null,
@@ -60,9 +55,9 @@
                   "type": "Identifier",
                   "span": {
                     "start": 24,
-                    "end": 33,
-                    "ctxt": 0
+                    "end": 33
                   },
+                  "ctxt": 0,
                   "value": "specifier",
                   "optional": false,
                   "typeAnnotation": null
@@ -76,9 +71,9 @@
             "type": "Identifier",
             "span": {
               "start": 47,
-              "end": 56,
-              "ctxt": 0
+              "end": 56
             },
+            "ctxt": 0,
             "value": "specifier",
             "optional": false
           },
@@ -89,15 +84,13 @@
             "type": "TsTypeAnnotation",
             "span": {
               "start": 35,
-              "end": 43,
-              "ctxt": 0
+              "end": 43
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 37,
-                "end": 43,
-                "ctxt": 0
+                "end": 43
               },
               "kind": "string"
             }

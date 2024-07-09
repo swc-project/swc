@@ -2,23 +2,20 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 181,
-    "ctxt": 0
+    "end": 181
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 180,
-        "ctxt": 0
+        "end": 180
       },
       "name": {
         "type": "Ident",
         "span": {
           "start": 2,
-          "end": 11,
-          "ctxt": 0
+          "end": 11
         },
         "value": "font-face",
         "raw": "font-face"
@@ -28,15 +25,13 @@
         "type": "SimpleBlock",
         "span": {
           "start": 12,
-          "end": 180,
-          "ctxt": 0
+          "end": 180
         },
         "name": {
           "type": "PreservedToken",
           "span": {
             "start": 12,
-            "end": 13,
-            "ctxt": 0
+            "end": 13
           },
           "token": "LBrace"
         },
@@ -45,15 +40,13 @@
             "type": "Declaration",
             "span": {
               "start": 18,
-              "end": 42,
-              "ctxt": 0
+              "end": 42
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 18,
-                "end": 29,
-                "ctxt": 0
+                "end": 29
               },
               "value": "font-family",
               "raw": "font-family"
@@ -63,8 +56,7 @@
                 "type": "String",
                 "span": {
                   "start": 31,
-                  "end": 42,
-                  "ctxt": 0
+                  "end": 42
                 },
                 "value": "Open Sans",
                 "raw": "\"Open Sans\""
@@ -76,15 +68,13 @@
             "type": "Declaration",
             "span": {
               "start": 48,
-              "end": 177,
-              "ctxt": 0
+              "end": 177
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 48,
-                "end": 51,
-                "ctxt": 0
+                "end": 51
               },
               "value": "src",
               "raw": "src"
@@ -94,15 +84,13 @@
                 "type": "Url",
                 "span": {
                   "start": 53,
-                  "end": 97,
-                  "ctxt": 0
+                  "end": 97
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 53,
-                    "end": 56,
-                    "ctxt": 0
+                    "end": 56
                   },
                   "value": "url",
                   "raw": "url"
@@ -111,8 +99,7 @@
                   "type": "String",
                   "span": {
                     "start": 57,
-                    "end": 96,
-                    "ctxt": 0
+                    "end": 96
                   },
                   "value": "/fonts/OpenSans-Regular-webfont.woff2",
                   "raw": "\"/fonts/OpenSans-Regular-webfont.woff2\""
@@ -123,15 +110,13 @@
                 "type": "Function",
                 "span": {
                   "start": 98,
-                  "end": 113,
-                  "ctxt": 0
+                  "end": 113
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 98,
-                    "end": 104,
-                    "ctxt": 0
+                    "end": 104
                   },
                   "value": "format",
                   "raw": "format"
@@ -141,8 +126,7 @@
                     "type": "String",
                     "span": {
                       "start": 105,
-                      "end": 112,
-                      "ctxt": 0
+                      "end": 112
                     },
                     "value": "woff2",
                     "raw": "\"woff2\""
@@ -153,8 +137,7 @@
                 "type": "Delimiter",
                 "span": {
                   "start": 113,
-                  "end": 114,
-                  "ctxt": 0
+                  "end": 114
                 },
                 "value": ","
               },
@@ -162,15 +145,13 @@
                 "type": "Url",
                 "span": {
                   "start": 119,
-                  "end": 162,
-                  "ctxt": 0
+                  "end": 162
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 119,
-                    "end": 122,
-                    "ctxt": 0
+                    "end": 122
                   },
                   "value": "url",
                   "raw": "url"
@@ -179,8 +160,7 @@
                   "type": "String",
                   "span": {
                     "start": 123,
-                    "end": 161,
-                    "ctxt": 0
+                    "end": 161
                   },
                   "value": "/fonts/OpenSans-Regular-webfont.woff",
                   "raw": "\"/fonts/OpenSans-Regular-webfont.woff\""
@@ -191,15 +171,13 @@
                 "type": "Function",
                 "span": {
                   "start": 163,
-                  "end": 177,
-                  "ctxt": 0
+                  "end": 177
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
                     "start": 163,
-                    "end": 169,
-                    "ctxt": 0
+                    "end": 169
                   },
                   "value": "format",
                   "raw": "format"
@@ -209,8 +187,7 @@
                     "type": "String",
                     "span": {
                       "start": 170,
-                      "end": 176,
-                      "ctxt": 0
+                      "end": 176
                     },
                     "value": "woff",
                     "raw": "\"woff\""

@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 48,
-    "ctxt": 0
+    "end": 48
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 16,
-        "end": 48,
-        "ctxt": 0
+        "end": 48
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,24 +19,22 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 20,
-            "end": 47,
-            "ctxt": 0
+            "end": 47
           },
           "id": {
             "type": "ArrayPattern",
             "span": {
               "start": 20,
-              "end": 26,
-              "ctxt": 0
+              "end": 26
             },
             "elements": [
               {
                 "type": "Identifier",
                 "span": {
                   "start": 21,
-                  "end": 22,
-                  "ctxt": 0
+                  "end": 22
                 },
+                "ctxt": 0,
                 "value": "a",
                 "optional": false,
                 "typeAnnotation": null
@@ -46,9 +43,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 24,
-                  "end": 25,
-                  "ctxt": 0
+                  "end": 25
                 },
+                "ctxt": 0,
                 "value": "b",
                 "optional": false,
                 "typeAnnotation": null
@@ -61,8 +58,7 @@
             "type": "ObjectExpression",
             "span": {
               "start": 29,
-              "end": 47,
-              "ctxt": 0
+              "end": 47
             },
             "properties": [
               {
@@ -71,8 +67,7 @@
                   "type": "NumericLiteral",
                   "span": {
                     "start": 31,
-                    "end": 32,
-                    "ctxt": 0
+                    "end": 32
                   },
                   "value": 0.0,
                   "raw": "0"
@@ -81,8 +76,7 @@
                   "type": "StringLiteral",
                   "span": {
                     "start": 34,
-                    "end": 36,
-                    "ctxt": 0
+                    "end": 36
                   },
                   "value": "",
                   "raw": "\"\""
@@ -94,8 +88,7 @@
                   "type": "NumericLiteral",
                   "span": {
                     "start": 38,
-                    "end": 39,
-                    "ctxt": 0
+                    "end": 39
                   },
                   "value": 1.0,
                   "raw": "1"
@@ -104,8 +97,7 @@
                   "type": "BooleanLiteral",
                   "span": {
                     "start": 41,
-                    "end": 45,
-                    "ctxt": 0
+                    "end": 45
                   },
                   "value": true
                 }

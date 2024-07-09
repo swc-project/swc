@@ -4,8 +4,7 @@
       "kind": "Block",
       "span": {
         "start": 926,
-        "end": 967,
-        "ctxt": 0
+        "end": 967
       },
       "text": "/* Legacy stuff, but allowed by spec */"
     }
@@ -15,8 +14,7 @@
       "kind": "Block",
       "span": {
         "start": 1225,
-        "end": 1233,
-        "ctxt": 0
+        "end": 1233
       },
       "text": "/* ; */"
     }
@@ -26,8 +24,7 @@
       "kind": "Block",
       "span": {
         "start": 1290,
-        "end": 1295,
-        "ctxt": 0
+        "end": 1295
       },
       "text": "/**/"
     }

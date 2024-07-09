@@ -90,7 +90,7 @@ impl SwcLoader {
                 let fm = self
                     .compiler
                     .cm
-                    .new_source_file(name.clone(), "".to_string());
+                    .new_source_file(name.clone().into(), "".to_string());
                 return Ok(ModuleData {
                     fm,
                     module: Module {
@@ -108,7 +108,7 @@ impl SwcLoader {
                 let fm = self
                     .compiler
                     .cm
-                    .new_source_file(name.clone(), "module.exports = {}".to_string());
+                    .new_source_file(name.clone().into(), "module.exports = {}".to_string());
 
                 let module = parse_file_as_module(
                     &fm,

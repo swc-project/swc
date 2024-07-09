@@ -4,8 +4,7 @@
       "kind": "Block",
       "span": {
         "start": 83,
-        "end": 123,
-        "ctxt": 0
+        "end": 123
       },
       "text": "/* Invalid, more than one space */"
     }
@@ -15,8 +14,7 @@
       "kind": "Block",
       "span": {
         "start": 24,
-        "end": 64,
-        "ctxt": 0
+        "end": 64
       },
       "text": "/* Invalid, wrong quoting style used */"
     }
@@ -26,8 +24,7 @@
       "kind": "Block",
       "span": {
         "start": 141,
-        "end": 211,
-        "ctxt": 0
+        "end": 211
       },
       "text": "/* Invalid, there is a character (a space) before the at-rule */"
     }

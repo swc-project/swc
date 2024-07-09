@@ -17,8 +17,7 @@ pub fn inject_after_super(c: &mut Constructor, mut exprs: Vec<Box<Expr>>) {
     if !folder.injected {
         if c.body.is_none() {
             c.body = Some(BlockStmt {
-                span: DUMMY_SP,
-                stmts: vec![],
+                ..Default::default()
             });
         }
         // there was no super() call
@@ -98,7 +97,7 @@ impl<'a> Fold for Injector<'a> {
                             init: None,
                             definite: false,
                         }],
-                        declare: false,
+                        ..Default::default()
                     })))
                 }));
                 buf.push(stmt);

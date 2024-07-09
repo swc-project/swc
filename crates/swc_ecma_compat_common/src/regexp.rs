@@ -63,7 +63,7 @@ impl VisitMut for RegExp {
                     span,
                     callee: quote_ident!("RegExp").as_callee(),
                     args,
-                    type_args: None,
+                    ..Default::default()
                 }
                 .into()
             }

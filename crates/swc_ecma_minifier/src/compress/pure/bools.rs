@@ -212,7 +212,7 @@ impl Pure<'_> {
 
             e if is_pure_undefined(&self.expr_ctx, e) => true,
 
-            Expr::Ident(i) => i.span.ctxt != self.expr_ctx.unresolved_ctxt,
+            Expr::Ident(i) => i.ctxt != self.expr_ctx.unresolved_ctxt,
 
             // NaN
             Expr::Bin(BinExpr {

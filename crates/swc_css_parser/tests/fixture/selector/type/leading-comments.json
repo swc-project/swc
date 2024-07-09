@@ -4,8 +4,7 @@
       "kind": "Block",
       "span": {
         "start": 240,
-        "end": 245,
-        "ctxt": 0
+        "end": 245
       },
       "text": "/**/"
     }
@@ -15,8 +14,7 @@
       "kind": "Block",
       "span": {
         "start": 248,
-        "end": 253,
-        "ctxt": 0
+        "end": 253
       },
       "text": "/**/"
     }

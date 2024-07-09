@@ -2,8 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 128,
-    "ctxt": 0
+    "end": 128
   },
   "mode": "quirks",
   "children": [
@@ -11,8 +10,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
@@ -22,8 +20,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -36,8 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
@@ -47,8 +43,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 18,
-                "ctxt": 0
+                "end": 18
               },
               "tagName": "select",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -58,8 +53,7 @@
                   "type": "Element",
                   "span": {
                     "start": 9,
-                    "end": 18,
-                    "ctxt": 0
+                    "end": 18
                   },
                   "tagName": "option",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -69,8 +63,7 @@
                       "type": "Text",
                       "span": {
                         "start": 17,
-                        "end": 18,
-                        "ctxt": 0
+                        "end": 18
                       },
                       "data": "A",
                       "raw": "A"
@@ -87,8 +80,7 @@
               "type": "Element",
               "span": {
                 "start": 26,
-                "end": 52,
-                "ctxt": 0
+                "end": 52
               },
               "tagName": "option",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -98,8 +90,7 @@
                   "type": "Text",
                   "span": {
                     "start": 34,
-                    "end": 35,
-                    "ctxt": 0
+                    "end": 35
                   },
                   "data": "B",
                   "raw": "B"
@@ -108,8 +99,7 @@
                   "type": "Element",
                   "span": {
                     "start": 35,
-                    "end": 52,
-                    "ctxt": 0
+                    "end": 52
                   },
                   "tagName": "select",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -119,8 +109,7 @@
                       "type": "Element",
                       "span": {
                         "start": 43,
-                        "end": 52,
-                        "ctxt": 0
+                        "end": 52
                       },
                       "tagName": "option",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -130,8 +119,7 @@
                           "type": "Text",
                           "span": {
                             "start": 51,
-                            "end": 52,
-                            "ctxt": 0
+                            "end": 52
                           },
                           "data": "C",
                           "raw": "C"
@@ -152,8 +140,7 @@
               "type": "Element",
               "span": {
                 "start": 60,
-                "end": 86,
-                "ctxt": 0
+                "end": 86
               },
               "tagName": "option",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -163,8 +150,7 @@
                   "type": "Text",
                   "span": {
                     "start": 68,
-                    "end": 69,
-                    "ctxt": 0
+                    "end": 69
                   },
                   "data": "D",
                   "raw": "D"
@@ -173,8 +159,7 @@
                   "type": "Element",
                   "span": {
                     "start": 69,
-                    "end": 86,
-                    "ctxt": 0
+                    "end": 86
                   },
                   "tagName": "select",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -184,8 +169,7 @@
                       "type": "Element",
                       "span": {
                         "start": 77,
-                        "end": 86,
-                        "ctxt": 0
+                        "end": 86
                       },
                       "tagName": "option",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -195,8 +179,7 @@
                           "type": "Text",
                           "span": {
                             "start": 85,
-                            "end": 86,
-                            "ctxt": 0
+                            "end": 86
                           },
                           "data": "E",
                           "raw": "E"
@@ -217,8 +200,7 @@
               "type": "Element",
               "span": {
                 "start": 94,
-                "end": 128,
-                "ctxt": 0
+                "end": 128
               },
               "tagName": "option",
               "namespace": "http://www.w3.org/1999/xhtml",
@@ -228,8 +210,7 @@
                   "type": "Text",
                   "span": {
                     "start": 102,
-                    "end": 103,
-                    "ctxt": 0
+                    "end": 103
                   },
                   "data": "F",
                   "raw": "F"
@@ -238,8 +219,7 @@
                   "type": "Element",
                   "span": {
                     "start": 103,
-                    "end": 120,
-                    "ctxt": 0
+                    "end": 120
                   },
                   "tagName": "select",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -249,8 +229,7 @@
                       "type": "Element",
                       "span": {
                         "start": 111,
-                        "end": 120,
-                        "ctxt": 0
+                        "end": 120
                       },
                       "tagName": "option",
                       "namespace": "http://www.w3.org/1999/xhtml",
@@ -260,8 +239,7 @@
                           "type": "Text",
                           "span": {
                             "start": 119,
-                            "end": 120,
-                            "ctxt": 0
+                            "end": 120
                           },
                           "data": "G",
                           "raw": "G"

@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 40,
-    "ctxt": 0
+    "end": 40
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 10,
-          "end": 11,
-          "ctxt": 0
+          "end": 11
         },
+        "ctxt": 0,
         "value": "f",
         "optional": false
       },
@@ -24,32 +23,29 @@
           "type": "Parameter",
           "span": {
             "start": 12,
-            "end": 35,
-            "ctxt": 0
+            "end": 35
           },
           "decorators": [],
           "pat": {
             "type": "AssignmentPattern",
             "span": {
               "start": 12,
-              "end": 35,
-              "ctxt": 0
+              "end": 35
             },
             "left": {
               "type": "ArrayPattern",
               "span": {
                 "start": 12,
-                "end": 18,
-                "ctxt": 0
+                "end": 18
               },
               "elements": [
                 {
                   "type": "Identifier",
                   "span": {
                     "start": 13,
-                    "end": 14,
-                    "ctxt": 0
+                    "end": 14
                   },
+                  "ctxt": 0,
                   "value": "a",
                   "optional": false,
                   "typeAnnotation": null
@@ -58,9 +54,9 @@
                   "type": "Identifier",
                   "span": {
                     "start": 16,
-                    "end": 17,
-                    "ctxt": 0
+                    "end": 17
                   },
+                  "ctxt": 0,
                   "value": "b",
                   "optional": false,
                   "typeAnnotation": null
@@ -73,8 +69,7 @@
               "type": "ArrayExpression",
               "span": {
                 "start": 21,
-                "end": 35,
-                "ctxt": 0
+                "end": 35
               },
               "elements": [
                 {
@@ -83,8 +78,7 @@
                     "type": "NumericLiteral",
                     "span": {
                       "start": 22,
-                      "end": 23,
-                      "ctxt": 0
+                      "end": 23
                     },
                     "value": 0.0,
                     "raw": "0"
@@ -96,9 +90,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 25,
-                      "end": 34,
-                      "ctxt": 0
+                      "end": 34
                     },
+                    "ctxt": 0,
                     "value": "undefined",
                     "optional": false
                   }
@@ -111,16 +105,16 @@
       "decorators": [],
       "span": {
         "start": 1,
-        "end": 40,
-        "ctxt": 0
+        "end": 40
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 37,
-          "end": 40,
-          "ctxt": 0
+          "end": 40
         },
+        "ctxt": 0,
         "stmts": []
       },
       "generator": false,

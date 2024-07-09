@@ -1,26 +1,26 @@
 [
     JsDoc {
-        span: 1..116#0,
+        span: 1..116,
         description: Text {
-            span: 1..1#0,
+            span: 1..1,
             value: "",
         },
         tags: [
             TagItem {
-                span: 1..7#0,
+                span: 1..7,
                 tag_name: Text {
-                    span: 1..7#0,
+                    span: 1..7,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: 1..7#0,
+                        span: 1..7,
                         name: Text {
-                            span: 1..9#0,
+                            span: 1..9,
                             value: "@example",
                         },
                         ty: Text {
-                            span: 1..8#0,
+                            span: 1..8,
                             value: "terrain",
                         },
                     },
@@ -29,21 +29,21 @@
         ],
     },
     JsDoc {
-        span: 161..161#0,
+        span: 161..161,
         description: Text {
-            span: 161..161#0,
+            span: 161..161,
             value: "",
         },
         tags: [
             TagItem {
-                span: 161..166#0,
+                span: 161..166,
                 tag_name: Text {
-                    span: 161..166#0,
+                    span: 161..166,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 161..166#0,
+                        span: 161..166,
                         ty: None,
                         name: None,
                     },
@@ -52,24 +52,24 @@
         ],
     },
     JsDoc {
-        span: 235..235#0,
+        span: 235..235,
         description: Text {
-            span: 235..235#0,
+            span: 235..235,
             value: "",
         },
         tags: [
             TagItem {
-                span: 235..240#0,
+                span: 235..240,
                 tag_name: Text {
-                    span: 235..240#0,
+                    span: 235..240,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: 235..240#0,
+                        span: 235..240,
                         ty: Some(
                             Text {
-                                span: 235..259#0,
+                                span: 235..259,
                                 value: "@memberof module:terrain",
                             },
                         ),
@@ -80,9 +80,9 @@
         ],
     },
     JsDoc {
-        span: 323..323#0,
+        span: 323..323,
         description: Text {
-            span: 323..329#0,
+            span: 323..329,
             value: "A leaf",
         },
         tags: [],

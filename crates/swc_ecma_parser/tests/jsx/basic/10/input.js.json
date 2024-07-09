@@ -2,23 +2,20 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 33,
-    "ctxt": 0
+    "end": 33
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 33,
-        "ctxt": 0
+        "end": 33
       },
       "expression": {
         "type": "JSXElement",
         "span": {
           "start": 1,
-          "end": 33,
-          "ctxt": 0
+          "end": 33
         },
         "opening": {
           "type": "JSXOpeningElement",
@@ -26,16 +23,15 @@
             "type": "Identifier",
             "span": {
               "start": 2,
-              "end": 3,
-              "ctxt": 0
+              "end": 3
             },
+            "ctxt": 0,
             "value": "a",
             "optional": false
           },
           "span": {
             "start": 1,
-            "end": 4,
-            "ctxt": 0
+            "end": 4
           },
           "attributes": [],
           "selfClosing": false,
@@ -46,15 +42,13 @@
             "type": "JSXExpressionContainer",
             "span": {
               "start": 4,
-              "end": 29,
-              "ctxt": 0
+              "end": 29
             },
             "expression": {
               "type": "JSXEmptyExpression",
               "span": {
                 "start": 28,
-                "end": 28,
-                "ctxt": 0
+                "end": 28
               }
             }
           }
@@ -63,16 +57,15 @@
           "type": "JSXClosingElement",
           "span": {
             "start": 29,
-            "end": 33,
-            "ctxt": 0
+            "end": 33
           },
           "name": {
             "type": "Identifier",
             "span": {
               "start": 31,
-              "end": 32,
-              "ctxt": 0
+              "end": 32
             },
+            "ctxt": 0,
             "value": "a",
             "optional": false
           }

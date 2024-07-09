@@ -2,16 +2,14 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 1115,
-    "ctxt": 0
+    "end": 1115
   },
   "children": [
     {
       "type": "ProcessingInstruction",
       "span": {
         "start": 1,
-        "end": 22,
-        "ctxt": 0
+        "end": 22
       },
       "target": "xml",
       "data": "version=\"1.0\""
@@ -20,8 +18,7 @@
       "type": "Element",
       "span": {
         "start": 23,
-        "end": 1115,
-        "ctxt": 0
+        "end": 1115
       },
       "tagName": "PurchaseOrder",
       "attributes": [
@@ -29,8 +26,7 @@
           "type": "Attribute",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "namespace": null,
           "prefix": null,
@@ -43,8 +39,7 @@
           "type": "Attribute",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           },
           "namespace": null,
           "prefix": null,
@@ -59,8 +54,7 @@
           "type": "Text",
           "span": {
             "start": 89,
-            "end": 94,
-            "ctxt": 0
+            "end": 94
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -69,8 +63,7 @@
           "type": "Element",
           "span": {
             "start": 94,
-            "end": 324,
-            "ctxt": 0
+            "end": 324
           },
           "tagName": "Address",
           "attributes": [
@@ -78,8 +71,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -94,8 +86,7 @@
               "type": "Text",
               "span": {
                 "start": 119,
-                "end": 128,
-                "ctxt": 0
+                "end": 128
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -104,8 +95,7 @@
               "type": "Element",
               "span": {
                 "start": 128,
-                "end": 152,
-                "ctxt": 0
+                "end": 152
               },
               "tagName": "Name",
               "attributes": [],
@@ -114,8 +104,7 @@
                   "type": "Text",
                   "span": {
                     "start": 134,
-                    "end": 145,
-                    "ctxt": 0
+                    "end": 145
                   },
                   "data": "Ellen Adams",
                   "raw": "Ellen Adams"
@@ -126,8 +115,7 @@
               "type": "Text",
               "span": {
                 "start": 152,
-                "end": 161,
-                "ctxt": 0
+                "end": 161
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -136,8 +124,7 @@
               "type": "Element",
               "span": {
                 "start": 161,
-                "end": 194,
-                "ctxt": 0
+                "end": 194
               },
               "tagName": "Street",
               "attributes": [],
@@ -146,8 +133,7 @@
                   "type": "Text",
                   "span": {
                     "start": 169,
-                    "end": 185,
-                    "ctxt": 0
+                    "end": 185
                   },
                   "data": "123 Maple Street",
                   "raw": "123 Maple Street"
@@ -158,8 +144,7 @@
               "type": "Text",
               "span": {
                 "start": 194,
-                "end": 203,
-                "ctxt": 0
+                "end": 203
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -168,8 +153,7 @@
               "type": "Element",
               "span": {
                 "start": 203,
-                "end": 227,
-                "ctxt": 0
+                "end": 227
               },
               "tagName": "City",
               "attributes": [],
@@ -178,8 +162,7 @@
                   "type": "Text",
                   "span": {
                     "start": 209,
-                    "end": 220,
-                    "ctxt": 0
+                    "end": 220
                   },
                   "data": "Mill Valley",
                   "raw": "Mill Valley"
@@ -190,8 +173,7 @@
               "type": "Text",
               "span": {
                 "start": 227,
-                "end": 236,
-                "ctxt": 0
+                "end": 236
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -200,8 +182,7 @@
               "type": "Element",
               "span": {
                 "start": 236,
-                "end": 253,
-                "ctxt": 0
+                "end": 253
               },
               "tagName": "State",
               "attributes": [],
@@ -210,8 +191,7 @@
                   "type": "Text",
                   "span": {
                     "start": 243,
-                    "end": 245,
-                    "ctxt": 0
+                    "end": 245
                   },
                   "data": "CA",
                   "raw": "CA"
@@ -222,8 +202,7 @@
               "type": "Text",
               "span": {
                 "start": 253,
-                "end": 262,
-                "ctxt": 0
+                "end": 262
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -232,8 +211,7 @@
               "type": "Element",
               "span": {
                 "start": 262,
-                "end": 278,
-                "ctxt": 0
+                "end": 278
               },
               "tagName": "Zip",
               "attributes": [],
@@ -242,8 +220,7 @@
                   "type": "Text",
                   "span": {
                     "start": 267,
-                    "end": 272,
-                    "ctxt": 0
+                    "end": 272
                   },
                   "data": "10999",
                   "raw": "10999"
@@ -254,8 +231,7 @@
               "type": "Text",
               "span": {
                 "start": 278,
-                "end": 287,
-                "ctxt": 0
+                "end": 287
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -264,8 +240,7 @@
               "type": "Element",
               "span": {
                 "start": 287,
-                "end": 309,
-                "ctxt": 0
+                "end": 309
               },
               "tagName": "Country",
               "attributes": [],
@@ -274,8 +249,7 @@
                   "type": "Text",
                   "span": {
                     "start": 296,
-                    "end": 299,
-                    "ctxt": 0
+                    "end": 299
                   },
                   "data": "USA",
                   "raw": "USA"
@@ -286,8 +260,7 @@
               "type": "Text",
               "span": {
                 "start": 309,
-                "end": 314,
-                "ctxt": 0
+                "end": 314
               },
               "data": "\n    ",
               "raw": "\n    "
@@ -298,8 +271,7 @@
           "type": "Text",
           "span": {
             "start": 324,
-            "end": 329,
-            "ctxt": 0
+            "end": 329
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -308,8 +280,7 @@
           "type": "Element",
           "span": {
             "start": 329,
-            "end": 547,
-            "ctxt": 0
+            "end": 547
           },
           "tagName": "Address",
           "attributes": [
@@ -317,8 +288,7 @@
               "type": "Attribute",
               "span": {
                 "start": 0,
-                "end": 0,
-                "ctxt": 0
+                "end": 0
               },
               "namespace": null,
               "prefix": null,
@@ -333,8 +303,7 @@
               "type": "Text",
               "span": {
                 "start": 353,
-                "end": 362,
-                "ctxt": 0
+                "end": 362
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -343,8 +312,7 @@
               "type": "Element",
               "span": {
                 "start": 362,
-                "end": 382,
-                "ctxt": 0
+                "end": 382
               },
               "tagName": "Name",
               "attributes": [],
@@ -353,8 +321,7 @@
                   "type": "Text",
                   "span": {
                     "start": 368,
-                    "end": 375,
-                    "ctxt": 0
+                    "end": 375
                   },
                   "data": "Tai Yee",
                   "raw": "Tai Yee"
@@ -365,8 +332,7 @@
               "type": "Text",
               "span": {
                 "start": 382,
-                "end": 391,
-                "ctxt": 0
+                "end": 391
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -375,8 +341,7 @@
               "type": "Element",
               "span": {
                 "start": 391,
-                "end": 420,
-                "ctxt": 0
+                "end": 420
               },
               "tagName": "Street",
               "attributes": [],
@@ -385,8 +350,7 @@
                   "type": "Text",
                   "span": {
                     "start": 399,
-                    "end": 411,
-                    "ctxt": 0
+                    "end": 411
                   },
                   "data": "8 Oak Avenue",
                   "raw": "8 Oak Avenue"
@@ -397,8 +361,7 @@
               "type": "Text",
               "span": {
                 "start": 420,
-                "end": 429,
-                "ctxt": 0
+                "end": 429
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -407,8 +370,7 @@
               "type": "Element",
               "span": {
                 "start": 429,
-                "end": 450,
-                "ctxt": 0
+                "end": 450
               },
               "tagName": "City",
               "attributes": [],
@@ -417,8 +379,7 @@
                   "type": "Text",
                   "span": {
                     "start": 435,
-                    "end": 443,
-                    "ctxt": 0
+                    "end": 443
                   },
                   "data": "Old Town",
                   "raw": "Old Town"
@@ -429,8 +390,7 @@
               "type": "Text",
               "span": {
                 "start": 450,
-                "end": 459,
-                "ctxt": 0
+                "end": 459
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -439,8 +399,7 @@
               "type": "Element",
               "span": {
                 "start": 459,
-                "end": 476,
-                "ctxt": 0
+                "end": 476
               },
               "tagName": "State",
               "attributes": [],
@@ -449,8 +408,7 @@
                   "type": "Text",
                   "span": {
                     "start": 466,
-                    "end": 468,
-                    "ctxt": 0
+                    "end": 468
                   },
                   "data": "PA",
                   "raw": "PA"
@@ -461,8 +419,7 @@
               "type": "Text",
               "span": {
                 "start": 476,
-                "end": 485,
-                "ctxt": 0
+                "end": 485
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -471,8 +428,7 @@
               "type": "Element",
               "span": {
                 "start": 485,
-                "end": 501,
-                "ctxt": 0
+                "end": 501
               },
               "tagName": "Zip",
               "attributes": [],
@@ -481,8 +437,7 @@
                   "type": "Text",
                   "span": {
                     "start": 490,
-                    "end": 495,
-                    "ctxt": 0
+                    "end": 495
                   },
                   "data": "95819",
                   "raw": "95819"
@@ -493,8 +448,7 @@
               "type": "Text",
               "span": {
                 "start": 501,
-                "end": 510,
-                "ctxt": 0
+                "end": 510
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -503,8 +457,7 @@
               "type": "Element",
               "span": {
                 "start": 510,
-                "end": 532,
-                "ctxt": 0
+                "end": 532
               },
               "tagName": "Country",
               "attributes": [],
@@ -513,8 +466,7 @@
                   "type": "Text",
                   "span": {
                     "start": 519,
-                    "end": 522,
-                    "ctxt": 0
+                    "end": 522
                   },
                   "data": "USA",
                   "raw": "USA"
@@ -525,8 +477,7 @@
               "type": "Text",
               "span": {
                 "start": 532,
-                "end": 537,
-                "ctxt": 0
+                "end": 537
               },
               "data": "\n    ",
               "raw": "\n    "
@@ -537,8 +488,7 @@
           "type": "Text",
           "span": {
             "start": 547,
-            "end": 552,
-            "ctxt": 0
+            "end": 552
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -547,8 +497,7 @@
           "type": "Element",
           "span": {
             "start": 552,
-            "end": 625,
-            "ctxt": 0
+            "end": 625
           },
           "tagName": "DeliveryNotes",
           "attributes": [],
@@ -557,8 +506,7 @@
               "type": "Text",
               "span": {
                 "start": 567,
-                "end": 609,
-                "ctxt": 0
+                "end": 609
               },
               "data": "Please leave packages in shed by driveway.",
               "raw": "Please leave packages in shed by driveway."
@@ -569,8 +517,7 @@
           "type": "Text",
           "span": {
             "start": 625,
-            "end": 630,
-            "ctxt": 0
+            "end": 630
           },
           "data": "\n    ",
           "raw": "\n    "
@@ -579,8 +526,7 @@
           "type": "Element",
           "span": {
             "start": 630,
-            "end": 1098,
-            "ctxt": 0
+            "end": 1098
           },
           "tagName": "Items",
           "attributes": [],
@@ -589,8 +535,7 @@
               "type": "Text",
               "span": {
                 "start": 637,
-                "end": 646,
-                "ctxt": 0
+                "end": 646
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -599,8 +544,7 @@
               "type": "Element",
               "span": {
                 "start": 646,
-                "end": 866,
-                "ctxt": 0
+                "end": 866
               },
               "tagName": "Item",
               "attributes": [
@@ -608,8 +552,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 0,
-                    "end": 0,
-                    "ctxt": 0
+                    "end": 0
                   },
                   "namespace": null,
                   "prefix": null,
@@ -624,8 +567,7 @@
                   "type": "Text",
                   "span": {
                     "start": 672,
-                    "end": 685,
-                    "ctxt": 0
+                    "end": 685
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -634,8 +576,7 @@
                   "type": "Element",
                   "span": {
                     "start": 685,
-                    "end": 721,
-                    "ctxt": 0
+                    "end": 721
                   },
                   "tagName": "ProductName",
                   "attributes": [],
@@ -644,8 +585,7 @@
                       "type": "Text",
                       "span": {
                         "start": 698,
-                        "end": 707,
-                        "ctxt": 0
+                        "end": 707
                       },
                       "data": "Lawnmower",
                       "raw": "Lawnmower"
@@ -656,8 +596,7 @@
                   "type": "Text",
                   "span": {
                     "start": 721,
-                    "end": 734,
-                    "ctxt": 0
+                    "end": 734
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -666,8 +605,7 @@
                   "type": "Element",
                   "span": {
                     "start": 734,
-                    "end": 756,
-                    "ctxt": 0
+                    "end": 756
                   },
                   "tagName": "Quantity",
                   "attributes": [],
@@ -676,8 +614,7 @@
                       "type": "Text",
                       "span": {
                         "start": 744,
-                        "end": 745,
-                        "ctxt": 0
+                        "end": 745
                       },
                       "data": "1",
                       "raw": "1"
@@ -688,8 +625,7 @@
                   "type": "Text",
                   "span": {
                     "start": 756,
-                    "end": 769,
-                    "ctxt": 0
+                    "end": 769
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -698,8 +634,7 @@
                   "type": "Element",
                   "span": {
                     "start": 769,
-                    "end": 794,
-                    "ctxt": 0
+                    "end": 794
                   },
                   "tagName": "USPrice",
                   "attributes": [],
@@ -708,8 +643,7 @@
                       "type": "Text",
                       "span": {
                         "start": 778,
-                        "end": 784,
-                        "ctxt": 0
+                        "end": 784
                       },
                       "data": "148.95",
                       "raw": "148.95"
@@ -720,8 +654,7 @@
                   "type": "Text",
                   "span": {
                     "start": 794,
-                    "end": 807,
-                    "ctxt": 0
+                    "end": 807
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -730,8 +663,7 @@
                   "type": "Element",
                   "span": {
                     "start": 807,
-                    "end": 850,
-                    "ctxt": 0
+                    "end": 850
                   },
                   "tagName": "Comment",
                   "attributes": [],
@@ -740,8 +672,7 @@
                       "type": "Text",
                       "span": {
                         "start": 816,
-                        "end": 840,
-                        "ctxt": 0
+                        "end": 840
                       },
                       "data": "Confirm this is electric",
                       "raw": "Confirm this is electric"
@@ -752,8 +683,7 @@
                   "type": "Text",
                   "span": {
                     "start": 850,
-                    "end": 859,
-                    "ctxt": 0
+                    "end": 859
                   },
                   "data": "\n        ",
                   "raw": "\n        "
@@ -764,8 +694,7 @@
               "type": "Text",
               "span": {
                 "start": 866,
-                "end": 875,
-                "ctxt": 0
+                "end": 875
               },
               "data": "\n        ",
               "raw": "\n        "
@@ -774,8 +703,7 @@
               "type": "Element",
               "span": {
                 "start": 875,
-                "end": 1085,
-                "ctxt": 0
+                "end": 1085
               },
               "tagName": "Item",
               "attributes": [
@@ -783,8 +711,7 @@
                   "type": "Attribute",
                   "span": {
                     "start": 0,
-                    "end": 0,
-                    "ctxt": 0
+                    "end": 0
                   },
                   "namespace": null,
                   "prefix": null,
@@ -799,8 +726,7 @@
                   "type": "Text",
                   "span": {
                     "start": 901,
-                    "end": 914,
-                    "ctxt": 0
+                    "end": 914
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -809,8 +735,7 @@
                   "type": "Element",
                   "span": {
                     "start": 914,
-                    "end": 953,
-                    "ctxt": 0
+                    "end": 953
                   },
                   "tagName": "ProductName",
                   "attributes": [],
@@ -819,8 +744,7 @@
                       "type": "Text",
                       "span": {
                         "start": 927,
-                        "end": 939,
-                        "ctxt": 0
+                        "end": 939
                       },
                       "data": "Baby Monitor",
                       "raw": "Baby Monitor"
@@ -831,8 +755,7 @@
                   "type": "Text",
                   "span": {
                     "start": 953,
-                    "end": 966,
-                    "ctxt": 0
+                    "end": 966
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -841,8 +764,7 @@
                   "type": "Element",
                   "span": {
                     "start": 966,
-                    "end": 988,
-                    "ctxt": 0
+                    "end": 988
                   },
                   "tagName": "Quantity",
                   "attributes": [],
@@ -851,8 +773,7 @@
                       "type": "Text",
                       "span": {
                         "start": 976,
-                        "end": 977,
-                        "ctxt": 0
+                        "end": 977
                       },
                       "data": "2",
                       "raw": "2"
@@ -863,8 +784,7 @@
                   "type": "Text",
                   "span": {
                     "start": 988,
-                    "end": 1001,
-                    "ctxt": 0
+                    "end": 1001
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -873,8 +793,7 @@
                   "type": "Element",
                   "span": {
                     "start": 1001,
-                    "end": 1025,
-                    "ctxt": 0
+                    "end": 1025
                   },
                   "tagName": "USPrice",
                   "attributes": [],
@@ -883,8 +802,7 @@
                       "type": "Text",
                       "span": {
                         "start": 1010,
-                        "end": 1015,
-                        "ctxt": 0
+                        "end": 1015
                       },
                       "data": "39.98",
                       "raw": "39.98"
@@ -895,8 +813,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1025,
-                    "end": 1038,
-                    "ctxt": 0
+                    "end": 1038
                   },
                   "data": "\n            ",
                   "raw": "\n            "
@@ -905,8 +822,7 @@
                   "type": "Element",
                   "span": {
                     "start": 1038,
-                    "end": 1069,
-                    "ctxt": 0
+                    "end": 1069
                   },
                   "tagName": "ShipDate",
                   "attributes": [],
@@ -915,8 +831,7 @@
                       "type": "Text",
                       "span": {
                         "start": 1048,
-                        "end": 1058,
-                        "ctxt": 0
+                        "end": 1058
                       },
                       "data": "1999-05-21",
                       "raw": "1999-05-21"
@@ -927,8 +842,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1069,
-                    "end": 1078,
-                    "ctxt": 0
+                    "end": 1078
                   },
                   "data": "\n        ",
                   "raw": "\n        "
@@ -939,8 +853,7 @@
               "type": "Text",
               "span": {
                 "start": 1085,
-                "end": 1090,
-                "ctxt": 0
+                "end": 1090
               },
               "data": "\n    ",
               "raw": "\n    "
@@ -951,8 +864,7 @@
           "type": "Text",
           "span": {
             "start": 1098,
-            "end": 1099,
-            "ctxt": 0
+            "end": 1099
           },
           "data": "\n",
           "raw": "\n"

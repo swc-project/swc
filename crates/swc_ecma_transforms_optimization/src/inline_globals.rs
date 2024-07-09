@@ -66,8 +66,8 @@ impl VisitMut for InlineGlobals {
     noop_visit_mut_type!();
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        if let Expr::Ident(Ident { ref sym, span, .. }) = expr {
-            if self.bindings.contains(&(sym.clone(), span.ctxt)) {
+        if let Expr::Ident(Ident { ref sym, ctxt, .. }) = expr {
+            if self.bindings.contains(&(sym.clone(), *ctxt)) {
                 return;
             }
         }
@@ -100,11 +100,11 @@ impl VisitMut for InlineGlobals {
             }) => {
                 if let Expr::Ident(Ident {
                     ref sym,
-                    span: arg_span,
+                    ctxt: arg_ctxt,
                     ..
                 }) = &**arg
                 {
-                    if self.bindings.contains(&(sym.clone(), arg_span.ctxt)) {
+                    if self.bindings.contains(&(sym.clone(), *arg_ctxt)) {
                         return;
                     }
 
@@ -221,9 +221,7 @@ mod tests {
 
             let mut v = tester
                 .apply_transform(
-                    as_folder(DropSpan {
-                        preserve_ctxt: false,
-                    }),
+                    as_folder(DropSpan),
                     "global.js",
                     ::swc_ecma_parser::Syntax::default(),
                     &v,

@@ -33,7 +33,7 @@ fn assert_hygiene(e: &Expr) {
     }
 
     if let Expr::Ident(i) = e {
-        if i.span.ctxt == SyntaxContext::empty() {
+        if i.ctxt == SyntaxContext::empty() {
             panic!("`{}` should be resolved", i)
         }
     }
@@ -62,7 +62,7 @@ pub fn make_call_expr(handle: Ident) -> Expr {
         span: DUMMY_SP,
         callee: handle.as_callee(),
         args: Vec::new(),
-        type_args: None,
+        ..Default::default()
     })
 }
 

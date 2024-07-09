@@ -1,7 +1,0 @@
-language: rust
-id: use-into-instead-of-assign-target-pat
-rule:
-    all:
-        - kind: call_expression
-        - pattern: "AssignTarget::Pat($ARG)"
-fix: $ARG.into()

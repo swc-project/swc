@@ -7,7 +7,6 @@ use std::borrow::Cow;
 use either::Either;
 use num_bigint::BigInt as BigIntValue;
 use num_traits::{Num as NumTrait, ToPrimitive};
-use swc_common::SyntaxContext;
 use tracing::trace;
 
 use super::*;
@@ -404,7 +403,7 @@ impl<'a> Lexer<'a> {
                     .checked_mul(radix as u32)
                     .and_then(|v| v.checked_add(val))
                     .ok_or_else(|| {
-                        let span = Span::new(start, start, SyntaxContext::empty());
+                        let span = Span::new(start, start);
                         Error::new(span, SyntaxError::InvalidUnicodeEscape)
                     })?;
 

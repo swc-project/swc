@@ -45,7 +45,7 @@ impl Task for ParseTask {
         let fm = self
             .c
             .cm
-            .new_source_file(self.filename.clone(), self.src.clone());
+            .new_source_file(self.filename.clone().into(), self.src.clone());
 
         let comments = if options.comments {
             Some(self.c.comments() as &dyn Comments)
@@ -178,7 +178,7 @@ pub fn parse_sync(src: String, opts: Buffer, filename: Option<String>) -> napi::
 
     let program = try_with(c.cm.clone(), false, ErrorFormat::Normal, |handler| {
         c.run(|| {
-            let fm = c.cm.new_source_file(filename, src);
+            let fm = c.cm.new_source_file(filename.into(), src);
 
             let comments = if options.comments {
                 Some(c.comments() as &dyn Comments)

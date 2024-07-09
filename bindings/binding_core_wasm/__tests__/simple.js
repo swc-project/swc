@@ -103,12 +103,13 @@ describe("parse", () => {
               "body": [
                 {
                   "body": [],
+                  "ctxt": 0,
                   "declare": false,
                   "decorators": [],
                   "identifier": {
+                    "ctxt": 2,
                     "optional": false,
                     "span": {
-                      "ctxt": 2,
                       "end": 289,
                       "start": 286,
                     },
@@ -118,7 +119,6 @@ describe("parse", () => {
                   "implements": [],
                   "isAbstract": false,
                   "span": {
-                    "ctxt": 0,
                     "end": 292,
                     "start": 280,
                   },
@@ -130,7 +130,6 @@ describe("parse", () => {
               ],
               "interpreter": null,
               "span": {
-                "ctxt": 0,
                 "end": 292,
                 "start": 280,
               },
@@ -150,12 +149,13 @@ describe("parse", () => {
               "body": [
                 {
                   "body": [],
+                  "ctxt": 0,
                   "declare": false,
                   "decorators": [],
                   "identifier": {
+                    "ctxt": 2,
                     "optional": false,
                     "span": {
-                      "ctxt": 2,
                       "end": 302,
                       "start": 299,
                     },
@@ -165,7 +165,6 @@ describe("parse", () => {
                   "implements": [],
                   "isAbstract": false,
                   "span": {
-                    "ctxt": 0,
                     "end": 305,
                     "start": 293,
                   },
@@ -177,7 +176,6 @@ describe("parse", () => {
               ],
               "interpreter": null,
               "span": {
-                "ctxt": 0,
                 "end": 305,
                 "start": 293,
               },

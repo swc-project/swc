@@ -2,23 +2,20 @@
   "type": "Module",
   "span": {
     "start": 134,
-    "end": 231,
-    "ctxt": 0
+    "end": 231
   },
   "body": [
     {
       "type": "ExportDefaultExpression",
       "span": {
         "start": 134,
-        "end": 151,
-        "ctxt": 0
+        "end": 151
       },
       "expression": {
         "type": "NumericLiteral",
         "span": {
           "start": 149,
-          "end": 150,
-          "ctxt": 0
+          "end": 150
         },
         "value": 1.0,
         "raw": "1"
@@ -28,24 +25,22 @@
       "type": "ExportNamedDeclaration",
       "span": {
         "start": 196,
-        "end": 231,
-        "ctxt": 0
+        "end": 231
       },
       "specifiers": [
         {
           "type": "ExportSpecifier",
           "span": {
             "start": 205,
-            "end": 217,
-            "ctxt": 0
+            "end": 217
           },
           "orig": {
             "type": "Identifier",
             "span": {
               "start": 205,
-              "end": 212,
-              "ctxt": 0
+              "end": 212
             },
+            "ctxt": 0,
             "value": "default",
             "optional": false
           },
@@ -53,9 +48,9 @@
             "type": "Identifier",
             "span": {
               "start": 216,
-              "end": 217,
-              "ctxt": 0
+              "end": 217
             },
+            "ctxt": 0,
             "value": "A",
             "optional": false
           },
@@ -66,8 +61,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 225,
-          "end": 230,
-          "ctxt": 0
+          "end": 230
         },
         "value": "./a",
         "raw": "\"./a\""

@@ -10,7 +10,7 @@ use std::{borrow::Cow, fmt::Debug};
 
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::Atom;
-use swc_common::{pass::CompilerPass, Span, DUMMY_SP};
+use swc_common::{pass::CompilerPass, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_visit::{define, AndThen, Repeat, Repeated};
 
@@ -542,6 +542,7 @@ define!({
 
     pub struct Class {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub decorators: Vec<Decorator>,
         pub body: Vec<ClassMember>,
         pub super_class: Option<Box<Expr>>,
@@ -580,6 +581,7 @@ define!({
     }
     pub struct PrivateProp {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub key: PrivateName,
         pub value: Option<Box<Expr>>,
         pub type_ann: Option<Box<TsTypeAnn>>,
@@ -615,6 +617,7 @@ define!({
     }
     pub struct Constructor {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub key: PropName,
         pub params: Vec<ParamOrTsParamProp>,
         pub body: Option<BlockStmt>,
@@ -656,6 +659,7 @@ define!({
     }
     pub struct VarDecl {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub kind: VarDeclKind,
         pub declare: bool,
         pub decls: Vec<VarDeclarator>,
@@ -788,12 +792,14 @@ define!({
     }
     pub struct CallExpr {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub callee: Callee,
         pub args: Vec<ExprOrSpread>,
         pub type_args: Option<Box<TsTypeParamInstantiation>>,
     }
     pub struct NewExpr {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub callee: Box<Expr>,
         pub args: Option<Vec<ExprOrSpread>>,
         pub type_args: Option<Box<TsTypeParamInstantiation>>,
@@ -804,6 +810,7 @@ define!({
     }
     pub struct ArrowExpr {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub params: Vec<Pat>,
         pub body: Box<BlockStmtOrExpr>,
         pub is_async: bool,
@@ -835,6 +842,7 @@ define!({
     }
     pub struct TaggedTpl {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub tag: Box<Expr>,
         pub type_params: Option<Box<TsTypeParamInstantiation>>,
         pub tpl: Box<Tpl>,
@@ -906,6 +914,7 @@ define!({
     }
     pub struct OptCall {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub callee: Box<Expr>,
         pub args: Vec<ExprOrSpread>,
         pub type_args: Option<Box<TsTypeParamInstantiation>>,
@@ -914,6 +923,7 @@ define!({
         pub params: Vec<Param>,
         pub decorators: Vec<Decorator>,
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub body: Option<BlockStmt>,
         pub is_generator: bool,
         pub is_async: bool,
@@ -937,13 +947,14 @@ define!({
 
     pub struct Ident {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub sym: Atom,
         pub optional: bool,
     }
 
     pub struct PrivateName {
         pub span: Span,
-        pub id: Ident,
+        pub name: Atom,
     }
 
     pub enum JSXObject {
@@ -1338,6 +1349,7 @@ define!({
     }
     pub struct BlockStmt {
         pub span: Span,
+        pub ctxt: SyntaxContext,
         pub stmts: Vec<Stmt>,
     }
     pub enum Stmt {

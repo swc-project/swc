@@ -117,7 +117,7 @@ where
             }
 
             new = new.move_map(|bundle| {
-                let path = match self.scope.get_module(bundle.id).unwrap().fm.name {
+                let path = match &*self.scope.get_module(bundle.id).unwrap().fm.name {
                     FileName::Real(ref v) => v.clone(),
                     _ => {
                         tracing::error!("Cannot rename: not a real file");
@@ -206,7 +206,7 @@ where
                                     ExportSpecifier::Default(s) => {
                                         props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                             KeyValueProp {
-                                                key: PropName::Ident(Ident::new(
+                                                key: PropName::Ident(Ident::new_no_ctxt(
                                                     "default".into(),
                                                     DUMMY_SP,
                                                 )),
@@ -258,7 +258,7 @@ where
 
                                 props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                     KeyValueProp {
-                                        key: PropName::Ident(Ident::new(
+                                        key: PropName::Ident(Ident::new_no_ctxt(
                                             "default".into(),
                                             export.span,
                                         )),
@@ -279,7 +279,7 @@ where
 
                                 props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                     KeyValueProp {
-                                        key: PropName::Ident(Ident::new(
+                                        key: PropName::Ident(Ident::new_no_ctxt(
                                             "default".into(),
                                             export.span,
                                         )),
@@ -311,6 +311,7 @@ where
                                 kind: VarDeclKind::Const,
                                 declare: false,
                                 decls: vec![var],
+                                ..Default::default()
                             }))))
                         }
 
@@ -318,6 +319,7 @@ where
                     }
                 })
                 .collect(),
+            ..Default::default()
         };
         body.stmts.push(Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
@@ -330,12 +332,9 @@ where
         let f = Function {
             is_generator: false,
             is_async,
-            params: Default::default(),
-            decorators: Default::default(),
             span: DUMMY_SP,
             body: Some(body),
-            type_params: Default::default(),
-            return_type: Default::default(),
+            ..Default::default()
         };
 
         let invoked_fn_expr = FnExpr {
@@ -347,7 +346,7 @@ where
             span: DUMMY_SP,
             callee: invoked_fn_expr.as_callee(),
             args: Default::default(),
-            type_args: Default::default(),
+            ..Default::default()
         }));
 
         Module {

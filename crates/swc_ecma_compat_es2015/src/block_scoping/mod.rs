@@ -181,6 +181,7 @@ impl BlockScoping {
                 body => BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![body.take()],
+                    ..Default::default()
                 },
             };
 
@@ -221,7 +222,7 @@ impl BlockScoping {
                                 Param {
                                     span: DUMMY_SP,
                                     decorators: Default::default(),
-                                    pat: Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(ctxt)).into(),
+                                    pat: Ident::new(i.0.clone(), DUMMY_SP, ctxt).into(),
                                 }
                             })
                             .collect(),
@@ -229,8 +230,7 @@ impl BlockScoping {
                         body: Some(body_stmt),
                         is_generator: flow_helper.has_yield,
                         is_async: flow_helper.has_await,
-                        type_params: None,
-                        return_type: None,
+                        ..Default::default()
                     }
                     .into(),
                 ),
@@ -243,9 +243,9 @@ impl BlockScoping {
                 args: args
                     .iter()
                     .cloned()
-                    .map(|i| Ident::new(i.0, DUMMY_SP.with_ctxt(i.1)).as_arg())
+                    .map(|i| Ident::new(i.0, DUMMY_SP, i.1).as_arg())
                     .collect(),
-                type_args: None,
+                ..Default::default()
             }
             .into();
 
@@ -281,13 +281,13 @@ impl BlockScoping {
                     VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
-                        declare: false,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
                             name: ret.clone().into(),
                             init: Some(Box::new(call.take())),
                             definite: false,
                         }],
+                        ..Default::default()
                     }
                     .into(),
                 ];
@@ -308,7 +308,7 @@ impl BlockScoping {
                                         span: Default::default(),
                                         callee,
                                         args: vec![ret.clone().as_arg()],
-                                        type_args: None,
+                                        ..Default::default()
                                     }
                                     .into()
                                 },
@@ -374,6 +374,7 @@ impl BlockScoping {
                     BlockStmt {
                         span: DUMMY_SP,
                         stmts,
+                        ..Default::default()
                     }
                     .into(),
                 );
@@ -404,6 +405,7 @@ impl BlockScoping {
             *body = Box::new(Stmt::Block(BlockStmt {
                 span: Default::default(),
                 stmts: vec![*body.take()],
+                ..Default::default()
             }));
             true
         } else {
@@ -617,6 +619,7 @@ impl BlockScoping {
                         kind: VarDeclKind::Var,
                         declare: false,
                         decls: take(&mut self.vars),
+                        ..Default::default()
                     }
                     .into(),
                 ),
@@ -805,7 +808,7 @@ impl VisitMut for FlowHelper<'_> {
                     arg: Some(Box::new(Expr::Object(ObjectLit {
                         span,
                         props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                            key: PropName::Ident(Ident::new("v".into(), DUMMY_SP)),
+                            key: PropName::Ident(Ident::new_no_ctxt("v".into(), DUMMY_SP)),
                             value: s.arg.take().unwrap_or_else(|| {
                                 Box::new(Expr::Unary(UnaryExpr {
                                     span: DUMMY_SP,
@@ -868,12 +871,9 @@ impl MutationHandler<'_> {
         for (id, ctxt) in &*self.map {
             exprs.push(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: Ident::new(id.0.clone(), DUMMY_SP.with_ctxt(id.1)).into(),
+                left: Ident::new(id.0.clone(), DUMMY_SP, id.1).into(),
                 op: op!("="),
-                right: Box::new(Expr::Ident(Ident::new(
-                    id.0.clone(),
-                    DUMMY_SP.with_ctxt(*ctxt),
-                ))),
+                right: Box::new(Expr::Ident(Ident::new(id.0.clone(), DUMMY_SP, *ctxt))),
             })));
         }
         exprs.push(orig.unwrap_or_else(|| Expr::undefined(DUMMY_SP)));
@@ -911,7 +911,7 @@ impl VisitMut for MutationHandler<'_> {
 
     fn visit_mut_ident(&mut self, n: &mut Ident) {
         if let Some(&ctxt) = self.map.get(&n.to_id()) {
-            n.span = n.span.with_ctxt(ctxt)
+            n.ctxt = ctxt;
         }
     }
 

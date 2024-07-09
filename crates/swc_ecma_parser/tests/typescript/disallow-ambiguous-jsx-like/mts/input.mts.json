@@ -2,31 +2,28 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 27,
-    "ctxt": 0
+    "end": 27
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 13,
-        "ctxt": 0
+        "end": 13
       },
       "expression": {
         "type": "ArrowFunctionExpression",
         "span": {
           "start": 1,
-          "end": 12,
-          "ctxt": 0
+          "end": 12
         },
+        "ctxt": 0,
         "params": [],
         "body": {
           "type": "NumericLiteral",
           "span": {
             "start": 11,
-            "end": 12,
-            "ctxt": 0
+            "end": 12
           },
           "value": 1.0,
           "raw": "1"
@@ -37,24 +34,22 @@
           "type": "TsTypeParameterDeclaration",
           "span": {
             "start": 1,
-            "end": 5,
-            "ctxt": 0
+            "end": 5
           },
           "parameters": [
             {
               "type": "TsTypeParameter",
               "span": {
                 "start": 2,
-                "end": 3,
-                "ctxt": 0
+                "end": 3
               },
               "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 2,
-                  "end": 3,
-                  "ctxt": 0
+                  "end": 3
                 },
+                "ctxt": 0,
                 "value": "T",
                 "optional": false
               },
@@ -73,24 +68,23 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 14,
-        "end": 27,
-        "ctxt": 0
+        "end": 27
       },
       "expression": {
         "type": "ArrowFunctionExpression",
         "span": {
           "start": 14,
-          "end": 26,
-          "ctxt": 0
+          "end": 26
         },
+        "ctxt": 0,
         "params": [
           {
             "type": "Identifier",
             "span": {
               "start": 19,
-              "end": 20,
-              "ctxt": 0
+              "end": 20
             },
+            "ctxt": 0,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -100,8 +94,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 25,
-            "end": 26,
-            "ctxt": 0
+            "end": 26
           },
           "value": 1.0,
           "raw": "1"
@@ -112,24 +105,22 @@
           "type": "TsTypeParameterDeclaration",
           "span": {
             "start": 14,
-            "end": 18,
-            "ctxt": 0
+            "end": 18
           },
           "parameters": [
             {
               "type": "TsTypeParameter",
               "span": {
                 "start": 15,
-                "end": 16,
-                "ctxt": 0
+                "end": 16
               },
               "name": {
                 "type": "Identifier",
                 "span": {
                   "start": 15,
-                  "end": 16,
-                  "ctxt": 0
+                  "end": 16
                 },
+                "ctxt": 0,
                 "value": "T",
                 "optional": false
               },

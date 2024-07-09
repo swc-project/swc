@@ -267,7 +267,7 @@ impl TerserCompressorOptions {
                 .into_iter()
                 .map(|(k, v)| {
                     let parse = |input: String| {
-                        let fm = cm.new_source_file(FileName::Anon, input);
+                        let fm = cm.new_source_file(FileName::Anon.into(), input);
 
                         parse_file_as_expr(
                             &fm,
@@ -381,7 +381,7 @@ impl TerserCompressorOptions {
                 .pure_funcs
                 .into_iter()
                 .map(|input| {
-                    let fm = cm.new_source_file(FileName::Anon, input);
+                    let fm = cm.new_source_file(FileName::Anon.into(), input);
 
                     parse_file_as_expr(
                         &fm,
