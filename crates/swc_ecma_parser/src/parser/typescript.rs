@@ -1731,14 +1731,15 @@ impl<I: Tokens> Parser<I> {
             expect!(p, ':');
 
             Ok(Some(if let Some(dot3_token) = rest {
-                Pat::Rest(RestPat {
+                RestPat {
                     span: span!(p, start),
                     dot3_token,
                     arg: Box::new(Pat::Ident(ident.into())),
                     type_ann: None,
-                })
+                }
+                .into()
             } else {
-                Pat::Ident(ident.into())
+                ident.into().into()
             }))
         })
     }

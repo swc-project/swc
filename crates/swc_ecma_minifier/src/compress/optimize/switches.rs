@@ -107,7 +107,7 @@ impl Optimizer<'_> {
             .into_iter()
             .map(|name| VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(name.into()),
+                name: name.into().into(),
                 init: None,
                 definite: Default::default(),
             })

@@ -419,7 +419,7 @@ pub trait StmtExt {
                 .into_iter()
                 .map(|i| VarDeclarator {
                     span: i.span,
-                    name: Pat::Ident(i.into()),
+                    name: i.into().into(),
                     init: None,
                     definite: false,
                 })
@@ -3040,11 +3040,14 @@ impl VisitMut for IdentRenamer<'_> {
                     Some(default) => {
                         *i = ObjectPatProp::KeyValue(KeyValuePatProp {
                             key: PropName::Ident(orig.clone().into()),
-                            value: Box::new(Pat::Assign(AssignPat {
-                                span: DUMMY_SP,
-                                left: p.key.clone().into(),
-                                right: default,
-                            })),
+                            value: Box::new(
+                                AssignPat {
+                                    span: DUMMY_SP,
+                                    left: p.key.clone().into(),
+                                    right: default,
+                                }
+                                .into(),
+                            ),
                         });
                     }
                     None => {
@@ -3152,7 +3155,7 @@ where
         match n {
             Pat::Ident(id) => {
                 if let Some(expr) = self.query.query_lhs(&id.clone().into()) {
-                    *n = Pat::Expr(expr);
+                    *n = expr.into();
                 }
             }
             _ => n.visit_mut_children_with(self),

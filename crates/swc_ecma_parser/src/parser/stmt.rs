@@ -1327,7 +1327,7 @@ impl<'a, I: Tokens> Parser<I> {
         if is_using_decl {
             let name = self.parse_binding_ident()?;
             let decl = VarDeclarator {
-                name: Pat::Ident(name),
+                name: name.into(),
                 span: span!(self, start),
                 init: None,
                 definite: false,

@@ -466,11 +466,14 @@ where
                 *n = KeyValuePatProp {
                     key: PropName::Ident(p.key.take().into()),
                     value: match p.value.take() {
-                        Some(default_expr) => Box::new(Pat::Assign(AssignPat {
-                            span: p.span,
-                            left: renamed.into(),
-                            right: default_expr,
-                        })),
+                        Some(default_expr) => Box::new(
+                            AssignPat {
+                                span: p.span,
+                                left: renamed.into(),
+                                right: default_expr,
+                            }
+                            .into(),
+                        ),
                         None => renamed.into(),
                     },
                 }

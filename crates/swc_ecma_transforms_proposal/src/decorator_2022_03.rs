@@ -76,7 +76,7 @@ impl Decorator2022_03 {
         let ident = private_ident!("_dec");
         self.extra_vars.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(ident.clone().into()),
+            name: ident.clone().into().into(),
             init: None,
             definite: false,
         });
@@ -119,7 +119,7 @@ impl Decorator2022_03 {
         if let Some(init) = self.state.init_proto.clone() {
             self.extra_vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(init.clone().into()),
+                name: init.clone().into().into(),
                 init: None,
                 definite: false,
             });
@@ -130,7 +130,7 @@ impl Decorator2022_03 {
         if let Some(init) = self.state.init_static.clone() {
             self.extra_vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(init.clone().into()),
+                name: init.clone().into().into(),
                 init: None,
                 definite: false,
             });
@@ -168,12 +168,15 @@ impl Decorator2022_03 {
         } else {
             Some(ObjectPatProp::KeyValue(KeyValuePatProp {
                 key: PropName::Ident(quote_ident!("e")),
-                value: Box::new(Pat::Array(ArrayPat {
-                    span: DUMMY_SP,
-                    elems: e_lhs,
-                    type_ann: Default::default(),
-                    optional: false,
-                })),
+                value: Box::new(
+                    ArrayPat {
+                        span: DUMMY_SP,
+                        elems: e_lhs,
+                        type_ann: Default::default(),
+                        optional: false,
+                    }
+                    .into(),
+                ),
             }))
         };
 
@@ -182,12 +185,15 @@ impl Decorator2022_03 {
         } else {
             Some(ObjectPatProp::KeyValue(KeyValuePatProp {
                 key: PropName::Ident(quote_ident!("c")),
-                value: Box::new(Pat::Array(ArrayPat {
-                    span: DUMMY_SP,
-                    elems: self.state.class_lhs.take(),
-                    type_ann: Default::default(),
-                    optional: false,
-                })),
+                value: Box::new(
+                    ArrayPat {
+                        span: DUMMY_SP,
+                        elems: self.state.class_lhs.take(),
+                        type_ann: Default::default(),
+                        optional: false,
+                    }
+                    .into(),
+                ),
             }))
         };
 
@@ -265,7 +271,7 @@ impl Decorator2022_03 {
                 let key_ident = private_ident!("_computedKey");
                 self.extra_vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(key_ident.clone().into()),
+                    name: key_ident.clone().into().into(),
                     init: None,
                     definite: false,
                 });
@@ -368,7 +374,7 @@ impl Decorator2022_03 {
             let id = alias_ident_for(&super_class, "_super");
             self.extra_vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(id.clone().into()),
+                name: id.clone().into().into(),
                 init: None,
                 definite: false,
             });
@@ -397,7 +403,7 @@ impl Decorator2022_03 {
 
         self.extra_vars.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(init_class.clone().into()),
+            name: init_class.clone().into().into(),
             init: None,
             definite: false,
         });
@@ -418,7 +424,7 @@ impl Decorator2022_03 {
 
         self.extra_vars.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(new_class_name.clone().into()),
+            name: new_class_name.clone().into().into(),
             init: None,
             definite: false,
         });
@@ -459,7 +465,7 @@ impl Decorator2022_03 {
 
         self.extra_vars.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(init_class.clone().into()),
+            name: init_class.clone().into().into(),
             init: None,
             definite: false,
         });
@@ -469,7 +475,7 @@ impl Decorator2022_03 {
 
         self.extra_lets.push(VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Ident(new_class_name.clone().into()),
+            name: new_class_name.clone().into().into(),
             init: None,
             definite: false,
         });
@@ -741,7 +747,7 @@ impl Decorator2022_03 {
                 let ident = private_ident!("_computedKey");
                 self.extra_vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(ident.clone().into()),
+                    name: ident.clone().into().into(),
                     init: None,
                     definite: false,
                 });
@@ -851,7 +857,7 @@ impl VisitMut for Decorator2022_03 {
 
             self.extra_vars.push(VarDeclarator {
                 span: p.span,
-                name: Pat::Ident(init.clone().into()),
+                name: init.clone().into().into(),
                 init: None,
                 definite: false,
             });
@@ -1142,7 +1148,7 @@ impl VisitMut for Decorator2022_03 {
 
                         self.extra_vars.push(VarDeclarator {
                             span: accessor.span,
-                            name: Pat::Ident(init.clone().into()),
+                            name: init.clone().into().into(),
                             init: None,
                             definite: false,
                         });
@@ -1186,13 +1192,13 @@ impl VisitMut for Decorator2022_03 {
 
                                         self.extra_vars.push(VarDeclarator {
                                             span: DUMMY_SP,
-                                            name: Pat::Ident(getter_var.clone().unwrap().into()),
+                                            name: getter_var.clone().unwrap().into().into(),
                                             init: None,
                                             definite: false,
                                         });
                                         self.extra_vars.push(VarDeclarator {
                                             span: DUMMY_SP,
-                                            name: Pat::Ident(setter_var.clone().unwrap().into()),
+                                            name: setter_var.clone().unwrap().into().into(),
                                             init: None,
                                             definite: false,
                                         });
@@ -1464,7 +1470,7 @@ impl VisitMut for Decorator2022_03 {
 
         self.extra_vars.push(VarDeclarator {
             span: p.span,
-            name: Pat::Ident(init.clone().into()),
+            name: init.clone().into().into(),
             init: None,
             definite: false,
         });
@@ -1667,7 +1673,7 @@ impl VisitMut for Decorator2022_03 {
 
         self.extra_vars.push(VarDeclarator {
             span: p.span,
-            name: Pat::Ident(init.clone().into()),
+            name: init.clone().into().into(),
             init: None,
             definite: false,
         });

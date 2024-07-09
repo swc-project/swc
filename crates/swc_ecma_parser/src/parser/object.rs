@@ -372,7 +372,7 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
                                                         SyntaxError::SetterParam,
                                                     );
 
-                                                    Pat::Invalid(Invalid { span: DUMMY_SP })
+                                                    Invalid { span: DUMMY_SP }.into()
                                                 }),
                                         );
 
@@ -453,12 +453,13 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
 
         let optional = (self.input.syntax().dts() || self.ctx().in_declare) && eat!(self, '?');
 
-        Ok(Pat::Object(ObjectPat {
+        Ok(ObjectPat {
             span,
             props,
             optional,
             type_ann: None,
-        }))
+        }
+        .into())
     }
 
     /// Production 'BindingProperty'

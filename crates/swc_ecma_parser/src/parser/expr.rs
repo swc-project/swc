@@ -444,7 +444,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 // async a => body
-                let arg = Pat::from(ident);
+                let arg = ident.into();
                 let params = vec![arg];
                 expect!(self, "=>");
                 let body =
@@ -1851,12 +1851,13 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
                 if let Some(span) = arg.spread {
-                    pat = Pat::Rest(RestPat {
+                    pat = RestPat {
                         span: span!(self, pat_start),
                         dot3_token: span,
                         arg: Box::new(pat),
                         type_ann: None,
-                    });
+                    }
+                    .into();
                 }
                 match pat {
                     Pat::Ident(BindingIdent {
@@ -1898,11 +1899,12 @@ impl<I: Tokens> Parser<I> {
 
                 if eat!(self, '=') {
                     let right = self.parse_assignment_expr()?;
-                    pat = Pat::Assign(AssignPat {
+                    pat = AssignPat {
                         span: span!(self, pat_start),
                         left: Box::new(pat),
                         right,
-                    });
+                    }
+                    .into();
                 }
 
                 if has_modifier {

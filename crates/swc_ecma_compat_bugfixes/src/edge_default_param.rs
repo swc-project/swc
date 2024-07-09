@@ -44,11 +44,14 @@ impl VisitMut for EdgeDefaultParam {
             {
                 let prop = ObjectPatProp::KeyValue(KeyValuePatProp {
                     key: PropName::Ident(key.clone().into()),
-                    value: Box::new(Pat::Assign(AssignPat {
-                        span: *span,
-                        left: key.clone().into(),
-                        right: value.clone(),
-                    })),
+                    value: Box::new(
+                        AssignPat {
+                            span: *span,
+                            left: key.clone().into(),
+                            right: value.clone(),
+                        }
+                        .into(),
+                    ),
                 });
 
                 n.props[idx] = prop;

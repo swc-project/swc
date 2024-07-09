@@ -119,7 +119,7 @@ impl TscDecorator {
                 // Declare var
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(var_name.clone().into()),
+                    name: var_name.clone().into().into(),
                     init: None,
                     definite: Default::default(),
                 });
@@ -303,7 +303,7 @@ impl VisitMut for TscDecorator {
         if let Some(var_name) = self.assign_class_expr_to.take() {
             self.vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(var_name.clone().into()),
+                name: var_name.clone().into().into(),
                 init: None,
                 definite: Default::default(),
             });

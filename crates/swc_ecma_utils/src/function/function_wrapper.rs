@@ -33,7 +33,7 @@ impl<T> FunctionWrapper<T> {
                 Pat::Array(..) | Pat::Object(..) => Some(Param {
                     span: param.span,
                     decorators: param.decorators.clone(),
-                    pat: Pat::Ident(private_ident!("_").into()),
+                    pat: private_ident!("_").into().into(),
                 }),
                 _ => None,
             })
