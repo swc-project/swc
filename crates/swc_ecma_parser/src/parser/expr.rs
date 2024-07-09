@@ -428,7 +428,7 @@ impl<I: Tokens> Parser<I> {
                         self.emit_err(self.input.prev_span(), SyntaxError::TS1106);
                     }
 
-                    return Ok(Box::new(Expr::Ident(id)));
+                    return Ok(Expr::Ident(id));
                 }
 
                 let ident = self.parse_binding_ident()?;
