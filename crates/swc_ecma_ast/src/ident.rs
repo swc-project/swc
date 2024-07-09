@@ -353,6 +353,16 @@ impl Ident {
     }
 }
 
+#[ast_node("IdentifierName")]
+#[derive(Eq, Hash, Default)]
+pub struct IdentName {
+    #[cfg_attr(feature = "__rkyv", omit_bounds)]
+    pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
+    pub sym: Atom,
+}
+
 /// See [Ident] for documentation.
 pub type Id = (Atom, SyntaxContext);
 
