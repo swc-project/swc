@@ -2143,6 +2143,7 @@ impl Optimizer<'_> {
                                         arg: orig_expr.clone().into(),
                                     }
                                     .into();
+                                    });
                                     return;
                                 }
                             }
@@ -2218,6 +2219,7 @@ impl Optimizer<'_> {
                                         arg: orig_expr.clone().into(),
                                     }
                                     .into();
+                                    });
                                     return;
                                 }
                             }

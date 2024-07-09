@@ -237,6 +237,7 @@ impl VisitMut for ConstructorFolder<'_> {
                             left: call,
                             op: op!("||"),
                             right: Box::new(ThisExpr { span: DUMMY_SP }.into()),
+                            right: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
                         }
                         .into()
                     } else {

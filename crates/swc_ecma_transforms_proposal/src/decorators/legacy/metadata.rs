@@ -60,11 +60,7 @@ impl VisitMut for ParamMetadata {
 }
 
 impl ParamMetadata {
-    fn create_param_decorator(
-        &self,
-        param_index: usize,
-        mut decorator_expr: Expr,
-    ) -> Decorator {
+    fn create_param_decorator(&self, param_index: usize, mut decorator_expr: Expr) -> Decorator {
         remove_span(&mut decorator_expr);
 
         Decorator {
@@ -304,6 +300,16 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                         }
                         .into(),
                     ),
+                            op: op!("typeof"),
+                            arg: expr,
+                        })),
+                        op: op!("==="),
+                        right: Box::new(Expr::Lit(Lit::Str(Str {
+                            span: DUMMY_SP,
+                            value: "undefined".into(),
+                            raw: None,
+                        }))),
+                    })),
                 }
                 .into()
             }
@@ -326,6 +332,11 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                     })
                     .into(),
                 ),
+                right: Box::new(Expr::Lit(Lit::Str(Str {
+                    span: DUMMY_SP,
+                    value: "undefined".into(),
+                    raw: None,
+                }))),
             }
             .into(),
         }

@@ -307,6 +307,10 @@ impl<I: Tokens> Parser<I> {
                         span: Span::new(arg_start, arg_start),
                     }
                     .into()
+                    Box::new(Expr::Invalid(Invalid {
+                        span: Span::new(arg_start, arg_start),
+                    }
+                    .into()
                 }
             };
 

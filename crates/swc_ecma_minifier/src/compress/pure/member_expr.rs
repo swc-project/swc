@@ -538,6 +538,11 @@ impl Pure<'_> {
                             prop: MemberProp::Ident(IdentName::new(key, *span)),
                         }
                         .into()
+                            })),
+                            }
+                            .into(),
+                            prop: MemberProp::Ident(Ident::new_no_ctxt(key, *span)),
+                        })
                     } else {
                         // Invalid key. Replace with side effects plus `undefined`.
                         Expr::undefined(*span)

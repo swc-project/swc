@@ -60,6 +60,7 @@ impl Pure<'_> {
                         .into(),
                     }
                     .into();
+                    });
                 }
 
                 Expr::Lit(Lit::Num(Number { span, value, .. })) => {
@@ -83,6 +84,7 @@ impl Pure<'_> {
                             .into(),
                         }
                         .into();
+                        });
                     }
                 }
 

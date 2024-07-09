@@ -104,6 +104,7 @@ impl ForOf {
                 BinExpr {
                     span: DUMMY_SP,
                     left: Box::new(i.clone().into()),
+                    left: Box::new(Expr::Ident(i.clone())),
                     op: op!("<"),
                     right: arr.clone().make_member(quote_ident!("length")).into(),
                 }
@@ -115,6 +116,7 @@ impl ForOf {
                     prefix: false,
                     op: op!("++"),
                     arg: Box::new(i.clone().into()),
+                    arg: Box::new(Expr::Ident(i.clone())),
                 }
                 .into(),
             );
@@ -449,6 +451,7 @@ impl ForOf {
                     op: op!("!"),
                     arg: {
                         let step_expr: Expr = AssignExpr {
+                        let step_expr = Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             left: step.into(),
                             op: op!("="),
@@ -472,6 +475,14 @@ impl ForOf {
                             }
                             .into(),
                         )
+                        }));
+
+                        Box::new(Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            left: normal_completion_ident.clone().into(),
+                            op: op!("="),
+                            right: step_expr.make_member(quote_ident!("done")).into(),
+                        }))
                     },
                 }
                 .into(),

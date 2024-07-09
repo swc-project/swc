@@ -558,12 +558,7 @@ struct AssignFolder {
 }
 
 impl AssignFolder {
-    pub fn handle_assign_pat(
-        &mut self,
-        span: Span,
-        mut pat: AssignPat,
-        right: &mut Expr,
-    ) -> Expr {
+    pub fn handle_assign_pat(&mut self, span: Span, mut pat: AssignPat, right: &mut Expr) -> Expr {
         let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
 
         let mut exprs = vec![Box::new(
@@ -685,6 +680,13 @@ impl VisitMut for AssignFolder {
                                                     }
                                                     .into(),
                                                 ),
+                                                right: Box::new(Expr::Array(ArrayLit {
+                                                    span: DUMMY_SP,
+                                                    elems: arr_elems
+                                                        .take()
+                                                        .expect("two rest element?")
+                                                        .collect(),
+                                                })),
                                             }
                                             .into(),
                                         );
@@ -765,10 +767,73 @@ impl VisitMut for AssignFolder {
                                                 )
                                                 .as_callee(),
                                                 args: vec![right.take().as_arg()],
-                                                ..Default::default()
-                                            }
-                                            .into(),
+                    exprs.push(Box::new(Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: ref_ident.clone().into(),
+                        right: if self.c.loose {
+                            right.take()
+                        } else {
+                            match &mut **right {
+                                Expr::Ident(Ident { sym, .. }) if &**sym == "arguments" => {
+                                    Box::new(Expr::Call(CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: member_expr!(
+                                            Default::default(),
+                                            Default::default(),
+                                            Array.prototype.slice.call
                                         )
+                                        .as_callee(),
+                                        args: vec![right.take().as_arg()],
+                                        ..Default::default()
+                                    }))
+                                }
+                                Expr::Array(..) => right.take(),
+                                _ => {
+                                    // if left has rest then need `_to_array`
+                                    // else `_sliced_to_array`
+                                    if elems.iter().any(|elem| matches!(elem, Some(Pat::Rest(..))))
+                                    {
+                                        Box::new(Expr::Call(CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: member_expr!(
+                                                Default::default(),
+                                                Default::default(),
+                                                Array.prototype.slice.call
+                                            )
+                                            .as_callee(),
+                                            args: vec![right.take().as_arg()],
+                                            ..Default::default()
+                                        }))
+                                    }
+                                    Expr::Array(..) => right.take(),
+                                    _ => {
+                                        // if left has rest then need `_to_array`
+                                        // else `_sliced_to_array`
+                                        if elems
+                                            .iter()
+                                            .any(|elem| matches!(elem, Some(Pat::Rest(..))))
+                                        {
+                                            Box::new(Expr::Call(CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: helper!(to_array),
+                                                args: vec![right.take().as_arg()],
+                                                ..Default::default()
+                                            }))
+                                        } else {
+                                            Box::new(
+                                                CallExpr {
+                                                    span: DUMMY_SP,
+                                                    callee: helper!(sliced_to_array),
+                                                    args: vec![
+                                                        right.take().as_arg(),
+                                                        elems.len().as_arg(),
+                                                    ],
+                                                    ..Default::default()
+                                                }
+                                                .into(),
+                                            )
+                                        }
                                     }
                                     Expr::Array(..) => right.take(),
                                     _ => {
@@ -1243,6 +1308,7 @@ fn make_cond_expr(tmp: Ident, def_value: Expr) -> Expr {
         alt: tmp.into(),
     }
     .into()
+    })
 }
 
 fn can_be_null(e: &Expr) -> bool {

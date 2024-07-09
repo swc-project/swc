@@ -652,6 +652,7 @@ impl Optimizer<'_> {
                     .into(),
                 }
                 .into();
+                });
             }
         }
     }
@@ -2430,6 +2431,7 @@ impl VisitMut for Optimizer<'_> {
         if let Prop::Shorthand(i) = n {
             if self.vars.has_pending_inline_for(&i.to_id()) {
                 let mut e: Expr = i.clone().into();
+                let mut e = i.clone().into();
                 e.visit_mut_with(self);
 
                 *n = Prop::KeyValue(KeyValueProp {

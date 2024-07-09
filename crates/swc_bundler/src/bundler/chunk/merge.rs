@@ -996,6 +996,20 @@ where
                                             }
                                             .into(),
                                         ),
+                                        name: Pat::Ident(mod_var.clone().into()),
+                                        init: Some(
+                                            CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: Ident::new(
+                                                    "load".into(),
+                                                    DUMMY_SP,
+                                                    dep.export_ctxt(),
+                                                )
+                                                .as_callee(),
+                                                ..Default::default()
+                                            }
+                                            .into(),
+                                        ),
                                         definite: Default::default(),
                                     });
                                     for s in specifiers {
@@ -1006,6 +1020,7 @@ where
                                                         vars.push(VarDeclarator {
                                                             span: s.span,
                                                             name: name.clone().into(),
+                                                            name: Pat::Ident(name.clone().into()),
                                                             init: Some(mod_var.clone().into()),
                                                             definite: Default::default(),
                                                         });

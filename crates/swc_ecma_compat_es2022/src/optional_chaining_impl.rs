@@ -135,6 +135,12 @@ impl VisitMut for OptionalChaining {
                 ..Default::default()
             }
             .into();
+                })
+                .as_callee(),
+                args: vec![],
+                ..Default::default()
+            }
+            .into();
         }
 
         self.vars = uninit;
@@ -442,6 +448,7 @@ fn init_and_eq_null_or_undefined(i: &Memo, init: Expr, no_document_all: bool) ->
             left: lhs,
             op: op!("=="),
             right: Box::new(Lit::Null(Null { span: DUMMY_SP }).into()),
+            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
         }
         .into();
     }
@@ -451,6 +458,7 @@ fn init_and_eq_null_or_undefined(i: &Memo, init: Expr, no_document_all: bool) ->
         left: lhs,
         op: op!("==="),
         right: Box::new(Lit::Null(Null { span: DUMMY_SP }).into()),
+        right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
     }
     .into();
 

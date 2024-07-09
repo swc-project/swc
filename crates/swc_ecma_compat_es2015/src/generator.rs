@@ -1238,12 +1238,16 @@ impl Generator {
                         span: DUMMY_SP,
                         obj: temp.clone().into(),
                         prop: MemberProp::Ident(p.clone().into()),
+                        obj: temp.clone().into(),
+                        prop: MemberProp::Ident(p.clone()),
                     }
                     .into(),
                     right: p.into(),
                 }
                 .into(),
                 Prop::KeyValue(p) => AssignExpr {
+                }),
+                Prop::KeyValue(p) => Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
                     left: MemberExpr {
@@ -2645,6 +2649,10 @@ impl Generator {
                     span: Span::new(BytePos(label.0 as _), BytePos(label.0 as _)),
                 }
                 .into();
+                return Box::new(Expr::Invalid(Invalid {
+                    span: Span::new(BytePos(label.0 as _), BytePos(label.0 as _)),
+                }
+                .into();
             }
         }
 
@@ -2716,7 +2724,7 @@ impl Generator {
     fn create_generator_resume(&mut self, loc: Option<Span>) -> Box<Expr> {
         CallExpr {
     fn create_generator_resume(&mut self, loc: Option<Span>) -> Expr {
-        Box::new(Expr::Call(CallExpr {
+        CallExpr {
             span: loc.unwrap_or(DUMMY_SP),
             callee: self
                 .state

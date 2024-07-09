@@ -456,6 +456,12 @@ impl Decorators {
                             value: method.key.name.clone(),
                         })
                         .into();
+                        let key_prop_value = Box::new(Expr::Lit(Lit::Str(Str {
+                            span: method.key.span,
+                            raw: None,
+                            value: method.key.name.clone(),
+                        })
+                        .into();
                         fold_method!(method, Some(fn_name), key_prop_value)
                     }
                     ClassMember::ClassProp(prop) => {

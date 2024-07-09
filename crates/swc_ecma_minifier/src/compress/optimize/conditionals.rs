@@ -507,6 +507,12 @@ impl Optimizer<'_> {
                         }
                         .into(),
                     );
+                    return Some(Expr::Cond(CondExpr {
+                        span: DUMMY_SP,
+                        test: test.take(),
+                        cons: cons.take().into(),
+                        alt: alt.take().into(),
+                    }));
                 }
 
                 None
@@ -595,6 +601,18 @@ impl Optimizer<'_> {
                     }
                     .into(),
                 )
+                Some(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: cons.op,
+                    left: cons.left.take(),
+                    right: CondExpr {
+                        span: DUMMY_SP,
+                        test: test.take(),
+                        cons: cons.right.take(),
+                        alt: alt.right.take(),
+                    }
+                    .into(),
+                }))
             }
 
             // a ? b ? c() : d() : d() => a && b ? c() : d()
@@ -615,6 +633,18 @@ impl Optimizer<'_> {
                     }
                     .into(),
                 )
+                Some(Expr::Cond(CondExpr {
+                    span: DUMMY_SP,
+                    test: BinExpr {
+                        span: DUMMY_SP,
+                        left: test.take(),
+                        op: op!("&&"),
+                        right: cons.test.take(),
+                    }
+                    .into(),
+                    cons: cons.cons.take(),
+                    alt: cons.alt.take(),
+                }))
             }
 
             // z ? "fuji" : (condition(), "fuji");
@@ -639,6 +669,10 @@ impl Optimizer<'_> {
                     }
                     .into(),
                 )
+                Some(Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: vec![first, Box::new(cons.take())],
+                }))
             }
 
             // z ? (condition(), "fuji") : "fuji"
@@ -663,6 +697,10 @@ impl Optimizer<'_> {
                     }
                     .into(),
                 )
+                Some(Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: vec![first, Box::new(alt.take())],
+                }))
             }
 
             (Expr::Seq(left), Expr::Seq(right)) => {

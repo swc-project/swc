@@ -358,6 +358,21 @@ impl VisitMut for PrivateInObject {
                             }
                             .into(),
                         ),
+                        Some(Box::new(Expr::New(NewExpr {
+                            span: DUMMY_SP,
+                            callee: Box::new(Expr::Ident(quote_ident!("WeakSet"))),
+                            args: Some(Default::default()),
+                            ..Default::default()
+                        }))),
+                        Some(
+                            NewExpr {
+                                span: DUMMY_SP,
+                                callee: Box::new(Expr::Ident(quote_ident!("WeakSet"))),
+                                args: Some(Default::default()),
+                                ..Default::default()
+                            }
+                            .into(),
+                        ),
                     );
 
                     if is_method {
@@ -457,6 +472,20 @@ impl VisitMut for PrivateInObject {
                                 }
                                 .into(),
                             ),
+                        }
+                        .into(),
+                    )
+                            callee: var_name.make_member(quote_ident!("add")).as_callee(),
+                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                            ..Default::default()
+                        })),
+                    })))
+                            arg: Box::new(Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: var_name.make_member(quote_ident!("add")).as_callee(),
+                                args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                                ..Default::default()
+                            })),
                         }
                         .into(),
                     )

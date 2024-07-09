@@ -84,6 +84,14 @@ impl Fold for TemplateLiteralCaching {
                             }
                             .into(),
                         ),
+                        Some(Expr::Arrow(ArrowExpr {
+                            span: DUMMY_SP,
+                            params: vec![t.clone().into()],
+                            body: Box::new(BlockStmtOrExpr::Expr(t.into())),
+                            is_async: false,
+                            is_generator: false,
+                            ..Default::default()
+                        })),
                     )
                 }
 
@@ -120,6 +128,7 @@ impl Fold for TemplateLiteralCaching {
                     .into(),
                 }
                 .into();
+                });
 
                 // The original tag function becomes a plain function call.
                 // The expressions omitted from the cached Strings tag are

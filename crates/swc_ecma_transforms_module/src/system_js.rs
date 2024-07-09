@@ -339,6 +339,43 @@ impl SystemJs {
                 }
                 .into(),
             );
+                right: Box::new(Expr::Ident(target.clone().into())),
+                right: target.clone().into(),
+
+                body: Box::new(Stmt::Block(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![Stmt::If(IfStmt {
+                        span: DUMMY_SP,
+                        test: Box::new(Expr::Bin(BinExpr {
+                            span: DUMMY_SP,
+                            op: op!("&&"),
+                            left: Box::new(
+                                key_ident
+                                    .clone()
+                                    .make_bin(op!("!=="), quote_str!("default")),
+                            ),
+                            right: Box::new(
+                                key_ident
+                                    .clone()
+                                    .make_bin(op!("!=="), quote_str!("__esModule")),
+                            ),
+                        })),
+                        cons: Box::new(Stmt::Block(BlockStmt {
+                            stmts: vec![AssignExpr {
+                                span: DUMMY_SP,
+                                op: op!("="),
+                                left: export_obj.clone().computed_member(key_ident.clone()).into(),
+                                right: target.computed_member(key_ident).into(),
+                            }
+                            .into_stmt()],
+                            ..Default::default()
+                        })),
+                        alt: None,
+                    })],
+
+                    ..Default::default()
+                })),
+            }));
             for (sym, value) in meta
                 .export_names
                 .drain(..)
@@ -723,6 +760,9 @@ impl Fold for SystemJs {
                                             span: specifier.span,
                                             op: op!("="),
                                             left: specifier.local.into(),
+                                            right: Box::new(Expr::Ident(
+                                                quote_ident!(source_alias.clone()).into(),
+                                            )),
                                             right: quote_ident!(source_alias.clone()).into(),
                                         }
                                         .into_stmt(),
@@ -767,6 +807,19 @@ impl Fold for SystemJs {
                                                 obj: Box::new(
                                                     quote_ident!(source_alias.clone()).into(),
                                                 ),
+                                        export_values.push(Box::new(Expr::Member(MemberExpr {
+                                            span: DUMMY_SP,
+                                            obj: Box::new(Expr::Ident(
+                                                quote_ident!(source_alias.clone()).into(),
+                                            )),
+                                            prop: get_module_export_member_prop(&specifier.orig),
+                                        })));
+                                        export_values.push(
+                                            MemberExpr {
+                                                span: DUMMY_SP,
+                                                obj: Box::new(Expr::Ident(quote_ident!(
+                                                    source_alias.clone()
+                                                ))),
                                                 prop: get_module_export_member_prop(
                                                     &specifier.orig,
                                                 ),
@@ -785,6 +838,9 @@ impl Fold for SystemJs {
                                     ExportSpecifier::Namespace(specifier) => {
                                         export_names
                                             .push(get_module_export_name(&specifier.name).0);
+                                        export_values.push(Box::new(Expr::Ident(
+                                            quote_ident!(source_alias.clone()).into(),
+                                        )));
                                         export_values
                                             .push(quote_ident!(source_alias.clone()).into());
                                     }

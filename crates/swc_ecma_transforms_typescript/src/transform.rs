@@ -705,8 +705,7 @@ impl Transform {
             id: id.clone().into(),
         });
 
-        let mut expr_list: Vec<Expr> =
-            var_decl.decls.into_iter().filter_map(|d| d.init).collect();
+        let mut expr_list: Vec<Expr> = var_decl.decls.into_iter().filter_map(|d| d.init).collect();
 
         if expr_list.is_empty() {
             return None;

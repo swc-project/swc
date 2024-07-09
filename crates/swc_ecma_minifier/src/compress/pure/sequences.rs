@@ -109,6 +109,7 @@ impl Pure<'_> {
                         op: assign.op,
                         left: assign.left.take(),
                         right: Box::new(new_cond.into()),
+                        right: Box::new(Expr::Cond(new_cond)),
                     }
                     .into(),
                 );

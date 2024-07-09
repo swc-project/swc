@@ -2180,12 +2180,7 @@ pub fn is_rest_arguments(e: &ExprOrSpread) -> bool {
     e.expr.is_ident_ref_to("arguments")
 }
 
-pub fn opt_chain_test(
-    left: Expr,
-    right: Expr,
-    span: Span,
-    no_document_all: bool,
-) -> Expr {
+pub fn opt_chain_test(left: Expr, right: Expr, span: Span, no_document_all: bool) -> Expr {
     if no_document_all {
         BinExpr {
             span,
@@ -2194,6 +2189,7 @@ pub fn opt_chain_test(
             right: Lit::Null(Null { span: DUMMY_SP }).into(),
         }
         .into()
+        })
     } else {
         BinExpr {
             span,
@@ -2214,6 +2210,7 @@ pub fn opt_chain_test(
             .into(),
         }
         .into()
+        })
     }
 }
 
@@ -2691,6 +2688,10 @@ impl VisitMut for IdentReplacer<'_> {
                     *node = Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(IdentName::new(cloned.sym, cloned.span)),
                         value: i.clone().into(),
+                        key: PropName::Ident(Ident::new_no_ctxt(cloned.sym, cloned.span)),
+                        value: Box::new(Expr::Ident(i.clone())),
+                        key: PropName::Ident(Ident::new_no_ctxt(cloned.sym, cloned.span)),
+                        value: i.clone().into(),
                     });
                 }
             }
@@ -3060,6 +3061,10 @@ impl VisitMut for IdentRenamer<'_> {
                 if i.sym != cloned.sym || i.ctxt != cloned.ctxt {
                     *node = Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(IdentName::new(cloned.sym, cloned.span)),
+                        value: i.clone().into(),
+                        key: PropName::Ident(Ident::new_no_ctxt(cloned.sym, cloned.span)),
+                        value: Box::new(Expr::Ident(i.clone())),
+                        key: PropName::Ident(Ident::new_no_ctxt(cloned.sym, cloned.span)),
                         value: i.clone().into(),
                     });
                 }
