@@ -236,7 +236,7 @@ impl VisitMut for ConstructorFolder<'_> {
                             span: DUMMY_SP,
                             left: call,
                             op: op!("||"),
-                            right: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                            right: Box::new(ThisExpr { span: DUMMY_SP }.into()),
                         }
                         .into()
                     } else {
@@ -251,12 +251,13 @@ impl VisitMut for ConstructorFolder<'_> {
                 })),
             };
 
-            *expr = Expr::Assign(AssignExpr {
+            *expr = AssignExpr {
                 span: DUMMY_SP,
                 left: quote_ident!(SyntaxContext::empty().apply_mark(self.mark), "_this").into(),
                 op: op!("="),
                 right,
-            });
+            }
+            .into();
         };
     }
 
@@ -381,7 +382,7 @@ pub(super) enum ReturningMode {
 pub(super) fn make_possible_return_value(mode: ReturningMode) -> Expr {
     let callee = helper!(possible_constructor_return);
 
-    Expr::Call(CallExpr {
+    CallExpr {
         span: DUMMY_SP,
         callee,
         args: match mode {
@@ -458,7 +459,8 @@ pub(super) fn make_possible_return_value(mode: ReturningMode) -> Expr {
             }
         },
         ..Default::default()
-    })
+    }
+    .into()
 }
 
 /// `mark`: Mark for `_this`
@@ -484,14 +486,15 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: &mut Constructor) -> bo
                     let this = quote_ident!(SyntaxContext::empty().apply_mark(self.mark), "_this");
 
                     if self.wrap_with_assertion {
-                        *expr = Expr::Call(CallExpr {
+                        *expr = CallExpr {
                             span: DUMMY_SP,
                             callee: helper!(assert_this_initialized),
                             args: vec![this.as_arg()],
                             ..Default::default()
-                        })
+                        }
+                        .into()
                     } else {
-                        *expr = Expr::Ident(this);
+                        *expr = this.into();
                     }
                 }
 

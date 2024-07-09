@@ -87,16 +87,17 @@ pub fn make_doc_attr(s: &str) -> Attribute {
                 .collect(),
             },
             eq_token: Token![=](span),
-            value: Expr::Lit(ExprLit {
+            value: ExprLit {
                 attrs: Default::default(),
                 lit: Lit::Str(LitStr::new(s, span)),
-            }),
+            }
+            .into(),
         }),
     }
 }
 
 pub fn access_field(obj: &dyn ToTokens, idx: usize, f: &Field) -> Expr {
-    Expr::Field(ExprField {
+    ExprField {
         attrs: Default::default(),
         base: syn::parse2(obj.to_token_stream())
             .expect("swc_macros_common::access_field: failed to parse object"),
@@ -108,7 +109,8 @@ pub fn access_field(obj: &dyn ToTokens, idx: usize, f: &Field) -> Expr {
                 span: Span::call_site(),
             }),
         },
-    })
+    }
+    .into()
 }
 
 pub fn join_stmts(stmts: &[Stmt]) -> TokenStream {

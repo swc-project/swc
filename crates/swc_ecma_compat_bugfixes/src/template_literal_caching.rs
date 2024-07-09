@@ -70,14 +70,17 @@ impl Fold for TemplateLiteralCaching {
                     self.helper_ident = Some(helper_ident.clone());
                     self.create_binding(
                         helper_ident,
-                        Some(Expr::Arrow(ArrowExpr {
-                            span: DUMMY_SP,
-                            params: vec![t.clone().into()],
-                            body: Box::new(BlockStmtOrExpr::Expr(t.into())),
-                            is_async: false,
-                            is_generator: false,
-                            ..Default::default()
-                        })),
+                        Some(
+                            ArrowExpr {
+                                span: DUMMY_SP,
+                                params: vec![t.clone().into()],
+                                body: Box::new(BlockStmtOrExpr::Expr(t.into())),
+                                is_async: false,
+                                is_generator: false,
+                                ..Default::default()
+                            }
+                            .into(),
+                        ),
                     )
                 }
 
@@ -101,7 +104,7 @@ impl Fold for TemplateLiteralCaching {
                 //   _t || (_t = identity`a${0}`)
                 let t = private_ident!("t");
                 self.create_binding(t.clone(), None);
-                let inline_cache = Expr::Bin(BinExpr {
+                let inline_cache = BinExpr {
                     span: DUMMY_SP,
                     op: op!("||"),
                     left: t.clone().into(),
@@ -112,13 +115,14 @@ impl Fold for TemplateLiteralCaching {
                         right: Box::new(Expr::TaggedTpl(template)),
                     }
                     .into(),
-                });
+                }
+                .into();
 
                 // The original tag function becomes a plain function call.
                 // The expressions omitted from the cached Strings tag are
                 // directly applied as arguments.
                 //   tag(_t || (_t = Object`a${0}`), 'hello')
-                Expr::Call(CallExpr {
+                CallExpr {
                     span: DUMMY_SP,
                     callee: n.tag.as_callee(),
                     args: vec![inline_cache.as_arg()]
@@ -126,7 +130,8 @@ impl Fold for TemplateLiteralCaching {
                         .chain(n.tpl.exprs.into_iter().map(|expr| expr.as_arg()))
                         .collect(),
                     ..Default::default()
-                })
+                }
+                .into()
             }
             _ => n,
         }

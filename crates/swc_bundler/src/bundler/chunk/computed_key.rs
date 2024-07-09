@@ -134,7 +134,7 @@ where
             }
         });
 
-        let module_fn = Expr::Fn(FnExpr {
+        let module_fn = FnExpr {
             function: Box::new(Function {
                 params: Default::default(),
                 body: Some(BlockStmt {
@@ -147,20 +147,23 @@ where
                 ..Default::default()
             }),
             ident: None,
-        });
+        }
+        .into();
 
-        let mut module_expr = Expr::Call(CallExpr {
+        let mut module_expr = CallExpr {
             span: DUMMY_SP,
             callee: module_fn.as_callee(),
             args: Default::default(),
             ..Default::default()
-        });
+        }
+        .into();
 
         if is_async {
-            module_expr = Expr::Await(AwaitExpr {
+            module_expr = AwaitExpr {
                 span: DUMMY_SP,
                 arg: Box::new(module_expr),
-            });
+            }
+            .into();
         }
 
         let var_decl = VarDecl {

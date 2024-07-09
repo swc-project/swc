@@ -494,7 +494,7 @@ impl VisitMut for Generator {
 
                     self.mark_label(result_label);
 
-                    *e = Expr::Ident(result_local);
+                    *e = result_local.into();
                 } else {
                     node.visit_mut_with(self);
                 }
@@ -631,12 +631,13 @@ impl VisitMut for Generator {
 
                     node.right.visit_mut_with(self);
 
-                    *e = Expr::Assign(AssignExpr {
+                    *e = AssignExpr {
                         span: node.right.span(),
                         op: node.op,
                         left: left_of_right.into(),
                         right: node.right.take(),
-                    });
+                    }
+                    .into();
                 } else {
                     node.right.visit_mut_with(self);
                 }
@@ -740,7 +741,7 @@ impl VisitMut for Generator {
 
                 expressions.push(temp.into());
 
-                *e = *Expr::from_exprs(expressions);
+                *e = *expressions.into();
             }
 
             Expr::Array(node) => {
@@ -815,7 +816,7 @@ impl VisitMut for Generator {
                     &mut args,
                     Some(ExprOrSpread {
                         spread: None,
-                        expr: Expr::undefined(DUMMY_SP),
+                        expr: DUMMY_SP.into(),
                     }),
                     None,
                 ))
@@ -823,7 +824,7 @@ impl VisitMut for Generator {
                 None
             };
 
-            let apply = Expr::Ident(callee).apply(
+            let apply = callee.into().apply(
                 node.span,
                 this_arg,
                 arg.take().map(|v| v.as_arg()).into_iter().collect(),
@@ -1114,7 +1115,7 @@ impl Generator {
             });
 
         if let Some(temp) = temp {
-            Expr::Call(CallExpr {
+            CallExpr {
                 span: DUMMY_SP,
                 callee: temp.make_member(quote_ident!("concat")).as_callee(),
                 args: vec![ExprOrSpread {
@@ -1125,9 +1126,10 @@ impl Generator {
                     })),
                 }],
                 ..Default::default()
-            })
+            }
+            .into()
         } else {
-            Expr::Array(ArrayLit {
+            ArrayLit {
                 span: DUMMY_SP,
                 elems: leading_element
                     .take()
@@ -1135,7 +1137,8 @@ impl Generator {
                     .map(Some)
                     .chain(expressions)
                     .collect(),
-            })
+            }
+            .into()
         }
     }
 
@@ -1211,13 +1214,13 @@ impl Generator {
         {
             self.emit_stmt(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
-                expr: Expr::from_exprs(expressions.take()),
+                expr: expressions.take().into(),
             }));
         }
 
         let mut expression = match property {
             CompiledProp::Prop(p) => match p {
-                Prop::Shorthand(p) => Expr::Assign(AssignExpr {
+                Prop::Shorthand(p) => AssignExpr {
                     span: p.span,
                     op: op!("="),
                     left: MemberExpr {
@@ -1227,8 +1230,9 @@ impl Generator {
                     }
                     .into(),
                     right: p.into(),
-                }),
-                Prop::KeyValue(p) => Expr::Assign(AssignExpr {
+                }
+                .into(),
+                Prop::KeyValue(p) => AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
                     left: MemberExpr {
@@ -1238,14 +1242,15 @@ impl Generator {
                     }
                     .into(),
                     right: p.value,
-                }),
+                }
+                .into(),
                 Prop::Assign(_) => {
                     unreachable!("assignment property be removed before generator pass")
                 }
                 Prop::Getter(_) | Prop::Setter(_) => {
                     unreachable!("getter/setter property be compiled as CompiledProp::Accessor")
                 }
-                Prop::Method(p) => Expr::Assign(AssignExpr {
+                Prop::Method(p) => AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
                     left: MemberExpr {
@@ -1255,7 +1260,8 @@ impl Generator {
                     }
                     .into(),
                     right: p.function.into(),
-                }),
+                }
+                .into(),
             },
             CompiledProp::Accessor(getter, setter) => {
                 let key = getter
@@ -1299,7 +1305,7 @@ impl Generator {
                         .collect(),
                 };
 
-                Expr::Call(CallExpr {
+                CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(define_property),
                     args: vec![
@@ -1308,7 +1314,8 @@ impl Generator {
                         desc.as_arg(),
                     ],
                     ..Default::default()
-                })
+                }
+                .into()
             }
         };
 
@@ -1410,7 +1417,7 @@ impl Generator {
         );
         self.mark_label(result_label);
 
-        Expr::Ident(result_local)
+        result_local.into()
     }
 
     fn transform_and_emit_stmts(&mut self, stmts: Vec<Stmt>, start: usize) {
@@ -3496,11 +3503,7 @@ impl Generator {
         match &mut *callee {
             Expr::Ident(..) => (
                 callee.clone(),
-                if is_new_call {
-                    callee
-                } else {
-                    Expr::undefined(DUMMY_SP)
-                },
+                if is_new_call { callee } else { DUMMY_SP.into() },
             ),
 
             Expr::Member(MemberExpr { obj, .. }) if !is_new_call => {
@@ -3517,7 +3520,7 @@ impl Generator {
 
             _ => {
                 if !is_new_call {
-                    (callee, Expr::undefined(DUMMY_SP))
+                    (callee, DUMMY_SP.into())
                 } else {
                     let this_arg = self.create_temp_variable();
                     let target = callee.make_assign_to(op!("="), this_arg.clone().into());

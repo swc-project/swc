@@ -246,10 +246,11 @@ impl VisitMut for Transform {
                 .map(Box::new)
                 .collect();
 
-            *n = Expr::Seq(SeqExpr {
+            *n = SeqExpr {
                 span: DUMMY_SP,
                 exprs,
-            });
+            }
+            .into();
 
             self.class_prop_decls.extend(decls);
         }
@@ -758,7 +759,7 @@ impl Transform {
                                 definite: false,
                             });
 
-                            **expr = Expr::Ident(ident.clone());
+                            **expr = ident.clone().into();
 
                             PropName::Computed(ComputedPropName {
                                 span: *span,
@@ -827,7 +828,9 @@ impl Transform {
 impl Transform {
     // Foo.x = x;
     fn assign_prop(id: &Id, prop: &Ident, span: Span) -> Stmt {
-        let expr = Expr::Ident(prop.clone())
+        let expr = prop
+            .clone()
+            .into()
             .make_assign_to(op!("="), id.clone().make_member(prop.clone()).into());
 
         Stmt::Expr(ExprStmt {

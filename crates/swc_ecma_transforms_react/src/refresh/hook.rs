@@ -110,11 +110,12 @@ impl<'a> HookRegister<'a> {
         };
 
         args.push(
-            Expr::Lit(Lit::Str(Str {
+            Lit::Str(Str {
                 span: DUMMY_SP,
                 raw: None,
                 value: sign.into(),
-            }))
+            })
+            .into()
             .as_arg(),
         );
 
@@ -150,12 +151,13 @@ impl<'a> HookRegister<'a> {
                 .map(|hook| {
                     Some(
                         match hook {
-                            HookCall::Ident(ident) => Expr::Ident(ident),
-                            HookCall::Member(obj, prop) => Expr::Member(MemberExpr {
+                            HookCall::Ident(ident) => ident.into(),
+                            HookCall::Member(obj, prop) => MemberExpr {
                                 span: DUMMY_SP,
                                 obj: Box::new(obj),
                                 prop: MemberProp::Ident(prop),
-                            }),
+                            }
+                            .into(),
                         }
                         .as_arg(),
                     )
@@ -185,19 +187,20 @@ impl<'a> HookRegister<'a> {
             );
         }
 
-        Expr::Call(CallExpr {
+        CallExpr {
             span: DUMMY_SP,
             callee: handle.as_callee(),
             args,
             ..Default::default()
-        })
+        }
+        .into()
     }
 
     fn gen_hook_register_stmt(&mut self, ident: Ident, sig: HookSig) {
         self.ident.push(sig.handle.clone());
         self.extra_stmt.push(Stmt::Expr(ExprStmt {
             span: DUMMY_SP,
-            expr: Box::new(self.wrap_with_register(sig.handle, Expr::Ident(ident), sig.hooks)),
+            expr: Box::new(self.wrap_with_register(sig.handle, ident.into(), sig.hooks)),
         }))
     }
 }

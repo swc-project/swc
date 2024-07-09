@@ -127,6 +127,6 @@ impl From<Id> for Ident {
 impl From<Id> for Expr {
     #[inline]
     fn from(id: Id) -> Self {
-        Expr::Ident(id.into_ident())
+        id.into_ident().into()
     }
 }

@@ -45,12 +45,13 @@ impl Pure<'_> {
             report_change!("evaluate: 'foo' + ('bar' + baz) => 'foobar' + baz");
 
             let s = lls.into_owned() + &*rls;
-            *e = Expr::Bin(BinExpr {
+            *e = BinExpr {
                 span,
                 op: op!(bin, "+"),
                 left: s.into(),
                 right: r_r.take(),
-            });
+            }
+            .into();
         }
     }
 
@@ -82,7 +83,7 @@ impl Pure<'_> {
 
             self.changed = true;
             report_change!("evaluating a template to a string");
-            *e = Expr::Bin(BinExpr {
+            *e = BinExpr {
                 span: tpl.span,
                 op: op!(bin, "+"),
                 left: tpl.quasis[0]
@@ -91,7 +92,8 @@ impl Pure<'_> {
                     .unwrap_or_else(|| tpl.quasis[0].raw.clone())
                     .into(),
                 right: tpl.exprs[0].take(),
-            });
+            }
+            .into();
         }
     }
 
@@ -182,7 +184,7 @@ impl Pure<'_> {
             raw: s,
         });
 
-        *e = Expr::Tpl(new_tpl);
+        *e = new_tpl.into();
     }
 
     /// Converts template literals to string if `exprs` of [Tpl] is empty.
@@ -198,11 +200,12 @@ impl Pure<'_> {
                     }) {
                         report_change!("converting a template literal to a string literal");
 
-                        *e = Expr::Lit(Lit::Str(Str {
+                        *e = Lit::Str(Str {
                             span: t.span,
                             raw: None,
                             value: value.clone(),
-                        }));
+                        })
+                        .into();
                         return;
                     }
                 }
@@ -224,11 +227,12 @@ impl Pure<'_> {
 
                     report_change!("converting a template literal to a string literal");
 
-                    *e = Expr::Lit(Lit::Str(Str {
+                    *e = Lit::Str(Str {
                         span: t.span,
                         raw: None,
                         value,
-                    }));
+                    })
+                    .into();
                 }
             }
             _ => {}
@@ -496,7 +500,7 @@ impl Pure<'_> {
                                     new_str
                                 );
 
-                                *e = Expr::Bin(BinExpr {
+                                *e = BinExpr {
                                     span: bin.span,
                                     op: op!(bin, "+"),
                                     left: left.left.take(),
@@ -506,7 +510,8 @@ impl Pure<'_> {
                                         value: new_str.into(),
                                     })
                                     .into(),
-                                });
+                                }
+                                .into();
                             }
                         }
                     }

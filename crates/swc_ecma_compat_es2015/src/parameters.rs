@@ -144,17 +144,20 @@ impl Params {
                             init: Some(
                                 CondExpr {
                                     span,
-                                    test: Box::new(Expr::Bin(BinExpr {
-                                        left: Box::new(check_arg_len(i)),
-                                        op: op!("&&"),
-                                        right: Box::new(Expr::Bin(BinExpr {
-                                            left: make_arg_nth(i).into(),
-                                            op: op!("!=="),
-                                            right: Expr::undefined(DUMMY_SP),
-                                            span: DUMMY_SP,
-                                        })),
-                                        span,
-                                    })),
+                                    test: Box::new(
+                                        BinExpr {
+                                            left: Box::new(check_arg_len(i)),
+                                            op: op!("&&"),
+                                            right: Box::new(Expr::Bin(BinExpr {
+                                                left: make_arg_nth(i).into(),
+                                                op: op!("!=="),
+                                                right: Expr::undefined(DUMMY_SP),
+                                                span: DUMMY_SP,
+                                            })),
+                                            span,
+                                        }
+                                        .into(),
+                                    ),
                                     cons: make_arg_nth(i).into(),
                                     alt: right,
                                 }
@@ -172,9 +175,9 @@ impl Params {
                             span,
                             test: BinExpr {
                                 span: DUMMY_SP,
-                                left: Box::new(Expr::Ident(Ident::from(ident))),
+                                left: Box::new(Ident::from(ident).into()),
                                 op: op!("==="),
-                                right: Expr::undefined(DUMMY_SP),
+                                right: DUMMY_SP.into(),
                             }
                             .into(),
                             cons: Box::new(Stmt::Expr(ExprStmt {
@@ -277,7 +280,7 @@ impl Params {
                                 return bin;
                             }
 
-                            Expr::Cond(CondExpr {
+                            CondExpr {
                                 span,
                                 test: Box::new(
                                     BinExpr {
@@ -295,7 +298,8 @@ impl Params {
                                 ),
                                 cons: Box::new(bin),
                                 alt: 0.into(),
-                            })
+                            }
+                            .into()
                         }
                     };
 
@@ -647,7 +651,7 @@ impl VisitMut for Params {
                     }
                     .into();
                     *e = match (self.in_prop, local_vars) {
-                        (true, Some(var_decl)) => Expr::Arrow(ArrowExpr {
+                        (true, Some(var_decl)) => ArrowExpr {
                             span: f.span,
                             params: Vec::new(),
                             is_async: false,
@@ -664,7 +668,8 @@ impl VisitMut for Params {
                                 ..Default::default()
                             })),
                             ..Default::default()
-                        })
+                        }
+                        .into()
                         .as_iife()
                         .into(),
                         _ => func,
@@ -688,7 +693,7 @@ impl VisitMut for Params {
                     Box::new(BlockStmtOrExpr::BlockStmt(body))
                 };
 
-                *e = Expr::Arrow(ArrowExpr {
+                *e = ArrowExpr {
                     params: params.into_iter().map(|param| param.pat).collect(),
                     body,
                     span: f.span,
@@ -697,7 +702,8 @@ impl VisitMut for Params {
                     type_params: f.type_params.take(),
                     return_type: f.return_type.take(),
                     ..Default::default()
-                });
+                }
+                .into();
             }
             _ => e.visit_mut_children_with(self),
         }
@@ -797,25 +803,29 @@ impl VisitMut for Params {
 }
 
 fn make_arg_nth(n: usize) -> MemberExpr {
-    Expr::Ident(Ident::new_no_ctxt("arguments".into(), DUMMY_SP)).computed_member(n)
+    Ident::new_no_ctxt("arguments".into(), DUMMY_SP)
+        .into()
+        .computed_member(n)
 }
 
 fn check_arg_len(n: usize) -> Expr {
-    Expr::Bin(BinExpr {
+    BinExpr {
         left: Expr::Ident(Ident::new_no_ctxt("arguments".into(), DUMMY_SP))
             .make_member(Ident::new_no_ctxt("length".into(), DUMMY_SP))
             .into(),
         op: op!(">"),
         right: n.into(),
         span: DUMMY_SP,
-    })
+    }
+    .into()
 }
 
 fn check_arg_len_or_undef(n: usize) -> Expr {
-    Expr::Cond(CondExpr {
+    CondExpr {
         test: Box::new(check_arg_len(n)),
         cons: make_arg_nth(n).into(),
         alt: Expr::undefined(DUMMY_SP),
         span: DUMMY_SP,
-    })
+    }
+    .into()
 }

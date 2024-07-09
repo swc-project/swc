@@ -110,11 +110,12 @@ impl VisitMut for InlineGlobals {
 
                     // It's ok because we don't recurse into member expressions.
                     if let Some(value) = self.typeofs.get(sym).cloned() {
-                        *expr = Expr::Lit(Lit::Str(Str {
+                        *expr = Lit::Str(Str {
                             span: *span,
                             raw: None,
                             value,
-                        }));
+                        })
+                        .into();
                     }
                 }
             }

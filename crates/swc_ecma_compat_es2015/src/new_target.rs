@@ -68,9 +68,9 @@ impl VisitMut for NewTarget {
             };
             match &self.ctx {
                 Ctx::Constructor => *e = this_ctor(*span),
-                Ctx::Method => *e = *Expr::undefined(DUMMY_SP),
+                Ctx::Method => *e = *DUMMY_SP.into(),
                 Ctx::Function(i) => {
-                    *e = Expr::Cond(CondExpr {
+                    *e = CondExpr {
                         span: *span,
                         // this instanceof Foo
                         test: BinExpr {
@@ -83,7 +83,8 @@ impl VisitMut for NewTarget {
                         cons: Box::new(this_ctor(DUMMY_SP)),
                         // void 0
                         alt: Expr::undefined(DUMMY_SP),
-                    })
+                    }
+                    .into()
                 }
             }
         }

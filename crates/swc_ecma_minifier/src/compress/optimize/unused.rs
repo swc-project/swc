@@ -206,7 +206,7 @@ impl Optimizer<'_> {
                         if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
                             *e = Null { span: DUMMY_SP }.into();
                         } else {
-                            *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                            *e = Invalid { span: DUMMY_SP }.into();
                         }
                     }
                 }
@@ -677,10 +677,11 @@ impl Optimizer<'_> {
                     );
                     self.changed = true;
                     if self.ctx.is_this_aware_callee {
-                        *e = Expr::Seq(SeqExpr {
+                        *e = SeqExpr {
                             span: DUMMY_SP,
                             exprs: vec![0.into(), assign.right.take()],
-                        })
+                        }
+                        .into()
                     } else {
                         *e = *assign.right.take();
                     }

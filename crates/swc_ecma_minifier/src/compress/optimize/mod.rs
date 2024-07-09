@@ -623,7 +623,7 @@ impl Optimizer<'_> {
     fn compress_undefined(&mut self, e: &mut Expr) {
         if let Expr::Ident(Ident { span, sym, .. }) = e {
             if &**sym == "undefined" {
-                *e = *Expr::undefined(*span);
+                *e = **span.into();
             }
         }
     }
@@ -641,7 +641,7 @@ impl Optimizer<'_> {
             if let Lit::Bool(v) = lit {
                 self.changed = true;
                 report_change!("Compressing boolean literal");
-                *e = Expr::Unary(UnaryExpr {
+                *e = UnaryExpr {
                     span: v.span,
                     op: op!("!"),
                     arg: Lit::Num(Number {
@@ -650,7 +650,8 @@ impl Optimizer<'_> {
                         raw: None,
                     })
                     .into(),
-                });
+                }
+                .into();
             }
         }
     }
@@ -717,7 +718,7 @@ impl Optimizer<'_> {
                     .any(|m| m.as_static_block().iter().any(|s| !s.body.is_empty()))
                 {
                     // there's nothing we can do about it
-                    return Some(Expr::Class(cls.take()));
+                    return Some(cls.take().into());
                 }
 
                 let exprs: Vec<Expr> = extract_class_side_effect(&self.expr_ctx, *cls.class.take())
@@ -730,10 +731,13 @@ impl Optimizer<'_> {
                     return None;
                 }
 
-                return Some(Expr::Seq(SeqExpr {
-                    span: cls.class.span,
-                    exprs,
-                }));
+                return Some(
+                    SeqExpr {
+                        span: cls.class.span,
+                        exprs,
+                    }
+                    .into(),
+                );
             }
 
             Expr::Paren(e) => return self.ignore_return_value(&mut e.expr),
@@ -807,10 +811,13 @@ impl Optimizer<'_> {
 
                 self.changed = true;
                 report_change!("ignore_return_value: Compressing binary as seq");
-                return Some(Expr::Seq(SeqExpr {
-                    span,
-                    exprs: vec![Box::new(left.unwrap()), Box::new(right.unwrap())],
-                }));
+                return Some(
+                    SeqExpr {
+                        span,
+                        exprs: vec![Box::new(left.unwrap()), Box::new(right.unwrap())],
+                    }
+                    .into(),
+                );
             }
 
             // Pure calls can be removed
@@ -890,10 +897,13 @@ impl Optimizer<'_> {
                                         return None;
                                     }
 
-                                    return Some(Expr::Array(ArrayLit {
-                                        span: callee.span,
-                                        elems,
-                                    }));
+                                    return Some(
+                                        ArrayLit {
+                                            span: callee.span,
+                                            elems,
+                                        }
+                                        .into(),
+                                    );
                                 }
 
                                 let args = args
@@ -907,10 +917,13 @@ impl Optimizer<'_> {
                                     return None;
                                 }
 
-                                return Some(Expr::Seq(SeqExpr {
-                                    span: callee.span,
-                                    exprs: args,
-                                }));
+                                return Some(
+                                    SeqExpr {
+                                        span: callee.span,
+                                        exprs: args,
+                                    }
+                                    .into(),
+                                );
                             }
                         }
                     }
@@ -1022,25 +1035,28 @@ impl Optimizer<'_> {
                     }) => true,
                     _ => false,
                 }) {
-                    return Some(Expr::Array(ArrayLit {
-                        elems: arr
-                            .elems
-                            .take()
-                            .into_iter()
-                            .flatten()
-                            .filter_map(|mut e| {
-                                if e.spread.is_some() {
-                                    return Some(e);
-                                }
+                    return Some(
+                        ArrayLit {
+                            elems: arr
+                                .elems
+                                .take()
+                                .into_iter()
+                                .flatten()
+                                .filter_map(|mut e| {
+                                    if e.spread.is_some() {
+                                        return Some(e);
+                                    }
 
-                                self.ignore_return_value(&mut e.expr)
-                                    .map(Box::new)
-                                    .map(|expr| ExprOrSpread { expr, spread: None })
-                            })
-                            .map(Some)
-                            .collect(),
-                        ..*arr
-                    }));
+                                    self.ignore_return_value(&mut e.expr)
+                                        .map(Box::new)
+                                        .map(|expr| ExprOrSpread { expr, spread: None })
+                                })
+                                .map(Some)
+                                .collect(),
+                            ..*arr
+                        }
+                        .into(),
+                    );
                 }
 
                 let mut exprs = vec![];
@@ -1060,10 +1076,13 @@ impl Optimizer<'_> {
                     return None;
                 }
 
-                return Some(Expr::Seq(SeqExpr {
-                    span: arr.span,
-                    exprs,
-                }));
+                return Some(
+                    SeqExpr {
+                        span: arr.span,
+                        exprs,
+                    }
+                    .into(),
+                );
             }
 
             Expr::Object(obj) => {
@@ -1120,10 +1139,13 @@ impl Optimizer<'_> {
                     return None;
                 }
 
-                return Some(Expr::Seq(SeqExpr {
-                    span: obj.span,
-                    exprs,
-                }));
+                return Some(
+                    SeqExpr {
+                        span: obj.span,
+                        exprs,
+                    }
+                    .into(),
+                );
             }
 
             // Preserves negated iife
@@ -1174,10 +1196,11 @@ impl Optimizer<'_> {
                 let left = self.ignore_return_value(left).map(Box::new);
                 let right = self.ignore_return_value(right).map(Box::new);
 
-                let mut seq = Expr::Seq(SeqExpr {
+                let mut seq = SeqExpr {
                     span: *span,
                     exprs: left.into_iter().chain(right).collect(),
-                });
+                }
+                .into();
                 return self.ignore_return_value(&mut seq);
             }
 
@@ -1205,20 +1228,23 @@ impl Optimizer<'_> {
 
                 // TODO: Remove if test is side effect free.
 
-                return Some(Expr::Cond(CondExpr {
-                    span: cond.span,
-                    test: cond.test.take(),
-                    cons: cons.unwrap_or_else(|| {
-                        report_change!("ignore_return_value: Dropped `cons`");
-                        self.changed = true;
-                        Expr::undefined(cons_span)
-                    }),
-                    alt: alt.unwrap_or_else(|| {
-                        report_change!("ignore_return_value: Dropped `alt`");
-                        self.changed = true;
-                        Expr::undefined(alt_span)
-                    }),
-                }));
+                return Some(
+                    CondExpr {
+                        span: cond.span,
+                        test: cond.test.take(),
+                        cons: cons.unwrap_or_else(|| {
+                            report_change!("ignore_return_value: Dropped `cons`");
+                            self.changed = true;
+                            Expr::undefined(cons_span)
+                        }),
+                        alt: alt.unwrap_or_else(|| {
+                            report_change!("ignore_return_value: Dropped `alt`");
+                            self.changed = true;
+                            Expr::undefined(alt_span)
+                        }),
+                    }
+                    .into(),
+                );
             }
 
             Expr::Seq(seq) => {
@@ -1277,10 +1303,13 @@ impl Optimizer<'_> {
                         return None;
                     }
 
-                    return Some(Expr::Seq(SeqExpr {
-                        span: seq.span,
-                        exprs,
-                    }));
+                    return Some(
+                        SeqExpr {
+                            span: seq.span,
+                            exprs,
+                        }
+                        .into(),
+                    );
                 }
             }
 
@@ -2014,7 +2043,7 @@ impl VisitMut for Optimizer<'_> {
                     #[cfg(feature = "debug")]
                     dump_change_detail!("Removed {}", start);
 
-                    Expr::undefined(DUMMY_SP)
+                    DUMMY_SP.into()
                 });
             }
         } else {

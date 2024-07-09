@@ -40,7 +40,7 @@ impl Swcify for Expression {
             Expression::Call(e) => e.swcify(ctx).into(),
             Expression::Conditional(e) => e.swcify(ctx).into(),
             Expression::Func(e) => e.swcify(ctx).into(),
-            Expression::Id(e) => Expr::Ident(e.swcify(ctx).into()),
+            Expression::Id(e) => e.swcify(ctx).into().into(),
             Expression::Literal(Literal::String(e)) => e.swcify(ctx).into(),
             Expression::Literal(Literal::Numeric(e)) => e.swcify(ctx).into(),
             Expression::Literal(Literal::Null(e)) => Lit::from(e.swcify(ctx)).into(),
@@ -63,7 +63,7 @@ impl Swcify for Expression {
             Expression::TemplateLiteral(e) => e.swcify(ctx).into(),
             Expression::Yield(e) => e.swcify(ctx).into(),
             Expression::Await(e) => e.swcify(ctx).into(),
-            Expression::Literal(Literal::BigInt(e)) => Expr::Lit(e.swcify(ctx).into()),
+            Expression::Literal(Literal::BigInt(e)) => e.swcify(ctx).into().into(),
             Expression::OptionalMember(e) => e.swcify(ctx).into(),
             Expression::OptionalCall(e) => e.swcify(ctx).into(),
             Expression::JSXElement(e) => return e.swcify(ctx).into(),
@@ -363,7 +363,7 @@ impl Swcify for MemberExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match *self.object {
-            Expression::Super(s) => Expr::SuperProp(SuperPropExpr {
+            Expression::Super(s) => SuperPropExpr {
                 span: ctx.span(&self.base),
                 obj: s.swcify(ctx),
                 prop: match (*self.property, self.computed) {
@@ -377,8 +377,9 @@ impl Swcify for MemberExpression {
                     }
                     _ => unreachable!(),
                 },
-            }),
-            _ => Expr::Member(MemberExpr {
+            }
+            .into(),
+            _ => MemberExpr {
                 span: ctx.span(&self.base),
                 obj: self.object.swcify(ctx),
                 prop: match (*self.property, self.computed) {
@@ -395,7 +396,8 @@ impl Swcify for MemberExpression {
                     }
                     _ => unreachable!(),
                 },
-            }),
+            }
+            .into(),
         }
     }
 }

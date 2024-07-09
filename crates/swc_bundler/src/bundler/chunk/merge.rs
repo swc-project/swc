@@ -693,7 +693,7 @@ where
                                         ))
                                     }
                                     None => {
-                                        let init = Expr::Class(c);
+                                        let init = c.into();
                                         new.push(init.assign_to(local.clone()).into_module_item(
                                             injected_ctxt,
                                             "prepare -> export default decl -> class -> without \
@@ -1340,7 +1340,7 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
             ..
         }) = e
         {
-            *e = Expr::Ident(self.inline_ident.clone());
+            *e = self.inline_ident.clone().into();
             self.occurred = true;
         }
     }

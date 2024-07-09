@@ -267,10 +267,11 @@ impl BlockScoping {
             }
 
             if !inits.is_empty() {
-                call = Expr::Seq(SeqExpr {
+                call = SeqExpr {
                     span: DUMMY_SP,
                     exprs: inits.into_iter().chain(once(Box::new(call))).collect(),
-                })
+                }
+                .into()
             }
 
             if flow_helper.has_return || flow_helper.has_break || !flow_helper.label.is_empty() {
@@ -590,7 +591,7 @@ impl VisitMut for BlockScoping {
             if self.var_decl_kind == VarDeclKind::Var {
                 var.init = None
             } else {
-                var.init = Some(Expr::undefined(var.span()))
+                var.init = Some(var.span().into())
             }
         }
     }
@@ -872,7 +873,7 @@ struct MutationHandler<'a> {
 impl MutationHandler<'_> {
     fn make_reassignment(&self, orig: Option<Expr>) -> Expr {
         if self.map.is_empty() {
-            return *orig.unwrap_or_else(|| Expr::undefined(DUMMY_SP));
+            return *orig.unwrap_or_else(|| DUMMY_SP.into());
         }
 
         let mut exprs = Vec::with_capacity(self.map.len() + 1);
@@ -883,17 +884,18 @@ impl MutationHandler<'_> {
                     span: DUMMY_SP,
                     left: Ident::new(id.0.clone(), DUMMY_SP, id.1).into(),
                     op: op!("="),
-                    right: Box::new(Expr::Ident(Ident::new(id.0.clone(), DUMMY_SP, *ctxt))),
+                    right: Box::new(Ident::new(id.0.clone(), DUMMY_SP, *ctxt).into()),
                 }
                 .into(),
             );
         }
-        exprs.push(orig.unwrap_or_else(|| Expr::undefined(DUMMY_SP)));
+        exprs.push(orig.unwrap_or_else(|| DUMMY_SP.into()));
 
-        Expr::Seq(SeqExpr {
+        SeqExpr {
             span: DUMMY_SP,
             exprs,
-        })
+        }
+        .into()
     }
 }
 

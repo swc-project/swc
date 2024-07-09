@@ -35,11 +35,12 @@ impl Optimizer<'_> {
 
         if let Expr::Fn(..) = callee {
             report_change!("negate_iife: Negating iife");
-            *e = Expr::Unary(UnaryExpr {
+            *e = UnaryExpr {
                 span: DUMMY_SP,
                 op: op!("!"),
                 arg: Box::new(e.take()),
-            });
+            }
+            .into();
         }
     }
 
@@ -235,7 +236,7 @@ impl Optimizer<'_> {
                                 param.id.ctxt
                             );
 
-                            vars.insert(param.to_id(), Expr::undefined(param.span()));
+                            vars.insert(param.to_id(), param.span().into());
                         }
                     }
 
@@ -567,7 +568,7 @@ impl Optimizer<'_> {
                         exprs.push(body.take());
 
                         report_change!("inline: Inlining a call to an arrow function");
-                        *e = *Expr::from_exprs(exprs);
+                        *e = *exprs.into();
                         e.visit_mut_with(self);
                     }
                 }
@@ -638,7 +639,7 @@ impl Optimizer<'_> {
                 if body.stmts.is_empty() && call.args.is_empty() {
                     self.changed = true;
                     report_change!("iife: Inlining an empty function call as `undefined`");
-                    *e = *Expr::undefined(f.function.span);
+                    *e = *f.function.span.into();
                     return;
                 }
 
@@ -904,7 +905,7 @@ impl Optimizer<'_> {
                 span: DUMMY_SP,
                 name: Pat::Ident(param.clone().into()),
                 init: if self.ctx.executed_multiple_time && no_arg {
-                    Some(Expr::undefined(DUMMY_SP))
+                    Some(DUMMY_SP.into())
                 } else {
                     None
                 },
@@ -994,7 +995,7 @@ impl Optimizer<'_> {
 
                 Stmt::Return(stmt) => {
                     let span = stmt.span;
-                    let val = *stmt.arg.unwrap_or_else(|| Expr::undefined(span));
+                    let val = *stmt.arg.unwrap_or_else(|| span.into());
                     exprs.push(Box::new(val));
 
                     let mut e = SeqExpr {
@@ -1003,7 +1004,7 @@ impl Optimizer<'_> {
                     };
                     self.merge_sequences_in_seq_expr(&mut e);
 
-                    let mut e = Expr::Seq(e);
+                    let mut e = e.into();
                     self.normalize_expr(&mut e);
                     return Some(e);
                 }
@@ -1019,7 +1020,7 @@ impl Optimizer<'_> {
             }
             .into();
         } else {
-            return Some(*Expr::undefined(body.span));
+            return Some(*body.span.into());
         }
 
         let mut e = SeqExpr {
@@ -1028,7 +1029,7 @@ impl Optimizer<'_> {
         };
         self.merge_sequences_in_seq_expr(&mut e);
 
-        let mut e = Expr::Seq(e);
+        let mut e = e.into();
         self.normalize_expr(&mut e);
         Some(e)
     }

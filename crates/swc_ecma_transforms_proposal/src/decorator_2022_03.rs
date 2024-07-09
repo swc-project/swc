@@ -201,12 +201,15 @@ impl Decorator2022_03 {
                 type_ann: None,
             }
             .into(),
-            right: Box::new(Expr::Call(CallExpr {
-                span: DUMMY_SP,
-                callee: helper!(apply_decs_2203_r),
-                args: combined_args,
-                ..Default::default()
-            })),
+            right: Box::new(
+                CallExpr {
+                    span: DUMMY_SP,
+                    callee: helper!(apply_decs_2203_r),
+                    args: combined_args,
+                    ..Default::default()
+                }
+                .into(),
+            ),
         }
         .into();
 
@@ -506,7 +509,7 @@ impl Decorator2022_03 {
                     | ClassMember::PrivateProp(PrivateProp { value, .. }) => {
                         if let Some(value) = value {
                             if let Some(last_static_block) = last_static_block.take() {
-                                **value = Expr::Seq(SeqExpr {
+                                **value = SeqExpr {
                                     span: DUMMY_SP,
                                     exprs: vec![
                                         Box::new(Expr::Call(CallExpr {
@@ -531,7 +534,8 @@ impl Decorator2022_03 {
                                         })),
                                         value.take(),
                                     ],
-                                })
+                                }
+                                .into()
                             }
                         }
                     }
@@ -1055,9 +1059,13 @@ impl VisitMut for Decorator2022_03 {
                             }
                             .into();
 
-                            Some(Expr::from_exprs(
-                                init_proto.into_iter().chain(once(init_call)).collect(),
-                            ))
+                            Some(
+                                init_proto
+                                    .into_iter()
+                                    .chain(once(init_call))
+                                    .collect()
+                                    .into(),
+                            )
                         },
                         type_ann: None,
                         is_static: accessor.is_static,
@@ -1504,10 +1512,11 @@ impl VisitMut for Decorator2022_03 {
 
                 c.visit_mut_with(self);
 
-                *e = Expr::Seq(SeqExpr {
+                *e = SeqExpr {
                     span: DUMMY_SP,
                     exprs: vec![Box::new(e.take()), Box::new(Expr::Ident(new))],
-                });
+                }
+                .into();
 
                 return;
             }
@@ -1591,7 +1600,7 @@ impl VisitMut for Decorator2022_03 {
                     index,
                     Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
-                        expr: Expr::from_exprs(self.pre_class_inits.take()),
+                        expr: self.pre_class_inits.take().into(),
                     })
                     .into(),
                 );
@@ -1794,7 +1803,7 @@ impl VisitMut for Decorator2022_03 {
                     index,
                     Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
-                        expr: Expr::from_exprs(self.pre_class_inits.take()),
+                        expr: self.pre_class_inits.take().into(),
                     }),
                 );
             }

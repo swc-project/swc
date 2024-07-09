@@ -145,35 +145,38 @@ pub trait ExprFactory: Into<Expr> {
     fn apply(self, span: Span, this: Expr, args: Vec<ExprOrSpread>) -> Expr {
         let apply = self.make_member(Ident::new_no_ctxt("apply".into(), span));
 
-        Expr::Call(CallExpr {
+        CallExpr {
             span,
             callee: apply.as_callee(),
             args: iter::once(this.as_arg()).chain(args).collect(),
 
             ..Default::default()
-        })
+        }
+        .into()
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn call_fn(self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
-        Expr::Call(CallExpr {
+        CallExpr {
             span,
             args,
             callee: self
                 .make_member(Ident::new_no_ctxt("call".into(), span))
                 .as_callee(),
             ..Default::default()
-        })
+        }
+        .into()
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn as_call(self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
-        Expr::Call(CallExpr {
+        CallExpr {
             span,
             args,
             callee: self.as_callee(),
             ..Default::default()
-        })
+        }
+        .into()
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
@@ -210,7 +213,7 @@ pub trait ExprFactory: Into<Expr> {
     fn wrap_with_paren(self) -> Expr {
         let expr = self.into();
         let span = expr.span();
-        Expr::Paren(ParenExpr { expr, span })
+        ParenExpr { expr, span }.into()
     }
 
     /// Creates a binary expr `$self === `
@@ -230,12 +233,13 @@ pub trait ExprFactory: Into<Expr> {
     {
         let right = Box::new(right.into());
 
-        Expr::Bin(BinExpr {
+        BinExpr {
             span: DUMMY_SP,
             left: self.into(),
             op,
             right,
-        })
+        }
+        .into()
     }
 
     /// Creates a assign expr `$lhs $op $self`
@@ -243,12 +247,13 @@ pub trait ExprFactory: Into<Expr> {
     fn make_assign_to(self, op: AssignOp, left: AssignTarget) -> Expr {
         let right = self.into();
 
-        Expr::Assign(AssignExpr {
+        AssignExpr {
             span: DUMMY_SP,
             left,
             op,
             right,
-        })
+        }
+        .into()
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]

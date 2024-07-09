@@ -62,10 +62,11 @@ impl Pure<'_> {
                 .into(),
             );
 
-            *e = Expr::Seq(SeqExpr {
+            *e = SeqExpr {
                 span: bin.span,
                 exprs,
-            })
+            }
+            .into()
         }
     }
 
@@ -107,15 +108,16 @@ impl Pure<'_> {
                         span: assign.span,
                         op: assign.op,
                         left: assign.left.take(),
-                        right: Box::new(Expr::Cond(new_cond)),
+                        right: Box::new(new_cond.into()),
                     }
                     .into(),
                 );
 
-                *e = Expr::Seq(SeqExpr {
+                *e = SeqExpr {
                     span: assign.span,
                     exprs: new_seq,
-                });
+                }
+                .into();
             }
         }
     }
@@ -175,7 +177,7 @@ impl Pure<'_> {
 
                         let obj = Box::new(a.take());
 
-                        let new = Expr::Call(CallExpr {
+                        let new = CallExpr {
                             span,
                             callee: MemberExpr {
                                 span: DUMMY_SP,
@@ -185,7 +187,8 @@ impl Pure<'_> {
                             .as_callee(),
                             args: args.take(),
                             ..Default::default()
-                        });
+                        }
+                        .into();
                         b.take();
                         self.changed = true;
                         report_change!(

@@ -254,7 +254,7 @@ impl Visit for UsageVisitor {
                 self.visit_object_pat_props(init, &o.props)
             }
         } else if let Pat::Object(ref o) = d.name {
-            self.visit_object_pat_props(&Expr::Ident(Ident::default()), &o.props)
+            self.visit_object_pat_props(&Ident::default().into(), &o.props)
         }
     }
 

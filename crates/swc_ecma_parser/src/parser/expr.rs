@@ -24,10 +24,11 @@ impl<I: Tokens> Parser<I> {
                 exprs.push(self.parse_assignment_expr()?);
             }
 
-            return Ok(Expr::Seq(Box::new(SeqExpr {
+            return Ok(Box::new(SeqExpr {
                 span: span!(self, start),
                 exprs,
-            })));
+            })
+            .into());
         }
 
         Ok(expr)
@@ -195,13 +196,14 @@ impl<I: Tokens> Parser<I> {
 
                 bump!(self);
                 let right = self.parse_assignment_expr()?;
-                Ok(Expr::Assign(Box::new(AssignExpr {
+                Ok(Box::new(AssignExpr {
                     span: span!(self, start),
                     op,
                     // TODO:
                     left,
                     right,
-                })))
+                })
+                .into())
             }
             _ => Ok(cond),
         }
@@ -233,12 +235,13 @@ impl<I: Tokens> Parser<I> {
             };
             let alt = self.with_ctx(ctx).parse_assignment_expr()?;
             let span = Span::new(start, alt.span_hi());
-            Ok(Expr::Cond(Box::new(CondExpr {
+            Ok(Box::new(CondExpr {
                 span,
                 test,
                 cons,
                 alt,
-            })))
+            })
+            .into())
         } else {
             Ok(test)
         }
@@ -262,9 +265,10 @@ impl<I: Tokens> Parser<I> {
             match tok {
                 tok!("this") => {
                     self.input.bump();
-                    return Ok(Expr::This(ThisExpr {
+                    return Ok(ThisExpr {
                         span: span!(self, start),
-                    }));
+                    }
+                    .into());
                 }
 
                 tok!("async") => {
@@ -282,7 +286,7 @@ impl<I: Tokens> Parser<I> {
                             assert_and_bump!(p, "async");
                             p.try_parse_ts_generic_async_arrow_fn(start)
                         }) {
-                            return Ok(Expr::Arrow(res));
+                            return Ok(res.into());
                         }
                     }
 
@@ -320,7 +324,7 @@ impl<I: Tokens> Parser<I> {
                 | Token::Num { .. }
                 | Token::BigInt { .. }
                 | Token::Str { .. } => {
-                    return Ok(Expr::Lit(self.parse_lit()?));
+                    return Ok(self.parse_lit()?.into());
                 }
 
                 // Regexp
@@ -359,11 +363,7 @@ impl<I: Tokens> Parser<I> {
                                     self.emit_err(span, SyntaxError::DuplicatedRegExpFlags(*flag));
                                 }
 
-                                return Ok(Expr::Lit(Box::new(Lit::Regex(Regex {
-                                    span,
-                                    exp,
-                                    flags,
-                                }))));
+                                return Ok(Box::new(Lit::Regex(Regex { span, exp, flags })).into());
                             }
                             _ => unreachable!(),
                         }
@@ -377,7 +377,7 @@ impl<I: Tokens> Parser<I> {
                     };
 
                     // parse template literal
-                    return Ok(Expr::Tpl(self.with_ctx(ctx).parse_tpl(false)?));
+                    return Ok(self.with_ctx(ctx).parse_tpl(false)?.into());
                 }
 
                 tok!('(') => {
@@ -428,18 +428,19 @@ impl<I: Tokens> Parser<I> {
                         self.emit_err(self.input.prev_span(), SyntaxError::TS1106);
                     }
 
-                    return Ok(Expr::Ident(id));
+                    return Ok(id.into());
                 }
 
                 let ident = self.parse_binding_ident()?;
                 if self.input.syntax().typescript() && ident.sym == "as" && !is!(self, "=>") {
                     // async as type
                     let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;
-                    return Ok(Expr::TsAs(Box::new(TsAsExpr {
+                    return Ok(Box::new(TsAsExpr {
                         span: span!(self, start),
-                        expr: Expr::Ident(id),
+                        expr: id.into(),
                         type_ann,
-                    })));
+                    })
+                    .into());
                 }
 
                 // async a => body
@@ -449,14 +450,15 @@ impl<I: Tokens> Parser<I> {
                 let body =
                     self.parse_fn_body(true, false, true, params.is_simple_parameter_list())?;
 
-                return Ok(Expr::Arrow(Box::new(ArrowExpr {
+                return Ok(Box::new(ArrowExpr {
                     span: span!(self, start),
                     body,
                     params,
                     is_async: true,
                     is_generator: false,
                     ..Default::default()
-                })));
+                })
+                .into());
             } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!(self, "=>") {
                 if self.ctx().strict && id.is_reserved_in_strict_bind() {
                     self.emit_strict_mode_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
@@ -465,25 +467,27 @@ impl<I: Tokens> Parser<I> {
                 let body =
                     self.parse_fn_body(false, false, true, params.is_simple_parameter_list())?;
 
-                return Ok(Expr::Arrow(Box::new(ArrowExpr {
+                return Ok(Box::new(ArrowExpr {
                     span: span!(self, start),
                     body,
                     params,
                     is_async: false,
                     is_generator: false,
                     ..Default::default()
-                })));
+                })
+                .into());
             } else {
-                return Ok(Expr::Ident(id));
+                return Ok(id.into());
             }
         }
 
         if eat!(self, '#') {
             let id = self.parse_ident_name()?;
-            return Ok(Expr::PrivateName(PrivateName {
+            return Ok(PrivateName {
                 span: span!(self, start),
                 name: id.sym,
-            }));
+            }
+            .into());
         }
 
         syntax_error!(self, self.input.cur_span(), SyntaxError::TS1109)
@@ -522,7 +526,7 @@ impl<I: Tokens> Parser<I> {
         expect!(self, ']');
 
         let span = span!(self, start);
-        Ok(Expr::Array(Box::new(ArrayLit { span, elems })))
+        Ok(Box::new(ArrayLit { span, elems }).into())
     }
 
     #[allow(dead_code)]
@@ -549,10 +553,11 @@ impl<I: Tokens> Parser<I> {
             if eat!(self, '.') {
                 if eat!(self, "target") {
                     let span = span!(self, start);
-                    let expr = Expr::MetaProp(MetaPropExpr {
+                    let expr = MetaPropExpr {
                         span,
                         kind: MetaPropKind::NewTarget,
-                    });
+                    }
+                    .into();
 
                     let ctx = self.ctx();
                     if (!ctx.inside_non_arrow_function_scope) && !ctx.in_parameters && !ctx.in_class
@@ -619,13 +624,16 @@ impl<I: Tokens> Parser<I> {
                 // Parsed with 'MemberExpression' production.
                 let args = self.parse_args(false).map(Some)?;
 
-                let new_expr = Callee::Expr(Expr::New(Box::new(NewExpr {
-                    span: span!(self, start),
-                    callee,
-                    args,
-                    type_args,
-                    ..Default::default()
-                })));
+                let new_expr = Callee::Expr(
+                    Box::new(NewExpr {
+                        span: span!(self, start),
+                        callee,
+                        args,
+                        type_args,
+                        ..Default::default()
+                    })
+                    .into(),
+                );
 
                 // We should parse subscripts for MemberExpression.
                 // Because it's left recursive.
@@ -634,13 +642,14 @@ impl<I: Tokens> Parser<I> {
 
             // Parsed with 'NewExpression' production.
 
-            return Ok(Expr::New(Box::new(NewExpr {
+            return Ok(Box::new(NewExpr {
                 span: span!(self, start),
                 callee,
                 args: None,
                 type_args,
                 ..Default::default()
-            })));
+            })
+            .into());
         }
 
         if eat!(self, "super") {
@@ -662,11 +671,12 @@ impl<I: Tokens> Parser<I> {
         };
         let obj = if let Some(type_args) = type_args {
             trace_cur!(self, parse_member_expr_or_new_expr__with_type_args);
-            Expr::TsInstantiation(Box::new(TsInstantiation {
+            Box::new(TsInstantiation {
                 expr: obj,
                 type_args,
                 span: span!(self, start),
-            }))
+            })
+            .into()
         } else {
             obj
         };
@@ -813,15 +823,18 @@ impl<I: Tokens> Parser<I> {
                     unexpected!(p, "fail")
                 }
 
-                Ok(Some(Expr::Arrow(Box::new(ArrowExpr {
-                    span: span!(p, expr_start),
-                    is_async: async_span.is_some(),
-                    is_generator: false,
-                    params,
-                    body,
-                    return_type: Some(return_type),
-                    ..Default::default()
-                }))))
+                Ok(Some(
+                    Box::new(ArrowExpr {
+                        span: span!(p, expr_start),
+                        is_async: async_span.is_some(),
+                        is_generator: false,
+                        params,
+                        body,
+                        return_type: Some(return_type),
+                        ..Default::default()
+                    })
+                    .into(),
+                ))
             }) {
                 return Ok(expr);
             }
@@ -893,7 +906,7 @@ impl<I: Tokens> Parser<I> {
                     return Ok(errorred_expr);
                 }
             }
-            return Ok(Expr::Arrow(arrow_expr));
+            return Ok(arrow_expr.into());
         } else {
             // If there's no arrow function, we have to check there's no
             // AssignProp in lhs to check against assignment in object literals
@@ -924,12 +937,13 @@ impl<I: Tokens> Parser<I> {
             .collect::<Result<Vec<_>, _>>()?;
         if let Some(async_span) = async_span {
             // It's a call expression
-            return Ok(Expr::Call(Box::new(CallExpr {
+            return Ok(Box::new(CallExpr {
                 span: span!(self, async_span.lo()),
-                callee: Callee::Expr(Expr::Ident(Ident::new_no_ctxt("async".into(), async_span))),
+                callee: Callee::Expr(Ident::new_no_ctxt("async".into(), async_span).into()),
                 args: expr_or_spreads,
                 ..Default::default()
-            })));
+            })
+            .into());
         }
 
         // It was not head of arrow function.
@@ -1314,11 +1328,12 @@ impl<I: Tokens> Parser<I> {
                             }
                             syntax_error!(self, self.input.cur_span(), SyntaxError::InvalidSuper);
                         } else {
-                            Expr::SuperProp(Box::new(SuperPropExpr {
+                            Box::new(SuperPropExpr {
                                 span,
                                 obj,
                                 prop: SuperProp::Computed(prop),
-                            }))
+                            })
+                            .into()
                         }
                     }
                     Callee::Expr(obj) => {
@@ -1329,21 +1344,23 @@ impl<I: Tokens> Parser<I> {
                             prop: MemberProp::Computed(prop),
                         });
                         let expr = if is_opt_chain || question_dot_token.is_some() {
-                            Expr::OptChain(OptChainExpr {
+                            OptChainExpr {
                                 span,
                                 optional: question_dot_token.is_some(),
                                 base: Box::new(OptChainBase::Member(expr)),
-                            })
+                            }
+                            .into()
                         } else {
-                            Expr::Member(expr)
+                            expr.into()
                         };
 
                         if let Some(type_args) = type_args {
-                            Expr::TsInstantiation(Box::new(TsInstantiation {
+                            Box::new(TsInstantiation {
                                 expr,
                                 type_args,
                                 span: span!(self, start),
-                            }))
+                            })
+                            .into()
                         } else {
                             expr
                         }
@@ -1423,7 +1440,7 @@ impl<I: Tokens> Parser<I> {
             };
 
             return Ok((
-                Box::new(match obj {
+                match obj {
                     callee @ Callee::Import(_) => match prop {
                         MemberProp::Ident(Ident { sym, .. }) => {
                             if !self.ctx().can_be_module {
@@ -1431,20 +1448,22 @@ impl<I: Tokens> Parser<I> {
                                 self.emit_err(span, SyntaxError::ImportMetaInScript);
                             }
                             match &*sym {
-                                "meta" => Expr::MetaProp(MetaPropExpr {
+                                "meta" => MetaPropExpr {
                                     span,
                                     kind: MetaPropKind::ImportMeta,
-                                }),
+                                }
+                                .into(),
                                 _ => {
                                     let args = self.parse_args(true)?;
 
-                                    Expr::Call(CallExpr {
+                                    CallExpr {
                                         span,
                                         callee,
                                         args,
                                         type_args: None,
                                         ..Default::default()
-                                    })
+                                    }
+                                    .into()
                                 }
                             }
                         }
@@ -1468,11 +1487,12 @@ impl<I: Tokens> Parser<I> {
                             syntax_error!(self, self.input.cur_span(), SyntaxError::InvalidSuper);
                         } else {
                             match prop {
-                                MemberProp::Ident(ident) => Expr::SuperProp(SuperPropExpr {
+                                MemberProp::Ident(ident) => SuperPropExpr {
                                     span,
                                     obj,
                                     prop: SuperProp::Ident(ident),
-                                }),
+                                }
+                                .into(),
                                 MemberProp::PrivateName(..) => syntax_error!(
                                     self,
                                     self.input.cur_span(),
@@ -1487,25 +1507,27 @@ impl<I: Tokens> Parser<I> {
                         let expr = if unwrap_ts_non_null(&expr.obj).is_opt_chain()
                             || question_dot_token.is_some()
                         {
-                            Expr::OptChain(OptChainExpr {
+                            OptChainExpr {
                                 span: span!(self, start),
                                 optional: question_dot_token.is_some(),
                                 base: Box::new(OptChainBase::Member(expr)),
-                            })
+                            }
+                            .into()
                         } else {
-                            Expr::Member(expr)
+                            expr.into()
                         };
                         if let Some(type_args) = type_args {
-                            Expr::TsInstantiation(TsInstantiation {
+                            TsInstantiation {
                                 expr: Box::new(expr),
                                 type_args,
                                 span: span!(self, start),
-                            })
+                            }
+                            .into()
                         } else {
                             expr
                         }
                     }
-                }),
+                },
                 true,
             ));
         }

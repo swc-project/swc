@@ -220,10 +220,11 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
             let (decl, ClassExtra { lets, vars, stmts }) =
                 self.visit_mut_class_as_decl(ident.clone(), class.take());
 
-            let class = Expr::Class(ClassExpr {
+            let class = ClassExpr {
                 ident: orig_ident.clone(),
                 class: decl.class,
-            });
+            }
+            .into();
             if vars.is_empty() && lets.is_empty() && stmts.is_empty() {
                 *expr = class;
                 return;
@@ -318,10 +319,11 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                 exprs.push(Box::new(ident.into()))
             }
 
-            *expr = Expr::Seq(SeqExpr {
+            *expr = SeqExpr {
                 span: DUMMY_SP,
                 exprs,
-            })
+            }
+            .into()
         } else {
             expr.visit_mut_children_with(self);
         };
@@ -628,12 +630,12 @@ impl<C: Comments> ClassProperties<C> {
                                     definite: false,
                                 });
                             }
-                            *key.expr = Expr::from(ident);
+                            *key.expr = ident.into();
                         }
                         _ => (),
                     };
 
-                    let mut value = prop.value.unwrap_or_else(|| Expr::undefined(prop_span));
+                    let mut value = prop.value.unwrap_or_else(|| prop_span.into());
 
                     value.visit_mut_with(&mut NewTargetInProp);
 
@@ -657,12 +659,13 @@ impl<C: Comments> ClassProperties<C> {
                                     definite: false,
                                 });
                                 let span = super_class.span();
-                                **super_class = Expr::Assign(AssignExpr {
+                                **super_class = AssignExpr {
                                     span,
                                     op: op!("="),
                                     left: ident.into(),
                                     right: super_class.take(),
-                                })
+                                }
+                                .into()
                             }
                         }
 
@@ -740,7 +743,7 @@ impl<C: Comments> ClassProperties<C> {
                         });
                     }
 
-                    let value = prop.value.unwrap_or_else(|| Expr::undefined(prop_span));
+                    let value = prop.value.unwrap_or_else(|| prop_span.into());
 
                     if prop.is_static && prop.ctxt.has_mark(self.c.static_blocks_mark) {
                         let init = MemberInit::StaticBlock(value);
@@ -783,7 +786,7 @@ impl<C: Comments> ClassProperties<C> {
                             init: Some(
                                 NewExpr {
                                     span,
-                                    callee: Box::new(Expr::Ident(quote_ident!("WeakMap"))),
+                                    callee: Box::new(quote_ident!("WeakMap").into()),
                                     args: Some(Default::default()),
                                     ..Default::default()
                                 }
@@ -920,19 +923,21 @@ impl<C: Comments> ClassProperties<C> {
                             definite: false,
                             name: weak_coll_var.clone().into(),
                             init: Some(Box::new(if self.c.private_as_properties {
-                                Expr::from(CallExpr {
+                                CallExpr {
                                     span,
                                     callee: helper!(class_private_field_loose_key),
                                     args: vec![weak_coll_var.sym.as_arg()],
                                     ..Default::default()
-                                })
+                                }
+                                .into()
                             } else {
-                                Expr::New(NewExpr {
+                                NewExpr {
                                     span,
                                     callee: extra.into(),
                                     args: Some(Default::default()),
                                     ..Default::default()
-                                })
+                                }
+                                .into()
                             })),
                         })
                     };

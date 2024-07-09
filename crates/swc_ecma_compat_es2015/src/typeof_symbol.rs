@@ -70,37 +70,43 @@ impl VisitMut for TypeOfSymbol {
                     let test = BinExpr {
                         span: DUMMY_SP,
                         op: op!("==="),
-                        left: Box::new(Expr::Unary(UnaryExpr {
-                            span: DUMMY_SP,
-                            op: op!("typeof"),
-                            arg: arg.clone(),
-                        })),
+                        left: Box::new(
+                            UnaryExpr {
+                                span: DUMMY_SP,
+                                op: op!("typeof"),
+                                arg: arg.clone(),
+                            }
+                            .into(),
+                        ),
                         right: undefined_str.clone(),
                     }
                     .into();
 
-                    let call = Expr::Call(CallExpr {
+                    let call = CallExpr {
                         span: *span,
                         callee: helper!(*span, type_of),
                         args: vec![arg.take().as_arg()],
                         ..Default::default()
-                    });
+                    }
+                    .into();
 
-                    *expr = Expr::Cond(CondExpr {
+                    *expr = CondExpr {
                         span: *span,
                         test,
                         cons: undefined_str,
                         alt: Box::new(call),
-                    });
+                    }
+                    .into();
                 }
                 _ => {
-                    let call = Expr::Call(CallExpr {
+                    let call = CallExpr {
                         span: *span,
                         callee: helper!(*span, type_of),
                         args: vec![arg.take().as_arg()],
 
                         ..Default::default()
-                    });
+                    }
+                    .into();
 
                     *expr = call;
                 }

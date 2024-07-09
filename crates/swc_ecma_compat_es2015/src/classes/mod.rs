@@ -487,10 +487,11 @@ where
                         prepend_stmt(&mut function.body.as_mut().unwrap().stmts, use_strict);
                     }
                     function.span = span;
-                    return Expr::Fn(FnExpr {
+                    return FnExpr {
                         ident: Some(ident),
                         function,
-                    });
+                    }
+                    .into();
                 }
                 _ => unreachable!(),
             }
@@ -517,7 +518,7 @@ where
             ..Default::default()
         };
 
-        Expr::Call(call)
+        call.into()
     }
 
     /// Returned `stmts` contains `return Foo`
@@ -946,7 +947,7 @@ where
             if props.is_empty() {
                 return quote_expr!(DUMMY_SP, null).as_arg();
             }
-            Expr::Array(ArrayLit {
+            ArrayLit {
                 span: DUMMY_SP,
                 elems: props
                     .into_iter()
@@ -979,7 +980,8 @@ where
                     })
                     .map(Some)
                     .collect(),
-            })
+            }
+            .into()
             .as_arg()
         }
 

@@ -103,7 +103,7 @@ impl ForOf {
             let test = Some(
                 BinExpr {
                     span: DUMMY_SP,
-                    left: Box::new(Expr::Ident(i.clone())),
+                    left: Box::new(i.clone().into()),
                     op: op!("<"),
                     right: arr.clone().make_member(quote_ident!("length")).into(),
                 }
@@ -114,7 +114,7 @@ impl ForOf {
                     span: DUMMY_SP,
                     prefix: false,
                     op: op!("++"),
-                    arg: Box::new(Expr::Ident(i.clone())),
+                    arg: Box::new(i.clone().into()),
                 }
                 .into(),
             );
@@ -446,26 +446,32 @@ impl ForOf {
                     span: DUMMY_SP,
                     op: op!("!"),
                     arg: {
-                        let step_expr = Box::new(Expr::Assign(AssignExpr {
-                            span: DUMMY_SP,
-                            left: step.into(),
-                            op: op!("="),
-                            // `_iterator.next()`
-                            right: Box::new(Expr::Call(CallExpr {
+                        let step_expr = Box::new(
+                            AssignExpr {
                                 span: DUMMY_SP,
-                                // `_iterator.next`
-                                callee: iterator.make_member(quote_ident!("next")).as_callee(),
-                                args: vec![],
-                                ..Default::default()
-                            })),
-                        }));
+                                left: step.into(),
+                                op: op!("="),
+                                // `_iterator.next()`
+                                right: Box::new(Expr::Call(CallExpr {
+                                    span: DUMMY_SP,
+                                    // `_iterator.next`
+                                    callee: iterator.make_member(quote_ident!("next")).as_callee(),
+                                    args: vec![],
+                                    ..Default::default()
+                                })),
+                            }
+                            .into(),
+                        );
 
-                        Box::new(Expr::Assign(AssignExpr {
-                            span: DUMMY_SP,
-                            left: normal_completion_ident.clone().into(),
-                            op: op!("="),
-                            right: step_expr.make_member(quote_ident!("done")).into(),
-                        }))
+                        Box::new(
+                            AssignExpr {
+                                span: DUMMY_SP,
+                                left: normal_completion_ident.clone().into(),
+                                op: op!("="),
+                                right: step_expr.make_member(quote_ident!("done")).into(),
+                            }
+                            .into(),
+                        )
                     },
                 }
                 .into(),

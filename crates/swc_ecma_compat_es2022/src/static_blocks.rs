@@ -30,7 +30,7 @@ impl ClassStaticBlock {
         } else {
             static_block.body.stmts = stmts;
 
-            let expr = Expr::Call(CallExpr {
+            let expr = CallExpr {
                 span: DUMMY_SP,
                 callee: ArrowExpr {
                     span: DUMMY_SP,
@@ -43,7 +43,8 @@ impl ClassStaticBlock {
                 .as_callee(),
                 args: Vec::new(),
                 ..Default::default()
-            });
+            }
+            .into();
 
             Some(Box::new(expr))
         };

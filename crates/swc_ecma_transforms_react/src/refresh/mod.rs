@@ -480,10 +480,11 @@ fn make_hook_reg(expr: &mut Expr, mut hook: HocHook) {
     let span = expr.span();
     let mut args = vec![expr.take().as_arg()];
     args.append(&mut hook.rest_arg);
-    *expr = Expr::Call(CallExpr {
+    *expr = CallExpr {
         span,
         callee: hook.callee,
         args,
         ..Default::default()
-    });
+    }
+    .into();
 }

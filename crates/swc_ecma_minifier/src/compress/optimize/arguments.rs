@@ -193,7 +193,7 @@ impl VisitMut for ArgReplacer<'_> {
                                         "arguments: Replacing access to arguments to normal \
                                          reference"
                                     );
-                                    *n = Expr::Ident(i.id.clone());
+                                    *n = i.id.clone().into();
                                 }
                             }
                         }
@@ -215,7 +215,7 @@ impl VisitMut for ArgReplacer<'_> {
                                          reference"
                                     );
                                     self.changed = true;
-                                    *n = Expr::Ident(i.id.clone());
+                                    *n = i.id.clone().into();
                                 }
                             }
                         }

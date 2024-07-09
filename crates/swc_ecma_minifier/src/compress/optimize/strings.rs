@@ -65,11 +65,12 @@ impl Optimizer<'_> {
             report_change!(
                 "strings: Converted an expression into a string literal (in string context)"
             );
-            *n = Expr::Lit(Lit::Str(Str {
+            *n = Lit::Str(Str {
                 span,
                 raw: None,
                 value: value.into(),
-            }));
+            })
+            .into();
             return;
         }
 
@@ -84,11 +85,12 @@ impl Optimizer<'_> {
 
                 let value = format!("{:?}", v.value);
 
-                *n = Expr::Lit(Lit::Str(Str {
+                *n = Lit::Str(Str {
                     span: v.span,
                     raw: None,
                     value: value.into(),
-                }));
+                })
+                .into();
             }
 
             Expr::Lit(Lit::Regex(v)) => {
@@ -104,11 +106,12 @@ impl Optimizer<'_> {
 
                 let value = format!("/{}/{}", v.exp, v.flags);
 
-                *n = Expr::Lit(Lit::Str(Str {
+                *n = Lit::Str(Str {
                     span: v.span,
                     raw: None,
                     value: value.into(),
-                }));
+                })
+                .into();
             }
 
             Expr::Bin(BinExpr {
@@ -119,11 +122,12 @@ impl Optimizer<'_> {
             }) => {
                 if let (Expr::Lit(Lit::Num(l)), Expr::Lit(Lit::Num(r))) = (&**left, &**right) {
                     if l.value == 0.0 && r.value == 0.0 {
-                        *n = Expr::Ident(Ident::new(
+                        *n = Ident::new(
                             "NaN".into(),
                             *span,
                             SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                        ));
+                        )
+                        .into();
                         self.changed = true;
                         report_change!("strings: Evaluated 0 / 0 => NaN in string context");
                     }

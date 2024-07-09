@@ -320,12 +320,13 @@ impl<I: Tokens> Parser<I> {
         }
 
         let args = self.parse_args(false)?;
-        Ok(Expr::Call(Box::new(CallExpr {
+        Ok(Box::new(CallExpr {
             span: span!(self, expr.span_lo()),
             callee: Callee::Expr(expr),
             args,
             ..Default::default()
-        })))
+        })
+        .into())
     }
 
     fn parse_class_body(&mut self) -> PResult<Vec<ClassMember>> {
@@ -1578,7 +1579,7 @@ impl OutputType for Expr {
         ident: Option<Ident>,
         function: Box<Function>,
     ) -> Result<Self, SyntaxError> {
-        Ok(Expr::Fn(FnExpr { ident, function }))
+        Ok(FnExpr { ident, function }.into())
     }
 
     fn finish_class(
@@ -1586,7 +1587,7 @@ impl OutputType for Expr {
         ident: Option<Ident>,
         class: Box<Class>,
     ) -> Result<Self, SyntaxError> {
-        Ok(Expr::Class(Box::new(ClassExpr { ident, class })))
+        Ok(Box::new(ClassExpr { ident, class }).into())
     }
 }
 

@@ -335,10 +335,11 @@ impl Expr {
         if exprs.len() == 1 {
             exprs.remove(0)
         } else {
-            Expr::Seq(Box::new(SeqExpr {
+            Box::new(SeqExpr {
                 span: DUMMY_SP,
                 exprs,
-            }))
+            })
+            .into()
         }
     }
 
@@ -457,13 +458,13 @@ impl Clone for Expr {
 
 impl Take for Expr {
     fn dummy() -> Self {
-        Expr::Invalid(Invalid { span: DUMMY_SP })
+        Invalid { span: DUMMY_SP }.into()
     }
 }
 
 impl Default for Expr {
     fn default() -> Self {
-        Expr::Invalid(Default::default())
+        Default::default().into()
     }
 }
 
@@ -565,7 +566,7 @@ impl From<ImportWith> for ObjectLit {
                 .map(|item| {
                     PropOrSpread::Prop(Prop::KeyValue(Box::new(KeyValueProp {
                         key: PropName::Ident(item.key),
-                        value: Expr::Lit(Box::new(Lit::Str(item.value))),
+                        value: Box::new(Lit::Str(item.value)).into(),
                     })))
                 })
                 .collect(),
@@ -1545,17 +1546,17 @@ bridge_from!(AssignTarget, AssignTargetPat, ObjectPat);
 impl From<SimpleAssignTarget> for Expr {
     fn from(s: SimpleAssignTarget) -> Self {
         match s {
-            SimpleAssignTarget::Ident(i) => Expr::Ident(i.into()),
-            SimpleAssignTarget::Member(m) => Expr::Member(m),
-            SimpleAssignTarget::SuperProp(s) => Expr::SuperProp(s),
-            SimpleAssignTarget::Paren(s) => Expr::Paren(s),
-            SimpleAssignTarget::OptChain(s) => Expr::OptChain(s),
-            SimpleAssignTarget::TsAs(a) => Expr::TsAs(a),
-            SimpleAssignTarget::TsSatisfies(s) => Expr::TsSatisfies(s),
-            SimpleAssignTarget::TsNonNull(n) => Expr::TsNonNull(n),
-            SimpleAssignTarget::TsTypeAssertion(a) => Expr::TsTypeAssertion(a),
-            SimpleAssignTarget::TsInstantiation(a) => Expr::TsInstantiation(a),
-            SimpleAssignTarget::Invalid(i) => Expr::Invalid(i),
+            SimpleAssignTarget::Ident(i) => i.into().into(),
+            SimpleAssignTarget::Member(m) => m.into(),
+            SimpleAssignTarget::SuperProp(s) => s.into(),
+            SimpleAssignTarget::Paren(s) => s.into(),
+            SimpleAssignTarget::OptChain(s) => s.into(),
+            SimpleAssignTarget::TsAs(a) => a.into(),
+            SimpleAssignTarget::TsSatisfies(s) => s.into(),
+            SimpleAssignTarget::TsNonNull(n) => n.into(),
+            SimpleAssignTarget::TsTypeAssertion(a) => a.into(),
+            SimpleAssignTarget::TsInstantiation(a) => a.into(),
+            SimpleAssignTarget::Invalid(i) => i.into(),
         }
     }
 }

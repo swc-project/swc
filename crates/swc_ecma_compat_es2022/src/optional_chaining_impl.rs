@@ -118,7 +118,7 @@ impl VisitMut for OptionalChaining {
             ];
             a.right = CallExpr {
                 span: DUMMY_SP,
-                callee: Expr::Arrow(ArrowExpr {
+                callee: ArrowExpr {
                     span: DUMMY_SP,
                     params: vec![],
                     body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
@@ -129,7 +129,8 @@ impl VisitMut for OptionalChaining {
                     is_async: false,
                     is_generator: false,
                     ..Default::default()
-                })
+                }
+                .into()
                 .as_callee(),
                 args: vec![],
                 ..Default::default()
@@ -159,7 +160,7 @@ enum Memo {
 impl Memo {
     fn into_expr(self) -> Expr {
         match self {
-            Memo::Cache(i) => Expr::Ident(i),
+            Memo::Cache(i) => i.into(),
             Memo::Raw(e) => *e,
         }
     }
@@ -260,12 +261,12 @@ impl OptionalChaining {
                 Gathering::Call(mut c) => {
                     c.callee = current.as_callee();
                     ctx = None;
-                    Expr::Call(c)
+                    c.into()
                 }
                 Gathering::Member(mut m) => {
                     m.obj = Box::new(current);
                     ctx = None;
-                    Expr::Member(m)
+                    m.into()
                 }
                 Gathering::OptCall(mut c, memo) => {
                     let mut call = false;
@@ -306,7 +307,7 @@ impl OptionalChaining {
                         cons: if is_delete {
                             true.into()
                         } else {
-                            Expr::undefined(DUMMY_SP)
+                            DUMMY_SP.into()
                         },
                         alt: Take::dummy(),
                     });
@@ -318,7 +319,7 @@ impl OptionalChaining {
                         memo.into_expr().as_callee()
                     };
                     ctx = None;
-                    Expr::Call(c)
+                    c.into()
                 }
                 Gathering::OptMember(mut m, memo) => {
                     committed_cond.push(CondExpr {
@@ -327,30 +328,31 @@ impl OptionalChaining {
                         cons: if is_delete {
                             true.into()
                         } else {
-                            Expr::undefined(DUMMY_SP)
+                            DUMMY_SP.into()
                         },
                         alt: Take::dummy(),
                     });
                     ctx = Some(memo.clone());
                     m.obj = memo.into_expr().into();
-                    Expr::Member(m)
+                    m.into()
                 }
             };
         }
 
         // At this point, `current` is the right-most expression `_a_b.c` in `a?.b?.c`
         if is_delete {
-            current = Expr::Unary(UnaryExpr {
+            current = UnaryExpr {
                 span: DUMMY_SP,
                 op: op!("delete"),
                 arg: Box::new(current),
-            });
+            }
+            .into();
         }
 
         // We now need to reverse iterate the conditionals to construct out tree.
         for mut cond in committed_cond.into_iter().rev() {
             cond.alt = Box::new(current);
-            current = Expr::Cond(cond)
+            current = cond.into()
         }
         current
     }
@@ -440,7 +442,7 @@ fn init_and_eq_null_or_undefined(i: &Memo, init: Expr, no_document_all: bool) ->
             span: DUMMY_SP,
             left: lhs,
             op: op!("=="),
-            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+            right: Box::new(Lit::Null(Null { span: DUMMY_SP }).into()),
         }
         .into();
     }
@@ -449,7 +451,7 @@ fn init_and_eq_null_or_undefined(i: &Memo, init: Expr, no_document_all: bool) ->
         span: DUMMY_SP,
         left: lhs,
         op: op!("==="),
-        right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+        right: Box::new(Lit::Null(Null { span: DUMMY_SP }).into()),
     }
     .into();
 
@@ -462,7 +464,7 @@ fn init_and_eq_null_or_undefined(i: &Memo, init: Expr, no_document_all: bool) ->
         span: DUMMY_SP,
         left: left_expr,
         op: op!("==="),
-        right: Expr::undefined(DUMMY_SP),
+        right: DUMMY_SP.into(),
     }
     .into();
 

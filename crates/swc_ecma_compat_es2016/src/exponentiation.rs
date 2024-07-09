@@ -109,12 +109,13 @@ impl VisitMut for Exponentiation {
                     }
 
                     left => {
-                        *e = Expr::Assign(AssignExpr {
+                        *e = AssignExpr {
                             span: *span,
                             left: left.take(),
                             op: op!("="),
                             right: right.take(),
-                        });
+                        }
+                        .into();
                         return;
                     }
                 };
@@ -138,13 +139,14 @@ impl VisitMut for Exponentiation {
 #[tracing::instrument(level = "info", skip_all)]
 fn mk_call(span: Span, left: Expr, right: Expr) -> Expr {
     // Math.pow()
-    Expr::Call(CallExpr {
+    CallExpr {
         span,
         callee: member_expr!(Default::default(), span, Math.pow).as_callee(),
 
         args: vec![left.as_arg(), right.as_arg()],
         ..Default::default()
-    })
+    }
+    .into()
 }
 
 #[cfg(test)]

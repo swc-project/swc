@@ -259,10 +259,11 @@ impl VisitMut for ObjectRest {
                 ),
             }
             self.exprs.push(Box::new(var_ident.into()));
-            *expr = Expr::Seq(SeqExpr {
+            *expr = SeqExpr {
                 span: DUMMY_SP,
                 exprs: mem::take(&mut self.exprs),
-            });
+            }
+            .into();
         };
     }
 
@@ -901,7 +902,7 @@ fn object_without_properties(
     no_symbol: bool,
 ) -> Expr {
     if excluded_props.is_empty() {
-        return Expr::Call(CallExpr {
+        return CallExpr {
             span: DUMMY_SP,
             callee: helper!(extends),
             args: vec![
@@ -915,7 +916,8 @@ fn object_without_properties(
                     .as_arg(),
             ],
             ..Default::default()
-        });
+        }
+        .into();
     }
 
     let excluded_props = excluded_props
@@ -936,7 +938,7 @@ fn object_without_properties(
         })
         .collect();
 
-    Expr::Call(CallExpr {
+    CallExpr {
         span: DUMMY_SP,
         callee: if no_symbol {
             helper!(object_without_properties_loose)
@@ -967,7 +969,8 @@ fn object_without_properties(
             },
         ],
         ..Default::default()
-    })
+    }
+    .into()
 }
 
 #[tracing::instrument(level = "info", skip_all)]

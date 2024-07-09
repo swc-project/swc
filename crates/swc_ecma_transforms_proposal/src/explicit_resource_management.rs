@@ -256,21 +256,20 @@ impl ExplicitResourceManagement {
                                 try_body.push(Stmt::Decl(e.decl));
                                 try_body.push(Stmt::Expr(ExprStmt {
                                     span: DUMMY_SP,
-                                    expr: Expr::from_exprs(
-                                        orig_var_names
-                                            .iter()
-                                            .zip(var_names.iter())
-                                            .map(|(orig, var_name)| {
-                                                AssignExpr {
-                                                    span: DUMMY_SP,
-                                                    op: op!("="),
-                                                    left: var_name.clone().into(),
-                                                    right: orig.clone().into(),
-                                                }
-                                                .into()
-                                            })
-                                            .collect(),
-                                    ),
+                                    expr: orig_var_names
+                                        .iter()
+                                        .zip(var_names.iter())
+                                        .map(|(orig, var_name)| {
+                                            AssignExpr {
+                                                span: DUMMY_SP,
+                                                op: op!("="),
+                                                left: var_name.clone().into(),
+                                                right: orig.clone().into(),
+                                            }
+                                            .into()
+                                        })
+                                        .collect()
+                                        .into(),
                                 }));
                                 let specifiers = orig_var_names
                                     .iter()
@@ -338,10 +337,11 @@ impl ExplicitResourceManagement {
             ..Default::default()
         };
         let dispose_stmt = if state.has_await {
-            Expr::Await(AwaitExpr {
+            AwaitExpr {
                 span: DUMMY_SP,
                 arg: Box::new(dispose_expr.into()),
-            })
+            }
+            .into()
         } else {
             dispose_expr.into()
         }

@@ -486,7 +486,7 @@ impl VisitMut for Fixer<'_> {
                         _ => false,
                     } =>
                 {
-                    let expr = Expr::Ident(p.clone().expect_ident().into());
+                    let expr = p.clone().expect_ident().into().into();
                     s.left = ForHead::Pat(Box::new(Pat::Expr(Box::new(expr))));
                 }
                 _ => (),
@@ -878,7 +878,7 @@ impl Fixer<'_> {
                     }
                 }
 
-                let mut expr = Expr::Seq(SeqExpr { span: *span, exprs });
+                let mut expr = SeqExpr { span: *span, exprs }.into();
 
                 if let Context::ForcedExpr = self.ctx {
                     self.wrap(&mut expr);
@@ -985,7 +985,7 @@ impl Fixer<'_> {
         };
 
         let expr = Box::new(e.take());
-        *e = Expr::Paren(ParenExpr { expr, span });
+        *e = ParenExpr { expr, span }.into();
     }
 
     /// Removes paren
