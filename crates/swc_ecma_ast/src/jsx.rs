@@ -181,7 +181,7 @@ pub enum JSXAttrValue {
     #[tag("NumericLiteral")]
     #[tag("RegExpLiteral")]
     #[tag("JSXText")]
-    Lit(Lit),
+    Lit(Box<Lit>),
 
     #[tag("JSXExpressionContainer")]
     JSXExprContainer(Box<JSXExprContainer>),
