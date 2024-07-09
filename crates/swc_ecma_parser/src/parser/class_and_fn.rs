@@ -1632,6 +1632,11 @@ impl OutputType for Decl {
             function,
         }
         .into())
+        Ok(Decl::Fn(Box::new(FnDecl {
+            declare: false,
+            ident,
+            function,
+        })))
     }
 
     fn finish_class(_: Span, ident: Option<Ident>, class: Box<Class>) -> Result<Self, SyntaxError> {
@@ -1643,6 +1648,11 @@ impl OutputType for Decl {
             class,
         }
         .into())
+        Ok(Decl::Class(Box::new(ClassDecl {
+            declare: false,
+            ident,
+            class,
+        })))
     }
 }
 
