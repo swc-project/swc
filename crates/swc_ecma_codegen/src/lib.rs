@@ -1050,11 +1050,11 @@ where
 
         let mut needs_2dots_for_property_access = false;
 
-        match &*node.obj {
+        match &node.obj {
             Expr::New(new) => {
                 self.emit_new(new, false)?;
             }
-            Expr::Lit(Lit::Num(num)) => {
+            Expr::Lit(box Lit::Num(num)) => {
                 needs_2dots_for_property_access = self.emit_num_lit_internal(num, true)?;
             }
             _ => {
@@ -1228,8 +1228,8 @@ where
                 node.left.ends_with_alpha_num()
             } else {
                 // space is mandatory to avoid outputting -->
-                match *node.left {
-                    Expr::Update(UpdateExpr {
+                match &node.left {
+                    Expr::Update(box UpdateExpr {
                         prefix: false, op, ..
                     }) => matches!(
                         (op, node.op),
@@ -1240,8 +1240,8 @@ where
             }
         } else {
             is_kwd_op
-                || match *node.left {
-                    Expr::Update(UpdateExpr { prefix: false, .. }) => true,
+                || match &node.left {
+                    Expr::Update(box UpdateExpr { prefix: false, .. }) => true,
                     _ => false,
                 }
         };
@@ -1260,8 +1260,8 @@ where
             }
         } else {
             is_kwd_op
-                || match *node.right {
-                    Expr::Unary(..) | Expr::Update(UpdateExpr { prefix: true, .. }) => true,
+                || match &node.right {
+                    Expr::Unary(..) | Expr::Update(box UpdateExpr { prefix: true, .. }) => true,
                     _ => false,
                 }
         };
