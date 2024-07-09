@@ -40,7 +40,7 @@ impl<'a> arbitrary::Arbitrary<'a> for Atom {
         if sym.is_empty() {
             return Err(arbitrary::Error::NotEnoughData);
         }
-        sym.map(Self::from)
+        Ok(Self(hstr::Atom::from(sym)))
     }
 }
 
