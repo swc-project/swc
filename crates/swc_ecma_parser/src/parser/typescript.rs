@@ -729,7 +729,7 @@ impl<I: Tokens> Parser<I> {
         // Computed property names are grammar errors in an enum, so accept just string
         // literal or identifier.
         let id = match *cur!(self, true) {
-            Token::Str { .. } => self.parse_lit().map(|lit| match lit {
+            Token::Str { .. } => self.parse_lit().map(|lit| match *lit {
                 Lit::Str(s) => TsEnumMemberId::Str(s),
                 _ => unreachable!(),
             })?,
@@ -876,7 +876,7 @@ impl<I: Tokens> Parser<I> {
             let id = self.parse_ident_name()?;
             (true, TsModuleName::Ident(id.into()))
         } else if matches!(*cur!(self, true), Token::Str { .. }) {
-            let id = self.parse_lit().map(|lit| match lit {
+            let id = self.parse_lit().map(|lit| match *lit {
                 Lit::Str(s) => TsModuleName::Str(s),
                 _ => unreachable!(),
             })?;
@@ -1031,13 +1031,13 @@ impl<I: Tokens> Parser<I> {
         let ident = self.parse_ident_name()?.into();
         let expr = self.parse_subscripts(Callee::Expr(ident), true, true)?;
         if !matches!(
-            &*expr,
+            &expr,
             Expr::Ident(..) | Expr::Member(..) | Expr::TsInstantiation(..)
         ) {
             self.emit_err(span!(self, start), SyntaxError::TS2499);
         }
 
-        match *expr {
+        match expr {
             Expr::TsInstantiation(v) => Ok(TsExprWithTypeArgs {
                 span: v.span,
                 expr: v.expr,
@@ -1185,7 +1185,7 @@ impl<I: Tokens> Parser<I> {
             Token::Str { .. } => {}
             _ => unexpected!(self, "a string literal"),
         }
-        let expr = match self.parse_lit()? {
+        let expr = match *self.parse_lit()? {
             Lit::Str(s) => s,
             _ => unreachable!(),
         };
@@ -1742,6 +1742,7 @@ impl<I: Tokens> Parser<I> {
                     span: span!(p, start),
                     dot3_token,
                     arg: ident.into(),
+                    arg: Pat::Ident(ident.into()),
                     type_ann: None,
                 }
                 .into()
@@ -1864,7 +1865,7 @@ impl<I: Tokens> Parser<I> {
 
             TsLit::Tpl(tpl)
         } else {
-            match self.parse_lit()? {
+            match *self.parse_lit()? {
                 Lit::BigInt(n) => TsLit::BigInt(n),
                 Lit::Bool(n) => TsLit::Bool(n),
                 Lit::Num(n) => TsLit::Number(n),
@@ -2392,6 +2393,7 @@ impl<I: Tokens> Parser<I> {
                     .parse_fn_decl(decorators)
                     .map(|decl| match decl {
                         Decl::Fn(f) => FnDecl {
+                        Decl::Fn(f) => Decl::Fn(Box::new(FnDecl {
                             declare: true,
                             function: Box::new(Function {
                                 span: Span {
@@ -2403,6 +2405,7 @@ impl<I: Tokens> Parser<I> {
                             ..f
                         }
                         .into(),
+                        })),
                         _ => decl,
                     })
                     .map(Some);
@@ -2413,6 +2416,7 @@ impl<I: Tokens> Parser<I> {
                     .parse_class_decl(start, start, decorators, false)
                     .map(|decl| match decl {
                         Decl::Class(c) => ClassDecl {
+                        Decl::Class(c) => Decl::Class(Box::new(ClassDecl {
                             declare: true,
                             class: Box::new(Class {
                                 span: Span {
@@ -2424,6 +2428,7 @@ impl<I: Tokens> Parser<I> {
                             ..c
                         }
                         .into(),
+                        })),
                         _ => decl,
                     })
                     .map(Some);
@@ -2645,7 +2650,7 @@ impl<I: Tokens> Parser<I> {
             let is_generator = false;
             let is_async = true;
             let body = p.parse_fn_body(true, false, true, params.is_simple_parameter_list())?;
-            Ok(Some(ArrowExpr {
+            Ok(Some(Box::new(ArrowExpr {
                 span: span!(p, start),
                 body,
                 is_async,
@@ -2654,7 +2659,7 @@ impl<I: Tokens> Parser<I> {
                 params,
                 return_type,
                 ..Default::default()
-            }))
+            })))
         })
     }
 
