@@ -1432,6 +1432,8 @@ pub enum AssignTargetPat {
     Invalid(Invalid),
 }
 
+boxed_variants!(AssignTargetPat, [ArrayPat, ObjectPat]);
+
 impl Take for AssignTargetPat {
     fn dummy() -> Self {
         Default::default()
