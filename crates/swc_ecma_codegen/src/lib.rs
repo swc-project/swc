@@ -3227,12 +3227,8 @@ where
 
         keyword!("return");
 
-        if let Some(arg) = n.arg.as_deref() {
-            let need_paren = n
-                .arg
-                .as_deref()
-                .map(|expr| self.has_leading_comment(expr))
-                .unwrap_or(false);
+        if let Some(arg) = n.arg.as_ref() {
+            let need_paren = self.has_leading_comment(arg);
             if need_paren {
                 punct!("(");
             } else if arg.starts_with_alpha_num() {
