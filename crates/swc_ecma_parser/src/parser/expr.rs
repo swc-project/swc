@@ -2,7 +2,7 @@ use either::Either;
 use swc_common::{ast_node, util::take::Take, Spanned};
 
 use super::{pat::PatType, util::ExprExt, *};
-use crate::{lexer::TokenContext, parser::class_and_fn::IsSimpleParameterList};
+use crate::{lexer::TokenContext, parser::class_and_fn::IsSimpleParameterList, EitherBoxed};
 
 mod ops;
 #[cfg(test)]
@@ -1715,7 +1715,7 @@ impl<I: Tokens> Parser<I> {
 
         // parse jsx
         if self.input.syntax().jsx() {
-            fn into_expr(e: Either<JSXFragment, JSXElement>) -> Expr {
+            fn into_expr(e: EitherBoxed<JSXFragment, JSXElement>) -> Expr {
                 match e {
                     Either::Left(l) => l.into(),
                     Either::Right(r) => r.into(),
