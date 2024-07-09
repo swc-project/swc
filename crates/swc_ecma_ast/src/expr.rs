@@ -1426,12 +1426,6 @@ impl From<AssignTargetPat> for Pat {
     }
 }
 
-impl From<AssignTargetPat> for Pat {
-    fn from(pat: AssignTargetPat) -> Self {
-        Box::new(pat.into())
-    }
-}
-
 impl TryFrom<Pat> for AssignTargetPat {
     type Error = Pat;
 
