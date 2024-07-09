@@ -45,7 +45,7 @@ impl Task for ParseTask {
         let fm = self
             .c
             .cm
-            .new_source_file(self.filename.clone(), self.src.clone());
+            .new_source_file(self.filename.clone().into(), self.src.clone());
 
         let comments = if options.comments {
             Some(self.c.comments() as &dyn Comments)
