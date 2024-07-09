@@ -131,7 +131,7 @@ fn object_rest_pat() {
                 props: vec![ObjectPatProp::Rest(RestPat {
                     span,
                     dot3_token: span,
-                    arg: Box::new(Pat::Ident(Ident::new_no_ctxt("a34".into(), span).into())),
+                    arg: Pat::Ident(Ident::new_no_ctxt("a34".into(), span).into()),
                     type_ann: None,
                 })],
                 type_ann: None
@@ -244,7 +244,7 @@ fn arrow_fn_rest() {
             params: vec![Pat::Rest(Box::new(RestPat {
                 span,
                 dot3_token: span,
-                arg: Box::new(Pat::Ident(Ident::new_no_ctxt("a".into(), span).into())),
+                arg: Pat::Ident(Ident::new_no_ctxt("a".into(), span).into()),
                 type_ann: None
             }))],
             body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),

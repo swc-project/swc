@@ -1854,7 +1854,7 @@ impl<I: Tokens> Parser<I> {
                     pat = RestPat {
                         span: span!(self, pat_start),
                         dot3_token: span,
-                        arg: Box::new(pat),
+                        arg: pat,
                         type_ann: None,
                     }
                     .into();
@@ -1901,7 +1901,7 @@ impl<I: Tokens> Parser<I> {
                     let right = self.parse_assignment_expr()?;
                     pat = AssignPat {
                         span: span!(self, pat_start),
-                        left: Box::new(pat),
+                        left: pat,
                         right,
                     }
                     .into();

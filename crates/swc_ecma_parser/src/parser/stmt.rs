@@ -979,16 +979,16 @@ impl<'a, I: Tokens> Parser<I> {
         if self.input.syntax().typescript() && is!(self, ':') {
             let type_annotation = self.try_parse_ts_type_ann()?;
             match name {
-                Pat::Array(ArrayPat {
+                Pat::Array(box ArrayPat {
                     ref mut type_ann, ..
                 })
                 | Pat::Ident(BindingIdent {
                     ref mut type_ann, ..
                 })
-                | Pat::Object(ObjectPat {
+                | Pat::Object(box ObjectPat {
                     ref mut type_ann, ..
                 })
-                | Pat::Rest(RestPat {
+                | Pat::Rest(box RestPat {
                     ref mut type_ann, ..
                 }) => {
                     *type_ann = type_annotation;
