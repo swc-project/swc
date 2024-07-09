@@ -42,7 +42,7 @@ impl EndsWithAlphaNum for UsingDecl {
     fn ends_with_alpha_num(&self) -> bool {
         match self.decls.last() {
             None => true,
-            Some(d) => match d.init.as_deref() {
+            Some(d) => match d.init.as_ref() {
                 Some(e) => e.ends_with_alpha_num(),
                 None => d.name.ends_with_alpha_num(),
             },
@@ -56,9 +56,9 @@ impl EndsWithAlphaNum for Expr {
             self,
             Expr::Array(..)
                 | Expr::Object(..)
-                | Expr::Lit(Lit::Str(..))
+                | Expr::Lit(box Lit::Str(..))
                 | Expr::Paren(..)
-                | Expr::Member(MemberExpr {
+                | Expr::Member(box MemberExpr {
                     prop: MemberProp::Computed(..),
                     ..
                 })

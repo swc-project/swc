@@ -843,9 +843,9 @@ where
 
     #[emitter]
     fn emit_callee(&mut self, node: &Callee) -> Result {
-        match *node {
-            Callee::Expr(ref e) => {
-                if let Expr::New(new) = &**e {
+        match node {
+            Callee::Expr(e) => {
+                if let Expr::New(new) = e {
                     self.emit_new(new, false)?;
                 } else {
                     emit!(e);
@@ -936,7 +936,7 @@ where
 
         match &*n.base {
             OptChainBase::Member(ref e) => {
-                if let Expr::New(new) = &*e.obj {
+                if let Expr::New(new) = &e.obj {
                     self.emit_new(new, false)?;
                 } else {
                     emit!(e.obj);
