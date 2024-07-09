@@ -20,13 +20,13 @@ fn self_closing_01() {
         jsx("<a />"),
         Box::new(Expr::JSXElement(Box::new(JSXElement {
             span,
-            opening: JSXOpeningElement {
+            opening: Box::new(JSXOpeningElement {
                 span,
                 name: JSXElementName::Ident(Ident::new_no_ctxt("a".into(), span)),
                 self_closing: true,
                 attrs: vec![],
                 type_args: None,
-            },
+            }),
             children: vec![],
             closing: None,
         })))
@@ -39,13 +39,13 @@ fn normal_01() {
         jsx("<a>foo</a>"),
         Box::new(Expr::JSXElement(Box::new(JSXElement {
             span,
-            opening: JSXOpeningElement {
+            opening: Box::new(JSXOpeningElement {
                 span,
                 name: JSXElementName::Ident(Ident::new_no_ctxt("a".into(), span)),
                 self_closing: false,
                 attrs: vec![],
                 type_args: None,
-            },
+            }),
             children: vec![JSXElementChild::JSXText(JSXText {
                 span,
                 raw: "foo".into(),
@@ -65,21 +65,21 @@ fn escape_in_attr() {
         jsx(r#"<div id="w &lt; w" />;"#),
         Box::new(Expr::JSXElement(Box::new(JSXElement {
             span,
-            opening: JSXOpeningElement {
+            opening: Box::new(JSXOpeningElement {
                 span,
                 attrs: vec![JSXAttrOrSpread::JSXAttr(JSXAttr {
                     span,
                     name: JSXAttrName::Ident(Ident::new_no_ctxt("id".into(), span)),
-                    value: Some(JSXAttrValue::Lit(Lit::Str(Str {
+                    value: Some(JSXAttrValue::Lit(Box::new(Lit::Str(Str {
                         span,
                         value: "w < w".into(),
                         raw: Some("\"w &lt; w\"".into()),
-                    }))),
+                    })))),
                 })],
                 name: JSXElementName::Ident(Ident::new_no_ctxt("div".into(), span)),
                 self_closing: true,
                 type_args: None,
-            },
+            }),
             children: vec![],
             closing: None
         })))
@@ -92,24 +92,24 @@ fn issue_584() {
         jsx(r#"<test other={4} />;"#),
         Box::new(Expr::JSXElement(Box::new(JSXElement {
             span,
-            opening: JSXOpeningElement {
+            opening: Box::new(JSXOpeningElement {
                 span,
                 name: JSXElementName::Ident(Ident::new_no_ctxt("test".into(), span)),
                 attrs: vec![JSXAttrOrSpread::JSXAttr(JSXAttr {
                     span,
                     name: JSXAttrName::Ident(Ident::new_no_ctxt("other".into(), span)),
-                    value: Some(JSXAttrValue::JSXExprContainer(JSXExprContainer {
+                    value: Some(JSXAttrValue::JSXExprContainer(Box::new(JSXExprContainer {
                         span,
-                        expr: JSXExpr::Expr(Box::new(Expr::Lit(Lit::Num(Number {
+                        expr: JSXExpr::Expr(Expr::Lit(Box::new(Lit::Num(Number {
                             span,
                             value: 4.0,
                             raw: Some("4".into())
                         }))))
-                    })),
+                    }))),
                 })],
                 self_closing: true,
                 type_args: None,
-            },
+            }),
             children: vec![],
             closing: None
         })))
