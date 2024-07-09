@@ -184,9 +184,7 @@ pub use self::{
         ArchivedBigInt, ArchivedBool, ArchivedLit, ArchivedNull, ArchivedNumber, ArchivedRegex,
         ArchivedStr,
     },
-    module::{
-        ArchivedModule, ArchivedModuleItem, ArchivedProgram, ArchivedReservedUnused, ArchivedScript,
-    },
+    module::{ArchivedModule, ArchivedModuleItem, ArchivedProgram, ArchivedScript},
     module_decl::{
         ArchivedDefaultDecl, ArchivedExportAll, ArchivedExportDecl, ArchivedExportDefaultDecl,
         ArchivedExportDefaultExpr, ArchivedExportDefaultSpecifier, ArchivedExportNamedSpecifier,
