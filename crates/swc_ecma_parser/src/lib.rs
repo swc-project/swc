@@ -123,6 +123,7 @@
 #![allow(clippy::vec_box)]
 #![allow(clippy::wrong_self_convention)]
 #![allow(clippy::match_like_matches_macro)]
+#![feature(box_patterns)] // TODO
 
 use error::Error;
 use lexer::Lexer;
