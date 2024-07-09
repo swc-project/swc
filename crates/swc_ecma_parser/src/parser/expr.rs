@@ -447,6 +447,7 @@ impl<I: Tokens> Parser<I> {
                     }
 
                     return Ok(id.into());
+                    return Ok(Expr::Ident(id));
                 }
 
                 let ident = self.parse_binding_ident()?;
