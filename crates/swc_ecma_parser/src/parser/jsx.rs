@@ -37,10 +37,9 @@ impl<I: Tokens> Parser<I> {
         }
 
         let name = self.parse_jsx_ident()?;
-        Ok(JSXAttrName::JSXNamespacedName(JSXNamespacedName {
-            ns,
-            name,
-        }))
+        Ok(JSXAttrName::JSXNamespacedName(Box::new(
+            JSXNamespacedName { ns, name },
+        )))
     }
 
     /// Parses element name in any form - namespaced, member or single

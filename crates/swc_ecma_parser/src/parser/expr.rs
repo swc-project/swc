@@ -1633,7 +1633,7 @@ impl<I: Tokens> Parser<I> {
             None
         };
 
-        if let Expr::New(ne @ NewExpr { args: None, .. }) = *callee {
+        if let Expr::New(ne @ box NewExpr { args: None, .. }) = callee {
             // If this is parsed using 'NewExpression' rule, just return it.
             // Because it's not left-recursive.
             if type_args.is_some() {
@@ -1645,7 +1645,7 @@ impl<I: Tokens> Parser<I> {
                 Some(&tok!('(')),
                 "parse_new_expr() should eat paren if it exists"
             );
-            return Ok(NewExpr { type_args, ..ne }.into());
+            return Ok(NewExpr { type_args, ..*ne }.into());
         }
         // 'CallExpr' rule contains 'MemberExpr (...)',
         // and 'MemberExpr' rule contains 'new MemberExpr (...)'
@@ -1668,13 +1668,13 @@ impl<I: Tokens> Parser<I> {
             let call_expr = match callee {
                 Callee::Expr(e) if unwrap_ts_non_null(&e).is_opt_chain() => OptChainExpr {
                     span: span!(self, start),
-                    base: Box::new(OptChainBase::Call(OptCall {
+                    base: Box::new(OptChainBase::Call(Box::new(OptCall {
                         span: span!(self, start),
                         callee: e,
                         args,
                         type_args,
                         ..Default::default()
-                    })),
+                    }))),
                     optional: false,
                 }
                 .into(),
@@ -1784,7 +1784,7 @@ impl<I: Tokens> Parser<I> {
                         if arg.spread.is_some() {
                             self.emit_err(self.input.prev_span(), SyntaxError::TS1047);
                         }
-                        match *arg.expr {
+                        match arg.expr {
                             Expr::Ident(..) => {}
                             _ => {
                                 syntax_error!(
@@ -1865,17 +1865,17 @@ impl<I: Tokens> Parser<I> {
                         ref mut type_ann,
                         ..
                     })
-                    | Pat::Array(ArrayPat {
+                    | Pat::Array(box ArrayPat {
                         ref mut type_ann,
                         ref mut span,
                         ..
                     })
-                    | Pat::Object(ObjectPat {
+                    | Pat::Object(box ObjectPat {
                         ref mut type_ann,
                         ref mut span,
                         ..
                     })
-                    | Pat::Rest(RestPat {
+                    | Pat::Rest(box RestPat {
                         ref mut type_ann,
                         ref mut span,
                         ..
@@ -1926,7 +1926,7 @@ impl<I: Tokens> Parser<I> {
                 match items[0] {
                     AssignTargetOrSpread::ExprOrSpread(ExprOrSpread { ref expr, .. })
                     | AssignTargetOrSpread::Pat(Pat::Expr(ref expr)) => {
-                        matches!(**expr, Expr::Ident(..))
+                        matches!(expr, Expr::Ident(..))
                     }
                     AssignTargetOrSpread::Pat(Pat::Ident(..)) => true,
                     _ => false,
@@ -1942,17 +1942,16 @@ impl<I: Tokens> Parser<I> {
                 let span = span!(self, start);
 
                 items.push(AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
-                    expr: Box::new(
-                        ArrowExpr {
-                            span,
-                            body,
-                            is_async,
-                            is_generator: false,
-                            params,
-                            ..Default::default()
-                        }
-                        .into(),
-                    ),
+                    expr: ArrowExpr {
+                        span,
+                        body,
+                        is_async,
+                        is_generator: false,
+                        params,
+                        ..Default::default()
+                    }
+                    .into(),
+
                     spread: None,
                 }));
             }
@@ -2083,7 +2082,7 @@ impl<I: Tokens> Parser<I> {
             },
             token => unreachable!("parse_lit should not be called for {:?}", token),
         };
-        Ok(v)
+        Ok(Box::new(v))
     }
 
     pub(super) fn parse_dynamic_import_or_import_meta(
