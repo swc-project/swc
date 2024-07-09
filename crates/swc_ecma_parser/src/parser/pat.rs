@@ -1167,7 +1167,7 @@ mod tests {
     #[test]
     fn object_binding_pattern_with_prop_and_label() {
         fn prop(key: PropName, assign_name: &str, expr: Expr) -> PropOrSpread {
-            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+            PropOrSpread::Prop(Prop::KeyValue(Box::new(KeyValueProp {
                 key,
                 value: AssignExpr {
                     span,
@@ -1183,24 +1183,24 @@ mod tests {
             object_pat(
                 "{obj = {$: num = 10, '': sym = '', \" \": quote = \" \", _: under = [...tail],}}"
             ),
-            Pat::Object(ObjectPat {
+            Pat::Object(Box::new(ObjectPat {
                 span,
                 type_ann: None,
                 optional: false,
                 props: vec![ObjectPatProp::Assign(AssignPatProp {
                     span,
                     key: ident("obj").into(),
-                    value: Some(Box::new(Expr::Object(ObjectLit {
+                    value: Some(Expr::Object(Box::new(ObjectLit {
                         span,
                         props: vec![
                             prop(
                                 PropName::Ident(ident_name("$")),
                                 "num",
-                                Expr::Lit(Lit::Num(Number {
+                                Expr::Lit(Box::new(Lit::Num(Number {
                                     span,
                                     value: 10.0,
                                     raw: Some("10".into())
-                                }))
+                                })))
                             ),
                             prop(
                                 PropName::Str(Str {
@@ -1209,11 +1209,11 @@ mod tests {
                                     raw: Some("''".into()),
                                 }),
                                 "sym",
-                                Expr::Lit(Lit::Str(Str {
+                                Expr::Lit(Box::new(Lit::Str(Str {
                                     span,
                                     value: "".into(),
                                     raw: Some("''".into()),
-                                }))
+                                })))
                             ),
                             prop(
                                 PropName::Str(Str {
@@ -1222,27 +1222,27 @@ mod tests {
                                     raw: Some("\" \"".into()),
                                 }),
                                 "quote",
-                                Expr::Lit(Lit::Str(Str {
+                                Expr::Lit(Box::new(Lit::Str(Str {
                                     span,
                                     value: " ".into(),
                                     raw: Some("\" \"".into()),
-                                }))
+                                })))
                             ),
                             prop(
                                 PropName::Ident(ident_name("_")),
                                 "under",
-                                Expr::Array(ArrayLit {
+                                Expr::Array(Box::new(ArrayLit {
                                     span,
                                     elems: vec![Some(ExprOrSpread {
                                         spread: Some(span),
                                         expr: Box::new(Expr::Ident(ident("tail")))
                                     })]
-                                })
+                                }))
                             ),
                         ]
                     })))
                 })]
-            })
+            }))
         );
     }
 }
