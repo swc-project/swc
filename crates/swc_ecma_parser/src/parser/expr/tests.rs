@@ -436,9 +436,9 @@ fn issue_675() {
 fn super_expr() {
     assert_eq_ignore_span!(
         expr("super.foo();"),
-        Expr::Call(CallExpr {
+        Expr::Call(Box::new(CallExpr {
             span,
-            callee: Callee::Expr(Box::new(Expr::SuperProp(SuperPropExpr {
+            callee: Callee::Expr(Expr::SuperProp(Box::new(SuperPropExpr {
                 span,
                 obj: Super { span },
                 prop: SuperProp::Ident(Ident {
@@ -448,7 +448,7 @@ fn super_expr() {
                 })
             }))),
             ..Default::default()
-        })
+        }))
     );
 }
 

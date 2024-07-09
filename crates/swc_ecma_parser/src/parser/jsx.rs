@@ -2,6 +2,7 @@ use either::Either;
 use swc_common::Spanned;
 
 use super::*;
+use crate::EitherBoxed;
 
 #[cfg(test)]
 mod tests;
@@ -54,14 +55,14 @@ impl<I: Tokens> Parser<I> {
         };
         while eat!(self, '.') {
             let prop = self.parse_jsx_ident()?;
-            let new_node = JSXElementName::JSXMemberExpr(JSXMemberExpr {
+            let new_node = JSXElementName::JSXMemberExpr(Box::new(JSXMemberExpr {
                 obj: match node {
                     JSXElementName::Ident(i) => JSXObject::Ident(i),
-                    JSXElementName::JSXMemberExpr(i) => JSXObject::JSXMemberExpr(Box::new(i)),
+                    JSXElementName::JSXMemberExpr(i) => JSXObject::JSXMemberExpr(i),
                     _ => unimplemented!("JSXNamespacedName -> JSXObject"),
                 },
                 prop,
-            });
+            }));
             node = new_node;
         }
         Ok(node)
@@ -134,7 +135,10 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// Parses JSX expression enclosed into curly brackets.
-    pub(super) fn parse_jsx_expr_container(&mut self, _: BytePos) -> PResult<JSXExprContainer> {
+    pub(super) fn parse_jsx_expr_container(
+        &mut self,
+        _: BytePos,
+    ) -> PResult<Box<JSXExprContainer>> {
         debug_assert!(self.input.syntax().jsx());
 
         let start = cur_pos!(self);
@@ -148,10 +152,10 @@ impl<I: Tokens> Parser<I> {
             self.parse_expr().map(JSXExpr::Expr)?
         };
         expect!(self, '}');
-        Ok(JSXExprContainer {
+        Ok(Box::new(JSXExprContainer {
             span: span!(self, start),
             expr,
-        })
+        }))
     }
 
     /// Parses following JSX attribute name-value pair.
@@ -195,7 +199,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_jsx_opening_element_at(
         &mut self,
         start: BytePos,
-    ) -> PResult<Either<JSXOpeningFragment, JSXOpeningElement>> {
+    ) -> PResult<EitherBoxed<JSXOpeningFragment, JSXOpeningElement>> {
         debug_assert!(self.input.syntax().jsx());
 
         if eat!(self, JSXTagEnd) {
@@ -218,7 +222,7 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         start: BytePos,
         name: JSXElementName,
-    ) -> PResult<JSXOpeningElement> {
+    ) -> PResult<Box<JSXOpeningElement>> {
         debug_assert!(self.input.syntax().jsx());
 
         let type_args = if self.input.syntax().typescript() && is!(self, '<') {
@@ -279,7 +283,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_jsx_element_at(
         &mut self,
         start_pos: BytePos,
-    ) -> PResult<Either<JSXFragment, JSXElement>> {
+    ) -> PResult<EitherBoxed<JSXFragment, JSXElement>> {
         debug_assert!(self.input.syntax().jsx());
 
         let _ = cur!(self, true);
@@ -365,18 +369,20 @@ impl<I: Tokens> Parser<I> {
                         }
                     );
                 }
-                (Either::Left(opening), Some(Either::Left(closing))) => Either::Left(JSXFragment {
-                    span,
-                    opening,
-                    children,
-                    closing,
-                }),
-                (Either::Right(opening), None) => Either::Right(JSXElement {
+                (Either::Left(opening), Some(Either::Left(closing))) => {
+                    Either::Left(Box::new(JSXFragment {
+                        span,
+                        opening,
+                        children,
+                        closing,
+                    }))
+                }
+                (Either::Right(opening), None) => Either::Right(Box::new(JSXElement {
                     span,
                     opening,
                     children,
                     closing: None,
-                }),
+                })),
                 (Either::Right(opening), Some(Either::Right(closing))) => {
                     if get_qualified_jsx_name(&closing.name)
                         != get_qualified_jsx_name(&opening.name)
@@ -389,12 +395,12 @@ impl<I: Tokens> Parser<I> {
                             }
                         );
                     }
-                    Either::Right(JSXElement {
+                    Either::Right(Box::new(JSXElement {
                         span,
                         opening,
                         children,
                         closing: Some(closing),
-                    })
+                    }))
                 }
                 _ => unreachable!(),
             })
@@ -404,7 +410,7 @@ impl<I: Tokens> Parser<I> {
     /// Parses entire JSX element from current position.
     ///
     /// babel: `jsxParseElement`
-    pub(super) fn parse_jsx_element(&mut self) -> PResult<Either<JSXFragment, JSXElement>> {
+    pub(super) fn parse_jsx_element(&mut self) -> PResult<EitherBoxed<JSXFragment, JSXElement>> {
         trace_cur!(self, parse_jsx_element);
 
         debug_assert!(self.input.syntax().jsx());
