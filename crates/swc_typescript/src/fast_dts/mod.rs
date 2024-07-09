@@ -203,6 +203,9 @@ impl FastDts {
                             }
                             .into(),
                         )
+                                expr: Expr::Ident(name_ident),
+                            },
+                        )))
                     } else {
                         new_items.push(
                             ExportDefaultExpr {

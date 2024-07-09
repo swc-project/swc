@@ -106,8 +106,8 @@ impl<I: Tokens> Parser<I> {
 
                 let type_parameters = p.parse_ts_type_params(false, true)?;
                 let mut arrow = p.parse_assignment_expr_base()?;
-                match *arrow {
-                    Expr::Arrow(ArrowExpr {
+                match &mut arrow {
+                    Expr::Arrow(box ArrowExpr {
                         ref mut span,
                         ref mut type_params,
                         ..
@@ -198,6 +198,7 @@ impl<I: Tokens> Parser<I> {
                 bump!(self);
                 let right = self.parse_assignment_expr()?;
                 Ok(AssignExpr {
+                Ok(Expr::Assign(Box::new(AssignExpr {
                     span: span!(self, start),
                     op,
                     // TODO:
@@ -237,12 +238,15 @@ impl<I: Tokens> Parser<I> {
             let alt = self.with_ctx(ctx).parse_assignment_expr()?;
             let span = Span::new(start, alt.span_hi());
             Ok(CondExpr {
+            Ok(Box::new(Expr::Cond(CondExpr {
+            Ok(Expr::Cond(CondExpr {
                 span,
                 test,
                 cons,
                 alt,
             }
             .into())
+            }))
         } else {
             Ok(test)
         }
