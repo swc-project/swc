@@ -144,7 +144,7 @@ stmt_from!(
 impl Stmt {
     pub fn is_use_strict(&self) -> bool {
         match self {
-            Stmt::Expr(expr) => match *expr.expr {
+            Stmt::Expr(expr) => match expr.expr {
                 Expr::Lit(Lit::Str(Str { ref raw, .. })) => {
                     matches!(raw, Some(value) if value == "\"use strict\"" || value == "'use strict'")
                 }
@@ -158,7 +158,10 @@ impl Stmt {
     /// `self` from being directives.
     pub fn can_precede_directive(&self) -> bool {
         match self {
-            Stmt::Expr(expr) => matches!(*expr.expr, Expr::Lit(Lit::Str(_))),
+            Stmt::Expr(expr) => match &expr.expr {
+                Expr::Lit(s) => s.is_str(),
+                _ => false,
+            },
             _ => false,
         }
     }
