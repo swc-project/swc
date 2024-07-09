@@ -30,7 +30,7 @@ impl EndsWithAlphaNum for VarDecl {
     fn ends_with_alpha_num(&self) -> bool {
         match self.decls.last() {
             None => true,
-            Some(d) => match d.init.as_deref() {
+            Some(d) => match d.init.as_ref() {
                 Some(e) => e.ends_with_alpha_num(),
                 None => d.name.ends_with_alpha_num(),
             },
