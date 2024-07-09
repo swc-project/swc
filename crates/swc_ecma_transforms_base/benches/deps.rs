@@ -119,7 +119,7 @@ fn fold_noop_impl_vec(b: &mut Bencher) {
     });
 }
 
-fn mk_expr() -> Expr {
+fn mk_expr() -> Box<Expr> {
     CallExpr {
         span: DUMMY_SP,
         callee: Ident::new_no_ctxt("foo".into(), DUMMY_SP).as_callee(),

@@ -274,8 +274,8 @@ impl<'a> Metadata<'a> {
     }
 }
 
-fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr {
-    fn check_object_existed(expr: Expr) -> Expr {
+fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Box<Expr> {
+    fn check_object_existed(expr: Expr) -> Box<Expr> {
         match *expr {
             Expr::Member(ref member_expr) => {
                 let obj_expr = member_expr.obj.clone();
@@ -327,7 +327,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
         }
     }
 
-    fn serialize_type_ref(class_name: &str, ty: &TsTypeRef) -> Expr {
+    fn serialize_type_ref(class_name: &str, ty: &TsTypeRef) -> Box<Expr> {
         match &ty.type_name {
             // We should omit references to self (class) since it will throw a ReferenceError at
             // runtime due to babel transpile output.
@@ -354,7 +354,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
         .into()
     }
 
-    fn serialize_type_list(class_name: &str, types: &[Box<TsType>]) -> Expr {
+    fn serialize_type_list(class_name: &str, types: &[Box<TsType>]) -> Box<Expr> {
         let mut u = None;
         for ty in types {
             // Skip parens if need be
@@ -424,7 +424,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
         }
     }
 
-    fn serialize_type_node(class_name: &str, ty: &TsType) -> Expr {
+    fn serialize_type_node(class_name: &str, ty: &TsType) -> Box<Expr> {
         let span = ty.span();
         match ty {
             TsType::TsKeywordType(TsKeywordType {
@@ -539,7 +539,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
     serialize_type_node(class_name.map(|v| &*v.sym).unwrap_or(""), param)
 }
 
-fn ts_entity_to_member_expr(type_name: &TsEntityName) -> Expr {
+fn ts_entity_to_member_expr(type_name: &TsEntityName) -> Box<Expr> {
     match type_name {
         TsEntityName::TsQualifiedName(q) => {
             let obj = ts_entity_to_member_expr(&q.left);

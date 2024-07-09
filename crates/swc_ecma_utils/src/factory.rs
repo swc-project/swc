@@ -35,7 +35,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
     /// let _args = vec![first.as_arg()];
     /// ```
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn as_arg(self) -> ExprOrSpread {
+    fn as_arg(self) -> Box<Expr>OrSpread {
         ExprOrSpread {
             expr: self.into(),
             spread: None,
@@ -103,7 +103,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn into_lazy_auto(self, params: Vec<Pat>, support_arrow: bool) -> Expr {
+    fn into_lazy_auto(self, params: Vec<Pat>, support_arrow: bool) -> Box<Expr> {
         if support_arrow {
             self.into_lazy_arrow(params).into()
         } else {
@@ -142,7 +142,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Expr {
+    fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Box<Expr> {
         let apply = self.make_member(Ident::new_no_ctxt("apply".into(), span));
 
         CallExpr {
@@ -156,7 +156,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn call_fn(self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
+    fn call_fn(self, span: Span, args: Vec<ExprOrSpread>) -> Box<Expr> {
         CallExpr {
             span,
             args,
@@ -169,7 +169,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn as_call(self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
+    fn as_call(self, span: Span, args: Vec<ExprOrSpread>) -> Box<Expr> {
         CallExpr {
             span,
             args,
@@ -210,7 +210,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn wrap_with_paren(self) -> Expr {
+    fn wrap_with_paren(self) -> Box<Expr> {
         let expr = self.into();
         let span = expr.span();
         ParenExpr { expr, span }.into()
@@ -218,7 +218,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
 
     /// Creates a binary expr `$self === `
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn make_eq<T>(self, right: T) -> Expr
+    fn make_eq<T>(self, right: T) -> Box<Expr>
     where
         T: Into<Box<Expr>>,
     {
@@ -227,7 +227,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
 
     /// Creates a binary expr `$self $op $rhs`
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn make_bin<T>(self, op: BinaryOp, right: T) -> Expr
+    fn make_bin<T>(self, op: BinaryOp, right: T) -> Box<Expr>
     where
         T: Into<Box<Expr>>,
     {
@@ -244,7 +244,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
 
     /// Creates a assign expr `$lhs $op $self`
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn make_assign_to(self, op: AssignOp, left: AssignTarget) -> Expr {
+    fn make_assign_to(self, op: AssignOp, left: AssignTarget) -> Box<Expr> {
         let right = self.into();
 
         AssignExpr {

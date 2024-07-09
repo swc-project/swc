@@ -14,7 +14,7 @@ pub mod super_field;
 /// ```js
 /// Child.__proto__ || Object.getPrototypeOf(Child)
 /// ```
-pub fn get_prototype_of(obj: Expr) -> Expr {
+pub fn get_prototype_of(obj: Expr) -> Box<Expr> {
     CallExpr {
         span: DUMMY_SP,
         callee: helper!(get_prototype_of),

@@ -41,7 +41,7 @@ impl Resolver {
         unresolved_mark: Mark,
         src: JsWord,
         src_span: Span,
-    ) -> Expr {
+    ) -> Box<Expr> {
         let src = self.resolve(src);
 
         CallExpr {

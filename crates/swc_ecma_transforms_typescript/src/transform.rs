@@ -880,7 +880,7 @@ impl Transform {
         container_name: &Option<Id>,
         ident: Ident,
         is_export: bool,
-    ) -> Expr {
+    ) -> Box<Expr> {
         let mut left: SimpleAssignTarget = ident.clone().into();
         let mut assign_left: SimpleAssignTarget = ident.clone().into();
 
@@ -919,7 +919,7 @@ impl Transform {
         ident: Ident,
         body: BlockStmt,
         is_export: bool,
-    ) -> Expr {
+    ) -> Box<Expr> {
         let mut init_arg =
             Self::get_enum_or_module_init_arg(container_name, ident.clone(), is_export).into();
 
@@ -973,7 +973,7 @@ impl Transform {
 }
 
 impl Transform {
-    fn ts_entity_name_to_expr(n: TsEntityName) -> Expr {
+    fn ts_entity_name_to_expr(n: TsEntityName) -> Box<Expr> {
         match n {
             TsEntityName::Ident(i) => i.into(),
             TsEntityName::TsQualifiedName(q) => {

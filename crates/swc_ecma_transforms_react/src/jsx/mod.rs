@@ -458,7 +458,7 @@ where
         }
     }
 
-    fn jsx_frag_to_expr(&mut self, el: JSXFragment) -> Expr {
+    fn jsx_frag_to_expr(&mut self, el: JSXFragment) -> Box<Expr> {
         let mut span = el.span();
 
         let count = count_children(&el.children);
@@ -573,7 +573,7 @@ where
     /// # Classic
     ///
     /// <div></div> => React.createElement('div', null);
-    fn jsx_elem_to_expr(&mut self, el: JSXElement) -> Expr {
+    fn jsx_elem_to_expr(&mut self, el: JSXElement) -> Box<Expr> {
         let top_level_node = self.top_level_node;
         let mut span = el.span();
         let use_create_element = should_use_create_element(&el.opening.attrs);
@@ -888,7 +888,7 @@ where
         })
     }
 
-    fn fold_attrs_for_classic(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Expr {
+    fn fold_attrs_for_classic(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
         if attrs.is_empty() {
             return Lit::Null(Null { span: DUMMY_SP }).into();
         }
@@ -1192,7 +1192,7 @@ impl<C> Jsx<C>
 where
     C: Comments,
 {
-    fn jsx_name(&self, name: JSXElementName) -> Expr {
+    fn jsx_name(&self, name: JSXElementName) -> Box<Expr> {
         let span = name.span();
         match name {
             JSXElementName::Ident(i) => {
@@ -1237,7 +1237,7 @@ where
                 .into()
             }
             JSXElementName::JSXMemberExpr(JSXMemberExpr { obj, prop }) => {
-                fn convert_obj(obj: JSXObject) -> Expr {
+                fn convert_obj(obj: JSXObject) -> Box<Expr> {
                     let span = obj.span();
 
                     (match obj {

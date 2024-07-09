@@ -416,7 +416,7 @@ mod tests {
 
     use super::*;
 
-    fn bin(s: &'static str) -> Expr {
+    fn bin(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| p.parse_bin_expr())
     }
 

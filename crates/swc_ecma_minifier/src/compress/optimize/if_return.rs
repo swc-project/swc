@@ -415,7 +415,7 @@ impl Optimizer<'_> {
     /// This method returns [Expr::Seq] or [Expr::Cond].
     ///
     /// `exprs` is a simple optimization.
-    fn merge_if_returns_to(&mut self, stmt: Stmt, mut exprs: Vec<Box<Expr>>) -> Expr {
+    fn merge_if_returns_to(&mut self, stmt: Stmt, mut exprs: Vec<Box<Expr>>) -> Box<Expr> {
         //
         match stmt {
             Stmt::Block(s) => {

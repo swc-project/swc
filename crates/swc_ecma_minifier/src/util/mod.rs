@@ -13,7 +13,7 @@ pub(crate) mod size;
 pub(crate) mod sort;
 pub(crate) mod unit;
 
-pub(crate) fn make_number(span: Span, value: f64) -> Expr {
+pub(crate) fn make_number(span: Span, value: f64) -> Box<Expr> {
     trace_op!("Creating a numeric literal");
     Lit::Num(Number {
         span,
@@ -77,7 +77,7 @@ impl ModuleItemExt for ModuleItem {
 ///
 /// - `!0` for true
 /// - `!1` for false
-pub(crate) fn make_bool(span: Span, value: bool) -> Expr {
+pub(crate) fn make_bool(span: Span, value: bool) -> Box<Expr> {
     trace_op!("Creating a boolean literal");
 
     UnaryExpr {

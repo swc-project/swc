@@ -3,7 +3,7 @@ use swc_ecma_visit::assert_eq_ignore_span;
 
 use super::*;
 
-fn jsx(src: &'static str) -> Expr {
+fn jsx(src: &'static str) -> Box<Expr> {
     test_parser(
         src,
         crate::Syntax::Es(crate::EsSyntax {

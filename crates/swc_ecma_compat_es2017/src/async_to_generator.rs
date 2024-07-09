@@ -398,7 +398,7 @@ impl<C: Comments> Actual<C> {
 ///
 /// `_async_to_generator(function*() {})` from `async function() {}`;
 #[tracing::instrument(level = "info", skip_all)]
-fn make_fn_ref(mut expr: FnExpr) -> Expr {
+fn make_fn_ref(mut expr: FnExpr) -> Box<Expr> {
     {
         let param_ids: Vec<Id> = find_pat_ids(&expr.function.params);
         let mapping = param_ids

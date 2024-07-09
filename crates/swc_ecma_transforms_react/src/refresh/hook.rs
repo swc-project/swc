@@ -76,7 +76,7 @@ impl<'a> HookRegister<'a> {
     // The second call is around the function itself. This is used to associate a
     // type with a signature.
     // Unlike with $RefreshReg$, this needs to work for nested declarations too.
-    fn wrap_with_register(&self, handle: Ident, func: Box<Expr>, hooks: Vec<Hook>) -> Expr {
+    fn wrap_with_register(&self, handle: Ident, func: Box<Expr>, hooks: Vec<Hook>) -> Box<Expr> {
         let mut args = vec![func.as_arg()];
         let mut sign = Vec::new();
         let mut custom_hook = Vec::new();

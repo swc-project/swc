@@ -111,7 +111,7 @@ impl TscDecorator {
         self.vars = old_vars;
     }
 
-    fn key(&mut self, k: &mut PropName) -> Expr {
+    fn key(&mut self, k: &mut PropName) -> Box<Expr> {
         match k {
             PropName::Computed(k) if !k.expr.is_lit() => {
                 let var_name = private_ident!(k.span, "_key");

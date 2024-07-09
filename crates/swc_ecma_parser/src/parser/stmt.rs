@@ -1509,7 +1509,7 @@ mod tests {
     fn module_item(s: &'static str) -> ModuleItem {
         test_parser(s, Syntax::default(), |p| p.parse_stmt_like(true, true))
     }
-    fn expr(s: &'static str) -> Expr {
+    fn expr(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| p.parse_expr())
     }
 

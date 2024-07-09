@@ -58,7 +58,7 @@ impl TemplateLiteralCaching {
 impl Fold for TemplateLiteralCaching {
     noop_fold_type!();
 
-    fn fold_expr(&mut self, n: Expr) -> Expr {
+    fn fold_expr(&mut self, n: Expr) -> Box<Expr> {
         let n = n.fold_children_with(self);
         match n {
             Expr::TaggedTpl(n) => {

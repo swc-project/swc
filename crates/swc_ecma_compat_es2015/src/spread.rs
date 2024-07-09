@@ -231,7 +231,7 @@ impl Spread {
         span: Span,
         args: impl ExactSizeIterator<Item = Option<ExprOrSpread>>,
         need_array: bool,
-    ) -> Expr {
+    ) -> Box<Expr> {
         //
         // []
         //

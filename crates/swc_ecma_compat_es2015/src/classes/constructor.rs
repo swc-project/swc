@@ -379,7 +379,7 @@ pub(super) enum ReturningMode {
     },
 }
 
-pub(super) fn make_possible_return_value(mode: ReturningMode) -> Expr {
+pub(super) fn make_possible_return_value(mode: ReturningMode) -> Box<Expr> {
     let callee = helper!(possible_constructor_return);
 
     CallExpr {

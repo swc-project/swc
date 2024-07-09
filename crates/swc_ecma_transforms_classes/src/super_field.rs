@@ -306,7 +306,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
         }
     }
 
-    fn super_to_get_call(&mut self, super_token: Span, prop: SuperProp) -> Expr {
+    fn super_to_get_call(&mut self, super_token: Span, prop: SuperProp) -> Box<Expr> {
         if self.constant_super {
             MemberExpr {
                 span: super_token,
@@ -350,7 +350,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
         prop: SuperProp,
         op: AssignOp,
         rhs: Box<Expr>,
-    ) -> Expr {
+    ) -> Box<Expr> {
         debug_assert_eq!(op, op!("="));
 
         let this_expr = Box::new(match self.constructor_this_mark {
@@ -426,7 +426,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
         expr.make_member(quote_ident!("_"))
     }
 
-    fn proto_arg(&mut self) -> Expr {
+    fn proto_arg(&mut self) -> Box<Expr> {
         let expr = if self.is_static {
             // Foo
             self.class_name.clone().into()
@@ -466,7 +466,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
         proto_arg
     }
 
-    fn this_arg(&self, super_token: Span) -> Expr {
+    fn this_arg(&self, super_token: Span) -> Box<Expr> {
         match self.constructor_this_mark {
             Some(mark) => quote_ident!(
                 SyntaxContext::empty().apply_mark(mark),
@@ -486,7 +486,7 @@ fn is_assign_to_super_prop(left: &AssignTarget) -> bool {
     }
 }
 
-fn prop_arg(prop: SuperProp) -> Expr {
+fn prop_arg(prop: SuperProp) -> Box<Expr> {
     match prop {
         SuperProp::Ident(Ident {
             sym: value, span, ..

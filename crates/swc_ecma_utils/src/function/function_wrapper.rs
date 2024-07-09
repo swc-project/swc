@@ -49,7 +49,7 @@ impl<T> FunctionWrapper<T> {
     ///     };
     /// })()
     /// ```
-    fn build_anonymous_expression_wrapper(&mut self) -> Expr {
+    fn build_anonymous_expression_wrapper(&mut self) -> Box<Expr> {
         let name_ident = self.binding_ident.take();
         let ref_ident = private_ident!("_ref");
 
@@ -106,7 +106,7 @@ impl<T> FunctionWrapper<T> {
     ///     return NAME;
     /// })()
     /// ```
-    fn build_named_expression_wrapper(&mut self, name_ident: Ident) -> Expr {
+    fn build_named_expression_wrapper(&mut self, name_ident: Ident) -> Box<Expr> {
         let ref_ident = self.function_ident.as_ref().map_or_else(
             || private_ident!("_ref"),
             |ident| private_ident!(ident.span, format!("_{}", ident.sym)),
@@ -338,7 +338,7 @@ impl Into<Box<Expr>> for FunctionWrapper<Box<Expr>> {
     /// Optimization:
     /// A function without a name cannot be recursively referenced by Ident.
     /// It's safe to return the expr without wrapper if the params.len is 0.
-    fn into(mut self) -> Expr {
+    fn into(mut self) -> Box<Expr> {
         if let Some(name_ident) = self.function_ident.as_ref().cloned() {
             self.build_named_expression_wrapper(name_ident)
         } else if (!self.ignore_function_name && self.binding_ident.is_some())

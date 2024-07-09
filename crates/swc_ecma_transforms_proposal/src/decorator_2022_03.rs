@@ -68,7 +68,7 @@ impl Decorator2022_03 {
             .collect()
     }
 
-    fn preserve_side_effect_of_decorator(&mut self, dec: Expr) -> Expr {
+    fn preserve_side_effect_of_decorator(&mut self, dec: Expr) -> Box<Expr> {
         if dec.is_ident() || dec.is_arrow() || dec.is_fn_expr() {
             return dec;
         }

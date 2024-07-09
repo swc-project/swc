@@ -404,7 +404,7 @@ where
     ///   };
     /// }()
     /// ```
-    fn fold_class(&mut self, class_name: Option<Ident>, class: Box<Class>) -> Expr {
+    fn fold_class(&mut self, class_name: Option<Ident>, class: Box<Class>) -> Box<Expr> {
         let span = class.span;
 
         // Ident of the super class *inside* function.
@@ -941,7 +941,7 @@ where
             }
         }
 
-        fn mk_arg_obj_for_create_class(props: IndexMap<HashKey, Data>) -> ExprOrSpread {
+        fn mk_arg_obj_for_create_class(props: IndexMap<HashKey, Data>) -> Box<Expr>OrSpread {
             if props.is_empty() {
                 return quote_expr!(DUMMY_SP, null).as_arg();
             }
@@ -1290,7 +1290,7 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     !v.found
 }
 
-fn escape_keywords(mut e: Expr) -> Expr {
+fn escape_keywords(mut e: Expr) -> Box<Expr> {
     if let Expr::Fn(f) = &mut *e {
         if let Some(i) = &mut f.ident {
             let sym = Ident::verify_symbol(&i.sym);

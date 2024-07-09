@@ -158,7 +158,7 @@ enum Memo {
 }
 
 impl Memo {
-    fn into_expr(self) -> Expr {
+    fn into_expr(self) -> Box<Expr> {
         match self {
             Memo::Cache(i) => i.into(),
             Memo::Raw(e) => *e,
@@ -234,7 +234,7 @@ impl OptionalChaining {
 
     /// Constructs a rightward nested conditional expression out of our
     /// flattened chain.
-    fn construct(&mut self, data: (Expr, usize, Vec<Gathering>), is_delete: bool) -> Expr {
+    fn construct(&mut self, data: (Expr, usize, Vec<Gathering>), is_delete: bool) -> Box<Expr> {
         let (mut current, count, chain) = data;
 
         // Stores partially constructed CondExprs for us to assemble later on.
@@ -425,7 +425,7 @@ impl OptionalChaining {
     }
 }
 
-fn init_and_eq_null_or_undefined(i: &Memo, init: Box<Expr>, no_document_all: bool) -> Expr {
+fn init_and_eq_null_or_undefined(i: &Memo, init: Box<Expr>, no_document_all: bool) -> Box<Expr> {
     let lhs = match i {
         Memo::Cache(i) => AssignExpr {
             span: DUMMY_SP,

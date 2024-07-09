@@ -557,7 +557,12 @@ struct AssignFolder {
 }
 
 impl AssignFolder {
-    pub fn handle_assign_pat(&mut self, span: Span, mut pat: AssignPat, right: &mut Expr) -> Expr {
+    pub fn handle_assign_pat(
+        &mut self,
+        span: Span,
+        mut pat: AssignPat,
+        right: &mut Expr,
+    ) -> Box<Expr> {
         let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
 
         let mut exprs = vec![Box::new(
@@ -1198,7 +1203,7 @@ fn make_ref_ident_for_array(
     ref_ident
 }
 
-fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>, mut computed: bool) -> Expr {
+fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>, mut computed: bool) -> Box<Expr> {
     computed |= matches!(*prop, Expr::Lit(Lit::Num(..)) | Expr::Lit(Lit::Str(..)));
 
     MemberExpr {
@@ -1217,7 +1222,7 @@ fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>, mut computed: bool) ->
 }
 
 /// Creates `tmp === void 0 ? def_value : tmp`
-fn make_cond_expr(tmp: Ident, def_value: Expr) -> Expr {
+fn make_cond_expr(tmp: Ident, def_value: Expr) -> Box<Expr> {
     CondExpr {
         span: DUMMY_SP,
         test: BinExpr {

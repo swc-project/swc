@@ -502,7 +502,7 @@ pub(crate) fn amd_dynamic_import(
     require: Ident,
     import_interop: ImportInterop,
     support_arrow: bool,
-) -> Expr {
+) -> Box<Expr> {
     let resolve = private_ident!("resolve");
     let reject = private_ident!("reject");
     let arg = args[..1].iter().cloned().map(Option::Some).collect();
@@ -549,7 +549,7 @@ pub(crate) fn amd_dynamic_import(
 }
 
 /// new URL(module.uri, document.baseURI).href
-fn amd_import_meta_url(span: Span, module: Ident) -> Expr {
+fn amd_import_meta_url(span: Span, module: Ident) -> Box<Expr> {
     MemberExpr {
         span,
         obj: quote_ident!("URL")

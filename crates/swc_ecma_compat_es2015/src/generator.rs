@@ -1064,7 +1064,7 @@ impl Generator {
         elements: &mut [Option<ExprOrSpread>],
         mut leading_element: Option<ExprOrSpread>,
         _loc: Option<Span>,
-    ) -> Expr {
+    ) -> Box<Expr> {
         // [source]
         //      ar = [1, yield, 2];
         //
@@ -1351,7 +1351,7 @@ impl Generator {
         None
     }
 
-    fn visit_logical_bin_expr(&mut self, node: &mut BinExpr) -> Expr {
+    fn visit_logical_bin_expr(&mut self, node: &mut BinExpr) -> Box<Expr> {
         // Logical binary expressions (`&&` and `||`) are shortcutting
         // expressions and need to be transformed as such:
         //
@@ -2586,7 +2586,7 @@ impl Generator {
 
     /// Creates an expression that can be used to indicate the value for a
     /// label.
-    fn create_label(&mut self, label: Option<Label>) -> Expr {
+    fn create_label(&mut self, label: Option<Label>) -> Box<Expr> {
         if let Some(label) = label {
             if label.0 > 0 {
                 #[cfg(debug_assertions)]
@@ -2684,7 +2684,7 @@ impl Generator {
     }
 
     /// Creates an expression that can be used to resume from a Yield operation.
-    fn create_generator_resume(&mut self, loc: Option<Span>) -> Expr {
+    fn create_generator_resume(&mut self, loc: Option<Span>) -> Box<Expr> {
         CallExpr {
             span: loc.unwrap_or(DUMMY_SP),
             callee: self

@@ -1544,7 +1544,7 @@ impl GlobalPassOption {
     pub fn build(self, cm: &SourceMap, handler: &Handler) -> impl 'static + Fold {
         type ValuesMap = Arc<AHashMap<JsWord, Expr>>;
 
-        fn expr(cm: &SourceMap, handler: &Handler, src: String) -> Expr {
+        fn expr(cm: &SourceMap, handler: &Handler, src: String) -> Box<Expr> {
             let fm = cm.new_source_file(FileName::Anon.into(), src);
 
             let mut errors = vec![];

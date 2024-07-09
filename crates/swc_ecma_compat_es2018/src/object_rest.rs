@@ -903,7 +903,7 @@ fn object_without_properties(
     obj: Box<Expr>,
     excluded_props: Vec<Option<ExprOrSpread>>,
     no_symbol: bool,
-) -> Expr {
+) -> Box<Expr> {
     if excluded_props.is_empty() {
         return CallExpr {
             span: DUMMY_SP,

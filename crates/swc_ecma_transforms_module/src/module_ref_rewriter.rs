@@ -40,7 +40,7 @@ impl QueryRef for ImportQuery {
     fn query_ref(&self, ident: &Ident) -> Option<Box<Expr>> {
         self.import_map
             .get(&ident.to_id())
-            .map(|(mod_ident, mod_prop)| -> Expr {
+            .map(|(mod_ident, mod_prop)| -> Box<Expr> {
                 let mut mod_ident = mod_ident.clone();
                 let span = ident.span;
                 mod_ident.span = span;

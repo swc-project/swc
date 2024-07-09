@@ -1707,7 +1707,7 @@ impl VisitMut for SimplifyExpr {
 }
 
 /// make a new boolean expression preserving side effects, if any.
-fn make_bool_expr<I>(ctx: &ExprCtx, span: Span, value: bool, orig: I) -> Expr
+fn make_bool_expr<I>(ctx: &ExprCtx, span: Span, value: bool, orig: I) -> Box<Expr>
 where
     I: IntoIterator<Item = Expr>,
 {

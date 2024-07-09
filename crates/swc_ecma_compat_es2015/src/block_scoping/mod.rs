@@ -871,7 +871,7 @@ struct MutationHandler<'a> {
 }
 
 impl MutationHandler<'_> {
-    fn make_reassignment(&self, orig: Option<Box<Expr>>) -> Expr {
+    fn make_reassignment(&self, orig: Option<Box<Expr>>) -> Box<Expr> {
         if self.map.is_empty() {
             return *orig.unwrap_or_else(|| DUMMY_SP.into());
         }

@@ -258,7 +258,7 @@ impl Params {
                         }
                     };
 
-                    let make_minus_i = |ident: &Ident, min_zero: bool| -> Expr {
+                    let make_minus_i = |ident: &Ident, min_zero: bool| -> Box<Expr> {
                         if i == 0 {
                             // `len`
                             ident.clone().into()
@@ -808,7 +808,7 @@ fn make_arg_nth(n: usize) -> MemberExpr {
         .computed_member(n)
 }
 
-fn check_arg_len(n: usize) -> Expr {
+fn check_arg_len(n: usize) -> Box<Expr> {
     BinExpr {
         left: Expr::Ident(Ident::new_no_ctxt("arguments".into(), DUMMY_SP))
             .make_member(Ident::new_no_ctxt("length".into(), DUMMY_SP))
@@ -820,7 +820,7 @@ fn check_arg_len(n: usize) -> Expr {
     .into()
 }
 
-fn check_arg_len_or_undef(n: usize) -> Expr {
+fn check_arg_len_or_undef(n: usize) -> Box<Expr> {
     CondExpr {
         test: Box::new(check_arg_len(n)),
         cons: make_arg_nth(n).into(),

@@ -595,7 +595,7 @@ pub(crate) fn cjs_dynamic_import(
     import_interop: ImportInterop,
     support_arrow: bool,
     is_lit_path: bool,
-) -> Expr {
+) -> Box<Expr> {
     let p = private_ident!("p");
 
     let (resolve_args, callback_params, require_args) = if is_lit_path {
@@ -631,7 +631,7 @@ pub(crate) fn cjs_dynamic_import(
 }
 
 /// require('url').pathToFileURL(__filename).toString()
-fn cjs_import_meta_url(span: Span, require: Ident, unresolved_mark: Mark) -> Expr {
+fn cjs_import_meta_url(span: Span, require: Ident, unresolved_mark: Mark) -> Box<Expr> {
     require
         .as_call(DUMMY_SP, vec!["url".as_arg()])
         .make_member(quote_ident!("pathToFileURL"))

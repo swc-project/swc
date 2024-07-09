@@ -39,7 +39,7 @@ fn assert_hygiene(e: &Expr) {
     }
 }
 
-pub fn make_assign_stmt(handle: Ident, expr: Expr) -> Expr {
+pub fn make_assign_stmt(handle: Ident, expr: Expr) -> Box<Expr> {
     assert_hygiene(&expr);
 
     AssignExpr {
@@ -58,7 +58,7 @@ pub fn make_call_stmt(handle: Ident) -> Stmt {
     })
 }
 
-pub fn make_call_expr(handle: Ident) -> Expr {
+pub fn make_call_expr(handle: Ident) -> Box<Expr> {
     CallExpr {
         span: DUMMY_SP,
         callee: handle.as_callee(),

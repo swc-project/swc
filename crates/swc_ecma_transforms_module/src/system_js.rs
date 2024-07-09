@@ -103,7 +103,7 @@ impl SystemJs {
         }
     }
 
-    fn fold_module_name_ident(&mut self, ident: Ident) -> Expr {
+    fn fold_module_name_ident(&mut self, ident: Ident) -> Box<Expr> {
         if &*ident.sym == "__moduleName" && ident.ctxt.outer() == self.unresolved_mark {
             return self
                 .context_ident
@@ -114,7 +114,7 @@ impl SystemJs {
         ident.into()
     }
 
-    fn replace_assign_expr(&mut self, assign_expr: AssignExpr) -> Expr {
+    fn replace_assign_expr(&mut self, assign_expr: AssignExpr) -> Box<Expr> {
         match &assign_expr.left {
             AssignTarget::Simple(pat_or_expr) => match pat_or_expr {
                 SimpleAssignTarget::Ident(ident) => {
@@ -168,7 +168,7 @@ impl SystemJs {
         }
     }
 
-    fn replace_update_expr(&mut self, update_expr: UpdateExpr) -> Expr {
+    fn replace_update_expr(&mut self, update_expr: UpdateExpr) -> Box<Expr> {
         if !update_expr.prefix {
             match &*update_expr.arg {
                 Expr::Ident(ident) => {
@@ -538,7 +538,7 @@ impl Fold for SystemJs {
         }
     }
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
+    fn fold_expr(&mut self, expr: Expr) -> Box<Expr> {
         let expr = expr.fold_children_with(self);
 
         match expr {
@@ -1140,7 +1140,7 @@ fn get_module_export_name(module_export_name: &ModuleExportName) -> Id {
 }
 
 #[inline]
-fn get_module_export_expr(module_export_name: &ModuleExportName) -> Expr {
+fn get_module_export_expr(module_export_name: &ModuleExportName) -> Box<Expr> {
     match &module_export_name {
         ModuleExportName::Ident(ident) => ident.clone().into(),
         ModuleExportName::Str(s) => Lit::Str(quote_str!(s.value.clone())).into(),

@@ -2105,7 +2105,7 @@ pub fn alias_if_required(expr: &Expr, default: &str) -> (Ident, bool) {
     (alias_ident_for(expr, default), true)
 }
 
-pub fn prop_name_to_expr(p: PropName) -> Expr {
+pub fn prop_name_to_expr(p: PropName) -> Box<Expr> {
     match p {
         PropName::Ident(i) => i.into(),
         PropName::Str(s) => Lit::Str(s).into(),
@@ -2117,7 +2117,7 @@ pub fn prop_name_to_expr(p: PropName) -> Expr {
 /// Similar to `prop_name_to_expr`, but used for value position.
 ///
 /// e.g. value from `{ key: value }`
-pub fn prop_name_to_expr_value(p: PropName) -> Expr {
+pub fn prop_name_to_expr_value(p: PropName) -> Box<Expr> {
     match p {
         PropName::Ident(i) => Lit::Str(Str {
             span: i.span,
@@ -2209,7 +2209,7 @@ pub fn opt_chain_test(
     right: Box<Expr>,
     span: Span,
     no_document_all: bool,
-) -> Expr {
+) -> Box<Expr> {
     if no_document_all {
         BinExpr {
             span,
@@ -2461,7 +2461,7 @@ impl<'a> IdentUsageFinder<'a> {
 impl ExprCtx {
     /// make a new expression which evaluates `val` preserving side effects, if
     /// any.
-    pub fn preserve_effects<I>(&self, span: Span, val: Box<Expr>, exprs: I) -> Expr
+    pub fn preserve_effects<I>(&self, span: Span, val: Box<Expr>, exprs: I) -> Box<Expr>
     where
         I: IntoIterator<Item = Expr>,
     {

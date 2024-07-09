@@ -124,7 +124,7 @@ impl Fold for Decorators {
         }
     }
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
+    fn fold_expr(&mut self, expr: Expr) -> Box<Expr> {
         let expr = expr.fold_children_with(self);
 
         match expr {
@@ -271,7 +271,7 @@ impl Fold for Decorators {
 
 impl Decorators {
     #[allow(clippy::boxed_local)]
-    fn fold_class_inner(&mut self, ident: Ident, mut class: Box<Class>) -> Expr {
+    fn fold_class_inner(&mut self, ident: Ident, mut class: Box<Class>) -> Box<Expr> {
         let initialize = private_ident!("_initialize");
         let super_class_ident = class
             .super_class

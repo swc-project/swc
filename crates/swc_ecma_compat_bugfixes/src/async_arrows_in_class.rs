@@ -42,7 +42,7 @@ impl Fold for AsyncArrowsInClass {
         res
     }
 
-    fn fold_expr(&mut self, n: Expr) -> Expr {
+    fn fold_expr(&mut self, n: Expr) -> Box<Expr> {
         let n = n.fold_children_with(self);
         if !self.in_class_method {
             return n;

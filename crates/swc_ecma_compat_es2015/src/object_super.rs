@@ -176,7 +176,7 @@ impl SuperReplacer {
         }
     }
 
-    fn get_proto(&mut self) -> ExprOrSpread {
+    fn get_proto(&mut self) -> Box<Expr>OrSpread {
         CallExpr {
             span: DUMMY_SP,
             callee: helper!(get_prototype_of),
@@ -189,7 +189,7 @@ impl SuperReplacer {
     }
 
     // .a -> "a"
-    fn normalize_computed_expr(&mut self, prop: &mut SuperProp) -> Expr {
+    fn normalize_computed_expr(&mut self, prop: &mut SuperProp) -> Box<Expr> {
         match prop.take() {
             SuperProp::Ident(Ident {
                 sym: value, span, ..
@@ -344,7 +344,7 @@ impl SuperReplacer {
         }
     }
 
-    fn super_to_get_call(proto: ExprOrSpread, super_token: Span, prop: ExprOrSpread) -> Expr {
+    fn super_to_get_call(proto: ExprOrSpread, super_token: Span, prop: ExprOrSpread) -> Box<Expr> {
         CallExpr {
             span: super_token,
             callee: helper!(get),
@@ -368,7 +368,7 @@ impl SuperReplacer {
         super_token: Span,
         prop: ExprOrSpread,
         rhs: ExprOrSpread,
-    ) -> Expr {
+    ) -> Box<Expr> {
         CallExpr {
             span: super_token,
             callee: helper!(set),
@@ -393,7 +393,7 @@ impl SuperReplacer {
         op: AssignOp,
         rhs: Box<Expr>,
         prefix: bool,
-    ) -> Expr {
+    ) -> Box<Expr> {
         let computed = match prop {
             SuperProp::Ident(_) => false,
             SuperProp::Computed(_) => true,

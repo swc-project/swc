@@ -1582,7 +1582,7 @@ impl<I: Tokens> Parser<I> {
 
         // parse jsx
         if self.input.syntax().jsx() {
-            fn into_expr(e: EitherBoxed<JSXFragment, JSXElement>) -> Expr {
+            fn into_expr(e: EitherBoxed<JSXFragment, JSXElement>) -> Box<Expr> {
                 match e {
                     Either::Left(l) => l.into(),
                     Either::Right(r) => r.into(),

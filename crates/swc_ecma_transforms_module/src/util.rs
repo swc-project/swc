@@ -170,7 +170,7 @@ pub(super) fn object_define_property(
     target: ExprOrSpread,
     prop_name: ExprOrSpread,
     descriptor: ExprOrSpread,
-) -> Expr {
+) -> Box<Expr> {
     member_expr!(Default::default(), DUMMY_SP, Object.defineProperty)
         .as_call(DUMMY_SP, vec![target, prop_name, descriptor])
 }
@@ -245,7 +245,7 @@ pub(crate) fn object_define_enumerable(
     target: ExprOrSpread,
     prop_name: ExprOrSpread,
     prop: PropOrSpread,
-) -> Expr {
+) -> Box<Expr> {
     object_define_property(
         target,
         prop_name,

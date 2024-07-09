@@ -17,7 +17,7 @@ use swc_ecma_visit::{Fold, FoldWith};
 
 struct ParenRemover;
 impl Fold for ParenRemover {
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
+    fn fold_expr(&mut self, expr: Expr) -> Box<Expr> {
         let expr = expr;
         let span = expr.span();
 

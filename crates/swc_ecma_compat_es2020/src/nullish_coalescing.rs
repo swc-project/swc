@@ -225,7 +225,7 @@ impl VisitMut for NullishCoalescing {
 }
 
 #[tracing::instrument(level = "info", skip_all)]
-fn make_cond(c: Config, span: Span, alias: &Ident, var_expr: Box<Expr>, init: Expr) -> Expr {
+fn make_cond(c: Config, span: Span, alias: &Ident, var_expr: Box<Expr>, init: Expr) -> Box<Expr> {
     if c.no_document_all {
         CondExpr {
             span,

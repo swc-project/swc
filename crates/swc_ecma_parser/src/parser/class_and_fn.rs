@@ -1780,11 +1780,11 @@ mod tests {
 
     use super::*;
 
-    fn lhs(s: &'static str) -> Expr {
+    fn lhs(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| p.parse_lhs_expr())
     }
 
-    fn expr(s: &'static str) -> Expr {
+    fn expr(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| p.parse_expr())
     }
 

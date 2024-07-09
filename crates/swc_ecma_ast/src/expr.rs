@@ -211,7 +211,7 @@ boxed_variants!(
 impl Expr {
     /// Creates `void 0`.
     #[inline]
-    pub fn undefined(span: Span) -> Expr {
+    pub fn undefined(span: Span) -> Box<Expr> {
         UnaryExpr {
             span,
             op: op!("void"),
@@ -318,7 +318,7 @@ impl Expr {
     /// expression of a parenthesized expression.
     pub fn unwrap_seqs_and_parens(&self) -> &Self {
         self.unwrap_with(|expr| match expr {
-            Expr::Seq(s) => s.exprs.last(),
+            Expr::Seq(s) => s.exprs.last().map(|v| &**v),
             Expr::Paren(p) => Some(&p.expr),
             _ => None,
         })
@@ -330,7 +330,7 @@ impl Expr {
     /// # Panics
     ///
     /// Panics if `exprs` is empty.
-    pub fn from_exprs(mut exprs: Vec<Box<Expr>>) -> Expr {
+    pub fn from_exprs(mut exprs: Vec<Box<Expr>>) -> Box<Expr> {
         debug_assert!(!exprs.is_empty(), "`exprs` must not be empty");
 
         if exprs.len() == 1 {
@@ -353,7 +353,7 @@ impl Expr {
     ///
     /// This preserves SyntaxContext of [`Expr::Ident`], and noop for
     /// [`Expr::JSXMember`] and [`Expr::JSXNamespacedName`].
-    pub fn with_span(mut self, span: Span) -> Expr {
+    pub fn with_span(mut self, span: Span) -> Box<Expr> {
         self.set_span(span);
         self
     }
