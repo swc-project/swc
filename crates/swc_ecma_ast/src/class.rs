@@ -83,6 +83,20 @@ pub enum ClassMember {
     AutoAccessor(Box<AutoAccessor>),
 }
 
+boxed_variants!(
+    ClassMember,
+    [
+        Constructor,
+        ClassMethod,
+        PrivateMethod,
+        ClassProp,
+        PrivateProp,
+        TsIndexSignature,
+        StaticBlock,
+        AutoAccessor
+    ]
+);
+
 impl Take for ClassMember {
     fn dummy() -> Self {
         ClassMember::Empty(EmptyStmt { span: DUMMY_SP })
