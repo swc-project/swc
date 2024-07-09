@@ -1598,6 +1598,17 @@ impl From<SimpleAssignTarget> for Expr {
             SimpleAssignTarget::TsTypeAssertion(a) => (Expr::TsTypeAssertion(a)),
             SimpleAssignTarget::TsInstantiation(a) => (Expr::TsInstantiation(a)),
             SimpleAssignTarget::Invalid(i) => (Expr::Invalid(i)),
+            SimpleAssignTarget::Ident(i) => Expr::Ident(i.into()),
+            SimpleAssignTarget::Member(m) => Expr::Member(m),
+            SimpleAssignTarget::SuperProp(s) => Expr::SuperProp(s),
+            SimpleAssignTarget::Paren(s) => Expr::Paren(s),
+            SimpleAssignTarget::OptChain(s) => Expr::OptChain(s),
+            SimpleAssignTarget::TsAs(a) => Expr::TsAs(a),
+            SimpleAssignTarget::TsSatisfies(s) => Expr::TsSatisfies(s),
+            SimpleAssignTarget::TsNonNull(n) => Expr::TsNonNull(n),
+            SimpleAssignTarget::TsTypeAssertion(a) => Expr::TsTypeAssertion(a),
+            SimpleAssignTarget::TsInstantiation(a) => Expr::TsInstantiation(a),
+            SimpleAssignTarget::Invalid(i) => Expr::Invalid(i),
         }
     }
 }
