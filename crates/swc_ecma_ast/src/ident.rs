@@ -400,6 +400,24 @@ impl From<IdentName> for Ident {
     }
 }
 
+impl From<BindingIdent> for IdentName {
+    fn from(i: BindingIdent) -> Self {
+        IdentName {
+            span: i.span,
+            sym: i.sym,
+        }
+    }
+}
+
+impl From<IdentName> for BindingIdent {
+    fn from(i: IdentName) -> Self {
+        BindingIdent {
+            id: i.into(),
+            ..Default::default()
+        }
+    }
+}
+
 /// See [Ident] for documentation.
 pub type Id = (Atom, SyntaxContext);
 
