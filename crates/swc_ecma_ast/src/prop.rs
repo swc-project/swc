@@ -76,7 +76,7 @@ pub struct SetterProp {
     pub span: Span,
     pub key: PropName,
     pub this_param: Option<Pat>,
-    pub param: Box<Pat>,
+    pub param: Pat,
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub body: Option<BlockStmt>,
 }

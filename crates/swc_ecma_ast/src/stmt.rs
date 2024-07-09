@@ -425,11 +425,11 @@ pub enum ForHead {
     UsingDecl(Box<UsingDecl>),
 
     #[tag("*")]
-    Pat(Box<Pat>),
+    Pat(Pat),
 }
 
 bridge_from!(ForHead, Box<VarDecl>, VarDecl);
-bridge_from!(ForHead, Box<Pat>, Pat);
+bridge_from!(ForHead, Pat, Pat);
 
 impl Take for ForHead {
     fn dummy() -> Self {

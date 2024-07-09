@@ -121,7 +121,7 @@ pub struct ObjectPat {
 pub struct AssignPat {
     pub span: Span,
 
-    pub left: Box<Pat>,
+    pub left: Pat,
 
     pub right: Expr,
 }
@@ -137,7 +137,7 @@ pub struct RestPat {
     pub dot3_token: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
-    pub arg: Box<Pat>,
+    pub arg: Pat,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
@@ -166,7 +166,7 @@ pub struct KeyValuePatProp {
     pub key: PropName,
 
     #[span(hi)]
-    pub value: Box<Pat>,
+    pub value: Pat,
 }
 /// `{key}` or `{key = value}`
 #[ast_node("AssignmentPatternProperty")]
