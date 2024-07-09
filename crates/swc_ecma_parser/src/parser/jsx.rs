@@ -107,7 +107,7 @@ impl<I: Tokens> Parser<I> {
                 let expr = self.parse_jsx_element()?;
                 match expr {
                     Either::Left(n) => Ok(JSXAttrValue::JSXFragment(n)),
-                    Either::Right(n) => Ok(JSXAttrValue::JSXElement(Box::new(n))),
+                    Either::Right(n) => Ok(JSXAttrValue::JSXElement(n)),
                 }
             }
 
@@ -131,7 +131,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// Parse JSX spread child
-    pub(super) fn parse_jsx_spread_child(&mut self) -> PResult<JSXSpreadChild> {
+    pub(super) fn parse_jsx_spread_child(&mut self) -> PResult<Box<JSXSpreadChild>> {
         debug_assert!(self.input.syntax().jsx());
         let start = cur_pos!(self);
         expect!(self, '{');
@@ -139,10 +139,10 @@ impl<I: Tokens> Parser<I> {
         let expr = self.parse_expr()?;
         expect!(self, '}');
 
-        Ok(JSXSpreadChild {
+        Ok(Box::new(JSXSpreadChild {
             span: span!(self, start),
             expr,
-        })
+        }))
     }
 
     /// Parses JSX expression enclosed into curly brackets.
@@ -214,9 +214,9 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().jsx());
 
         if eat!(self, JSXTagEnd) {
-            return Ok(Either::Left(JSXOpeningFragment {
+            return Ok(Either::Left(Box::new(JSXOpeningFragment {
                 span: span!(self, start),
-            }));
+            })));
         }
 
         let ctx = Context {
@@ -343,7 +343,7 @@ impl<I: Tokens> Parser<I> {
 
                             children.push(p.parse_jsx_element_at(start).map(|e| match e {
                                 Either::Left(e) => JSXElementChild::from(e),
-                                Either::Right(e) => JSXElementChild::from(Box::new(e)),
+                                Either::Right(e) => JSXElementChild::from(e),
                             })?);
                         }
                         Token::JSXText { .. } => {
