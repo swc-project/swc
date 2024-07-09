@@ -397,7 +397,7 @@ impl<'a, I: Tokens> Parser<I> {
         let expr = match *expr {
             Expr::Ident(ident) => {
                 if eat!(self, ':') {
-                    return self.parse_labelled_stmt(ident);
+                    return self.parse_labelled_stmt(ident.into());
                 }
                 Box::new(Expr::Ident(ident))
             }
@@ -1126,7 +1126,7 @@ impl<'a, I: Tokens> Parser<I> {
         })
     }
 
-    fn parse_labelled_stmt(&mut self, l: Ident) -> PResult<Stmt> {
+    fn parse_labelled_stmt(&mut self, l: IdentName) -> PResult<Stmt> {
         let ctx = Context {
             is_break_allowed: true,
             allow_using_decl: false,
