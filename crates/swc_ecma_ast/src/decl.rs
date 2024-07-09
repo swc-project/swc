@@ -57,6 +57,19 @@ macro_rules! decl_from {
 }
 
 decl_from!(
+macro_rules! bridge_decl_from {
+    ($src:ty) => {
+        bridge_from!(crate::Decl, Box<$src>, $src);
+        bridge_from!(crate::Stmt, crate::Decl, $src);
+        bridge_from!(crate::ModuleItem, crate::Stmt, $src);
+    };
+
+    ($($src:ty),*) => {
+        $(bridge_decl_from!($src);)*
+    };
+}
+
+bridge_decl_from!(
     ClassDecl,
     FnDecl,
     VarDecl,
