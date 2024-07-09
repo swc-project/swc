@@ -1019,9 +1019,12 @@ impl<I: Tokens> Parser<I> {
                     "async".into(),
                     async_span,
                 )))),
+            return Ok(Expr::Call(Box::new(CallExpr {
+                span: span!(self, async_span.lo()),
+                callee: Callee::Expr(Expr::Ident(Ident::new_no_ctxt("async".into(), async_span))),
                 args: expr_or_spreads,
                 ..Default::default()
-            }));
+            })));
         }
 
         // It was not head of arrow function.
