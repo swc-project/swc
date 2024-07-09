@@ -1639,7 +1639,7 @@ impl<I: Tokens> Parser<I> {
                         }
                     }
                     Callee::Expr(obj) => {
-                        let expr = MemberExpr { span, obj, prop };
+                        let expr = Box::new(MemberExpr { span, obj, prop });
                         let expr = if unwrap_ts_non_null(&expr.obj).is_opt_chain()
                             || question_dot_token.is_some()
                         {
@@ -1654,7 +1654,7 @@ impl<I: Tokens> Parser<I> {
                         };
                         if let Some(type_args) = type_args {
                             TsInstantiation {
-                                expr: Box::new(expr),
+                                expr,
                                 type_args,
                                 span: span!(self, start),
                             }
