@@ -996,18 +996,18 @@ mod tests {
                 elems: vec![
                     None,
                     Some(Pat::Ident(ident("a").into())),
-                    Some(Pat::Array(ArrayPat {
+                    Some(Pat::Array(Box::new(ArrayPat {
                         span,
                         optional: false,
                         elems: vec![Some(Pat::Ident(ident("b").into()))],
                         type_ann: None
-                    })),
-                    Some(Pat::Array(ArrayPat {
+                    }))),
+                    Some(Pat::Array(Box::new(ArrayPat {
                         span,
                         optional: false,
                         elems: vec![Some(Pat::Ident(ident("c").into()))],
                         type_ann: None
-                    }))
+                    })))
                 ],
                 type_ann: None
             }))
@@ -1018,27 +1018,27 @@ mod tests {
     fn array_pat_empty() {
         assert_eq_ignore_span!(
             array_pat("[a, , [b], [c]]"),
-            Pat::Array(ArrayPat {
+            Pat::Array(Box::new(ArrayPat {
                 span,
                 optional: false,
                 elems: vec![
                     Some(Pat::Ident(ident("a").into())),
                     None,
-                    Some(Pat::Array(ArrayPat {
+                    Some(Pat::Array(Box::new(ArrayPat {
                         span,
                         optional: false,
                         elems: vec![Some(Pat::Ident(ident("b").into()))],
                         type_ann: None
-                    })),
-                    Some(Pat::Array(ArrayPat {
+                    }))),
+                    Some(Pat::Array(Box::new(ArrayPat {
                         span,
                         optional: false,
                         elems: vec![Some(Pat::Ident(ident("c").into()))],
                         type_ann: None
-                    }))
+                    })))
                 ],
                 type_ann: None
-            })
+            }))
         );
     }
 

@@ -765,9 +765,9 @@ impl<'a, I: Tokens> Parser<I> {
 
                 match &mut pat {
                     Pat::Ident(BindingIdent { type_ann, .. })
-                    | Pat::Array(ArrayPat { type_ann, .. })
-                    | Pat::Rest(RestPat { type_ann, .. })
-                    | Pat::Object(ObjectPat { type_ann, .. }) => {
+                    | Pat::Array(box ArrayPat { type_ann, .. })
+                    | Pat::Rest(box RestPat { type_ann, .. })
+                    | Pat::Object(box ObjectPat { type_ann, .. }) => {
                         *type_ann = Some(Box::new(TsTypeAnn {
                             span: span!(self, type_ann_start),
                             type_ann: ty,
