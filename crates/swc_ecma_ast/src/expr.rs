@@ -97,7 +97,7 @@ pub enum Expr {
     #[tag("RegExpLiteral")]
     #[tag("JSXText")]
     #[tag("BigIntLiteral")]
-    Lit(Box<Lit>),
+    Lit(Lit),
 
     #[tag("TemplateLiteral")]
     Tpl(Box<Tpl>),
