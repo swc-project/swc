@@ -3693,12 +3693,14 @@ fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
             prefix: true,
             ..
         })
-        | Expr::Unary(UnaryExpr {
+        | Expr::Unary(box UnaryExpr {
             op: op!(unary, "-"),
             ..
         }) if node.op == op!(unary, "-") => true,
 
-        Expr::Lit(Lit::Num(v)) if v.value.is_sign_negative() && node.op == op!(unary, "-") => true,
+        Expr::Lit(box Lit::Num(v)) if v.value.is_sign_negative() && node.op == op!(unary, "-") => {
+            true
+        }
 
         _ => false,
     }
