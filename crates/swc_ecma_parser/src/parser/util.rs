@@ -242,7 +242,7 @@ pub(super) trait ExprExt {
                 expr.is_valid_simple_assignment_target(strict)
             }
 
-            Expr::Member(box MemberExpr { obj, .. }) => match obj.as_ref() {
+            Expr::Member(box MemberExpr { obj, .. }) => match obj {
                 Expr::Member(..) => obj.is_valid_simple_assignment_target(strict),
                 Expr::OptChain(..) => false,
                 _ => true,
