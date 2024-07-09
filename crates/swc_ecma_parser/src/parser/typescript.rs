@@ -2603,7 +2603,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn try_parse_ts_generic_async_arrow_fn(
         &mut self,
         start: BytePos,
-    ) -> PResult<Option<ArrowExpr>> {
+    ) -> PResult<Option<Box<ArrowExpr>>> {
         if !cfg!(feature = "typescript") {
             return Ok(Default::default());
         }

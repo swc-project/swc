@@ -625,7 +625,7 @@ impl FastDts {
             },
             // TS does infer the type of identifiers
             Expr::Ident(_) => true,
-            Expr::Lit(lit) => match lit {
+            Expr::Lit(lit) => match &**lit {
                 Lit::Num(_) | Lit::Str(_) => true,
                 Lit::Bool(_) | Lit::Null(_) | Lit::BigInt(_) | Lit::Regex(_) | Lit::JSXText(_) => {
                     false
@@ -846,6 +846,7 @@ impl FastDts {
             Pat::Rest(rest_pat) => Some(TsFnParam::Rest(rest_pat)),
             Pat::Object(obj) => Some(TsFnParam::Object(obj)),
             Pat::Assign(assign_pat) => {
+                let assign_pat = *assign_pat;
                 self.expr_to_ts_type(assign_pat.right, false, false)
                     .map(|param| {
                         let name = if let Pat::Ident(ident) = *assign_pat.left {
