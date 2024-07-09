@@ -68,7 +68,7 @@ pub enum Stmt {
     If(IfStmt),
 
     #[tag("SwitchStatement")]
-    Switch(SwitchStmt),
+    Switch(Box<SwitchStmt>),
 
     #[tag("ThrowStatement")]
     Throw(ThrowStmt),
@@ -87,13 +87,13 @@ pub enum Stmt {
 
     #[tag("ForStatement")]
     #[is(name = "for_stmt")]
-    For(ForStmt),
+    For(Box<ForStmt>),
 
     #[tag("ForInStatement")]
-    ForIn(ForInStmt),
+    ForIn(Box<ForInStmt>),
 
     #[tag("ForOfStatement")]
-    ForOf(ForOfStmt),
+    ForOf(Box<ForOfStmt>),
 
     #[tag("ClassDeclaration")]
     #[tag("FunctionDeclaration")]
