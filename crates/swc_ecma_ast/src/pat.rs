@@ -36,6 +36,8 @@ pub enum Pat {
     Expr(Expr),
 }
 
+boxed_variants!(Pat, [ArrayPat, ObjectPat, AssignPat, RestPat]);
+
 // Implement Clone without inline to avoid multiple copies of the
 // implementation.
 impl Clone for Pat {
@@ -70,7 +72,6 @@ bridge_pat_from!(BindingIdent, Id);
 macro_rules! pat_to_other {
     ($T:ty) => {
         bridge_from!(crate::Param, crate::Pat, $T);
-        bridge_from!(Box<crate::Pat>, crate::Pat, $T);
     };
 }
 
