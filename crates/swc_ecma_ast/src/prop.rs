@@ -37,6 +37,8 @@ pub enum Prop {
     Method(MethodProp),
 }
 
+bridge_from!(Prop, Ident, IdentName);
+
 #[ast_node("KeyValueProperty")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
