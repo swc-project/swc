@@ -662,7 +662,7 @@ impl<I: Tokens> Parser<I> {
         };
         let obj = if let Some(type_args) = type_args {
             trace_cur!(self, parse_member_expr_or_new_expr__with_type_args);
-            Box::new(Expr::TsInstantiation(TsInstantiation {
+            Expr::TsInstantiation(Box::new(TsInstantiation {
                 expr: obj,
                 type_args,
                 span: span!(self, start),
@@ -813,7 +813,7 @@ impl<I: Tokens> Parser<I> {
                     unexpected!(p, "fail")
                 }
 
-                Ok(Some(Box::new(Expr::Arrow(ArrowExpr {
+                Ok(Some(Expr::Arrow(Box::new(ArrowExpr {
                     span: span!(p, expr_start),
                     is_async: async_span.is_some(),
                     is_generator: false,
@@ -870,7 +870,7 @@ impl<I: Tokens> Parser<I> {
                 true,
                 params.is_simple_parameter_list(),
             )?;
-            let arrow_expr = ArrowExpr {
+            let arrow_expr = Box::new(ArrowExpr {
                 span: span!(self, expr_start),
                 is_async: async_span.is_some(),
                 is_generator: false,
@@ -878,13 +878,12 @@ impl<I: Tokens> Parser<I> {
                 body,
                 return_type,
                 ..Default::default()
-            };
+            });
             if let BlockStmtOrExpr::BlockStmt(..) = &*arrow_expr.body {
                 if let Some(&Token::BinOp(..)) = self.input.cur() {
                     // ) is required
                     self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
-                    let errorred_expr =
-                        self.parse_bin_op_recursively(Box::new(arrow_expr.into()), 0)?;
+                    let errorred_expr = self.parse_bin_op_recursively(arrow_expr.into(), 0)?;
 
                     if !is!(self, ';') {
                         // ; is required
@@ -894,17 +893,17 @@ impl<I: Tokens> Parser<I> {
                     return Ok(errorred_expr);
                 }
             }
-            return Ok(Box::new(Expr::Arrow(arrow_expr)));
+            return Ok(Expr::Arrow(arrow_expr));
         } else {
             // If there's no arrow function, we have to check there's no
             // AssignProp in lhs to check against assignment in object literals
             // like (a, {b = 1});
             for expr_or_spread in paren_items.iter() {
                 if let AssignTargetOrSpread::ExprOrSpread(e) = expr_or_spread {
-                    if let Expr::Object(o) = &*e.expr {
+                    if let Expr::Object(o) = &e.expr {
                         for p in o.props.iter() {
                             if let PropOrSpread::Prop(prop) = p {
-                                if let Prop::Assign(..) = **prop {
+                                if let Prop::Assign(..) = prop {
                                     self.emit_err(prop.span(), SyntaxError::AssignProperty);
                                 }
                             }
@@ -925,7 +924,7 @@ impl<I: Tokens> Parser<I> {
             .collect::<Result<Vec<_>, _>>()?;
         if let Some(async_span) = async_span {
             // It's a call expression
-            return Ok(Box::new(Expr::Call(CallExpr {
+            return Ok(Expr::Call(CallExpr {
                 span: span!(self, async_span.lo()),
                 callee: Callee::Expr(Box::new(Expr::Ident(Ident::new_no_ctxt(
                     "async".into(),
@@ -933,7 +932,7 @@ impl<I: Tokens> Parser<I> {
                 )))),
                 args: expr_or_spreads,
                 ..Default::default()
-            })));
+            }));
         }
 
         // It was not head of arrow function.
