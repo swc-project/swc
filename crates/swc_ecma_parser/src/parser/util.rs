@@ -297,8 +297,3 @@ impl ExprExt for Expr {
         self
     }
 }
-impl ExprExt for Expr {
-    fn as_expr(&self) -> &Expr {
-        self
-    }
-}

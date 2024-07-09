@@ -295,10 +295,7 @@ impl<I: Tokens> Parser<I> {
             expect!(self, ')');
             expr
         } else {
-            let expr = self
-                .parse_ident(false, false)
-                .map(Expr::from)
-                .map(Box::new)?;
+            let expr = self.parse_ident(false, false).map(Expr::from)?;
 
             self.parse_subscripts(Callee::Expr(expr), false, true)?
         };
@@ -323,7 +320,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         let args = self.parse_args(false)?;
-        Ok(Box::new(Expr::Call(CallExpr {
+        Ok(Expr::Call(Box::new(CallExpr {
             span: span!(self, expr.span_lo()),
             callee: Callee::Expr(expr),
             args,
@@ -349,7 +346,7 @@ impl<I: Tokens> Parser<I> {
             let elem = p.parse_class_member()?;
 
             if !p.ctx().in_declare {
-                if let ClassMember::Constructor(Constructor {
+                if let ClassMember::Constructor(box Constructor {
                     body: Some(..),
                     span,
                     ..
@@ -838,7 +835,7 @@ impl<I: Tokens> Parser<I> {
                                 Pat::Assign(ref p) => Some(p.span()),
                                 _ => None,
                             },
-                            ParamOrTsParamProp::TsParamProp(TsParamProp {
+                            ParamOrTsParamProp::TsParamProp(box TsParamProp {
                                 param: TsParamPropParam::Assign(ref p),
                                 ..
                             }) => Some(p.span()),
@@ -861,18 +858,21 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
 
-                return Ok(ClassMember::Constructor(Constructor {
-                    span: span!(self, start),
-                    accessibility,
-                    key: match key {
-                        Key::Public(key) => key,
-                        _ => unreachable!("is_constructor() returns false for PrivateName"),
-                    },
-                    is_optional,
-                    params,
-                    body,
-                    ..Default::default()
-                }));
+                return Ok(ClassMember::Constructor(
+                    Constructor {
+                        span: span!(self, start),
+                        accessibility,
+                        key: match key {
+                            Key::Public(key) => key,
+                            _ => unreachable!("is_constructor() returns false for PrivateName"),
+                        },
+                        is_optional,
+                        params,
+                        body,
+                        ..Default::default()
+                    }
+                    .into(),
+                ));
             } else {
                 return self.make_method(
                     |p| p.parse_formal_params(),
@@ -1095,18 +1095,21 @@ impl<I: Tokens> Parser<I> {
             }
 
             if accessor_token.is_some() {
-                return Ok(ClassMember::AutoAccessor(AutoAccessor {
-                    span: span!(p, start),
-                    key,
-                    value,
-                    type_ann,
-                    is_static,
-                    decorators,
-                    accessibility,
-                    is_abstract,
-                    is_override,
-                    definite,
-                }));
+                return Ok(ClassMember::AutoAccessor(
+                    AutoAccessor {
+                        span: span!(p, start),
+                        key,
+                        value,
+                        type_ann,
+                        is_static,
+                        decorators,
+                        accessibility,
+                        is_abstract,
+                        is_override,
+                        definite,
+                    }
+                    .into(),
+                ));
             }
 
             Ok(match key {
@@ -1575,7 +1578,7 @@ impl OutputType for Expr {
         ident: Option<Ident>,
         function: Box<Function>,
     ) -> Result<Self, SyntaxError> {
-        Ok(Box::new(Expr::Fn(FnExpr { ident, function })))
+        Ok(Expr::Fn(FnExpr { ident, function }))
     }
 
     fn finish_class(
@@ -1583,7 +1586,7 @@ impl OutputType for Expr {
         ident: Option<Ident>,
         class: Box<Class>,
     ) -> Result<Self, SyntaxError> {
-        Ok(Box::new(Expr::Class(ClassExpr { ident, class })))
+        Ok(Expr::Class(ClassExpr { ident, class }))
     }
 }
 
