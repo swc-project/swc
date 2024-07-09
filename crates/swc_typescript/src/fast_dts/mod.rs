@@ -313,31 +313,45 @@ impl FastDts {
                                             (Lit::BigInt(big_int).into(), true)
                                         }
                                     };
+                        PropOrSpread::Prop(prop) => match prop {
+                            Prop::KeyValue(key_value) => {
+                                let (key, computed) = match key_value.key {
+                                    PropName::Ident(ident) => (Expr::Ident(ident), false),
+                                    PropName::Str(str_prop) => {
+                                        (Expr::Lit(Box::new(Lit::Str(str_prop))), false)
+                                    }
+                                    PropName::Num(num) => {
+                                        (Expr::Lit(Box::new(Lit::Num(num))), true)
+                                    }
+                                    PropName::Computed(computed) => (computed.expr, true),
+                                    PropName::BigInt(big_int) => {
+                                        (Expr::Lit(Box::new(Lit::BigInt(big_int))), true)
+                                    }
+                                };
 
-                                    let init_type = self
-                                        .expr_to_ts_type(key_value.value, as_const, as_readonly)
-                                        .map(type_ann);
+                                let init_type = self
+                                    .expr_to_ts_type(key_value.value, as_const, as_readonly)
+                                    .map(type_ann);
 
-                                    members.push(TsTypeElement::TsPropertySignature(
-                                        TsPropertySignature {
-                                            span: DUMMY_SP,
-                                            readonly: as_readonly,
-                                            key: Box::new(key),
-                                            computed,
-                                            optional: false,
-                                            type_ann: init_type,
-                                        },
-                                    ));
-                                }
-                                Prop::Shorthand(_)
-                                | Prop::Assign(_)
-                                | Prop::Getter(_)
-                                | Prop::Setter(_)
-                                | Prop::Method(_) => {
-                                    self.mark_diagnostic_unsupported_prop(prop.span());
-                                }
+                                members.push(TsTypeElement::TsPropertySignature(
+                                    TsPropertySignature {
+                                        span: DUMMY_SP,
+                                        readonly: as_readonly,
+                                        key,
+                                        computed,
+                                        optional: false,
+                                        type_ann: init_type,
+                                    },
+                                ));
                             }
-                        }
+                            Prop::Shorthand(_)
+                            | Prop::Assign(_)
+                            | Prop::Getter(_)
+                            | Prop::Setter(_)
+                            | Prop::Method(_) => {
+                                self.mark_diagnostic_unsupported_prop(prop.span());
+                            }
+                        },
                         PropOrSpread::Spread(_) => {
                             self.mark_diagnostic(DtsIssue::UnableToInferTypeFromSpread {
                                 range: self.source_range_to_range(item.span()),

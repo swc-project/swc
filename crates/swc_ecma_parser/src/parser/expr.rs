@@ -240,6 +240,7 @@ impl<I: Tokens> Parser<I> {
             Ok(CondExpr {
             Ok(Box::new(Expr::Cond(CondExpr {
             Ok(Expr::Cond(CondExpr {
+            Ok(Expr::Cond(Box::new(CondExpr {
                 span,
                 test,
                 cons,
@@ -247,6 +248,7 @@ impl<I: Tokens> Parser<I> {
             }
             .into())
             }))
+            })))
         } else {
             Ok(test)
         }
@@ -274,6 +276,9 @@ impl<I: Tokens> Parser<I> {
                         span: span!(self, start),
                     }
                     .into());
+                    return Ok(Expr::This(ThisExpr {
+                        span: span!(self, start),
+                    }));
                 }
 
                 tok!("async") => {
@@ -292,6 +297,7 @@ impl<I: Tokens> Parser<I> {
                             p.try_parse_ts_generic_async_arrow_fn(start)
                         }) {
                             return Ok(res.into());
+                            return Ok(Expr::Arrow(res));
                         }
                     }
 
@@ -369,6 +375,11 @@ impl<I: Tokens> Parser<I> {
                                 }
 
                                 return Ok(Lit::Regex(Regex { span, exp, flags }).into());
+                                return Ok(Expr::Lit(Box::new(Lit::Regex(Regex {
+                                    span,
+                                    exp,
+                                    flags,
+                                }))));
                             }
                             _ => unreachable!(),
                         }
@@ -383,6 +394,7 @@ impl<I: Tokens> Parser<I> {
 
                     // parse template literal
                     return Ok(self.with_ctx(ctx).parse_tpl(false)?.into());
+                    return Ok(Expr::Tpl(self.with_ctx(ctx).parse_tpl(false)?));
                 }
 
                 tok!('(') => {
