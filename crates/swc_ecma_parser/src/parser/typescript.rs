@@ -2096,7 +2096,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 let lit = self.parse_lit()?;
-                let lit = match lit {
+                let lit = match *lit {
                     Lit::Num(Number { span, value, raw }) => {
                         let mut new_raw = String::from("-");
 
@@ -2392,7 +2392,7 @@ impl<I: Tokens> Parser<I> {
                                 },
                                 ..*f.function
                             }),
-                            ..f
+                            ..*f
                         })),
                         _ => decl,
                     })
@@ -2412,7 +2412,7 @@ impl<I: Tokens> Parser<I> {
                                 },
                                 ..*c.class
                             }),
-                            ..c
+                            ..*c
                         })),
                         _ => decl,
                     })
