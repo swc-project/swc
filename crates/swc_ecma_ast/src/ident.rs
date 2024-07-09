@@ -363,6 +363,18 @@ pub struct IdentName {
     pub sym: Atom,
 }
 
+impl AsRef<str> for IdentName {
+    fn as_ref(&self) -> &str {
+        &self.sym
+    }
+}
+
+impl IdentName {
+    pub const fn new(sym: Atom, span: Span) -> Self {
+        Self { span, sym }
+    }
+}
+
 impl Take for IdentName {
     fn dummy() -> Self {
         Default::default()
@@ -559,6 +571,7 @@ pub trait EsReserved: AsRef<str> {
 }
 
 impl EsReserved for Atom {}
+impl EsReserved for IdentName {}
 impl EsReserved for Ident {}
 impl EsReserved for BindingIdent {}
 impl EsReserved for &'_ str {}

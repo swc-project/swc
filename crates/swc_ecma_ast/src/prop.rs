@@ -52,9 +52,8 @@ pub struct KeyValueProp {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct AssignProp {
-    #[span(lo)]
+    pub span: Span,
     pub key: Ident,
-    #[span(hi)]
     pub value: Box<Expr>,
 }
 

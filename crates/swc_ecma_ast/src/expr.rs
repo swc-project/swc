@@ -22,8 +22,8 @@ use crate::{
         TsAsExpr, TsConstAssertion, TsInstantiation, TsNonNullExpr, TsSatisfiesExpr, TsTypeAnn,
         TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
     },
-    ArrayPat, BindingIdent, ComputedPropName, Id, ImportPhase, Invalid, KeyValueProp, Number,
-    ObjectPat, PropName, Str,
+    ArrayPat, BindingIdent, ComputedPropName, Id, IdentName, ImportPhase, Invalid, KeyValueProp,
+    Number, ObjectPat, PropName, Str,
 };
 
 #[ast_node(no_clone)]
@@ -532,7 +532,7 @@ impl ObjectLit {
                     Prop::KeyValue(kv) => {
                         let key = match &kv.key {
                             PropName::Ident(i) => i.clone(),
-                            PropName::Str(s) => Ident::new_no_ctxt(s.value.clone(), s.span),
+                            PropName::Str(s) => IdentName::new_no(s.value.clone(), s.span),
                             _ => return None,
                         };
 
@@ -598,7 +598,7 @@ impl ImportWith {
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, EqIgnoreSpan)]
 pub struct ImportWithItem {
-    pub key: Ident,
+    pub key: IdentName,
     pub value: Str,
 }
 
@@ -844,7 +844,7 @@ pub struct MemberExpr {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum MemberProp {
     #[tag("Identifier")]
-    Ident(Ident),
+    Ident(IdentName),
     #[tag("PrivateName")]
     PrivateName(PrivateName),
     #[tag("Computed")]
@@ -874,7 +874,7 @@ pub struct SuperPropExpr {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum SuperProp {
     #[tag("Identifier")]
-    Ident(Ident),
+    Ident(IdentName),
     #[tag("Computed")]
     Computed(ComputedPropName),
 }
@@ -897,13 +897,13 @@ impl Take for MemberProp {
 
 impl Default for MemberProp {
     fn default() -> Self {
-        MemberProp::Ident(Ident::dummy())
+        MemberProp::Ident(Default::default())
     }
 }
 
 impl Take for SuperProp {
     fn dummy() -> Self {
-        SuperProp::Ident(Ident::dummy())
+        SuperProp::Ident(Default::default())
     }
 }
 

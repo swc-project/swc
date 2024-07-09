@@ -166,7 +166,7 @@ pub struct JSXAttr {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum JSXAttrName {
     #[tag("Identifier")]
-    Ident(Ident),
+    Ident(IdentName),
     #[tag("JSXNamespacedName")]
     JSXNamespacedName(JSXNamespacedName),
 }

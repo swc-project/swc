@@ -6,7 +6,7 @@ use crate::{
     expr::Expr,
     ident::Ident,
     pat::Pat,
-    Lit, Str, UsingDecl,
+    IdentName, Lit, Str, UsingDecl,
 };
 
 /// Use when only block statements are allowed.
@@ -227,7 +227,7 @@ pub struct ReturnStmt {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct LabeledStmt {
     pub span: Span,
-    pub label: Ident,
+    pub label: IdentName,
     pub body: Box<Stmt>,
 }
 
@@ -237,7 +237,7 @@ pub struct LabeledStmt {
 pub struct BreakStmt {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub label: Option<Ident>,
+    pub label: Option<IdentName>,
 }
 
 #[ast_node("ContinueStatement")]
@@ -246,7 +246,7 @@ pub struct BreakStmt {
 pub struct ContinueStmt {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub label: Option<Ident>,
+    pub label: Option<IdentName>,
 }
 
 #[ast_node("IfStatement")]
