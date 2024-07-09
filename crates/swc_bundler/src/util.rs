@@ -191,6 +191,15 @@ fn metadata(key: &str, value: &str) -> PropOrSpread {
             raw: None,
         })
         .into(),
+        key: PropName::Ident(Ident::new_no_ctxt(key.into(), DUMMY_SP)),
+        value: Box::new(Expr::Lit(Lit::Str(Str {
+        key: PropName::Ident(Ident::new_no_ctxt(key.into(), DUMMY_SP)),
+        value: Lit::Str(Str {
+            span: DUMMY_SP,
+            value: value.into(),
+            raw: None,
+        })
+        .into(),
     })))
 }
 

@@ -132,6 +132,7 @@ impl Optimizer<'_> {
                     .into(),
                 }
                 .into();
+                });
             }
 
             _ => {}

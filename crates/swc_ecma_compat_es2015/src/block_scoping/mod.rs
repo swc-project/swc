@@ -838,6 +838,38 @@ impl VisitMut for FlowHelper<'_> {
                     ),
                 }
                 .into();
+                    arg: Some(Box::new(Expr::Object(ObjectLit {
+                        span,
+                        props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                            key: PropName::Ident(Ident::new_no_ctxt("v".into(), DUMMY_SP)),
+                            value: s.arg.take().unwrap_or_else(|| {
+                                Box::new(Expr::Unary(UnaryExpr {
+                                    span: DUMMY_SP,
+                                    op: op!("void"),
+                                    arg: Expr::undefined(DUMMY_SP),
+                                }))
+                            }),
+                        })))],
+                    }))),
+                    arg: Some(
+                        ObjectLit {
+                            span,
+                            props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                KeyValueProp {
+                                    key: PropName::Ident(Ident::new_no_ctxt("v".into(), DUMMY_SP)),
+                                    value: s.arg.take().unwrap_or_else(|| {
+                                        Box::new(Expr::Unary(UnaryExpr {
+                                            span: DUMMY_SP,
+                                            op: op!("void"),
+                                            arg: Expr::undefined(DUMMY_SP),
+                                        }))
+                                    }),
+                                },
+                            )))],
+                        }
+                        .into(),
+                    ),
+                });
             }
             _ => node.visit_mut_children_with(self),
         }
@@ -894,6 +926,16 @@ impl MutationHandler<'_> {
                     left: Ident::new(id.0.clone(), DUMMY_SP, id.1).into(),
                     op: op!("="),
                     right: Box::new(Ident::new(id.0.clone(), DUMMY_SP, *ctxt).into()),
+                }
+                .into(),
+            );
+            exprs.push(Box::new(Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                left: Ident::new(id.0.clone(), DUMMY_SP, id.1).into(),
+                op: op!("="),
+                right: Box::new(Expr::Ident(Ident::new(id.0.clone(), DUMMY_SP, *ctxt))),
+            })));
+                    right: Box::new(Expr::Ident(Ident::new(id.0.clone(), DUMMY_SP, *ctxt))),
                 }
                 .into(),
             );

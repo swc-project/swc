@@ -233,12 +233,14 @@ impl Pure<'_> {
             }
 
             let sep: Box<Expr> = Lit::Str(Str {
+            let sep = Lit::Str(Str {
                 span: DUMMY_SP,
                 raw: None,
                 value: separator,
             })
             .into();
             let mut res = Lit::Str(Str {
+            let mut res = Expr::Lit(Lit::Str(Str {
                 span: DUMMY_SP,
                 raw: None,
                 value: js_word!(""),

@@ -1655,6 +1655,7 @@ fn ignore_result(e: Box<Expr>, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Box<
                     ctx.preserve_effects(
                         span,
                         Expr::undefined(DUMMY_SP),
+                        *Expr::undefined(DUMMY_SP),
                         once(ObjectLit { span, props }.into()),
                     ),
                     true,

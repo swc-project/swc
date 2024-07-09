@@ -912,6 +912,7 @@ where
                         raw: None,
                         value: b.value.to_string().into(),
                     }
+                    .into()
                     .into(),
                     PropName::Computed(c) => c.expr,
                 },
@@ -936,6 +937,7 @@ where
                         raw: None,
                         value: b.value.to_string().into(),
                     }
+                    .into()
                     .into(),
                 }),
                 PropName::Computed(c) => MemberProp::Computed(c),

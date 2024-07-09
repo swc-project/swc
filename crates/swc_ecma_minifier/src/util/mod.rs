@@ -92,6 +92,7 @@ pub(crate) fn make_bool(span: Span, value: bool) -> Expr {
         .into(),
     }
     .into()
+    })
 }
 
 /// Additional methods for optimizing expressions.

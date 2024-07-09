@@ -466,6 +466,7 @@ impl Optimizer<'_> {
                     .into(),
                 );
                 SeqExpr {
+                Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
                     exprs,
                 }

@@ -635,6 +635,10 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                             right: Box::new(value.into()),
                         }
                         .into(),
+                        op: op!("="),
+                        left: p.try_into().unwrap(),
+                        right: Box::new(value.into()),
+                        right: Box::new(Expr::Ident(value)),
                     }
                     .into(),
                 );
@@ -727,6 +731,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     .into(),
                 }
                 .into();
+                });
 
                 let right = UnaryExpr {
                     span: DUMMY_SP,
@@ -789,6 +794,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 op: op!("="),
                 left: iterator_error.clone().into(),
                 right: Box::new(err_param.clone().into()),
+                right: Box::new(Expr::Ident(err_param.clone())),
             }
             .into(),
         }
@@ -823,6 +829,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         .into();
 
         let iterator_return: Expr = CallExpr {
+        let iterator_return = CallExpr {
             span: DUMMY_SP,
             callee: iterator
                 .clone()
@@ -875,6 +882,12 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     }
                     .into(),
                 ),
+                right: Box::new(Expr::Bin(BinExpr {
+                    span: DUMMY_SP,
+                    op: op!("!="),
+                    left: iterator.make_member(quote_ident!("return")).into(),
+                    right: Null { span: DUMMY_SP }.into(),
+                })),
             }
             .into(),
             cons: Box::new(Stmt::Block(BlockStmt {

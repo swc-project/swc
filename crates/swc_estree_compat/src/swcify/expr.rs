@@ -514,6 +514,8 @@ impl Swcify for ObjectProperty {
             value: match self.value {
                 ObjectPropVal::Pattern(pat) => match pat {
                     PatternLike::Id(i) => i.swcify(ctx).into(),
+                    PatternLike::Id(i) => Box::new(Expr::Ident(i.swcify(ctx).into())),
+                    PatternLike::Id(i) => i.swcify(ctx).into().into(),
                     _ => {
                         panic!("swc does not support ObjectPropVal::Pattern({:?})", pat)
                     }
@@ -795,6 +797,8 @@ impl Swcify for OptionalMemberExprProp {
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
             OptionalMemberExprProp::Id(v) => v.swcify(ctx).into(),
+            OptionalMemberExprProp::Id(v) => Box::new(Expr::Ident(v.swcify(ctx).into())),
+            OptionalMemberExprProp::Id(v) => v.swcify(ctx).into().into(),
             OptionalMemberExprProp::Expr(v) => v.swcify(ctx),
         }
     }

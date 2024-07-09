@@ -109,10 +109,7 @@ pub(crate) fn assign_value_to_this_prop(prop_name: PropName, value: Expr) -> Exp
 }
 
 /// this.#prop = value
-pub(crate) fn assign_value_to_this_private_prop(
-    private_name: PrivateName,
-    value: Expr,
-) -> Expr {
+pub(crate) fn assign_value_to_this_private_prop(private_name: PrivateName, value: Expr) -> Expr {
     let target = MemberExpr {
         obj: ThisExpr { span: DUMMY_SP }.into(),
         span: DUMMY_SP,

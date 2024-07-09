@@ -110,6 +110,7 @@ impl VisitMut for Spread {
 
                         let this = ident.clone().into();
                         let callee: Expr = AssignExpr {
+                        let callee = Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             left: ident.into(),
                             op: op!("="),

@@ -36,7 +36,7 @@ fn expr(s: &'static str) -> Expr {
 fn regex_expr() -> Box<Expr> {
     AssignExpr {
 fn regex_expr() -> Expr {
-    Box::new(Expr::Assign(AssignExpr {
+    AssignExpr {
         span,
         left: Ident::new_no_ctxt("re".into(), span).into(),
         op: AssignOp::Assign,
@@ -48,6 +48,11 @@ fn regex_expr() -> Expr {
             })
             .into(),
         ),
+        right: Box::new(Expr::Lit(Lit::Regex(Regex {
+            span,
+            exp: "w+".into(),
+            flags: "".into(),
+        }))),
     }
     .into()
 }

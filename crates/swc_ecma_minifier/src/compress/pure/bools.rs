@@ -366,6 +366,7 @@ impl Pure<'_> {
                         })
                         .into();
                         *n = SeqExpr {
+                        *n = Expr::Seq(SeqExpr {
                             span: *span,
                             exprs: vec![arg.take(), true_expr],
                         }

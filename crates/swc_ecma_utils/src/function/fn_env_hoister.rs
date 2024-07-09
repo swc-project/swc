@@ -639,6 +639,7 @@ impl<'a> VisitMut for InitThis<'a> {
                 .into(),
             }
             .into()
+            })
         }
     }
 }
@@ -714,6 +715,12 @@ fn extend_super(
             name: id.into(),
             init: Some(
                 ArrowExpr {
+            init: Some(Box::new(Expr::Arrow(ArrowExpr {
+                span: DUMMY_SP,
+                params: vec![prop.clone().into()],
+                body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Object(ObjectLit {
+            init: Some(
+                ObjectLit {
                     span: DUMMY_SP,
                     params: vec![prop.clone().into()],
                     body: Box::new(BlockStmtOrExpr::Expr(Box::new(
@@ -767,12 +774,121 @@ fn extend_super(
                 }
                 .into(),
             ),
+                            key: PropName::Ident(quote_ident!("_")),
+                            type_ann: None,
+                            body: Some(BlockStmt {
+                                stmts: vec![Expr::Ident(
+                                    get.ident
+                                        .get(&key)
+                                        .cloned()
+                                        .expect("getter not found")
+                                        .without_loc(),
+                                )
+                                .as_call(DUMMY_SP, Default::default())
+                                .into_return_stmt()
+                                .into()],
+                                ..Default::default()
+                            }),
+                        }),
+                        Prop::Setter(SetterProp {
+                            span: DUMMY_SP,
+                            key: PropName::Ident(quote_ident!("_")),
+                            this_param: None,
+                            param: value.clone().into(),
+                            body: Some(BlockStmt {
+                                stmts: vec![Expr::Ident(
+                                    set.ident
+                                        .get(&key)
+                                        .cloned()
+                                        .expect("setter not found")
+                                        .without_loc(),
+                                )
+                                .as_call(DUMMY_SP, vec![value.as_arg()])
+                                .into_stmt()],
+                                ..Default::default()
+                            }),
+                        }),
+                    ]
+                    .into_iter()
+                    .map(Box::new)
+                    .map(From::from)
+                    .collect(),
+                }
+                .into(),
+            ),
+            definite: false,
+        }
+    }));
+    if let Some(id) = update.computed {
+        let prop = private_ident!("_prop");
+        let value = private_ident!("v");
+
+        decls.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: id.into(),
+            init: Some(
+                ArrowExpr {
+                    span: DUMMY_SP,
+                    params: vec![prop.clone().into()],
+                    body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Object(ObjectLit {
+                        span: DUMMY_SP,
+                        props: vec![
+                            Prop::Getter(GetterProp {
+                                span: DUMMY_SP,
+                                key: PropName::Ident(quote_ident!("_")),
+                                type_ann: None,
+                                body: Some(BlockStmt {
+                                    stmts: vec![Expr::Ident(
+                                        get.computed
+                                            .clone()
+                                            .expect("getter computed not found")
+                                            .without_loc(),
+                                    )
+                                    .as_call(DUMMY_SP, vec![prop.clone().as_arg()])
+                                    .into_return_stmt()
+                                    .into()],
+                                    ..Default::default()
+                                }),
+                            }),
+                            Prop::Setter(SetterProp {
+                                span: DUMMY_SP,
+                                key: PropName::Ident(quote_ident!("_")),
+                                this_param: None,
+                                param: value.clone().into(),
+                                body: Some(BlockStmt {
+                                    stmts: vec![Expr::Ident(
+                                        set.computed
+                                            .clone()
+                                            .expect("setter computed not found")
+                                            .without_loc(),
+                                    )
+                                    .as_call(DUMMY_SP, vec![prop.as_arg(), value.as_arg()])
+                                    .into_return_stmt()
+                                    .into()],
+                                    ..Default::default()
+                                }),
+                            }),
+                        ]
+                        .into_iter()
+                        .map(Box::new)
+                        .map(From::from)
+                        .collect(),
+                    })))),
+                    ..Default::default()
+                }
+                .into(),
+            ),
             definite: false,
         });
     }
     decls.extend(get.ident.into_iter().map(|(key, ident)| {
         VarDeclarator {
             span: DUMMY_SP,
+            params: Vec::new(),
+            body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::SuperProp(
+                SuperPropExpr {
+                    obj: Super { span: DUMMY_SP },
+                    prop: SuperProp::Ident(key.into()),
             name: ident.without_loc().into(),
             init: Some(
                 ArrowExpr {
@@ -786,6 +902,13 @@ fn extend_super(
                         }
                         .into(),
                     ))),
+                    body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::SuperProp(
+                        SuperPropExpr {
+                            obj: Super { span: DUMMY_SP },
+                            prop: SuperProp::Ident(quote_ident!(key)),
+                            span: DUMMY_SP,
+                        },
+                    )))),
                     ..Default::default()
                 }
                 .into(),
@@ -803,6 +926,7 @@ fn extend_super(
                     span: DUMMY_SP,
                     params: vec![param.clone().into()],
                     body: Box::new(BlockStmtOrExpr::Expr(Box::new(
+                    body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::SuperProp(
                         SuperPropExpr {
                             obj: Super { span: DUMMY_SP },
                             prop: SuperProp::Computed(ComputedPropName {
@@ -813,6 +937,8 @@ fn extend_super(
                         }
                         .into(),
                     ))),
+                        },
+                    )))),
                     ..Default::default()
                 }
                 .into(),
@@ -847,6 +973,26 @@ fn extend_super(
                 }
                 .into(),
             ),
+                    left: SuperPropExpr {
+                        obj: Super { span: DUMMY_SP },
+                        prop: SuperProp::Ident(quote_ident!(key)),
+                        prop: SuperProp::Ident(key.into()),
+                    params: vec![value.clone().into()],
+                    body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        left: SuperPropExpr {
+                            obj: Super { span: DUMMY_SP },
+                            prop: SuperProp::Ident(quote_ident!(key)),
+                            span: DUMMY_SP,
+                        }
+                        .into(),
+                        op: op!("="),
+                        right: Box::new(Expr::Ident(value)),
+                    })))),
+                    ..Default::default()
+                }
+                .into(),
+            ),
             definite: false,
         }
     }));
@@ -877,6 +1023,26 @@ fn extend_super(
                         }
                         .into(),
                     ))),
+                    ..Default::default()
+                }
+                .into(),
+            ),
+                            expr: Box::new(Expr::Ident(prop)),
+                        }),
+                    body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        left: SuperPropExpr {
+                            obj: Super { span: DUMMY_SP },
+                            prop: SuperProp::Computed(ComputedPropName {
+                                span: DUMMY_SP,
+                                expr: Box::new(Expr::Ident(prop)),
+                            }),
+                            span: DUMMY_SP,
+                        }
+                        .into(),
+                        op: op!("="),
+                        right: Box::new(Expr::Ident(value)),
+                    })))),
                     ..Default::default()
                 }
                 .into(),

@@ -158,6 +158,17 @@ impl Params {
                                         }
                                         .into(),
                                     ),
+                                    test: Box::new(Expr::Bin(BinExpr {
+                                        left: Box::new(check_arg_len(i)),
+                                        op: op!("&&"),
+                                        right: Box::new(Expr::Bin(BinExpr {
+                                            left: make_arg_nth(i).into(),
+                                            op: op!("!=="),
+                                            right: Expr::undefined(DUMMY_SP),
+                                            span: DUMMY_SP,
+                                        })),
+                                        span,
+                                    })),
                                     cons: make_arg_nth(i).into(),
                                     alt: right,
                                 }

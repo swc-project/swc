@@ -214,6 +214,14 @@ impl Decorator2022_03 {
             ),
         }
         .into();
+            right: Box::new(Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: helper!(apply_decs_2203_r),
+                args: combined_args,
+                ..Default::default()
+            })),
+        }
+        .into();
 
         self.state.extra_stmts.push(
             ExprStmt {
@@ -245,6 +253,12 @@ impl Decorator2022_03 {
         match name {
             PropName::Ident(i) => (
                 Lit::Str(Str {
+                    span: i.span,
+                    value: i.sym.clone(),
+                    raw: None,
+                })
+                .into(),
+                Box::new(Expr::Lit(Lit::Str(Str {
                     span: i.span,
                     value: i.sym.clone(),
                     raw: None,
@@ -1483,6 +1497,17 @@ impl VisitMut for Decorator2022_03 {
                 args: once(ThisExpr { span: DUMMY_SP }.as_arg())
                     .chain(p.value.take().map(|v| v.as_arg()))
                     .collect(),
+
+                ..Default::default()
+            }
+            .into(),
+        );
+        p.value = Some(Box::new(Expr::Call(CallExpr {
+            span: DUMMY_SP,
+            callee: init.clone().as_callee(),
+            args: once(ThisExpr { span: DUMMY_SP }.as_arg())
+                .chain(p.value.take().map(|v| v.as_arg()))
+                .collect(),
 
                 ..Default::default()
             }

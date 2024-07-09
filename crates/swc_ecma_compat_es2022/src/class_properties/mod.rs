@@ -789,6 +789,21 @@ impl<C: Comments> ClassProperties<C> {
                                 }
                                 .into(),
                             ),
+                            init: Some(Box::new(Expr::from(NewExpr {
+                                span,
+                                callee: Box::new(Expr::Ident(quote_ident!("WeakMap"))),
+                                args: Some(Default::default()),
+                                ..Default::default()
+                            }))),
+                            init: Some(
+                                NewExpr {
+                                    span,
+                                    callee: Box::new(Expr::Ident(quote_ident!("WeakMap"))),
+                                    args: Some(Default::default()),
+                                    ..Default::default()
+                                }
+                                .into(),
+                            ),
                         });
                     };
                     if prop.is_static {
@@ -930,6 +945,7 @@ impl<C: Comments> ClassProperties<C> {
                             } else {
                                 NewExpr {
                                     span,
+                                    callee: Box::new(Expr::Ident(extra.into())),
                                     callee: extra.into(),
                                     args: Some(Default::default()),
                                     ..Default::default()

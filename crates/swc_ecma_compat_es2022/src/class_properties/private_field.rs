@@ -109,6 +109,7 @@ impl VisitMut for BrandCheckHandler<'_> {
                             right: right.clone().into(),
                         }
                         .into();
+                        });
                         return;
                     }
                 }
@@ -127,6 +128,7 @@ impl VisitMut for BrandCheckHandler<'_> {
                         right: class_name.clone().into(),
                     }
                     .into();
+                    });
                     return;
                 }
 

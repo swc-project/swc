@@ -17,7 +17,7 @@ pub mod super_field;
 pub fn get_prototype_of(obj: Box<Expr>) -> Box<Expr> {
     CallExpr {
 pub fn get_prototype_of(obj: Expr) -> Expr {
-    Box::new(Expr::Call(CallExpr {
+    CallExpr {
         span: DUMMY_SP,
         callee: helper!(get_prototype_of),
         args: vec![obj.as_arg()],
