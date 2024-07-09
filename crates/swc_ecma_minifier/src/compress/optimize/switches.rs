@@ -1,4 +1,4 @@
-use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmt, ExprExt, ExprFactory, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -308,10 +308,14 @@ impl Optimizer<'_> {
                         if let Some(Stmt::Break(BreakStmt { label: None, .. })) =
                             cases[i].cons.last()
                         {
-                            cases[i].cons[..(cases[i].cons.len() - 1)]
-                                .eq_ignore_span(&cases[j].cons)
+                            SyntaxContext::within_ignored_ctxt(|| {
+                                cases[i].cons[..(cases[i].cons.len() - 1)]
+                                    .eq_ignore_span(&cases[j].cons)
+                            })
                         } else {
-                            cases[i].cons.eq_ignore_span(&cases[j].cons)
+                            SyntaxContext::within_ignored_ctxt(|| {
+                                cases[i].cons.eq_ignore_span(&cases[j].cons)
+                            })
                         }
                     };
 
