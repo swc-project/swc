@@ -178,7 +178,7 @@ pub fn parse_sync(src: String, opts: Buffer, filename: Option<String>) -> napi::
 
     let program = try_with(c.cm.clone(), false, ErrorFormat::Normal, |handler| {
         c.run(|| {
-            let fm = c.cm.new_source_file(filename, src);
+            let fm = c.cm.new_source_file(filename.into(), src);
 
             let comments = if options.comments {
                 Some(c.comments() as &dyn Comments)

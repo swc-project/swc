@@ -71,9 +71,9 @@ impl Task for TransformTask {
                     Input::Source { src } => {
                         let fm = self.c.cm.new_source_file(
                             if options.filename.is_empty() {
-                                FileName::Anon
+                                FileName::Anon.into()
                             } else {
-                                FileName::Real(options.filename.clone().into())
+                                FileName::Real(options.filename.clone().into()).into()
                             },
                             src.to_string(),
                         );

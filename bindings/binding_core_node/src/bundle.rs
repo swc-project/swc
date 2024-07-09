@@ -275,7 +275,7 @@ impl swc_core::bundler::Hook for Hook {
 
         Ok(vec![
             KeyValueProp {
-                key: PropName::Ident(Ident::new("url".into(), span)),
+                key: PropName::Ident(Ident::new_no_ctxt("url".into(), span)),
                 value: Box::new(Expr::Lit(Lit::Str(Str {
                     span,
                     raw: None,
