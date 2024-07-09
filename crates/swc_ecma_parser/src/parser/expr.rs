@@ -1051,7 +1051,8 @@ impl<I: Tokens> Parser<I> {
             span,
             exprs,
             quasis,
-        })
+        }
+        .into())
     }
 
     pub(super) fn parse_tpl_element(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
@@ -1185,17 +1186,17 @@ impl<I: Tokens> Parser<I> {
                         let obj = mut_obj_opt.take().unwrap();
 
                         if let Callee::Expr(callee) = &obj {
-                            if let Expr::OptChain(..) = &**callee {
+                            if let Expr::OptChain(..) = callee {
                                 return Ok(Some((
                                     OptChainExpr {
                                         span: span!(p, start),
-                                        base: Box::new(OptChainBase::Call(OptCall {
+                                        base: Box::new(OptChainBase::Call(Box::new(OptCall {
                                             span: span!(p, start),
                                             callee: obj.expect_expr(),
                                             type_args: Some(type_args),
                                             args,
                                             ..Default::default()
-                                        })),
+                                        }))),
                                         optional: false,
                                     }
                                     .into(),
@@ -1284,10 +1285,10 @@ impl<I: Tokens> Parser<I> {
             expect!(self, ']');
             let span = Span::new(obj.span_lo(), self.input.last_pos());
             debug_assert_eq!(obj.span_lo(), span.lo());
-            let prop = ComputedPropName {
+            let prop = Box::new(ComputedPropName {
                 span: Span::new(bracket_lo, self.input.last_pos()),
                 expr: prop,
-            };
+            });
 
             let type_args = if self.syntax().typescript() && is!(self, '<') {
                 self.try_parse_ts_type_args()
@@ -1296,7 +1297,7 @@ impl<I: Tokens> Parser<I> {
             };
 
             return Ok((
-                Box::new(match obj {
+                match obj {
                     Callee::Import(..) => unreachable!(),
                     Callee::Super(obj) => {
                         if !self.ctx().allow_direct_super
@@ -1313,20 +1314,20 @@ impl<I: Tokens> Parser<I> {
                             }
                             syntax_error!(self, self.input.cur_span(), SyntaxError::InvalidSuper);
                         } else {
-                            Expr::SuperProp(SuperPropExpr {
+                            Expr::SuperProp(Box::new(SuperPropExpr {
                                 span,
                                 obj,
                                 prop: SuperProp::Computed(prop),
-                            })
+                            }))
                         }
                     }
                     Callee::Expr(obj) => {
                         let is_opt_chain = unwrap_ts_non_null(&obj).is_opt_chain();
-                        let expr = MemberExpr {
+                        let expr = Box::new(MemberExpr {
                             span,
                             obj,
                             prop: MemberProp::Computed(prop),
-                        };
+                        });
                         let expr = if is_opt_chain || question_dot_token.is_some() {
                             Expr::OptChain(OptChainExpr {
                                 span,
@@ -1347,7 +1348,7 @@ impl<I: Tokens> Parser<I> {
                             expr
                         }
                     }
-                }),
+                },
                 true,
             ));
         }
