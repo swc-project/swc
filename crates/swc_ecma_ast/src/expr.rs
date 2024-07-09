@@ -711,7 +711,7 @@ pub struct UnaryExpr {
     pub op: UnaryOp,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
-    pub arg: Box<Expr>,
+    pub arg: Expr,
 }
 
 impl Take for UnaryExpr {
