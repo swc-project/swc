@@ -90,7 +90,7 @@ impl Optimizer<'_> {
                         *e = BinExpr {
                             span: assign.span,
                             op,
-                            left: lhs.clone().into().into(),
+                            left: lhs.clone().into(),
                             right: assign.right.take(),
                         }
                         .into();
