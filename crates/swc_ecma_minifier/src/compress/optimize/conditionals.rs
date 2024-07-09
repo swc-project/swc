@@ -1,6 +1,6 @@
 use std::mem::swap;
 
-use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_optimization::debug_assert_valid;
@@ -119,7 +119,7 @@ impl Optimizer<'_> {
                     (
                         Some(Stmt::If(l @ IfStmt { alt: None, .. })),
                         Some(Stmt::If(r @ IfStmt { alt: None, .. })),
-                    ) => l.cons.eq_ignore_span(&r.cons),
+                    ) => SyntaxContext::within_ignored_ctxt(|| l.cons.eq_ignore_span(&r.cons)),
                     _ => false,
                 });
         if !has_work {
@@ -141,7 +141,9 @@ impl Optimizer<'_> {
                             match &mut cur {
                                 Some(cur_if) => {
                                     // If cons is same, we merge conditions.
-                                    if cur_if.cons.eq_ignore_span(&stmt.cons) {
+                                    if SyntaxContext::within_ignored_ctxt(|| {
+                                        cur_if.cons.eq_ignore_span(&stmt.cons)
+                                    }) {
                                         cur_if.test = Box::new(Expr::Bin(BinExpr {
                                             span: DUMMY_SP,
                                             left: cur_if.test.take(),
