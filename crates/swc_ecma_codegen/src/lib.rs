@@ -1287,7 +1287,7 @@ where
             while let Some(l) = left {
                 lefts.push(l);
 
-                match &*l.left {
+                match &l.left {
                     Expr::Bin(b) => {
                         left = Some(b);
                     }
@@ -1981,7 +1981,7 @@ where
 
         srcmap!(node, true);
 
-        if let Expr::New(new) = &*node.tag {
+        if let Expr::New(new) = &node.tag {
             self.emit_new(new, false)?;
         } else {
             emit!(node.tag);
@@ -2084,11 +2084,7 @@ where
         }
 
         if let Some(ref arg) = node.arg {
-            let need_paren = node
-                .arg
-                .as_deref()
-                .map(|expr| self.has_leading_comment(expr))
-                .unwrap_or(false);
+            let need_paren = self.has_leading_comment(arg);
             if need_paren {
                 punct!("(")
             } else if !node.delegate && arg.starts_with_alpha_num() {
