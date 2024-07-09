@@ -402,9 +402,10 @@ impl From<IdentName> for Ident {
 
 impl From<BindingIdent> for IdentName {
     fn from(i: BindingIdent) -> Self {
+        let id = i.id;
         IdentName {
-            span: i.span,
-            sym: i.sym,
+            span: id.span,
+            sym: id.sym,
         }
     }
 }
