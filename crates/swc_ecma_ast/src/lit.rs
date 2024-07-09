@@ -172,24 +172,16 @@ impl From<BigIntValue> for BigInt {
 
 /// A string literal.
 #[ast_node("StringLiteral")]
-#[derive(Eq, Hash)]
+#[derive(Eq, Hash, Default)]
 pub struct Str {
     pub span: Span,
 
     pub value: Atom,
-
-    /// Use `None` value only for transformations to avoid recalculate escaped
-    /// characters in strings
-    pub raw: Option<Atom>,
 }
 
 impl Take for Str {
     fn dummy() -> Self {
-        Str {
-            span: DUMMY_SP,
-            value: js_word!(""),
-            raw: None,
-        }
+        Default::default()
     }
 }
 
@@ -270,9 +262,8 @@ impl From<Atom> for Str {
     #[inline]
     fn from(value: Atom) -> Self {
         Str {
-            span: DUMMY_SP,
             value,
-            raw: None,
+            ..Default::default()
         }
     }
 }
