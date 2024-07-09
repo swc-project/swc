@@ -1232,6 +1232,7 @@ impl VisitMut for ExportedPatRewriter {
                 .make_member(Ident::from(take(bid)))
                 .into()
                 .into();
+            *n = self.id.clone().make_member(Ident::from(take(bid))).into();
             return;
         }
 
@@ -1245,6 +1246,7 @@ impl VisitMut for ExportedPatRewriter {
                 self.id.clone().make_member(key.clone().into()).into(),
             ));
             let left = Box::new(self.id.clone().make_member(key.clone()).into().into());
+            let left = Box::new(self.id.clone().make_member(key.clone()).into());
 
             let value = if let Some(right) = value.take() {
                 AssignPat {
