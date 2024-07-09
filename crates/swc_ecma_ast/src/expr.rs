@@ -1493,7 +1493,7 @@ pub enum SimpleAssignTarget {
     #[tag("ParenthesisExpression")]
     Paren(Box<ParenExpr>),
     #[tag("OptionalChainingExpression")]
-    OptChain(Box<OptChainExpr>),
+    OptChain(OptChainExpr),
     #[tag("TsAsExpression")]
     TsAs(Box<TsAsExpr>),
     #[tag("TsSatisfiesExpression")]
@@ -1513,7 +1513,7 @@ impl TryFrom<Expr> for SimpleAssignTarget {
     type Error = Expr;
 
     fn try_from(e: Expr) -> Result<Self, Self::Error> {
-        Ok(match *e {
+        Ok(match e {
             Expr::Ident(i) => SimpleAssignTarget::Ident(i.into()),
             Expr::Member(m) => SimpleAssignTarget::Member(m),
             Expr::SuperProp(s) => SimpleAssignTarget::SuperProp(s),
@@ -1537,7 +1537,7 @@ impl SimpleAssignTarget {
             SimpleAssignTarget::Ident(i) => {
                 Some(Cow::Owned(Ident::new(i.sym.clone(), i.span, i.ctxt)))
             }
-            SimpleAssignTarget::Member(MemberExpr { obj, .. }) => obj.leftmost().map(Cow::Borrowed),
+            SimpleAssignTarget::Member(me) => me.obj.leftmost().map(Cow::Borrowed),
             _ => None,
         }
     }
