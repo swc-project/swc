@@ -558,7 +558,7 @@ impl ObjectLit {
         for prop in &self.props {
             match prop {
                 PropOrSpread::Spread(..) => return None,
-                PropOrSpread::Prop(prop) => match &**prop {
+                PropOrSpread::Prop(prop) => match prop {
                     Prop::KeyValue(kv) => {
                         let key = match &kv.key {
                             PropName::Ident(i) => i.clone(),
@@ -568,8 +568,11 @@ impl ObjectLit {
 
                         values.push(ImportWithItem {
                             key,
-                            value: match &*kv.value {
-                                Expr::Lit(Lit::Str(s)) => s.clone(),
+                            value: match &kv.value {
+                                Expr::Lit(s) => {
+                                    let Lit::Str(s) = &**s else { return None };
+                                    s.clone()
+                                }
                                 _ => return None,
                             },
                         });
@@ -594,7 +597,7 @@ impl From<ImportWith> for ObjectLit {
                 .values
                 .into_iter()
                 .map(|item| {
-                    PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                    PropOrSpread::Prop(Prop::KeyValue(Box::new(KeyValueProp {
                         key: PropName::Ident(item.key),
                         value: Box::new(Expr::Lit(Lit::Str(item.value))),
                     })))
