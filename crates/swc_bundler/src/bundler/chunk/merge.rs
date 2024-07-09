@@ -695,6 +695,7 @@ where
                                     }
                                     None => {
                                         let init = c;
+                                        let init = c.into();
                                         new.push(init.assign_to(local.clone()).into_module_item(
                                             injected_ctxt,
                                             "prepare -> export default decl -> class -> without \

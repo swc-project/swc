@@ -151,6 +151,7 @@ impl MemberInitRecord {
                     if self.c.set_public_fields {
                         let this = ThisExpr { span: DUMMY_SP };
                         Expr::from(AssignExpr {
+                        AssignExpr {
                             span,
                             left: match name {
                                 PropName::Ident(id) => this.make_member(id).into(),
@@ -158,7 +159,8 @@ impl MemberInitRecord {
                             },
                             op: op!("="),
                             right: value,
-                        })
+                        }
+                        .into()
                     } else {
                         CallExpr {
                             span,
@@ -195,6 +197,7 @@ impl MemberInitRecord {
                         expr: (if self.c.set_public_fields {
                             let class = class_ident.clone();
                             Expr::from(AssignExpr {
+                            AssignExpr {
                                 span,
                                 left: match name {
                                     PropName::Ident(id) => class.make_member(id).into(),
@@ -202,7 +205,8 @@ impl MemberInitRecord {
                                 },
                                 op: op!("="),
                                 right: value,
-                            })
+                            }
+                            .into()
                         } else {
                             CallExpr {
                                 span,

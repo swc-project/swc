@@ -982,6 +982,7 @@ where
                     .map(Some)
                     .collect(),
             }
+            .into()
             .as_arg()
         }
 

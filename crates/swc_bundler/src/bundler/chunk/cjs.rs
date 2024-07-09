@@ -110,6 +110,7 @@ fn wrap_module(
 
     // ... body of foo
     let module_fn: Expr = FnExpr {
+    let module_fn = FnExpr {
         ident: None,
         function: Box::new(Function {
             params: vec![

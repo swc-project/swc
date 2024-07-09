@@ -316,7 +316,7 @@ impl VisitMut for Inlining<'_> {
                                 tracing::debug!("Inlining: {:?} as undefined", id);
 
                                 if var.is_undefined.get() {
-                                    *node = *Expr::undefined(i.span);
+                                    *node = *i.span.into();
                                     return;
                                 } else {
                                     tracing::trace!("Not a cheap expression");

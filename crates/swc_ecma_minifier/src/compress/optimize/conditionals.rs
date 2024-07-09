@@ -607,12 +607,18 @@ impl Optimizer<'_> {
                     left: cons.left.take(),
                     right: CondExpr {
                         span: DUMMY_SP,
-                        test: test.take(),
-                        cons: cons.right.take(),
-                        alt: alt.right.take(),
+                        op: cons.op,
+                        left: cons.left.take(),
+                        right: CondExpr {
+                            span: DUMMY_SP,
+                            test: test.take(),
+                            cons: cons.right.take(),
+                            alt: alt.right.take(),
+                        }
+                        .into(),
                     }
                     .into(),
-                }))
+                )
             }
 
             // a ? b ? c() : d() : d() => a && b ? c() : d()
@@ -637,14 +643,18 @@ impl Optimizer<'_> {
                     span: DUMMY_SP,
                     test: BinExpr {
                         span: DUMMY_SP,
-                        left: test.take(),
-                        op: op!("&&"),
-                        right: cons.test.take(),
+                        test: BinExpr {
+                            span: DUMMY_SP,
+                            left: test.take(),
+                            op: op!("&&"),
+                            right: cons.test.take(),
+                        }
+                        .into(),
+                        cons: cons.cons.take(),
+                        alt: cons.alt.take(),
                     }
                     .into(),
-                    cons: cons.cons.take(),
-                    alt: cons.alt.take(),
-                }))
+                )
             }
 
             // z ? "fuji" : (condition(), "fuji");
@@ -659,7 +669,7 @@ impl Optimizer<'_> {
                     span: DUMMY_SP,
                     left: test.take(),
                     op: op!("||"),
-                    right: Expr::from_exprs(alt.exprs.take()),
+                    right: alt.exprs.take().into(),
                 }
                 .into();
                 Some(
@@ -687,7 +697,7 @@ impl Optimizer<'_> {
                     span: DUMMY_SP,
                     left: test.take(),
                     op: op!("&&"),
-                    right: Expr::from_exprs(cons.exprs.take()),
+                    right: cons.exprs.take().into(),
                 }
                 .into();
                 Some(

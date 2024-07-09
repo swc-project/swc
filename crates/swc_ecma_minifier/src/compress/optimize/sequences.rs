@@ -191,7 +191,7 @@ impl Optimizer<'_> {
                                     e.prepend_exprs(take(&mut exprs));
                                 }
                                 _ => {
-                                    let mut e = Expr::undefined(stmt.span);
+                                    let mut e = stmt.span.into();
                                     e.prepend_exprs(take(&mut exprs));
 
                                     stmt.arg = Some(e);
@@ -282,9 +282,8 @@ impl Optimizer<'_> {
                                     if exprs.is_empty() {
                                         stmt.init = None;
                                     } else {
-                                        stmt.init = Some(VarDeclOrExpr::Expr(Expr::from_exprs(
-                                            take(&mut exprs),
-                                        )))
+                                        stmt.init =
+                                            Some(VarDeclOrExpr::Expr(take(&mut exprs).into()))
                                     }
                                 }
                                 _ => {
@@ -331,6 +330,10 @@ impl Optimizer<'_> {
                                     }
                                     .into(),
                                 ))
+                                new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
+                                    span: DUMMY_SP,
+                                    expr: take(&mut exprs).into(),
+                                })))
                             }
 
                             new_stmts.push(T::from(stmt));
@@ -346,6 +349,10 @@ impl Optimizer<'_> {
                             }
                             .into(),
                         ))
+                        new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
+                            span: DUMMY_SP,
+                            expr: take(&mut exprs).into(),
+                        })))
                     }
 
                     new_stmts.push(item);
@@ -361,6 +368,10 @@ impl Optimizer<'_> {
                 }
                 .into(),
             ))
+            new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
+                span: DUMMY_SP,
+                expr: take(&mut exprs).into(),
+            })))
         }
 
         *stmts = new_stmts;
@@ -2347,7 +2358,7 @@ impl Optimizer<'_> {
                                 return Ok(false);
                             }
 
-                            right_val = Expr::undefined(DUMMY_SP);
+                            right_val = DUMMY_SP.into();
                             (left, Some(&mut right_val))
                         }
                     }
@@ -2407,7 +2418,7 @@ impl Optimizer<'_> {
 
                         if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
                             if usage.var_kind == Some(VarDeclKind::Const) {
-                                a.init = Some(Expr::undefined(DUMMY_SP));
+                                a.init = Some(DUMMY_SP.into());
                             }
                         }
 
@@ -2415,7 +2426,7 @@ impl Optimizer<'_> {
                     } else {
                         a.init.clone()
                     }
-                    .unwrap_or_else(|| Expr::undefined(DUMMY_SP))
+                    .unwrap_or_else(|| DUMMY_SP.into())
                 }
                 Mergable::Expr(a) => {
                     if can_remove || force_drop {

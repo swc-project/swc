@@ -91,6 +91,9 @@ impl VisitMut for TypeOfSymbol {
                     .into();
 
                     *expr = CondExpr {
+                    });
+
+                    *expr = CondExpr {
                         span: *span,
                         test,
                         cons: undefined_str,

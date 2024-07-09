@@ -68,7 +68,7 @@ impl VisitMut for NewTarget {
             };
             match &self.ctx {
                 Ctx::Constructor => *e = this_ctor(*span),
-                Ctx::Method => *e = *Expr::undefined(DUMMY_SP),
+                Ctx::Method => *e = *DUMMY_SP.into(),
                 Ctx::Function(i) => {
                     *e = CondExpr {
                         span: *span,

@@ -390,7 +390,7 @@ impl VisitMut for Pure<'_> {
                         },
                     );
                     if arg.is_invalid() {
-                        *e = *Expr::undefined(*span);
+                        *e = **span.into();
                         return;
                     }
                 }

@@ -747,7 +747,7 @@ impl VisitMut for Generator {
 
                 expressions.push(temp.into());
 
-                *e = *Expr::from_exprs(expressions);
+                *e = *expressions.into();
             }
 
             Expr::Array(node) => {
@@ -822,7 +822,7 @@ impl VisitMut for Generator {
                     &mut args,
                     Some(ExprOrSpread {
                         spread: None,
-                        expr: Expr::undefined(DUMMY_SP),
+                        expr: DUMMY_SP.into(),
                     }),
                     None,
                 ))
@@ -831,6 +831,7 @@ impl VisitMut for Generator {
             };
 
             let apply = callee.apply(
+            let apply = callee.into().apply(
                 node.span,
                 this_arg,
                 arg.take().map(|v| v.as_arg()).into_iter().collect(),
@@ -1226,6 +1227,10 @@ impl Generator {
                 }
                 .into(),
             );
+            self.emit_stmt(Stmt::Expr(ExprStmt {
+                span: DUMMY_SP,
+                expr: expressions.take().into(),
+            }));
         }
 
         let mut expression: Expr = match property {
@@ -3580,11 +3585,7 @@ impl Generator {
         match &mut *callee {
             Expr::Ident(..) => (
                 callee.clone(),
-                if is_new_call {
-                    callee
-                } else {
-                    Expr::undefined(DUMMY_SP)
-                },
+                if is_new_call { callee } else { DUMMY_SP.into() },
             ),
 
             Expr::Member(MemberExpr { obj, .. }) if !is_new_call => {
@@ -3601,7 +3602,7 @@ impl Generator {
 
             _ => {
                 if !is_new_call {
-                    (callee, Expr::undefined(DUMMY_SP))
+                    (callee, DUMMY_SP.into())
                 } else {
                     let this_arg = self.create_temp_variable();
                     let target = callee.make_assign_to(op!("="), this_arg.clone().into());

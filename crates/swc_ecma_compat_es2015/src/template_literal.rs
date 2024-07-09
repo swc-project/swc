@@ -313,6 +313,7 @@ impl VisitMut for TemplateLiteral {
                         //     return data;
                         // };
                         let assign_expr: Expr = {
+                        let assign_expr = {
                             AssignExpr {
                                 span: DUMMY_SP,
                                 left: fn_ident.clone().into(),

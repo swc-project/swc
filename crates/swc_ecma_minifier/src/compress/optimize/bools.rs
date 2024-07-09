@@ -134,7 +134,7 @@ impl Optimizer<'_> {
                         }
                     }
 
-                    *l = *Expr::undefined(l.span());
+                    *l = *l.span().into();
                     *r = *arg.take();
                     true
                 }

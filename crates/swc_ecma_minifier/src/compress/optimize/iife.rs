@@ -236,7 +236,7 @@ impl Optimizer<'_> {
                                 param.id.ctxt
                             );
 
-                            vars.insert(param.to_id(), Expr::undefined(param.span()));
+                            vars.insert(param.to_id(), param.span().into());
                         }
                     }
 
@@ -568,7 +568,7 @@ impl Optimizer<'_> {
                         exprs.push(body.take());
 
                         report_change!("inline: Inlining a call to an arrow function");
-                        *e = *Expr::from_exprs(exprs);
+                        *e = *exprs.into();
                         e.visit_mut_with(self);
                     }
                 }
@@ -639,7 +639,7 @@ impl Optimizer<'_> {
                 if body.stmts.is_empty() && call.args.is_empty() {
                     self.changed = true;
                     report_change!("iife: Inlining an empty function call as `undefined`");
-                    *e = *Expr::undefined(f.function.span);
+                    *e = *f.function.span.into();
                     return;
                 }
 
@@ -905,7 +905,7 @@ impl Optimizer<'_> {
                 span: DUMMY_SP,
                 name: param.clone().into(),
                 init: if self.ctx.executed_multiple_time && no_arg {
-                    Some(Expr::undefined(DUMMY_SP))
+                    Some(DUMMY_SP.into())
                 } else {
                     None
                 },
@@ -995,7 +995,7 @@ impl Optimizer<'_> {
 
                 Stmt::Return(stmt) => {
                     let span = stmt.span;
-                    let val = *stmt.arg.unwrap_or_else(|| Expr::undefined(span));
+                    let val = *stmt.arg.unwrap_or_else(|| span.into());
                     exprs.push(Box::new(val));
 
                     let mut e = SeqExpr {
@@ -1020,7 +1020,7 @@ impl Optimizer<'_> {
             }
             .into();
         } else {
-            return Some(*Expr::undefined(body.span));
+            return Some(*body.span.into());
         }
 
         let mut e = SeqExpr {

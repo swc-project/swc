@@ -340,6 +340,10 @@ impl Expr {
                 span: DUMMY_SP,
                 exprs,
             }
+            Box::new(SeqExpr {
+                span: DUMMY_SP,
+                exprs,
+            })
             .into()
         }
     }
@@ -459,7 +463,7 @@ impl Take for Expr {
 
 impl Default for Expr {
     fn default() -> Self {
-        Expr::Invalid(Default::default())
+        Default::default().into()
     }
 }
 
@@ -609,6 +613,7 @@ impl From<ImportWith> for ObjectLit {
                         key: PropName::Ident(item.key),
                         value: Lit::Str(item.value).into(),
                         value: Expr::Lit(Box::new(Lit::Str(item.value))),
+                        value: Box::new(Lit::Str(item.value)).into(),
                     })))
                 })
                 .collect(),
@@ -1589,6 +1594,7 @@ impl From<SimpleAssignTarget> for Expr {
     fn from(s: SimpleAssignTarget) -> Self {
         match s {
             SimpleAssignTarget::Ident(i) => i.into(),
+            SimpleAssignTarget::Ident(i) => i.into().into(),
             SimpleAssignTarget::Member(m) => m.into(),
             SimpleAssignTarget::SuperProp(s) => s.into(),
             SimpleAssignTarget::Paren(s) => s.into(),

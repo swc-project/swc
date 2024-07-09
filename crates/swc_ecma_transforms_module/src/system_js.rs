@@ -440,7 +440,7 @@ impl SystemJs {
                         if (sym.clone(), ctxt) == *k {
                             for value in v.iter() {
                                 self.export_names.push(value.clone());
-                                self.export_values.push(Expr::undefined(DUMMY_SP));
+                                self.export_values.push(DUMMY_SP.into());
                             }
                             break;
                         }
@@ -487,7 +487,7 @@ impl SystemJs {
                             if to == *k {
                                 for value in v.iter() {
                                     self.export_names.push(value.clone());
-                                    self.export_values.push(Expr::undefined(DUMMY_SP));
+                                    self.export_values.push(DUMMY_SP.into());
                                 }
                                 break;
                             }
@@ -679,7 +679,7 @@ impl Fold for SystemJs {
         let module = {
             let mut module = module;
             if !self.config.allow_top_level_this {
-                top_level_this(&mut module, *Expr::undefined(DUMMY_SP));
+                top_level_this(&mut module, *DUMMY_SP.into());
             }
             module
         };
@@ -737,6 +737,9 @@ impl Fold for SystemJs {
                                             left: specifier.local.clone().into(),
                                             right: MemberExpr {
                                                 span: DUMMY_SP,
+                                                obj: Box::new(
+                                                    quote_ident!(source_alias.clone()).into(),
+                                                )),
                                                 obj: Box::new(
                                                     quote_ident!(source_alias.clone()).into(),
                                                 ),
@@ -817,9 +820,9 @@ impl Fold for SystemJs {
                                         export_values.push(
                                             MemberExpr {
                                                 span: DUMMY_SP,
-                                                obj: Box::new(Expr::Ident(quote_ident!(
-                                                    source_alias.clone()
-                                                ))),
+                                                obj: Box::new(
+                                                    quote_ident!(source_alias.clone()).into(),
+                                                ),
                                                 prop: get_module_export_member_prop(
                                                     &specifier.orig,
                                                 ),
@@ -899,7 +902,7 @@ impl Fold for SystemJs {
                             Decl::Class(class_decl) => {
                                 let ident = class_decl.ident;
                                 self.export_names.push(ident.sym.clone());
-                                self.export_values.push(Expr::undefined(DUMMY_SP));
+                                self.export_values.push(DUMMY_SP.into());
                                 self.add_declare_var_idents(&ident);
                                 self.add_export_name(ident.to_id(), ident.sym.clone());
                                 execute_stmts.push(
@@ -949,7 +952,7 @@ impl Fold for SystemJs {
                             DefaultDecl::Class(class_expr) => {
                                 if let Some(ident) = &class_expr.ident {
                                     self.export_names.push("default".into());
-                                    self.export_values.push(Expr::undefined(DUMMY_SP));
+                                    self.export_values.push(DUMMY_SP.into());
                                     self.add_declare_var_idents(ident);
                                     self.add_export_name(ident.to_id(), "default".into());
                                     execute_stmts.push(

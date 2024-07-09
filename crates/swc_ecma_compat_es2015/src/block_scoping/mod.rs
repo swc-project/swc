@@ -597,7 +597,7 @@ impl VisitMut for BlockScoping {
             if self.var_decl_kind == VarDeclKind::Var {
                 var.init = None
             } else {
-                var.init = Some(Expr::undefined(var.span()))
+                var.init = Some(var.span().into())
             }
         }
     }
@@ -914,7 +914,7 @@ struct MutationHandler<'a> {
 impl MutationHandler<'_> {
     fn make_reassignment(&self, orig: Option<Expr>) -> Expr {
         if self.map.is_empty() {
-            return *orig.unwrap_or_else(|| Expr::undefined(DUMMY_SP));
+            return *orig.unwrap_or_else(|| DUMMY_SP.into());
         }
 
         let mut exprs = Vec::with_capacity(self.map.len() + 1);
@@ -940,7 +940,7 @@ impl MutationHandler<'_> {
                 .into(),
             );
         }
-        exprs.push(orig.unwrap_or_else(|| Expr::undefined(DUMMY_SP)));
+        exprs.push(orig.unwrap_or_else(|| DUMMY_SP.into()));
 
         SeqExpr {
             span: DUMMY_SP,
