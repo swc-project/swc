@@ -1587,6 +1587,7 @@ impl OutputType for Expr {
     ) -> Result<Self, SyntaxError> {
         Ok(ClassExpr { ident, class }.into())
         Ok(Expr::Class(ClassExpr { ident, class }))
+        Ok(Expr::Class(Box::new(ClassExpr { ident, class })))
     }
 }
 
@@ -1685,7 +1686,7 @@ impl<I: Tokens> FnBodyParser<Box<BlockStmtOrExpr>> for Parser<I> {
                             self.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
                         }
                     }
-                    BlockStmtOrExpr::BlockStmt(block_stmt)
+                    BlockStmtOrExpr::BlockStmt(Box::new(block_stmt))
                 })
                 .map(Box::new)
         } else {
