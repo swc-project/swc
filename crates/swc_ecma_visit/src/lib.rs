@@ -689,7 +689,7 @@ define!({
         New(Box<NewExpr>),
         Seq(Box<SeqExpr>),
         Ident(Ident),
-        Lit(Box<Lit>),
+        Lit(Lit),
         Tpl(Box<Tpl>),
         TaggedTpl(Box<TaggedTpl>),
         Arrow(Box<ArrowExpr>),
@@ -1023,7 +1023,7 @@ define!({
         JSXNamespacedName(Box<JSXNamespacedName>),
     }
     pub enum JSXAttrValue {
-        Lit(Box<Lit>),
+        Lit(Lit),
         JSXExprContainer(Box<JSXExprContainer>),
         JSXElement(Box<JSXElement>),
         JSXFragment(Box<JSXFragment>),
