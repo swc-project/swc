@@ -1519,13 +1519,13 @@ define!({
     }
     pub struct AssignPat {
         pub span: Span,
-        pub left: Box<Pat>,
+        pub left: Pat,
         pub right: Expr,
     }
     pub struct RestPat {
         pub span: Span,
         pub dot3_token: Span,
-        pub arg: Box<Pat>,
+        pub arg: Pat,
         pub type_ann: Option<Box<TsTypeAnn>>,
     }
     pub enum ObjectPatProp {
@@ -1535,7 +1535,7 @@ define!({
     }
     pub struct KeyValuePatProp {
         pub key: PropName,
-        pub value: Box<Pat>,
+        pub value: Pat,
     }
     pub struct AssignPatProp {
         pub span: Span,
@@ -1569,7 +1569,7 @@ define!({
         pub span: Span,
         pub key: PropName,
         pub this_param: Option<Pat>,
-        pub param: Box<Pat>,
+        pub param: Pat,
         pub body: Option<BlockStmt>,
     }
     pub struct MethodProp {
@@ -1709,7 +1709,7 @@ define!({
     pub enum ForHead {
         VarDecl(Box<VarDecl>),
         UsingDecl(Box<UsingDecl>),
-        Pat(Box<Pat>),
+        Pat(Pat),
     }
     pub enum VarDeclOrExpr {
         VarDecl(Box<VarDecl>),

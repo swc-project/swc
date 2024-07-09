@@ -1421,10 +1421,10 @@ impl TryFrom<Pat> for AssignTarget {
         })
     }
 }
-impl TryFrom<Box<Pat>> for AssignTarget {
-    type Error = Box<Pat>;
+impl TryFrom<Pat> for AssignTarget {
+    type Error = Pat;
 
-    fn try_from(p: Box<Pat>) -> Result<Self, Self::Error> {
+    fn try_from(p: Pat) -> Result<Self, Self::Error> {
         (*p).try_into().map_err(Box::new)
     }
 }
@@ -1473,7 +1473,7 @@ impl From<AssignTargetPat> for Pat {
     }
 }
 
-impl From<AssignTargetPat> for Box<Pat> {
+impl From<AssignTargetPat> for Pat {
     fn from(pat: AssignTargetPat) -> Self {
         Box::new(pat.into())
     }
