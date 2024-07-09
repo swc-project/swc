@@ -318,7 +318,7 @@ macro_rules! return_if_arrow {
         //     None => false
         // };
         // if is_cur {
-        if let Expr::Arrow { .. } = *$expr {
+        if let Expr::Arrow { .. } = $expr {
             return Ok($expr);
         }
         // }
