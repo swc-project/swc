@@ -132,18 +132,18 @@ impl From<PropName> for MemberProp {
         match p {
             PropName::Ident(p) => MemberProp::Ident(p),
             PropName::Computed(p) => MemberProp::Computed(p),
-            PropName::Str(p) => MemberProp::Computed(ComputedPropName {
+            PropName::Str(p) => MemberProp::Computed(Box::new(ComputedPropName {
                 span: DUMMY_SP,
                 expr: p.into(),
-            }),
-            PropName::Num(p) => MemberProp::Computed(ComputedPropName {
+            })),
+            PropName::Num(p) => MemberProp::Computed(Box::new(ComputedPropName {
                 span: DUMMY_SP,
                 expr: p.into(),
-            }),
-            PropName::BigInt(p) => MemberProp::Computed(ComputedPropName {
+            })),
+            PropName::BigInt(p) => MemberProp::Computed(Box::new(ComputedPropName {
                 span: DUMMY_SP,
                 expr: p.into(),
-            }),
+            })),
         }
     }
 }
