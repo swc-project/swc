@@ -97,7 +97,7 @@ pub enum TsParamPropParam {
     Ident(BindingIdent),
 
     #[tag("AssignmentPattern")]
-    Assign(AssignPat),
+    Assign(Box<AssignPat>),
 }
 
 #[ast_node("TsQualifiedName")]
