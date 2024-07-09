@@ -726,7 +726,7 @@ define!({
     }
     pub enum PropOrSpread {
         Spread(SpreadElement),
-        Prop(Box<Prop>),
+        Prop(Prop),
     }
     pub struct SpreadElement {
         pub dot3_token: Span,
@@ -1259,7 +1259,7 @@ define!({
         Ident(BindingIdent),
         Array(Box<ArrayPat>),
         Rest(Box<RestPat>),
-        Object( Box<ObjectPat>),
+        Object(Box<ObjectPat>),
         Assign(Box<AssignPat>),
         Invalid(Invalid),
         Expr(Expr),
@@ -1305,7 +1305,7 @@ define!({
         Shorthand(Ident),
         KeyValue(Box<KeyValueProp>),
         Assign(Box<AssignProp>),
-        Getter( Box<GetterProp>),
+        Getter(Box<GetterProp>),
         Setter(Box<SetterProp>),
         Method(Box<MethodProp>),
     }
@@ -1893,11 +1893,6 @@ define!({
         pub span: Span,
         pub expr: Expr,
         pub type_ann: Box<TsType>,
-    }
-
-    pub struct ReservedUnused {
-        pub span: Span,
-        pub body: Option<Vec<ModuleItem>>,
     }
 
     pub struct AutoAccessor {
