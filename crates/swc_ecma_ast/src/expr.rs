@@ -190,7 +190,7 @@ boxed_variants!(
         ArrowExpr,
         ClassExpr,
         YieldExpr,
-        MetaPropExpr,
+        MetaPropExpr
     ]
 );
 
@@ -599,6 +599,7 @@ impl From<ImportWith> for ObjectLit {
                     PropOrSpread::Prop(Prop::KeyValue(Box::new(KeyValueProp {
                         key: PropName::Ident(item.key),
                         value: Lit::Str(item.value).into(),
+                        value: Expr::Lit(Box::new(Lit::Str(item.value))),
                     })))
                 })
                 .collect(),
@@ -1353,18 +1354,11 @@ pub enum BlockStmtOrExpr {
     Expr(Expr),
 }
 
+boxed_variants!(BlockStmtOrExpr, [BlockStmt]);
+
 impl Default for BlockStmtOrExpr {
     fn default() -> Self {
         BlockStmtOrExpr::BlockStmt(Default::default())
-    }
-}
-
-impl<T> From<T> for BlockStmtOrExpr
-where
-    T: Into<Expr>,
-{
-    fn from(e: T) -> Self {
-        Self::Expr(e.into())
     }
 }
 
