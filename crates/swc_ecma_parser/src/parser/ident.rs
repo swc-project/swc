@@ -44,10 +44,10 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// LabelIdentifier
-    pub(super) fn parse_label_ident(&mut self) -> PResult<Ident> {
+    pub(super) fn parse_label_ident(&mut self) -> PResult<IdentName> {
         let ctx = self.ctx();
 
-        self.parse_ident(!ctx.in_generator, !ctx.in_async)
+        Ok(self.parse_ident(!ctx.in_generator, !ctx.in_async)?.into())
     }
 
     /// Use this when spec says "IdentifierName".

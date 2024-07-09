@@ -215,7 +215,7 @@ impl<I: Tokens> Parser<I> {
                 // `import { type as as } from 'mod'`
                 // `import { type as as as } from 'mod'`
                 if self.syntax().typescript() && orig_name.sym == "type" && is!(self, IdentName) {
-                    let possibly_orig_name = self.parse_ident_name()?;
+                    let possibly_orig_name = self.parse_ident_name().map(Ident::from)?;
                     if possibly_orig_name.sym == "as" {
                         // `import { type as } from 'mod'`
                         if !is!(self, IdentName) {
