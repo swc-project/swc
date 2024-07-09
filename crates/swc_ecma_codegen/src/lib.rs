@@ -4,6 +4,7 @@
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::nonminimal_bool)]
 #![allow(non_local_definitions)]
+#![feature(box_patterns)]
 
 use std::{borrow::Cow, fmt::Write, io};
 
@@ -3679,16 +3680,16 @@ fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
     }
 
     match &*node.arg {
-        Expr::Update(UpdateExpr {
+        Expr::Update(box UpdateExpr {
             op: op!("++"),
             prefix: true,
             ..
         })
-        | Expr::Unary(UnaryExpr {
+        | Expr::Unary(box UnaryExpr {
             op: op!(unary, "+"),
             ..
         }) if node.op == op!(unary, "+") => true,
-        Expr::Update(UpdateExpr {
+        Expr::Update(box UpdateExpr {
             op: op!("--"),
             prefix: true,
             ..
@@ -4267,9 +4268,9 @@ fn handle_invalid_unicodes(s: &str) -> Cow<str> {
 
 fn require_space_before_rhs(rhs: &Expr, op: &BinaryOp) -> bool {
     match rhs {
-        Expr::Lit(Lit::Num(v)) if v.value.is_sign_negative() && *op == op!(bin, "-") => true,
+        Expr::Lit(box Lit::Num(v)) if v.value.is_sign_negative() && *op == op!(bin, "-") => true,
 
-        Expr::Update(UpdateExpr {
+        Expr::Update(box UpdateExpr {
             prefix: true,
             op: update,
             ..
@@ -4279,22 +4280,22 @@ fn require_space_before_rhs(rhs: &Expr, op: &BinaryOp) -> bool {
         ),
 
         // space is mandatory to avoid outputting <!--
-        Expr::Unary(UnaryExpr {
+        Expr::Unary(box UnaryExpr {
             op: op!("!"), arg, ..
         }) if *op == op!("<") || *op == op!("<<") => {
-            if let Expr::Update(UpdateExpr { op: op!("--"), .. }) = &**arg {
+            if let Expr::Update(box UpdateExpr { op: op!("--"), .. }) = &**arg {
                 true
             } else {
                 false
             }
         }
 
-        Expr::Unary(UnaryExpr { op: unary, .. }) => matches!(
+        Expr::Unary(box UnaryExpr { op: unary, .. }) => matches!(
             (op, unary),
             (op!(bin, "-"), op!(unary, "-")) | (op!(bin, "+"), op!(unary, "+"))
         ),
 
-        Expr::Bin(BinExpr { left, .. }) => require_space_before_rhs(left, op),
+        Expr::Bin(box BinExpr { left, .. }) => require_space_before_rhs(left, op),
 
         _ => false,
     }

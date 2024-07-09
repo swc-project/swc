@@ -24,7 +24,7 @@ impl<I: Tokens> Parser<I> {
                 exprs.push(self.parse_assignment_expr()?);
             }
 
-            return Ok(Box::new(Expr::Seq(SeqExpr {
+            return Ok(Expr::Seq(Box::new(SeqExpr {
                 span: span!(self, start),
                 exprs,
             })));
@@ -991,10 +991,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    fn parse_tpl_elements(
-        &mut self,
-        is_tagged_tpl: bool,
-    ) -> PResult<(Vec<Expr>, Vec<TplElement>)> {
+    fn parse_tpl_elements(&mut self, is_tagged_tpl: bool) -> PResult<(Vec<Expr>, Vec<TplElement>)> {
         trace_cur!(self, parse_tpl_elements);
 
         let mut exprs = vec![];

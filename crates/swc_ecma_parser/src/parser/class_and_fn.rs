@@ -232,7 +232,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_super_class(&mut self) -> PResult<(Expr, Option<Box<TsTypeParamInstantiation>>)> {
         let super_class = self.parse_lhs_expr()?;
         match super_class {
-            Expr::TsInstantiation(TsInstantiation {
+            Expr::TsInstantiation(box TsInstantiation {
                 expr, type_args, ..
             }) => Ok((expr, Some(type_args))),
             _ => {
