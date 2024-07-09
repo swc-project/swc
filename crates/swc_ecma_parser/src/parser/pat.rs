@@ -1046,12 +1046,12 @@ mod tests {
     fn array_binding_pattern_tail() {
         assert_eq_ignore_span!(
             array_pat("[...tail]"),
-            Pat::Array(ArrayPat {
+            Pat::Array(Box::new(ArrayPat {
                 span,
                 optional: false,
                 elems: vec![rest()],
                 type_ann: None
-            })
+            }))
         );
     }
 
@@ -1059,23 +1059,23 @@ mod tests {
     fn array_binding_pattern_assign() {
         assert_eq_ignore_span!(
             array_pat("[,a=1,]"),
-            Pat::Array(ArrayPat {
+            Pat::Array(Box::new(ArrayPat {
                 span,
                 optional: false,
                 elems: vec![
                     None,
-                    Some(Pat::Assign(AssignPat {
+                    Some(Pat::Assign(Box::new(AssignPat {
                         span,
                         left: Box::new(Pat::Ident(ident("a").into())),
-                        right: Box::new(Expr::Lit(Lit::Num(Number {
+                        right: Expr::Lit(Box::new(Lit::Num(Number {
                             span,
                             value: 1.0,
                             raw: Some("1".into())
                         })))
-                    }))
+                    })))
                 ],
                 type_ann: None
-            })
+            }))
         );
     }
 
