@@ -4,6 +4,7 @@ use std::{
     hash::{Hash, Hasher},
 };
 
+use is_macro::Is;
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::{js_word, Atom};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
@@ -11,7 +12,7 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 use crate::jsx::JSXText;
 
 #[ast_node]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Is, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Lit {
     #[tag("StringLiteral")]
