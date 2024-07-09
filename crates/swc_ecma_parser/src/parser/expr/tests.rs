@@ -49,10 +49,12 @@ fn regex_expr() -> Expr {
             .into(),
         ),
         right: Box::new(Expr::Lit(Lit::Regex(Regex {
+        right: Lit::Regex(Regex {
             span,
             exp: "w+".into(),
             flags: "".into(),
-        }))),
+        })
+        .into(),
     }
     .into()
 }

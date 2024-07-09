@@ -1447,6 +1447,11 @@ impl<I: Tokens> Parser<I> {
                                 span: span!(self, start),
                             }
                             .into()
+                            Expr::TsInstantiation(Box::new(TsInstantiation {
+                                expr,
+                                type_args,
+                                span: span!(self, start),
+                            }))
                         } else {
                             expr
                         }
@@ -1482,13 +1487,13 @@ impl<I: Tokens> Parser<I> {
                         OptChainExpr {
                             span,
                             optional: question_dot_token.is_some(),
-                            base: Box::new(OptChainBase::Call(OptCall {
+                            base: Box::new(OptChainBase::Call(Box::new(OptCall {
                                 span: span!(self, start),
                                 callee,
                                 args,
                                 type_args,
                                 ..Default::default()
-                            })),
+                            }))),
                         }
                         .into(),
                         true,
