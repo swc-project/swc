@@ -42,7 +42,7 @@ pub struct JSXMemberExpr {
 pub struct JSXNamespacedName {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "namespace"))]
-    pub ns: Ident,
+    pub ns: IdentName,
     pub name: IdentName,
 }
 

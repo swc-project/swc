@@ -30,14 +30,16 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_jsx_namespaced_name(&mut self) -> PResult<JSXAttrName> {
         debug_assert!(self.input.syntax().jsx());
         trace_cur!(self, parse_jsx_namespaced_name);
+        let start = cur_pos!(self);
 
         let ns = self.parse_jsx_ident()?;
         if !eat!(self, ':') {
-            return Ok(JSXAttrName::Ident(ns));
+            return Ok(JSXAttrName::Ident(ns.into()));
         }
 
         let name = self.parse_jsx_ident()?;
         Ok(JSXAttrName::JSXNamespacedName(JSXNamespacedName {
+            span: Span::new(start, name.span.hi),
             ns,
             name,
         }))
@@ -48,6 +50,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_jsx_element_name(&mut self) -> PResult<JSXElementName> {
         debug_assert!(self.input.syntax().jsx());
         trace_cur!(self, parse_jsx_element_name);
+        let start = cur_pos!(self);
 
         let mut node = match self.parse_jsx_namespaced_name()? {
             JSXAttrName::Ident(i) => JSXElementName::Ident(i),
@@ -56,6 +59,7 @@ impl<I: Tokens> Parser<I> {
         while eat!(self, '.') {
             let prop = self.parse_jsx_ident()?;
             let new_node = JSXElementName::JSXMemberExpr(JSXMemberExpr {
+                span: span!(self, start),
                 obj: match node {
                     JSXElementName::Ident(i) => JSXObject::Ident(i),
                     JSXElementName::JSXMemberExpr(i) => JSXObject::JSXMemberExpr(Box::new(i)),
