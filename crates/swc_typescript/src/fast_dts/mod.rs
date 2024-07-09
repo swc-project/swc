@@ -243,7 +243,7 @@ impl FastDts {
         as_const: bool,
         as_readonly: bool,
     ) -> Option<Box<TsType>> {
-        match *e {
+        match e {
             Expr::Array(arr) => {
                 let mut elem_types: Vec<TsTupleElement> = vec![];
 

@@ -141,7 +141,7 @@ impl<I: Tokens> Parser<I> {
 
         return_if_arrow!(self, cond);
 
-        match *cond {
+        match cond {
             // if cond is conditional expression but not left-hand-side expression,
             // just return it.
             Expr::Cond(..) | Expr::Bin(..) | Expr::Unary(..) | Expr::Update(..) => return Ok(cond),
