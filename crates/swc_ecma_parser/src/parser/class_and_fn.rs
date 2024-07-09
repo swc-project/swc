@@ -397,7 +397,7 @@ impl<I: Tokens> Parser<I> {
         let declare_token = if declare {
             // Handle declare(){}
             if self.is_class_method() {
-                let key = Key::Public(PropName::Ident(Ident::new_no_ctxt(
+                let key = Key::Public(PropName::Ident(IdentName::new(
                     "declare".into(),
                     span!(self, start),
                 )));
