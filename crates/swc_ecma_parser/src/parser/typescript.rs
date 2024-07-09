@@ -205,7 +205,7 @@ impl<I: Tokens> Parser<I> {
             let right = if allow_reserved_words {
                 self.parse_ident_name()?
             } else {
-                self.parse_ident(false, false)?
+                self.parse_ident(false, false)?.into()
             };
             entity = TsEntityName::TsQualifiedName(Box::new(TsQualifiedName { left, right }));
         }
