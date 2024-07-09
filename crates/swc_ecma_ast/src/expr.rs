@@ -843,7 +843,7 @@ pub enum MemberProp {
     #[tag("PrivateName")]
     PrivateName(PrivateName),
     #[tag("Computed")]
-    Computed(ComputedPropName),
+    Computed(Box<ComputedPropName>),
 }
 
 impl MemberProp {
@@ -871,7 +871,7 @@ pub enum SuperProp {
     #[tag("Identifier")]
     Ident(IdentName),
     #[tag("Computed")]
-    Computed(ComputedPropName),
+    Computed(Box<ComputedPropName>),
 }
 
 impl Take for MemberExpr {
@@ -1322,7 +1322,7 @@ bridge_from!(ExprOrSpread, Expr, Expr);
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum BlockStmtOrExpr {
     #[tag("BlockStatement")]
-    BlockStmt(BlockStmt),
+    BlockStmt(Box<BlockStmt>),
     #[tag("*")]
     Expr(Expr),
 }
@@ -1338,7 +1338,7 @@ where
     T: Into<Expr>,
 {
     fn from(e: T) -> Self {
-        Self::Expr(Box::new(e.into()))
+        Self::Expr(e.into())
     }
 }
 
@@ -1409,9 +1409,9 @@ impl TryFrom<Expr> for AssignTarget {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum AssignTargetPat {
     #[tag("ArrayPattern")]
-    Array(ArrayPat),
+    Array(Box<ArrayPat>),
     #[tag("ObjectPattern")]
-    Object(ObjectPat),
+    Object(Box<ObjectPat>),
     #[tag("Invalid")]
     Invalid(Invalid),
 }
@@ -1467,23 +1467,23 @@ pub enum SimpleAssignTarget {
     #[tag("Identifier")]
     Ident(BindingIdent),
     #[tag("MemberExpression")]
-    Member(MemberExpr),
+    Member(Box<MemberExpr>),
     #[tag("SuperPropExpression")]
-    SuperProp(SuperPropExpr),
+    SuperProp(Box<SuperPropExpr>),
     #[tag("ParenthesisExpression")]
-    Paren(ParenExpr),
+    Paren(Box<ParenExpr>),
     #[tag("OptionalChainingExpression")]
-    OptChain(OptChainExpr),
+    OptChain(Box<OptChainExpr>),
     #[tag("TsAsExpression")]
-    TsAs(TsAsExpr),
+    TsAs(Box<TsAsExpr>),
     #[tag("TsSatisfiesExpression")]
-    TsSatisfies(TsSatisfiesExpr),
+    TsSatisfies(Box<TsSatisfiesExpr>),
     #[tag("TsNonNullExpression")]
-    TsNonNull(TsNonNullExpr),
+    TsNonNull(Box<TsNonNullExpr>),
     #[tag("TsTypeAssertion")]
-    TsTypeAssertion(TsTypeAssertion),
+    TsTypeAssertion(Box<TsTypeAssertion>),
     #[tag("TsInstantiation")]
-    TsInstantiation(TsInstantiation),
+    TsInstantiation(Box<TsInstantiation>),
 
     #[tag("Invaliid")]
     Invalid(Invalid),
@@ -1597,9 +1597,9 @@ pub struct OptChainExpr {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum OptChainBase {
     #[tag("MemberExpression")]
-    Member(MemberExpr),
+    Member(Box<MemberExpr>),
     #[tag("CallExpression")]
-    Call(OptCall),
+    Call(Box<OptCall>),
 }
 
 impl Default for OptChainBase {

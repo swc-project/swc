@@ -14,19 +14,19 @@ use crate::{
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Pat {
     #[tag("Identifier")]
-    Ident(BindingIdent),
+    Ident(Box<BindingIdent>),
 
     #[tag("ArrayPattern")]
-    Array(ArrayPat),
+    Array(Box<ArrayPat>),
 
     #[tag("RestElement")]
-    Rest(RestPat),
+    Rest(Box<RestPat>),
 
     #[tag("ObjectPattern")]
-    Object(ObjectPat),
+    Object(Box<ObjectPat>),
 
     #[tag("AssignmentPattern")]
-    Assign(AssignPat),
+    Assign(Box<AssignPat>),
 
     #[tag("Invalid")]
     Invalid(Invalid),
