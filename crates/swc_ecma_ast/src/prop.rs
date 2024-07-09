@@ -21,20 +21,20 @@ pub enum Prop {
 
     /// `key: value` in `{ key: value, }`
     #[tag("KeyValueProperty")]
-    KeyValue(KeyValueProp),
+    KeyValue(Box<KeyValueProp>),
 
     /// This is **invalid** for object literal.
     #[tag("AssignmentProperty")]
-    Assign(AssignProp),
+    Assign(Box<AssignProp>),
 
     #[tag("GetterProperty")]
-    Getter(GetterProp),
+    Getter(Box<GetterProp>),
 
     #[tag("SetterProperty")]
-    Setter(SetterProp),
+    Setter(Box<SetterProp>),
 
     #[tag("MethodProperty")]
-    Method(MethodProp),
+    Method(Box<MethodProp>),
 }
 
 #[ast_node("KeyValueProperty")]
