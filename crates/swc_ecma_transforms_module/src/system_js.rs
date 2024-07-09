@@ -1071,7 +1071,7 @@ impl Fold for SystemJs {
                         .iter()
                         .map(|i| VarDeclarator {
                             span: i.span,
-                            name: i.clone().into().into(),
+                            name: i.clone().into(),
                             init: None,
                             definite: false,
                         })

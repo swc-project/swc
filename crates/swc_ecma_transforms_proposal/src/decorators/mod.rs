@@ -560,7 +560,7 @@ impl Decorators {
                 Function {
                     span: DUMMY_SP,
 
-                    params: iter::once(initialize.into().into())
+                    params: iter::once(initialize.into())
                         .chain(super_class_ident.map(Pat::from))
                         .map(|pat| Param {
                             span: DUMMY_SP,

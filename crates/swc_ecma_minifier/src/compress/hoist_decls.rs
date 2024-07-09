@@ -148,7 +148,7 @@ impl Hoister<'_> {
 
                                         var_decls.push(VarDeclarator {
                                             span: DUMMY_SP,
-                                            name: id.into().into(),
+                                            name: id.into(),
                                             init: None,
                                             definite: false,
                                         })

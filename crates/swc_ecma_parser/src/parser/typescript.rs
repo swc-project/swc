@@ -1739,7 +1739,7 @@ impl<I: Tokens> Parser<I> {
                 }
                 .into()
             } else {
-                ident.into().into()
+                ident.into()
             }))
         })
     }

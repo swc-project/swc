@@ -419,7 +419,7 @@ pub trait StmtExt {
                 .into_iter()
                 .map(|i| VarDeclarator {
                     span: i.span,
-                    name: i.into().into(),
+                    name: i.into(),
                     init: None,
                     definite: false,
                 })

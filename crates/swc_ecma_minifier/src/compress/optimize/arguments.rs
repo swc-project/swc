@@ -137,7 +137,7 @@ impl ArgReplacer<'_> {
                 let p = Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: private_ident!(format!("argument_{}", start)).into().into(),
+                    pat: private_ident!(format!("argument_{}", start)).into(),
                 };
                 start += 1;
                 p
