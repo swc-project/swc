@@ -3675,7 +3675,7 @@ fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
         _ => {}
     }
 
-    match &*node.arg {
+    match &node.arg {
         Expr::Update(box UpdateExpr {
             op: op!("++"),
             prefix: true,
@@ -4281,7 +4281,7 @@ fn require_space_before_rhs(rhs: &Expr, op: &BinaryOp) -> bool {
         Expr::Unary(box UnaryExpr {
             op: op!("!"), arg, ..
         }) if *op == op!("<") || *op == op!("<<") => {
-            if let Expr::Update(box UpdateExpr { op: op!("--"), .. }) = &**arg {
+            if let Expr::Update(box UpdateExpr { op: op!("--"), .. }) = arg {
                 true
             } else {
                 false

@@ -58,7 +58,7 @@ impl<T> FunctionWrapper<T> {
             decls: vec![VarDeclarator {
                 span: DUMMY_SP,
                 name: Pat::Ident(ref_ident.clone().into()),
-                init: Some(Box::new(self.function.take())),
+                init: Some(self.function.take().into()),
                 definite: false,
             }],
             ..Default::default()
@@ -70,7 +70,7 @@ impl<T> FunctionWrapper<T> {
 
             ReturnStmt {
                 span: DUMMY_SP,
-                arg: Some(Box::new(fn_expr.into())),
+                arg: Some(fn_expr.into()),
             }
         }
         .into();
