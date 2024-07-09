@@ -168,7 +168,31 @@ pub enum Expr {
     Invalid(Invalid),
 }
 
-bridge_from!(Expr, Box<JSXElement>, JSXElement);
+boxed_variants!(
+    Expr,
+    [
+        ArrayLit,
+        ObjectLit,
+        FnExpr,
+        UnaryExpr,
+        UpdateExpr,
+        BinExpr,
+        AssignExpr,
+        MemberExpr,
+        SuperPropExpr,
+        CondExpr,
+        CallExpr,
+        NewExpr,
+        SeqExpr,
+        Lit,
+        Tpl,
+        TaggedTpl,
+        ArrowExpr,
+        ClassExpr,
+        YieldExpr,
+        MetaPropExpr,
+    ]
+);
 
 // Memory layout depends on the version of rustc.
 // #[cfg(target_pointer_width = "64")]
@@ -194,7 +218,7 @@ impl Expr {
     pub fn leftmost(&self) -> Option<&Ident> {
         match self {
             Expr::Ident(i) => Some(i),
-            Expr::Member(MemberExpr { obj, .. }) => obj.leftmost(),
+            Expr::Member(me) => me.obj.leftmost(),
             Expr::OptChain(opt) => opt.base.as_member()?.obj.leftmost(),
             _ => None,
         }
@@ -284,8 +308,8 @@ impl Expr {
     /// expression of a parenthesized expression.
     pub fn unwrap_seqs_and_parens(&self) -> &Self {
         self.unwrap_with(|expr| match expr {
-            Expr::Seq(SeqExpr { exprs, .. }) => exprs.last().map(|v| &**v),
-            Expr::Paren(ParenExpr { expr, .. }) => Some(expr),
+            Expr::Seq(s) => s.exprs.last(),
+            Expr::Paren(p) => Some(&p.expr),
             _ => None,
         })
     }
@@ -303,6 +327,7 @@ impl Expr {
             exprs.remove(0)
         } else {
             SeqExpr {
+            Expr::Seq(Box::new(SeqExpr {
                 span: DUMMY_SP,
                 exprs,
             }
