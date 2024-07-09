@@ -109,6 +109,7 @@ pub enum PropName {
     BigInt(BigInt),
 }
 
+boxed_variants!(PropName, [ComputedPropName]);
 bridge_from!(PropName, Ident, Id);
 
 impl Default for PropName {

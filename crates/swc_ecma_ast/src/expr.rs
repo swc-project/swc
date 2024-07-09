@@ -173,7 +173,6 @@ boxed_variants!(
     [
         ArrayLit,
         ObjectLit,
-        FnExpr,
         UnaryExpr,
         UpdateExpr,
         BinExpr,
@@ -189,8 +188,7 @@ boxed_variants!(
         TaggedTpl,
         ArrowExpr,
         ClassExpr,
-        YieldExpr,
-        MetaPropExpr
+        YieldExpr
     ]
 );
 
@@ -1298,8 +1296,6 @@ impl From<Expr> for ExprOrSpread {
     }
 }
 
-bridge_from!(ExprOrSpread, Expr, Expr);
-
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
@@ -1465,6 +1461,20 @@ pub enum SimpleAssignTarget {
     #[tag("Invaliid")]
     Invalid(Invalid),
 }
+
+boxed_variants!(
+    SimpleAssignTarget,
+    [
+        MemberExpr,
+        SuperPropExpr,
+        ParenExpr,
+        TsAsExpr,
+        TsSatisfiesExpr,
+        TsNonNullExpr,
+        TsTypeAssertion,
+        TsInstantiation
+    ]
+);
 
 impl TryFrom<Expr> for SimpleAssignTarget {
     type Error = Expr;
