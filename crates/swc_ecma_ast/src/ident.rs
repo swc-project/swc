@@ -4,7 +4,6 @@ use std::{
 };
 
 use phf::phf_set;
-use scoped_tls::scoped_thread_local;
 use swc_atoms::{js_word, Atom};
 use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
@@ -186,7 +185,7 @@ impl EqIgnoreSpan for Ident {
             return false;
         }
 
-        self.ctx.eq_ignore_span(&other.ctx)
+        self.ctxt.eq_ignore_span(&other.ctxt)
     }
 }
 
