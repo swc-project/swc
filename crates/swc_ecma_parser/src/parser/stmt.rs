@@ -394,7 +394,7 @@ impl<'a, I: Tokens> Parser<I> {
         // Identifier node, we switch to interpreting it as a label.
         let expr = self.include_in_expr(true).parse_expr()?;
 
-        let expr = match *expr {
+        let expr = match expr {
             Expr::Ident(ident) => {
                 if eat!(self, ':') {
                     return self.parse_labelled_stmt(ident);
@@ -403,7 +403,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
             _ => self.verify_expr(expr)?,
         };
-        if let Expr::Ident(ref ident) = *expr {
+        if let Expr::Ident(ref ident) = expr {
             if &*ident.sym == "interface" && self.input.had_line_break_before_cur() {
                 self.emit_strict_mode_err(
                     ident.span,
@@ -425,7 +425,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        if let Expr::Ident(Ident { ref sym, span, .. }) = *expr {
+        if let Expr::Ident(Ident { ref sym, span, .. }) = expr {
             match &**sym {
                 "enum" | "interface" => {
                     self.emit_strict_mode_err(span, SyntaxError::InvalidIdentInStrict(sym.clone()));
@@ -435,7 +435,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if self.syntax().typescript() {
-            if let Expr::Ident(ref i) = *expr {
+            if let Expr::Ident(ref i) = expr {
                 match &*i.sym {
                     "public" | "static" | "abstract" => {
                         if eat!(self, "interface") {
@@ -674,11 +674,11 @@ impl<'a, I: Tokens> Parser<I> {
         // eof or rbrace
         expect!(self, '}');
 
-        Ok(Stmt::Switch(SwitchStmt {
+        Ok(Stmt::Switch(Box::new(SwitchStmt {
             span: span!(self, switch_start),
             discriminant,
             cases,
-        }))
+        })))
     }
 
     fn parse_throw_stmt(&mut self) -> PResult<Stmt> {
