@@ -116,7 +116,7 @@ impl VisitMut for OptionalChaining {
                     arg: Some(a.right.take()),
                 }),
             ];
-            a.right = Box::new(Expr::Call(CallExpr {
+            a.right = CallExpr {
                 span: DUMMY_SP,
                 callee: Expr::Arrow(ArrowExpr {
                     span: DUMMY_SP,
@@ -133,7 +133,8 @@ impl VisitMut for OptionalChaining {
                 .as_callee(),
                 args: vec![],
                 ..Default::default()
-            }));
+            }
+            .into();
         }
 
         self.vars = uninit;
@@ -278,12 +279,13 @@ impl OptionalChaining {
 
                                 match &this {
                                     Memo::Cache(i) => {
-                                        m.obj = Box::new(Expr::Assign(AssignExpr {
+                                        m.obj = AssignExpr {
                                             span: DUMMY_SP,
                                             op: op!("="),
                                             left: i.clone().into(),
                                             right: m.obj.take(),
-                                        }));
+                                        }
+                                        .into();
                                         this
                                     }
                                     Memo::Raw(_) => this,
@@ -423,47 +425,52 @@ impl OptionalChaining {
 
 fn init_and_eq_null_or_undefined(i: &Memo, init: Expr, no_document_all: bool) -> Expr {
     let lhs = match i {
-        Memo::Cache(i) => Box::new(Expr::Assign(AssignExpr {
+        Memo::Cache(i) => AssignExpr {
             span: DUMMY_SP,
             op: op!("="),
             left: i.clone().into(),
             right: Box::new(init),
-        })),
+        }
+        .into(),
         Memo::Raw(e) => e.to_owned(),
     };
 
     if no_document_all {
-        return Box::new(Expr::Bin(BinExpr {
+        return BinExpr {
             span: DUMMY_SP,
             left: lhs,
             op: op!("=="),
             right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-        }));
+        }
+        .into();
     }
 
-    let null_cmp = Box::new(Expr::Bin(BinExpr {
+    let null_cmp = BinExpr {
         span: DUMMY_SP,
         left: lhs,
         op: op!("==="),
         right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-    }));
+    }
+    .into();
 
     let left_expr = match i {
         Memo::Cache(i) => Box::new(i.clone().into()),
         Memo::Raw(e) => e.to_owned(),
     };
 
-    let void_cmp = Box::new(Expr::Bin(BinExpr {
+    let void_cmp = BinExpr {
         span: DUMMY_SP,
         left: left_expr,
         op: op!("==="),
         right: Expr::undefined(DUMMY_SP),
-    }));
+    }
+    .into();
 
-    Box::new(Expr::Bin(BinExpr {
+    BinExpr {
         span: DUMMY_SP,
         left: null_cmp,
         op: op!("||"),
         right: void_cmp,
-    }))
+    }
+    .into()
 }

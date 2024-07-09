@@ -975,16 +975,19 @@ where
                                     vars.push(VarDeclarator {
                                         span: DUMMY_SP,
                                         name: Pat::Ident(mod_var.clone().into()),
-                                        init: Some(Box::new(Expr::Call(CallExpr {
-                                            span: DUMMY_SP,
-                                            callee: Ident::new(
-                                                "load".into(),
-                                                DUMMY_SP,
-                                                dep.export_ctxt(),
-                                            )
-                                            .as_callee(),
-                                            ..Default::default()
-                                        }))),
+                                        init: Some(
+                                            CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: Ident::new(
+                                                    "load".into(),
+                                                    DUMMY_SP,
+                                                    dep.export_ctxt(),
+                                                )
+                                                .as_callee(),
+                                                ..Default::default()
+                                            }
+                                            .into(),
+                                        ),
                                         definite: Default::default(),
                                     });
                                     for s in specifiers {
@@ -995,9 +998,7 @@ where
                                                         vars.push(VarDeclarator {
                                                             span: s.span,
                                                             name: Pat::Ident(name.clone().into()),
-                                                            init: Some(Box::new(Expr::Ident(
-                                                                mod_var.clone(),
-                                                            ))),
+                                                            init: Some(mod_var.clone().into()),
                                                             definite: Default::default(),
                                                         });
                                                     }

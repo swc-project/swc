@@ -226,7 +226,7 @@ impl Evaluator {
         for expr in &q.exprs {
             let res = self.eval(expr)?;
             exprs.push(match res {
-                EvalResult::Lit(v) => Box::new(Expr::Lit(v)),
+                EvalResult::Lit(v) => v.into(),
                 EvalResult::Undefined => Expr::undefined(DUMMY_SP),
             });
         }

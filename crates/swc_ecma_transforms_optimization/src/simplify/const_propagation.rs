@@ -132,9 +132,7 @@ impl VisitMut for ConstPropagation<'_> {
                                 if let Some(value) = self.scope.vars.get(&init.to_id()).cloned() {
                                     self.scope.vars.insert(name.to_id(), value);
                                 } else {
-                                    self.scope
-                                        .vars
-                                        .insert(name.to_id(), Box::new(Expr::Ident(init.clone())));
+                                    self.scope.vars.insert(name.to_id(), init.clone().into());
                                 }
                             }
                             _ => {}

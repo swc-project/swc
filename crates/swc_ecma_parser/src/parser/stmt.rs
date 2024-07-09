@@ -263,7 +263,7 @@ impl<'a, I: Tokens> Parser<I> {
 
                 return Ok(Stmt::Expr(ExprStmt {
                     span,
-                    expr: Box::new(Expr::Invalid(Invalid { span })),
+                    expr: Invalid { span }.into(),
                 }));
             }
 
@@ -276,7 +276,7 @@ impl<'a, I: Tokens> Parser<I> {
 
                 return Ok(Stmt::Expr(ExprStmt {
                     span,
-                    expr: Box::new(Expr::Invalid(Invalid { span })),
+                    expr: Invalid { span }.into(),
                 }));
             }
 
@@ -399,7 +399,7 @@ impl<'a, I: Tokens> Parser<I> {
                 if eat!(self, ':') {
                     return self.parse_labelled_stmt(ident);
                 }
-                Box::new(Expr::Ident(ident))
+                ident.into()
             }
             _ => self.verify_expr(expr)?,
         };

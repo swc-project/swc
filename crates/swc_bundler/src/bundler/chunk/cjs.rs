@@ -357,11 +357,7 @@ impl VisitMut for DefaultHandler {
             if i.sym == "default" {
                 *e = Expr::Member(MemberExpr {
                     span: i.span,
-                    obj: Box::new(Expr::Ident(Ident::new(
-                        "module".into(),
-                        DUMMY_SP,
-                        self.local_ctxt,
-                    ))),
+                    obj: Ident::new("module".into(), DUMMY_SP, self.local_ctxt).into(),
                     prop: MemberProp::Ident(quote_ident!("exports")),
                 });
             }

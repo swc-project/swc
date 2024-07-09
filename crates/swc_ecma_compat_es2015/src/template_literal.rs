@@ -132,16 +132,16 @@ impl VisitMut for TemplateLiteral {
                                         value: r_value,
                                         ..
                                     })) => {
-                                        obj = Box::new(Expr::Lit(Lit::Str(Str {
+                                        obj = Lit::Str(Str {
                                             span: span.with_hi(r_span.hi()),
                                             raw: None,
                                             value: format!("{}{}", value, r_value).into(),
-                                        })));
+                                        })
+                                        .into();
                                         continue;
                                     }
                                     _ => {
-                                        obj =
-                                            Box::new(Expr::Lit(Lit::Str(Str { span, raw, value })));
+                                        obj = Lit::Str(Str { span, raw, value }).into();
                                     }
                                 }
                             }
@@ -155,16 +155,17 @@ impl VisitMut for TemplateLiteral {
                             obj = if self.c.ignore_to_primitive {
                                 let args = mem::take(&mut args);
                                 for arg in args {
-                                    obj = Box::new(Expr::Bin(BinExpr {
+                                    obj = BinExpr {
                                         span: span.with_hi(expr_span.hi() + BytePos(1)),
                                         op: op!(bin, "+"),
                                         left: obj,
                                         right: arg,
-                                    }))
+                                    }
+                                    .into()
                                 }
                                 obj
                             } else {
-                                Box::new(Expr::Call(CallExpr {
+                                CallExpr {
                                     span: span.with_hi(expr_span.hi() + BytePos(1)),
                                     callee: MemberExpr {
                                         span: DUMMY_SP,
@@ -180,7 +181,8 @@ impl VisitMut for TemplateLiteral {
                                         .map(|expr| expr.as_arg())
                                         .collect(),
                                     ..Default::default()
-                                }))
+                                }
+                                .into()
                             }
                         }
                     } else {
@@ -196,16 +198,17 @@ impl VisitMut for TemplateLiteral {
                                             continue;
                                         }
                                     }
-                                    obj = Box::new(Expr::Bin(BinExpr {
+                                    obj = BinExpr {
                                         span: span.with_hi(expr_span.hi() + BytePos(1)),
                                         op: op!(bin, "+"),
                                         left: obj,
                                         right: arg,
-                                    }))
+                                    }
+                                    .into()
                                 }
                                 obj
                             } else {
-                                Box::new(Expr::Call(CallExpr {
+                                CallExpr {
                                     span: span.with_hi(expr_span.hi() + BytePos(1)),
                                     callee: MemberExpr {
                                         span: DUMMY_SP,
@@ -221,7 +224,8 @@ impl VisitMut for TemplateLiteral {
                                         .map(|expr| expr.as_arg())
                                         .collect(),
                                     ..Default::default()
-                                }))
+                                }
+                                .into()
                             };
                         }
                         debug_assert!(args.is_empty());

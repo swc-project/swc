@@ -541,11 +541,12 @@ impl Optimizer<'_> {
                 e.exprs.pop();
                 let last = e.exprs.last_mut().unwrap();
 
-                *last = Box::new(Expr::Unary(UnaryExpr {
+                *last = UnaryExpr {
                     span: DUMMY_SP,
                     op: op!("void"),
                     arg: last.take(),
-                }))
+                }
+                .into()
             }
         }
     }
@@ -1871,17 +1872,19 @@ impl Optimizer<'_> {
                 if self.merge_sequential_expr(a, b_callee)? {
                     if is_this_undefined {
                         if let Expr::Member(..) = &**b_callee {
-                            let zero = Box::new(Expr::Lit(Lit::Num(Number {
+                            let zero = Lit::Num(Number {
                                 span: DUMMY_SP,
                                 value: 0.0,
                                 raw: None,
-                            })));
+                            })
+                            .into();
                             report_change!("injecting zero to preserve `this` in call");
 
-                            *b_callee = Box::new(Expr::Seq(SeqExpr {
+                            *b_callee = SeqExpr {
                                 span: b_callee.span(),
                                 exprs: vec![zero, b_callee.take()],
-                            }));
+                            }
+                            .into();
                         }
                     }
 
@@ -1988,7 +1991,7 @@ impl Optimizer<'_> {
                                     // We can't ignore shorthand properties
                                     //
                                     // https://github.com/swc-project/swc/issues/6914
-                                    let mut new_b = Box::new(Expr::Ident(shorthand.clone()));
+                                    let mut new_b = shorthand.clone().into();
                                     if self.merge_sequential_expr(a, &mut new_b)? {
                                         *prop = Box::new(Prop::KeyValue(KeyValueProp {
                                             key: Ident::new_no_ctxt(
@@ -2127,7 +2130,7 @@ impl Optimizer<'_> {
                                         span: DUMMY_SP,
                                         op: *op,
                                         prefix: true,
-                                        arg: Box::new(Expr::Ident(orig_expr.clone())),
+                                        arg: orig_expr.clone().into(),
                                     });
                                     return;
                                 }
@@ -2201,7 +2204,7 @@ impl Optimizer<'_> {
                                         span: DUMMY_SP,
                                         op: *op,
                                         prefix: true,
-                                        arg: Box::new(Expr::Ident(orig_expr.clone())),
+                                        arg: orig_expr.clone().into(),
                                     });
                                     return;
                                 }
@@ -2421,10 +2424,11 @@ impl Optimizer<'_> {
                 Mergable::FnDecl(a) => {
                     // We can inline a function declaration as a function expression.
 
-                    Box::new(Expr::Fn(FnExpr {
+                    FnExpr {
                         ident: Some(a.ident.take()),
                         function: a.function.take(),
-                    }))
+                    }
+                    .into()
                 }
 
                 Mergable::Drop => {
@@ -2445,10 +2449,11 @@ impl Optimizer<'_> {
                         let a_expr = self.ignore_return_value(&mut a_expr);
 
                         if let Some(a) = a_expr {
-                            b.right = Box::new(Expr::Seq(SeqExpr {
+                            b.right = SeqExpr {
                                 span: DUMMY_SP,
                                 exprs: vec![Box::new(a), b.right.take()],
-                            }));
+                            }
+                            .into();
                         }
                         return Ok(true);
                     }
@@ -2476,12 +2481,13 @@ impl Optimizer<'_> {
 
                                     let to = take_a(a, true, true);
 
-                                    b.right = Box::new(Expr::Bin(BinExpr {
+                                    b.right = BinExpr {
                                         span: DUMMY_SP,
                                         op: bin_op,
                                         left: to,
                                         right: b.right.take(),
-                                    }));
+                                    }
+                                    .into();
                                     return Ok(true);
                                 }
                             }

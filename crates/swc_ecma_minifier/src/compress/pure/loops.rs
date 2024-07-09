@@ -173,12 +173,15 @@ impl Pure<'_> {
 
                 match s.test.take() {
                     Some(left) => {
-                        s.test = Some(Box::new(Expr::Bin(BinExpr {
-                            span: s.test.span(),
-                            op: op!("&&"),
-                            left,
-                            right: test.take(),
-                        })));
+                        s.test = Some(
+                            BinExpr {
+                                span: s.test.span(),
+                                op: op!("&&"),
+                                left,
+                                right: test.take(),
+                            }
+                            .into(),
+                        );
                     }
                     None => {
                         s.test = Some(test.take());

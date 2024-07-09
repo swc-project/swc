@@ -221,7 +221,7 @@ impl MemberInitRecord {
                     value_init.push(if self.c.private_as_properties {
                         Stmt::Expr(ExprStmt {
                             span,
-                            expr: Box::new(Expr::Call(CallExpr {
+                            expr: CallExpr {
                                 span,
                                 callee: obj_def_prop(),
                                 args: vec![
@@ -230,7 +230,8 @@ impl MemberInitRecord {
                                     get_value_desc(value).as_arg(),
                                 ],
                                 ..Default::default()
-                            })),
+                            }
+                            .into(),
                         })
                     } else {
                         VarDecl {
@@ -255,7 +256,7 @@ impl MemberInitRecord {
                 }) => normal_init.push(if self.c.private_as_properties {
                     Stmt::Expr(ExprStmt {
                         span,
-                        expr: Box::new(Expr::Call(CallExpr {
+                        expr: CallExpr {
                             span,
                             callee: obj_def_prop(),
                             args: vec![
@@ -264,7 +265,8 @@ impl MemberInitRecord {
                                 get_accessor_desc(getter, setter).as_arg(),
                             ],
                             ..Default::default()
-                        })),
+                        }
+                        .into(),
                     })
                 } else {
                     VarDecl {

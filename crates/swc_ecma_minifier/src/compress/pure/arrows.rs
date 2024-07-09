@@ -94,7 +94,7 @@ impl Pure<'_> {
 
                     *p = Prop::KeyValue(KeyValueProp {
                         key: m.key.take(),
-                        value: Box::new(Expr::Arrow(ArrowExpr {
+                        value: ArrowExpr {
                             span: m_span,
                             params: m
                                 .function
@@ -107,7 +107,8 @@ impl Pure<'_> {
                             is_async: m.function.is_async,
                             is_generator: m.function.is_generator,
                             ..Default::default()
-                        })),
+                        }
+                        .into(),
                     });
                     return;
                 }

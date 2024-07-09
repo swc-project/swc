@@ -73,7 +73,7 @@ impl Fold for TemplateLiteralCaching {
                         Some(Expr::Arrow(ArrowExpr {
                             span: DUMMY_SP,
                             params: vec![t.clone().into()],
-                            body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Ident(t)))),
+                            body: Box::new(BlockStmtOrExpr::Expr(t.into())),
                             is_async: false,
                             is_generator: false,
                             ..Default::default()
@@ -88,7 +88,7 @@ impl Fold for TemplateLiteralCaching {
                 // the same shape.   identity`a${0}`
                 let template = TaggedTpl {
                     span: DUMMY_SP,
-                    tag: Box::new(Expr::Ident(helper_ident.clone())),
+                    tag: helper_ident.clone().into(),
                     tpl: Box::new(Tpl {
                         span: DUMMY_SP,
                         quasis: n.tpl.quasis,
@@ -104,13 +104,14 @@ impl Fold for TemplateLiteralCaching {
                 let inline_cache = Expr::Bin(BinExpr {
                     span: DUMMY_SP,
                     op: op!("||"),
-                    left: Box::new(Expr::Ident(t.clone())),
-                    right: Box::new(Expr::Assign(AssignExpr {
+                    left: t.clone().into(),
+                    right: AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
                         left: t.into(),
                         right: Box::new(Expr::TaggedTpl(template)),
-                    })),
+                    }
+                    .into(),
                 });
 
                 // The original tag function becomes a plain function call.

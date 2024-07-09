@@ -113,12 +113,13 @@ impl Pure<'_> {
                 *e = Expr::Bin(BinExpr {
                     span: cond.span,
                     op: op!("||"),
-                    left: Box::new(Expr::Bin(BinExpr {
+                    left: BinExpr {
                         span: cons_span,
                         op: op!("&&"),
                         left: cond.test.take(),
                         right: cons.left.take(),
-                    })),
+                    }
+                    .into(),
                     right: cons.right.take(),
                 });
             }

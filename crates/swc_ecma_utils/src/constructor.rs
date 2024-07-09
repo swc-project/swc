@@ -142,16 +142,19 @@ impl VisitMut for ExprInjector<'_> {
 
             *expr = Expr::Seq(SeqExpr {
                 span: DUMMY_SP,
-                exprs: iter::once(Box::new(Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    left: self.injected_tmp.as_ref().cloned().unwrap().into(),
-                    op: op!("="),
-                    right: Box::new(e),
-                })))
+                exprs: iter::once(
+                    AssignExpr {
+                        span: DUMMY_SP,
+                        left: self.injected_tmp.as_ref().cloned().unwrap().into(),
+                        op: op!("="),
+                        right: Box::new(e),
+                    }
+                    .into(),
+                )
                 .chain(self.exprs.clone())
-                .chain(iter::once(Box::new(Expr::Ident(
-                    self.injected_tmp.as_ref().cloned().unwrap(),
-                ))))
+                .chain(iter::once(
+                    self.injected_tmp.as_ref().cloned().unwrap().into(),
+                ))
                 .collect(),
             })
         }

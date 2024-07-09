@@ -191,11 +191,12 @@ impl SuperReplacer {
         match prop.take() {
             SuperProp::Ident(Ident {
                 sym: value, span, ..
-            }) => Box::new(Expr::Lit(Lit::Str(Str {
+            }) => Lit::Str(Str {
                 raw: None,
                 value,
                 span,
-            }))),
+            })
+            .into(),
 
             SuperProp::Computed(ComputedPropName { expr, .. }) => expr,
         }
@@ -417,11 +418,12 @@ impl SuperReplacer {
                             super_token,
                             prop.as_arg(),
                             SuperReplacer::to_bin_expr(
-                                Box::new(Expr::Unary(UnaryExpr {
+                                UnaryExpr {
                                     span: DUMMY_SP,
                                     op: op!(unary, "+"),
                                     arg: left,
-                                })),
+                                }
+                                .into(),
                                 op,
                                 rhs,
                             )

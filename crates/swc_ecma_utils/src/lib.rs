@@ -2203,35 +2203,32 @@ pub fn is_rest_arguments(e: &ExprOrSpread) -> bool {
     e.expr.is_ident_ref_to("arguments")
 }
 
-pub fn opt_chain_test(
-    left: Expr,
-    right: Expr,
-    span: Span,
-    no_document_all: bool,
-) -> Expr {
+pub fn opt_chain_test(left: Expr, right: Expr, span: Span, no_document_all: bool) -> Expr {
     if no_document_all {
         Expr::Bin(BinExpr {
             span,
             left,
             op: op!("=="),
-            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+            right: Lit::Null(Null { span: DUMMY_SP }).into(),
         })
     } else {
         Expr::Bin(BinExpr {
             span,
-            left: Box::new(Expr::Bin(BinExpr {
+            left: BinExpr {
                 span: DUMMY_SP,
                 left,
                 op: op!("==="),
                 right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-            })),
+            }
+            .into(),
             op: op!("||"),
-            right: Box::new(Expr::Bin(BinExpr {
+            right: BinExpr {
                 span: DUMMY_SP,
                 left: right,
                 op: op!("==="),
                 right: Expr::undefined(DUMMY_SP),
-            })),
+            }
+            .into(),
         })
     }
 }
@@ -2510,7 +2507,7 @@ impl ExprCtx {
                     }
                 }
 
-                to.push(Box::new(Expr::New(e)))
+                to.push(e.into())
             }
             Expr::Member(_) | Expr::SuperProp(_) => to.push(Box::new(expr)),
 
@@ -2586,7 +2583,7 @@ impl ExprCtx {
                 });
 
                 if has_spread {
-                    to.push(Box::new(Expr::Object(ObjectLit { span, props })))
+                    to.push(ObjectLit { span, props }.into())
                 } else {
                     props.into_iter().for_each(|prop| match prop {
                         PropOrSpread::Prop(node) => match *node {
@@ -2705,7 +2702,7 @@ impl VisitMut for IdentReplacer<'_> {
                 if i.sym != cloned.sym || i.ctxt != cloned.ctxt {
                     *node = Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(Ident::new_no_ctxt(cloned.sym, cloned.span)),
-                        value: Box::new(Expr::Ident(i.clone())),
+                        value: i.clone().into(),
                     });
                 }
             }
@@ -3070,7 +3067,7 @@ impl VisitMut for IdentRenamer<'_> {
                 if i.sym != cloned.sym || i.ctxt != cloned.ctxt {
                     *node = Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(Ident::new_no_ctxt(cloned.sym, cloned.span)),
-                        value: Box::new(Expr::Ident(i.clone())),
+                        value: i.clone().into(),
                     });
                 }
             }

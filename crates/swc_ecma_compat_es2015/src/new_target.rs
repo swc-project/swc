@@ -73,12 +73,13 @@ impl VisitMut for NewTarget {
                     *e = Expr::Cond(CondExpr {
                         span: *span,
                         // this instanceof Foo
-                        test: Box::new(Expr::Bin(BinExpr {
+                        test: BinExpr {
                             span: DUMMY_SP,
                             op: op!("instanceof"),
                             left: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
                             right: Box::new(Expr::Ident(i.clone())),
-                        })),
+                        }
+                        .into(),
                         cons: Box::new(this_ctor(DUMMY_SP)),
                         // void 0
                         alt: Expr::undefined(DUMMY_SP),

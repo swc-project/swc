@@ -266,7 +266,7 @@ impl VisitMut for Mangler<'_> {
 
             *prop = Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(new_ident),
-                value: Box::new(Expr::Ident(ident.clone())),
+                value: ident.clone().into(),
             });
         }
     }

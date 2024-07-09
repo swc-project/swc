@@ -105,8 +105,8 @@ impl VisitMut for BrandCheckHandler<'_> {
                         *e = Expr::Bin(BinExpr {
                             span: *span,
                             op: op!("==="),
-                            left: Box::new(Expr::Ident(curr_class.clone())),
-                            right: Box::new(Expr::Ident(right.clone())),
+                            left: curr_class.clone().into(),
+                            right: right.clone().into(),
                         });
                         return;
                     }
@@ -123,7 +123,7 @@ impl VisitMut for BrandCheckHandler<'_> {
                         span: *span,
                         op: op!("==="),
                         left: right.take(),
-                        right: Box::new(Expr::Ident(class_name.clone())),
+                        right: class_name.clone().into(),
                     });
                     return;
                 }
@@ -417,12 +417,13 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 if let Some(this) = this {
                     *e = Expr::TaggedTpl(TaggedTpl {
                         span: *span,
-                        tag: Box::new(Expr::Call(CallExpr {
+                        tag: CallExpr {
                             span: DUMMY_SP,
                             callee: expr.make_member(quote_ident!("bind")).as_callee(),
                             args: vec![this.as_arg()],
                             ..Default::default()
-                        })),
+                        }
+                        .into(),
                         tpl: tpl.take(),
                         ..Default::default()
                     });

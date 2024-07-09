@@ -356,11 +356,12 @@ impl Pure<'_> {
                     }
                     _ => {
                         // Return value of typeof is always truthy
-                        let true_expr = Box::new(Expr::Lit(Lit::Num(Number {
+                        let true_expr = Lit::Num(Number {
                             span: *span,
                             value: 1.0,
                             raw: None,
-                        })));
+                        })
+                        .into();
                         *n = Expr::Seq(SeqExpr {
                             span: *span,
                             exprs: vec![arg.take(), true_expr],

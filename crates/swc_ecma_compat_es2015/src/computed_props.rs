@@ -97,12 +97,13 @@ impl VisitMut for ComputedProps {
 
             exprs.push(
                 if !self.c.loose && props_cnt == 1 && !self.used_define_enum_props {
-                    Box::new(Expr::Object(ObjectLit {
+                    ObjectLit {
                         span: DUMMY_SP,
                         props: obj_props,
-                    }))
+                    }
+                    .into()
                 } else {
-                    Box::new(Expr::Assign(AssignExpr {
+                    AssignExpr {
                         span: DUMMY_SP,
                         left: obj_ident.clone().into(),
                         op: op!("="),
@@ -110,7 +111,8 @@ impl VisitMut for ComputedProps {
                             span: DUMMY_SP,
                             props: obj_props,
                         })),
-                    }))
+                    }
+                    .into()
                 },
             );
 
@@ -192,33 +194,39 @@ impl VisitMut for ComputedProps {
                                 .computed_member(prop_name_to_expr(key, false).0);
 
                             // mutator[f] = mutator[f] || {}
-                            exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                span,
-                                left: mutator_elem.clone().into(),
-                                op: op!("="),
-                                right: Box::new(Expr::Bin(BinExpr {
+                            exprs.push(
+                                AssignExpr {
                                     span,
                                     left: mutator_elem.clone().into(),
-                                    op: op!("||"),
-                                    right: Box::new(Expr::Object(ObjectLit {
+                                    op: op!("="),
+                                    right: Box::new(Expr::Bin(BinExpr {
                                         span,
-                                        props: vec![],
+                                        left: mutator_elem.clone().into(),
+                                        op: op!("||"),
+                                        right: Box::new(Expr::Object(ObjectLit {
+                                            span,
+                                            props: vec![],
+                                        })),
                                     })),
-                                })),
-                            })));
+                                }
+                                .into(),
+                            );
 
                             // mutator[f].get = function(){}
-                            exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                span,
-                                left: mutator_elem
-                                    .make_member(quote_ident!(gs_prop_name.unwrap()))
-                                    .into(),
-                                op: op!("="),
-                                right: Box::new(Expr::Fn(FnExpr {
-                                    ident: None,
-                                    function,
-                                })),
-                            })));
+                            exprs.push(
+                                AssignExpr {
+                                    span,
+                                    left: mutator_elem
+                                        .make_member(quote_ident!(gs_prop_name.unwrap()))
+                                        .into(),
+                                    op: op!("="),
+                                    right: Box::new(Expr::Fn(FnExpr {
+                                        ident: None,
+                                        function,
+                                    })),
+                                }
+                                .into(),
+                            );
 
                             continue;
                             // unimplemented!("getter /setter property")
@@ -249,19 +257,21 @@ impl VisitMut for ComputedProps {
                     } else {
                         obj_ident.clone().make_member(key.ident().unwrap())
                     };
-                    Box::new(Expr::Assign(AssignExpr {
+                    AssignExpr {
                         span,
                         op: op!("="),
                         left: left.into(),
                         right: value.into(),
-                    }))
+                    }
+                    .into()
                 } else {
-                    Box::new(Expr::Call(CallExpr {
+                    CallExpr {
                         span,
                         callee: helper!(define_property),
                         args: vec![obj_ident.clone().as_arg(), key.as_arg(), value.as_arg()],
                         ..Default::default()
-                    }))
+                    }
+                    .into()
                 });
             }
 
@@ -280,22 +290,28 @@ impl VisitMut for ComputedProps {
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
                     name: mutator_map.clone().into(),
-                    init: Some(Box::new(Expr::Object(ObjectLit {
-                        span: DUMMY_SP,
-                        props: vec![],
-                    }))),
+                    init: Some(
+                        ObjectLit {
+                            span: DUMMY_SP,
+                            props: vec![],
+                        }
+                        .into(),
+                    ),
                     definite: false,
                 });
-                exprs.push(Box::new(Expr::Call(CallExpr {
-                    span: *span,
-                    callee: helper!(define_enumerable_properties),
-                    args: vec![obj_ident.clone().as_arg(), mutator_map.as_arg()],
-                    ..Default::default()
-                })));
+                exprs.push(
+                    CallExpr {
+                        span: *span,
+                        callee: helper!(define_enumerable_properties),
+                        args: vec![obj_ident.clone().as_arg(), mutator_map.as_arg()],
+                        ..Default::default()
+                    }
+                    .into(),
+                );
             }
 
             // Last value
-            exprs.push(Box::new(Expr::Ident(obj_ident)));
+            exprs.push(obj_ident.into());
             *expr = Expr::Seq(SeqExpr {
                 span: DUMMY_SP,
                 exprs,

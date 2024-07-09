@@ -34,7 +34,7 @@ fn expr(s: &'static str) -> Expr {
     })
 }
 fn regex_expr() -> Expr {
-    Box::new(Expr::Assign(AssignExpr {
+    AssignExpr {
         span,
         left: Ident::new_no_ctxt("re".into(), span).into(),
         op: AssignOp::Assign,
@@ -43,7 +43,8 @@ fn regex_expr() -> Expr {
             exp: "w+".into(),
             flags: "".into(),
         }))),
-    }))
+    }
+    .into()
 }
 #[test]
 fn regex_single_line_comment() {

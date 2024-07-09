@@ -235,7 +235,7 @@ impl<T> FunctionWrapper<T> {
             span: DUMMY_SP,
             arg: Some(Box::new(ref_ident.apply(
                 DUMMY_SP,
-                Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                ThisExpr { span: DUMMY_SP }.into(),
                 vec![quote_ident!("arguments").as_arg()],
             ))),
         });

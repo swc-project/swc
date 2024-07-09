@@ -1071,7 +1071,7 @@ fn ignore_return_value(expr: Expr, has_padding_value: &mut bool) -> Option<Expr>
 
             match exprs.len() {
                 0 | 1 => exprs.pop(),
-                _ => Some(Box::new(Expr::Seq(SeqExpr { span, exprs }))),
+                _ => Some(SeqExpr { span, exprs }.into()),
             }
         }
         Expr::Unary(UnaryExpr {

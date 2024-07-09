@@ -500,11 +500,12 @@ impl Pure<'_> {
                                     span: bin.span,
                                     op: op!(bin, "+"),
                                     left: left.left.take(),
-                                    right: Box::new(Expr::Lit(Lit::Str(Str {
+                                    right: Lit::Str(Str {
                                         span: left_span,
                                         raw: None,
                                         value: new_str.into(),
-                                    }))),
+                                    })
+                                    .into(),
                                 });
                             }
                         }

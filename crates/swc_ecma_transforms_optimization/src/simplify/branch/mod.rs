@@ -224,7 +224,7 @@ impl VisitMut for Remover {
                 return if value {
                     None
                 } else {
-                    Some(Box::new(Expr::Lit(Lit::Bool(Bool { span, value: false }))))
+                    Some(Lit::Bool(Bool { span, value: false }).into())
                 };
             }
 
@@ -823,10 +823,11 @@ impl VisitMut for Remover {
                                         expr: if exprs.len() == 1 {
                                             exprs.remove(0)
                                         } else {
-                                            Box::new(Expr::Seq(SeqExpr {
+                                            SeqExpr {
                                                 span: DUMMY_SP,
                                                 exprs,
-                                            }))
+                                            }
+                                            .into()
                                         },
                                     }),
                                 );
@@ -1005,10 +1006,11 @@ impl VisitMut for Remover {
                                         expr: if exprs.len() == 1 {
                                             exprs.remove(0)
                                         } else {
-                                            Box::new(Expr::Seq(SeqExpr {
+                                            SeqExpr {
                                                 span: DUMMY_SP,
                                                 exprs,
-                                            }))
+                                            }
+                                            .into()
                                         },
                                     }),
                                 );
@@ -1116,10 +1118,11 @@ impl VisitMut for Remover {
                         if v {
                             if purity.is_pure() {
                                 Stmt::While(WhileStmt {
-                                    test: Box::new(Expr::Lit(Lit::Bool(Bool {
+                                    test: Lit::Bool(Bool {
                                         span: s.test.span(),
                                         value: true,
-                                    }))),
+                                    })
+                                    .into(),
                                     ..s
                                 })
                             } else {
@@ -1655,7 +1658,7 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
                     ctx.preserve_effects(
                         span,
                         *Expr::undefined(DUMMY_SP),
-                        once(Box::new(Expr::Object(ObjectLit { span, props }))),
+                        once(ObjectLit { span, props }.into()),
                     ),
                     true,
                     ctx,
