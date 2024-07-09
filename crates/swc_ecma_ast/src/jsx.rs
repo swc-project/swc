@@ -218,7 +218,7 @@ impl<'a> arbitrary::Arbitrary<'a> for JSXText {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXElement {
     pub span: Span,
-    pub opening: JSXOpeningElement,
+    pub opening: Box<JSXOpeningElement>,
     pub children: Vec<JSXElementChild>,
     pub closing: Option<JSXClosingElement>,
 }
