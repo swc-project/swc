@@ -353,14 +353,39 @@ impl Ident {
     }
 }
 
-#[ast_node("IdentifierName")]
-#[derive(Eq, Hash, Default)]
+#[ast_node("Identifier")]
+#[derive(Eq, Hash, Default, EqIgnoreSpan)]
 pub struct IdentName {
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
     pub sym: Atom,
+}
+
+impl Take for IdentName {
+    fn dummy() -> Self {
+        Default::default()
+    }
+}
+
+impl From<Ident> for IdentName {
+    fn from(i: Ident) -> Self {
+        IdentName {
+            span: i.span,
+            sym: i.sym,
+        }
+    }
+}
+
+impl From<IdentName> for Ident {
+    fn from(i: IdentName) -> Self {
+        Ident {
+            span: i.span,
+            sym: i.sym,
+            ..Default::default()
+        }
+    }
 }
 
 /// See [Ident] for documentation.
