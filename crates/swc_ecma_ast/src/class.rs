@@ -58,29 +58,29 @@ impl Take for Class {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ClassMember {
     #[tag("Constructor")]
-    Constructor(Constructor),
+    Constructor(Box<Constructor>),
     /// `es2015`
     #[tag("ClassMethod")]
-    Method(ClassMethod),
+    Method(Box<ClassMethod>),
     #[tag("PrivateMethod")]
-    PrivateMethod(PrivateMethod),
+    PrivateMethod(Box<PrivateMethod>),
     /// stage 0 / Typescript
     #[tag("ClassProperty")]
-    ClassProp(ClassProp),
+    ClassProp(Box<ClassProp>),
     #[tag("PrivateProperty")]
-    PrivateProp(PrivateProp),
+    PrivateProp(Box<PrivateProp>),
     #[tag("TsIndexSignature")]
-    TsIndexSignature(TsIndexSignature),
+    TsIndexSignature(Box<TsIndexSignature>),
     #[tag("EmptyStatement")]
     Empty(EmptyStmt),
 
     /// Stage 3
     #[tag("StaticBlock")]
-    StaticBlock(StaticBlock),
+    StaticBlock(Box<StaticBlock>),
 
     /// Stage 3
     #[tag("AutoAccessor")]
-    AutoAccessor(AutoAccessor),
+    AutoAccessor(Box<AutoAccessor>),
 }
 
 impl Take for ClassMember {
