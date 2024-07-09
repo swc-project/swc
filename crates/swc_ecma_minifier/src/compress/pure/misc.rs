@@ -243,7 +243,7 @@ impl Pure<'_> {
                 value: js_word!(""),
             }));
 
-            fn add(to: &mut Expr, right: Box<Expr>) {
+            fn add(to: &mut Expr, right: Expr) {
                 let lhs = to.take();
                 *to = Expr::Bin(BinExpr {
                     span: DUMMY_SP,
@@ -833,7 +833,7 @@ impl Pure<'_> {
         }
     }
 
-    fn make_ignored_expr(&mut self, exprs: impl Iterator<Item = Box<Expr>>) -> Option<Expr> {
+    fn make_ignored_expr(&mut self, exprs: impl Iterator<Item = Expr>) -> Option<Expr> {
         let mut exprs = exprs
             .filter_map(|mut e| {
                 self.ignore_return_value(

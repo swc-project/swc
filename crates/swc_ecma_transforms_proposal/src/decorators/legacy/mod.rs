@@ -40,8 +40,8 @@ pub(super) struct TscDecorator {
 
     /// Used for computed keys, and this variables are not initialized.
     vars: Vec<VarDeclarator>,
-    appended_exprs: Vec<Box<Expr>>,
-    prepended_exprs: Vec<Box<Expr>>,
+    appended_exprs: Vec<Expr>,
+    prepended_exprs: Vec<Expr>,
 
     class_name: Option<Ident>,
 
@@ -152,7 +152,7 @@ impl TscDecorator {
     /// Creates `__decorate` calls.
     fn add_decorate_call(
         &mut self,
-        decorators: impl IntoIterator<Item = Box<Expr>>,
+        decorators: impl IntoIterator<Item = Expr>,
         mut target: ExprOrSpread,
         key: ExprOrSpread,
         mut desc: ExprOrSpread,

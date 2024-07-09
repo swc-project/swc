@@ -152,7 +152,7 @@ impl VisitMut for OptionalChaining {
 #[derive(Debug, Clone)]
 enum Memo {
     Cache(Ident),
-    Raw(Box<Expr>),
+    Raw(Expr),
 }
 
 impl Memo {
@@ -421,7 +421,7 @@ impl OptionalChaining {
     }
 }
 
-fn init_and_eq_null_or_undefined(i: &Memo, init: Expr, no_document_all: bool) -> Box<Expr> {
+fn init_and_eq_null_or_undefined(i: &Memo, init: Expr, no_document_all: bool) -> Expr {
     let lhs = match i {
         Memo::Cache(i) => Box::new(Expr::Assign(AssignExpr {
             span: DUMMY_SP,

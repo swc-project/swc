@@ -1617,7 +1617,7 @@ pub fn num_from_str(s: &str) -> Value<f64> {
     Known(s.parse().ok().unwrap_or(f64::NAN))
 }
 
-impl ExprExt for Box<Expr> {
+impl ExprExt for Expr {
     fn as_expr(&self) -> &Expr {
         self
     }
@@ -2204,8 +2204,8 @@ pub fn is_rest_arguments(e: &ExprOrSpread) -> bool {
 }
 
 pub fn opt_chain_test(
-    left: Box<Expr>,
-    right: Box<Expr>,
+    left: Expr,
+    right: Expr,
     span: Span,
     no_document_all: bool,
 ) -> Expr {
@@ -2458,7 +2458,7 @@ impl ExprCtx {
     /// any.
     pub fn preserve_effects<I>(&self, span: Span, val: Expr, exprs: I) -> Expr
     where
-        I: IntoIterator<Item = Box<Expr>>,
+        I: IntoIterator<Item = Expr>,
     {
         let mut exprs = exprs.into_iter().fold(vec![], |mut v, e| {
             self.extract_side_effects_to(&mut v, *e);
@@ -2479,7 +2479,7 @@ impl ExprCtx {
     /// This function preserves order and conditions. (think a() ? yield b() :
     /// c())
     #[allow(clippy::vec_box)]
-    pub fn extract_side_effects_to(&self, to: &mut Vec<Box<Expr>>, expr: Expr) {
+    pub fn extract_side_effects_to(&self, to: &mut Vec<Expr>, expr: Expr) {
         match expr {
             Expr::Lit(..)
             | Expr::This(..)
@@ -3082,10 +3082,10 @@ impl VisitMut for IdentRenamer<'_> {
 }
 
 pub trait QueryRef {
-    fn query_ref(&self, _ident: &Ident) -> Option<Box<Expr>> {
+    fn query_ref(&self, _ident: &Ident) -> Option<Expr> {
         None
     }
-    fn query_lhs(&self, _ident: &Ident) -> Option<Box<Expr>> {
+    fn query_lhs(&self, _ident: &Ident) -> Option<Expr> {
         None
     }
 

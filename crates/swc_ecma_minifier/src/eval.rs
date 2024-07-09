@@ -48,7 +48,7 @@ struct Eval {
 
 #[derive(Default)]
 struct EvalStore {
-    cache: AHashMap<Id, Box<Expr>>,
+    cache: AHashMap<Id, Expr>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -184,7 +184,7 @@ impl Evaluator {
         Some(EvalResult::Lit(self.eval_as_expr(e)?.lit()?))
     }
 
-    fn eval_as_expr(&mut self, e: &Expr) -> Option<Box<Expr>> {
+    fn eval_as_expr(&mut self, e: &Expr) -> Option<Expr> {
         match e {
             Expr::Ident(i) => {
                 self.run();

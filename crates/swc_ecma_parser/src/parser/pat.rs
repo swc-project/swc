@@ -491,7 +491,7 @@ impl PatType {
 impl<I: Tokens> Parser<I> {
     /// This does not return 'rest' pattern because non-last parameter cannot be
     /// rest.
-    pub(super) fn reparse_expr_as_pat(&mut self, pat_ty: PatType, expr: Box<Expr>) -> PResult<Pat> {
+    pub(super) fn reparse_expr_as_pat(&mut self, pat_ty: PatType, expr: Expr) -> PResult<Pat> {
         if let Expr::Invalid(i) = *expr {
             return Ok(Pat::Invalid(i));
         }
@@ -514,7 +514,7 @@ impl<I: Tokens> Parser<I> {
         self.reparse_expr_as_pat_inner(pat_ty, expr)
     }
 
-    fn reparse_expr_as_pat_inner(&mut self, pat_ty: PatType, expr: Box<Expr>) -> PResult<Pat> {
+    fn reparse_expr_as_pat_inner(&mut self, pat_ty: PatType, expr: Expr) -> PResult<Pat> {
         // In dts, we do not reparse.
         debug_assert!(!self.input.syntax().dts());
 

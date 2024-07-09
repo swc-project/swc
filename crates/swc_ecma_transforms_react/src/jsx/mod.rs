@@ -115,7 +115,7 @@ pub fn parse_expr_for_jsx(
     name: &str,
     src: String,
     top_level_mark: Mark,
-) -> Arc<Box<Expr>> {
+) -> Arc<Expr> {
     let fm = cm.new_source_file(
         FileName::Internal(format!("jsx-config-{}.js", name)).into(),
         src,
@@ -250,9 +250,9 @@ where
     import_fragment: Option<Ident>,
     top_level_node: bool,
 
-    pragma: Arc<Box<Expr>>,
+    pragma: Arc<Expr>,
     comments: Option<C>,
-    pragma_frag: Arc<Box<Expr>>,
+    pragma_frag: Arc<Expr>,
     development: bool,
     throw_if_namespace: bool,
 }
@@ -265,10 +265,10 @@ pub struct JsxDirectives {
     pub import_source: Option<JsWord>,
 
     /// Parsed from `@jsx`
-    pub pragma: Option<Arc<Box<Expr>>>,
+    pub pragma: Option<Arc<Expr>>,
 
     /// Parsed from `@jsxFrag`
-    pub pragma_frag: Option<Arc<Box<Expr>>>,
+    pub pragma_frag: Option<Arc<Expr>>,
 }
 
 fn respan(e: &mut Expr, span: Span) {
@@ -882,7 +882,7 @@ where
         })
     }
 
-    fn fold_attrs_for_classic(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
+    fn fold_attrs_for_classic(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Expr {
         if attrs.is_empty() {
             return Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP })));
         }
@@ -1184,7 +1184,7 @@ impl<C> Jsx<C>
 where
     C: Comments,
 {
-    fn jsx_name(&self, name: JSXElementName) -> Box<Expr> {
+    fn jsx_name(&self, name: JSXElementName) -> Expr {
         let span = name.span();
         match name {
             JSXElementName::Ident(i) => {
@@ -1227,7 +1227,7 @@ where
                 })))
             }
             JSXElementName::JSXMemberExpr(JSXMemberExpr { obj, prop }) => {
-                fn convert_obj(obj: JSXObject) -> Box<Expr> {
+                fn convert_obj(obj: JSXObject) -> Expr {
                     let span = obj.span();
 
                     (match obj {
@@ -1314,7 +1314,7 @@ fn jsx_text_to_str(t: Atom) -> JsWord {
     buf.into()
 }
 
-fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
+fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Expr> {
     Some(match v {
         JSXAttrValue::Lit(Lit::Str(s)) => {
             let value = transform_jsx_attr_str(&s.value);

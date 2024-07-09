@@ -15,7 +15,7 @@ use swc_ecma_ast::*;
 ///
 /// to create literals. Almost all rust core types implements `Into<Expr>`.
 #[allow(clippy::wrong_self_convention)]
-pub trait ExprFactory: Into<Box<Expr>> {
+pub trait ExprFactory: Into<Expr> {
     /// Creates an [ExprOrSpread] using the given [Expr].
     ///
     /// This is recommended way to create [ExprOrSpread].
@@ -142,7 +142,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Expr {
+    fn apply(self, span: Span, this: Expr, args: Vec<ExprOrSpread>) -> Expr {
         let apply = self.make_member(Ident::new_no_ctxt("apply".into(), span));
 
         Expr::Call(CallExpr {
@@ -266,7 +266,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn computed_member<T>(self, prop: T) -> MemberExpr
     where
-        T: Into<Box<Expr>>,
+        T: Into<Expr>,
     {
         MemberExpr {
             obj: self.into(),
@@ -279,7 +279,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
     }
 }
 
-impl<T: Into<Box<Expr>>> ExprFactory for T {}
+impl<T: Into<Expr>> ExprFactory for T {}
 
 pub trait IntoIndirectCall
 where

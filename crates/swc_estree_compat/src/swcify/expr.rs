@@ -30,7 +30,7 @@ use super::Context;
 use crate::swcify::Swcify;
 
 impl Swcify for Expression {
-    type Output = Box<Expr>;
+    type Output = Expr;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         Box::new(match self {
@@ -134,7 +134,7 @@ impl Swcify for swc_estree_ast::PrivateName {
 }
 
 impl Swcify for BinaryExprLeft {
-    type Output = Box<Expr>;
+    type Output = Expr;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
@@ -788,7 +788,7 @@ impl Swcify for OptionalMemberExpression {
 }
 
 impl Swcify for OptionalMemberExprProp {
-    type Output = Box<Expr>;
+    type Output = Expr;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {

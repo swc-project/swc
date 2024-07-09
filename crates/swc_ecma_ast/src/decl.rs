@@ -151,7 +151,7 @@ pub struct VarDeclarator {
 
     /// Initialization expression.
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub init: Option<Box<Expr>>,
+    pub init: Option<Expr>,
 
     /// Typescript only
     #[cfg_attr(feature = "serde-impl", serde(default))]

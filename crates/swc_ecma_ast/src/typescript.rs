@@ -182,7 +182,7 @@ pub struct TsConstructSignatureDecl {
 pub struct TsPropertySignature {
     pub span: Span,
     pub readonly: bool,
-    pub key: Box<Expr>,
+    pub key: Expr,
     pub computed: bool,
     pub optional: bool,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
@@ -194,7 +194,7 @@ pub struct TsPropertySignature {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsGetterSignature {
     pub span: Span,
-    pub key: Box<Expr>,
+    pub key: Expr,
     pub computed: bool,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
@@ -205,7 +205,7 @@ pub struct TsGetterSignature {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsSetterSignature {
     pub span: Span,
-    pub key: Box<Expr>,
+    pub key: Expr,
     pub computed: bool,
     pub param: TsFnParam,
 }
@@ -215,7 +215,7 @@ pub struct TsSetterSignature {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsMethodSignature {
     pub span: Span,
-    pub key: Box<Expr>,
+    pub key: Expr,
     pub computed: bool,
     pub optional: bool,
     pub params: Vec<TsFnParam>,
@@ -852,7 +852,7 @@ pub struct TsInterfaceBody {
 pub struct TsExprWithTypeArgs {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
-    pub expr: Box<Expr>,
+    pub expr: Expr,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeArguments"))]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
 }
@@ -888,7 +888,7 @@ pub struct TsEnumMember {
     pub span: Span,
     pub id: TsEnumMemberId,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub init: Option<Box<Expr>>,
+    pub init: Option<Expr>,
 }
 
 ///
@@ -1011,7 +1011,7 @@ pub struct TsExternalModuleRef {
 pub struct TsExportAssignment {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
-    pub expr: Box<Expr>,
+    pub expr: Expr,
 }
 
 #[ast_node("TsNamespaceExportDeclaration")]
@@ -1032,7 +1032,7 @@ pub struct TsNamespaceExportDecl {
 pub struct TsAsExpr {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
-    pub expr: Box<Expr>,
+    pub expr: Expr,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsType>,
 }
@@ -1043,7 +1043,7 @@ pub struct TsAsExpr {
 pub struct TsTypeAssertion {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
-    pub expr: Box<Expr>,
+    pub expr: Expr,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsType>,
 }
@@ -1054,7 +1054,7 @@ pub struct TsTypeAssertion {
 pub struct TsNonNullExpr {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
-    pub expr: Box<Expr>,
+    pub expr: Expr,
 }
 
 #[ast_node("TsSatisfiesExpression")]
@@ -1063,7 +1063,7 @@ pub struct TsNonNullExpr {
 pub struct TsSatisfiesExpr {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
-    pub expr: Box<Expr>,
+    pub expr: Expr,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsType>,
 }
@@ -1092,7 +1092,7 @@ pub enum Accessibility {
 pub struct TsConstAssertion {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
-    pub expr: Box<Expr>,
+    pub expr: Expr,
 }
 
 #[ast_node("TsInstantiation")]
@@ -1101,7 +1101,7 @@ pub struct TsConstAssertion {
 pub struct TsInstantiation {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
-    pub expr: Box<Expr>,
+    pub expr: Expr,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeArguments"))]
     pub type_args: Box<TsTypeParamInstantiation>,
 }

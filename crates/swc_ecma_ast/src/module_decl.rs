@@ -75,7 +75,7 @@ pub struct ExportDefaultExpr {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
-    pub expr: Box<Expr>,
+    pub expr: Expr,
 }
 
 #[ast_node("ExportDeclaration")]

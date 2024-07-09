@@ -1737,7 +1737,7 @@ impl Optimizer<'_> {
                         trace_op!("seq: Try lhs of assign");
 
                         if let SimpleAssignTarget::Member(..) = b_left {
-                            let mut b_left_expr: Box<Expr> = b_left.take().into();
+                            let mut b_left_expr: Expr = b_left.take().into();
 
                             let res = self.merge_sequential_expr(a, &mut b_left_expr);
 

@@ -5,14 +5,14 @@ use crate::lexer::TokenContext;
 
 /// Parser for function expression and function declaration.
 impl<I: Tokens> Parser<I> {
-    pub(super) fn parse_async_fn_expr(&mut self) -> PResult<Box<Expr>> {
+    pub(super) fn parse_async_fn_expr(&mut self) -> PResult<Expr> {
         let start = cur_pos!(self);
         expect!(self, "async");
         self.parse_fn(None, Some(start), vec![])
     }
 
     /// Parse function expression
-    pub(super) fn parse_fn_expr(&mut self) -> PResult<Box<Expr>> {
+    pub(super) fn parse_fn_expr(&mut self) -> PResult<Expr> {
         self.parse_fn(None, None, vec![])
     }
 
@@ -58,7 +58,7 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         start: BytePos,
         decorators: Vec<Decorator>,
-    ) -> PResult<Box<Expr>> {
+    ) -> PResult<Expr> {
         self.parse_class(start, start, decorators, false)
     }
 
@@ -229,7 +229,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    fn parse_super_class(&mut self) -> PResult<(Box<Expr>, Option<Box<TsTypeParamInstantiation>>)> {
+    fn parse_super_class(&mut self) -> PResult<(Expr, Option<Box<TsTypeParamInstantiation>>)> {
         let super_class = self.parse_lhs_expr()?;
         match *super_class {
             Expr::TsInstantiation(TsInstantiation {
@@ -311,7 +311,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    fn parse_maybe_decorator_args(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
+    fn parse_maybe_decorator_args(&mut self, expr: Expr) -> PResult<Expr> {
         let type_args = if self.input.syntax().typescript() && is!(self, '<') {
             Some(self.parse_ts_type_args()?)
         } else {
@@ -1563,7 +1563,7 @@ trait OutputType: Sized {
     ) -> Result<Self, SyntaxError>;
 }
 
-impl OutputType for Box<Expr> {
+impl OutputType for Expr {
     const IS_IDENT_REQUIRED: bool = false;
 
     fn is_fn_expr() -> bool {
@@ -1776,11 +1776,11 @@ mod tests {
 
     use super::*;
 
-    fn lhs(s: &'static str) -> Box<Expr> {
+    fn lhs(s: &'static str) -> Expr {
         test_parser(s, Syntax::default(), |p| p.parse_lhs_expr())
     }
 
-    fn expr(s: &'static str) -> Box<Expr> {
+    fn expr(s: &'static str) -> Expr {
         test_parser(s, Syntax::default(), |p| p.parse_expr())
     }
 

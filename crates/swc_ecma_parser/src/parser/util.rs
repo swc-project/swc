@@ -292,7 +292,7 @@ pub(super) trait ExprExt {
     }
 }
 
-impl ExprExt for Box<Expr> {
+impl ExprExt for Expr {
     fn as_expr(&self) -> &Expr {
         self
     }

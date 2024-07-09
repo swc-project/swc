@@ -45,7 +45,7 @@ pub struct KeyValueProp {
     pub key: PropName,
 
     #[span(hi)]
-    pub value: Box<Expr>,
+    pub value: Expr,
 }
 
 #[ast_node("AssignmentProperty")]
@@ -55,7 +55,7 @@ pub struct AssignProp {
     #[span(lo)]
     pub key: Ident,
     #[span(hi)]
-    pub value: Box<Expr>,
+    pub value: Expr,
 }
 
 #[ast_node("GetterProperty")]
@@ -151,7 +151,7 @@ pub struct ComputedPropName {
     /// Span including `[` and `]`.
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
-    pub expr: Box<Expr>,
+    pub expr: Expr,
 }
 
 impl Take for ComputedPropName {

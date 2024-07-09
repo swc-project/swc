@@ -18,7 +18,7 @@ pub(crate) type TsEnumRecord = AHashMap<TsEnumRecordKey, TsEnumRecordValue>;
 pub(crate) enum TsEnumRecordValue {
     String(JsWord),
     Number(f64),
-    Opaque(Box<Expr>),
+    Opaque(Expr),
     Void,
 }
 
@@ -97,13 +97,13 @@ pub(crate) struct EnumValueComputer<'a> {
 
 /// https://github.com/microsoft/TypeScript/pull/50528
 impl<'a> EnumValueComputer<'a> {
-    pub fn compute(&mut self, mut expr: Box<Expr>) -> TsEnumRecordValue {
+    pub fn compute(&mut self, mut expr: Expr) -> TsEnumRecordValue {
         expr.visit_mut_with(self);
 
         self.compute_rec(expr)
     }
 
-    fn compute_rec(&self, expr: Box<Expr>) -> TsEnumRecordValue {
+    fn compute_rec(&self, expr: Expr) -> TsEnumRecordValue {
         match *expr {
             Expr::Lit(Lit::Str(s)) => TsEnumRecordValue::String(s.value),
             Expr::Lit(Lit::Num(n)) => TsEnumRecordValue::Number(n.value),

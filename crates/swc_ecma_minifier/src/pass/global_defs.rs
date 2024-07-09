@@ -5,7 +5,7 @@ use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub fn globals_defs(
-    defs: Vec<(Box<Expr>, Box<Expr>)>,
+    defs: Vec<(Expr, Expr)>,
     unresolved_mark: Mark,
     top_level_mark: Mark,
 ) -> impl VisitMut {
@@ -19,7 +19,7 @@ pub fn globals_defs(
 
 #[derive(Default)]
 struct GlobalDefs {
-    defs: Vec<(Box<Expr>, Box<Expr>)>,
+    defs: Vec<(Expr, Expr)>,
 
     unresolved_ctxt: SyntaxContext,
     top_level_ctxt: SyntaxContext,

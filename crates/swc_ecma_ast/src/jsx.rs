@@ -70,7 +70,7 @@ pub enum JSXExpr {
     #[tag("JSXEmptyExpression")]
     JSXEmptyExpr(JSXEmptyExpr),
     #[tag("*")]
-    Expr(Box<Expr>),
+    Expr(Expr),
 }
 
 #[ast_node("JSXSpreadChild")]
@@ -79,7 +79,7 @@ pub enum JSXExpr {
 pub struct JSXSpreadChild {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
-    pub expr: Box<Expr>,
+    pub expr: Expr,
 }
 
 #[ast_node]

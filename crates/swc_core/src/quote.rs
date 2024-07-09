@@ -8,7 +8,7 @@
 ///  - Option<T> where T is supported type
 ///  - Box<T> where T is supported type
 ///
-/// For example, `Box<Expr>` and `Option<Box<Expr>>` are supported.
+/// For example, `Expr` and `Option<Expr>` are supported.
 ///
 /// # Variable substitution
 ///
@@ -74,17 +74,17 @@ macro_rules! quote {
     }};
 }
 
-/// Creates a `Box<Expr>` from the source code.
+/// Creates a `Expr` from the source code.
 ///
-/// This is an alias for [quote], but without `as Box<Expr>`.
+/// This is an alias for [quote], but without `as Expr`.
 #[macro_export]
 macro_rules! quote_expr {
     ($src:tt) => {{
-        $crate::quote!($src as Box<Expr>)
+        $crate::quote!($src as Expr)
     }};
 
     ($src:tt, $($tt2:tt)*) => {{
-        $crate::quote!($src as Box<Expr>, $($tt2)*)
+        $crate::quote!($src as Expr, $($tt2)*)
 
     }};
 }

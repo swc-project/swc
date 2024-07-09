@@ -144,7 +144,7 @@ impl VisitMut for Operators {
                     )
                 }
                 _ => {
-                    let expr: Box<Expr> = left.take().into();
+                    let expr: Expr = left.take().into();
                     (expr.clone(), expr)
                 }
             };

@@ -303,7 +303,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
         }
     }
 
-    fn super_to_get_call(&mut self, super_token: Span, prop: SuperProp) -> Box<Expr> {
+    fn super_to_get_call(&mut self, super_token: Span, prop: SuperProp) -> Expr {
         if self.constant_super {
             MemberExpr {
                 span: super_token,
@@ -346,7 +346,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
         super_token: Span,
         prop: SuperProp,
         op: AssignOp,
-        rhs: Box<Expr>,
+        rhs: Expr,
     ) -> Expr {
         debug_assert_eq!(op, op!("="));
 
@@ -420,7 +420,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
         expr.make_member(quote_ident!("_"))
     }
 
-    fn proto_arg(&mut self) -> Box<Expr> {
+    fn proto_arg(&mut self) -> Expr {
         let expr = if self.is_static {
             // Foo
             Box::new(Expr::Ident(self.class_name.clone()))

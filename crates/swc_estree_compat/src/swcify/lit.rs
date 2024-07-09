@@ -109,7 +109,7 @@ impl Swcify for TemplateLiteral {
 }
 
 impl Swcify for TemplateLiteralExpr {
-    type Output = Box<Expr>;
+    type Output = Expr;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {

@@ -187,7 +187,7 @@ impl SuperReplacer {
     }
 
     // .a -> "a"
-    fn normalize_computed_expr(&mut self, prop: &mut SuperProp) -> Box<Expr> {
+    fn normalize_computed_expr(&mut self, prop: &mut SuperProp) -> Expr {
         match prop.take() {
             SuperProp::Ident(Ident {
                 sym: value, span, ..
@@ -347,7 +347,7 @@ impl SuperReplacer {
         })
     }
 
-    fn to_bin_expr(left: Box<Expr>, op: AssignOp, rhs: Box<Expr>) -> BinExpr {
+    fn to_bin_expr(left: Expr, op: AssignOp, rhs: Expr) -> BinExpr {
         BinExpr {
             span: DUMMY_SP,
             left,
@@ -383,7 +383,7 @@ impl SuperReplacer {
         is_update: bool,
         prop: &mut SuperProp,
         op: AssignOp,
-        rhs: Box<Expr>,
+        rhs: Expr,
         prefix: bool,
     ) -> Expr {
         let computed = match prop {

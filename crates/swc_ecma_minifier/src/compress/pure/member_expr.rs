@@ -319,7 +319,7 @@ impl Pure<'_> {
                 let replacement = self.optimize_member_expr(exprs.last_mut()?, prop)?;
 
                 // Replace last element with replacement
-                let mut exprs: Vec<Box<Expr>> = exprs.drain(..(exprs.len() - 1)).collect();
+                let mut exprs: Vec<Expr> = exprs.drain(..(exprs.len() - 1)).collect();
                 exprs.push(Box::new(replacement));
 
                 Some(Expr::Seq(SeqExpr { span: *span, exprs }))

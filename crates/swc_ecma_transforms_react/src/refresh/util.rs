@@ -39,7 +39,7 @@ fn assert_hygiene(e: &Expr) {
     }
 }
 
-pub fn make_assign_stmt(handle: Ident, expr: Box<Expr>) -> Expr {
+pub fn make_assign_stmt(handle: Ident, expr: Expr) -> Expr {
     assert_hygiene(&expr);
 
     Expr::Assign(AssignExpr {

@@ -226,7 +226,7 @@ struct Vars {
     /// Cheap to clone.
     ///
     /// Used for inlining.
-    lits: FxHashMap<Id, Box<Expr>>,
+    lits: FxHashMap<Id, Expr>,
 
     /// Used for `hoist_props`.
     hoisted_props: Box<FxHashMap<(Id, JsWord), Ident>>,
@@ -235,16 +235,16 @@ struct Vars {
     /// making output bigger.
     ///
     /// https://github.com/swc-project/swc/issues/4415
-    lits_for_cmp: FxHashMap<Id, Box<Expr>>,
+    lits_for_cmp: FxHashMap<Id, Expr>,
 
     /// This stores [Expr::Array] if all elements are literals.
-    lits_for_array_access: FxHashMap<Id, Box<Expr>>,
+    lits_for_array_access: FxHashMap<Id, Expr>,
 
     /// Used for copying functions.
     ///
     /// We use this to distinguish [Callee::Expr] from other [Expr]s.
-    simple_functions: FxHashMap<Id, Box<Expr>>,
-    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
+    simple_functions: FxHashMap<Id, Expr>,
+    vars_for_inlining: FxHashMap<Id, Expr>,
 
     /// Variables which should be removed by [Finalizer] because of the order of
     /// visit.
@@ -719,12 +719,11 @@ impl Optimizer<'_> {
                     return Some(Expr::Class(cls.take()));
                 }
 
-                let exprs: Vec<Box<Expr>> =
-                    extract_class_side_effect(&self.expr_ctx, *cls.class.take())
-                        .into_iter()
-                        .filter_map(|mut e| self.ignore_return_value(&mut e))
-                        .map(Box::new)
-                        .collect();
+                let exprs: Vec<Expr> = extract_class_side_effect(&self.expr_ctx, *cls.class.take())
+                    .into_iter()
+                    .filter_map(|mut e| self.ignore_return_value(&mut e))
+                    .map(Box::new)
+                    .collect();
 
                 if exprs.is_empty() {
                     return None;

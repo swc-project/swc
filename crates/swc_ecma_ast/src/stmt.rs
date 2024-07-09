@@ -185,7 +185,7 @@ bridge_stmt_from!(Box<TryStmt>, TryStmt);
 pub struct ExprStmt {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
-    pub expr: Box<Expr>,
+    pub expr: Expr,
 }
 
 #[ast_node("EmptyStatement")]
@@ -209,7 +209,7 @@ pub struct DebuggerStmt {
 pub struct WithStmt {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "object"))]
-    pub obj: Box<Expr>,
+    pub obj: Expr,
     pub body: Box<Stmt>,
 }
 
@@ -219,7 +219,7 @@ pub struct WithStmt {
 pub struct ReturnStmt {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "argument"))]
-    pub arg: Option<Box<Expr>>,
+    pub arg: Option<Expr>,
 }
 
 #[ast_node("LabeledStatement")]
@@ -254,7 +254,7 @@ pub struct ContinueStmt {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct IfStmt {
     pub span: Span,
-    pub test: Box<Expr>,
+    pub test: Expr,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "consequent"))]
     pub cons: Box<Stmt>,
@@ -268,7 +268,7 @@ pub struct IfStmt {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct SwitchStmt {
     pub span: Span,
-    pub discriminant: Box<Expr>,
+    pub discriminant: Expr,
     pub cases: Vec<SwitchCase>,
 }
 
@@ -278,7 +278,7 @@ pub struct SwitchStmt {
 pub struct ThrowStmt {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
-    pub arg: Box<Expr>,
+    pub arg: Expr,
 }
 
 #[ast_node("TryStatement")]
@@ -301,7 +301,7 @@ pub struct TryStmt {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct WhileStmt {
     pub span: Span,
-    pub test: Box<Expr>,
+    pub test: Expr,
     pub body: Box<Stmt>,
 }
 
@@ -310,7 +310,7 @@ pub struct WhileStmt {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct DoWhileStmt {
     pub span: Span,
-    pub test: Box<Expr>,
+    pub test: Expr,
     pub body: Box<Stmt>,
 }
 
@@ -324,10 +324,10 @@ pub struct ForStmt {
     pub init: Option<VarDeclOrExpr>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub test: Option<Box<Expr>>,
+    pub test: Option<Expr>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub update: Option<Box<Expr>>,
+    pub update: Option<Expr>,
 
     pub body: Box<Stmt>,
 }
@@ -338,7 +338,7 @@ pub struct ForStmt {
 pub struct ForInStmt {
     pub span: Span,
     pub left: ForHead,
-    pub right: Box<Expr>,
+    pub right: Expr,
     pub body: Box<Stmt>,
 }
 
@@ -355,7 +355,7 @@ pub struct ForOfStmt {
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "await"))]
     pub is_await: bool,
     pub left: ForHead,
-    pub right: Box<Expr>,
+    pub right: Expr,
     pub body: Box<Stmt>,
 }
 
@@ -373,7 +373,7 @@ pub struct SwitchCase {
 
     /// None for `default:`
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub test: Option<Box<Expr>>,
+    pub test: Option<Expr>,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "consequent"))]
     pub cons: Vec<Stmt>,
@@ -443,11 +443,11 @@ pub enum VarDeclOrExpr {
     VarDecl(Box<VarDecl>),
 
     #[tag("*")]
-    Expr(Box<Expr>),
+    Expr(Expr),
 }
 
 bridge_from!(VarDeclOrExpr, Box<VarDecl>, VarDecl);
-bridge_from!(VarDeclOrExpr, Box<Expr>, Expr);
+bridge_from!(VarDeclOrExpr, Expr, Expr);
 
 impl Take for VarDeclOrExpr {
     fn dummy() -> Self {

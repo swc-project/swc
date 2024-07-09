@@ -60,7 +60,7 @@ impl VisitMut for TemplateLiteral {
                 assert_eq!(quasis.len(), exprs.len() + 1);
 
                 // This makes result of addition string
-                let mut obj: Box<Expr> = Box::new(
+                let mut obj: Expr = Box::new(
                     Lit::Str({
                         let s = quasis[0]
                             .cooked
