@@ -208,12 +208,12 @@ impl<I: Tokens> Parser<I> {
         } else {
             for member in class.body.iter() {
                 match member {
-                    ClassMember::ClassProp(ClassProp {
+                    ClassMember::ClassProp(box ClassProp {
                         is_abstract: true,
                         span,
                         ..
                     })
-                    | ClassMember::Method(ClassMethod {
+                    | ClassMember::Method(box ClassMethod {
                         span,
                         is_abstract: true,
                         ..
