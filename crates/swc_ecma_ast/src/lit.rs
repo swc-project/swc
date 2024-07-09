@@ -5,7 +5,7 @@ use std::{
 };
 
 use num_bigint::BigInt as BigIntValue;
-use swc_atoms::{js_word, Atom};
+use swc_atoms::Atom;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::jsx::JSXText;
@@ -30,7 +30,7 @@ pub enum Lit {
     BigInt(BigInt),
 
     #[tag("RegExpLiteral")]
-    Regex(Regex),
+    Regex(Box<Regex>),
 
     #[tag("JSXText")]
     JSXText(JSXText),

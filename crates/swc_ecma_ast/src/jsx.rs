@@ -195,22 +195,10 @@ pub enum JSXAttrValue {
 
 #[ast_node("JSXText")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXText {
     pub span: Span,
     pub value: Atom,
-    pub raw: Atom,
-}
-
-#[cfg(feature = "arbitrary")]
-#[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
-impl<'a> arbitrary::Arbitrary<'a> for JSXText {
-    fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
-        let span = u.arbitrary()?;
-        let value = u.arbitrary::<String>()?.into();
-        let raw = u.arbitrary::<String>()?.into();
-
-        Ok(Self { span, value, raw })
-    }
 }
 
 #[ast_node("JSXElement")]
