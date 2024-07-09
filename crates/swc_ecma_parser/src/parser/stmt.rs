@@ -1213,33 +1213,33 @@ impl<'a, I: Tokens> Parser<I> {
                     syntax_error!(self, await_token, SyntaxError::AwaitForStmt);
                 }
 
-                Stmt::For(ForStmt {
+                Stmt::For(Box::new(ForStmt {
                     span,
                     init,
                     test,
                     update,
                     body,
-                })
+                }))
             }
             TempForHead::ForIn { left, right } => {
                 if let Some(await_token) = await_token {
                     syntax_error!(self, await_token, SyntaxError::AwaitForStmt);
                 }
 
-                Stmt::ForIn(ForInStmt {
+                Stmt::ForIn(Box::new(ForInStmt {
                     span,
                     left,
                     right,
                     body,
-                })
+                }))
             }
-            TempForHead::ForOf { left, right } => Stmt::ForOf(ForOfStmt {
+            TempForHead::ForOf { left, right } => Stmt::ForOf(Box::new(ForOfStmt {
                 span,
                 is_await: await_token.is_some(),
                 left,
                 right,
                 body,
-            }),
+            })),
         })
     }
 
@@ -1359,7 +1359,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            return self.parse_for_each_head(ForHead::Pat(Box::new(pat)));
+            return self.parse_for_each_head(ForHead::Pat(pat));
         }
 
         expect_exact!(self, ';');
@@ -1536,19 +1536,17 @@ mod tests {
                 },
                 handler: Some(CatchClause {
                     span,
-                    param: Pat::Object(ObjectPat {
+                    param: Pat::Object(Box::new(ObjectPat {
                         span,
                         optional: false,
-                        props: vec![ObjectPatProp::Rest(RestPat {
+                        props: vec![ObjectPatProp::Rest(Box::new(RestPat {
                             span,
                             dot3_token: span,
-                            arg: Box::new(Pat::Ident(
-                                Ident::new_no_ctxt("a34".into(), span).into()
-                            )),
+                            arg: Pat::Ident(Ident::new_no_ctxt("a34".into(), span).into()),
                             type_ann: None
-                        })],
+                        }))],
                         type_ann: None,
-                    })
+                    }))
                     .into(),
                     body: BlockStmt {
                         span,
@@ -1575,7 +1573,7 @@ mod tests {
     fn await_for_of() {
         assert_eq_ignore_span!(
             stmt("for await (const a of b) ;"),
-            Stmt::ForOf(ForOfStmt {
+            Stmt::ForOf(Box::new(ForOfStmt {
                 span,
                 is_await: true,
                 left: ForHead::VarDecl(Box::new(VarDecl {
@@ -1589,10 +1587,10 @@ mod tests {
                     }],
                     ..Default::default()
                 })),
-                right: Box::new(Expr::Ident(Ident::new_no_ctxt("b".into(), span))),
+                right: Expr::Ident(Ident::new_no_ctxt("b".into(), span)),
 
                 body: Box::new(Stmt::Empty(EmptyStmt { span })),
-            })
+            }))
         )
     }
 
@@ -1645,7 +1643,7 @@ mod tests {
                 }),
                 |p| p.parse_stmt_list_item(true),
             ),
-            Stmt::Decl(Decl::Class(ClassDecl {
+            Stmt::Decl(Decl::Class(Box::new(ClassDecl {
                 ident: Ident::new_no_ctxt("Foo".into(), span),
                 class: Box::new(Class {
                     span,
@@ -1665,7 +1663,7 @@ mod tests {
                     ..Default::default()
                 }),
                 declare: false,
-            }))
+            })))
         );
     }
 
@@ -2069,7 +2067,7 @@ export default function waitUntil(callback, options = {}) {
                     kind: VarDeclKind::Let,
                     decls: vec![VarDeclarator {
                         span,
-                        name: Pat::Array(ArrayPat {
+                        name: Pat::Array(Box::new(ArrayPat {
                             span,
                             type_ann: None,
                             optional: false,
@@ -2078,7 +2076,7 @@ export default function waitUntil(callback, options = {}) {
                                 None,
                                 Some(Pat::Ident(Ident::new_no_ctxt("t".into(), span).into()))
                             ]
-                        }),
+                        })),
                         init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
                             "simple_array".into(),
                             span
