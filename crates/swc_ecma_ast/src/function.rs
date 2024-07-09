@@ -42,9 +42,7 @@ pub struct Function {
 
 impl Take for Function {
     fn dummy() -> Self {
-        Function {
-            ..Default::default()
-        }
+        Default::default()
     }
 }
 
