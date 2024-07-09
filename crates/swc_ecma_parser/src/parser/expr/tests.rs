@@ -389,11 +389,11 @@ fn issue_328() {
                 }),
                 args: vec![ExprOrSpread {
                     spread: None,
-                    expr: Expr::Lit(Lit::Str(Str {
+                    expr: Expr::Lit(Box::new(Lit::Str(Str {
                         span,
                         value: "test".into(),
                         raw: Some("'test'".into()),
-                    })),
+                    }))),
                 }],
                 ..Default::default()
             }))
@@ -447,7 +447,7 @@ fn issue_675() {
 fn super_expr() {
     assert_eq_ignore_span!(
         expr("super.foo();"),
-        Box::new(Expr::Call(CallExpr {
+        Expr::Call(CallExpr {
             span,
             callee: Callee::Expr(Box::new(Expr::SuperProp(SuperPropExpr {
                 span,
@@ -458,7 +458,7 @@ fn super_expr() {
                 })
             }))),
             ..Default::default()
-        }))
+        })
     );
 }
 
@@ -466,23 +466,23 @@ fn super_expr() {
 fn super_expr_computed() {
     assert_eq_ignore_span!(
         expr("super[a] ??= 123;"),
-        Box::new(Expr::Assign(AssignExpr {
+        Expr::Assign(Box::new(AssignExpr {
             span,
             op: AssignOp::NullishAssign,
             left: SuperPropExpr {
                 span,
                 obj: Super { span },
-                prop: SuperProp::Computed(ComputedPropName {
+                prop: SuperProp::Computed(Box::new(ComputedPropName {
                     span,
-                    expr: Box::new(Expr::Ident(Ident {
+                    expr: Expr::Ident(Ident {
                         span,
                         sym: "a".into(),
                         ..Default::default()
-                    })),
-                })
+                    }),
+                }))
             }
             .into(),
-            right: Box::new(Expr::Lit(Lit::Num(Number {
+            right: Expr::Lit(Box::new(Lit::Num(Number {
                 span,
                 value: 123f64,
                 raw: Some("123".into()),
