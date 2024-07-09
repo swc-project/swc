@@ -1253,7 +1253,7 @@ define!({
         JSXNamespacedName(Box<JSXNamespacedName>),
     }
     pub enum JSXAttrValue {
-        Lit(Lit),
+        Lit(Box<Lit>),
         JSXExprContainer(Box<JSXExprContainer>),
         JSXElement(Box<JSXElement>),
         JSXFragment(Box<JSXFragment>),
