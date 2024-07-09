@@ -551,15 +551,15 @@ define!({
     }
 
     pub enum ClassMember {
-        Constructor(Constructor),
-        Method(ClassMethod),
-        PrivateMethod(PrivateMethod),
-        ClassProp(ClassProp),
-        PrivateProp(PrivateProp),
-        TsIndexSignature(TsIndexSignature),
+        Constructor(Box<Constructor>),
+        Method(Box<ClassMethod>),
+        PrivateMethod(Box<PrivateMethod>),
+        ClassProp(Box<ClassProp>),
+        PrivateProp(Box<PrivateProp>),
+        TsIndexSignature(Box<TsIndexSignature>),
         Empty(EmptyStmt),
-        StaticBlock(StaticBlock),
-        AutoAccessor(AutoAccessor),
+        StaticBlock(Box<StaticBlock>),
+        AutoAccessor(Box<AutoAccessor>),
     }
 
     pub struct ClassProp {
@@ -636,8 +636,8 @@ define!({
         Setter,
     }
     pub enum Decl {
-        Class(ClassDecl),
-        Fn(FnDecl),
+        Class(Box<ClassDecl>),
+        Fn(Box<FnDecl>),
         Var(Box<VarDecl>),
         Using(Box<UsingDecl>),
         TsInterface(Box<TsInterfaceDecl>),
@@ -771,7 +771,7 @@ define!({
     pub enum MemberProp {
         Ident(Ident),
         PrivateName(PrivateName),
-        Computed(ComputedPropName),
+        Computed(Box<ComputedPropName>),
     }
     pub struct SuperPropExpr {
         pub span: Span,
@@ -780,7 +780,7 @@ define!({
     }
     pub enum SuperProp {
         Ident(Ident),
-        Computed(ComputedPropName),
+        Computed(Box<ComputedPropName>),
     }
     pub struct CondExpr {
         pub span: Span,
@@ -872,7 +872,7 @@ define!({
         pub expr: Expr,
     }
     pub enum BlockStmtOrExpr {
-        BlockStmt(BlockStmt),
+        BlockStmt(Box<BlockStmt>),
         Expr(Expr),
     }
 
@@ -889,15 +889,15 @@ define!({
 
     pub enum SimpleAssignTarget {
         Ident(BindingIdent),
-        Member(MemberExpr),
-        SuperProp(SuperPropExpr),
+        Member(Box<MemberExpr>),
+        SuperProp(Box<SuperPropExpr>),
         OptChain(OptChainExpr),
-        Paren(ParenExpr),
-        TsAs(TsAsExpr),
-        TsSatisfies(TsSatisfiesExpr),
-        TsNonNull(TsNonNullExpr),
-        TsTypeAssertion(TsTypeAssertion),
-        TsInstantiation(TsInstantiation),
+        Paren(Box<ParenExpr>),
+        TsAs(Box<TsAsExpr>),
+        TsSatisfies(Box<TsSatisfiesExpr>),
+        TsNonNull(Box<TsNonNullExpr>),
+        TsTypeAssertion(Box<TsTypeAssertion>),
+        TsInstantiation(Box<TsInstantiation>),
         Invalid(Invalid),
     }
 
@@ -907,8 +907,8 @@ define!({
         pub base: Box<OptChainBase>,
     }
     pub enum OptChainBase {
-        Member(MemberExpr),
-        Call(OptCall),
+        Member(Box<MemberExpr>),
+        Call(Box<OptCall>),
     }
     pub struct OptCall {
         pub span: Span,
@@ -934,7 +934,7 @@ define!({
         pub pat: Pat,
     }
     pub enum ParamOrTsParamProp {
-        TsParamProp(TsParamProp),
+        TsParamProp(Box<TsParamProp>),
         Param(Param),
     }
 
@@ -984,8 +984,8 @@ define!({
     }
     pub enum JSXElementName {
         Ident(Ident),
-        JSXMemberExpr(JSXMemberExpr),
-        JSXNamespacedName(JSXNamespacedName),
+        JSXMemberExpr(Box<JSXMemberExpr>),
+        JSXNamespacedName(Box<JSXNamespacedName>),
     }
     pub struct JSXOpeningElement {
         pub name: JSXElementName,
@@ -1009,13 +1009,13 @@ define!({
     }
     pub enum JSXAttrName {
         Ident(Ident),
-        JSXNamespacedName(JSXNamespacedName),
+        JSXNamespacedName(Box<JSXNamespacedName>),
     }
     pub enum JSXAttrValue {
         Lit(Lit),
-        JSXExprContainer(JSXExprContainer),
+        JSXExprContainer(Box<JSXExprContainer>),
         JSXElement(Box<JSXElement>),
-        JSXFragment(JSXFragment),
+        JSXFragment(Box<JSXFragment>),
     }
     pub struct JSXText {
         pub span: Span,
@@ -1024,16 +1024,16 @@ define!({
     }
     pub struct JSXElement {
         pub span: Span,
-        pub opening: JSXOpeningElement,
+        pub opening: Box<JSXOpeningElement>,
         pub children: Vec<JSXElementChild>,
         pub closing: Option<JSXClosingElement>,
     }
     pub enum JSXElementChild {
         JSXText(JSXText),
-        JSXExprContainer(JSXExprContainer),
-        JSXSpreadChild(JSXSpreadChild),
+        JSXExprContainer(Box<JSXExprContainer>),
+        JSXSpreadChild(Box<JSXSpreadChild>),
         JSXElement(Box<JSXElement>),
-        JSXFragment(JSXFragment),
+        JSXFragment(Box<JSXFragment>),
     }
     pub struct JSXFragment {
         pub span: Span,
@@ -1257,10 +1257,10 @@ define!({
     }
     pub enum Pat {
         Ident(BindingIdent),
-        Array(ArrayPat),
-        Rest(RestPat),
-        Object(ObjectPat),
-        Assign(AssignPat),
+        Array(Box<ArrayPat>),
+        Rest(Box<RestPat>),
+        Object( Box<ObjectPat>),
+        Assign(Box<AssignPat>),
         Invalid(Invalid),
         Expr(Expr),
     }
@@ -1303,11 +1303,11 @@ define!({
     }
     pub enum Prop {
         Shorthand(Ident),
-        KeyValue(KeyValueProp),
-        Assign(AssignProp),
-        Getter(GetterProp),
-        Setter(SetterProp),
-        Method(MethodProp),
+        KeyValue(Box<KeyValueProp>),
+        Assign(Box<AssignProp>),
+        Getter( Box<GetterProp>),
+        Setter(Box<SetterProp>),
+        Method(Box<MethodProp>),
     }
     pub struct KeyValueProp {
         pub key: PropName,
@@ -1339,7 +1339,7 @@ define!({
         Str(Str),
         Num(Number),
         BigInt(BigInt),
-        Computed(ComputedPropName),
+        Computed(Box<ComputedPropName>),
     }
     pub struct ComputedPropName {
         pub span: Span,
@@ -1360,14 +1360,14 @@ define!({
         Break(BreakStmt),
         Continue(ContinueStmt),
         If(IfStmt),
-        Switch(SwitchStmt),
+        Switch(Box<SwitchStmt>),
         Throw(ThrowStmt),
         Try(Box<TryStmt>),
         While(WhileStmt),
         DoWhile(DoWhileStmt),
-        For(ForStmt),
-        ForIn(ForInStmt),
-        ForOf(ForOfStmt),
+        For(Box<ForStmt>),
+        ForIn(Box<ForInStmt>),
+        ForOf(Box<ForOfStmt>),
         Decl(Decl),
         Expr(ExprStmt),
     }
@@ -1623,9 +1623,9 @@ define!({
     }
     pub enum TsFnParam {
         Ident(BindingIdent),
-        Array(ArrayPat),
-        Rest(RestPat),
-        Object(ObjectPat),
+        Array(Box<ArrayPat>),
+        Rest(Box<RestPat>),
+        Object(Box<ObjectPat>),
     }
     pub struct TsFnType {
         pub span: Span,
