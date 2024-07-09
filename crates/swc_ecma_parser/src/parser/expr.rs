@@ -336,6 +336,7 @@ impl<I: Tokens> Parser<I> {
                 | Token::BigInt { .. }
                 | Token::Str { .. } => {
                     return Ok(self.parse_lit()?.into());
+                    return Ok(Expr::Lit(self.parse_lit()?));
                 }
 
                 // Regexp
@@ -1053,7 +1054,7 @@ impl<I: Tokens> Parser<I> {
         let tagged_tpl_start = tag.span_lo();
         trace_cur!(self, parse_tagged_tpl);
 
-        let tpl = Box::new(self.parse_tpl(true)?);
+        let tpl = self.parse_tpl(true)?;
 
         let span = span!(self, tagged_tpl_start);
 
@@ -1070,7 +1071,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    pub(super) fn parse_tpl(&mut self, is_tagged_tpl: bool) -> PResult<Tpl> {
+    pub(super) fn parse_tpl(&mut self, is_tagged_tpl: bool) -> PResult<Box<Tpl>> {
         trace_cur!(self, parse_tpl);
         let start = cur_pos!(self);
 
@@ -2064,7 +2065,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// 12.2.5 Array Initializer
-    pub(super) fn parse_lit(&mut self) -> PResult<Lit> {
+    pub(super) fn parse_lit(&mut self) -> PResult<Box<Lit>> {
         let start = cur_pos!(self);
 
         let v = match cur!(self, true) {
