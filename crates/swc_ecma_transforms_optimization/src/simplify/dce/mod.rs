@@ -979,6 +979,8 @@ impl VisitMut for TreeShaker {
                         expr: Expr::from_exprs(exprs),
                     }
                     .into();
+                        expr: exprs.into(),
+                    });
                 }
             }
         }

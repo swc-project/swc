@@ -184,6 +184,8 @@ impl SuperReplacer {
 
             ..Default::default()
         }
+        })
+        .into()
         .as_arg()
     }
 

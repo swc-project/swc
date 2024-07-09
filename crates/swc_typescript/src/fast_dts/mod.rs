@@ -316,16 +316,14 @@ impl FastDts {
                         PropOrSpread::Prop(prop) => match prop {
                             Prop::KeyValue(key_value) => {
                                 let (key, computed) = match key_value.key {
-                                    PropName::Ident(ident) => (Expr::Ident(ident), false),
+                                    PropName::Ident(ident) => (ident.into(), false),
                                     PropName::Str(str_prop) => {
-                                        (Expr::Lit(Box::new(Lit::Str(str_prop))), false)
+                                        (Box::new(Lit::Str(str_prop)).into(), false)
                                     }
-                                    PropName::Num(num) => {
-                                        (Expr::Lit(Box::new(Lit::Num(num))), true)
-                                    }
+                                    PropName::Num(num) => (Box::new(Lit::Num(num)).into(), true),
                                     PropName::Computed(computed) => (computed.expr, true),
                                     PropName::BigInt(big_int) => {
-                                        (Expr::Lit(Box::new(Lit::BigInt(big_int))), true)
+                                        (Box::new(Lit::BigInt(big_int)).into(), true)
                                     }
                                 };
 

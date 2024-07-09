@@ -836,6 +836,10 @@ impl Transform {
         let expr = prop
             .clone()
             .make_assign_to(op!("="), id.clone().make_member(prop.clone().into()).into());
+        let expr = prop
+            .clone()
+            .into()
+            .make_assign_to(op!("="), id.clone().make_member(prop.clone()).into());
 
         ExprStmt {
             span,

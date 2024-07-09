@@ -226,9 +226,15 @@ impl VisitMut for ComputedProps {
                                         op: op!("||"),
                                         right: Box::new(Expr::Object(ObjectLit {
                                             span,
-                                            props: vec![],
-                                        })),
-                                    })),
+                                            left: mutator_elem.clone().into(),
+                                            op: op!("||"),
+                                            right: Box::new(Expr::Object(ObjectLit {
+                                                span,
+                                                props: vec![],
+                                            })),
+                                        }
+                                        .into(),
+                                    ),
                                 }
                                 .into(),
                             );
@@ -429,6 +435,7 @@ fn prop_name_to_expr(p: PropName, loose: bool) -> (Expr, bool) {
     match p {
         PropName::Ident(i) => (
             if loose {
+                Expr::Ident(i.into())
                 i.into()
             } else {
                 Lit::Str(Str {

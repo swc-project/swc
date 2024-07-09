@@ -1084,9 +1084,13 @@ impl VisitMut for Decorator2022_03 {
                             }
                             .into();
 
-                            Some(Expr::from_exprs(
-                                init_proto.into_iter().chain(once(init_call)).collect(),
-                            ))
+                            Some(
+                                init_proto
+                                    .into_iter()
+                                    .chain(once(init_call))
+                                    .collect()
+                                    .into(),
+                            )
                         },
                         type_ann: None,
                         is_static: accessor.is_static,
@@ -1634,6 +1638,8 @@ impl VisitMut for Decorator2022_03 {
                         span: DUMMY_SP,
                         expr: Expr::from_exprs(self.pre_class_inits.take()),
                     }
+                        expr: self.pre_class_inits.take().into(),
+                    })
                     .into(),
                 );
             }
@@ -1840,6 +1846,8 @@ impl VisitMut for Decorator2022_03 {
                         expr: Expr::from_exprs(self.pre_class_inits.take()),
                     }
                     .into(),
+                        expr: self.pre_class_inits.take().into(),
+                    }),
                 );
             }
         }

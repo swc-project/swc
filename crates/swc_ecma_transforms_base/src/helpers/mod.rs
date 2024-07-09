@@ -435,11 +435,14 @@ impl InjectHelpers {
         let c = CallExpr {
             span: DUMMY_SP,
             callee: Expr::from(Ident {
+            callee: Expr::Ident(Ident {
+            callee: Ident {
                 span: DUMMY_SP,
                 ctxt: SyntaxContext::empty().apply_mark(self.global_mark),
                 sym: "require".into(),
                 ..Default::default()
-            })
+            }
+            .into()
             .as_callee(),
             args: vec![Str {
                 span: DUMMY_SP,

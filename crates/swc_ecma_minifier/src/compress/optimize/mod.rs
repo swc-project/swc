@@ -623,7 +623,7 @@ impl Optimizer<'_> {
     fn compress_undefined(&mut self, e: &mut Expr) {
         if let Expr::Ident(Ident { span, sym, .. }) = e {
             if &**sym == "undefined" {
-                *e = *Expr::undefined(*span);
+                *e = **span.into();
             }
         }
     }
@@ -2048,7 +2048,7 @@ impl VisitMut for Optimizer<'_> {
                     #[cfg(feature = "debug")]
                     dump_change_detail!("Removed {}", start);
 
-                    Expr::undefined(DUMMY_SP)
+                    DUMMY_SP.into()
                 });
             }
         } else {

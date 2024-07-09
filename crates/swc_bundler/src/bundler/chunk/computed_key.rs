@@ -137,6 +137,7 @@ where
         });
 
         let module_fn: Expr = FnExpr {
+        let module_fn = FnExpr {
             function: Box::new(Function {
                 params: Default::default(),
                 body: Some(BlockStmt {

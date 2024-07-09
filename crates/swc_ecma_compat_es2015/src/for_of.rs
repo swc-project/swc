@@ -476,13 +476,32 @@ impl ForOf {
                             .into(),
                         )
                         }));
+                        let step_expr = Box::new(
+                            AssignExpr {
+                                span: DUMMY_SP,
+                                left: step.into(),
+                                op: op!("="),
+                                // `_iterator.next()`
+                                right: Box::new(Expr::Call(CallExpr {
+                                    span: DUMMY_SP,
+                                    // `_iterator.next`
+                                    callee: iterator.make_member(quote_ident!("next")).as_callee(),
+                                    args: vec![],
+                                    ..Default::default()
+                                })),
+                            }
+                            .into(),
+                        );
 
-                        Box::new(Expr::Assign(AssignExpr {
-                            span: DUMMY_SP,
-                            left: normal_completion_ident.clone().into(),
-                            op: op!("="),
-                            right: step_expr.make_member(quote_ident!("done")).into(),
-                        }))
+                        Box::new(
+                            AssignExpr {
+                                span: DUMMY_SP,
+                                left: normal_completion_ident.clone().into(),
+                                op: op!("="),
+                                right: step_expr.make_member(quote_ident!("done")).into(),
+                            }
+                            .into(),
+                        )
                     },
                 }
                 .into(),

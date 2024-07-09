@@ -184,6 +184,16 @@ impl Params {
                         });
                         loose_stmt.push(
                             IfStmt {
+                        loose_stmt.push(Stmt::If(IfStmt {
+                            span,
+                            test: BinExpr {
+                                span: DUMMY_SP,
+                                left: Box::new(Ident::from(ident).into()),
+                                op: op!("==="),
+                                right: DUMMY_SP.into(),
+                            }
+                            .into(),
+                            cons: Box::new(Stmt::Expr(ExprStmt {
                                 span,
                                 test: BinExpr {
                                     span: DUMMY_SP,
@@ -694,6 +704,8 @@ impl VisitMut for Params {
                             })),
                             ..Default::default()
                         }
+                        })
+                        .into()
                         .as_iife()
                         .into(),
                         _ => func,
@@ -834,6 +846,16 @@ fn check_arg_len(n: usize) -> Expr {
     BinExpr {
         left: Expr::Ident(Ident::new_no_ctxt("arguments".into(), DUMMY_SP))
             .make_member(IdentName::new("length".into(), DUMMY_SP))
+    Expr::Ident(Ident::new_no_ctxt("arguments".into(), DUMMY_SP)).computed_member(n)
+    Ident::new_no_ctxt("arguments".into(), DUMMY_SP)
+        .into()
+        .computed_member(n)
+}
+
+fn check_arg_len(n: usize) -> Expr {
+    BinExpr {
+        left: Expr::Ident(Ident::new_no_ctxt("arguments".into(), DUMMY_SP))
+            .make_member(Ident::new_no_ctxt("length".into(), DUMMY_SP))
             .into(),
         op: op!(">"),
         right: n.into(),

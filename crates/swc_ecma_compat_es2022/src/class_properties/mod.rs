@@ -633,7 +633,7 @@ impl<C: Comments> ClassProperties<C> {
                         _ => (),
                     };
 
-                    let mut value = prop.value.unwrap_or_else(|| Expr::undefined(prop_span));
+                    let mut value = prop.value.unwrap_or_else(|| prop_span.into());
 
                     value.visit_mut_with(&mut NewTargetInProp);
 
@@ -741,7 +741,7 @@ impl<C: Comments> ClassProperties<C> {
                         });
                     }
 
-                    let value = prop.value.unwrap_or_else(|| Expr::undefined(prop_span));
+                    let value = prop.value.unwrap_or_else(|| prop_span.into());
 
                     if prop.is_static && prop.ctxt.has_mark(self.c.static_blocks_mark) {
                         let init = MemberInit::StaticBlock(value);
@@ -799,7 +799,7 @@ impl<C: Comments> ClassProperties<C> {
                             init: Some(
                                 NewExpr {
                                     span,
-                                    callee: Box::new(Expr::Ident(quote_ident!("WeakMap"))),
+                                    callee: Box::new(quote_ident!("WeakMap").into()),
                                     args: Some(Default::default()),
                                     ..Default::default()
                                 }

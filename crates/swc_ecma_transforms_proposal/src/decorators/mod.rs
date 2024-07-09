@@ -547,7 +547,7 @@ impl Decorators {
                                     }),
                                     _ => Prop::KeyValue(KeyValueProp {
                                         key: PropName::Ident(quote_ident!("value")),
-                                        value: Expr::undefined(DUMMY_SP),
+                                        value: DUMMY_SP.into(),
                                     }),
                                 }))))
                                 .collect(),

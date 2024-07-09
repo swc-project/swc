@@ -58,6 +58,8 @@ impl From<TsEnumRecordValue> for Expr {
             .into(),
             TsEnumRecordValue::Number(num) if f64::is_infinite(num) => {
                 let value: Expr = Ident {
+            TsEnumRecordValue::Number(num) if f64::is_infinite(num) => {
+                let value = Ident {
                     span: DUMMY_SP,
                     sym: "Infinity".into(),
                     ..Default::default()
@@ -82,6 +84,7 @@ impl From<TsEnumRecordValue> for Expr {
             })
             .into(),
             TsEnumRecordValue::Void => *Expr::undefined(DUMMY_SP),
+            TsEnumRecordValue::Void => *DUMMY_SP.into(),
             TsEnumRecordValue::Opaque(expr) => *expr,
         }
     }

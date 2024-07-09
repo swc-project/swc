@@ -329,7 +329,7 @@ impl Pure<'_> {
                 match op {
                     KnownOp::Index(idx) => {
                         if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= value.len() {
-                            Some(*Expr::undefined(*span))
+                            Some(**span.into())
                         } else {
                             // idx is in bounds, this is handled in simplify
                             None
@@ -345,7 +345,7 @@ impl Pure<'_> {
                         if is_string_symbol(key.as_str()) {
                             None
                         } else {
-                            Some(*Expr::undefined(*span))
+                            Some(**span.into())
                         }
                     }
                 }
@@ -389,7 +389,7 @@ impl Pure<'_> {
                             // Side effects exist, replacement is:
                             // (x(), y(), void 0)
                             // Where `x()` and `y()` are side effects.
-                            exprs.push(Expr::undefined(*span));
+                            exprs.push(*span.into());
 
                             SeqExpr {
                                 span: *span,
@@ -446,6 +446,7 @@ impl Pure<'_> {
                         } else {
                             let val = Expr::undefined(
                                 *span);
+                            let val = *span.into();
 
                             if exprs.is_empty() {
                                 // No side effects, replacement is:
@@ -542,10 +543,12 @@ impl Pure<'_> {
                             }
                             .into(),
                             prop: MemberProp::Ident(Ident::new_no_ctxt(key, *span)),
-                        })
+                        }
+                        .into()
                     } else {
                         // Invalid key. Replace with side effects plus `undefined`.
                         Expr::undefined(*span)
+                        **span.into()
                     },
                     props.drain(..).map(|x| match x {
                         PropOrSpread::Prop(prop) => match *prop {

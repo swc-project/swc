@@ -439,7 +439,7 @@ impl Optimizer<'_> {
                 let cons = Box::new(self.merge_if_returns_to(*cons, vec![]));
                 let alt = match alt {
                     Some(alt) => Box::new(self.merge_if_returns_to(*alt, vec![])),
-                    None => Expr::undefined(DUMMY_SP),
+                    None => DUMMY_SP.into(),
                 };
 
                 exprs.push(test);
@@ -475,6 +475,7 @@ impl Optimizer<'_> {
             Stmt::Return(stmt) => {
                 let span = stmt.span;
                 exprs.push(stmt.arg.unwrap_or_else(|| Expr::undefined(span)));
+                exprs.push(stmt.arg.unwrap_or_else(|| span.into()));
                 SeqExpr {
                     span: DUMMY_SP,
                     exprs,

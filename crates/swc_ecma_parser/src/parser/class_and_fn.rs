@@ -322,11 +322,15 @@ impl<I: Tokens> Parser<I> {
         let args = self.parse_args(false)?;
         Ok(CallExpr {
         Ok(Expr::Call(Box::new(CallExpr {
+        Ok(Box::new(CallExpr {
             span: span!(self, expr.span_lo()),
             callee: Callee::Expr(expr),
             args,
             ..Default::default()
         }
+        .into())
+        })))
+        })
         .into())
     }
 
@@ -1588,6 +1592,7 @@ impl OutputType for Expr {
         Ok(ClassExpr { ident, class }.into())
         Ok(Expr::Class(ClassExpr { ident, class }))
         Ok(Expr::Class(Box::new(ClassExpr { ident, class })))
+        Ok(Box::new(ClassExpr { ident, class }).into())
     }
 }
 

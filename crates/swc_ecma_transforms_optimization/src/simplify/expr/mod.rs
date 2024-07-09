@@ -286,7 +286,7 @@ impl SimplifyExpr {
 
                         // element value
                         let v = match e {
-                            None => Expr::undefined(*span),
+                            None => *span.into(),
                             Some(e) => e.expr,
                         };
 
@@ -1418,7 +1418,7 @@ impl VisitMut for SimplifyExpr {
                             e.extend(expr.array().unwrap().elems.into_iter().map(|elem| {
                                 Some(elem.unwrap_or_else(|| ExprOrSpread {
                                     spread: None,
-                                    expr: Expr::undefined(DUMMY_SP),
+                                    expr: DUMMY_SP.into(),
                                 }))
                             }));
                         }

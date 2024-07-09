@@ -390,7 +390,7 @@ impl VisitMut for TscDecorator {
                     c.decorators.drain(..).map(|d| d.expr),
                     target,
                     key.as_arg(),
-                    Expr::undefined(DUMMY_SP).as_arg(),
+                    DUMMY_SP.into().as_arg(),
                 );
             }
         }

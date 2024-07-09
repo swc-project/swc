@@ -457,7 +457,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             | TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsNeverKeyword,
                 ..
-            }) => *Expr::undefined(span),
+            }) => *span.into(),
 
             TsType::TsParenthesizedType(ty) => serialize_type_node(class_name, &ty.type_ann),
 
@@ -548,7 +548,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
 
     let param = match param {
         Some(v) => &v.type_ann,
-        None => return *Expr::undefined(DUMMY_SP),
+        None => return *DUMMY_SP.into(),
     };
 
     serialize_type_node(class_name.map(|v| &*v.sym).unwrap_or(""), param)
