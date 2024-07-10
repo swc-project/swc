@@ -1,11 +1,12 @@
+use swc_atoms::Atom;
 use swc_common::{collections::AHashSet, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
-pub fn is_builtin_hook(name: &Ident) -> bool {
+pub fn is_builtin_hook(name: &str) -> bool {
     matches!(
-        name.sym.as_ref(),
+        name,
         "useState"
             | "useReducer"
             | "useEffect"

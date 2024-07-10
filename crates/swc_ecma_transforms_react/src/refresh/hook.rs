@@ -37,7 +37,7 @@ struct Hook {
 #[allow(clippy::large_enum_variant)]
 enum HookCall {
     Ident(Ident),
-    Member(Expr, Ident), // for obj and prop
+    Member(Expr, IdentName), // for obj and prop
 }
 pub struct HookRegister<'a> {
     pub options: &'a RefreshOptions,
@@ -83,15 +83,15 @@ impl<'a> HookRegister<'a> {
 
         for hook in hooks {
             let name = match &hook.callee {
-                HookCall::Ident(i) => i,
-                HookCall::Member(_, i) => i,
+                HookCall::Ident(i) => i.clone(),
+                HookCall::Member(_, i) => i.clone().into(),
             };
             sign.push(format!("{}{{{}}}", name.sym, hook.key));
             match &hook.callee {
-                HookCall::Ident(ident) if !is_builtin_hook(ident) => {
+                HookCall::Ident(ident) if !is_builtin_hook(&ident.sym) => {
                     custom_hook.push(hook.callee);
                 }
-                HookCall::Member(Expr::Ident(obj_ident), prop) if !is_builtin_hook(prop) => {
+                HookCall::Member(Expr::Ident(obj_ident), prop) if !is_builtin_hook(&prop.sym) => {
                     if obj_ident.sym.as_ref() != "React" {
                         custom_hook.push(hook.callee);
                     }
@@ -154,7 +154,7 @@ impl<'a> HookRegister<'a> {
                             HookCall::Member(obj, prop) => Expr::Member(MemberExpr {
                                 span: DUMMY_SP,
                                 obj: Box::new(obj),
-                                prop: MemberProp::Ident(prop),
+                                prop: MemberProp::Ident(prop.into()),
                             }),
                         }
                         .as_arg(),

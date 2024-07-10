@@ -3,6 +3,7 @@
 use std::time::Instant;
 
 use rustc_hash::FxHashSet;
+use swc_atoms::Atom;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{stack_size::maybe_grow_default, ModuleItemLike, StmtLike, Value};
@@ -179,7 +180,7 @@ impl ExprOptExt for Expr {
     }
 }
 
-pub(crate) fn contains_leaping_continue_with_label<N>(n: &N, label: Id) -> bool
+pub(crate) fn contains_leaping_continue_with_label<N>(n: &N, label: Atom) -> bool
 where
     N: VisitWith<LeapFinder>,
 {
@@ -206,7 +207,7 @@ pub(crate) struct LeapFinder {
     found_await: bool,
     found_yield: bool,
     found_continue_with_label: bool,
-    target_label: Option<Id>,
+    target_label: Option<Atom>,
 }
 
 impl Visit for LeapFinder {

@@ -592,7 +592,7 @@ impl VisitMut for ExprReplacer {
                     unreachable!("`{}` is already taken", i)
                 };
                 *p = Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(i.clone()),
+                    key: PropName::Ident(i.clone().into()),
                     value,
                 });
             }
