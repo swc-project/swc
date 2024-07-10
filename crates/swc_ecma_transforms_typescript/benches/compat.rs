@@ -8,7 +8,7 @@ use swc_ecma_visit::{Fold, FoldWith};
 
 static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
 
-fn module(cm: Lrc<SourceMap>) -> Module {
+fn module(cm: Lrc<SourceMap>) -> Program {
     let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
     let lexer = Lexer::new(
         Syntax::Typescript(Default::default()),
@@ -18,7 +18,11 @@ fn module(cm: Lrc<SourceMap>) -> Module {
     );
     let mut parser = Parser::new_from(lexer);
 
-    parser.parse_module().map_err(|_| ()).unwrap()
+    parser
+        .parse_module()
+        .map(Program::Module)
+        .map_err(|_| ())
+        .unwrap()
 }
 
 fn run<V>(b: &mut Bencher, tr: impl Fn(Mark) -> V)
@@ -34,7 +38,7 @@ where
             .fold_with(&mut strip(top_level_mark));
 
         b.iter(|| {
-            let module = Program::Module(module.clone());
+            let module = module.clone();
 
             helpers::HELPERS.set(&Default::default(), || {
                 let mut tr = tr(unresolved_mark);
