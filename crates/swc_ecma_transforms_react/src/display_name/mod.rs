@@ -167,7 +167,7 @@ fn add_display_name(call: &mut CallExpr, name: Box<Expr>) {
     }
 
     props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-        key: PropName::Ident(quote_ident!("displayName")),
+        key: PropName::Ident("displayName".into()),
         value: name,
     }))));
 }

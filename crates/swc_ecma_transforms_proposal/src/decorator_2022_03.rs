@@ -333,7 +333,7 @@ impl Decorator2022_03 {
             insert_index,
             ClassMember::Constructor(Constructor {
                 span: DUMMY_SP,
-                key: PropName::Ident(quote_ident!("constructor")),
+                key: PropName::Ident("constructor".into()),
                 params: vec![],
                 body: Some(BlockStmt {
                     span: DUMMY_SP,
