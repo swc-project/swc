@@ -15,7 +15,7 @@ use swc_ecma_ast::*;
 ///
 /// to create literals. Almost all rust core types implements `Into<Expr>`.
 #[allow(clippy::wrong_self_convention)]
-pub trait ExprFactory: Into<Expr> {
+pub trait ExprFactory: Into<Box<Expr>> {
     /// Creates an [ExprOrSpread] using the given [Expr].
     ///
     /// This is recommended way to create [ExprOrSpread].
@@ -146,7 +146,7 @@ pub trait ExprFactory: Into<Expr> {
     fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Expr {
         let apply = self.make_member(IdentName::new("apply".into(), span));
 
-        Expr::Call(Box::new(CallExpr {
+        CallExpr {
             span,
             callee: apply.as_callee(),
             args: iter::once(this.as_arg()).chain(args).collect(),
@@ -154,13 +154,11 @@ pub trait ExprFactory: Into<Expr> {
             ..Default::default()
         }
         .into()
-        })
-        }))
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn call_fn(self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
-        Expr::Call(Box::new(CallExpr {
+        CallExpr {
             span,
             args,
             callee: self
@@ -169,29 +167,22 @@ pub trait ExprFactory: Into<Expr> {
             ..Default::default()
         }
         .into()
-                .make_member(Ident::new_no_ctxt("call".into(), span))
-                .as_callee(),
-            ..Default::default()
-        })
-        }))
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn as_call(self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
-        Expr::Call(Box::new(CallExpr {
+        CallExpr {
             span,
             args,
             callee: self.as_callee(),
             ..Default::default()
         }
         .into()
-        })
-        }))
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn as_fn_decl(self) -> Option<FnDecl> {
-        match self.into() {
+        match *self.into() {
             Expr::Fn(FnExpr {
                 ident: Some(ident),
                 function,
@@ -206,8 +197,8 @@ pub trait ExprFactory: Into<Expr> {
 
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn as_class_decl(self) -> Option<ClassDecl> {
-        match self.into() {
-            Expr::Class(box ClassExpr {
+        match *self.into() {
+            Expr::Class(ClassExpr {
                 ident: Some(ident),
                 class,
             }) => Some(ClassDecl {
@@ -223,7 +214,7 @@ pub trait ExprFactory: Into<Expr> {
     fn wrap_with_paren(self) -> Expr {
         let expr = self.into();
         let span = expr.span();
-        Expr::Paren(Box::new(ParenExpr { expr, span }))
+        ParenExpr { expr, span }.into()
     }
 
     /// Creates a binary expr `$self === `
@@ -241,14 +232,15 @@ pub trait ExprFactory: Into<Expr> {
     where
         T: Into<Expr>,
     {
-        let right = right.into();
+        let right = Box::new(right.into());
 
-        Expr::Bin(Box::new(BinExpr {
+        BinExpr {
             span: DUMMY_SP,
             left: self.into(),
             op,
             right,
-        }))
+        }
+        .into()
     }
 
     /// Creates a assign expr `$lhs $op $self`
@@ -256,12 +248,13 @@ pub trait ExprFactory: Into<Expr> {
     fn make_assign_to(self, op: AssignOp, left: AssignTarget) -> Expr {
         let right = self.into();
 
-        Expr::Assign(Box::new(AssignExpr {
+        AssignExpr {
             span: DUMMY_SP,
             left,
             op,
             right,
-        }))
+        }
+        .into()
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
@@ -276,20 +269,20 @@ pub trait ExprFactory: Into<Expr> {
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn computed_member<T>(self, prop: T) -> MemberExpr
     where
-        T: Into<Expr>,
+        T: Into<Box<Expr>>,
     {
         MemberExpr {
             obj: self.into(),
             span: DUMMY_SP,
-            prop: MemberProp::Computed(Box::new(ComputedPropName {
+            prop: MemberProp::Computed(ComputedPropName {
                 span: DUMMY_SP,
                 expr: prop.into(),
-            })),
+            }),
         }
     }
 }
 
-impl<T: Into<Expr>> ExprFactory for T {}
+impl<T: Into<Box<Expr>>> ExprFactory for T {}
 
 pub trait IntoIndirectCall
 where

@@ -113,7 +113,6 @@ impl Optimizer<'_> {
             .map(|name| VarDeclarator {
                 span: DUMMY_SP,
                 name: name.into(),
-                name: name.into().into(),
                 init: None,
                 definite: Default::default(),
             })

@@ -360,7 +360,7 @@ impl Optimizer<'_> {
 
     fn compress_similar_cons_alt(
         &mut self,
-        test: &mut Expr,
+        test: &mut Box<Expr>,
         cons: &mut Expr,
         alt: &mut Expr,
         is_for_if_stmt: bool,
@@ -507,12 +507,6 @@ impl Optimizer<'_> {
                         }
                         .into(),
                     );
-                    return Some(Expr::Cond(CondExpr {
-                        span: DUMMY_SP,
-                        test: test.take(),
-                        cons: cons.take().into(),
-                        alt: alt.take().into(),
-                    }));
                 }
 
                 None
@@ -601,24 +595,6 @@ impl Optimizer<'_> {
                     }
                     .into(),
                 )
-                Some(Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    op: cons.op,
-                    left: cons.left.take(),
-                    right: CondExpr {
-                        span: DUMMY_SP,
-                        op: cons.op,
-                        left: cons.left.take(),
-                        right: CondExpr {
-                            span: DUMMY_SP,
-                            test: test.take(),
-                            cons: cons.right.take(),
-                            alt: alt.right.take(),
-                        }
-                        .into(),
-                    }
-                    .into(),
-                )
             }
 
             // a ? b ? c() : d() : d() => a && b ? c() : d()
@@ -626,22 +602,6 @@ impl Optimizer<'_> {
                 report_change!("conditionals: a ? b ? c() : d() : d() => a && b ? c() : d()");
                 Some(
                     CondExpr {
-                        span: DUMMY_SP,
-                        test: BinExpr {
-                            span: DUMMY_SP,
-                            left: test.take(),
-                            op: op!("&&"),
-                            right: cons.test.take(),
-                        }
-                        .into(),
-                        cons: cons.cons.take(),
-                        alt: cons.alt.take(),
-                    }
-                    .into(),
-                )
-                Some(Expr::Cond(CondExpr {
-                    span: DUMMY_SP,
-                    test: BinExpr {
                         span: DUMMY_SP,
                         test: BinExpr {
                             span: DUMMY_SP,
@@ -669,7 +629,7 @@ impl Optimizer<'_> {
                     span: DUMMY_SP,
                     left: test.take(),
                     op: op!("||"),
-                    right: alt.exprs.take().into(),
+                    right: Expr::from_exprs(alt.exprs.take()),
                 }
                 .into();
                 Some(
@@ -679,10 +639,6 @@ impl Optimizer<'_> {
                     }
                     .into(),
                 )
-                Some(Expr::Seq(SeqExpr {
-                    span: DUMMY_SP,
-                    exprs: vec![first, Box::new(cons.take())],
-                }))
             }
 
             // z ? (condition(), "fuji") : "fuji"
@@ -697,7 +653,7 @@ impl Optimizer<'_> {
                     span: DUMMY_SP,
                     left: test.take(),
                     op: op!("&&"),
-                    right: cons.exprs.take().into(),
+                    right: Expr::from_exprs(cons.exprs.take()),
                 }
                 .into();
                 Some(
@@ -707,10 +663,6 @@ impl Optimizer<'_> {
                     }
                     .into(),
                 )
-                Some(Expr::Seq(SeqExpr {
-                    span: DUMMY_SP,
-                    exprs: vec![first, Box::new(alt.take())],
-                }))
             }
 
             (Expr::Seq(left), Expr::Seq(right)) => {

@@ -18,7 +18,7 @@ pub(crate) type TsEnumRecord = AHashMap<TsEnumRecordKey, TsEnumRecordValue>;
 pub(crate) enum TsEnumRecordValue {
     String(JsWord),
     Number(f64),
-    Opaque(Expr),
+    Opaque(Box<Expr>),
     Void,
 }
 
@@ -58,8 +58,6 @@ impl From<TsEnumRecordValue> for Expr {
             .into(),
             TsEnumRecordValue::Number(num) if f64::is_infinite(num) => {
                 let value: Expr = Ident {
-            TsEnumRecordValue::Number(num) if f64::is_infinite(num) => {
-                let value = Ident {
                     span: DUMMY_SP,
                     sym: "Infinity".into(),
                     ..Default::default()
@@ -84,7 +82,6 @@ impl From<TsEnumRecordValue> for Expr {
             })
             .into(),
             TsEnumRecordValue::Void => *Expr::undefined(DUMMY_SP),
-            TsEnumRecordValue::Void => *DUMMY_SP.into(),
             TsEnumRecordValue::Opaque(expr) => *expr,
         }
     }
@@ -104,13 +101,13 @@ pub(crate) struct EnumValueComputer<'a> {
 
 /// https://github.com/microsoft/TypeScript/pull/50528
 impl<'a> EnumValueComputer<'a> {
-    pub fn compute(&mut self, mut expr: Expr) -> TsEnumRecordValue {
+    pub fn compute(&mut self, mut expr: Box<Expr>) -> TsEnumRecordValue {
         expr.visit_mut_with(self);
 
         self.compute_rec(expr)
     }
 
-    fn compute_rec(&self, expr: Expr) -> TsEnumRecordValue {
+    fn compute_rec(&self, expr: Box<Expr>) -> TsEnumRecordValue {
         match *expr {
             Expr::Lit(Lit::Str(s)) => TsEnumRecordValue::String(s.value),
             Expr::Lit(Lit::Num(n)) => TsEnumRecordValue::Number(n.value),

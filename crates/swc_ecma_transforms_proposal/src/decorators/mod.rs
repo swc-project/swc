@@ -456,12 +456,6 @@ impl Decorators {
                             value: method.key.name.clone(),
                         })
                         .into();
-                        let key_prop_value = Box::new(Expr::Lit(Lit::Str(Str {
-                            span: method.key.span,
-                            raw: None,
-                            value: method.key.name.clone(),
-                        })
-                        .into();
                         fold_method!(method, Some(fn_name), key_prop_value)
                     }
                     ClassMember::ClassProp(prop) => {
@@ -547,7 +541,7 @@ impl Decorators {
                                     }),
                                     _ => Prop::KeyValue(KeyValueProp {
                                         key: PropName::Ident(quote_ident!("value")),
-                                        value: DUMMY_SP.into(),
+                                        value: Expr::undefined(DUMMY_SP),
                                     }),
                                 }))))
                                 .collect(),
@@ -571,7 +565,6 @@ impl Decorators {
                     span: DUMMY_SP,
 
                     params: iter::once(initialize.into())
-                    params: iter::once(initialize.into().into())
                         .chain(super_class_ident.map(Pat::from))
                         .map(|pat| Param {
                             span: DUMMY_SP,

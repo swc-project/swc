@@ -60,8 +60,6 @@ pub(crate) trait ExprExt: Into<Expr> {
         VarDeclarator {
             span: DUMMY_SP,
             name: Ident::new(lhs.0, DUMMY_SP, lhs.1).into(),
-            name: Pat::Ident(Ident::new(lhs.0, DUMMY_SP, lhs.1).into()),
-            name: Ident::new(lhs.0, DUMMY_SP, lhs.1).into().into(),
             init: Some(Box::new(init)),
             definite: false,
         }
@@ -187,15 +185,6 @@ impl<T> IntoParallelIterator for T where T: IntoIterator {}
 fn metadata(key: &str, value: &str) -> PropOrSpread {
     PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
         key: PropName::Ident(IdentName::new(key.into(), DUMMY_SP)),
-        value: Lit::Str(Str {
-            span: DUMMY_SP,
-            value: value.into(),
-            raw: None,
-        })
-        .into(),
-        key: PropName::Ident(Ident::new_no_ctxt(key.into(), DUMMY_SP)),
-        value: Box::new(Expr::Lit(Lit::Str(Str {
-        key: PropName::Ident(Ident::new_no_ctxt(key.into(), DUMMY_SP)),
         value: Lit::Str(Str {
             span: DUMMY_SP,
             value: value.into(),

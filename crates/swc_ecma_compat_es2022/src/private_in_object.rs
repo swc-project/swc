@@ -25,7 +25,7 @@ pub fn private_in_object() -> impl JsPass {
 enum Mode {
     ClassExpr {
         vars: Vec<VarDeclarator>,
-        init_exprs: Vec<Expr>,
+        init_exprs: Vec<Box<Expr>>,
     },
     ClassDecl {
         vars: Vec<VarDeclarator>,
@@ -41,7 +41,7 @@ impl Default for Mode {
 }
 
 impl Mode {
-    fn push_var(&mut self, n: Ident, init: Option<Expr>) {
+    fn push_var(&mut self, n: Ident, init: Option<Box<Expr>>) {
         match self {
             Mode::ClassExpr { vars, init_exprs } => {
                 vars.push(VarDeclarator {
@@ -77,7 +77,7 @@ impl Mode {
 #[derive(Default)]
 struct PrivateInObject {
     vars: Vec<VarDeclarator>,
-    prepend_exprs: Vec<Expr>,
+    prepend_exprs: Vec<Box<Expr>>,
 
     injected_vars: AHashSet<Id>,
     cls: ClassData,
@@ -102,7 +102,7 @@ struct ClassData {
     /// Name of private statics.
     statics: Vec<JsWord>,
 
-    constructor_exprs: Vec<Expr>,
+    constructor_exprs: Vec<Box<Expr>>,
 
     names_used_for_brand_checks: AHashSet<JsWord>,
 }
@@ -358,21 +358,6 @@ impl VisitMut for PrivateInObject {
                             }
                             .into(),
                         ),
-                        Some(Box::new(Expr::New(NewExpr {
-                            span: DUMMY_SP,
-                            callee: Box::new(Expr::Ident(quote_ident!("WeakSet"))),
-                            args: Some(Default::default()),
-                            ..Default::default()
-                        }))),
-                        Some(
-                            NewExpr {
-                                span: DUMMY_SP,
-                                callee: Box::new(quote_ident!("WeakSet").into()),
-                                args: Some(Default::default()),
-                                ..Default::default()
-                            }
-                            .into(),
-                        ),
                     );
 
                     if is_method {
@@ -472,20 +457,6 @@ impl VisitMut for PrivateInObject {
                                 }
                                 .into(),
                             ),
-                        }
-                        .into(),
-                    )
-                            callee: var_name.make_member(quote_ident!("add")).as_callee(),
-                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                            ..Default::default()
-                        })),
-                    })))
-                            arg: Box::new(Expr::Call(CallExpr {
-                                span: DUMMY_SP,
-                                callee: var_name.make_member(quote_ident!("add")).as_callee(),
-                                args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                                ..Default::default()
-                            })),
                         }
                         .into(),
                     )

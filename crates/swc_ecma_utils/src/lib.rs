@@ -4,7 +4,6 @@
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::vec_box)]
 #![cfg_attr(not(feature = "concurrent"), allow(unused))]
-#![feature(box_patterns)]
 
 #[doc(hidden)]
 pub extern crate swc_atoms;
@@ -411,7 +410,6 @@ pub trait StmtExt {
                 .map(|i| VarDeclarator {
                     span: i.span,
                     name: i.into(),
-                    name: i.into().into(),
                     init: None,
                     definite: false,
                 })
@@ -1615,7 +1613,7 @@ pub fn num_from_str(s: &str) -> Value<f64> {
     Known(s.parse().ok().unwrap_or(f64::NAN))
 }
 
-impl ExprExt for Expr {
+impl ExprExt for Box<Expr> {
     fn as_expr(&self) -> &Expr {
         self
     }
@@ -2085,10 +2083,6 @@ pub fn alias_if_required(expr: &Expr, default: &str) -> (Ident, bool) {
 
 pub fn prop_name_to_expr(p: PropName) -> Expr {
     match p {
-        PropName::Ident(i) => Expr::Ident(i.into()),
-        PropName::Str(s) => Expr::Lit(Lit::Str(s)),
-        PropName::Num(n) => Expr::Lit(Lit::Num(n)),
-        PropName::BigInt(b) => Expr::Lit(Lit::BigInt(b)),
         PropName::Ident(i) => i.into(),
         PropName::Str(s) => Lit::Str(s).into(),
         PropName::Num(n) => Lit::Num(n).into(),
@@ -2186,7 +2180,12 @@ pub fn is_rest_arguments(e: &ExprOrSpread) -> bool {
     e.expr.is_ident_ref_to("arguments")
 }
 
-pub fn opt_chain_test(left: Expr, right: Expr, span: Span, no_document_all: bool) -> Expr {
+pub fn opt_chain_test(
+    left: Box<Expr>,
+    right: Box<Expr>,
+    span: Span,
+    no_document_all: bool,
+) -> Expr {
     if no_document_all {
         BinExpr {
             span,
@@ -2195,7 +2194,6 @@ pub fn opt_chain_test(left: Expr, right: Expr, span: Span, no_document_all: bool
             right: Lit::Null(Null { span: DUMMY_SP }).into(),
         }
         .into()
-        })
     } else {
         BinExpr {
             span,
@@ -2216,7 +2214,6 @@ pub fn opt_chain_test(left: Expr, right: Expr, span: Span, no_document_all: bool
             .into(),
         }
         .into()
-        })
     }
 }
 
@@ -2446,7 +2443,7 @@ impl ExprCtx {
     /// any.
     pub fn preserve_effects<I>(&self, span: Span, val: Box<Expr>, exprs: I) -> Box<Expr>
     where
-        I: IntoIterator<Item = Expr>,
+        I: IntoIterator<Item = Box<Expr>>,
     {
         let mut exprs = exprs.into_iter().fold(vec![], |mut v, e| {
             self.extract_side_effects_to(&mut v, *e);
@@ -2467,7 +2464,7 @@ impl ExprCtx {
     /// This function preserves order and conditions. (think a() ? yield b() :
     /// c())
     #[allow(clippy::vec_box)]
-    pub fn extract_side_effects_to(&self, to: &mut Vec<Expr>, expr: Expr) {
+    pub fn extract_side_effects_to(&self, to: &mut Vec<Box<Expr>>, expr: Expr) {
         match expr {
             Expr::Lit(..)
             | Expr::This(..)
@@ -2693,10 +2690,6 @@ impl VisitMut for IdentReplacer<'_> {
                 if i.sym != cloned.sym || i.ctxt != cloned.ctxt {
                     *node = Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(IdentName::new(cloned.sym, cloned.span)),
-                        value: i.clone().into(),
-                        key: PropName::Ident(Ident::new_no_ctxt(cloned.sym, cloned.span)),
-                        value: Box::new(Expr::Ident(i.clone())),
-                        key: PropName::Ident(Ident::new_no_ctxt(cloned.sym, cloned.span)),
                         value: i.clone().into(),
                     });
                 }
@@ -3042,14 +3035,6 @@ impl VisitMut for IdentRenamer<'_> {
                                 right: default,
                             }
                             .into(),
-                            value: Box::new(
-                                AssignPat {
-                                    span: DUMMY_SP,
-                                    left: p.key.clone().into(),
-                                    right: default,
-                                }
-                                .into(),
-                            ),
                         });
                     }
                     None => {
@@ -3076,10 +3061,6 @@ impl VisitMut for IdentRenamer<'_> {
                     *node = Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(IdentName::new(cloned.sym, cloned.span)),
                         value: i.clone().into(),
-                        key: PropName::Ident(Ident::new_no_ctxt(cloned.sym, cloned.span)),
-                        value: Box::new(Expr::Ident(i.clone())),
-                        key: PropName::Ident(Ident::new_no_ctxt(cloned.sym, cloned.span)),
-                        value: i.clone().into(),
                     });
                 }
             }
@@ -3091,10 +3072,10 @@ impl VisitMut for IdentRenamer<'_> {
 }
 
 pub trait QueryRef {
-    fn query_ref(&self, _ident: &Ident) -> Option<Expr> {
+    fn query_ref(&self, _ident: &Ident) -> Option<Box<Expr>> {
         None
     }
-    fn query_lhs(&self, _ident: &Ident) -> Option<Expr> {
+    fn query_lhs(&self, _ident: &Ident) -> Option<Box<Expr>> {
         None
     }
 

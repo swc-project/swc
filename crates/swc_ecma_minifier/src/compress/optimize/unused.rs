@@ -24,7 +24,7 @@ impl Optimizer<'_> {
     pub(super) fn drop_unused_var_declarator(
         &mut self,
         var: &mut VarDeclarator,
-        storage_for_side_effects: &mut Option<Expr>,
+        storage_for_side_effects: &mut Option<Box<Expr>>,
     ) {
         if self.mode.preserve_vars() {
             return;

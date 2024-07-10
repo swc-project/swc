@@ -82,7 +82,7 @@ impl Pure<'_> {
                                 None => {
                                     new_args.push(ExprOrSpread {
                                         spread: None,
-                                        expr: DUMMY_SP.into(),
+                                        expr: Expr::undefined(DUMMY_SP),
                                     });
                                 }
                             }
@@ -233,21 +233,19 @@ impl Pure<'_> {
             }
 
             let sep: Box<Expr> = Lit::Str(Str {
-            let sep = Lit::Str(Str {
                 span: DUMMY_SP,
                 raw: None,
                 value: separator,
             })
             .into();
             let mut res = Lit::Str(Str {
-            let mut res = Expr::Lit(Lit::Str(Str {
                 span: DUMMY_SP,
                 raw: None,
                 value: js_word!(""),
             })
             .into();
 
-            fn add(to: &mut Expr, right: Expr) {
+            fn add(to: &mut Expr, right: Box<Expr>) {
                 let lhs = to.take();
                 *to = BinExpr {
                     span: DUMMY_SP,
@@ -872,7 +870,7 @@ impl Pure<'_> {
         }
     }
 
-    fn make_ignored_expr(&mut self, exprs: impl Iterator<Item = Expr>) -> Option<Expr> {
+    fn make_ignored_expr(&mut self, exprs: impl Iterator<Item = Box<Expr>>) -> Option<Expr> {
         let mut exprs = exprs
             .filter_map(|mut e| {
                 self.ignore_return_value(

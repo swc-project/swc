@@ -137,7 +137,6 @@ where
         });
 
         let module_fn: Expr = FnExpr {
-        let module_fn = FnExpr {
             function: Box::new(Function {
                 params: Default::default(),
                 body: Some(BlockStmt {
@@ -214,8 +213,6 @@ impl ExportToReturn {
         self.return_props
             .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(key.into()),
-                value: Box::new(Expr::Ident(value)),
-                key: PropName::Ident(key),
                 value: value.into(),
             }))));
     }

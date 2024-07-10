@@ -286,7 +286,7 @@ impl SimplifyExpr {
 
                         // element value
                         let v = match e {
-                            None => *span.into(),
+                            None => Expr::undefined(*span),
                             Some(e) => e.expr,
                         };
 
@@ -1418,7 +1418,7 @@ impl VisitMut for SimplifyExpr {
                             e.extend(expr.array().unwrap().elems.into_iter().map(|elem| {
                                 Some(elem.unwrap_or_else(|| ExprOrSpread {
                                     spread: None,
-                                    expr: DUMMY_SP.into(),
+                                    expr: Expr::undefined(DUMMY_SP),
                                 }))
                             }));
                         }
@@ -1699,7 +1699,7 @@ impl VisitMut for SimplifyExpr {
         });
     }
 
-    fn visit_mut_exprs(&mut self, n: &mut Vec<Expr>) {
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
         self.maybe_par(cpu_count() * 8, n, |v, n| {
             n.visit_mut_with(v);
         });
@@ -1709,7 +1709,7 @@ impl VisitMut for SimplifyExpr {
 /// make a new boolean expression preserving side effects, if any.
 fn make_bool_expr<I>(ctx: &ExprCtx, span: Span, value: bool, orig: I) -> Box<Expr>
 where
-    I: IntoIterator<Item = Expr>,
+    I: IntoIterator<Item = Box<Expr>>,
 {
     ctx.preserve_effects(span, Lit::Bool(Bool { value, span }).into(), orig)
 }

@@ -48,7 +48,7 @@ struct Eval {
 
 #[derive(Default)]
 struct EvalStore {
-    cache: AHashMap<Id, Expr>,
+    cache: AHashMap<Id, Box<Expr>>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -184,7 +184,7 @@ impl Evaluator {
         Some(EvalResult::Lit(self.eval_as_expr(e)?.lit()?))
     }
 
-    fn eval_as_expr(&mut self, e: &Expr) -> Option<Expr> {
+    fn eval_as_expr(&mut self, e: &Expr) -> Option<Box<Expr>> {
         match e {
             Expr::Ident(i) => {
                 self.run();
@@ -201,7 +201,6 @@ impl Evaluator {
                 let obj = self.eval_as_expr(obj)?;
 
                 let mut e: Expr = MemberExpr {
-                let mut e = MemberExpr {
                     span: *span,
                     obj,
                     prop: prop.clone(),
@@ -229,12 +228,11 @@ impl Evaluator {
             let res = self.eval(expr)?;
             exprs.push(match res {
                 EvalResult::Lit(v) => v.into(),
-                EvalResult::Undefined => DUMMY_SP.into(),
+                EvalResult::Undefined => Expr::undefined(DUMMY_SP),
             });
         }
 
         let mut e: Box<Expr> = Tpl {
-        let mut e = Tpl {
             span: q.span,
             exprs,
             quasis: q.quasis.clone(),

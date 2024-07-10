@@ -60,7 +60,11 @@ impl VisitMut for ParamMetadata {
 }
 
 impl ParamMetadata {
-    fn create_param_decorator(&self, param_index: usize, mut decorator_expr: Expr) -> Decorator {
+    fn create_param_decorator(
+        &self,
+        param_index: usize,
+        mut decorator_expr: Box<Expr>,
+    ) -> Decorator {
         remove_span(&mut decorator_expr);
 
         Decorator {
@@ -275,7 +279,7 @@ impl<'a> Metadata<'a> {
 }
 
 fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr {
-    fn check_object_existed(expr: Expr) -> Expr {
+    fn check_object_existed(expr: Box<Expr>) -> Box<Expr> {
         match *expr {
             Expr::Member(ref member_expr) => {
                 let obj_expr = member_expr.obj.clone();
@@ -300,16 +304,6 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                         }
                         .into(),
                     ),
-                            op: op!("typeof"),
-                            arg: expr,
-                        })),
-                        op: op!("==="),
-                        right: Box::new(Expr::Lit(Lit::Str(Str {
-                            span: DUMMY_SP,
-                            value: "undefined".into(),
-                            raw: None,
-                        }))),
-                    })),
                 }
                 .into()
             }
@@ -332,11 +326,6 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                     })
                     .into(),
                 ),
-                right: Box::new(Expr::Lit(Lit::Str(Str {
-                    span: DUMMY_SP,
-                    value: "undefined".into(),
-                    raw: None,
-                }))),
             }
             .into(),
         }
@@ -457,7 +446,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             | TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsNeverKeyword,
                 ..
-            }) => *span.into(),
+            }) => *Expr::undefined(span),
 
             TsType::TsParenthesizedType(ty) => serialize_type_node(class_name, &ty.type_ann),
 
@@ -548,7 +537,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
 
     let param = match param {
         Some(v) => &v.type_ann,
-        None => return *DUMMY_SP.into(),
+        None => return *Expr::undefined(DUMMY_SP),
     };
 
     serialize_type_node(class_name.map(|v| &*v.sym).unwrap_or(""), param)

@@ -45,7 +45,7 @@ impl Pure<'_> {
 
                 report_change!("drop_console: Removing console call");
                 self.changed = true;
-                *e = *DUMMY_SP.into();
+                *e = *Expr::undefined(DUMMY_SP);
             }
         }
     }

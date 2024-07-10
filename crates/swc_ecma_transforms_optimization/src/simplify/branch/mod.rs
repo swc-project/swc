@@ -1272,7 +1272,7 @@ impl VisitMut for Remover {
         })
     }
 
-    fn visit_mut_exprs(&mut self, n: &mut Vec<Expr>) {
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
         self.maybe_par(cpu_count() * 8, n, |v, n| {
             n.visit_mut_with(v);
         })
@@ -1515,7 +1515,6 @@ fn ignore_result(e: Box<Expr>, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Box<
             match (left, right) {
                 (Some(l), Some(r)) => ignore_result(
                     ctx.preserve_effects(span, Expr::undefined(span), vec![l, r]),
-                    ctx.preserve_effects(span, *span.into(), vec![Box::new(l), Box::new(r)]),
                     true,
                     ctx,
                 ),
@@ -1577,7 +1576,6 @@ fn ignore_result(e: Box<Expr>, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Box<
                                 left,
                                 op,
                                 right,
-                                right: Box::new(right),
                             }
                             .into(),
                         )
@@ -1631,7 +1629,6 @@ fn ignore_result(e: Box<Expr>, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Box<
                     ctx.preserve_effects(
                         span,
                         Expr::undefined(span),
-                        *span.into(),
                         elems.into_iter().map(|v| v.unwrap().expr),
                     ),
                     true,
@@ -1659,8 +1656,6 @@ fn ignore_result(e: Box<Expr>, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Box<
                     ctx.preserve_effects(
                         span,
                         Expr::undefined(DUMMY_SP),
-                        *Expr::undefined(DUMMY_SP),
-                        *DUMMY_SP.into(),
                         once(ObjectLit { span, props }.into()),
                     ),
                     true,
@@ -1710,13 +1705,6 @@ fn ignore_result(e: Box<Expr>, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Box<
         Expr::TaggedTpl(TaggedTpl { span, tag, tpl, .. }) if tag.is_pure_callee(ctx) => {
             ignore_result(
                 ctx.preserve_effects(span, Expr::undefined(span), tpl.exprs),
-        Expr::Tpl(Tpl { span, exprs, .. }) => {
-            ignore_result(ctx.preserve_effects(span, *span.into(), exprs), true, ctx)
-        }
-
-        Expr::TaggedTpl(TaggedTpl { span, tag, tpl, .. }) if tag.is_pure_callee(ctx) => {
-            ignore_result(
-                ctx.preserve_effects(span, *span.into(), tpl.exprs),
                 true,
                 ctx,
             )
@@ -1783,7 +1771,6 @@ fn ignore_result(e: Box<Expr>, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Box<
                         left: test,
                         op: op!("||"),
                         right: alt,
-                        right: Box::new(alt),
                     }
                     .into(),
                     true,
@@ -1797,8 +1784,6 @@ fn ignore_result(e: Box<Expr>, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Box<
                     test,
                     cons,
                     alt,
-                    cons: Box::new(cons),
-                    alt: Box::new(alt),
                 }
                 .into(),
             )

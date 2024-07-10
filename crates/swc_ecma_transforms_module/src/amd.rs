@@ -160,7 +160,7 @@ where
         }
 
         if !self.config.allow_top_level_this {
-            top_level_this(&mut n.body, *DUMMY_SP.into());
+            top_level_this(&mut n.body, *Expr::undefined(DUMMY_SP));
         }
 
         let import_interop = self.config.import_interop();
@@ -562,24 +562,6 @@ fn amd_import_meta_url(span: Span, module: Ident) -> Expr {
             )
             .into(),
         prop: MemberProp::Ident("href".into()),
-        obj: Box::new(Expr::New(quote_ident!("URL").into_new_expr(
-            DUMMY_SP,
-            Some(vec![
-                module.make_member(quote_ident!("uri")).as_arg(),
-                member_expr!(Default::default(), DUMMY_SP, document.baseURI).as_arg(),
-            ]),
-        ))),
-        prop: MemberProp::Ident("href".into()),
-        obj: quote_ident!("URL")
-            .into_new_expr(
-                DUMMY_SP,
-                Some(vec![
-                    module.make_member(quote_ident!("uri")).as_arg(),
-                    member_expr!(Default::default(), DUMMY_SP, document.baseURI).as_arg(),
-                ]),
-            )
-            .into(),
-        prop: quote_ident!("href").into(),
     }
     .into()
 }

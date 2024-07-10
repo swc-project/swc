@@ -121,8 +121,6 @@ impl VisitMut for Inliner {
                 if i.sym != orig.sym {
                     *n = Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(orig.into()),
-                        value: Box::new(Expr::Ident(i.clone())),
-                        key: PropName::Ident(orig),
                         value: i.clone().into(),
                     });
                 }

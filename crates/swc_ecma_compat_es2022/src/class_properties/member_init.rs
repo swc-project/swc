@@ -11,19 +11,19 @@ pub(super) enum MemberInit {
     PrivProp(PrivProp),
     PrivMethod(PrivMethod),
     PrivAccessor(PrivAccessor),
-    StaticBlock(Expr),
+    StaticBlock(Box<Expr>),
 }
 
 pub(super) struct PubProp {
     pub span: Span,
     pub name: PropName,
-    pub value: Expr,
+    pub value: Box<Expr>,
 }
 
 pub(super) struct PrivProp {
     pub span: Span,
     pub name: Ident,
-    pub value: Expr,
+    pub value: Box<Expr>,
 }
 
 pub(super) struct PrivMethod {
@@ -73,7 +73,7 @@ impl MemberInitRecord {
         }
     }
 
-    pub fn into_init(self) -> Vec<Expr> {
+    pub fn into_init(self) -> Vec<Box<Expr>> {
         let mut normal_init = vec![];
         let mut value_init = vec![];
         for init in self.record {
@@ -151,7 +151,6 @@ impl MemberInitRecord {
                     if self.c.set_public_fields {
                         let this = ThisExpr { span: DUMMY_SP };
                         Expr::from(AssignExpr {
-                        AssignExpr {
                             span,
                             left: match name {
                                 PropName::Ident(id) => this.make_member(id).into(),
@@ -159,8 +158,7 @@ impl MemberInitRecord {
                             },
                             op: op!("="),
                             right: value,
-                        }
-                        .into()
+                        })
                     } else {
                         CallExpr {
                             span,
@@ -197,7 +195,6 @@ impl MemberInitRecord {
                         expr: (if self.c.set_public_fields {
                             let class = class_ident.clone();
                             Expr::from(AssignExpr {
-                            AssignExpr {
                                 span,
                                 left: match name {
                                     PropName::Ident(id) => class.make_member(id).into(),
@@ -205,8 +202,7 @@ impl MemberInitRecord {
                                 },
                                 op: op!("="),
                                 right: value,
-                            }
-                            .into()
+                            })
                         } else {
                             CallExpr {
                                 span,
@@ -328,7 +324,7 @@ impl MemberInitRecord {
     }
 }
 
-fn get_value_desc(value: Expr) -> ObjectLit {
+fn get_value_desc(value: Box<Expr>) -> ObjectLit {
     ObjectLit {
         span: DUMMY_SP,
         props: vec![
@@ -366,7 +362,7 @@ fn get_accessor_desc(getter: Option<Ident>, setter: Option<Ident>) -> ObjectLit 
     }
 }
 
-fn get_method_desc(value: Expr) -> ObjectLit {
+fn get_method_desc(value: Box<Expr>) -> ObjectLit {
     ObjectLit {
         span: DUMMY_SP,
         props: vec![
