@@ -59,10 +59,10 @@ impl<'a> Fold for Injector<'a> {
 
         stmts.into_iter().for_each(|stmt| {
             if let Stmt::Expr(ExprStmt { ref expr, .. }) = stmt {
-                if let Expr::Call(CallExpr {
+                if let Expr::Call(box CallExpr {
                     callee: Callee::Super(..),
                     ..
-                }) = &**expr
+                }) = expr
                 {
                     self.injected = true;
                     buf.push(stmt);
@@ -130,7 +130,7 @@ impl VisitMut for ExprInjector<'_> {
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
 
-        if let Expr::Call(CallExpr {
+        if let Expr::Call(box CallExpr {
             callee: Callee::Super(..),
             ..
         }) = expr
@@ -150,7 +150,7 @@ impl VisitMut for ExprInjector<'_> {
                         span: DUMMY_SP,
                         left: self.injected_tmp.as_ref().cloned().unwrap().into(),
                         op: op!("="),
-                        right: Box::new(e),
+                        right: e,
                     }
                     .into(),
                 )
