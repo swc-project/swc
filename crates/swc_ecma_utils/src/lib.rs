@@ -4,6 +4,7 @@
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::vec_box)]
 #![cfg_attr(not(feature = "concurrent"), allow(unused))]
+#![feature(box_patterns)]
 
 #[doc(hidden)]
 pub extern crate swc_atoms;
