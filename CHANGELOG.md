@@ -16,6 +16,12 @@
 
 - **(es/typescript)** Improve decorator handling of fast strip ([#9178](https://github.com/swc-project/swc/issues/9178)) ([962170f](https://github.com/swc-project/swc/commit/962170fb704e5f0cf7a00c0a9be3e9d7cf4f6b02))
 
+### Performance
+
+
+
+- **(bindings/wasm)** Shrink the size of the wasm file ([#9191](https://github.com/swc-project/swc/issues/9191)) ([3a23b3d](https://github.com/swc-project/swc/commit/3a23b3d120a14ca514204ef80bf744bb483dcfd6))
+
 ## [1.6.13] - 2024-07-06
 
 ### Bug Fixes
