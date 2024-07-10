@@ -168,10 +168,13 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
                     true,
                 )
                 .map(|function| {
-                    PropOrSpread::Prop(Prop::Method(MethodProp {
-                        key: name,
-                        function,
-                    }))
+                    PropOrSpread::Prop(Prop::Method(
+                        MethodProp {
+                            key: name,
+                            function,
+                        }
+                        .into(),
+                    ))
                 });
         }
 
@@ -188,12 +191,15 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
             trace_cur!(self, parse_object_prop_error);
 
             self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
-            return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                key,
-                value: Box::new(Expr::Invalid(Invalid {
-                    span: span!(self, start),
-                })),
-            }))));
+            return Ok(PropOrSpread::Prop(Prop::KeyValue(
+                KeyValueProp {
+                    key,
+                    value: Expr::Invalid(Invalid {
+                        span: span!(self, start),
+                    }),
+                }
+                .into(),
+            )));
         }
         //
         // {[computed()]: a,}
@@ -202,10 +208,9 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
         // { a: expr, }
         if eat!(self, ':') {
             let value = self.include_in_expr(true).parse_assignment_expr()?;
-            return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                key,
-                value,
-            }))));
+            return Ok(PropOrSpread::Prop(Prop::KeyValue(
+                KeyValueProp { key, value }.into(),
+            )));
         }
 
         // Handle `a(){}` (and async(){} / get(){} / set(){})
@@ -224,7 +229,7 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
                     false,
                     false,
                 )
-                .map(|function| Box::new(Prop::Method(MethodProp { key, function })))
+                .map(|function| Prop::Method(MethodProp { key, function }.into()))
                 .map(PropOrSpread::Prop);
         }
 
@@ -249,14 +254,17 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
             if eat!(self, '=') {
                 let value = self.include_in_expr(true).parse_assignment_expr()?;
                 let span = span!(self, start);
-                return Ok(PropOrSpread::Prop(Box::new(Prop::Assign(AssignProp {
-                    span,
-                    key: ident.into(),
-                    value,
-                }))));
+                return Ok(PropOrSpread::Prop(Prop::Assign(
+                    AssignProp {
+                        span,
+                        key: ident.into(),
+                        value,
+                    }
+                    .into(),
+                )));
             }
 
-            return Ok(PropOrSpread::Prop(Box::new(Prop::from(ident))));
+            return Ok(PropOrSpread::Prop(Prop::from(ident)));
         }
 
         // get a(){}
@@ -309,12 +317,15 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
                                         parser.emit_err(key_span, SyntaxError::TS1056);
                                     }
 
-                                    PropOrSpread::Prop(Box::new(Prop::Getter(GetterProp {
-                                        span: span!(parser, start),
-                                        key,
-                                        type_ann: return_type,
-                                        body,
-                                    })))
+                                    PropOrSpread::Prop(Prop::Getter(
+                                        GetterProp {
+                                            span: span!(parser, start),
+                                            key,
+                                            type_ann: return_type,
+                                            body,
+                                        }
+                                        .into(),
+                                    ))
                                 },
                             ),
                         "set" => {
@@ -376,13 +387,16 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
                                         );
 
                                         // debug_assert_eq!(params.len(), 1);
-                                        PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
-                                            span: span!(parser, start),
-                                            key,
-                                            body,
-                                            param,
-                                            this_param: this,
-                                        })))
+                                        PropOrSpread::Prop(Prop::Setter(
+                                            SetterProp {
+                                                span: span!(parser, start),
+                                                key,
+                                                body,
+                                                param,
+                                                this_param: this,
+                                            }
+                                            .into(),
+                                        ))
                                     },
                                 )
                         }
@@ -396,10 +410,7 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
                                 is_generator,
                             )
                             .map(|function| {
-                                PropOrSpread::Prop(Box::new(Prop::Method(MethodProp {
-                                    key,
-                                    function,
-                                })))
+                                PropOrSpread::Prop(Prop::Method(MethodProp { key, function }))
                             }),
                         _ => unreachable!(),
                     }
@@ -433,7 +444,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
         for (i, p) in props.iter().enumerate() {
             if i == len - 1 {
                 if let ObjectPatProp::Rest(ref rest) = p {
-                    match *rest.arg {
+                    match rest.arg {
                         Pat::Ident(..) => {
                             if let Some(trailing_comma) = trailing_comma {
                                 self.emit_err(trailing_comma, SyntaxError::CommaAfterRestElement);
@@ -452,12 +463,15 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
 
         let optional = (self.input.syntax().dts() || self.ctx().in_declare) && eat!(self, '?');
 
-        Ok(Pat::Object(ObjectPat {
-            span,
-            props,
-            optional,
-            type_ann: None,
-        }))
+        Ok(Pat::Object(
+            ObjectPat {
+                span,
+                props,
+                optional,
+                type_ann: None,
+            }
+            .into(),
+        ))
     }
 
     /// Production 'BindingProperty'
@@ -468,21 +482,26 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
             // spread element
             let dot3_token = span!(self, start);
 
-            let arg = Box::new(self.parse_binding_pat_or_ident()?);
+            let arg = self.parse_binding_pat_or_ident()?;
 
-            return Ok(ObjectPatProp::Rest(RestPat {
-                span: span!(self, start),
-                dot3_token,
-                arg,
-                type_ann: None,
-            }));
+            return Ok(ObjectPatProp::Rest(
+                RestPat {
+                    span: span!(self, start),
+                    dot3_token,
+                    arg,
+                    type_ann: None,
+                }
+                .into(),
+            ));
         }
 
         let key = self.parse_prop_name()?;
         if eat!(self, ':') {
-            let value = Box::new(self.parse_binding_element()?);
+            let value = self.parse_binding_element()?;
 
-            return Ok(ObjectPatProp::KeyValue(KeyValuePatProp { key, value }));
+            return Ok(ObjectPatProp::KeyValue(
+                KeyValuePatProp { key, value }.into(),
+            ));
         }
         let key = match key {
             PropName::Ident(ident) => ident,
@@ -501,10 +520,13 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
             None
         };
 
-        Ok(ObjectPatProp::Assign(AssignPatProp {
-            span: span!(self, start),
-            key: key.into(),
-            value,
-        }))
+        Ok(ObjectPatProp::Assign(
+            AssignPatProp {
+                span: span!(self, start),
+                key: key.into(),
+                value,
+            }
+            .into(),
+        ))
     }
 }

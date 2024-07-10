@@ -1027,7 +1027,6 @@ impl<I: Tokens> Parser<I> {
         // Note: TS uses parseLeftHandSideExpressionOrHigher,
         // then has grammar errors later if it's not an EntityName.
 
-        let ident = Box::new(Expr::Ident(self.parse_ident_name()?.into()));
         let ident = self.parse_ident_name()?.into();
         let expr = self.parse_subscripts(Callee::Expr(ident), true, true)?;
         if !matches!(
@@ -1185,7 +1184,7 @@ impl<I: Tokens> Parser<I> {
             Token::Str { .. } => {}
             _ => unexpected!(self, "a string literal"),
         }
-        let expr = match *self.parse_lit()? {
+        let expr = match self.parse_lit()? {
             Lit::Str(s) => s,
             _ => unreachable!(),
         };
@@ -1393,7 +1392,6 @@ impl<I: Tokens> Parser<I> {
 
                             e.into()
                         }
-                        Either::Right(e) => Box::new(Expr::Ident(e.into())),
                         Either::Right(e) => e.into(),
                     }),
                 };
@@ -1865,7 +1863,7 @@ impl<I: Tokens> Parser<I> {
 
             TsLit::Tpl(tpl)
         } else {
-            match *self.parse_lit()? {
+            match self.parse_lit()? {
                 Lit::BigInt(n) => TsLit::BigInt(n),
                 Lit::Bool(n) => TsLit::Bool(n),
                 Lit::Num(n) => TsLit::Number(n),
@@ -2105,7 +2103,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 let lit = self.parse_lit()?;
-                let lit = match *lit {
+                let lit = match lit {
                     Lit::Num(Number { span, value, raw }) => {
                         let mut new_raw = String::from("-");
 

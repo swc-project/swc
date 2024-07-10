@@ -2176,7 +2176,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// 12.2.5 Array Initializer
-    pub(super) fn parse_lit(&mut self) -> PResult<Box<Lit>> {
+    pub(super) fn parse_lit(&mut self) -> PResult<Lit> {
         let start = cur_pos!(self);
 
         let v = match cur!(self, true) {
@@ -2218,7 +2218,7 @@ impl<I: Tokens> Parser<I> {
             },
             token => unreachable!("parse_lit should not be called for {:?}", token),
         };
-        Ok(Box::new(v))
+        Ok(v)
     }
 
     pub(super) fn parse_dynamic_import_or_import_meta(
