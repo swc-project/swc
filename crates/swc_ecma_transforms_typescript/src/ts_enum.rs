@@ -57,7 +57,7 @@ impl From<TsEnumRecordValue> for Expr {
             }
             .into(),
             TsEnumRecordValue::Number(num) if f64::is_infinite(num) => {
-                let value = Ident {
+                let value: Expr = Ident {
                     span: DUMMY_SP,
                     sym: "Infinity".into(),
                     ..Default::default()

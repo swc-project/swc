@@ -109,7 +109,7 @@ impl Optimizer<'_> {
             Expr::Ident(Ident { span, sym, .. }) if &**sym == "undefined" => {
                 report_change!("evaluate: `undefined` -> `void 0`");
                 self.changed = true;
-                *e = **span.into();
+                *e = *Expr::undefined(*span);
             }
 
             Expr::Ident(Ident { span, sym, .. }) if &**sym == "Infinity" => {
