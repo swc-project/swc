@@ -2,7 +2,7 @@ use phf::phf_set;
 use swc_atoms::{Atom, JsWord};
 use swc_common::Spanned;
 use swc_ecma_ast::{
-    ArrayLit, Expr, ExprOrSpread, Ident, Lit, MemberExpr, MemberProp, ObjectLit, Prop,
+    ArrayLit, Expr, ExprOrSpread, Ident, IdentName, Lit, MemberExpr, MemberProp, ObjectLit, Prop,
     PropOrSpread, SeqExpr, Str,
 };
 use swc_ecma_utils::{prop_name_eq, ExprExt, Known};
@@ -269,7 +269,7 @@ impl Pure<'_> {
         }
 
         let op = match prop {
-            MemberProp::Ident(Ident { sym, .. }) => {
+            MemberProp::Ident(IdentName { sym, .. }) => {
                 if self.ctx.is_callee {
                     return None;
                 }
@@ -533,7 +533,7 @@ impl Pure<'_> {
                                 span: *span,
                                 props: vec![],
                             })),
-                            prop: MemberProp::Ident(Ident::new_no_ctxt(key, *span)),
+                            prop: MemberProp::Ident(IdentName::new(key, *span)),
                         })
                     } else {
                         // Invalid key. Replace with side effects plus `undefined`.

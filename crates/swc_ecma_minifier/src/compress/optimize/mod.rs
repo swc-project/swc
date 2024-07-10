@@ -2534,7 +2534,7 @@ impl VisitMut for Optimizer<'_> {
 
         match s {
             Stmt::Labeled(LabeledStmt {
-                label: Ident { sym, .. },
+                label: IdentName { sym, .. },
                 body,
                 ..
             }) if sym.is_empty() => {

@@ -150,7 +150,7 @@ impl Pure<'_> {
     /// Returns [Some] if the whole statement should be replaced
     fn drop_useless_continue_inner(
         &mut self,
-        label: Option<Ident>,
+        label: Option<IdentName>,
         loop_stmt: &mut Stmt,
     ) -> Option<Stmt> {
         let body = match loop_stmt {
@@ -585,7 +585,7 @@ impl Pure<'_> {
     }
 }
 
-fn contains_label<N>(node: &N, label: &Ident) -> bool
+fn contains_label<N>(node: &N, label: &IdentName) -> bool
 where
     for<'aa> N: VisitWith<LabelFinder<'aa>>,
 {
@@ -598,7 +598,7 @@ where
 }
 
 struct LabelFinder<'a> {
-    label: &'a Ident,
+    label: &'a IdentName,
     found: bool,
 }
 impl Visit for LabelFinder<'_> {
