@@ -256,20 +256,21 @@ impl ExplicitResourceManagement {
                                 try_body.push(Stmt::Decl(e.decl));
                                 try_body.push(Stmt::Expr(ExprStmt {
                                     span: DUMMY_SP,
-                                    expr: orig_var_names
-                                        .iter()
-                                        .zip(var_names.iter())
-                                        .map(|(orig, var_name)| {
-                                            AssignExpr {
-                                                span: DUMMY_SP,
-                                                op: op!("="),
-                                                left: var_name.clone().into(),
-                                                right: orig.clone().into(),
-                                            }
-                                            .into()
-                                        })
-                                        .collect()
-                                        .into(),
+                                    expr: Expr::from_exprs(
+                                        orig_var_names
+                                            .iter()
+                                            .zip(var_names.iter())
+                                            .map(|(orig, var_name)| {
+                                                AssignExpr {
+                                                    span: DUMMY_SP,
+                                                    op: op!("="),
+                                                    left: var_name.clone().into(),
+                                                    right: orig.clone().into(),
+                                                }
+                                                .into()
+                                            })
+                                            .collect(),
+                                    ),
                                 }));
                                 let specifiers = orig_var_names
                                     .iter()

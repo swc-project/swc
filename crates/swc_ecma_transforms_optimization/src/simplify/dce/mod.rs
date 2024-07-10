@@ -975,7 +975,7 @@ impl VisitMut for TreeShaker {
                 } else {
                     *s = Stmt::Expr(ExprStmt {
                         span,
-                        expr: exprs.into(),
+                        expr: Expr::from_exprs(exprs),
                     });
                 }
             }

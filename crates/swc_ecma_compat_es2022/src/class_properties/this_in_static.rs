@@ -41,7 +41,7 @@ impl VisitMut for NewTargetInProp {
             kind: MetaPropKind::NewTarget,
         }) = e
         {
-            *e = **span.into();
+            *e = Expr::undefined(span);
         }
     }
 

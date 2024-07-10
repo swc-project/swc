@@ -537,7 +537,6 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                     args: vec![obj.take().as_arg(), ident.clone().as_arg()],
                     ..Default::default()
                 }
-                .into()
                 .computed_member(ident)
                 .into();
             } else {
@@ -790,7 +789,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                                 }
                                 .into()
                             },
-                            Some(*this.into()),
+                            Some(Expr::This(*this)),
                         ),
                         _ => {
                             let mut aliased = false;

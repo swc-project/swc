@@ -741,7 +741,7 @@ impl VisitMut for Generator {
 
                 expressions.push(temp.into());
 
-                *e = *expressions.into();
+                *e = *Expr::from_exprs(expressions);
             }
 
             Expr::Array(node) => {
