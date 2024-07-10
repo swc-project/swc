@@ -233,8 +233,8 @@ impl<'a> Lexer<'a> {
         };
         if next.is_ascii_digit() {
             return self.read_number(true).map(|v| match v {
-                Left((value, raw)) => Token::Num { value, raw },
-                Right((value, raw)) => Token::BigInt { value, raw },
+                Left(value) => Token::Num { value },
+                Right(value) => Token::BigInt { value },
             });
         }
 
