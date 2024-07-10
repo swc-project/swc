@@ -37,8 +37,9 @@ swc_estree_ast = { version = "0.24.0", path = "../swc_estree_ast" }
 swc_node_comments = { version = "0.21.0", path = "../swc_node_comments/" }
 
 [dev-dependencies]
-criterion         = { workspace = true }
-pretty_assertions = { workspace = true }
+codspeed-criterion-compat = { workspace = true }
+criterion                 = { workspace = true }
+pretty_assertions         = { workspace = true }
 
 swc                 = { version = "0.279.0", path = "../swc" }
 swc_ecma_ast        = { version = "0.115.0", path = "../swc_ecma_ast" }

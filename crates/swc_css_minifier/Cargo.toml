@@ -22,7 +22,8 @@ swc_css_utils = { version = "0.138.0", path = "../swc_css_utils/" }
 swc_css_visit = { version = "0.140.0", path = "../swc_css_visit" }
 
 [dev-dependencies]
-criterion = { workspace = true }
+codspeed-criterion-compat = { workspace = true }
+criterion                 = { workspace = true }
 
 swc_css_codegen = { version = "0.152.0", path = "../swc_css_codegen" }
 swc_css_parser  = { version = "0.151.0", path = "../swc_css_parser" }
