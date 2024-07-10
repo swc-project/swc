@@ -45,14 +45,7 @@ impl<I: Tokens> Parser<I> {
         // Handle import 'mod.js'
         let str_start = cur_pos!(self);
         if let Ok(&Token::Str { .. }) = cur!(self, false) {
-            let src = match bump!(self) {
-                Token::Str { value, .. } => Box::new(Str {
-                    span: span!(self, str_start),
-                    value,
-                    raw: Some(raw),
-                }),
-                _ => unreachable!(),
-            };
+            let src = self.parse_str_lit().map(Box::new)?;
             let _ = cur!(self, false);
             let with = if self.input.syntax().import_attributes()
                 && !self.input.had_line_break_before_cur()

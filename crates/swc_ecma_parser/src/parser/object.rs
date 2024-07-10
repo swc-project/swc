@@ -52,14 +52,7 @@ impl<I: Tokens> Parser<I> {
             let start = cur_pos!(p);
 
             let v = match *cur!(p, true) {
-                Token::Str { .. } => match bump!(p) {
-                    Token::Str { value } => PropName::Str(Str {
-                        span: span!(p, start),
-                        value,
-                        raw: Some(raw),
-                    }),
-                    _ => unreachable!(),
-                },
+                Token::Str { .. } => self.parse_str_lit()?.into(),
                 Token::Num { .. } => match bump!(p) {
                     Token::Num { value } => PropName::Num(Number {
                         span: span!(p, start),

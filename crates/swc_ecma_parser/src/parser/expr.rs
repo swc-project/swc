@@ -2049,6 +2049,23 @@ impl<I: Tokens> Parser<I> {
             && expr.is_ident_ref_to("async"))
     }
 
+    pub(super) fn parse_str_lit(&mut self) -> PResult<Str> {
+        let span = self.input.cur_span();
+
+        let value = match bump!(self) {
+            Token::Str { value } => value,
+            _ => unreachable!(),
+        };
+
+        let raw = self.input.slice(span);
+
+        Ok(Str {
+            span,
+            value,
+            raw: Some(raw),
+        })
+    }
+
     /// 12.2.5 Array Initializer
     pub(super) fn parse_lit(&mut self) -> PResult<Lit> {
         let start = cur_pos!(self);
