@@ -4,6 +4,7 @@ use std::{ops::Range, str};
 
 use swc_atoms::Atom;
 use swc_common::{BytePos, Span};
+use swc_common::{BytePos, Span, SyntaxContext};
 use swc_ecma_ast::{AssignOp, AssignOp::*};
 use test::{black_box, Bencher};
 
@@ -90,18 +91,12 @@ impl WithSpan for Token {
 }
 impl WithSpan for usize {
     fn into_token(self) -> Token {
-        Num {
-            value: self as f64,
-            raw: self.to_string().into(),
-        }
+        Num { value: self as f64 }
     }
 }
 impl WithSpan for f64 {
     fn into_token(self) -> Token {
-        Num {
-            value: self,
-            raw: self.to_string().into(),
-        }
+        Num { value: self }
     }
 }
 impl<'a> WithSpan for &'a str {
@@ -173,10 +168,7 @@ fn test262_lexer_error_0001() {
         lex(Syntax::default(), "123..a(1)"),
         vec![
             TokenAndSpan {
-                token: Num {
-                    value: 123.0,
-                    raw: "123.".into(),
-                },
+                token: Num { value: 123.0 },
                 had_line_break: true,
                 span: Span {
                     lo: BytePos(1),
@@ -199,7 +191,6 @@ fn test262_lexer_error_0002() {
         vec![
             Token::Str {
                 value: "use strict".into(),
-                raw: "'use\\x20strict'".into(),
             }
             .span(0..15)
             .lb(),
@@ -339,10 +330,7 @@ fn tpl_invalid_unicode_escape() {
 fn str_escape() {
     assert_eq!(
         lex_tokens(Syntax::default(), r"'\n'"),
-        vec![Token::Str {
-            value: "\n".into(),
-            raw: "'\\n'".into(),
-        }]
+        vec![Token::Str { value: "\n".into() }]
     );
 }
 
@@ -352,7 +340,6 @@ fn str_escape_2() {
         lex_tokens(Syntax::default(), r"'\\n'"),
         vec![Token::Str {
             value: "\\n".into(),
-            raw: "'\\\\n'".into(),
         }]
     );
 }
@@ -363,7 +350,6 @@ fn str_escape_3() {
         lex_tokens(Syntax::default(), r"'\x00'"),
         vec![Token::Str {
             value: "\x00".into(),
-            raw: "'\\x00'".into(),
         }]
     );
 }
@@ -372,12 +358,7 @@ fn str_escape_3() {
 fn str_escape_hex() {
     assert_eq!(
         lex(Syntax::default(), r"'\x61'"),
-        vec![Token::Str {
-            value: "a".into(),
-            raw: "'\\x61'".into(),
-        }
-        .span(0..6)
-        .lb(),]
+        vec![Token::Str { value: "a".into() }.span(0..6).lb(),]
     );
 }
 
@@ -387,7 +368,6 @@ fn str_escape_octal() {
         lex(Syntax::default(), r"'Hello\012World'"),
         vec![Token::Str {
             value: "Hello\nWorld".into(),
-            raw: "'Hello\\012World'".into(),
         }
         .span(0..16)
         .lb(),]
@@ -398,12 +378,7 @@ fn str_escape_octal() {
 fn str_escape_unicode_long() {
     assert_eq!(
         lex(Syntax::default(), r"'\u{00000000034}'"),
-        vec![Token::Str {
-            value: "4".into(),
-            raw: "'\\u{00000000034}'".into(),
-        }
-        .span(0..17)
-        .lb(),]
+        vec![Token::Str { value: "4".into() }.span(0..17).lb(),]
     );
 }
 
@@ -524,10 +499,7 @@ fn complex_regex() {
             LBrace,
             RBrace,
             BinOp(Div),
-            Num {
-                value: 42.0,
-                raw: Atom::new("42")
-            },
+            Num { value: 42.0 },
             BinOp(Div),
             Word(Word::Ident("i".into())),
         ]
@@ -736,10 +708,7 @@ fn migrated_0006() {
             RBrace.span(1),
             BinOp(Div).span(3),
             TokenAndSpan {
-                token: Num {
-                    value: 42.0,
-                    raw: "42".into(),
-                },
+                token: Num { value: 42.0 },
                 had_line_break: false,
                 span: Span {
                     lo: BytePos(5),
@@ -757,133 +726,94 @@ fn str_lit() {
         lex_tokens(Syntax::default(), "'abcde'"),
         vec![Token::Str {
             value: "abcde".into(),
-            raw: "'abcde'".into(),
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "\"abcde\""),
         vec![Token::Str {
             value: "abcde".into(),
-            raw: "\"abcde\"".into(),
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'русский'"),
         vec![Token::Str {
             value: "русский".into(),
-            raw: "'русский'".into(),
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\x32'"),
-        vec![Token::Str {
-            value: "2".into(),
-            raw: "'\\x32'".into(),
-        }],
+        vec![Token::Str { value: "2".into() }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\u1111'"),
         vec![Token::Str {
-            value: "ᄑ".into(),
-            raw: "'\\u1111'".into(),
+            value: "ᄑ".into()
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\u{1111}'"),
         vec![Token::Str {
-            value: "ᄑ".into(),
-            raw: "'\\u{1111}'".into(),
+            value: "ᄑ".into()
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\t'"),
-        vec![Token::Str {
-            value: "\t".into(),
-            raw: "'\t'".into(),
-        }],
+        vec![Token::Str { value: "\t".into() }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\n'"),
-        vec![Token::Str {
-            value: "\n".into(),
-            raw: "'\\n'".into(),
-        }],
+        vec![Token::Str { value: "\n".into() }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\\nabc'"),
         vec![Token::Str {
             value: "abc".into(),
-            raw: "'\\\nabc'".into(),
         }]
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "''"),
-        vec![Token::Str {
-            value: "".into(),
-            raw: "''".into(),
-        }],
+        vec![Token::Str { value: "".into() }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\''"),
-        vec![Token::Str {
-            value: "'".into(),
-            raw: "'\\''".into(),
-        }],
+        vec![Token::Str { value: "'".into() }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "\"\""),
-        vec![Token::Str {
-            value: "".into(),
-            raw: "\"\"".into(),
-        }],
+        vec![Token::Str { value: "".into() }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "\"\\\"\""),
-        vec![Token::Str {
-            value: "\"".into(),
-            raw: "\"\\\"\"".into(),
-        }],
+        vec![Token::Str { value: "\"".into() }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\0'"),
         vec![Token::Str {
             value: "\u{0000}".into(),
-            raw: "'\\0'".into(),
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\n'"),
-        vec![Token::Str {
-            value: "\n".into(),
-            raw: "'\\n'".into(),
-        }],
+        vec![Token::Str { value: "\n".into() }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\r'"),
-        vec![Token::Str {
-            value: "\r".into(),
-            raw: "'\\r'".into(),
-        }],
+        vec![Token::Str { value: "\r".into() }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\012'"),
-        vec![Token::Str {
-            value: "\n".into(),
-            raw: "'\\012'".into(),
-        }],
+        vec![Token::Str { value: "\n".into() }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\07'"),
         vec![Token::Str {
             value: "\u{0007}".into(),
-            raw: "'\\07'".into(),
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\08'"),
         vec![Token::Str {
             value: "\u{0000}8".into(),
-            raw: "'\\08'".into(),
         }],
     );
 }
@@ -1013,7 +943,6 @@ fn jsx_02() {
             Token::JSXName { name: "a".into() },
             Token::JSXTagEnd,
             Token::JSXText {
-                raw: "foo".into(),
                 value: "foo".into()
             },
             Token::JSXTagStart,
@@ -1136,10 +1065,7 @@ fn issue_5722() {
             tok!('{'),
             Word(Word::Keyword(Keyword::Class)),
             tok!(':'),
-            Num {
-                value: 0.into(),
-                raw: "0".into()
-            },
+            Num { value: 0.into() },
             tok!('}'),
             tok!('}'),
             Template {
@@ -1196,11 +1122,9 @@ fn issue_299_01() {
             tok!('='),
             Token::Str {
                 value: "\\ ".into(),
-                raw: "'\\ '".into(),
             },
             Token::JSXTagEnd,
             JSXText {
-                raw: "ABC".into(),
                 value: "ABC".into()
             },
             JSXTagStart,
@@ -1233,11 +1157,9 @@ fn issue_299_02() {
             tok!('='),
             Token::Str {
                 value: "\\\\".into(),
-                raw: "'\\\\'".into(),
             },
             Token::JSXTagEnd,
             JSXText {
-                raw: "ABC".into(),
                 value: "ABC".into()
             },
             JSXTagStart,
@@ -1270,11 +1192,9 @@ fn jsx_string_1() {
             tok!('='),
             Token::Str {
                 value: "abc".into(),
-                raw: "'abc'".into(),
             },
             Token::JSXTagEnd,
             JSXText {
-                raw: "ABC".into(),
                 value: "ABC".into()
             },
             JSXTagStart,
@@ -1307,11 +1227,9 @@ fn jsx_string_2() {
             tok!('='),
             Token::Str {
                 value: "abc".into(),
-                raw: "\"abc\"".into(),
             },
             Token::JSXTagEnd,
             JSXText {
-                raw: "ABC".into(),
                 value: "ABC".into()
             },
             JSXTagStart,
@@ -1342,13 +1260,9 @@ fn jsx_string_3() {
             },
             Token::JSXName { name: "num".into() },
             tok!('='),
-            Token::Str {
-                value: "\n".into(),
-                raw: "'\n'".into(),
-            },
+            Token::Str { value: "\n".into() },
             Token::JSXTagEnd,
             JSXText {
-                raw: "ABC".into(),
                 value: "ABC".into()
             },
             JSXTagStart,
@@ -1379,13 +1293,9 @@ fn jsx_string_4() {
             },
             Token::JSXName { name: "num".into() },
             tok!('='),
-            Token::Str {
-                value: "³".into(),
-                raw: "'&sup3;'".into(),
-            },
+            Token::Str { value: "³".into() },
             Token::JSXTagEnd,
             JSXText {
-                raw: "ABC".into(),
                 value: "ABC".into()
             },
             JSXTagStart,
@@ -1416,13 +1326,9 @@ fn jsx_string_5() {
             },
             Token::JSXName { name: "num".into() },
             tok!('='),
-            Token::Str {
-                value: "*".into(),
-                raw: "'&#42;'".into(),
-            },
+            Token::Str { value: "*".into() },
             Token::JSXTagEnd,
             JSXText {
-                raw: "ABC".into(),
                 value: "ABC".into()
             },
             JSXTagStart,
@@ -1453,13 +1359,9 @@ fn jsx_string_6() {
             },
             Token::JSXName { name: "num".into() },
             tok!('='),
-            Token::Str {
-                value: "#".into(),
-                raw: "'&#x23;'".into(),
-            },
+            Token::Str { value: "#".into() },
             Token::JSXTagEnd,
             JSXText {
-                raw: "ABC".into(),
                 value: "ABC".into()
             },
             JSXTagStart,
@@ -1490,13 +1392,9 @@ fn jsx_string_7() {
             },
             Token::JSXName { name: "num".into() },
             tok!('='),
-            Token::Str {
-                value: "&".into(),
-                raw: "'&'".into(),
-            },
+            Token::Str { value: "&".into() },
             Token::JSXTagEnd,
             JSXText {
-                raw: "ABC".into(),
                 value: "ABC".into()
             },
             JSXTagStart,
@@ -1527,13 +1425,9 @@ fn jsx_string_8() {
             },
             Token::JSXName { name: "num".into() },
             tok!('='),
-            Token::Str {
-                value: "&;".into(),
-                raw: "'&;'".into(),
-            },
+            Token::Str { value: "&;".into() },
             Token::JSXTagEnd,
             JSXText {
-                raw: "ABC".into(),
                 value: "ABC".into()
             },
             JSXTagStart,
@@ -1590,7 +1484,6 @@ fn issue_316() {
         lex_tokens(Default::default(), "'Hi\\r\\n..'"),
         vec![Token::Str {
             value: "Hi\r\n..".into(),
-            raw: "'Hi\\r\\n..'".into(),
         }]
     );
 }
@@ -1599,14 +1492,7 @@ fn issue_316() {
 fn issue_401() {
     assert_eq!(
         lex_tokens(Default::default(), "'17' as const"),
-        vec![
-            Token::Str {
-                value: "17".into(),
-                raw: "'17'".into(),
-            },
-            tok!("as"),
-            tok!("const")
-        ],
+        vec![Token::Str { value: "17".into() }, tok!("as"), tok!("const")],
     );
 }
 
@@ -1626,10 +1512,7 @@ fn issue_481() {
                 name: "span".into()
             },
             Token::JSXTagEnd,
-            JSXText {
-                raw: " ".into(),
-                value: " ".into()
-            },
+            JSXText { value: " ".into() },
             LBrace,
             Word(Word::Ident("foo".into())),
             RBrace,
@@ -1652,7 +1535,6 @@ fn issue_915_1() {
             LParen,
             Token::Str {
                 value: "\r\n".into(),
-                raw: "\"\\r\\n\"".into(),
             },
             RParen
         ]
@@ -1883,7 +1765,6 @@ fn issue_2853_1_js() {
             Token::AssignOp(AssignOp::Assign),
             Token::Str {
                 value: "\u{0000}a".into(),
-                raw: "\"\\0a\"".into(),
             }
         ],
     );
@@ -1905,7 +1786,6 @@ fn issue_2853_2_ts() {
             Token::AssignOp(AssignOp::Assign),
             Token::Str {
                 value: "\u{0000}a".into(),
-                raw: "\"\\0a\"".into(),
             }
         ],
     );
@@ -1927,7 +1807,6 @@ fn issue_2853_3_js() {
             Token::AssignOp(AssignOp::Assign),
             Token::Str {
                 value: "\u{0000}a".into(),
-                raw: "\"\u{0000}a\"".into(),
             }
         ],
     );
@@ -1949,7 +1828,6 @@ fn issue_2853_4_ts() {
             Token::AssignOp(AssignOp::Assign),
             Token::Str {
                 value: "\u{0000}a".into(),
-                raw: "\"\u{0000}a\"".into(),
             }
         ],
     );
@@ -1974,7 +1852,6 @@ fn issue_2853_5_jsx() {
             Token::AssignOp(AssignOp::Assign),
             Token::Str {
                 value: "\u{0000}a".into(),
-                raw: "\"\\0a\"".into(),
             }
         ]
     );
@@ -1999,7 +1876,6 @@ fn issue_2853_6_tsx() {
             Token::AssignOp(AssignOp::Assign),
             Token::Str {
                 value: "\u{0000}a".into(),
-                raw: "\"\\0a\"".into(),
             }
         ]
     );
@@ -2024,7 +1900,6 @@ fn issue_2853_7_jsx() {
             Token::AssignOp(AssignOp::Assign),
             Token::Str {
                 value: "\u{0000}a".into(),
-                raw: "\"\u{0000}a\"".into(),
             }
         ]
     );

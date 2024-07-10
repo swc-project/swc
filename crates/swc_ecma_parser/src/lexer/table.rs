@@ -287,8 +287,8 @@ const DIG: ByteHandler = Some(|lexer| {
     lexer
         .read_number(false)
         .map(|v| match v {
-            Either::Left((value, raw)) => Token::Num { value, raw },
-            Either::Right((value, raw)) => Token::BigInt { value, raw },
+            Either::Left(value) => Token::Num { value },
+            Either::Right(value) => Token::BigInt { value },
         })
         .map(Some)
 });

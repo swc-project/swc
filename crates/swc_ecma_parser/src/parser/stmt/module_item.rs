@@ -46,7 +46,7 @@ impl<I: Tokens> Parser<I> {
         let str_start = cur_pos!(self);
         if let Ok(&Token::Str { .. }) = cur!(self, false) {
             let src = match bump!(self) {
-                Token::Str { value, raw, .. } => Box::new(Str {
+                Token::Str { value, .. } => Box::new(Str {
                     span: span!(self, str_start),
                     value,
                     raw: Some(raw),
@@ -166,7 +166,7 @@ impl<I: Tokens> Parser<I> {
 
             match *cur!(self, true) {
                 Token::Str { .. } => match bump!(self) {
-                    Token::Str { value, raw, .. } => Box::new(Str {
+                    Token::Str { value, .. } => Box::new(Str {
                         span: span!(self, str_start),
                         value,
                         raw: Some(raw),
@@ -834,7 +834,7 @@ impl<I: Tokens> Parser<I> {
         let str_start = cur_pos!(self);
         let src = match *cur!(self, true) {
             Token::Str { .. } => match bump!(self) {
-                Token::Str { value, raw, .. } => Box::new(Str {
+                Token::Str { value, .. } => Box::new(Str {
                     span: span!(self, str_start),
                     value,
                     raw: Some(raw),

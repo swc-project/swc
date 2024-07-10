@@ -216,8 +216,6 @@ impl<'a> Lexer<'a> {
         );
         debug_assert_eq!(self.cur(), Some('0'));
 
-        let start = self.cur_pos();
-
         self.bump();
 
         match self.input.cur() {
@@ -503,7 +501,15 @@ mod tests {
 
     fn num(s: &'static str) -> (f64, Atom) {
         lex(s, |l| {
-            l.read_number(s.starts_with('.')).unwrap().left().unwrap()
+            let v = l.read_number(s.starts_with('.')).unwrap().left().unwrap();
+
+            let slice = unsafe {
+                let end = l.cur_pos();
+
+                l.input.slice(l.state.start, end)
+            };
+
+            (v, Atom::from(slice))
         })
     }
 
@@ -634,7 +640,7 @@ mod tests {
     #[test]
     fn read_radix_number() {
         assert_eq!(
-            (0o73 as f64, "0o73".into()),
+            0o73 as f64,
             lex("0o73", |l| l
                 .read_radix_number::<8>()
                 .unwrap()
@@ -658,13 +664,10 @@ mod tests {
                 "10000000000000000000000000000000000000000000000000000n",
                 |l| l.read_number(false).unwrap().right().unwrap()
             ),
-            (
-                Box::new(
-                    "10000000000000000000000000000000000000000000000000000"
-                        .parse::<BigIntValue>()
-                        .unwrap()
-                ),
-                Atom::from("10000000000000000000000000000000000000000000000000000n")
+            Box::new(
+                "10000000000000000000000000000000000000000000000000000"
+                    .parse::<BigIntValue>()
+                    .unwrap()
             ),
         );
     }
@@ -696,7 +699,7 @@ mod tests {
                 .unwrap()
                 .left()
                 .unwrap()),
-            (9.671_406_556_917_009e24, LONG.into())
+            9.671_406_556_917_009e24,
         );
         assert_eq!(
             lex(VERY_LARGE_BINARY_NUMBER, |l| l
@@ -704,7 +707,7 @@ mod tests {
                 .unwrap()
                 .left()
                 .unwrap()),
-            (1.0972248137587377e304, VERY_LARGE_BINARY_NUMBER.into())
+            1.0972248137587377e304
         );
     }
 
@@ -764,13 +767,7 @@ mod tests {
 
                 assert_eq!(expected, value);
             } else if let Ok(vec) = vec {
-                assert_ne!(
-                    vec![Token::Num {
-                        value: expected,
-                        raw: expected.to_string().into()
-                    }],
-                    vec
-                )
+                assert_ne!(vec![Token::Num { value: expected }], vec)
             }
         }
     }
