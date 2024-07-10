@@ -585,7 +585,7 @@ impl Pure<'_> {
     }
 }
 
-fn contains_label<N>(node: &N, label: &IdentName) -> bool
+fn contains_label<N>(node: &N, label: &Ident) -> bool
 where
     for<'aa> N: VisitWith<LabelFinder<'aa>>,
 {
@@ -598,7 +598,7 @@ where
 }
 
 struct LabelFinder<'a> {
-    label: &'a IdentName,
+    label: &'a Ident,
     found: bool,
 }
 impl Visit for LabelFinder<'_> {

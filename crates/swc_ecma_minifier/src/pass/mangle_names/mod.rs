@@ -65,7 +65,7 @@ struct LabelMangler {
 }
 
 impl LabelMangler {
-    fn mangle(&mut self, label: &mut IdentName) {
+    fn mangle(&mut self, label: &mut Ident) {
         let v = self
             .cache
             .entry(label.sym.clone())

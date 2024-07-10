@@ -47,7 +47,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_label_ident(&mut self) -> PResult<Ident> {
         let ctx = self.ctx();
 
-        Ok(self.parse_ident(!ctx.in_generator, !ctx.in_async)?.into())
+        self.parse_ident(!ctx.in_generator, !ctx.in_async)
     }
 
     /// Use this when spec says "IdentifierName".

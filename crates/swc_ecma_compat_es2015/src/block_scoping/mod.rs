@@ -653,8 +653,8 @@ struct FlowHelper<'a> {
 }
 
 enum Label {
-    Break(IdentName),
-    Continue(IdentName),
+    Break(Ident),
+    Continue(Ident),
 }
 
 impl<'a> FlowHelper<'a> {
@@ -667,7 +667,7 @@ impl<'a> FlowHelper<'a> {
         }
     }
 
-    fn has_outer_label(&self, label: &Option<IdentName>) -> bool {
+    fn has_outer_label(&self, label: &Option<Ident>) -> bool {
         match label {
             Some(l) => !self.inner_label.contains(&l.sym),
             None => false,
