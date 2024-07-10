@@ -9,9 +9,9 @@ name          = "swc_ecma_minifier"
 repository    = "https://github.com/swc-project/swc.git"
 version       = "0.197.3"
 
-[package.metadata.docs.rs]
-all-features = true
-rustdoc-args = ["--cfg", "docsrs"]
+  [package.metadata.docs.rs]
+  all-features = true
+  rustdoc-args = ["--cfg", "docsrs"]
 
 [lib]
 bench = false
@@ -40,6 +40,7 @@ num-bigint        = { workspace = true }
 num_cpus          = { workspace = true }
 once_cell         = { workspace = true }
 parking_lot       = { workspace = true }
+phf               = { workspace = true }
 pretty_assertions = { workspace = true, optional = true }
 radix_fmt         = "=1.0.0"
 rayon             = { workspace = true, optional = true }
@@ -49,7 +50,6 @@ ryu-js            = { workspace = true }
 serde             = { workspace = true, features = ["derive"] }
 serde_json        = { workspace = true }
 tracing           = { workspace = true }
-phf               = { workspace = true }
 
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
 swc_common = { version = "0.34.0", path = "../swc_common" }
@@ -75,9 +75,10 @@ criterion         = { workspace = true }
 pretty_assertions = { workspace = true }
 walkdir           = { workspace = true }
 
-swc_ecma_testing = { version = "0.23.0", path = "../swc_ecma_testing" }
-swc_malloc       = { version = "0.5.10", path = "../swc_malloc" }
-testing          = { version = "0.36.0", path = "../testing" }
+codspeed-criterion-compat = { workspace = true }
+swc_ecma_testing          = { version = "0.23.0", path = "../swc_ecma_testing" }
+swc_malloc                = { version = "0.5.10", path = "../swc_malloc" }
+testing                   = { version = "0.36.0", path = "../testing" }
 
 [[bench]]
 harness = false

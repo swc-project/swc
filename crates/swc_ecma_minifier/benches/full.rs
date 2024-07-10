@@ -4,7 +4,7 @@ extern crate swc_malloc;
 
 use std::fs::read_to_string;
 
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Criterion};
 use swc_common::{errors::HANDLER, sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
@@ -16,13 +16,13 @@ use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_visit::FoldWith;
 
 pub fn bench_files(c: &mut Criterion) {
-    let mut group = c.benchmark_group("es/minify/libraries");
+    let mut group = c.benchmark_group("es/minifier/libs");
     group.sample_size(10);
 
     let mut bench_file = |name: &str| {
         let src = read_to_string(format!("benches/full/{}.js", name)).unwrap();
 
-        group.bench_function(name, |b| {
+        group.bench_function(&format!("es/minifier/libs/{}", name), |b| {
             b.iter(|| {
                 // We benchmark full time, including time for creating cm, handler
                 run(&src)
