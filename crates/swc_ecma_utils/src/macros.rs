@@ -11,6 +11,8 @@ macro_rules! private_ident {
     }};
 }
 
+/// As we have multiple identifier types, the expected usage is
+/// `quote_ident!("foo").into()`.
 #[macro_export]
 macro_rules! quote_ident {
     ($s:expr) => {{

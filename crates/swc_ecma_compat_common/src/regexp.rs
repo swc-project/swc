@@ -1,6 +1,6 @@
 use swc_common::util::take::Take;
 use swc_ecma_ast::{CallExpr, Expr, Lit, Regex};
-use swc_ecma_utils::quote_ident;
+use swc_ecma_utils::{quote_ident, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn regexp(config: Config) -> impl Fold + VisitMut {
