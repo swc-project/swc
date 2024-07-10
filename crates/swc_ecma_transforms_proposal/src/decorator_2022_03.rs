@@ -1801,7 +1801,7 @@ impl VisitMut for Decorator2022_03 {
                     index,
                     Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
-                        expr: self.pre_class_inits.take().into(),
+                        expr: Expr::from_exprs(self.pre_class_inits.take()),
                     }),
                 );
             }
