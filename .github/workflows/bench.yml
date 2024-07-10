@@ -49,6 +49,7 @@ jobs:
     needs:
       - list-crates
     strategy:
+      fail-fast: false
       matrix:
         crate: ${{fromJson(needs.list-crates.outputs.crates)}}
     steps:
@@ -69,7 +70,7 @@ jobs:
           bins: cargo-codspeed
 
       - name: Build the benchmark target(s)
-        run: cargo codspeed build -p ${{ matrix.crate }} --release
+        run: cargo codspeed build -p ${{ matrix.crate }}
 
       - name: Run the benchmarks
         uses: CodSpeedHQ/action@v2
