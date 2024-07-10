@@ -26,7 +26,7 @@ macro_rules! quote_ident {
         let id: $crate::swc_ecma_ast::Ident =
             $crate::swc_ecma_ast::Ident::new(sym, DUMMY_SP, $ctxt);
 
-        id.into()
+        id
     }};
 
     ($ctxt:expr, $span:expr, $s:expr) => {{

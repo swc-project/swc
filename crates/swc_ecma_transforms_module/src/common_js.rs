@@ -437,7 +437,7 @@ where
                     let assign_expr = AssignExpr {
                         span,
                         op: op!("="),
-                        left: self.exports().make_member(id).into(),
+                        left: self.exports().make_member(id.into()).into(),
                         right: Box::new(require),
                     };
 

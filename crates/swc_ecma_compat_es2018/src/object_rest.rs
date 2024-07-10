@@ -950,7 +950,7 @@ fn object_without_properties(
                         span: DUMMY_SP,
                         elems: excluded_props,
                     }
-                    .make_member(Ident::new_no_ctxt("map".into(), DUMMY_SP))
+                    .make_member(quote_ident!("map").into())
                     .as_callee(),
                     args: vec![helper_expr!(to_property_key).as_arg()],
                     ..Default::default()
