@@ -4267,7 +4267,7 @@ fn handle_invalid_unicodes(s: &str) -> Cow<str> {
 
 fn require_space_before_rhs(rhs: &Expr, op: &BinaryOp) -> bool {
     match rhs {
-        Expr::Lit(box Lit::Num(v)) if v.value.is_sign_negative() && *op == op!(bin, "-") => true,
+        Expr::Lit(Lit::Num(v)) if v.value.is_sign_negative() && *op == op!(bin, "-") => true,
 
         Expr::Update(box UpdateExpr {
             prefix: true,

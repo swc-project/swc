@@ -2,6 +2,7 @@ use either::Either;
 use swc_common::Spanned;
 
 use super::*;
+use crate::EitherBoxed;
 
 #[cfg(test)]
 mod tests;
@@ -286,7 +287,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_jsx_element_at(
         &mut self,
         start_pos: BytePos,
-    ) -> PResult<Either<JSXFragment, JSXElement>> {
+    ) -> PResult<EitherBoxed<JSXFragment, JSXElement>> {
         debug_assert!(self.input.syntax().jsx());
 
         let _ = cur!(self, true);
@@ -411,7 +412,7 @@ impl<I: Tokens> Parser<I> {
     /// Parses entire JSX element from current position.
     ///
     /// babel: `jsxParseElement`
-    pub(super) fn parse_jsx_element(&mut self) -> PResult<Either<JSXFragment, JSXElement>> {
+    pub(super) fn parse_jsx_element(&mut self) -> PResult<EitherBoxed<JSXFragment, JSXElement>> {
         trace_cur!(self, parse_jsx_element);
 
         debug_assert!(self.input.syntax().jsx());
