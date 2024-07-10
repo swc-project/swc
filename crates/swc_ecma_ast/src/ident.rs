@@ -442,6 +442,10 @@ impl From<BindingIdent> for IdentName {
         }
     }
 }
+bridge_from!(BindingIdent, Ident, Atom);
+bridge_from!(BindingIdent, Atom, &'_ str);
+bridge_from!(BindingIdent, Atom, Cow<'_, str>);
+bridge_from!(BindingIdent, Atom, String);
 
 impl From<IdentName> for BindingIdent {
     fn from(i: IdentName) -> Self {

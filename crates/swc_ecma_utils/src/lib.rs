@@ -2167,7 +2167,7 @@ pub fn default_constructor(has_super: bool) -> Constructor {
                 pat: Pat::Rest(RestPat {
                     span: DUMMY_SP,
                     dot3_token: DUMMY_SP,
-                    arg: Box::new(Pat::Ident(quote_ident!("args").into())),
+                    arg: Box::new(Pat::Ident(quote_ident!("args"))),
                     type_ann: Default::default(),
                 }),
             })]
