@@ -575,7 +575,7 @@ impl AssignFolder {
             .into(),
         )];
 
-        let mut assign_cond_expr = AssignExpr {
+        let mut assign_cond_expr: Expr = AssignExpr {
             span,
             left: pat.left.take().try_into().unwrap(),
             op: op!("="),
@@ -699,7 +699,7 @@ impl VisitMut for AssignFolder {
                                                 debug_assert_eq!(e.spread, None);
                                                 e.expr
                                             })
-                                            .unwrap_or_else(|| p.span().into());
+                                            .unwrap_or_else(|| Expr::undefined(p.span()));
 
                                         let p = p.take();
                                         let mut expr = if let Pat::Assign(pat) = p {
@@ -830,7 +830,7 @@ impl VisitMut for AssignFolder {
                                     .into(),
                                 );
 
-                                let mut assign_expr = AssignExpr {
+                                let mut assign_expr: Expr = AssignExpr {
                                     span: *span,
                                     left: left.take().try_into().unwrap(),
                                     op: op!("="),
@@ -1055,7 +1055,7 @@ impl VisitMut for AssignFolder {
         if var_decl.kind == VarDeclKind::Const {
             var_decl.decls.iter_mut().for_each(|v| {
                 if v.init.is_none() {
-                    v.init = Some(DUMMY_SP.into());
+                    v.init = Some(Expr::undefined(DUMMY_SP));
                 }
             })
         }

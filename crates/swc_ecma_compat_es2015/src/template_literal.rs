@@ -314,7 +314,7 @@ impl VisitMut for TemplateLiteral {
                         // _templateObject2 = function () {
                         //     return data;
                         // };
-                        let assign_expr = {
+                        let assign_expr: Expr = {
                             AssignExpr {
                                 span: DUMMY_SP,
                                 left: fn_ident.clone().into(),

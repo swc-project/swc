@@ -1214,11 +1214,11 @@ impl Generator {
         {
             self.emit_stmt(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
-                expr: expressions.take().into(),
+                expr: Expr::from_exprs(expressions.take()),
             }));
         }
 
-        let mut expression = match property {
+        let mut expression: Expr = match property {
             CompiledProp::Prop(p) => match p {
                 Prop::Shorthand(p) => AssignExpr {
                     span: p.span,
@@ -3507,7 +3507,11 @@ impl Generator {
         match &mut *callee {
             Expr::Ident(..) => (
                 callee.clone(),
-                if is_new_call { callee } else { DUMMY_SP.into() },
+                if is_new_call {
+                    callee
+                } else {
+                    Expr::undefined(DUMMY_SP)
+                },
             ),
 
             Expr::Member(MemberExpr { obj, .. }) if !is_new_call => {

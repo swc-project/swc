@@ -446,22 +446,20 @@ impl ForOf {
                     span: DUMMY_SP,
                     op: op!("!"),
                     arg: {
-                        let step_expr = Box::new(
-                            AssignExpr {
+                        let step_expr: Expr = AssignExpr {
+                            span: DUMMY_SP,
+                            left: step.into(),
+                            op: op!("="),
+                            // `_iterator.next()`
+                            right: Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
-                                left: step.into(),
-                                op: op!("="),
-                                // `_iterator.next()`
-                                right: Box::new(Expr::Call(CallExpr {
-                                    span: DUMMY_SP,
-                                    // `_iterator.next`
-                                    callee: iterator.make_member(quote_ident!("next")).as_callee(),
-                                    args: vec![],
-                                    ..Default::default()
-                                })),
-                            }
-                            .into(),
-                        );
+                                // `_iterator.next`
+                                callee: iterator.make_member(quote_ident!("next")).as_callee(),
+                                args: vec![],
+                                ..Default::default()
+                            })),
+                        }
+                        .into();
 
                         Box::new(
                             AssignExpr {

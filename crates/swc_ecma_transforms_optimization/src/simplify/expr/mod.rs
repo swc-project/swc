@@ -1418,7 +1418,7 @@ impl VisitMut for SimplifyExpr {
                             e.extend(expr.array().unwrap().elems.into_iter().map(|elem| {
                                 Some(elem.unwrap_or_else(|| ExprOrSpread {
                                     spread: None,
-                                    expr: DUMMY_SP.into(),
+                                    expr: Expr::undefined(DUMMY_SP),
                                 }))
                             }));
                         }

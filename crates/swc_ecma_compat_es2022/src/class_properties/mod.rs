@@ -743,7 +743,7 @@ impl<C: Comments> ClassProperties<C> {
                         });
                     }
 
-                    let value = prop.value.unwrap_or_else(|| prop_span.into());
+                    let value = prop.value.unwrap_or_else(|| Expr::undefined(prop_span));
 
                     if prop.is_static && prop.ctxt.has_mark(self.c.static_blocks_mark) {
                         let init = MemberInit::StaticBlock(value);
