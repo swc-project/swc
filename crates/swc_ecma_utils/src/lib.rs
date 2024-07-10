@@ -1080,7 +1080,7 @@ pub trait ExprExt {
 
             Expr::Member(MemberExpr {
                 obj,
-                prop: MemberProp::Ident(Ident { sym: length, .. }),
+                prop: MemberProp::Ident(IdentName { sym: length, .. }),
                 ..
             }) if &**length == "length" => match &**obj {
                 Expr::Array(ArrayLit { .. }) | Expr::Lit(Lit::Str(..)) => Known(Type::Num),
@@ -1379,7 +1379,7 @@ pub trait ExprExt {
                                 Prop::Shorthand(Ident { sym, .. })
                                 | Prop::KeyValue(KeyValueProp {
                                     key:
-                                        PropName::Ident(Ident { sym, .. })
+                                        PropName::Ident(IdentName { sym, .. })
                                         | PropName::Str(Str { value: sym, .. }),
                                     ..
                                 }) => &**sym == "__proto__",
@@ -2107,7 +2107,7 @@ pub fn alias_if_required(expr: &Expr, default: &str) -> (Ident, bool) {
 
 pub fn prop_name_to_expr(p: PropName) -> Expr {
     match p {
-        PropName::Ident(i) => Expr::Ident(i),
+        PropName::Ident(i) => Expr::Ident(i.into()),
         PropName::Str(s) => Expr::Lit(Lit::Str(s)),
         PropName::Num(n) => Expr::Lit(Lit::Num(n)),
         PropName::BigInt(b) => Expr::Lit(Lit::BigInt(b)),
@@ -2704,7 +2704,7 @@ impl VisitMut for IdentReplacer<'_> {
                 i.visit_mut_with(self);
                 if i.sym != cloned.sym || i.ctxt != cloned.ctxt {
                     *node = Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(Ident::new_no_ctxt(cloned.sym, cloned.span)),
+                        key: PropName::Ident(IdentName::new(cloned.sym, cloned.span)),
                         value: Box::new(Expr::Ident(i.clone())),
                     });
                 }
@@ -3069,7 +3069,7 @@ impl VisitMut for IdentRenamer<'_> {
                 i.visit_mut_with(self);
                 if i.sym != cloned.sym || i.ctxt != cloned.ctxt {
                     *node = Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(Ident::new_no_ctxt(cloned.sym, cloned.span)),
+                        key: PropName::Ident(IdentName::new(cloned.sym, cloned.span)),
                         value: Box::new(Expr::Ident(i.clone())),
                     });
                 }

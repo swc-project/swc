@@ -442,7 +442,6 @@ fn super_expr() {
                 prop: SuperProp::Ident(IdentName {
                     span,
                     sym: "foo".into(),
-                    ..Default::default()
                 })
             }))),
             ..Default::default()

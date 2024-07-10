@@ -143,7 +143,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
 
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Expr {
-        let apply = self.make_member(Ident::new_no_ctxt("apply".into(), span));
+        let apply = self.make_member(IdentName::new("apply".into(), span));
 
         Expr::Call(CallExpr {
             span,
@@ -252,11 +252,11 @@ pub trait ExprFactory: Into<Box<Expr>> {
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn make_member<T>(self, prop: IdentName) -> MemberExpr {
+    fn make_member(self, prop: impl Into<IdentName>) -> MemberExpr {
         MemberExpr {
             obj: self.into(),
             span: DUMMY_SP,
-            prop: MemberProp::Ident(prop),
+            prop: MemberProp::Ident(prop.into()),
         }
     }
 
