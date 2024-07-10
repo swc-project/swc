@@ -35,6 +35,9 @@ impl Take for BlockStmt {
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Stmt {
+    #[tag("Directive")]
+    Directive(Directive),
+
     #[tag("BlockStatement")]
     Block(BlockStmt),
 
@@ -106,6 +109,14 @@ pub enum Stmt {
 
     #[tag("ExpressionStatement")]
     Expr(ExprStmt),
+}
+
+#[ast_node("Directive")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct Directive {
+    pub span: Span,
+    pub value: Str,
 }
 
 impl Stmt {
