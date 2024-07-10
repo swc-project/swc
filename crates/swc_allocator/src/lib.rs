@@ -1,3 +1,7 @@
+//! Allocator for swc.
+//!
+//! API designed after [`oxc_allocator`](https://github.com/oxc-project/oxc/tree/725571aad193ec6ba779c820baeb4a7774533ed7/crates/oxc_allocator/src).
+
 use std::ops::{Deref, DerefMut};
 
 use bumpalo::Bump;
