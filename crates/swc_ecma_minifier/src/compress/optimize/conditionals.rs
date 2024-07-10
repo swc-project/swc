@@ -144,12 +144,13 @@ impl Optimizer<'_> {
                                     if SyntaxContext::within_ignored_ctxt(|| {
                                         cur_if.cons.eq_ignore_span(&stmt.cons)
                                     }) {
-                                        cur_if.test = Box::new(Expr::Bin(BinExpr {
+                                        cur_if.test = BinExpr {
                                             span: DUMMY_SP,
                                             left: cur_if.test.take(),
                                             op: op!("||"),
                                             right: stmt.test.take(),
-                                        }));
+                                        }
+                                        .into();
                                     } else {
                                         new.extend(cur.take().map(Stmt::If).map(T::from_stmt));
 
@@ -244,12 +245,13 @@ impl Optimizer<'_> {
                 }) => {
                     report_change!("Optimizing `if (!foo); else bar();` as `foo && bar();`");
 
-                    let mut expr = Box::new(Expr::Bin(BinExpr {
+                    let mut expr = BinExpr {
                         span: DUMMY_SP,
                         left: arg.take(),
                         op: op!("&&"),
                         right: Box::new(alt.take()),
-                    }));
+                    }
+                    .into();
                     self.compress_logical_exprs_as_bang_bang(&mut expr, true);
                     *s = Stmt::Expr(ExprStmt {
                         span: stmt.span,
@@ -259,12 +261,13 @@ impl Optimizer<'_> {
                 _ => {
                     report_change!("Optimizing `if (foo); else bar();` as `foo || bar();`");
 
-                    let mut expr = Box::new(Expr::Bin(BinExpr {
+                    let mut expr = BinExpr {
                         span: DUMMY_SP,
                         left: stmt.test.take(),
                         op: op!("||"),
                         right: Box::new(alt.take()),
-                    }));
+                    }
+                    .into();
                     self.compress_logical_exprs_as_bang_bang(&mut expr, false);
                     *s = Stmt::Expr(ExprStmt {
                         span: stmt.span,
@@ -303,12 +306,13 @@ impl Optimizer<'_> {
             self.changed = true;
             *s = Stmt::Expr(ExprStmt {
                 span: stmt.span,
-                expr: Box::new(Expr::Cond(CondExpr {
+                expr: CondExpr {
                     span: DUMMY_SP,
                     test: stmt.test.take(),
                     cons: Box::new(cons.take()),
                     alt: Box::new(alt.take()),
-                })),
+                }
+                .into(),
             })
         }
     }
@@ -418,12 +422,13 @@ impl Optimizer<'_> {
                                 // Inject conditional.
                                 new_args.push(ExprOrSpread {
                                     spread: None,
-                                    expr: Box::new(Expr::Cond(CondExpr {
+                                    expr: CondExpr {
                                         span: arg.expr.span(),
                                         test: test.take(),
                                         cons: arg.expr,
                                         alt: alt.args[idx].expr.take(),
-                                    })),
+                                    }
+                                    .into(),
                                 })
                             } else {
                                 //
@@ -479,8 +484,8 @@ impl Optimizer<'_> {
                     return Some(Expr::Cond(CondExpr {
                         span: DUMMY_SP,
                         test: test.take(),
-                        cons: Box::new(Expr::Call(cons.take())),
-                        alt: Box::new(Expr::Call(alt.take())),
+                        cons: cons.take().into(),
+                        alt: alt.take().into(),
                     }));
                 }
 
@@ -556,12 +561,13 @@ impl Optimizer<'_> {
                     span: DUMMY_SP,
                     op: cons.op,
                     left: cons.left.take(),
-                    right: Box::new(Expr::Cond(CondExpr {
+                    right: CondExpr {
                         span: DUMMY_SP,
                         test: test.take(),
                         cons: cons.right.take(),
                         alt: alt.right.take(),
-                    })),
+                    }
+                    .into(),
                 }))
             }
 
@@ -570,12 +576,13 @@ impl Optimizer<'_> {
                 report_change!("conditionals: a ? b ? c() : d() : d() => a && b ? c() : d()");
                 Some(Expr::Cond(CondExpr {
                     span: DUMMY_SP,
-                    test: Box::new(Expr::Bin(BinExpr {
+                    test: BinExpr {
                         span: DUMMY_SP,
                         left: test.take(),
                         op: op!("&&"),
                         right: cons.test.take(),
-                    })),
+                    }
+                    .into(),
                     cons: cons.cons.take(),
                     alt: cons.alt.take(),
                 }))
@@ -589,12 +596,13 @@ impl Optimizer<'_> {
                 report_change!("conditionals: Reducing seq expr in alt");
                 //
                 alt.exprs.pop();
-                let first = Box::new(Expr::Bin(BinExpr {
+                let first = BinExpr {
                     span: DUMMY_SP,
                     left: test.take(),
                     op: op!("||"),
                     right: Expr::from_exprs(alt.exprs.take()),
-                }));
+                }
+                .into();
                 Some(Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
                     exprs: vec![first, Box::new(cons.take())],
@@ -609,12 +617,13 @@ impl Optimizer<'_> {
                 report_change!("conditionals: Reducing seq expr in cons");
                 //
                 cons.exprs.pop();
-                let first = Box::new(Expr::Bin(BinExpr {
+                let first = BinExpr {
                     span: DUMMY_SP,
                     left: test.take(),
                     op: op!("&&"),
                     right: Expr::from_exprs(cons.exprs.take()),
-                }));
+                }
+                .into();
                 Some(Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
                     exprs: vec![first, Box::new(alt.take())],

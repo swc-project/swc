@@ -423,7 +423,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
     fn proto_arg(&mut self) -> Box<Expr> {
         let expr = if self.is_static {
             // Foo
-            Box::new(Expr::Ident(self.class_name.clone()))
+            self.class_name.clone().into()
         } else {
             // Foo.prototype
             self.class_name

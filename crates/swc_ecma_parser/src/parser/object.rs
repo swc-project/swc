@@ -134,7 +134,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         if let Some(trailing_comma) = trailing_comma {
             self.state.trailing_commas.insert(span.lo, trailing_comma);
         }
-        Ok(Box::new(Expr::Object(ObjectLit { span, props })))
+        Ok(ObjectLit { span, props }.into())
     }
 
     /// spec: 'PropertyDefinition'
@@ -192,9 +192,10 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
             self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
             return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key,
-                value: Box::new(Expr::Invalid(Invalid {
+                value: Invalid {
                     span: span!(self, start),
-                })),
+                }
+                .into(),
             }))));
         }
         //

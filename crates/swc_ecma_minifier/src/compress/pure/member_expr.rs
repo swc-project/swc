@@ -431,7 +431,7 @@ impl Pure<'_> {
                             // [x(), y()].push
                             Expr::Member(MemberExpr {
                                 span: *span,
-                                obj: Box::new(Expr::Array(ArrayLit {
+                                obj: ArrayLit {
                                     span: *span,
                                     elems: exprs
                                         .into_iter()
@@ -440,7 +440,7 @@ impl Pure<'_> {
                                             expr: elem,
                                         }))
                                         .collect()
-                                })),
+                                }.into(),
                                 prop: prop.clone(),
                             })
                         } else {
@@ -529,10 +529,11 @@ impl Pure<'_> {
                         // (foo(), bar(), {}.hasOwnProperty)
                         Expr::Member(MemberExpr {
                             span: *span,
-                            obj: Box::new(Expr::Object(ObjectLit {
+                            obj: ObjectLit {
                                 span: *span,
                                 props: vec![],
-                            })),
+                            }
+                            .into(),
                             prop: MemberProp::Ident(IdentName::new(key, *span)),
                         })
                     } else {

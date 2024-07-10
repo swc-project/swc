@@ -100,18 +100,24 @@ impl ForOf {
 
             let i = private_ident!("_i");
 
-            let test = Some(Box::new(Expr::Bin(BinExpr {
-                span: DUMMY_SP,
-                left: Box::new(Expr::Ident(i.clone())),
-                op: op!("<"),
-                right: arr.clone().make_member(quote_ident!("length")).into(),
-            })));
-            let update = Some(Box::new(Expr::Update(UpdateExpr {
-                span: DUMMY_SP,
-                prefix: false,
-                op: op!("++"),
-                arg: Box::new(Expr::Ident(i.clone())),
-            })));
+            let test = Some(
+                BinExpr {
+                    span: DUMMY_SP,
+                    left: Box::new(Expr::Ident(i.clone())),
+                    op: op!("<"),
+                    right: arr.clone().make_member(quote_ident!("length")).into(),
+                }
+                .into(),
+            );
+            let update = Some(
+                UpdateExpr {
+                    span: DUMMY_SP,
+                    prefix: false,
+                    op: op!("++"),
+                    arg: Box::new(Expr::Ident(i.clone())),
+                }
+                .into(),
+            );
 
             let mut decls = Vec::with_capacity(2);
             decls.push(VarDeclarator {
@@ -281,7 +287,7 @@ impl ForOf {
             }
 
             // !(_step = _iterator()).done;
-            let test = Box::new(Expr::Unary(UnaryExpr {
+            let test = UnaryExpr {
                 span: DUMMY_SP,
                 op: op!("!"),
                 arg: AssignExpr {
@@ -298,7 +304,8 @@ impl ForOf {
                 }
                 .make_member(quote_ident!("done"))
                 .into(),
-            }));
+            }
+            .into();
 
             let stmt = Stmt::For(ForStmt {
                 span,
@@ -393,10 +400,7 @@ impl ForOf {
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: error_ident.clone().into(),
-            init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
-                "undefined".into(),
-                DUMMY_SP,
-            )))),
+            init: Some(Ident::new_no_ctxt("undefined".into(), DUMMY_SP).into()),
             definite: false,
         });
 
@@ -437,40 +441,46 @@ impl ForOf {
                 .into(),
             ),
             // !(_iteratorNormalCompletion = (_step = _iterator.next()).done)
-            test: Some(Box::new(Expr::Unary(UnaryExpr {
-                span: DUMMY_SP,
-                op: op!("!"),
-                arg: {
-                    let step_expr = Box::new(Expr::Assign(AssignExpr {
-                        span: DUMMY_SP,
-                        left: step.into(),
-                        op: op!("="),
-                        // `_iterator.next()`
-                        right: Box::new(Expr::Call(CallExpr {
+            test: Some(
+                UnaryExpr {
+                    span: DUMMY_SP,
+                    op: op!("!"),
+                    arg: {
+                        let step_expr = Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
-                            // `_iterator.next`
-                            callee: iterator.make_member(quote_ident!("next")).as_callee(),
-                            args: vec![],
-                            ..Default::default()
-                        })),
-                    }));
+                            left: step.into(),
+                            op: op!("="),
+                            // `_iterator.next()`
+                            right: Box::new(Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                // `_iterator.next`
+                                callee: iterator.make_member(quote_ident!("next")).as_callee(),
+                                args: vec![],
+                                ..Default::default()
+                            })),
+                        }));
 
-                    Box::new(Expr::Assign(AssignExpr {
-                        span: DUMMY_SP,
-                        left: normal_completion_ident.clone().into(),
-                        op: op!("="),
-                        right: step_expr.make_member(quote_ident!("done")).into(),
-                    }))
-                },
-            }))),
+                        Box::new(Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            left: normal_completion_ident.clone().into(),
+                            op: op!("="),
+                            right: step_expr.make_member(quote_ident!("done")).into(),
+                        }))
+                    },
+                }
+                .into(),
+            ),
 
             // `_iteratorNormalCompletion = true`
-            update: Some(Box::new(Expr::Assign(AssignExpr {
-                span: DUMMY_SP,
-                left: normal_completion_ident.clone().into(),
-                op: op!("="),
-                right: true.into(),
-            }))),
+            update: Some(
+                AssignExpr {
+                    span: DUMMY_SP,
+                    left: normal_completion_ident.clone().into(),
+                    op: op!("="),
+                    right: true.into(),
+                }
+                .into(),
+            ),
             body: Box::new(Stmt::Block(body)),
         }
         .into();

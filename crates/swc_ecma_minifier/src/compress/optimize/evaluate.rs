@@ -116,16 +116,18 @@ impl Optimizer<'_> {
                 *e = Expr::Bin(BinExpr {
                     span: *span,
                     op: op!("/"),
-                    left: Box::new(Expr::Lit(Lit::Num(Number {
+                    left: Lit::Num(Number {
                         span: DUMMY_SP,
                         value: 1.0,
                         raw: None,
-                    }))),
-                    right: Box::new(Expr::Lit(Lit::Num(Number {
+                    })
+                    .into(),
+                    right: Lit::Num(Number {
                         span: DUMMY_SP,
                         value: 0.0,
                         raw: None,
-                    }))),
+                    })
+                    .into(),
                 });
             }
 
@@ -272,28 +274,30 @@ impl Optimizer<'_> {
                                     Prop::Shorthand(p) => {
                                         keys.push(Some(ExprOrSpread {
                                             spread: None,
-                                            expr: Box::new(Expr::Lit(Lit::Str(Str {
+                                            expr: Lit::Str(Str {
                                                 span: p.span,
                                                 raw: None,
                                                 value: p.sym.clone(),
-                                            }))),
+                                            })
+                                            .into(),
                                         }));
                                     }
                                     Prop::KeyValue(p) => match &p.key {
                                         PropName::Ident(key) => {
                                             keys.push(Some(ExprOrSpread {
                                                 spread: None,
-                                                expr: Box::new(Expr::Lit(Lit::Str(Str {
+                                                expr: Lit::Str(Str {
                                                     span: key.span,
                                                     raw: None,
                                                     value: key.sym.clone(),
-                                                }))),
+                                                })
+                                                .into(),
                                             }));
                                         }
                                         PropName::Str(key) => {
                                             keys.push(Some(ExprOrSpread {
                                                 spread: None,
-                                                expr: Box::new(Expr::Lit(Lit::Str(key.clone()))),
+                                                expr: Lit::Str(key.clone()).into(),
                                             }));
                                         }
                                         _ => return,
@@ -418,10 +422,7 @@ impl Optimizer<'_> {
                                 Expr::Unary(UnaryExpr {
                                     span: bin.span,
                                     op: op!(unary, "-"),
-                                    arg: Box::new(Expr::Ident(Ident::new_no_ctxt(
-                                        "Infinity".into(),
-                                        bin.span,
-                                    ))),
+                                    arg: Ident::new_no_ctxt("Infinity".into(), bin.span).into(),
                                 })
                             };
                         }

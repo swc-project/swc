@@ -763,7 +763,7 @@ impl Transform {
 
                             PropName::Computed(ComputedPropName {
                                 span: *span,
-                                expr: Box::new(Expr::Ident(ident)),
+                                expr: ident.into(),
                             })
                         }
                         _ => key.clone(),

@@ -42,11 +42,12 @@ impl Fold for MemberExprLit {
                 return MemberExpr {
                     prop: MemberProp::Computed(ComputedPropName {
                         span: i.span,
-                        expr: Box::new(Expr::Lit(Lit::Str(Str {
+                        expr: Lit::Str(Str {
                             span: i.span,
                             raw: None,
                             value: i.sym,
-                        }))),
+                        })
+                        .into(),
                     }),
                     ..e
                 };

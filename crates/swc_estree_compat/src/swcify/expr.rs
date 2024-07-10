@@ -138,7 +138,7 @@ impl Swcify for BinaryExprLeft {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            BinaryExprLeft::Private(e) => Box::new(Expr::PrivateName(e.swcify(ctx))),
+            BinaryExprLeft::Private(e) => e.swcify(ctx).into(),
             BinaryExprLeft::Expr(e) => e.swcify(ctx),
         }
     }
@@ -266,7 +266,7 @@ impl Swcify for Arg {
             },
             Arg::JSXName(e) => ExprOrSpread {
                 spread: None,
-                expr: Box::new(Expr::JSXNamespacedName(e.swcify(ctx))),
+                expr: e.swcify(ctx).into(),
             },
             Arg::Placeholder(_) => return None,
             Arg::Expr(e) => ExprOrSpread {
@@ -511,7 +511,7 @@ impl Swcify for ObjectProperty {
             key: self.key.swcify(ctx),
             value: match self.value {
                 ObjectPropVal::Pattern(pat) => match pat {
-                    PatternLike::Id(i) => Box::new(Expr::Ident(i.swcify(ctx).into())),
+                    PatternLike::Id(i) => i.swcify(ctx).into().into(),
                     _ => {
                         panic!("swc does not support ObjectPropVal::Pattern({:?})", pat)
                     }
@@ -792,7 +792,7 @@ impl Swcify for OptionalMemberExprProp {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            OptionalMemberExprProp::Id(v) => Box::new(Expr::Ident(v.swcify(ctx).into())),
+            OptionalMemberExprProp::Id(v) => v.swcify(ctx).into().into(),
             OptionalMemberExprProp::Expr(v) => v.swcify(ctx),
         }
     }

@@ -76,12 +76,13 @@ impl VisitMut for FnName {
         if let Expr::Fn(expr @ FnExpr { ident: None, .. }) = &mut *p.value {
             //
             p.value = if let PropName::Ident(ref i) = p.key {
-                Box::new(Expr::Fn(FnExpr {
+                FnExpr {
                     ident: Some(prepare(i.clone().into())),
                     ..expr.take()
-                }))
+                }
+                .into()
             } else {
-                Box::new(Expr::Fn(expr.take()))
+                expr.take().into()
             };
         };
     }

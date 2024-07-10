@@ -518,10 +518,11 @@ where
                             .props
                             .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                 key: PropName::Ident(quote_ident!("children")),
-                                value: Box::new(Expr::Array(ArrayLit {
+                                value: ArrayLit {
                                     span: DUMMY_SP,
                                     elems: children,
-                                })),
+                                }
+                                .into(),
                             }))));
                     }
                 }
@@ -782,10 +783,11 @@ where
                             .props
                             .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                 key: PropName::Ident(quote_ident!("children")),
-                                value: Box::new(Expr::Array(ArrayLit {
+                                value: ArrayLit {
                                     span: DUMMY_SP,
                                     elems: children.take(),
-                                })),
+                                }
+                                .into(),
                             }))));
                     }
                 }
@@ -888,7 +890,7 @@ where
 
     fn fold_attrs_for_classic(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
         if attrs.is_empty() {
-            return Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP })));
+            return Lit::Null(Null { span: DUMMY_SP }).into();
         }
         let attr_cnt = attrs.len();
 
@@ -916,7 +918,7 @@ where
             props,
         };
 
-        Box::new(Expr::Object(obj))
+        obj.into()
     }
 
     fn attr_to_prop(&mut self, a: JSXAttr) -> Prop {
@@ -927,11 +929,12 @@ where
                 JSXAttrValue::Lit(Lit::Str(s)) => {
                     let value = transform_jsx_attr_str(&s.value);
 
-                    Box::new(Expr::Lit(Lit::Str(Str {
+                    Lit::Str(Str {
                         span: s.span,
                         raw: None,
                         value: value.into(),
-                    })))
+                    })
+                    .into()
                 }
                 JSXAttrValue::JSXExprContainer(JSXExprContainer {
                     expr: JSXExpr::Expr(e),
@@ -946,10 +949,11 @@ where
                 }) => unreachable!("attr_to_prop(JSXEmptyExpr)"),
             })
             .unwrap_or_else(|| {
-                Box::new(Expr::Lit(Lit::Bool(Bool {
+                Lit::Bool(Bool {
                     span: key.span(),
                     value: true,
-                })))
+                })
+                .into()
             });
         Prop::KeyValue(KeyValueProp { key, value })
     }
@@ -1193,18 +1197,19 @@ where
         match name {
             JSXElementName::Ident(i) => {
                 if i.sym == "this" {
-                    return Box::new(Expr::This(ThisExpr { span }));
+                    return ThisExpr { span }.into();
                 }
 
                 // If it starts with lowercase
                 if i.as_ref().starts_with(|c: char| c.is_ascii_lowercase()) {
-                    Box::new(Expr::Lit(Lit::Str(Str {
+                    Lit::Str(Str {
                         span,
                         raw: None,
                         value: i.sym,
-                    })))
+                    })
+                    .into()
                 } else {
-                    Box::new(Expr::Ident(i))
+                    i.into()
                 }
             }
             JSXElementName::JSXNamespacedName(JSXNamespacedName {
@@ -1226,11 +1231,12 @@ where
 
                 let value = format!("{}:{}", ns.sym, name.sym);
 
-                Box::new(Expr::Lit(Lit::Str(Str {
+                Lit::Str(Str {
                     span,
                     raw: None,
                     value: value.into(),
-                })))
+                })
+                .into()
             }
             JSXElementName::JSXMemberExpr(JSXMemberExpr { obj, prop, .. }) => {
                 fn convert_obj(obj: JSXObject) -> Box<Expr> {
@@ -1252,11 +1258,12 @@ where
                     })
                     .into()
                 }
-                Box::new(Expr::Member(MemberExpr {
+                MemberExpr {
                     span,
                     obj: convert_obj(obj),
                     prop: MemberProp::Ident(prop),
-                }))
+                }
+                .into()
             }
         }
     }
@@ -1325,19 +1332,20 @@ fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
         JSXAttrValue::Lit(Lit::Str(s)) => {
             let value = transform_jsx_attr_str(&s.value);
 
-            Box::new(Expr::Lit(Lit::Str(Str {
+            Lit::Str(Str {
                 span: s.span,
                 raw: None,
                 value: value.into(),
-            })))
+            })
+            .into()
         }
         JSXAttrValue::Lit(lit) => Box::new(lit.into()),
         JSXAttrValue::JSXExprContainer(e) => match e.expr {
             JSXExpr::JSXEmptyExpr(_) => None?,
             JSXExpr::Expr(e) => e,
         },
-        JSXAttrValue::JSXElement(e) => Box::new(Expr::JSXElement(e)),
-        JSXAttrValue::JSXFragment(f) => Box::new(Expr::JSXFragment(f)),
+        JSXAttrValue::JSXElement(e) => e.into(),
+        JSXAttrValue::JSXFragment(f) => f.into(),
     })
 }
 

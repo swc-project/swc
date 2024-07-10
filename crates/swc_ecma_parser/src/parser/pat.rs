@@ -1153,12 +1153,13 @@ mod tests {
         fn prop(key: PropName, assign_name: &str, expr: Expr) -> PropOrSpread {
             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key,
-                value: Box::new(Expr::Assign(AssignExpr {
+                value: AssignExpr {
                     span,
                     op: AssignOp::Assign,
                     left: ident(assign_name).into(),
                     right: Box::new(expr),
-                })),
+                }
+                .into(),
             })))
         }
 

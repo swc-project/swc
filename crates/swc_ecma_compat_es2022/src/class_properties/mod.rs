@@ -194,7 +194,7 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
 
                 stmts.push(Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
-                    arg: Some(Box::new(Expr::Ident(ident))),
+                    arg: Some(ident.into()),
                 }));
 
                 *body = BlockStmtOrExpr::BlockStmt(BlockStmt {
@@ -578,7 +578,7 @@ impl<C: Comments> ClassProperties<C> {
                             // string.
                             PropName::Computed(ComputedPropName {
                                 span: c_span,
-                                expr: Box::new(Expr::Ident(ident)),
+                                expr: ident.into(),
                             })
                         }
                         _ => method.key,
@@ -765,24 +765,30 @@ impl<C: Comments> ClassProperties<C> {
                             span: DUMMY_SP,
                             definite: false,
                             name: ident.clone().into(),
-                            init: Some(Box::new(Expr::from(CallExpr {
-                                span,
-                                callee: helper!(class_private_field_loose_key),
-                                args: vec![ident.sym.as_arg()],
-                                ..Default::default()
-                            }))),
+                            init: Some(
+                                CallExpr {
+                                    span,
+                                    callee: helper!(class_private_field_loose_key),
+                                    args: vec![ident.sym.as_arg()],
+                                    ..Default::default()
+                                }
+                                .into(),
+                            ),
                         });
                     } else if !prop.is_static {
                         vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             definite: false,
                             name: ident.into(),
-                            init: Some(Box::new(Expr::from(NewExpr {
-                                span,
-                                callee: Box::new(Expr::Ident(quote_ident!("WeakMap").into())),
-                                args: Some(Default::default()),
-                                ..Default::default()
-                            }))),
+                            init: Some(
+                                NewExpr {
+                                    span,
+                                    callee: Box::new(Expr::Ident(quote_ident!("WeakMap").into())),
+                                    args: Some(Default::default()),
+                                    ..Default::default()
+                                }
+                                .into(),
+                            ),
                         });
                     };
                     if prop.is_static {
@@ -923,7 +929,7 @@ impl<C: Comments> ClassProperties<C> {
                             } else {
                                 Expr::New(NewExpr {
                                     span,
-                                    callee: Box::new(Expr::Ident(extra.into())),
+                                    callee: extra.into().into(),
                                     args: Some(Default::default()),
                                     ..Default::default()
                                 })

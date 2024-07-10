@@ -463,7 +463,7 @@ impl Swcify for ImportAttribute {
     fn swcify(self, ctx: &Context) -> Self::Output {
         KeyValueProp {
             key: self.key.swcify(ctx),
-            value: Box::new(Expr::Lit(Lit::Str(self.value.swcify(ctx)))),
+            value: Lit::Str(self.value.swcify(ctx)).into(),
         }
     }
 }

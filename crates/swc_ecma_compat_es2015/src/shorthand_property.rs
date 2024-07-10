@@ -96,10 +96,11 @@ impl VisitMut for Shorthand {
                 };
                 *prop = Prop::KeyValue(KeyValueProp {
                     key,
-                    value: Box::new(Expr::Fn(FnExpr {
+                    value: FnExpr {
                         ident: None,
                         function: function.take(),
-                    })),
+                    }
+                    .into(),
                 })
             }
             _ => {}

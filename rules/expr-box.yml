@@ -1,0 +1,7 @@
+language: rust
+id: into-only-once
+rule:
+    all:
+        - kind: call_expression
+        - pattern: "Box::new(Expr::$VARIANT($ARG))"
+fix: $ARG.into()

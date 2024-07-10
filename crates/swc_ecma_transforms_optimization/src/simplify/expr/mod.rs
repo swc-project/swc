@@ -350,10 +350,13 @@ impl SimplifyExpr {
                 *expr = self.expr_ctx.preserve_effects(
                     *span,
                     v,
-                    once(Box::new(Expr::Object(ObjectLit {
-                        props: props.take(),
-                        span: *span,
-                    }))),
+                    once(
+                        ObjectLit {
+                            props: props.take(),
+                            span: *span,
+                        }
+                        .into(),
+                    ),
                 );
             }
 
@@ -872,11 +875,12 @@ impl SimplifyExpr {
                 }
                 self.changed = true;
 
-                *arg = Box::new(Expr::Lit(Lit::Num(Number {
+                *arg = Lit::Num(Number {
                     value: 0.0,
                     span: arg.span(),
                     raw: None,
-                })));
+                })
+                .into();
             }
 
             op!("~") => {

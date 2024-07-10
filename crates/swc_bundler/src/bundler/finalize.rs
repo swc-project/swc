@@ -210,7 +210,7 @@ where
                                                     "default".into(),
                                                     DUMMY_SP,
                                                 )),
-                                                value: Box::new(Expr::Ident(s.exported)),
+                                                value: s.exported.into(),
                                             },
                                         ))));
                                     }
@@ -225,7 +225,7 @@ where
                                             props.push(PropOrSpread::Prop(Box::new(
                                                 Prop::KeyValue(KeyValueProp {
                                                     key: PropName::Ident(exported.into()),
-                                                    value: Box::new(Expr::Ident(orig)),
+                                                    value: orig.into(),
                                                 }),
                                             )));
                                         }
@@ -262,7 +262,7 @@ where
                                             "default".into(),
                                             export.span,
                                         )),
-                                        value: Box::new(Expr::Ident(ident.clone())),
+                                        value: ident.clone().into(),
                                     },
                                 ))));
 
@@ -283,7 +283,7 @@ where
                                             "default".into(),
                                             export.span,
                                         )),
-                                        value: Box::new(Expr::Ident(ident.clone())),
+                                        value: ident.clone().into(),
                                     },
                                 ))));
 
@@ -323,10 +323,13 @@ where
         };
         body.stmts.push(Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
-            arg: Some(Box::new(Expr::Object(ObjectLit {
-                span: DUMMY_SP,
-                props,
-            }))),
+            arg: Some(
+                ObjectLit {
+                    span: DUMMY_SP,
+                    props,
+                }
+                .into(),
+            ),
         }));
 
         let f = Function {
@@ -342,12 +345,13 @@ where
             function: Box::new(f),
         };
 
-        let iife = Box::new(Expr::Call(CallExpr {
+        let iife = CallExpr {
             span: DUMMY_SP,
             callee: invoked_fn_expr.as_callee(),
             args: Default::default(),
             ..Default::default()
-        }));
+        }
+        .into();
 
         Module {
             span: DUMMY_SP,

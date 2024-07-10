@@ -125,14 +125,17 @@ impl TscDecorator {
                 });
 
                 // Initialize var
-                self.prepended_exprs.push(Box::new(Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    op: op!("="),
-                    left: var_name.clone().into(),
-                    right: k.expr.take(),
-                })));
+                self.prepended_exprs.push(
+                    AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: var_name.clone().into(),
+                        right: k.expr.take(),
+                    }
+                    .into(),
+                );
 
-                k.expr = Box::new(Expr::Ident(var_name.clone()));
+                k.expr = var_name.clone().into();
 
                 return Expr::Ident(var_name);
             }
@@ -174,12 +177,15 @@ impl TscDecorator {
         remove_span(&mut target.expr);
         remove_span(&mut desc.expr);
 
-        self.appended_exprs.push(Box::new(Expr::Call(CallExpr {
-            span: DUMMY_SP,
-            callee: helper!(ts, ts_decorate),
-            args: vec![decorators, target, key, desc],
-            ..Default::default()
-        })));
+        self.appended_exprs.push(
+            CallExpr {
+                span: DUMMY_SP,
+                callee: helper!(ts, ts_decorate),
+                args: vec![decorators, target, key, desc],
+                ..Default::default()
+            }
+            .into(),
+        );
     }
 }
 
@@ -254,7 +260,7 @@ impl VisitMut for TscDecorator {
                 }
                 .as_arg();
 
-                let decorated = Box::new(Expr::Call(CallExpr {
+                let decorated = CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(ts, ts_decorate),
                     args: vec![
@@ -265,13 +271,17 @@ impl VisitMut for TscDecorator {
                             .as_arg(),
                     ],
                     ..Default::default()
-                }));
-                self.appended_exprs.push(Box::new(Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    op: op!("="),
-                    left: class_name.with_pos(BytePos::DUMMY, BytePos::DUMMY).into(),
-                    right: decorated,
-                })));
+                }
+                .into();
+                self.appended_exprs.push(
+                    AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: class_name.with_pos(BytePos::DUMMY, BytePos::DUMMY).into(),
+                        right: decorated,
+                    }
+                    .into(),
+                );
             }
         }
     }

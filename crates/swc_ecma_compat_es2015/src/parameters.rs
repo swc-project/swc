@@ -114,7 +114,7 @@ impl Params {
                         let decl = VarDeclarator {
                             span,
                             name: param.pat,
-                            init: Some(Box::new(Expr::Ident(binding))),
+                            init: Some(binding.into()),
                             definite: false,
                         };
                         if self.c.ignore_function_length {
@@ -141,22 +141,25 @@ impl Params {
                         decls.push(VarDeclarator {
                             span,
                             name: *left,
-                            init: Some(Box::new(Expr::Cond(CondExpr {
-                                span,
-                                test: Box::new(Expr::Bin(BinExpr {
-                                    left: Box::new(check_arg_len(i)),
-                                    op: op!("&&"),
-                                    right: Box::new(Expr::Bin(BinExpr {
-                                        left: make_arg_nth(i).into(),
-                                        op: op!("!=="),
-                                        right: Expr::undefined(DUMMY_SP),
-                                        span: DUMMY_SP,
-                                    })),
+                            init: Some(
+                                CondExpr {
                                     span,
-                                })),
-                                cons: make_arg_nth(i).into(),
-                                alt: right,
-                            }))),
+                                    test: Box::new(Expr::Bin(BinExpr {
+                                        left: Box::new(check_arg_len(i)),
+                                        op: op!("&&"),
+                                        right: Box::new(Expr::Bin(BinExpr {
+                                            left: make_arg_nth(i).into(),
+                                            op: op!("!=="),
+                                            right: Expr::undefined(DUMMY_SP),
+                                            span: DUMMY_SP,
+                                        })),
+                                        span,
+                                    })),
+                                    cons: make_arg_nth(i).into(),
+                                    alt: right,
+                                }
+                                .into(),
+                            ),
                             definite: false,
                         })
                     } else if let Pat::Ident(ident) = left.as_ref() {
@@ -167,20 +170,22 @@ impl Params {
                         });
                         loose_stmt.push(Stmt::If(IfStmt {
                             span,
-                            test: Box::new(Expr::Bin(BinExpr {
+                            test: BinExpr {
                                 span: DUMMY_SP,
                                 left: Box::new(Expr::Ident(Ident::from(ident))),
                                 op: op!("==="),
                                 right: Expr::undefined(DUMMY_SP),
-                            })),
+                            }
+                            .into(),
                             cons: Box::new(Stmt::Expr(ExprStmt {
                                 span,
-                                expr: Box::new(Expr::Assign(AssignExpr {
+                                expr: AssignExpr {
                                     span,
                                     left: left.try_into().unwrap(),
                                     op: op!("="),
                                     right,
-                                })),
+                                }
+                                .into(),
                             })),
                             alt: None,
                         }))
@@ -258,13 +263,14 @@ impl Params {
                             // `len - $i`
                             let bin: Expr = BinExpr {
                                 span,
-                                left: Box::new(Expr::Ident(ident.clone())),
+                                left: ident.clone().into(),
                                 op: op!(bin, "-"),
-                                right: Box::new(Expr::Lit(Lit::Num(Number {
+                                right: Lit::Num(Number {
                                     span,
                                     value: i as f64,
                                     raw: None,
-                                }))),
+                                })
+                                .into(),
                             }
                             .into();
                             if !min_zero {
@@ -278,11 +284,12 @@ impl Params {
                                         span,
                                         left: Box::new(len_ident.clone().into()),
                                         op: op!(">"),
-                                        right: Box::new(Expr::Lit(Lit::Num(Number {
+                                        right: Lit::Num(Number {
                                             span,
                                             value: i as _,
                                             raw: None,
-                                        }))),
+                                        })
+                                        .into(),
                                     }
                                     .into(),
                                 ),
@@ -348,19 +355,25 @@ impl Params {
                             .into(),
                         ),
                         // `_key < _len`
-                        test: Some(Box::new(Expr::Bin(BinExpr {
-                            span,
-                            left: Box::new(idx_ident.clone().into()),
-                            op: op!("<"),
-                            right: Box::new(len_ident.clone().into()),
-                        }))),
+                        test: Some(
+                            BinExpr {
+                                span,
+                                left: Box::new(idx_ident.clone().into()),
+                                op: op!("<"),
+                                right: Box::new(len_ident.clone().into()),
+                            }
+                            .into(),
+                        ),
                         // _key++
-                        update: Some(Box::new(Expr::Update(UpdateExpr {
-                            span,
-                            op: op!("++"),
-                            prefix: false,
-                            arg: Box::new(idx_ident.clone().into()),
-                        }))),
+                        update: Some(
+                            UpdateExpr {
+                                span,
+                                op: op!("++"),
+                                prefix: false,
+                                arg: Box::new(idx_ident.clone().into()),
+                            }
+                            .into(),
+                        ),
                         body: Box::new(Stmt::Block(BlockStmt {
                             span: DUMMY_SP,
                             stmts: vec![{

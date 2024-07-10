@@ -713,7 +713,7 @@ where
                     if is_always_initialized {
                         body.push(Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
-                            arg: Some(Box::new(Expr::Ident(this))),
+                            arg: Some(this.into()),
                         }));
                     } else {
                         let possible_return_value =
@@ -804,7 +804,7 @@ where
         // `return Foo`
         stmts.push(Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
-            arg: Some(Box::new(Expr::Ident(class_name_sym))),
+            arg: Some(class_name_sym.into()),
         }));
 
         stmts
@@ -889,17 +889,16 @@ where
             Box::new(Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(quote_ident!(Default::default(), key.span(), "key").into()),
                 value: match key {
-                    PropName::Ident(i) => Box::new(Expr::Lit(Lit::Str(quote_str!(i.span, i.sym)))),
-                    PropName::Str(s) => Box::new(Expr::from(s)),
-                    PropName::Num(n) => Box::new(Expr::from(n)),
-                    PropName::BigInt(b) => Box::new(Expr::Lit(
-                        Str {
-                            span: b.span,
-                            raw: None,
-                            value: b.value.to_string().into(),
-                        }
-                        .into(),
-                    )),
+                    PropName::Ident(i) => Lit::Str(quote_str!(i.span, i.sym)).into(),
+                    PropName::Str(s) => s.into(),
+                    PropName::Num(n) => n.into(),
+                    PropName::BigInt(b) => Str {
+                        span: b.span,
+                        raw: None,
+                        value: b.value.to_string().into(),
+                    }
+                    .into()
+                    .into(),
                     PropName::Computed(c) => c.expr,
                 },
             }))
@@ -910,22 +909,21 @@ where
                 PropName::Ident(i) => MemberProp::Ident(i),
                 PropName::Str(s) => MemberProp::Computed(ComputedPropName {
                     span: s.span,
-                    expr: Box::new(Expr::Lit(Lit::Str(s))),
+                    expr: Lit::Str(s).into(),
                 }),
                 PropName::Num(n) => MemberProp::Computed(ComputedPropName {
                     span: n.span,
-                    expr: Box::new(Expr::Lit(Lit::Num(n))),
+                    expr: Lit::Num(n).into(),
                 }),
                 PropName::BigInt(b) => MemberProp::Computed(ComputedPropName {
                     span: b.span,
-                    expr: Box::new(Expr::Lit(
-                        Str {
-                            span: b.span,
-                            raw: None,
-                            value: b.value.to_string().into(),
-                        }
-                        .into(),
-                    )),
+                    expr: Str {
+                        span: b.span,
+                        raw: None,
+                        value: b.value.to_string().into(),
+                    }
+                    .into()
+                    .into(),
                 }),
                 PropName::Computed(c) => MemberProp::Computed(c),
             }
@@ -1077,7 +1075,7 @@ where
                 );
             }
 
-            let value = Box::new(Expr::Fn(FnExpr {
+            let value = FnExpr {
                 ident: if m.kind == MethodKind::Method && !computed {
                     match prop_name {
                         Expr::Ident(ident) => Some(private_ident!(ident.span, ident.sym)),
@@ -1094,7 +1092,8 @@ where
                     None
                 },
                 function: m.function,
-            }));
+            }
+            .into();
 
             let data = append_to.entry(key).or_insert_with(|| Data {
                 key_prop,
@@ -1152,7 +1151,7 @@ where
                     let prop = *v.key_prop.clone();
                     res.push(Stmt::Expr(ExprStmt {
                         span,
-                        expr: Box::new(Expr::Assign(AssignExpr {
+                        expr: AssignExpr {
                             span,
                             op: op!("="),
                             left: MemberExpr {
@@ -1162,7 +1161,8 @@ where
                             }
                             .into(),
                             right: escape_keywords(method),
-                        })),
+                        }
+                        .into(),
                     }));
                     !(v.get.is_none() && v.set.is_none())
                 } else {
@@ -1176,7 +1176,7 @@ where
                     let prop = *v.key_prop.clone();
                     res.push(Stmt::Expr(ExprStmt {
                         span,
-                        expr: Box::new(Expr::Assign(AssignExpr {
+                        expr: AssignExpr {
                             span,
                             op: op!("="),
                             left: MemberExpr {
@@ -1186,7 +1186,8 @@ where
                             }
                             .into(),
                             right: escape_keywords(method),
-                        })),
+                        }
+                        .into(),
                     }));
                     !(v.get.is_none() && v.set.is_none())
                 } else {

@@ -132,7 +132,7 @@ where
                     let var = VarDeclarator {
                         span,
                         name: cls.ident.clone().into(),
-                        init: Some(Box::new(Expr::Class(expr))),
+                        init: Some(expr.into()),
                         definite: false,
                     };
                     *decl = VarDecl {
@@ -500,7 +500,7 @@ where
                             span: i.span,
                             sym: i.sym.clone(),
                         }),
-                        value: Box::new(Expr::Ident(renamed)),
+                        value: renamed.into(),
                     })
                 }
             }

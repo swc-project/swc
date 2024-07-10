@@ -84,7 +84,7 @@ impl VisitMut for Spread {
                     Expr::SuperProp(SuperPropExpr {
                         obj: Super { span, .. },
                         ..
-                    }) => (Box::new(Expr::This(ThisExpr { span: *span })), None),
+                    }) => (ThisExpr { span: *span }.into(), None),
 
                     Expr::Member(MemberExpr { obj, .. }) if obj.is_this() => (obj.clone(), None),
 
@@ -92,7 +92,7 @@ impl VisitMut for Spread {
                     Expr::Member(MemberExpr { obj, .. })
                         if obj.as_ident().is_some() && obj.as_ident().unwrap().span.is_dummy() =>
                     {
-                        (Box::new(Expr::Ident(obj.as_ident().unwrap().clone())), None)
+                        (obj.as_ident().unwrap().clone().into(), None)
                     }
 
                     Expr::Ident(Ident { span, .. }) => (Expr::undefined(*span), None),
@@ -108,7 +108,7 @@ impl VisitMut for Spread {
                             init: None,
                         });
 
-                        let this = Box::new(Expr::Ident(ident.clone()));
+                        let this = ident.clone().into();
                         let callee = Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             left: ident.into(),
@@ -117,20 +117,24 @@ impl VisitMut for Spread {
                         });
                         (
                             this,
-                            Some(Box::new(Expr::Member(MemberExpr {
-                                span: *span,
-                                obj: callee.into(),
-                                prop: prop.clone(),
-                            }))),
+                            Some(
+                                MemberExpr {
+                                    span: *span,
+                                    obj: callee.into(),
+                                    prop: prop.clone(),
+                                }
+                                .into(),
+                            ),
                         )
                     }
 
                     // https://github.com/swc-project/swc/issues/400
                     // _ => (undefined(callee.span()), callee),
                     _ => (
-                        Box::new(Expr::This(ThisExpr {
+                        ThisExpr {
                             span: callee.span(),
-                        })),
+                        }
+                        .into(),
                         None,
                     ),
                 };

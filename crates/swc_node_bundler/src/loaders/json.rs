@@ -11,7 +11,7 @@ pub(super) fn load_json_as_module(fm: &Arc<SourceFile>) -> Result<Module, Error>
 
     let export = ModuleItem::Stmt(Stmt::Expr(ExprStmt {
         span: DUMMY_SP,
-        expr: Box::new(Expr::Assign(AssignExpr {
+        expr: AssignExpr {
             span: DUMMY_SP,
             op: op!("="),
             left: MemberExpr {
@@ -21,7 +21,8 @@ pub(super) fn load_json_as_module(fm: &Arc<SourceFile>) -> Result<Module, Error>
             }
             .into(),
             right: expr,
-        })),
+        }
+        .into(),
     }));
 
     Ok(Module {

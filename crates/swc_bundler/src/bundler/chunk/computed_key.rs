@@ -114,10 +114,13 @@ where
 
         let return_stmt = Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
-            arg: Some(Box::new(Expr::Object(ObjectLit {
-                span: DUMMY_SP,
-                props: take(&mut export_visitor.return_props),
-            }))),
+            arg: Some(
+                ObjectLit {
+                    span: DUMMY_SP,
+                    props: take(&mut export_visitor.return_props),
+                }
+                .into(),
+            ),
         });
 
         module.iter().for_each(|(_, v)| {
@@ -208,7 +211,7 @@ impl ExportToReturn {
         self.return_props
             .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(key.into()),
-                value: Box::new(Expr::Ident(value)),
+                value: value.into(),
             }))));
     }
 }

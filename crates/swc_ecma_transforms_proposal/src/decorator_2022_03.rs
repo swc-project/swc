@@ -80,12 +80,15 @@ impl Decorator2022_03 {
             init: None,
             definite: false,
         });
-        self.pre_class_inits.push(Box::new(Expr::Assign(AssignExpr {
-            span: DUMMY_SP,
-            op: op!("="),
-            left: ident.clone().into(),
-            right: dec,
-        })));
+        self.pre_class_inits.push(
+            AssignExpr {
+                span: DUMMY_SP,
+                op: op!("="),
+                left: ident.clone().into(),
+                right: dec,
+            }
+            .into(),
+        );
 
         ident.into()
     }
@@ -188,7 +191,7 @@ impl Decorator2022_03 {
             }))
         };
 
-        let expr = Box::new(Expr::Assign(AssignExpr {
+        let expr = AssignExpr {
             span: DUMMY_SP,
             op: op!("="),
             left: ObjectPat {
@@ -204,7 +207,8 @@ impl Decorator2022_03 {
                 args: combined_args,
                 ..Default::default()
             })),
-        }));
+        }
+        .into();
 
         self.state.extra_stmts.push(Stmt::Expr(ExprStmt {
             span: DUMMY_SP,
@@ -214,12 +218,13 @@ impl Decorator2022_03 {
         if let Some(init) = self.state.init_static.take() {
             self.state.extra_stmts.push(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
-                expr: Box::new(Expr::Call(CallExpr {
+                expr: CallExpr {
                     span: DUMMY_SP,
                     callee: init.as_callee(),
                     args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
                     ..Default::default()
-                })),
+                }
+                .into(),
             }));
         }
     }
@@ -228,11 +233,12 @@ impl Decorator2022_03 {
     fn initializer_name(&mut self, name: &mut PropName, prefix: &str) -> (Box<Expr>, Ident) {
         match name {
             PropName::Ident(i) => (
-                Box::new(Expr::Lit(Lit::Str(Str {
+                Lit::Str(Str {
                     span: i.span,
                     value: i.sym.clone(),
                     raw: None,
-                }))),
+                })
+                .into(),
                 Ident::new(
                     format!("_{prefix}_{}", i.sym).into(),
                     i.span,
@@ -241,7 +247,7 @@ impl Decorator2022_03 {
             ),
             PropName::Computed(c) if c.expr.is_ident() => match &*c.expr {
                 Expr::Ident(i) => (
-                    Box::new(Expr::Ident(i.clone())),
+                    i.clone().into(),
                     Ident::new(
                         format!("_{prefix}_{}", i.sym).into(),
                         i.span,
@@ -261,12 +267,15 @@ impl Decorator2022_03 {
                     definite: false,
                 });
 
-                self.pre_class_inits.push(Box::new(Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    op: op!("="),
-                    left: key_ident.clone().into(),
-                    right: Box::new(prop_name_to_expr_value(name.take())),
-                })));
+                self.pre_class_inits.push(
+                    AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: key_ident.clone().into(),
+                        right: Box::new(prop_name_to_expr_value(name.take())),
+                    }
+                    .into(),
+                );
                 *name = PropName::Computed(ComputedPropName {
                     span: DUMMY_SP,
                     expr: key_ident.clone().into(),
@@ -278,7 +287,7 @@ impl Decorator2022_03 {
                     SyntaxContext::empty().apply_mark(Mark::new()),
                 );
 
-                (Box::new(Expr::Ident(key_ident)), init)
+                (key_ident.into(), init)
             }
         }
     }
@@ -361,12 +370,15 @@ impl Decorator2022_03 {
                 definite: false,
             });
 
-            class.super_class = Some(Box::new(Expr::Assign(AssignExpr {
-                span: DUMMY_SP,
-                op: AssignOp::Assign,
-                left: id.clone().into(),
-                right: super_class,
-            })));
+            class.super_class = Some(
+                AssignExpr {
+                    span: DUMMY_SP,
+                    op: AssignOp::Assign,
+                    left: id.clone().into(),
+                    right: super_class,
+                }
+                .into(),
+            );
 
             self.state.super_class = Some(id);
         }
@@ -730,12 +742,15 @@ impl Decorator2022_03 {
                     definite: false,
                 });
 
-                self.pre_class_inits.push(Box::new(Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    op: op!("="),
-                    left: ident.clone().into(),
-                    right: Box::new(prop_name_to_expr_value(name.take())),
-                })));
+                self.pre_class_inits.push(
+                    AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: ident.clone().into(),
+                        right: Box::new(prop_name_to_expr_value(name.take())),
+                    }
+                    .into(),
+                );
                 *name = PropName::Computed(ComputedPropName {
                     span: DUMMY_SP,
                     expr: ident.into(),
@@ -895,7 +910,7 @@ impl VisitMut for Decorator2022_03 {
                 MethodKind::Method => {
                     let call_stmt = Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
-                        arg: Some(Box::new(Expr::Ident(init))),
+                        arg: Some(init.into()),
                     });
 
                     p.kind = MethodKind::Getter;
@@ -908,12 +923,15 @@ impl VisitMut for Decorator2022_03 {
                 MethodKind::Getter => {
                     let call_stmt = Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
-                        arg: Some(Box::new(Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee: init.as_callee(),
-                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                            ..Default::default()
-                        }))),
+                        arg: Some(
+                            CallExpr {
+                                span: DUMMY_SP,
+                                callee: init.as_callee(),
+                                args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                                ..Default::default()
+                            }
+                            .into(),
+                        ),
                     });
 
                     p.function.body = Some(BlockStmt {
@@ -925,15 +943,19 @@ impl VisitMut for Decorator2022_03 {
                 MethodKind::Setter => {
                     let call_stmt = Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
-                        arg: Some(Box::new(Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee: init.as_callee(),
-                            args: vec![
-                                ThisExpr { span: DUMMY_SP }.as_arg(),
-                                Ident::from(p.function.params[0].pat.as_ident().unwrap()).as_arg(),
-                            ],
-                            ..Default::default()
-                        }))),
+                        arg: Some(
+                            CallExpr {
+                                span: DUMMY_SP,
+                                callee: init.as_callee(),
+                                args: vec![
+                                    ThisExpr { span: DUMMY_SP }.as_arg(),
+                                    Ident::from(p.function.params[0].pat.as_ident().unwrap())
+                                        .as_arg(),
+                                ],
+                                ..Default::default()
+                            }
+                            .into(),
+                        ),
                     });
 
                     p.function.body = Some(BlockStmt {
@@ -963,11 +985,12 @@ impl VisitMut for Decorator2022_03 {
                         span: DUMMY_SP,
                         key: match &mut accessor.key {
                             Key::Private(k) => {
-                                name = Box::new(Expr::Lit(Lit::Str(Str {
+                                name = Lit::Str(Str {
                                     span: DUMMY_SP,
                                     value: k.name.clone(),
                                     raw: None,
-                                })));
+                                })
+                                .into();
                                 init = private_ident!(format!("_init_{}", k.name));
                                 field_name_like = format!("__{}", k.name).into();
 
@@ -1011,22 +1034,26 @@ impl VisitMut for Decorator2022_03 {
                                         .get_or_insert_with(|| private_ident!("_initProto"))
                                         .clone();
 
-                                    Some(Box::new(Expr::Call(CallExpr {
-                                        span: DUMMY_SP,
-                                        callee: init_proto.clone().as_callee(),
-                                        args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                                        ..Default::default()
-                                    })))
+                                    Some(
+                                        CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: init_proto.clone().as_callee(),
+                                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                                            ..Default::default()
+                                        }
+                                        .into(),
+                                    )
                                 };
 
-                            let init_call = Box::new(Expr::Call(CallExpr {
+                            let init_call = CallExpr {
                                 span: DUMMY_SP,
                                 callee: init.clone().as_callee(),
                                 args: once(ThisExpr { span: DUMMY_SP }.as_arg())
                                     .chain(accessor.value.take().map(|v| v.as_arg()))
                                     .collect(),
                                 ..Default::default()
-                            }));
+                            }
+                            .into();
 
                             Some(Expr::from_exprs(
                                 init_proto.into_iter().chain(once(init_call)).collect(),
@@ -1434,15 +1461,18 @@ impl VisitMut for Decorator2022_03 {
             definite: false,
         });
 
-        p.value = Some(Box::new(Expr::Call(CallExpr {
-            span: DUMMY_SP,
-            callee: init.clone().as_callee(),
-            args: once(ThisExpr { span: DUMMY_SP }.as_arg())
-                .chain(p.value.take().map(|v| v.as_arg()))
-                .collect(),
+        p.value = Some(
+            CallExpr {
+                span: DUMMY_SP,
+                callee: init.clone().as_callee(),
+                args: once(ThisExpr { span: DUMMY_SP }.as_arg())
+                    .chain(p.value.take().map(|v| v.as_arg()))
+                    .collect(),
 
-            ..Default::default()
-        })));
+                ..Default::default()
+            }
+            .into(),
+        );
 
         let initialize_init = {
             Some(
@@ -1633,19 +1663,22 @@ impl VisitMut for Decorator2022_03 {
             definite: false,
         });
 
-        p.value = Some(Box::new(Expr::Call(CallExpr {
-            span: DUMMY_SP,
-            callee: init.clone().as_callee(),
-            args: once(ThisExpr { span: DUMMY_SP }.as_arg())
-                .chain(p.value.take().map(|v| v.as_arg()))
-                .collect(),
-            ..Default::default()
-        })));
+        p.value = Some(
+            CallExpr {
+                span: DUMMY_SP,
+                callee: init.clone().as_callee(),
+                args: once(ThisExpr { span: DUMMY_SP }.as_arg())
+                    .chain(p.value.take().map(|v| v.as_arg()))
+                    .collect(),
+                ..Default::default()
+            }
+            .into(),
+        );
 
         let initialize_init = {
             let access_expr = MemberExpr {
                 span: DUMMY_SP,
-                obj: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                obj: ThisExpr { span: DUMMY_SP }.into(),
                 prop: MemberProp::PrivateName(p.key.clone()),
             };
 

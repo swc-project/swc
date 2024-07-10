@@ -232,11 +232,12 @@ impl Pure<'_> {
                 return;
             }
 
-            let sep = Box::new(Expr::Lit(Lit::Str(Str {
+            let sep = Lit::Str(Str {
                 span: DUMMY_SP,
                 raw: None,
                 value: separator,
-            })));
+            })
+            .into();
             let mut res = Expr::Lit(Lit::Str(Str {
                 span: DUMMY_SP,
                 raw: None,
@@ -1364,7 +1365,7 @@ impl Pure<'_> {
                             if let PropOrSpread::Prop(p) = prop {
                                 match *p {
                                     Prop::Shorthand(p) => {
-                                        exprs.push(Box::new(Expr::Ident(p)));
+                                        exprs.push(p.into());
                                     }
                                     Prop::KeyValue(p) => {
                                         if let PropName::Computed(e) = p.key {

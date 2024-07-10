@@ -149,12 +149,13 @@ impl VisitMut for NullishCoalescing {
                         });
 
                         // TODO: Check for computed.
-                        let right_expr = Box::new(Expr::Assign(AssignExpr {
+                        let right_expr = AssignExpr {
                             span: assign.span,
                             left: left.clone().into(),
                             op: op!("="),
                             right: assign.right.take(),
-                        }));
+                        }
+                        .into();
 
                         let var_expr = Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
@@ -224,19 +225,20 @@ fn make_cond(c: Config, span: Span, alias: &Ident, var_expr: Expr, init: Box<Exp
     Expr::Cond(if c.no_document_all {
         CondExpr {
             span,
-            test: Box::new(Expr::Bin(BinExpr {
+            test: BinExpr {
                 span: DUMMY_SP,
                 left: Box::new(var_expr),
                 op: op!("!="),
                 right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-            })),
-            cons: Box::new(Expr::Ident(alias.clone())),
+            }
+            .into(),
+            cons: alias.clone().into(),
             alt: init,
         }
     } else {
         CondExpr {
             span,
-            test: Box::new(Expr::Bin(BinExpr {
+            test: BinExpr {
                 span: DUMMY_SP,
                 left: Box::new(Expr::Bin(BinExpr {
                     span: DUMMY_SP,
@@ -251,8 +253,9 @@ fn make_cond(c: Config, span: Span, alias: &Ident, var_expr: Expr, init: Box<Exp
                     op: op!("!=="),
                     right: Expr::undefined(DUMMY_SP),
                 })),
-            })),
-            cons: Box::new(Expr::Ident(alias.clone())),
+            }
+            .into(),
+            cons: alias.clone().into(),
             alt: init,
         }
     })

@@ -364,12 +364,13 @@ impl Optimizer<'_> {
                     let discriminant = sw.discriminant.take();
 
                     if let Some(test) = case.test {
-                        let test = Box::new(Expr::Bin(BinExpr {
+                        let test = BinExpr {
                             left: discriminant,
                             right: test,
                             op: op!("==="),
                             span: DUMMY_SP,
-                        }));
+                        }
+                        .into();
 
                         *s = Stmt::If(IfStmt {
                             span: sw.span,

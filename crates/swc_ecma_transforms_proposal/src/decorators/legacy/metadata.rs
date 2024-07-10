@@ -69,12 +69,13 @@ impl ParamMetadata {
 
         Decorator {
             span: DUMMY_SP,
-            expr: Box::new(Expr::Call(CallExpr {
+            expr: CallExpr {
                 span: DUMMY_SP,
                 callee: helper!(ts, ts_param),
                 args: vec![param_index.as_arg(), decorator_expr.as_arg()],
                 ..Default::default()
-            })),
+            }
+            .into(),
         }
     }
 }
@@ -266,12 +267,13 @@ impl<'a> Metadata<'a> {
     fn create_metadata_design_decorator(&self, design: &str, type_arg: ExprOrSpread) -> Decorator {
         Decorator {
             span: DUMMY_SP,
-            expr: Box::new(Expr::Call(CallExpr {
+            expr: CallExpr {
                 span: DUMMY_SP,
                 callee: helper!(ts, ts_metadata),
                 args: vec![design.as_arg(), type_arg],
                 ..Default::default()
-            })),
+            }
+            .into(),
         }
     }
 }
@@ -281,7 +283,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
         match *expr {
             Expr::Member(ref member_expr) => {
                 let obj_expr = member_expr.obj.clone();
-                Box::new(Expr::Bin(BinExpr {
+                BinExpr {
                     span: DUMMY_SP,
                     left: check_object_existed(obj_expr),
                     op: op!("||"),
@@ -299,9 +301,10 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                             raw: None,
                         }))),
                     })),
-                }))
+                }
+                .into()
             }
-            _ => Box::new(Expr::Bin(BinExpr {
+            _ => BinExpr {
                 span: DUMMY_SP,
                 left: Box::new(Expr::Unary(UnaryExpr {
                     span: DUMMY_SP,
@@ -314,7 +317,8 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                     value: "undefined".into(),
                     raw: None,
                 }))),
-            })),
+            }
+            .into(),
         }
     }
 

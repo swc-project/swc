@@ -66,11 +66,12 @@ impl Optimizer<'_> {
         match callee {
             Expr::Fn(..) => {
                 report_change!("negate_iife: Swapping cons and alt");
-                cond.test = Box::new(Expr::Unary(UnaryExpr {
+                cond.test = UnaryExpr {
                     span: DUMMY_SP,
                     op: op!("!"),
                     arg: cond.test.take(),
-                }));
+                }
+                .into();
                 swap(&mut cond.cons, &mut cond.alt);
                 true
             }
@@ -95,12 +96,13 @@ impl Optimizer<'_> {
             }) = &mut **arg
             {
                 if let Expr::Fn(..) = &**callee {
-                    cond.test = Box::new(Expr::Call(CallExpr {
+                    cond.test = CallExpr {
                         span: *call_span,
                         callee: callee.take().as_callee(),
                         args: args.take(),
                         ..Default::default()
-                    }));
+                    }
+                    .into();
                     swap(&mut cond.cons, &mut cond.alt);
                 }
             }
@@ -263,7 +265,7 @@ impl Optimizer<'_> {
 
                                 vars.insert(
                                     param_id.to_id(),
-                                    Box::new(Expr::Array(ArrayLit {
+                                    ArrayLit {
                                         span: param_id.span,
                                         elems: e
                                             .args
@@ -271,7 +273,8 @@ impl Optimizer<'_> {
                                             .skip(idx)
                                             .map(|arg| Some(arg.clone()))
                                             .collect(),
-                                    })),
+                                    }
+                                    .into(),
                                 );
                                 param.take();
                             }
@@ -970,12 +973,15 @@ impl Optimizer<'_> {
                                 }
                             }
 
-                            exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                op: op!("="),
-                                left: decl.name.clone().try_into().unwrap(),
-                                right: decl.init.take().unwrap(),
-                            })))
+                            exprs.push(
+                                AssignExpr {
+                                    span: DUMMY_SP,
+                                    op: op!("="),
+                                    left: decl.name.clone().try_into().unwrap(),
+                                    right: decl.init.take().unwrap(),
+                                }
+                                .into(),
+                            )
                         }
                     }
 
@@ -1006,11 +1012,12 @@ impl Optimizer<'_> {
         }
 
         if let Some(last) = exprs.last_mut() {
-            *last = Box::new(Expr::Unary(UnaryExpr {
+            *last = UnaryExpr {
                 span: DUMMY_SP,
                 op: op!("void"),
                 arg: last.take(),
-            }));
+            }
+            .into();
         } else {
             return Some(*Expr::undefined(body.span));
         }

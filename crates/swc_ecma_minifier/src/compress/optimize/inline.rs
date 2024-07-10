@@ -688,10 +688,11 @@ impl Optimizer<'_> {
 
                                 self.vars.simple_functions.insert(
                                     i.to_id(),
-                                    Box::new(Expr::Fn(FnExpr {
+                                    FnExpr {
                                         ident: None,
                                         function: f.function.clone(),
-                                    })),
+                                    }
+                                    .into(),
                                 );
 
                                 return;
@@ -764,18 +765,20 @@ impl Optimizer<'_> {
                 }
 
                 let e = match decl.take() {
-                    Decl::Class(c) => Box::new(Expr::Class(ClassExpr {
+                    Decl::Class(c) => ClassExpr {
                         ident: Some(c.ident),
                         class: c.class,
-                    })),
-                    Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
+                    }
+                    .into(),
+                    Decl::Fn(f) => FnExpr {
                         ident: if usage.used_recursively {
                             Some(f.ident)
                         } else {
                             None
                         },
                         function: f.function,
-                    })),
+                    }
+                    .into(),
                     _ => {
                         unreachable!()
                     }

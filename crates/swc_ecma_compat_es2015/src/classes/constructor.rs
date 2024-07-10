@@ -209,7 +209,7 @@ impl VisitMut for ConstructorFolder<'_> {
         {
             let right = match self.super_var.clone() {
                 Some(super_var) => {
-                    let call = Box::new(Expr::Call(CallExpr {
+                    let call = CallExpr {
                         span: DUMMY_SP,
                         callee: if self.is_constructor_default {
                             super_var.make_member(quote_ident!("apply")).as_callee()
@@ -228,15 +228,17 @@ impl VisitMut for ConstructorFolder<'_> {
                             call_args
                         },
                         ..Default::default()
-                    }));
+                    }
+                    .into();
 
                     if self.super_is_callable_constructor {
-                        Box::new(Expr::Bin(BinExpr {
+                        BinExpr {
                             span: DUMMY_SP,
                             left: call,
                             op: op!("||"),
                             right: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
-                        }))
+                        }
+                        .into()
                     } else {
                         call
                     }
@@ -284,7 +286,7 @@ impl VisitMut for ConstructorFolder<'_> {
             }) = &mut **expr
             {
                 let expr = match self.super_var.clone() {
-                    Some(super_var) => Box::new(Expr::Call(CallExpr {
+                    Some(super_var) => CallExpr {
                         span: DUMMY_SP,
                         callee: if self.is_constructor_default {
                             super_var.make_member(quote_ident!("apply")).as_callee()
@@ -303,7 +305,8 @@ impl VisitMut for ConstructorFolder<'_> {
                             call_args
                         },
                         ..Default::default()
-                    })),
+                    }
+                    .into(),
                     None => Box::new(make_possible_return_value(ReturningMode::Prototype {
                         is_constructor_default: self.is_constructor_default,
                         class_name: self.class_name.clone(),

@@ -67,7 +67,7 @@ impl VisitMut for TypeOfSymbol {
                 Expr::Ident(..) => {
                     let undefined_str: Box<Expr> = quote_str!("undefined").into();
 
-                    let test = Box::new(Expr::Bin(BinExpr {
+                    let test = BinExpr {
                         span: DUMMY_SP,
                         op: op!("==="),
                         left: Box::new(Expr::Unary(UnaryExpr {
@@ -76,7 +76,8 @@ impl VisitMut for TypeOfSymbol {
                             arg: arg.clone(),
                         })),
                         right: undefined_str.clone(),
-                    }));
+                    }
+                    .into();
 
                     let call = Expr::Call(CallExpr {
                         span: *span,

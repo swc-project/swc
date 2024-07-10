@@ -50,12 +50,13 @@ impl Pure<'_> {
                     *e = Expr::Unary(UnaryExpr {
                         span: arg.span,
                         op: op!(unary, "-"),
-                        arg: Box::new(Expr::Bin(BinExpr {
+                        arg: BinExpr {
                             span: arg.span,
                             op: arg.op,
                             left: arg.left.take(),
                             right: right_arg.take(),
-                        })),
+                        }
+                        .into(),
                     });
                 }
 
@@ -67,7 +68,7 @@ impl Pure<'_> {
                         *e = Expr::Unary(UnaryExpr {
                             span: arg.span,
                             op: op!(unary, "-"),
-                            arg: Box::new(Expr::Bin(BinExpr {
+                            arg: BinExpr {
                                 span: arg.span,
                                 op: arg.op,
                                 left: arg.left.take(),
@@ -76,7 +77,8 @@ impl Pure<'_> {
                                     value: -*value,
                                     raw: None,
                                 }))),
-                            })),
+                            }
+                            .into(),
                         });
                     }
                 }

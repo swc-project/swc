@@ -175,12 +175,13 @@ impl<C: Comments> Refresh<C> {
                         let span = first.span();
                         let mut args = vec![first.as_arg()];
                         args.extend(rest_arg.clone());
-                        first = Box::new(Expr::Call(CallExpr {
+                        first = CallExpr {
                             span,
                             callee: callee.clone(),
                             args,
                             ..Default::default()
-                        }))
+                        }
+                        .into()
                     }
                     *first_arg = Box::new(make_assign_stmt(reg_ident, first));
 
@@ -401,10 +402,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
 
                     items.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
-                        expr: Box::new(make_assign_stmt(
-                            registration_handle,
-                            Box::new(Expr::Ident(persistent_id)),
-                        )),
+                        expr: Box::new(make_assign_stmt(registration_handle, persistent_id.into())),
                     })));
                 }
 
@@ -416,7 +414,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
                             span: DUMMY_SP,
                             expr: Box::new(make_assign_stmt(
                                 ident.clone(),
-                                Box::new(Expr::Ident(Ident::new(name.0.clone(), DUMMY_SP, name.1))),
+                                Ident::new(name.0.clone(), DUMMY_SP, name.1).into(),
                             )),
                         })))
                     }
@@ -463,11 +461,12 @@ impl<C: Comments> VisitMut for Refresh<C> {
         for (handle, persistent_id) in refresh_regs {
             items.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
-                expr: Box::new(Expr::Call(CallExpr {
+                expr: CallExpr {
                     callee: quote_ident!(refresh_reg).as_callee(),
                     args: vec![handle.as_arg(), quote_str!(persistent_id.0).as_arg()],
                     ..Default::default()
-                })),
+                }
+                .into(),
             })));
         }
 

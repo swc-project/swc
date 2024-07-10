@@ -1027,7 +1027,7 @@ impl<I: Tokens> Parser<I> {
         // Note: TS uses parseLeftHandSideExpressionOrHigher,
         // then has grammar errors later if it's not an EntityName.
 
-        let ident = Box::new(Expr::Ident(self.parse_ident_name()?.into()));
+        let ident = self.parse_ident_name()?.into().into();
         let expr = self.parse_subscripts(Callee::Expr(ident), true, true)?;
         if !matches!(
             &*expr,
@@ -1390,9 +1390,9 @@ impl<I: Tokens> Parser<I> {
                         Either::Left(e) => {
                             p.emit_err(e.span(), SyntaxError::PrivateNameInInterface);
 
-                            Box::new(Expr::PrivateName(e))
+                            e.into()
                         }
-                        Either::Right(e) => Box::new(Expr::Ident(e.into())),
+                        Either::Right(e) => e.into().into(),
                     }),
                 };
 

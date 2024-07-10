@@ -83,11 +83,12 @@ pub(crate) fn make_bool(span: Span, value: bool) -> Expr {
     Expr::Unary(UnaryExpr {
         span,
         op: op!("!"),
-        arg: Box::new(Expr::Lit(Lit::Num(Number {
+        arg: Lit::Num(Number {
             span: DUMMY_SP,
             value: if value { 0.0 } else { 1.0 },
             raw: None,
-        }))),
+        })
+        .into(),
     })
 }
 

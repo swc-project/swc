@@ -197,7 +197,7 @@ impl FastDts {
                         new_items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
                             ExportDefaultExpr {
                                 span: export.span,
-                                expr: Box::new(Expr::Ident(name_ident)),
+                                expr: name_ident.into(),
                             },
                         )))
                     } else {

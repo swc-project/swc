@@ -90,7 +90,7 @@ impl Optimizer<'_> {
                         *e = Expr::Bin(BinExpr {
                             span: assign.span,
                             op,
-                            left: Box::new(Expr::Ident(lhs.clone().into())),
+                            left: lhs.clone().into().into(),
                             right: assign.right.take(),
                         });
                         return true;

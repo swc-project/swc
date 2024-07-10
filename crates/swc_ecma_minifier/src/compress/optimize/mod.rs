@@ -644,11 +644,12 @@ impl Optimizer<'_> {
                 *e = Expr::Unary(UnaryExpr {
                     span: v.span,
                     op: op!("!"),
-                    arg: Box::new(Expr::Lit(Lit::Num(Number {
+                    arg: Lit::Num(Number {
                         span: v.span,
                         value: if v.value { 0.0 } else { 1.0 },
                         raw: None,
-                    }))),
+                    })
+                    .into(),
                 });
             }
         }
@@ -1263,11 +1264,12 @@ impl Optimizer<'_> {
                         if let Some(last) = exprs.last_mut() {
                             report_change!("ignore_return_value: Shifting void");
                             self.changed = true;
-                            *last = Box::new(Expr::Unary(UnaryExpr {
+                            *last = UnaryExpr {
                                 span: DUMMY_SP,
                                 op: op!("void"),
                                 arg: last.take(),
-                            }));
+                            }
+                            .into();
                         }
                     }
 
@@ -1626,18 +1628,20 @@ impl VisitMut for Optimizer<'_> {
         if is_this_undefined {
             if let Callee::Expr(callee) = &mut e.callee {
                 if let Expr::Member(..) = &mut **callee {
-                    let zero = Box::new(Expr::Lit(Lit::Num(Number {
+                    let zero = Lit::Num(Number {
                         span: DUMMY_SP,
                         value: 0.0,
                         raw: None,
-                    })));
+                    })
+                    .into();
                     self.changed = true;
                     report_change!("injecting zero to preserve `this` in call");
 
-                    *callee = Box::new(Expr::Seq(SeqExpr {
+                    *callee = SeqExpr {
                         span: callee.span(),
                         exprs: vec![zero, callee.take()],
-                    }));
+                    }
+                    .into();
                 }
             }
         }
@@ -2393,7 +2397,7 @@ impl VisitMut for Optimizer<'_> {
 
         if let Prop::Shorthand(i) = n {
             if self.vars.has_pending_inline_for(&i.to_id()) {
-                let mut e = Box::new(Expr::Ident(i.clone()));
+                let mut e = i.clone().into();
                 e.visit_mut_with(self);
 
                 *n = Prop::KeyValue(KeyValueProp {
@@ -3036,10 +3040,11 @@ impl VisitMut for Optimizer<'_> {
                         expr: if side_effects.len() == 1 {
                             side_effects.remove(0)
                         } else {
-                            Box::new(Expr::Seq(SeqExpr {
+                            SeqExpr {
                                 span: DUMMY_SP,
                                 exprs: side_effects.take(),
-                            }))
+                            }
+                            .into()
                         },
                     }));
                 } else {
@@ -3061,10 +3066,11 @@ impl VisitMut for Optimizer<'_> {
                     expr: if side_effects.len() == 1 {
                         side_effects.remove(0)
                     } else {
-                        Box::new(Expr::Seq(SeqExpr {
+                        SeqExpr {
                             span: DUMMY_SP,
                             exprs: side_effects,
-                        }))
+                        }
+                        .into()
                     },
                 }));
             }
