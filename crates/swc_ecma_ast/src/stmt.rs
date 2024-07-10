@@ -152,6 +152,7 @@ impl Clone for Stmt {
     fn clone(&self) -> Self {
         use Stmt::*;
         match self {
+            Directive(s) => Directive(s.clone()),
             Block(s) => Block(s.clone()),
             Empty(s) => Empty(s.clone()),
             Debugger(s) => Debugger(s.clone()),
