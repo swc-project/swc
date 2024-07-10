@@ -1027,7 +1027,7 @@ impl<I: Tokens> Parser<I> {
         // Note: TS uses parseLeftHandSideExpressionOrHigher,
         // then has grammar errors later if it's not an EntityName.
 
-        let ident = self.parse_ident_name()?.into().into();
+        let ident = self.parse_ident_name()?.into();
         let expr = self.parse_subscripts(Callee::Expr(ident), true, true)?;
         if !matches!(
             &*expr,
@@ -1392,7 +1392,7 @@ impl<I: Tokens> Parser<I> {
 
                             e.into()
                         }
-                        Either::Right(e) => e.into().into(),
+                        Either::Right(e) => e.into(),
                     }),
                 };
 
@@ -1739,7 +1739,7 @@ impl<I: Tokens> Parser<I> {
                 Pat::Rest(RestPat {
                     span: span!(p, start),
                     dot3_token,
-                    arg: Box::new(Pat::Ident(ident.into())),
+                    arg: ident.into().into(),
                     type_ann: None,
                 })
             } else {

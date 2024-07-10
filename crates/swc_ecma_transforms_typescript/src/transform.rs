@@ -1220,9 +1220,12 @@ impl VisitMut for ExportedPatRewriter {
 
     fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
         if let ObjectPatProp::Assign(AssignPatProp { key, value, .. }) = n {
-            let left = Box::new(Pat::Expr(
-                self.id.clone().make_member(key.clone().into()).into(),
-            ));
+            let left = self
+                .id
+                .clone()
+                .make_member(key.clone().into())
+                .into()
+                .into();
 
             let value = if let Some(right) = value.take() {
                 AssignPat {

@@ -3,5 +3,5 @@ id: into-only-once
 rule:
     all:
         - kind: call_expression
-        - pattern: "Box::new(Expr::$VARIANT($ARG))"
+        - pattern: "Box::new(Pat::$VARIANT($ARG))"
 fix: $ARG.into()

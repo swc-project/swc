@@ -929,7 +929,7 @@ impl<C: Comments> ClassProperties<C> {
                             } else {
                                 Expr::New(NewExpr {
                                     span,
-                                    callee: extra.into().into(),
+                                    callee: extra.into(),
                                     args: Some(Default::default()),
                                     ..Default::default()
                                 })

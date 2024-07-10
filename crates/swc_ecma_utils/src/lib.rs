@@ -3043,11 +3043,12 @@ impl VisitMut for IdentRenamer<'_> {
                     Some(default) => {
                         *i = ObjectPatProp::KeyValue(KeyValuePatProp {
                             key: PropName::Ident(orig.clone().into()),
-                            value: Box::new(Pat::Assign(AssignPat {
+                            value: AssignPat {
                                 span: DUMMY_SP,
                                 left: p.key.clone().into(),
                                 right: default,
-                            })),
+                            }
+                            .into(),
                         });
                     }
                     None => {

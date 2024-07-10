@@ -294,7 +294,7 @@ impl SystemJs {
                     ..Default::default()
                 }
                 .into(),
-                right: target.clone().into().into(),
+                right: target.clone().into(),
 
                 body: Box::new(Stmt::Block(BlockStmt {
                     span: DUMMY_SP,
@@ -705,7 +705,7 @@ impl Fold for SystemJs {
                                             span: specifier.span,
                                             op: op!("="),
                                             left: specifier.local.into(),
-                                            right: quote_ident!(source_alias.clone()).into().into(),
+                                            right: quote_ident!(source_alias.clone()).into(),
                                         }
                                         .into_stmt(),
                                     );
@@ -768,7 +768,7 @@ impl Fold for SystemJs {
                                         export_names
                                             .push(get_module_export_name(&specifier.name).0);
                                         export_values
-                                            .push(quote_ident!(source_alias.clone()).into().into());
+                                            .push(quote_ident!(source_alias.clone()).into());
                                     }
                                 }
 

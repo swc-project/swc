@@ -168,12 +168,13 @@ impl Decorator2022_03 {
         } else {
             Some(ObjectPatProp::KeyValue(KeyValuePatProp {
                 key: PropName::Ident("e".into()),
-                value: Box::new(Pat::Array(ArrayPat {
+                value: ArrayPat {
                     span: DUMMY_SP,
                     elems: e_lhs,
                     type_ann: Default::default(),
                     optional: false,
-                })),
+                }
+                .into(),
             }))
         };
 
@@ -182,12 +183,13 @@ impl Decorator2022_03 {
         } else {
             Some(ObjectPatProp::KeyValue(KeyValuePatProp {
                 key: PropName::Ident("c".into()),
-                value: Box::new(Pat::Array(ArrayPat {
+                value: ArrayPat {
                     span: DUMMY_SP,
                     elems: self.state.class_lhs.take(),
                     type_ann: Default::default(),
                     optional: false,
-                })),
+                }
+                .into(),
             }))
         };
 
