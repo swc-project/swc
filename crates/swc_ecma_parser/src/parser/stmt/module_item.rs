@@ -43,7 +43,6 @@ impl<I: Tokens> Parser<I> {
         expect!(self, "import");
 
         // Handle import 'mod.js'
-        let str_start = cur_pos!(self);
         if let Ok(&Token::Str { .. }) = cur!(self, false) {
             let src = self.parse_str_lit().map(Box::new)?;
             let _ = cur!(self, false);
@@ -155,19 +154,8 @@ impl<I: Tokens> Parser<I> {
 
         let src = {
             expect!(self, "from");
-            let str_start = cur_pos!(self);
 
-            match *cur!(self, true) {
-                Token::Str { .. } => match bump!(self) {
-                    Token::Str { value, .. } => Box::new(Str {
-                        span: span!(self, str_start),
-                        value,
-                        raw: Some(raw),
-                    }),
-                    _ => unreachable!(),
-                },
-                _ => unexpected!(self, "a string literal"),
-            }
+            Box::new(self.parse_str_lit()?)
         };
 
         let _ = cur!(self, false);
@@ -824,18 +812,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_from_clause_and_semi(&mut self) -> PResult<(Box<Str>, Option<Box<ObjectLit>>)> {
         expect!(self, "from");
 
-        let str_start = cur_pos!(self);
-        let src = match *cur!(self, true) {
-            Token::Str { .. } => match bump!(self) {
-                Token::Str { value, .. } => Box::new(Str {
-                    span: span!(self, str_start),
-                    value,
-                    raw: Some(raw),
-                }),
-                _ => unreachable!(),
-            },
-            _ => unexpected!(self, "a string literal"),
-        };
+        let src = Box::new(self.parse_str_lit()?);
         let _ = cur!(self, false);
         let with = if self.input.syntax().import_attributes()
             && !self.input.had_line_break_before_cur()

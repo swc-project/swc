@@ -1,7 +1,8 @@
-use std::{cell::RefCell, mem, mem::take, rc::Rc};
+use std::{cell::RefCell, mem, rc::Rc};
 
 use debug_unreachable::debug_unreachable;
 use lexer::TokenContexts;
+use swc_atoms::Atom;
 use swc_common::{BytePos, Span};
 
 use super::Parser;
@@ -47,101 +48,8 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn add_module_mode_error(&self, error: Error);
 
     fn take_errors(&mut self) -> Vec<Error>;
-}
 
-#[derive(Clone)]
-pub struct TokensInput {
-    iter: <Vec<TokenAndSpan> as IntoIterator>::IntoIter,
-    ctx: Context,
-    syntax: Syntax,
-    start_pos: BytePos,
-    target: EsVersion,
-    token_ctx: TokenContexts,
-    errors: Rc<RefCell<Vec<Error>>>,
-    module_errors: Rc<RefCell<Vec<Error>>>,
-}
-
-impl TokensInput {
-    pub fn new(tokens: Vec<TokenAndSpan>, ctx: Context, syntax: Syntax, target: EsVersion) -> Self {
-        let start_pos = tokens.first().map(|t| t.span.lo).unwrap_or(BytePos(0));
-
-        TokensInput {
-            iter: tokens.into_iter(),
-            ctx,
-            syntax,
-            start_pos,
-            target,
-            token_ctx: Default::default(),
-            errors: Default::default(),
-            module_errors: Default::default(),
-        }
-    }
-}
-
-impl Iterator for TokensInput {
-    type Item = TokenAndSpan;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        self.iter.next()
-    }
-}
-
-impl Tokens for TokensInput {
-    fn set_ctx(&mut self, ctx: Context) {
-        if ctx.module && !self.module_errors.borrow().is_empty() {
-            let mut module_errors = self.module_errors.borrow_mut();
-            self.errors.borrow_mut().append(&mut *module_errors);
-        }
-        self.ctx = ctx;
-    }
-
-    fn ctx(&self) -> Context {
-        self.ctx
-    }
-
-    fn syntax(&self) -> Syntax {
-        self.syntax
-    }
-
-    fn target(&self) -> EsVersion {
-        self.target
-    }
-
-    fn start_pos(&self) -> BytePos {
-        self.start_pos
-    }
-
-    fn set_expr_allowed(&mut self, _: bool) {}
-
-    fn set_next_regexp(&mut self, _: Option<BytePos>) {}
-
-    fn token_context(&self) -> &TokenContexts {
-        &self.token_ctx
-    }
-
-    fn token_context_mut(&mut self) -> &mut TokenContexts {
-        &mut self.token_ctx
-    }
-
-    fn set_token_context(&mut self, c: TokenContexts) {
-        self.token_ctx = c;
-    }
-
-    fn add_error(&self, error: Error) {
-        self.errors.borrow_mut().push(error);
-    }
-
-    fn add_module_mode_error(&self, error: Error) {
-        if self.ctx.module {
-            self.add_error(error);
-            return;
-        }
-        self.module_errors.borrow_mut().push(error);
-    }
-
-    fn take_errors(&mut self) -> Vec<Error> {
-        take(&mut self.errors.borrow_mut())
-    }
+    fn atom(&mut self, span: Span) -> Atom;
 }
 
 /// Note: Lexer need access to parser's context to lex correctly.
@@ -257,6 +165,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
 
     fn take_errors(&mut self) -> Vec<Error> {
         self.inner.take_errors()
+    }
+
+    fn atom(&mut self, span: Span) -> Atom {
+        self.inner.atom(span)
     }
 }
 
@@ -496,5 +408,9 @@ impl<I: Tokens> Buffer<I> {
     #[inline]
     pub(crate) fn set_token_context(&mut self, c: lexer::TokenContexts) {
         self.iter.set_token_context(c)
+    }
+
+    pub(crate) fn slice(&mut self, span: Span) -> Atom {
+        self.iter.atom(span)
     }
 }

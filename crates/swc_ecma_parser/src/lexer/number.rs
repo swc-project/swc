@@ -71,9 +71,7 @@ impl<'a> Lexer<'a> {
                     if start.0 != self.last_pos().0 - 1 {
                         // `-1` is utf 8 length of `0`
 
-                        return self
-                            .make_legacy_octal(start, 0f64)
-                            .map(|value| Either::Left(value));
+                        return self.make_legacy_octal(start, 0f64).map(Either::Left);
                     }
                 } else {
                     // strict mode hates non-zero decimals starting with zero.

@@ -48,27 +48,13 @@ impl<I: Tokens> Parser<I> {
             in_property_name: true,
             ..ctx
         })
-        .parse_with(|p| {
+        .parse_with(|p: &mut Parser<I>| {
             let start = cur_pos!(p);
 
             let v = match *cur!(p, true) {
-                Token::Str { .. } => self.parse_str_lit()?.into(),
-                Token::Num { .. } => match bump!(p) {
-                    Token::Num { value } => PropName::Num(Number {
-                        span: span!(p, start),
-                        value,
-                        raw: Some(raw),
-                    }),
-                    _ => unreachable!(),
-                },
-                Token::BigInt { .. } => match bump!(p) {
-                    Token::BigInt { value } => PropName::BigInt(BigInt {
-                        span: span!(p, start),
-                        value,
-                        raw: Some(raw),
-                    }),
-                    _ => unreachable!(),
-                },
+                Token::Str { .. } => p.parse_str_lit()?.into(),
+                Token::Num { .. } => p.parse_num_lit()?.into(),
+                Token::BigInt { .. } => p.parse_bigint_lit()?.into(),
                 Word(..) => match bump!(p) {
                     Word(w) => PropName::Ident(IdentName::new(w.into(), span!(p, start))),
                     _ => unreachable!(),

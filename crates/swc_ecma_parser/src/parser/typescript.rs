@@ -298,14 +298,7 @@ impl<I: Tokens> Parser<I> {
         let arg_span = self.input.cur_span();
 
         let arg = match cur!(self, true) {
-            Token::Str { .. } => match bump!(self) {
-                Token::Str { value, raw } => Str {
-                    span: arg_span,
-                    value,
-                    raw: Some(raw),
-                },
-                _ => unreachable!(),
-            },
+            Token::Str { .. } => self.parse_str_lit()?.into(),
             _ => {
                 bump!(self);
                 self.emit_err(arg_span, SyntaxError::TS1141);
@@ -733,13 +726,7 @@ impl<I: Tokens> Parser<I> {
                 Lit::Str(s) => TsEnumMemberId::Str(s),
                 _ => unreachable!(),
             })?,
-            Token::Num { value, ref raw } => {
-                let mut new_raw = String::new();
-
-                new_raw.push('"');
-                new_raw.push_str(raw);
-                new_raw.push('"');
-
+            Token::Num { value } => {
                 bump!(self);
 
                 let span = span!(self, start);
@@ -747,10 +734,12 @@ impl<I: Tokens> Parser<I> {
                 // Recover from error
                 self.emit_err(span, SyntaxError::TS2452);
 
+                let raw = self.input.slice(span);
+
                 TsEnumMemberId::Str(Str {
                     span,
                     value: value.to_string().into(),
-                    raw: Some(new_raw.into()),
+                    raw: Some(raw),
                 })
             }
             Token::LBracket => {

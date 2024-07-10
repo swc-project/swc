@@ -2,9 +2,7 @@ extern crate test;
 
 use std::{ops::Range, str};
 
-use swc_atoms::Atom;
 use swc_common::{BytePos, Span};
-use swc_common::{BytePos, Span, SyntaxContext};
 use swc_ecma_ast::{AssignOp, AssignOp::*};
 use test::{black_box, Bencher};
 
@@ -1458,13 +1456,9 @@ fn jsx_string_9() {
             },
             Token::JSXName { name: "num".into() },
             tok!('='),
-            Token::Str {
-                value: "&&".into(),
-                raw: "'&&'".into(),
-            },
+            Token::Str { value: "&&".into() },
             Token::JSXTagEnd,
             JSXText {
-                raw: "ABC".into(),
                 value: "ABC".into()
             },
             JSXTagStart,
@@ -1924,7 +1918,6 @@ fn issue_2853_8_tsx() {
             Token::AssignOp(AssignOp::Assign),
             Token::Str {
                 value: "\u{0000}a".into(),
-                raw: "\"\u{0000}a\"".into(),
             }
         ]
     );
@@ -2082,7 +2075,6 @@ fn issue_9106() {
             },
             JSXTagEnd,
             JSXText {
-                raw: "\n\r\nABC".into(),
                 value: "\n\nABC".into(),
             },
             JSXTagStart,

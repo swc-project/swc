@@ -1,6 +1,7 @@
 use std::mem::take;
 
 use smallvec::{smallvec, SmallVec};
+use swc_atoms::Atom;
 use swc_common::{BytePos, Span};
 use tracing::trace;
 
@@ -190,6 +191,16 @@ impl Tokens for Lexer<'_> {
 
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
+    }
+
+    fn atom(&mut self, span: Span) -> Atom {
+        let s = unsafe {
+            // Safety: This is crate-internal API
+
+            self.input.slice(span.lo, span.hi)
+        };
+
+        self.atoms.atom(s)
     }
 }
 

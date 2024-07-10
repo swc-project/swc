@@ -431,6 +431,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(matches!(cur!(self, false), Ok(&Token::JSXText { .. })));
         let token = bump!(self);
         let span = self.input.prev_span();
+        let raw = self.input.slice(span);
         match token {
             Token::JSXText { value } => Ok(JSXText { span, value, raw }),
             _ => unreachable!(),

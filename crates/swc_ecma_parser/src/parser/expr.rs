@@ -2066,6 +2066,40 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
+    pub(super) fn parse_num_lit(&mut self) -> PResult<Number> {
+        let span = self.input.cur_span();
+
+        let value = match bump!(self) {
+            Token::Num { value } => value,
+            _ => unreachable!(),
+        };
+
+        let raw = self.input.slice(span);
+
+        Ok(Number {
+            span,
+            value,
+            raw: Some(raw),
+        })
+    }
+
+    pub(super) fn parse_bigint_lit(&mut self) -> PResult<BigInt> {
+        let span = self.input.cur_span();
+
+        let value = match bump!(self) {
+            Token::BigInt { value } => value,
+            _ => unreachable!(),
+        };
+
+        let raw = self.input.slice(span);
+
+        Ok(BigInt {
+            span,
+            value,
+            raw: Some(raw),
+        })
+    }
+
     /// 12.2.5 Array Initializer
     pub(super) fn parse_lit(&mut self) -> PResult<Lit> {
         let start = cur_pos!(self);
@@ -2083,30 +2117,9 @@ impl<I: Tokens> Parser<I> {
 
                 Lit::Bool(Bool { span, value })
             }
-            Token::Str { .. } => match bump!(self) {
-                Token::Str { value } => Lit::Str(Str {
-                    span: span!(self, start),
-                    value,
-                    raw: Some(raw),
-                }),
-                _ => unreachable!(),
-            },
-            Token::Num { .. } => match bump!(self) {
-                Token::Num { value } => Lit::Num(Number {
-                    span: span!(self, start),
-                    value,
-                    raw: Some(raw),
-                }),
-                _ => unreachable!(),
-            },
-            Token::BigInt { .. } => match bump!(self) {
-                Token::BigInt { value } => Lit::BigInt(BigInt {
-                    span: span!(self, start),
-                    value,
-                    raw: Some(raw),
-                }),
-                _ => unreachable!(),
-            },
+            Token::Str { .. } => self.parse_str_lit()?.into(),
+            Token::Num { .. } => self.parse_num_lit()?.into(),
+            Token::BigInt { .. } => self.parse_bigint_lit()?.into(),
             token => unreachable!("parse_lit should not be called for {:?}", token),
         };
         Ok(v)
