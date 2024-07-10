@@ -829,7 +829,7 @@ impl Transform {
     // Foo.x = x;
     fn assign_prop(id: &Id, prop: &Ident, span: Span) -> Stmt {
         let expr = Expr::Ident(prop.clone())
-            .make_assign_to(op!("="), id.clone().make_member(prop.clone()).into());
+            .make_assign_to(op!("="), id.clone().make_member(prop.clone().into()).into());
 
         Stmt::Expr(ExprStmt {
             span,
@@ -883,7 +883,7 @@ impl Transform {
 
         if is_export {
             if let Some(id) = container_name.clone() {
-                left = Ident::from(id).make_member(ident).into();
+                left = Ident::from(id).make_member(ident.into()).into();
                 assign_left = left.clone();
             }
         }
@@ -1039,7 +1039,10 @@ impl Transform {
                                     if decl.is_export {
                                         init = init.make_assign_to(
                                             op!("="),
-                                            cjs_exports.clone().make_member(decl.id.clone()).into(),
+                                            cjs_exports
+                                                .clone()
+                                                .make_member(decl.id.clone().into())
+                                                .into(),
                                         )
                                     }
 
@@ -1203,7 +1206,12 @@ impl VisitMut for ExportedPatRewriter {
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         if let Pat::Ident(bid) = n {
-            *n = Pat::Expr(self.id.clone().make_member(Ident::from(take(bid))).into());
+            *n = Pat::Expr(
+                self.id
+                    .clone()
+                    .make_member(IdentName::from(take(bid)))
+                    .into(),
+            );
             return;
         }
 
@@ -1212,7 +1220,9 @@ impl VisitMut for ExportedPatRewriter {
 
     fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
         if let ObjectPatProp::Assign(AssignPatProp { key, value, .. }) = n {
-            let left = Box::new(Pat::Expr(self.id.clone().make_member(key.clone()).into()));
+            let left = Box::new(Pat::Expr(
+                self.id.clone().make_member(key.clone().into()).into(),
+            ));
 
             let value = if let Some(right) = value.take() {
                 AssignPat {
@@ -1243,9 +1253,12 @@ struct ExportQuery {
 
 impl QueryRef for ExportQuery {
     fn query_ref(&self, ident: &Ident) -> Option<Box<Expr>> {
-        self.export_id_list
-            .contains(&ident.to_id())
-            .then(|| self.namesapce_id.clone().make_member(ident.clone()).into())
+        self.export_id_list.contains(&ident.to_id()).then(|| {
+            self.namesapce_id
+                .clone()
+                .make_member(ident.clone().into())
+                .into()
+        })
     }
 
     fn query_lhs(&self, ident: &Ident) -> Option<Box<Expr>> {
@@ -1257,7 +1270,7 @@ impl QueryRef for ExportQuery {
             JSXMemberExpr {
                 span: DUMMY_SP,
                 obj: JSXObject::Ident(self.namesapce_id.clone().into()),
-                prop: ident.clone(),
+                prop: ident.clone().into(),
             }
             .into()
         })

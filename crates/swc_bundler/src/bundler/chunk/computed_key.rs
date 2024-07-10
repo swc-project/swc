@@ -204,7 +204,7 @@ impl ExportToReturn {
             .push(PropOrSpread::Prop(Box::new(Prop::Shorthand(i))));
     }
 
-    fn export_key_value(&mut self, mut key: Ident, value: Ident) {
+    fn export_key_value(&mut self, key: Ident, value: Ident) {
         self.return_props
             .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(key.into()),
