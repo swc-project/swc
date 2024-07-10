@@ -1,6 +1,6 @@
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{chain, comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap};
-use swc_ecma_ast::Module;
+use swc_ecma_ast::{Module, Program};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::{helpers, resolver};
 use swc_ecma_transforms_typescript::strip;
@@ -34,7 +34,7 @@ where
             .fold_with(&mut strip(top_level_mark));
 
         b.iter(|| {
-            let module = module.clone();
+            let module = Program::Module(module.clone());
 
             helpers::HELPERS.set(&Default::default(), || {
                 let mut tr = tr(unresolved_mark);
