@@ -38,11 +38,13 @@ impl<I: Tokens> Parser<I> {
         }
 
         let name = self.parse_jsx_ident().map(IdentName::from)?;
-        Ok(JSXAttrName::JSXNamespacedName(JSXNamespacedName {
-            span: Span::new(start, name.span.hi),
-            ns,
-            name,
-        }))
+        Ok(JSXAttrName::JSXNamespacedName(Box::new(
+            JSXNamespacedName {
+                span: Span::new(start, name.span.hi),
+                ns,
+                name,
+            },
+        )))
     }
 
     /// Parses element name in any form - namespaced, member or single
@@ -58,7 +60,7 @@ impl<I: Tokens> Parser<I> {
         };
         while eat!(self, '.') {
             let prop = self.parse_jsx_ident().map(IdentName::from)?;
-            let new_node = JSXElementName::JSXMemberExpr(JSXMemberExpr {
+            let new_node = JSXElementName::JSXMemberExpr(Box::new(JSXMemberExpr {
                 span: span!(self, start),
                 obj: match node {
                     JSXElementName::Ident(i) => JSXObject::Ident(i),
@@ -66,7 +68,7 @@ impl<I: Tokens> Parser<I> {
                     _ => unimplemented!("JSXNamespacedName -> JSXObject"),
                 },
                 prop,
-            });
+            }));
             node = new_node;
         }
         Ok(node)

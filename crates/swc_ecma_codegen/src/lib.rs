@@ -1054,7 +1054,7 @@ where
             Expr::New(new) => {
                 self.emit_new(new, false)?;
             }
-            Expr::Lit(box Lit::Num(num)) => {
+            Expr::Lit(Lit::Num(num)) => {
                 needs_2dots_for_property_access = self.emit_num_lit_internal(num, true)?;
             }
             _ => {
@@ -3698,9 +3698,7 @@ fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
             ..
         }) if node.op == op!(unary, "-") => true,
 
-        Expr::Lit(box Lit::Num(v)) if v.value.is_sign_negative() && node.op == op!(unary, "-") => {
-            true
-        }
+        Expr::Lit(Lit::Num(v)) if v.value.is_sign_negative() && node.op == op!(unary, "-") => true,
 
         _ => false,
     }
