@@ -206,6 +206,15 @@ macro_rules! bridge_from {
     };
 }
 
+macro_rules! boxed_variants {
+    ($e:ident, [$($variant:ident),*]) => {
+        $(
+            bridge_from!(Box<$e>, $e,$variant);
+            bridge_from!($e, Box<$variant>, $variant);
+        )*
+    };
+}
+
 macro_rules! bridge_expr_from {
     ($bridge:ty, $src:ty) => {
         bridge_from!(crate::Expr, $bridge, $src);
