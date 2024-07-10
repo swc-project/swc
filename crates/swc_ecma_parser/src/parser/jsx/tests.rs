@@ -69,7 +69,7 @@ fn escape_in_attr() {
                 span,
                 attrs: vec![JSXAttrOrSpread::JSXAttr(JSXAttr {
                     span,
-                    name: JSXAttrName::Ident(Ident::new_no_ctxt("id".into(), span)),
+                    name: JSXAttrName::Ident(IdentName::new("id".into(), span)),
                     value: Some(JSXAttrValue::Lit(Lit::Str(Str {
                         span,
                         value: "w < w".into(),
@@ -97,7 +97,7 @@ fn issue_584() {
                 name: JSXElementName::Ident(Ident::new_no_ctxt("test".into(), span)),
                 attrs: vec![JSXAttrOrSpread::JSXAttr(JSXAttr {
                     span,
-                    name: JSXAttrName::Ident(Ident::new_no_ctxt("other".into(), span)),
+                    name: JSXAttrName::Ident(IdentName::new("other".into(), span)),
                     value: Some(JSXAttrValue::JSXExprContainer(JSXExprContainer {
                         span,
                         expr: JSXExpr::Expr(Box::new(Expr::Lit(Lit::Num(Number {
