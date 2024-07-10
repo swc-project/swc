@@ -158,17 +158,6 @@ impl Params {
                                         }
                                         .into(),
                                     ),
-                                    test: Box::new(Expr::Bin(BinExpr {
-                                        left: Box::new(check_arg_len(i)),
-                                        op: op!("&&"),
-                                        right: Box::new(Expr::Bin(BinExpr {
-                                            left: make_arg_nth(i).into(),
-                                            op: op!("!=="),
-                                            right: Expr::undefined(DUMMY_SP),
-                                            span: DUMMY_SP,
-                                        })),
-                                        span,
-                                    })),
                                     cons: make_arg_nth(i).into(),
                                     alt: right,
                                 }
@@ -190,7 +179,7 @@ impl Params {
                                 span: DUMMY_SP,
                                 left: Box::new(Ident::from(ident).into()),
                                 op: op!("==="),
-                                right: DUMMY_SP.into(),
+                                right: Expr::undefined(DUMMY_SP),
                             }
                             .into(),
                             cons: Box::new(Stmt::Expr(ExprStmt {
@@ -704,8 +693,6 @@ impl VisitMut for Params {
                             })),
                             ..Default::default()
                         }
-                        })
-                        .into()
                         .as_iife()
                         .into(),
                         _ => func,
@@ -846,16 +833,6 @@ fn check_arg_len(n: usize) -> Expr {
     BinExpr {
         left: Expr::Ident(Ident::new_no_ctxt("arguments".into(), DUMMY_SP))
             .make_member(IdentName::new("length".into(), DUMMY_SP))
-    Expr::Ident(Ident::new_no_ctxt("arguments".into(), DUMMY_SP)).computed_member(n)
-    Ident::new_no_ctxt("arguments".into(), DUMMY_SP)
-        .into()
-        .computed_member(n)
-}
-
-fn check_arg_len(n: usize) -> Expr {
-    BinExpr {
-        left: Expr::Ident(Ident::new_no_ctxt("arguments".into(), DUMMY_SP))
-            .make_member(Ident::new_no_ctxt("length".into(), DUMMY_SP))
             .into(),
         op: op!(">"),
         right: n.into(),

@@ -65,7 +65,7 @@ impl VisitMut for TypeOfSymbol {
         {
             match &**arg {
                 Expr::Ident(..) => {
-                    let undefined_str: Expr = quote_str!("undefined").into();
+                    let undefined_str: Box<Expr> = quote_str!("undefined").into();
 
                     let test = BinExpr {
                         span: DUMMY_SP,
@@ -89,9 +89,6 @@ impl VisitMut for TypeOfSymbol {
                         ..Default::default()
                     }
                     .into();
-
-                    *expr = CondExpr {
-                    });
 
                     *expr = CondExpr {
                         span: *span,

@@ -558,7 +558,12 @@ struct AssignFolder {
 }
 
 impl AssignFolder {
-    pub fn handle_assign_pat(&mut self, span: Span, mut pat: AssignPat, right: &mut Expr) -> Expr {
+    pub fn handle_assign_pat(
+        &mut self,
+        span: Span,
+        mut pat: AssignPat,
+        right: &mut Box<Expr>,
+    ) -> Expr {
         let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
 
         let mut exprs = vec![Box::new(
@@ -572,7 +577,6 @@ impl AssignFolder {
         )];
 
         let mut assign_cond_expr: Expr = AssignExpr {
-        let mut assign_cond_expr = AssignExpr {
             span,
             left: pat.left.take().try_into().unwrap(),
             op: op!("="),
@@ -681,13 +685,6 @@ impl VisitMut for AssignFolder {
                                                     }
                                                     .into(),
                                                 ),
-                                                right: Box::new(Expr::Array(ArrayLit {
-                                                    span: DUMMY_SP,
-                                                    elems: arr_elems
-                                                        .take()
-                                                        .expect("two rest element?")
-                                                        .collect(),
-                                                })),
                                             }
                                             .into(),
                                         );
@@ -703,7 +700,7 @@ impl VisitMut for AssignFolder {
                                                 debug_assert_eq!(e.spread, None);
                                                 e.expr
                                             })
-                                            .unwrap_or_else(|| p.span().into());
+                                            .unwrap_or_else(|| Expr::undefined(p.span()));
 
                                         let p = p.take();
                                         let mut expr = if let Pat::Assign(pat) = p {
@@ -768,80 +765,10 @@ impl VisitMut for AssignFolder {
                                                 )
                                                 .as_callee(),
                                                 args: vec![right.take().as_arg()],
-                    exprs.push(Box::new(Expr::Assign(AssignExpr {
-                        span: DUMMY_SP,
-                        op: op!("="),
-                        left: ref_ident.clone().into(),
-                        right: if self.c.loose {
-                            right.take()
-                        } else {
-                            match &mut **right {
-                                Expr::Ident(Ident { sym, .. }) if &**sym == "arguments" => {
-                                    Box::new(Expr::Call(CallExpr {
-                                        span: DUMMY_SP,
-                                        callee: member_expr!(
-                                            Default::default(),
-                                            Default::default(),
-                                            Array.prototype.slice.call
-                                        )
-                                        .as_callee(),
-                                        args: vec![right.take().as_arg()],
-                                        ..Default::default()
-                                    }))
-                                }
-                                Expr::Array(..) => right.take(),
-                                _ => {
-                                    // if left has rest then need `_to_array`
-                                    // else `_sliced_to_array`
-                                    if elems.iter().any(|elem| matches!(elem, Some(Pat::Rest(..))))
-                                    {
-                                        Box::new(Expr::Call(CallExpr {
-                                            span: DUMMY_SP,
-                                            callee: member_expr!(
-                                                Default::default(),
-                                                Default::default(),
-                                                Array.prototype.slice.call
-                                            )
-                                            .as_callee(),
-                                            args: vec![right.take().as_arg()],
-                                            ..Default::default()
-                                        }))
                                                 ..Default::default()
                                             }
                                             .into(),
                                         )
-                                    }
-                                    Expr::Array(..) => right.take(),
-                                    _ => {
-                                        // if left has rest then need `_to_array`
-                                        // else `_sliced_to_array`
-                                        if elems
-                                            .iter()
-                                            .any(|elem| matches!(elem, Some(Pat::Rest(..))))
-                                        {
-                                            Box::new(
-                                                CallExpr {
-                                                    span: DUMMY_SP,
-                                                    callee: helper!(to_array),
-                                                    args: vec![right.take().as_arg()],
-                                                    ..Default::default()
-                                                }
-                                                .into(),
-                                            )
-                                        } else {
-                                            Box::new(
-                                                CallExpr {
-                                                    span: DUMMY_SP,
-                                                    callee: helper!(sliced_to_array),
-                                                    args: vec![
-                                                        right.take().as_arg(),
-                                                        elems.len().as_arg(),
-                                                    ],
-                                                    ..Default::default()
-                                                }
-                                                .into(),
-                                            )
-                                        }
                                     }
                                     Expr::Array(..) => right.take(),
                                     _ => {
@@ -905,7 +832,6 @@ impl VisitMut for AssignFolder {
                                 );
 
                                 let mut assign_expr: Expr = AssignExpr {
-                                let mut assign_expr = AssignExpr {
                                     span: *span,
                                     left: left.take().try_into().unwrap(),
                                     op: op!("="),
@@ -918,7 +844,6 @@ impl VisitMut for AssignFolder {
                             }
                             Pat::Rest(RestPat { arg, .. }) => {
                                 let mut assign_expr: Expr = AssignExpr {
-                                let mut assign_expr = AssignExpr {
                                     span: elem_span,
                                     op: op!("="),
                                     left: arg.take().try_into().unwrap(),
@@ -940,7 +865,6 @@ impl VisitMut for AssignFolder {
                             }
                             _ => {
                                 let mut assign_expr: Expr = AssignExpr {
-                                let mut assign_expr = AssignExpr {
                                     span: elem_span,
                                     op: op!("="),
                                     left: elem.take().try_into().unwrap(),
@@ -980,8 +904,6 @@ impl VisitMut for AssignFolder {
                                 op: op!("="),
                                 left: p.key.clone().into(),
                                 right: right.take().make_member(p.key.clone().into()).into(),
-                            });
-                                right: right.take().make_member(p.key.clone()).into(),
                             }
                             .into();
                             return;
@@ -1134,7 +1056,7 @@ impl VisitMut for AssignFolder {
         if var_decl.kind == VarDeclKind::Const {
             var_decl.decls.iter_mut().for_each(|v| {
                 if v.init.is_none() {
-                    v.init = Some(DUMMY_SP.into());
+                    v.init = Some(Expr::undefined(DUMMY_SP));
                 }
             })
         }
@@ -1210,7 +1132,7 @@ fn make_ref_idx_expr(ref_ident: &Ident, i: usize) -> MemberExpr {
     ref_ident.clone().computed_member(i as f64)
 }
 
-fn make_ref_ident(c: Config, decls: &mut Vec<VarDeclarator>, init: Option<Expr>) -> Ident {
+fn make_ref_ident(c: Config, decls: &mut Vec<VarDeclarator>, init: Option<Box<Expr>>) -> Ident {
     make_ref_ident_for_array(c, decls, init, None)
 }
 
@@ -1218,7 +1140,7 @@ fn make_ref_ident(c: Config, decls: &mut Vec<VarDeclarator>, init: Option<Expr>)
 fn make_ref_ident_for_array(
     c: Config,
     decls: &mut Vec<VarDeclarator>,
-    mut init: Option<Expr>,
+    mut init: Option<Box<Expr>>,
     elem_cnt: Option<usize>,
 ) -> Ident {
     if elem_cnt.is_none() {
@@ -1282,7 +1204,7 @@ fn make_ref_ident_for_array(
     ref_ident
 }
 
-fn make_ref_prop_expr(ref_ident: &Ident, prop: Expr, mut computed: bool) -> Expr {
+fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>, mut computed: bool) -> Expr {
     computed |= matches!(*prop, Expr::Lit(Lit::Num(..)) | Expr::Lit(Lit::Str(..)));
 
     MemberExpr {
@@ -1303,8 +1225,6 @@ fn make_ref_prop_expr(ref_ident: &Ident, prop: Expr, mut computed: bool) -> Expr
 /// Creates `tmp === void 0 ? def_value : tmp`
 fn make_cond_expr(tmp: Ident, def_value: Box<Expr>) -> Expr {
     CondExpr {
-fn make_cond_expr(tmp: Ident, def_value: Expr) -> Expr {
-    CondExpr {
         span: DUMMY_SP,
         test: BinExpr {
             span: DUMMY_SP,
@@ -1321,7 +1241,6 @@ fn make_cond_expr(tmp: Ident, def_value: Expr) -> Expr {
         alt: tmp.into(),
     }
     .into()
-    })
 }
 
 fn can_be_null(e: &Expr) -> bool {

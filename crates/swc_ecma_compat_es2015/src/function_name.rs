@@ -78,8 +78,6 @@ impl VisitMut for FnName {
             p.value = if let PropName::Ident(ref i) = p.key {
                 FnExpr {
                     ident: Some(prepare(i.clone().into())),
-                FnExpr {
-                    ident: Some(prepare(i.clone())),
                     ..expr.take()
                 }
                 .into()

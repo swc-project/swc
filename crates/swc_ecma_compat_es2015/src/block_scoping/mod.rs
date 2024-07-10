@@ -143,7 +143,7 @@ impl BlockScoping {
             let mut env_hoister =
                 FnEnvHoister::new(SyntaxContext::empty().apply_mark(self.unresolved_mark));
             body_stmt.visit_mut_with(&mut env_hoister);
-            let mut inits: Vec<Expr> = vec![];
+            let mut inits: Vec<Box<Expr>> = vec![];
 
             for mut var in env_hoister.to_decl() {
                 if let Some(init) = var.init.take() {
@@ -597,7 +597,7 @@ impl VisitMut for BlockScoping {
             if self.var_decl_kind == VarDeclKind::Var {
                 var.init = None
             } else {
-                var.init = Some(var.span().into())
+                var.init = Some(Expr::undefined(var.span()))
             }
         }
     }
@@ -912,9 +912,9 @@ struct MutationHandler<'a> {
 }
 
 impl MutationHandler<'_> {
-    fn make_reassignment(&self, orig: Option<Expr>) -> Expr {
+    fn make_reassignment(&self, orig: Option<Box<Expr>>) -> Expr {
         if self.map.is_empty() {
-            return *orig.unwrap_or_else(|| DUMMY_SP.into());
+            return *orig.unwrap_or_else(|| Expr::undefined(DUMMY_SP));
         }
 
         let mut exprs = Vec::with_capacity(self.map.len() + 1);
@@ -929,18 +929,8 @@ impl MutationHandler<'_> {
                 }
                 .into(),
             );
-            exprs.push(Box::new(Expr::Assign(AssignExpr {
-                span: DUMMY_SP,
-                left: Ident::new(id.0.clone(), DUMMY_SP, id.1).into(),
-                op: op!("="),
-                right: Box::new(Expr::Ident(Ident::new(id.0.clone(), DUMMY_SP, *ctxt))),
-            })));
-                    right: Box::new(Expr::Ident(Ident::new(id.0.clone(), DUMMY_SP, *ctxt))),
-                }
-                .into(),
-            );
         }
-        exprs.push(orig.unwrap_or_else(|| DUMMY_SP.into()));
+        exprs.push(orig.unwrap_or_else(|| Expr::undefined(DUMMY_SP)));
 
         SeqExpr {
             span: DUMMY_SP,

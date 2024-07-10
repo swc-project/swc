@@ -115,10 +115,6 @@ impl VisitMut for ComputedProps {
                             }
                             .into(),
                         ),
-                        right: Box::new(Expr::Object(ObjectLit {
-                            span: DUMMY_SP,
-                            props: obj_props,
-                        })),
                     }
                     .into()
                 },
@@ -220,21 +216,6 @@ impl VisitMut for ComputedProps {
                                         }
                                         .into(),
                                     ),
-                                    right: Box::new(Expr::Bin(BinExpr {
-                                        span,
-                                        left: mutator_elem.clone().into(),
-                                        op: op!("||"),
-                                        right: Box::new(Expr::Object(ObjectLit {
-                                            span,
-                                            left: mutator_elem.clone().into(),
-                                            op: op!("||"),
-                                            right: Box::new(Expr::Object(ObjectLit {
-                                                span,
-                                                props: vec![],
-                                            })),
-                                        }
-                                        .into(),
-                                    ),
                                 }
                                 .into(),
                             );
@@ -254,10 +235,6 @@ impl VisitMut for ComputedProps {
                                         }
                                         .into(),
                                     ),
-                                    right: Box::new(Expr::Fn(FnExpr {
-                                        ident: None,
-                                        function,
-                                    })),
                                 }
                                 .into(),
                             );
@@ -351,7 +328,6 @@ impl VisitMut for ComputedProps {
             // Last value
             exprs.push(obj_ident.into());
             *expr = SeqExpr {
-            *expr = Expr::Seq(SeqExpr {
                 span: DUMMY_SP,
                 exprs,
             }
@@ -435,7 +411,6 @@ fn prop_name_to_expr(p: PropName, loose: bool) -> (Expr, bool) {
     match p {
         PropName::Ident(i) => (
             if loose {
-                Expr::Ident(i.into())
                 i.into()
             } else {
                 Lit::Str(Str {
