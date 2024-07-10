@@ -81,9 +81,7 @@
                   "start": 174,
                   "end": 175
                 },
-                "ctxt": 0,
-                "value": "p",
-                "optional": false
+                "value": "p"
               }
             }
           }

@@ -37,9 +37,7 @@
               "start": 80,
               "end": 94
             },
-            "ctxt": 0,
-            "value": "isDecimalDigit",
-            "optional": false
+            "value": "isDecimalDigit"
           },
           "function": {
             "params": [
@@ -143,9 +141,7 @@
                             "start": 152,
                             "end": 154
                           },
-                          "ctxt": 0,
-                          "value": "_0",
-                          "optional": false
+                          "value": "_0"
                         }
                       }
                     },
@@ -188,9 +184,7 @@
                             "start": 178,
                             "end": 180
                           },
-                          "ctxt": 0,
-                          "value": "_9",
-                          "optional": false
+                          "value": "_9"
                         }
                       }
                     }
@@ -236,9 +230,7 @@
               "start": 207,
               "end": 217
             },
-            "ctxt": 0,
-            "value": "isHexDigit",
-            "optional": false
+            "value": "isHexDigit"
           },
           "function": {
             "params": [
@@ -396,9 +388,7 @@
                                   "start": 312,
                                   "end": 313
                                 },
-                                "ctxt": 0,
-                                "value": "A",
-                                "optional": false
+                                "value": "A"
                               }
                             }
                           },
@@ -441,9 +431,7 @@
                                   "start": 337,
                                   "end": 338
                                 },
-                                "ctxt": 0,
-                                "value": "F",
-                                "optional": false
+                                "value": "F"
                               }
                             }
                           }
@@ -502,9 +490,7 @@
                                 "start": 379,
                                 "end": 380
                               },
-                              "ctxt": 0,
-                              "value": "a",
-                              "optional": false
+                              "value": "a"
                             }
                           }
                         },
@@ -547,9 +533,7 @@
                                 "start": 404,
                                 "end": 405
                               },
-                              "ctxt": 0,
-                              "value": "f",
-                              "optional": false
+                              "value": "f"
                             }
                           }
                         }
@@ -597,9 +581,7 @@
               "start": 433,
               "end": 441
             },
-            "ctxt": 0,
-            "value": "hexValue",
-            "optional": false
+            "value": "hexValue"
           },
           "function": {
             "params": [
@@ -686,9 +668,7 @@
                           "start": 477,
                           "end": 483
                         },
-                        "ctxt": 0,
-                        "value": "assert",
-                        "optional": false
+                        "value": "assert"
                       }
                     },
                     "arguments": [
@@ -824,9 +804,7 @@
                               "start": 567,
                               "end": 569
                             },
-                            "ctxt": 0,
-                            "value": "_0",
-                            "optional": false
+                            "value": "_0"
                           }
                         }
                       }
@@ -889,9 +867,7 @@
                                   "start": 606,
                                   "end": 607
                                 },
-                                "ctxt": 0,
-                                "value": "A",
-                                "optional": false
+                                "value": "A"
                               }
                             }
                           },
@@ -934,9 +910,7 @@
                                   "start": 631,
                                   "end": 632
                                 },
-                                "ctxt": 0,
-                                "value": "F",
-                                "optional": false
+                                "value": "F"
                               }
                             }
                           }
@@ -988,9 +962,7 @@
                                 "start": 671,
                                 "end": 672
                               },
-                              "ctxt": 0,
-                              "value": "A",
-                              "optional": false
+                              "value": "A"
                             }
                           }
                         },
@@ -1050,9 +1022,7 @@
                                 "start": 715,
                                 "end": 716
                               },
-                              "ctxt": 0,
-                              "value": "a",
-                              "optional": false
+                              "value": "a"
                             }
                           }
                         },

@@ -1140,9 +1140,7 @@
                         "start": 1102,
                         "end": 1103
                       },
-                      "ctxt": 0,
-                      "value": "a",
-                      "optional": false
+                      "value": "a"
                     }
                   },
                   "arguments": [

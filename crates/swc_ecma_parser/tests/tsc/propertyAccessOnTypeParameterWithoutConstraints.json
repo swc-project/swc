@@ -37,9 +37,7 @@
               "start": 18,
               "end": 19
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           },
           "function": {
             "params": [],
@@ -239,9 +237,7 @@
                             "start": 116,
                             "end": 124
                           },
-                          "ctxt": 0,
-                          "value": "toString",
-                          "optional": false
+                          "value": "toString"
                         }
                       },
                       "arguments": [],
@@ -389,9 +385,7 @@
                   "start": 163,
                   "end": 164
                 },
-                "ctxt": 0,
-                "value": "f",
-                "optional": false
+                "value": "f"
               }
             },
             "arguments": [],
@@ -639,9 +633,7 @@
                     "start": 229,
                     "end": 232
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 }
               },
               "property": {
@@ -650,9 +642,7 @@
                   "start": 233,
                   "end": 241
                 },
-                "ctxt": 0,
-                "value": "toString",
-                "optional": false
+                "value": "toString"
               }
             },
             "arguments": [],
@@ -724,9 +714,7 @@
                     "start": 257,
                     "end": 260
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 }
               },
               "property": {
@@ -944,9 +932,7 @@
                   "start": 323,
                   "end": 331
                 },
-                "ctxt": 0,
-                "value": "toString",
-                "optional": false
+                "value": "toString"
               }
             },
             "arguments": [],
@@ -1096,9 +1082,7 @@
                     "start": 387,
                     "end": 390
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -1278,9 +1262,7 @@
                                   "start": 481,
                                   "end": 489
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -1388,9 +1370,7 @@
                   "start": 513,
                   "end": 516
                 },
-                "ctxt": 0,
-                "value": "foo",
-                "optional": false
+                "value": "foo"
               }
             },
             "arguments": [

@@ -63,9 +63,7 @@
                       "start": 11,
                       "end": 14
                     },
-                    "ctxt": 0,
-                    "value": "bar",
-                    "optional": false
+                    "value": "bar"
                   }
                 },
                 "typeAnnotation": null

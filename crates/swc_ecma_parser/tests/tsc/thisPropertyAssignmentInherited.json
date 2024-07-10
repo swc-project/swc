@@ -43,9 +43,7 @@
                 "start": 201,
                 "end": 212
               },
-              "ctxt": 0,
-              "value": "textContent",
-              "optional": false
+              "value": "textContent"
             },
             "function": {
               "params": [],
@@ -105,9 +103,7 @@
                 "start": 242,
                 "end": 253
               },
-              "ctxt": 0,
-              "value": "textContent",
-              "optional": false
+              "value": "textContent"
             },
             "function": {
               "params": [
@@ -170,9 +166,7 @@
                 "start": 262,
                 "end": 271
               },
-              "ctxt": 0,
-              "value": "cloneNode",
-              "optional": false
+              "value": "cloneNode"
             },
             "function": {
               "params": [],
@@ -306,9 +300,7 @@
                 "start": 388,
                 "end": 397
               },
-              "ctxt": 0,
-              "value": "innerHTML",
-              "optional": false
+              "value": "innerHTML"
             },
             "function": {
               "params": [],
@@ -351,9 +343,7 @@
                           "start": 414,
                           "end": 425
                         },
-                        "ctxt": 0,
-                        "value": "textContent",
-                        "optional": false
+                        "value": "textContent"
                       }
                     }
                   }
@@ -383,9 +373,7 @@
                 "start": 435,
                 "end": 444
               },
-              "ctxt": 0,
-              "value": "innerHTML",
-              "optional": false
+              "value": "innerHTML"
             },
             "function": {
               "params": [
@@ -455,9 +443,7 @@
                             "start": 458,
                             "end": 469
                           },
-                          "ctxt": 0,
-                          "value": "textContent",
-                          "optional": false
+                          "value": "textContent"
                         }
                       },
                       "right": {
@@ -498,9 +484,7 @@
                 "start": 482,
                 "end": 490
               },
-              "ctxt": 0,
-              "value": "toString",
-              "optional": false
+              "value": "toString"
             },
             "function": {
               "params": [],

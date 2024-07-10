@@ -64,12 +64,6 @@
    : ^^^^^
  2 |     // @refresh reset
    `----
-  x Ident
-   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
- 1 | React.useEffect(() => {
-   :       ^^^^^^^^^
- 2 |     // @refresh reset
-   `----
   x ExprOrSpread
    ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
  1 | ,-> React.useEffect(() => {

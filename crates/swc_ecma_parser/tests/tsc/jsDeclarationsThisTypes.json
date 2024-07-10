@@ -43,9 +43,7 @@
                 "start": 161,
                 "end": 167
               },
-              "ctxt": 0,
-              "value": "method",
-              "optional": false
+              "value": "method"
             },
             "function": {
               "params": [],
@@ -136,9 +134,7 @@
                 "start": 294,
                 "end": 300
               },
-              "ctxt": 0,
-              "value": "verify",
-              "optional": false
+              "value": "verify"
             },
             "function": {
               "params": [],

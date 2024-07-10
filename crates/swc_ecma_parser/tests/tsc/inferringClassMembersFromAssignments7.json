@@ -38,9 +38,7 @@
               "start": 174,
               "end": 185
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -124,9 +122,7 @@
                         "start": 227,
                         "end": 228
                       },
-                      "ctxt": 0,
-                      "value": "x",
-                      "optional": false
+                      "value": "x"
                     }
                   },
                   "right": {
@@ -175,9 +171,7 @@
                         "start": 246,
                         "end": 247
                       },
-                      "ctxt": 0,
-                      "value": "m",
-                      "optional": false
+                      "value": "m"
                     }
                   },
                   "right": {
@@ -233,9 +227,7 @@
                                   "start": 283,
                                   "end": 286
                                 },
-                                "ctxt": 0,
-                                "value": "log",
-                                "optional": false
+                                "value": "log"
                               }
                             },
                             "arguments": [
@@ -263,9 +255,7 @@
                                       "start": 292,
                                       "end": 293
                                     },
-                                    "ctxt": 0,
-                                    "value": "x",
-                                    "optional": false
+                                    "value": "x"
                                   }
                                 }
                               }
@@ -299,9 +289,7 @@
               "start": 315,
               "end": 320
             },
-            "ctxt": 0,
-            "value": "mreal",
-            "optional": false
+            "value": "mreal"
           },
           "function": {
             "params": [],
@@ -392,9 +380,7 @@
                           "start": 362,
                           "end": 363
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       }
                     },
                     "right": {
@@ -508,9 +494,7 @@
             "start": 396,
             "end": 397
           },
-          "ctxt": 0,
-          "value": "x",
-          "optional": false
+          "value": "x"
         }
       }
     },
@@ -542,9 +526,7 @@
             "start": 400,
             "end": 401
           },
-          "ctxt": 0,
-          "value": "y",
-          "optional": false
+          "value": "y"
         }
       }
     },
@@ -583,9 +565,7 @@
               "start": 404,
               "end": 405
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           }
         },
         "arguments": [],

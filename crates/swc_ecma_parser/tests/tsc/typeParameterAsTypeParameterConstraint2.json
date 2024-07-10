@@ -853,9 +853,7 @@
                       "start": 436,
                       "end": 442
                     },
-                    "ctxt": 0,
-                    "value": "length",
-                    "optional": false
+                    "value": "length"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -927,9 +925,7 @@
                       "start": 461,
                       "end": 467
                     },
-                    "ctxt": 0,
-                    "value": "length",
-                    "optional": false
+                    "value": "length"
                   },
                   "value": {
                     "type": "ObjectExpression",

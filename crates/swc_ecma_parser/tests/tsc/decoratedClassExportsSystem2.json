@@ -191,9 +191,7 @@
                             "start": 204,
                             "end": 205
                           },
-                          "ctxt": 0,
-                          "value": "v",
-                          "optional": false
+                          "value": "v"
                         },
                         "value": {
                           "type": "ArrowFunctionExpression",

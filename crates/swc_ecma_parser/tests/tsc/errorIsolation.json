@@ -47,9 +47,7 @@
                     "start": 84,
                     "end": 95
                   },
-                  "ctxt": 0,
-                  "value": "doSomething",
-                  "optional": false
+                  "value": "doSomething"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -127,9 +125,7 @@
               "start": 114,
               "end": 125
             },
-            "ctxt": 0,
-            "value": "doSomething",
-            "optional": false
+            "value": "doSomething"
           }
         },
         "arguments": [

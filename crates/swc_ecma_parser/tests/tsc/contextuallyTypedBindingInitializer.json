@@ -205,9 +205,7 @@
                           "start": 104,
                           "end": 112
                         },
-                        "ctxt": 0,
-                        "value": "toString",
-                        "optional": false
+                        "value": "toString"
                       }
                     },
                     "arguments": [],
@@ -374,9 +372,7 @@
                             "start": 169,
                             "end": 177
                           },
-                          "ctxt": 0,
-                          "value": "toString",
-                          "optional": false
+                          "value": "toString"
                         }
                       },
                       "arguments": [],
@@ -551,9 +547,7 @@
                             "start": 236,
                             "end": 244
                           },
-                          "ctxt": 0,
-                          "value": "toString",
-                          "optional": false
+                          "value": "toString"
                         }
                       },
                       "arguments": [],
@@ -750,9 +744,7 @@
                           "start": 323,
                           "end": 327
                         },
-                        "ctxt": 0,
-                        "value": "show",
-                        "optional": false
+                        "value": "show"
                       },
                       "value": {
                         "type": "ArrowFunctionExpression",
@@ -803,9 +795,7 @@
                                 "start": 336,
                                 "end": 344
                               },
-                              "ctxt": 0,
-                              "value": "toString",
-                              "optional": false
+                              "value": "toString"
                             }
                           },
                           "arguments": [],
@@ -1420,9 +1410,7 @@
                     "start": 635,
                     "end": 649
                   },
-                  "ctxt": 0,
-                  "value": "stringIdentity",
-                  "optional": false
+                  "value": "stringIdentity"
                 },
                 "value": {
                   "type": "AssignmentPattern",
@@ -1521,9 +1509,7 @@
                     "start": 689,
                     "end": 703
                   },
-                  "ctxt": 0,
-                  "value": "stringIdentity",
-                  "optional": false
+                  "value": "stringIdentity"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",

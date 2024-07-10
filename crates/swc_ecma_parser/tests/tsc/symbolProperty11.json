@@ -86,9 +86,7 @@
                   "start": 54,
                   "end": 62
                 },
-                "ctxt": 0,
-                "value": "iterator",
-                "optional": false
+                "value": "iterator"
               }
             },
             "computed": true,

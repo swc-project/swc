@@ -143,9 +143,7 @@
               "start": 385,
               "end": 396
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -181,9 +179,7 @@
                       "start": 449,
                       "end": 451
                     },
-                    "ctxt": 0,
-                    "value": "id",
-                    "optional": false
+                    "value": "id"
                   }
                 }
               }

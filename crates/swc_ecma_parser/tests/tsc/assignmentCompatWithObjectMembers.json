@@ -62,9 +62,7 @@
                     "start": 175,
                     "end": 178
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -131,9 +129,7 @@
                     "start": 204,
                     "end": 207
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -726,9 +722,7 @@
                           "start": 421,
                           "end": 424
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -788,9 +782,7 @@
                           "start": 447,
                           "end": 450
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -1552,9 +1544,7 @@
                     "start": 729,
                     "end": 732
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -1631,9 +1621,7 @@
                     "start": 753,
                     "end": 756
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -2276,9 +2264,7 @@
                           "start": 961,
                           "end": 964
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       },
                       "value": {
                         "type": "Identifier",
@@ -2339,9 +2325,7 @@
                           "start": 987,
                           "end": 990
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       },
                       "value": {
                         "type": "Identifier",

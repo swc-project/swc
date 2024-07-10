@@ -1019,9 +1019,7 @@
                 "start": 1010,
                 "end": 1016
               },
-              "ctxt": 0,
-              "value": "length",
-              "optional": false
+              "value": "length"
             }
           }
         },
@@ -1148,9 +1146,7 @@
                   "start": 1062,
                   "end": 1065
                 },
-                "ctxt": 0,
-                "value": "sin",
-                "optional": false
+                "value": "sin"
               }
             },
             "arguments": [

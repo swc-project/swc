@@ -140,9 +140,7 @@
                     "start": 117,
                     "end": 124
                   },
-                  "ctxt": 0,
-                  "value": "species",
-                  "optional": false
+                  "value": "species"
                 }
               }
             }
@@ -222,9 +220,7 @@
                     "start": 155,
                     "end": 166
                   },
-                  "ctxt": 0,
-                  "value": "toStringTag",
-                  "optional": false
+                  "value": "toStringTag"
                 }
               }
             }

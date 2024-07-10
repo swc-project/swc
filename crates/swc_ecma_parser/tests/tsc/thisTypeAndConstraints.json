@@ -37,9 +37,7 @@
               "start": 15,
               "end": 19
             },
-            "ctxt": 0,
-            "value": "self",
-            "optional": false
+            "value": "self"
           },
           "function": {
             "params": [],
@@ -289,9 +287,7 @@
                             "start": 136,
                             "end": 140
                           },
-                          "ctxt": 0,
-                          "value": "self",
-                          "optional": false
+                          "value": "self"
                         }
                       },
                       "arguments": [],
@@ -406,9 +402,7 @@
                       "start": 160,
                       "end": 164
                     },
-                    "ctxt": 0,
-                    "value": "self",
-                    "optional": false
+                    "value": "self"
                   }
                 },
                 "arguments": [],
@@ -502,9 +496,7 @@
               "start": 198,
               "end": 201
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [
@@ -619,9 +611,7 @@
                             "start": 224,
                             "end": 228
                           },
-                          "ctxt": 0,
-                          "value": "self",
-                          "optional": false
+                          "value": "self"
                         }
                       },
                       "arguments": [],
@@ -655,9 +645,7 @@
               "start": 242,
               "end": 245
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "function": {
             "params": [
@@ -772,9 +760,7 @@
                             "start": 281,
                             "end": 285
                           },
-                          "ctxt": 0,
-                          "value": "self",
-                          "optional": false
+                          "value": "self"
                         }
                       },
                       "arguments": [],

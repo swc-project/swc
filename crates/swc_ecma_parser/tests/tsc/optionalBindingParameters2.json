@@ -277,9 +277,7 @@
                       "start": 79,
                       "end": 80
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -299,9 +297,7 @@
                       "start": 86,
                       "end": 87
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -321,9 +317,7 @@
                       "start": 92,
                       "end": 93
                     },
-                    "ctxt": 0,
-                    "value": "z",
-                    "optional": false
+                    "value": "z"
                   },
                   "value": {
                     "type": "BooleanLiteral",
@@ -382,9 +376,7 @@
                       "start": 112,
                       "end": 113
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "BooleanLiteral",
@@ -403,9 +395,7 @@
                       "start": 122,
                       "end": 123
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -425,9 +415,7 @@
                       "start": 128,
                       "end": 129
                     },
-                    "ctxt": 0,
-                    "value": "z",
-                    "optional": false
+                    "value": "z"
                   },
                   "value": {
                     "type": "StringLiteral",

@@ -656,9 +656,7 @@
                     "start": 276,
                     "end": 282
                   },
-                  "ctxt": 0,
-                  "value": "length",
-                  "optional": false
+                  "value": "length"
                 }
               },
               "right": {
@@ -683,9 +681,7 @@
                     "start": 293,
                     "end": 299
                   },
-                  "ctxt": 0,
-                  "value": "length",
-                  "optional": false
+                  "value": "length"
                 }
               }
             },
@@ -804,9 +800,7 @@
                       "start": 374,
                       "end": 380
                     },
-                    "ctxt": 0,
-                    "value": "length",
-                    "optional": false
+                    "value": "length"
                   }
                 },
                 "definite": false
@@ -1065,9 +1059,7 @@
                           "start": 468,
                           "end": 472
                         },
-                        "ctxt": 0,
-                        "value": "push",
-                        "optional": false
+                        "value": "push"
                       }
                     },
                     "arguments": [

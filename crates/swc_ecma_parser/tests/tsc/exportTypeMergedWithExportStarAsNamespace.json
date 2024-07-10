@@ -147,9 +147,7 @@
                     "start": 114,
                     "end": 116
                   },
-                  "ctxt": 0,
-                  "value": "of",
-                  "optional": false
+                  "value": "of"
                 }
               },
               "arguments": [
@@ -205,6 +203,10 @@
           },
           "typeName": {
             "type": "TsQualifiedName",
+            "span": {
+              "start": 145,
+              "end": 162
+            },
             "left": {
               "type": "Identifier",
               "span": {
@@ -221,9 +223,7 @@
                 "start": 155,
                 "end": 162
               },
-              "ctxt": 0,
-              "value": "SubType",
-              "optional": false
+              "value": "SubType"
             }
           },
           "typeParams": {
@@ -760,6 +760,10 @@
           },
           "typeName": {
             "type": "TsQualifiedName",
+            "span": {
+              "start": 458,
+              "end": 469
+            },
             "left": {
               "type": "Identifier",
               "span": {
@@ -776,9 +780,7 @@
                 "start": 460,
                 "end": 469
               },
-              "ctxt": 0,
-              "value": "Something",
-              "optional": false
+              "value": "Something"
             }
           },
           "typeParams": {

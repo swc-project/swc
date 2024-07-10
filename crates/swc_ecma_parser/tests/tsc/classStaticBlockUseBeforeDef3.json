@@ -74,9 +74,7 @@
                         "start": 69,
                         "end": 80
                       },
-                      "ctxt": 0,
-                      "value": "doSomething",
-                      "optional": false
+                      "value": "doSomething"
                     }
                   },
                   "arguments": [],
@@ -98,9 +96,7 @@
               "start": 122,
               "end": 133
             },
-            "ctxt": 0,
-            "value": "doSomething",
-            "optional": false
+            "value": "doSomething"
           },
           "function": {
             "params": [],
@@ -153,9 +149,7 @@
                           "start": 153,
                           "end": 156
                         },
-                        "ctxt": 0,
-                        "value": "log",
-                        "optional": false
+                        "value": "log"
                       }
                     },
                     "arguments": [
@@ -265,9 +259,7 @@
                         "start": 220,
                         "end": 223
                       },
-                      "ctxt": 0,
-                      "value": "log",
-                      "optional": false
+                      "value": "log"
                     }
                   },
                   "arguments": [
@@ -407,9 +399,7 @@
                         "start": 317,
                         "end": 320
                       },
-                      "ctxt": 0,
-                      "value": "log",
-                      "optional": false
+                      "value": "log"
                     }
                   },
                   "arguments": [
@@ -629,9 +619,7 @@
               "start": 482,
               "end": 483
             },
-            "ctxt": 0,
-            "value": "t",
-            "optional": false
+            "value": "t"
           },
           "value": {
             "type": "NumericLiteral",
@@ -665,9 +653,7 @@
               "start": 501,
               "end": 512
             },
-            "ctxt": 0,
-            "value": "doSomething",
-            "optional": false
+            "value": "doSomething"
           },
           "function": {
             "params": [],

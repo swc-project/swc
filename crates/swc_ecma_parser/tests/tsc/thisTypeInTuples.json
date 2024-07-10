@@ -266,9 +266,7 @@
                   "start": 95,
                   "end": 100
                 },
-                "ctxt": 0,
-                "value": "slice",
-                "optional": false
+                "value": "slice"
               }
             },
             "arguments": [],
@@ -334,9 +332,7 @@
                   "start": 114,
                   "end": 119
                 },
-                "ctxt": 0,
-                "value": "slice",
-                "optional": false
+                "value": "slice"
               }
             },
             "arguments": [
@@ -415,9 +411,7 @@
                   "start": 134,
                   "end": 139
                 },
-                "ctxt": 0,
-                "value": "slice",
-                "optional": false
+                "value": "slice"
               }
             },
             "arguments": [

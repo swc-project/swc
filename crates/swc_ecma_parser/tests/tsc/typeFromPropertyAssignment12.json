@@ -134,9 +134,7 @@
               "start": 185,
               "end": 188
             },
-            "ctxt": 0,
-            "value": "Pos",
-            "optional": false
+            "value": "Pos"
           }
         },
         "right": {
@@ -244,9 +242,7 @@
                 "start": 243,
                 "end": 246
               },
-              "ctxt": 0,
-              "value": "Pos",
-              "optional": false
+              "value": "Pos"
             }
           },
           "property": {
@@ -255,9 +251,7 @@
               "start": 247,
               "end": 256
             },
-            "ctxt": 0,
-            "value": "prototype",
-            "optional": false
+            "value": "prototype"
           }
         },
         "property": {
@@ -266,9 +260,7 @@
             "start": 257,
             "end": 261
           },
-          "ctxt": 0,
-          "value": "line",
-          "optional": false
+          "value": "line"
         }
       }
     },
@@ -328,9 +320,7 @@
                   "start": 283,
                   "end": 286
                 },
-                "ctxt": 0,
-                "value": "Pos",
-                "optional": false
+                "value": "Pos"
               }
             },
             "arguments": [
@@ -393,9 +383,7 @@
             "start": 300,
             "end": 304
           },
-          "ctxt": 0,
-          "value": "line",
-          "optional": false
+          "value": "line"
         }
       }
     }

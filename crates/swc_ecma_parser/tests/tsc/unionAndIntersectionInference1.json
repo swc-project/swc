@@ -744,9 +744,7 @@
                       "start": 314,
                       "end": 320
                     },
-                    "ctxt": 0,
-                    "value": "random",
-                    "optional": false
+                    "value": "random"
                   }
                 },
                 "arguments": [],
@@ -2173,9 +2171,7 @@
               "start": 1087,
               "end": 1098
             },
-            "ctxt": 0,
-            "value": "toUpperCase",
-            "optional": false
+            "value": "toUpperCase"
           }
         },
         "arguments": [],
@@ -2687,9 +2683,7 @@
             "start": 1340,
             "end": 1345
           },
-          "ctxt": 0,
-          "value": "oinks",
-          "optional": false
+          "value": "oinks"
         }
       }
     },
@@ -2745,9 +2739,7 @@
             "start": 1388,
             "end": 1393
           },
-          "ctxt": 0,
-          "value": "walks",
-          "optional": false
+          "value": "walks"
         }
       }
     },
@@ -2900,9 +2892,7 @@
                         "start": 1538,
                         "end": 1545
                       },
-                      "ctxt": 0,
-                      "value": "resolve",
-                      "optional": false
+                      "value": "resolve"
                     }
                   },
                   "arguments": [],
@@ -2914,9 +2904,7 @@
                     "start": 1548,
                     "end": 1552
                   },
-                  "ctxt": 0,
-                  "value": "then",
-                  "optional": false
+                  "value": "then"
                 }
               },
               "arguments": [
@@ -2951,9 +2939,7 @@
                                 "start": 1562,
                                 "end": 1566
                               },
-                              "ctxt": 0,
-                              "value": "name",
-                              "optional": false
+                              "value": "name"
                             },
                             "value": {
                               "type": "StringLiteral",
@@ -3100,9 +3086,7 @@
                             "start": 1625,
                             "end": 1629
                           },
-                          "ctxt": 0,
-                          "value": "name",
-                          "optional": false
+                          "value": "name"
                         },
                         "value": {
                           "type": "StringLiteral",
@@ -3954,9 +3938,7 @@
                     "start": 1884,
                     "end": 1890
                   },
-                  "ctxt": 0,
-                  "value": "assign",
-                  "optional": false
+                  "value": "assign"
                 }
               },
               "arguments": [

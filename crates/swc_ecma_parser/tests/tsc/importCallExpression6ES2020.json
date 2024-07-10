@@ -43,9 +43,7 @@
                 "start": 79,
                 "end": 84
               },
-              "ctxt": 0,
-              "value": "print",
-              "optional": false
+              "value": "print"
             },
             "function": {
               "params": [],

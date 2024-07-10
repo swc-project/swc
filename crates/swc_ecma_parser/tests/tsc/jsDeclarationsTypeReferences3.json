@@ -137,9 +137,7 @@
                 "start": 325,
                 "end": 334
               },
-              "ctxt": 0,
-              "value": "Something",
-              "optional": false
+              "value": "Something"
             }
           },
           "definite": false
@@ -187,9 +185,7 @@
                 "start": 343,
                 "end": 350
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -198,9 +194,7 @@
               "start": 351,
               "end": 352
             },
-            "ctxt": 0,
-            "value": "A",
-            "optional": false
+            "value": "A"
           }
         },
         "right": {
@@ -260,9 +254,7 @@
                   "start": 365,
                   "end": 372
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             },
             "property": {
@@ -271,9 +263,7 @@
                 "start": 373,
                 "end": 374
               },
-              "ctxt": 0,
-              "value": "A",
-              "optional": false
+              "value": "A"
             }
           },
           "property": {
@@ -282,9 +272,7 @@
               "start": 375,
               "end": 376
             },
-            "ctxt": 0,
-            "value": "B",
-            "optional": false
+            "value": "B"
           }
         },
         "right": {
@@ -302,9 +290,7 @@
                   "start": 385,
                   "end": 390
                 },
-                "ctxt": 0,
-                "value": "thing",
-                "optional": false
+                "value": "thing"
               },
               "value": {
                 "type": "NewExpression",

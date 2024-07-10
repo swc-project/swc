@@ -37,9 +37,7 @@
               "start": 43,
               "end": 47
             },
-            "ctxt": 0,
-            "value": "next",
-            "optional": false
+            "value": "next"
           },
           "function": {
             "params": [],
@@ -122,9 +120,7 @@
                   "start": 88,
                   "end": 96
                 },
-                "ctxt": 0,
-                "value": "iterator",
-                "optional": false
+                "value": "iterator"
               }
             }
           },

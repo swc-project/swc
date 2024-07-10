@@ -891,6 +891,10 @@
                 },
                 "exprName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 400,
+                    "end": 403
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -907,9 +911,7 @@
                       "start": 402,
                       "end": 403
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   }
                 },
                 "typeArguments": null
@@ -2424,9 +2426,7 @@
                 "start": 999,
                 "end": 1000
               },
-              "ctxt": 0,
-              "value": "x",
-              "optional": false
+              "value": "x"
             }
           },
           "definite": false
@@ -2606,9 +2606,7 @@
                   "start": 1051,
                   "end": 1052
                 },
-                "ctxt": 0,
-                "value": "x",
-                "optional": false
+                "value": "x"
               }
             },
             "property": {

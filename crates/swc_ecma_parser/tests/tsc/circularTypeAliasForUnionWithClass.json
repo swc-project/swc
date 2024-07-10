@@ -147,9 +147,7 @@
               "start": 51,
               "end": 52
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": {

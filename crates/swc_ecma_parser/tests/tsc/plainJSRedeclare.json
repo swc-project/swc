@@ -136,9 +136,7 @@
               "start": 120,
               "end": 133
             },
-            "ctxt": 0,
-            "value": "toExponential",
-            "optional": false
+            "value": "toExponential"
           }
         },
         "arguments": [],

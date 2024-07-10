@@ -83,9 +83,7 @@
               "start": 130,
               "end": 132
             },
-            "ctxt": 0,
-            "value": "p1",
-            "optional": false
+            "value": "p1"
           },
           "value": null,
           "typeAnnotation": null,
@@ -111,9 +109,7 @@
               "start": 155,
               "end": 157
             },
-            "ctxt": 0,
-            "value": "p2",
-            "optional": false
+            "value": "p2"
           },
           "value": null,
           "typeAnnotation": null,

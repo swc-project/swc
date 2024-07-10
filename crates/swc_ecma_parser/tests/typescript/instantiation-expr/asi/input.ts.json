@@ -915,9 +915,7 @@
               "start": 455,
               "end": 458
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           }
         },
         "arguments": [],
@@ -1366,9 +1364,7 @@
               "start": 606,
               "end": 616
             },
-            "ctxt": 0,
-            "value": "specialFoo",
-            "optional": false
+            "value": "specialFoo"
           },
           "value": {
             "type": "TsInstantiation",
@@ -1427,9 +1423,7 @@
               "start": 640,
               "end": 643
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "value": {
             "type": "NumericLiteral",
@@ -1490,9 +1484,7 @@
               "start": 675,
               "end": 685
             },
-            "ctxt": 0,
-            "value": "specialFoo",
-            "optional": false
+            "value": "specialFoo"
           },
           "value": {
             "type": "TsInstantiation",
@@ -1551,9 +1543,7 @@
               "start": 709,
               "end": 712
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "value": {
             "type": "NumericLiteral",
@@ -1614,9 +1604,7 @@
               "start": 745,
               "end": 755
             },
-            "ctxt": 0,
-            "value": "specialFoo",
-            "optional": false
+            "value": "specialFoo"
           },
           "value": {
             "type": "TsInstantiation",
@@ -1675,9 +1663,7 @@
               "start": 780,
               "end": 783
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "value": {
             "type": "NumericLiteral",
@@ -1738,9 +1724,7 @@
               "start": 818,
               "end": 828
             },
-            "ctxt": 0,
-            "value": "specialFoo",
-            "optional": false
+            "value": "specialFoo"
           },
           "value": {
             "type": "TsInstantiation",
@@ -1799,9 +1783,7 @@
               "start": 855,
               "end": 858
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "value": {
             "type": "NumericLiteral",

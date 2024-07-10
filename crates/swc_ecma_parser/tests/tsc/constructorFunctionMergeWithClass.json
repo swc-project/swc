@@ -82,9 +82,7 @@
                           "start": 117,
                           "end": 126
                         },
-                        "ctxt": 0,
-                        "value": "otherProp",
-                        "optional": false
+                        "value": "otherProp"
                       }
                     },
                     "right": {
@@ -197,9 +195,7 @@
               "start": 207,
               "end": 211
             },
-            "ctxt": 0,
-            "value": "prop",
-            "optional": false
+            "value": "prop"
           }
         },
         "right": {

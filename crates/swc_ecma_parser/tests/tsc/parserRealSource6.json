@@ -68,9 +68,7 @@
                       "start": 288,
                       "end": 294
                     },
-                    "ctxt": 0,
-                    "value": "script",
-                    "optional": false
+                    "value": "script"
                   },
                   "value": {
                     "type": "NullLiteral",
@@ -127,9 +125,7 @@
                       "start": 320,
                       "end": 331
                     },
-                    "ctxt": 0,
-                    "value": "constructor",
-                    "optional": false
+                    "value": "constructor"
                   },
                   "params": [
                     {
@@ -283,9 +279,7 @@
                       "start": 465,
                       "end": 469
                     },
-                    "ctxt": 0,
-                    "value": "type",
-                    "optional": false
+                    "value": "type"
                   },
                   "value": {
                     "type": "NullLiteral",
@@ -341,9 +335,7 @@
                       "start": 499,
                       "end": 502
                     },
-                    "ctxt": 0,
-                    "value": "ast",
-                    "optional": false
+                    "value": "ast"
                   },
                   "value": {
                     "type": "NullLiteral",
@@ -399,9 +391,7 @@
                       "start": 531,
                       "end": 536
                     },
-                    "ctxt": 0,
-                    "value": "scope",
-                    "optional": false
+                    "value": "scope"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -451,9 +441,7 @@
                       "start": 566,
                       "end": 573
                     },
-                    "ctxt": 0,
-                    "value": "options",
-                    "optional": false
+                    "value": "options"
                   },
                   "value": {
                     "type": "NewExpression",
@@ -499,9 +487,7 @@
                       "start": 607,
                       "end": 618
                     },
-                    "ctxt": 0,
-                    "value": "constructor",
-                    "optional": false
+                    "value": "constructor"
                   },
                   "params": [
                     {
@@ -691,9 +677,7 @@
                       "start": 767,
                       "end": 778
                     },
-                    "ctxt": 0,
-                    "value": "scopeGetter",
-                    "optional": false
+                    "value": "scopeGetter"
                   },
                   "value": {
                     "type": "NullLiteral",
@@ -765,9 +749,7 @@
                       "start": 821,
                       "end": 845
                     },
-                    "ctxt": 0,
-                    "value": "objectLiteralScopeGetter",
-                    "optional": false
+                    "value": "objectLiteralScopeGetter"
                   },
                   "value": {
                     "type": "NullLiteral",
@@ -839,9 +821,7 @@
                       "start": 888,
                       "end": 901
                     },
-                    "ctxt": 0,
-                    "value": "scopeStartAST",
-                    "optional": false
+                    "value": "scopeStartAST"
                   },
                   "value": {
                     "type": "NullLiteral",
@@ -897,9 +877,7 @@
                       "start": 930,
                       "end": 954
                     },
-                    "ctxt": 0,
-                    "value": "skipNextFuncDeclForClass",
-                    "optional": false
+                    "value": "skipNextFuncDeclForClass"
                   },
                   "value": {
                     "type": "BooleanLiteral",
@@ -932,9 +910,7 @@
                       "start": 979,
                       "end": 996
                     },
-                    "ctxt": 0,
-                    "value": "deepestModuleDecl",
-                    "optional": false
+                    "value": "deepestModuleDecl"
                   },
                   "value": {
                     "type": "NullLiteral",
@@ -990,9 +966,7 @@
                       "start": 1039,
                       "end": 1057
                     },
-                    "ctxt": 0,
-                    "value": "enclosingClassDecl",
-                    "optional": false
+                    "value": "enclosingClassDecl"
                   },
                   "value": {
                     "type": "NullLiteral",
@@ -1048,9 +1022,7 @@
                       "start": 1098,
                       "end": 1116
                     },
-                    "ctxt": 0,
-                    "value": "enclosingObjectLit",
-                    "optional": false
+                    "value": "enclosingObjectLit"
                   },
                   "value": {
                     "type": "NullLiteral",
@@ -1106,9 +1078,7 @@
                       "start": 1157,
                       "end": 1168
                     },
-                    "ctxt": 0,
-                    "value": "publicsOnly",
-                    "optional": false
+                    "value": "publicsOnly"
                   },
                   "value": {
                     "type": "BooleanLiteral",
@@ -1141,9 +1111,7 @@
                       "start": 1192,
                       "end": 1202
                     },
-                    "ctxt": 0,
-                    "value": "useFullAst",
-                    "optional": false
+                    "value": "useFullAst"
                   },
                   "value": {
                     "type": "BooleanLiteral",
@@ -1176,9 +1144,7 @@
                       "start": 1228,
                       "end": 1242
                     },
-                    "ctxt": 0,
-                    "value": "scriptFragment",
-                    "optional": false
+                    "value": "scriptFragment"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -1229,9 +1195,7 @@
                       "start": 1261,
                       "end": 1272
                     },
-                    "ctxt": 0,
-                    "value": "constructor",
-                    "optional": false
+                    "value": "constructor"
                   },
                   "params": [
                     {
@@ -1469,9 +1433,7 @@
                       "start": 1511,
                       "end": 1519
                     },
-                    "ctxt": 0,
-                    "value": "getScope",
-                    "optional": false
+                    "value": "getScope"
                   },
                   "function": {
                     "params": [],
@@ -1521,9 +1483,7 @@
                                   "start": 1561,
                                   "end": 1572
                                 },
-                                "ctxt": 0,
-                                "value": "scopeGetter",
-                                "optional": false
+                                "value": "scopeGetter"
                               }
                             },
                             "arguments": [],
@@ -1580,9 +1540,7 @@
                       "start": 1602,
                       "end": 1623
                     },
-                    "ctxt": 0,
-                    "value": "getObjectLiteralScope",
-                    "optional": false
+                    "value": "getObjectLiteralScope"
                   },
                   "function": {
                     "params": [],
@@ -1632,9 +1590,7 @@
                                   "start": 1665,
                                   "end": 1689
                                 },
-                                "ctxt": 0,
-                                "value": "objectLiteralScopeGetter",
-                                "optional": false
+                                "value": "objectLiteralScopeGetter"
                               }
                             },
                             "arguments": [],
@@ -1691,9 +1647,7 @@
                       "start": 1719,
                       "end": 1730
                     },
-                    "ctxt": 0,
-                    "value": "getScopeAST",
-                    "optional": false
+                    "value": "getScopeAST"
                   },
                   "function": {
                     "params": [],
@@ -1736,9 +1690,7 @@
                                 "start": 1759,
                                 "end": 1772
                               },
-                              "ctxt": 0,
-                              "value": "scopeStartAST",
-                              "optional": false
+                              "value": "scopeStartAST"
                             }
                           }
                         }
@@ -1768,9 +1720,7 @@
                       "start": 1800,
                       "end": 1816
                     },
-                    "ctxt": 0,
-                    "value": "getScopePosition",
-                    "optional": false
+                    "value": "getScopePosition"
                   },
                   "function": {
                     "params": [],
@@ -1819,9 +1769,7 @@
                                   "start": 1845,
                                   "end": 1858
                                 },
-                                "ctxt": 0,
-                                "value": "scopeStartAST",
-                                "optional": false
+                                "value": "scopeStartAST"
                               }
                             },
                             "property": {
@@ -1830,9 +1778,7 @@
                                 "start": 1859,
                                 "end": 1866
                               },
-                              "ctxt": 0,
-                              "value": "minChar",
-                              "optional": false
+                              "value": "minChar"
                             }
                           }
                         }
@@ -1862,9 +1808,7 @@
                       "start": 1894,
                       "end": 1919
                     },
-                    "ctxt": 0,
-                    "value": "getScriptFragmentStartAST",
-                    "optional": false
+                    "value": "getScriptFragmentStartAST"
                   },
                   "function": {
                     "params": [],
@@ -1907,9 +1851,7 @@
                                 "start": 1953,
                                 "end": 1966
                               },
-                              "ctxt": 0,
-                              "value": "scopeStartAST",
-                              "optional": false
+                              "value": "scopeStartAST"
                             }
                           }
                         }
@@ -1963,9 +1905,7 @@
                       "start": 1994,
                       "end": 2019
                     },
-                    "ctxt": 0,
-                    "value": "getScriptFragmentPosition",
-                    "optional": false
+                    "value": "getScriptFragmentPosition"
                   },
                   "function": {
                     "params": [],
@@ -2021,9 +1961,7 @@
                                     "start": 2056,
                                     "end": 2081
                                   },
-                                  "ctxt": 0,
-                                  "value": "getScriptFragmentStartAST",
-                                  "optional": false
+                                  "value": "getScriptFragmentStartAST"
                                 }
                               },
                               "arguments": [],
@@ -2035,9 +1973,7 @@
                                 "start": 2084,
                                 "end": 2091
                               },
-                              "ctxt": 0,
-                              "value": "minChar",
-                              "optional": false
+                              "value": "minChar"
                             }
                           }
                         }
@@ -2081,9 +2017,7 @@
                       "start": 2119,
                       "end": 2136
                     },
-                    "ctxt": 0,
-                    "value": "getScriptFragment",
-                    "optional": false
+                    "value": "getScriptFragment"
                   },
                   "function": {
                     "params": [],
@@ -2133,9 +2067,7 @@
                                   "start": 2170,
                                   "end": 2184
                                 },
-                                "ctxt": 0,
-                                "value": "scriptFragment",
-                                "optional": false
+                                "value": "scriptFragment"
                               }
                             },
                             "right": {
@@ -2207,9 +2139,7 @@
                                             "start": 2227,
                                             "end": 2252
                                           },
-                                          "ctxt": 0,
-                                          "value": "getScriptFragmentStartAST",
-                                          "optional": false
+                                          "value": "getScriptFragmentStartAST"
                                         }
                                       },
                                       "arguments": [],
@@ -2268,9 +2198,7 @@
                                           "start": 2290,
                                           "end": 2297
                                         },
-                                        "ctxt": 0,
-                                        "value": "minChar",
-                                        "optional": false
+                                        "value": "minChar"
                                       }
                                     },
                                     "definite": false
@@ -2335,9 +2263,7 @@
                                               "start": 2335,
                                               "end": 2353
                                             },
-                                            "ctxt": 0,
-                                            "value": "isMemberCompletion",
-                                            "optional": false
+                                            "value": "isMemberCompletion"
                                           }
                                         },
                                         "consequent": {
@@ -2359,9 +2285,7 @@
                                               "start": 2361,
                                               "end": 2364
                                             },
-                                            "ctxt": 0,
-                                            "value": "pos",
-                                            "optional": false
+                                            "value": "pos"
                                           }
                                         },
                                         "alternate": {
@@ -2390,9 +2314,7 @@
                                                 "start": 2372,
                                                 "end": 2375
                                               },
-                                              "ctxt": 0,
-                                              "value": "pos",
-                                              "optional": false
+                                              "value": "pos"
                                             }
                                           },
                                           "right": {
@@ -2443,9 +2365,7 @@
                                         "start": 2403,
                                         "end": 2417
                                       },
-                                      "ctxt": 0,
-                                      "value": "scriptFragment",
-                                      "optional": false
+                                      "value": "scriptFragment"
                                     }
                                   },
                                   "right": {
@@ -2483,9 +2403,7 @@
                                             "start": 2431,
                                             "end": 2441
                                           },
-                                          "ctxt": 0,
-                                          "value": "quickParse",
-                                          "optional": false
+                                          "value": "quickParse"
                                         }
                                       },
                                       "arguments": [
@@ -2510,9 +2428,7 @@
                                                 "start": 2447,
                                                 "end": 2453
                                               },
-                                              "ctxt": 0,
-                                              "value": "logger",
-                                              "optional": false
+                                              "value": "logger"
                                             }
                                           }
                                         },
@@ -2550,9 +2466,7 @@
                                                 "start": 2465,
                                                 "end": 2469
                                               },
-                                              "ctxt": 0,
-                                              "value": "text",
-                                              "optional": false
+                                              "value": "text"
                                             }
                                           }
                                         },
@@ -2601,9 +2515,7 @@
                                         "start": 2511,
                                         "end": 2517
                                       },
-                                      "ctxt": 0,
-                                      "value": "Script",
-                                      "optional": false
+                                      "value": "Script"
                                     }
                                   }
                                 }
@@ -2637,9 +2549,7 @@
                                 "start": 2557,
                                 "end": 2571
                               },
-                              "ctxt": 0,
-                              "value": "scriptFragment",
-                              "optional": false
+                              "value": "scriptFragment"
                             }
                           }
                         }
@@ -2926,9 +2836,7 @@
                               "start": 2724,
                               "end": 2729
                             },
-                            "ctxt": 0,
-                            "value": "state",
-                            "optional": false
+                            "value": "state"
                           }
                         },
                         "definite": false
@@ -2990,9 +2898,7 @@
                                   "start": 2755,
                                   "end": 2760
                                 },
-                                "ctxt": 0,
-                                "value": "flags",
-                                "optional": false
+                                "value": "flags"
                               }
                             }
                           },
@@ -3020,9 +2926,7 @@
                                   "start": 2771,
                                   "end": 2780
                                 },
-                                "ctxt": 0,
-                                "value": "matchFlag",
-                                "optional": false
+                                "value": "matchFlag"
                               }
                             }
                           }
@@ -3077,9 +2981,7 @@
                                     "start": 2796,
                                     "end": 2799
                                   },
-                                  "ctxt": 0,
-                                  "value": "pos",
-                                  "optional": false
+                                  "value": "pos"
                                 }
                               },
                               "right": {
@@ -3128,9 +3030,7 @@
                                     "start": 2818,
                                     "end": 2821
                                   },
-                                  "ctxt": 0,
-                                  "value": "pos",
-                                  "optional": false
+                                  "value": "pos"
                                 }
                               },
                               "right": {
@@ -3155,9 +3055,7 @@
                                     "start": 2829,
                                     "end": 2836
                                   },
-                                  "ctxt": 0,
-                                  "value": "limChar",
-                                  "optional": false
+                                  "value": "limChar"
                                 }
                               }
                             }
@@ -3208,9 +3106,7 @@
                                   "start": 2863,
                                   "end": 2866
                                 },
-                                "ctxt": 0,
-                                "value": "ast",
-                                "optional": false
+                                "value": "ast"
                               }
                             },
                             "right": {
@@ -3273,9 +3169,7 @@
                                       "start": 2895,
                                       "end": 2899
                                     },
-                                    "ctxt": 0,
-                                    "value": "type",
-                                    "optional": false
+                                    "value": "type"
                                   }
                                 },
                                 "right": {
@@ -3322,9 +3216,7 @@
                                       "start": 2922,
                                       "end": 2925
                                     },
-                                    "ctxt": 0,
-                                    "value": "pos",
-                                    "optional": false
+                                    "value": "pos"
                                   }
                                 },
                                 "right": {
@@ -3388,9 +3280,7 @@
                                           "start": 2960,
                                           "end": 2964
                                         },
-                                        "ctxt": 0,
-                                        "value": "flow",
-                                        "optional": false
+                                        "value": "flow"
                                       }
                                     },
                                     "property": {
@@ -3399,9 +3289,7 @@
                                         "start": 2965,
                                         "end": 2981
                                       },
-                                      "ctxt": 0,
-                                      "value": "inScopeTypeCheck",
-                                      "optional": false
+                                      "value": "inScopeTypeCheck"
                                     }
                                   },
                                   "arguments": [
@@ -3442,9 +3330,7 @@
                                             "start": 2996,
                                             "end": 3001
                                           },
-                                          "ctxt": 0,
-                                          "value": "scope",
-                                          "optional": false
+                                          "value": "scope"
                                         }
                                       }
                                     }
@@ -3491,9 +3377,7 @@
                                   "start": 3039,
                                   "end": 3043
                                 },
-                                "ctxt": 0,
-                                "value": "type",
-                                "optional": false
+                                "value": "type"
                               }
                             },
                             "right": {
@@ -3518,9 +3402,7 @@
                                   "start": 3050,
                                   "end": 3054
                                 },
-                                "ctxt": 0,
-                                "value": "type",
-                                "optional": false
+                                "value": "type"
                               }
                             }
                           }
@@ -3566,9 +3448,7 @@
                                     "start": 3077,
                                     "end": 3084
                                   },
-                                  "ctxt": 0,
-                                  "value": "options",
-                                  "optional": false
+                                  "value": "options"
                                 }
                               },
                               "property": {
@@ -3577,9 +3457,7 @@
                                   "start": 3085,
                                   "end": 3093
                                 },
-                                "ctxt": 0,
-                                "value": "stopWalk",
-                                "optional": false
+                                "value": "stopWalk"
                               }
                             },
                             "arguments": [],
@@ -4270,9 +4148,7 @@
                                     "start": 3692,
                                     "end": 3702
                                   },
-                                  "ctxt": 0,
-                                  "value": "scopeChain",
-                                  "optional": false
+                                  "value": "scopeChain"
                                 }
                               }
                             },
@@ -4331,9 +4207,7 @@
                             "start": 3728,
                             "end": 3736
                           },
-                          "ctxt": 0,
-                          "value": "thisType",
-                          "optional": false
+                          "value": "thisType"
                         }
                       },
                       "right": {
@@ -4383,9 +4257,7 @@
                             "start": 3763,
                             "end": 3772
                           },
-                          "ctxt": 0,
-                          "value": "classType",
-                          "optional": false
+                          "value": "classType"
                         }
                       },
                       "right": {
@@ -4435,9 +4307,7 @@
                             "start": 3800,
                             "end": 3810
                           },
-                          "ctxt": 0,
-                          "value": "moduleDecl",
-                          "optional": false
+                          "value": "moduleDecl"
                         }
                       },
                       "right": {
@@ -4487,9 +4357,7 @@
                             "start": 3841,
                             "end": 3851
                           },
-                          "ctxt": 0,
-                          "value": "scopeChain",
-                          "optional": false
+                          "value": "scopeChain"
                         }
                       },
                       "right": {
@@ -4625,9 +4493,7 @@
                             "start": 3961,
                             "end": 3971
                           },
-                          "ctxt": 0,
-                          "value": "scopeChain",
-                          "optional": false
+                          "value": "scopeChain"
                         }
                       },
                       "right": {
@@ -4658,9 +4524,7 @@
                               "start": 3982,
                               "end": 3992
                             },
-                            "ctxt": 0,
-                            "value": "scopeChain",
-                            "optional": false
+                            "value": "scopeChain"
                           }
                         },
                         "property": {
@@ -4669,9 +4533,7 @@
                             "start": 3993,
                             "end": 4001
                           },
-                          "ctxt": 0,
-                          "value": "previous",
-                          "optional": false
+                          "value": "previous"
                         }
                       }
                     }
@@ -4921,9 +4783,7 @@
                               "start": 4149,
                               "end": 4154
                             },
-                            "ctxt": 0,
-                            "value": "state",
-                            "optional": false
+                            "value": "state"
                           }
                         },
                         "definite": false
@@ -4979,9 +4839,7 @@
                               "start": 4182,
                               "end": 4189
                             },
-                            "ctxt": 0,
-                            "value": "minChar",
-                            "optional": false
+                            "value": "minChar"
                           }
                         },
                         "definite": false
@@ -5037,9 +4895,7 @@
                               "start": 4217,
                               "end": 4224
                             },
-                            "ctxt": 0,
-                            "value": "limChar",
-                            "optional": false
+                            "value": "limChar"
                           }
                         },
                         "definite": false
@@ -5088,9 +4944,7 @@
                               "start": 4380,
                               "end": 4388
                             },
-                            "ctxt": 0,
-                            "value": "nodeType",
-                            "optional": false
+                            "value": "nodeType"
                           }
                         },
                         "right": {
@@ -5115,9 +4969,7 @@
                               "start": 4401,
                               "end": 4407
                             },
-                            "ctxt": 0,
-                            "value": "Script",
-                            "optional": false
+                            "value": "Script"
                           }
                         }
                       },
@@ -5150,9 +5002,7 @@
                               "start": 4419,
                               "end": 4422
                             },
-                            "ctxt": 0,
-                            "value": "pos",
-                            "optional": false
+                            "value": "pos"
                           }
                         },
                         "right": {
@@ -5213,9 +5063,7 @@
                               "start": 4464,
                               "end": 4467
                             },
-                            "ctxt": 0,
-                            "value": "pos",
-                            "optional": false
+                            "value": "pos"
                           }
                         }
                       }
@@ -5280,9 +5128,7 @@
                                 "start": 4502,
                                 "end": 4505
                               },
-                              "ctxt": 0,
-                              "value": "pos",
-                              "optional": false
+                              "value": "pos"
                             }
                           }
                         }
@@ -5332,9 +5178,7 @@
                                 "start": 4542,
                                 "end": 4545
                               },
-                              "ctxt": 0,
-                              "value": "pos",
-                              "optional": false
+                              "value": "pos"
                             }
                           }
                         }
@@ -5376,9 +5220,7 @@
                                 "start": 4574,
                                 "end": 4582
                               },
-                              "ctxt": 0,
-                              "value": "nodeType",
-                              "optional": false
+                              "value": "nodeType"
                             }
                           },
                           "cases": [
@@ -5410,9 +5252,7 @@
                                     "start": 4616,
                                     "end": 4622
                                   },
-                                  "ctxt": 0,
-                                  "value": "Script",
-                                  "optional": false
+                                  "value": "Script"
                                 }
                               },
                               "consequent": [
@@ -5517,9 +5357,7 @@
                                           "start": 4698,
                                           "end": 4709
                                         },
-                                        "ctxt": 0,
-                                        "value": "scopeGetter",
-                                        "optional": false
+                                        "value": "scopeGetter"
                                       }
                                     },
                                     "right": {
@@ -5581,9 +5419,7 @@
                                                       "start": 4764,
                                                       "end": 4767
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "bod",
-                                                    "optional": false
+                                                    "value": "bod"
                                                   }
                                                 },
                                                 "right": {
@@ -5629,9 +5465,7 @@
                                                       "start": 4793,
                                                       "end": 4796
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "bod",
-                                                    "optional": false
+                                                    "value": "bod"
                                                   }
                                                 },
                                                 "property": {
@@ -5640,9 +5474,7 @@
                                                     "start": 4797,
                                                     "end": 4811
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "enclosingScope",
-                                                  "optional": false
+                                                  "value": "enclosingScope"
                                                 }
                                               }
                                             }
@@ -5691,9 +5523,7 @@
                                           "start": 4864,
                                           "end": 4877
                                         },
-                                        "ctxt": 0,
-                                        "value": "scopeStartAST",
-                                        "optional": false
+                                        "value": "scopeStartAST"
                                       }
                                     },
                                     "right": {
@@ -5746,9 +5576,7 @@
                                     "start": 4946,
                                     "end": 4962
                                   },
-                                  "ctxt": 0,
-                                  "value": "ClassDeclaration",
-                                  "optional": false
+                                  "value": "ClassDeclaration"
                                 }
                               },
                               "consequent": [
@@ -5787,9 +5615,7 @@
                                           "start": 4992,
                                           "end": 5003
                                         },
-                                        "ctxt": 0,
-                                        "value": "scopeGetter",
-                                        "optional": false
+                                        "value": "scopeGetter"
                                       }
                                     },
                                     "right": {
@@ -5864,9 +5690,7 @@
                                                           "start": 5056,
                                                           "end": 5060
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "type",
-                                                        "optional": false
+                                                        "value": "type"
                                                       }
                                                     },
                                                     "right": {
@@ -5918,9 +5742,7 @@
                                                               "start": 5077,
                                                               "end": 5081
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "type",
-                                                            "optional": false
+                                                            "value": "type"
                                                           }
                                                         },
                                                         "property": {
@@ -5929,9 +5751,7 @@
                                                             "start": 5082,
                                                             "end": 5094
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "instanceType",
-                                                          "optional": false
+                                                          "value": "instanceType"
                                                         }
                                                       },
                                                       "property": {
@@ -5940,9 +5760,7 @@
                                                           "start": 5095,
                                                           "end": 5109
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "containedScope",
-                                                        "optional": false
+                                                        "value": "containedScope"
                                                       }
                                                     },
                                                     "right": {
@@ -5996,9 +5814,7 @@
                                                         "start": 5133,
                                                         "end": 5137
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "type",
-                                                      "optional": false
+                                                      "value": "type"
                                                     }
                                                   },
                                                   "property": {
@@ -6007,9 +5823,7 @@
                                                       "start": 5138,
                                                       "end": 5150
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "instanceType",
-                                                    "optional": false
+                                                    "value": "instanceType"
                                                   }
                                                 },
                                                 "property": {
@@ -6018,9 +5832,7 @@
                                                     "start": 5151,
                                                     "end": 5165
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "containedScope",
-                                                  "optional": false
+                                                  "value": "containedScope"
                                                 }
                                               }
                                             }
@@ -6069,9 +5881,7 @@
                                           "start": 5218,
                                           "end": 5231
                                         },
-                                        "ctxt": 0,
-                                        "value": "scopeStartAST",
-                                        "optional": false
+                                        "value": "scopeStartAST"
                                       }
                                     },
                                     "right": {
@@ -6121,9 +5931,7 @@
                                           "start": 5267,
                                           "end": 5285
                                         },
-                                        "ctxt": 0,
-                                        "value": "enclosingClassDecl",
-                                        "optional": false
+                                        "value": "enclosingClassDecl"
                                       }
                                     },
                                     "right": {
@@ -6201,9 +6009,7 @@
                                     "start": 5368,
                                     "end": 5377
                                   },
-                                  "ctxt": 0,
-                                  "value": "ObjectLit",
-                                  "optional": false
+                                  "value": "ObjectLit"
                                 }
                               },
                               "consequent": [
@@ -6301,9 +6107,7 @@
                                         "start": 5537,
                                         "end": 5547
                                       },
-                                      "ctxt": 0,
-                                      "value": "targetType",
-                                      "optional": false
+                                      "value": "targetType"
                                     }
                                   },
                                   "consequent": {
@@ -6349,9 +6153,7 @@
                                                 "start": 5583,
                                                 "end": 5594
                                               },
-                                              "ctxt": 0,
-                                              "value": "scopeGetter",
-                                              "optional": false
+                                              "value": "scopeGetter"
                                             }
                                           },
                                           "right": {
@@ -6406,9 +6208,7 @@
                                                           "start": 5656,
                                                           "end": 5666
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "targetType",
-                                                        "optional": false
+                                                        "value": "targetType"
                                                       }
                                                     },
                                                     "property": {
@@ -6417,9 +6217,7 @@
                                                         "start": 5667,
                                                         "end": 5681
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "containedScope",
-                                                      "optional": false
+                                                      "value": "containedScope"
                                                     }
                                                   }
                                                 }
@@ -6467,9 +6265,7 @@
                                                 "start": 5742,
                                                 "end": 5766
                                               },
-                                              "ctxt": 0,
-                                              "value": "objectLiteralScopeGetter",
-                                              "optional": false
+                                              "value": "objectLiteralScopeGetter"
                                             }
                                           },
                                           "right": {
@@ -6524,9 +6320,7 @@
                                                           "start": 5828,
                                                           "end": 5838
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "targetType",
-                                                        "optional": false
+                                                        "value": "targetType"
                                                       }
                                                     },
                                                     "property": {
@@ -6535,9 +6329,7 @@
                                                         "start": 5839,
                                                         "end": 5850
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "memberScope",
-                                                      "optional": false
+                                                      "value": "memberScope"
                                                     }
                                                   }
                                                 }
@@ -6585,9 +6377,7 @@
                                                 "start": 5910,
                                                 "end": 5928
                                               },
-                                              "ctxt": 0,
-                                              "value": "enclosingObjectLit",
-                                              "optional": false
+                                              "value": "enclosingObjectLit"
                                             }
                                           },
                                           "right": {
@@ -6644,9 +6434,7 @@
                                     "start": 6022,
                                     "end": 6039
                                   },
-                                  "ctxt": 0,
-                                  "value": "ModuleDeclaration",
-                                  "optional": false
+                                  "value": "ModuleDeclaration"
                                 }
                               },
                               "consequent": [
@@ -6685,9 +6473,7 @@
                                           "start": 6069,
                                           "end": 6086
                                         },
-                                        "ctxt": 0,
-                                        "value": "deepestModuleDecl",
-                                        "optional": false
+                                        "value": "deepestModuleDecl"
                                       }
                                     },
                                     "right": {
@@ -6762,9 +6548,7 @@
                                           "start": 6141,
                                           "end": 6152
                                         },
-                                        "ctxt": 0,
-                                        "value": "scopeGetter",
-                                        "optional": false
+                                        "value": "scopeGetter"
                                       }
                                     },
                                     "right": {
@@ -6826,9 +6610,7 @@
                                                       "start": 6204,
                                                       "end": 6208
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "type",
-                                                    "optional": false
+                                                    "value": "type"
                                                   }
                                                 },
                                                 "right": {
@@ -6874,9 +6656,7 @@
                                                       "start": 6231,
                                                       "end": 6235
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "type",
-                                                    "optional": false
+                                                    "value": "type"
                                                   }
                                                 },
                                                 "property": {
@@ -6885,9 +6665,7 @@
                                                     "start": 6236,
                                                     "end": 6250
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "containedScope",
-                                                  "optional": false
+                                                  "value": "containedScope"
                                                 }
                                               }
                                             }
@@ -6936,9 +6714,7 @@
                                           "start": 6303,
                                           "end": 6316
                                         },
-                                        "ctxt": 0,
-                                        "value": "scopeStartAST",
-                                        "optional": false
+                                        "value": "scopeStartAST"
                                       }
                                     },
                                     "right": {
@@ -6991,9 +6767,7 @@
                                     "start": 6382,
                                     "end": 6402
                                   },
-                                  "ctxt": 0,
-                                  "value": "InterfaceDeclaration",
-                                  "optional": false
+                                  "value": "InterfaceDeclaration"
                                 }
                               },
                               "consequent": [
@@ -7032,9 +6806,7 @@
                                           "start": 6432,
                                           "end": 6443
                                         },
-                                        "ctxt": 0,
-                                        "value": "scopeGetter",
-                                        "optional": false
+                                        "value": "scopeGetter"
                                       }
                                     },
                                     "right": {
@@ -7102,9 +6874,7 @@
                                                         "start": 6496,
                                                         "end": 6500
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "type",
-                                                      "optional": false
+                                                      "value": "type"
                                                     }
                                                   },
                                                   "right": {
@@ -7151,9 +6921,7 @@
                                                       "start": 6524,
                                                       "end": 6528
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "type",
-                                                    "optional": false
+                                                    "value": "type"
                                                   }
                                                 },
                                                 "property": {
@@ -7162,9 +6930,7 @@
                                                     "start": 6529,
                                                     "end": 6543
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "containedScope",
-                                                  "optional": false
+                                                  "value": "containedScope"
                                                 }
                                               }
                                             }
@@ -7213,9 +6979,7 @@
                                           "start": 6596,
                                           "end": 6609
                                         },
-                                        "ctxt": 0,
-                                        "value": "scopeStartAST",
-                                        "optional": false
+                                        "value": "scopeStartAST"
                                       }
                                     },
                                     "right": {
@@ -7268,9 +7032,7 @@
                                     "start": 6675,
                                     "end": 6683
                                   },
-                                  "ctxt": 0,
-                                  "value": "FuncDecl",
-                                  "optional": false
+                                  "value": "FuncDecl"
                                 }
                               },
                               "consequent": [
@@ -7376,9 +7138,7 @@
                                             "start": 6769,
                                             "end": 6793
                                           },
-                                          "ctxt": 0,
-                                          "value": "skipNextFuncDeclForClass",
-                                          "optional": false
+                                          "value": "skipNextFuncDeclForClass"
                                         }
                                       },
                                       "consequent": {
@@ -7424,9 +7184,7 @@
                                                     "start": 6829,
                                                     "end": 6853
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "skipNextFuncDeclForClass",
-                                                  "optional": false
+                                                  "value": "skipNextFuncDeclForClass"
                                                 }
                                               },
                                               "right": {
@@ -7484,9 +7242,7 @@
                                                     "start": 6944,
                                                     "end": 6955
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "scopeGetter",
-                                                  "optional": false
+                                                  "value": "scopeGetter"
                                                 }
                                               },
                                               "right": {
@@ -7542,9 +7298,7 @@
                                                               "start": 7117,
                                                               "end": 7130
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "isConstructor",
-                                                            "optional": false
+                                                            "value": "isConstructor"
                                                           }
                                                         },
                                                         "right": {
@@ -7589,9 +7343,7 @@
                                                                     "start": 7151,
                                                                     "end": 7159
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "fncFlags",
-                                                                  "optional": false
+                                                                  "value": "fncFlags"
                                                                 }
                                                               }
                                                             },
@@ -7619,9 +7371,7 @@
                                                                     "start": 7170,
                                                                     "end": 7181
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "ClassMethod",
-                                                                  "optional": false
+                                                                  "value": "ClassMethod"
                                                                 }
                                                               }
                                                             }
@@ -7672,9 +7422,7 @@
                                                                     "start": 7226,
                                                                     "end": 7230
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "type",
-                                                                  "optional": false
+                                                                  "value": "type"
                                                                 }
                                                               },
                                                               "right": {
@@ -7705,9 +7453,7 @@
                                                                       "start": 7238,
                                                                       "end": 7242
                                                                     },
-                                                                    "ctxt": 0,
-                                                                    "value": "type",
-                                                                    "optional": false
+                                                                    "value": "type"
                                                                   }
                                                                 },
                                                                 "property": {
@@ -7716,9 +7462,7 @@
                                                                     "start": 7243,
                                                                     "end": 7256
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "enclosingType",
-                                                                  "optional": false
+                                                                  "value": "enclosingType"
                                                                 }
                                                               }
                                                             },
@@ -7770,9 +7514,7 @@
                                                                             "start": 7307,
                                                                             "end": 7311
                                                                           },
-                                                                          "ctxt": 0,
-                                                                          "value": "type",
-                                                                          "optional": false
+                                                                          "value": "type"
                                                                         }
                                                                       },
                                                                       "property": {
@@ -7781,9 +7523,7 @@
                                                                           "start": 7312,
                                                                           "end": 7325
                                                                         },
-                                                                        "ctxt": 0,
-                                                                        "value": "enclosingType",
-                                                                        "optional": false
+                                                                        "value": "enclosingType"
                                                                       }
                                                                     },
                                                                     "property": {
@@ -7792,9 +7532,7 @@
                                                                         "start": 7326,
                                                                         "end": 7342
                                                                       },
-                                                                      "ctxt": 0,
-                                                                      "value": "constructorScope",
-                                                                      "optional": false
+                                                                      "value": "constructorScope"
                                                                     }
                                                                   }
                                                                 }
@@ -7834,9 +7572,7 @@
                                                             "start": 7450,
                                                             "end": 7459
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "scopeType",
-                                                          "optional": false
+                                                          "value": "scopeType"
                                                         }
                                                       },
                                                       "consequent": {
@@ -7881,9 +7617,7 @@
                                                                     "start": 7511,
                                                                     "end": 7520
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "scopeType",
-                                                                  "optional": false
+                                                                  "value": "scopeType"
                                                                 }
                                                               },
                                                               "property": {
@@ -7892,9 +7626,7 @@
                                                                   "start": 7521,
                                                                   "end": 7535
                                                                 },
-                                                                "ctxt": 0,
-                                                                "value": "containedScope",
-                                                                "optional": false
+                                                                "value": "containedScope"
                                                               }
                                                             }
                                                           }
@@ -7930,9 +7662,7 @@
                                                             "start": 7609,
                                                             "end": 7613
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "type",
-                                                          "optional": false
+                                                          "value": "type"
                                                         }
                                                       },
                                                       "consequent": {
@@ -7977,9 +7707,7 @@
                                                                     "start": 7665,
                                                                     "end": 7669
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "type",
-                                                                  "optional": false
+                                                                  "value": "type"
                                                                 }
                                                               },
                                                               "property": {
@@ -7988,9 +7716,7 @@
                                                                   "start": 7670,
                                                                   "end": 7684
                                                                 },
-                                                                "ctxt": 0,
-                                                                "value": "containedScope",
-                                                                "optional": false
+                                                                "value": "containedScope"
                                                               }
                                                             }
                                                           }
@@ -8056,9 +7782,7 @@
                                                     "start": 7816,
                                                     "end": 7829
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "scopeStartAST",
-                                                  "optional": false
+                                                  "value": "scopeStartAST"
                                                 }
                                               },
                                               "right": {
@@ -8131,9 +7855,7 @@
                                     "start": 7937,
                                     "end": 7944
                                   },
-                                  "ctxt": 0,
-                                  "value": "options",
-                                  "optional": false
+                                  "value": "options"
                                 }
                               },
                               "property": {
@@ -8142,9 +7864,7 @@
                                   "start": 7945,
                                   "end": 7955
                                 },
-                                "ctxt": 0,
-                                "value": "goChildren",
-                                "optional": false
+                                "value": "goChildren"
                               }
                             },
                             "right": {
@@ -8208,9 +7928,7 @@
                                     "start": 8008,
                                     "end": 8015
                                   },
-                                  "ctxt": 0,
-                                  "value": "options",
-                                  "optional": false
+                                  "value": "options"
                                 }
                               },
                               "property": {
@@ -8219,9 +7937,7 @@
                                   "start": 8016,
                                   "end": 8026
                                 },
-                                "ctxt": 0,
-                                "value": "goChildren",
-                                "optional": false
+                                "value": "goChildren"
                               }
                             },
                             "right": {
@@ -8657,9 +8373,7 @@
                                 "start": 8566,
                                 "end": 8585
                               },
-                              "ctxt": 0,
-                              "value": "getAstWalkerFactory",
-                              "optional": false
+                              "value": "getAstWalkerFactory"
                             }
                           },
                           "arguments": [],
@@ -8671,9 +8385,7 @@
                             "start": 8588,
                             "end": 8592
                           },
-                          "ctxt": 0,
-                          "value": "walk",
-                          "optional": false
+                          "value": "walk"
                         }
                       },
                       "arguments": [
@@ -8775,9 +8487,7 @@
                             "start": 8667,
                             "end": 8680
                           },
-                          "ctxt": 0,
-                          "value": "scopeStartAST",
-                          "optional": false
+                          "value": "scopeStartAST"
                         }
                       },
                       "right": {

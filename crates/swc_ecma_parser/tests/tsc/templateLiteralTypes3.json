@@ -9661,9 +9661,7 @@
                     "start": 4528,
                     "end": 4532
                   },
-                  "ctxt": 0,
-                  "value": "type",
-                  "optional": false
+                  "value": "type"
                 }
               },
               "right": {
@@ -9712,9 +9710,7 @@
                         "start": 4569,
                         "end": 4573
                       },
-                      "ctxt": 0,
-                      "value": "type",
-                      "optional": false
+                      "value": "type"
                     }
                   }
                 },
@@ -9746,9 +9742,7 @@
                         "start": 4590,
                         "end": 4598
                       },
-                      "ctxt": 0,
-                      "value": "response",
-                      "optional": false
+                      "value": "response"
                     }
                   }
                 }

@@ -25,9 +25,7 @@
               "start": 31,
               "end": 32
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           },
           "body": {
             "type": "ExpressionStatement",

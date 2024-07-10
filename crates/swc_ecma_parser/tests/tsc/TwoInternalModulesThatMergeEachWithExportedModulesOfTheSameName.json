@@ -315,9 +315,7 @@
                   "start": 174,
                   "end": 175
                 },
-                "ctxt": 0,
-                "value": "B",
-                "optional": false
+                "value": "B"
               }
             },
             "property": {
@@ -326,9 +324,7 @@
                 "start": 176,
                 "end": 177
               },
-              "ctxt": 0,
-              "value": "x",
-              "optional": false
+              "value": "x"
             }
           },
           "definite": false
@@ -434,9 +430,7 @@
                           "start": 227,
                           "end": 233
                         },
-                        "ctxt": 0,
-                        "value": "length",
-                        "optional": false
+                        "value": "length"
                       },
                       "value": null,
                       "typeAnnotation": {
@@ -596,9 +590,7 @@
                                     "start": 352,
                                     "end": 356
                                   },
-                                  "ctxt": 0,
-                                  "value": "name",
-                                  "optional": false
+                                  "value": "name"
                                 },
                                 "value": null,
                                 "typeAnnotation": {
@@ -765,10 +757,22 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 472,
+                    "end": 482
+                  },
                   "left": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 472,
+                      "end": 477
+                    },
                     "left": {
                       "type": "TsQualifiedName",
+                      "span": {
+                        "start": 472,
+                        "end": 475
+                      },
                       "left": {
                         "type": "Identifier",
                         "span": {
@@ -785,9 +789,7 @@
                           "start": 474,
                           "end": 475
                         },
-                        "ctxt": 0,
-                        "value": "Y",
-                        "optional": false
+                        "value": "Y"
                       }
                     },
                     "right": {
@@ -796,9 +798,7 @@
                         "start": 476,
                         "end": 477
                       },
-                      "ctxt": 0,
-                      "value": "Z",
-                      "optional": false
+                      "value": "Z"
                     }
                   },
                   "right": {
@@ -807,9 +807,7 @@
                       "start": 478,
                       "end": 482
                     },
-                    "ctxt": 0,
-                    "value": "Line",
-                    "optional": false
+                    "value": "Line"
                   }
                 },
                 "typeParams": null

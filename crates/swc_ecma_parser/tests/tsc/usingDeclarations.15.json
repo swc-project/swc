@@ -78,9 +78,7 @@
                         "start": 141,
                         "end": 148
                       },
-                      "ctxt": 0,
-                      "value": "dispose",
-                      "optional": false
+                      "value": "dispose"
                     }
                   }
                 },

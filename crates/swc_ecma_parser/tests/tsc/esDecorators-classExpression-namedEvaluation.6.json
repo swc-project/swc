@@ -153,9 +153,7 @@
                     "start": 241,
                     "end": 242
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 },
                 "value": {
                   "type": "AssignmentPattern",
@@ -261,9 +259,7 @@
                     "start": 276,
                     "end": 277
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 },
                 "value": {
                   "type": "AssignmentPattern",
@@ -304,9 +300,7 @@
                             "start": 296,
                             "end": 297
                           },
-                          "ctxt": 0,
-                          "value": "y",
-                          "optional": false
+                          "value": "y"
                         },
                         "value": null,
                         "typeAnnotation": {

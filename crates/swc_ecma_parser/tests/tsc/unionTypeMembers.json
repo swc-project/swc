@@ -1533,9 +1533,7 @@
               "start": 1225,
               "end": 1243
             },
-            "ctxt": 0,
-            "value": "commonPropertyType",
-            "optional": false
+            "value": "commonPropertyType"
           }
         }
       }
@@ -1593,9 +1591,7 @@
                 "start": 1263,
                 "end": 1279
               },
-              "ctxt": 0,
-              "value": "commonMethodType",
-              "optional": false
+              "value": "commonMethodType"
             }
           },
           "arguments": [
@@ -1663,9 +1659,7 @@
               "start": 1351,
               "end": 1377
             },
-            "ctxt": 0,
-            "value": "commonPropertyDifferenType",
-            "optional": false
+            "value": "commonPropertyDifferenType"
           }
         }
       }
@@ -1723,9 +1717,7 @@
                 "start": 1392,
                 "end": 1423
               },
-              "ctxt": 0,
-              "value": "commonMethodDifferentReturnType",
-              "optional": false
+              "value": "commonMethodDifferentReturnType"
             }
           },
           "arguments": [
@@ -1775,9 +1767,7 @@
             "start": 1450,
             "end": 1484
           },
-          "ctxt": 0,
-          "value": "commonMethodDifferentParameterType",
-          "optional": false
+          "value": "commonMethodDifferentParameterType"
         }
       }
     },
@@ -1816,9 +1806,7 @@
               "start": 1518,
               "end": 1552
             },
-            "ctxt": 0,
-            "value": "commonMethodDifferentParameterType",
-            "optional": false
+            "value": "commonMethodDifferentParameterType"
           }
         },
         "arguments": [
@@ -1892,9 +1880,7 @@
                 "start": 1778,
                 "end": 1807
               },
-              "ctxt": 0,
-              "value": "commonMethodWithTypeParameter",
-              "optional": false
+              "value": "commonMethodWithTypeParameter"
             }
           },
           "arguments": [
@@ -1969,9 +1955,7 @@
                 "start": 1822,
                 "end": 1854
               },
-              "ctxt": 0,
-              "value": "commonMethodWithOwnTypeParameter",
-              "optional": false
+              "value": "commonMethodWithOwnTypeParameter"
             }
           },
           "arguments": [
@@ -2046,9 +2030,7 @@
                 "start": 1869,
                 "end": 1901
               },
-              "ctxt": 0,
-              "value": "commonMethodWithOwnTypeParameter",
-              "optional": false
+              "value": "commonMethodWithOwnTypeParameter"
             }
           },
           "arguments": [
@@ -2123,9 +2105,7 @@
                 "start": 1921,
                 "end": 1953
               },
-              "ctxt": 0,
-              "value": "commonMethodWithOwnTypeParameter",
-              "optional": false
+              "value": "commonMethodWithOwnTypeParameter"
             }
           },
           "arguments": [
@@ -2175,9 +2155,7 @@
             "start": 1968,
             "end": 1984
           },
-          "ctxt": 0,
-          "value": "propertyOnlyInI1",
-          "optional": false
+          "value": "propertyOnlyInI1"
         }
       }
     },
@@ -2209,9 +2187,7 @@
             "start": 1997,
             "end": 2013
           },
-          "ctxt": 0,
-          "value": "propertyOnlyInI2",
-          "optional": false
+          "value": "propertyOnlyInI2"
         }
       }
     },
@@ -2250,9 +2226,7 @@
               "start": 2026,
               "end": 2040
             },
-            "ctxt": 0,
-            "value": "methodOnlyInI1",
-            "optional": false
+            "value": "methodOnlyInI1"
           }
         },
         "arguments": [
@@ -2307,9 +2281,7 @@
               "start": 2062,
               "end": 2076
             },
-            "ctxt": 0,
-            "value": "methodOnlyInI2",
-            "optional": false
+            "value": "methodOnlyInI2"
           }
         },
         "arguments": [

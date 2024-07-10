@@ -286,9 +286,7 @@
                       "start": 195,
                       "end": 206
                     },
-                    "ctxt": 0,
-                    "value": "constructor",
-                    "optional": false
+                    "value": "constructor"
                   },
                   "params": [
                     {
@@ -324,6 +322,10 @@
                             },
                             "typeName": {
                               "type": "TsQualifiedName",
+                              "span": {
+                                "start": 221,
+                                "end": 228
+                              },
                               "left": {
                                 "type": "Identifier",
                                 "span": {
@@ -340,9 +342,7 @@
                                   "start": 223,
                                   "end": 228
                                 },
-                                "ctxt": 0,
-                                "value": "Point",
-                                "optional": false
+                                "value": "Point"
                               }
                             },
                             "typeParams": null
@@ -383,6 +383,10 @@
                             },
                             "typeName": {
                               "type": "TsQualifiedName",
+                              "span": {
+                                "start": 242,
+                                "end": 249
+                              },
                               "left": {
                                 "type": "Identifier",
                                 "span": {
@@ -399,9 +403,7 @@
                                   "start": 244,
                                   "end": 249
                                 },
-                                "ctxt": 0,
-                                "value": "Point",
-                                "optional": false
+                                "value": "Point"
                               }
                             },
                             "typeParams": null
@@ -561,6 +563,10 @@
                         },
                         "typeName": {
                           "type": "TsQualifiedName",
+                          "span": {
+                            "start": 358,
+                            "end": 370
+                          },
                           "left": {
                             "type": "Identifier",
                             "span": {
@@ -577,9 +583,7 @@
                               "start": 365,
                               "end": 370
                             },
-                            "ctxt": 0,
-                            "value": "Point",
-                            "optional": false
+                            "value": "Point"
                           }
                         },
                         "typeParams": null
@@ -601,9 +605,7 @@
                             "start": 375,
                             "end": 376
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -623,9 +625,7 @@
                             "start": 381,
                             "end": 382
                           },
-                          "ctxt": 0,
-                          "value": "y",
-                          "optional": false
+                          "value": "y"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -689,6 +689,10 @@
                         },
                         "typeName": {
                           "type": "TsQualifiedName",
+                          "span": {
+                            "start": 475,
+                            "end": 485
+                          },
                           "left": {
                             "type": "Identifier",
                             "span": {
@@ -705,9 +709,7 @@
                               "start": 481,
                               "end": 485
                             },
-                            "ctxt": 0,
-                            "value": "Line",
-                            "optional": false
+                            "value": "Line"
                           }
                         },
                         "typeParams": null
@@ -743,9 +745,7 @@
                           "start": 498,
                           "end": 502
                         },
-                        "ctxt": 0,
-                        "value": "Line",
-                        "optional": false
+                        "value": "Line"
                       }
                     },
                     "arguments": [
@@ -779,9 +779,7 @@
                                   "start": 513,
                                   "end": 514
                                 },
-                                "ctxt": 0,
-                                "value": "x",
-                                "optional": false
+                                "value": "x"
                               },
                               "value": {
                                 "type": "NumericLiteral",
@@ -801,9 +799,7 @@
                                   "start": 519,
                                   "end": 520
                                 },
-                                "ctxt": 0,
-                                "value": "y",
-                                "optional": false
+                                "value": "y"
                               },
                               "value": {
                                 "type": "NumericLiteral",
@@ -985,8 +981,16 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 614,
+                    "end": 635
+                  },
                   "left": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 614,
+                      "end": 629
+                    },
                     "left": {
                       "type": "Identifier",
                       "span": {
@@ -1003,9 +1007,7 @@
                         "start": 623,
                         "end": 629
                       },
-                      "ctxt": 0,
-                      "value": "Points",
-                      "optional": false
+                      "value": "Points"
                     }
                   },
                   "right": {
@@ -1014,9 +1016,7 @@
                       "start": 630,
                       "end": 635
                     },
-                    "ctxt": 0,
-                    "value": "Point",
-                    "optional": false
+                    "value": "Point"
                   }
                 },
                 "typeParams": null
@@ -1077,9 +1077,7 @@
                 "start": 654,
                 "end": 660
               },
-              "ctxt": 0,
-              "value": "Origin",
-              "optional": false
+              "value": "Origin"
             }
           },
           "definite": false
@@ -1394,9 +1392,7 @@
                 "start": 762,
                 "end": 766
               },
-              "ctxt": 0,
-              "value": "Unit",
-              "optional": false
+              "value": "Unit"
             }
           },
           "definite": false
@@ -1458,9 +1454,7 @@
                   "start": 836,
                   "end": 841
                 },
-                "ctxt": 0,
-                "value": "Lines",
-                "optional": false
+                "value": "Lines"
               }
             },
             "property": {
@@ -1469,9 +1463,7 @@
                 "start": 842,
                 "end": 846
               },
-              "ctxt": 0,
-              "value": "Line",
-              "optional": false
+              "value": "Line"
             }
           },
           "definite": false

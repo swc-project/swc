@@ -37,9 +37,7 @@
               "start": 34,
               "end": 35
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": {
@@ -89,9 +87,7 @@
               "start": 44,
               "end": 45
             },
-            "ctxt": 0,
-            "value": "B",
-            "optional": false
+            "value": "B"
           },
           "value": null,
           "typeAnnotation": {
@@ -142,9 +138,7 @@
               "start": 54,
               "end": 65
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -231,9 +225,7 @@
                         "start": 79,
                         "end": 80
                       },
-                      "ctxt": 0,
-                      "value": "B",
-                      "optional": false
+                      "value": "B"
                     }
                   },
                   "right": {
@@ -265,9 +257,7 @@
               "start": 91,
               "end": 94
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
@@ -310,9 +300,7 @@
                         "start": 122,
                         "end": 123
                       },
-                      "ctxt": 0,
-                      "value": "x",
-                      "optional": false
+                      "value": "x"
                     }
                   }
                 }
@@ -366,9 +354,7 @@
               "start": 139,
               "end": 141
             },
-            "ctxt": 0,
-            "value": "BB",
-            "optional": false
+            "value": "BB"
           },
           "function": {
             "params": [],
@@ -411,9 +397,7 @@
                         "start": 169,
                         "end": 170
                       },
-                      "ctxt": 0,
-                      "value": "B",
-                      "optional": false
+                      "value": "B"
                     }
                   }
                 }
@@ -467,9 +451,7 @@
               "start": 186,
               "end": 192
             },
-            "ctxt": 0,
-            "value": "BBWith",
-            "optional": false
+            "value": "BBWith"
           },
           "function": {
             "params": [
@@ -563,9 +545,7 @@
                           "start": 214,
                           "end": 215
                         },
-                        "ctxt": 0,
-                        "value": "B",
-                        "optional": false
+                        "value": "B"
                       }
                     },
                     "right": {

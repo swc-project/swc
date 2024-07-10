@@ -77,9 +77,7 @@
                                 "start": 178,
                                 "end": 179
                               },
-                              "ctxt": 0,
-                              "value": "x",
-                              "optional": false
+                              "value": "x"
                             },
                             "value": {
                               "type": "NumericLiteral",
@@ -135,9 +133,7 @@
                                 "start": 199,
                                 "end": 200
                               },
-                              "ctxt": 0,
-                              "value": "y",
-                              "optional": false
+                              "value": "y"
                             },
                             "value": {
                               "type": "NumericLiteral",
@@ -240,9 +236,7 @@
                                   "start": 312,
                                   "end": 313
                                 },
-                                "ctxt": 0,
-                                "value": "x",
-                                "optional": false
+                                "value": "x"
                               },
                               "value": {
                                 "type": "NumericLiteral",
@@ -298,9 +292,7 @@
                                   "start": 337,
                                   "end": 338
                                 },
-                                "ctxt": 0,
-                                "value": "y",
-                                "optional": false
+                                "value": "y"
                               },
                               "value": {
                                 "type": "NumericLiteral",
@@ -360,9 +352,7 @@
               "start": 439,
               "end": 440
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "function": {
             "params": [
@@ -425,9 +415,7 @@
               "start": 460,
               "end": 461
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "function": {
             "params": [],
@@ -496,9 +484,7 @@
                                         "start": 503,
                                         "end": 504
                                       },
-                                      "ctxt": 0,
-                                      "value": "x",
-                                      "optional": false
+                                      "value": "x"
                                     },
                                     "value": {
                                       "type": "NumericLiteral",
@@ -554,9 +540,7 @@
                                         "start": 532,
                                         "end": 533
                                       },
-                                      "ctxt": 0,
-                                      "value": "y",
-                                      "optional": false
+                                      "value": "y"
                                     },
                                     "value": {
                                       "type": "NumericLiteral",

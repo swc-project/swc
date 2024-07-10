@@ -509,9 +509,7 @@
                           "start": 324,
                           "end": 336
                         },
-                        "ctxt": 0,
-                        "value": "produceThing",
-                        "optional": false
+                        "value": "produceThing"
                       },
                       "value": {
                         "type": "TsAsExpression",
@@ -589,9 +587,7 @@
                           "start": 370,
                           "end": 375
                         },
-                        "ctxt": 0,
-                        "value": "useIt",
-                        "optional": false
+                        "value": "useIt"
                       },
                       "value": {
                         "type": "ObjectExpression",
@@ -608,9 +604,7 @@
                                 "start": 383,
                                 "end": 387
                               },
-                              "ctxt": 0,
-                              "value": "type",
-                              "optional": false
+                              "value": "type"
                             },
                             "value": {
                               "type": "StringLiteral",
@@ -633,9 +627,7 @@
                           "start": 403,
                           "end": 408
                         },
-                        "ctxt": 0,
-                        "value": "extra",
-                        "optional": false
+                        "value": "extra"
                       },
                       "value": {
                         "type": "NumericLiteral",

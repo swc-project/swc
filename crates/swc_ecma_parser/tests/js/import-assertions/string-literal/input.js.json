@@ -55,9 +55,7 @@
                 "start": 37,
                 "end": 40
               },
-              "ctxt": 0,
-              "value": "for",
-              "optional": false
+              "value": "for"
             },
             "value": {
               "type": "StringLiteral",
@@ -125,9 +123,7 @@
                 "start": 90,
                 "end": 93
               },
-              "ctxt": 0,
-              "value": "for",
-              "optional": false
+              "value": "for"
             },
             "value": {
               "type": "StringLiteral",

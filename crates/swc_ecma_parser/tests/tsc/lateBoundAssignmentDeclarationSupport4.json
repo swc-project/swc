@@ -171,9 +171,7 @@
                 "start": 239,
                 "end": 248
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -246,9 +244,7 @@
                 "start": 265,
                 "end": 274
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -502,9 +498,7 @@
                 "start": 365,
                 "end": 372
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -513,9 +507,7 @@
               "start": 373,
               "end": 374
             },
-            "ctxt": 0,
-            "value": "F",
-            "optional": false
+            "value": "F"
           }
         },
         "right": {
@@ -571,9 +563,7 @@
                 "start": 387,
                 "end": 394
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -582,9 +572,7 @@
               "start": 395,
               "end": 396
             },
-            "ctxt": 0,
-            "value": "S",
-            "optional": false
+            "value": "S"
           }
         },
         "right": {
@@ -719,9 +707,7 @@
                   "start": 514,
                   "end": 515
                 },
-                "ctxt": 0,
-                "value": "F",
-                "optional": false
+                "value": "F"
               }
             },
             "arguments": [],
@@ -866,9 +852,7 @@
                     "start": 567,
                     "end": 568
                   },
-                  "ctxt": 0,
-                  "value": "S",
-                  "optional": false
+                  "value": "S"
                 }
               }
             }

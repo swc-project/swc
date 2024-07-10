@@ -143,9 +143,7 @@
             "start": 86,
             "end": 99
           },
-          "ctxt": 0,
-          "value": "newSymbolProp",
-          "optional": false
+          "value": "newSymbolProp"
         }
       }
     }

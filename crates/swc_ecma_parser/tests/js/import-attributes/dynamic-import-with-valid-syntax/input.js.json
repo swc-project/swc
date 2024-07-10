@@ -56,9 +56,7 @@
                       "start": 22,
                       "end": 26
                     },
-                    "ctxt": 0,
-                    "value": "with",
-                    "optional": false
+                    "value": "with"
                   },
                   "value": {
                     "type": "ObjectExpression",
@@ -75,9 +73,7 @@
                             "start": 30,
                             "end": 34
                           },
-                          "ctxt": 0,
-                          "value": "type",
-                          "optional": false
+                          "value": "type"
                         },
                         "value": {
                           "type": "StringLiteral",

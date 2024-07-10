@@ -4245,9 +4245,7 @@
                       "start": 1074,
                       "end": 1077
                     },
-                    "ctxt": 0,
-                    "value": "map",
-                    "optional": false
+                    "value": "map"
                   }
                 },
                 "arguments": [
@@ -4526,9 +4524,7 @@
                       "start": 1145,
                       "end": 1151
                     },
-                    "ctxt": 0,
-                    "value": "filter",
-                    "optional": false
+                    "value": "filter"
                   }
                 },
                 "arguments": [
@@ -4751,9 +4747,7 @@
                         "start": 1212,
                         "end": 1218
                       },
-                      "ctxt": 0,
-                      "value": "length",
-                      "optional": false
+                      "value": "length"
                     }
                   },
                   "async": false,
@@ -5601,9 +5595,7 @@
                           "start": 1455,
                           "end": 1461
                         },
-                        "ctxt": 0,
-                        "value": "length",
-                        "optional": false
+                        "value": "length"
                       }
                     },
                     "right": {
@@ -5878,9 +5870,7 @@
                           "start": 1540,
                           "end": 1545
                         },
-                        "ctxt": 0,
-                        "value": "value",
-                        "optional": false
+                        "value": "value"
                       }
                     },
                     "right": {

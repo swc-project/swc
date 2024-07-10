@@ -239,9 +239,7 @@
                   "start": 500,
                   "end": 501
                 },
-                "ctxt": 0,
-                "value": "a",
-                "optional": false
+                "value": "a"
               }
             },
             "right": {
@@ -266,9 +264,7 @@
                   "start": 509,
                   "end": 510
                 },
-                "ctxt": 0,
-                "value": "b",
-                "optional": false
+                "value": "b"
               }
             }
           },

@@ -186,9 +186,7 @@
                                           "start": 121,
                                           "end": 124
                                         },
-                                        "ctxt": 0,
-                                        "value": "env",
-                                        "optional": false
+                                        "value": "env"
                                       }
                                     },
                                     "property": {
@@ -197,9 +195,7 @@
                                         "start": 125,
                                         "end": 137
                                       },
-                                      "ctxt": 0,
-                                      "value": "NEXT_RUNTIME",
-                                      "optional": false
+                                      "value": "NEXT_RUNTIME"
                                     }
                                   },
                                   "right": {
@@ -343,9 +339,7 @@
                                                   "start": 285,
                                                   "end": 292
                                                 },
-                                                "ctxt": 0,
-                                                "value": "default",
-                                                "optional": false
+                                                "value": "default"
                                               }
                                             },
                                             "typeAnnotation": {
@@ -480,9 +474,7 @@
                                                       "start": 395,
                                                       "end": 413
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "ampOptimizerConfig",
-                                                    "optional": false
+                                                    "value": "ampOptimizerConfig"
                                                   }
                                                 }
                                               }
@@ -534,9 +526,7 @@
                                                 "start": 447,
                                                 "end": 464
                                               },
-                                              "ctxt": 0,
-                                              "value": "ampSkipValidation",
-                                              "optional": false
+                                              "value": "ampSkipValidation"
                                             }
                                           }
                                         },
@@ -562,9 +552,7 @@
                                               "start": 479,
                                               "end": 491
                                             },
-                                            "ctxt": 0,
-                                            "value": "ampValidator",
-                                            "optional": false
+                                            "value": "ampValidator"
                                           }
                                         }
                                       },
@@ -617,9 +605,7 @@
                                                       "start": 532,
                                                       "end": 544
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "ampValidator",
-                                                    "optional": false
+                                                    "value": "ampValidator"
                                                   }
                                                 },
                                                 "arguments": [
@@ -741,9 +727,7 @@
                                           "start": 657,
                                           "end": 660
                                         },
-                                        "ctxt": 0,
-                                        "value": "env",
-                                        "optional": false
+                                        "value": "env"
                                       }
                                     },
                                     "property": {
@@ -752,9 +736,7 @@
                                         "start": 661,
                                         "end": 673
                                       },
-                                      "ctxt": 0,
-                                      "value": "NEXT_RUNTIME",
-                                      "optional": false
+                                      "value": "NEXT_RUNTIME"
                                     }
                                   },
                                   "right": {
@@ -789,9 +771,7 @@
                                       "start": 699,
                                       "end": 712
                                     },
-                                    "ctxt": 0,
-                                    "value": "optimizeFonts",
-                                    "optional": false
+                                    "value": "optimizeFonts"
                                   }
                                 }
                               },
@@ -996,9 +976,7 @@
                                           "start": 890,
                                           "end": 893
                                         },
-                                        "ctxt": 0,
-                                        "value": "env",
-                                        "optional": false
+                                        "value": "env"
                                       }
                                     },
                                     "property": {
@@ -1007,9 +985,7 @@
                                         "start": 894,
                                         "end": 906
                                       },
-                                      "ctxt": 0,
-                                      "value": "NEXT_RUNTIME",
-                                      "optional": false
+                                      "value": "NEXT_RUNTIME"
                                     }
                                   },
                                   "right": {
@@ -1044,9 +1020,7 @@
                                       "start": 932,
                                       "end": 943
                                     },
-                                    "ctxt": 0,
-                                    "value": "optimizeCss",
-                                    "optional": false
+                                    "value": "optimizeCss"
                                   }
                                 }
                               },
@@ -1220,9 +1194,7 @@
                                               "start": 1111,
                                               "end": 1118
                                             },
-                                            "ctxt": 0,
-                                            "value": "replace",
-                                            "optional": false
+                                            "value": "replace"
                                           }
                                         },
                                         "arguments": [
@@ -1278,9 +1250,7 @@
                           "start": 1184,
                           "end": 1190
                         },
-                        "ctxt": 0,
-                        "value": "filter",
-                        "optional": false
+                        "value": "filter"
                       }
                     },
                     "arguments": [

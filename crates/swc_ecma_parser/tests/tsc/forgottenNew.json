@@ -122,9 +122,7 @@
                   "start": 70,
                   "end": 80
                 },
-                "ctxt": 0,
-                "value": "NullLogger",
-                "optional": false
+                "value": "NullLogger"
               }
             },
             "arguments": [],

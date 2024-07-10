@@ -85,9 +85,7 @@
                     "start": 227,
                     "end": 228
                   },
-                  "ctxt": 0,
-                  "value": "n",
-                  "optional": false
+                  "value": "n"
                 }
               },
               "right": {
@@ -112,9 +110,7 @@
                     "start": 233,
                     "end": 239
                   },
-                  "ctxt": 0,
-                  "value": "length",
-                  "optional": false
+                  "value": "length"
                 }
               }
             }
@@ -178,9 +174,7 @@
                     "start": 266,
                     "end": 267
                   },
-                  "ctxt": 0,
-                  "value": "n",
-                  "optional": false
+                  "value": "n"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -233,9 +227,7 @@
               "start": 275,
               "end": 276
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           }
         },
         "arguments": [

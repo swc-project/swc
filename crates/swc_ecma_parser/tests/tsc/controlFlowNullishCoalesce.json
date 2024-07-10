@@ -146,9 +146,7 @@
               "start": 85,
               "end": 93
             },
-            "ctxt": 0,
-            "value": "toString",
-            "optional": false
+            "value": "toString"
           }
         },
         "arguments": [],

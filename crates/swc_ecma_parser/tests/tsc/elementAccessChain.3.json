@@ -164,9 +164,7 @@
                     "start": 63,
                     "end": 64
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 }
               }
             },
@@ -303,9 +301,7 @@
                     "start": 92,
                     "end": 93
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 }
               }
             },
@@ -442,9 +438,7 @@
                     "start": 124,
                     "end": 125
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 }
               }
             },
@@ -581,9 +575,7 @@
                     "start": 153,
                     "end": 154
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 }
               }
             },
@@ -727,9 +719,7 @@
                     "start": 183,
                     "end": 184
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 }
               }
             },
@@ -882,9 +872,7 @@
                     "start": 217,
                     "end": 218
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 }
               }
             },
@@ -1028,9 +1016,7 @@
                   "start": 265,
                   "end": 266
                 },
-                "ctxt": 0,
-                "value": "a",
-                "optional": false
+                "value": "a"
               }
             }
           },
@@ -1181,9 +1167,7 @@
                   "start": 314,
                   "end": 315
                 },
-                "ctxt": 0,
-                "value": "a",
-                "optional": false
+                "value": "a"
               }
             }
           },
@@ -1255,9 +1239,7 @@
                     "start": 333,
                     "end": 334
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 },
                 "value": {
                   "type": "Invalid",
@@ -1286,9 +1268,7 @@
                     "start": 353,
                     "end": 354
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -1339,9 +1319,7 @@
                     "start": 365,
                     "end": 366
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 },
                 "value": {
                   "type": "Invalid",
@@ -1370,9 +1348,7 @@
                     "start": 386,
                     "end": 387
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -1453,9 +1429,7 @@
                     "start": 418,
                     "end": 419
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -1536,9 +1510,7 @@
                     "start": 451,
                     "end": 452
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 },
                 "value": {
                   "type": "NumericLiteral",

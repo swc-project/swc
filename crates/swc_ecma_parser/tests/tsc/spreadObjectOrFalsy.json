@@ -1500,9 +1500,7 @@
               "start": 717,
               "end": 721
             },
-            "ctxt": 0,
-            "value": "data",
-            "optional": false
+            "value": "data"
           },
           "value": null,
           "typeAnnotation": {
@@ -1569,9 +1567,7 @@
               "start": 742,
               "end": 745
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "function": {
             "params": [],
@@ -1621,9 +1617,7 @@
                           "start": 767,
                           "end": 774
                         },
-                        "ctxt": 0,
-                        "value": "hasData",
-                        "optional": false
+                        "value": "hasData"
                       }
                     },
                     "arguments": [],
@@ -1675,9 +1669,7 @@
                                   "start": 797,
                                   "end": 801
                                 },
-                                "ctxt": 0,
-                                "value": "data",
-                                "optional": false
+                                "value": "data"
                               }
                             },
                             "property": {
@@ -1686,9 +1678,7 @@
                                 "start": 802,
                                 "end": 819
                               },
-                              "ctxt": 0,
-                              "value": "toLocaleLowerCase",
-                              "optional": false
+                              "value": "toLocaleLowerCase"
                             }
                           },
                           "arguments": [],
@@ -1725,9 +1715,7 @@
               "start": 843,
               "end": 850
             },
-            "ctxt": 0,
-            "value": "hasData",
-            "optional": false
+            "value": "hasData"
           },
           "function": {
             "params": [],

@@ -1751,9 +1751,7 @@
                     "start": 1252,
                     "end": 1257
                   },
-                  "ctxt": 0,
-                  "value": "title",
-                  "optional": false
+                  "value": "title"
                 },
                 "value": {
                   "type": "StringLiteral",
@@ -1773,9 +1771,7 @@
                     "start": 1273,
                     "end": 1285
                   },
-                  "ctxt": 0,
-                  "value": "yearReleased",
-                  "optional": false
+                  "value": "yearReleased"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -1876,9 +1872,7 @@
                     "start": 1394,
                     "end": 1399
                   },
-                  "ctxt": 0,
-                  "value": "title",
-                  "optional": false
+                  "value": "title"
                 },
                 "value": {
                   "type": "Identifier",

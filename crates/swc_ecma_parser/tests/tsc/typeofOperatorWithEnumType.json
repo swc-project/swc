@@ -576,9 +576,7 @@
                           "start": 446,
                           "end": 447
                         },
-                        "ctxt": 0,
-                        "value": "B",
-                        "optional": false
+                        "value": "B"
                       }
                     }
                   }
@@ -771,9 +769,7 @@
           "start": 587,
           "end": 588
         },
-        "ctxt": 0,
-        "value": "z",
-        "optional": false
+        "value": "z"
       },
       "body": {
         "type": "ExpressionStatement",
@@ -813,9 +809,7 @@
           "start": 603,
           "end": 604
         },
-        "ctxt": 0,
-        "value": "z",
-        "optional": false
+        "value": "z"
       },
       "body": {
         "type": "ExpressionStatement",

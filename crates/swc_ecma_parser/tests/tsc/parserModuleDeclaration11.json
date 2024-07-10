@@ -163,9 +163,7 @@
               "start": 90,
               "end": 93
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           }
         },
         "arguments": [
@@ -224,6 +222,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 109,
+                    "end": 117
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -240,9 +242,7 @@
                       "start": 116,
                       "end": 117
                     },
-                    "ctxt": 0,
-                    "value": "X",
-                    "optional": false
+                    "value": "X"
                   }
                 },
                 "typeParams": null

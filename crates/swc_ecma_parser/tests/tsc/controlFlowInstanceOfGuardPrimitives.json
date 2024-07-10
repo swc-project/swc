@@ -179,9 +179,7 @@
                           "start": 106,
                           "end": 109
                         },
-                        "ctxt": 0,
-                        "value": "log",
-                        "optional": false
+                        "value": "log"
                       }
                     },
                     "arguments": [
@@ -232,9 +230,7 @@
                                   "start": 142,
                                   "end": 153
                                 },
-                                "ctxt": 0,
-                                "value": "getFullYear",
-                                "optional": false
+                                "value": "getFullYear"
                               }
                             },
                             "arguments": [],
@@ -332,9 +328,7 @@
                             "start": 218,
                             "end": 221
                           },
-                          "ctxt": 0,
-                          "value": "log",
-                          "optional": false
+                          "value": "log"
                         }
                       },
                       "arguments": [
@@ -378,9 +372,7 @@
                                   "start": 263,
                                   "end": 269
                                 },
-                                "ctxt": 0,
-                                "value": "length",
-                                "optional": false
+                                "value": "length"
                               }
                             }
                           }
@@ -434,9 +426,7 @@
                             "start": 301,
                             "end": 304
                           },
-                          "ctxt": 0,
-                          "value": "log",
-                          "optional": false
+                          "value": "log"
                         }
                       },
                       "arguments": [
@@ -487,9 +477,7 @@
                                     "start": 338,
                                     "end": 349
                                   },
-                                  "ctxt": 0,
-                                  "value": "toPrecision",
-                                  "optional": false
+                                  "value": "toPrecision"
                                 }
                               },
                               "arguments": [

@@ -723,9 +723,7 @@
                   "start": 359,
                   "end": 363
                 },
-                "ctxt": 0,
-                "value": "prop",
-                "optional": false
+                "value": "prop"
               }
             }
           }
@@ -816,9 +814,7 @@
                     "start": 447,
                     "end": 453
                   },
-                  "ctxt": 0,
-                  "value": "method",
-                  "optional": false
+                  "value": "method"
                 }
               },
               "arguments": [],
@@ -939,9 +935,7 @@
                     "start": 572,
                     "end": 578
                   },
-                  "ctxt": 0,
-                  "value": "method",
-                  "optional": false
+                  "value": "method"
                 }
               },
               "arguments": [],
@@ -1055,9 +1049,7 @@
                   "start": 619,
                   "end": 626
                 },
-                "ctxt": 0,
-                "value": "message",
-                "optional": false
+                "value": "message"
               }
             }
           },
@@ -1089,9 +1081,7 @@
                   "start": 634,
                   "end": 640
                 },
-                "ctxt": 0,
-                "value": "mesage",
-                "optional": false
+                "value": "mesage"
               }
             }
           }
@@ -1182,9 +1172,7 @@
                     "start": 668,
                     "end": 675
                   },
-                  "ctxt": 0,
-                  "value": "getDate",
-                  "optional": false
+                  "value": "getDate"
                 }
               },
               "arguments": [],
@@ -1226,9 +1214,7 @@
                     "start": 685,
                     "end": 693
                   },
-                  "ctxt": 0,
-                  "value": "getHuors",
-                  "optional": false
+                  "value": "getHuors"
                 }
               },
               "arguments": [],

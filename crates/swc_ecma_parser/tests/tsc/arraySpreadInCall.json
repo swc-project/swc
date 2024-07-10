@@ -2906,9 +2906,7 @@
               "start": 1078,
               "end": 1081
             },
-            "ctxt": 0,
-            "value": "run",
-            "optional": false
+            "value": "run"
           }
         },
         "arguments": [

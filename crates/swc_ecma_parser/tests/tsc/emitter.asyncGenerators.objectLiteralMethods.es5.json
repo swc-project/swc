@@ -47,9 +47,7 @@
                     "start": 78,
                     "end": 79
                   },
-                  "ctxt": 0,
-                  "value": "f",
-                  "optional": false
+                  "value": "f"
                 },
                 "params": [],
                 "decorators": [],
@@ -120,9 +118,7 @@
                     "start": 137,
                     "end": 138
                   },
-                  "ctxt": 0,
-                  "value": "f",
-                  "optional": false
+                  "value": "f"
                 },
                 "params": [],
                 "decorators": [],
@@ -234,9 +230,7 @@
                     "start": 221,
                     "end": 222
                   },
-                  "ctxt": 0,
-                  "value": "f",
-                  "optional": false
+                  "value": "f"
                 },
                 "params": [],
                 "decorators": [],
@@ -356,9 +350,7 @@
                     "start": 307,
                     "end": 308
                   },
-                  "ctxt": 0,
-                  "value": "f",
-                  "optional": false
+                  "value": "f"
                 },
                 "params": [],
                 "decorators": [],
@@ -490,9 +482,7 @@
                     "start": 396,
                     "end": 397
                   },
-                  "ctxt": 0,
-                  "value": "f",
-                  "optional": false
+                  "value": "f"
                 },
                 "params": [],
                 "decorators": [],
@@ -669,9 +659,7 @@
                     "start": 516,
                     "end": 517
                   },
-                  "ctxt": 0,
-                  "value": "f",
-                  "optional": false
+                  "value": "f"
                 },
                 "params": [],
                 "decorators": [],
@@ -790,9 +778,7 @@
                     "start": 602,
                     "end": 603
                   },
-                  "ctxt": 0,
-                  "value": "f",
-                  "optional": false
+                  "value": "f"
                 },
                 "params": [],
                 "decorators": [],

@@ -38,9 +38,7 @@
               "start": 82,
               "end": 93
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -127,9 +125,7 @@
               "start": 122,
               "end": 133
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -216,9 +212,7 @@
               "start": 161,
               "end": 172
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -383,9 +377,7 @@
               "start": 233,
               "end": 244
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -482,9 +474,7 @@
               "start": 268,
               "end": 279
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -581,9 +571,7 @@
               "start": 302,
               "end": 313
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {

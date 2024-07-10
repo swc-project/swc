@@ -161,9 +161,7 @@
                       "start": 218,
                       "end": 224
                     },
-                    "ctxt": 0,
-                    "value": "length",
-                    "optional": false
+                    "value": "length"
                   }
                 },
                 "right": {
@@ -1772,9 +1770,7 @@
                                   "start": 1712,
                                   "end": 1720
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -1860,9 +1856,7 @@
                                   "start": 1794,
                                   "end": 1802
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],

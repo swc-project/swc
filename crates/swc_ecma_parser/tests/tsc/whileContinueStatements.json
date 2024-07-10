@@ -109,9 +109,7 @@
           "start": 91,
           "end": 94
         },
-        "ctxt": 0,
-        "value": "ONE",
-        "optional": false
+        "value": "ONE"
       },
       "body": {
         "type": "WhileStatement",
@@ -147,9 +145,7 @@
                   "start": 125,
                   "end": 128
                 },
-                "ctxt": 0,
-                "value": "ONE",
-                "optional": false
+                "value": "ONE"
               }
             }
           ]
@@ -168,9 +164,7 @@
           "start": 133,
           "end": 136
         },
-        "ctxt": 0,
-        "value": "TWO",
-        "optional": false
+        "value": "TWO"
       },
       "body": {
         "type": "LabeledStatement",
@@ -184,9 +178,7 @@
             "start": 138,
             "end": 143
           },
-          "ctxt": 0,
-          "value": "THREE",
-          "optional": false
+          "value": "THREE"
         },
         "body": {
           "type": "WhileStatement",
@@ -222,9 +214,7 @@
                     "start": 173,
                     "end": 178
                   },
-                  "ctxt": 0,
-                  "value": "THREE",
-                  "optional": false
+                  "value": "THREE"
                 }
               }
             ]
@@ -244,9 +234,7 @@
           "start": 183,
           "end": 187
         },
-        "ctxt": 0,
-        "value": "FOUR",
-        "optional": false
+        "value": "FOUR"
       },
       "body": {
         "type": "WhileStatement",
@@ -282,9 +270,7 @@
                   "start": 208,
                   "end": 212
                 },
-                "ctxt": 0,
-                "value": "FIVE",
-                "optional": false
+                "value": "FIVE"
               },
               "body": {
                 "type": "WhileStatement",
@@ -320,9 +306,7 @@
                           "start": 250,
                           "end": 254
                         },
-                        "ctxt": 0,
-                        "value": "FOUR",
-                        "optional": false
+                        "value": "FOUR"
                       }
                     }
                   ]
@@ -367,9 +351,7 @@
                 "start": 284,
                 "end": 287
               },
-              "ctxt": 0,
-              "value": "SIX",
-              "optional": false
+              "value": "SIX"
             },
             "body": {
               "type": "WhileStatement",
@@ -397,9 +379,7 @@
                     "start": 323,
                     "end": 326
                   },
-                  "ctxt": 0,
-                  "value": "SIX",
-                  "optional": false
+                  "value": "SIX"
                 }
               }
             }
@@ -419,9 +399,7 @@
           "start": 331,
           "end": 336
         },
-        "ctxt": 0,
-        "value": "SEVEN",
-        "optional": false
+        "value": "SEVEN"
       },
       "body": {
         "type": "WhileStatement",
@@ -477,9 +455,7 @@
                   "start": 410,
                   "end": 415
                 },
-                "ctxt": 0,
-                "value": "SEVEN",
-                "optional": false
+                "value": "SEVEN"
               }
             }
           }
@@ -498,9 +474,7 @@
           "start": 418,
           "end": 423
         },
-        "ctxt": 0,
-        "value": "EIGHT",
-        "optional": false
+        "value": "EIGHT"
       },
       "body": {
         "type": "WhileStatement",
@@ -591,9 +565,7 @@
                   "start": 482,
                   "end": 487
                 },
-                "ctxt": 0,
-                "value": "EIGHT",
-                "optional": false
+                "value": "EIGHT"
               }
             }
           ]
@@ -612,9 +584,7 @@
           "start": 492,
           "end": 496
         },
-        "ctxt": 0,
-        "value": "NINE",
-        "optional": false
+        "value": "NINE"
       },
       "body": {
         "type": "WhileStatement",
@@ -672,9 +642,7 @@
                         "start": 538,
                         "end": 542
                       },
-                      "ctxt": 0,
-                      "value": "NINE",
-                      "optional": false
+                      "value": "NINE"
                     }
                   }
                 ]

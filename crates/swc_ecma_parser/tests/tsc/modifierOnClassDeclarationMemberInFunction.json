@@ -65,9 +65,7 @@
                     "start": 68,
                     "end": 71
                   },
-                  "ctxt": 0,
-                  "value": "baz",
-                  "optional": false
+                  "value": "baz"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -101,9 +99,7 @@
                     "start": 92,
                     "end": 95
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "function": {
                   "params": [],
@@ -146,9 +142,7 @@
                     "start": 117,
                     "end": 120
                   },
-                  "ctxt": 0,
-                  "value": "bar",
-                  "optional": false
+                  "value": "bar"
                 },
                 "function": {
                   "params": [],

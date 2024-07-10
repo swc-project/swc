@@ -377,9 +377,7 @@
               "start": 391,
               "end": 402
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -422,9 +420,7 @@
                         "start": 420,
                         "end": 421
                       },
-                      "ctxt": 0,
-                      "value": "p",
-                      "optional": false
+                      "value": "p"
                     }
                   },
                   "right": {
@@ -483,9 +479,7 @@
               "start": 477,
               "end": 488
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -552,9 +546,7 @@
                         "start": 523,
                         "end": 524
                       },
-                      "ctxt": 0,
-                      "value": "x",
-                      "optional": false
+                      "value": "x"
                     }
                   },
                   "right": {
@@ -622,9 +614,7 @@
               "start": 561,
               "end": 572
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -667,9 +657,7 @@
                         "start": 590,
                         "end": 591
                       },
-                      "ctxt": 0,
-                      "value": "q",
-                      "optional": false
+                      "value": "q"
                     }
                   },
                   "right": {
@@ -755,9 +743,7 @@
                     "start": 676,
                     "end": 677
                   },
-                  "ctxt": 0,
-                  "value": "p",
-                  "optional": false
+                  "value": "p"
                 }
               },
               "right": {
@@ -1768,9 +1754,7 @@
                       "start": 1868,
                       "end": 1869
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "NumericLiteral",

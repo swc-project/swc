@@ -505,9 +505,7 @@
               "start": 637,
               "end": 644
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -630,9 +628,7 @@
               "start": 714,
               "end": 721
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -752,9 +748,7 @@
                 "start": 787,
                 "end": 794
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -763,9 +757,7 @@
               "start": 795,
               "end": 797
             },
-            "ctxt": 0,
-            "value": "ns",
-            "optional": false
+            "value": "ns"
           }
         },
         "right": {
@@ -885,9 +877,7 @@
                 "start": 863,
                 "end": 870
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -896,9 +886,7 @@
               "start": 871,
               "end": 876
             },
-            "ctxt": 0,
-            "value": "names",
-            "optional": false
+            "value": "names"
           }
         },
         "right": {

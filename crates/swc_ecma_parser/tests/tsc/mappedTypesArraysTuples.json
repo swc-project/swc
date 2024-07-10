@@ -5499,9 +5499,7 @@
                         "start": 2303,
                         "end": 2306
                       },
-                      "ctxt": 0,
-                      "value": "pop",
-                      "optional": false
+                      "value": "pop"
                     }
                   },
                   "arguments": [],
@@ -5614,9 +5612,7 @@
                         "start": 2336,
                         "end": 2342
                       },
-                      "ctxt": 0,
-                      "value": "concat",
-                      "optional": false
+                      "value": "concat"
                     }
                   },
                   "arguments": [

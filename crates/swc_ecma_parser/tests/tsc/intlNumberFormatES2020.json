@@ -131,9 +131,7 @@
                       "start": 130,
                       "end": 142
                     },
-                    "ctxt": 0,
-                    "value": "NumberFormat",
-                    "optional": false
+                    "value": "NumberFormat"
                   }
                 },
                 "arguments": [
@@ -158,9 +156,7 @@
                   "start": 152,
                   "end": 167
                 },
-                "ctxt": 0,
-                "value": "resolvedOptions",
-                "optional": false
+                "value": "resolvedOptions"
               }
             },
             "arguments": [],
@@ -205,9 +201,7 @@
               "start": 198,
               "end": 210
             },
-            "ctxt": 0,
-            "value": "NumberFormat",
-            "optional": false
+            "value": "NumberFormat"
           }
         },
         "arguments": [
@@ -273,9 +267,7 @@
               "start": 264,
               "end": 276
             },
-            "ctxt": 0,
-            "value": "NumberFormat",
-            "optional": false
+            "value": "NumberFormat"
           }
         },
         "arguments": [
@@ -308,9 +300,7 @@
                       "start": 288,
                       "end": 303
                     },
-                    "ctxt": 0,
-                    "value": "numberingSystem",
-                    "optional": false
+                    "value": "numberingSystem"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -436,9 +426,7 @@
                       "start": 373,
                       "end": 385
                     },
-                    "ctxt": 0,
-                    "value": "NumberFormat",
-                    "optional": false
+                    "value": "NumberFormat"
                   }
                 },
                 "arguments": [
@@ -471,9 +459,7 @@
                               "start": 397,
                               "end": 402
                             },
-                            "ctxt": 0,
-                            "value": "style",
-                            "optional": false
+                            "value": "style"
                           },
                           "value": {
                             "type": "StringLiteral",
@@ -493,9 +479,7 @@
                               "start": 416,
                               "end": 424
                             },
-                            "ctxt": 0,
-                            "value": "currency",
-                            "optional": false
+                            "value": "currency"
                           },
                           "value": {
                             "type": "StringLiteral",
@@ -515,9 +499,7 @@
                               "start": 433,
                               "end": 445
                             },
-                            "ctxt": 0,
-                            "value": "currencySign",
-                            "optional": false
+                            "value": "currencySign"
                           },
                           "value": {
                             "type": "StringLiteral",
@@ -541,9 +523,7 @@
                   "start": 463,
                   "end": 478
                 },
-                "ctxt": 0,
-                "value": "resolvedOptions",
-                "optional": false
+                "value": "resolvedOptions"
               }
             },
             "arguments": [],
@@ -660,9 +640,7 @@
                       "start": 531,
                       "end": 543
                     },
-                    "ctxt": 0,
-                    "value": "NumberFormat",
-                    "optional": false
+                    "value": "NumberFormat"
                   }
                 },
                 "arguments": [
@@ -695,9 +673,7 @@
                               "start": 555,
                               "end": 560
                             },
-                            "ctxt": 0,
-                            "value": "style",
-                            "optional": false
+                            "value": "style"
                           },
                           "value": {
                             "type": "StringLiteral",
@@ -717,9 +693,7 @@
                               "start": 570,
                               "end": 574
                             },
-                            "ctxt": 0,
-                            "value": "unit",
-                            "optional": false
+                            "value": "unit"
                           },
                           "value": {
                             "type": "StringLiteral",
@@ -739,9 +713,7 @@
                               "start": 588,
                               "end": 599
                             },
-                            "ctxt": 0,
-                            "value": "unitDisplay",
-                            "optional": false
+                            "value": "unitDisplay"
                           },
                           "value": {
                             "type": "StringLiteral",
@@ -765,9 +737,7 @@
                   "start": 613,
                   "end": 628
                 },
-                "ctxt": 0,
-                "value": "resolvedOptions",
-                "optional": false
+                "value": "resolvedOptions"
               }
             },
             "arguments": [],
@@ -865,9 +835,7 @@
                       "start": 680,
                       "end": 692
                     },
-                    "ctxt": 0,
-                    "value": "NumberFormat",
-                    "optional": false
+                    "value": "NumberFormat"
                   }
                 },
                 "arguments": [
@@ -900,9 +868,7 @@
                               "start": 704,
                               "end": 712
                             },
-                            "ctxt": 0,
-                            "value": "notation",
-                            "optional": false
+                            "value": "notation"
                           },
                           "value": {
                             "type": "StringLiteral",
@@ -922,9 +888,7 @@
                               "start": 725,
                               "end": 739
                             },
-                            "ctxt": 0,
-                            "value": "compactDisplay",
-                            "optional": false
+                            "value": "compactDisplay"
                           },
                           "value": {
                             "type": "StringLiteral",
@@ -948,9 +912,7 @@
                   "start": 751,
                   "end": 766
                 },
-                "ctxt": 0,
-                "value": "resolvedOptions",
-                "optional": false
+                "value": "resolvedOptions"
               }
             },
             "arguments": [],
@@ -995,9 +957,7 @@
               "start": 796,
               "end": 808
             },
-            "ctxt": 0,
-            "value": "NumberFormat",
-            "optional": false
+            "value": "NumberFormat"
           }
         },
         "arguments": [
@@ -1030,9 +990,7 @@
                       "start": 820,
                       "end": 831
                     },
-                    "ctxt": 0,
-                    "value": "signDisplay",
-                    "optional": false
+                    "value": "signDisplay"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -1096,6 +1054,10 @@
                   },
                   "typeName": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 902,
+                      "end": 928
+                    },
                     "left": {
                       "type": "Identifier",
                       "span": {
@@ -1112,9 +1074,7 @@
                         "start": 907,
                         "end": 928
                       },
-                      "ctxt": 0,
-                      "value": "NumberFormatPartTypes",
-                      "optional": false
+                      "value": "NumberFormatPartTypes"
                     }
                   },
                   "typeParams": null

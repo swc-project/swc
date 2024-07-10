@@ -37,9 +37,7 @@
               "start": 71,
               "end": 74
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": true
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -106,9 +104,7 @@
               "start": 121,
               "end": 124
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": {
             "type": "StringLiteral",

@@ -111,9 +111,7 @@
               "start": 221,
               "end": 237
             },
-            "ctxt": 0,
-            "value": "isServiceProject",
-            "optional": false
+            "value": "isServiceProject"
           }
         },
         "arguments": [],
@@ -155,9 +153,7 @@
               "start": 251,
               "end": 258
             },
-            "ctxt": 0,
-            "value": "Project",
-            "optional": false
+            "value": "Project"
           }
         },
         "right": {
@@ -236,9 +232,7 @@
                 "start": 289,
                 "end": 296
               },
-              "ctxt": 0,
-              "value": "Project",
-              "optional": false
+              "value": "Project"
             }
           },
           "property": {
@@ -247,9 +241,7 @@
               "start": 297,
               "end": 306
             },
-            "ctxt": 0,
-            "value": "prototype",
-            "optional": false
+            "value": "prototype"
           }
         },
         "right": {
@@ -267,9 +259,7 @@
                   "start": 313,
                   "end": 329
                 },
-                "ctxt": 0,
-                "value": "isServiceProject",
-                "optional": false
+                "value": "isServiceProject"
               },
               "params": [],
               "decorators": [],

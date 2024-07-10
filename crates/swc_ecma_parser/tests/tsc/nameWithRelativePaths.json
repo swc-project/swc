@@ -330,9 +330,7 @@
               "start": 363,
               "end": 365
             },
-            "ctxt": 0,
-            "value": "M2",
-            "optional": false
+            "value": "M2"
           }
         },
         "property": {
@@ -341,9 +339,7 @@
             "start": 366,
             "end": 367
           },
-          "ctxt": 0,
-          "value": "x",
-          "optional": false
+          "value": "x"
         }
       },
       "consequent": {
@@ -410,9 +406,7 @@
                         "start": 384,
                         "end": 387
                       },
-                      "ctxt": 0,
-                      "value": "foo",
-                      "optional": false
+                      "value": "foo"
                     }
                   },
                   "right": {
@@ -444,9 +438,7 @@
                           "start": 395,
                           "end": 396
                         },
-                        "ctxt": 0,
-                        "value": "f",
-                        "optional": false
+                        "value": "f"
                       }
                     },
                     "arguments": [],

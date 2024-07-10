@@ -100,9 +100,7 @@
                   "start": 26,
                   "end": 34
                 },
-                "ctxt": 0,
-                "value": "toString",
-                "optional": false
+                "value": "toString"
               }
             },
             "arguments": [],

@@ -233,9 +233,7 @@
                     "start": 177,
                     "end": 181
                   },
-                  "ctxt": 0,
-                  "value": "push",
-                  "optional": false
+                  "value": "push"
                 }
               },
               "arguments": [
@@ -490,9 +488,7 @@
                     "start": 306,
                     "end": 310
                   },
-                  "ctxt": 0,
-                  "value": "push",
-                  "optional": false
+                  "value": "push"
                 }
               },
               "arguments": [
@@ -747,9 +743,7 @@
                     "start": 435,
                     "end": 439
                   },
-                  "ctxt": 0,
-                  "value": "push",
-                  "optional": false
+                  "value": "push"
                 }
               },
               "arguments": [

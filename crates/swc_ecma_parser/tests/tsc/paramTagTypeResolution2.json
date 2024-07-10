@@ -119,9 +119,7 @@
                       "start": 198,
                       "end": 199
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -153,9 +151,7 @@
                       "start": 209,
                       "end": 210
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "params": [
                     {
@@ -227,9 +223,7 @@
                                 "start": 226,
                                 "end": 233
                               },
-                              "ctxt": 0,
-                              "value": "toFixed",
-                              "optional": false
+                              "value": "toFixed"
                             }
                           },
                           "arguments": [],

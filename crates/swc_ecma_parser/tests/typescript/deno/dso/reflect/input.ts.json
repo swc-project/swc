@@ -8545,9 +8545,7 @@
                                   "start": 25093,
                                   "end": 25100
                                 },
-                                "ctxt": 0,
-                                "value": "Reflect",
-                                "optional": false
+                                "value": "Reflect"
                               }
                             }
                           },
@@ -8604,9 +8602,7 @@
                                       "start": 25137,
                                       "end": 25144
                                     },
-                                    "ctxt": 0,
-                                    "value": "Reflect",
-                                    "optional": false
+                                    "value": "Reflect"
                                   }
                                 },
                                 "right": {
@@ -8697,9 +8693,7 @@
                                             "start": 25214,
                                             "end": 25221
                                           },
-                                          "ctxt": 0,
-                                          "value": "Reflect",
-                                          "optional": false
+                                          "value": "Reflect"
                                         }
                                       }
                                     },
@@ -9265,9 +9259,7 @@
                                                     "start": 25720,
                                                     "end": 25734
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "defineProperty",
-                                                  "optional": false
+                                                  "value": "defineProperty"
                                                 }
                                               },
                                               "arguments": [
@@ -9314,9 +9306,7 @@
                                                             "start": 25774,
                                                             "end": 25786
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "configurable",
-                                                          "optional": false
+                                                          "value": "configurable"
                                                         },
                                                         "value": {
                                                           "type": "BooleanLiteral",
@@ -9335,9 +9325,7 @@
                                                             "start": 25818,
                                                             "end": 25826
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "writable",
-                                                          "optional": false
+                                                          "value": "writable"
                                                         },
                                                         "value": {
                                                           "type": "BooleanLiteral",
@@ -9615,9 +9603,7 @@
                                       "start": 26043,
                                       "end": 26052
                                     },
-                                    "ctxt": 0,
-                                    "value": "prototype",
-                                    "optional": false
+                                    "value": "prototype"
                                   }
                                 },
                                 "property": {
@@ -9626,9 +9612,7 @@
                                     "start": 26053,
                                     "end": 26067
                                   },
-                                  "ctxt": 0,
-                                  "value": "hasOwnProperty",
-                                  "optional": false
+                                  "value": "hasOwnProperty"
                                 }
                               },
                               "definite": false
@@ -9787,9 +9771,7 @@
                                             "start": 26252,
                                             "end": 26263
                                           },
-                                          "ctxt": 0,
-                                          "value": "toPrimitive",
-                                          "optional": false
+                                          "value": "toPrimitive"
                                         }
                                       }
                                     },
@@ -9826,9 +9808,7 @@
                                       "start": 26305,
                                       "end": 26316
                                     },
-                                    "ctxt": 0,
-                                    "value": "toPrimitive",
-                                    "optional": false
+                                    "value": "toPrimitive"
                                   }
                                 },
                                 "alternate": {
@@ -9931,9 +9911,7 @@
                                             "start": 26427,
                                             "end": 26435
                                           },
-                                          "ctxt": 0,
-                                          "value": "iterator",
-                                          "optional": false
+                                          "value": "iterator"
                                         }
                                       }
                                     },
@@ -9970,9 +9948,7 @@
                                       "start": 26477,
                                       "end": 26485
                                     },
-                                    "ctxt": 0,
-                                    "value": "iterator",
-                                    "optional": false
+                                    "value": "iterator"
                                   }
                                 },
                                 "alternate": {
@@ -10052,9 +10028,7 @@
                                         "start": 26563,
                                         "end": 26569
                                       },
-                                      "ctxt": 0,
-                                      "value": "create",
-                                      "optional": false
+                                      "value": "create"
                                     }
                                   }
                                 },
@@ -10121,9 +10095,7 @@
                                           "start": 26660,
                                           "end": 26669
                                         },
-                                        "ctxt": 0,
-                                        "value": "__proto__",
-                                        "optional": false
+                                        "value": "__proto__"
                                       },
                                       "value": {
                                         "type": "ArrayExpression",
@@ -10268,9 +10240,7 @@
                                         "start": 26910,
                                         "end": 26916
                                       },
-                                      "ctxt": 0,
-                                      "value": "create",
-                                      "optional": false
+                                      "value": "create"
                                     },
                                     "value": {
                                       "type": "ConditionalExpression",
@@ -10351,9 +10321,7 @@
                                                         "start": 26982,
                                                         "end": 26988
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "create",
-                                                      "optional": false
+                                                      "value": "create"
                                                     }
                                                   },
                                                   "arguments": [
@@ -10519,9 +10487,7 @@
                                                             "start": 27090,
                                                             "end": 27099
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "__proto__",
-                                                          "optional": false
+                                                          "value": "__proto__"
                                                         },
                                                         "value": {
                                                           "type": "TsAsExpression",
@@ -10769,9 +10735,7 @@
                                         "start": 27208,
                                         "end": 27211
                                       },
-                                      "ctxt": 0,
-                                      "value": "has",
-                                      "optional": false
+                                      "value": "has"
                                     },
                                     "value": {
                                       "type": "ConditionalExpression",
@@ -10938,9 +10902,7 @@
                                                 "start": 27323,
                                                 "end": 27327
                                               },
-                                              "ctxt": 0,
-                                              "value": "call",
-                                              "optional": false
+                                              "value": "call"
                                             }
                                           },
                                           "arguments": [
@@ -11201,9 +11163,7 @@
                                         "start": 27436,
                                         "end": 27439
                                       },
-                                      "ctxt": 0,
-                                      "value": "get",
-                                      "optional": false
+                                      "value": "get"
                                     },
                                     "value": {
                                       "type": "ConditionalExpression",
@@ -11376,9 +11336,7 @@
                                                   "start": 27566,
                                                   "end": 27570
                                                 },
-                                                "ctxt": 0,
-                                                "value": "call",
-                                                "optional": false
+                                                "value": "call"
                                               }
                                             },
                                             "arguments": [
@@ -11890,9 +11848,7 @@
                                       "start": 27878,
                                       "end": 27892
                                     },
-                                    "ctxt": 0,
-                                    "value": "getPrototypeOf",
-                                    "optional": false
+                                    "value": "getPrototypeOf"
                                   }
                                 },
                                 "arguments": [
@@ -12014,9 +11970,7 @@
                                         "start": 27983,
                                         "end": 27986
                                       },
-                                      "ctxt": 0,
-                                      "value": "env",
-                                      "optional": false
+                                      "value": "env"
                                     }
                                   }
                                 },
@@ -12055,9 +12009,7 @@
                                           "start": 28010,
                                           "end": 28013
                                         },
-                                        "ctxt": 0,
-                                        "value": "env",
-                                        "optional": false
+                                        "value": "env"
                                       }
                                     },
                                     "property": {
@@ -12259,9 +12211,7 @@
                                               "start": 28176,
                                               "end": 28185
                                             },
-                                            "ctxt": 0,
-                                            "value": "prototype",
-                                            "optional": false
+                                            "value": "prototype"
                                           }
                                         },
                                         "property": {
@@ -12270,9 +12220,7 @@
                                             "start": 28186,
                                             "end": 28193
                                           },
-                                          "ctxt": 0,
-                                          "value": "entries",
-                                          "optional": false
+                                          "value": "entries"
                                         }
                                       }
                                     },
@@ -12489,9 +12437,7 @@
                                               "start": 28375,
                                               "end": 28384
                                             },
-                                            "ctxt": 0,
-                                            "value": "prototype",
-                                            "optional": false
+                                            "value": "prototype"
                                           }
                                         },
                                         "property": {
@@ -12500,9 +12446,7 @@
                                             "start": 28385,
                                             "end": 28392
                                           },
-                                          "ctxt": 0,
-                                          "value": "entries",
-                                          "optional": false
+                                          "value": "entries"
                                         }
                                       }
                                     },
@@ -21553,9 +21497,7 @@
                                           "start": 53698,
                                           "end": 53704
                                         },
-                                        "ctxt": 0,
-                                        "value": "delete",
-                                        "optional": false
+                                        "value": "delete"
                                       }
                                     },
                                     "arguments": [
@@ -21628,9 +21570,7 @@
                                         "start": 53761,
                                         "end": 53765
                                       },
-                                      "ctxt": 0,
-                                      "value": "size",
-                                      "optional": false
+                                      "value": "size"
                                     }
                                   },
                                   "right": {
@@ -21716,9 +21656,7 @@
                                             "start": 53828,
                                             "end": 53831
                                           },
-                                          "ctxt": 0,
-                                          "value": "get",
-                                          "optional": false
+                                          "value": "get"
                                         }
                                       },
                                       "arguments": [
@@ -21777,9 +21715,7 @@
                                         "start": 53868,
                                         "end": 53874
                                       },
-                                      "ctxt": 0,
-                                      "value": "delete",
-                                      "optional": false
+                                      "value": "delete"
                                     }
                                   },
                                   "arguments": [
@@ -21835,9 +21771,7 @@
                                         "start": 53920,
                                         "end": 53924
                                       },
-                                      "ctxt": 0,
-                                      "value": "size",
-                                      "optional": false
+                                      "value": "size"
                                     }
                                   },
                                   "right": {
@@ -21902,9 +21836,7 @@
                                         "start": 53964,
                                         "end": 53970
                                       },
-                                      "ctxt": 0,
-                                      "value": "delete",
-                                      "optional": false
+                                      "value": "delete"
                                     }
                                   },
                                   "arguments": [
@@ -22198,9 +22130,7 @@
                                               "start": 54237,
                                               "end": 54243
                                             },
-                                            "ctxt": 0,
-                                            "value": "length",
-                                            "optional": false
+                                            "value": "length"
                                           }
                                         },
                                         "right": {
@@ -22984,9 +22914,7 @@
                                               "start": 54910,
                                               "end": 54916
                                             },
-                                            "ctxt": 0,
-                                            "value": "length",
-                                            "optional": false
+                                            "value": "length"
                                           }
                                         },
                                         "right": {
@@ -24167,9 +24095,7 @@
                                             "start": 56015,
                                             "end": 56018
                                           },
-                                          "ctxt": 0,
-                                          "value": "get",
-                                          "optional": false
+                                          "value": "get"
                                         }
                                       },
                                       "arguments": [
@@ -24448,9 +24374,7 @@
                                               "start": 56231,
                                               "end": 56234
                                             },
-                                            "ctxt": 0,
-                                            "value": "set",
-                                            "optional": false
+                                            "value": "set"
                                           }
                                         },
                                         "arguments": [
@@ -24544,9 +24468,7 @@
                                             "start": 56314,
                                             "end": 56317
                                           },
-                                          "ctxt": 0,
-                                          "value": "get",
-                                          "optional": false
+                                          "value": "get"
                                         }
                                       },
                                       "arguments": [
@@ -24766,9 +24688,7 @@
                                               "start": 56496,
                                               "end": 56499
                                             },
-                                            "ctxt": 0,
-                                            "value": "set",
-                                            "optional": false
+                                            "value": "set"
                                           }
                                         },
                                         "arguments": [
@@ -25744,9 +25664,7 @@
                                               "start": 57617,
                                               "end": 57620
                                             },
-                                            "ctxt": 0,
-                                            "value": "has",
-                                            "optional": false
+                                            "value": "has"
                                           }
                                         },
                                         "arguments": [
@@ -26677,9 +26595,7 @@
                                         "start": 58717,
                                         "end": 58720
                                       },
-                                      "ctxt": 0,
-                                      "value": "get",
-                                      "optional": false
+                                      "value": "get"
                                     }
                                   },
                                   "arguments": [
@@ -27031,9 +26947,7 @@
                                         "start": 59198,
                                         "end": 59201
                                       },
-                                      "ctxt": 0,
-                                      "value": "set",
-                                      "optional": false
+                                      "value": "set"
                                     }
                                   },
                                   "arguments": [
@@ -27514,9 +27428,7 @@
                                         "start": 59740,
                                         "end": 59746
                                       },
-                                      "ctxt": 0,
-                                      "value": "length",
-                                      "optional": false
+                                      "value": "length"
                                     }
                                   },
                                   "right": {
@@ -27583,9 +27495,7 @@
                                         "start": 59793,
                                         "end": 59799
                                       },
-                                      "ctxt": 0,
-                                      "value": "length",
-                                      "optional": false
+                                      "value": "length"
                                     }
                                   },
                                   "right": {
@@ -27857,9 +27767,7 @@
                                                   "start": 59978,
                                                   "end": 59981
                                                 },
-                                                "ctxt": 0,
-                                                "value": "has",
-                                                "optional": false
+                                                "value": "has"
                                               }
                                             },
                                             "arguments": [
@@ -27950,9 +27858,7 @@
                                                     "start": 60043,
                                                     "end": 60046
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "add",
-                                                  "optional": false
+                                                  "value": "add"
                                                 }
                                               },
                                               "arguments": [
@@ -28008,9 +27914,7 @@
                                                     "start": 60078,
                                                     "end": 60082
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "push",
-                                                  "optional": false
+                                                  "value": "push"
                                                 }
                                               },
                                               "arguments": [
@@ -28151,9 +28055,7 @@
                                                   "start": 60200,
                                                   "end": 60203
                                                 },
-                                                "ctxt": 0,
-                                                "value": "has",
-                                                "optional": false
+                                                "value": "has"
                                               }
                                             },
                                             "arguments": [
@@ -28244,9 +28146,7 @@
                                                     "start": 60265,
                                                     "end": 60268
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "add",
-                                                  "optional": false
+                                                  "value": "add"
                                                 }
                                               },
                                               "arguments": [
@@ -28302,9 +28202,7 @@
                                                     "start": 60300,
                                                     "end": 60304
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "push",
-                                                  "optional": false
+                                                  "value": "push"
                                                 }
                                               },
                                               "arguments": [
@@ -28761,9 +28659,7 @@
                                             "start": 60844,
                                             "end": 60848
                                           },
-                                          "ctxt": 0,
-                                          "value": "keys",
-                                          "optional": false
+                                          "value": "keys"
                                         }
                                       },
                                       "arguments": [],
@@ -29032,9 +28928,7 @@
                                                     "start": 61060,
                                                     "end": 61066
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "length",
-                                                  "optional": false
+                                                  "value": "length"
                                                 }
                                               },
                                               "right": {
@@ -29504,9 +29398,7 @@
                                         "start": 61700,
                                         "end": 61704
                                       },
-                                      "ctxt": 0,
-                                      "value": "Null",
-                                      "optional": false
+                                      "value": "Null"
                                     }
                                   }
                                 },
@@ -29581,9 +29473,7 @@
                                               "start": 61803,
                                               "end": 61812
                                             },
-                                            "ctxt": 0,
-                                            "value": "Undefined",
-                                            "optional": false
+                                            "value": "Undefined"
                                           }
                                         }
                                       }
@@ -29633,9 +29523,7 @@
                                               "start": 61877,
                                               "end": 61884
                                             },
-                                            "ctxt": 0,
-                                            "value": "Boolean",
-                                            "optional": false
+                                            "value": "Boolean"
                                           }
                                         }
                                       }
@@ -29685,9 +29573,7 @@
                                               "start": 61948,
                                               "end": 61954
                                             },
-                                            "ctxt": 0,
-                                            "value": "String",
-                                            "optional": false
+                                            "value": "String"
                                           }
                                         }
                                       }
@@ -29737,9 +29623,7 @@
                                               "start": 62018,
                                               "end": 62024
                                             },
-                                            "ctxt": 0,
-                                            "value": "Symbol",
-                                            "optional": false
+                                            "value": "Symbol"
                                           }
                                         }
                                       }
@@ -29789,9 +29673,7 @@
                                               "start": 62088,
                                               "end": 62094
                                             },
-                                            "ctxt": 0,
-                                            "value": "Number",
-                                            "optional": false
+                                            "value": "Number"
                                           }
                                         }
                                       }
@@ -29872,9 +29754,7 @@
                                                 "start": 62171,
                                                 "end": 62175
                                               },
-                                              "ctxt": 0,
-                                              "value": "Null",
-                                              "optional": false
+                                              "value": "Null"
                                             }
                                           },
                                           "alternate": {
@@ -29899,9 +29779,7 @@
                                                 "start": 62182,
                                                 "end": 62188
                                               },
-                                              "ctxt": 0,
-                                              "value": "Object",
-                                              "optional": false
+                                              "value": "Object"
                                             }
                                           }
                                         }
@@ -29944,9 +29822,7 @@
                                               "start": 62246,
                                               "end": 62252
                                             },
-                                            "ctxt": 0,
-                                            "value": "Object",
-                                            "optional": false
+                                            "value": "Object"
                                           }
                                         }
                                       }
@@ -31063,9 +30939,7 @@
                                           "start": 63952,
                                           "end": 63961
                                         },
-                                        "ctxt": 0,
-                                        "value": "Undefined",
-                                        "optional": false
+                                        "value": "Undefined"
                                       }
                                     },
                                     "consequent": [
@@ -31116,9 +30990,7 @@
                                           "start": 64022,
                                           "end": 64026
                                         },
-                                        "ctxt": 0,
-                                        "value": "Null",
-                                        "optional": false
+                                        "value": "Null"
                                       }
                                     },
                                     "consequent": [
@@ -31169,9 +31041,7 @@
                                           "start": 64087,
                                           "end": 64094
                                         },
-                                        "ctxt": 0,
-                                        "value": "Boolean",
-                                        "optional": false
+                                        "value": "Boolean"
                                       }
                                     },
                                     "consequent": [
@@ -31222,9 +31092,7 @@
                                           "start": 64155,
                                           "end": 64161
                                         },
-                                        "ctxt": 0,
-                                        "value": "String",
-                                        "optional": false
+                                        "value": "String"
                                       }
                                     },
                                     "consequent": [
@@ -31275,9 +31143,7 @@
                                           "start": 64222,
                                           "end": 64228
                                         },
-                                        "ctxt": 0,
-                                        "value": "Symbol",
-                                        "optional": false
+                                        "value": "Symbol"
                                       }
                                     },
                                     "consequent": [
@@ -31328,9 +31194,7 @@
                                           "start": 64289,
                                           "end": 64295
                                         },
-                                        "ctxt": 0,
-                                        "value": "Number",
-                                        "optional": false
+                                        "value": "Number"
                                       }
                                     },
                                     "consequent": [
@@ -31490,9 +31354,7 @@
                                               "start": 64425,
                                               "end": 64431
                                             },
-                                            "ctxt": 0,
-                                            "value": "String",
-                                            "optional": false
+                                            "value": "String"
                                           }
                                         }
                                       },
@@ -31550,9 +31412,7 @@
                                                 "start": 64499,
                                                 "end": 64505
                                               },
-                                              "ctxt": 0,
-                                              "value": "Number",
-                                              "optional": false
+                                              "value": "Number"
                                             }
                                           }
                                         },
@@ -31756,9 +31616,7 @@
                                                   "start": 64730,
                                                   "end": 64734
                                                 },
-                                                "ctxt": 0,
-                                                "value": "call",
-                                                "optional": false
+                                                "value": "call"
                                               }
                                             },
                                             "arguments": [
@@ -32270,9 +32128,7 @@
                                                 "start": 65302,
                                                 "end": 65310
                                               },
-                                              "ctxt": 0,
-                                              "value": "toString",
-                                              "optional": false
+                                              "value": "toString"
                                             }
                                           },
                                           "definite": false
@@ -32383,9 +32239,7 @@
                                                         "start": 65400,
                                                         "end": 65404
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "call",
-                                                      "optional": false
+                                                      "value": "call"
                                                     }
                                                   },
                                                   "arguments": [
@@ -32529,9 +32383,7 @@
                                                 "start": 65519,
                                                 "end": 65526
                                               },
-                                              "ctxt": 0,
-                                              "value": "valueOf",
-                                              "optional": false
+                                              "value": "valueOf"
                                             }
                                           },
                                           "definite": false
@@ -32642,9 +32494,7 @@
                                                         "start": 65614,
                                                         "end": 65618
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "call",
-                                                      "optional": false
+                                                      "value": "call"
                                                     }
                                                   },
                                                   "arguments": [
@@ -32798,9 +32648,7 @@
                                                 "start": 65754,
                                                 "end": 65761
                                               },
-                                              "ctxt": 0,
-                                              "value": "valueOf",
-                                              "optional": false
+                                              "value": "valueOf"
                                             }
                                           },
                                           "definite": false
@@ -32911,9 +32759,7 @@
                                                         "start": 65849,
                                                         "end": 65853
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "call",
-                                                      "optional": false
+                                                      "value": "call"
                                                     }
                                                   },
                                                   "arguments": [
@@ -33057,9 +32903,7 @@
                                                 "start": 65969,
                                                 "end": 65977
                                               },
-                                              "ctxt": 0,
-                                              "value": "toString",
-                                              "optional": false
+                                              "value": "toString"
                                             }
                                           },
                                           "definite": false
@@ -33170,9 +33014,7 @@
                                                         "start": 66067,
                                                         "end": 66071
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "call",
-                                                      "optional": false
+                                                      "value": "call"
                                                     }
                                                   },
                                                   "arguments": [
@@ -33744,9 +33586,7 @@
                                                 "start": 66813,
                                                 "end": 66819
                                               },
-                                              "ctxt": 0,
-                                              "value": "String",
-                                              "optional": false
+                                              "value": "String"
                                             }
                                           }
                                         }
@@ -33991,9 +33831,7 @@
                                         "start": 67217,
                                         "end": 67224
                                       },
-                                      "ctxt": 0,
-                                      "value": "isArray",
-                                      "optional": false
+                                      "value": "isArray"
                                     }
                                   },
                                   "consequent": {
@@ -34025,9 +33863,7 @@
                                           "start": 67249,
                                           "end": 67256
                                         },
-                                        "ctxt": 0,
-                                        "value": "isArray",
-                                        "optional": false
+                                        "value": "isArray"
                                       }
                                     },
                                     "arguments": [
@@ -34157,9 +33993,7 @@
                                                   "start": 67389,
                                                   "end": 67398
                                                 },
-                                                "ctxt": 0,
-                                                "value": "prototype",
-                                                "optional": false
+                                                "value": "prototype"
                                               }
                                             },
                                             "property": {
@@ -34168,9 +34002,7 @@
                                                 "start": 67399,
                                                 "end": 67407
                                               },
-                                              "ctxt": 0,
-                                              "value": "toString",
-                                              "optional": false
+                                              "value": "toString"
                                             }
                                           },
                                           "property": {
@@ -34179,9 +34011,7 @@
                                               "start": 67408,
                                               "end": 67412
                                             },
-                                            "ctxt": 0,
-                                            "value": "call",
-                                            "optional": false
+                                            "value": "call"
                                           }
                                         },
                                         "arguments": [
@@ -34718,9 +34548,7 @@
                                           "start": 68352,
                                           "end": 68358
                                         },
-                                        "ctxt": 0,
-                                        "value": "String",
-                                        "optional": false
+                                        "value": "String"
                                       }
                                     },
                                     "consequent": [
@@ -34769,9 +34597,7 @@
                                           "start": 68418,
                                           "end": 68424
                                         },
-                                        "ctxt": 0,
-                                        "value": "Symbol",
-                                        "optional": false
+                                        "value": "Symbol"
                                       }
                                     },
                                     "consequent": [
@@ -35579,9 +35405,7 @@
                                             "start": 69361,
                                             "end": 69365
                                           },
-                                          "ctxt": 0,
-                                          "value": "call",
-                                          "optional": false
+                                          "value": "call"
                                         }
                                       },
                                       "arguments": [
@@ -35912,9 +35736,7 @@
                                       "start": 69681,
                                       "end": 69686
                                     },
-                                    "ctxt": 0,
-                                    "value": "value",
-                                    "optional": false
+                                    "value": "value"
                                   }
                                 }
                               }
@@ -36133,9 +35955,7 @@
                                             "start": 69920,
                                             "end": 69924
                                           },
-                                          "ctxt": 0,
-                                          "value": "next",
-                                          "optional": false
+                                          "value": "next"
                                         }
                                       },
                                       "arguments": [],
@@ -36179,9 +35999,7 @@
                                         "start": 69954,
                                         "end": 69958
                                       },
-                                      "ctxt": 0,
-                                      "value": "done",
-                                      "optional": false
+                                      "value": "done"
                                     }
                                   },
                                   "consequent": {
@@ -36528,9 +36346,7 @@
                                           "start": 70224,
                                           "end": 70228
                                         },
-                                        "ctxt": 0,
-                                        "value": "call",
-                                        "optional": false
+                                        "value": "call"
                                       }
                                     },
                                     "arguments": [
@@ -36708,9 +36524,7 @@
                                             "start": 70621,
                                             "end": 70635
                                           },
-                                          "ctxt": 0,
-                                          "value": "getPrototypeOf",
-                                          "optional": false
+                                          "value": "getPrototypeOf"
                                         }
                                       },
                                       "arguments": [
@@ -36932,9 +36746,7 @@
                                           "start": 71531,
                                           "end": 71540
                                         },
-                                        "ctxt": 0,
-                                        "value": "prototype",
-                                        "optional": false
+                                        "value": "prototype"
                                       }
                                     },
                                     "definite": false
@@ -37014,9 +36826,7 @@
                                               "start": 71597,
                                               "end": 71611
                                             },
-                                            "ctxt": 0,
-                                            "value": "getPrototypeOf",
-                                            "optional": false
+                                            "value": "getPrototypeOf"
                                           }
                                         },
                                         "arguments": [
@@ -37118,9 +36928,7 @@
                                           "start": 71692,
                                           "end": 71701
                                         },
-                                        "ctxt": 0,
-                                        "value": "prototype",
-                                        "optional": false
+                                        "value": "prototype"
                                       }
                                     }
                                   }
@@ -37203,9 +37011,7 @@
                                           "start": 71890,
                                           "end": 71901
                                         },
-                                        "ctxt": 0,
-                                        "value": "constructor",
-                                        "optional": false
+                                        "value": "constructor"
                                       }
                                     },
                                     "definite": false
@@ -37522,9 +37328,7 @@
                                         "start": 72567,
                                         "end": 72572
                                       },
-                                      "ctxt": 0,
-                                      "value": "_keys",
-                                      "optional": false
+                                      "value": "_keys"
                                     },
                                     "value": null,
                                     "typeAnnotation": {
@@ -37581,9 +37385,7 @@
                                         "start": 72603,
                                         "end": 72610
                                       },
-                                      "ctxt": 0,
-                                      "value": "_values",
-                                      "optional": false
+                                      "value": "_values"
                                     },
                                     "value": null,
                                     "typeAnnotation": {
@@ -37640,9 +37442,7 @@
                                         "start": 72641,
                                         "end": 72647
                                       },
-                                      "ctxt": 0,
-                                      "value": "_index",
-                                      "optional": false
+                                      "value": "_index"
                                     },
                                     "value": {
                                       "type": "NumericLiteral",
@@ -37676,9 +37476,7 @@
                                         "start": 72677,
                                         "end": 72686
                                       },
-                                      "ctxt": 0,
-                                      "value": "_selector",
-                                      "optional": false
+                                      "value": "_selector"
                                     },
                                     "value": null,
                                     "typeAnnotation": {
@@ -37816,9 +37614,7 @@
                                         "start": 72729,
                                         "end": 72740
                                       },
-                                      "ctxt": 0,
-                                      "value": "constructor",
-                                      "optional": false
+                                      "value": "constructor"
                                     },
                                     "params": [
                                       {
@@ -38092,9 +37888,7 @@
                                                   "start": 72827,
                                                   "end": 72832
                                                 },
-                                                "ctxt": 0,
-                                                "value": "_keys",
-                                                "optional": false
+                                                "value": "_keys"
                                               }
                                             },
                                             "right": {
@@ -38141,9 +37935,7 @@
                                                   "start": 72866,
                                                   "end": 72873
                                                 },
-                                                "ctxt": 0,
-                                                "value": "_values",
-                                                "optional": false
+                                                "value": "_values"
                                               }
                                             },
                                             "right": {
@@ -38190,9 +37982,7 @@
                                                   "start": 72909,
                                                   "end": 72918
                                                 },
-                                                "ctxt": 0,
-                                                "value": "_selector",
-                                                "optional": false
+                                                "value": "_selector"
                                               }
                                             },
                                             "right": {
@@ -38350,9 +38140,7 @@
                                         "start": 73137,
                                         "end": 73141
                                       },
-                                      "ctxt": 0,
-                                      "value": "next",
-                                      "optional": false
+                                      "value": "next"
                                     },
                                     "function": {
                                       "params": [],
@@ -38416,9 +38204,7 @@
                                                       "start": 73204,
                                                       "end": 73210
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "_index",
-                                                    "optional": false
+                                                    "value": "_index"
                                                   }
                                                 },
                                                 "definite": false
@@ -38507,9 +38293,7 @@
                                                         "start": 73263,
                                                         "end": 73268
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "_keys",
-                                                      "optional": false
+                                                      "value": "_keys"
                                                     }
                                                   },
                                                   "property": {
@@ -38518,9 +38302,7 @@
                                                       "start": 73269,
                                                       "end": 73275
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "length",
-                                                    "optional": false
+                                                    "value": "length"
                                                   }
                                                 }
                                               }
@@ -38586,9 +38368,7 @@
                                                               "start": 73323,
                                                               "end": 73332
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "_selector",
-                                                            "optional": false
+                                                            "value": "_selector"
                                                           }
                                                         },
                                                         "arguments": [
@@ -38619,9 +38399,7 @@
                                                                     "start": 73367,
                                                                     "end": 73372
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "_keys",
-                                                                  "optional": false
+                                                                  "value": "_keys"
                                                                 }
                                                               },
                                                               "property": {
@@ -38670,9 +38448,7 @@
                                                                     "start": 73414,
                                                                     "end": 73421
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "_values",
-                                                                  "optional": false
+                                                                  "value": "_values"
                                                                 }
                                                               },
                                                               "property": {
@@ -38766,9 +38542,7 @@
                                                             "start": 73503,
                                                             "end": 73508
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "_keys",
-                                                          "optional": false
+                                                          "value": "_keys"
                                                         }
                                                       },
                                                       "property": {
@@ -38777,9 +38551,7 @@
                                                           "start": 73509,
                                                           "end": 73515
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "length",
-                                                        "optional": false
+                                                        "value": "length"
                                                       }
                                                     }
                                                   },
@@ -38823,9 +38595,7 @@
                                                                 "start": 73552,
                                                                 "end": 73558
                                                               },
-                                                              "ctxt": 0,
-                                                              "value": "_index",
-                                                              "optional": false
+                                                              "value": "_index"
                                                             }
                                                           },
                                                           "right": {
@@ -38879,9 +38649,7 @@
                                                                 "start": 73598,
                                                                 "end": 73603
                                                               },
-                                                              "ctxt": 0,
-                                                              "value": "_keys",
-                                                              "optional": false
+                                                              "value": "_keys"
                                                             }
                                                           },
                                                           "right": {
@@ -38928,9 +38696,7 @@
                                                                 "start": 73654,
                                                                 "end": 73661
                                                               },
-                                                              "ctxt": 0,
-                                                              "value": "_values",
-                                                              "optional": false
+                                                              "value": "_values"
                                                             }
                                                           },
                                                           "right": {
@@ -38988,9 +38754,7 @@
                                                                 "start": 73745,
                                                                 "end": 73751
                                                               },
-                                                              "ctxt": 0,
-                                                              "value": "_index",
-                                                              "optional": false
+                                                              "value": "_index"
                                                             }
                                                           }
                                                         }
@@ -39019,9 +38783,7 @@
                                                             "start": 73814,
                                                             "end": 73819
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "value",
-                                                          "optional": false
+                                                          "value": "value"
                                                         },
                                                         "value": {
                                                           "type": "Identifier",
@@ -39042,9 +38804,7 @@
                                                             "start": 73829,
                                                             "end": 73833
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "done",
-                                                          "optional": false
+                                                          "value": "done"
                                                         },
                                                         "value": {
                                                           "type": "BooleanLiteral",
@@ -39083,9 +38843,7 @@
                                                       "start": 73895,
                                                       "end": 73900
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "value",
-                                                    "optional": false
+                                                    "value": "value"
                                                   },
                                                   "value": {
                                                     "type": "TsTypeAssertion",
@@ -39121,9 +38879,7 @@
                                                       "start": 73920,
                                                       "end": 73924
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "done",
-                                                    "optional": false
+                                                    "value": "done"
                                                   },
                                                   "value": {
                                                     "type": "BooleanLiteral",
@@ -39213,9 +38969,7 @@
                                         "start": 73968,
                                         "end": 73973
                                       },
-                                      "ctxt": 0,
-                                      "value": "throw",
-                                      "optional": false
+                                      "value": "throw"
                                     },
                                     "function": {
                                       "params": [
@@ -39299,9 +39053,7 @@
                                                     "start": 74036,
                                                     "end": 74042
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "_index",
-                                                  "optional": false
+                                                  "value": "_index"
                                                 }
                                               },
                                               "right": {
@@ -39354,9 +39106,7 @@
                                                           "start": 74080,
                                                           "end": 74086
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "_index",
-                                                        "optional": false
+                                                        "value": "_index"
                                                       }
                                                     },
                                                     "right": {
@@ -39410,9 +39160,7 @@
                                                           "start": 74122,
                                                           "end": 74127
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "_keys",
-                                                        "optional": false
+                                                        "value": "_keys"
                                                       }
                                                     },
                                                     "right": {
@@ -39459,9 +39207,7 @@
                                                           "start": 74174,
                                                           "end": 74181
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "_values",
-                                                        "optional": false
+                                                        "value": "_values"
                                                       }
                                                     },
                                                     "right": {
@@ -39573,9 +39319,7 @@
                                         "start": 74288,
                                         "end": 74294
                                       },
-                                      "ctxt": 0,
-                                      "value": "return",
-                                      "optional": false
+                                      "value": "return"
                                     },
                                     "function": {
                                       "params": [
@@ -39669,9 +39413,7 @@
                                                     "start": 74356,
                                                     "end": 74362
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "_index",
-                                                  "optional": false
+                                                  "value": "_index"
                                                 }
                                               },
                                               "right": {
@@ -39724,9 +39466,7 @@
                                                           "start": 74400,
                                                           "end": 74406
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "_index",
-                                                        "optional": false
+                                                        "value": "_index"
                                                       }
                                                     },
                                                     "right": {
@@ -39780,9 +39520,7 @@
                                                           "start": 74442,
                                                           "end": 74447
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "_keys",
-                                                        "optional": false
+                                                        "value": "_keys"
                                                       }
                                                     },
                                                     "right": {
@@ -39829,9 +39567,7 @@
                                                           "start": 74494,
                                                           "end": 74501
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "_values",
-                                                        "optional": false
+                                                        "value": "_values"
                                                       }
                                                     },
                                                     "right": {
@@ -39871,9 +39607,7 @@
                                                       "start": 74570,
                                                       "end": 74575
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "value",
-                                                    "optional": false
+                                                    "value": "value"
                                                   },
                                                   "value": {
                                                     "type": "TsTypeAssertion",
@@ -39909,9 +39643,7 @@
                                                       "start": 74591,
                                                       "end": 74595
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "done",
-                                                    "optional": false
+                                                    "value": "done"
                                                   },
                                                   "value": {
                                                     "type": "BooleanLiteral",
@@ -40257,9 +39989,7 @@
                                           "start": 74699,
                                           "end": 74704
                                         },
-                                        "ctxt": 0,
-                                        "value": "_keys",
-                                        "optional": false
+                                        "value": "_keys"
                                       },
                                       "value": {
                                         "type": "ArrayExpression",
@@ -40323,9 +40053,7 @@
                                           "start": 74740,
                                           "end": 74747
                                         },
-                                        "ctxt": 0,
-                                        "value": "_values",
-                                        "optional": false
+                                        "value": "_values"
                                       },
                                       "value": {
                                         "type": "ArrayExpression",
@@ -40413,9 +40141,7 @@
                                           "start": 74797,
                                           "end": 74806
                                         },
-                                        "ctxt": 0,
-                                        "value": "_cacheKey",
-                                        "optional": false
+                                        "value": "_cacheKey"
                                       },
                                       "value": {
                                         "type": "Identifier",
@@ -40450,9 +40176,7 @@
                                           "start": 74848,
                                           "end": 74859
                                         },
-                                        "ctxt": 0,
-                                        "value": "_cacheIndex",
-                                        "optional": false
+                                        "value": "_cacheIndex"
                                       },
                                       "value": {
                                         "type": "UnaryExpression",
@@ -40494,9 +40218,7 @@
                                           "start": 74886,
                                           "end": 74890
                                         },
-                                        "ctxt": 0,
-                                        "value": "size",
-                                        "optional": false
+                                        "value": "size"
                                       },
                                       "function": {
                                         "params": [],
@@ -40545,9 +40267,7 @@
                                                       "start": 74927,
                                                       "end": 74932
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "_keys",
-                                                    "optional": false
+                                                    "value": "_keys"
                                                   }
                                                 },
                                                 "property": {
@@ -40556,9 +40276,7 @@
                                                     "start": 74933,
                                                     "end": 74939
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "length",
-                                                  "optional": false
+                                                  "value": "length"
                                                 }
                                               }
                                             }
@@ -40588,9 +40306,7 @@
                                           "start": 74975,
                                           "end": 74978
                                         },
-                                        "ctxt": 0,
-                                        "value": "has",
-                                        "optional": false
+                                        "value": "has"
                                       },
                                       "function": {
                                         "params": [
@@ -40691,9 +40407,7 @@
                                                         "start": 75030,
                                                         "end": 75035
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "_find",
-                                                      "optional": false
+                                                      "value": "_find"
                                                     }
                                                   },
                                                   "arguments": [
@@ -40775,9 +40489,7 @@
                                           "start": 75099,
                                           "end": 75102
                                         },
-                                        "ctxt": 0,
-                                        "value": "get",
-                                        "optional": false
+                                        "value": "get"
                                       },
                                       "function": {
                                         "params": [
@@ -40892,9 +40604,7 @@
                                                           "start": 75167,
                                                           "end": 75172
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "_find",
-                                                        "optional": false
+                                                        "value": "_find"
                                                       }
                                                     },
                                                     "arguments": [
@@ -40993,9 +40703,7 @@
                                                         "start": 75242,
                                                         "end": 75249
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "_values",
-                                                      "optional": false
+                                                      "value": "_values"
                                                     }
                                                   },
                                                   "property": {
@@ -41095,9 +40803,7 @@
                                           "start": 75304,
                                           "end": 75307
                                         },
-                                        "ctxt": 0,
-                                        "value": "set",
-                                        "optional": false
+                                        "value": "set"
                                       },
                                       "function": {
                                         "params": [
@@ -41255,9 +40961,7 @@
                                                           "start": 75373,
                                                           "end": 75378
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "_find",
-                                                        "optional": false
+                                                        "value": "_find"
                                                       }
                                                     },
                                                     "arguments": [
@@ -41330,9 +41034,7 @@
                                                         "start": 75427,
                                                         "end": 75434
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "_values",
-                                                      "optional": false
+                                                      "value": "_values"
                                                     }
                                                   },
                                                   "property": {
@@ -41418,9 +41120,7 @@
                                           "start": 75518,
                                           "end": 75524
                                         },
-                                        "ctxt": 0,
-                                        "value": "delete",
-                                        "optional": false
+                                        "value": "delete"
                                       },
                                       "function": {
                                         "params": [
@@ -41535,9 +41235,7 @@
                                                           "start": 75583,
                                                           "end": 75588
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "_find",
-                                                        "optional": false
+                                                        "value": "_find"
                                                       }
                                                     },
                                                     "arguments": [
@@ -41665,9 +41363,7 @@
                                                                 "start": 75693,
                                                                 "end": 75698
                                                               },
-                                                              "ctxt": 0,
-                                                              "value": "_keys",
-                                                              "optional": false
+                                                              "value": "_keys"
                                                             }
                                                           },
                                                           "property": {
@@ -41676,9 +41372,7 @@
                                                               "start": 75699,
                                                               "end": 75705
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "length",
-                                                            "optional": false
+                                                            "value": "length"
                                                           }
                                                         },
                                                         "definite": false
@@ -41842,9 +41536,7 @@
                                                                     "start": 75805,
                                                                     "end": 75810
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "_keys",
-                                                                  "optional": false
+                                                                  "value": "_keys"
                                                                 }
                                                               },
                                                               "property": {
@@ -41907,9 +41599,7 @@
                                                                     "start": 75825,
                                                                     "end": 75830
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "_keys",
-                                                                  "optional": false
+                                                                  "value": "_keys"
                                                                 }
                                                               },
                                                               "property": {
@@ -41970,9 +41660,7 @@
                                                                     "start": 75868,
                                                                     "end": 75875
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "_values",
-                                                                  "optional": false
+                                                                  "value": "_values"
                                                                 }
                                                               },
                                                               "property": {
@@ -42035,9 +41723,7 @@
                                                                     "start": 75890,
                                                                     "end": 75897
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "_values",
-                                                                  "optional": false
+                                                                  "value": "_values"
                                                                 }
                                                               },
                                                               "property": {
@@ -42102,9 +41788,7 @@
                                                               "start": 75957,
                                                               "end": 75962
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "_keys",
-                                                            "optional": false
+                                                            "value": "_keys"
                                                           }
                                                         },
                                                         "property": {
@@ -42113,9 +41797,7 @@
                                                             "start": 75963,
                                                             "end": 75969
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "length",
-                                                          "optional": false
+                                                          "value": "length"
                                                         }
                                                       }
                                                     }
@@ -42159,9 +41841,7 @@
                                                               "start": 76002,
                                                               "end": 76009
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "_values",
-                                                            "optional": false
+                                                            "value": "_values"
                                                           }
                                                         },
                                                         "property": {
@@ -42170,9 +41850,7 @@
                                                             "start": 76010,
                                                             "end": 76016
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "length",
-                                                          "optional": false
+                                                          "value": "length"
                                                         }
                                                       }
                                                     }
@@ -42219,9 +41897,7 @@
                                                             "start": 76061,
                                                             "end": 76070
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "_cacheKey",
-                                                          "optional": false
+                                                          "value": "_cacheKey"
                                                         }
                                                       }
                                                     },
@@ -42265,9 +41941,7 @@
                                                                   "start": 76107,
                                                                   "end": 76116
                                                                 },
-                                                                "ctxt": 0,
-                                                                "value": "_cacheKey",
-                                                                "optional": false
+                                                                "value": "_cacheKey"
                                                               }
                                                             },
                                                             "right": {
@@ -42314,9 +41988,7 @@
                                                                   "start": 76167,
                                                                   "end": 76178
                                                                 },
-                                                                "ctxt": 0,
-                                                                "value": "_cacheIndex",
-                                                                "optional": false
+                                                                "value": "_cacheIndex"
                                                               }
                                                             },
                                                             "right": {
@@ -42416,9 +42088,7 @@
                                           "start": 76338,
                                           "end": 76343
                                         },
-                                        "ctxt": 0,
-                                        "value": "clear",
-                                        "optional": false
+                                        "value": "clear"
                                       },
                                       "function": {
                                         "params": [],
@@ -42474,9 +42144,7 @@
                                                         "start": 76379,
                                                         "end": 76384
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "_keys",
-                                                      "optional": false
+                                                      "value": "_keys"
                                                     }
                                                   },
                                                   "property": {
@@ -42485,9 +42153,7 @@
                                                       "start": 76385,
                                                       "end": 76391
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "length",
-                                                    "optional": false
+                                                    "value": "length"
                                                   }
                                                 },
                                                 "right": {
@@ -42539,9 +42205,7 @@
                                                         "start": 76422,
                                                         "end": 76429
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "_values",
-                                                      "optional": false
+                                                      "value": "_values"
                                                     }
                                                   },
                                                   "property": {
@@ -42550,9 +42214,7 @@
                                                       "start": 76430,
                                                       "end": 76436
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "length",
-                                                    "optional": false
+                                                    "value": "length"
                                                   }
                                                 },
                                                 "right": {
@@ -42598,9 +42260,7 @@
                                                       "start": 76467,
                                                       "end": 76476
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "_cacheKey",
-                                                    "optional": false
+                                                    "value": "_cacheKey"
                                                   }
                                                 },
                                                 "right": {
@@ -42647,9 +42307,7 @@
                                                       "start": 76519,
                                                       "end": 76530
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "_cacheIndex",
-                                                    "optional": false
+                                                    "value": "_cacheIndex"
                                                   }
                                                 },
                                                 "right": {
@@ -42711,9 +42369,7 @@
                                           "start": 76571,
                                           "end": 76575
                                         },
-                                        "ctxt": 0,
-                                        "value": "keys",
-                                        "optional": false
+                                        "value": "keys"
                                       },
                                       "function": {
                                         "params": [],
@@ -42776,9 +42432,7 @@
                                                           "start": 76628,
                                                           "end": 76633
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "_keys",
-                                                        "optional": false
+                                                        "value": "_keys"
                                                       }
                                                     }
                                                   },
@@ -42803,9 +42457,7 @@
                                                           "start": 76640,
                                                           "end": 76647
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "_values",
-                                                        "optional": false
+                                                        "value": "_values"
                                                       }
                                                     }
                                                   },
@@ -42852,9 +42504,7 @@
                                           "start": 76692,
                                           "end": 76698
                                         },
-                                        "ctxt": 0,
-                                        "value": "values",
-                                        "optional": false
+                                        "value": "values"
                                       },
                                       "function": {
                                         "params": [],
@@ -42917,9 +42567,7 @@
                                                           "start": 76751,
                                                           "end": 76756
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "_keys",
-                                                        "optional": false
+                                                        "value": "_keys"
                                                       }
                                                     }
                                                   },
@@ -42944,9 +42592,7 @@
                                                           "start": 76763,
                                                           "end": 76770
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "_values",
-                                                        "optional": false
+                                                        "value": "_values"
                                                       }
                                                     }
                                                   },
@@ -42993,9 +42639,7 @@
                                           "start": 76817,
                                           "end": 76824
                                         },
-                                        "ctxt": 0,
-                                        "value": "entries",
-                                        "optional": false
+                                        "value": "entries"
                                       },
                                       "function": {
                                         "params": [],
@@ -43058,9 +42702,7 @@
                                                           "start": 76877,
                                                           "end": 76882
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "_keys",
-                                                        "optional": false
+                                                        "value": "_keys"
                                                       }
                                                     }
                                                   },
@@ -43085,9 +42727,7 @@
                                                           "start": 76889,
                                                           "end": 76896
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "_values",
-                                                        "optional": false
+                                                        "value": "_values"
                                                       }
                                                     }
                                                   },
@@ -43185,9 +42825,7 @@
                                                       "start": 76992,
                                                       "end": 76999
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "entries",
-                                                    "optional": false
+                                                    "value": "entries"
                                                   }
                                                 },
                                                 "arguments": [],
@@ -43279,9 +42917,7 @@
                                                       "start": 77090,
                                                       "end": 77097
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "entries",
-                                                    "optional": false
+                                                    "value": "entries"
                                                   }
                                                 },
                                                 "arguments": [],
@@ -43314,9 +42950,7 @@
                                           "start": 77143,
                                           "end": 77148
                                         },
-                                        "ctxt": 0,
-                                        "value": "_find",
-                                        "optional": false
+                                        "value": "_find"
                                       },
                                       "function": {
                                         "params": [
@@ -43443,9 +43077,7 @@
                                                       "start": 77214,
                                                       "end": 77223
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "_cacheKey",
-                                                    "optional": false
+                                                    "value": "_cacheKey"
                                                   }
                                                 },
                                                 "right": {
@@ -43499,9 +43131,7 @@
                                                             "start": 77264,
                                                             "end": 77275
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "_cacheIndex",
-                                                          "optional": false
+                                                          "value": "_cacheIndex"
                                                         }
                                                       },
                                                       "right": {
@@ -43536,9 +43166,7 @@
                                                                 "start": 77283,
                                                                 "end": 77288
                                                               },
-                                                              "ctxt": 0,
-                                                              "value": "_keys",
-                                                              "optional": false
+                                                              "value": "_keys"
                                                             }
                                                           },
                                                           "property": {
@@ -43547,9 +43175,7 @@
                                                               "start": 77289,
                                                               "end": 77296
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "indexOf",
-                                                            "optional": false
+                                                            "value": "indexOf"
                                                           }
                                                         },
                                                         "arguments": [
@@ -43587,9 +43213,7 @@
                                                                       "start": 77303,
                                                                       "end": 77312
                                                                     },
-                                                                    "ctxt": 0,
-                                                                    "value": "_cacheKey",
-                                                                    "optional": false
+                                                                    "value": "_cacheKey"
                                                                   }
                                                                 },
                                                                 "right": {
@@ -43653,9 +43277,7 @@
                                                         "start": 77373,
                                                         "end": 77384
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "_cacheIndex",
-                                                      "optional": false
+                                                      "value": "_cacheIndex"
                                                     }
                                                   },
                                                   "right": {
@@ -43719,9 +43341,7 @@
                                                             "start": 77431,
                                                             "end": 77442
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "_cacheIndex",
-                                                          "optional": false
+                                                          "value": "_cacheIndex"
                                                         }
                                                       },
                                                       "right": {
@@ -43749,9 +43369,7 @@
                                                               "start": 77450,
                                                               "end": 77455
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "_keys",
-                                                            "optional": false
+                                                            "value": "_keys"
                                                           }
                                                         },
                                                         "property": {
@@ -43760,9 +43378,7 @@
                                                             "start": 77456,
                                                             "end": 77462
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "length",
-                                                          "optional": false
+                                                          "value": "length"
                                                         }
                                                       }
                                                     }
@@ -43805,9 +43421,7 @@
                                                               "start": 77493,
                                                               "end": 77498
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "_keys",
-                                                            "optional": false
+                                                            "value": "_keys"
                                                           }
                                                         },
                                                         "property": {
@@ -43816,9 +43430,7 @@
                                                             "start": 77499,
                                                             "end": 77503
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "push",
-                                                          "optional": false
+                                                          "value": "push"
                                                         }
                                                       },
                                                       "arguments": [
@@ -43877,9 +43489,7 @@
                                                               "start": 77539,
                                                               "end": 77546
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "_values",
-                                                            "optional": false
+                                                            "value": "_values"
                                                           }
                                                         },
                                                         "property": {
@@ -43888,9 +43498,7 @@
                                                             "start": 77547,
                                                             "end": 77551
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "push",
-                                                          "optional": false
+                                                          "value": "push"
                                                         }
                                                       },
                                                       "arguments": [
@@ -43940,9 +43548,7 @@
                                                     "start": 77618,
                                                     "end": 77629
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "_cacheIndex",
-                                                  "optional": false
+                                                  "value": "_cacheIndex"
                                                 }
                                               }
                                             }
@@ -44796,9 +44402,7 @@
                                           "start": 78124,
                                           "end": 78128
                                         },
-                                        "ctxt": 0,
-                                        "value": "_map",
-                                        "optional": false
+                                        "value": "_map"
                                       },
                                       "value": {
                                         "type": "NewExpression",
@@ -44867,9 +44471,7 @@
                                           "start": 78173,
                                           "end": 78177
                                         },
-                                        "ctxt": 0,
-                                        "value": "size",
-                                        "optional": false
+                                        "value": "size"
                                       },
                                       "function": {
                                         "params": [],
@@ -44918,9 +44520,7 @@
                                                       "start": 78214,
                                                       "end": 78218
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "_map",
-                                                    "optional": false
+                                                    "value": "_map"
                                                   }
                                                 },
                                                 "property": {
@@ -44929,9 +44529,7 @@
                                                     "start": 78219,
                                                     "end": 78223
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "size",
-                                                  "optional": false
+                                                  "value": "size"
                                                 }
                                               }
                                             }
@@ -44961,9 +44559,7 @@
                                           "start": 78259,
                                           "end": 78262
                                         },
-                                        "ctxt": 0,
-                                        "value": "has",
-                                        "optional": false
+                                        "value": "has"
                                       },
                                       "function": {
                                         "params": [
@@ -45063,9 +44659,7 @@
                                                         "start": 78316,
                                                         "end": 78320
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "_map",
-                                                      "optional": false
+                                                      "value": "_map"
                                                     }
                                                   },
                                                   "property": {
@@ -45074,9 +44668,7 @@
                                                       "start": 78321,
                                                       "end": 78324
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "has",
-                                                    "optional": false
+                                                    "value": "has"
                                                   }
                                                 },
                                                 "arguments": [
@@ -45137,9 +44729,7 @@
                                           "start": 78367,
                                           "end": 78370
                                         },
-                                        "ctxt": 0,
-                                        "value": "add",
-                                        "optional": false
+                                        "value": "add"
                                       },
                                       "function": {
                                         "params": [
@@ -45246,9 +44836,7 @@
                                                             "start": 78423,
                                                             "end": 78427
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "_map",
-                                                          "optional": false
+                                                          "value": "_map"
                                                         }
                                                       },
                                                       "property": {
@@ -45257,9 +44845,7 @@
                                                           "start": 78428,
                                                           "end": 78431
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "set",
-                                                        "optional": false
+                                                        "value": "set"
                                                       }
                                                     },
                                                     "arguments": [
@@ -45378,9 +44964,7 @@
                                           "start": 78487,
                                           "end": 78493
                                         },
-                                        "ctxt": 0,
-                                        "value": "delete",
-                                        "optional": false
+                                        "value": "delete"
                                       },
                                       "function": {
                                         "params": [
@@ -45480,9 +45064,7 @@
                                                         "start": 78547,
                                                         "end": 78551
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "_map",
-                                                      "optional": false
+                                                      "value": "_map"
                                                     }
                                                   },
                                                   "property": {
@@ -45491,9 +45073,7 @@
                                                       "start": 78552,
                                                       "end": 78558
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "delete",
-                                                    "optional": false
+                                                    "value": "delete"
                                                   }
                                                 },
                                                 "arguments": [
@@ -45554,9 +45134,7 @@
                                           "start": 78601,
                                           "end": 78606
                                         },
-                                        "ctxt": 0,
-                                        "value": "clear",
-                                        "optional": false
+                                        "value": "clear"
                                       },
                                       "function": {
                                         "params": [],
@@ -45612,9 +45190,7 @@
                                                         "start": 78642,
                                                         "end": 78646
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "_map",
-                                                      "optional": false
+                                                      "value": "_map"
                                                     }
                                                   },
                                                   "property": {
@@ -45623,9 +45199,7 @@
                                                       "start": 78647,
                                                       "end": 78652
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "clear",
-                                                    "optional": false
+                                                    "value": "clear"
                                                   }
                                                 },
                                                 "arguments": [],
@@ -45672,9 +45246,7 @@
                                           "start": 78690,
                                           "end": 78694
                                         },
-                                        "ctxt": 0,
-                                        "value": "keys",
-                                        "optional": false
+                                        "value": "keys"
                                       },
                                       "function": {
                                         "params": [],
@@ -45730,9 +45302,7 @@
                                                         "start": 78731,
                                                         "end": 78735
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "_map",
-                                                      "optional": false
+                                                      "value": "_map"
                                                     }
                                                   },
                                                   "property": {
@@ -45741,9 +45311,7 @@
                                                       "start": 78736,
                                                       "end": 78740
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "keys",
-                                                    "optional": false
+                                                    "value": "keys"
                                                   }
                                                 },
                                                 "arguments": [],
@@ -45776,9 +45344,7 @@
                                           "start": 78778,
                                           "end": 78784
                                         },
-                                        "ctxt": 0,
-                                        "value": "values",
-                                        "optional": false
+                                        "value": "values"
                                       },
                                       "function": {
                                         "params": [],
@@ -45834,9 +45400,7 @@
                                                         "start": 78821,
                                                         "end": 78825
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "_map",
-                                                      "optional": false
+                                                      "value": "_map"
                                                     }
                                                   },
                                                   "property": {
@@ -45845,9 +45409,7 @@
                                                       "start": 78826,
                                                       "end": 78832
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "values",
-                                                    "optional": false
+                                                    "value": "values"
                                                   }
                                                 },
                                                 "arguments": [],
@@ -45880,9 +45442,7 @@
                                           "start": 78870,
                                           "end": 78877
                                         },
-                                        "ctxt": 0,
-                                        "value": "entries",
-                                        "optional": false
+                                        "value": "entries"
                                       },
                                       "function": {
                                         "params": [],
@@ -45938,9 +45498,7 @@
                                                         "start": 78914,
                                                         "end": 78918
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "_map",
-                                                      "optional": false
+                                                      "value": "_map"
                                                     }
                                                   },
                                                   "property": {
@@ -45949,9 +45507,7 @@
                                                       "start": 78919,
                                                       "end": 78926
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "entries",
-                                                    "optional": false
+                                                    "value": "entries"
                                                   }
                                                 },
                                                 "arguments": [],
@@ -46035,9 +45591,7 @@
                                                       "start": 79013,
                                                       "end": 79017
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "keys",
-                                                    "optional": false
+                                                    "value": "keys"
                                                   }
                                                 },
                                                 "arguments": [],
@@ -46129,9 +45683,7 @@
                                                       "start": 79108,
                                                       "end": 79112
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "keys",
-                                                    "optional": false
+                                                    "value": "keys"
                                                   }
                                                 },
                                                 "arguments": [],
@@ -46345,9 +45897,7 @@
                                             "start": 79320,
                                             "end": 79326
                                           },
-                                          "ctxt": 0,
-                                          "value": "create",
-                                          "optional": false
+                                          "value": "create"
                                         }
                                       },
                                       "arguments": [],
@@ -46461,9 +46011,7 @@
                                           "start": 79451,
                                           "end": 79455
                                         },
-                                        "ctxt": 0,
-                                        "value": "_key",
-                                        "optional": false
+                                        "value": "_key"
                                       },
                                       "value": {
                                         "type": "CallExpression",
@@ -46508,9 +46056,7 @@
                                           "start": 79493,
                                           "end": 79496
                                         },
-                                        "ctxt": 0,
-                                        "value": "has",
-                                        "optional": false
+                                        "value": "has"
                                       },
                                       "function": {
                                         "params": [
@@ -46743,9 +46289,7 @@
                                                         "start": 79664,
                                                         "end": 79667
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "has",
-                                                      "optional": false
+                                                      "value": "has"
                                                     }
                                                   },
                                                   "arguments": [
@@ -46783,9 +46327,7 @@
                                                             "start": 79680,
                                                             "end": 79684
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "_key",
-                                                          "optional": false
+                                                          "value": "_key"
                                                         }
                                                       }
                                                     }
@@ -46842,9 +46384,7 @@
                                           "start": 79729,
                                           "end": 79732
                                         },
-                                        "ctxt": 0,
-                                        "value": "get",
-                                        "optional": false
+                                        "value": "get"
                                       },
                                       "function": {
                                         "params": [
@@ -47077,9 +46617,7 @@
                                                         "start": 79918,
                                                         "end": 79921
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "get",
-                                                      "optional": false
+                                                      "value": "get"
                                                     }
                                                   },
                                                   "arguments": [
@@ -47117,9 +46655,7 @@
                                                             "start": 79934,
                                                             "end": 79938
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "_key",
-                                                          "optional": false
+                                                          "value": "_key"
                                                         }
                                                       }
                                                     }
@@ -47188,9 +46724,7 @@
                                           "start": 80011,
                                           "end": 80014
                                         },
-                                        "ctxt": 0,
-                                        "value": "set",
-                                        "optional": false
+                                        "value": "set"
                                       },
                                       "function": {
                                         "params": [
@@ -47451,9 +46985,7 @@
                                                           "start": 80171,
                                                           "end": 80175
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "_key",
-                                                        "optional": false
+                                                        "value": "_key"
                                                       }
                                                     }
                                                   }
@@ -47578,9 +47110,7 @@
                                           "start": 80253,
                                           "end": 80259
                                         },
-                                        "ctxt": 0,
-                                        "value": "delete",
-                                        "optional": false
+                                        "value": "delete"
                                       },
                                       "function": {
                                         "params": [
@@ -47832,9 +47362,7 @@
                                                             "start": 80437,
                                                             "end": 80441
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "_key",
-                                                          "optional": false
+                                                          "value": "_key"
                                                         }
                                                       }
                                                     }
@@ -47890,9 +47418,7 @@
                                           "start": 80486,
                                           "end": 80491
                                         },
-                                        "ctxt": 0,
-                                        "value": "clear",
-                                        "optional": false
+                                        "value": "clear"
                                       },
                                       "function": {
                                         "params": [],
@@ -47942,9 +47468,7 @@
                                                       "start": 80615,
                                                       "end": 80619
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "_key",
-                                                    "optional": false
+                                                    "value": "_key"
                                                   }
                                                 },
                                                 "right": {
@@ -48166,9 +47690,7 @@
                                               "start": 80827,
                                               "end": 80830
                                             },
-                                            "ctxt": 0,
-                                            "value": "has",
-                                            "optional": false
+                                            "value": "has"
                                           }
                                         },
                                         "arguments": [
@@ -48884,9 +48406,7 @@
                                                 "start": 81347,
                                                 "end": 81351
                                               },
-                                              "ctxt": 0,
-                                              "value": "call",
-                                              "optional": false
+                                              "value": "call"
                                             }
                                           },
                                           "arguments": [
@@ -49006,9 +48526,7 @@
                                                     "start": 81450,
                                                     "end": 81464
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "defineProperty",
-                                                  "optional": false
+                                                  "value": "defineProperty"
                                                 }
                                               },
                                               "arguments": [
@@ -49055,9 +48573,7 @@
                                                             "start": 81508,
                                                             "end": 81513
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "value",
-                                                          "optional": false
+                                                          "value": "value"
                                                         },
                                                         "value": {
                                                           "type": "CallExpression",
@@ -49088,9 +48604,7 @@
                                                                 "start": 81523,
                                                                 "end": 81529
                                                               },
-                                                              "ctxt": 0,
-                                                              "value": "create",
-                                                              "optional": false
+                                                              "value": "create"
                                                             }
                                                           },
                                                           "arguments": [],
@@ -49575,9 +49089,7 @@
                                                         "start": 81792,
                                                         "end": 81798
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "random",
-                                                      "optional": false
+                                                      "value": "random"
                                                     }
                                                   },
                                                   "arguments": [],
@@ -49856,9 +49368,7 @@
                                                             "start": 82075,
                                                             "end": 82090
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "getRandomValues",
-                                                          "optional": false
+                                                          "value": "getRandomValues"
                                                         }
                                                       },
                                                       "arguments": [
@@ -50016,9 +49526,7 @@
                                                             "start": 82249,
                                                             "end": 82264
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "getRandomValues",
-                                                          "optional": false
+                                                          "value": "getRandomValues"
                                                         }
                                                       },
                                                       "arguments": [
@@ -51096,9 +50604,7 @@
                                                           "start": 83057,
                                                           "end": 83065
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "toString",
-                                                        "optional": false
+                                                        "value": "toString"
                                                       }
                                                     },
                                                     "arguments": [
@@ -51123,9 +50629,7 @@
                                                       "start": 83070,
                                                       "end": 83081
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "toLowerCase",
-                                                    "optional": false
+                                                    "value": "toLowerCase"
                                                   }
                                                 },
                                                 "arguments": [],
@@ -51320,9 +50824,7 @@
                                         "start": 83321,
                                         "end": 83323
                                       },
-                                      "ctxt": 0,
-                                      "value": "__",
-                                      "optional": false
+                                      "value": "__"
                                     }
                                   },
                                   "right": {
@@ -51394,9 +50896,7 @@
                                         "start": 83367,
                                         "end": 83369
                                       },
-                                      "ctxt": 0,
-                                      "value": "__",
-                                      "optional": false
+                                      "value": "__"
                                     }
                                   }
                                 }

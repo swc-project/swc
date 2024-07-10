@@ -43,9 +43,7 @@
                 "start": 29,
                 "end": 35
               },
-              "ctxt": 0,
-              "value": "public",
-              "optional": false
+              "value": "public"
             },
             "value": null,
             "typeAnnotation": null,

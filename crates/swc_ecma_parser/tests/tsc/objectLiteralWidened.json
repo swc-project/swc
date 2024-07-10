@@ -47,9 +47,7 @@
                     "start": 65,
                     "end": 68
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "value": {
                   "type": "NullLiteral",
@@ -67,9 +65,7 @@
                     "start": 80,
                     "end": 83
                   },
-                  "ctxt": 0,
-                  "value": "bar",
-                  "optional": false
+                  "value": "bar"
                 },
                 "value": {
                   "type": "Identifier",
@@ -130,9 +126,7 @@
                     "start": 113,
                     "end": 116
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "value": {
                   "type": "NullLiteral",
@@ -150,9 +144,7 @@
                     "start": 128,
                     "end": 131
                   },
-                  "ctxt": 0,
-                  "value": "bar",
-                  "optional": false
+                  "value": "bar"
                 },
                 "value": {
                   "type": "ObjectExpression",
@@ -169,9 +161,7 @@
                           "start": 143,
                           "end": 146
                         },
-                        "ctxt": 0,
-                        "value": "baz",
-                        "optional": false
+                        "value": "baz"
                       },
                       "value": {
                         "type": "NullLiteral",
@@ -189,9 +179,7 @@
                           "start": 162,
                           "end": 165
                         },
-                        "ctxt": 0,
-                        "value": "boo",
-                        "optional": false
+                        "value": "boo"
                       },
                       "value": {
                         "type": "Identifier",
@@ -362,9 +350,7 @@
                     "start": 278,
                     "end": 281
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "value": {
                   "type": "Identifier",
@@ -385,9 +371,7 @@
                     "start": 290,
                     "end": 293
                   },
-                  "ctxt": 0,
-                  "value": "bar",
-                  "optional": false
+                  "value": "bar"
                 },
                 "value": {
                   "type": "Identifier",
@@ -448,9 +432,7 @@
                     "start": 315,
                     "end": 318
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "value": {
                   "type": "Identifier",
@@ -471,9 +453,7 @@
                     "start": 327,
                     "end": 330
                   },
-                  "ctxt": 0,
-                  "value": "bar",
-                  "optional": false
+                  "value": "bar"
                 },
                 "value": {
                   "type": "ObjectExpression",
@@ -490,9 +470,7 @@
                           "start": 342,
                           "end": 345
                         },
-                        "ctxt": 0,
-                        "value": "baz",
-                        "optional": false
+                        "value": "baz"
                       },
                       "value": {
                         "type": "Identifier",
@@ -513,9 +491,7 @@
                           "start": 358,
                           "end": 361
                         },
-                        "ctxt": 0,
-                        "value": "boo",
-                        "optional": false
+                        "value": "boo"
                       },
                       "value": {
                         "type": "Identifier",

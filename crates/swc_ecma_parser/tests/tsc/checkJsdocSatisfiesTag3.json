@@ -53,9 +53,7 @@
                       "start": 244,
                       "end": 245
                     },
-                    "ctxt": 0,
-                    "value": "f",
-                    "optional": false
+                    "value": "f"
                   },
                   "params": [
                     {
@@ -106,9 +104,7 @@
                       "start": 293,
                       "end": 294
                     },
-                    "ctxt": 0,
-                    "value": "g",
-                    "optional": false
+                    "value": "g"
                   },
                   "params": [
                     {
@@ -185,9 +181,7 @@
                   "start": 411,
                   "end": 412
                 },
-                "ctxt": 0,
-                "value": "f",
-                "optional": false
+                "value": "f"
               },
               "params": [
                 {

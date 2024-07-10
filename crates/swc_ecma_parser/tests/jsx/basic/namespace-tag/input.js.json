@@ -21,15 +21,17 @@
           "type": "JSXOpeningElement",
           "name": {
             "type": "JSXNamespacedName",
+            "span": {
+              "start": 2,
+              "end": 9
+            },
             "namespace": {
               "type": "Identifier",
               "span": {
                 "start": 2,
                 "end": 5
               },
-              "ctxt": 0,
-              "value": "Foo",
-              "optional": false
+              "value": "Foo"
             },
             "name": {
               "type": "Identifier",
@@ -37,9 +39,7 @@
                 "start": 6,
                 "end": 9
               },
-              "ctxt": 0,
-              "value": "Bar",
-              "optional": false
+              "value": "Bar"
             }
           },
           "span": {
@@ -70,15 +70,17 @@
           "type": "JSXOpeningElement",
           "name": {
             "type": "JSXNamespacedName",
+            "span": {
+              "start": 15,
+              "end": 22
+            },
             "namespace": {
               "type": "Identifier",
               "span": {
                 "start": 15,
                 "end": 18
               },
-              "ctxt": 0,
-              "value": "Foo",
-              "optional": false
+              "value": "Foo"
             },
             "name": {
               "type": "Identifier",
@@ -86,9 +88,7 @@
                 "start": 19,
                 "end": 22
               },
-              "ctxt": 0,
-              "value": "Bar",
-              "optional": false
+              "value": "Bar"
             }
           },
           "span": {
@@ -108,15 +108,17 @@
           },
           "name": {
             "type": "JSXNamespacedName",
+            "span": {
+              "start": 25,
+              "end": 32
+            },
             "namespace": {
               "type": "Identifier",
               "span": {
                 "start": 25,
                 "end": 28
               },
-              "ctxt": 0,
-              "value": "Foo",
-              "optional": false
+              "value": "Foo"
             },
             "name": {
               "type": "Identifier",
@@ -124,9 +126,7 @@
                 "start": 29,
                 "end": 32
               },
-              "ctxt": 0,
-              "value": "Bar",
-              "optional": false
+              "value": "Bar"
             }
           }
         }

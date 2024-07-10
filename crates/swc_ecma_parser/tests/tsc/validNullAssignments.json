@@ -382,9 +382,7 @@
               "start": 153,
               "end": 154
             },
-            "ctxt": 0,
-            "value": "A",
-            "optional": false
+            "value": "A"
           }
         },
         "right": {
@@ -428,9 +426,7 @@
               "start": 183,
               "end": 186
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {

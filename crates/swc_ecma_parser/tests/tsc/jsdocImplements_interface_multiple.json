@@ -167,9 +167,7 @@
               "start": 318,
               "end": 322
             },
-            "ctxt": 0,
-            "value": "draw",
-            "optional": false
+            "value": "draw"
           },
           "function": {
             "params": [],
@@ -229,9 +227,7 @@
               "start": 355,
               "end": 359
             },
-            "ctxt": 0,
-            "value": "size",
-            "optional": false
+            "value": "size"
           },
           "function": {
             "params": [],
@@ -318,9 +314,7 @@
               "start": 470,
               "end": 474
             },
-            "ctxt": 0,
-            "value": "size",
-            "optional": false
+            "value": "size"
           },
           "function": {
             "params": [],

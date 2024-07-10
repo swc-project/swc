@@ -292,9 +292,7 @@
                   "start": 105,
                   "end": 112
                 },
-                "ctxt": 0,
-                "value": "doStuff",
-                "optional": false
+                "value": "doStuff"
               }
             },
             "arguments": [],
@@ -374,9 +372,7 @@
                   "start": 134,
                   "end": 146
                 },
-                "ctxt": 0,
-                "value": "doOtherStuff",
-                "optional": false
+                "value": "doOtherStuff"
               }
             },
             "arguments": [

@@ -492,9 +492,7 @@
                         "start": 257,
                         "end": 263
                       },
-                      "ctxt": 0,
-                      "value": "member",
-                      "optional": false
+                      "value": "member"
                     }
                   },
                   "arguments": [

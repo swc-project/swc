@@ -101,9 +101,7 @@
               "start": 93,
               "end": 95
             },
-            "ctxt": 0,
-            "value": "id",
-            "optional": false
+            "value": "id"
           },
           "value": null,
           "typeAnnotation": {
@@ -189,9 +187,7 @@
               "start": 124,
               "end": 130
             },
-            "ctxt": 0,
-            "value": "source",
-            "optional": false
+            "value": "source"
           },
           "value": null,
           "typeAnnotation": {
@@ -241,9 +237,7 @@
               "start": 139,
               "end": 146
             },
-            "ctxt": 0,
-            "value": "recurse",
-            "optional": false
+            "value": "recurse"
           },
           "value": null,
           "typeAnnotation": {
@@ -319,9 +313,7 @@
               "start": 158,
               "end": 165
             },
-            "ctxt": 0,
-            "value": "wrapped",
-            "optional": false
+            "value": "wrapped"
           },
           "value": null,
           "typeAnnotation": {
@@ -610,9 +602,7 @@
                       "start": 264,
                       "end": 268
                     },
-                    "ctxt": 0,
-                    "value": "name",
-                    "optional": false
+                    "value": "name"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -751,9 +741,7 @@
                             "start": 338,
                             "end": 346
                           },
-                          "ctxt": 0,
-                          "value": "toString",
-                          "optional": false
+                          "value": "toString"
                         }
                       },
                       "arguments": [],
@@ -1727,9 +1715,7 @@
                       "start": 795,
                       "end": 797
                     },
-                    "ctxt": 0,
-                    "value": "id",
-                    "optional": false
+                    "value": "id"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -2311,6 +2297,10 @@
                   },
                   "typeName": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 1065,
+                      "end": 1068
+                    },
                     "left": {
                       "type": "Identifier",
                       "span": {
@@ -2327,9 +2317,7 @@
                         "start": 1067,
                         "end": 1068
                       },
-                      "ctxt": 0,
-                      "value": "A",
-                      "optional": false
+                      "value": "A"
                     }
                   },
                   "typeParams": null
@@ -2365,9 +2353,7 @@
                     "start": 1077,
                     "end": 1078
                   },
-                  "ctxt": 0,
-                  "value": "A",
-                  "optional": false
+                  "value": "A"
                 }
               },
               "arguments": [],
@@ -2434,6 +2420,10 @@
                   },
                   "exprName": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 1120,
+                      "end": 1124
+                    },
                     "left": {
                       "type": "Identifier",
                       "span": {
@@ -2450,9 +2440,7 @@
                         "start": 1122,
                         "end": 1124
                       },
-                      "ctxt": 0,
-                      "value": "F2",
-                      "optional": false
+                      "value": "F2"
                     }
                   },
                   "typeArguments": null

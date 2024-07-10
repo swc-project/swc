@@ -37,9 +37,7 @@
               "start": 85,
               "end": 88
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [
@@ -122,9 +120,7 @@
               "start": 121,
               "end": 124
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "function": {
             "params": [
@@ -207,9 +203,7 @@
               "start": 156,
               "end": 159
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           },
           "function": {
             "params": [
@@ -354,9 +348,7 @@
               "start": 262,
               "end": 265
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [
@@ -483,9 +475,7 @@
               "start": 345,
               "end": 348
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [
@@ -584,9 +574,7 @@
               "start": 397,
               "end": 400
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "function": {
             "params": [],
@@ -635,9 +623,7 @@
               "start": 414,
               "end": 417
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           },
           "function": {
             "params": [],
@@ -730,9 +716,7 @@
               "start": 468,
               "end": 471
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [
@@ -831,9 +815,7 @@
               "start": 501,
               "end": 504
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "function": {
             "params": [
@@ -932,9 +914,7 @@
               "start": 525,
               "end": 528
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           },
           "function": {
             "params": [],

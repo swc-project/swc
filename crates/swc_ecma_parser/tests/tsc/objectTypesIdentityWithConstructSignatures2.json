@@ -38,9 +38,7 @@
               "start": 59,
               "end": 70
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -144,9 +142,7 @@
               "start": 119,
               "end": 130
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -614,9 +610,7 @@
                     "start": 284,
                     "end": 287
                   },
-                  "ctxt": 0,
-                  "value": "new",
-                  "optional": false
+                  "value": "new"
                 },
                 "params": [
                   {

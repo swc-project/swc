@@ -274,9 +274,7 @@
                           "start": 73,
                           "end": 76
                         },
-                        "ctxt": 0,
-                        "value": "bar",
-                        "optional": false
+                        "value": "bar"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -296,9 +294,7 @@
                           "start": 81,
                           "end": 84
                         },
-                        "ctxt": 0,
-                        "value": "baz",
-                        "optional": false
+                        "value": "baz"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -382,9 +378,7 @@
                           "start": 117,
                           "end": 120
                         },
-                        "ctxt": 0,
-                        "value": "bar",
-                        "optional": false
+                        "value": "bar"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -404,9 +398,7 @@
                           "start": 125,
                           "end": 128
                         },
-                        "ctxt": 0,
-                        "value": "baz",
-                        "optional": false
+                        "value": "baz"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -490,9 +482,7 @@
                           "start": 165,
                           "end": 168
                         },
-                        "ctxt": 0,
-                        "value": "bar",
-                        "optional": false
+                        "value": "bar"
                       },
                       "value": {
                         "type": "Identifier",
@@ -513,9 +503,7 @@
                           "start": 175,
                           "end": 178
                         },
-                        "ctxt": 0,
-                        "value": "baz",
-                        "optional": false
+                        "value": "baz"
                       },
                       "value": {
                         "type": "Identifier",
@@ -600,9 +588,7 @@
                           "start": 229,
                           "end": 232
                         },
-                        "ctxt": 0,
-                        "value": "bar",
-                        "optional": false
+                        "value": "bar"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -622,9 +608,7 @@
                           "start": 237,
                           "end": 240
                         },
-                        "ctxt": 0,
-                        "value": "baz",
-                        "optional": false
+                        "value": "baz"
                       },
                       "value": {
                         "type": "StringLiteral",

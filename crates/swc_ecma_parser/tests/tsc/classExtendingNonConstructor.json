@@ -111,9 +111,7 @@
                     "start": 39,
                     "end": 40
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 }
               },
               "right": {

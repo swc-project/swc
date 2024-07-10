@@ -259,9 +259,7 @@
                                 "start": 185,
                                 "end": 191
                               },
-                              "ctxt": 0,
-                              "value": "charAt",
-                              "optional": false
+                              "value": "charAt"
                             }
                           },
                           "arguments": [
@@ -524,9 +522,7 @@
                                         "start": 297,
                                         "end": 304
                                       },
-                                      "ctxt": 0,
-                                      "value": "toFixed",
-                                      "optional": false
+                                      "value": "toFixed"
                                     }
                                   },
                                   "arguments": [],

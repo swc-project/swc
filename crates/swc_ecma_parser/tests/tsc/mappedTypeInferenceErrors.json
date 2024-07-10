@@ -535,9 +535,7 @@
                       "start": 210,
                       "end": 215
                     },
-                    "ctxt": 0,
-                    "value": "props",
-                    "optional": false
+                    "value": "props"
                   },
                   "value": {
                     "type": "ObjectExpression",
@@ -554,9 +552,7 @@
                             "start": 219,
                             "end": 220
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -576,9 +572,7 @@
                             "start": 226,
                             "end": 227
                           },
-                          "ctxt": 0,
-                          "value": "y",
-                          "optional": false
+                          "value": "y"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -601,9 +595,7 @@
                       "start": 239,
                       "end": 247
                     },
-                    "ctxt": 0,
-                    "value": "computed",
-                    "optional": false
+                    "value": "computed"
                   },
                   "value": {
                     "type": "ObjectExpression",
@@ -620,9 +612,7 @@
                             "start": 259,
                             "end": 262
                           },
-                          "ctxt": 0,
-                          "value": "bar",
-                          "optional": false
+                          "value": "bar"
                         },
                         "params": [],
                         "decorators": [],
@@ -685,9 +675,7 @@
                                         "start": 300,
                                         "end": 303
                                       },
-                                      "ctxt": 0,
-                                      "value": "bar",
-                                      "optional": false
+                                      "value": "bar"
                                     }
                                   },
                                   "definite": false
@@ -739,9 +727,7 @@
                             "start": 347,
                             "end": 350
                           },
-                          "ctxt": 0,
-                          "value": "baz",
-                          "optional": false
+                          "value": "baz"
                         },
                         "value": {
                           "type": "NumericLiteral",

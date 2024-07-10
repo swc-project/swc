@@ -235,9 +235,7 @@
               "start": 170,
               "end": 181
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -415,9 +413,7 @@
                         "start": 271,
                         "end": 274
                       },
-                      "ctxt": 0,
-                      "value": "log",
-                      "optional": false
+                      "value": "log"
                     }
                   },
                   "arguments": [
@@ -488,9 +484,7 @@
                         "start": 302,
                         "end": 305
                       },
-                      "ctxt": 0,
-                      "value": "log",
-                      "optional": false
+                      "value": "log"
                     }
                   },
                   "arguments": [

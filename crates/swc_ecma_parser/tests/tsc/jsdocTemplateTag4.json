@@ -65,9 +65,7 @@
                     "start": 312,
                     "end": 316
                   },
-                  "ctxt": 0,
-                  "value": "_map",
-                  "optional": false
+                  "value": "_map"
                 }
               },
               "right": {
@@ -135,9 +133,7 @@
                 "start": 402,
                 "end": 411
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -146,9 +142,7 @@
               "start": 412,
               "end": 415
             },
-            "ctxt": 0,
-            "value": "get",
-            "optional": false
+            "value": "get"
           }
         },
         "right": {
@@ -220,9 +214,7 @@
                         "start": 451,
                         "end": 455
                       },
-                      "ctxt": 0,
-                      "value": "_map",
-                      "optional": false
+                      "value": "_map"
                     }
                   },
                   "property": {
@@ -347,9 +339,7 @@
                           "start": 693,
                           "end": 697
                         },
-                        "ctxt": 0,
-                        "value": "_map",
-                        "optional": false
+                        "value": "_map"
                       }
                     },
                     "right": {
@@ -414,9 +404,7 @@
                 "start": 784,
                 "end": 793
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -425,9 +413,7 @@
               "start": 794,
               "end": 797
             },
-            "ctxt": 0,
-            "value": "get",
-            "optional": false
+            "value": "get"
           }
         },
         "right": {
@@ -499,9 +485,7 @@
                         "start": 833,
                         "end": 837
                       },
-                      "ctxt": 0,
-                      "value": "_map",
-                      "optional": false
+                      "value": "_map"
                     }
                   },
                   "property": {
@@ -623,9 +607,7 @@
               "start": 986,
               "end": 995
             },
-            "ctxt": 0,
-            "value": "Multimap3",
-            "optional": false
+            "value": "Multimap3"
           }
         },
         "right": {
@@ -678,9 +660,7 @@
                         "start": 1106,
                         "end": 1110
                       },
-                      "ctxt": 0,
-                      "value": "_map",
-                      "optional": false
+                      "value": "_map"
                     }
                   },
                   "right": {
@@ -749,9 +729,7 @@
                   "start": 1190,
                   "end": 1199
                 },
-                "ctxt": 0,
-                "value": "Multimap3",
-                "optional": false
+                "value": "Multimap3"
               }
             },
             "property": {
@@ -760,9 +738,7 @@
                 "start": 1200,
                 "end": 1209
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -771,9 +747,7 @@
               "start": 1210,
               "end": 1213
             },
-            "ctxt": 0,
-            "value": "get",
-            "optional": false
+            "value": "get"
           }
         },
         "right": {
@@ -845,9 +819,7 @@
                         "start": 1249,
                         "end": 1253
                       },
-                      "ctxt": 0,
-                      "value": "_map",
-                      "optional": false
+                      "value": "_map"
                     }
                   },
                   "property": {

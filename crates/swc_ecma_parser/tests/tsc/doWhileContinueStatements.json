@@ -50,9 +50,7 @@
           "start": 67,
           "end": 70
         },
-        "ctxt": 0,
-        "value": "ONE",
-        "optional": false
+        "value": "ONE"
       },
       "body": {
         "type": "DoWhileStatement",
@@ -88,9 +86,7 @@
                   "start": 90,
                   "end": 93
                 },
-                "ctxt": 0,
-                "value": "ONE",
-                "optional": false
+                "value": "ONE"
               }
             }
           ]
@@ -109,9 +105,7 @@
           "start": 111,
           "end": 114
         },
-        "ctxt": 0,
-        "value": "TWO",
-        "optional": false
+        "value": "TWO"
       },
       "body": {
         "type": "LabeledStatement",
@@ -125,9 +119,7 @@
             "start": 116,
             "end": 121
           },
-          "ctxt": 0,
-          "value": "THREE",
-          "optional": false
+          "value": "THREE"
         },
         "body": {
           "type": "DoWhileStatement",
@@ -163,9 +155,7 @@
                     "start": 141,
                     "end": 146
                   },
-                  "ctxt": 0,
-                  "value": "THREE",
-                  "optional": false
+                  "value": "THREE"
                 }
               }
             ]
@@ -185,9 +175,7 @@
           "start": 163,
           "end": 167
         },
-        "ctxt": 0,
-        "value": "FOUR",
-        "optional": false
+        "value": "FOUR"
       },
       "body": {
         "type": "DoWhileStatement",
@@ -223,9 +211,7 @@
                   "start": 178,
                   "end": 182
                 },
-                "ctxt": 0,
-                "value": "FIVE",
-                "optional": false
+                "value": "FIVE"
               },
               "body": {
                 "type": "DoWhileStatement",
@@ -261,9 +247,7 @@
                           "start": 210,
                           "end": 214
                         },
-                        "ctxt": 0,
-                        "value": "FOUR",
-                        "optional": false
+                        "value": "FOUR"
                       }
                     }
                   ]
@@ -308,9 +292,7 @@
                 "start": 258,
                 "end": 261
               },
-              "ctxt": 0,
-              "value": "SIX",
-              "optional": false
+              "value": "SIX"
             },
             "body": {
               "type": "DoWhileStatement",
@@ -338,9 +320,7 @@
                     "start": 279,
                     "end": 282
                   },
-                  "ctxt": 0,
-                  "value": "SIX",
-                  "optional": false
+                  "value": "SIX"
                 }
               }
             }
@@ -360,9 +340,7 @@
           "start": 311,
           "end": 316
         },
-        "ctxt": 0,
-        "value": "SEVEN",
-        "optional": false
+        "value": "SEVEN"
       },
       "body": {
         "type": "DoWhileStatement",
@@ -418,9 +396,7 @@
                   "start": 336,
                   "end": 341
                 },
-                "ctxt": 0,
-                "value": "SEVEN",
-                "optional": false
+                "value": "SEVEN"
               }
             }
           }
@@ -439,9 +415,7 @@
           "start": 384,
           "end": 389
         },
-        "ctxt": 0,
-        "value": "EIGHT",
-        "optional": false
+        "value": "EIGHT"
       },
       "body": {
         "type": "DoWhileStatement",
@@ -532,9 +506,7 @@
                   "start": 437,
                   "end": 442
                 },
-                "ctxt": 0,
-                "value": "EIGHT",
-                "optional": false
+                "value": "EIGHT"
               }
             }
           ]

@@ -1193,9 +1193,7 @@
                     "start": 671,
                     "end": 673
                   },
-                  "ctxt": 0,
-                  "value": "m1",
-                  "optional": false
+                  "value": "m1"
                 },
                 "params": [],
                 "decorators": [],
@@ -1226,9 +1224,7 @@
                     "start": 688,
                     "end": 690
                   },
-                  "ctxt": 0,
-                  "value": "m2",
-                  "optional": false
+                  "value": "m2"
                 },
                 "params": [],
                 "decorators": [],
@@ -1299,9 +1295,7 @@
                     "start": 720,
                     "end": 722
                   },
-                  "ctxt": 0,
-                  "value": "m3",
-                  "optional": false
+                  "value": "m3"
                 },
                 "params": [],
                 "decorators": [],
@@ -1402,9 +1396,7 @@
               "start": 767,
               "end": 769
             },
-            "ctxt": 0,
-            "value": "m1",
-            "optional": false
+            "value": "m1"
           },
           "function": {
             "params": [],
@@ -1447,9 +1439,7 @@
               "start": 783,
               "end": 785
             },
-            "ctxt": 0,
-            "value": "m2",
-            "optional": false
+            "value": "m2"
           },
           "function": {
             "params": [],
@@ -1532,9 +1522,7 @@
               "start": 814,
               "end": 816
             },
-            "ctxt": 0,
-            "value": "m3",
-            "optional": false
+            "value": "m3"
           },
           "function": {
             "params": [],
@@ -1617,9 +1605,7 @@
               "start": 854,
               "end": 856
             },
-            "ctxt": 0,
-            "value": "m4",
-            "optional": false
+            "value": "m4"
           },
           "function": {
             "params": [],
@@ -1662,9 +1648,7 @@
               "start": 877,
               "end": 879
             },
-            "ctxt": 0,
-            "value": "m5",
-            "optional": false
+            "value": "m5"
           },
           "function": {
             "params": [],
@@ -1747,9 +1731,7 @@
               "start": 915,
               "end": 917
             },
-            "ctxt": 0,
-            "value": "m6",
-            "optional": false
+            "value": "m6"
           },
           "function": {
             "params": [],

@@ -219,9 +219,7 @@
               "start": 99,
               "end": 102
             },
-            "ctxt": 0,
-            "value": "num",
-            "optional": false
+            "value": "num"
           }
         },
         "right": {
@@ -411,9 +409,7 @@
               "start": 181,
               "end": 184
             },
-            "ctxt": 0,
-            "value": "nun",
-            "optional": false
+            "value": "nun"
           }
         },
         "right": {
@@ -521,9 +517,7 @@
               "start": 293,
               "end": 298
             },
-            "ctxt": 0,
-            "value": "extra",
-            "optional": false
+            "value": "extra"
           }
         },
         "right": {

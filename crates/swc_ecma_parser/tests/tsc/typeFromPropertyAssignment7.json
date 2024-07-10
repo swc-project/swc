@@ -79,9 +79,7 @@
               "start": 107,
               "end": 113
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           }
         },
         "right": {
@@ -202,9 +200,7 @@
                   "start": 166,
                   "end": 172
                 },
-                "ctxt": 0,
-                "value": "method",
-                "optional": false
+                "value": "method"
               }
             },
             "arguments": [],

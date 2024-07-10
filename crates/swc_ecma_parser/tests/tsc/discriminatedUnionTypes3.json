@@ -433,9 +433,7 @@
               "start": 254,
               "end": 257
             },
-            "ctxt": 0,
-            "value": "err",
-            "optional": false
+            "value": "err"
           }
         },
         "right": {
@@ -485,9 +483,7 @@
                   "start": 284,
                   "end": 292
                 },
-                "ctxt": 0,
-                "value": "property",
-                "optional": false
+                "value": "property"
               }
             }
           }

@@ -202,9 +202,7 @@
                     "start": 699,
                     "end": 702
                   },
-                  "ctxt": 0,
-                  "value": "boo",
-                  "optional": false
+                  "value": "boo"
                 }
               },
               "consequent": {
@@ -229,9 +227,7 @@
                     "start": 709,
                     "end": 712
                   },
-                  "ctxt": 0,
-                  "value": "num",
-                  "optional": false
+                  "value": "num"
                 }
               },
               "alternate": {
@@ -256,9 +252,7 @@
                     "start": 719,
                     "end": 722
                   },
-                  "ctxt": 0,
-                  "value": "str",
-                  "optional": false
+                  "value": "str"
                 }
               }
             }
@@ -710,9 +704,7 @@
                     "start": 2032,
                     "end": 2035
                   },
-                  "ctxt": 0,
-                  "value": "boo",
-                  "optional": false
+                  "value": "boo"
                 }
               },
               "consequent": {
@@ -737,9 +729,7 @@
                     "start": 2042,
                     "end": 2045
                   },
-                  "ctxt": 0,
-                  "value": "num",
-                  "optional": false
+                  "value": "num"
                 }
               },
               "alternate": {
@@ -764,9 +754,7 @@
                     "start": 2052,
                     "end": 2055
                   },
-                  "ctxt": 0,
-                  "value": "str",
-                  "optional": false
+                  "value": "str"
                 }
               }
             }
@@ -854,9 +842,7 @@
                   "start": 2318,
                   "end": 2321
                 },
-                "ctxt": 0,
-                "value": "foo",
-                "optional": false
+                "value": "foo"
               }
             }
           }

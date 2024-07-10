@@ -235,9 +235,7 @@
               "start": 314,
               "end": 315
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -313,9 +311,7 @@
               "start": 360,
               "end": 361
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "ArrayExpression",
@@ -419,9 +415,7 @@
                                     "start": 460,
                                     "end": 461
                                   },
-                                  "ctxt": 0,
-                                  "value": "w",
-                                  "optional": false
+                                  "value": "w"
                                 }
                               },
                               "arguments": [],
@@ -532,9 +526,7 @@
                                           "start": 528,
                                           "end": 535
                                         },
-                                        "ctxt": 0,
-                                        "value": "Reflect",
-                                        "optional": false
+                                        "value": "Reflect"
                                       },
                                       "value": {
                                         "type": "NullLiteral",
@@ -582,9 +574,7 @@
                                     "start": 597,
                                     "end": 598
                                   },
-                                  "ctxt": 0,
-                                  "value": "w",
-                                  "optional": false
+                                  "value": "w"
                                 }
                               },
                               "arguments": [],
@@ -727,9 +717,7 @@
                                     "start": 721,
                                     "end": 722
                                   },
-                                  "ctxt": 0,
-                                  "value": "w",
-                                  "optional": false
+                                  "value": "w"
                                 }
                               },
                               "arguments": [],
@@ -837,9 +825,7 @@
                                     "start": 838,
                                     "end": 839
                                   },
-                                  "ctxt": 0,
-                                  "value": "w",
-                                  "optional": false
+                                  "value": "w"
                                 }
                               },
                               "arguments": [],
@@ -955,9 +941,7 @@
                                     "start": 960,
                                     "end": 961
                                   },
-                                  "ctxt": 0,
-                                  "value": "w",
-                                  "optional": false
+                                  "value": "w"
                                 }
                               },
                               "arguments": [],
@@ -1059,9 +1043,7 @@
                                     "start": 1076,
                                     "end": 1077
                                   },
-                                  "ctxt": 0,
-                                  "value": "w",
-                                  "optional": false
+                                  "value": "w"
                                 }
                               },
                               "arguments": [],
@@ -1163,9 +1145,7 @@
                                     "start": 1198,
                                     "end": 1199
                                   },
-                                  "ctxt": 0,
-                                  "value": "w",
-                                  "optional": false
+                                  "value": "w"
                                 }
                               },
                               "arguments": [],
@@ -1274,9 +1254,7 @@
                                     "start": 1304,
                                     "end": 1305
                                   },
-                                  "ctxt": 0,
-                                  "value": "w",
-                                  "optional": false
+                                  "value": "w"
                                 }
                               },
                               "arguments": [],
@@ -1393,9 +1371,7 @@
                                     "start": 1408,
                                     "end": 1409
                                   },
-                                  "ctxt": 0,
-                                  "value": "w",
-                                  "optional": false
+                                  "value": "w"
                                 }
                               },
                               "arguments": [],
@@ -1516,9 +1492,7 @@
                                     "start": 1510,
                                     "end": 1511
                                   },
-                                  "ctxt": 0,
-                                  "value": "w",
-                                  "optional": false
+                                  "value": "w"
                                 }
                               },
                               "arguments": [],
@@ -1647,9 +1621,7 @@
                                     "start": 1617,
                                     "end": 1618
                                   },
-                                  "ctxt": 0,
-                                  "value": "w",
-                                  "optional": false
+                                  "value": "w"
                                 }
                               },
                               "arguments": [],
@@ -1756,9 +1728,7 @@
                               "start": 1685,
                               "end": 1692
                             },
-                            "ctxt": 0,
-                            "value": "Reflect",
-                            "optional": false
+                            "value": "Reflect"
                           },
                           "value": {
                             "type": "NullLiteral",
@@ -1806,9 +1776,7 @@
                         "start": 1750,
                         "end": 1751
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -1925,9 +1893,7 @@
                         "start": 1855,
                         "end": 1856
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -2015,9 +1981,7 @@
                         "start": 1949,
                         "end": 1950
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -2099,9 +2063,7 @@
                         "start": 2047,
                         "end": 2048
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -2191,9 +2153,7 @@
                         "start": 2150,
                         "end": 2151
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -2269,9 +2229,7 @@
                         "start": 2247,
                         "end": 2248
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -2347,9 +2305,7 @@
                         "start": 2350,
                         "end": 2351
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -2432,9 +2388,7 @@
                         "start": 2437,
                         "end": 2438
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -2518,9 +2472,7 @@
                         "start": 2521,
                         "end": 2522
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -2615,9 +2567,7 @@
                         "start": 2603,
                         "end": 2604
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -2720,9 +2670,7 @@
                         "start": 2690,
                         "end": 2691
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -2791,9 +2739,7 @@
               "start": 2790,
               "end": 2791
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -2907,9 +2853,7 @@
               "start": 2890,
               "end": 2891
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "CallExpression",
@@ -2937,9 +2881,7 @@
                   "start": 2900,
                   "end": 2901
                 },
-                "ctxt": 0,
-                "value": "w",
-                "optional": false
+                "value": "w"
               }
             },
             "arguments": [],
@@ -3015,9 +2957,7 @@
               "start": 2994,
               "end": 2995
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -3122,9 +3062,7 @@
                     "start": 3029,
                     "end": 3036
                   },
-                  "ctxt": 0,
-                  "value": "Reflect",
-                  "optional": false
+                  "value": "Reflect"
                 },
                 "value": {
                   "type": "NullLiteral",
@@ -3172,9 +3110,7 @@
               "start": 3111,
               "end": 3112
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "CallExpression",
@@ -3202,9 +3138,7 @@
                   "start": 3121,
                   "end": 3122
                 },
-                "ctxt": 0,
-                "value": "w",
-                "optional": false
+                "value": "w"
               }
             },
             "arguments": [],
@@ -3280,9 +3214,7 @@
               "start": 3215,
               "end": 3216
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -3419,9 +3351,7 @@
               "start": 3319,
               "end": 3320
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "CallExpression",
@@ -3449,9 +3379,7 @@
                   "start": 3329,
                   "end": 3330
                 },
-                "ctxt": 0,
-                "value": "w",
-                "optional": false
+                "value": "w"
               }
             },
             "arguments": [],
@@ -3527,9 +3455,7 @@
               "start": 3423,
               "end": 3424
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -3677,9 +3603,7 @@
                         "start": 3531,
                         "end": 3532
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -3748,9 +3672,7 @@
               "start": 3627,
               "end": 3628
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -3855,9 +3777,7 @@
                     "start": 3662,
                     "end": 3669
                   },
-                  "ctxt": 0,
-                  "value": "Reflect",
-                  "optional": false
+                  "value": "Reflect"
                 },
                 "value": {
                   "type": "NullLiteral",
@@ -3939,9 +3859,7 @@
                         "start": 3752,
                         "end": 3753
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -4010,9 +3928,7 @@
               "start": 3848,
               "end": 3849
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -4183,9 +4099,7 @@
                         "start": 3960,
                         "end": 3961
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -4254,9 +4168,7 @@
               "start": 4061,
               "end": 4062
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -4358,9 +4270,7 @@
               "start": 4158,
               "end": 4159
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "CallExpression",
@@ -4388,9 +4298,7 @@
                   "start": 4168,
                   "end": 4169
                 },
-                "ctxt": 0,
-                "value": "w",
-                "optional": false
+                "value": "w"
               }
             },
             "arguments": [],
@@ -4466,9 +4374,7 @@
               "start": 4267,
               "end": 4268
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -4604,9 +4510,7 @@
                         "start": 4372,
                         "end": 4373
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -4675,9 +4579,7 @@
               "start": 4472,
               "end": 4473
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -4787,9 +4689,7 @@
               "start": 4574,
               "end": 4575
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "CallExpression",
@@ -4817,9 +4717,7 @@
                   "start": 4584,
                   "end": 4585
                 },
-                "ctxt": 0,
-                "value": "w",
-                "optional": false
+                "value": "w"
               }
             },
             "arguments": [],
@@ -4895,9 +4793,7 @@
               "start": 4682,
               "end": 4683
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -5041,9 +4937,7 @@
                         "start": 4792,
                         "end": 4793
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -5112,9 +5006,7 @@
               "start": 4898,
               "end": 4899
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -5217,9 +5109,7 @@
               "start": 4999,
               "end": 5000
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "CallExpression",
@@ -5247,9 +5137,7 @@
                   "start": 5009,
                   "end": 5010
                 },
-                "ctxt": 0,
-                "value": "w",
-                "optional": false
+                "value": "w"
               }
             },
             "arguments": [],
@@ -5325,9 +5213,7 @@
               "start": 5113,
               "end": 5114
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -5464,9 +5350,7 @@
                         "start": 5222,
                         "end": 5223
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -5535,9 +5419,7 @@
               "start": 5318,
               "end": 5319
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -5633,9 +5515,7 @@
               "start": 5414,
               "end": 5415
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "CallExpression",
@@ -5663,9 +5543,7 @@
                   "start": 5424,
                   "end": 5425
                 },
-                "ctxt": 0,
-                "value": "w",
-                "optional": false
+                "value": "w"
               }
             },
             "arguments": [],
@@ -5741,9 +5619,7 @@
               "start": 5518,
               "end": 5519
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -5873,9 +5749,7 @@
                         "start": 5622,
                         "end": 5623
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -5944,9 +5818,7 @@
               "start": 5723,
               "end": 5724
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -6042,9 +5914,7 @@
               "start": 5825,
               "end": 5826
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "CallExpression",
@@ -6072,9 +5942,7 @@
                   "start": 5835,
                   "end": 5836
                 },
-                "ctxt": 0,
-                "value": "w",
-                "optional": false
+                "value": "w"
               }
             },
             "arguments": [],
@@ -6150,9 +6018,7 @@
               "start": 5934,
               "end": 5935
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -6282,9 +6148,7 @@
                         "start": 6044,
                         "end": 6045
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -6353,9 +6217,7 @@
               "start": 6151,
               "end": 6152
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -6469,9 +6331,7 @@
               "start": 6270,
               "end": 6271
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "CallExpression",
@@ -6499,9 +6359,7 @@
                   "start": 6280,
                   "end": 6281
                 },
-                "ctxt": 0,
-                "value": "w",
-                "optional": false
+                "value": "w"
               }
             },
             "arguments": [],
@@ -6577,9 +6435,7 @@
               "start": 6385,
               "end": 6386
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -6727,9 +6583,7 @@
                         "start": 6512,
                         "end": 6513
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -6798,9 +6652,7 @@
               "start": 6615,
               "end": 6616
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -6916,9 +6768,7 @@
               "start": 6733,
               "end": 6734
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "CallExpression",
@@ -6946,9 +6796,7 @@
                   "start": 6743,
                   "end": 6744
                 },
-                "ctxt": 0,
-                "value": "w",
-                "optional": false
+                "value": "w"
               }
             },
             "arguments": [],
@@ -7024,9 +6872,7 @@
               "start": 6844,
               "end": 6845
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -7176,9 +7022,7 @@
                         "start": 6970,
                         "end": 6971
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -7247,9 +7091,7 @@
               "start": 7084,
               "end": 7085
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -7374,9 +7216,7 @@
               "start": 7233,
               "end": 7234
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "CallExpression",
@@ -7404,9 +7244,7 @@
                   "start": 7243,
                   "end": 7244
                 },
-                "ctxt": 0,
-                "value": "w",
-                "optional": false
+                "value": "w"
               }
             },
             "arguments": [],
@@ -7482,9 +7320,7 @@
               "start": 7355,
               "end": 7356
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -7643,9 +7479,7 @@
                         "start": 7512,
                         "end": 7513
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -7714,9 +7548,7 @@
               "start": 7640,
               "end": 7641
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -7841,9 +7673,7 @@
               "start": 7789,
               "end": 7790
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "CallExpression",
@@ -7871,9 +7701,7 @@
                   "start": 7799,
                   "end": 7800
                 },
-                "ctxt": 0,
-                "value": "w",
-                "optional": false
+                "value": "w"
               }
             },
             "arguments": [],
@@ -7949,9 +7777,7 @@
               "start": 7925,
               "end": 7926
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -8110,9 +7936,7 @@
                         "start": 8082,
                         "end": 8083
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -8181,9 +8005,7 @@
               "start": 8196,
               "end": 8197
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -8308,9 +8130,7 @@
               "start": 8321,
               "end": 8322
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "CallExpression",
@@ -8338,9 +8158,7 @@
                   "start": 8331,
                   "end": 8332
                 },
-                "ctxt": 0,
-                "value": "w",
-                "optional": false
+                "value": "w"
               }
             },
             "arguments": [],
@@ -8416,9 +8234,7 @@
               "start": 8443,
               "end": 8444
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -8577,9 +8393,7 @@
                         "start": 8576,
                         "end": 8577
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -8648,9 +8462,7 @@
               "start": 8687,
               "end": 8688
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -8766,9 +8578,7 @@
               "start": 8792,
               "end": 8793
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "CallExpression",
@@ -8796,9 +8606,7 @@
                   "start": 8802,
                   "end": 8803
                 },
-                "ctxt": 0,
-                "value": "w",
-                "optional": false
+                "value": "w"
               }
             },
             "arguments": [],
@@ -8874,9 +8682,7 @@
               "start": 8911,
               "end": 8912
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -9026,9 +8832,7 @@
                         "start": 9024,
                         "end": 9025
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -9097,9 +8901,7 @@
               "start": 9129,
               "end": 9130
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -9213,9 +9015,7 @@
               "start": 9243,
               "end": 9244
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "CallExpression",
@@ -9243,9 +9043,7 @@
                   "start": 9253,
                   "end": 9254
                 },
-                "ctxt": 0,
-                "value": "w",
-                "optional": false
+                "value": "w"
               }
             },
             "arguments": [],
@@ -9321,9 +9119,7 @@
               "start": 9356,
               "end": 9357
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -9471,9 +9267,7 @@
                         "start": 9478,
                         "end": 9479
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -9542,9 +9336,7 @@
               "start": 9591,
               "end": 9592
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -9658,9 +9450,7 @@
               "start": 9692,
               "end": 9693
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "CallExpression",
@@ -9688,9 +9478,7 @@
                   "start": 9702,
                   "end": 9703
                 },
-                "ctxt": 0,
-                "value": "w",
-                "optional": false
+                "value": "w"
               }
             },
             "arguments": [],
@@ -9766,9 +9554,7 @@
               "start": 9813,
               "end": 9814
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -9916,9 +9702,7 @@
                         "start": 9922,
                         "end": 9923
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -9987,9 +9771,7 @@
               "start": 10018,
               "end": 10019
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -10092,9 +9874,7 @@
               "start": 10104,
               "end": 10105
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "CallExpression",
@@ -10122,9 +9902,7 @@
                   "start": 10114,
                   "end": 10115
                 },
-                "ctxt": 0,
-                "value": "w",
-                "optional": false
+                "value": "w"
               }
             },
             "arguments": [],
@@ -10200,9 +9978,7 @@
               "start": 10208,
               "end": 10209
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -10339,9 +10115,7 @@
                         "start": 10302,
                         "end": 10303
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -10410,9 +10184,7 @@
               "start": 10403,
               "end": 10404
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -10523,9 +10295,7 @@
               "start": 10487,
               "end": 10488
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "CallExpression",
@@ -10553,9 +10323,7 @@
                   "start": 10497,
                   "end": 10498
                 },
-                "ctxt": 0,
-                "value": "w",
-                "optional": false
+                "value": "w"
               }
             },
             "arguments": [],
@@ -10631,9 +10399,7 @@
               "start": 10596,
               "end": 10597
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -10778,9 +10544,7 @@
                         "start": 10688,
                         "end": 10689
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -10849,9 +10613,7 @@
               "start": 10803,
               "end": 10804
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -10989,9 +10751,7 @@
               "start": 10914,
               "end": 10915
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "CallExpression",
@@ -11019,9 +10779,7 @@
                   "start": 10924,
                   "end": 10925
                 },
-                "ctxt": 0,
-                "value": "w",
-                "optional": false
+                "value": "w"
               }
             },
             "arguments": [],
@@ -11097,9 +10855,7 @@
               "start": 11037,
               "end": 11038
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -11271,9 +11027,7 @@
                         "start": 11156,
                         "end": 11157
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -11342,9 +11096,7 @@
               "start": 11257,
               "end": 11258
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -11459,9 +11211,7 @@
               "start": 11339,
               "end": 11340
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "CallExpression",
@@ -11489,9 +11239,7 @@
                   "start": 11349,
                   "end": 11350
                 },
-                "ctxt": 0,
-                "value": "w",
-                "optional": false
+                "value": "w"
               }
             },
             "arguments": [],
@@ -11567,9 +11315,7 @@
               "start": 11448,
               "end": 11449
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -11718,9 +11464,7 @@
                         "start": 11538,
                         "end": 11539
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -11789,9 +11533,7 @@
               "start": 11634,
               "end": 11635
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -11912,9 +11654,7 @@
                             "start": 11760,
                             "end": 11761
                           },
-                          "ctxt": 0,
-                          "value": "_",
-                          "optional": false
+                          "value": "_"
                         },
                         "value": {
                           "type": "CallExpression",
@@ -11942,9 +11682,7 @@
                                 "start": 11770,
                                 "end": 11771
                               },
-                              "ctxt": 0,
-                              "value": "w",
-                              "optional": false
+                              "value": "w"
                             }
                           },
                           "arguments": [],
@@ -12032,9 +11770,7 @@
               "start": 11882,
               "end": 11883
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -12189,9 +11925,7 @@
                                       "start": 12016,
                                       "end": 12017
                                     },
-                                    "ctxt": 0,
-                                    "value": "w",
-                                    "optional": false
+                                    "value": "w"
                                   }
                                 },
                                 "arguments": [],
@@ -12272,9 +12006,7 @@
               "start": 12134,
               "end": 12135
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -12397,9 +12129,7 @@
               "start": 12221,
               "end": 12222
             },
-            "ctxt": 0,
-            "value": "_",
-            "optional": false
+            "value": "_"
           },
           "value": {
             "type": "CallExpression",
@@ -12427,9 +12157,7 @@
                   "start": 12231,
                   "end": 12232
                 },
-                "ctxt": 0,
-                "value": "w",
-                "optional": false
+                "value": "w"
               }
             },
             "arguments": [],
@@ -12505,9 +12233,7 @@
               "start": 12329,
               "end": 12330
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -12664,9 +12390,7 @@
                         "start": 12424,
                         "end": 12425
                       },
-                      "ctxt": 0,
-                      "value": "w",
-                      "optional": false
+                      "value": "w"
                     }
                   },
                   "arguments": [],
@@ -12735,9 +12459,7 @@
               "start": 12519,
               "end": 12520
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -12852,9 +12574,7 @@
                         "start": 12629,
                         "end": 12630
                       },
-                      "ctxt": 0,
-                      "value": "_",
-                      "optional": false
+                      "value": "_"
                     },
                     "value": {
                       "type": "CallExpression",
@@ -12882,9 +12602,7 @@
                             "start": 12639,
                             "end": 12640
                           },
-                          "ctxt": 0,
-                          "value": "w",
-                          "optional": false
+                          "value": "w"
                         }
                       },
                       "arguments": [],
@@ -12969,9 +12687,7 @@
               "start": 12740,
               "end": 12741
             },
-            "ctxt": 0,
-            "value": "w",
-            "optional": false
+            "value": "w"
           },
           "function": {
             "params": [],
@@ -13120,9 +12836,7 @@
                                   "start": 12858,
                                   "end": 12859
                                 },
-                                "ctxt": 0,
-                                "value": "w",
-                                "optional": false
+                                "value": "w"
                               }
                             },
                             "arguments": [],

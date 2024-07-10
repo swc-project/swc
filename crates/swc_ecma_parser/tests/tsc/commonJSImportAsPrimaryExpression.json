@@ -43,9 +43,7 @@
                 "start": 64,
                 "end": 66
               },
-              "ctxt": 0,
-              "value": "m1",
-              "optional": false
+              "value": "m1"
             },
             "value": {
               "type": "NumericLiteral",
@@ -79,9 +77,7 @@
                 "start": 81,
                 "end": 83
               },
-              "ctxt": 0,
-              "value": "s1",
-              "optional": false
+              "value": "s1"
             },
             "value": {
               "type": "BooleanLiteral",
@@ -179,9 +175,7 @@
               "start": 158,
               "end": 160
             },
-            "ctxt": 0,
-            "value": "C1",
-            "optional": false
+            "value": "C1"
           }
         },
         "property": {
@@ -190,9 +184,7 @@
             "start": 161,
             "end": 163
           },
-          "ctxt": 0,
-          "value": "s1",
-          "optional": false
+          "value": "s1"
         }
       },
       "consequent": {

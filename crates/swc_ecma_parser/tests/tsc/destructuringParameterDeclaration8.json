@@ -68,9 +68,7 @@
                     "start": 147,
                     "end": 153
                   },
-                  "ctxt": 0,
-                  "value": "nested",
-                  "optional": false
+                  "value": "nested"
                 },
                 "value": {
                   "type": "ObjectPattern",
@@ -439,9 +437,7 @@
                       "start": 268,
                       "end": 274
                     },
-                    "ctxt": 0,
-                    "value": "method",
-                    "optional": false
+                    "value": "method"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -461,9 +457,7 @@
                       "start": 281,
                       "end": 287
                     },
-                    "ctxt": 0,
-                    "value": "nested",
-                    "optional": false
+                    "value": "nested"
                   },
                   "value": {
                     "type": "ObjectExpression",
@@ -480,9 +474,7 @@
                             "start": 291,
                             "end": 292
                           },
-                          "ctxt": 0,
-                          "value": "p",
-                          "optional": false
+                          "value": "p"
                         },
                         "value": {
                           "type": "StringLiteral",
@@ -545,9 +537,7 @@
                       "start": 310,
                       "end": 316
                     },
-                    "ctxt": 0,
-                    "value": "method",
-                    "optional": false
+                    "value": "method"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -567,9 +557,7 @@
                       "start": 323,
                       "end": 329
                     },
-                    "ctxt": 0,
-                    "value": "nested",
-                    "optional": false
+                    "value": "nested"
                   },
                   "value": {
                     "type": "ObjectExpression",
@@ -586,9 +574,7 @@
                             "start": 333,
                             "end": 334
                           },
-                          "ctxt": 0,
-                          "value": "p",
-                          "optional": false
+                          "value": "p"
                         },
                         "value": {
                           "type": "StringLiteral",
@@ -651,9 +637,7 @@
                       "start": 352,
                       "end": 358
                     },
-                    "ctxt": 0,
-                    "value": "method",
-                    "optional": false
+                    "value": "method"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -673,9 +657,7 @@
                       "start": 367,
                       "end": 373
                     },
-                    "ctxt": 0,
-                    "value": "nested",
-                    "optional": false
+                    "value": "nested"
                   },
                   "value": {
                     "type": "ObjectExpression",
@@ -692,9 +674,7 @@
                             "start": 377,
                             "end": 378
                           },
-                          "ctxt": 0,
-                          "value": "p",
-                          "optional": false
+                          "value": "p"
                         },
                         "value": {
                           "type": "StringLiteral",

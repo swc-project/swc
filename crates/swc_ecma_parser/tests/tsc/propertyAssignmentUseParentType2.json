@@ -99,9 +99,7 @@
               "start": 188,
               "end": 191
             },
-            "ctxt": 0,
-            "value": "nuo",
-            "optional": false
+            "value": "nuo"
           }
         },
         "right": {
@@ -209,9 +207,7 @@
               "start": 307,
               "end": 310
             },
-            "ctxt": 0,
-            "value": "nuo",
-            "optional": false
+            "value": "nuo"
           }
         },
         "right": {
@@ -319,9 +315,7 @@
               "start": 449,
               "end": 452
             },
-            "ctxt": 0,
-            "value": "nuo",
-            "optional": false
+            "value": "nuo"
           }
         },
         "right": {

@@ -95,9 +95,7 @@
                               "start": 166,
                               "end": 178
                             },
-                            "ctxt": 0,
-                            "value": "asyncDispose",
-                            "optional": false
+                            "value": "asyncDispose"
                           }
                         }
                       },

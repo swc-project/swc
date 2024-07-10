@@ -108,9 +108,7 @@
                 "start": 50,
                 "end": 54
               },
-              "ctxt": 0,
-              "value": "prop",
-              "optional": false
+              "value": "prop"
             }
           },
           "property": {

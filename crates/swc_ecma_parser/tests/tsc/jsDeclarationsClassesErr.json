@@ -43,9 +43,7 @@
                 "start": 328,
                 "end": 333
               },
-              "ctxt": 0,
-              "value": "field",
-              "optional": false
+              "value": "field"
             },
             "value": null,
             "typeAnnotation": {
@@ -159,9 +157,7 @@
                 "start": 378,
                 "end": 383
               },
-              "ctxt": 0,
-              "value": "other",
-              "optional": false
+              "value": "other"
             },
             "value": null,
             "typeAnnotation": {

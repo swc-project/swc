@@ -37,9 +37,7 @@
               "start": 18,
               "end": 22
             },
-            "ctxt": 0,
-            "value": "data",
-            "optional": false
+            "value": "data"
           },
           "value": null,
           "typeAnnotation": {
@@ -89,9 +87,7 @@
               "start": 32,
               "end": 33
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": {
             "type": "ArrowFunctionExpression",
@@ -278,9 +274,7 @@
               "start": 98,
               "end": 101
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
@@ -696,9 +690,7 @@
               "start": 259,
               "end": 263
             },
-            "ctxt": 0,
-            "value": "data",
-            "optional": false
+            "value": "data"
           }
         },
         "right": {
@@ -730,9 +722,7 @@
                 "start": 268,
                 "end": 269
               },
-              "ctxt": 0,
-              "value": "x",
-              "optional": false
+              "value": "x"
             }
           },
           "arguments": [
@@ -786,9 +776,7 @@
               "start": 279,
               "end": 283
             },
-            "ctxt": 0,
-            "value": "data",
-            "optional": false
+            "value": "data"
           }
         },
         "right": {
@@ -820,9 +808,7 @@
                 "start": 288,
                 "end": 291
               },
-              "ctxt": 0,
-              "value": "foo",
-              "optional": false
+              "value": "foo"
             }
           },
           "arguments": [],

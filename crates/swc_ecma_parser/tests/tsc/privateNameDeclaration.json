@@ -109,9 +109,7 @@
               "start": 89,
               "end": 92
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           },
           "value": null,
           "typeAnnotation": {
@@ -151,9 +149,7 @@
               "start": 106,
               "end": 109
             },
-            "ctxt": 0,
-            "value": "qux",
-            "optional": false
+            "value": "qux"
           },
           "value": {
             "type": "NumericLiteral",
@@ -187,9 +183,7 @@
               "start": 119,
               "end": 123
             },
-            "ctxt": 0,
-            "value": "quux",
-            "optional": false
+            "value": "quux"
           },
           "function": {
             "params": [],

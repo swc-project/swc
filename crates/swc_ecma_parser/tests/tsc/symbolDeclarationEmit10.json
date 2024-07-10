@@ -73,9 +73,7 @@
                         "start": 65,
                         "end": 83
                       },
-                      "ctxt": 0,
-                      "value": "isConcatSpreadable",
-                      "optional": false
+                      "value": "isConcatSpreadable"
                     }
                   }
                 },
@@ -141,9 +139,7 @@
                         "start": 118,
                         "end": 136
                       },
-                      "ctxt": 0,
-                      "value": "isConcatSpreadable",
-                      "optional": false
+                      "value": "isConcatSpreadable"
                     }
                   }
                 },

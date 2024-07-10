@@ -788,9 +788,7 @@
                       "start": 391,
                       "end": 392
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -822,9 +820,7 @@
                       "start": 401,
                       "end": 402
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -844,9 +840,7 @@
                       "start": 407,
                       "end": 408
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -878,9 +872,7 @@
                       "start": 418,
                       "end": 419
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -900,9 +892,7 @@
                       "start": 424,
                       "end": 425
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -922,9 +912,7 @@
                       "start": 431,
                       "end": 432
                     },
-                    "ctxt": 0,
-                    "value": "z",
-                    "optional": false
+                    "value": "z"
                   },
                   "value": {
                     "type": "BooleanLiteral",
@@ -1076,9 +1064,7 @@
                       "start": 469,
                       "end": 472
                     },
-                    "ctxt": 0,
-                    "value": "foo",
-                    "optional": false
+                    "value": "foo"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -1098,9 +1084,7 @@
                       "start": 477,
                       "end": 480
                     },
-                    "ctxt": 0,
-                    "value": "bar",
-                    "optional": false
+                    "value": "bar"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -1120,9 +1104,7 @@
                       "start": 486,
                       "end": 488
                     },
-                    "ctxt": 0,
-                    "value": "hm",
-                    "optional": false
+                    "value": "hm"
                   },
                   "value": {
                     "type": "BooleanLiteral",
@@ -1790,9 +1772,7 @@
                       "start": 749,
                       "end": 752
                     },
-                    "ctxt": 0,
-                    "value": "foo",
-                    "optional": false
+                    "value": "foo"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -1812,9 +1792,7 @@
                       "start": 757,
                       "end": 760
                     },
-                    "ctxt": 0,
-                    "value": "bar",
-                    "optional": false
+                    "value": "bar"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -1834,9 +1812,7 @@
                       "start": 766,
                       "end": 768
                     },
-                    "ctxt": 0,
-                    "value": "hm",
-                    "optional": false
+                    "value": "hm"
                   },
                   "value": {
                     "type": "StringLiteral",

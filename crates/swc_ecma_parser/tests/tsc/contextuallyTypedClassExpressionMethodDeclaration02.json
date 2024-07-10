@@ -425,9 +425,7 @@
                       "start": 265,
                       "end": 272
                     },
-                    "ctxt": 0,
-                    "value": "method1",
-                    "optional": false
+                    "value": "method1"
                   },
                   "function": {
                     "params": [
@@ -500,9 +498,7 @@
                                   "start": 296,
                                   "end": 303
                                 },
-                                "ctxt": 0,
-                                "value": "numProp",
-                                "optional": false
+                                "value": "numProp"
                               }
                             },
                             "right": {
@@ -542,9 +538,7 @@
                       "start": 328,
                       "end": 335
                     },
-                    "ctxt": 0,
-                    "value": "method2",
-                    "optional": false
+                    "value": "method2"
                   },
                   "function": {
                     "params": [
@@ -617,9 +611,7 @@
                                   "start": 359,
                                   "end": 366
                                 },
-                                "ctxt": 0,
-                                "value": "strProp",
-                                "optional": false
+                                "value": "strProp"
                               }
                             },
                             "right": {
@@ -742,9 +734,7 @@
                       "start": 450,
                       "end": 457
                     },
-                    "ctxt": 0,
-                    "value": "method1",
-                    "optional": false
+                    "value": "method1"
                   },
                   "value": {
                     "type": "ArrowFunctionExpression",
@@ -809,9 +799,7 @@
                                   "start": 487,
                                   "end": 494
                                 },
-                                "ctxt": 0,
-                                "value": "numProp",
-                                "optional": false
+                                "value": "numProp"
                               }
                             },
                             "right": {
@@ -855,9 +843,7 @@
                       "start": 519,
                       "end": 526
                     },
-                    "ctxt": 0,
-                    "value": "method2",
-                    "optional": false
+                    "value": "method2"
                   },
                   "value": {
                     "type": "ArrowFunctionExpression",
@@ -922,9 +908,7 @@
                                   "start": 556,
                                   "end": 563
                                 },
-                                "ctxt": 0,
-                                "value": "strProp",
-                                "optional": false
+                                "value": "strProp"
                               }
                             },
                             "right": {
@@ -1051,9 +1035,7 @@
                       "start": 647,
                       "end": 654
                     },
-                    "ctxt": 0,
-                    "value": "method1",
-                    "optional": false
+                    "value": "method1"
                   },
                   "value": {
                     "type": "FunctionExpression",
@@ -1128,9 +1110,7 @@
                                   "start": 690,
                                   "end": 697
                                 },
-                                "ctxt": 0,
-                                "value": "numProp",
-                                "optional": false
+                                "value": "numProp"
                               }
                             },
                             "right": {
@@ -1174,9 +1154,7 @@
                       "start": 722,
                       "end": 729
                     },
-                    "ctxt": 0,
-                    "value": "method2",
-                    "optional": false
+                    "value": "method2"
                   },
                   "value": {
                     "type": "FunctionExpression",
@@ -1251,9 +1229,7 @@
                                   "start": 765,
                                   "end": 772
                                 },
-                                "ctxt": 0,
-                                "value": "strProp",
-                                "optional": false
+                                "value": "strProp"
                               }
                             },
                             "right": {

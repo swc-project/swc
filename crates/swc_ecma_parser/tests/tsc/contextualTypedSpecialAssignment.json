@@ -79,9 +79,7 @@
               "start": 233,
               "end": 234
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           }
         },
         "right": {
@@ -99,9 +97,7 @@
                   "start": 243,
                   "end": 249
                 },
-                "ctxt": 0,
-                "value": "status",
-                "optional": false
+                "value": "status"
               },
               "value": {
                 "type": "StringLiteral",
@@ -121,9 +117,7 @@
                   "start": 263,
                   "end": 264
                 },
-                "ctxt": 0,
-                "value": "m",
-                "optional": false
+                "value": "m"
               },
               "params": [
                 {
@@ -205,9 +199,7 @@
               "start": 278,
               "end": 279
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           }
         },
         "right": {
@@ -225,9 +217,7 @@
                   "start": 288,
                   "end": 294
                 },
-                "ctxt": 0,
-                "value": "status",
-                "optional": false
+                "value": "status"
               },
               "value": {
                 "type": "StringLiteral",
@@ -247,9 +237,7 @@
                   "start": 308,
                   "end": 309
                 },
-                "ctxt": 0,
-                "value": "m",
-                "optional": false
+                "value": "m"
               },
               "params": [
                 {
@@ -324,9 +312,7 @@
             "start": 322,
             "end": 323
           },
-          "ctxt": 0,
-          "value": "x",
-          "optional": false
+          "value": "x"
         }
       }
     },
@@ -363,9 +349,7 @@
               "start": 372,
               "end": 383
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -408,9 +392,7 @@
                         "start": 435,
                         "end": 436
                       },
-                      "ctxt": 0,
-                      "value": "s",
-                      "optional": false
+                      "value": "s"
                     }
                   },
                   "right": {
@@ -428,9 +410,7 @@
                             "start": 453,
                             "end": 459
                           },
-                          "ctxt": 0,
-                          "value": "status",
-                          "optional": false
+                          "value": "status"
                         },
                         "value": {
                           "type": "StringLiteral",
@@ -450,9 +430,7 @@
                             "start": 481,
                             "end": 482
                           },
-                          "ctxt": 0,
-                          "value": "m",
-                          "optional": false
+                          "value": "m"
                         },
                         "params": [
                           {
@@ -516,9 +494,7 @@
               "start": 511,
               "end": 515
             },
-            "ctxt": 0,
-            "value": "fail",
-            "optional": false
+            "value": "fail"
           },
           "function": {
             "params": [],
@@ -568,9 +544,7 @@
                           "start": 533,
                           "end": 534
                         },
-                        "ctxt": 0,
-                        "value": "s",
-                        "optional": false
+                        "value": "s"
                       }
                     },
                     "right": {
@@ -588,9 +562,7 @@
                               "start": 551,
                               "end": 557
                             },
-                            "ctxt": 0,
-                            "value": "status",
-                            "optional": false
+                            "value": "status"
                           },
                           "value": {
                             "type": "StringLiteral",
@@ -610,9 +582,7 @@
                               "start": 579,
                               "end": 580
                             },
-                            "ctxt": 0,
-                            "value": "m",
-                            "optional": false
+                            "value": "m"
                           },
                           "params": [
                             {
@@ -715,9 +685,7 @@
               "start": 673,
               "end": 674
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           }
         },
         "right": {
@@ -735,9 +703,7 @@
                   "start": 683,
                   "end": 689
                 },
-                "ctxt": 0,
-                "value": "status",
-                "optional": false
+                "value": "status"
               },
               "value": {
                 "type": "StringLiteral",
@@ -757,9 +723,7 @@
                   "start": 703,
                   "end": 704
                 },
-                "ctxt": 0,
-                "value": "m",
-                "optional": false
+                "value": "m"
               },
               "params": [
                 {
@@ -834,9 +798,7 @@
             "start": 722,
             "end": 723
           },
-          "ctxt": 0,
-          "value": "x",
-          "optional": false
+          "value": "x"
         }
       }
     },
@@ -881,9 +843,7 @@
                 "start": 758,
                 "end": 765
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -892,9 +852,7 @@
               "start": 766,
               "end": 767
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           }
         },
         "right": {
@@ -912,9 +870,7 @@
                   "start": 776,
                   "end": 782
                 },
-                "ctxt": 0,
-                "value": "status",
-                "optional": false
+                "value": "status"
               },
               "value": {
                 "type": "StringLiteral",
@@ -934,9 +890,7 @@
                   "start": 796,
                   "end": 797
                 },
-                "ctxt": 0,
-                "value": "m",
-                "optional": false
+                "value": "m"
               },
               "params": [
                 {
@@ -1017,9 +971,7 @@
               "start": 814,
               "end": 821
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "property": {
@@ -1028,9 +980,7 @@
             "start": 822,
             "end": 823
           },
-          "ctxt": 0,
-          "value": "y",
-          "optional": false
+          "value": "y"
         }
       }
     },
@@ -1075,9 +1025,7 @@
                 "start": 890,
                 "end": 899
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -1086,9 +1034,7 @@
               "start": 900,
               "end": 901
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           }
         },
         "right": {
@@ -1106,9 +1052,7 @@
                   "start": 910,
                   "end": 916
                 },
-                "ctxt": 0,
-                "value": "status",
-                "optional": false
+                "value": "status"
               },
               "value": {
                 "type": "StringLiteral",
@@ -1128,9 +1072,7 @@
                   "start": 930,
                   "end": 931
                 },
-                "ctxt": 0,
-                "value": "m",
-                "optional": false
+                "value": "m"
               },
               "params": [
                 {
@@ -1211,9 +1153,7 @@
               "start": 947,
               "end": 956
             },
-            "ctxt": 0,
-            "value": "prototype",
-            "optional": false
+            "value": "prototype"
           }
         },
         "property": {
@@ -1222,9 +1162,7 @@
             "start": 957,
             "end": 958
           },
-          "ctxt": 0,
-          "value": "x",
-          "optional": false
+          "value": "x"
         }
       }
     },
@@ -1297,9 +1235,7 @@
               "start": 1029,
               "end": 1038
             },
-            "ctxt": 0,
-            "value": "prototype",
-            "optional": false
+            "value": "prototype"
           }
         },
         "right": {
@@ -1317,9 +1253,7 @@
                   "start": 1047,
                   "end": 1053
                 },
-                "ctxt": 0,
-                "value": "status",
-                "optional": false
+                "value": "status"
               },
               "value": {
                 "type": "StringLiteral",
@@ -1339,9 +1273,7 @@
                   "start": 1067,
                   "end": 1068
                 },
-                "ctxt": 0,
-                "value": "m",
-                "optional": false
+                "value": "m"
               },
               "params": [
                 {
@@ -1423,9 +1355,7 @@
               "start": 1190,
               "end": 1197
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -1443,9 +1373,7 @@
                   "start": 1206,
                   "end": 1212
                 },
-                "ctxt": 0,
-                "value": "status",
-                "optional": false
+                "value": "status"
               },
               "value": {
                 "type": "StringLiteral",
@@ -1465,9 +1393,7 @@
                   "start": 1226,
                   "end": 1227
                 },
-                "ctxt": 0,
-                "value": "m",
-                "optional": false
+                "value": "m"
               },
               "params": [
                 {

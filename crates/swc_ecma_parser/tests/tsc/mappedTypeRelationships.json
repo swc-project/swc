@@ -7228,9 +7228,7 @@
                   "start": 2104,
                   "end": 2108
                 },
-                "ctxt": 0,
-                "value": "name",
-                "optional": false
+                "value": "name"
               }
             }
           }
@@ -7544,9 +7542,7 @@
                   "start": 2233,
                   "end": 2237
                 },
-                "ctxt": 0,
-                "value": "name",
-                "optional": false
+                "value": "name"
               }
             }
           }
@@ -13210,9 +13206,7 @@
                           "start": 3873,
                           "end": 3874
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "NumericLiteral",

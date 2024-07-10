@@ -726,9 +726,7 @@
                           "start": 439,
                           "end": 449
                         },
-                        "ctxt": 0,
-                        "value": "allSettled",
-                        "optional": false
+                        "value": "allSettled"
                       }
                     },
                     "arguments": [
@@ -804,9 +802,7 @@
                       "start": 476,
                       "end": 479
                     },
-                    "ctxt": 0,
-                    "value": "map",
-                    "optional": false
+                    "value": "map"
                   }
                 },
                 "arguments": [
@@ -867,9 +863,7 @@
                                 "start": 503,
                                 "end": 509
                               },
-                              "ctxt": 0,
-                              "value": "status",
-                              "optional": false
+                              "value": "status"
                             }
                           },
                           "right": {
@@ -913,9 +907,7 @@
                                     "start": 542,
                                     "end": 547
                                   },
-                                  "ctxt": 0,
-                                  "value": "value",
-                                  "optional": false
+                                  "value": "value"
                                 }
                               }
                             },
@@ -1018,9 +1010,7 @@
                                                 "start": 604,
                                                 "end": 610
                                               },
-                                              "ctxt": 0,
-                                              "value": "reason",
-                                              "optional": false
+                                              "value": "reason"
                                             }
                                           }
                                         }
@@ -1502,9 +1492,7 @@
                                           "start": 787,
                                           "end": 794
                                         },
-                                        "ctxt": 0,
-                                        "value": "resolve",
-                                        "optional": false
+                                        "value": "resolve"
                                       }
                                     },
                                     "arguments": [
@@ -1555,9 +1543,7 @@
                                           "start": 807,
                                           "end": 813
                                         },
-                                        "ctxt": 0,
-                                        "value": "reject",
-                                        "optional": false
+                                        "value": "reject"
                                       }
                                     },
                                     "arguments": [
@@ -1884,9 +1870,7 @@
                     "start": 956,
                     "end": 962
                   },
-                  "ctxt": 0,
-                  "value": "random",
-                  "optional": false
+                  "value": "random"
                 }
               },
               "arguments": [],

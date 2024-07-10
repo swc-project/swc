@@ -161,9 +161,7 @@
                         "start": 402,
                         "end": 408
                       },
-                      "ctxt": 0,
-                      "value": "length",
-                      "optional": false
+                      "value": "length"
                     }
                   }
                 }
@@ -2215,9 +2213,7 @@
                           "start": 2132,
                           "end": 2138
                         },
-                        "ctxt": 0,
-                        "value": "length",
-                        "optional": false
+                        "value": "length"
                       }
                     }
                   }
@@ -3081,9 +3077,7 @@
                                   "start": 3254,
                                   "end": 3262
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -3162,9 +3156,7 @@
                                   "start": 3382,
                                   "end": 3390
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -3356,9 +3348,7 @@
                           "start": 3722,
                           "end": 3730
                         },
-                        "ctxt": 0,
-                        "value": "toString",
-                        "optional": false
+                        "value": "toString"
                       }
                     },
                     "arguments": [],
@@ -3527,9 +3517,7 @@
                             "start": 3924,
                             "end": 3932
                           },
-                          "ctxt": 0,
-                          "value": "toString",
-                          "optional": false
+                          "value": "toString"
                         }
                       },
                       "arguments": [],
@@ -3564,9 +3552,7 @@
                             "start": 3961,
                             "end": 3969
                           },
-                          "ctxt": 0,
-                          "value": "toString",
-                          "optional": false
+                          "value": "toString"
                         }
                       },
                       "arguments": [],

@@ -444,8 +444,16 @@
         },
         "typeName": {
           "type": "TsQualifiedName",
+          "span": {
+            "start": 323,
+            "end": 353
+          },
           "left": {
             "type": "TsQualifiedName",
+            "span": {
+              "start": 323,
+              "end": 349
+            },
             "left": {
               "type": "Identifier",
               "span": {
@@ -462,9 +470,7 @@
                 "start": 334,
                 "end": 349
               },
-              "ctxt": 0,
-              "value": "namespaceModule",
-              "optional": false
+              "value": "namespaceModule"
             }
           },
           "right": {
@@ -473,9 +479,7 @@
               "start": 350,
               "end": 353
             },
-            "ctxt": 0,
-            "value": "typ",
-            "optional": false
+            "value": "typ"
           }
         },
         "typeParams": null

@@ -43,9 +43,7 @@
                 "start": 149,
                 "end": 155
               },
-              "ctxt": 0,
-              "value": "method",
-              "optional": false
+              "value": "method"
             },
             "function": {
               "params": [],
@@ -125,9 +123,7 @@
                 "start": 171,
                 "end": 177
               },
-              "ctxt": 0,
-              "value": "method",
-              "optional": false
+              "value": "method"
             }
           },
           "property": {
@@ -136,9 +132,7 @@
               "start": 178,
               "end": 182
             },
-            "ctxt": 0,
-            "value": "prop",
-            "optional": false
+            "value": "prop"
           }
         },
         "right": {

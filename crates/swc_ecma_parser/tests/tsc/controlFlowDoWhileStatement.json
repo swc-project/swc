@@ -892,9 +892,7 @@
                     "start": 574,
                     "end": 580
                   },
-                  "ctxt": 0,
-                  "value": "length",
-                  "optional": false
+                  "value": "length"
                 }
               }
             },

@@ -75,9 +75,7 @@
                             "start": 136,
                             "end": 143
                           },
-                          "ctxt": 0,
-                          "value": "dispose",
-                          "optional": false
+                          "value": "dispose"
                         }
                       }
                     },
@@ -215,9 +213,7 @@
                             "start": 225,
                             "end": 232
                           },
-                          "ctxt": 0,
-                          "value": "dispose",
-                          "optional": false
+                          "value": "dispose"
                         }
                       }
                     },

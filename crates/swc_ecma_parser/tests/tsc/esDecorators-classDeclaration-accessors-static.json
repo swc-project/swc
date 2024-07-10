@@ -123,9 +123,7 @@
               "start": 179,
               "end": 186
             },
-            "ctxt": 0,
-            "value": "method1",
-            "optional": false
+            "value": "method1"
           },
           "function": {
             "params": [],
@@ -226,9 +224,7 @@
               "start": 227,
               "end": 234
             },
-            "ctxt": 0,
-            "value": "method1",
-            "optional": false
+            "value": "method1"
           },
           "function": {
             "params": [

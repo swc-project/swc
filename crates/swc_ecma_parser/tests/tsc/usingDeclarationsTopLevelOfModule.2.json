@@ -67,9 +67,7 @@
                         "start": 138,
                         "end": 145
                       },
-                      "ctxt": 0,
-                      "value": "dispose",
-                      "optional": false
+                      "value": "dispose"
                     }
                   }
                 },
@@ -182,9 +180,7 @@
               "start": 178,
               "end": 181
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [

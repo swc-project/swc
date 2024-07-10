@@ -38,9 +38,7 @@
               "start": 15,
               "end": 26
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -101,9 +99,7 @@
               "start": 53,
               "end": 56
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -143,9 +139,7 @@
               "start": 77,
               "end": 80
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "function": {
             "params": [],
@@ -292,9 +286,7 @@
                   "start": 204,
                   "end": 207
                 },
-                "ctxt": 0,
-                "value": "bar",
-                "optional": false
+                "value": "bar"
               }
             },
             "arguments": [],
@@ -360,9 +352,7 @@
                   "start": 232,
                   "end": 235
                 },
-                "ctxt": 0,
-                "value": "foo",
-                "optional": false
+                "value": "foo"
               }
             },
             "right": {
@@ -435,9 +425,7 @@
                   "start": 252,
                   "end": 255
                 },
-                "ctxt": 0,
-                "value": "bar",
-                "optional": false
+                "value": "bar"
               }
             },
             "arguments": [],
@@ -543,9 +531,7 @@
               "start": 304,
               "end": 308
             },
-            "ctxt": 0,
-            "value": "test",
-            "optional": false
+            "value": "test"
           },
           "value": null,
           "typeAnnotation": {
@@ -586,9 +572,7 @@
               "start": 322,
               "end": 333
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -649,9 +633,7 @@
               "start": 360,
               "end": 363
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -691,9 +673,7 @@
               "start": 384,
               "end": 387
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "function": {
             "params": [],
@@ -870,9 +850,7 @@
                   "start": 513,
                   "end": 516
                 },
-                "ctxt": 0,
-                "value": "bar",
-                "optional": false
+                "value": "bar"
               }
             },
             "arguments": [],
@@ -938,9 +916,7 @@
                   "start": 542,
                   "end": 545
                 },
-                "ctxt": 0,
-                "value": "foo",
-                "optional": false
+                "value": "foo"
               }
             },
             "right": {
@@ -1013,9 +989,7 @@
                   "start": 563,
                   "end": 566
                 },
-                "ctxt": 0,
-                "value": "bar",
-                "optional": false
+                "value": "bar"
               }
             },
             "arguments": [],

@@ -17,9 +17,7 @@
           "start": 1,
           "end": 7
         },
-        "ctxt": 0,
-        "value": "target",
-        "optional": false
+        "value": "target"
       },
       "body": {
         "type": "WhileStatement",
@@ -55,9 +53,7 @@
                   "start": 32,
                   "end": 38
                 },
-                "ctxt": 0,
-                "value": "target",
-                "optional": false
+                "value": "target"
               }
             }
           ]

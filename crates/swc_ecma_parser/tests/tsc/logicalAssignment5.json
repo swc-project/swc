@@ -832,9 +832,7 @@
                             "start": 339,
                             "end": 347
                           },
-                          "ctxt": 0,
-                          "value": "toString",
-                          "optional": false
+                          "value": "toString"
                         }
                       },
                       "arguments": [],
@@ -1104,9 +1102,7 @@
                             "start": 429,
                             "end": 437
                           },
-                          "ctxt": 0,
-                          "value": "toString",
-                          "optional": false
+                          "value": "toString"
                         }
                       },
                       "arguments": [],
@@ -1376,9 +1372,7 @@
                             "start": 519,
                             "end": 527
                           },
-                          "ctxt": 0,
-                          "value": "toString",
-                          "optional": false
+                          "value": "toString"
                         }
                       },
                       "arguments": [],

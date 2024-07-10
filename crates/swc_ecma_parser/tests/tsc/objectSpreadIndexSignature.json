@@ -428,9 +428,7 @@
                     "start": 208,
                     "end": 209
                   },
-                  "ctxt": 0,
-                  "value": "b",
-                  "optional": false
+                  "value": "b"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -917,9 +915,7 @@
               "start": 535,
               "end": 536
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           }
         },
         "right": {

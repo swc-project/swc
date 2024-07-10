@@ -37,9 +37,7 @@
               "start": 30,
               "end": 31
             },
-            "ctxt": 0,
-            "value": "n",
-            "optional": false
+            "value": "n"
           },
           "value": null,
           "typeAnnotation": null,
@@ -65,9 +63,7 @@
               "start": 45,
               "end": 46
             },
-            "ctxt": 0,
-            "value": "s",
-            "optional": false
+            "value": "s"
           },
           "value": null,
           "typeAnnotation": {
@@ -134,9 +130,7 @@
               "start": 108,
               "end": 109
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "value": null,
           "typeAnnotation": null,
@@ -198,9 +192,7 @@
               "start": 163,
               "end": 164
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "value": null,
           "typeAnnotation": null,
@@ -262,9 +254,7 @@
               "start": 218,
               "end": 219
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "value": null,
           "typeAnnotation": null,
@@ -327,9 +317,7 @@
               "start": 305,
               "end": 316
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -383,9 +371,7 @@
               "start": 333,
               "end": 344
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -439,9 +425,7 @@
               "start": 361,
               "end": 372
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -576,9 +560,7 @@
               "start": 592,
               "end": 603
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -665,9 +647,7 @@
               "start": 631,
               "end": 642
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -764,9 +744,7 @@
               "start": 665,
               "end": 676
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -1160,9 +1138,7 @@
               "start": 1261,
               "end": 1272
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -1226,9 +1202,7 @@
               "start": 1284,
               "end": 1295
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -1368,9 +1342,7 @@
               "start": 1324,
               "end": 1335
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -1520,9 +1492,7 @@
               "start": 1359,
               "end": 1370
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -2126,9 +2096,7 @@
               "start": 1970,
               "end": 1981
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -2235,9 +2203,7 @@
               "start": 1999,
               "end": 2010
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -3049,9 +3015,7 @@
               "start": 2807,
               "end": 2818
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -3147,9 +3111,7 @@
               "start": 2848,
               "end": 2859
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -3245,9 +3207,7 @@
               "start": 2889,
               "end": 2900
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -3362,9 +3322,7 @@
                       "start": 2944,
                       "end": 2951
                     },
-                    "ctxt": 0,
-                    "value": "toFixed",
-                    "optional": false
+                    "value": "toFixed"
                   }
                 },
                 "arguments": [],
@@ -3455,9 +3413,7 @@
                       "start": 2973,
                       "end": 2979
                     },
-                    "ctxt": 0,
-                    "value": "substr",
-                    "optional": false
+                    "value": "substr"
                   }
                 },
                 "arguments": [
@@ -3554,9 +3510,7 @@
                     "start": 3002,
                     "end": 3006
                   },
-                  "ctxt": 0,
-                  "value": "blah",
-                  "optional": false
+                  "value": "blah"
                 }
               },
               "async": false,

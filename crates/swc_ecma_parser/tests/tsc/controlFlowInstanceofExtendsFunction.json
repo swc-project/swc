@@ -139,9 +139,7 @@
                 "start": 84,
                 "end": 93
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -150,9 +148,7 @@
               "start": 94,
               "end": 97
             },
-            "ctxt": 0,
-            "value": "now",
-            "optional": false
+            "value": "now"
           }
         },
         "right": {
@@ -230,9 +226,7 @@
               "start": 155,
               "end": 158
             },
-            "ctxt": 0,
-            "value": "now",
-            "optional": false
+            "value": "now"
           },
           "function": {
             "params": [],
@@ -291,9 +285,7 @@
               "start": 192,
               "end": 195
             },
-            "ctxt": 0,
-            "value": "why",
-            "optional": false
+            "value": "why"
           },
           "function": {
             "params": [],
@@ -392,9 +384,7 @@
               "start": 232,
               "end": 235
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -429,9 +419,7 @@
                     "start": 238,
                     "end": 241
                   },
-                  "ctxt": 0,
-                  "value": "now",
-                  "optional": false
+                  "value": "now"
                 }
               },
               "arguments": [],
@@ -477,9 +465,7 @@
               "start": 274,
               "end": 277
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -514,9 +500,7 @@
                     "start": 280,
                     "end": 283
                   },
-                  "ctxt": 0,
-                  "value": "now",
-                  "optional": false
+                  "value": "now"
                 }
               },
               "arguments": [],
@@ -643,9 +627,7 @@
                         "start": 343,
                         "end": 349
                       },
-                      "ctxt": 0,
-                      "value": "random",
-                      "optional": false
+                      "value": "random"
                     }
                   },
                   "arguments": [],
@@ -773,9 +755,7 @@
                     "start": 401,
                     "end": 404
                   },
-                  "ctxt": 0,
-                  "value": "why",
-                  "optional": false
+                  "value": "why"
                 }
               },
               "arguments": [],

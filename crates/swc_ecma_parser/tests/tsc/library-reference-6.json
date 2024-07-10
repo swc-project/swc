@@ -150,9 +150,7 @@
                 "start": 321,
                 "end": 322
               },
-              "ctxt": 0,
-              "value": "a",
-              "optional": false
+              "value": "a"
             }
           },
           "definite": false

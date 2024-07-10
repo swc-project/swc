@@ -37,9 +37,7 @@
               "start": 134,
               "end": 135
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           },
           "value": null,
           "typeAnnotation": {
@@ -106,9 +104,7 @@
               "start": 163,
               "end": 164
             },
-            "ctxt": 0,
-            "value": "b",
-            "optional": false
+            "value": "b"
           },
           "value": null,
           "typeAnnotation": {
@@ -175,9 +171,7 @@
               "start": 192,
               "end": 193
             },
-            "ctxt": 0,
-            "value": "c",
-            "optional": false
+            "value": "c"
           },
           "value": null,
           "typeAnnotation": {
@@ -244,9 +238,7 @@
               "start": 221,
               "end": 222
             },
-            "ctxt": 0,
-            "value": "d",
-            "optional": false
+            "value": "d"
           },
           "value": null,
           "typeAnnotation": {
@@ -515,9 +507,7 @@
               "start": 356,
               "end": 357
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           },
           "value": null,
           "typeAnnotation": {
@@ -557,9 +547,7 @@
               "start": 371,
               "end": 372
             },
-            "ctxt": 0,
-            "value": "b",
-            "optional": false
+            "value": "b"
           },
           "value": null,
           "typeAnnotation": {
@@ -599,9 +587,7 @@
               "start": 386,
               "end": 387
             },
-            "ctxt": 0,
-            "value": "c",
-            "optional": false
+            "value": "c"
           },
           "value": null,
           "typeAnnotation": {
@@ -641,9 +627,7 @@
               "start": 401,
               "end": 402
             },
-            "ctxt": 0,
-            "value": "d",
-            "optional": false
+            "value": "d"
           },
           "value": null,
           "typeAnnotation": {
@@ -683,9 +667,7 @@
               "start": 416,
               "end": 417
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "value": null,
           "typeAnnotation": {
@@ -725,9 +707,7 @@
               "start": 431,
               "end": 432
             },
-            "ctxt": 0,
-            "value": "z",
-            "optional": false
+            "value": "z"
           },
           "value": null,
           "typeAnnotation": {
@@ -886,9 +866,7 @@
                 "start": 465,
                 "end": 466
               },
-              "ctxt": 0,
-              "value": "a",
-              "optional": false
+              "value": "a"
             }
           },
           "definite": false
@@ -952,9 +930,7 @@
                     "start": 539,
                     "end": 540
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -1061,9 +1037,7 @@
                     "start": 578,
                     "end": 579
                   },
-                  "ctxt": 0,
-                  "value": "b",
-                  "optional": false
+                  "value": "b"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -1170,9 +1144,7 @@
                     "start": 617,
                     "end": 618
                   },
-                  "ctxt": 0,
-                  "value": "c",
-                  "optional": false
+                  "value": "c"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -1279,9 +1251,7 @@
                     "start": 656,
                     "end": 657
                   },
-                  "ctxt": 0,
-                  "value": "d",
-                  "optional": false
+                  "value": "d"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -1754,9 +1724,7 @@
                     "start": 848,
                     "end": 849
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -1796,9 +1764,7 @@
                     "start": 868,
                     "end": 869
                   },
-                  "ctxt": 0,
-                  "value": "b",
-                  "optional": false
+                  "value": "b"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -1838,9 +1804,7 @@
                     "start": 887,
                     "end": 888
                   },
-                  "ctxt": 0,
-                  "value": "c",
-                  "optional": false
+                  "value": "c"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -1880,9 +1844,7 @@
                     "start": 907,
                     "end": 908
                   },
-                  "ctxt": 0,
-                  "value": "d",
-                  "optional": false
+                  "value": "d"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -1922,9 +1884,7 @@
                     "start": 926,
                     "end": 927
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -1964,9 +1924,7 @@
                     "start": 946,
                     "end": 947
                   },
-                  "ctxt": 0,
-                  "value": "z",
-                  "optional": false
+                  "value": "z"
                 },
                 "value": null,
                 "typeAnnotation": {

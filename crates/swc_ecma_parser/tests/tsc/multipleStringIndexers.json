@@ -573,9 +573,7 @@
                     "start": 310,
                     "end": 311
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 },
                 "value": {
                   "type": "StringLiteral",

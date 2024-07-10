@@ -125,9 +125,7 @@
                   "start": 197,
                   "end": 198
                 },
-                "ctxt": 0,
-                "value": "x",
-                "optional": false
+                "value": "x"
               },
               "value": {
                 "type": "ClassExpression",
@@ -740,9 +738,7 @@
                   "start": 521,
                   "end": 530
                 },
-                "ctxt": 0,
-                "value": "__proto__",
-                "optional": false
+                "value": "__proto__"
               },
               "value": {
                 "type": "ClassExpression",
@@ -935,9 +931,7 @@
                   "start": 624,
                   "end": 625
                 },
-                "ctxt": 0,
-                "value": "x",
-                "optional": false
+                "value": "x"
               },
               "value": {
                 "type": "ClassExpression",
@@ -961,9 +955,7 @@
                         "start": 641,
                         "end": 642
                       },
-                      "ctxt": 0,
-                      "value": "y",
-                      "optional": false
+                      "value": "y"
                     },
                     "value": null,
                     "typeAnnotation": {
@@ -1101,9 +1093,7 @@
                         "start": 693,
                         "end": 694
                       },
-                      "ctxt": 0,
-                      "value": "y",
-                      "optional": false
+                      "value": "y"
                     },
                     "value": null,
                     "typeAnnotation": {
@@ -1241,9 +1231,7 @@
                         "start": 743,
                         "end": 744
                       },
-                      "ctxt": 0,
-                      "value": "y",
-                      "optional": false
+                      "value": "y"
                     },
                     "value": null,
                     "typeAnnotation": {
@@ -1388,9 +1376,7 @@
                         "start": 797,
                         "end": 798
                       },
-                      "ctxt": 0,
-                      "value": "y",
-                      "optional": false
+                      "value": "y"
                     },
                     "value": null,
                     "typeAnnotation": {
@@ -1535,9 +1521,7 @@
                         "start": 849,
                         "end": 850
                       },
-                      "ctxt": 0,
-                      "value": "y",
-                      "optional": false
+                      "value": "y"
                     },
                     "value": null,
                     "typeAnnotation": {
@@ -1765,9 +1749,7 @@
                   "start": 988,
                   "end": 997
                 },
-                "ctxt": 0,
-                "value": "__proto__",
-                "optional": false
+                "value": "__proto__"
               },
               "value": {
                 "type": "ClassExpression",
@@ -1791,9 +1773,7 @@
                         "start": 1013,
                         "end": 1014
                       },
-                      "ctxt": 0,
-                      "value": "y",
-                      "optional": false
+                      "value": "y"
                     },
                     "value": null,
                     "typeAnnotation": {
@@ -1931,9 +1911,7 @@
                         "start": 1073,
                         "end": 1074
                       },
-                      "ctxt": 0,
-                      "value": "y",
-                      "optional": false
+                      "value": "y"
                     },
                     "value": null,
                     "typeAnnotation": {
@@ -2046,9 +2024,7 @@
                   "start": 1185,
                   "end": 1186
                 },
-                "ctxt": 0,
-                "value": "x",
-                "optional": false
+                "value": "x"
               },
               "value": {
                 "type": "ClassExpression",

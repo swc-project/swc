@@ -77,9 +77,7 @@
                           "start": 169,
                           "end": 175
                         },
-                        "ctxt": 0,
-                        "value": "bigOak",
-                        "optional": false
+                        "value": "bigOak"
                       }
                     },
                     "right": {
@@ -128,9 +126,7 @@
                           "start": 188,
                           "end": 198
                         },
-                        "ctxt": 0,
-                        "value": "everywhere",
-                        "optional": false
+                        "value": "everywhere"
                       }
                     },
                     "right": {
@@ -179,9 +175,7 @@
                           "start": 210,
                           "end": 217
                         },
-                        "ctxt": 0,
-                        "value": "exports",
-                        "optional": false
+                        "value": "exports"
                       }
                     },
                     "right": {

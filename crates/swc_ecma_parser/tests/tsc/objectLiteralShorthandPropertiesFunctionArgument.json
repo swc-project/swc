@@ -395,9 +395,7 @@
                     "start": 174,
                     "end": 178
                   },
-                  "ctxt": 0,
-                  "value": "name",
-                  "optional": false
+                  "value": "name"
                 },
                 "value": {
                   "type": "Identifier",
@@ -418,9 +416,7 @@
                     "start": 186,
                     "end": 188
                   },
-                  "ctxt": 0,
-                  "value": "id",
-                  "optional": false
+                  "value": "id"
                 },
                 "value": {
                   "type": "Identifier",

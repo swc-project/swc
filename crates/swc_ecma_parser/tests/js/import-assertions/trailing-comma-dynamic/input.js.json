@@ -94,9 +94,7 @@
                       "start": 41,
                       "end": 47
                     },
-                    "ctxt": 0,
-                    "value": "assert",
-                    "optional": false
+                    "value": "assert"
                   },
                   "value": {
                     "type": "ObjectExpression",
@@ -113,9 +111,7 @@
                             "start": 51,
                             "end": 55
                           },
-                          "ctxt": 0,
-                          "value": "type",
-                          "optional": false
+                          "value": "type"
                         },
                         "value": {
                           "type": "StringLiteral",

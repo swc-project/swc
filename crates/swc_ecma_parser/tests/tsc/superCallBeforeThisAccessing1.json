@@ -84,9 +84,7 @@
               "start": 44,
               "end": 55
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -160,9 +158,7 @@
               "start": 100,
               "end": 102
             },
-            "ctxt": 0,
-            "value": "_t",
-            "optional": false
+            "value": "_t"
           },
           "value": null,
           "typeAnnotation": null,
@@ -189,9 +185,7 @@
               "start": 108,
               "end": 119
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -282,9 +276,7 @@
                               "start": 172,
                               "end": 173
                             },
-                            "ctxt": 0,
-                            "value": "t",
-                            "optional": false
+                            "value": "t"
                           },
                           "value": {
                             "type": "MemberExpression",
@@ -305,9 +297,7 @@
                                 "start": 180,
                                 "end": 182
                               },
-                              "ctxt": 0,
-                              "value": "_t",
-                              "optional": false
+                              "value": "_t"
                             }
                           }
                         }
@@ -373,9 +363,7 @@
                             "start": 217,
                             "end": 223
                           },
-                          "ctxt": 0,
-                          "value": "create",
-                          "optional": false
+                          "value": "create"
                         }
                       },
                       "arguments": [

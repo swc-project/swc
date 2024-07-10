@@ -218,9 +218,7 @@
               "start": 193,
               "end": 199
             },
-            "ctxt": 0,
-            "value": "answer",
-            "optional": false
+            "value": "answer"
           }
         },
         "right": {

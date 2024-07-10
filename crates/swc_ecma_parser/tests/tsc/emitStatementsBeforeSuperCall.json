@@ -64,9 +64,7 @@
               "start": 118,
               "end": 129
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -149,9 +147,7 @@
                         "start": 166,
                         "end": 169
                       },
-                      "ctxt": 0,
-                      "value": "log",
-                      "optional": false
+                      "value": "log"
                     }
                   },
                   "arguments": [
@@ -212,9 +208,7 @@
               "start": 232,
               "end": 237
             },
-            "ctxt": 0,
-            "value": "field",
-            "optional": false
+            "value": "field"
           },
           "value": {
             "type": "NumericLiteral",
@@ -284,9 +278,7 @@
               "start": 276,
               "end": 280
             },
-            "ctxt": 0,
-            "value": "prop",
-            "optional": false
+            "value": "prop"
           },
           "value": null,
           "typeAnnotation": {
@@ -327,9 +319,7 @@
               "start": 312,
               "end": 323
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -449,9 +439,7 @@
                         "start": 413,
                         "end": 417
                       },
-                      "ctxt": 0,
-                      "value": "prop",
-                      "optional": false
+                      "value": "prop"
                     }
                   },
                   "right": {

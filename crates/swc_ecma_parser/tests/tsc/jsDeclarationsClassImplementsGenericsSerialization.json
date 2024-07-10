@@ -191,9 +191,7 @@
                 "start": 326,
                 "end": 332
               },
-              "ctxt": 0,
-              "value": "encode",
-              "optional": false
+              "value": "encode"
             },
             "function": {
               "params": [

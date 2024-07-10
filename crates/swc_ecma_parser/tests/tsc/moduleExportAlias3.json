@@ -66,9 +66,7 @@
               "start": 109,
               "end": 116
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {

@@ -79,9 +79,7 @@
               "start": 119,
               "end": 130
             },
-            "ctxt": 0,
-            "value": "TreeElement",
-            "optional": false
+            "value": "TreeElement"
           }
         },
         "right": {
@@ -107,9 +105,7 @@
                   "start": 145,
                   "end": 156
                 },
-                "ctxt": 0,
-                "value": "constructor",
-                "optional": false
+                "value": "constructor"
               },
               "params": [],
               "body": {
@@ -152,9 +148,7 @@
                             "start": 174,
                             "end": 185
                           },
-                          "ctxt": 0,
-                          "value": "treeOutline",
-                          "optional": false
+                          "value": "treeOutline"
                         }
                       },
                       "right": {
@@ -217,9 +211,7 @@
               "start": 203,
               "end": 210
             },
-            "ctxt": 0,
-            "value": "context",
-            "optional": false
+            "value": "context"
           }
         },
         "right": {
@@ -251,9 +243,7 @@
                 "start": 220,
                 "end": 231
               },
-              "ctxt": 0,
-              "value": "TreeElement",
-              "optional": false
+              "value": "TreeElement"
             }
           },
           "arguments": [],
@@ -293,9 +283,7 @@
               "start": 272,
               "end": 282
             },
-            "ctxt": 0,
-            "value": "onpopulate",
-            "optional": false
+            "value": "onpopulate"
           },
           "function": {
             "params": [],
@@ -338,9 +326,7 @@
                         "start": 300,
                         "end": 312
                       },
-                      "ctxt": 0,
-                      "value": "doesNotExist",
-                      "optional": false
+                      "value": "doesNotExist"
                     }
                   }
                 },
@@ -382,9 +368,7 @@
                             "start": 326,
                             "end": 337
                           },
-                          "ctxt": 0,
-                          "value": "treeOutline",
-                          "optional": false
+                          "value": "treeOutline"
                         }
                       },
                       "property": {
@@ -393,9 +377,7 @@
                           "start": 338,
                           "end": 355
                         },
-                        "ctxt": 0,
-                        "value": "doesntExistEither",
-                        "optional": false
+                        "value": "doesntExistEither"
                       }
                     },
                     "arguments": [],
@@ -439,9 +421,7 @@
             "start": 254,
             "end": 265
           },
-          "ctxt": 0,
-          "value": "TreeElement",
-          "optional": false
+          "value": "TreeElement"
         }
       },
       "isAbstract": false,

@@ -37,9 +37,7 @@
               "start": 43,
               "end": 51
             },
-            "ctxt": 0,
-            "value": "toString",
-            "optional": false
+            "value": "toString"
           },
           "function": {
             "params": [],
@@ -229,9 +227,7 @@
               "start": 209,
               "end": 217
             },
-            "ctxt": 0,
-            "value": "toNumber",
-            "optional": false
+            "value": "toNumber"
           },
           "function": {
             "params": [],
@@ -421,9 +417,7 @@
               "start": 367,
               "end": 375
             },
-            "ctxt": 0,
-            "value": "toString",
-            "optional": false
+            "value": "toString"
           },
           "function": {
             "params": [],

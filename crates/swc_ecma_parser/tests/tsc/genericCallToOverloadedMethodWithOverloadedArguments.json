@@ -533,9 +533,7 @@
                         "start": 236,
                         "end": 240
                       },
-                      "ctxt": 0,
-                      "value": "then",
-                      "optional": false
+                      "value": "then"
                     }
                   },
                   "arguments": [
@@ -1190,9 +1188,7 @@
                         "start": 596,
                         "end": 600
                       },
-                      "ctxt": 0,
-                      "value": "then",
-                      "optional": false
+                      "value": "then"
                     }
                   },
                   "arguments": [
@@ -2066,9 +2062,7 @@
                         "start": 984,
                         "end": 988
                       },
-                      "ctxt": 0,
-                      "value": "then",
-                      "optional": false
+                      "value": "then"
                     }
                   },
                   "arguments": [
@@ -3042,9 +3036,7 @@
                         "start": 1435,
                         "end": 1439
                       },
-                      "ctxt": 0,
-                      "value": "then",
-                      "optional": false
+                      "value": "then"
                     }
                   },
                   "arguments": [
@@ -4378,9 +4370,7 @@
                         "start": 2008,
                         "end": 2012
                       },
-                      "ctxt": 0,
-                      "value": "then",
-                      "optional": false
+                      "value": "then"
                     }
                   },
                   "arguments": [
@@ -5454,9 +5444,7 @@
                         "start": 2524,
                         "end": 2528
                       },
-                      "ctxt": 0,
-                      "value": "then",
-                      "optional": false
+                      "value": "then"
                     }
                   },
                   "arguments": [

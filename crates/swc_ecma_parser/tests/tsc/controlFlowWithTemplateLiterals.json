@@ -163,9 +163,7 @@
                     "start": 113,
                     "end": 118
                   },
-                  "ctxt": 0,
-                  "value": "slice",
-                  "optional": false
+                  "value": "slice"
                 }
               },
               "arguments": [
@@ -381,9 +379,7 @@
                       "start": 191,
                       "end": 195
                     },
-                    "ctxt": 0,
-                    "value": "test",
-                    "optional": false
+                    "value": "test"
                   }
                 },
                 "property": {
@@ -392,9 +388,7 @@
                     "start": 196,
                     "end": 201
                   },
-                  "ctxt": 0,
-                  "value": "slice",
-                  "optional": false
+                  "value": "slice"
                 }
               },
               "arguments": [

@@ -690,9 +690,7 @@
                 "start": 376,
                 "end": 378
               },
-              "ctxt": 0,
-              "value": "fn",
-              "optional": false
+              "value": "fn"
             }
           },
           "definite": false
@@ -908,9 +906,7 @@
                 "start": 421,
                 "end": 424
               },
-              "ctxt": 0,
-              "value": "fng",
-              "optional": false
+              "value": "fng"
             }
           },
           "definite": false
@@ -966,9 +962,7 @@
                 "start": 516,
                 "end": 519
               },
-              "ctxt": 0,
-              "value": "fn2",
-              "optional": false
+              "value": "fn2"
             }
           },
           "definite": false
@@ -1024,9 +1018,7 @@
                 "start": 534,
                 "end": 538
               },
-              "ctxt": 0,
-              "value": "fng2",
-              "optional": false
+              "value": "fng2"
             }
           },
           "definite": false

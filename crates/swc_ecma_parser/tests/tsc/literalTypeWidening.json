@@ -4831,9 +4831,7 @@
                       "start": 3005,
                       "end": 3012
                     },
-                    "ctxt": 0,
-                    "value": "forEach",
-                    "optional": false
+                    "value": "forEach"
                   }
                 },
                 "arguments": [
@@ -5226,9 +5224,7 @@
                         "start": 3143,
                         "end": 3147
                       },
-                      "ctxt": 0,
-                      "value": "keys",
-                      "optional": false
+                      "value": "keys"
                     }
                   },
                   "arguments": [
@@ -5769,9 +5765,7 @@
                   "start": 3369,
                   "end": 3372
                 },
-                "ctxt": 0,
-                "value": "map",
-                "optional": false
+                "value": "map"
               }
             },
             "arguments": [
@@ -6018,9 +6012,7 @@
                         "start": 3522,
                         "end": 3523
                       },
-                      "ctxt": 0,
-                      "value": "a",
-                      "optional": false
+                      "value": "a"
                     },
                     "value": {
                       "type": "StringLiteral",
@@ -6486,9 +6478,7 @@
                       "start": 3650,
                       "end": 3651
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 }
               }
@@ -6538,6 +6528,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 3663,
+                    "end": 3666
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -6554,9 +6548,7 @@
                       "start": 3665,
                       "end": 3666
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 },
                 "typeParams": null

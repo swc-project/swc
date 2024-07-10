@@ -677,9 +677,7 @@
                 "start": 581,
                 "end": 586
               },
-              "ctxt": 0,
-              "value": "outer",
-              "optional": false
+              "value": "outer"
             },
             "body": {
               "type": "ForOfStatement",
@@ -750,9 +748,7 @@
                         "start": 632,
                         "end": 637
                       },
-                      "ctxt": 0,
-                      "value": "outer",
-                      "optional": false
+                      "value": "outer"
                     }
                   }
                 ]
@@ -852,9 +848,7 @@
                 "start": 769,
                 "end": 774
               },
-              "ctxt": 0,
-              "value": "outer",
-              "optional": false
+              "value": "outer"
             },
             "body": {
               "type": "ForOfStatement",
@@ -925,9 +919,7 @@
                         "start": 820,
                         "end": 825
                       },
-                      "ctxt": 0,
-                      "value": "outer",
-                      "optional": false
+                      "value": "outer"
                     }
                   }
                 ]

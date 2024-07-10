@@ -960,9 +960,7 @@
                   "start": 561,
                   "end": 567
                 },
-                "ctxt": 0,
-                "value": "length",
-                "optional": false
+                "value": "length"
               }
             }
           }
@@ -1046,9 +1044,7 @@
                   "start": 621,
                   "end": 627
                 },
-                "ctxt": 0,
-                "value": "length",
-                "optional": false
+                "value": "length"
               }
             }
           }
@@ -1174,9 +1170,7 @@
                   "start": 706,
                   "end": 712
                 },
-                "ctxt": 0,
-                "value": "length",
-                "optional": false
+                "value": "length"
               }
             }
           }

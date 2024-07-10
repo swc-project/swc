@@ -200,9 +200,7 @@
                   "start": 62,
                   "end": 63
                 },
-                "ctxt": 0,
-                "value": "g",
-                "optional": false
+                "value": "g"
               }
             },
             "typeArguments": {
@@ -300,9 +298,7 @@
                 "start": 94,
                 "end": 95
               },
-              "ctxt": 0,
-              "value": "g",
-              "optional": false
+              "value": "g"
             }
           },
           "definite": false
@@ -388,9 +384,7 @@
                   "start": 118,
                   "end": 119
                 },
-                "ctxt": 0,
-                "value": "g",
-                "optional": false
+                "value": "g"
               }
             },
             "typeArguments": {

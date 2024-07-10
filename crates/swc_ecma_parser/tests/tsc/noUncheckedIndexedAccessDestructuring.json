@@ -224,9 +224,7 @@
               "start": 264,
               "end": 272
             },
-            "ctxt": 0,
-            "value": "toString",
-            "optional": false
+            "value": "toString"
           }
         },
         "arguments": [],
@@ -332,9 +330,7 @@
               "start": 405,
               "end": 409
             },
-            "ctxt": 0,
-            "value": "push",
-            "optional": false
+            "value": "push"
           }
         },
         "arguments": [
@@ -456,9 +452,7 @@
               "start": 575,
               "end": 579
             },
-            "ctxt": 0,
-            "value": "push",
-            "optional": false
+            "value": "push"
           }
         },
         "arguments": [
@@ -672,9 +666,7 @@
               "start": 773,
               "end": 781
             },
-            "ctxt": 0,
-            "value": "toString",
-            "optional": false
+            "value": "toString"
           }
         },
         "arguments": [],
@@ -786,9 +778,7 @@
                 "start": 854,
                 "end": 855
               },
-              "ctxt": 0,
-              "value": "z",
-              "optional": false
+              "value": "z"
             }
           },
           "property": {
@@ -797,9 +787,7 @@
               "start": 856,
               "end": 864
             },
-            "ctxt": 0,
-            "value": "toString",
-            "optional": false
+            "value": "toString"
           }
         },
         "arguments": [],
@@ -1133,9 +1121,7 @@
                   "start": 1055,
                   "end": 1062
                 },
-                "ctxt": 0,
-                "value": "toFixed",
-                "optional": false
+                "value": "toFixed"
               }
             },
             "arguments": [],
@@ -1177,9 +1163,7 @@
                   "start": 1085,
                   "end": 1092
                 },
-                "ctxt": 0,
-                "value": "toFixed",
-                "optional": false
+                "value": "toFixed"
               }
             },
             "arguments": [],
@@ -1221,9 +1205,7 @@
                   "start": 1115,
                   "end": 1122
                 },
-                "ctxt": 0,
-                "value": "toFixed",
-                "optional": false
+                "value": "toFixed"
               }
             },
             "arguments": [],
@@ -1358,9 +1340,7 @@
                   "start": 1190,
                   "end": 1197
                 },
-                "ctxt": 0,
-                "value": "toFixed",
-                "optional": false
+                "value": "toFixed"
               }
             },
             "arguments": [],
@@ -1408,9 +1388,7 @@
                     "start": 1220,
                     "end": 1221
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 }
               },
               "property": {
@@ -1419,9 +1397,7 @@
                   "start": 1222,
                   "end": 1229
                 },
-                "ctxt": 0,
-                "value": "toFixed",
-                "optional": false
+                "value": "toFixed"
               }
             },
             "arguments": [],
@@ -1469,9 +1445,7 @@
                     "start": 1252,
                     "end": 1253
                   },
-                  "ctxt": 0,
-                  "value": "z",
-                  "optional": false
+                  "value": "z"
                 }
               },
               "property": {
@@ -1480,9 +1454,7 @@
                   "start": 1254,
                   "end": 1261
                 },
-                "ctxt": 0,
-                "value": "toFixed",
-                "optional": false
+                "value": "toFixed"
               }
             },
             "arguments": [],
@@ -1617,9 +1589,7 @@
                   "start": 1334,
                   "end": 1341
                 },
-                "ctxt": 0,
-                "value": "toFixed",
-                "optional": false
+                "value": "toFixed"
               }
             },
             "arguments": [],
@@ -1667,9 +1637,7 @@
                     "start": 1370,
                     "end": 1371
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 }
               },
               "property": {
@@ -1678,9 +1646,7 @@
                   "start": 1372,
                   "end": 1379
                 },
-                "ctxt": 0,
-                "value": "toFixed",
-                "optional": false
+                "value": "toFixed"
               }
             },
             "arguments": [],
@@ -1728,9 +1694,7 @@
                     "start": 1408,
                     "end": 1409
                   },
-                  "ctxt": 0,
-                  "value": "z",
-                  "optional": false
+                  "value": "z"
                 }
               },
               "property": {
@@ -1739,9 +1703,7 @@
                   "start": 1410,
                   "end": 1417
                 },
-                "ctxt": 0,
-                "value": "toFixed",
-                "optional": false
+                "value": "toFixed"
               }
             },
             "arguments": [],

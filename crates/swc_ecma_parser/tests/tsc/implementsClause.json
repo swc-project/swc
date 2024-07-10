@@ -238,9 +238,7 @@
                 "start": 262,
                 "end": 271
               },
-              "ctxt": 0,
-              "value": "Component",
-              "optional": false
+              "value": "Component"
             }
           },
           "typeArguments": null
@@ -306,9 +304,7 @@
                   "start": 310,
                   "end": 315
                 },
-                "ctxt": 0,
-                "value": "types",
-                "optional": false
+                "value": "types"
               }
             },
             "property": {
@@ -317,9 +313,7 @@
                 "start": 316,
                 "end": 325
               },
-              "ctxt": 0,
-              "value": "Component",
-              "optional": false
+              "value": "Component"
             }
           },
           "typeArguments": null

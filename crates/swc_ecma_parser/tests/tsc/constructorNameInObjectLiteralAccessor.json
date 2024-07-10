@@ -51,9 +51,7 @@
                     "start": 41,
                     "end": 52
                   },
-                  "ctxt": 0,
-                  "value": "constructor",
-                  "optional": false
+                  "value": "constructor"
                 },
                 "typeAnnotation": null,
                 "body": {
@@ -87,9 +85,7 @@
                     "start": 75,
                     "end": 86
                   },
-                  "ctxt": 0,
-                  "value": "constructor",
-                  "optional": false
+                  "value": "constructor"
                 },
                 "thisParam": null,
                 "param": {

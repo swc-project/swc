@@ -233,9 +233,7 @@
               "start": 174,
               "end": 175
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           },
           "value": null,
           "typeAnnotation": {
@@ -275,9 +273,7 @@
               "start": 196,
               "end": 199
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
@@ -659,9 +655,7 @@
                       "start": 436,
                       "end": 437
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -681,9 +675,7 @@
                       "start": 442,
                       "end": 443
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -751,9 +743,7 @@
                       "start": 474,
                       "end": 475
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -773,9 +763,7 @@
                       "start": 480,
                       "end": 481
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   },
                   "value": {
                     "type": "ArrowFunctionExpression",
@@ -907,9 +895,7 @@
                   "start": 571,
                   "end": 572
                 },
-                "ctxt": 0,
-                "value": "a",
-                "optional": false
+                "value": "a"
               }
             }
           },
@@ -973,9 +959,7 @@
                   "start": 599,
                   "end": 600
                 },
-                "ctxt": 0,
-                "value": "n",
-                "optional": false
+                "value": "n"
               }
             }
           },
@@ -1177,9 +1161,7 @@
                     "start": 693,
                     "end": 696
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 }
               },
               "arguments": [],
@@ -1531,9 +1513,7 @@
               "start": 909,
               "end": 910
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           }
         }
       }
@@ -1573,9 +1553,7 @@
               "start": 915,
               "end": 916
             },
-            "ctxt": 0,
-            "value": "n",
-            "optional": false
+            "value": "n"
           }
         }
       }
@@ -1622,9 +1600,7 @@
                   "start": 924,
                   "end": 925
                 },
-                "ctxt": 0,
-                "value": "a",
-                "optional": false
+                "value": "a"
               }
             }
           },
@@ -1650,9 +1626,7 @@
                 "start": 929,
                 "end": 930
               },
-              "ctxt": 0,
-              "value": "n",
-              "optional": false
+              "value": "n"
             }
           }
         ]

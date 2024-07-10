@@ -488,9 +488,7 @@
               "start": 306,
               "end": 307
             },
-            "ctxt": 0,
-            "value": "B",
-            "optional": false
+            "value": "B"
           }
         }
       }

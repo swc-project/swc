@@ -125,9 +125,7 @@
                   "start": 89,
                   "end": 94
                 },
-                "ctxt": 0,
-                "value": "slice",
-                "optional": false
+                "value": "slice"
               }
             },
             "arguments": [
@@ -233,9 +231,7 @@
                     "start": 129,
                     "end": 136
                   },
-                  "ctxt": 0,
-                  "value": "species",
-                  "optional": false
+                  "value": "species"
                 }
               }
             }
@@ -315,9 +311,7 @@
                     "start": 167,
                     "end": 178
                   },
-                  "ctxt": 0,
-                  "value": "toStringTag",
-                  "optional": false
+                  "value": "toStringTag"
                 }
               }
             }
@@ -375,9 +369,7 @@
                 "start": 196,
                 "end": 206
               },
-              "ctxt": 0,
-              "value": "byteLength",
-              "optional": false
+              "value": "byteLength"
             }
           },
           "definite": false

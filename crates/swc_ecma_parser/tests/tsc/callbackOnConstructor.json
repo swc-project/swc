@@ -43,9 +43,7 @@
                 "start": 126,
                 "end": 139
               },
-              "ctxt": 0,
-              "value": "assignability",
-              "optional": false
+              "value": "assignability"
             },
             "value": {
               "type": "StringLiteral",
@@ -80,9 +78,7 @@
                 "start": 264,
                 "end": 275
               },
-              "ctxt": 0,
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [],
             "body": {
@@ -181,9 +177,7 @@
                     "start": 336,
                     "end": 342
                   },
-                  "ctxt": 0,
-                  "value": "length",
-                  "optional": false
+                  "value": "length"
                 }
               },
               "right": {

@@ -37,9 +37,7 @@
               "start": 139,
               "end": 143
             },
-            "ctxt": 0,
-            "value": "stat",
-            "optional": false
+            "value": "stat"
           },
           "value": {
             "type": "NumericLiteral",
@@ -73,9 +71,7 @@
               "start": 154,
               "end": 160
             },
-            "ctxt": 0,
-            "value": "member",
-            "optional": false
+            "value": "member"
           },
           "value": {
             "type": "NumericLiteral",
@@ -139,9 +135,7 @@
               "start": 177,
               "end": 184
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {

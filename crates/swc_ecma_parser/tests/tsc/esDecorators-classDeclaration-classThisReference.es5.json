@@ -132,9 +132,7 @@
               "start": 140,
               "end": 141
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": {
             "type": "ThisExpression",
@@ -180,9 +178,7 @@
               "start": 166,
               "end": 167
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "function": {
             "params": [],
@@ -240,9 +236,7 @@
               "start": 195,
               "end": 196
             },
-            "ctxt": 0,
-            "value": "g",
-            "optional": false
+            "value": "g"
           },
           "function": {
             "params": [],

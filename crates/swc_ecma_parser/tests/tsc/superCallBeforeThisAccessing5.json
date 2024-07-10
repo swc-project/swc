@@ -37,9 +37,7 @@
               "start": 36,
               "end": 38
             },
-            "ctxt": 0,
-            "value": "_t",
-            "optional": false
+            "value": "_t"
           },
           "value": null,
           "typeAnnotation": null,
@@ -66,9 +64,7 @@
               "start": 44,
               "end": 55
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -104,9 +100,7 @@
                       "start": 73,
                       "end": 75
                     },
-                    "ctxt": 0,
-                    "value": "_t",
-                    "optional": false
+                    "value": "_t"
                   }
                 }
               }

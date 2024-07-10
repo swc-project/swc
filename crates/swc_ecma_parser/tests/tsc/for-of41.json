@@ -56,9 +56,7 @@
                           "start": 30,
                           "end": 31
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "ArrayExpression",
@@ -90,9 +88,7 @@
                           "start": 38,
                           "end": 39
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       },
                       "value": {
                         "type": "ObjectExpression",
@@ -109,9 +105,7 @@
                                 "start": 42,
                                 "end": 43
                               },
-                              "ctxt": 0,
-                              "value": "p",
-                              "optional": false
+                              "value": "p"
                             },
                             "value": {
                               "type": "StringLiteral",
@@ -173,9 +167,7 @@
                       "start": 61,
                       "end": 62
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "ArrayPattern",
@@ -208,9 +200,7 @@
                       "start": 69,
                       "end": 70
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   },
                   "value": {
                     "type": "ObjectPattern",

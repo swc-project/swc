@@ -37,9 +37,7 @@
               "start": 32,
               "end": 40
             },
-            "ctxt": 0,
-            "value": "accessor",
-            "optional": false
+            "value": "accessor"
           },
           "value": null,
           "typeAnnotation": {
@@ -80,9 +78,7 @@
               "start": 55,
               "end": 66
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -125,9 +121,7 @@
                         "start": 84,
                         "end": 92
                       },
-                      "ctxt": 0,
-                      "value": "accessor",
-                      "optional": false
+                      "value": "accessor"
                     }
                   },
                   "right": {

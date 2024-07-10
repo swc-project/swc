@@ -113,9 +113,7 @@
                 "start": 138,
                 "end": 145
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "right": {
@@ -166,9 +164,7 @@
               "start": 165,
               "end": 172
             },
-            "ctxt": 0,
-            "value": "version",
-            "optional": false
+            "value": "version"
           }
         },
         "right": {
@@ -217,9 +213,7 @@
               "start": 190,
               "end": 213
             },
-            "ctxt": 0,
-            "value": "WebpackOptionsDefaulter",
-            "optional": false
+            "value": "WebpackOptionsDefaulter"
           }
         },
         "right": {

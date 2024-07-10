@@ -866,9 +866,7 @@
                     "start": 1106,
                     "end": 1109
                   },
-                  "ctxt": 0,
-                  "value": "Foo",
-                  "optional": false
+                  "value": "Foo"
                 },
                 "value": {
                   "type": "TsTypeAssertion",
@@ -1631,9 +1629,7 @@
                           "start": 1551,
                           "end": 1554
                         },
-                        "ctxt": 0,
-                        "value": "Foo",
-                        "optional": false
+                        "value": "Foo"
                       },
                       "value": {
                         "type": "TsTypeAssertion",

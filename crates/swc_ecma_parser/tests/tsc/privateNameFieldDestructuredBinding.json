@@ -70,9 +70,7 @@
               "start": 67,
               "end": 78
             },
-            "ctxt": 0,
-            "value": "otherObject",
-            "optional": false
+            "value": "otherObject"
           },
           "value": {
             "type": "NewExpression",
@@ -117,9 +115,7 @@
               "start": 94,
               "end": 104
             },
-            "ctxt": 0,
-            "value": "testObject",
-            "optional": false
+            "value": "testObject"
           },
           "function": {
             "params": [],
@@ -158,9 +154,7 @@
                             "start": 126,
                             "end": 127
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -180,9 +174,7 @@
                             "start": 133,
                             "end": 134
                           },
-                          "ctxt": 0,
-                          "value": "y",
-                          "optional": false
+                          "value": "y"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -223,9 +215,7 @@
               "start": 151,
               "end": 160
             },
-            "ctxt": 0,
-            "value": "testArray",
-            "optional": false
+            "value": "testArray"
           },
           "function": {
             "params": [],
@@ -310,9 +300,7 @@
               "start": 200,
               "end": 211
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -403,9 +391,7 @@
                               "start": 250,
                               "end": 251
                             },
-                            "ctxt": 0,
-                            "value": "x",
-                            "optional": false
+                            "value": "x"
                           },
                           "value": {
                             "type": "MemberExpression",
@@ -479,9 +465,7 @@
                             "start": 277,
                             "end": 287
                           },
-                          "ctxt": 0,
-                          "value": "testObject",
-                          "optional": false
+                          "value": "testObject"
                         }
                       },
                       "arguments": [],
@@ -579,9 +563,7 @@
                             "start": 325,
                             "end": 334
                           },
-                          "ctxt": 0,
-                          "value": "testArray",
-                          "optional": false
+                          "value": "testArray"
                         }
                       },
                       "arguments": [],
@@ -624,9 +606,7 @@
                               "start": 350,
                               "end": 351
                             },
-                            "ctxt": 0,
-                            "value": "a",
-                            "optional": false
+                            "value": "a"
                           },
                           "value": {
                             "type": "MemberExpression",
@@ -659,9 +639,7 @@
                               "start": 366,
                               "end": 367
                             },
-                            "ctxt": 0,
-                            "value": "b",
-                            "optional": false
+                            "value": "b"
                           },
                           "value": {
                             "type": "ArrayPattern",
@@ -716,9 +694,7 @@
                               "start": 389,
                               "end": 390
                             },
-                            "ctxt": 0,
-                            "value": "a",
-                            "optional": false
+                            "value": "a"
                           },
                           "value": {
                             "type": "NumericLiteral",
@@ -738,9 +714,7 @@
                               "start": 395,
                               "end": 396
                             },
-                            "ctxt": 0,
-                            "value": "b",
-                            "optional": false
+                            "value": "b"
                           },
                           "value": {
                             "type": "ArrayExpression",
@@ -929,9 +903,7 @@
                               "start": 466,
                               "end": 467
                             },
-                            "ctxt": 0,
-                            "value": "a",
-                            "optional": false
+                            "value": "a"
                           },
                           "value": {
                             "type": "AssignmentPattern",
@@ -980,9 +952,7 @@
                               "start": 486,
                               "end": 487
                             },
-                            "ctxt": 0,
-                            "value": "b",
-                            "optional": false
+                            "value": "b"
                           },
                           "value": {
                             "type": "ArrayPattern",
@@ -1053,9 +1023,7 @@
                               "start": 513,
                               "end": 514
                             },
-                            "ctxt": 0,
-                            "value": "b",
-                            "optional": false
+                            "value": "b"
                           },
                           "value": {
                             "type": "ArrayExpression",
@@ -1194,9 +1162,7 @@
                                 "start": 569,
                                 "end": 580
                               },
-                              "ctxt": 0,
-                              "value": "otherObject",
-                              "optional": false
+                              "value": "otherObject"
                             }
                           },
                           "property": {
@@ -1249,9 +1215,7 @@
               "start": 616,
               "end": 620
             },
-            "ctxt": 0,
-            "value": "test",
-            "optional": false
+            "value": "test"
           },
           "function": {
             "params": [

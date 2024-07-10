@@ -370,9 +370,7 @@
                 "start": 287,
                 "end": 295
               },
-              "ctxt": 0,
-              "value": "toString",
-              "optional": false
+              "value": "toString"
             }
           },
           "definite": false
@@ -428,9 +426,7 @@
                 "start": 319,
                 "end": 333
               },
-              "ctxt": 0,
-              "value": "hasOwnProperty",
-              "optional": false
+              "value": "hasOwnProperty"
             }
           },
           "definite": false

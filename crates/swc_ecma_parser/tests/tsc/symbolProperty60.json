@@ -60,9 +60,7 @@
                   "start": 103,
                   "end": 114
                 },
-                "ctxt": 0,
-                "value": "toStringTag",
-                "optional": false
+                "value": "toStringTag"
               }
             },
             "computed": true,
@@ -192,9 +190,7 @@
                   "start": 182,
                   "end": 193
                 },
-                "ctxt": 0,
-                "value": "toStringTag",
-                "optional": false
+                "value": "toStringTag"
               }
             },
             "computed": true,

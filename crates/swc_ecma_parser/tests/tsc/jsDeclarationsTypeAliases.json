@@ -85,9 +85,7 @@
                       "start": 652,
                       "end": 653
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "BinaryExpression",
@@ -159,9 +157,7 @@
               "start": 690,
               "end": 691
             },
-            "ctxt": 0,
-            "value": "z",
-            "optional": false
+            "value": "z"
           },
           "value": {
             "type": "StringLiteral",
@@ -225,9 +221,7 @@
               "start": 708,
               "end": 715
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -293,9 +287,7 @@
               "start": 781,
               "end": 782
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "value": {
             "type": "StringLiteral",

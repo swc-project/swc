@@ -285,9 +285,7 @@
                       "start": 258,
                       "end": 269
                     },
-                    "ctxt": 0,
-                    "value": "displayName",
-                    "optional": false
+                    "value": "displayName"
                   },
                   "value": {
                     "type": "TemplateLiteral",

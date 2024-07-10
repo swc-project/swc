@@ -375,9 +375,7 @@
                     "start": 143,
                     "end": 144
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 },
                 "value": {
                   "type": "BooleanLiteral",
@@ -444,9 +442,7 @@
                     "start": 171,
                     "end": 172
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 },
                 "value": {
                   "type": "Identifier",
@@ -479,9 +475,7 @@
                     "start": 180,
                     "end": 181
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -587,9 +581,7 @@
                     "start": 215,
                     "end": 216
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 },
                 "value": {
                   "type": "BooleanLiteral",
@@ -656,9 +648,7 @@
                     "start": 252,
                     "end": 253
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 },
                 "value": {
                   "type": "AssignmentPattern",
@@ -707,9 +697,7 @@
                     "start": 267,
                     "end": 268
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -1088,9 +1076,7 @@
                           "start": 436,
                           "end": 437
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -1146,9 +1132,7 @@
               "start": 465,
               "end": 469
             },
-            "ctxt": 0,
-            "value": "push",
-            "optional": false
+            "value": "push"
           }
         },
         "arguments": [
@@ -1169,9 +1153,7 @@
                       "start": 472,
                       "end": 473
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "StringLiteral",

@@ -150,9 +150,7 @@
               "start": 335,
               "end": 342
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -247,9 +245,7 @@
               "start": 513,
               "end": 520
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {

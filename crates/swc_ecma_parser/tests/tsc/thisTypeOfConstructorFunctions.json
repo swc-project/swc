@@ -85,9 +85,7 @@
                     "start": 202,
                     "end": 205
                   },
-                  "ctxt": 0,
-                  "value": "dit",
-                  "optional": false
+                  "value": "dit"
                 }
               },
               "right": {
@@ -131,9 +129,7 @@
                     "start": 222,
                     "end": 223
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 }
               },
               "right": {
@@ -180,9 +176,7 @@
                     "start": 263,
                     "end": 265
                   },
-                  "ctxt": 0,
-                  "value": "m3",
-                  "optional": false
+                  "value": "m3"
                 }
               },
               "right": {
@@ -249,9 +243,7 @@
               "start": 285,
               "end": 294
             },
-            "ctxt": 0,
-            "value": "prototype",
-            "optional": false
+            "value": "prototype"
           }
         },
         "right": {
@@ -269,9 +261,7 @@
                   "start": 329,
                   "end": 331
                 },
-                "ctxt": 0,
-                "value": "m4",
-                "optional": false
+                "value": "m4"
               },
               "params": [],
               "decorators": [],
@@ -320,9 +310,7 @@
                             "start": 349,
                             "end": 350
                           },
-                          "ctxt": 0,
-                          "value": "z",
-                          "optional": false
+                          "value": "z"
                         }
                       },
                       "right": {
@@ -344,9 +332,7 @@
                             "start": 358,
                             "end": 359
                           },
-                          "ctxt": 0,
-                          "value": "y",
-                          "optional": false
+                          "value": "y"
                         }
                       }
                     }
@@ -456,9 +442,7 @@
                     "start": 458,
                     "end": 459
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 }
               },
               "right": {
@@ -521,9 +505,7 @@
                 "start": 492,
                 "end": 501
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -532,9 +514,7 @@
               "start": 502,
               "end": 504
             },
-            "ctxt": 0,
-            "value": "m2",
-            "optional": false
+            "value": "m2"
           }
         },
         "right": {
@@ -587,9 +567,7 @@
                         "start": 530,
                         "end": 531
                       },
-                      "ctxt": 0,
-                      "value": "z",
-                      "optional": false
+                      "value": "z"
                     }
                   },
                   "right": {
@@ -611,9 +589,7 @@
                         "start": 539,
                         "end": 540
                       },
-                      "ctxt": 0,
-                      "value": "y",
-                      "optional": false
+                      "value": "y"
                     }
                   }
                 }
@@ -797,9 +773,7 @@
             "start": 600,
             "end": 603
           },
-          "ctxt": 0,
-          "value": "dit",
-          "optional": false
+          "value": "dit"
         }
       }
     },
@@ -859,9 +833,7 @@
                   "start": 647,
                   "end": 649
                 },
-                "ctxt": 0,
-                "value": "m2",
-                "optional": false
+                "value": "m2"
               }
             },
             "arguments": [],
@@ -927,9 +899,7 @@
                   "start": 692,
                   "end": 694
                 },
-                "ctxt": 0,
-                "value": "m3",
-                "optional": false
+                "value": "m3"
               }
             },
             "arguments": [],
@@ -995,9 +965,7 @@
                   "start": 736,
                   "end": 738
                 },
-                "ctxt": 0,
-                "value": "m4",
-                "optional": false
+                "value": "m4"
               }
             },
             "arguments": [],

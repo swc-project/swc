@@ -113,9 +113,7 @@
                         "start": 62,
                         "end": 71
                       },
-                      "ctxt": 0,
-                      "value": "className",
-                      "optional": false
+                      "value": "className"
                     },
                     "value": {
                       "type": "StringLiteral",

@@ -222,9 +222,7 @@
                     "start": 88,
                     "end": 89
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 },
                 "params": [
                   {
@@ -347,9 +345,7 @@
                   "start": 132,
                   "end": 133
                 },
-                "ctxt": 0,
-                "value": "a",
-                "optional": false
+                "value": "a"
               }
             },
             "arguments": [

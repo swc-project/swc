@@ -252,9 +252,7 @@
                   "start": 155,
                   "end": 159
                 },
-                "ctxt": 0,
-                "value": "prop",
-                "optional": false
+                "value": "prop"
               }
             }
           }
@@ -339,9 +337,7 @@
                     "start": 251,
                     "end": 257
                   },
-                  "ctxt": 0,
-                  "value": "method",
-                  "optional": false
+                  "value": "method"
                 }
               },
               "arguments": [],
@@ -449,9 +445,7 @@
                   "start": 366,
                   "end": 373
                 },
-                "ctxt": 0,
-                "value": "message",
-                "optional": false
+                "value": "message"
               }
             }
           },
@@ -483,9 +477,7 @@
                   "start": 381,
                   "end": 387
                 },
-                "ctxt": 0,
-                "value": "mesage",
-                "optional": false
+                "value": "mesage"
               }
             }
           }
@@ -570,9 +562,7 @@
                     "start": 423,
                     "end": 430
                   },
-                  "ctxt": 0,
-                  "value": "getDate",
-                  "optional": false
+                  "value": "getDate"
                 }
               },
               "arguments": [],
@@ -614,9 +604,7 @@
                     "start": 440,
                     "end": 448
                   },
-                  "ctxt": 0,
-                  "value": "getHuors",
-                  "optional": false
+                  "value": "getHuors"
                 }
               },
               "arguments": [],

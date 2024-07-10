@@ -316,9 +316,7 @@
                 "start": 326,
                 "end": 329
               },
-              "ctxt": 0,
-              "value": "TEA",
-              "optional": false
+              "value": "TEA"
             }
           },
           "definite": false

@@ -311,9 +311,7 @@
                 "start": 171,
                 "end": 177
               },
-              "ctxt": 0,
-              "value": "global",
-              "optional": false
+              "value": "global"
             }
           }
         },
@@ -602,9 +600,7 @@
               "start": 371,
               "end": 379
             },
-            "ctxt": 0,
-            "value": "validate",
-            "optional": false
+            "value": "validate"
           },
           "function": {
             "params": [],
@@ -924,9 +920,7 @@
                   "start": 857,
                   "end": 866
                 },
-                "ctxt": 0,
-                "value": "onChanges",
-                "optional": false
+                "value": "onChanges"
               }
             },
             "consequent": {
@@ -972,9 +966,7 @@
                           "start": 880,
                           "end": 889
                         },
-                        "ctxt": 0,
-                        "value": "onChanges",
-                        "optional": false
+                        "value": "onChanges"
                       }
                     },
                     "arguments": [

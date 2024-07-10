@@ -40,9 +40,7 @@
               "start": 143,
               "end": 150
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -160,9 +158,7 @@
                 "start": 215,
                 "end": 225
               },
-              "ctxt": 0,
-              "value": "assignment",
-              "optional": false
+              "value": "assignment"
             }
           },
           "property": {
@@ -171,9 +167,7 @@
               "start": 226,
               "end": 232
             },
-            "ctxt": 0,
-            "value": "nested",
-            "optional": false
+            "value": "nested"
           }
         },
         "right": {
@@ -221,9 +215,7 @@
               "start": 242,
               "end": 249
             },
-            "ctxt": 0,
-            "value": "noError",
-            "optional": false
+            "value": "noError"
           }
         },
         "arguments": [],

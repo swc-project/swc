@@ -61,9 +61,7 @@
           "start": 107,
           "end": 110
         },
-        "ctxt": 0,
-        "value": "ONE",
-        "optional": false
+        "value": "ONE"
       },
       "body": {
         "type": "SwitchStatement",
@@ -109,9 +107,7 @@
                     "start": 154,
                     "end": 157
                   },
-                  "ctxt": 0,
-                  "value": "ONE",
-                  "optional": false
+                  "value": "ONE"
                 }
               }
             ]
@@ -131,9 +127,7 @@
           "start": 162,
           "end": 165
         },
-        "ctxt": 0,
-        "value": "TWO",
-        "optional": false
+        "value": "TWO"
       },
       "body": {
         "type": "LabeledStatement",
@@ -147,9 +141,7 @@
             "start": 167,
             "end": 172
           },
-          "ctxt": 0,
-          "value": "THREE",
-          "optional": false
+          "value": "THREE"
         },
         "body": {
           "type": "SwitchStatement",
@@ -195,9 +187,7 @@
                       "start": 216,
                       "end": 221
                     },
-                    "ctxt": 0,
-                    "value": "THREE",
-                    "optional": false
+                    "value": "THREE"
                   }
                 }
               ]
@@ -218,9 +208,7 @@
           "start": 226,
           "end": 230
         },
-        "ctxt": 0,
-        "value": "FOUR",
-        "optional": false
+        "value": "FOUR"
       },
       "body": {
         "type": "SwitchStatement",
@@ -266,9 +254,7 @@
                     "start": 268,
                     "end": 272
                   },
-                  "ctxt": 0,
-                  "value": "FIVE",
-                  "optional": false
+                  "value": "FIVE"
                 },
                 "body": {
                   "type": "SwitchStatement",
@@ -314,9 +300,7 @@
                               "start": 340,
                               "end": 344
                             },
-                            "ctxt": 0,
-                            "value": "FOUR",
-                            "optional": false
+                            "value": "FOUR"
                           }
                         }
                       ]
@@ -373,9 +357,7 @@
                   "start": 395,
                   "end": 398
                 },
-                "ctxt": 0,
-                "value": "SIX",
-                "optional": false
+                "value": "SIX"
               },
               "body": {
                 "type": "SwitchStatement",
@@ -421,9 +403,7 @@
                             "start": 466,
                             "end": 469
                           },
-                          "ctxt": 0,
-                          "value": "SIX",
-                          "optional": false
+                          "value": "SIX"
                         }
                       }
                     ]
@@ -447,9 +427,7 @@
           "start": 484,
           "end": 489
         },
-        "ctxt": 0,
-        "value": "SEVEN",
-        "optional": false
+        "value": "SEVEN"
       },
       "body": {
         "type": "SwitchStatement",
@@ -559,9 +537,7 @@
                                     "start": 653,
                                     "end": 658
                                   },
-                                  "ctxt": 0,
-                                  "value": "SEVEN",
-                                  "optional": false
+                                  "value": "SEVEN"
                                 }
                               },
                               {
@@ -576,9 +552,7 @@
                                     "start": 684,
                                     "end": 689
                                   },
-                                  "ctxt": 0,
-                                  "value": "EIGHT",
-                                  "optional": false
+                                  "value": "EIGHT"
                                 },
                                 "body": {
                                   "type": "SwitchStatement",
@@ -679,9 +653,7 @@
                                               "start": 862,
                                               "end": 867
                                             },
-                                            "ctxt": 0,
-                                            "value": "EIGHT",
-                                            "optional": false
+                                            "value": "EIGHT"
                                           }
                                         }
                                       ]

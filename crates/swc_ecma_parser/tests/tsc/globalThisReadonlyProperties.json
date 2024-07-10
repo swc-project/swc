@@ -40,9 +40,7 @@
               "start": 12,
               "end": 22
             },
-            "ctxt": 0,
-            "value": "globalThis",
-            "optional": false
+            "value": "globalThis"
           }
         },
         "right": {
@@ -186,9 +184,7 @@
               "start": 83,
               "end": 84
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           }
         },
         "right": {
@@ -237,9 +233,7 @@
               "start": 100,
               "end": 101
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           }
         },
         "right": {

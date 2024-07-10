@@ -244,9 +244,7 @@
                           "start": 492,
                           "end": 505
                         },
-                        "ctxt": 0,
-                        "value": "toExponential",
-                        "optional": false
+                        "value": "toExponential"
                       }
                     },
                     "arguments": [],
@@ -312,9 +310,7 @@
               "start": 547,
               "end": 550
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
@@ -564,9 +560,7 @@
                           "start": 616,
                           "end": 619
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       }
                     },
                     "arguments": [],
@@ -2234,9 +2228,7 @@
                         "start": 1866,
                         "end": 1877
                       },
-                      "ctxt": 0,
-                      "value": "toLowerCase",
-                      "optional": false
+                      "value": "toLowerCase"
                     }
                   },
                   "arguments": [],
@@ -2339,9 +2331,7 @@
                         "start": 1903,
                         "end": 1916
                       },
-                      "ctxt": 0,
-                      "value": "toExponential",
-                      "optional": false
+                      "value": "toExponential"
                     }
                   },
                   "arguments": [],
@@ -2478,9 +2468,7 @@
               "start": 2171,
               "end": 2182
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {

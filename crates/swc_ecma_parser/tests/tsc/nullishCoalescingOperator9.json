@@ -237,9 +237,7 @@
                                 "start": 97,
                                 "end": 108
                               },
-                              "ctxt": 0,
-                              "value": "toLowerCase",
-                              "optional": false
+                              "value": "toLowerCase"
                             }
                           },
                           "arguments": [],
@@ -380,9 +378,7 @@
                                 "start": 147,
                                 "end": 158
                               },
-                              "ctxt": 0,
-                              "value": "toLowerCase",
-                              "optional": false
+                              "value": "toLowerCase"
                             }
                           },
                           "arguments": [],

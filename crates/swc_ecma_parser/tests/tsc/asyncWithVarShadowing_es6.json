@@ -880,9 +880,7 @@
                           "start": 461,
                           "end": 462
                         },
-                        "ctxt": 0,
-                        "value": "z",
-                        "optional": false
+                        "value": "z"
                       },
                       "value": {
                         "type": "Identifier",
@@ -1000,9 +998,7 @@
                           "start": 510,
                           "end": 511
                         },
-                        "ctxt": 0,
-                        "value": "z",
-                        "optional": false
+                        "value": "z"
                       },
                       "value": {
                         "type": "ObjectPattern",
@@ -1139,9 +1135,7 @@
                           "start": 564,
                           "end": 565
                         },
-                        "ctxt": 0,
-                        "value": "z",
-                        "optional": false
+                        "value": "z"
                       },
                       "value": {
                         "type": "AssignmentPattern",
@@ -4680,9 +4674,7 @@
                 "start": 2379,
                 "end": 2382
               },
-              "ctxt": 0,
-              "value": "foo",
-              "optional": false
+              "value": "foo"
             },
             "body": {
               "type": "BlockStatement",
@@ -4736,9 +4728,7 @@
                       "start": 2415,
                       "end": 2418
                     },
-                    "ctxt": 0,
-                    "value": "foo",
-                    "optional": false
+                    "value": "foo"
                   }
                 }
               ]

@@ -38,9 +38,7 @@
               "start": 145,
               "end": 156
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -86,9 +84,7 @@
                         "start": 178,
                         "end": 184
                       },
-                      "ctxt": 0,
-                      "value": "random",
-                      "optional": false
+                      "value": "random"
                     }
                   },
                   "arguments": [],
@@ -134,9 +130,7 @@
                               "start": 207,
                               "end": 220
                             },
-                            "ctxt": 0,
-                            "value": "inConstructor",
-                            "optional": false
+                            "value": "inConstructor"
                           }
                         },
                         "right": {
@@ -192,9 +186,7 @@
                               "start": 268,
                               "end": 281
                             },
-                            "ctxt": 0,
-                            "value": "inConstructor",
-                            "optional": false
+                            "value": "inConstructor"
                           }
                         },
                         "right": {
@@ -243,9 +235,7 @@
                         "start": 316,
                         "end": 326
                       },
-                      "ctxt": 0,
-                      "value": "inMultiple",
-                      "optional": false
+                      "value": "inMultiple"
                     }
                   },
                   "right": {
@@ -276,9 +266,7 @@
               "start": 342,
               "end": 348
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           },
           "function": {
             "params": [],
@@ -331,9 +319,7 @@
                           "start": 370,
                           "end": 376
                         },
-                        "ctxt": 0,
-                        "value": "random",
-                        "optional": false
+                        "value": "random"
                       }
                     },
                     "arguments": [],
@@ -379,9 +365,7 @@
                                 "start": 399,
                                 "end": 407
                               },
-                              "ctxt": 0,
-                              "value": "inMethod",
-                              "optional": false
+                              "value": "inMethod"
                             }
                           },
                           "right": {
@@ -427,9 +411,7 @@
                                 "start": 430,
                                 "end": 446
                               },
-                              "ctxt": 0,
-                              "value": "inMethodNullable",
-                              "optional": false
+                              "value": "inMethodNullable"
                             }
                           },
                           "right": {
@@ -483,9 +465,7 @@
                                 "start": 497,
                                 "end": 505
                               },
-                              "ctxt": 0,
-                              "value": "inMethod",
-                              "optional": false
+                              "value": "inMethod"
                             }
                           },
                           "right": {
@@ -531,9 +511,7 @@
                                 "start": 534,
                                 "end": 550
                               },
-                              "ctxt": 0,
-                              "value": "inMethodNullable",
-                              "optional": false
+                              "value": "inMethodNullable"
                             }
                           },
                           "right": {
@@ -583,9 +561,7 @@
                           "start": 587,
                           "end": 597
                         },
-                        "ctxt": 0,
-                        "value": "inMultiple",
-                        "optional": false
+                        "value": "inMultiple"
                       }
                     },
                     "right": {
@@ -631,9 +607,7 @@
                           "start": 623,
                           "end": 640
                         },
-                        "ctxt": 0,
-                        "value": "inMultipleMethods",
-                        "optional": false
+                        "value": "inMultipleMethods"
                       }
                     },
                     "right": {
@@ -725,9 +699,7 @@
                                       "start": 704,
                                       "end": 710
                                     },
-                                    "ctxt": 0,
-                                    "value": "random",
-                                    "optional": false
+                                    "value": "random"
                                   }
                                 },
                                 "arguments": [],
@@ -773,9 +745,7 @@
                                             "start": 737,
                                             "end": 758
                                           },
-                                          "ctxt": 0,
-                                          "value": "inNestedArrowFunction",
-                                          "optional": false
+                                          "value": "inNestedArrowFunction"
                                         }
                                       },
                                       "right": {
@@ -831,9 +801,7 @@
                                             "start": 818,
                                             "end": 839
                                           },
-                                          "ctxt": 0,
-                                          "value": "inNestedArrowFunction",
-                                          "optional": false
+                                          "value": "inNestedArrowFunction"
                                         }
                                       },
                                       "right": {
@@ -887,9 +855,7 @@
               "start": 886,
               "end": 889
             },
-            "ctxt": 0,
-            "value": "get",
-            "optional": false
+            "value": "get"
           },
           "function": {
             "params": [],
@@ -942,9 +908,7 @@
                           "start": 911,
                           "end": 917
                         },
-                        "ctxt": 0,
-                        "value": "random",
-                        "optional": false
+                        "value": "random"
                       }
                     },
                     "arguments": [],
@@ -990,9 +954,7 @@
                                 "start": 940,
                                 "end": 948
                               },
-                              "ctxt": 0,
-                              "value": "inGetter",
-                              "optional": false
+                              "value": "inGetter"
                             }
                           },
                           "right": {
@@ -1048,9 +1010,7 @@
                                 "start": 996,
                                 "end": 1004
                               },
-                              "ctxt": 0,
-                              "value": "inGetter",
-                              "optional": false
+                              "value": "inGetter"
                             }
                           },
                           "right": {
@@ -1099,9 +1059,7 @@
                           "start": 1039,
                           "end": 1049
                         },
-                        "ctxt": 0,
-                        "value": "inMultiple",
-                        "optional": false
+                        "value": "inMultiple"
                       }
                     },
                     "right": {
@@ -1146,9 +1104,7 @@
                           "start": 1072,
                           "end": 1089
                         },
-                        "ctxt": 0,
-                        "value": "inMultipleMethods",
-                        "optional": false
+                        "value": "inMultipleMethods"
                       }
                     },
                     "right": {
@@ -1187,9 +1143,7 @@
               "start": 1109,
               "end": 1112
             },
-            "ctxt": 0,
-            "value": "set",
-            "optional": false
+            "value": "set"
           },
           "function": {
             "params": [],
@@ -1242,9 +1196,7 @@
                           "start": 1134,
                           "end": 1140
                         },
-                        "ctxt": 0,
-                        "value": "random",
-                        "optional": false
+                        "value": "random"
                       }
                     },
                     "arguments": [],
@@ -1290,9 +1242,7 @@
                                 "start": 1163,
                                 "end": 1171
                               },
-                              "ctxt": 0,
-                              "value": "inSetter",
-                              "optional": false
+                              "value": "inSetter"
                             }
                           },
                           "right": {
@@ -1348,9 +1298,7 @@
                                 "start": 1219,
                                 "end": 1227
                               },
-                              "ctxt": 0,
-                              "value": "inSetter",
-                              "optional": false
+                              "value": "inSetter"
                             }
                           },
                           "right": {
@@ -1393,9 +1341,7 @@
               "start": 1259,
               "end": 1263
             },
-            "ctxt": 0,
-            "value": "prop",
-            "optional": false
+            "value": "prop"
           },
           "value": {
             "type": "ArrowFunctionExpression",
@@ -1448,9 +1394,7 @@
                           "start": 1291,
                           "end": 1297
                         },
-                        "ctxt": 0,
-                        "value": "random",
-                        "optional": false
+                        "value": "random"
                       }
                     },
                     "arguments": [],
@@ -1496,9 +1440,7 @@
                                 "start": 1320,
                                 "end": 1341
                               },
-                              "ctxt": 0,
-                              "value": "inPropertyDeclaration",
-                              "optional": false
+                              "value": "inPropertyDeclaration"
                             }
                           },
                           "right": {
@@ -1554,9 +1496,7 @@
                                 "start": 1389,
                                 "end": 1410
                               },
-                              "ctxt": 0,
-                              "value": "inPropertyDeclaration",
-                              "optional": false
+                              "value": "inPropertyDeclaration"
                             }
                           },
                           "right": {
@@ -1603,9 +1543,7 @@
               "start": 1449,
               "end": 1455
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           },
           "function": {
             "params": [],
@@ -1658,9 +1596,7 @@
                           "start": 1477,
                           "end": 1483
                         },
-                        "ctxt": 0,
-                        "value": "random",
-                        "optional": false
+                        "value": "random"
                       }
                     },
                     "arguments": [],
@@ -1706,9 +1642,7 @@
                                 "start": 1506,
                                 "end": 1520
                               },
-                              "ctxt": 0,
-                              "value": "inStaticMethod",
-                              "optional": false
+                              "value": "inStaticMethod"
                             }
                           },
                           "right": {
@@ -1764,9 +1698,7 @@
                                 "start": 1568,
                                 "end": 1582
                               },
-                              "ctxt": 0,
-                              "value": "inStaticMethod",
-                              "optional": false
+                              "value": "inStaticMethod"
                             }
                           },
                           "right": {
@@ -1861,9 +1793,7 @@
                                       "start": 1655,
                                       "end": 1661
                                     },
-                                    "ctxt": 0,
-                                    "value": "random",
-                                    "optional": false
+                                    "value": "random"
                                   }
                                 },
                                 "arguments": [],
@@ -1909,9 +1839,7 @@
                                             "start": 1688,
                                             "end": 1715
                                           },
-                                          "ctxt": 0,
-                                          "value": "inStaticNestedArrowFunction",
-                                          "optional": false
+                                          "value": "inStaticNestedArrowFunction"
                                         }
                                       },
                                       "right": {
@@ -1967,9 +1895,7 @@
                                             "start": 1775,
                                             "end": 1802
                                           },
-                                          "ctxt": 0,
-                                          "value": "inStaticNestedArrowFunction",
-                                          "optional": false
+                                          "value": "inStaticNestedArrowFunction"
                                         }
                                       },
                                       "right": {
@@ -2023,9 +1949,7 @@
               "start": 1856,
               "end": 1859
             },
-            "ctxt": 0,
-            "value": "get",
-            "optional": false
+            "value": "get"
           },
           "function": {
             "params": [],
@@ -2078,9 +2002,7 @@
                           "start": 1881,
                           "end": 1887
                         },
-                        "ctxt": 0,
-                        "value": "random",
-                        "optional": false
+                        "value": "random"
                       }
                     },
                     "arguments": [],
@@ -2126,9 +2048,7 @@
                                 "start": 1910,
                                 "end": 1924
                               },
-                              "ctxt": 0,
-                              "value": "inStaticGetter",
-                              "optional": false
+                              "value": "inStaticGetter"
                             }
                           },
                           "right": {
@@ -2184,9 +2104,7 @@
                                 "start": 1972,
                                 "end": 1986
                               },
-                              "ctxt": 0,
-                              "value": "inStaticGetter",
-                              "optional": false
+                              "value": "inStaticGetter"
                             }
                           },
                           "right": {
@@ -2229,9 +2147,7 @@
               "start": 2025,
               "end": 2028
             },
-            "ctxt": 0,
-            "value": "set",
-            "optional": false
+            "value": "set"
           },
           "function": {
             "params": [],
@@ -2284,9 +2200,7 @@
                           "start": 2050,
                           "end": 2056
                         },
-                        "ctxt": 0,
-                        "value": "random",
-                        "optional": false
+                        "value": "random"
                       }
                     },
                     "arguments": [],
@@ -2332,9 +2246,7 @@
                                 "start": 2079,
                                 "end": 2093
                               },
-                              "ctxt": 0,
-                              "value": "inStaticSetter",
-                              "optional": false
+                              "value": "inStaticSetter"
                             }
                           },
                           "right": {
@@ -2390,9 +2302,7 @@
                                 "start": 2141,
                                 "end": 2155
                               },
-                              "ctxt": 0,
-                              "value": "inStaticSetter",
-                              "optional": false
+                              "value": "inStaticSetter"
                             }
                           },
                           "right": {
@@ -2435,9 +2345,7 @@
               "start": 2194,
               "end": 2198
             },
-            "ctxt": 0,
-            "value": "prop",
-            "optional": false
+            "value": "prop"
           },
           "value": {
             "type": "ArrowFunctionExpression",
@@ -2490,9 +2398,7 @@
                           "start": 2226,
                           "end": 2232
                         },
-                        "ctxt": 0,
-                        "value": "random",
-                        "optional": false
+                        "value": "random"
                       }
                     },
                     "arguments": [],
@@ -2538,9 +2444,7 @@
                                 "start": 2255,
                                 "end": 2282
                               },
-                              "ctxt": 0,
-                              "value": "inStaticPropertyDeclaration",
-                              "optional": false
+                              "value": "inStaticPropertyDeclaration"
                             }
                           },
                           "right": {
@@ -2596,9 +2500,7 @@
                                 "start": 2330,
                                 "end": 2357
                               },
-                              "ctxt": 0,
-                              "value": "inStaticPropertyDeclaration",
-                              "optional": false
+                              "value": "inStaticPropertyDeclaration"
                             }
                           },
                           "right": {
@@ -2803,9 +2705,7 @@
                 "start": 2485,
                 "end": 2498
               },
-              "ctxt": 0,
-              "value": "inConstructor",
-              "optional": false
+              "value": "inConstructor"
             }
           },
           "definite": false
@@ -2932,9 +2832,7 @@
                 "start": 2596,
                 "end": 2604
               },
-              "ctxt": 0,
-              "value": "inMethod",
-              "optional": false
+              "value": "inMethod"
             }
           },
           "definite": false
@@ -2990,9 +2888,7 @@
                 "start": 2640,
                 "end": 2648
               },
-              "ctxt": 0,
-              "value": "inGetter",
-              "optional": false
+              "value": "inGetter"
             }
           },
           "definite": false
@@ -3048,9 +2944,7 @@
                 "start": 2684,
                 "end": 2692
               },
-              "ctxt": 0,
-              "value": "inSetter",
-              "optional": false
+              "value": "inSetter"
             }
           },
           "definite": false
@@ -3106,9 +3000,7 @@
                 "start": 2728,
                 "end": 2749
               },
-              "ctxt": 0,
-              "value": "inPropertyDeclaration",
-              "optional": false
+              "value": "inPropertyDeclaration"
             }
           },
           "definite": false
@@ -3164,9 +3056,7 @@
                 "start": 2785,
                 "end": 2806
               },
-              "ctxt": 0,
-              "value": "inNestedArrowFunction",
-              "optional": false
+              "value": "inNestedArrowFunction"
             }
           },
           "definite": false
@@ -3339,9 +3229,7 @@
                 "start": 2900,
                 "end": 2910
               },
-              "ctxt": 0,
-              "value": "inMultiple",
-              "optional": false
+              "value": "inMultiple"
             }
           },
           "definite": false
@@ -3468,9 +3356,7 @@
                 "start": 3010,
                 "end": 3027
               },
-              "ctxt": 0,
-              "value": "inMultipleMethods",
-              "optional": false
+              "value": "inMultipleMethods"
             }
           },
           "definite": false
@@ -3572,9 +3458,7 @@
                 "start": 3055,
                 "end": 3071
               },
-              "ctxt": 0,
-              "value": "inMethodNullable",
-              "optional": false
+              "value": "inMethodNullable"
             }
           },
           "definite": false
@@ -3630,9 +3514,7 @@
                 "start": 3109,
                 "end": 3123
               },
-              "ctxt": 0,
-              "value": "inStaticMethod",
-              "optional": false
+              "value": "inStaticMethod"
             }
           },
           "definite": false
@@ -3688,9 +3570,7 @@
                 "start": 3159,
                 "end": 3173
               },
-              "ctxt": 0,
-              "value": "inStaticGetter",
-              "optional": false
+              "value": "inStaticGetter"
             }
           },
           "definite": false
@@ -3746,9 +3626,7 @@
                 "start": 3209,
                 "end": 3223
               },
-              "ctxt": 0,
-              "value": "inStaticSetter",
-              "optional": false
+              "value": "inStaticSetter"
             }
           },
           "definite": false
@@ -3804,9 +3682,7 @@
                 "start": 3259,
                 "end": 3286
               },
-              "ctxt": 0,
-              "value": "inStaticPropertyDeclaration",
-              "optional": false
+              "value": "inStaticPropertyDeclaration"
             }
           },
           "definite": false
@@ -3862,9 +3738,7 @@
                 "start": 3322,
                 "end": 3349
               },
-              "ctxt": 0,
-              "value": "inStaticNestedArrowFunction",
-              "optional": false
+              "value": "inStaticNestedArrowFunction"
             }
           },
           "definite": false
