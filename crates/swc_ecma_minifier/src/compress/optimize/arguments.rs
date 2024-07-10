@@ -31,10 +31,9 @@ impl Optimizer<'_> {
 
                         self.changed = true;
                         report_change!("arguments: Optimizing computed access to arguments");
-                        *prop = MemberProp::Ident(Ident {
+                        *prop = MemberProp::Ident(IdentName {
                             span: s.span,
                             sym: s.take().value,
-                            ..Default::default()
                         })
                     }
                 }

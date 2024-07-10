@@ -402,7 +402,7 @@ impl Decorators {
                                 key: PropName::Ident(quote_ident!("value")),
                                 value: Box::new(
                                     FnExpr {
-                                        ident: fn_name.map(Ident::into_private),
+                                        ident: fn_name.map(Ident::from).map(Ident::into_private),
                                         function: Function {
                                             decorators: vec![],
                                             ..*method.function

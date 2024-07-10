@@ -52,7 +52,7 @@ impl Fold for MemberExprLit {
                 };
             } else {
                 return MemberExpr {
-                    prop: MemberProp::Ident(quote_ident!(i.span, i.sym)),
+                    prop: MemberProp::Ident(IdentName::new(i.sym, i.span)),
                     ..e
                 };
             }

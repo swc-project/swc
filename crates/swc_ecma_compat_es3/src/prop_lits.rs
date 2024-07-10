@@ -62,7 +62,7 @@ impl Fold for PropertyLiteral {
                         value: sym,
                     })
                 } else {
-                    PropName::Ident(IdentName { span, sym, ..i })
+                    PropName::Ident(IdentName { span, sym })
                 }
             }
             _ => n,

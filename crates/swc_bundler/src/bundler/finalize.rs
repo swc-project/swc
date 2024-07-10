@@ -258,7 +258,7 @@ where
 
                                 props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                     KeyValueProp {
-                                        key: PropName::Ident(Ident::new_no_ctxt(
+                                        key: PropName::Ident(IdentName::new(
                                             "default".into(),
                                             export.span,
                                         )),

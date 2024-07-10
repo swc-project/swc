@@ -89,10 +89,9 @@ impl Pure<'_> {
             {
                 self.changed = true;
                 report_change!("misc: Optimizing string property name");
-                *name = PropName::Ident(Ident {
+                *name = PropName::Ident(IdentName {
                     span: s.span,
                     sym: s.value.clone(),
-                    ..Default::default()
                 });
                 return;
             }
