@@ -2157,7 +2157,7 @@ pub fn default_constructor(has_super: bool) -> Constructor {
 
     Constructor {
         span: DUMMY_SP,
-        key: PropName::Ident(quote_ident!("constructor")),
+        key: PropName::Ident("constructor".into()),
         is_optional: false,
         params: if has_super {
             vec![ParamOrTsParamProp::Param(Param {
