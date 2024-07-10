@@ -65,7 +65,7 @@ impl<I: Tokens> Parser<I> {
                 span: span!(self, start),
                 obj: match node {
                     JSXElementName::Ident(i) => JSXObject::Ident(i),
-                    JSXElementName::JSXMemberExpr(i) => JSXObject::JSXMemberExpr(Box::new(i)),
+                    JSXElementName::JSXMemberExpr(i) => JSXObject::JSXMemberExpr(i),
                     _ => unimplemented!("JSXNamespacedName -> JSXObject"),
                 },
                 prop,
@@ -86,7 +86,7 @@ impl<I: Tokens> Parser<I> {
 
         match *cur!(self, true) {
             tok!('{') => {
-                let node = self.parse_jsx_expr_container(start)?;
+                let node = Box::new(self.parse_jsx_expr_container(start)?);
 
                 match node.expr {
                     JSXExpr::JSXEmptyExpr(..) => {
@@ -103,7 +103,7 @@ impl<I: Tokens> Parser<I> {
                 let expr = self.parse_jsx_element()?;
                 match expr {
                     Either::Left(n) => Ok(JSXAttrValue::JSXFragment(n)),
-                    Either::Right(n) => Ok(JSXAttrValue::JSXElement(Box::new(n))),
+                    Either::Right(n) => Ok(JSXAttrValue::JSXElement(n)),
                 }
             }
 
@@ -203,13 +203,13 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_jsx_opening_element_at(
         &mut self,
         start: BytePos,
-    ) -> PResult<Either<JSXOpeningFragment, JSXOpeningElement>> {
+    ) -> PResult<EitherBoxed<JSXOpeningFragment, JSXOpeningElement>> {
         debug_assert!(self.input.syntax().jsx());
 
         if eat!(self, JSXTagEnd) {
-            return Ok(Either::Left(JSXOpeningFragment {
+            return Ok(Either::Left(Box::new(JSXOpeningFragment {
                 span: span!(self, start),
-            }));
+            })));
         }
 
         let ctx = Context {
@@ -226,7 +226,7 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         start: BytePos,
         name: JSXElementName,
-    ) -> PResult<JSXOpeningElement> {
+    ) -> PResult<Box<JSXOpeningElement>> {
         debug_assert!(self.input.syntax().jsx());
 
         let type_args = if self.input.syntax().typescript() && is!(self, '<') {
@@ -336,7 +336,7 @@ impl<I: Tokens> Parser<I> {
 
                             children.push(p.parse_jsx_element_at(start).map(|e| match e {
                                 Either::Left(e) => JSXElementChild::from(e),
-                                Either::Right(e) => JSXElementChild::from(Box::new(e)),
+                                Either::Right(e) => JSXElementChild::from(e),
                             })?);
                         }
                         Token::JSXText { .. } => {
@@ -455,10 +455,10 @@ fn get_qualified_jsx_name(name: &JSXElementName) -> JsWord {
     }
     match *name {
         JSXElementName::Ident(ref i) => i.sym.clone(),
-        JSXElementName::JSXNamespacedName(JSXNamespacedName {
+        JSXElementName::JSXNamespacedName(box JSXNamespacedName {
             ref ns, ref name, ..
         }) => format!("{}:{}", ns.sym, name.sym).into(),
-        JSXElementName::JSXMemberExpr(JSXMemberExpr {
+        JSXElementName::JSXMemberExpr(box JSXMemberExpr {
             ref obj, ref prop, ..
         }) => format!("{}.{}", get_qualified_obj_name(obj), prop.sym).into(),
     }

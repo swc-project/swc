@@ -729,7 +729,7 @@ impl<I: Tokens> Parser<I> {
         // Computed property names are grammar errors in an enum, so accept just string
         // literal or identifier.
         let id = match *cur!(self, true) {
-            Token::Str { .. } => self.parse_lit().map(|lit| match *lit {
+            Token::Str { .. } => self.parse_lit().map(|lit| match lit {
                 Lit::Str(s) => TsEnumMemberId::Str(s),
                 _ => unreachable!(),
             })?,
