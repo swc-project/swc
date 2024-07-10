@@ -58,15 +58,7 @@ impl<'a> Lexer<'a> {
                         self.atoms.atom(value)
                     };
 
-                    let raw = {
-                        let s = unsafe {
-                            // Safety: We already checked for the range
-                            self.input.slice(start, cur_pos)
-                        };
-                        self.atoms.atom(s)
-                    };
-
-                    return Ok(Some(Token::JSXText { raw, value }));
+                    return Ok(Some(Token::JSXText { value }));
                 }
                 '>' => {
                     self.emit_error(
@@ -342,16 +334,7 @@ impl<'a> Lexer<'a> {
             }
         }
 
-        let end = self.input.cur_pos();
-        let raw = unsafe {
-            // Safety: Both of `start` and `end` are generated from `cur_pos()`
-            self.input.slice(start, end)
-        };
-
-        Ok(Token::Str {
-            value,
-            raw: self.atoms.atom(raw),
-        })
+        Ok(Token::Str { value })
     }
 
     /// Read a JSX identifier (valid tag or attribute name).

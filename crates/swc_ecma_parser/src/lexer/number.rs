@@ -224,18 +224,13 @@ impl<'a> Lexer<'a> {
 
         self.ensure_not_ident()?;
 
-        let end = self.cur_pos();
-        let raw_str = unsafe {
-            // Safety: We got both start and end position from `self.input`
-            self.input.slice(start, end)
-        };
-        Ok(Either::Left((val, raw_str.into())))
+        Ok(Either::Left(val))
     }
 
     /// Returns `Left(value)` or `Right(BigInt)`
     pub(super) fn read_radix_number<const RADIX: u8>(
         &mut self,
-    ) -> LexResult<Either<(f64, Atom), (Box<BigIntValue>, Atom)>> {
+    ) -> LexResult<Either<f64, Box<BigIntValue>>> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 16,
             "radix should be one of 2, 8, 16, but got {}",

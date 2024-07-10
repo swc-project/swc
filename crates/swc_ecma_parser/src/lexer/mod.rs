@@ -315,15 +315,15 @@ impl<'a> Lexer<'a> {
             Some('b') | Some('B') => self.read_radix_number::<2>(),
             _ => {
                 return self.read_number(false).map(|v| match v {
-                    Left((value, raw)) => Token::Num { value, raw },
-                    Right((value, raw)) => Token::BigInt { value, raw },
+                    Left(value) => Token::Num { value },
+                    Right(value) => Token::BigInt { value },
                 });
             }
         };
 
         bigint.map(|v| match v {
-            Left((value, raw)) => Token::Num { value, raw },
-            Right((value, raw)) => Token::BigInt { value, raw },
+            Left(value) => Token::Num { value },
+            Right(value) => Token::BigInt { value },
         })
     }
 
@@ -1049,16 +1049,7 @@ impl<'a> Lexer<'a> {
                             l.input.bump();
                         }
 
-                        let end = l.cur_pos();
-
-                        let raw = unsafe {
-                            // Safety: start and end are valid position because we got them from
-                            // `self.input`
-                            l.input.slice(start, end)
-                        };
-                        let raw = l.atoms.atom(raw);
-
-                        return Ok(Token::Str { value, raw });
+                        return Ok(Token::Str { value });
                     }
 
                     if c == b'\\' {
@@ -1121,16 +1112,8 @@ impl<'a> Lexer<'a> {
 
             l.emit_error(start, SyntaxError::UnterminatedStrLit);
 
-            let end = l.cur_pos();
-
-            let raw = unsafe {
-                // Safety: start and end are valid position because we got them from
-                // `self.input`
-                l.input.slice(start, end)
-            };
             Ok(Token::Str {
                 value: l.atoms.atom(&*buf),
-                raw: l.atoms.atom(raw),
             })
         })
     }
