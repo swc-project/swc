@@ -1571,7 +1571,7 @@ impl From<SimpleAssignTarget> for Expr {
     fn from(s: SimpleAssignTarget) -> Self {
         match s {
             SimpleAssignTarget::Ident(i) => i.into(),
-            SimpleAssignTarget::Ident(i) => i.into().into(),
+            SimpleAssignTarget::Ident(i) => i.into(),
             SimpleAssignTarget::Member(m) => m.into(),
             SimpleAssignTarget::SuperProp(s) => s.into(),
             SimpleAssignTarget::Paren(s) => s.into(),

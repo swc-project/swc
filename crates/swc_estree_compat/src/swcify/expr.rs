@@ -41,7 +41,7 @@ impl Swcify for Expression {
             Expression::Conditional(e) => e.swcify(ctx).into(),
             Expression::Func(e) => e.swcify(ctx).into(),
             Expression::Id(e) => e.swcify(ctx).id.into(),
-            Expression::Id(e) => e.swcify(ctx).into().into(),
+            Expression::Id(e) => e.swcify(ctx).into(),
             Expression::Id(e) => e.swcify(ctx).into(),
             Expression::Literal(Literal::String(e)) => e.swcify(ctx).into(),
             Expression::Literal(Literal::Numeric(e)) => e.swcify(ctx).into(),
@@ -66,7 +66,7 @@ impl Swcify for Expression {
             Expression::Yield(e) => e.swcify(ctx).into(),
             Expression::Await(e) => e.swcify(ctx).into(),
             Expression::Literal(Literal::BigInt(e)) => e.swcify(ctx).into(),
-            Expression::Literal(Literal::BigInt(e)) => e.swcify(ctx).into().into(),
+            Expression::Literal(Literal::BigInt(e)) => e.swcify(ctx).into(),
             Expression::OptionalMember(e) => e.swcify(ctx).into(),
             Expression::OptionalCall(e) => e.swcify(ctx).into(),
             Expression::JSXElement(e) => return e.swcify(ctx).into(),
@@ -518,7 +518,7 @@ impl Swcify for ObjectProperty {
                 ObjectPropVal::Pattern(pat) => match pat {
                     PatternLike::Id(i) => i.swcify(ctx).into(),
                     PatternLike::Id(i) => Box::new(Expr::Ident(i.swcify(ctx).into())),
-                    PatternLike::Id(i) => i.swcify(ctx).into().into(),
+                    PatternLike::Id(i) => i.swcify(ctx).into(),
                     _ => {
                         panic!("swc does not support ObjectPropVal::Pattern({:?})", pat)
                     }
@@ -801,7 +801,7 @@ impl Swcify for OptionalMemberExprProp {
         match self {
             OptionalMemberExprProp::Id(v) => v.swcify(ctx).into(),
             OptionalMemberExprProp::Id(v) => Box::new(Expr::Ident(v.swcify(ctx).into())),
-            OptionalMemberExprProp::Id(v) => v.swcify(ctx).into().into(),
+            OptionalMemberExprProp::Id(v) => v.swcify(ctx).into(),
             OptionalMemberExprProp::Expr(v) => v.swcify(ctx),
         }
     }
