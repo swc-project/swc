@@ -543,29 +543,15 @@ where
                         constructor = Some(c)
                     }
                 }
-                ClassMember::PrivateMethod(_) => unreachable!(
-                    "classes pass: private method\nclass_properties pass should remove this"
-                ),
                 ClassMember::Method(m) => methods.push(m),
 
-                ClassMember::ClassProp(..) => {
-                    unreachable!("classes pass: property\nclass_properties pass should remove this")
-                }
-                ClassMember::PrivateProp(..) => unreachable!(
-                    "classes pass: private property\nclass_properties pass should remove this"
-                ),
-                ClassMember::TsIndexSignature(..) => {
-                    // We just strip this.
-                }
+                ClassMember::PrivateMethod(_)
+                | ClassMember::ClassProp(..)
+                | ClassMember::PrivateProp(..)
+                | ClassMember::TsIndexSignature(..)
+                | ClassMember::StaticBlock(..)
+                | ClassMember::AutoAccessor(..) => {}
                 ClassMember::Empty(..) => {}
-                ClassMember::StaticBlock(..) => unreachable!(
-                    "classes pass: static blocks\nstatic_blocks pass should remove this"
-                ),
-                ClassMember::AutoAccessor(..) => {
-                    unreachable!(
-                        "classes pass: auto accessor \nauto_accesssors pass should remove this"
-                    )
-                }
             }
         }
 
