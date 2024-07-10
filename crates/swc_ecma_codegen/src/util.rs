@@ -151,10 +151,10 @@ impl StartsWithAlphaNum for Expr {
     fn starts_with_alpha_num(&self) -> bool {
         match self {
             Expr::Ident(_)
-            | Expr::Lit(box Lit::Bool(_))
-            | Expr::Lit(box Lit::Num(_))
-            | Expr::Lit(box Lit::Null(_))
-            | Expr::Lit(box Lit::BigInt(_))
+            | Expr::Lit(Lit::Bool(_))
+            | Expr::Lit(Lit::Num(_))
+            | Expr::Lit(Lit::Null(_))
+            | Expr::Lit(Lit::BigInt(_))
             | Expr::Await(_)
             | Expr::Fn(_)
             | Expr::Class(_)

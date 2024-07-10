@@ -371,20 +371,15 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
                                             this = Some(params.remove(0).pat);
                                         }
 
-                                        let param = Box::new(
-                                            params
-                                                .into_iter()
-                                                .next()
-                                                .map(|v| v.pat)
-                                                .unwrap_or_else(|| {
-                                                    parser.emit_err(
-                                                        key_span,
-                                                        SyntaxError::SetterParam,
-                                                    );
+                                        let param = params
+                                            .into_iter()
+                                            .next()
+                                            .map(|v| v.pat)
+                                            .unwrap_or_else(|| {
+                                                parser.emit_err(key_span, SyntaxError::SetterParam);
 
-                                                    Pat::Invalid(Invalid { span: DUMMY_SP })
-                                                }),
-                                        );
+                                                Pat::Invalid(Invalid { span: DUMMY_SP })
+                                            });
 
                                         // debug_assert_eq!(params.len(), 1);
                                         PropOrSpread::Prop(Prop::Setter(
@@ -410,7 +405,9 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
                                 is_generator,
                             )
                             .map(|function| {
-                                PropOrSpread::Prop(Prop::Method(MethodProp { key, function }))
+                                PropOrSpread::Prop(Prop::Method(
+                                    MethodProp { key, function }.into(),
+                                ))
                             }),
                         _ => unreachable!(),
                     }
