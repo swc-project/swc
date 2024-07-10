@@ -2968,6 +2968,9 @@ where
     #[emitter]
     fn emit_stmt(&mut self, node: &Stmt) -> Result {
         match node {
+            Stmt::Directive(e) => {
+                emit!(e)
+            }
             Stmt::Expr(ref e) => emit!(e),
             Stmt::Block(ref e) => {
                 emit!(e);
@@ -3002,6 +3005,16 @@ where
         if !self.cfg.minify {
             self.wr.write_line()?;
         }
+    }
+
+    #[emitter]
+    #[tracing::instrument(skip_all)]
+    fn emit_directive(&mut self, e: &Directive) -> Result {
+        self.emit_leading_comments_of_span(e.span, false)?;
+
+        self.wr.write_str_lit(e.span, &format!("\"{}\"", e.value))?;
+
+        semi!();
     }
 
     #[emitter]
