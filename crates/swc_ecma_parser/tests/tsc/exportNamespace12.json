@@ -118,9 +118,7 @@
               "start": 92,
               "end": 95
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -176,9 +174,7 @@
               "start": 161,
               "end": 164
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -206,9 +202,7 @@
                   "start": 171,
                   "end": 172
                 },
-                "ctxt": 0,
-                "value": "c",
-                "optional": false
+                "value": "c"
               }
             }
           }

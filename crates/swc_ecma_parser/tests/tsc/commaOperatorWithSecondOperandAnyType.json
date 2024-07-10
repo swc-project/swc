@@ -983,9 +983,7 @@
                   "start": 508,
                   "end": 514
                 },
-                "ctxt": 0,
-                "value": "charAt",
-                "optional": false
+                "value": "charAt"
               }
             },
             "arguments": [
@@ -1155,9 +1153,7 @@
                   "start": 558,
                   "end": 569
                 },
-                "ctxt": 0,
-                "value": "doSomeThing",
-                "optional": false
+                "value": "doSomeThing"
               }
             },
             "arguments": [],
@@ -1439,9 +1435,7 @@
                         "start": 705,
                         "end": 711
                       },
-                      "ctxt": 0,
-                      "value": "charAt",
-                      "optional": false
+                      "value": "charAt"
                     }
                   },
                   "arguments": [
@@ -1652,9 +1646,7 @@
                         "start": 799,
                         "end": 810
                       },
-                      "ctxt": 0,
-                      "value": "doSomeThing",
-                      "optional": false
+                      "value": "doSomeThing"
                     }
                   },
                   "arguments": [],

@@ -37,9 +37,7 @@
               "start": 30,
               "end": 31
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": {
             "type": "StringLiteral",
@@ -114,9 +112,7 @@
               "start": 74,
               "end": 75
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": {
             "type": "StringLiteral",
@@ -164,9 +160,7 @@
               "start": 105,
               "end": 106
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "value": null,
           "typeAnnotation": {
@@ -207,9 +201,7 @@
               "start": 120,
               "end": 131
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -252,9 +244,7 @@
                         "start": 149,
                         "end": 150
                       },
-                      "ctxt": 0,
-                      "value": "y",
-                      "optional": false
+                      "value": "y"
                     }
                   },
                   "right": {
@@ -312,9 +302,7 @@
               "start": 189,
               "end": 190
             },
-            "ctxt": 0,
-            "value": "z",
-            "optional": false
+            "value": "z"
           },
           "value": {
             "type": "BooleanLiteral",
@@ -397,9 +385,7 @@
               "start": 234,
               "end": 235
             },
-            "ctxt": 0,
-            "value": "z",
-            "optional": false
+            "value": "z"
           },
           "value": {
             "type": "BooleanLiteral",
@@ -446,9 +432,7 @@
               "start": 257,
               "end": 258
             },
-            "ctxt": 0,
-            "value": "j",
-            "optional": false
+            "value": "j"
           },
           "value": null,
           "typeAnnotation": {
@@ -489,9 +473,7 @@
               "start": 272,
               "end": 283
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -558,9 +540,7 @@
                         "start": 318,
                         "end": 319
                       },
-                      "ctxt": 0,
-                      "value": "j",
-                      "optional": false
+                      "value": "j"
                     }
                   },
                   "right": {

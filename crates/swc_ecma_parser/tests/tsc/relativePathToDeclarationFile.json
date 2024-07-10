@@ -214,9 +214,7 @@
               "start": 253,
               "end": 264
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -420,9 +418,7 @@
               "start": 436,
               "end": 438
             },
-            "ctxt": 0,
-            "value": "M2",
-            "optional": false
+            "value": "M2"
           }
         },
         "property": {
@@ -431,9 +427,7 @@
             "start": 439,
             "end": 440
           },
-          "ctxt": 0,
-          "value": "x",
-          "optional": false
+          "value": "x"
         }
       },
       "consequent": {
@@ -532,9 +526,7 @@
                                   "start": 469,
                                   "end": 471
                                 },
-                                "ctxt": 0,
-                                "value": "M2",
-                                "optional": false
+                                "value": "M2"
                               }
                             },
                             "property": {
@@ -543,9 +535,7 @@
                                 "start": 472,
                                 "end": 473
                               },
-                              "ctxt": 0,
-                              "value": "x",
-                              "optional": false
+                              "value": "x"
                             }
                           },
                           "property": {
@@ -554,9 +544,7 @@
                               "start": 474,
                               "end": 484
                             },
-                            "ctxt": 0,
-                            "value": "charCodeAt",
-                            "optional": false
+                            "value": "charCodeAt"
                           }
                         },
                         "arguments": [

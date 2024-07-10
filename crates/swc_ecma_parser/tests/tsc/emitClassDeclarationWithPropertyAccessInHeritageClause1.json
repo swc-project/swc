@@ -80,9 +80,7 @@
                       "start": 41,
                       "end": 42
                     },
-                    "ctxt": 0,
-                    "value": "B",
-                    "optional": false
+                    "value": "B"
                   },
                   "value": {
                     "type": "Identifier",
@@ -164,9 +162,7 @@
             "start": 74,
             "end": 75
           },
-          "ctxt": 0,
-          "value": "B",
-          "optional": false
+          "value": "B"
         }
       },
       "isAbstract": false,

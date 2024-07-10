@@ -172,9 +172,7 @@
                     "start": 56,
                     "end": 59
                   },
-                  "ctxt": 0,
-                  "value": "log",
-                  "optional": false
+                  "value": "log"
                 }
               },
               "arguments": [

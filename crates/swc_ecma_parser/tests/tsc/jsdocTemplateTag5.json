@@ -65,9 +65,7 @@
                     "start": 312,
                     "end": 316
                   },
-                  "ctxt": 0,
-                  "value": "_map",
-                  "optional": false
+                  "value": "_map"
                 }
               },
               "right": {
@@ -129,9 +127,7 @@
               "start": 336,
               "end": 345
             },
-            "ctxt": 0,
-            "value": "prototype",
-            "optional": false
+            "value": "prototype"
           }
         },
         "right": {
@@ -149,9 +145,7 @@
                   "start": 436,
                   "end": 439
                 },
-                "ctxt": 0,
-                "value": "get",
-                "optional": false
+                "value": "get"
               },
               "params": [
                 {
@@ -219,9 +213,7 @@
                             "start": 467,
                             "end": 471
                           },
-                          "ctxt": 0,
-                          "value": "_map",
-                          "optional": false
+                          "value": "_map"
                         }
                       },
                       "property": {
@@ -348,9 +340,7 @@
                           "start": 715,
                           "end": 719
                         },
-                        "ctxt": 0,
-                        "value": "_map",
-                        "optional": false
+                        "value": "_map"
                       }
                     },
                     "right": {
@@ -409,9 +399,7 @@
               "start": 740,
               "end": 749
             },
-            "ctxt": 0,
-            "value": "prototype",
-            "optional": false
+            "value": "prototype"
           }
         },
         "right": {
@@ -429,9 +417,7 @@
                   "start": 840,
                   "end": 843
                 },
-                "ctxt": 0,
-                "value": "get",
-                "optional": false
+                "value": "get"
               },
               "value": {
                 "type": "FunctionExpression",
@@ -502,9 +488,7 @@
                               "start": 881,
                               "end": 885
                             },
-                            "ctxt": 0,
-                            "value": "_map",
-                            "optional": false
+                            "value": "_map"
                           }
                         },
                         "property": {
@@ -629,9 +613,7 @@
               "start": 1040,
               "end": 1049
             },
-            "ctxt": 0,
-            "value": "Multimap3",
-            "optional": false
+            "value": "Multimap3"
           }
         },
         "right": {
@@ -684,9 +666,7 @@
                         "start": 1160,
                         "end": 1164
                       },
-                      "ctxt": 0,
-                      "value": "_map",
-                      "optional": false
+                      "value": "_map"
                     }
                   },
                   "right": {
@@ -749,9 +729,7 @@
                 "start": 1178,
                 "end": 1187
               },
-              "ctxt": 0,
-              "value": "Multimap3",
-              "optional": false
+              "value": "Multimap3"
             }
           },
           "property": {
@@ -760,9 +738,7 @@
               "start": 1188,
               "end": 1197
             },
-            "ctxt": 0,
-            "value": "prototype",
-            "optional": false
+            "value": "prototype"
           }
         },
         "right": {
@@ -780,9 +756,7 @@
                   "start": 1288,
                   "end": 1291
                 },
-                "ctxt": 0,
-                "value": "get",
-                "optional": false
+                "value": "get"
               },
               "params": [
                 {
@@ -850,9 +824,7 @@
                             "start": 1319,
                             "end": 1323
                           },
-                          "ctxt": 0,
-                          "value": "_map",
-                          "optional": false
+                          "value": "_map"
                         }
                       },
                       "property": {

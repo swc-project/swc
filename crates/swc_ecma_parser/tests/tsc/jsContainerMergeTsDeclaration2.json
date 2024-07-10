@@ -108,9 +108,7 @@
               "start": 145,
               "end": 154
             },
-            "ctxt": 0,
-            "value": "prototype",
-            "optional": false
+            "value": "prototype"
           }
         },
         "right": {
@@ -158,9 +156,7 @@
               "start": 163,
               "end": 166
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           }
         },
         "right": {

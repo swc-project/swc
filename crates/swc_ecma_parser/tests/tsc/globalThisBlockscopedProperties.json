@@ -153,9 +153,7 @@
             "start": 68,
             "end": 69
           },
-          "ctxt": 0,
-          "value": "x",
-          "optional": false
+          "value": "x"
         }
       }
     },
@@ -187,9 +185,7 @@
             "start": 87,
             "end": 88
           },
-          "ctxt": 0,
-          "value": "y",
-          "optional": false
+          "value": "y"
         }
       }
     },
@@ -221,9 +217,7 @@
             "start": 133,
             "end": 134
           },
-          "ctxt": 0,
-          "value": "z",
-          "optional": false
+          "value": "z"
         }
       }
     },
@@ -375,9 +369,7 @@
             "start": 299,
             "end": 311
           },
-          "ctxt": 0,
-          "value": "Float64Array",
-          "optional": false
+          "value": "Float64Array"
         }
       }
     },
@@ -409,9 +401,7 @@
             "start": 329,
             "end": 337
           },
-          "ctxt": 0,
-          "value": "Infinity",
-          "optional": false
+          "value": "Infinity"
         }
       }
     },

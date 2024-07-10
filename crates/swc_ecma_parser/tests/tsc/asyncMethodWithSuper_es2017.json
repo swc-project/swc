@@ -37,9 +37,7 @@
               "start": 58,
               "end": 59
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "function": {
             "params": [],
@@ -82,9 +80,7 @@
               "start": 74,
               "end": 75
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "function": {
             "params": [],
@@ -154,9 +150,7 @@
               "start": 196,
               "end": 202
             },
-            "ctxt": 0,
-            "value": "simple",
-            "optional": false
+            "value": "simple"
           },
           "function": {
             "params": [],
@@ -206,9 +200,7 @@
                           "start": 258,
                           "end": 259
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       }
                     },
                     "arguments": [],
@@ -247,9 +239,7 @@
                           "start": 314,
                           "end": 315
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       }
                     },
                     "arguments": [],
@@ -349,9 +339,7 @@
                             "start": 437,
                             "end": 438
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         }
                       },
                       "definite": false
@@ -445,9 +433,7 @@
               "start": 601,
               "end": 609
             },
-            "ctxt": 0,
-            "value": "advanced",
-            "optional": false
+            "value": "advanced"
           },
           "function": {
             "params": [],
@@ -550,9 +536,7 @@
                           "start": 694,
                           "end": 695
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       }
                     },
                     "arguments": [],
@@ -652,9 +636,7 @@
                             "start": 817,
                             "end": 818
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         }
                       },
                       "definite": false
@@ -754,9 +736,7 @@
                           "start": 935,
                           "end": 936
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       }
                     },
                     "right": {
@@ -860,9 +840,7 @@
                                 "start": 1067,
                                 "end": 1068
                               },
-                              "ctxt": 0,
-                              "value": "f",
-                              "optional": false
+                              "value": "f"
                             },
                             "value": {
                               "type": "SuperPropExpression",
@@ -883,9 +861,7 @@
                                   "start": 1076,
                                   "end": 1077
                                 },
-                                "ctxt": 0,
-                                "value": "x",
-                                "optional": false
+                                "value": "x"
                               }
                             }
                           }
@@ -949,9 +925,7 @@
                                 "start": 1154,
                                 "end": 1155
                               },
-                              "ctxt": 0,
-                              "value": "f",
-                              "optional": false
+                              "value": "f"
                             },
                             "value": {
                               "type": "SuperPropExpression",

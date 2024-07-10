@@ -2677,6 +2677,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 779,
+                              "end": 782
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -2693,9 +2697,7 @@
                                 "start": 781,
                                 "end": 782
                               },
-                              "ctxt": 0,
-                              "value": "A",
-                              "optional": false
+                              "value": "A"
                             }
                           },
                           "typeParams": null
@@ -2708,6 +2710,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 785,
+                              "end": 788
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -2724,9 +2730,7 @@
                                 "start": 787,
                                 "end": 788
                               },
-                              "ctxt": 0,
-                              "value": "B",
-                              "optional": false
+                              "value": "B"
                             }
                           },
                           "typeParams": null
@@ -2739,6 +2743,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 791,
+                              "end": 794
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -2755,9 +2763,7 @@
                                 "start": 793,
                                 "end": 794
                               },
-                              "ctxt": 0,
-                              "value": "C",
-                              "optional": false
+                              "value": "C"
                             }
                           },
                           "typeParams": null
@@ -2786,6 +2792,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 799,
+                              "end": 802
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -2802,9 +2812,7 @@
                                 "start": 801,
                                 "end": 802
                               },
-                              "ctxt": 0,
-                              "value": "A",
-                              "optional": false
+                              "value": "A"
                             }
                           },
                           "typeParams": null
@@ -2817,6 +2825,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 805,
+                              "end": 808
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -2833,9 +2845,7 @@
                                 "start": 807,
                                 "end": 808
                               },
-                              "ctxt": 0,
-                              "value": "B",
-                              "optional": false
+                              "value": "B"
                             }
                           },
                           "typeParams": null
@@ -2848,6 +2858,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 811,
+                              "end": 814
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -2864,9 +2878,7 @@
                                 "start": 813,
                                 "end": 814
                               },
-                              "ctxt": 0,
-                              "value": "C",
-                              "optional": false
+                              "value": "C"
                             }
                           },
                           "typeParams": null
@@ -2942,6 +2954,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 846,
+                              "end": 849
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -2958,9 +2974,7 @@
                                 "start": 848,
                                 "end": 849
                               },
-                              "ctxt": 0,
-                              "value": "A",
-                              "optional": false
+                              "value": "A"
                             }
                           },
                           "typeParams": null
@@ -2973,6 +2987,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 852,
+                              "end": 855
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -2989,9 +3007,7 @@
                                 "start": 854,
                                 "end": 855
                               },
-                              "ctxt": 0,
-                              "value": "B",
-                              "optional": false
+                              "value": "B"
                             }
                           },
                           "typeParams": null
@@ -3004,6 +3020,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 858,
+                              "end": 861
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3020,9 +3040,7 @@
                                 "start": 860,
                                 "end": 861
                               },
-                              "ctxt": 0,
-                              "value": "C",
-                              "optional": false
+                              "value": "C"
                             }
                           },
                           "typeParams": null
@@ -3051,6 +3069,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 866,
+                              "end": 869
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3067,9 +3089,7 @@
                                 "start": 868,
                                 "end": 869
                               },
-                              "ctxt": 0,
-                              "value": "B",
-                              "optional": false
+                              "value": "B"
                             }
                           },
                           "typeParams": null
@@ -3082,6 +3102,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 872,
+                              "end": 875
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3098,9 +3122,7 @@
                                 "start": 874,
                                 "end": 875
                               },
-                              "ctxt": 0,
-                              "value": "C",
-                              "optional": false
+                              "value": "C"
                             }
                           },
                           "typeParams": null
@@ -3113,6 +3135,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 878,
+                              "end": 881
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3129,9 +3155,7 @@
                                 "start": 880,
                                 "end": 881
                               },
-                              "ctxt": 0,
-                              "value": "D",
-                              "optional": false
+                              "value": "D"
                             }
                           },
                           "typeParams": null
@@ -3207,6 +3231,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 907,
+                              "end": 910
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3223,9 +3251,7 @@
                                 "start": 909,
                                 "end": 910
                               },
-                              "ctxt": 0,
-                              "value": "A",
-                              "optional": false
+                              "value": "A"
                             }
                           },
                           "typeParams": null
@@ -3238,6 +3264,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 913,
+                              "end": 916
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3254,9 +3284,7 @@
                                 "start": 915,
                                 "end": 916
                               },
-                              "ctxt": 0,
-                              "value": "B",
-                              "optional": false
+                              "value": "B"
                             }
                           },
                           "typeParams": null
@@ -3269,6 +3297,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 919,
+                              "end": 922
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3285,9 +3317,7 @@
                                 "start": 921,
                                 "end": 922
                               },
-                              "ctxt": 0,
-                              "value": "C",
-                              "optional": false
+                              "value": "C"
                             }
                           },
                           "typeParams": null
@@ -3316,6 +3346,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 927,
+                              "end": 930
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3332,9 +3366,7 @@
                                 "start": 929,
                                 "end": 930
                               },
-                              "ctxt": 0,
-                              "value": "C",
-                              "optional": false
+                              "value": "C"
                             }
                           },
                           "typeParams": null
@@ -3347,6 +3379,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 933,
+                              "end": 936
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3363,9 +3399,7 @@
                                 "start": 935,
                                 "end": 936
                               },
-                              "ctxt": 0,
-                              "value": "D",
-                              "optional": false
+                              "value": "D"
                             }
                           },
                           "typeParams": null
@@ -3378,6 +3412,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 939,
+                              "end": 942
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3394,9 +3432,7 @@
                                 "start": 941,
                                 "end": 942
                               },
-                              "ctxt": 0,
-                              "value": "E",
-                              "optional": false
+                              "value": "E"
                             }
                           },
                           "typeParams": null
@@ -3472,6 +3508,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 962,
+                              "end": 965
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3488,9 +3528,7 @@
                                 "start": 964,
                                 "end": 965
                               },
-                              "ctxt": 0,
-                              "value": "A",
-                              "optional": false
+                              "value": "A"
                             }
                           },
                           "typeParams": null
@@ -3503,6 +3541,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 968,
+                              "end": 971
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3519,9 +3561,7 @@
                                 "start": 970,
                                 "end": 971
                               },
-                              "ctxt": 0,
-                              "value": "B",
-                              "optional": false
+                              "value": "B"
                             }
                           },
                           "typeParams": null
@@ -3534,6 +3574,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 974,
+                              "end": 977
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3550,9 +3594,7 @@
                                 "start": 976,
                                 "end": 977
                               },
-                              "ctxt": 0,
-                              "value": "C",
-                              "optional": false
+                              "value": "C"
                             }
                           },
                           "typeParams": null
@@ -3581,6 +3623,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 982,
+                              "end": 985
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3597,9 +3643,7 @@
                                 "start": 984,
                                 "end": 985
                               },
-                              "ctxt": 0,
-                              "value": "D",
-                              "optional": false
+                              "value": "D"
                             }
                           },
                           "typeParams": null
@@ -3612,6 +3656,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 988,
+                              "end": 991
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3628,9 +3676,7 @@
                                 "start": 990,
                                 "end": 991
                               },
-                              "ctxt": 0,
-                              "value": "E",
-                              "optional": false
+                              "value": "E"
                             }
                           },
                           "typeParams": null
@@ -3643,6 +3689,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 994,
+                              "end": 997
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3659,9 +3709,7 @@
                                 "start": 996,
                                 "end": 997
                               },
-                              "ctxt": 0,
-                              "value": "F",
-                              "optional": false
+                              "value": "F"
                             }
                           },
                           "typeParams": null
@@ -3737,6 +3785,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 1019,
+                              "end": 1022
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3753,9 +3805,7 @@
                                 "start": 1021,
                                 "end": 1022
                               },
-                              "ctxt": 0,
-                              "value": "A",
-                              "optional": false
+                              "value": "A"
                             }
                           },
                           "typeParams": null
@@ -3768,6 +3818,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 1025,
+                              "end": 1028
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3784,9 +3838,7 @@
                                 "start": 1027,
                                 "end": 1028
                               },
-                              "ctxt": 0,
-                              "value": "B",
-                              "optional": false
+                              "value": "B"
                             }
                           },
                           "typeParams": null
@@ -3799,6 +3851,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 1031,
+                              "end": 1034
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3815,9 +3871,7 @@
                                 "start": 1033,
                                 "end": 1034
                               },
-                              "ctxt": 0,
-                              "value": "C",
-                              "optional": false
+                              "value": "C"
                             }
                           },
                           "typeParams": null
@@ -3846,6 +3900,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 1039,
+                              "end": 1042
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3862,9 +3920,7 @@
                                 "start": 1041,
                                 "end": 1042
                               },
-                              "ctxt": 0,
-                              "value": "B",
-                              "optional": false
+                              "value": "B"
                             }
                           },
                           "typeParams": null
@@ -3877,6 +3933,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 1045,
+                              "end": 1048
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3893,9 +3953,7 @@
                                 "start": 1047,
                                 "end": 1048
                               },
-                              "ctxt": 0,
-                              "value": "C",
-                              "optional": false
+                              "value": "C"
                             }
                           },
                           "typeParams": null
@@ -3908,6 +3966,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 1051,
+                              "end": 1054
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3924,9 +3986,7 @@
                                 "start": 1053,
                                 "end": 1054
                               },
-                              "ctxt": 0,
-                              "value": "D",
-                              "optional": false
+                              "value": "D"
                             }
                           },
                           "typeParams": null
@@ -3955,6 +4015,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 1059,
+                              "end": 1062
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -3971,9 +4035,7 @@
                                 "start": 1061,
                                 "end": 1062
                               },
-                              "ctxt": 0,
-                              "value": "C",
-                              "optional": false
+                              "value": "C"
                             }
                           },
                           "typeParams": null
@@ -3986,6 +4048,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 1065,
+                              "end": 1068
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -4002,9 +4068,7 @@
                                 "start": 1067,
                                 "end": 1068
                               },
-                              "ctxt": 0,
-                              "value": "D",
-                              "optional": false
+                              "value": "D"
                             }
                           },
                           "typeParams": null
@@ -4017,6 +4081,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 1071,
+                              "end": 1074
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -4033,9 +4101,7 @@
                                 "start": 1073,
                                 "end": 1074
                               },
-                              "ctxt": 0,
-                              "value": "E",
-                              "optional": false
+                              "value": "E"
                             }
                           },
                           "typeParams": null
@@ -4111,6 +4177,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 1094,
+                              "end": 1097
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -4127,9 +4197,7 @@
                                 "start": 1096,
                                 "end": 1097
                               },
-                              "ctxt": 0,
-                              "value": "A",
-                              "optional": false
+                              "value": "A"
                             }
                           },
                           "typeParams": null
@@ -4142,6 +4210,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 1100,
+                              "end": 1103
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -4158,9 +4230,7 @@
                                 "start": 1102,
                                 "end": 1103
                               },
-                              "ctxt": 0,
-                              "value": "B",
-                              "optional": false
+                              "value": "B"
                             }
                           },
                           "typeParams": null
@@ -4173,6 +4243,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 1106,
+                              "end": 1109
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -4189,9 +4263,7 @@
                                 "start": 1108,
                                 "end": 1109
                               },
-                              "ctxt": 0,
-                              "value": "C",
-                              "optional": false
+                              "value": "C"
                             }
                           },
                           "typeParams": null
@@ -4220,6 +4292,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 1114,
+                              "end": 1117
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -4236,9 +4312,7 @@
                                 "start": 1116,
                                 "end": 1117
                               },
-                              "ctxt": 0,
-                              "value": "B",
-                              "optional": false
+                              "value": "B"
                             }
                           },
                           "typeParams": null
@@ -4251,6 +4325,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 1120,
+                              "end": 1123
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -4267,9 +4345,7 @@
                                 "start": 1122,
                                 "end": 1123
                               },
-                              "ctxt": 0,
-                              "value": "C",
-                              "optional": false
+                              "value": "C"
                             }
                           },
                           "typeParams": null
@@ -4282,6 +4358,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 1126,
+                              "end": 1129
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -4298,9 +4378,7 @@
                                 "start": 1128,
                                 "end": 1129
                               },
-                              "ctxt": 0,
-                              "value": "D",
-                              "optional": false
+                              "value": "D"
                             }
                           },
                           "typeParams": null
@@ -4329,6 +4407,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 1134,
+                              "end": 1137
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -4345,9 +4427,7 @@
                                 "start": 1136,
                                 "end": 1137
                               },
-                              "ctxt": 0,
-                              "value": "C",
-                              "optional": false
+                              "value": "C"
                             }
                           },
                           "typeParams": null
@@ -4360,6 +4440,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 1140,
+                              "end": 1143
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -4376,9 +4460,7 @@
                                 "start": 1142,
                                 "end": 1143
                               },
-                              "ctxt": 0,
-                              "value": "D",
-                              "optional": false
+                              "value": "D"
                             }
                           },
                           "typeParams": null
@@ -4391,6 +4473,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 1146,
+                              "end": 1149
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -4407,9 +4493,7 @@
                                 "start": 1148,
                                 "end": 1149
                               },
-                              "ctxt": 0,
-                              "value": "E",
-                              "optional": false
+                              "value": "E"
                             }
                           },
                           "typeParams": null
@@ -4438,6 +4522,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 1154,
+                              "end": 1157
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -4454,9 +4542,7 @@
                                 "start": 1156,
                                 "end": 1157
                               },
-                              "ctxt": 0,
-                              "value": "D",
-                              "optional": false
+                              "value": "D"
                             }
                           },
                           "typeParams": null
@@ -4469,6 +4555,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 1160,
+                              "end": 1163
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -4485,9 +4575,7 @@
                                 "start": 1162,
                                 "end": 1163
                               },
-                              "ctxt": 0,
-                              "value": "E",
-                              "optional": false
+                              "value": "E"
                             }
                           },
                           "typeParams": null
@@ -4500,6 +4588,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 1166,
+                              "end": 1169
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -4516,9 +4608,7 @@
                                 "start": 1168,
                                 "end": 1169
                               },
-                              "ctxt": 0,
-                              "value": "F",
-                              "optional": false
+                              "value": "F"
                             }
                           },
                           "typeParams": null

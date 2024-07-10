@@ -107,9 +107,7 @@
               "start": 41,
               "end": 45
             },
-            "ctxt": 0,
-            "value": "sign",
-            "optional": false
+            "value": "sign"
           },
           "function": {
             "params": [],

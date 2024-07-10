@@ -222,9 +222,7 @@
                       "start": 281,
                       "end": 282
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   }
                 },
                 "right": {
@@ -271,9 +269,7 @@
                       "start": 297,
                       "end": 298
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   }
                 },
                 "right": {
@@ -425,9 +421,7 @@
                       "start": 444,
                       "end": 448
                     },
-                    "ctxt": 0,
-                    "value": "sqrt",
-                    "optional": false
+                    "value": "sqrt"
                   }
                 },
                 "arguments": [
@@ -469,9 +463,7 @@
                               "start": 451,
                               "end": 452
                             },
-                            "ctxt": 0,
-                            "value": "x",
-                            "optional": false
+                            "value": "x"
                           }
                         },
                         "right": {
@@ -513,9 +505,7 @@
                               "start": 462,
                               "end": 463
                             },
-                            "ctxt": 0,
-                            "value": "y",
-                            "optional": false
+                            "value": "y"
                           }
                         },
                         "right": {

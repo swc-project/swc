@@ -37,9 +37,7 @@
               "start": 42,
               "end": 43
             },
-            "ctxt": 0,
-            "value": "s",
-            "optional": false
+            "value": "s"
           },
           "value": {
             "type": "CallExpression",
@@ -199,9 +197,7 @@
               "start": 105,
               "end": 108
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -229,9 +225,7 @@
                   "start": 111,
                   "end": 112
                 },
-                "ctxt": 0,
-                "value": "s",
-                "optional": false
+                "value": "s"
               }
             }
           }

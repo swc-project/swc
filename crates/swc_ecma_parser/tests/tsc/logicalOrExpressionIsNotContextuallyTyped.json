@@ -192,9 +192,7 @@
                         "start": 327,
                         "end": 338
                       },
-                      "ctxt": 0,
-                      "value": "toLowerCase",
-                      "optional": false
+                      "value": "toLowerCase"
                     }
                   },
                   "arguments": [],

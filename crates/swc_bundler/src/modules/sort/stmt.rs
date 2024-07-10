@@ -410,7 +410,7 @@ impl Visit for FieldInitFinder {
                 if let Expr::Member(callee) = &**callee {
                     if callee.obj.is_ident_ref_to("Object") {
                         match &callee.prop {
-                            MemberProp::Ident(Ident { sym: prop_sym, .. })
+                            MemberProp::Ident(IdentName { sym: prop_sym, .. })
                                 if *prop_sym == *"assign" =>
                             {
                                 let old = self.in_object_assign;
@@ -441,7 +441,9 @@ impl Visit for FieldInitFinder {
         if !self.in_rhs || self.in_object_assign {
             if let Expr::Ident(obj) = &*e.obj {
                 match &e.prop {
-                    MemberProp::Ident(Ident { sym: prop_sym, .. }) if *prop_sym == *"prototype" => {
+                    MemberProp::Ident(IdentName { sym: prop_sym, .. })
+                        if *prop_sym == *"prototype" =>
+                    {
                         self.accessed.insert(obj.into());
                     }
                     _ => {}

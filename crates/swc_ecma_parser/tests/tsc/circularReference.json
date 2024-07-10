@@ -109,9 +109,7 @@
                         "start": 96,
                         "end": 98
                       },
-                      "ctxt": 0,
-                      "value": "m1",
-                      "optional": false
+                      "value": "m1"
                     },
                     "value": null,
                     "typeAnnotation": {
@@ -128,8 +126,16 @@
                         },
                         "typeName": {
                           "type": "TsQualifiedName",
+                          "span": {
+                            "start": 100,
+                            "end": 110
+                          },
                           "left": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 100,
+                              "end": 107
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -146,9 +152,7 @@
                                 "start": 105,
                                 "end": 107
                               },
-                              "ctxt": 0,
-                              "value": "M1",
-                              "optional": false
+                              "value": "M1"
                             }
                           },
                           "right": {
@@ -157,9 +161,7 @@
                               "start": 108,
                               "end": 110
                             },
-                            "ctxt": 0,
-                            "value": "C1",
-                            "optional": false
+                            "value": "C1"
                           }
                         },
                         "typeParams": null
@@ -187,9 +189,7 @@
                         "start": 114,
                         "end": 115
                       },
-                      "ctxt": 0,
-                      "value": "x",
-                      "optional": false
+                      "value": "x"
                     },
                     "value": null,
                     "typeAnnotation": {
@@ -230,9 +230,7 @@
                         "start": 127,
                         "end": 138
                       },
-                      "ctxt": 0,
-                      "value": "constructor",
-                      "optional": false
+                      "value": "constructor"
                     },
                     "params": [],
                     "body": {
@@ -275,9 +273,7 @@
                                   "start": 150,
                                   "end": 152
                                 },
-                                "ctxt": 0,
-                                "value": "m1",
-                                "optional": false
+                                "value": "m1"
                               }
                             },
                             "right": {
@@ -315,9 +311,7 @@
                                       "start": 164,
                                       "end": 166
                                     },
-                                    "ctxt": 0,
-                                    "value": "M1",
-                                    "optional": false
+                                    "value": "M1"
                                   }
                                 },
                                 "property": {
@@ -326,9 +320,7 @@
                                     "start": 167,
                                     "end": 169
                                   },
-                                  "ctxt": 0,
-                                  "value": "C1",
-                                  "optional": false
+                                  "value": "C1"
                                 }
                               },
                               "arguments": [],
@@ -374,9 +366,7 @@
                                     "start": 181,
                                     "end": 183
                                   },
-                                  "ctxt": 0,
-                                  "value": "m1",
-                                  "optional": false
+                                  "value": "m1"
                                 }
                               },
                               "property": {
@@ -385,9 +375,7 @@
                                   "start": 184,
                                   "end": 185
                                 },
-                                "ctxt": 0,
-                                "value": "y",
-                                "optional": false
+                                "value": "y"
                               }
                             },
                             "right": {
@@ -439,9 +427,7 @@
                                     "start": 206,
                                     "end": 208
                                   },
-                                  "ctxt": 0,
-                                  "value": "m1",
-                                  "optional": false
+                                  "value": "m1"
                                 }
                               },
                               "property": {
@@ -450,9 +436,7 @@
                                   "start": 209,
                                   "end": 210
                                 },
-                                "ctxt": 0,
-                                "value": "x",
-                                "optional": false
+                                "value": "x"
                               }
                             },
                             "right": {
@@ -587,9 +571,7 @@
                         "start": 331,
                         "end": 333
                       },
-                      "ctxt": 0,
-                      "value": "m1",
-                      "optional": false
+                      "value": "m1"
                     },
                     "value": null,
                     "typeAnnotation": {
@@ -606,8 +588,16 @@
                         },
                         "typeName": {
                           "type": "TsQualifiedName",
+                          "span": {
+                            "start": 335,
+                            "end": 345
+                          },
                           "left": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 335,
+                              "end": 342
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -624,9 +614,7 @@
                                 "start": 340,
                                 "end": 342
                               },
-                              "ctxt": 0,
-                              "value": "M1",
-                              "optional": false
+                              "value": "M1"
                             }
                           },
                           "right": {
@@ -635,9 +623,7 @@
                               "start": 343,
                               "end": 345
                             },
-                            "ctxt": 0,
-                            "value": "C1",
-                            "optional": false
+                            "value": "C1"
                           }
                         },
                         "typeParams": null
@@ -665,9 +651,7 @@
                         "start": 349,
                         "end": 350
                       },
-                      "ctxt": 0,
-                      "value": "y",
-                      "optional": false
+                      "value": "y"
                     },
                     "value": null,
                     "typeAnnotation": {
@@ -708,9 +692,7 @@
                         "start": 361,
                         "end": 372
                       },
-                      "ctxt": 0,
-                      "value": "constructor",
-                      "optional": false
+                      "value": "constructor"
                     },
                     "params": [],
                     "body": {
@@ -753,9 +735,7 @@
                                   "start": 384,
                                   "end": 386
                                 },
-                                "ctxt": 0,
-                                "value": "m1",
-                                "optional": false
+                                "value": "m1"
                               }
                             },
                             "right": {
@@ -793,9 +773,7 @@
                                       "start": 398,
                                       "end": 400
                                     },
-                                    "ctxt": 0,
-                                    "value": "M1",
-                                    "optional": false
+                                    "value": "M1"
                                   }
                                 },
                                 "property": {
@@ -804,9 +782,7 @@
                                     "start": 401,
                                     "end": 403
                                   },
-                                  "ctxt": 0,
-                                  "value": "C1",
-                                  "optional": false
+                                  "value": "C1"
                                 }
                               },
                               "arguments": [],
@@ -852,9 +828,7 @@
                                     "start": 415,
                                     "end": 417
                                   },
-                                  "ctxt": 0,
-                                  "value": "m1",
-                                  "optional": false
+                                  "value": "m1"
                                 }
                               },
                               "property": {
@@ -863,9 +837,7 @@
                                   "start": 418,
                                   "end": 419
                                 },
-                                "ctxt": 0,
-                                "value": "y",
-                                "optional": false
+                                "value": "y"
                               }
                             },
                             "right": {
@@ -917,9 +889,7 @@
                                     "start": 443,
                                     "end": 445
                                   },
-                                  "ctxt": 0,
-                                  "value": "m1",
-                                  "optional": false
+                                  "value": "m1"
                                 }
                               },
                               "property": {
@@ -928,9 +898,7 @@
                                   "start": 446,
                                   "end": 447
                                 },
-                                "ctxt": 0,
-                                "value": "x",
-                                "optional": false
+                                "value": "x"
                               }
                             },
                             "right": {
@@ -1000,9 +968,7 @@
                                       "start": 481,
                                       "end": 483
                                     },
-                                    "ctxt": 0,
-                                    "value": "C1",
-                                    "optional": false
+                                    "value": "C1"
                                   }
                                 },
                                 "arguments": [],
@@ -1047,9 +1013,7 @@
                                   "start": 494,
                                   "end": 495
                                 },
-                                "ctxt": 0,
-                                "value": "y",
-                                "optional": false
+                                "value": "y"
                               }
                             },
                             "right": {
@@ -1098,9 +1062,7 @@
                                   "start": 515,
                                   "end": 516
                                 },
-                                "ctxt": 0,
-                                "value": "x",
-                                "optional": false
+                                "value": "x"
                               }
                             },
                             "right": {

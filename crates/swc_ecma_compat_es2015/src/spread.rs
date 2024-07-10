@@ -150,7 +150,7 @@ impl VisitMut for Spread {
                 let apply = MemberExpr {
                     span: DUMMY_SP,
                     obj: callee_updated.unwrap_or_else(|| callee.take()),
-                    prop: MemberProp::Ident(Ident::new_no_ctxt("apply".into(), *span)),
+                    prop: MemberProp::Ident(IdentName::new("apply".into(), *span)),
                 };
 
                 *e = Expr::Call(CallExpr {
@@ -414,7 +414,7 @@ impl Spread {
             let callee = buf
                 .remove(0)
                 .expr
-                .make_member(Ident::new_no_ctxt("concat".into(), DUMMY_SP))
+                .make_member(IdentName::new("concat".into(), DUMMY_SP))
                 .as_callee();
 
             return Expr::Call(CallExpr {
@@ -440,7 +440,7 @@ impl Spread {
                         elems: vec![],
                     })
                 })
-                .make_member(Ident::new_no_ctxt("concat".into(), span))
+                .make_member(IdentName::new("concat".into(), span))
                 .as_callee(),
 
             args: buf,

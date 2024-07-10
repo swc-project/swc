@@ -814,9 +814,7 @@
                     "start": 1243,
                     "end": 1249
                   },
-                  "ctxt": 0,
-                  "value": "random",
-                  "optional": false
+                  "value": "random"
                 }
               },
               "arguments": [],
@@ -1988,9 +1986,7 @@
                     "start": 2324,
                     "end": 2330
                   },
-                  "ctxt": 0,
-                  "value": "random",
-                  "optional": false
+                  "value": "random"
                 }
               },
               "arguments": [],
@@ -2081,9 +2077,7 @@
                     "start": 2369,
                     "end": 2375
                   },
-                  "ctxt": 0,
-                  "value": "random",
-                  "optional": false
+                  "value": "random"
                 }
               },
               "arguments": [],

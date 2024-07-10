@@ -779,7 +779,7 @@ impl<C: Comments> ClassProperties<C> {
                             name: ident.into(),
                             init: Some(Box::new(Expr::from(NewExpr {
                                 span,
-                                callee: Box::new(Expr::Ident(quote_ident!("WeakMap"))),
+                                callee: Box::new(Expr::Ident(quote_ident!("WeakMap").into())),
                                 args: Some(Default::default()),
                                 ..Default::default()
                             }))),
@@ -869,7 +869,7 @@ impl<C: Comments> ClassProperties<C> {
                                     },
                                 }));
                             if inserted && self.c.private_as_properties {
-                                Some(Ident::dummy())
+                                Some(IdentName::default())
                             } else {
                                 None
                             }
@@ -894,7 +894,7 @@ impl<C: Comments> ClassProperties<C> {
                                     name: weak_coll_var.clone(),
                                     fn_name: fn_name.clone(),
                                 }));
-                                Some(Ident::dummy())
+                                Some(Default::default())
                             } else {
                                 None
                             }
@@ -923,7 +923,7 @@ impl<C: Comments> ClassProperties<C> {
                             } else {
                                 Expr::New(NewExpr {
                                     span,
-                                    callee: Box::new(Expr::Ident(extra)),
+                                    callee: Box::new(Expr::Ident(extra.into())),
                                     args: Some(Default::default()),
                                     ..Default::default()
                                 })

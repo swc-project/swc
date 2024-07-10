@@ -38,9 +38,7 @@
               "start": 165,
               "end": 176
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -67,9 +65,7 @@
               "start": 186,
               "end": 190
             },
-            "ctxt": 0,
-            "value": "item",
-            "optional": false
+            "value": "item"
           },
           "value": {
             "type": "NumericLiteral",
@@ -103,9 +99,7 @@
               "start": 200,
               "end": 206
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           },
           "function": {
             "params": [],
@@ -178,9 +172,7 @@
               "start": 222,
               "end": 229
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -228,9 +220,7 @@
               "start": 364,
               "end": 375
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -293,9 +283,7 @@
                         "start": 394,
                         "end": 402
                       },
-                      "ctxt": 0,
-                      "value": "connItem",
-                      "optional": false
+                      "value": "connItem"
                     }
                   },
                   "right": {
@@ -320,9 +308,7 @@
                         "start": 407,
                         "end": 411
                       },
-                      "ctxt": 0,
-                      "value": "item",
-                      "optional": false
+                      "value": "item"
                     }
                   }
                 }
@@ -359,9 +345,7 @@
                         "start": 475,
                         "end": 482
                       },
-                      "ctxt": 0,
-                      "value": "another",
-                      "optional": false
+                      "value": "another"
                     }
                   },
                   "right": {
@@ -422,9 +406,7 @@
               "start": 505,
               "end": 512
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {

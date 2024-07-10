@@ -125,9 +125,7 @@
                           "start": 115,
                           "end": 122
                         },
-                        "ctxt": 0,
-                        "value": "default",
-                        "optional": false
+                        "value": "default"
                       }
                     }
                   },

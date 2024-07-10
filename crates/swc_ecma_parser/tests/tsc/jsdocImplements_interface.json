@@ -102,9 +102,7 @@
               "start": 227,
               "end": 234
             },
-            "ctxt": 0,
-            "value": "mNumber",
-            "optional": false
+            "value": "mNumber"
           },
           "function": {
             "params": [],
@@ -191,9 +189,7 @@
               "start": 303,
               "end": 310
             },
-            "ctxt": 0,
-            "value": "mNumber",
-            "optional": false
+            "value": "mNumber"
           },
           "function": {
             "params": [],

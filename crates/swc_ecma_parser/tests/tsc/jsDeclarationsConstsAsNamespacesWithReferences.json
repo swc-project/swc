@@ -53,9 +53,7 @@
                       "start": 144,
                       "end": 153
                     },
-                    "ctxt": 0,
-                    "value": "royalBlue",
-                    "optional": false
+                    "value": "royalBlue"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -122,9 +120,7 @@
                       "start": 203,
                       "end": 209
                     },
-                    "ctxt": 0,
-                    "value": "purple",
-                    "optional": false
+                    "value": "purple"
                   },
                   "value": {
                     "type": "MemberExpression",
@@ -148,9 +144,7 @@
                         "start": 218,
                         "end": 227
                       },
-                      "ctxt": 0,
-                      "value": "royalBlue",
-                      "optional": false
+                      "value": "royalBlue"
                     }
                   }
                 }

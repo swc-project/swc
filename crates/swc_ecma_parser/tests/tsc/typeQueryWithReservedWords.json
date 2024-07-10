@@ -37,9 +37,7 @@
               "start": 24,
               "end": 30
             },
-            "ctxt": 0,
-            "value": "create",
-            "optional": false
+            "value": "create"
           },
           "function": {
             "params": [],
@@ -82,9 +80,7 @@
               "start": 45,
               "end": 51
             },
-            "ctxt": 0,
-            "value": "delete",
-            "optional": false
+            "value": "delete"
           },
           "function": {
             "params": [],
@@ -127,9 +123,7 @@
               "start": 66,
               "end": 69
             },
-            "ctxt": 0,
-            "value": "var",
-            "optional": false
+            "value": "var"
           },
           "function": {
             "params": [],
@@ -226,8 +220,16 @@
                 },
                 "exprName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 121,
+                    "end": 148
+                  },
                   "left": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 121,
+                      "end": 141
+                    },
                     "left": {
                       "type": "Identifier",
                       "span": {
@@ -244,9 +246,7 @@
                         "start": 132,
                         "end": 141
                       },
-                      "ctxt": 0,
-                      "value": "prototype",
-                      "optional": false
+                      "value": "prototype"
                     }
                   },
                   "right": {
@@ -255,9 +255,7 @@
                       "start": 142,
                       "end": 148
                     },
-                    "ctxt": 0,
-                    "value": "create",
-                    "optional": false
+                    "value": "create"
                   }
                 },
                 "typeArguments": null
@@ -297,8 +295,16 @@
                 },
                 "exprName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 171,
+                    "end": 198
+                  },
                   "left": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 171,
+                      "end": 191
+                    },
                     "left": {
                       "type": "Identifier",
                       "span": {
@@ -315,9 +321,7 @@
                         "start": 182,
                         "end": 191
                       },
-                      "ctxt": 0,
-                      "value": "prototype",
-                      "optional": false
+                      "value": "prototype"
                     }
                   },
                   "right": {
@@ -326,9 +330,7 @@
                       "start": 192,
                       "end": 198
                     },
-                    "ctxt": 0,
-                    "value": "delete",
-                    "optional": false
+                    "value": "delete"
                   }
                 },
                 "typeArguments": null
@@ -368,8 +370,16 @@
                 },
                 "exprName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 237,
+                    "end": 261
+                  },
                   "left": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 237,
+                      "end": 257
+                    },
                     "left": {
                       "type": "Identifier",
                       "span": {
@@ -386,9 +396,7 @@
                         "start": 248,
                         "end": 257
                       },
-                      "ctxt": 0,
-                      "value": "prototype",
-                      "optional": false
+                      "value": "prototype"
                     }
                   },
                   "right": {
@@ -397,9 +405,7 @@
                       "start": 258,
                       "end": 261
                     },
-                    "ctxt": 0,
-                    "value": "var",
-                    "optional": false
+                    "value": "var"
                   }
                 },
                 "typeArguments": null

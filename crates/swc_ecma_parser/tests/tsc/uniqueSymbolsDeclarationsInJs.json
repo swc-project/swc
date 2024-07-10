@@ -37,9 +37,7 @@
               "start": 292,
               "end": 310
             },
-            "ctxt": 0,
-            "value": "readonlyStaticCall",
-            "optional": false
+            "value": "readonlyStaticCall"
           },
           "value": {
             "type": "CallExpression",
@@ -84,9 +82,7 @@
               "start": 396,
               "end": 414
             },
-            "ctxt": 0,
-            "value": "readonlyStaticType",
-            "optional": false
+            "value": "readonlyStaticType"
           },
           "value": null,
           "typeAnnotation": null,
@@ -112,9 +108,7 @@
               "start": 489,
               "end": 514
             },
-            "ctxt": 0,
-            "value": "readonlyStaticTypeAndCall",
-            "optional": false
+            "value": "readonlyStaticTypeAndCall"
           },
           "value": {
             "type": "CallExpression",
@@ -159,9 +153,7 @@
               "start": 538,
               "end": 557
             },
-            "ctxt": 0,
-            "value": "readwriteStaticCall",
-            "optional": false
+            "value": "readwriteStaticCall"
           },
           "value": {
             "type": "CallExpression",
@@ -206,9 +198,7 @@
               "start": 608,
               "end": 620
             },
-            "ctxt": 0,
-            "value": "readonlyCall",
-            "optional": false
+            "value": "readonlyCall"
           },
           "value": {
             "type": "CallExpression",
@@ -253,9 +243,7 @@
               "start": 637,
               "end": 650
             },
-            "ctxt": 0,
-            "value": "readwriteCall",
-            "optional": false
+            "value": "readwriteCall"
           },
           "value": {
             "type": "CallExpression",

@@ -37,9 +37,7 @@
               "start": 50,
               "end": 53
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
@@ -1881,9 +1879,7 @@
                           "start": 1102,
                           "end": 1113
                         },
-                        "ctxt": 0,
-                        "value": "hasInstance",
-                        "optional": false
+                        "value": "hasInstance"
                       }
                     },
                     "computed": true,
@@ -2184,9 +2180,7 @@
                           "start": 1270,
                           "end": 1281
                         },
-                        "ctxt": 0,
-                        "value": "hasInstance",
-                        "optional": false
+                        "value": "hasInstance"
                       }
                     },
                     "computed": true,

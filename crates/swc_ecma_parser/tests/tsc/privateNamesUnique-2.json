@@ -68,9 +68,7 @@
                 "start": 70,
                 "end": 74
               },
-              "ctxt": 0,
-              "value": "copy",
-              "optional": false
+              "value": "copy"
             },
             "function": {
               "params": [
@@ -489,9 +487,7 @@
               "start": 319,
               "end": 323
             },
-            "ctxt": 0,
-            "value": "copy",
-            "optional": false
+            "value": "copy"
           }
         },
         "arguments": [

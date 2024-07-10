@@ -46,9 +46,7 @@
                 "start": 181,
                 "end": 190
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -57,9 +55,7 @@
               "start": 191,
               "end": 205
             },
-            "ctxt": 0,
-            "value": "removeChildren",
-            "optional": false
+            "value": "removeChildren"
           }
         },
         "right": {
@@ -112,9 +108,7 @@
                         "start": 231,
                         "end": 242
                       },
-                      "ctxt": 0,
-                      "value": "textContent",
-                      "optional": false
+                      "value": "textContent"
                     }
                   },
                   "right": {

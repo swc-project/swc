@@ -118,9 +118,7 @@
               "start": 137,
               "end": 138
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "function": {
             "params": [
@@ -183,9 +181,7 @@
               "start": 147,
               "end": 148
             },
-            "ctxt": 0,
-            "value": "p",
-            "optional": false
+            "value": "p"
           },
           "value": {
             "type": "ArrowFunctionExpression",
@@ -244,9 +240,7 @@
               "start": 161,
               "end": 162
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "function": {
             "params": [
@@ -339,9 +333,7 @@
               "start": 174,
               "end": 175
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           }
         },
         "arguments": [],
@@ -393,9 +385,7 @@
               "start": 211,
               "end": 212
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           }
         },
         "arguments": [],
@@ -447,9 +437,7 @@
               "start": 245,
               "end": 246
             },
-            "ctxt": 0,
-            "value": "p",
-            "optional": false
+            "value": "p"
           }
         },
         "arguments": [],
@@ -498,9 +486,7 @@
                     "start": 288,
                     "end": 289
                   },
-                  "ctxt": 0,
-                  "value": "m",
-                  "optional": false
+                  "value": "m"
                 },
                 "params": [
                   {
@@ -551,9 +537,7 @@
                     "start": 299,
                     "end": 300
                   },
-                  "ctxt": 0,
-                  "value": "p",
-                  "optional": false
+                  "value": "p"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -631,9 +615,7 @@
               "start": 318,
               "end": 319
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           }
         },
         "arguments": [],
@@ -675,9 +657,7 @@
               "start": 345,
               "end": 346
             },
-            "ctxt": 0,
-            "value": "p",
-            "optional": false
+            "value": "p"
           }
         },
         "arguments": [],

@@ -122,9 +122,7 @@
               "start": 53,
               "end": 54
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           }
         },
         "right": {
@@ -172,9 +170,7 @@
               "start": 67,
               "end": 68
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           }
         },
         "right": {

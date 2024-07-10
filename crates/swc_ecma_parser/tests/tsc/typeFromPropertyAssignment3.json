@@ -91,9 +91,7 @@
                           "start": 109,
                           "end": 110
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       }
                     },
                     "right": {
@@ -153,9 +151,7 @@
               "start": 123,
               "end": 128
             },
-            "ctxt": 0,
-            "value": "Inner",
-            "optional": false
+            "value": "Inner"
           }
         },
         "right": {
@@ -190,9 +186,7 @@
                   "start": 145,
                   "end": 156
                 },
-                "ctxt": 0,
-                "value": "constructor",
-                "optional": false
+                "value": "constructor"
               },
               "params": [],
               "body": {
@@ -235,9 +229,7 @@
                             "start": 174,
                             "end": 175
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         }
                       },
                       "right": {
@@ -325,9 +317,7 @@
             "start": 219,
             "end": 220
           },
-          "ctxt": 0,
-          "value": "y",
-          "optional": false
+          "value": "y"
         }
       }
     },
@@ -391,9 +381,7 @@
             "start": 258,
             "end": 259
           },
-          "ctxt": 0,
-          "value": "x",
-          "optional": false
+          "value": "x"
         }
       }
     }

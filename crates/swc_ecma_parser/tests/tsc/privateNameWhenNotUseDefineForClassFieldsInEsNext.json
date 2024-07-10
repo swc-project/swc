@@ -70,9 +70,7 @@
               "start": 129,
               "end": 131
             },
-            "ctxt": 0,
-            "value": "dd",
-            "optional": false
+            "value": "dd"
           },
           "value": {
             "type": "MemberExpression",
@@ -206,9 +204,7 @@
                     "start": 236,
                     "end": 237
                   },
-                  "ctxt": 0,
-                  "value": "m",
-                  "optional": false
+                  "value": "m"
                 },
                 "function": {
                   "params": [],
@@ -294,9 +290,7 @@
                     "start": 313,
                     "end": 314
                   },
-                  "ctxt": 0,
-                  "value": "C",
-                  "optional": false
+                  "value": "C"
                 },
                 "value": {
                   "type": "ClassExpression",
@@ -329,9 +323,7 @@
                           "start": 348,
                           "end": 349
                         },
-                        "ctxt": 0,
-                        "value": "m",
-                        "optional": false
+                        "value": "m"
                       },
                       "function": {
                         "params": [],
@@ -477,9 +469,7 @@
                     "start": 484,
                     "end": 485
                   },
-                  "ctxt": 0,
-                  "value": "M",
-                  "optional": false
+                  "value": "M"
                 },
                 "function": {
                   "params": [],
@@ -525,9 +515,7 @@
                                   "start": 532,
                                   "end": 533
                                 },
-                                "ctxt": 0,
-                                "value": "m",
-                                "optional": false
+                                "value": "m"
                               },
                               "function": {
                                 "params": [],
@@ -755,9 +743,7 @@
               "start": 728,
               "end": 730
             },
-            "ctxt": 0,
-            "value": "dd",
-            "optional": false
+            "value": "dd"
           },
           "value": {
             "type": "MemberExpression",
@@ -891,9 +877,7 @@
                     "start": 827,
                     "end": 828
                   },
-                  "ctxt": 0,
-                  "value": "m",
-                  "optional": false
+                  "value": "m"
                 },
                 "function": {
                   "params": [],
@@ -979,9 +963,7 @@
                     "start": 896,
                     "end": 897
                   },
-                  "ctxt": 0,
-                  "value": "C",
-                  "optional": false
+                  "value": "C"
                 },
                 "value": {
                   "type": "ClassExpression",
@@ -1014,9 +996,7 @@
                           "start": 931,
                           "end": 932
                         },
-                        "ctxt": 0,
-                        "value": "m",
-                        "optional": false
+                        "value": "m"
                       },
                       "function": {
                         "params": [],
@@ -1162,9 +1142,7 @@
                     "start": 1066,
                     "end": 1067
                   },
-                  "ctxt": 0,
-                  "value": "M",
-                  "optional": false
+                  "value": "M"
                 },
                 "function": {
                   "params": [],
@@ -1210,9 +1188,7 @@
                                   "start": 1114,
                                   "end": 1115
                                 },
-                                "ctxt": 0,
-                                "value": "m",
-                                "optional": false
+                                "value": "m"
                               },
                               "function": {
                                 "params": [],

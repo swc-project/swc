@@ -43,9 +43,7 @@
                 "start": 95,
                 "end": 100
               },
-              "ctxt": 0,
-              "value": "print",
-              "optional": false
+              "value": "print"
             },
             "function": {
               "params": [],
@@ -295,9 +293,7 @@
               "start": 298,
               "end": 306
             },
-            "ctxt": 0,
-            "value": "myModule",
-            "optional": false
+            "value": "myModule"
           },
           "value": {
             "type": "CallExpression",
@@ -353,9 +349,7 @@
               "start": 328,
               "end": 334
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           },
           "function": {
             "params": [],
@@ -473,9 +467,7 @@
                             "start": 394,
                             "end": 402
                           },
-                          "ctxt": 0,
-                          "value": "myModule",
-                          "optional": false
+                          "value": "myModule"
                         }
                       },
                       "property": {
@@ -484,9 +476,7 @@
                           "start": 403,
                           "end": 407
                         },
-                        "ctxt": 0,
-                        "value": "then",
-                        "optional": false
+                        "value": "then"
                       }
                     },
                     "arguments": [
@@ -555,9 +545,7 @@
                                         "start": 438,
                                         "end": 441
                                       },
-                                      "ctxt": 0,
-                                      "value": "log",
-                                      "optional": false
+                                      "value": "log"
                                     }
                                   },
                                   "arguments": [
@@ -592,9 +580,7 @@
                                               "start": 447,
                                               "end": 450
                                             },
-                                            "ctxt": 0,
-                                            "value": "foo",
-                                            "optional": false
+                                            "value": "foo"
                                           }
                                         },
                                         "arguments": [],
@@ -678,9 +664,7 @@
                                         "start": 501,
                                         "end": 504
                                       },
-                                      "ctxt": 0,
-                                      "value": "log",
-                                      "optional": false
+                                      "value": "log"
                                     }
                                   },
                                   "arguments": [
@@ -805,9 +789,7 @@
                                         "start": 574,
                                         "end": 577
                                       },
-                                      "ctxt": 0,
-                                      "value": "log",
-                                      "optional": false
+                                      "value": "log"
                                     }
                                   },
                                   "arguments": [
@@ -842,9 +824,7 @@
                                               "start": 582,
                                               "end": 588
                                             },
-                                            "ctxt": 0,
-                                            "value": "backup",
-                                            "optional": false
+                                            "value": "backup"
                                           }
                                         },
                                         "arguments": [],

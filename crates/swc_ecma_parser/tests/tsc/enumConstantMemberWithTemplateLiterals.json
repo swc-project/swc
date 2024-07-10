@@ -1036,9 +1036,7 @@
                 "start": 359,
                 "end": 365
               },
-              "ctxt": 0,
-              "value": "length",
-              "optional": false
+              "value": "length"
             }
           }
         }
@@ -1137,9 +1135,7 @@
                 "start": 403,
                 "end": 409
               },
-              "ctxt": 0,
-              "value": "length",
-              "optional": false
+              "value": "length"
             }
           }
         }

@@ -37,9 +37,7 @@
               "start": 46,
               "end": 49
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -106,9 +104,7 @@
               "start": 86,
               "end": 89
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "value": null,
           "typeAnnotation": {
@@ -319,9 +315,7 @@
               "start": 176,
               "end": 183
             },
-            "ctxt": 0,
-            "value": "valueOf",
-            "optional": false
+            "value": "valueOf"
           },
           "function": {
             "params": [],
@@ -364,9 +358,7 @@
               "start": 194,
               "end": 198
             },
-            "ctxt": 0,
-            "value": "data",
-            "optional": false
+            "value": "data"
           },
           "value": null,
           "typeAnnotation": {
@@ -588,9 +580,7 @@
                   "start": 255,
                   "end": 262
                 },
-                "ctxt": 0,
-                "value": "valueOf",
-                "optional": false
+                "value": "valueOf"
               }
             },
             "arguments": [],
@@ -673,9 +663,7 @@
                 "start": 281,
                 "end": 285
               },
-              "ctxt": 0,
-              "value": "data",
-              "optional": false
+              "value": "data"
             }
           },
           "definite": false
@@ -1097,9 +1085,7 @@
                   "start": 469,
                   "end": 476
                 },
-                "ctxt": 0,
-                "value": "valueOf",
-                "optional": false
+                "value": "valueOf"
               }
             },
             "arguments": [],
@@ -1182,9 +1168,7 @@
                 "start": 495,
                 "end": 499
               },
-              "ctxt": 0,
-              "value": "data",
-              "optional": false
+              "value": "data"
             }
           },
           "definite": false
@@ -1361,9 +1345,7 @@
                     "start": 597,
                     "end": 604
                   },
-                  "ctxt": 0,
-                  "value": "valueOf",
-                  "optional": false
+                  "value": "valueOf"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -1396,9 +1378,7 @@
                     "start": 621,
                     "end": 625
                   },
-                  "ctxt": 0,
-                  "value": "data",
-                  "optional": false
+                  "value": "data"
                 },
                 "value": {
                   "type": "NewExpression",
@@ -1497,9 +1477,7 @@
                   "start": 655,
                   "end": 662
                 },
-                "ctxt": 0,
-                "value": "valueOf",
-                "optional": false
+                "value": "valueOf"
               }
             },
             "arguments": [],
@@ -1582,9 +1560,7 @@
                 "start": 681,
                 "end": 685
               },
-              "ctxt": 0,
-              "value": "data",
-              "optional": false
+              "value": "data"
             }
           },
           "definite": false
@@ -1968,9 +1944,7 @@
                   "start": 835,
                   "end": 842
                 },
-                "ctxt": 0,
-                "value": "valueOf",
-                "optional": false
+                "value": "valueOf"
               }
             },
             "arguments": [],

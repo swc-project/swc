@@ -37,9 +37,7 @@
               "start": 151,
               "end": 154
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": {
             "type": "StringLiteral",
@@ -145,9 +143,7 @@
               "start": 200,
               "end": 203
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           }
         },
         "right": {
@@ -271,9 +267,7 @@
               "start": 297,
               "end": 300
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           }
         },
         "right": {

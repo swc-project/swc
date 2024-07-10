@@ -155,9 +155,7 @@
                     "start": 167,
                     "end": 171
                   },
-                  "ctxt": 0,
-                  "value": "push",
-                  "optional": false
+                  "value": "push"
                 }
               },
               "arguments": [
@@ -859,9 +857,7 @@
                           "start": 858,
                           "end": 859
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "NumericLiteral",

@@ -206,9 +206,7 @@
                       "start": 160,
                       "end": 161
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -228,9 +226,7 @@
                       "start": 166,
                       "end": 167
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -469,9 +465,7 @@
                 "start": 266,
                 "end": 272
               },
-              "ctxt": 0,
-              "value": "Origin",
-              "optional": false
+              "value": "Origin"
             }
           },
           "definite": false

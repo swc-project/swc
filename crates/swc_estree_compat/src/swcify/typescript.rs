@@ -140,6 +140,7 @@ impl Swcify for TSQualifiedName {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         TsQualifiedName {
+            span: ctx.span(&self.base),
             left: self.left.swcify(ctx),
             right: self.right.swcify(ctx).into(),
         }

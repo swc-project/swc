@@ -38,9 +38,7 @@
               "start": 87,
               "end": 98
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -83,9 +81,7 @@
                         "start": 117,
                         "end": 118
                       },
-                      "ctxt": 0,
-                      "value": "n",
-                      "optional": false
+                      "value": "n"
                     }
                   },
                   "right": {
@@ -116,9 +112,7 @@
               "start": 133,
               "end": 136
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
@@ -232,9 +226,7 @@
                 "start": 235,
                 "end": 244
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -243,9 +235,7 @@
               "start": 245,
               "end": 248
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           }
         },
         "right": {
@@ -350,9 +340,7 @@
                 "start": 291,
                 "end": 300
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -361,9 +349,7 @@
               "start": 301,
               "end": 304
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           }
         },
         "right": {
@@ -414,9 +400,7 @@
                         "start": 325,
                         "end": 326
                       },
-                      "ctxt": 0,
-                      "value": "n",
-                      "optional": false
+                      "value": "n"
                     }
                   },
                   "right": {
@@ -506,9 +490,7 @@
                 "start": 473,
                 "end": 482
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -517,9 +499,7 @@
               "start": 483,
               "end": 493
             },
-            "ctxt": 0,
-            "value": "identifier",
-            "optional": false
+            "value": "identifier"
           }
         },
         "right": {
@@ -575,9 +555,7 @@
                 "start": 513,
                 "end": 522
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -586,9 +564,7 @@
               "start": 523,
               "end": 527
             },
-            "ctxt": 0,
-            "value": "size",
-            "optional": false
+            "value": "size"
           }
         },
         "right": {
@@ -632,9 +608,7 @@
               "start": 576,
               "end": 586
             },
-            "ctxt": 0,
-            "value": "identifier",
-            "optional": false
+            "value": "identifier"
           },
           "function": {
             "params": [],
@@ -694,9 +668,7 @@
               "start": 625,
               "end": 629
             },
-            "ctxt": 0,
-            "value": "size",
-            "optional": false
+            "value": "size"
           },
           "function": {
             "params": [],

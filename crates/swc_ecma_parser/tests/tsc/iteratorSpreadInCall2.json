@@ -112,9 +112,7 @@
               "start": 73,
               "end": 77
             },
-            "ctxt": 0,
-            "value": "next",
-            "optional": false
+            "value": "next"
           },
           "function": {
             "params": [],
@@ -153,9 +151,7 @@
                             "start": 111,
                             "end": 116
                           },
-                          "ctxt": 0,
-                          "value": "value",
-                          "optional": false
+                          "value": "value"
                         },
                         "value": {
                           "type": "CallExpression",
@@ -186,9 +182,7 @@
                             "start": 140,
                             "end": 144
                           },
-                          "ctxt": 0,
-                          "value": "done",
-                          "optional": false
+                          "value": "done"
                         },
                         "value": {
                           "type": "BooleanLiteral",
@@ -250,9 +244,7 @@
                   "start": 182,
                   "end": 190
                 },
-                "ctxt": 0,
-                "value": "iterator",
-                "optional": false
+                "value": "iterator"
               }
             }
           },

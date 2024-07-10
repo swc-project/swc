@@ -187,9 +187,7 @@
                           "start": 122,
                           "end": 126
                         },
-                        "ctxt": 0,
-                        "value": "test",
-                        "optional": false
+                        "value": "test"
                       }
                     },
                     "arguments": [

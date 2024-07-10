@@ -38,9 +38,7 @@
               "start": 18,
               "end": 29
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -114,9 +112,7 @@
               "start": 74,
               "end": 76
             },
-            "ctxt": 0,
-            "value": "_t",
-            "optional": false
+            "value": "_t"
           },
           "value": null,
           "typeAnnotation": null,
@@ -143,9 +139,7 @@
               "start": 82,
               "end": 93
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -198,9 +192,7 @@
                               "start": 128,
                               "end": 129
                             },
-                            "ctxt": 0,
-                            "value": "k",
-                            "optional": false
+                            "value": "k"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -242,9 +234,7 @@
                               "start": 162,
                               "end": 163
                             },
-                            "ctxt": 0,
-                            "value": "j",
-                            "optional": false
+                            "value": "j"
                           },
                           "value": {
                             "type": "MemberExpression",
@@ -265,9 +255,7 @@
                                 "start": 170,
                                 "end": 172
                               },
-                              "ctxt": 0,
-                              "value": "_t",
-                              "optional": false
+                              "value": "_t"
                             }
                           }
                         }

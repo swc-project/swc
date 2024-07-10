@@ -1040,9 +1040,7 @@
                       "start": 496,
                       "end": 505
                     },
-                    "ctxt": 0,
-                    "value": "notAValue",
-                    "optional": false
+                    "value": "notAValue"
                   }
                 },
                 "definite": false

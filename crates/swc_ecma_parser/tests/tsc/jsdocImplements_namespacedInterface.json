@@ -235,9 +235,7 @@
               "start": 311,
               "end": 318
             },
-            "ctxt": 0,
-            "value": "mNumber",
-            "optional": false
+            "value": "mNumber"
           },
           "function": {
             "params": [],
@@ -324,9 +322,7 @@
               "start": 399,
               "end": 402
             },
-            "ctxt": 0,
-            "value": "gen",
-            "optional": false
+            "value": "gen"
           },
           "function": {
             "params": [],

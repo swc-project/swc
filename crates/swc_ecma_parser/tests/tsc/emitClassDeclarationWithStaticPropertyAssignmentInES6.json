@@ -37,9 +37,7 @@
               "start": 37,
               "end": 38
             },
-            "ctxt": 0,
-            "value": "z",
-            "optional": false
+            "value": "z"
           },
           "value": {
             "type": "StringLiteral",
@@ -114,9 +112,7 @@
               "start": 73,
               "end": 74
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": {
             "type": "NumericLiteral",
@@ -150,9 +146,7 @@
               "start": 95,
               "end": 96
             },
-            "ctxt": 0,
-            "value": "b",
-            "optional": false
+            "value": "b"
           },
           "value": {
             "type": "BooleanLiteral",

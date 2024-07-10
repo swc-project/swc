@@ -247,9 +247,7 @@
                               "start": 167,
                               "end": 173
                             },
-                            "ctxt": 0,
-                            "value": "length",
-                            "optional": false
+                            "value": "length"
                           }
                         },
                         "async": false,
@@ -469,9 +467,7 @@
                         "start": 312,
                         "end": 318
                       },
-                      "ctxt": 0,
-                      "value": "length",
-                      "optional": false
+                      "value": "length"
                     }
                   },
                   "async": false,
@@ -691,9 +687,7 @@
                                     "start": 447,
                                     "end": 453
                                   },
-                                  "ctxt": 0,
-                                  "value": "length",
-                                  "optional": false
+                                  "value": "length"
                                 }
                               }
                             }
@@ -932,9 +926,7 @@
                               "start": 609,
                               "end": 615
                             },
-                            "ctxt": 0,
-                            "value": "length",
-                            "optional": false
+                            "value": "length"
                           }
                         }
                       }
@@ -1149,9 +1141,7 @@
                                 "start": 739,
                                 "end": 745
                               },
-                              "ctxt": 0,
-                              "value": "length",
-                              "optional": false
+                              "value": "length"
                             }
                           },
                           "async": false,

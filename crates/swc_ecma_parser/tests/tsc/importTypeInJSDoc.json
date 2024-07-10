@@ -178,9 +178,7 @@
               "start": 224,
               "end": 229
             },
-            "ctxt": 0,
-            "value": "field",
-            "optional": false
+            "value": "field"
           },
           "value": null,
           "typeAnnotation": {
@@ -220,9 +218,7 @@
               "start": 250,
               "end": 253
             },
-            "ctxt": 0,
-            "value": "Bar",
-            "optional": false
+            "value": "Bar"
           },
           "value": null,
           "typeAnnotation": {
@@ -330,9 +326,7 @@
               "start": 292,
               "end": 303
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -365,6 +359,10 @@
                     },
                     "typeName": {
                       "type": "TsQualifiedName",
+                      "span": {
+                        "start": 307,
+                        "end": 318
+                      },
                       "left": {
                         "type": "Identifier",
                         "span": {
@@ -381,9 +379,7 @@
                           "start": 315,
                           "end": 318
                         },
-                        "ctxt": 0,
-                        "value": "Bar",
-                        "optional": false
+                        "value": "Bar"
                       }
                     },
                     "typeParams": null
@@ -618,9 +614,7 @@
                         "start": 533,
                         "end": 537
                       },
-                      "ctxt": 0,
-                      "value": "doer",
-                      "optional": false
+                      "value": "doer"
                     },
                     "value": {
                       "type": "MemberExpression",
@@ -644,9 +638,7 @@
                           "start": 543,
                           "end": 546
                         },
-                        "ctxt": 0,
-                        "value": "Bar",
-                        "optional": false
+                        "value": "Bar"
                       }
                     }
                   }
@@ -706,9 +698,7 @@
                       "start": 601,
                       "end": 605
                     },
-                    "ctxt": 0,
-                    "value": "doer",
-                    "optional": false
+                    "value": "doer"
                   },
                   "value": {
                     "type": "ArrowFunctionExpression",

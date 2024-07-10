@@ -37,9 +37,7 @@
               "start": 145,
               "end": 152
             },
-            "ctxt": 0,
-            "value": "OPTIONS",
-            "optional": false
+            "value": "OPTIONS"
           },
           "function": {
             "params": [],
@@ -99,9 +97,7 @@
               "start": 174,
               "end": 181
             },
-            "ctxt": 0,
-            "value": "process",
-            "optional": false
+            "value": "process"
           },
           "function": {
             "params": [],
@@ -174,9 +170,7 @@
               "start": 199,
               "end": 208
             },
-            "ctxt": 0,
-            "value": "statische",
-            "optional": false
+            "value": "statische"
           }
         },
         "right": {
@@ -247,9 +241,7 @@
                     "start": 248,
                     "end": 249
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 },
                 "value": {
                   "type": "StringLiteral",
@@ -269,9 +261,7 @@
                     "start": 260,
                     "end": 261
                   },
-                  "ctxt": 0,
-                  "value": "b",
-                  "optional": false
+                  "value": "b"
                 },
                 "value": {
                   "type": "StringLiteral",
@@ -324,9 +314,7 @@
               "start": 277,
               "end": 284
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -382,9 +370,7 @@
                 "start": 303,
                 "end": 310
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -393,9 +379,7 @@
               "start": 311,
               "end": 318
             },
-            "ctxt": 0,
-            "value": "Strings",
-            "optional": false
+            "value": "Strings"
           }
         },
         "right": {

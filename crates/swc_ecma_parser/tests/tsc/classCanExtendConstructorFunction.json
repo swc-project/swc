@@ -85,9 +85,7 @@
                     "start": 169,
                     "end": 179
                   },
-                  "ctxt": 0,
-                  "value": "numberOxen",
-                  "optional": false
+                  "value": "numberOxen"
                 }
               },
               "right": {
@@ -144,9 +142,7 @@
               "start": 233,
               "end": 239
             },
-            "ctxt": 0,
-            "value": "circle",
-            "optional": false
+            "value": "circle"
           }
         },
         "right": {
@@ -231,9 +227,7 @@
                         "start": 289,
                         "end": 295
                       },
-                      "ctxt": 0,
-                      "value": "length",
-                      "optional": false
+                      "value": "length"
                     }
                   },
                   "alternate": {
@@ -297,9 +291,7 @@
                 "start": 370,
                 "end": 379
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -308,9 +300,7 @@
               "start": 380,
               "end": 384
             },
-            "ctxt": 0,
-            "value": "load",
-            "optional": false
+            "value": "load"
           }
         },
         "right": {
@@ -400,9 +390,7 @@
                 "start": 473,
                 "end": 482
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -411,9 +399,7 @@
               "start": 483,
               "end": 489
             },
-            "ctxt": 0,
-            "value": "weight",
-            "optional": false
+            "value": "weight"
           }
         },
         "right": {
@@ -474,9 +460,7 @@
                   "start": 524,
                   "end": 530
                 },
-                "ctxt": 0,
-                "value": "length",
-                "optional": false
+                "value": "length"
               }
             },
             "alternate": {
@@ -545,9 +529,7 @@
                 "start": 542,
                 "end": 551
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -556,9 +538,7 @@
               "start": 552,
               "end": 557
             },
-            "ctxt": 0,
-            "value": "speed",
-            "optional": false
+            "value": "speed"
           }
         },
         "right": {
@@ -611,9 +591,7 @@
                         "start": 590,
                         "end": 600
                       },
-                      "ctxt": 0,
-                      "value": "numberOxen",
-                      "optional": false
+                      "value": "numberOxen"
                     }
                   },
                   "right": {
@@ -642,9 +620,7 @@
                           "start": 608,
                           "end": 614
                         },
-                        "ctxt": 0,
-                        "value": "weight",
-                        "optional": false
+                        "value": "weight"
                       }
                     },
                     "arguments": [],
@@ -694,9 +670,7 @@
               "start": 655,
               "end": 666
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -763,9 +737,7 @@
                         "start": 732,
                         "end": 738
                       },
-                      "ctxt": 0,
-                      "value": "foonly",
-                      "optional": false
+                      "value": "foonly"
                     }
                   },
                   "right": {
@@ -796,9 +768,7 @@
               "start": 920,
               "end": 924
             },
-            "ctxt": 0,
-            "value": "load",
-            "optional": false
+            "value": "load"
           },
           "function": {
             "params": [
@@ -978,9 +948,7 @@
                                 "start": 1095,
                                 "end": 1100
                               },
-                              "ctxt": 0,
-                              "value": "speed",
-                              "optional": false
+                              "value": "speed"
                             }
                           },
                           "arguments": [],
@@ -1026,9 +994,7 @@
                                   "start": 1139,
                                   "end": 1145
                                 },
-                                "ctxt": 0,
-                                "value": "weight",
-                                "optional": false
+                                "value": "weight"
                               }
                             },
                             "arguments": [],
@@ -1174,9 +1140,7 @@
               "start": 1254,
               "end": 1264
             },
-            "ctxt": 0,
-            "value": "numberOxen",
-            "optional": false
+            "value": "numberOxen"
           }
         },
         "right": {
@@ -1201,9 +1165,7 @@
               "start": 1270,
               "end": 1276
             },
-            "ctxt": 0,
-            "value": "foonly",
-            "optional": false
+            "value": "foonly"
           }
         }
       }
@@ -1337,9 +1299,7 @@
                     "start": 1460,
                     "end": 1471
                   },
-                  "ctxt": 0,
-                  "value": "numberEaten",
-                  "optional": false
+                  "value": "numberEaten"
                 }
               },
               "right": {
@@ -1394,9 +1354,7 @@
               "start": 1535,
               "end": 1546
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -1485,9 +1443,7 @@
               "start": 1618,
               "end": 1629
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -1596,9 +1552,7 @@
               "start": 1772,
               "end": 1778
             },
-            "ctxt": 0,
-            "value": "circle",
-            "optional": false
+            "value": "circle"
           },
           "function": {
             "params": [
@@ -1702,9 +1656,7 @@
                         "start": 1829,
                         "end": 1835
                       },
-                      "ctxt": 0,
-                      "value": "length",
-                      "optional": false
+                      "value": "length"
                     }
                   }
                 }
@@ -1829,9 +1781,7 @@
             "start": 1875,
             "end": 1882
           },
-          "ctxt": 0,
-          "value": "drunkOO",
-          "optional": false
+          "value": "drunkOO"
         }
       }
     },
@@ -1863,9 +1813,7 @@
             "start": 1885,
             "end": 1895
           },
-          "ctxt": 0,
-          "value": "numberOxen",
-          "optional": false
+          "value": "numberOxen"
         }
       }
     },
@@ -1949,9 +1897,7 @@
                     "start": 2002,
                     "end": 2009
                   },
-                  "ctxt": 0,
-                  "value": "flavour",
-                  "optional": false
+                  "value": "flavour"
                 }
               },
               "right": {
@@ -2005,9 +1951,7 @@
               "start": 2115,
               "end": 2118
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           },
           "function": {
             "params": [],
@@ -2050,9 +1994,7 @@
                         "start": 2143,
                         "end": 2150
                       },
-                      "ctxt": 0,
-                      "value": "flavour",
-                      "optional": false
+                      "value": "flavour"
                     }
                   }
                 }
@@ -2178,9 +2120,7 @@
             "start": 2189,
             "end": 2196
           },
-          "ctxt": 0,
-          "value": "flavour",
-          "optional": false
+          "value": "flavour"
         }
       }
     },
@@ -2246,9 +2186,7 @@
                           "start": 2225,
                           "end": 2230
                         },
-                        "ctxt": 0,
-                        "value": "claim",
-                        "optional": false
+                        "value": "claim"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -2304,9 +2242,7 @@
               "start": 2255,
               "end": 2262
             },
-            "ctxt": 0,
-            "value": "flavour",
-            "optional": false
+            "value": "flavour"
           }
         },
         "property": {
@@ -2315,9 +2251,7 @@
             "start": 2263,
             "end": 2268
           },
-          "ctxt": 0,
-          "value": "claim",
-          "optional": false
+          "value": "claim"
         }
       }
     },

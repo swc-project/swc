@@ -47,9 +47,7 @@
                     "start": 243,
                     "end": 246
                   },
-                  "ctxt": 0,
-                  "value": "bye",
-                  "optional": false
+                  "value": "bye"
                 },
                 "value": {
                   "type": "StringLiteral",
@@ -119,9 +117,7 @@
               "start": 260,
               "end": 268
             },
-            "ctxt": 0,
-            "value": "ignoreMe",
-            "optional": false
+            "value": "ignoreMe"
           }
         },
         "right": {

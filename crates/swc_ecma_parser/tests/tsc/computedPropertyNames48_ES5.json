@@ -398,9 +398,7 @@
                           "start": 189,
                           "end": 190
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       }
                     }
                   },

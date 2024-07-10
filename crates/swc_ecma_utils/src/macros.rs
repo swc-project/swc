@@ -11,13 +11,22 @@ macro_rules! private_ident {
     }};
 }
 
+/// As we have multiple identifier types, the expected usage is
+/// `quote_ident!("foo").into()`.
 #[macro_export]
 macro_rules! quote_ident {
-    ($s:expr) => {
-        quote_ident!(Default::default(), $crate::swc_common::DUMMY_SP, $s)
-    };
+    ($s:expr) => {{
+        let sym: $crate::swc_atoms::Atom = $s.into();
+        let id: $crate::swc_ecma_ast::IdentName = sym.into();
+
+        id
+    }};
     ($ctxt:expr, $s:expr) => {{
-        quote_ident!($ctxt, $crate::swc_common::DUMMY_SP, $s)
+        let sym: $crate::swc_atoms::Atom = $s.into();
+        let id: $crate::swc_ecma_ast::Ident =
+            $crate::swc_ecma_ast::Ident::new(sym, DUMMY_SP, $ctxt);
+
+        id
     }};
 
     ($ctxt:expr, $span:expr, $s:expr) => {{
@@ -74,7 +83,8 @@ macro_rules! member_expr {
 
     (@EXT, $span:expr, $obj:expr, $first:ident . $($rest:tt)* ) => {{
         use $crate::swc_ecma_ast::MemberProp;
-        let prop = MemberProp::Ident($crate::quote_ident!(Default::default(), $span, stringify!($first)));
+        use $crate::swc_ecma_ast::IdentName;
+        let prop = MemberProp::Ident(IdentName::new(stringify!($first).into(), $span));
 
         member_expr!(@EXT, $span, Box::new(Expr::Member(MemberExpr{
             span: $crate::swc_common::DUMMY_SP,
@@ -85,7 +95,7 @@ macro_rules! member_expr {
 
     (@EXT, $span:expr, $obj:expr,  $first:ident) => {{
         use $crate::swc_ecma_ast::*;
-        let prop = MemberProp::Ident($crate::quote_ident!(Default::default(), $span, stringify!($first)));
+        let prop = MemberProp::Ident(IdentName::new(stringify!($first).into(), $span));
 
         MemberExpr{
             span: $crate::swc_common::DUMMY_SP,
@@ -118,9 +128,9 @@ mod tests {
                 obj: Box::new(Expr::Member(MemberExpr {
                     span,
                     obj: member_expr!(Default::default(), Default::default(), Function),
-                    prop: MemberProp::Ident(quote_ident!("prototype")),
+                    prop: MemberProp::Ident("prototype".into()),
                 })),
-                prop: MemberProp::Ident(quote_ident!("bind")),
+                prop: MemberProp::Ident("bind".into()),
             }))
         );
     }

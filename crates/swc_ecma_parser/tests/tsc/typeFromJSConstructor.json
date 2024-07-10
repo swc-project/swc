@@ -65,9 +65,7 @@
                     "start": 176,
                     "end": 179
                   },
-                  "ctxt": 0,
-                  "value": "arg",
-                  "optional": false
+                  "value": "arg"
                 }
               },
               "right": {
@@ -113,9 +111,7 @@
                     "start": 233,
                     "end": 240
                   },
-                  "ctxt": 0,
-                  "value": "unknown",
-                  "optional": false
+                  "value": "unknown"
                 }
               },
               "right": {
@@ -159,9 +155,7 @@
                     "start": 290,
                     "end": 295
                   },
-                  "ctxt": 0,
-                  "value": "twice",
-                  "optional": false
+                  "value": "twice"
                 }
               },
               "right": {
@@ -208,9 +202,7 @@
                     "start": 317,
                     "end": 322
                   },
-                  "ctxt": 0,
-                  "value": "twice",
-                  "optional": false
+                  "value": "twice"
                 }
               },
               "right": {
@@ -256,9 +248,7 @@
                     "start": 367,
                     "end": 373
                   },
-                  "ctxt": 0,
-                  "value": "twices",
-                  "optional": false
+                  "value": "twices"
                 }
               },
               "right": {
@@ -303,9 +293,7 @@
                     "start": 388,
                     "end": 394
                   },
-                  "ctxt": 0,
-                  "value": "twices",
-                  "optional": false
+                  "value": "twices"
                 }
               },
               "right": {
@@ -365,9 +353,7 @@
                 "start": 414,
                 "end": 423
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -376,9 +362,7 @@
               "start": 424,
               "end": 429
             },
-            "ctxt": 0,
-            "value": "first",
-            "optional": false
+            "value": "first"
           }
         },
         "right": {
@@ -431,9 +415,7 @@
                         "start": 455,
                         "end": 458
                       },
-                      "ctxt": 0,
-                      "value": "arg",
-                      "optional": false
+                      "value": "arg"
                     }
                   },
                   "right": {
@@ -479,9 +461,7 @@
                         "start": 484,
                         "end": 491
                       },
-                      "ctxt": 0,
-                      "value": "unknown",
-                      "optional": false
+                      "value": "unknown"
                     }
                   },
                   "right": {
@@ -527,9 +507,7 @@
                         "start": 514,
                         "end": 525
                       },
-                      "ctxt": 0,
-                      "value": "newProperty",
-                      "optional": false
+                      "value": "newProperty"
                     }
                   },
                   "right": {
@@ -575,9 +553,7 @@
                         "start": 563,
                         "end": 568
                       },
-                      "ctxt": 0,
-                      "value": "twice",
-                      "optional": false
+                      "value": "twice"
                     }
                   },
                   "right": {
@@ -624,9 +600,7 @@
                         "start": 596,
                         "end": 601
                       },
-                      "ctxt": 0,
-                      "value": "twice",
-                      "optional": false
+                      "value": "twice"
                     }
                   },
                   "right": {
@@ -690,9 +664,7 @@
                 "start": 627,
                 "end": 636
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -701,9 +673,7 @@
               "start": 637,
               "end": 643
             },
-            "ctxt": 0,
-            "value": "second",
-            "optional": false
+            "value": "second"
           }
         },
         "right": {
@@ -756,9 +726,7 @@
                         "start": 669,
                         "end": 672
                       },
-                      "ctxt": 0,
-                      "value": "arg",
-                      "optional": false
+                      "value": "arg"
                     }
                   },
                   "right": {
@@ -803,9 +771,7 @@
                         "start": 699,
                         "end": 706
                       },
-                      "ctxt": 0,
-                      "value": "unknown",
-                      "optional": false
+                      "value": "unknown"
                     }
                   },
                   "right": {
@@ -850,9 +816,7 @@
                         "start": 730,
                         "end": 741
                       },
-                      "ctxt": 0,
-                      "value": "newProperty",
-                      "optional": false
+                      "value": "newProperty"
                     }
                   },
                   "right": {
@@ -897,9 +861,7 @@
                         "start": 765,
                         "end": 770
                       },
-                      "ctxt": 0,
-                      "value": "twice",
-                      "optional": false
+                      "value": "twice"
                     }
                   },
                   "right": {
@@ -943,9 +905,7 @@
                         "start": 796,
                         "end": 801
                       },
-                      "ctxt": 0,
-                      "value": "twice",
-                      "optional": false
+                      "value": "twice"
                     }
                   },
                   "right": {
@@ -996,9 +956,7 @@
                           "start": 828,
                           "end": 834
                         },
-                        "ctxt": 0,
-                        "value": "twices",
-                        "optional": false
+                        "value": "twices"
                       }
                     },
                     "property": {
@@ -1007,9 +965,7 @@
                         "start": 835,
                         "end": 839
                       },
-                      "ctxt": 0,
-                      "value": "push",
-                      "optional": false
+                      "value": "push"
                     }
                   },
                   "arguments": [
@@ -1061,9 +1017,7 @@
                         "start": 890,
                         "end": 896
                       },
-                      "ctxt": 0,
-                      "value": "twices",
-                      "optional": false
+                      "value": "twices"
                     }
                   },
                   "right": {
@@ -1120,9 +1074,7 @@
                                 "start": 921,
                                 "end": 927
                               },
-                              "ctxt": 0,
-                              "value": "twices",
-                              "optional": false
+                              "value": "twices"
                             }
                           },
                           "property": {
@@ -1131,9 +1083,7 @@
                               "start": 928,
                               "end": 932
                             },
-                            "ctxt": 0,
-                            "value": "push",
-                            "optional": false
+                            "value": "push"
                           }
                         },
                         "arguments": [

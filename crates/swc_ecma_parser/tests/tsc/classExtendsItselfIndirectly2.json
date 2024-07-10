@@ -37,9 +37,7 @@
               "start": 23,
               "end": 26
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -90,9 +88,7 @@
             "start": 19,
             "end": 20
           },
-          "ctxt": 0,
-          "value": "E",
-          "optional": false
+          "value": "E"
         }
       },
       "isAbstract": false,
@@ -163,9 +159,7 @@
                       "start": 90,
                       "end": 93
                     },
-                    "ctxt": 0,
-                    "value": "bar",
-                    "optional": false
+                    "value": "bar"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -276,9 +270,7 @@
                       "start": 153,
                       "end": 156
                     },
-                    "ctxt": 0,
-                    "value": "baz",
-                    "optional": false
+                    "value": "baz"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -329,9 +321,7 @@
                     "start": 149,
                     "end": 150
                   },
-                  "ctxt": 0,
-                  "value": "D",
-                  "optional": false
+                  "value": "D"
                 }
               },
               "isAbstract": false,
@@ -400,9 +390,7 @@
                     "start": 216,
                     "end": 219
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -463,9 +451,7 @@
                   "start": 208,
                   "end": 210
                 },
-                "ctxt": 0,
-                "value": "E2",
-                "optional": false
+                "value": "E2"
               }
             },
             "isAbstract": false,
@@ -592,9 +578,7 @@
                             "start": 294,
                             "end": 297
                           },
-                          "ctxt": 0,
-                          "value": "bar",
-                          "optional": false
+                          "value": "bar"
                         },
                         "value": null,
                         "typeAnnotation": {
@@ -771,9 +755,7 @@
                             "start": 371,
                             "end": 374
                           },
-                          "ctxt": 0,
-                          "value": "baz",
-                          "optional": false
+                          "value": "baz"
                         },
                         "value": null,
                         "typeAnnotation": {
@@ -834,9 +816,7 @@
                           "start": 363,
                           "end": 365
                         },
-                        "ctxt": 0,
-                        "value": "D2",
-                        "optional": false
+                        "value": "D2"
                       }
                     },
                     "isAbstract": false,

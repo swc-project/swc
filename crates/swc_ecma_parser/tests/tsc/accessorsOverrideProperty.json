@@ -37,9 +37,7 @@
               "start": 68,
               "end": 69
             },
-            "ctxt": 0,
-            "value": "p",
-            "optional": false
+            "value": "p"
           },
           "value": {
             "type": "StringLiteral",
@@ -100,9 +98,7 @@
               "start": 108,
               "end": 109
             },
-            "ctxt": 0,
-            "value": "p",
-            "optional": false
+            "value": "p"
           },
           "function": {
             "params": [],
@@ -198,9 +194,7 @@
               "start": 155,
               "end": 156
             },
-            "ctxt": 0,
-            "value": "p",
-            "optional": false
+            "value": "p"
           },
           "value": {
             "type": "NumericLiteral",
@@ -261,9 +255,7 @@
               "start": 190,
               "end": 197
             },
-            "ctxt": 0,
-            "value": "_secret",
-            "optional": false
+            "value": "_secret"
           },
           "value": {
             "type": "NumericLiteral",
@@ -297,9 +289,7 @@
               "start": 211,
               "end": 212
             },
-            "ctxt": 0,
-            "value": "p",
-            "optional": false
+            "value": "p"
           },
           "function": {
             "params": [],
@@ -342,9 +332,7 @@
                         "start": 229,
                         "end": 236
                       },
-                      "ctxt": 0,
-                      "value": "_secret",
-                      "optional": false
+                      "value": "_secret"
                     }
                   }
                 }
@@ -374,9 +362,7 @@
               "start": 256,
               "end": 257
             },
-            "ctxt": 0,
-            "value": "p",
-            "optional": false
+            "value": "p"
           },
           "function": {
             "params": [
@@ -446,9 +432,7 @@
                           "start": 272,
                           "end": 279
                         },
-                        "ctxt": 0,
-                        "value": "_secret",
-                        "optional": false
+                        "value": "_secret"
                       }
                     },
                     "right": {

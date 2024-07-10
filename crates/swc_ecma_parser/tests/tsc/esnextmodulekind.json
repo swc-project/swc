@@ -43,9 +43,7 @@
                 "start": 110,
                 "end": 121
               },
-              "ctxt": 0,
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [],
             "body": {
@@ -72,9 +70,7 @@
                 "start": 150,
                 "end": 151
               },
-              "ctxt": 0,
-              "value": "B",
-              "optional": false
+              "value": "B"
             },
             "function": {
               "params": [],

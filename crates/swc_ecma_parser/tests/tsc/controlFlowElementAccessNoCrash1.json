@@ -758,9 +758,7 @@
                             "start": 586,
                             "end": 597
                           },
-                          "ctxt": 0,
-                          "value": "subScenario",
-                          "optional": false
+                          "value": "subScenario"
                         },
                         "value": {
                           "type": "Identifier",
@@ -781,9 +779,7 @@
                             "start": 612,
                             "end": 627
                           },
-                          "ctxt": 0,
-                          "value": "commandLineArgs",
-                          "optional": false
+                          "value": "commandLineArgs"
                         },
                         "value": {
                           "type": "BinaryExpression",
@@ -838,9 +834,7 @@
                                 "start": 642,
                                 "end": 657
                               },
-                              "ctxt": 0,
-                              "value": "commandLineArgs",
-                              "optional": false
+                              "value": "commandLineArgs"
                             }
                           },
                           "right": {

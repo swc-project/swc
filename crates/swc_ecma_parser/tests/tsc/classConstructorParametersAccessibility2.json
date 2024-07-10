@@ -38,9 +38,7 @@
               "start": 16,
               "end": 27
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -183,9 +181,7 @@
             "start": 68,
             "end": 69
           },
-          "ctxt": 0,
-          "value": "x",
-          "optional": false
+          "value": "x"
         }
       }
     },
@@ -222,9 +218,7 @@
               "start": 93,
               "end": 104
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -367,9 +361,7 @@
             "start": 146,
             "end": 147
           },
-          "ctxt": 0,
-          "value": "p",
-          "optional": false
+          "value": "p"
         }
       }
     },
@@ -406,9 +398,7 @@
               "start": 183,
               "end": 194
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -551,9 +541,7 @@
             "start": 238,
             "end": 239
           },
-          "ctxt": 0,
-          "value": "p",
-          "optional": false
+          "value": "p"
         }
       }
     },
@@ -590,9 +578,7 @@
               "start": 291,
               "end": 302
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -700,9 +686,7 @@
                       "start": 347,
                       "end": 348
                     },
-                    "ctxt": 0,
-                    "value": "p",
-                    "optional": false
+                    "value": "p"
                   }
                 }
               }

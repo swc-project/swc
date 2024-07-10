@@ -177,9 +177,7 @@
                 "start": 319,
                 "end": 320
               },
-              "ctxt": 0,
-              "value": "q",
-              "optional": false
+              "value": "q"
             },
             "value": {
               "type": "StringLiteral",

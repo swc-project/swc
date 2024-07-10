@@ -1866,9 +1866,7 @@
                               "start": 1557,
                               "end": 1570
                             },
-                            "ctxt": 0,
-                            "value": "asyncIterator",
-                            "optional": false
+                            "value": "asyncIterator"
                           }
                         }
                       },

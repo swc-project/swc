@@ -187,9 +187,7 @@
                       "start": 148,
                       "end": 157
                     },
-                    "ctxt": 0,
-                    "value": "required1",
-                    "optional": false
+                    "value": "required1"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -274,9 +272,7 @@
                       "start": 192,
                       "end": 201
                     },
-                    "ctxt": 0,
-                    "value": "required1",
-                    "optional": false
+                    "value": "required1"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -296,9 +292,7 @@
                       "start": 212,
                       "end": 220
                     },
-                    "ctxt": 0,
-                    "value": "optional",
-                    "optional": false
+                    "value": "optional"
                   },
                   "value": {
                     "type": "StringLiteral",

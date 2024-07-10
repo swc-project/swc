@@ -153,9 +153,7 @@
                     "start": 565,
                     "end": 571
                   },
-                  "ctxt": 0,
-                  "value": "length",
-                  "optional": false
+                  "value": "length"
                 }
               },
               "alternate": {
@@ -2105,9 +2103,7 @@
                             "start": 1983,
                             "end": 1989
                           },
-                          "ctxt": 0,
-                          "value": "length",
-                          "optional": false
+                          "value": "length"
                         }
                       }
                     }
@@ -2505,9 +2501,7 @@
                           "start": 2299,
                           "end": 2307
                         },
-                        "ctxt": 0,
-                        "value": "toString",
-                        "optional": false
+                        "value": "toString"
                       }
                     },
                     "arguments": [],
@@ -3183,9 +3177,7 @@
                             "start": 2810,
                             "end": 2818
                           },
-                          "ctxt": 0,
-                          "value": "toString",
-                          "optional": false
+                          "value": "toString"
                         }
                       },
                       "arguments": [],
@@ -3197,9 +3189,7 @@
                         "start": 2821,
                         "end": 2827
                       },
-                      "ctxt": 0,
-                      "value": "length",
-                      "optional": false
+                      "value": "length"
                     }
                   }
                 }

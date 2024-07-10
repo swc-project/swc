@@ -124,9 +124,7 @@
                             "start": 100,
                             "end": 108
                           },
-                          "ctxt": 0,
-                          "value": "onAttach",
-                          "optional": false
+                          "value": "onAttach"
                         },
                         "value": {
                           "type": "JSXExpressionContainer",

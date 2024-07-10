@@ -139,8 +139,16 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 142,
+                              "end": 154
+                            },
                             "left": {
                               "type": "TsQualifiedName",
+                              "span": {
+                                "start": 142,
+                                "end": 152
+                              },
                               "left": {
                                 "type": "Identifier",
                                 "span": {
@@ -157,9 +165,7 @@
                                   "start": 146,
                                   "end": 152
                                 },
-                                "ctxt": 0,
-                                "value": "nested",
-                                "optional": false
+                                "value": "nested"
                               }
                             },
                             "right": {
@@ -168,9 +174,7 @@
                                 "start": 153,
                                 "end": 154
                               },
-                              "ctxt": 0,
-                              "value": "T",
-                              "optional": false
+                              "value": "T"
                             }
                           },
                           "typeParams": null
@@ -319,8 +323,16 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 286,
+                              "end": 298
+                            },
                             "left": {
                               "type": "TsQualifiedName",
+                              "span": {
+                                "start": 286,
+                                "end": 296
+                              },
                               "left": {
                                 "type": "Identifier",
                                 "span": {
@@ -337,9 +349,7 @@
                                   "start": 290,
                                   "end": 296
                                 },
-                                "ctxt": 0,
-                                "value": "nested",
-                                "optional": false
+                                "value": "nested"
                               }
                             },
                             "right": {
@@ -348,9 +358,7 @@
                                 "start": 297,
                                 "end": 298
                               },
-                              "ctxt": 0,
-                              "value": "T",
-                              "optional": false
+                              "value": "T"
                             }
                           },
                           "typeParams": null

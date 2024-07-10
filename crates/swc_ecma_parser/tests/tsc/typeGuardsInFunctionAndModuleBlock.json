@@ -300,9 +300,7 @@
                                   "start": 272,
                                   "end": 280
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -337,9 +335,7 @@
                                   "start": 314,
                                   "end": 322
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -712,9 +708,7 @@
                                   "start": 604,
                                   "end": 612
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -749,9 +743,7 @@
                                   "start": 646,
                                   "end": 654
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -1082,9 +1074,7 @@
                                     "start": 954,
                                     "end": 962
                                   },
-                                  "ctxt": 0,
-                                  "value": "toString",
-                                  "optional": false
+                                  "value": "toString"
                                 }
                               },
                               "arguments": [],
@@ -1119,9 +1109,7 @@
                                     "start": 996,
                                     "end": 1004
                                   },
-                                  "ctxt": 0,
-                                  "value": "toString",
-                                  "optional": false
+                                  "value": "toString"
                                 }
                               },
                               "arguments": [],
@@ -1482,9 +1470,7 @@
                                     "start": 1280,
                                     "end": 1288
                                   },
-                                  "ctxt": 0,
-                                  "value": "toString",
-                                  "optional": false
+                                  "value": "toString"
                                 }
                               },
                               "arguments": [],
@@ -1519,9 +1505,7 @@
                                     "start": 1322,
                                     "end": 1330
                                   },
-                                  "ctxt": 0,
-                                  "value": "toString",
-                                  "optional": false
+                                  "value": "toString"
                                 }
                               },
                               "arguments": [],
@@ -2224,9 +2208,7 @@
                                     "start": 1932,
                                     "end": 1940
                                   },
-                                  "ctxt": 0,
-                                  "value": "toString",
-                                  "optional": false
+                                  "value": "toString"
                                 }
                               },
                               "arguments": [],
@@ -2261,9 +2243,7 @@
                                     "start": 1970,
                                     "end": 1978
                                   },
-                                  "ctxt": 0,
-                                  "value": "toString",
-                                  "optional": false
+                                  "value": "toString"
                                 }
                               },
                               "arguments": [],
@@ -2696,9 +2676,7 @@
                                       "start": 2300,
                                       "end": 2308
                                     },
-                                    "ctxt": 0,
-                                    "value": "toString",
-                                    "optional": false
+                                    "value": "toString"
                                   }
                                 },
                                 "arguments": [],
@@ -2733,9 +2711,7 @@
                                       "start": 2338,
                                       "end": 2346
                                     },
-                                    "ctxt": 0,
-                                    "value": "toString",
-                                    "optional": false
+                                    "value": "toString"
                                   }
                                 },
                                 "arguments": [],

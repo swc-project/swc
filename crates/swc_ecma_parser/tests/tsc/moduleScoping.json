@@ -426,9 +426,7 @@
                 "start": 347,
                 "end": 349
               },
-              "ctxt": 0,
-              "value": "v3",
-              "optional": false
+              "value": "v3"
             }
           },
           "definite": false
@@ -477,9 +475,7 @@
                     "start": 361,
                     "end": 362
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 },
                 "value": {
                   "type": "BooleanLiteral",
@@ -498,9 +494,7 @@
                     "start": 370,
                     "end": 371
                   },
-                  "ctxt": 0,
-                  "value": "b",
-                  "optional": false
+                  "value": "b"
                 },
                 "value": {
                   "type": "Identifier",

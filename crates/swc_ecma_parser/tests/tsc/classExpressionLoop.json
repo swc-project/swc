@@ -179,9 +179,7 @@
                     "start": 54,
                     "end": 58
                   },
-                  "ctxt": 0,
-                  "value": "push",
-                  "optional": false
+                  "value": "push"
                 }
               },
               "arguments": [
@@ -218,9 +216,7 @@
                             "start": 77,
                             "end": 81
                           },
-                          "ctxt": 0,
-                          "value": "prop",
-                          "optional": false
+                          "value": "prop"
                         },
                         "value": {
                           "type": "Identifier",

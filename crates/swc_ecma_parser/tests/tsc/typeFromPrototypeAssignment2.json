@@ -121,9 +121,7 @@
                                     "start": 258,
                                     "end": 262
                                   },
-                                  "ctxt": 0,
-                                  "value": "_map",
-                                  "optional": false
+                                  "value": "_map"
                                 }
                               },
                               "right": {
@@ -161,9 +159,7 @@
                                   "start": 282,
                                   "end": 286
                                 },
-                                "ctxt": 0,
-                                "value": "_map",
-                                "optional": false
+                                "value": "_map"
                               }
                             }
                           },
@@ -192,9 +188,7 @@
                                   "start": 300,
                                   "end": 303
                                 },
-                                "ctxt": 0,
-                                "value": "set",
-                                "optional": false
+                                "value": "set"
                               }
                             }
                           },
@@ -223,9 +217,7 @@
                                   "start": 317,
                                   "end": 320
                                 },
-                                "ctxt": 0,
-                                "value": "get",
-                                "optional": false
+                                "value": "get"
                               }
                             }
                           },
@@ -254,9 +246,7 @@
                                   "start": 334,
                                   "end": 339
                                 },
-                                "ctxt": 0,
-                                "value": "addon",
-                                "optional": false
+                                "value": "addon"
                               }
                             }
                           }
@@ -306,9 +296,7 @@
                         "start": 361,
                         "end": 370
                       },
-                      "ctxt": 0,
-                      "value": "prototype",
-                      "optional": false
+                      "value": "prototype"
                     }
                   },
                   "right": {
@@ -326,9 +314,7 @@
                             "start": 383,
                             "end": 386
                           },
-                          "ctxt": 0,
-                          "value": "set",
-                          "optional": false
+                          "value": "set"
                         },
                         "value": {
                           "type": "FunctionExpression",
@@ -373,9 +359,7 @@
                                       "start": 418,
                                       "end": 422
                                     },
-                                    "ctxt": 0,
-                                    "value": "_map",
-                                    "optional": false
+                                    "value": "_map"
                                   }
                                 }
                               },
@@ -404,9 +388,7 @@
                                       "start": 440,
                                       "end": 443
                                     },
-                                    "ctxt": 0,
-                                    "value": "set",
-                                    "optional": false
+                                    "value": "set"
                                   }
                                 }
                               },
@@ -435,9 +417,7 @@
                                       "start": 461,
                                       "end": 464
                                     },
-                                    "ctxt": 0,
-                                    "value": "get",
-                                    "optional": false
+                                    "value": "get"
                                   }
                                 }
                               },
@@ -466,9 +446,7 @@
                                       "start": 482,
                                       "end": 487
                                     },
-                                    "ctxt": 0,
-                                    "value": "addon",
-                                    "optional": false
+                                    "value": "addon"
                                   }
                                 }
                               }
@@ -488,9 +466,7 @@
                             "start": 507,
                             "end": 510
                           },
-                          "ctxt": 0,
-                          "value": "get",
-                          "optional": false
+                          "value": "get"
                         },
                         "params": [],
                         "decorators": [],
@@ -532,9 +508,7 @@
                                     "start": 532,
                                     "end": 536
                                   },
-                                  "ctxt": 0,
-                                  "value": "_map",
-                                  "optional": false
+                                  "value": "_map"
                                 }
                               }
                             },
@@ -563,9 +537,7 @@
                                     "start": 554,
                                     "end": 557
                                   },
-                                  "ctxt": 0,
-                                  "value": "set",
-                                  "optional": false
+                                  "value": "set"
                                 }
                               }
                             },
@@ -594,9 +566,7 @@
                                     "start": 575,
                                     "end": 578
                                   },
-                                  "ctxt": 0,
-                                  "value": "get",
-                                  "optional": false
+                                  "value": "get"
                                 }
                               }
                             },
@@ -625,9 +595,7 @@
                                     "start": 596,
                                     "end": 601
                                   },
-                                  "ctxt": 0,
-                                  "value": "addon",
-                                  "optional": false
+                                  "value": "addon"
                                 }
                               }
                             }
@@ -683,9 +651,7 @@
                           "start": 632,
                           "end": 641
                         },
-                        "ctxt": 0,
-                        "value": "prototype",
-                        "optional": false
+                        "value": "prototype"
                       }
                     },
                     "property": {
@@ -694,9 +660,7 @@
                         "start": 642,
                         "end": 647
                       },
-                      "ctxt": 0,
-                      "value": "addon",
-                      "optional": false
+                      "value": "addon"
                     }
                   },
                   "right": {
@@ -742,9 +706,7 @@
                                 "start": 677,
                                 "end": 681
                               },
-                              "ctxt": 0,
-                              "value": "_map",
-                              "optional": false
+                              "value": "_map"
                             }
                           }
                         },
@@ -773,9 +735,7 @@
                                 "start": 695,
                                 "end": 698
                               },
-                              "ctxt": 0,
-                              "value": "set",
-                              "optional": false
+                              "value": "set"
                             }
                           }
                         },
@@ -804,9 +764,7 @@
                                 "start": 712,
                                 "end": 715
                               },
-                              "ctxt": 0,
-                              "value": "get",
-                              "optional": false
+                              "value": "get"
                             }
                           }
                         },
@@ -835,9 +793,7 @@
                                 "start": 729,
                                 "end": 734
                               },
-                              "ctxt": 0,
-                              "value": "addon",
-                              "optional": false
+                              "value": "addon"
                             }
                           }
                         }
@@ -929,9 +885,7 @@
                       "start": 778,
                       "end": 782
                     },
-                    "ctxt": 0,
-                    "value": "_map",
-                    "optional": false
+                    "value": "_map"
                   }
                 }
               },
@@ -963,9 +917,7 @@
                       "start": 790,
                       "end": 793
                     },
-                    "ctxt": 0,
-                    "value": "set",
-                    "optional": false
+                    "value": "set"
                   }
                 }
               },
@@ -997,9 +949,7 @@
                       "start": 801,
                       "end": 804
                     },
-                    "ctxt": 0,
-                    "value": "get",
-                    "optional": false
+                    "value": "get"
                   }
                 }
               },
@@ -1031,9 +981,7 @@
                       "start": 812,
                       "end": 817
                     },
-                    "ctxt": 0,
-                    "value": "addon",
-                    "optional": false
+                    "value": "addon"
                   }
                 }
               }

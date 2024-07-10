@@ -26,9 +26,7 @@
                 "start": 22,
                 "end": 25
               },
-              "ctxt": 0,
-              "value": "lol",
-              "optional": false
+              "value": "lol"
             },
             "value": {
               "type": "NumericLiteral",
@@ -64,9 +62,7 @@
                 "start": 53,
                 "end": 56
               },
-              "ctxt": 0,
-              "value": "lol",
-              "optional": false
+              "value": "lol"
             },
             "value": {
               "type": "NumericLiteral",

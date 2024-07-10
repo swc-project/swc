@@ -1028,9 +1028,7 @@
                   "start": 584,
                   "end": 588
                 },
-                "ctxt": 0,
-                "value": "trim",
-                "optional": false
+                "value": "trim"
               }
             },
             "arguments": [],
@@ -1517,9 +1515,7 @@
                         "start": 841,
                         "end": 845
                       },
-                      "ctxt": 0,
-                      "value": "trim",
-                      "optional": false
+                      "value": "trim"
                     }
                   },
                   "arguments": [],

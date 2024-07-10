@@ -1645,9 +1645,7 @@
               "start": 596,
               "end": 599
             },
-            "ctxt": 0,
-            "value": "biz",
-            "optional": false
+            "value": "biz"
           },
           "function": {
             "params": [],
@@ -1729,9 +1727,7 @@
                           "start": 631,
                           "end": 634
                         },
-                        "ctxt": 0,
-                        "value": "biz",
-                        "optional": false
+                        "value": "biz"
                       }
                     },
                     "arguments": [],
@@ -1804,9 +1800,7 @@
                         "start": 669,
                         "end": 672
                       },
-                      "ctxt": 0,
-                      "value": "biz",
-                      "optional": false
+                      "value": "biz"
                     }
                   },
                   "body": {
@@ -1914,9 +1908,7 @@
               "start": 749,
               "end": 752
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           },
           "function": {
             "params": [],
@@ -2046,9 +2038,7 @@
                         "start": 816,
                         "end": 819
                       },
-                      "ctxt": 0,
-                      "value": "baz",
-                      "optional": false
+                      "value": "baz"
                     }
                   },
                   "body": {
@@ -2125,9 +2115,7 @@
                           "start": 852,
                           "end": 855
                         },
-                        "ctxt": 0,
-                        "value": "baz",
-                        "optional": false
+                        "value": "baz"
                       }
                     },
                     "arguments": [],
@@ -2210,9 +2198,7 @@
               "start": 918,
               "end": 921
             },
-            "ctxt": 0,
-            "value": "boz",
-            "optional": false
+            "value": "boz"
           },
           "function": {
             "params": [],
@@ -2294,9 +2280,7 @@
                           "start": 953,
                           "end": 956
                         },
-                        "ctxt": 0,
-                        "value": "biz",
-                        "optional": false
+                        "value": "biz"
                       }
                     },
                     "arguments": [],
@@ -2369,9 +2353,7 @@
                         "start": 991,
                         "end": 994
                       },
-                      "ctxt": 0,
-                      "value": "biz",
-                      "optional": false
+                      "value": "biz"
                     }
                   },
                   "body": {
@@ -2496,9 +2478,7 @@
                         "start": 1061,
                         "end": 1064
                       },
-                      "ctxt": 0,
-                      "value": "biz",
-                      "optional": false
+                      "value": "biz"
                     }
                   },
                   "body": {
@@ -2575,9 +2555,7 @@
                           "start": 1098,
                           "end": 1101
                         },
-                        "ctxt": 0,
-                        "value": "biz",
-                        "optional": false
+                        "value": "biz"
                       }
                     },
                     "arguments": [],
@@ -2962,9 +2940,7 @@
                       "start": 1275,
                       "end": 1279
                     },
-                    "ctxt": 0,
-                    "value": "name",
-                    "optional": false
+                    "value": "name"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -3151,9 +3127,7 @@
             "start": 1333,
             "end": 1334
           },
-          "ctxt": 0,
-          "value": "X",
-          "optional": false
+          "value": "X"
         }
       },
       "body": {
@@ -3341,9 +3315,7 @@
             "start": 1412,
             "end": 1416
           },
-          "ctxt": 0,
-          "value": "Blue",
-          "optional": false
+          "value": "Blue"
         }
       },
       "body": {

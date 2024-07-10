@@ -94,9 +94,7 @@
                             "start": 430,
                             "end": 434
                           },
-                          "ctxt": 0,
-                          "value": "name",
-                          "optional": false
+                          "value": "name"
                         },
                         "value": {
                           "type": "StringLiteral",

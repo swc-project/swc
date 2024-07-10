@@ -439,9 +439,7 @@
                     "start": 195,
                     "end": 201
                   },
-                  "ctxt": 0,
-                  "value": "method",
-                  "optional": false
+                  "value": "method"
                 }
               },
               "arguments": [

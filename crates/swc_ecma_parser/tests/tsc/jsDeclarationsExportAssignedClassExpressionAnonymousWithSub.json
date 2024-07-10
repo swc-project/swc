@@ -40,9 +40,7 @@
               "start": 123,
               "end": 130
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -68,9 +66,7 @@
                   "start": 186,
                   "end": 197
                 },
-                "ctxt": 0,
-                "value": "constructor",
-                "optional": false
+                "value": "constructor"
               },
               "params": [
                 {
@@ -133,9 +129,7 @@
                             "start": 216,
                             "end": 217
                           },
-                          "ctxt": 0,
-                          "value": "t",
-                          "optional": false
+                          "value": "t"
                         }
                       },
                       "right": {
@@ -222,9 +216,7 @@
                 "start": 243,
                 "end": 250
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -233,9 +225,7 @@
               "start": 251,
               "end": 254
             },
-            "ctxt": 0,
-            "value": "Sub",
-            "optional": false
+            "value": "Sub"
           }
         },
         "right": {
@@ -261,9 +251,7 @@
                   "start": 269,
                   "end": 280
                 },
-                "ctxt": 0,
-                "value": "constructor",
-                "optional": false
+                "value": "constructor"
               },
               "params": [],
               "body": {
@@ -306,9 +294,7 @@
                             "start": 298,
                             "end": 306
                           },
-                          "ctxt": 0,
-                          "value": "instance",
-                          "optional": false
+                          "value": "instance"
                         }
                       },
                       "right": {
@@ -340,9 +326,7 @@
                               "start": 320,
                               "end": 327
                             },
-                            "ctxt": 0,
-                            "value": "exports",
-                            "optional": false
+                            "value": "exports"
                           }
                         },
                         "arguments": [

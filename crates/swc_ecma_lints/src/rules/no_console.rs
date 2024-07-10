@@ -74,7 +74,7 @@ impl Visit for NoConsole {
     fn visit_member_expr(&mut self, member: &MemberExpr) {
         if let Expr::Ident(ident) = member.obj.as_ref() {
             match &member.prop {
-                MemberProp::Ident(Ident { sym, .. }) => {
+                MemberProp::Ident(IdentName { sym, .. }) => {
                     self.check(member.span, ident, sym);
                 }
                 MemberProp::Computed(ComputedPropName { expr, .. }) => {

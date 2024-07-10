@@ -563,9 +563,7 @@
                                 "start": 237,
                                 "end": 239
                               },
-                              "ctxt": 0,
-                              "value": "p1",
-                              "optional": false
+                              "value": "p1"
                             },
                             "value": {
                               "type": "ObjectPattern",
@@ -586,9 +584,7 @@
                                 "start": 245,
                                 "end": 247
                               },
-                              "ctxt": 0,
-                              "value": "p2",
-                              "optional": false
+                              "value": "p2"
                             },
                             "value": {
                               "type": "ArrayPattern",
@@ -650,9 +646,7 @@
                                 "start": 269,
                                 "end": 271
                               },
-                              "ctxt": 0,
-                              "value": "p1",
-                              "optional": false
+                              "value": "p1"
                             },
                             "value": {
                               "type": "ObjectPattern",
@@ -673,9 +667,7 @@
                                 "start": 277,
                                 "end": 279
                               },
-                              "ctxt": 0,
-                              "value": "p2",
-                              "optional": false
+                              "value": "p2"
                             },
                             "value": {
                               "type": "ArrayPattern",
@@ -737,9 +729,7 @@
                                 "start": 303,
                                 "end": 305
                               },
-                              "ctxt": 0,
-                              "value": "p1",
-                              "optional": false
+                              "value": "p1"
                             },
                             "value": {
                               "type": "ObjectPattern",
@@ -760,9 +750,7 @@
                                 "start": 311,
                                 "end": 313
                               },
-                              "ctxt": 0,
-                              "value": "p2",
-                              "optional": false
+                              "value": "p2"
                             },
                             "value": {
                               "type": "ArrayPattern",
@@ -1010,9 +998,7 @@
                                   "start": 414,
                                   "end": 415
                                 },
-                                "ctxt": 0,
-                                "value": "p",
-                                "optional": false
+                                "value": "p"
                               },
                               "value": {
                                 "type": "AssignmentPattern",
@@ -1162,9 +1148,7 @@
                                         "start": 466,
                                         "end": 467
                                       },
-                                      "ctxt": 0,
-                                      "value": "p",
-                                      "optional": false
+                                      "value": "p"
                                     },
                                     "value": {
                                       "type": "AssignmentPattern",

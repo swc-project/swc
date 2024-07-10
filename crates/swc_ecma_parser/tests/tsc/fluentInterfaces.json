@@ -373,9 +373,7 @@
                           "start": 140,
                           "end": 143
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       }
                     },
                     "arguments": [],
@@ -387,9 +385,7 @@
                       "start": 146,
                       "end": 149
                     },
-                    "ctxt": 0,
-                    "value": "bar",
-                    "optional": false
+                    "value": "bar"
                   }
                 },
                 "arguments": [],
@@ -401,9 +397,7 @@
                   "start": 152,
                   "end": 155
                 },
-                "ctxt": 0,
-                "value": "baz",
-                "optional": false
+                "value": "baz"
               }
             },
             "arguments": [],

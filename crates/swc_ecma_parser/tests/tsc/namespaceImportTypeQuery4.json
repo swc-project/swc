@@ -255,9 +255,7 @@
                     "start": 187,
                     "end": 188
                   },
-                  "ctxt": 0,
-                  "value": "A",
-                  "optional": false
+                  "value": "A"
                 },
                 "value": {
                   "type": "TsAsExpression",
@@ -293,9 +291,7 @@
                     "start": 219,
                     "end": 220
                   },
-                  "ctxt": 0,
-                  "value": "B",
-                  "optional": false
+                  "value": "B"
                 },
                 "value": {
                   "type": "TsAsExpression",

@@ -76,9 +76,7 @@
                   "start": 10,
                   "end": 14
                 },
-                "ctxt": 0,
-                "value": "fill",
-                "optional": false
+                "value": "fill"
               }
             },
             "arguments": [
@@ -103,9 +101,7 @@
               "start": 18,
               "end": 21
             },
-            "ctxt": 0,
-            "value": "map",
-            "optional": false
+            "value": "map"
           }
         },
         "arguments": [
@@ -163,9 +159,7 @@
                           "start": 61,
                           "end": 68
                         },
-                        "ctxt": 0,
-                        "value": "loading",
-                        "optional": false
+                        "value": "loading"
                       },
                       "value": {
                         "type": "BooleanLiteral",

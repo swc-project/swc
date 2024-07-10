@@ -1095,9 +1095,7 @@
                             "start": 760,
                             "end": 761
                           },
-                          "ctxt": 0,
-                          "value": "a",
-                          "optional": false
+                          "value": "a"
                         }
                       },
                       "right": {
@@ -1126,9 +1124,7 @@
                               "start": 781,
                               "end": 782
                             },
-                            "ctxt": 0,
-                            "value": "a",
-                            "optional": false
+                            "value": "a"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -1165,9 +1161,7 @@
                                     "start": 791,
                                     "end": 792
                                   },
-                                  "ctxt": 0,
-                                  "value": "a",
-                                  "optional": false
+                                  "value": "a"
                                 }
                               },
                               "property": {
@@ -1176,9 +1170,7 @@
                                   "start": 793,
                                   "end": 801
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -1231,9 +1223,7 @@
                             "start": 825,
                             "end": 826
                           },
-                          "ctxt": 0,
-                          "value": "b",
-                          "optional": false
+                          "value": "b"
                         }
                       },
                       "right": {
@@ -1262,9 +1252,7 @@
                               "start": 846,
                               "end": 847
                             },
-                            "ctxt": 0,
-                            "value": "b",
-                            "optional": false
+                            "value": "b"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -1301,9 +1289,7 @@
                                     "start": 856,
                                     "end": 857
                                   },
-                                  "ctxt": 0,
-                                  "value": "b",
-                                  "optional": false
+                                  "value": "b"
                                 }
                               },
                               "property": {
@@ -1312,9 +1298,7 @@
                                   "start": 858,
                                   "end": 866
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -1367,9 +1351,7 @@
                             "start": 890,
                             "end": 891
                           },
-                          "ctxt": 0,
-                          "value": "c",
-                          "optional": false
+                          "value": "c"
                         }
                       },
                       "right": {
@@ -1398,9 +1380,7 @@
                               "start": 911,
                               "end": 912
                             },
-                            "ctxt": 0,
-                            "value": "c",
-                            "optional": false
+                            "value": "c"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -1437,9 +1417,7 @@
                                     "start": 921,
                                     "end": 922
                                   },
-                                  "ctxt": 0,
-                                  "value": "c",
-                                  "optional": false
+                                  "value": "c"
                                 }
                               },
                               "property": {
@@ -1448,9 +1426,7 @@
                                   "start": 923,
                                   "end": 931
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -1503,9 +1479,7 @@
                             "start": 955,
                             "end": 956
                           },
-                          "ctxt": 0,
-                          "value": "d",
-                          "optional": false
+                          "value": "d"
                         }
                       },
                       "right": {
@@ -1534,9 +1508,7 @@
                               "start": 976,
                               "end": 977
                             },
-                            "ctxt": 0,
-                            "value": "d",
-                            "optional": false
+                            "value": "d"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -1573,9 +1545,7 @@
                                     "start": 986,
                                     "end": 987
                                   },
-                                  "ctxt": 0,
-                                  "value": "d",
-                                  "optional": false
+                                  "value": "d"
                                 }
                               },
                               "property": {
@@ -1584,9 +1554,7 @@
                                   "start": 988,
                                   "end": 996
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -1639,9 +1607,7 @@
                             "start": 1020,
                             "end": 1021
                           },
-                          "ctxt": 0,
-                          "value": "e",
-                          "optional": false
+                          "value": "e"
                         }
                       },
                       "right": {
@@ -1670,9 +1636,7 @@
                               "start": 1041,
                               "end": 1042
                             },
-                            "ctxt": 0,
-                            "value": "e",
-                            "optional": false
+                            "value": "e"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -1709,9 +1673,7 @@
                                     "start": 1051,
                                     "end": 1052
                                   },
-                                  "ctxt": 0,
-                                  "value": "e",
-                                  "optional": false
+                                  "value": "e"
                                 }
                               },
                               "property": {
@@ -1720,9 +1682,7 @@
                                   "start": 1053,
                                   "end": 1061
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -1775,9 +1735,7 @@
                             "start": 1085,
                             "end": 1086
                           },
-                          "ctxt": 0,
-                          "value": "f",
-                          "optional": false
+                          "value": "f"
                         }
                       },
                       "right": {
@@ -1806,9 +1764,7 @@
                               "start": 1106,
                               "end": 1107
                             },
-                            "ctxt": 0,
-                            "value": "f",
-                            "optional": false
+                            "value": "f"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -1845,9 +1801,7 @@
                                     "start": 1116,
                                     "end": 1117
                                   },
-                                  "ctxt": 0,
-                                  "value": "f",
-                                  "optional": false
+                                  "value": "f"
                                 }
                               },
                               "property": {
@@ -1856,9 +1810,7 @@
                                   "start": 1118,
                                   "end": 1126
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -1911,9 +1863,7 @@
                             "start": 1150,
                             "end": 1151
                           },
-                          "ctxt": 0,
-                          "value": "g",
-                          "optional": false
+                          "value": "g"
                         }
                       },
                       "right": {
@@ -1942,9 +1892,7 @@
                               "start": 1171,
                               "end": 1172
                             },
-                            "ctxt": 0,
-                            "value": "g",
-                            "optional": false
+                            "value": "g"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -1981,9 +1929,7 @@
                                     "start": 1181,
                                     "end": 1182
                                   },
-                                  "ctxt": 0,
-                                  "value": "g",
-                                  "optional": false
+                                  "value": "g"
                                 }
                               },
                               "property": {
@@ -1992,9 +1938,7 @@
                                   "start": 1183,
                                   "end": 1191
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -2047,9 +1991,7 @@
                             "start": 1215,
                             "end": 1216
                           },
-                          "ctxt": 0,
-                          "value": "h",
-                          "optional": false
+                          "value": "h"
                         }
                       },
                       "right": {
@@ -2078,9 +2020,7 @@
                               "start": 1236,
                               "end": 1237
                             },
-                            "ctxt": 0,
-                            "value": "h",
-                            "optional": false
+                            "value": "h"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -2117,9 +2057,7 @@
                                     "start": 1246,
                                     "end": 1247
                                   },
-                                  "ctxt": 0,
-                                  "value": "h",
-                                  "optional": false
+                                  "value": "h"
                                 }
                               },
                               "property": {
@@ -2128,9 +2066,7 @@
                                   "start": 1248,
                                   "end": 1256
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -2183,9 +2119,7 @@
                             "start": 1280,
                             "end": 1281
                           },
-                          "ctxt": 0,
-                          "value": "i",
-                          "optional": false
+                          "value": "i"
                         }
                       },
                       "right": {
@@ -2214,9 +2148,7 @@
                               "start": 1301,
                               "end": 1302
                             },
-                            "ctxt": 0,
-                            "value": "i",
-                            "optional": false
+                            "value": "i"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -2253,9 +2185,7 @@
                                     "start": 1311,
                                     "end": 1312
                                   },
-                                  "ctxt": 0,
-                                  "value": "i",
-                                  "optional": false
+                                  "value": "i"
                                 }
                               },
                               "property": {
@@ -2264,9 +2194,7 @@
                                   "start": 1313,
                                   "end": 1321
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -2319,9 +2247,7 @@
                             "start": 1345,
                             "end": 1346
                           },
-                          "ctxt": 0,
-                          "value": "j",
-                          "optional": false
+                          "value": "j"
                         }
                       },
                       "right": {
@@ -2350,9 +2276,7 @@
                               "start": 1366,
                               "end": 1367
                             },
-                            "ctxt": 0,
-                            "value": "j",
-                            "optional": false
+                            "value": "j"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -2389,9 +2313,7 @@
                                     "start": 1376,
                                     "end": 1377
                                   },
-                                  "ctxt": 0,
-                                  "value": "j",
-                                  "optional": false
+                                  "value": "j"
                                 }
                               },
                               "property": {
@@ -2400,9 +2322,7 @@
                                   "start": 1378,
                                   "end": 1386
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -2455,9 +2375,7 @@
                             "start": 1410,
                             "end": 1411
                           },
-                          "ctxt": 0,
-                          "value": "k",
-                          "optional": false
+                          "value": "k"
                         }
                       },
                       "right": {
@@ -2486,9 +2404,7 @@
                               "start": 1431,
                               "end": 1432
                             },
-                            "ctxt": 0,
-                            "value": "k",
-                            "optional": false
+                            "value": "k"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -2525,9 +2441,7 @@
                                     "start": 1441,
                                     "end": 1442
                                   },
-                                  "ctxt": 0,
-                                  "value": "k",
-                                  "optional": false
+                                  "value": "k"
                                 }
                               },
                               "property": {
@@ -2536,9 +2450,7 @@
                                   "start": 1443,
                                   "end": 1451
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -2591,9 +2503,7 @@
                             "start": 1475,
                             "end": 1476
                           },
-                          "ctxt": 0,
-                          "value": "l",
-                          "optional": false
+                          "value": "l"
                         }
                       },
                       "right": {
@@ -2622,9 +2532,7 @@
                               "start": 1496,
                               "end": 1497
                             },
-                            "ctxt": 0,
-                            "value": "l",
-                            "optional": false
+                            "value": "l"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -2661,9 +2569,7 @@
                                     "start": 1506,
                                     "end": 1507
                                   },
-                                  "ctxt": 0,
-                                  "value": "l",
-                                  "optional": false
+                                  "value": "l"
                                 }
                               },
                               "property": {
@@ -2672,9 +2578,7 @@
                                   "start": 1508,
                                   "end": 1516
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -2727,9 +2631,7 @@
                             "start": 1540,
                             "end": 1541
                           },
-                          "ctxt": 0,
-                          "value": "m",
-                          "optional": false
+                          "value": "m"
                         }
                       },
                       "right": {
@@ -2758,9 +2660,7 @@
                               "start": 1561,
                               "end": 1562
                             },
-                            "ctxt": 0,
-                            "value": "m",
-                            "optional": false
+                            "value": "m"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -2797,9 +2697,7 @@
                                     "start": 1571,
                                     "end": 1572
                                   },
-                                  "ctxt": 0,
-                                  "value": "m",
-                                  "optional": false
+                                  "value": "m"
                                 }
                               },
                               "property": {
@@ -2808,9 +2706,7 @@
                                   "start": 1573,
                                   "end": 1581
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -2863,9 +2759,7 @@
                             "start": 1605,
                             "end": 1606
                           },
-                          "ctxt": 0,
-                          "value": "n",
-                          "optional": false
+                          "value": "n"
                         }
                       },
                       "right": {
@@ -2894,9 +2788,7 @@
                               "start": 1626,
                               "end": 1627
                             },
-                            "ctxt": 0,
-                            "value": "n",
-                            "optional": false
+                            "value": "n"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -2933,9 +2825,7 @@
                                     "start": 1636,
                                     "end": 1637
                                   },
-                                  "ctxt": 0,
-                                  "value": "n",
-                                  "optional": false
+                                  "value": "n"
                                 }
                               },
                               "property": {
@@ -2944,9 +2834,7 @@
                                   "start": 1638,
                                   "end": 1646
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -2999,9 +2887,7 @@
                             "start": 1670,
                             "end": 1671
                           },
-                          "ctxt": 0,
-                          "value": "o",
-                          "optional": false
+                          "value": "o"
                         }
                       },
                       "right": {
@@ -3030,9 +2916,7 @@
                               "start": 1691,
                               "end": 1692
                             },
-                            "ctxt": 0,
-                            "value": "o",
-                            "optional": false
+                            "value": "o"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -3069,9 +2953,7 @@
                                     "start": 1701,
                                     "end": 1702
                                   },
-                                  "ctxt": 0,
-                                  "value": "o",
-                                  "optional": false
+                                  "value": "o"
                                 }
                               },
                               "property": {
@@ -3080,9 +2962,7 @@
                                   "start": 1703,
                                   "end": 1711
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -3135,9 +3015,7 @@
                             "start": 1735,
                             "end": 1736
                           },
-                          "ctxt": 0,
-                          "value": "p",
-                          "optional": false
+                          "value": "p"
                         }
                       },
                       "right": {
@@ -3166,9 +3044,7 @@
                               "start": 1756,
                               "end": 1757
                             },
-                            "ctxt": 0,
-                            "value": "p",
-                            "optional": false
+                            "value": "p"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -3205,9 +3081,7 @@
                                     "start": 1766,
                                     "end": 1767
                                   },
-                                  "ctxt": 0,
-                                  "value": "p",
-                                  "optional": false
+                                  "value": "p"
                                 }
                               },
                               "property": {
@@ -3216,9 +3090,7 @@
                                   "start": 1768,
                                   "end": 1776
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -3271,9 +3143,7 @@
                             "start": 1800,
                             "end": 1801
                           },
-                          "ctxt": 0,
-                          "value": "q",
-                          "optional": false
+                          "value": "q"
                         }
                       },
                       "right": {
@@ -3302,9 +3172,7 @@
                               "start": 1821,
                               "end": 1822
                             },
-                            "ctxt": 0,
-                            "value": "q",
-                            "optional": false
+                            "value": "q"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -3341,9 +3209,7 @@
                                     "start": 1831,
                                     "end": 1832
                                   },
-                                  "ctxt": 0,
-                                  "value": "q",
-                                  "optional": false
+                                  "value": "q"
                                 }
                               },
                               "property": {
@@ -3352,9 +3218,7 @@
                                   "start": 1833,
                                   "end": 1841
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -3407,9 +3271,7 @@
                             "start": 1865,
                             "end": 1866
                           },
-                          "ctxt": 0,
-                          "value": "r",
-                          "optional": false
+                          "value": "r"
                         }
                       },
                       "right": {
@@ -3438,9 +3300,7 @@
                               "start": 1886,
                               "end": 1887
                             },
-                            "ctxt": 0,
-                            "value": "r",
-                            "optional": false
+                            "value": "r"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -3477,9 +3337,7 @@
                                     "start": 1896,
                                     "end": 1897
                                   },
-                                  "ctxt": 0,
-                                  "value": "r",
-                                  "optional": false
+                                  "value": "r"
                                 }
                               },
                               "property": {
@@ -3488,9 +3346,7 @@
                                   "start": 1898,
                                   "end": 1906
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -3543,9 +3399,7 @@
                             "start": 1930,
                             "end": 1931
                           },
-                          "ctxt": 0,
-                          "value": "s",
-                          "optional": false
+                          "value": "s"
                         }
                       },
                       "right": {
@@ -3574,9 +3428,7 @@
                               "start": 1951,
                               "end": 1952
                             },
-                            "ctxt": 0,
-                            "value": "s",
-                            "optional": false
+                            "value": "s"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -3613,9 +3465,7 @@
                                     "start": 1961,
                                     "end": 1962
                                   },
-                                  "ctxt": 0,
-                                  "value": "s",
-                                  "optional": false
+                                  "value": "s"
                                 }
                               },
                               "property": {
@@ -3624,9 +3474,7 @@
                                   "start": 1963,
                                   "end": 1971
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -3679,9 +3527,7 @@
                             "start": 1995,
                             "end": 1996
                           },
-                          "ctxt": 0,
-                          "value": "t",
-                          "optional": false
+                          "value": "t"
                         }
                       },
                       "right": {
@@ -3710,9 +3556,7 @@
                               "start": 2016,
                               "end": 2017
                             },
-                            "ctxt": 0,
-                            "value": "t",
-                            "optional": false
+                            "value": "t"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -3749,9 +3593,7 @@
                                     "start": 2026,
                                     "end": 2027
                                   },
-                                  "ctxt": 0,
-                                  "value": "t",
-                                  "optional": false
+                                  "value": "t"
                                 }
                               },
                               "property": {
@@ -3760,9 +3602,7 @@
                                   "start": 2028,
                                   "end": 2036
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -3815,9 +3655,7 @@
                             "start": 2060,
                             "end": 2061
                           },
-                          "ctxt": 0,
-                          "value": "u",
-                          "optional": false
+                          "value": "u"
                         }
                       },
                       "right": {
@@ -3846,9 +3684,7 @@
                               "start": 2081,
                               "end": 2082
                             },
-                            "ctxt": 0,
-                            "value": "u",
-                            "optional": false
+                            "value": "u"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -3885,9 +3721,7 @@
                                     "start": 2091,
                                     "end": 2092
                                   },
-                                  "ctxt": 0,
-                                  "value": "u",
-                                  "optional": false
+                                  "value": "u"
                                 }
                               },
                               "property": {
@@ -3896,9 +3730,7 @@
                                   "start": 2093,
                                   "end": 2101
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -3951,9 +3783,7 @@
                             "start": 2125,
                             "end": 2126
                           },
-                          "ctxt": 0,
-                          "value": "v",
-                          "optional": false
+                          "value": "v"
                         }
                       },
                       "right": {
@@ -3982,9 +3812,7 @@
                               "start": 2146,
                               "end": 2147
                             },
-                            "ctxt": 0,
-                            "value": "v",
-                            "optional": false
+                            "value": "v"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -4021,9 +3849,7 @@
                                     "start": 2156,
                                     "end": 2157
                                   },
-                                  "ctxt": 0,
-                                  "value": "v",
-                                  "optional": false
+                                  "value": "v"
                                 }
                               },
                               "property": {
@@ -4032,9 +3858,7 @@
                                   "start": 2158,
                                   "end": 2166
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -4087,9 +3911,7 @@
                             "start": 2190,
                             "end": 2191
                           },
-                          "ctxt": 0,
-                          "value": "w",
-                          "optional": false
+                          "value": "w"
                         }
                       },
                       "right": {
@@ -4118,9 +3940,7 @@
                               "start": 2211,
                               "end": 2212
                             },
-                            "ctxt": 0,
-                            "value": "w",
-                            "optional": false
+                            "value": "w"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -4157,9 +3977,7 @@
                                     "start": 2221,
                                     "end": 2222
                                   },
-                                  "ctxt": 0,
-                                  "value": "w",
-                                  "optional": false
+                                  "value": "w"
                                 }
                               },
                               "property": {
@@ -4168,9 +3986,7 @@
                                   "start": 2223,
                                   "end": 2231
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -4223,9 +4039,7 @@
                             "start": 2255,
                             "end": 2256
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         }
                       },
                       "right": {
@@ -4254,9 +4068,7 @@
                               "start": 2276,
                               "end": 2277
                             },
-                            "ctxt": 0,
-                            "value": "x",
-                            "optional": false
+                            "value": "x"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -4293,9 +4105,7 @@
                                     "start": 2286,
                                     "end": 2287
                                   },
-                                  "ctxt": 0,
-                                  "value": "x",
-                                  "optional": false
+                                  "value": "x"
                                 }
                               },
                               "property": {
@@ -4304,9 +4114,7 @@
                                   "start": 2288,
                                   "end": 2296
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -4359,9 +4167,7 @@
                             "start": 2320,
                             "end": 2321
                           },
-                          "ctxt": 0,
-                          "value": "y",
-                          "optional": false
+                          "value": "y"
                         }
                       },
                       "right": {
@@ -4390,9 +4196,7 @@
                               "start": 2341,
                               "end": 2342
                             },
-                            "ctxt": 0,
-                            "value": "y",
-                            "optional": false
+                            "value": "y"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -4429,9 +4233,7 @@
                                     "start": 2351,
                                     "end": 2352
                                   },
-                                  "ctxt": 0,
-                                  "value": "y",
-                                  "optional": false
+                                  "value": "y"
                                 }
                               },
                               "property": {
@@ -4440,9 +4242,7 @@
                                   "start": 2353,
                                   "end": 2361
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -4495,9 +4295,7 @@
                             "start": 2385,
                             "end": 2386
                           },
-                          "ctxt": 0,
-                          "value": "z",
-                          "optional": false
+                          "value": "z"
                         }
                       },
                       "right": {
@@ -4526,9 +4324,7 @@
                               "start": 2406,
                               "end": 2407
                             },
-                            "ctxt": 0,
-                            "value": "z",
-                            "optional": false
+                            "value": "z"
                           },
                           "value": {
                             "type": "CallExpression",
@@ -4565,9 +4361,7 @@
                                     "start": 2416,
                                     "end": 2417
                                   },
-                                  "ctxt": 0,
-                                  "value": "z",
-                                  "optional": false
+                                  "value": "z"
                                 }
                               },
                               "property": {
@@ -4576,9 +4370,7 @@
                                   "start": 2418,
                                   "end": 2426
                                 },
-                                "ctxt": 0,
-                                "value": "toString",
-                                "optional": false
+                                "value": "toString"
                               }
                             },
                             "arguments": [],
@@ -4664,9 +4456,7 @@
                       "start": 2458,
                       "end": 2459
                     },
-                    "ctxt": 0,
-                    "value": "a",
-                    "optional": false
+                    "value": "a"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -4686,9 +4476,7 @@
                       "start": 2464,
                       "end": 2465
                     },
-                    "ctxt": 0,
-                    "value": "b",
-                    "optional": false
+                    "value": "b"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -4708,9 +4496,7 @@
                       "start": 2470,
                       "end": 2471
                     },
-                    "ctxt": 0,
-                    "value": "z",
-                    "optional": false
+                    "value": "z"
                   },
                   "value": {
                     "type": "NumericLiteral",

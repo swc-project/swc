@@ -22,8 +22,8 @@ use crate::{
         TsAsExpr, TsConstAssertion, TsInstantiation, TsNonNullExpr, TsSatisfiesExpr, TsTypeAnn,
         TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
     },
-    ArrayPat, BindingIdent, ComputedPropName, Id, ImportPhase, Invalid, KeyValueProp, Number,
-    ObjectPat, PropName, Str,
+    ArrayPat, BindingIdent, ComputedPropName, Id, IdentName, ImportPhase, Invalid, KeyValueProp,
+    Number, ObjectPat, PropName, Str,
 };
 
 #[ast_node(no_clone)]
@@ -315,18 +315,12 @@ impl Expr {
     }
 
     /// #Note
-    ///
-    /// This preserves SyntaxContext of [`Expr::Ident`], and noop for
-    /// [`Expr::JSXMember`] and [`Expr::JSXNamespacedName`].
     pub fn with_span(mut self, span: Span) -> Expr {
         self.set_span(span);
         self
     }
 
     /// # Note
-    ///
-    /// This preserves SyntaxContext of [`Expr::Ident`], and noop for
-    /// [`Expr::JSXMember`] and [`Expr::JSXNamespacedName`].
 
     pub fn set_span(&mut self, span: Span) {
         match self {
@@ -362,8 +356,8 @@ impl Expr {
             Expr::MetaProp(e) => e.span = span,
             Expr::Await(e) => e.span = span,
             Expr::Paren(e) => e.span = span,
-            Expr::JSXMember(..) => {}
-            Expr::JSXNamespacedName(..) => {}
+            Expr::JSXMember(e) => e.span = span,
+            Expr::JSXNamespacedName(e) => e.span = span,
             Expr::JSXEmpty(e) => e.span = span,
             Expr::JSXElement(e) => e.span = span,
             Expr::JSXFragment(e) => e.span = span,
@@ -434,6 +428,7 @@ impl Default for Expr {
     }
 }
 
+bridge_expr_from!(Ident, IdentName);
 bridge_expr_from!(Ident, Id);
 bridge_expr_from!(FnExpr, Function);
 bridge_expr_from!(ClassExpr, Class);
@@ -538,7 +533,7 @@ impl ObjectLit {
                     Prop::KeyValue(kv) => {
                         let key = match &kv.key {
                             PropName::Ident(i) => i.clone(),
-                            PropName::Str(s) => Ident::new_no_ctxt(s.value.clone(), s.span),
+                            PropName::Str(s) => IdentName::new(s.value.clone(), s.span),
                             _ => return None,
                         };
 
@@ -604,7 +599,7 @@ impl ImportWith {
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, EqIgnoreSpan)]
 pub struct ImportWithItem {
-    pub key: Ident,
+    pub key: IdentName,
     pub value: Str,
 }
 
@@ -850,7 +845,7 @@ pub struct MemberExpr {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum MemberProp {
     #[tag("Identifier")]
-    Ident(Ident),
+    Ident(IdentName),
     #[tag("PrivateName")]
     PrivateName(PrivateName),
     #[tag("Computed")]
@@ -880,7 +875,7 @@ pub struct SuperPropExpr {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum SuperProp {
     #[tag("Identifier")]
-    Ident(Ident),
+    Ident(IdentName),
     #[tag("Computed")]
     Computed(ComputedPropName),
 }
@@ -903,13 +898,13 @@ impl Take for MemberProp {
 
 impl Default for MemberProp {
     fn default() -> Self {
-        MemberProp::Ident(Ident::dummy())
+        MemberProp::Ident(Default::default())
     }
 }
 
 impl Take for SuperProp {
     fn dummy() -> Self {
-        SuperProp::Ident(Ident::dummy())
+        SuperProp::Ident(Default::default())
     }
 }
 

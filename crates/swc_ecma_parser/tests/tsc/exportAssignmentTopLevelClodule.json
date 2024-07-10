@@ -37,9 +37,7 @@
               "start": 53,
               "end": 57
             },
-            "ctxt": 0,
-            "value": "test",
-            "optional": false
+            "value": "test"
           },
           "value": {
             "type": "StringLiteral",
@@ -230,9 +228,7 @@
               "start": 188,
               "end": 194
             },
-            "ctxt": 0,
-            "value": "answer",
-            "optional": false
+            "value": "answer"
           }
         },
         "right": {

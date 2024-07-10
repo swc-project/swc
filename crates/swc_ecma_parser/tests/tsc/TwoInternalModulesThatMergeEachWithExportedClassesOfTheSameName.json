@@ -68,9 +68,7 @@
                       "start": 45,
                       "end": 46
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -110,9 +108,7 @@
                       "start": 64,
                       "end": 65
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -214,9 +210,7 @@
                       "start": 149,
                       "end": 155
                     },
-                    "ctxt": 0,
-                    "value": "origin",
-                    "optional": false
+                    "value": "origin"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -256,9 +250,7 @@
                       "start": 173,
                       "end": 178
                     },
-                    "ctxt": 0,
-                    "value": "angle",
-                    "optional": false
+                    "value": "angle"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -396,9 +388,7 @@
                           "start": 244,
                           "end": 250
                         },
-                        "ctxt": 0,
-                        "value": "length",
-                        "optional": false
+                        "value": "length"
                       },
                       "value": null,
                       "typeAnnotation": {
@@ -564,9 +554,7 @@
                                       "start": 406,
                                       "end": 410
                                     },
-                                    "ctxt": 0,
-                                    "value": "name",
-                                    "optional": false
+                                    "value": "name"
                                   },
                                   "value": null,
                                   "typeAnnotation": {

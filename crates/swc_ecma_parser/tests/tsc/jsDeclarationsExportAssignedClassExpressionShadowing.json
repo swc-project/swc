@@ -37,9 +37,7 @@
               "start": 130,
               "end": 136
             },
-            "ctxt": 0,
-            "value": "member",
-            "optional": false
+            "value": "member"
           },
           "value": {
             "type": "NewExpression",
@@ -111,9 +109,7 @@
               "start": 164,
               "end": 165
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": {
             "type": "NumericLiteral",
@@ -177,9 +173,7 @@
               "start": 181,
               "end": 188
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -214,9 +208,7 @@
                   "start": 205,
                   "end": 216
                 },
-                "ctxt": 0,
-                "value": "constructor",
-                "optional": false
+                "value": "constructor"
               },
               "params": [],
               "body": {
@@ -259,9 +251,7 @@
                             "start": 234,
                             "end": 235
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         }
                       },
                       "right": {
@@ -341,9 +331,7 @@
                 "start": 262,
                 "end": 269
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -352,9 +340,7 @@
               "start": 270,
               "end": 277
             },
-            "ctxt": 0,
-            "value": "Another",
-            "optional": false
+            "value": "Another"
           }
         },
         "right": {

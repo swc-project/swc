@@ -312,9 +312,7 @@
               "start": 93,
               "end": 96
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -783,9 +781,7 @@
                   "start": 223,
                   "end": 224
                 },
-                "ctxt": 0,
-                "value": "f",
-                "optional": false
+                "value": "f"
               },
               "params": [],
               "decorators": [],
@@ -1114,9 +1110,7 @@
               "start": 303,
               "end": 304
             },
-            "ctxt": 0,
-            "value": "A",
-            "optional": false
+            "value": "A"
           }
         }
       }

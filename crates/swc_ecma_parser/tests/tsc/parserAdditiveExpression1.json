@@ -47,9 +47,7 @@
                 "start": 3,
                 "end": 8
               },
-              "ctxt": 0,
-              "value": "index",
-              "optional": false
+              "value": "index"
             }
           },
           "right": {
@@ -107,9 +105,7 @@
               "start": 16,
               "end": 22
             },
-            "ctxt": 0,
-            "value": "length",
-            "optional": false
+            "value": "length"
           }
         }
       }

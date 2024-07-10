@@ -103,9 +103,7 @@
               "start": 75,
               "end": 91
             },
-            "ctxt": 0,
-            "value": "accessChildProps",
-            "optional": false
+            "value": "accessChildProps"
           },
           "function": {
             "params": [],

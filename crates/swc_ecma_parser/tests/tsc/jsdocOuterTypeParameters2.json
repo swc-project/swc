@@ -175,9 +175,7 @@
                                 "start": 217,
                                 "end": 220
                               },
-                              "ctxt": 0,
-                              "value": "bar",
-                              "optional": false
+                              "value": "bar"
                             },
                             "function": {
                               "params": [],
@@ -233,9 +231,7 @@
                                               "start": 230,
                                               "end": 239
                                             },
-                                            "ctxt": 0,
-                                            "value": "prototype",
-                                            "optional": false
+                                            "value": "prototype"
                                           }
                                         },
                                         "property": {
@@ -244,9 +240,7 @@
                                             "start": 240,
                                             "end": 243
                                           },
-                                          "ctxt": 0,
-                                          "value": "foo",
-                                          "optional": false
+                                          "value": "foo"
                                         }
                                       },
                                       "arguments": [],

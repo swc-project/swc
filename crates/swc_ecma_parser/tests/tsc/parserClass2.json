@@ -44,9 +44,7 @@
                 "start": 63,
                 "end": 74
               },
-              "ctxt": 0,
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [
               {
@@ -136,9 +134,7 @@
                           "start": 120,
                           "end": 132
                         },
-                        "ctxt": 0,
-                        "value": "_information",
-                        "optional": false
+                        "value": "_information"
                       }
                     },
                     "right": {
@@ -173,9 +169,7 @@
                               "start": 140,
                               "end": 146
                             },
-                            "ctxt": 0,
-                            "value": "logger",
-                            "optional": false
+                            "value": "logger"
                           }
                         },
                         "property": {
@@ -184,9 +178,7 @@
                             "start": 147,
                             "end": 158
                           },
-                          "ctxt": 0,
-                          "value": "information",
-                          "optional": false
+                          "value": "information"
                         }
                       },
                       "arguments": [],

@@ -37,9 +37,7 @@
               "start": 84,
               "end": 87
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -146,9 +144,7 @@
               "start": 130,
               "end": 133
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -682,9 +678,7 @@
               "start": 296,
               "end": 299
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -751,9 +745,7 @@
               "start": 325,
               "end": 328
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -1008,9 +1000,7 @@
               "start": 412,
               "end": 415
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           },
           "value": null,
           "typeAnnotation": {
@@ -2275,9 +2265,7 @@
                             "start": 992,
                             "end": 995
                           },
-                          "ctxt": 0,
-                          "value": "foo",
-                          "optional": false
+                          "value": "foo"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -2372,9 +2360,7 @@
                             "start": 1032,
                             "end": 1035
                           },
-                          "ctxt": 0,
-                          "value": "foo",
-                          "optional": false
+                          "value": "foo"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -3648,9 +3634,7 @@
                         "start": 1584,
                         "end": 1585
                       },
-                      "ctxt": 0,
-                      "value": "A",
-                      "optional": false
+                      "value": "A"
                     }
                   },
                   "alternate": {
@@ -3741,9 +3725,7 @@
                         "start": 1618,
                         "end": 1619
                       },
-                      "ctxt": 0,
-                      "value": "A",
-                      "optional": false
+                      "value": "A"
                     }
                   }
                 },

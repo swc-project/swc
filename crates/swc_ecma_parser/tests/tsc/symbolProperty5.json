@@ -69,9 +69,7 @@
                         "start": 38,
                         "end": 46
                       },
-                      "ctxt": 0,
-                      "value": "iterator",
-                      "optional": false
+                      "value": "iterator"
                     }
                   }
                 },
@@ -115,9 +113,7 @@
                         "start": 64,
                         "end": 75
                       },
-                      "ctxt": 0,
-                      "value": "toPrimitive",
-                      "optional": false
+                      "value": "toPrimitive"
                     }
                   }
                 },
@@ -176,9 +172,7 @@
                         "start": 100,
                         "end": 111
                       },
-                      "ctxt": 0,
-                      "value": "toStringTag",
-                      "optional": false
+                      "value": "toStringTag"
                     }
                   }
                 },

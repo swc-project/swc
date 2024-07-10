@@ -6839,9 +6839,7 @@
                   "start": 2080,
                   "end": 2084
                 },
-                "ctxt": 0,
-                "value": "prop",
-                "optional": false
+                "value": "prop"
               }
             }
           },
@@ -6927,9 +6925,7 @@
                     "start": 2114,
                     "end": 2121
                   },
-                  "ctxt": 0,
-                  "value": "toFixed",
-                  "optional": false
+                  "value": "toFixed"
                 }
               },
               "arguments": [],
@@ -7069,9 +7065,7 @@
                   "start": 2166,
                   "end": 2170
                 },
-                "ctxt": 0,
-                "value": "prop",
-                "optional": false
+                "value": "prop"
               }
             }
           },
@@ -7133,9 +7127,7 @@
                     "start": 2193,
                     "end": 2200
                   },
-                  "ctxt": 0,
-                  "value": "toFixed",
-                  "optional": false
+                  "value": "toFixed"
                 }
               },
               "arguments": [],
@@ -7275,9 +7267,7 @@
                   "start": 2245,
                   "end": 2249
                 },
-                "ctxt": 0,
-                "value": "prop",
-                "optional": false
+                "value": "prop"
               }
             }
           },
@@ -7345,9 +7335,7 @@
                       "start": 2272,
                       "end": 2273
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   }
                 },
                 "property": {
@@ -7356,9 +7344,7 @@
                     "start": 2274,
                     "end": 2281
                   },
-                  "ctxt": 0,
-                  "value": "toFixed",
-                  "optional": false
+                  "value": "toFixed"
                 }
               },
               "arguments": [],
@@ -7555,9 +7541,7 @@
                   "start": 2341,
                   "end": 2345
                 },
-                "ctxt": 0,
-                "value": "prop",
-                "optional": false
+                "value": "prop"
               }
             }
           },
@@ -7619,9 +7603,7 @@
                     "start": 2368,
                     "end": 2375
                   },
-                  "ctxt": 0,
-                  "value": "toFixed",
-                  "optional": false
+                  "value": "toFixed"
                 }
               },
               "arguments": [],

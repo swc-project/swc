@@ -490,9 +490,7 @@
                       "start": 327,
                       "end": 328
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 }
               }
@@ -881,9 +879,7 @@
                       "start": 487,
                       "end": 488
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 }
               }
@@ -1131,9 +1127,7 @@
                       "start": 585,
                       "end": 586
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 }
               }
@@ -1401,9 +1395,7 @@
                       "start": 677,
                       "end": 678
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 }
               }
@@ -1671,9 +1663,7 @@
                       "start": 773,
                       "end": 774
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 }
               }
@@ -1993,9 +1983,7 @@
                       "start": 887,
                       "end": 888
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 }
               }
@@ -2257,9 +2245,7 @@
                       "start": 987,
                       "end": 988
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 }
               }
@@ -2591,9 +2577,7 @@
                       "start": 1105,
                       "end": 1106
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 }
               }
@@ -2636,9 +2620,7 @@
               "start": 1120,
               "end": 1123
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -2930,9 +2912,7 @@
                       "start": 1216,
                       "end": 1217
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 }
               }
@@ -2975,9 +2955,7 @@
               "start": 1235,
               "end": 1238
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -3341,9 +3319,7 @@
                       "start": 1347,
                       "end": 1348
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 }
               }
@@ -3647,9 +3623,7 @@
                       "start": 1460,
                       "end": 1461
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 }
               }
@@ -4081,9 +4055,7 @@
                       "start": 1575,
                       "end": 1576
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 }
               }
@@ -4390,9 +4362,7 @@
                       "start": 1680,
                       "end": 1681
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 }
               }
@@ -4769,9 +4739,7 @@
                       "start": 1837,
                       "end": 1838
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 }
               }
@@ -4814,9 +4782,7 @@
               "start": 1853,
               "end": 1856
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           },
           "value": null,
           "typeAnnotation": {
@@ -5183,9 +5149,7 @@
                       "start": 1991,
                       "end": 1992
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 }
               }
@@ -5453,9 +5417,7 @@
                       "start": 2090,
                       "end": 2091
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 }
               }
@@ -5703,9 +5665,7 @@
                       "start": 2181,
                       "end": 2182
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 }
               }

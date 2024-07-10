@@ -122,9 +122,7 @@
               "start": 149,
               "end": 152
             },
-            "ctxt": 0,
-            "value": "cat",
-            "optional": false
+            "value": "cat"
           }
         },
         "right": {
@@ -214,9 +212,7 @@
               "start": 188,
               "end": 191
             },
-            "ctxt": 0,
-            "value": "Cls",
-            "optional": false
+            "value": "Cls"
           }
         },
         "right": {
@@ -555,9 +551,7 @@
               "start": 552,
               "end": 556
             },
-            "ctxt": 0,
-            "value": "self",
-            "optional": false
+            "value": "self"
           }
         },
         "right": {
@@ -674,9 +668,7 @@
                     "start": 657,
                     "end": 658
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 }
               },
               "right": {
@@ -708,9 +700,7 @@
                       "start": 664,
                       "end": 665
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   }
                 },
                 "arguments": [],
@@ -858,9 +848,7 @@
                     "start": 782,
                     "end": 783
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 }
               },
               "right": {
@@ -892,9 +880,7 @@
                       "start": 789,
                       "end": 790
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   }
                 },
                 "arguments": [],

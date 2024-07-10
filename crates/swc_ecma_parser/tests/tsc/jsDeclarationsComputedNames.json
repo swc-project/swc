@@ -142,9 +142,7 @@
               "start": 193,
               "end": 200
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -256,9 +254,7 @@
                   "start": 262,
                   "end": 267
                 },
-                "ctxt": 0,
-                "value": "items",
-                "optional": false
+                "value": "items"
               },
               "value": {
                 "type": "ObjectExpression",
@@ -326,9 +322,7 @@
                                     "start": 299,
                                     "end": 300
                                   },
-                                  "ctxt": 0,
-                                  "value": "x",
-                                  "optional": false
+                                  "value": "x"
                                 },
                                 "value": {
                                   "type": "NumericLiteral",
@@ -366,9 +360,7 @@
                             "start": 314,
                             "end": 315
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         }
                       },
                       "async": false,
@@ -611,9 +603,7 @@
                 "start": 560,
                 "end": 571
               },
-              "ctxt": 0,
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [
               {

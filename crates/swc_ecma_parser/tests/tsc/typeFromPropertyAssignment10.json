@@ -97,9 +97,7 @@
               "start": 125,
               "end": 128
             },
-            "ctxt": 0,
-            "value": "app",
-            "optional": false
+            "value": "app"
           }
         },
         "right": {
@@ -131,9 +129,7 @@
                 "start": 137,
                 "end": 140
               },
-              "ctxt": 0,
-              "value": "app",
-              "optional": false
+              "value": "app"
             }
           },
           "right": {
@@ -188,9 +184,7 @@
                 "start": 181,
                 "end": 184
               },
-              "ctxt": 0,
-              "value": "app",
-              "optional": false
+              "value": "app"
             }
           },
           "property": {
@@ -199,9 +193,7 @@
               "start": 185,
               "end": 193
             },
-            "ctxt": 0,
-            "value": "SomeView",
-            "optional": false
+            "value": "SomeView"
           }
         },
         "right": {
@@ -400,9 +392,7 @@
                 "start": 305,
                 "end": 308
               },
-              "ctxt": 0,
-              "value": "app",
-              "optional": false
+              "value": "app"
             }
           },
           "property": {
@@ -411,9 +401,7 @@
               "start": 309,
               "end": 314
             },
-            "ctxt": 0,
-            "value": "Inner",
-            "optional": false
+            "value": "Inner"
           }
         },
         "right": {
@@ -439,9 +427,7 @@
                   "start": 329,
                   "end": 340
                 },
-                "ctxt": 0,
-                "value": "constructor",
-                "optional": false
+                "value": "constructor"
               },
               "params": [],
               "body": {
@@ -484,9 +470,7 @@
                             "start": 388,
                             "end": 389
                           },
-                          "ctxt": 0,
-                          "value": "y",
-                          "optional": false
+                          "value": "y"
                         }
                       },
                       "right": {
@@ -576,9 +560,7 @@
                     "start": 428,
                     "end": 431
                   },
-                  "ctxt": 0,
-                  "value": "app",
-                  "optional": false
+                  "value": "app"
                 }
               },
               "property": {
@@ -587,9 +569,7 @@
                   "start": 432,
                   "end": 437
                 },
-                "ctxt": 0,
-                "value": "Inner",
-                "optional": false
+                "value": "Inner"
               }
             },
             "arguments": [],
@@ -627,9 +607,7 @@
             "start": 449,
             "end": 450
           },
-          "ctxt": 0,
-          "value": "y",
-          "optional": false
+          "value": "y"
         }
       }
     },
@@ -674,9 +652,7 @@
                 "start": 483,
                 "end": 486
               },
-              "ctxt": 0,
-              "value": "app",
-              "optional": false
+              "value": "app"
             }
           },
           "property": {
@@ -685,9 +661,7 @@
               "start": 487,
               "end": 496
             },
-            "ctxt": 0,
-            "value": "statische",
-            "optional": false
+            "value": "statische"
           }
         },
         "right": {
@@ -813,9 +787,7 @@
                 "start": 570,
                 "end": 573
               },
-              "ctxt": 0,
-              "value": "app",
-              "optional": false
+              "value": "app"
             }
           },
           "property": {
@@ -824,9 +796,7 @@
               "start": 574,
               "end": 585
             },
-            "ctxt": 0,
-            "value": "Application",
-            "optional": false
+            "value": "Application"
           }
         },
         "right": {
@@ -978,9 +948,7 @@
                                         "start": 776,
                                         "end": 780
                                       },
-                                      "ctxt": 0,
-                                      "value": "view",
-                                      "optional": false
+                                      "value": "view"
                                     }
                                   },
                                   "right": {
@@ -1018,9 +986,7 @@
                                             "start": 793,
                                             "end": 796
                                           },
-                                          "ctxt": 0,
-                                          "value": "app",
-                                          "optional": false
+                                          "value": "app"
                                         }
                                       },
                                       "property": {
@@ -1029,9 +995,7 @@
                                           "start": 797,
                                           "end": 805
                                         },
-                                        "ctxt": 0,
-                                        "value": "SomeView",
-                                        "optional": false
+                                        "value": "SomeView"
                                       }
                                     },
                                     "arguments": [],
@@ -1142,9 +1106,7 @@
                     "start": 888,
                     "end": 891
                   },
-                  "ctxt": 0,
-                  "value": "app",
-                  "optional": false
+                  "value": "app"
                 }
               },
               "property": {
@@ -1153,9 +1115,7 @@
                   "start": 892,
                   "end": 903
                 },
-                "ctxt": 0,
-                "value": "Application",
-                "optional": false
+                "value": "Application"
               }
             },
             "arguments": [],
@@ -1227,9 +1187,7 @@
                     "start": 929,
                     "end": 932
                   },
-                  "ctxt": 0,
-                  "value": "app",
-                  "optional": false
+                  "value": "app"
                 }
               },
               "property": {
@@ -1238,9 +1196,7 @@
                   "start": 933,
                   "end": 938
                 },
-                "ctxt": 0,
-                "value": "Inner",
-                "optional": false
+                "value": "Inner"
               }
             },
             "arguments": [],
@@ -1278,9 +1234,7 @@
             "start": 948,
             "end": 949
           },
-          "ctxt": 0,
-          "value": "y",
-          "optional": false
+          "value": "y"
         }
       }
     },
@@ -1344,9 +1298,7 @@
             "start": 991,
             "end": 992
           },
-          "ctxt": 0,
-          "value": "y",
-          "optional": false
+          "value": "y"
         }
       }
     },
@@ -1391,9 +1343,7 @@
                 "start": 1000,
                 "end": 1003
               },
-              "ctxt": 0,
-              "value": "app",
-              "optional": false
+              "value": "app"
             }
           },
           "property": {
@@ -1402,9 +1352,7 @@
               "start": 1004,
               "end": 1013
             },
-            "ctxt": 0,
-            "value": "statische",
-            "optional": false
+            "value": "statische"
           }
         },
         "arguments": [

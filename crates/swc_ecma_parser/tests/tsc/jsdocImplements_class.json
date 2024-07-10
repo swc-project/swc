@@ -37,9 +37,7 @@
               "start": 170,
               "end": 176
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           },
           "function": {
             "params": [],
@@ -137,9 +135,7 @@
               "start": 242,
               "end": 248
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           },
           "function": {
             "params": [],
@@ -226,9 +222,7 @@
               "start": 332,
               "end": 338
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           },
           "function": {
             "params": [],
@@ -383,9 +377,7 @@
               "start": 436,
               "end": 438
             },
-            "ctxt": 0,
-            "value": "C1",
-            "optional": false
+            "value": "C1"
           }
         },
         "right": {
@@ -410,9 +402,7 @@
                   "start": 453,
                   "end": 459
                 },
-                "ctxt": 0,
-                "value": "method",
-                "optional": false
+                "value": "method"
               },
               "function": {
                 "params": [],
@@ -518,9 +508,7 @@
                     "start": 523,
                     "end": 529
                   },
-                  "ctxt": 0,
-                  "value": "method",
-                  "optional": false
+                  "value": "method"
                 },
                 "function": {
                   "params": [],
@@ -621,9 +609,7 @@
                     "start": 590,
                     "end": 592
                   },
-                  "ctxt": 0,
-                  "value": "C3",
-                  "optional": false
+                  "value": "C3"
                 },
                 "value": {
                   "type": "ClassExpression",
@@ -647,9 +633,7 @@
                           "start": 610,
                           "end": 616
                         },
-                        "ctxt": 0,
-                        "value": "method",
-                        "optional": false
+                        "value": "method"
                       },
                       "function": {
                         "params": [],
@@ -743,9 +727,7 @@
               "start": 684,
               "end": 686
             },
-            "ctxt": 0,
-            "value": "C4",
-            "optional": false
+            "value": "C4"
           },
           "value": {
             "type": "ClassExpression",
@@ -769,9 +751,7 @@
                     "start": 705,
                     "end": 711
                   },
-                  "ctxt": 0,
-                  "value": "method",
-                  "optional": false
+                  "value": "method"
                 },
                 "function": {
                   "params": [],
@@ -911,9 +891,7 @@
               "start": 792,
               "end": 794
             },
-            "ctxt": 0,
-            "value": "C5",
-            "optional": false
+            "value": "C5"
           }
         },
         "right": {
@@ -955,9 +933,7 @@
                     "start": 815,
                     "end": 821
                   },
-                  "ctxt": 0,
-                  "value": "method",
-                  "optional": false
+                  "value": "method"
                 },
                 "function": {
                   "params": [],

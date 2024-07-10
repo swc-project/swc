@@ -37,9 +37,7 @@
               "start": 112,
               "end": 116
             },
-            "ctxt": 0,
-            "value": "prop",
-            "optional": false
+            "value": "prop"
           },
           "value": null,
           "typeAnnotation": {
@@ -346,9 +344,7 @@
                         "start": 234,
                         "end": 238
                       },
-                      "ctxt": 0,
-                      "value": "prop",
-                      "optional": false
+                      "value": "prop"
                     }
                   }
                 }
@@ -662,9 +658,7 @@
                         "start": 366,
                         "end": 372
                       },
-                      "ctxt": 0,
-                      "value": "length",
-                      "optional": false
+                      "value": "length"
                     }
                   }
                 }
@@ -1129,9 +1123,7 @@
                                 "start": 613,
                                 "end": 617
                               },
-                              "ctxt": 0,
-                              "value": "push",
-                              "optional": false
+                              "value": "push"
                             }
                           },
                           "arguments": [

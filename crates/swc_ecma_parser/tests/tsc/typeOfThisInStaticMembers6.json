@@ -37,9 +37,7 @@
               "start": 22,
               "end": 23
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           },
           "value": {
             "type": "NumericLiteral",
@@ -100,9 +98,7 @@
               "start": 62,
               "end": 63
             },
-            "ctxt": 0,
-            "value": "c",
-            "optional": false
+            "value": "c"
           },
           "value": {
             "type": "CallExpression",

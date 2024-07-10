@@ -37,9 +37,7 @@
               "start": 190,
               "end": 191
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": {
             "type": "NumericLiteral",
@@ -73,9 +71,7 @@
               "start": 209,
               "end": 210
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "value": {
             "type": "StringLiteral",

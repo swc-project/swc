@@ -477,7 +477,7 @@ impl InjectHelpers {
                 MemberExpr {
                     span: ref_ident.span,
                     obj: Box::new(ident.into()),
-                    prop: quote_ident!("_").into(),
+                    prop: MemberProp::Ident("_".into()),
                 }
                 .into()
             })

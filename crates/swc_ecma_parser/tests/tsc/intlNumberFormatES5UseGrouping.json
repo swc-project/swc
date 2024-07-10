@@ -40,9 +40,7 @@
               "start": 44,
               "end": 56
             },
-            "ctxt": 0,
-            "value": "NumberFormat",
-            "optional": false
+            "value": "NumberFormat"
           }
         },
         "arguments": [
@@ -75,9 +73,7 @@
                       "start": 68,
                       "end": 79
                     },
-                    "ctxt": 0,
-                    "value": "useGrouping",
-                    "optional": false
+                    "value": "useGrouping"
                   },
                   "value": {
                     "type": "BooleanLiteral",
@@ -130,9 +126,7 @@
               "start": 99,
               "end": 111
             },
-            "ctxt": 0,
-            "value": "NumberFormat",
-            "optional": false
+            "value": "NumberFormat"
           }
         },
         "arguments": [
@@ -165,9 +159,7 @@
                       "start": 123,
                       "end": 134
                     },
-                    "ctxt": 0,
-                    "value": "useGrouping",
-                    "optional": false
+                    "value": "useGrouping"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -221,9 +213,7 @@
               "start": 172,
               "end": 184
             },
-            "ctxt": 0,
-            "value": "NumberFormat",
-            "optional": false
+            "value": "NumberFormat"
           }
         },
         "arguments": [
@@ -256,9 +246,7 @@
                       "start": 196,
                       "end": 207
                     },
-                    "ctxt": 0,
-                    "value": "useGrouping",
-                    "optional": false
+                    "value": "useGrouping"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -365,9 +353,7 @@
                       "start": 272,
                       "end": 284
                     },
-                    "ctxt": 0,
-                    "value": "NumberFormat",
-                    "optional": false
+                    "value": "NumberFormat"
                   }
                 },
                 "arguments": [
@@ -392,9 +378,7 @@
                   "start": 294,
                   "end": 309
                 },
-                "ctxt": 0,
-                "value": "resolvedOptions",
-                "optional": false
+                "value": "resolvedOptions"
               }
             },
             "arguments": [],

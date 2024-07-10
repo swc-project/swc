@@ -155,6 +155,10 @@
             },
             "moduleRef": {
               "type": "TsQualifiedName",
+              "span": {
+                "start": 109,
+                "end": 120
+              },
               "left": {
                 "type": "Identifier",
                 "span": {
@@ -171,9 +175,7 @@
                   "start": 115,
                   "end": 120
                 },
-                "ctxt": 0,
-                "value": "test1",
-                "optional": false
+                "value": "test1"
               }
             }
           },
@@ -231,6 +233,10 @@
       },
       "moduleRef": {
         "type": "TsQualifiedName",
+        "span": {
+          "start": 166,
+          "end": 177
+        },
         "left": {
           "type": "Identifier",
           "span": {
@@ -247,9 +253,7 @@
             "start": 172,
             "end": 177
           },
-          "ctxt": 0,
-          "value": "test1",
-          "optional": false
+          "value": "test1"
         }
       }
     },
@@ -384,6 +388,10 @@
             },
             "moduleRef": {
               "type": "TsQualifiedName",
+              "span": {
+                "start": 286,
+                "end": 296
+              },
               "left": {
                 "type": "Identifier",
                 "span": {
@@ -400,9 +408,7 @@
                   "start": 291,
                   "end": 296
                 },
-                "ctxt": 0,
-                "value": "test1",
-                "optional": false
+                "value": "test1"
               }
             }
           },

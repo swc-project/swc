@@ -79,9 +79,7 @@
               "start": 100,
               "end": 101
             },
-            "ctxt": 0,
-            "value": "d",
-            "optional": false
+            "value": "d"
           }
         },
         "right": {
@@ -151,9 +149,7 @@
                 "start": 140,
                 "end": 141
               },
-              "ctxt": 0,
-              "value": "d",
-              "optional": false
+              "value": "d"
             }
           },
           "property": {
@@ -162,9 +158,7 @@
               "start": 142,
               "end": 151
             },
-            "ctxt": 0,
-            "value": "prototype",
-            "optional": false
+            "value": "prototype"
           }
         },
         "right": {

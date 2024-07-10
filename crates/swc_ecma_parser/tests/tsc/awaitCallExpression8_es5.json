@@ -985,9 +985,7 @@
                         "start": 583,
                         "end": 585
                       },
-                      "ctxt": 0,
-                      "value": "fn",
-                      "optional": false
+                      "value": "fn"
                     }
                   },
                   "arguments": [

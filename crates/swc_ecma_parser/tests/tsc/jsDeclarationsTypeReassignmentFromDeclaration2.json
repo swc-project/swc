@@ -252,9 +252,7 @@
               "start": 278,
               "end": 285
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {

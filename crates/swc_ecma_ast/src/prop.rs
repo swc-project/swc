@@ -8,7 +8,7 @@ use crate::{
     lit::{BigInt, Number, Str},
     stmt::BlockStmt,
     typescript::TsTypeAnn,
-    Id, MemberProp, Pat,
+    Id, IdentName, MemberProp, Pat,
 };
 
 #[ast_node]
@@ -37,6 +37,8 @@ pub enum Prop {
     Method(MethodProp),
 }
 
+bridge_from!(Prop, Ident, IdentName);
+
 #[ast_node("KeyValueProperty")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -52,9 +54,8 @@ pub struct KeyValueProp {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct AssignProp {
-    #[span(lo)]
+    pub span: Span,
     pub key: Ident,
-    #[span(hi)]
     pub value: Box<Expr>,
 }
 
@@ -96,7 +97,7 @@ pub struct MethodProp {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum PropName {
     #[tag("Identifier")]
-    Ident(Ident),
+    Ident(IdentName),
     /// String literal.
     #[tag("StringLiteral")]
     Str(Str),
@@ -109,6 +110,7 @@ pub enum PropName {
     BigInt(BigInt),
 }
 
+bridge_from!(PropName, IdentName, Ident);
 bridge_from!(PropName, Ident, Id);
 
 impl Default for PropName {

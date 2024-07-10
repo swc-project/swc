@@ -38,9 +38,7 @@
               "start": 19,
               "end": 30
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -140,9 +138,7 @@
               "start": 83,
               "end": 89
             },
-            "ctxt": 0,
-            "value": "Origin",
-            "optional": false
+            "value": "Origin"
           },
           "function": {
             "params": [],
@@ -181,9 +177,7 @@
                             "start": 110,
                             "end": 111
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -203,9 +197,7 @@
                             "start": 116,
                             "end": 117
                           },
-                          "ctxt": 0,
-                          "value": "y",
-                          "optional": false
+                          "value": "y"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -408,9 +400,7 @@
                       "start": 264,
                       "end": 275
                     },
-                    "ctxt": 0,
-                    "value": "constructor",
-                    "optional": false
+                    "value": "constructor"
                   },
                   "params": [
                     {
@@ -510,9 +500,7 @@
                       "start": 332,
                       "end": 338
                     },
-                    "ctxt": 0,
-                    "value": "Origin",
-                    "optional": false
+                    "value": "Origin"
                   },
                   "function": {
                     "params": [],
@@ -551,9 +539,7 @@
                                     "start": 359,
                                     "end": 360
                                   },
-                                  "ctxt": 0,
-                                  "value": "x",
-                                  "optional": false
+                                  "value": "x"
                                 },
                                 "value": {
                                   "type": "NumericLiteral",
@@ -573,9 +559,7 @@
                                     "start": 365,
                                     "end": 366
                                   },
-                                  "ctxt": 0,
-                                  "value": "y",
-                                  "optional": false
+                                  "value": "y"
                                 },
                                 "value": {
                                   "type": "NumericLiteral",

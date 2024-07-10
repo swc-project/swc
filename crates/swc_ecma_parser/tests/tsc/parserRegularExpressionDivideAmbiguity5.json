@@ -40,9 +40,7 @@
               "start": 7,
               "end": 13
             },
-            "ctxt": 0,
-            "value": "rotate",
-            "optional": false
+            "value": "rotate"
           }
         },
         "arguments": [
@@ -106,9 +104,7 @@
                       "start": 32,
                       "end": 34
                     },
-                    "ctxt": 0,
-                    "value": "PI",
-                    "optional": false
+                    "value": "PI"
                   }
                 }
               },
@@ -171,9 +167,7 @@
                       "start": 57,
                       "end": 59
                     },
-                    "ctxt": 0,
-                    "value": "PI",
-                    "optional": false
+                    "value": "PI"
                   }
                 }
               },

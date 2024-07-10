@@ -65,9 +65,7 @@
                     "start": 108,
                     "end": 109
                   },
-                  "ctxt": 0,
-                  "value": "m",
-                  "optional": false
+                  "value": "m"
                 },
                 "function": {
                   "params": [],

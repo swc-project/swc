@@ -37,9 +37,7 @@
               "start": 14,
               "end": 17
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
@@ -75,9 +73,7 @@
               "start": 24,
               "end": 35
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {

@@ -285,9 +285,7 @@
                                     "start": 219,
                                     "end": 225
                                   },
-                                  "ctxt": 0,
-                                  "value": "length",
-                                  "optional": false
+                                  "value": "length"
                                 }
                               }
                             }
@@ -347,9 +345,7 @@
                                     "start": 280,
                                     "end": 286
                                   },
-                                  "ctxt": 0,
-                                  "value": "length",
-                                  "optional": false
+                                  "value": "length"
                                 }
                               }
                             }

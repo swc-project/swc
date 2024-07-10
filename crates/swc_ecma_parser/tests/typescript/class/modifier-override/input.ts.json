@@ -37,9 +37,7 @@
               "start": 38,
               "end": 46
             },
-            "ctxt": 0,
-            "value": "override",
-            "optional": false
+            "value": "override"
           },
           "function": {
             "params": [],
@@ -82,9 +80,7 @@
               "start": 63,
               "end": 67
             },
-            "ctxt": 0,
-            "value": "show",
-            "optional": false
+            "value": "show"
           },
           "function": {
             "params": [],
@@ -127,9 +123,7 @@
               "start": 91,
               "end": 95
             },
-            "ctxt": 0,
-            "value": "show",
-            "optional": false
+            "value": "show"
           },
           "function": {
             "params": [],
@@ -172,9 +166,7 @@
               "start": 112,
               "end": 116
             },
-            "ctxt": 0,
-            "value": "size",
-            "optional": false
+            "value": "size"
           },
           "value": {
             "type": "NumericLiteral",
@@ -208,9 +200,7 @@
               "start": 142,
               "end": 146
             },
-            "ctxt": 0,
-            "value": "size",
-            "optional": false
+            "value": "size"
           },
           "value": {
             "type": "NumericLiteral",
@@ -244,9 +234,7 @@
               "start": 181,
               "end": 185
             },
-            "ctxt": 0,
-            "value": "size",
-            "optional": false
+            "value": "size"
           },
           "value": {
             "type": "NumericLiteral",
@@ -280,9 +268,7 @@
               "start": 228,
               "end": 232
             },
-            "ctxt": 0,
-            "value": "size",
-            "optional": false
+            "value": "size"
           },
           "value": {
             "type": "NumericLiteral",
@@ -316,9 +302,7 @@
               "start": 256,
               "end": 260
             },
-            "ctxt": 0,
-            "value": "show",
-            "optional": false
+            "value": "show"
           },
           "function": {
             "params": [],

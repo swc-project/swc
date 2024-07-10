@@ -79,9 +79,7 @@
               "start": 115,
               "end": 120
             },
-            "ctxt": 0,
-            "value": "Inner",
-            "optional": false
+            "value": "Inner"
           }
         },
         "right": {
@@ -151,9 +149,7 @@
                 "start": 143,
                 "end": 148
               },
-              "ctxt": 0,
-              "value": "Inner",
-              "optional": false
+              "value": "Inner"
             }
           },
           "property": {
@@ -162,9 +158,7 @@
               "start": 149,
               "end": 158
             },
-            "ctxt": 0,
-            "value": "prototype",
-            "optional": false
+            "value": "prototype"
           }
         },
         "right": {
@@ -182,9 +176,7 @@
                   "start": 167,
                   "end": 168
                 },
-                "ctxt": 0,
-                "value": "m",
-                "optional": false
+                "value": "m"
               },
               "params": [],
               "decorators": [],
@@ -215,9 +207,7 @@
                   "start": 180,
                   "end": 181
                 },
-                "ctxt": 0,
-                "value": "i",
-                "optional": false
+                "value": "i"
               },
               "value": {
                 "type": "NumericLiteral",
@@ -280,9 +270,7 @@
                   "start": 231,
                   "end": 236
                 },
-                "ctxt": 0,
-                "value": "Inner",
-                "optional": false
+                "value": "Inner"
               }
             },
             "property": {
@@ -291,9 +279,7 @@
                 "start": 237,
                 "end": 246
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -302,9 +288,7 @@
               "start": 247,
               "end": 248
             },
-            "ctxt": 0,
-            "value": "j",
-            "optional": false
+            "value": "j"
           }
         },
         "right": {
@@ -358,9 +342,7 @@
                 "start": 281,
                 "end": 286
               },
-              "ctxt": 0,
-              "value": "Inner",
-              "optional": false
+              "value": "Inner"
             }
           },
           "property": {
@@ -369,9 +351,7 @@
               "start": 287,
               "end": 296
             },
-            "ctxt": 0,
-            "value": "prototype",
-            "optional": false
+            "value": "prototype"
           }
         },
         "property": {
@@ -380,9 +360,7 @@
             "start": 297,
             "end": 298
           },
-          "ctxt": 0,
-          "value": "k",
-          "optional": false
+          "value": "k"
         }
       }
     },
@@ -442,9 +420,7 @@
                   "start": 322,
                   "end": 327
                 },
-                "ctxt": 0,
-                "value": "Inner",
-                "optional": false
+                "value": "Inner"
               }
             },
             "arguments": [],
@@ -489,9 +465,7 @@
               "start": 336,
               "end": 337
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           }
         },
         "arguments": [],
@@ -526,9 +500,7 @@
             "start": 346,
             "end": 347
           },
-          "ctxt": 0,
-          "value": "i",
-          "optional": false
+          "value": "i"
         }
       }
     },
@@ -560,9 +532,7 @@
             "start": 354,
             "end": 355
           },
-          "ctxt": 0,
-          "value": "j",
-          "optional": false
+          "value": "j"
         }
       }
     },
@@ -594,9 +564,7 @@
             "start": 362,
             "end": 363
           },
-          "ctxt": 0,
-          "value": "k",
-          "optional": false
+          "value": "k"
         }
       }
     }

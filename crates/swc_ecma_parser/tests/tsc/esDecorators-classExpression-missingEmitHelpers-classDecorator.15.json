@@ -94,9 +94,7 @@
               "start": 248,
               "end": 249
             },
-            "ctxt": 0,
-            "value": "D",
-            "optional": false
+            "value": "D"
           },
           "value": {
             "type": "ClassExpression",

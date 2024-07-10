@@ -123,9 +123,7 @@
               "start": 234,
               "end": 237
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           }
         },
         "arguments": [],

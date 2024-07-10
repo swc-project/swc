@@ -69,9 +69,7 @@
                       "start": 46,
                       "end": 57
                     },
-                    "ctxt": 0,
-                    "value": "constructor",
-                    "optional": false
+                    "value": "constructor"
                   },
                   "params": [
                     {
@@ -344,9 +342,7 @@
                               "start": 220,
                               "end": 231
                             },
-                            "ctxt": 0,
-                            "value": "constructor",
-                            "optional": false
+                            "value": "constructor"
                           },
                           "params": [
                             {
@@ -460,9 +456,7 @@
                               "start": 295,
                               "end": 305
                             },
-                            "ctxt": 0,
-                            "value": "fromOrigin",
-                            "optional": false
+                            "value": "fromOrigin"
                           },
                           "function": {
                             "params": [
@@ -565,9 +559,7 @@
                                                   "start": 352,
                                                   "end": 353
                                                 },
-                                                "ctxt": 0,
-                                                "value": "x",
-                                                "optional": false
+                                                "value": "x"
                                               },
                                               "value": {
                                                 "type": "NumericLiteral",
@@ -587,9 +579,7 @@
                                                   "start": 358,
                                                   "end": 359
                                                 },
-                                                "ctxt": 0,
-                                                "value": "y",
-                                                "optional": false
+                                                "value": "y"
                                               },
                                               "value": {
                                                 "type": "NumericLiteral",

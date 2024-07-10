@@ -116,9 +116,7 @@
                         "start": 173,
                         "end": 179
                       },
-                      "ctxt": 0,
-                      "value": "filter",
-                      "optional": false
+                      "value": "filter"
                     }
                   }
                 },

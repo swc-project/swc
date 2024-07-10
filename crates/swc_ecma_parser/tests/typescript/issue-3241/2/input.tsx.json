@@ -46,9 +46,7 @@
                   "start": 7,
                   "end": 11
                 },
-                "ctxt": 0,
-                "value": "blah",
-                "optional": false
+                "value": "blah"
               },
               "value": {
                 "type": "JSXExpressionContainer",

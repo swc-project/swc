@@ -72,9 +72,7 @@
             "start": 143,
             "end": 151
           },
-          "ctxt": 0,
-          "value": "SomeName",
-          "optional": false
+          "value": "SomeName"
         }
       }
     },

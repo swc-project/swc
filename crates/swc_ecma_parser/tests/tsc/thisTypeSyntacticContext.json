@@ -314,9 +314,7 @@
                     "start": 103,
                     "end": 104
                   },
-                  "ctxt": 0,
-                  "value": "n",
-                  "optional": false
+                  "value": "n"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -369,9 +367,7 @@
               "start": 112,
               "end": 116
             },
-            "ctxt": 0,
-            "value": "test",
-            "optional": false
+            "value": "test"
           }
         },
         "right": {
@@ -421,9 +417,7 @@
               "start": 124,
               "end": 128
             },
-            "ctxt": 0,
-            "value": "test",
-            "optional": false
+            "value": "test"
           }
         },
         "arguments": [],
@@ -472,9 +466,7 @@
               "start": 135,
               "end": 139
             },
-            "ctxt": 0,
-            "value": "test",
-            "optional": false
+            "value": "test"
           }
         },
         "arguments": [],
@@ -522,9 +514,7 @@
                 "start": 145,
                 "end": 149
               },
-              "ctxt": 0,
-              "value": "test",
-              "optional": false
+              "value": "test"
             }
           }
         },
@@ -585,9 +575,7 @@
                     "start": 156,
                     "end": 160
                   },
-                  "ctxt": 0,
-                  "value": "test",
-                  "optional": false
+                  "value": "test"
                 }
               }
             }
@@ -644,9 +632,7 @@
                   "start": 170,
                   "end": 174
                 },
-                "ctxt": 0,
-                "value": "test",
-                "optional": false
+                "value": "test"
               }
             }
           }
@@ -696,9 +682,7 @@
                 "start": 183,
                 "end": 187
               },
-              "ctxt": 0,
-              "value": "test",
-              "optional": false
+              "value": "test"
             }
           }
         },

@@ -37,9 +37,7 @@
               "start": 15,
               "end": 16
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": {
             "type": "ThisExpression",
@@ -71,9 +69,7 @@
               "start": 29,
               "end": 32
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
@@ -132,9 +128,7 @@
               "start": 68,
               "end": 79
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -245,9 +239,7 @@
                       "start": 125,
                       "end": 126
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   }
                 }
               },
@@ -279,9 +271,7 @@
                       "start": 138,
                       "end": 139
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   }
                 }
               },
@@ -313,9 +303,7 @@
                       "start": 151,
                       "end": 152
                     },
-                    "ctxt": 0,
-                    "value": "z",
-                    "optional": false
+                    "value": "z"
                   }
                 }
               },
@@ -375,9 +363,7 @@
                             "start": 172,
                             "end": 175
                           },
-                          "ctxt": 0,
-                          "value": "foo",
-                          "optional": false
+                          "value": "foo"
                         }
                       },
                       "arguments": [],
@@ -404,9 +390,7 @@
               "start": 194,
               "end": 195
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "function": {
             "params": [],
@@ -564,9 +548,7 @@
                 "start": 260,
                 "end": 261
               },
-              "ctxt": 0,
-              "value": "x",
-              "optional": false
+              "value": "x"
             }
           },
           "definite": false
@@ -634,9 +616,7 @@
                     "start": 274,
                     "end": 275
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 }
               },
               "property": {
@@ -645,9 +625,7 @@
                   "start": 276,
                   "end": 277
                 },
-                "ctxt": 0,
-                "value": "x",
-                "optional": false
+                "value": "x"
               }
             },
             "property": {
@@ -656,9 +634,7 @@
                 "start": 278,
                 "end": 279
               },
-              "ctxt": 0,
-              "value": "x",
-              "optional": false
+              "value": "x"
             }
           },
           "definite": false
@@ -714,9 +690,7 @@
                 "start": 292,
                 "end": 293
               },
-              "ctxt": 0,
-              "value": "y",
-              "optional": false
+              "value": "y"
             }
           },
           "definite": false
@@ -779,9 +753,7 @@
                   "start": 306,
                   "end": 309
                 },
-                "ctxt": 0,
-                "value": "foo",
-                "optional": false
+                "value": "foo"
               }
             },
             "arguments": [],
@@ -905,9 +877,7 @@
               "start": 339,
               "end": 346
             },
-            "ctxt": 0,
-            "value": "forEach",
-            "optional": false
+            "value": "forEach"
           }
         },
         "arguments": [
@@ -969,9 +939,7 @@
                           "start": 360,
                           "end": 363
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       }
                     }
                   },
@@ -1003,9 +971,7 @@
                           "start": 371,
                           "end": 372
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       }
                     }
                   },
@@ -1037,9 +1003,7 @@
                           "start": 380,
                           "end": 381
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       }
                     }
                   }

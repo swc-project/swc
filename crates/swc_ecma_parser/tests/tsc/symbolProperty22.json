@@ -111,9 +111,7 @@
                   "start": 48,
                   "end": 59
                 },
-                "ctxt": 0,
-                "value": "unscopables",
-                "optional": false
+                "value": "unscopables"
               }
             },
             "computed": true,
@@ -493,9 +491,7 @@
                           "start": 144,
                           "end": 155
                         },
-                        "ctxt": 0,
-                        "value": "unscopables",
-                        "optional": false
+                        "value": "unscopables"
                       }
                     }
                   },
@@ -541,9 +537,7 @@
                           "start": 165,
                           "end": 171
                         },
-                        "ctxt": 0,
-                        "value": "length",
-                        "optional": false
+                        "value": "length"
                       }
                     },
                     "async": false,

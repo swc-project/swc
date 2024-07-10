@@ -258,9 +258,7 @@
                     "start": 123,
                     "end": 125
                   },
-                  "ctxt": 0,
-                  "value": "p1",
-                  "optional": false
+                  "value": "p1"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -280,9 +278,7 @@
                     "start": 131,
                     "end": 133
                   },
-                  "ctxt": 0,
-                  "value": "p2",
-                  "optional": false
+                  "value": "p2"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -302,9 +298,7 @@
                     "start": 139,
                     "end": 141
                   },
-                  "ctxt": 0,
-                  "value": "p3",
-                  "optional": false
+                  "value": "p3"
                 },
                 "value": {
                   "type": "NumericLiteral",

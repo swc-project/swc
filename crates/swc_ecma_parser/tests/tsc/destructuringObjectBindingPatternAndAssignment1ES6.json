@@ -212,9 +212,7 @@
                     "start": 669,
                     "end": 671
                   },
-                  "ctxt": 0,
-                  "value": "b1",
-                  "optional": false
+                  "value": "b1"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -263,9 +261,7 @@
                     "start": 684,
                     "end": 686
                   },
-                  "ctxt": 0,
-                  "value": "b2",
-                  "optional": false
+                  "value": "b2"
                 },
                 "value": {
                   "type": "AssignmentPattern",
@@ -318,9 +314,7 @@
                             "start": 700,
                             "end": 703
                           },
-                          "ctxt": 0,
-                          "value": "b21",
-                          "optional": false
+                          "value": "b21"
                         },
                         "value": {
                           "type": "StringLiteral",
@@ -355,9 +349,7 @@
                     "start": 723,
                     "end": 725
                   },
-                  "ctxt": 0,
-                  "value": "b2",
-                  "optional": false
+                  "value": "b2"
                 },
                 "value": {
                   "type": "ObjectExpression",
@@ -374,9 +366,7 @@
                           "start": 729,
                           "end": 732
                         },
-                        "ctxt": 0,
-                        "value": "b21",
-                        "optional": false
+                        "value": "b21"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -564,9 +554,7 @@
                     "start": 800,
                     "end": 802
                   },
-                  "ctxt": 0,
-                  "value": "b4",
-                  "optional": false
+                  "value": "b4"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -615,9 +603,7 @@
                     "start": 819,
                     "end": 821
                   },
-                  "ctxt": 0,
-                  "value": "b5",
-                  "optional": false
+                  "value": "b5"
                 },
                 "value": {
                   "type": "ObjectPattern",
@@ -669,9 +655,7 @@
                     "start": 838,
                     "end": 840
                   },
-                  "ctxt": 0,
-                  "value": "b5",
-                  "optional": false
+                  "value": "b5"
                 },
                 "value": {
                   "type": "ObjectExpression",

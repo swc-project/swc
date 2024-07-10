@@ -83,9 +83,7 @@
               "start": 128,
               "end": 129
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": {
@@ -248,9 +246,7 @@
                           "start": 214,
                           "end": 215
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       }
                     }
                   },
@@ -286,9 +282,7 @@
                             "start": 231,
                             "end": 232
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         }
                       },
                       "right": {
@@ -334,9 +328,7 @@
                             "start": 252,
                             "end": 253
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         }
                       },
                       "right": {
@@ -383,9 +375,7 @@
                             "start": 274,
                             "end": 275
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         }
                       }
                     }
@@ -423,9 +413,7 @@
                             "start": 293,
                             "end": 294
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         }
                       }
                     }
@@ -463,9 +451,7 @@
                             "start": 314,
                             "end": 315
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         }
                       }
                     }
@@ -503,9 +489,7 @@
                             "start": 333,
                             "end": 334
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         }
                       }
                     }
@@ -544,9 +528,7 @@
                                   "start": 347,
                                   "end": 348
                                 },
-                                "ctxt": 0,
-                                "value": "x",
-                                "optional": false
+                                "value": "x"
                               },
                               "value": {
                                 "type": "SuperPropExpression",
@@ -567,9 +549,7 @@
                                     "start": 356,
                                     "end": 357
                                   },
-                                  "ctxt": 0,
-                                  "value": "x",
-                                  "optional": false
+                                  "value": "x"
                                 }
                               }
                             }
@@ -592,9 +572,7 @@
                                   "start": 364,
                                   "end": 365
                                 },
-                                "ctxt": 0,
-                                "value": "x",
-                                "optional": false
+                                "value": "x"
                               },
                               "value": {
                                 "type": "NumericLiteral",
@@ -650,9 +628,7 @@
                                 "start": 388,
                                 "end": 389
                               },
-                              "ctxt": 0,
-                              "value": "x",
-                              "optional": false
+                              "value": "x"
                             }
                           }
                         ],
@@ -1045,9 +1021,7 @@
                                   "start": 567,
                                   "end": 568
                                 },
-                                "ctxt": 0,
-                                "value": "x",
-                                "optional": false
+                                "value": "x"
                               },
                               "value": {
                                 "type": "SuperPropExpression",
@@ -1099,9 +1073,7 @@
                                   "start": 587,
                                   "end": 588
                                 },
-                                "ctxt": 0,
-                                "value": "x",
-                                "optional": false
+                                "value": "x"
                               },
                               "value": {
                                 "type": "NumericLiteral",
@@ -1565,9 +1537,7 @@
                                   "start": 779,
                                   "end": 780
                                 },
-                                "ctxt": 0,
-                                "value": "x",
-                                "optional": false
+                                "value": "x"
                               },
                               "value": {
                                 "type": "SuperPropExpression",
@@ -1620,9 +1590,7 @@
                                   "start": 797,
                                   "end": 798
                                 },
-                                "ctxt": 0,
-                                "value": "x",
-                                "optional": false
+                                "value": "x"
                               },
                               "value": {
                                 "type": "NumericLiteral",

@@ -258,9 +258,7 @@
                               "start": 268,
                               "end": 269
                             },
-                            "ctxt": 0,
-                            "value": "y",
-                            "optional": false
+                            "value": "y"
                           },
                           "value": null,
                           "typeAnnotation": {
@@ -507,9 +505,7 @@
                               "start": 455,
                               "end": 456
                             },
-                            "ctxt": 0,
-                            "value": "y",
-                            "optional": false
+                            "value": "y"
                           },
                           "value": null,
                           "typeAnnotation": {
@@ -622,9 +618,7 @@
                         "start": 487,
                         "end": 488
                       },
-                      "ctxt": 0,
-                      "value": "y",
-                      "optional": false
+                      "value": "y"
                     },
                     "value": {
                       "type": "AssignmentPattern",
@@ -738,9 +732,7 @@
                         "start": 530,
                         "end": 531
                       },
-                      "ctxt": 0,
-                      "value": "y",
-                      "optional": false
+                      "value": "y"
                     },
                     "value": {
                       "type": "AssignmentPattern",
@@ -781,9 +773,7 @@
                                 "start": 550,
                                 "end": 551
                               },
-                              "ctxt": 0,
-                              "value": "y",
-                              "optional": false
+                              "value": "y"
                             },
                             "value": null,
                             "typeAnnotation": {

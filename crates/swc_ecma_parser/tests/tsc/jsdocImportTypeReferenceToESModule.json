@@ -134,9 +134,7 @@
                   "start": 179,
                   "end": 185
                 },
-                "ctxt": 0,
-                "value": "config",
-                "optional": false
+                "value": "config"
               }
             }
           }

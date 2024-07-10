@@ -290,9 +290,7 @@
                       "start": 352,
                       "end": 358
                     },
-                    "ctxt": 0,
-                    "value": "length",
-                    "optional": false
+                    "value": "length"
                   }
                 }
               }
@@ -456,9 +454,7 @@
                           "start": 496,
                           "end": 502
                         },
-                        "ctxt": 0,
-                        "value": "length",
-                        "optional": false
+                        "value": "length"
                       }
                     }
                   }
@@ -990,9 +986,7 @@
                             "start": 1001,
                             "end": 1007
                           },
-                          "ctxt": 0,
-                          "value": "length",
-                          "optional": false
+                          "value": "length"
                         }
                       }
                     }
@@ -1086,9 +1080,7 @@
                             "start": 1124,
                             "end": 1130
                           },
-                          "ctxt": 0,
-                          "value": "length",
-                          "optional": false
+                          "value": "length"
                         }
                       }
                     }
@@ -1331,9 +1323,7 @@
                                 "start": 1408,
                                 "end": 1414
                               },
-                              "ctxt": 0,
-                              "value": "length",
-                              "optional": false
+                              "value": "length"
                             }
                           }
                         }
@@ -1728,9 +1718,7 @@
                         "start": 1878,
                         "end": 1884
                       },
-                      "ctxt": 0,
-                      "value": "length",
-                      "optional": false
+                      "value": "length"
                     }
                   }
                 }
@@ -1894,9 +1882,7 @@
                             "start": 2022,
                             "end": 2028
                           },
-                          "ctxt": 0,
-                          "value": "length",
-                          "optional": false
+                          "value": "length"
                         }
                       }
                     }

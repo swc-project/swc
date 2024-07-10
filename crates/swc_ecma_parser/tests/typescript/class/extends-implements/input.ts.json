@@ -103,9 +103,7 @@
                 "start": 37,
                 "end": 38
               },
-              "ctxt": 0,
-              "value": "Y",
-              "optional": false
+              "value": "Y"
             }
           },
           "typeArguments": {

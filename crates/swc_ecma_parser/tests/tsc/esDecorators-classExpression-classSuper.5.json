@@ -83,9 +83,7 @@
               "start": 128,
               "end": 129
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": {
@@ -221,9 +219,7 @@
                   "start": 199,
                   "end": 200
                 },
-                "ctxt": 0,
-                "value": "a",
-                "optional": false
+                "value": "a"
               },
               "value": {
                 "type": "SuperPropExpression",
@@ -244,9 +240,7 @@
                     "start": 209,
                     "end": 210
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 }
               },
               "typeAnnotation": null,
@@ -272,9 +266,7 @@
                   "start": 223,
                   "end": 224
                 },
-                "ctxt": 0,
-                "value": "b",
-                "optional": false
+                "value": "b"
               },
               "value": {
                 "type": "AssignmentExpression",
@@ -302,9 +294,7 @@
                       "start": 233,
                       "end": 234
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   }
                 },
                 "right": {
@@ -340,9 +330,7 @@
                   "start": 251,
                   "end": 252
                 },
-                "ctxt": 0,
-                "value": "c",
-                "optional": false
+                "value": "c"
               },
               "value": {
                 "type": "AssignmentExpression",
@@ -370,9 +358,7 @@
                       "start": 261,
                       "end": 262
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   }
                 },
                 "right": {
@@ -408,9 +394,7 @@
                   "start": 280,
                   "end": 281
                 },
-                "ctxt": 0,
-                "value": "d",
-                "optional": false
+                "value": "d"
               },
               "value": {
                 "type": "UpdateExpression",
@@ -439,9 +423,7 @@
                       "start": 290,
                       "end": 291
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   }
                 }
               },
@@ -468,9 +450,7 @@
                   "start": 306,
                   "end": 307
                 },
-                "ctxt": 0,
-                "value": "e",
-                "optional": false
+                "value": "e"
               },
               "value": {
                 "type": "UpdateExpression",
@@ -499,9 +479,7 @@
                       "start": 316,
                       "end": 317
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   }
                 }
               },
@@ -528,9 +506,7 @@
                   "start": 332,
                   "end": 333
                 },
-                "ctxt": 0,
-                "value": "f",
-                "optional": false
+                "value": "f"
               },
               "value": {
                 "type": "UpdateExpression",
@@ -559,9 +535,7 @@
                       "start": 344,
                       "end": 345
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   }
                 }
               },
@@ -588,9 +562,7 @@
                   "start": 358,
                   "end": 359
                 },
-                "ctxt": 0,
-                "value": "g",
-                "optional": false
+                "value": "g"
               },
               "value": {
                 "type": "UpdateExpression",
@@ -619,9 +591,7 @@
                       "start": 370,
                       "end": 371
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   }
                 }
               },
@@ -648,9 +618,7 @@
                   "start": 384,
                   "end": 385
                 },
-                "ctxt": 0,
-                "value": "h",
-                "optional": false
+                "value": "h"
               },
               "value": {
                 "type": "ParenthesisExpression",
@@ -680,9 +648,7 @@
                             "start": 391,
                             "end": 392
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "SuperPropExpression",
@@ -703,9 +669,7 @@
                               "start": 400,
                               "end": 401
                             },
-                            "ctxt": 0,
-                            "value": "x",
-                            "optional": false
+                            "value": "x"
                           }
                         }
                       }
@@ -728,9 +692,7 @@
                             "start": 408,
                             "end": 409
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -769,9 +731,7 @@
                   "start": 428,
                   "end": 429
                 },
-                "ctxt": 0,
-                "value": "i",
-                "optional": false
+                "value": "i"
               },
               "value": {
                 "type": "AssignmentExpression",
@@ -806,9 +766,7 @@
                           "start": 439,
                           "end": 440
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       }
                     }
                   ],
@@ -927,9 +885,7 @@
                   "start": 495,
                   "end": 496
                 },
-                "ctxt": 0,
-                "value": "a",
-                "optional": false
+                "value": "a"
               },
               "value": {
                 "type": "SuperPropExpression",
@@ -984,9 +940,7 @@
                   "start": 522,
                   "end": 523
                 },
-                "ctxt": 0,
-                "value": "b",
-                "optional": false
+                "value": "b"
               },
               "value": {
                 "type": "AssignmentExpression",
@@ -1058,9 +1012,7 @@
                   "start": 553,
                   "end": 554
                 },
-                "ctxt": 0,
-                "value": "c",
-                "optional": false
+                "value": "c"
               },
               "value": {
                 "type": "AssignmentExpression",
@@ -1132,9 +1084,7 @@
                   "start": 585,
                   "end": 586
                 },
-                "ctxt": 0,
-                "value": "d",
-                "optional": false
+                "value": "d"
               },
               "value": {
                 "type": "UpdateExpression",
@@ -1198,9 +1148,7 @@
                   "start": 614,
                   "end": 615
                 },
-                "ctxt": 0,
-                "value": "e",
-                "optional": false
+                "value": "e"
               },
               "value": {
                 "type": "UpdateExpression",
@@ -1264,9 +1212,7 @@
                   "start": 643,
                   "end": 644
                 },
-                "ctxt": 0,
-                "value": "f",
-                "optional": false
+                "value": "f"
               },
               "value": {
                 "type": "UpdateExpression",
@@ -1330,9 +1276,7 @@
                   "start": 672,
                   "end": 673
                 },
-                "ctxt": 0,
-                "value": "g",
-                "optional": false
+                "value": "g"
               },
               "value": {
                 "type": "UpdateExpression",
@@ -1396,9 +1340,7 @@
                   "start": 701,
                   "end": 702
                 },
-                "ctxt": 0,
-                "value": "h",
-                "optional": false
+                "value": "h"
               },
               "value": {
                 "type": "ParenthesisExpression",
@@ -1428,9 +1370,7 @@
                             "start": 708,
                             "end": 709
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "SuperPropExpression",
@@ -1482,9 +1422,7 @@
                             "start": 728,
                             "end": 729
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -1523,9 +1461,7 @@
                   "start": 748,
                   "end": 749
                 },
-                "ctxt": 0,
-                "value": "i",
-                "optional": false
+                "value": "i"
               },
               "value": {
                 "type": "AssignmentExpression",
@@ -1687,9 +1623,7 @@
                   "start": 818,
                   "end": 819
                 },
-                "ctxt": 0,
-                "value": "a",
-                "optional": false
+                "value": "a"
               },
               "value": {
                 "type": "SuperPropExpression",
@@ -1745,9 +1679,7 @@
                   "start": 843,
                   "end": 844
                 },
-                "ctxt": 0,
-                "value": "b",
-                "optional": false
+                "value": "b"
               },
               "value": {
                 "type": "AssignmentExpression",
@@ -1820,9 +1752,7 @@
                   "start": 872,
                   "end": 873
                 },
-                "ctxt": 0,
-                "value": "c",
-                "optional": false
+                "value": "c"
               },
               "value": {
                 "type": "AssignmentExpression",
@@ -1895,9 +1825,7 @@
                   "start": 902,
                   "end": 903
                 },
-                "ctxt": 0,
-                "value": "d",
-                "optional": false
+                "value": "d"
               },
               "value": {
                 "type": "UpdateExpression",
@@ -1962,9 +1890,7 @@
                   "start": 929,
                   "end": 930
                 },
-                "ctxt": 0,
-                "value": "e",
-                "optional": false
+                "value": "e"
               },
               "value": {
                 "type": "UpdateExpression",
@@ -2029,9 +1955,7 @@
                   "start": 956,
                   "end": 957
                 },
-                "ctxt": 0,
-                "value": "f",
-                "optional": false
+                "value": "f"
               },
               "value": {
                 "type": "UpdateExpression",
@@ -2096,9 +2020,7 @@
                   "start": 983,
                   "end": 984
                 },
-                "ctxt": 0,
-                "value": "g",
-                "optional": false
+                "value": "g"
               },
               "value": {
                 "type": "UpdateExpression",
@@ -2163,9 +2085,7 @@
                   "start": 1010,
                   "end": 1011
                 },
-                "ctxt": 0,
-                "value": "h",
-                "optional": false
+                "value": "h"
               },
               "value": {
                 "type": "ParenthesisExpression",
@@ -2195,9 +2115,7 @@
                             "start": 1017,
                             "end": 1018
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "SuperPropExpression",
@@ -2250,9 +2168,7 @@
                             "start": 1035,
                             "end": 1036
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -2291,9 +2207,7 @@
                   "start": 1055,
                   "end": 1056
                 },
-                "ctxt": 0,
-                "value": "i",
-                "optional": false
+                "value": "i"
               },
               "value": {
                 "type": "AssignmentExpression",

@@ -62,9 +62,7 @@
                     "start": 26,
                     "end": 27
                   },
-                  "ctxt": 0,
-                  "value": "s",
-                  "optional": false
+                  "value": "s"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -131,9 +129,7 @@
                     "start": 56,
                     "end": 57
                   },
-                  "ctxt": 0,
-                  "value": "s",
-                  "optional": false
+                  "value": "s"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -304,9 +300,7 @@
                     "start": 141,
                     "end": 143
                   },
-                  "ctxt": 0,
-                  "value": "id",
-                  "optional": false
+                  "value": "id"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -417,9 +411,7 @@
                     "start": 190,
                     "end": 192
                   },
-                  "ctxt": 0,
-                  "value": "id",
-                  "optional": false
+                  "value": "id"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -550,9 +542,7 @@
                           "start": 247,
                           "end": 248
                         },
-                        "ctxt": 0,
-                        "value": "s",
-                        "optional": false
+                        "value": "s"
                       },
                       "value": null,
                       "typeAnnotation": {
@@ -1011,9 +1001,7 @@
                           "start": 477,
                           "end": 478
                         },
-                        "ctxt": 0,
-                        "value": "s",
-                        "optional": false
+                        "value": "s"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -1033,9 +1021,7 @@
                           "start": 489,
                           "end": 491
                         },
-                        "ctxt": 0,
-                        "value": "id",
-                        "optional": false
+                        "value": "id"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -1055,9 +1041,7 @@
                           "start": 496,
                           "end": 503
                         },
-                        "ctxt": 0,
-                        "value": "isvalid",
-                        "optional": false
+                        "value": "isvalid"
                       },
                       "value": {
                         "type": "BooleanLiteral",
@@ -1106,9 +1090,7 @@
                     "start": 552,
                     "end": 553
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -1209,9 +1191,7 @@
                       "start": 604,
                       "end": 605
                     },
-                    "ctxt": 0,
-                    "value": "s",
-                    "optional": false
+                    "value": "s"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -1285,9 +1265,7 @@
                       "start": 641,
                       "end": 642
                     },
-                    "ctxt": 0,
-                    "value": "s",
-                    "optional": false
+                    "value": "s"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -1472,9 +1450,7 @@
                       "start": 740,
                       "end": 742
                     },
-                    "ctxt": 0,
-                    "value": "id",
-                    "optional": false
+                    "value": "id"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -1592,9 +1568,7 @@
                       "start": 796,
                       "end": 798
                     },
-                    "ctxt": 0,
-                    "value": "id",
-                    "optional": false
+                    "value": "id"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -1732,9 +1706,7 @@
                             "start": 860,
                             "end": 861
                           },
-                          "ctxt": 0,
-                          "value": "s",
-                          "optional": false
+                          "value": "s"
                         },
                         "value": null,
                         "typeAnnotation": {
@@ -2235,9 +2207,7 @@
                             "start": 1132,
                             "end": 1133
                           },
-                          "ctxt": 0,
-                          "value": "s",
-                          "optional": false
+                          "value": "s"
                         },
                         "value": {
                           "type": "StringLiteral",
@@ -2257,9 +2227,7 @@
                             "start": 1144,
                             "end": 1146
                           },
-                          "ctxt": 0,
-                          "value": "id",
-                          "optional": false
+                          "value": "id"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -2279,9 +2247,7 @@
                             "start": 1151,
                             "end": 1158
                           },
-                          "ctxt": 0,
-                          "value": "isvalid",
-                          "optional": false
+                          "value": "isvalid"
                         },
                         "value": {
                           "type": "BooleanLiteral",
@@ -2337,9 +2303,7 @@
                       "start": 1214,
                       "end": 1215
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": null,
                   "typeAnnotation": {

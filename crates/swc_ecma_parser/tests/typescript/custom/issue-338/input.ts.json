@@ -56,6 +56,10 @@
               },
               "exprName": {
                 "type": "TsQualifiedName",
+                "span": {
+                  "start": 27,
+                  "end": 38
+                },
                 "left": {
                   "type": "Identifier",
                   "span": {
@@ -72,9 +76,7 @@
                     "start": 32,
                     "end": 38
                   },
-                  "ctxt": 0,
-                  "value": "delete",
-                  "optional": false
+                  "value": "delete"
                 }
               },
               "typeArguments": null

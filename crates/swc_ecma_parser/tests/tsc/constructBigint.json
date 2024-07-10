@@ -261,9 +261,7 @@
                       "start": 132,
                       "end": 133
                     },
-                    "ctxt": 0,
-                    "value": "e",
-                    "optional": false
+                    "value": "e"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -283,9 +281,7 @@
                       "start": 138,
                       "end": 139
                     },
-                    "ctxt": 0,
-                    "value": "m",
-                    "optional": false
+                    "value": "m"
                   },
                   "value": {
                     "type": "NumericLiteral",

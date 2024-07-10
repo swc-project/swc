@@ -282,9 +282,7 @@
                 "start": 253,
                 "end": 255
               },
-              "ctxt": 0,
-              "value": "id",
-              "optional": false
+              "value": "id"
             }
           },
           "definite": false
@@ -368,9 +366,7 @@
                           "start": 286,
                           "end": 288
                         },
-                        "ctxt": 0,
-                        "value": "id",
-                        "optional": false
+                        "value": "id"
                       }
                     },
                     "right": {
@@ -436,9 +432,7 @@
                 "start": 298,
                 "end": 307
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -447,9 +441,7 @@
               "start": 308,
               "end": 309
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           }
         },
         "right": {
@@ -502,9 +494,7 @@
                         "start": 330,
                         "end": 331
                       },
-                      "ctxt": 0,
-                      "value": "x",
-                      "optional": false
+                      "value": "x"
                     }
                   },
                   "right": {
@@ -606,9 +596,7 @@
             "start": 360,
             "end": 362
           },
-          "ctxt": 0,
-          "value": "id",
-          "optional": false
+          "value": "id"
         }
       }
     },
@@ -640,9 +628,7 @@
             "start": 366,
             "end": 367
           },
-          "ctxt": 0,
-          "value": "x",
-          "optional": false
+          "value": "x"
         }
       }
     },
@@ -706,9 +692,7 @@
                     "start": 413,
                     "end": 415
                   },
-                  "ctxt": 0,
-                  "value": "id",
-                  "optional": false
+                  "value": "id"
                 }
               },
               "right": {
@@ -764,9 +748,7 @@
               "start": 430,
               "end": 437
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {

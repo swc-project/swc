@@ -82,9 +82,7 @@
                   "start": 28,
                   "end": 32
                 },
-                "ctxt": 0,
-                "value": "from",
-                "optional": false
+                "value": "from"
               }
             },
             "arguments": [],
@@ -178,9 +176,7 @@
                     "start": 73,
                     "end": 77
                   },
-                  "ctxt": 0,
-                  "value": "from",
-                  "optional": false
+                  "value": "from"
                 }
               },
               "arguments": [],

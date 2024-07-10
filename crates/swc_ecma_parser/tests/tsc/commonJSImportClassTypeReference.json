@@ -171,9 +171,7 @@
                     "start": 190,
                     "end": 196
                   },
-                  "ctxt": 0,
-                  "value": "values",
-                  "optional": false
+                  "value": "values"
                 }
               },
               "arguments": [],
@@ -219,9 +217,7 @@
               "start": 238,
               "end": 244
             },
-            "ctxt": 0,
-            "value": "values",
-            "optional": false
+            "value": "values"
           },
           "function": {
             "params": [],
@@ -322,9 +318,7 @@
               "start": 288,
               "end": 289
             },
-            "ctxt": 0,
-            "value": "K",
-            "optional": false
+            "value": "K"
           }
         },
         "right": {

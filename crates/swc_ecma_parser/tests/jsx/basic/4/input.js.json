@@ -46,9 +46,7 @@
                   "start": 4,
                   "end": 5
                 },
-                "ctxt": 0,
-                "value": "b",
-                "optional": false
+                "value": "b"
               },
               "value": {
                 "type": "JSXExpressionContainer",
@@ -79,9 +77,7 @@
                   "start": 12,
                   "end": 13
                 },
-                "ctxt": 0,
-                "value": "c",
-                "optional": false
+                "value": "c"
               },
               "value": {
                 "type": "StringLiteral",
@@ -105,9 +101,7 @@
                   "start": 18,
                   "end": 19
                 },
-                "ctxt": 0,
-                "value": "d",
-                "optional": false
+                "value": "d"
               },
               "value": {
                 "type": "StringLiteral",
@@ -131,9 +125,7 @@
                   "start": 28,
                   "end": 29
                 },
-                "ctxt": 0,
-                "value": "e",
-                "optional": false
+                "value": "e"
               },
               "value": {
                 "type": "StringLiteral",

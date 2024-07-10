@@ -58,9 +58,7 @@
                 "start": 50,
                 "end": 54
               },
-              "ctxt": 0,
-              "value": "uhoh",
-              "optional": false
+              "value": "uhoh"
             },
             "value": {
               "type": "StringLiteral",

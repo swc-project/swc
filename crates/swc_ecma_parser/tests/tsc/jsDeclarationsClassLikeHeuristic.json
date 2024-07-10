@@ -112,9 +112,7 @@
                 "start": 189,
                 "end": 198
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -123,9 +121,7 @@
               "start": 199,
               "end": 200
             },
-            "ctxt": 0,
-            "value": "b",
-            "optional": false
+            "value": "b"
           }
         },
         "right": {

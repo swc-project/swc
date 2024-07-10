@@ -153,9 +153,7 @@
                                         "start": 88,
                                         "end": 97
                                       },
-                                      "ctxt": 0,
-                                      "value": "className",
-                                      "optional": false
+                                      "value": "className"
                                     },
                                     "value": {
                                       "type": "JSXExpressionContainer",
@@ -223,9 +221,7 @@
                                                     "start": 141,
                                                     "end": 146
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "color",
-                                                  "optional": false
+                                                  "value": "color"
                                                 },
                                                 "value": {
                                                   "type": "MemberExpression",
@@ -249,9 +245,7 @@
                                                       "start": 154,
                                                       "end": 158
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "blue",
-                                                    "optional": false
+                                                    "value": "blue"
                                                   }
                                                 }
                                               }

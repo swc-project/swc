@@ -69,9 +69,7 @@
                         "start": 38,
                         "end": 46
                       },
-                      "ctxt": 0,
-                      "value": "iterator",
-                      "optional": false
+                      "value": "iterator"
                     }
                   }
                 },
@@ -90,9 +88,7 @@
                           "start": 51,
                           "end": 52
                         },
-                        "ctxt": 0,
-                        "value": "p",
-                        "optional": false
+                        "value": "p"
                       },
                       "value": {
                         "type": "NullLiteral",
@@ -135,9 +131,7 @@
                         "start": 74,
                         "end": 85
                       },
-                      "ctxt": 0,
-                      "value": "toStringTag",
-                      "optional": false
+                      "value": "toStringTag"
                     }
                   }
                 },
@@ -177,9 +171,7 @@
                                 "start": 100,
                                 "end": 101
                               },
-                              "ctxt": 0,
-                              "value": "p",
-                              "optional": false
+                              "value": "p"
                             },
                             "value": {
                               "type": "Identifier",
@@ -279,9 +271,7 @@
                     "start": 139,
                     "end": 147
                   },
-                  "ctxt": 0,
-                  "value": "iterator",
-                  "optional": false
+                  "value": "iterator"
                 }
               }
             }
@@ -368,9 +358,7 @@
                       "start": 169,
                       "end": 180
                     },
-                    "ctxt": 0,
-                    "value": "toStringTag",
-                    "optional": false
+                    "value": "toStringTag"
                   }
                 }
               }

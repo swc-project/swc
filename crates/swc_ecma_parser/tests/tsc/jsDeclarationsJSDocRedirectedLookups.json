@@ -461,9 +461,7 @@
                   "start": 609,
                   "end": 616
                 },
-                "ctxt": 0,
-                "value": "resolve",
-                "optional": false
+                "value": "resolve"
               }
             },
             "arguments": [
@@ -528,9 +526,7 @@
                     "start": 669,
                     "end": 670
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 },
                 "value": {
                   "type": "StringLiteral",

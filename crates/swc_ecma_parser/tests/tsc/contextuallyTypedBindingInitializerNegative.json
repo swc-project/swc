@@ -147,9 +147,7 @@
                     "start": 90,
                     "end": 94
                   },
-                  "ctxt": 0,
-                  "value": "show",
-                  "optional": false
+                  "value": "show"
                 },
                 "value": {
                   "type": "AssignmentPattern",
@@ -658,9 +656,7 @@
                     "start": 291,
                     "end": 297
                   },
-                  "ctxt": 0,
-                  "value": "nested",
-                  "optional": false
+                  "value": "nested"
                 },
                 "value": {
                   "type": "AssignmentPattern",
@@ -694,9 +690,7 @@
                             "start": 316,
                             "end": 320
                           },
-                          "ctxt": 0,
-                          "value": "show",
-                          "optional": false
+                          "value": "show"
                         },
                         "value": {
                           "type": "ArrowFunctionExpression",
@@ -910,9 +904,7 @@
                     "start": 420,
                     "end": 434
                   },
-                  "ctxt": 0,
-                  "value": "stringIdentity",
-                  "optional": false
+                  "value": "stringIdentity"
                 },
                 "value": {
                   "type": "AssignmentPattern",
@@ -973,9 +965,7 @@
                           "start": 452,
                           "end": 458
                         },
-                        "ctxt": 0,
-                        "value": "length",
-                        "optional": false
+                        "value": "length"
                       }
                     },
                     "async": false,
@@ -1028,9 +1018,7 @@
                     "start": 481,
                     "end": 495
                   },
-                  "ctxt": 0,
-                  "value": "stringIdentity",
-                  "optional": false
+                  "value": "stringIdentity"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",

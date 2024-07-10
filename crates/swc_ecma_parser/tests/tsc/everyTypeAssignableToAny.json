@@ -83,9 +83,7 @@
               "start": 28,
               "end": 31
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {

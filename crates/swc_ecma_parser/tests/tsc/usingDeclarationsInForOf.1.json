@@ -88,9 +88,7 @@
                           "start": 137,
                           "end": 144
                         },
-                        "ctxt": 0,
-                        "value": "dispose",
-                        "optional": false
+                        "value": "dispose"
                       }
                     }
                   },

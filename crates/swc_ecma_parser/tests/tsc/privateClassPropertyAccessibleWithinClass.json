@@ -37,9 +37,7 @@
               "start": 37,
               "end": 38
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": {
@@ -79,9 +77,7 @@
               "start": 64,
               "end": 65
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "function": {
             "params": [],
@@ -124,9 +120,7 @@
                         "start": 82,
                         "end": 83
                       },
-                      "ctxt": 0,
-                      "value": "x",
-                      "optional": false
+                      "value": "x"
                     }
                   }
                 }
@@ -156,9 +150,7 @@
               "start": 103,
               "end": 104
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "function": {
             "params": [
@@ -228,9 +220,7 @@
                           "start": 115,
                           "end": 116
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       }
                     },
                     "right": {
@@ -252,9 +242,7 @@
                           "start": 124,
                           "end": 125
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       }
                     }
                   }
@@ -285,9 +273,7 @@
               "start": 141,
               "end": 144
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
@@ -330,9 +316,7 @@
                         "start": 161,
                         "end": 164
                       },
-                      "ctxt": 0,
-                      "value": "foo",
-                      "optional": false
+                      "value": "foo"
                     }
                   }
                 }
@@ -362,9 +346,7 @@
               "start": 188,
               "end": 189
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": {
@@ -404,9 +386,7 @@
               "start": 222,
               "end": 223
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "function": {
             "params": [],
@@ -449,9 +429,7 @@
                         "start": 240,
                         "end": 241
                       },
-                      "ctxt": 0,
-                      "value": "x",
-                      "optional": false
+                      "value": "x"
                     }
                   }
                 }
@@ -481,9 +459,7 @@
               "start": 268,
               "end": 269
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "function": {
             "params": [
@@ -553,9 +529,7 @@
                           "start": 280,
                           "end": 281
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       }
                     },
                     "right": {
@@ -577,9 +551,7 @@
                           "start": 289,
                           "end": 290
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       }
                     }
                   }
@@ -610,9 +582,7 @@
               "start": 313,
               "end": 316
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
@@ -655,9 +625,7 @@
                         "start": 333,
                         "end": 336
                       },
-                      "ctxt": 0,
-                      "value": "foo",
-                      "optional": false
+                      "value": "foo"
                     }
                   }
                 }
@@ -687,9 +655,7 @@
               "start": 359,
               "end": 362
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "function": {
             "params": [],
@@ -739,9 +705,7 @@
                           "start": 372,
                           "end": 375
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       }
                     },
                     "arguments": [],
@@ -801,9 +765,7 @@
               "start": 442,
               "end": 443
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": {
@@ -843,9 +805,7 @@
               "start": 469,
               "end": 470
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "function": {
             "params": [],
@@ -896,9 +856,7 @@
                           "start": 486,
                           "end": 487
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       }
                     },
                     "async": false,
@@ -947,9 +905,7 @@
               "start": 520,
               "end": 521
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "function": {
             "params": [
@@ -1041,9 +997,7 @@
                                   "start": 540,
                                   "end": 541
                                 },
-                                "ctxt": 0,
-                                "value": "y",
-                                "optional": false
+                                "value": "y"
                               }
                             },
                             "right": {
@@ -1065,9 +1019,7 @@
                                   "start": 549,
                                   "end": 550
                                 },
-                                "ctxt": 0,
-                                "value": "x",
-                                "optional": false
+                                "value": "x"
                               }
                             }
                           }
@@ -1106,9 +1058,7 @@
               "start": 568,
               "end": 571
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
@@ -1159,9 +1109,7 @@
                           "start": 587,
                           "end": 590
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       }
                     },
                     "async": false,
@@ -1196,9 +1144,7 @@
               "start": 614,
               "end": 615
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": {
@@ -1238,9 +1184,7 @@
               "start": 648,
               "end": 649
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "function": {
             "params": [],
@@ -1291,9 +1235,7 @@
                           "start": 665,
                           "end": 666
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       }
                     },
                     "async": false,
@@ -1342,9 +1284,7 @@
               "start": 706,
               "end": 707
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "function": {
             "params": [
@@ -1436,9 +1376,7 @@
                                   "start": 734,
                                   "end": 735
                                 },
-                                "ctxt": 0,
-                                "value": "y",
-                                "optional": false
+                                "value": "y"
                               }
                             },
                             "right": {
@@ -1460,9 +1398,7 @@
                                   "start": 743,
                                   "end": 744
                                 },
-                                "ctxt": 0,
-                                "value": "x",
-                                "optional": false
+                                "value": "x"
                               }
                             }
                           }
@@ -1501,9 +1437,7 @@
               "start": 774,
               "end": 777
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
@@ -1554,9 +1488,7 @@
                           "start": 793,
                           "end": 796
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       }
                     },
                     "async": false,
@@ -1591,9 +1523,7 @@
               "start": 819,
               "end": 822
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "function": {
             "params": [],
@@ -1651,9 +1581,7 @@
                             "start": 838,
                             "end": 841
                           },
-                          "ctxt": 0,
-                          "value": "foo",
-                          "optional": false
+                          "value": "foo"
                         }
                       },
                       "arguments": [],

@@ -216,9 +216,7 @@
                   "start": 52,
                   "end": 55
                 },
-                "ctxt": 0,
-                "value": "foo",
-                "optional": false
+                "value": "foo"
               },
               "value": {
                 "type": "StringLiteral",
@@ -315,9 +313,7 @@
               "start": 91,
               "end": 102
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -541,9 +537,7 @@
                   "start": 172,
                   "end": 175
                 },
-                "ctxt": 0,
-                "value": "foo",
-                "optional": false
+                "value": "foo"
               },
               "value": {
                 "type": "StringLiteral",

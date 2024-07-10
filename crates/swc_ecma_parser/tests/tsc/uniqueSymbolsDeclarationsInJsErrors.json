@@ -37,9 +37,7 @@
               "start": 305,
               "end": 324
             },
-            "ctxt": 0,
-            "value": "readwriteStaticType",
-            "optional": false
+            "value": "readwriteStaticType"
           },
           "value": null,
           "typeAnnotation": null,
@@ -65,9 +63,7 @@
               "start": 399,
               "end": 411
             },
-            "ctxt": 0,
-            "value": "readonlyType",
-            "optional": false
+            "value": "readonlyType"
           },
           "value": null,
           "typeAnnotation": null,
@@ -93,9 +89,7 @@
               "start": 469,
               "end": 482
             },
-            "ctxt": 0,
-            "value": "readwriteType",
-            "optional": false
+            "value": "readwriteType"
           },
           "value": null,
           "typeAnnotation": null,

@@ -1896,9 +1896,7 @@
             "start": 1007,
             "end": 1012
           },
-          "ctxt": 0,
-          "value": "users",
-          "optional": false
+          "value": "users"
         }
       }
     },
@@ -3215,9 +3213,7 @@
             "start": 1731,
             "end": 1735
           },
-          "ctxt": 0,
-          "value": "type",
-          "optional": false
+          "value": "type"
         }
       }
     },

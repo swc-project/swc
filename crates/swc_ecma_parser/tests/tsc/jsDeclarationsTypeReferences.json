@@ -137,9 +137,7 @@
                 "start": 325,
                 "end": 334
               },
-              "ctxt": 0,
-              "value": "Something",
-              "optional": false
+              "value": "Something"
             }
           },
           "definite": false
@@ -232,9 +230,7 @@
               "start": 376,
               "end": 383
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {

@@ -67,9 +67,7 @@
                       "start": 16,
                       "end": 23
                     },
-                    "ctxt": 0,
-                    "value": "onclick",
-                    "optional": false
+                    "value": "onclick"
                   },
                   "value": {
                     "type": "JSXExpressionContainer",
@@ -92,9 +90,7 @@
                               "start": 27,
                               "end": 28
                             },
-                            "ctxt": 0,
-                            "value": "s",
-                            "optional": false
+                            "value": "s"
                           },
                           "value": {
                             "type": "StringLiteral",
@@ -199,9 +195,7 @@
                       "start": 65,
                       "end": 72
                     },
-                    "ctxt": 0,
-                    "value": "onclick",
-                    "optional": false
+                    "value": "onclick"
                   },
                   "value": {
                     "type": "JSXExpressionContainer",
@@ -224,9 +218,7 @@
                               "start": 76,
                               "end": 77
                             },
-                            "ctxt": 0,
-                            "value": "s",
-                            "optional": false
+                            "value": "s"
                           },
                           "value": {
                             "type": "StringLiteral",

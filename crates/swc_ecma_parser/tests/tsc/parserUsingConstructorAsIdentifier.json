@@ -200,9 +200,7 @@
                       "start": 158,
                       "end": 167
                     },
-                    "ctxt": 0,
-                    "value": "Utilities",
-                    "optional": false
+                    "value": "Utilities"
                   }
                 },
                 "property": {
@@ -211,9 +209,7 @@
                     "start": 168,
                     "end": 194
                   },
-                  "ctxt": 0,
-                  "value": "markSupportedForProcessing",
-                  "optional": false
+                  "value": "markSupportedForProcessing"
                 }
               },
               "arguments": [
@@ -306,9 +302,7 @@
                               "start": 293,
                               "end": 302
                             },
-                            "ctxt": 0,
-                            "value": "prototype",
-                            "optional": false
+                            "value": "prototype"
                           }
                         }
                       },
@@ -685,9 +679,7 @@
                             "start": 711,
                             "end": 720
                           },
-                          "ctxt": 0,
-                          "value": "prototype",
-                          "optional": false
+                          "value": "prototype"
                         }
                       },
                       "definite": false
@@ -729,9 +721,7 @@
                           "start": 750,
                           "end": 759
                         },
-                        "ctxt": 0,
-                        "value": "prototype",
-                        "optional": false
+                        "value": "prototype"
                       }
                     },
                     "right": {
@@ -763,9 +753,7 @@
                             "start": 769,
                             "end": 775
                           },
-                          "ctxt": 0,
-                          "value": "create",
-                          "optional": false
+                          "value": "create"
                         }
                       },
                       "arguments": [
@@ -828,9 +816,7 @@
                             "start": 824,
                             "end": 833
                           },
-                          "ctxt": 0,
-                          "value": "Utilities",
-                          "optional": false
+                          "value": "Utilities"
                         }
                       },
                       "property": {
@@ -839,9 +825,7 @@
                           "start": 834,
                           "end": 860
                         },
-                        "ctxt": 0,
-                        "value": "markSupportedForProcessing",
-                        "optional": false
+                        "value": "markSupportedForProcessing"
                       }
                     },
                     "arguments": [
@@ -897,9 +881,7 @@
                           "start": 898,
                           "end": 912
                         },
-                        "ctxt": 0,
-                        "value": "defineProperty",
-                        "optional": false
+                        "value": "defineProperty"
                       }
                     },
                     "arguments": [
@@ -927,9 +909,7 @@
                               "start": 925,
                               "end": 934
                             },
-                            "ctxt": 0,
-                            "value": "prototype",
-                            "optional": false
+                            "value": "prototype"
                           }
                         }
                       },
@@ -962,9 +942,7 @@
                                   "start": 953,
                                   "end": 958
                                 },
-                                "ctxt": 0,
-                                "value": "value",
-                                "optional": false
+                                "value": "value"
                               },
                               "value": {
                                 "type": "Identifier",
@@ -985,9 +963,7 @@
                                   "start": 973,
                                   "end": 981
                                 },
-                                "ctxt": 0,
-                                "value": "writable",
-                                "optional": false
+                                "value": "writable"
                               },
                               "value": {
                                 "type": "BooleanLiteral",
@@ -1006,9 +982,7 @@
                                   "start": 989,
                                   "end": 1001
                                 },
-                                "ctxt": 0,
-                                "value": "configurable",
-                                "optional": false
+                                "value": "configurable"
                               },
                               "value": {
                                 "type": "BooleanLiteral",
@@ -1027,9 +1001,7 @@
                                   "start": 1009,
                                   "end": 1019
                                 },
-                                "ctxt": 0,
-                                "value": "enumerable",
-                                "optional": false
+                                "value": "enumerable"
                               },
                               "value": {
                                 "type": "BooleanLiteral",
@@ -1119,9 +1091,7 @@
                                     "start": 1122,
                                     "end": 1131
                                   },
-                                  "ctxt": 0,
-                                  "value": "prototype",
-                                  "optional": false
+                                  "value": "prototype"
                                 }
                               }
                             },
@@ -1581,9 +1551,7 @@
                         "start": 1610,
                         "end": 1616
                       },
-                      "ctxt": 0,
-                      "value": "length",
-                      "optional": false
+                      "value": "length"
                     }
                   }
                 }
@@ -1692,9 +1660,7 @@
                               "start": 1683,
                               "end": 1692
                             },
-                            "ctxt": 0,
-                            "value": "prototype",
-                            "optional": false
+                            "value": "prototype"
                           }
                         }
                       },

@@ -381,9 +381,7 @@
                       "start": 147,
                       "end": 162
                     },
-                    "ctxt": 0,
-                    "value": "unknownProperty",
-                    "optional": false
+                    "value": "unknownProperty"
                   }
                 },
                 "definite": false

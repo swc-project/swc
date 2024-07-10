@@ -47,9 +47,7 @@
                     "start": 20,
                     "end": 23
                   },
-                  "ctxt": 0,
-                  "value": "อ",
-                  "optional": false
+                  "value": "อ"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -69,9 +67,7 @@
                     "start": 32,
                     "end": 35
                   },
-                  "ctxt": 0,
-                  "value": "ฮ",
-                  "optional": false
+                  "value": "ฮ"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -91,9 +87,7 @@
                     "start": 44,
                     "end": 47
                   },
-                  "ctxt": 0,
-                  "value": "ะ",
-                  "optional": false
+                  "value": "ะ"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -113,9 +107,7 @@
                     "start": 56,
                     "end": 59
                   },
-                  "ctxt": 0,
-                  "value": "า",
-                  "optional": false
+                  "value": "า"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -135,9 +127,7 @@
                     "start": 68,
                     "end": 71
                   },
-                  "ctxt": 0,
-                  "value": "ำ",
-                  "optional": false
+                  "value": "ำ"
                 },
                 "value": {
                   "type": "NumericLiteral",

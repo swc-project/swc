@@ -1585,9 +1585,7 @@
               "start": 720,
               "end": 726
             },
-            "ctxt": 0,
-            "value": "values",
-            "optional": false
+            "value": "values"
           },
           "value": {
             "type": "ObjectExpression",

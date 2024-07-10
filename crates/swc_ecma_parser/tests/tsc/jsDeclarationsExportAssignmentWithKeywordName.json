@@ -80,9 +80,7 @@
               "start": 135,
               "end": 142
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -100,9 +98,7 @@
                   "start": 151,
                   "end": 158
                 },
-                "ctxt": 0,
-                "value": "extends",
-                "optional": false
+                "value": "extends"
               },
               "value": {
                 "type": "StringLiteral",
@@ -122,9 +118,7 @@
                   "start": 172,
                   "end": 176
                 },
-                "ctxt": 0,
-                "value": "more",
-                "optional": false
+                "value": "more"
               },
               "value": {
                 "type": "ObjectExpression",
@@ -141,9 +135,7 @@
                         "start": 188,
                         "end": 194
                       },
-                      "ctxt": 0,
-                      "value": "others",
-                      "optional": false
+                      "value": "others"
                     },
                     "value": {
                       "type": "ArrayExpression",

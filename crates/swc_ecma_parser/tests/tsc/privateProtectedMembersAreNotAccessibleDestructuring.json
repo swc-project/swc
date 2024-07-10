@@ -37,9 +37,7 @@
               "start": 23,
               "end": 27
             },
-            "ctxt": 0,
-            "value": "priv",
-            "optional": false
+            "value": "priv"
           },
           "value": null,
           "typeAnnotation": null,
@@ -65,9 +63,7 @@
               "start": 43,
               "end": 47
             },
-            "ctxt": 0,
-            "value": "prot",
-            "optional": false
+            "value": "prot"
           },
           "value": null,
           "typeAnnotation": null,
@@ -93,9 +89,7 @@
               "start": 61,
               "end": 74
             },
-            "ctxt": 0,
-            "value": "privateMethod",
-            "optional": false
+            "value": "privateMethod"
           },
           "function": {
             "params": [],
@@ -138,9 +132,7 @@
               "start": 85,
               "end": 86
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "function": {
             "params": [],
@@ -189,9 +181,7 @@
                                 "start": 105,
                                 "end": 109
                               },
-                              "ctxt": 0,
-                              "value": "priv",
-                              "optional": false
+                              "value": "priv"
                             },
                             "value": {
                               "type": "Identifier",
@@ -213,9 +203,7 @@
                                 "start": 114,
                                 "end": 118
                               },
-                              "ctxt": 0,
-                              "value": "prot",
-                              "optional": false
+                              "value": "prot"
                             },
                             "value": {
                               "type": "Identifier",
@@ -386,9 +374,7 @@
               "start": 214,
               "end": 216
             },
-            "ctxt": 0,
-            "value": "m2",
-            "optional": false
+            "value": "m2"
           },
           "function": {
             "params": [],
@@ -437,9 +423,7 @@
                                 "start": 235,
                                 "end": 239
                               },
-                              "ctxt": 0,
-                              "value": "priv",
-                              "optional": false
+                              "value": "priv"
                             },
                             "value": {
                               "type": "Identifier",
@@ -499,9 +483,7 @@
                                 "start": 276,
                                 "end": 280
                               },
-                              "ctxt": 0,
-                              "value": "prot",
-                              "optional": false
+                              "value": "prot"
                             },
                             "value": {
                               "type": "Identifier",
@@ -822,9 +804,7 @@
                     "start": 421,
                     "end": 425
                   },
-                  "ctxt": 0,
-                  "value": "priv",
-                  "optional": false
+                  "value": "priv"
                 },
                 "value": {
                   "type": "Identifier",
@@ -846,9 +826,7 @@
                     "start": 430,
                     "end": 434
                   },
-                  "ctxt": 0,
-                  "value": "prot",
-                  "optional": false
+                  "value": "prot"
                 },
                 "value": {
                   "type": "Identifier",
@@ -870,9 +848,7 @@
                     "start": 439,
                     "end": 452
                   },
-                  "ctxt": 0,
-                  "value": "privateMethod",
-                  "optional": false
+                  "value": "privateMethod"
                 },
                 "value": {
                   "type": "Identifier",

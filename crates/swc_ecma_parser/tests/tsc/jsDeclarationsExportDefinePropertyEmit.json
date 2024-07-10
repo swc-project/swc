@@ -40,9 +40,7 @@
               "start": 107,
               "end": 121
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -70,9 +68,7 @@
                   "start": 129,
                   "end": 136
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             }
           },
@@ -105,9 +101,7 @@
                       "start": 145,
                       "end": 150
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "FunctionExpression",
@@ -185,9 +179,7 @@
               "start": 180,
               "end": 194
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -215,9 +207,7 @@
                   "start": 202,
                   "end": 209
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             }
           },
@@ -250,9 +240,7 @@
                       "start": 218,
                       "end": 223
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "FunctionExpression",
@@ -330,9 +318,7 @@
               "start": 252,
               "end": 266
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -366,9 +352,7 @@
                     "start": 274,
                     "end": 281
                   },
-                  "ctxt": 0,
-                  "value": "exports",
-                  "optional": false
+                  "value": "exports"
                 }
               },
               "property": {
@@ -377,9 +361,7 @@
                   "start": 282,
                   "end": 283
                 },
-                "ctxt": 0,
-                "value": "b",
-                "optional": false
+                "value": "b"
               }
             }
           },
@@ -412,9 +394,7 @@
                       "start": 294,
                       "end": 299
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -563,9 +543,7 @@
               "start": 442,
               "end": 456
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -593,9 +571,7 @@
                   "start": 464,
                   "end": 471
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             }
           },
@@ -628,9 +604,7 @@
                       "start": 480,
                       "end": 485
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "Identifier",
@@ -780,9 +754,7 @@
               "start": 631,
               "end": 645
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -810,9 +782,7 @@
                   "start": 653,
                   "end": 660
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             }
           },
@@ -845,9 +815,7 @@
                       "start": 669,
                       "end": 674
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "Identifier",
@@ -974,9 +942,7 @@
               "start": 761,
               "end": 775
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -1004,9 +970,7 @@
                   "start": 783,
                   "end": 790
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             }
           },
@@ -1039,9 +1003,7 @@
                       "start": 799,
                       "end": 804
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "Identifier",
@@ -1096,9 +1058,7 @@
               "start": 819,
               "end": 833
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -1132,9 +1092,7 @@
                     "start": 841,
                     "end": 848
                   },
-                  "ctxt": 0,
-                  "value": "exports",
-                  "optional": false
+                  "value": "exports"
                 }
               },
               "property": {
@@ -1143,9 +1101,7 @@
                   "start": 849,
                   "end": 850
                 },
-                "ctxt": 0,
-                "value": "f",
-                "optional": false
+                "value": "f"
               }
             }
           },
@@ -1178,9 +1134,7 @@
                       "start": 862,
                       "end": 867
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "MemberExpression",
@@ -1210,9 +1164,7 @@
                           "start": 876,
                           "end": 883
                         },
-                        "ctxt": 0,
-                        "value": "exports",
-                        "optional": false
+                        "value": "exports"
                       }
                     },
                     "property": {
@@ -1221,9 +1173,7 @@
                         "start": 884,
                         "end": 885
                       },
-                      "ctxt": 0,
-                      "value": "f",
-                      "optional": false
+                      "value": "f"
                     }
                   }
                 }
@@ -1336,9 +1286,7 @@
                     "start": 1000,
                     "end": 1001
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 }
               },
               "right": {
@@ -1370,9 +1318,7 @@
                       "start": 1007,
                       "end": 1008
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   }
                 },
                 "arguments": [],
@@ -1422,9 +1368,7 @@
               "start": 1021,
               "end": 1035
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -1452,9 +1396,7 @@
                   "start": 1043,
                   "end": 1050
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             }
           },
@@ -1487,9 +1429,7 @@
                       "start": 1059,
                       "end": 1064
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "Identifier",
@@ -1611,9 +1551,7 @@
                     "start": 1184,
                     "end": 1185
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 }
               },
               "right": {
@@ -1645,9 +1583,7 @@
                       "start": 1191,
                       "end": 1192
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   }
                 },
                 "arguments": [],
@@ -1697,9 +1633,7 @@
               "start": 1205,
               "end": 1219
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -1727,9 +1661,7 @@
                   "start": 1227,
                   "end": 1234
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             }
           },
@@ -1762,9 +1694,7 @@
                       "start": 1243,
                       "end": 1248
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "Identifier",
@@ -1819,9 +1749,7 @@
               "start": 1265,
               "end": 1279
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -1849,9 +1777,7 @@
                   "start": 1287,
                   "end": 1294
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             }
           },
@@ -1884,9 +1810,7 @@
                       "start": 1303,
                       "end": 1308
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "FunctionExpression",
@@ -1964,9 +1888,7 @@
               "start": 1336,
               "end": 1350
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -1994,9 +1916,7 @@
                   "start": 1358,
                   "end": 1365
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             }
           },
@@ -2029,9 +1949,7 @@
                       "start": 1375,
                       "end": 1380
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "MemberExpression",
@@ -2061,9 +1979,7 @@
                           "start": 1389,
                           "end": 1396
                         },
-                        "ctxt": 0,
-                        "value": "exports",
-                        "optional": false
+                        "value": "exports"
                       }
                     },
                     "property": {
@@ -2072,9 +1988,7 @@
                         "start": 1397,
                         "end": 1398
                       },
-                      "ctxt": 0,
-                      "value": "i",
-                      "optional": false
+                      "value": "i"
                     }
                   }
                 }
@@ -2120,9 +2034,7 @@
               "start": 1508,
               "end": 1522
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -2150,9 +2062,7 @@
                   "start": 1530,
                   "end": 1537
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             }
           },
@@ -2185,9 +2095,7 @@
                       "start": 1547,
                       "end": 1552
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "MemberExpression",
@@ -2217,9 +2125,7 @@
                           "start": 1561,
                           "end": 1568
                         },
-                        "ctxt": 0,
-                        "value": "exports",
-                        "optional": false
+                        "value": "exports"
                       }
                     },
                     "property": {
@@ -2228,9 +2134,7 @@
                         "start": 1569,
                         "end": 1570
                       },
-                      "ctxt": 0,
-                      "value": "j",
-                      "optional": false
+                      "value": "j"
                     }
                   }
                 }
@@ -2276,9 +2180,7 @@
               "start": 1582,
               "end": 1596
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -2306,9 +2208,7 @@
                   "start": 1604,
                   "end": 1611
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             }
           },
@@ -2341,9 +2241,7 @@
                       "start": 1620,
                       "end": 1625
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "FunctionExpression",

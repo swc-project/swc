@@ -37,9 +37,7 @@
               "start": 60,
               "end": 66
             },
-            "ctxt": 0,
-            "value": "create",
-            "optional": false
+            "value": "create"
           },
           "value": {
             "type": "ArrowFunctionExpression",
@@ -108,9 +106,7 @@
               "start": 96,
               "end": 107
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {

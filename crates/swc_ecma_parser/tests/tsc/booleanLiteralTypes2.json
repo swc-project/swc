@@ -3096,9 +3096,7 @@
                   "start": 1393,
                   "end": 1397
                 },
-                "ctxt": 0,
-                "value": "kind",
-                "optional": false
+                "value": "kind"
               }
             },
             "cases": [
@@ -3145,9 +3143,7 @@
                           "start": 1429,
                           "end": 1430
                         },
-                        "ctxt": 0,
-                        "value": "a",
-                        "optional": false
+                        "value": "a"
                       }
                     }
                   }
@@ -3196,9 +3192,7 @@
                           "start": 1461,
                           "end": 1462
                         },
-                        "ctxt": 0,
-                        "value": "b",
-                        "optional": false
+                        "value": "b"
                       }
                     }
                   }
@@ -3313,9 +3307,7 @@
                   "start": 1511,
                   "end": 1515
                 },
-                "ctxt": 0,
-                "value": "kind",
-                "optional": false
+                "value": "kind"
               }
             },
             "cases": [
@@ -3362,9 +3354,7 @@
                           "start": 1547,
                           "end": 1548
                         },
-                        "ctxt": 0,
-                        "value": "a",
-                        "optional": false
+                        "value": "a"
                       }
                     }
                   }
@@ -3413,9 +3403,7 @@
                           "start": 1579,
                           "end": 1580
                         },
-                        "ctxt": 0,
-                        "value": "b",
-                        "optional": false
+                        "value": "b"
                       }
                     }
                   }

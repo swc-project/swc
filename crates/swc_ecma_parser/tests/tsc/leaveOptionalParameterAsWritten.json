@@ -179,6 +179,10 @@
                           },
                           "moduleRef": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 300,
+                              "end": 305
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -195,9 +199,7 @@
                                 "start": 302,
                                 "end": 305
                               },
-                              "ctxt": 0,
-                              "value": "Foo",
-                              "optional": false
+                              "value": "Foo"
                             }
                           }
                         }
@@ -237,8 +239,16 @@
         },
         "typeName": {
           "type": "TsQualifiedName",
+          "span": {
+            "start": 350,
+            "end": 367
+          },
           "left": {
             "type": "TsQualifiedName",
+            "span": {
+              "start": 350,
+              "end": 363
+            },
             "left": {
               "type": "Identifier",
               "span": {
@@ -255,9 +265,7 @@
                 "start": 356,
                 "end": 363
               },
-              "ctxt": 0,
-              "value": "calling",
-              "optional": false
+              "value": "calling"
             }
           },
           "right": {
@@ -266,9 +274,7 @@
               "start": 364,
               "end": 367
             },
-            "ctxt": 0,
-            "value": "Foo",
-            "optional": false
+            "value": "Foo"
           }
         },
         "typeParams": null

@@ -485,9 +485,7 @@
                 "start": 272,
                 "end": 278
               },
-              "ctxt": 0,
-              "value": "Origin",
-              "optional": false
+              "value": "Origin"
             }
           },
           "definite": false

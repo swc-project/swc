@@ -37,9 +37,7 @@
               "start": 106,
               "end": 107
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": {
@@ -106,9 +104,7 @@
               "start": 152,
               "end": 153
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "value": null,
           "typeAnnotation": {
@@ -184,9 +180,7 @@
               "start": 199,
               "end": 200
             },
-            "ctxt": 0,
-            "value": "z",
-            "optional": false
+            "value": "z"
           },
           "value": null,
           "typeAnnotation": {
@@ -572,9 +566,7 @@
                           "start": 305,
                           "end": 306
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "NewExpression",
@@ -605,9 +597,7 @@
                           "start": 323,
                           "end": 324
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       },
                       "value": {
                         "type": "NewExpression",
@@ -1021,9 +1011,7 @@
                           "start": 504,
                           "end": 505
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "NewExpression",
@@ -1054,9 +1042,7 @@
                           "start": 522,
                           "end": 523
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       },
                       "value": {
                         "type": "NewExpression",
@@ -1151,9 +1137,7 @@
                           "start": 564,
                           "end": 565
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "NewExpression",
@@ -1184,9 +1168,7 @@
                           "start": 582,
                           "end": 583
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       },
                       "value": {
                         "type": "NewExpression",

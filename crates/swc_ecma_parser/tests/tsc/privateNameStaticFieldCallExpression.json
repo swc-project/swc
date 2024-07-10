@@ -90,9 +90,7 @@
                           "start": 74,
                           "end": 75
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       }
                     },
                     "right": {
@@ -233,9 +231,7 @@
               "start": 137,
               "end": 138
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": {
             "type": "NumericLiteral",
@@ -269,9 +265,7 @@
               "start": 148,
               "end": 152
             },
-            "ctxt": 0,
-            "value": "test",
-            "optional": false
+            "value": "test"
           },
           "function": {
             "params": [],
@@ -929,9 +923,7 @@
                               "start": 477,
                               "end": 485
                             },
-                            "ctxt": 0,
-                            "value": "getClass",
-                            "optional": false
+                            "value": "getClass"
                           }
                         },
                         "arguments": [],
@@ -1034,9 +1026,7 @@
               "start": 528,
               "end": 536
             },
-            "ctxt": 0,
-            "value": "getClass",
-            "optional": false
+            "value": "getClass"
           },
           "function": {
             "params": [],

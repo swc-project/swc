@@ -308,9 +308,7 @@
               "start": 215,
               "end": 220
             },
-            "ctxt": 0,
-            "value": "green",
-            "optional": false
+            "value": "green"
           }
         }
       },
@@ -368,9 +366,7 @@
                     "start": 236,
                     "end": 242
                   },
-                  "ctxt": 0,
-                  "value": "answer",
-                  "optional": false
+                  "value": "answer"
                 }
               }
             }

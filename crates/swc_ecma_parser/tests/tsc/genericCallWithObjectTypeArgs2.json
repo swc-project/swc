@@ -37,9 +37,7 @@
               "start": 18,
               "end": 19
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": {
@@ -106,9 +104,7 @@
               "start": 64,
               "end": 65
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "value": null,
           "typeAnnotation": {
@@ -184,9 +180,7 @@
               "start": 111,
               "end": 112
             },
-            "ctxt": 0,
-            "value": "z",
-            "optional": false
+            "value": "z"
           },
           "value": null,
           "typeAnnotation": {
@@ -420,9 +414,7 @@
                         "start": 219,
                         "end": 220
                       },
-                      "ctxt": 0,
-                      "value": "x",
-                      "optional": false
+                      "value": "x"
                     }
                   }
                 },
@@ -450,9 +442,7 @@
                         "start": 224,
                         "end": 225
                       },
-                      "ctxt": 0,
-                      "value": "y",
-                      "optional": false
+                      "value": "y"
                     }
                   }
                 }
@@ -614,9 +604,7 @@
                           "start": 243,
                           "end": 244
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "NewExpression",
@@ -647,9 +635,7 @@
                           "start": 261,
                           "end": 262
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       },
                       "value": {
                         "type": "NewExpression",
@@ -744,9 +730,7 @@
                           "start": 304,
                           "end": 305
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "NewExpression",
@@ -777,9 +761,7 @@
                           "start": 319,
                           "end": 320
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       },
                       "value": {
                         "type": "NewExpression",
@@ -1037,9 +1019,7 @@
                     "start": 439,
                     "end": 440
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 }
               },
               "async": false,
@@ -1203,9 +1183,7 @@
                           "start": 459,
                           "end": 460
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "NewExpression",
@@ -1236,9 +1214,7 @@
                           "start": 477,
                           "end": 478
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       },
                       "value": {
                         "type": "NewExpression",

@@ -1133,9 +1133,7 @@
                           "start": 405,
                           "end": 409
                         },
-                        "ctxt": 0,
-                        "value": "kind",
-                        "optional": false
+                        "value": "kind"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -1155,9 +1153,7 @@
                           "start": 416,
                           "end": 420
                         },
-                        "ctxt": 0,
-                        "value": "data",
-                        "optional": false
+                        "value": "data"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -1241,9 +1237,7 @@
                           "start": 455,
                           "end": 459
                         },
-                        "ctxt": 0,
-                        "value": "kind",
-                        "optional": false
+                        "value": "kind"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -1263,9 +1257,7 @@
                           "start": 466,
                           "end": 470
                         },
-                        "ctxt": 0,
-                        "value": "data",
-                        "optional": false
+                        "value": "data"
                       },
                       "value": {
                         "type": "ArrayExpression",

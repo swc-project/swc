@@ -108,9 +108,7 @@
                         "start": 56,
                         "end": 62
                       },
-                      "ctxt": 0,
-                      "value": "member",
-                      "optional": false
+                      "value": "member"
                     }
                   }
                 },

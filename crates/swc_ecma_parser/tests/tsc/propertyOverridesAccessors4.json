@@ -37,9 +37,7 @@
               "start": 82,
               "end": 87
             },
-            "ctxt": 0,
-            "value": "sound",
-            "optional": false
+            "value": "sound"
           },
           "function": {
             "params": [],
@@ -88,9 +86,7 @@
               "start": 106,
               "end": 111
             },
-            "ctxt": 0,
-            "value": "sound",
-            "optional": false
+            "value": "sound"
           },
           "function": {
             "params": [
@@ -186,9 +182,7 @@
               "start": 159,
               "end": 164
             },
-            "ctxt": 0,
-            "value": "sound",
-            "optional": false
+            "value": "sound"
           },
           "value": {
             "type": "StringLiteral",

@@ -81,9 +81,7 @@
                   "start": 136,
                   "end": 142
                 },
-                "ctxt": 0,
-                "value": "_model",
-                "optional": false
+                "value": "_model"
               }
             }
           },
@@ -143,9 +141,7 @@
                         "start": 165,
                         "end": 166
                       },
-                      "ctxt": 0,
-                      "value": "D",
-                      "optional": false
+                      "value": "D"
                     }
                   },
                   "arguments": [],
@@ -210,9 +206,7 @@
                         "start": 187,
                         "end": 188
                       },
-                      "ctxt": 0,
-                      "value": "D",
-                      "optional": false
+                      "value": "D"
                     }
                   },
                   "property": {
@@ -221,9 +215,7 @@
                       "start": 189,
                       "end": 205
                     },
-                    "ctxt": 0,
-                    "value": "_wrapperInstance",
-                    "optional": false
+                    "value": "_wrapperInstance"
                   }
                 },
                 "definite": false
@@ -272,9 +264,7 @@
               "start": 213,
               "end": 214
             },
-            "ctxt": 0,
-            "value": "D",
-            "optional": false
+            "value": "D"
           }
         },
         "right": {
@@ -300,9 +290,7 @@
                   "start": 229,
                   "end": 240
                 },
-                "ctxt": 0,
-                "value": "constructor",
-                "optional": false
+                "value": "constructor"
               },
               "params": [],
               "body": {
@@ -345,9 +333,7 @@
                             "start": 258,
                             "end": 264
                           },
-                          "ctxt": 0,
-                          "value": "_model",
-                          "optional": false
+                          "value": "_model"
                         }
                       },
                       "right": {
@@ -448,9 +434,7 @@
               "start": 341,
               "end": 342
             },
-            "ctxt": 0,
-            "value": "D",
-            "optional": false
+            "value": "D"
           }
         },
         "property": {
@@ -459,9 +443,7 @@
             "start": 343,
             "end": 359
           },
-          "ctxt": 0,
-          "value": "_wrapperInstance",
-          "optional": false
+          "value": "_wrapperInstance"
         }
       }
     }

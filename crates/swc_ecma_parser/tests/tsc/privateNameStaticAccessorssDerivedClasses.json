@@ -111,9 +111,7 @@
               "start": 93,
               "end": 99
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           },
           "function": {
             "params": [
@@ -210,9 +208,7 @@
                           "start": 137,
                           "end": 140
                         },
-                        "ctxt": 0,
-                        "value": "log",
-                        "optional": false
+                        "value": "log"
                       }
                     },
                     "arguments": [
@@ -301,9 +297,7 @@
               "start": 199,
               "end": 205
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           },
           "function": {
             "params": [
@@ -400,9 +394,7 @@
                           "start": 243,
                           "end": 246
                         },
-                        "ctxt": 0,
-                        "value": "log",
-                        "optional": false
+                        "value": "log"
                       }
                     },
                     "arguments": [

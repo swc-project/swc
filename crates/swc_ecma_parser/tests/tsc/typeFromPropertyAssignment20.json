@@ -186,9 +186,7 @@
                                     "start": 183,
                                     "end": 201
                                   },
-                                  "ctxt": 0,
-                                  "value": "_trampolineEnabled",
-                                  "optional": false
+                                  "value": "_trampolineEnabled"
                                 }
                               },
                               "right": {
@@ -249,9 +247,7 @@
                                 "start": 235,
                                 "end": 244
                               },
-                              "ctxt": 0,
-                              "value": "prototype",
-                              "optional": false
+                              "value": "prototype"
                             }
                           },
                           "property": {
@@ -260,9 +256,7 @@
                               "start": 245,
                               "end": 273
                             },
-                            "ctxt": 0,
-                            "value": "disableTrampolineIfNecessary",
-                            "optional": false
+                            "value": "disableTrampolineIfNecessary"
                           }
                         },
                         "right": {
@@ -368,9 +362,7 @@
                                               "start": 337,
                                               "end": 355
                                             },
-                                            "ctxt": 0,
-                                            "value": "_trampolineEnabled",
-                                            "optional": false
+                                            "value": "_trampolineEnabled"
                                           }
                                         },
                                         "right": {

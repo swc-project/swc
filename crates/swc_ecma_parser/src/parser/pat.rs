@@ -935,6 +935,10 @@ mod tests {
         Ident::new_no_ctxt(s.into(), span)
     }
 
+    fn ident_name(s: &str) -> IdentName {
+        IdentName::new(s.into(), span)
+    }
+
     fn rest() -> Option<Pat> {
         Some(Pat::Rest(RestPat {
             span,
@@ -1173,7 +1177,7 @@ mod tests {
                         span,
                         props: vec![
                             prop(
-                                PropName::Ident(ident("$")),
+                                PropName::Ident(ident_name("$")),
                                 "num",
                                 Expr::Lit(Lit::Num(Number {
                                     span,
@@ -1208,7 +1212,7 @@ mod tests {
                                 }))
                             ),
                             prop(
-                                PropName::Ident(ident("_")),
+                                PropName::Ident(ident_name("_")),
                                 "under",
                                 Expr::Array(ArrayLit {
                                     span,

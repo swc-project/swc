@@ -410,9 +410,7 @@
                     "start": 277,
                     "end": 279
                   },
-                  "ctxt": 0,
-                  "value": "id",
-                  "optional": false
+                  "value": "id"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -544,9 +542,7 @@
                   "start": 351,
                   "end": 353
                 },
-                "ctxt": 0,
-                "value": "fn",
-                "optional": false
+                "value": "fn"
               }
             },
             "arguments": [
@@ -812,9 +808,7 @@
               "start": 531,
               "end": 533
             },
-            "ctxt": 0,
-            "value": "id",
-            "optional": false
+            "value": "id"
           },
           "value": null,
           "typeAnnotation": {
@@ -881,9 +875,7 @@
               "start": 565,
               "end": 569
             },
-            "ctxt": 0,
-            "value": "name",
-            "optional": false
+            "value": "name"
           },
           "value": null,
           "typeAnnotation": {
@@ -1003,9 +995,7 @@
                     "start": 629,
                     "end": 631
                   },
-                  "ctxt": 0,
-                  "value": "id",
-                  "optional": false
+                  "value": "id"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -1025,9 +1015,7 @@
                     "start": 637,
                     "end": 641
                   },
-                  "ctxt": 0,
-                  "value": "name",
-                  "optional": false
+                  "value": "name"
                 },
                 "value": {
                   "type": "StringLiteral",
@@ -1295,9 +1283,7 @@
                 "start": 876,
                 "end": 878
               },
-              "ctxt": 0,
-              "value": "id",
-              "optional": false
+              "value": "id"
             },
             "value": {
               "type": "NumericLiteral",

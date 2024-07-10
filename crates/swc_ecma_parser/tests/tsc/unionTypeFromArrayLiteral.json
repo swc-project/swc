@@ -641,9 +641,7 @@
               "start": 894,
               "end": 897
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
@@ -713,9 +711,7 @@
               "start": 916,
               "end": 920
             },
-            "ctxt": 0,
-            "value": "foo2",
-            "optional": false
+            "value": "foo2"
           },
           "function": {
             "params": [],
@@ -785,9 +781,7 @@
               "start": 949,
               "end": 953
             },
-            "ctxt": 0,
-            "value": "foo3",
-            "optional": false
+            "value": "foo3"
           },
           "function": {
             "params": [],
@@ -866,9 +860,7 @@
               "start": 982,
               "end": 986
             },
-            "ctxt": 0,
-            "value": "foo4",
-            "optional": false
+            "value": "foo4"
           },
           "function": {
             "params": [],

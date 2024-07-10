@@ -68,9 +68,7 @@
                     "start": 46,
                     "end": 52
                   },
-                  "ctxt": 0,
-                  "value": "random",
-                  "optional": false
+                  "value": "random"
                 }
               },
               "arguments": [],

@@ -74,9 +74,7 @@
               "start": 139,
               "end": 143
             },
-            "ctxt": 0,
-            "value": "null",
-            "optional": false
+            "value": "null"
           }
         },
         "right": {
@@ -158,9 +156,7 @@
               "start": 175,
               "end": 180
             },
-            "ctxt": 0,
-            "value": "async",
-            "optional": false
+            "value": "async"
           }
         },
         "right": {
@@ -208,9 +204,7 @@
               "start": 193,
               "end": 199
             },
-            "ctxt": 0,
-            "value": "normal",
-            "optional": false
+            "value": "normal"
           }
         },
         "right": {
@@ -292,9 +286,7 @@
               "start": 232,
               "end": 237
             },
-            "ctxt": 0,
-            "value": "class",
-            "optional": false
+            "value": "class"
           }
         },
         "right": {
@@ -342,9 +334,7 @@
               "start": 250,
               "end": 256
             },
-            "ctxt": 0,
-            "value": "normal",
-            "optional": false
+            "value": "normal"
           }
         },
         "right": {

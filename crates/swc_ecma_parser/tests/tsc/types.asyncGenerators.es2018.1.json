@@ -218,9 +218,7 @@
                       "start": 253,
                       "end": 260
                     },
-                    "ctxt": 0,
-                    "value": "resolve",
-                    "optional": false
+                    "value": "resolve"
                   }
                 },
                 "arguments": [
@@ -342,9 +340,7 @@
                       "start": 336,
                       "end": 343
                     },
-                    "ctxt": 0,
-                    "value": "resolve",
-                    "optional": false
+                    "value": "resolve"
                   }
                 },
                 "arguments": [
@@ -534,9 +530,7 @@
                             "start": 467,
                             "end": 474
                           },
-                          "ctxt": 0,
-                          "value": "resolve",
-                          "optional": false
+                          "value": "resolve"
                         }
                       },
                       "arguments": [
@@ -962,9 +956,7 @@
                             "start": 769,
                             "end": 776
                           },
-                          "ctxt": 0,
-                          "value": "resolve",
-                          "optional": false
+                          "value": "resolve"
                         }
                       },
                       "arguments": [
@@ -1308,9 +1300,7 @@
                                   "start": 990,
                                   "end": 997
                                 },
-                                "ctxt": 0,
-                                "value": "resolve",
-                                "optional": false
+                                "value": "resolve"
                               }
                             },
                             "arguments": [
@@ -1817,9 +1807,7 @@
                             "start": 1322,
                             "end": 1329
                           },
-                          "ctxt": 0,
-                          "value": "resolve",
-                          "optional": false
+                          "value": "resolve"
                         }
                       },
                       "arguments": [
@@ -2163,9 +2151,7 @@
                                   "start": 1527,
                                   "end": 1534
                                 },
-                                "ctxt": 0,
-                                "value": "resolve",
-                                "optional": false
+                                "value": "resolve"
                               }
                             },
                             "arguments": [
@@ -2672,9 +2658,7 @@
                             "start": 1854,
                             "end": 1861
                           },
-                          "ctxt": 0,
-                          "value": "resolve",
-                          "optional": false
+                          "value": "resolve"
                         }
                       },
                       "arguments": [
@@ -3018,9 +3002,7 @@
                                   "start": 2061,
                                   "end": 2068
                                 },
-                                "ctxt": 0,
-                                "value": "resolve",
-                                "optional": false
+                                "value": "resolve"
                               }
                             },
                             "arguments": [
@@ -3417,9 +3399,7 @@
                       "start": 2381,
                       "end": 2388
                     },
-                    "ctxt": 0,
-                    "value": "resolve",
-                    "optional": false
+                    "value": "resolve"
                   }
                 },
                 "arguments": [
@@ -3689,9 +3669,7 @@
                             "start": 2580,
                             "end": 2587
                           },
-                          "ctxt": 0,
-                          "value": "resolve",
-                          "optional": false
+                          "value": "resolve"
                         }
                       },
                       "arguments": [
@@ -4087,9 +4065,7 @@
                       "start": 2879,
                       "end": 2886
                     },
-                    "ctxt": 0,
-                    "value": "resolve",
-                    "optional": false
+                    "value": "resolve"
                   }
                 },
                 "arguments": [
@@ -4359,9 +4335,7 @@
                             "start": 3062,
                             "end": 3069
                           },
-                          "ctxt": 0,
-                          "value": "resolve",
-                          "optional": false
+                          "value": "resolve"
                         }
                       },
                       "arguments": [
@@ -4757,9 +4731,7 @@
                       "start": 3356,
                       "end": 3363
                     },
-                    "ctxt": 0,
-                    "value": "resolve",
-                    "optional": false
+                    "value": "resolve"
                   }
                 },
                 "arguments": [
@@ -5029,9 +5001,7 @@
                             "start": 3541,
                             "end": 3548
                           },
-                          "ctxt": 0,
-                          "value": "resolve",
-                          "optional": false
+                          "value": "resolve"
                         }
                       },
                       "arguments": [
@@ -5504,9 +5474,7 @@
                           "start": 3854,
                           "end": 3861
                         },
-                        "ctxt": 0,
-                        "value": "resolve",
-                        "optional": false
+                        "value": "resolve"
                       }
                     },
                     "arguments": [

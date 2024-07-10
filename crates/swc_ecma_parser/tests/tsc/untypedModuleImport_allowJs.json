@@ -40,9 +40,7 @@
               "start": 245,
               "end": 252
             },
-            "ctxt": 0,
-            "value": "default",
-            "optional": false
+            "value": "default"
           }
         },
         "right": {
@@ -60,9 +58,7 @@
                   "start": 257,
                   "end": 260
                 },
-                "ctxt": 0,
-                "value": "bar",
-                "optional": false
+                "value": "bar"
               },
               "params": [],
               "decorators": [],
@@ -179,9 +175,7 @@
               "start": 327,
               "end": 330
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           }
         },
         "arguments": [],

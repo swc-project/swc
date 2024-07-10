@@ -56,9 +56,7 @@
               "start": 20,
               "end": 31
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -140,9 +138,7 @@
               "start": 91,
               "end": 97
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           },
           "function": {
             "params": [],
@@ -220,9 +216,7 @@
               "start": 117,
               "end": 121
             },
-            "ctxt": 0,
-            "value": "prop",
-            "optional": false
+            "value": "prop"
           },
           "value": null,
           "typeAnnotation": null,
@@ -266,9 +260,7 @@
               "start": 141,
               "end": 146
             },
-            "ctxt": 0,
-            "value": "prop2",
-            "optional": false
+            "value": "prop2"
           },
           "function": {
             "params": [],
@@ -346,9 +338,7 @@
               "start": 184,
               "end": 190
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           },
           "function": {
             "params": [],
