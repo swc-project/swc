@@ -15,7 +15,7 @@ use swc_ecma_ast::*;
 ///
 /// to create literals. Almost all rust core types implements `Into<Expr>`.
 #[allow(clippy::wrong_self_convention)]
-pub trait ExprFactory: Into<Expr> {
+pub trait ExprFactory: Into<Box<Expr>> {
     /// Creates an [ExprOrSpread] using the given [Expr].
     ///
     /// This is recommended way to create [ExprOrSpread].
@@ -145,10 +145,8 @@ pub trait ExprFactory: Into<Expr> {
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Expr {
         let apply = self.make_member(IdentName::new("apply".into(), span));
-    fn apply(self, span: Span, this: Expr, args: Vec<ExprOrSpread>) -> Expr {
-        let apply = self.make_member(Ident::new_no_ctxt("apply".into(), span));
 
-        CallExpr {
+        Expr::Call(CallExpr {
             span,
             callee: apply.as_callee(),
             args: iter::once(this.as_arg()).chain(args).collect(),
@@ -160,7 +158,7 @@ pub trait ExprFactory: Into<Expr> {
 
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn call_fn(self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
-        CallExpr {
+        Expr::Call(CallExpr {
             span,
             args,
             callee: self
@@ -173,7 +171,7 @@ pub trait ExprFactory: Into<Expr> {
 
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn as_call(self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
-        CallExpr {
+        Expr::Call(CallExpr {
             span,
             args,
             callee: self.as_callee(),
@@ -216,7 +214,7 @@ pub trait ExprFactory: Into<Expr> {
     fn wrap_with_paren(self) -> Expr {
         let expr = self.into();
         let span = expr.span();
-        ParenExpr { expr, span }.into()
+        Expr::Paren(ParenExpr { expr, span })
     }
 
     /// Creates a binary expr `$self === `
@@ -236,13 +234,12 @@ pub trait ExprFactory: Into<Expr> {
     {
         let right = Box::new(right.into());
 
-        BinExpr {
+        Expr::Bin(BinExpr {
             span: DUMMY_SP,
             left: self.into(),
             op,
             right,
-        }
-        .into()
+        })
     }
 
     /// Creates a assign expr `$lhs $op $self`
@@ -250,13 +247,12 @@ pub trait ExprFactory: Into<Expr> {
     fn make_assign_to(self, op: AssignOp, left: AssignTarget) -> Expr {
         let right = self.into();
 
-        AssignExpr {
+        Expr::Assign(AssignExpr {
             span: DUMMY_SP,
             left,
             op,
             right,
-        }
-        .into()
+        })
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
@@ -271,7 +267,7 @@ pub trait ExprFactory: Into<Expr> {
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn computed_member<T>(self, prop: T) -> MemberExpr
     where
-        T: Into<Expr>,
+        T: Into<Box<Expr>>,
     {
         MemberExpr {
             obj: self.into(),
@@ -284,7 +280,7 @@ pub trait ExprFactory: Into<Expr> {
     }
 }
 
-impl<T: Into<Expr>> ExprFactory for T {}
+impl<T: Into<Box<Expr>>> ExprFactory for T {}
 
 pub trait IntoIndirectCall
 where
