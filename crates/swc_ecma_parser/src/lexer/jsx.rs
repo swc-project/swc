@@ -7,7 +7,6 @@ impl<'a> Lexer<'a> {
     pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {
         debug_assert!(self.syntax.jsx());
 
-        let start = self.input.cur_pos();
         let mut chunk_start = self.input.cur_pos();
         let mut value = String::new();
 
@@ -221,8 +220,6 @@ impl<'a> Lexer<'a> {
 
     pub(super) fn read_jsx_str(&mut self, quote: char) -> LexResult<Token> {
         debug_assert!(self.syntax.jsx());
-
-        let start = self.input.cur_pos();
 
         unsafe {
             // Safety: cur() was Some(quote)
