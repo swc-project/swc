@@ -173,7 +173,7 @@ fn new_expr_should_not_eat_too_much() {
         Box::new(Expr::Member(MemberExpr {
             span,
             obj: member_expr("new Date()"),
-            prop: MemberProp::Ident(Ident::new_no_ctxt("toString".into(), span)),
+            prop: MemberProp::Ident(IdentName::new("toString".into(), span)),
         }))
     );
 }
@@ -439,10 +439,9 @@ fn super_expr() {
             callee: Callee::Expr(Box::new(Expr::SuperProp(SuperPropExpr {
                 span,
                 obj: Super { span },
-                prop: SuperProp::Ident(Ident {
+                prop: SuperProp::Ident(IdentName {
                     span,
                     sym: "foo".into(),
-                    ..Default::default()
                 })
             }))),
             ..Default::default()

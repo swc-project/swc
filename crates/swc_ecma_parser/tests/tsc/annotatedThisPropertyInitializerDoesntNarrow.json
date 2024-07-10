@@ -98,9 +98,7 @@
                 "start": 227,
                 "end": 238
               },
-              "ctxt": 0,
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [],
             "body": {
@@ -143,9 +141,7 @@
                           "start": 310,
                           "end": 316
                         },
-                        "ctxt": 0,
-                        "value": "assets",
-                        "optional": false
+                        "value": "assets"
                       }
                     },
                     "right": {
@@ -175,9 +171,7 @@
                 "start": 333,
                 "end": 334
               },
-              "ctxt": 0,
-              "value": "m",
-              "optional": false
+              "value": "m"
             },
             "function": {
               "params": [],
@@ -240,9 +234,7 @@
                                 "start": 358,
                                 "end": 364
                               },
-                              "ctxt": 0,
-                              "value": "assets",
-                              "optional": false
+                              "value": "assets"
                             }
                           }
                         }

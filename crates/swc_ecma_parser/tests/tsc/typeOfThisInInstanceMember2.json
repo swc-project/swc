@@ -37,9 +37,7 @@
               "start": 18,
               "end": 19
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": {
             "type": "ThisExpression",
@@ -71,9 +69,7 @@
               "start": 32,
               "end": 35
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
@@ -132,9 +128,7 @@
               "start": 71,
               "end": 82
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -255,9 +249,7 @@
                       "start": 123,
                       "end": 124
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   }
                 }
               },
@@ -289,9 +281,7 @@
                       "start": 136,
                       "end": 137
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   }
                 }
               },
@@ -323,9 +313,7 @@
                       "start": 149,
                       "end": 150
                     },
-                    "ctxt": 0,
-                    "value": "z",
-                    "optional": false
+                    "value": "z"
                   }
                 }
               },
@@ -385,9 +373,7 @@
                             "start": 170,
                             "end": 173
                           },
-                          "ctxt": 0,
-                          "value": "foo",
-                          "optional": false
+                          "value": "foo"
                         }
                       },
                       "arguments": [],
@@ -414,9 +400,7 @@
               "start": 192,
               "end": 193
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "function": {
             "params": [],
@@ -474,9 +458,7 @@
               "start": 230,
               "end": 231
             },
-            "ctxt": 0,
-            "value": "z",
-            "optional": false
+            "value": "z"
           },
           "value": null,
           "typeAnnotation": {
@@ -672,9 +654,7 @@
                 "start": 277,
                 "end": 278
               },
-              "ctxt": 0,
-              "value": "x",
-              "optional": false
+              "value": "x"
             }
           },
           "definite": false
@@ -742,9 +722,7 @@
                     "start": 291,
                     "end": 292
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 }
               },
               "property": {
@@ -753,9 +731,7 @@
                   "start": 293,
                   "end": 294
                 },
-                "ctxt": 0,
-                "value": "x",
-                "optional": false
+                "value": "x"
               }
             },
             "property": {
@@ -764,9 +740,7 @@
                 "start": 295,
                 "end": 296
               },
-              "ctxt": 0,
-              "value": "x",
-              "optional": false
+              "value": "x"
             }
           },
           "definite": false
@@ -822,9 +796,7 @@
                 "start": 309,
                 "end": 310
               },
-              "ctxt": 0,
-              "value": "y",
-              "optional": false
+              "value": "y"
             }
           },
           "definite": false
@@ -887,9 +859,7 @@
                   "start": 323,
                   "end": 326
                 },
-                "ctxt": 0,
-                "value": "foo",
-                "optional": false
+                "value": "foo"
               }
             },
             "arguments": [],
@@ -948,9 +918,7 @@
                 "start": 341,
                 "end": 342
               },
-              "ctxt": 0,
-              "value": "z",
-              "optional": false
+              "value": "z"
             }
           },
           "definite": false
@@ -1071,9 +1039,7 @@
               "start": 370,
               "end": 377
             },
-            "ctxt": 0,
-            "value": "forEach",
-            "optional": false
+            "value": "forEach"
           }
         },
         "arguments": [
@@ -1135,9 +1101,7 @@
                           "start": 391,
                           "end": 394
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       }
                     }
                   },
@@ -1169,9 +1133,7 @@
                           "start": 402,
                           "end": 403
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       }
                     }
                   },
@@ -1203,9 +1165,7 @@
                           "start": 411,
                           "end": 412
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       }
                     }
                   },
@@ -1237,9 +1197,7 @@
                           "start": 420,
                           "end": 421
                         },
-                        "ctxt": 0,
-                        "value": "z",
-                        "optional": false
+                        "value": "z"
                       }
                     }
                   }

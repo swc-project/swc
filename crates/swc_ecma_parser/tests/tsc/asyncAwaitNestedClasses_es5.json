@@ -37,9 +37,7 @@
               "start": 146,
               "end": 147
             },
-            "ctxt": 0,
-            "value": "B",
-            "optional": false
+            "value": "B"
           },
           "value": {
             "type": "ClassExpression",
@@ -72,9 +70,7 @@
                     "start": 175,
                     "end": 180
                   },
-                  "ctxt": 0,
-                  "value": "func2",
-                  "optional": false
+                  "value": "func2"
                 },
                 "function": {
                   "params": [],
@@ -262,9 +258,7 @@
                     "start": 290,
                     "end": 291
                   },
-                  "ctxt": 0,
-                  "value": "C",
-                  "optional": false
+                  "value": "C"
                 },
                 "value": {
                   "type": "ClassExpression",
@@ -297,9 +291,7 @@
                           "start": 329,
                           "end": 333
                         },
-                        "ctxt": 0,
-                        "value": "func",
-                        "optional": false
+                        "value": "func"
                       },
                       "function": {
                         "params": [],
@@ -358,9 +350,7 @@
                                         "start": 362,
                                         "end": 367
                                       },
-                                      "ctxt": 0,
-                                      "value": "func2",
-                                      "optional": false
+                                      "value": "func2"
                                     }
                                   },
                                   "arguments": [],
@@ -472,9 +462,7 @@
                   "start": 406,
                   "end": 407
                 },
-                "ctxt": 0,
-                "value": "B",
-                "optional": false
+                "value": "B"
               }
             },
             "property": {
@@ -483,9 +471,7 @@
                 "start": 408,
                 "end": 409
               },
-              "ctxt": 0,
-              "value": "C",
-              "optional": false
+              "value": "C"
             }
           },
           "property": {
@@ -494,9 +480,7 @@
               "start": 410,
               "end": 414
             },
-            "ctxt": 0,
-            "value": "func",
-            "optional": false
+            "value": "func"
           }
         },
         "arguments": [],

@@ -40,9 +40,7 @@
               "start": 8,
               "end": 15
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {

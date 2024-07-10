@@ -244,9 +244,7 @@
               "start": 127,
               "end": 130
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           }
         },
         "right": {
@@ -306,9 +304,7 @@
                       "start": 153,
                       "end": 156
                     },
-                    "ctxt": 0,
-                    "value": "foo",
-                    "optional": false
+                    "value": "foo"
                   }
                 },
                 "property": {
@@ -317,9 +313,7 @@
                     "start": 157,
                     "end": 170
                   },
-                  "ctxt": 0,
-                  "value": "toExponential",
-                  "optional": false
+                  "value": "toExponential"
                 }
               },
               "arguments": [],
@@ -354,9 +348,7 @@
                   "start": 183,
                   "end": 188
                 },
-                "ctxt": 0,
-                "value": "other",
-                "optional": false
+                "value": "other"
               }
             }
           },
@@ -388,9 +380,7 @@
                   "start": 232,
                   "end": 235
                 },
-                "ctxt": 0,
-                "value": "bar",
-                "optional": false
+                "value": "bar"
               }
             }
           }

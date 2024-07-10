@@ -309,9 +309,7 @@
               "start": 157,
               "end": 166
             },
-            "ctxt": 0,
-            "value": "interface",
-            "optional": false
+            "value": "interface"
           },
           "function": {
             "params": [],

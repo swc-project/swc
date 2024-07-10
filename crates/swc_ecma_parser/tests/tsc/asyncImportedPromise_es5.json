@@ -175,9 +175,7 @@
               "start": 209,
               "end": 216
             },
-            "ctxt": 0,
-            "value": "example",
-            "optional": false
+            "value": "example"
           },
           "function": {
             "params": [],

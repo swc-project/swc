@@ -372,9 +372,7 @@
               "start": 183,
               "end": 184
             },
-            "ctxt": 0,
-            "value": "p",
-            "optional": false
+            "value": "p"
           },
           "value": null,
           "typeAnnotation": null,

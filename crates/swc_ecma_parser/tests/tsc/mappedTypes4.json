@@ -567,9 +567,7 @@
                                     "start": 299,
                                     "end": 304
                                   },
-                                  "ctxt": 0,
-                                  "value": "value",
-                                  "optional": false
+                                  "value": "value"
                                 },
                                 "value": {
                                   "type": "MemberExpression",

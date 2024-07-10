@@ -381,9 +381,7 @@
                       "start": 130,
                       "end": 131
                     },
-                    "ctxt": 0,
-                    "value": "m",
-                    "optional": false
+                    "value": "m"
                   }
                 }
               },
@@ -405,9 +403,7 @@
                             "start": 135,
                             "end": 136
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -514,9 +510,7 @@
                       "start": 233,
                       "end": 234
                     },
-                    "ctxt": 0,
-                    "value": "m",
-                    "optional": false
+                    "value": "m"
                   }
                 }
               },
@@ -538,9 +532,7 @@
                             "start": 238,
                             "end": 239
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "CallExpression",
@@ -675,9 +667,7 @@
                       "start": 299,
                       "end": 300
                     },
-                    "ctxt": 0,
-                    "value": "m",
-                    "optional": false
+                    "value": "m"
                   }
                 }
               },
@@ -699,9 +689,7 @@
                             "start": 304,
                             "end": 305
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -825,9 +813,7 @@
                       "start": 363,
                       "end": 364
                     },
-                    "ctxt": 0,
-                    "value": "m",
-                    "optional": false
+                    "value": "m"
                   }
                 }
               },
@@ -849,9 +835,7 @@
                             "start": 368,
                             "end": 369
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "CallExpression",
@@ -955,9 +939,7 @@
                       "start": 459,
                       "end": 460
                     },
-                    "ctxt": 0,
-                    "value": "m",
-                    "optional": false
+                    "value": "m"
                   }
                 }
               },
@@ -979,9 +961,7 @@
                             "start": 464,
                             "end": 465
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -1070,9 +1050,7 @@
                   "start": 481,
                   "end": 482
                 },
-                "ctxt": 0,
-                "value": "m",
-                "optional": false
+                "value": "m"
               }
             }
           },
@@ -1094,9 +1072,7 @@
                         "start": 485,
                         "end": 486
                       },
-                      "ctxt": 0,
-                      "value": "x",
-                      "optional": false
+                      "value": "x"
                     },
                     "value": {
                       "type": "NumericLiteral",

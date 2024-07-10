@@ -40,9 +40,7 @@
               "start": 201,
               "end": 208
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -115,9 +113,7 @@
                         "start": 235,
                         "end": 236
                       },
-                      "ctxt": 0,
-                      "value": "t",
-                      "optional": false
+                      "value": "t"
                     }
                   },
                   "right": {
@@ -199,9 +195,7 @@
                 "start": 256,
                 "end": 263
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -210,9 +204,7 @@
               "start": 264,
               "end": 267
             },
-            "ctxt": 0,
-            "value": "Sub",
-            "optional": false
+            "value": "Sub"
           }
         },
         "right": {
@@ -265,9 +257,7 @@
                         "start": 292,
                         "end": 300
                       },
-                      "ctxt": 0,
-                      "value": "instance",
-                      "optional": false
+                      "value": "instance"
                     }
                   },
                   "right": {
@@ -299,9 +289,7 @@
                           "start": 314,
                           "end": 321
                         },
-                        "ctxt": 0,
-                        "value": "exports",
-                        "optional": false
+                        "value": "exports"
                       }
                     },
                     "arguments": [
@@ -378,9 +366,7 @@
                   "start": 336,
                   "end": 343
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             },
             "property": {
@@ -389,9 +375,7 @@
                 "start": 344,
                 "end": 347
               },
-              "ctxt": 0,
-              "value": "Sub",
-              "optional": false
+              "value": "Sub"
             }
           },
           "property": {
@@ -400,9 +384,7 @@
               "start": 348,
               "end": 357
             },
-            "ctxt": 0,
-            "value": "prototype",
-            "optional": false
+            "value": "prototype"
           }
         },
         "right": {

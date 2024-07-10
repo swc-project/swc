@@ -135,7 +135,7 @@ impl VisitMut for InlineGlobals {
                                 }
                             }
 
-                            MemberProp::Ident(Ident { sym, .. }) => {
+                            MemberProp::Ident(IdentName { sym, .. }) => {
                                 if let Some(env) = self.envs.get(sym) {
                                     *expr = env.clone();
                                 }
@@ -168,7 +168,7 @@ impl VisitMut for InlineGlobals {
             if let Some(mut value) = self.globals.get(&i.sym).cloned().map(Box::new) {
                 value.visit_mut_with(self);
                 *p = Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(i.clone()),
+                    key: PropName::Ident(i.clone().into()),
                     value,
                 });
             }

@@ -437,9 +437,7 @@
                                     "start": 399,
                                     "end": 404
                                   },
-                                  "ctxt": 0,
-                                  "value": "Alert",
-                                  "optional": false
+                                  "value": "Alert"
                                 }
                               },
                               "arguments": [

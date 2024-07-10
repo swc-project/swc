@@ -47,9 +47,7 @@
                     "start": 138,
                     "end": 139
                   },
-                  "ctxt": 0,
-                  "value": "f",
-                  "optional": false
+                  "value": "f"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -100,9 +98,7 @@
                           "start": 148,
                           "end": 159
                         },
-                        "ctxt": 0,
-                        "value": "toLowerCase",
-                        "optional": false
+                        "value": "toLowerCase"
                       }
                     },
                     "arguments": [],
@@ -162,9 +158,7 @@
                     "start": 243,
                     "end": 244
                   },
-                  "ctxt": 0,
-                  "value": "g",
-                  "optional": false
+                  "value": "g"
                 },
                 "value": {
                   "type": "StringLiteral",

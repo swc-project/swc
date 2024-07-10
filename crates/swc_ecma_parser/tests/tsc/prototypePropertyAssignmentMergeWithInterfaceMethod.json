@@ -104,6 +104,10 @@
                             },
                             "typeName": {
                               "type": "TsQualifiedName",
+                              "span": {
+                                "start": 216,
+                                "end": 229
+                              },
                               "left": {
                                 "type": "Identifier",
                                 "span": {
@@ -120,9 +124,7 @@
                                   "start": 222,
                                   "end": 229
                                 },
-                                "ctxt": 0,
-                                "value": "Builder",
-                                "optional": false
+                                "value": "Builder"
                               }
                             },
                             "typeParams": null
@@ -274,6 +276,10 @@
                                   },
                                   "typeName": {
                                     "type": "TsQualifiedName",
+                                    "span": {
+                                      "start": 278,
+                                      "end": 290
+                                    },
                                     "left": {
                                       "type": "Identifier",
                                       "span": {
@@ -290,9 +296,7 @@
                                         "start": 285,
                                         "end": 290
                                       },
-                                      "ctxt": 0,
-                                      "value": "Table",
-                                      "optional": false
+                                      "value": "Table"
                                     }
                                   },
                                   "typeParams": null
@@ -473,6 +477,10 @@
                                   },
                                   "typeName": {
                                     "type": "TsQualifiedName",
+                                    "span": {
+                                      "start": 360,
+                                      "end": 373
+                                    },
                                     "left": {
                                       "type": "Identifier",
                                       "span": {
@@ -489,9 +497,7 @@
                                         "start": 366,
                                         "end": 373
                                       },
-                                      "ctxt": 0,
-                                      "value": "Builder",
-                                      "optional": false
+                                      "value": "Builder"
                                     }
                                   },
                                   "typeParams": null
@@ -757,9 +763,7 @@
               "start": 503,
               "end": 514
             },
-            "ctxt": 0,
-            "value": "Transaction",
-            "optional": false
+            "value": "Transaction"
           }
         },
         "right": {
@@ -835,9 +839,7 @@
                   "start": 610,
                   "end": 621
                 },
-                "ctxt": 0,
-                "value": "Transaction",
-                "optional": false
+                "value": "Transaction"
               }
             },
             "property": {
@@ -846,9 +848,7 @@
                 "start": 622,
                 "end": 631
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -857,9 +857,7 @@
               "start": 632,
               "end": 637
             },
-            "ctxt": 0,
-            "value": "begin",
-            "optional": false
+            "value": "begin"
           }
         },
         "right": {

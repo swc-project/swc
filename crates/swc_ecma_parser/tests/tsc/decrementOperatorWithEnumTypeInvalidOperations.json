@@ -416,9 +416,7 @@
                       "start": 279,
                       "end": 280
                     },
-                    "ctxt": 0,
-                    "value": "B",
-                    "optional": false
+                    "value": "B"
                   }
                 }
               }
@@ -498,9 +496,7 @@
                       "start": 311,
                       "end": 312
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 },
                 "right": {

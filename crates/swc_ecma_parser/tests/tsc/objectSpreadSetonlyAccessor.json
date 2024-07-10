@@ -132,9 +132,7 @@
                     "start": 83,
                     "end": 86
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -171,9 +169,7 @@
                           "start": 101,
                           "end": 104
                         },
-                        "ctxt": 0,
-                        "value": "bar",
-                        "optional": false
+                        "value": "bar"
                       },
                       "thisParam": null,
                       "param": {
@@ -312,9 +308,7 @@
                     "start": 158,
                     "end": 161
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -351,9 +345,7 @@
                           "start": 176,
                           "end": 179
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       },
                       "thisParam": null,
                       "param": {

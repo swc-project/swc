@@ -61,9 +61,7 @@
                   "start": 43,
                   "end": 49
                 },
-                "ctxt": 0,
-                "value": "Locale",
-                "optional": false
+                "value": "Locale"
               }
             },
             "arguments": [
@@ -142,9 +140,7 @@
                   "start": 82,
                   "end": 88
                 },
-                "ctxt": 0,
-                "value": "Locale",
-                "optional": false
+                "value": "Locale"
               }
             },
             "arguments": [
@@ -223,9 +219,7 @@
                   "start": 121,
                   "end": 127
                 },
-                "ctxt": 0,
-                "value": "Locale",
-                "optional": false
+                "value": "Locale"
               }
             },
             "arguments": [
@@ -283,9 +277,7 @@
               "start": 148,
               "end": 157
             },
-            "ctxt": 0,
-            "value": "Segmenter",
-            "optional": false
+            "value": "Segmenter"
           }
         },
         "arguments": [
@@ -341,9 +333,7 @@
               "start": 174,
               "end": 183
             },
-            "ctxt": 0,
-            "value": "Segmenter",
-            "optional": false
+            "value": "Segmenter"
           }
         },
         "arguments": [
@@ -430,9 +420,7 @@
                 "start": 204,
                 "end": 213
               },
-              "ctxt": 0,
-              "value": "Segmenter",
-              "optional": false
+              "value": "Segmenter"
             }
           },
           "property": {
@@ -441,9 +429,7 @@
               "start": 214,
               "end": 232
             },
-            "ctxt": 0,
-            "value": "supportedLocalesOf",
-            "optional": false
+            "value": "supportedLocalesOf"
           }
         },
         "arguments": [
@@ -505,9 +491,7 @@
                 "start": 245,
                 "end": 254
               },
-              "ctxt": 0,
-              "value": "Segmenter",
-              "optional": false
+              "value": "Segmenter"
             }
           },
           "property": {
@@ -516,9 +500,7 @@
               "start": 255,
               "end": 273
             },
-            "ctxt": 0,
-            "value": "supportedLocalesOf",
-            "optional": false
+            "value": "supportedLocalesOf"
           }
         },
         "arguments": [

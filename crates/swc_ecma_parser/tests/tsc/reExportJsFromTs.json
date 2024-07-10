@@ -40,9 +40,7 @@
               "start": 75,
               "end": 82
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -60,9 +58,7 @@
                   "start": 89,
                   "end": 92
                 },
-                "ctxt": 0,
-                "value": "str",
-                "optional": false
+                "value": "str"
               },
               "value": {
                 "type": "StringLiteral",

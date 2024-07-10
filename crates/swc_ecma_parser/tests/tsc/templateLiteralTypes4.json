@@ -3982,9 +3982,7 @@
                 "start": 2810,
                 "end": 2814
               },
-              "ctxt": 0,
-              "value": "Zero",
-              "optional": false
+              "value": "Zero"
             }
           }
         },
@@ -4026,9 +4024,7 @@
                 "start": 2840,
                 "end": 2843
               },
-              "ctxt": 0,
-              "value": "One",
-              "optional": false
+              "value": "One"
             }
           }
         }
@@ -15522,6 +15518,10 @@
                         },
                         "typeName": {
                           "type": "TsQualifiedName",
+                          "span": {
+                            "start": 11539,
+                            "end": 11560
+                          },
                           "left": {
                             "type": "Identifier",
                             "span": {
@@ -15538,9 +15538,7 @@
                               "start": 11557,
                               "end": 11560
                             },
-                            "ctxt": 0,
-                            "value": "One",
-                            "optional": false
+                            "value": "One"
                           }
                         },
                         "typeParams": null
@@ -20461,9 +20459,7 @@
               "start": 14932,
               "end": 14940
             },
-            "ctxt": 0,
-            "value": "getIndex",
-            "optional": false
+            "value": "getIndex"
           }
         },
         "arguments": [
@@ -20518,9 +20514,7 @@
               "start": 14973,
               "end": 14981
             },
-            "ctxt": 0,
-            "value": "getIndex",
-            "optional": false
+            "value": "getIndex"
           }
         },
         "arguments": [
@@ -20575,9 +20569,7 @@
               "start": 15014,
               "end": 15022
             },
-            "ctxt": 0,
-            "value": "getIndex",
-            "optional": false
+            "value": "getIndex"
           }
         },
         "arguments": [
@@ -20632,9 +20624,7 @@
               "start": 15063,
               "end": 15071
             },
-            "ctxt": 0,
-            "value": "setIndex",
-            "optional": false
+            "value": "setIndex"
           }
         },
         "arguments": [
@@ -20701,9 +20691,7 @@
               "start": 15107,
               "end": 15115
             },
-            "ctxt": 0,
-            "value": "setIndex",
-            "optional": false
+            "value": "setIndex"
           }
         },
         "arguments": [
@@ -20770,9 +20758,7 @@
               "start": 15151,
               "end": 15159
             },
-            "ctxt": 0,
-            "value": "setIndex",
-            "optional": false
+            "value": "setIndex"
           }
         },
         "arguments": [

@@ -163,9 +163,7 @@
                       "start": 176,
                       "end": 178
                     },
-                    "ctxt": 0,
-                    "value": "sp",
-                    "optional": false
+                    "value": "sp"
                   }
                 },
                 "property": {
@@ -174,9 +172,7 @@
                     "start": 179,
                     "end": 180
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 }
               },
               "right": {
@@ -220,9 +216,7 @@
                           "start": 188,
                           "end": 190
                         },
-                        "ctxt": 0,
-                        "value": "sp",
-                        "optional": false
+                        "value": "sp"
                       }
                     },
                     "property": {
@@ -231,9 +225,7 @@
                         "start": 191,
                         "end": 192
                       },
-                      "ctxt": 0,
-                      "value": "r",
-                      "optional": false
+                      "value": "r"
                     }
                   },
                   "property": {
@@ -242,9 +234,7 @@
                       "start": 193,
                       "end": 197
                     },
-                    "ctxt": 0,
-                    "value": "find",
-                    "optional": false
+                    "value": "find"
                   }
                 },
                 "arguments": [
@@ -313,9 +303,7 @@
                               "start": 212,
                               "end": 213
                             },
-                            "ctxt": 0,
-                            "value": "c",
-                            "optional": false
+                            "value": "c"
                           }
                         },
                         "right": {
@@ -352,9 +340,7 @@
                                   "start": 223,
                                   "end": 225
                                 },
-                                "ctxt": 0,
-                                "value": "xp",
-                                "optional": false
+                                "value": "xp"
                               }
                             },
                             "consequent": {
@@ -450,9 +436,7 @@
                   "start": 268,
                   "end": 269
                 },
-                "ctxt": 0,
-                "value": "c",
-                "optional": false
+                "value": "c"
               }
             },
             "body": {
@@ -498,9 +482,7 @@
                           "start": 286,
                           "end": 287
                         },
-                        "ctxt": 0,
-                        "value": "v",
-                        "optional": false
+                        "value": "v"
                       }
                     },
                     "right": {
@@ -552,9 +534,7 @@
                                   "start": 297,
                                   "end": 298
                                 },
-                                "ctxt": 0,
-                                "value": "t",
-                                "optional": false
+                                "value": "t"
                               }
                             },
                             "property": {
@@ -563,9 +543,7 @@
                                 "start": 300,
                                 "end": 306
                               },
-                              "ctxt": 0,
-                              "value": "length",
-                              "optional": false
+                              "value": "length"
                             }
                           }
                         }

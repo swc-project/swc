@@ -37,9 +37,7 @@
               "start": 124,
               "end": 127
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -642,9 +640,7 @@
               "start": 382,
               "end": 383
             },
-            "ctxt": 0,
-            "value": "t",
-            "optional": false
+            "value": "t"
           },
           "value": null,
           "typeAnnotation": {
@@ -694,9 +690,7 @@
               "start": 392,
               "end": 393
             },
-            "ctxt": 0,
-            "value": "u",
-            "optional": false
+            "value": "u"
           },
           "value": null,
           "typeAnnotation": {
@@ -746,9 +740,7 @@
               "start": 402,
               "end": 403
             },
-            "ctxt": 0,
-            "value": "r",
-            "optional": false
+            "value": "r"
           },
           "value": {
             "type": "ArrowFunctionExpression",
@@ -798,9 +790,7 @@
                           "start": 427,
                           "end": 428
                         },
-                        "ctxt": 0,
-                        "value": "t",
-                        "optional": false
+                        "value": "t"
                       }
                     },
                     "right": {
@@ -822,9 +812,7 @@
                           "start": 436,
                           "end": 437
                         },
-                        "ctxt": 0,
-                        "value": "u",
-                        "optional": false
+                        "value": "u"
                       }
                     }
                   }
@@ -861,9 +849,7 @@
                           "start": 461,
                           "end": 462
                         },
-                        "ctxt": 0,
-                        "value": "u",
-                        "optional": false
+                        "value": "u"
                       }
                     },
                     "right": {
@@ -885,9 +871,7 @@
                           "start": 470,
                           "end": 471
                         },
-                        "ctxt": 0,
-                        "value": "t",
-                        "optional": false
+                        "value": "t"
                       }
                     }
                   }

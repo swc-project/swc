@@ -87,9 +87,7 @@
                       "start": 90,
                       "end": 96
                     },
-                    "ctxt": 0,
-                    "value": "length",
-                    "optional": false
+                    "value": "length"
                   }
                 },
                 "async": false,
@@ -163,9 +161,7 @@
                             "start": 117,
                             "end": 123
                           },
-                          "ctxt": 0,
-                          "value": "length",
-                          "optional": false
+                          "value": "length"
                         }
                       },
                       "async": false,
@@ -227,9 +223,7 @@
                     "start": 144,
                     "end": 150
                   },
-                  "ctxt": 0,
-                  "value": "length",
-                  "optional": false
+                  "value": "length"
                 }
               },
               "async": false,

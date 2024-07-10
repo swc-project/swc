@@ -37,9 +37,7 @@
               "start": 35,
               "end": 38
             },
-            "ctxt": 0,
-            "value": "Foo",
-            "optional": false
+            "value": "Foo"
           },
           "function": {
             "params": [],

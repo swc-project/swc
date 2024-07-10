@@ -40,9 +40,7 @@
               "start": 9,
               "end": 12
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [

@@ -191,9 +191,7 @@
                             "start": 204,
                             "end": 205
                           },
-                          "ctxt": 0,
-                          "value": "v",
-                          "optional": false
+                          "value": "v"
                         },
                         "value": {
                           "type": "ArrowFunctionExpression",
@@ -240,9 +238,7 @@
                 "start": 264,
                 "end": 269
               },
-              "ctxt": 0,
-              "value": "prop0",
-              "optional": false
+              "value": "prop0"
             },
             "value": null,
             "typeAnnotation": {
@@ -282,9 +278,7 @@
                 "start": 290,
                 "end": 295
               },
-              "ctxt": 0,
-              "value": "prop1",
-              "optional": false
+              "value": "prop1"
             },
             "value": {
               "type": "MemberExpression",
@@ -308,9 +302,7 @@
                   "start": 309,
                   "end": 314
                 },
-                "ctxt": 0,
-                "value": "prop0",
-                "optional": false
+                "value": "prop0"
               }
             },
             "typeAnnotation": null,

@@ -350,9 +350,7 @@
                 "start": 272,
                 "end": 275
               },
-              "ctxt": 0,
-              "value": "log",
-              "optional": false
+              "value": "log"
             }
           },
           "definite": false

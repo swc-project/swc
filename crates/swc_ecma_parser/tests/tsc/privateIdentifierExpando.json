@@ -94,9 +94,7 @@
               "start": 153,
               "end": 156
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           }
         },
         "right": {

@@ -252,9 +252,7 @@
                         "start": 220,
                         "end": 231
                       },
-                      "ctxt": 0,
-                      "value": "constructor",
-                      "optional": false
+                      "value": "constructor"
                     },
                     "params": [
                       {
@@ -364,9 +362,7 @@
                                   "start": 273,
                                   "end": 274
                                 },
-                                "ctxt": 0,
-                                "value": "x",
-                                "optional": false
+                                "value": "x"
                               }
                             },
                             "right": {
@@ -413,9 +409,7 @@
                                   "start": 297,
                                   "end": 298
                                 },
-                                "ctxt": 0,
-                                "value": "y",
-                                "optional": false
+                                "value": "y"
                               }
                             },
                             "right": {
@@ -447,9 +441,7 @@
                         "start": 322,
                         "end": 323
                       },
-                      "ctxt": 0,
-                      "value": "x",
-                      "optional": false
+                      "value": "x"
                     },
                     "value": null,
                     "typeAnnotation": {
@@ -489,9 +481,7 @@
                         "start": 341,
                         "end": 342
                       },
-                      "ctxt": 0,
-                      "value": "y",
-                      "optional": false
+                      "value": "y"
                     },
                     "value": null,
                     "typeAnnotation": {
@@ -649,9 +639,7 @@
               "start": 472,
               "end": 474
             },
-            "ctxt": 0,
-            "value": "id",
-            "optional": false
+            "value": "id"
           },
           "value": null,
           "typeAnnotation": {

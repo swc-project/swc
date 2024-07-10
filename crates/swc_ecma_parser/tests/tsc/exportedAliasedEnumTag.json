@@ -61,9 +61,7 @@
                   "start": 102,
                   "end": 109
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             },
             "right": {
@@ -114,9 +112,7 @@
               "start": 143,
               "end": 147
             },
-            "ctxt": 0,
-            "value": "Type",
-            "optional": false
+            "value": "Type"
           }
         },
         "right": {
@@ -134,9 +130,7 @@
                   "start": 154,
                   "end": 160
                 },
-                "ctxt": 0,
-                "value": "BEFORE",
-                "optional": false
+                "value": "BEFORE"
               },
               "value": {
                 "type": "StringLiteral",

@@ -1286,9 +1286,7 @@
               "start": 955,
               "end": 960
             },
-            "ctxt": 0,
-            "value": "void1",
-            "optional": false
+            "value": "void1"
           },
           "function": {
             "params": [],
@@ -1359,9 +1357,7 @@
               "start": 1002,
               "end": 1007
             },
-            "ctxt": 0,
-            "value": "void2",
-            "optional": false
+            "value": "void2"
           },
           "function": {
             "params": [],
@@ -1429,9 +1425,7 @@
               "start": 1046,
               "end": 1052
             },
-            "ctxt": 0,
-            "value": "never1",
-            "optional": false
+            "value": "never1"
           },
           "function": {
             "params": [],
@@ -1516,9 +1510,7 @@
               "start": 1101,
               "end": 1107
             },
-            "ctxt": 0,
-            "value": "never2",
-            "optional": false
+            "value": "never2"
           },
           "function": {
             "params": [],

@@ -40,9 +40,7 @@
               "start": 81,
               "end": 84
             },
-            "ctxt": 0,
-            "value": "fn1",
-            "optional": false
+            "value": "fn1"
           }
         },
         "arguments": [],
@@ -84,9 +82,7 @@
               "start": 96,
               "end": 99
             },
-            "ctxt": 0,
-            "value": "fn2",
-            "optional": false
+            "value": "fn2"
           }
         },
         "right": {
@@ -111,9 +107,7 @@
               "start": 107,
               "end": 110
             },
-            "ctxt": 0,
-            "value": "min",
-            "optional": false
+            "value": "min"
           }
         }
       }

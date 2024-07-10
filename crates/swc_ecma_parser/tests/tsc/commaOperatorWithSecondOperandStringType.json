@@ -1065,9 +1065,7 @@
                   "start": 612,
                   "end": 620
                 },
-                "ctxt": 0,
-                "value": "toString",
-                "optional": false
+                "value": "toString"
               }
             },
             "arguments": [],
@@ -1568,9 +1566,7 @@
                         "start": 880,
                         "end": 888
                       },
-                      "ctxt": 0,
-                      "value": "toString",
-                      "optional": false
+                      "value": "toString"
                     }
                   },
                   "arguments": [],

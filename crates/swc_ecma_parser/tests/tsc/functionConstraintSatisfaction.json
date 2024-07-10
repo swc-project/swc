@@ -313,9 +313,7 @@
               "start": 180,
               "end": 183
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -1623,9 +1621,7 @@
               "start": 605,
               "end": 608
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {

@@ -82,9 +82,7 @@
                           "start": 205,
                           "end": 209
                         },
-                        "ctxt": 0,
-                        "value": "_map",
-                        "optional": false
+                        "value": "_map"
                       }
                     },
                     "right": {
@@ -122,9 +120,7 @@
                         "start": 225,
                         "end": 229
                       },
-                      "ctxt": 0,
-                      "value": "_map",
-                      "optional": false
+                      "value": "_map"
                     }
                   }
                 },
@@ -153,9 +149,7 @@
                         "start": 239,
                         "end": 242
                       },
-                      "ctxt": 0,
-                      "value": "set",
-                      "optional": false
+                      "value": "set"
                     }
                   }
                 },
@@ -184,9 +178,7 @@
                         "start": 252,
                         "end": 255
                       },
-                      "ctxt": 0,
-                      "value": "get",
-                      "optional": false
+                      "value": "get"
                     }
                   }
                 },
@@ -215,9 +207,7 @@
                         "start": 265,
                         "end": 270
                       },
-                      "ctxt": 0,
-                      "value": "addon",
-                      "optional": false
+                      "value": "addon"
                     }
                   }
                 }
@@ -267,9 +257,7 @@
               "start": 284,
               "end": 293
             },
-            "ctxt": 0,
-            "value": "prototype",
-            "optional": false
+            "value": "prototype"
           }
         },
         "right": {
@@ -287,9 +275,7 @@
                   "start": 302,
                   "end": 305
                 },
-                "ctxt": 0,
-                "value": "set",
-                "optional": false
+                "value": "set"
               },
               "value": {
                 "type": "FunctionExpression",
@@ -334,9 +320,7 @@
                             "start": 333,
                             "end": 337
                           },
-                          "ctxt": 0,
-                          "value": "_map",
-                          "optional": false
+                          "value": "_map"
                         }
                       }
                     },
@@ -365,9 +349,7 @@
                             "start": 351,
                             "end": 354
                           },
-                          "ctxt": 0,
-                          "value": "set",
-                          "optional": false
+                          "value": "set"
                         }
                       }
                     },
@@ -396,9 +378,7 @@
                             "start": 368,
                             "end": 371
                           },
-                          "ctxt": 0,
-                          "value": "get",
-                          "optional": false
+                          "value": "get"
                         }
                       }
                     },
@@ -427,9 +407,7 @@
                             "start": 385,
                             "end": 390
                           },
-                          "ctxt": 0,
-                          "value": "addon",
-                          "optional": false
+                          "value": "addon"
                         }
                       }
                     }
@@ -449,9 +427,7 @@
                   "start": 402,
                   "end": 405
                 },
-                "ctxt": 0,
-                "value": "get",
-                "optional": false
+                "value": "get"
               },
               "params": [],
               "decorators": [],
@@ -493,9 +469,7 @@
                           "start": 423,
                           "end": 427
                         },
-                        "ctxt": 0,
-                        "value": "_map",
-                        "optional": false
+                        "value": "_map"
                       }
                     }
                   },
@@ -524,9 +498,7 @@
                           "start": 441,
                           "end": 444
                         },
-                        "ctxt": 0,
-                        "value": "set",
-                        "optional": false
+                        "value": "set"
                       }
                     }
                   },
@@ -555,9 +527,7 @@
                           "start": 458,
                           "end": 461
                         },
-                        "ctxt": 0,
-                        "value": "get",
-                        "optional": false
+                        "value": "get"
                       }
                     }
                   },
@@ -586,9 +556,7 @@
                           "start": 475,
                           "end": 480
                         },
-                        "ctxt": 0,
-                        "value": "addon",
-                        "optional": false
+                        "value": "addon"
                       }
                     }
                   }
@@ -644,9 +612,7 @@
                 "start": 499,
                 "end": 508
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -655,9 +621,7 @@
               "start": 509,
               "end": 514
             },
-            "ctxt": 0,
-            "value": "addon",
-            "optional": false
+            "value": "addon"
           }
         },
         "right": {
@@ -703,9 +667,7 @@
                       "start": 540,
                       "end": 544
                     },
-                    "ctxt": 0,
-                    "value": "_map",
-                    "optional": false
+                    "value": "_map"
                   }
                 }
               },
@@ -734,9 +696,7 @@
                       "start": 554,
                       "end": 557
                     },
-                    "ctxt": 0,
-                    "value": "set",
-                    "optional": false
+                    "value": "set"
                   }
                 }
               },
@@ -765,9 +725,7 @@
                       "start": 567,
                       "end": 570
                     },
-                    "ctxt": 0,
-                    "value": "get",
-                    "optional": false
+                    "value": "get"
                   }
                 }
               },
@@ -796,9 +754,7 @@
                       "start": 580,
                       "end": 585
                     },
-                    "ctxt": 0,
-                    "value": "addon",
-                    "optional": false
+                    "value": "addon"
                   }
                 }
               }
@@ -890,9 +846,7 @@
             "start": 617,
             "end": 621
           },
-          "ctxt": 0,
-          "value": "_map",
-          "optional": false
+          "value": "_map"
         }
       }
     },
@@ -924,9 +878,7 @@
             "start": 625,
             "end": 628
           },
-          "ctxt": 0,
-          "value": "set",
-          "optional": false
+          "value": "set"
         }
       }
     },
@@ -958,9 +910,7 @@
             "start": 632,
             "end": 635
           },
-          "ctxt": 0,
-          "value": "get",
-          "optional": false
+          "value": "get"
         }
       }
     },
@@ -992,9 +942,7 @@
             "start": 639,
             "end": 644
           },
-          "ctxt": 0,
-          "value": "addon",
-          "optional": false
+          "value": "addon"
         }
       }
     }

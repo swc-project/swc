@@ -131,9 +131,7 @@
               "start": 73,
               "end": 76
             },
-            "ctxt": 0,
-            "value": "add",
-            "optional": false
+            "value": "add"
           }
         },
         "arguments": [
@@ -188,9 +186,7 @@
               "start": 93,
               "end": 96
             },
-            "ctxt": 0,
-            "value": "add",
-            "optional": false
+            "value": "add"
           }
         },
         "arguments": [

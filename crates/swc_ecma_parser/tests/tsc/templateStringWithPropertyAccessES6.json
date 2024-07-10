@@ -70,9 +70,7 @@
               "start": 30,
               "end": 37
             },
-            "ctxt": 0,
-            "value": "indexOf",
-            "optional": false
+            "value": "indexOf"
           }
         },
         "arguments": [

@@ -38,9 +38,7 @@
               "start": 24,
               "end": 35
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -246,9 +244,7 @@
               "start": 215,
               "end": 226
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -351,9 +347,7 @@
                                       "start": 259,
                                       "end": 272
                                     },
-                                    "ctxt": 0,
-                                    "value": "toExponential",
-                                    "optional": false
+                                    "value": "toExponential"
                                   }
                                 },
                                 "arguments": [],

@@ -79,9 +79,7 @@
               "start": 90,
               "end": 91
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           }
         },
         "right": {
@@ -127,9 +125,7 @@
               "start": 112,
               "end": 129
             },
-            "ctxt": 0,
-            "value": "initializedMember",
-            "optional": false
+            "value": "initializedMember"
           },
           "value": {
             "type": "ObjectExpression",
@@ -163,9 +159,7 @@
               "start": 140,
               "end": 151
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -208,9 +202,7 @@
                         "start": 169,
                         "end": 175
                       },
-                      "ctxt": 0,
-                      "value": "member",
-                      "optional": false
+                      "value": "member"
                     }
                   },
                   "right": {
@@ -261,9 +253,7 @@
                           "start": 195,
                           "end": 201
                         },
-                        "ctxt": 0,
-                        "value": "member",
-                        "optional": false
+                        "value": "member"
                       }
                     },
                     "property": {
@@ -272,9 +262,7 @@
                         "start": 202,
                         "end": 203
                       },
-                      "ctxt": 0,
-                      "value": "a",
-                      "optional": false
+                      "value": "a"
                     }
                   },
                   "right": {
@@ -342,9 +330,7 @@
                     "start": 234,
                     "end": 242
                   },
-                  "ctxt": 0,
-                  "value": "property",
-                  "optional": false
+                  "value": "property"
                 },
                 "value": {
                   "type": "ObjectExpression",
@@ -402,9 +388,7 @@
                 "start": 255,
                 "end": 263
               },
-              "ctxt": 0,
-              "value": "property",
-              "optional": false
+              "value": "property"
             }
           },
           "property": {
@@ -413,9 +397,7 @@
               "start": 264,
               "end": 265
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           }
         },
         "right": {
@@ -565,9 +547,7 @@
               "start": 356,
               "end": 357
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           }
         },
         "right": {
@@ -639,9 +619,7 @@
                 "start": 373,
                 "end": 379
               },
-              "ctxt": 0,
-              "value": "member",
-              "optional": false
+              "value": "member"
             }
           },
           "property": {
@@ -650,9 +628,7 @@
               "start": 380,
               "end": 381
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           }
         },
         "right": {
@@ -724,9 +700,7 @@
                 "start": 397,
                 "end": 414
               },
-              "ctxt": 0,
-              "value": "initializedMember",
-              "optional": false
+              "value": "initializedMember"
             }
           },
           "property": {
@@ -735,9 +709,7 @@
               "start": 415,
               "end": 416
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           }
         },
         "right": {
@@ -792,9 +764,7 @@
                 "start": 426,
                 "end": 434
               },
-              "ctxt": 0,
-              "value": "property",
-              "optional": false
+              "value": "property"
             }
           },
           "property": {
@@ -803,9 +773,7 @@
               "start": 435,
               "end": 436
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           }
         },
         "right": {
@@ -877,9 +845,7 @@
               "start": 449,
               "end": 450
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           }
         },
         "right": {
@@ -938,9 +904,7 @@
               "start": 465,
               "end": 466
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           }
         },
         "right": {

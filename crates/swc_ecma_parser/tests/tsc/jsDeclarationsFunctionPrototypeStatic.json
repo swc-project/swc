@@ -40,9 +40,7 @@
               "start": 124,
               "end": 131
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -126,9 +124,7 @@
               "start": 174,
               "end": 186
             },
-            "ctxt": 0,
-            "value": "staticMethod",
-            "optional": false
+            "value": "staticMethod"
           }
         },
         "right": {
@@ -198,9 +194,7 @@
                 "start": 211,
                 "end": 220
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -209,9 +203,7 @@
               "start": 221,
               "end": 227
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           }
         },
         "right": {
@@ -275,9 +267,7 @@
               "start": 252,
               "end": 266
             },
-            "ctxt": 0,
-            "value": "staticProperty",
-            "optional": false
+            "value": "staticProperty"
           }
         },
         "right": {

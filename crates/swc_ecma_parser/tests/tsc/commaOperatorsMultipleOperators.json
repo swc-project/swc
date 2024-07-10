@@ -961,9 +961,7 @@
                   "start": 614,
                   "end": 620
                 },
-                "ctxt": 0,
-                "value": "charAt",
-                "optional": false
+                "value": "charAt"
               }
             },
             "arguments": [
@@ -1164,9 +1162,7 @@
                         "start": 719,
                         "end": 725
                       },
-                      "ctxt": 0,
-                      "value": "charAt",
-                      "optional": false
+                      "value": "charAt"
                     }
                   },
                   "arguments": [

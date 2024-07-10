@@ -104,9 +104,7 @@
               "start": 107,
               "end": 108
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           }
         },
         "right": {

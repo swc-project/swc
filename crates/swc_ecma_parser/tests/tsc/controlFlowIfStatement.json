@@ -1017,9 +1017,7 @@
                           "start": 626,
                           "end": 631
                         },
-                        "ctxt": 0,
-                        "value": "parse",
-                        "optional": false
+                        "value": "parse"
                       }
                     },
                     "arguments": [
@@ -1657,9 +1655,7 @@
                     "start": 938,
                     "end": 939
                   },
-                  "ctxt": 0,
-                  "value": "p",
-                  "optional": false
+                  "value": "p"
                 }
               },
               "right": {
@@ -1771,6 +1767,10 @@
                             },
                             "exprName": {
                               "type": "TsQualifiedName",
+                              "span": {
+                                "start": 999,
+                                "end": 1002
+                              },
                               "left": {
                                 "type": "Identifier",
                                 "span": {
@@ -1787,9 +1787,7 @@
                                   "start": 1001,
                                   "end": 1002
                                 },
-                                "ctxt": 0,
-                                "value": "p",
-                                "optional": false
+                                "value": "p"
                               }
                             },
                             "typeArguments": null

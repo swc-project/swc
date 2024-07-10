@@ -4178,9 +4178,7 @@
                     "start": 1726,
                     "end": 1733
                   },
-                  "ctxt": 0,
-                  "value": "entries",
-                  "optional": false
+                  "value": "entries"
                 }
               },
               "arguments": [

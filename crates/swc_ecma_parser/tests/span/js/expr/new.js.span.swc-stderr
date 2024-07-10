@@ -129,9 +129,3 @@
  2 | (new Date).toString()
    :      ^^^^
    `----
-  x Ident
-   ,-[$DIR/tests/span/js/expr/new.js:2:1]
- 1 | new Date();
- 2 | (new Date).toString()
-   :            ^^^^^^^^
-   `----

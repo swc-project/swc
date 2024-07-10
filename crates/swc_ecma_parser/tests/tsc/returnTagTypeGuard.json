@@ -38,9 +38,7 @@
               "start": 114,
               "end": 125
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -83,9 +81,7 @@
                         "start": 143,
                         "end": 144
                       },
-                      "ctxt": 0,
-                      "value": "c",
-                      "optional": false
+                      "value": "c"
                     }
                   },
                   "right": {
@@ -116,9 +112,7 @@
               "start": 228,
               "end": 234
             },
-            "ctxt": 0,
-            "value": "isInit",
-            "optional": false
+            "value": "isInit"
           },
           "function": {
             "params": [
@@ -225,9 +219,7 @@
               "start": 286,
               "end": 297
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -270,9 +262,7 @@
                         "start": 315,
                         "end": 316
                       },
-                      "ctxt": 0,
-                      "value": "d",
-                      "optional": false
+                      "value": "d"
                     }
                   },
                   "right": {
@@ -303,9 +293,7 @@
               "start": 395,
               "end": 401
             },
-            "ctxt": 0,
-            "value": "isInit",
-            "optional": false
+            "value": "isInit"
           },
           "function": {
             "params": [
@@ -489,9 +477,7 @@
                           "start": 510,
                           "end": 516
                         },
-                        "ctxt": 0,
-                        "value": "isInit",
-                        "optional": false
+                        "value": "isInit"
                       }
                     },
                     "arguments": [
@@ -533,9 +519,7 @@
                         "start": 532,
                         "end": 533
                       },
-                      "ctxt": 0,
-                      "value": "c",
-                      "optional": false
+                      "value": "c"
                     }
                   },
                   "alternate": {
@@ -560,9 +544,7 @@
                         "start": 542,
                         "end": 543
                       },
-                      "ctxt": 0,
-                      "value": "d",
-                      "optional": false
+                      "value": "d"
                     }
                   }
                 },

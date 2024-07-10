@@ -59,9 +59,7 @@
                   "start": 42,
                   "end": 53
                 },
-                "ctxt": 0,
-                "value": "hasInstance",
-                "optional": false
+                "value": "hasInstance"
               }
             }
           },
@@ -145,9 +143,7 @@
                   "start": 128,
                   "end": 139
                 },
-                "ctxt": 0,
-                "value": "hasInstance",
-                "optional": false
+                "value": "hasInstance"
               }
             }
           },
@@ -295,9 +291,7 @@
                   "start": 178,
                   "end": 189
                 },
-                "ctxt": 0,
-                "value": "hasInstance",
-                "optional": false
+                "value": "hasInstance"
               }
             }
           }
@@ -387,9 +381,7 @@
                   "start": 211,
                   "end": 222
                 },
-                "ctxt": 0,
-                "value": "hasInstance",
-                "optional": false
+                "value": "hasInstance"
               }
             }
           }

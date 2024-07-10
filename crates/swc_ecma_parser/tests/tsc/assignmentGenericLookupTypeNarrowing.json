@@ -161,9 +161,7 @@
                     "start": 79,
                     "end": 82
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "value": {
                   "type": "ObjectExpression",
@@ -180,9 +178,7 @@
                           "start": 85,
                           "end": 86
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -595,9 +591,7 @@
                       "start": 278,
                       "end": 279
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   }
                 },
                 "definite": false

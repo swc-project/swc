@@ -62,9 +62,7 @@
                     "start": 34,
                     "end": 36
                   },
-                  "ctxt": 0,
-                  "value": "id",
-                  "optional": false
+                  "value": "id"
                 },
                 "value": null,
                 "typeAnnotation": {

@@ -96,7 +96,7 @@ impl<I: Tokens> Parser<I> {
                             local = self.parse_imported_default_binding()?;
                         } else if peeked_is!(self, '=') {
                             type_only = true;
-                            local = self.parse_ident_name()?;
+                            local = self.parse_ident_name().map(From::from)?;
                         }
                     }
                 }
@@ -215,7 +215,7 @@ impl<I: Tokens> Parser<I> {
                 // `import { type as as } from 'mod'`
                 // `import { type as as as } from 'mod'`
                 if self.syntax().typescript() && orig_name.sym == "type" && is!(self, IdentName) {
-                    let possibly_orig_name = self.parse_ident_name()?;
+                    let possibly_orig_name = self.parse_ident_name().map(Ident::from)?;
                     if possibly_orig_name.sym == "as" {
                         // `import { type as } from 'mod'`
                         if !is!(self, IdentName) {
@@ -400,7 +400,12 @@ impl<I: Tokens> Parser<I> {
 
                 // export import A = B
                 return self
-                    .parse_ts_import_equals_decl(start, id, /* is_export */ true, is_type_only)
+                    .parse_ts_import_equals_decl(
+                        start,
+                        id.into(),
+                        /* is_export */ true,
+                        is_type_only,
+                    )
                     .map(From::from);
             }
 
@@ -740,7 +745,7 @@ impl<I: Tokens> Parser<I> {
                 // `export { type as as }`
                 // `export { type as as as }`
                 if self.syntax().typescript() && orig_ident.sym == "type" && is!(self, IdentName) {
-                    let possibly_orig = self.parse_ident_name()?;
+                    let possibly_orig = self.parse_ident_name().map(Ident::from)?;
                     if possibly_orig.sym == "as" {
                         // `export { type as }`
                         if !is!(self, IdentName) {
@@ -756,12 +761,12 @@ impl<I: Tokens> Parser<I> {
                             });
                         }
 
-                        let maybe_as = self.parse_ident_name()?;
+                        let maybe_as = self.parse_ident_name().map(Ident::from)?;
                         if maybe_as.sym == "as" {
                             if is!(self, IdentName) {
                                 // `export { type as as as }`
                                 // `export { type as as foo }`
-                                let exported = self.parse_ident_name()?;
+                                let exported = self.parse_ident_name().map(Ident::from)?;
 
                                 if type_only {
                                     self.emit_err(orig_ident.span, SyntaxError::TS2207);

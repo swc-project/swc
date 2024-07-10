@@ -170,9 +170,7 @@
                     "start": 210,
                     "end": 212
                   },
-                  "ctxt": 0,
-                  "value": "a1",
-                  "optional": false
+                  "value": "a1"
                 },
                 "value": {
                   "type": "BooleanLiteral",
@@ -191,9 +189,7 @@
                     "start": 220,
                     "end": 222
                   },
-                  "ctxt": 0,
-                  "value": "a2",
-                  "optional": false
+                  "value": "a2"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -503,9 +499,7 @@
                     "start": 564,
                     "end": 566
                   },
-                  "ctxt": 0,
-                  "value": "t1",
-                  "optional": false
+                  "value": "t1"
                 },
                 "value": {
                   "type": "BooleanLiteral",
@@ -524,9 +518,7 @@
                     "start": 574,
                     "end": 576
                   },
-                  "ctxt": 0,
-                  "value": "t2",
-                  "optional": false
+                  "value": "t2"
                 },
                 "value": {
                   "type": "StringLiteral",
@@ -699,9 +691,7 @@
                           "start": 639,
                           "end": 641
                         },
-                        "ctxt": 0,
-                        "value": "t1",
-                        "optional": false
+                        "value": "t1"
                       },
                       "value": {
                         "type": "BooleanLiteral",
@@ -720,9 +710,7 @@
                           "start": 650,
                           "end": 652
                         },
-                        "ctxt": 0,
-                        "value": "t2",
-                        "optional": false
+                        "value": "t2"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -803,9 +791,7 @@
                         "start": 921,
                         "end": 923
                       },
-                      "ctxt": 0,
-                      "value": "c3",
-                      "optional": false
+                      "value": "c3"
                     },
                     "value": {
                       "type": "Identifier",
@@ -918,9 +904,7 @@
                           "start": 955,
                           "end": 957
                         },
-                        "ctxt": 0,
-                        "value": "c3",
-                        "optional": false
+                        "value": "c3"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -940,9 +924,7 @@
                           "start": 962,
                           "end": 964
                         },
-                        "ctxt": 0,
-                        "value": "c5",
-                        "optional": false
+                        "value": "c5"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -994,9 +976,7 @@
                     "start": 1308,
                     "end": 1309
                   },
-                  "ctxt": 0,
-                  "value": "d",
-                  "optional": false
+                  "value": "d"
                 },
                 "value": {
                   "type": "ObjectPattern",
@@ -1171,9 +1151,7 @@
                     "start": 1365,
                     "end": 1366
                   },
-                  "ctxt": 0,
-                  "value": "d",
-                  "optional": false
+                  "value": "d"
                 },
                 "value": {
                   "type": "ObjectExpression",
@@ -1190,9 +1168,7 @@
                           "start": 1370,
                           "end": 1372
                         },
-                        "ctxt": 0,
-                        "value": "d1",
-                        "optional": false
+                        "value": "d1"
                       },
                       "value": {
                         "type": "ArrayExpression",

@@ -202,9 +202,7 @@
                       "start": 236,
                       "end": 243
                     },
-                    "ctxt": 0,
-                    "value": "resolve",
-                    "optional": false
+                    "value": "resolve"
                   }
                 },
                 "arguments": [

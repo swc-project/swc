@@ -395,6 +395,10 @@
             },
             "moduleRef": {
               "type": "TsQualifiedName",
+              "span": {
+                "start": 325,
+                "end": 330
+              },
               "left": {
                 "type": "Identifier",
                 "span": {
@@ -411,9 +415,7 @@
                   "start": 327,
                   "end": 330
                 },
-                "ctxt": 0,
-                "value": "inA",
-                "optional": false
+                "value": "inA"
               }
             }
           },
@@ -512,6 +514,10 @@
                       },
                       "typeName": {
                         "type": "TsQualifiedName",
+                        "span": {
+                          "start": 364,
+                          "end": 373
+                        },
                         "left": {
                           "type": "Identifier",
                           "span": {
@@ -528,9 +534,7 @@
                             "start": 366,
                             "end": 373
                           },
-                          "ctxt": 0,
-                          "value": "Point3D",
-                          "optional": false
+                          "value": "Point3D"
                         }
                       },
                       "typeParams": null
@@ -584,9 +588,7 @@
                           "start": 388,
                           "end": 389
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -606,9 +608,7 @@
                           "start": 393,
                           "end": 394
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -628,9 +628,7 @@
                           "start": 398,
                           "end": 399
                         },
-                        "ctxt": 0,
-                        "value": "z",
-                        "optional": false
+                        "value": "z"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -744,6 +742,10 @@
                       },
                       "typeName": {
                         "type": "TsQualifiedName",
+                        "span": {
+                          "start": 475,
+                          "end": 482
+                        },
                         "left": {
                           "type": "Identifier",
                           "span": {
@@ -760,9 +762,7 @@
                             "start": 477,
                             "end": 482
                           },
-                          "ctxt": 0,
-                          "value": "Point",
-                          "optional": false
+                          "value": "Point"
                         }
                       },
                       "typeParams": null
@@ -822,6 +822,10 @@
             },
             "moduleRef": {
               "type": "TsQualifiedName",
+              "span": {
+                "start": 537,
+                "end": 542
+              },
               "left": {
                 "type": "Identifier",
                 "span": {
@@ -838,9 +842,7 @@
                   "start": 539,
                   "end": 542
                 },
-                "ctxt": 0,
-                "value": "inA",
-                "optional": false
+                "value": "inA"
               }
             }
           },
@@ -894,6 +896,10 @@
                         },
                         "typeName": {
                           "type": "TsQualifiedName",
+                          "span": {
+                            "start": 573,
+                            "end": 582
+                          },
                           "left": {
                             "type": "Identifier",
                             "span": {
@@ -910,9 +916,7 @@
                               "start": 575,
                               "end": 582
                             },
-                            "ctxt": 0,
-                            "value": "Point3D",
-                            "optional": false
+                            "value": "Point3D"
                           }
                         },
                         "typeParams": null
@@ -979,9 +983,7 @@
                             "start": 607,
                             "end": 608
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         }
                       }
                     }

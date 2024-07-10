@@ -38,9 +38,7 @@
               "start": 35,
               "end": 46
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -187,9 +185,7 @@
               "start": 92,
               "end": 96
             },
-            "ctxt": 0,
-            "value": "next",
-            "optional": false
+            "value": "next"
           },
           "function": {
             "params": [],
@@ -228,9 +224,7 @@
                             "start": 130,
                             "end": 135
                           },
-                          "ctxt": 0,
-                          "value": "value",
-                          "optional": false
+                          "value": "value"
                         },
                         "value": {
                           "type": "CallExpression",
@@ -261,9 +255,7 @@
                             "start": 159,
                             "end": 163
                           },
-                          "ctxt": 0,
-                          "value": "done",
-                          "optional": false
+                          "value": "done"
                         },
                         "value": {
                           "type": "BooleanLiteral",
@@ -325,9 +317,7 @@
                   "start": 201,
                   "end": 209
                 },
-                "ctxt": 0,
-                "value": "iterator",
-                "optional": false
+                "value": "iterator"
               }
             }
           },
@@ -414,9 +404,7 @@
               "start": 273,
               "end": 277
             },
-            "ctxt": 0,
-            "value": "next",
-            "optional": false
+            "value": "next"
           },
           "function": {
             "params": [],
@@ -455,9 +443,7 @@
                             "start": 311,
                             "end": 316
                           },
-                          "ctxt": 0,
-                          "value": "value",
-                          "optional": false
+                          "value": "value"
                         },
                         "value": {
                           "type": "StringLiteral",
@@ -477,9 +463,7 @@
                             "start": 334,
                             "end": 338
                           },
-                          "ctxt": 0,
-                          "value": "done",
-                          "optional": false
+                          "value": "done"
                         },
                         "value": {
                           "type": "BooleanLiteral",
@@ -541,9 +525,7 @@
                   "start": 376,
                   "end": 384
                 },
-                "ctxt": 0,
-                "value": "iterator",
-                "optional": false
+                "value": "iterator"
               }
             }
           },

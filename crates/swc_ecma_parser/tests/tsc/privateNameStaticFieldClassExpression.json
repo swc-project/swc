@@ -63,9 +63,7 @@
                     "start": 65,
                     "end": 76
                   },
-                  "ctxt": 0,
-                  "value": "constructor",
-                  "optional": false
+                  "value": "constructor"
                 },
                 "params": [],
                 "body": {
@@ -111,9 +109,7 @@
                               "start": 101,
                               "end": 104
                             },
-                            "ctxt": 0,
-                            "value": "log",
-                            "optional": false
+                            "value": "log"
                           }
                         },
                         "arguments": [
@@ -192,9 +188,7 @@
                     "start": 167,
                     "end": 171
                   },
-                  "ctxt": 0,
-                  "value": "test",
-                  "optional": false
+                  "value": "test"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -228,9 +222,7 @@
                     "start": 187,
                     "end": 192
                   },
-                  "ctxt": 0,
-                  "value": "field",
-                  "optional": false
+                  "value": "field"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -314,9 +306,7 @@
                     "start": 252,
                     "end": 262
                   },
-                  "ctxt": 0,
-                  "value": "otherClass",
-                  "optional": false
+                  "value": "otherClass"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -366,9 +356,7 @@
               "start": 282,
               "end": 283
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "function": {
             "params": [],
@@ -421,9 +409,7 @@
                           "start": 304,
                           "end": 307
                         },
-                        "ctxt": 0,
-                        "value": "log",
-                        "optional": false
+                        "value": "log"
                       }
                     },
                     "arguments": [
@@ -466,9 +452,7 @@
                               "start": 315,
                               "end": 319
                             },
-                            "ctxt": 0,
-                            "value": "test",
-                            "optional": false
+                            "value": "test"
                           }
                         }
                       }
@@ -526,9 +510,7 @@
                           "start": 336,
                           "end": 340
                         },
-                        "ctxt": 0,
-                        "value": "test",
-                        "optional": false
+                        "value": "test"
                       }
                     },
                     "right": {
@@ -595,9 +577,7 @@
                         "start": 368,
                         "end": 373
                       },
-                      "ctxt": 0,
-                      "value": "field",
-                      "optional": false
+                      "value": "field"
                     }
                   }
                 }

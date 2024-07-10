@@ -37,9 +37,7 @@
               "start": 71,
               "end": 72
             },
-            "ctxt": 0,
-            "value": "t",
-            "optional": false
+            "value": "t"
           },
           "value": null,
           "typeAnnotation": {
@@ -79,9 +77,7 @@
               "start": 87,
               "end": 89
             },
-            "ctxt": 0,
-            "value": "fn",
-            "optional": false
+            "value": "fn"
           },
           "function": {
             "params": [],
@@ -167,9 +163,7 @@
                                 "start": 225,
                                 "end": 226
                               },
-                              "ctxt": 0,
-                              "value": "x",
-                              "optional": false
+                              "value": "x"
                             },
                             "value": {
                               "type": "ThisExpression",
@@ -187,9 +181,7 @@
                                 "start": 234,
                                 "end": 235
                               },
-                              "ctxt": 0,
-                              "value": "y",
-                              "optional": false
+                              "value": "y"
                             },
                             "value": {
                               "type": "MemberExpression",
@@ -210,9 +202,7 @@
                                   "start": 242,
                                   "end": 243
                                 },
-                                "ctxt": 0,
-                                "value": "t",
-                                "optional": false
+                                "value": "t"
                               }
                             }
                           }
@@ -412,9 +402,7 @@
                     "start": 400,
                     "end": 401
                   },
-                  "ctxt": 0,
-                  "value": "f",
-                  "optional": false
+                  "value": "f"
                 },
                 "params": [],
                 "decorators": [],
@@ -456,9 +444,7 @@
                             "start": 426,
                             "end": 433
                           },
-                          "ctxt": 0,
-                          "value": "spaaace",
-                          "optional": false
+                          "value": "spaaace"
                         }
                       }
                     }

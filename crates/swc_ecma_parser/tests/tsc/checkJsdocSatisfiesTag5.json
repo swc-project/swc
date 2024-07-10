@@ -53,9 +53,7 @@
                       "start": 208,
                       "end": 213
                     },
-                    "ctxt": 0,
-                    "value": "start",
-                    "optional": false
+                    "value": "start"
                   },
                   "params": [],
                   "decorators": [],
@@ -86,9 +84,7 @@
                       "start": 225,
                       "end": 229
                     },
-                    "ctxt": 0,
-                    "value": "move",
-                    "optional": false
+                    "value": "move"
                   },
                   "params": [
                     {
@@ -139,9 +135,7 @@
                       "start": 276,
                       "end": 280
                     },
-                    "ctxt": 0,
-                    "value": "stop",
-                    "optional": false
+                    "value": "stop"
                   },
                   "params": [],
                   "decorators": [],

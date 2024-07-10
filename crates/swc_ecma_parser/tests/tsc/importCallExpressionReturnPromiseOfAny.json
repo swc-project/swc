@@ -952,9 +952,7 @@
               "start": 708,
               "end": 712
             },
-            "ctxt": 0,
-            "value": "then",
-            "optional": false
+            "value": "then"
           }
         },
         "arguments": [
@@ -1023,9 +1021,7 @@
                             "start": 739,
                             "end": 742
                           },
-                          "ctxt": 0,
-                          "value": "foo",
-                          "optional": false
+                          "value": "foo"
                         }
                       },
                       "arguments": [],

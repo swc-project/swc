@@ -154,9 +154,7 @@
                 "start": 174,
                 "end": 175
               },
-              "ctxt": 0,
-              "value": "m",
-              "optional": false
+              "value": "m"
             },
             "function": {
               "params": [],
@@ -313,9 +311,7 @@
                       "start": 264,
                       "end": 265
                     },
-                    "ctxt": 0,
-                    "value": "m",
-                    "optional": false
+                    "value": "m"
                   },
                   "value": {
                     "type": "ArrowFunctionExpression",
@@ -455,9 +451,7 @@
                 "start": 372,
                 "end": 373
               },
-              "ctxt": 0,
-              "value": "p",
-              "optional": false
+              "value": "p"
             },
             "value": {
               "type": "ObjectExpression",
@@ -474,9 +468,7 @@
                       "start": 386,
                       "end": 387
                     },
-                    "ctxt": 0,
-                    "value": "m",
-                    "optional": false
+                    "value": "m"
                   },
                   "value": {
                     "type": "ArrowFunctionExpression",

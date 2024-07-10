@@ -33,9 +33,7 @@
                 "start": 50,
                 "end": 51
               },
-              "ctxt": 0,
-              "value": "z",
-              "optional": false
+              "value": "z"
             },
             "value": {
               "type": "StringLiteral",

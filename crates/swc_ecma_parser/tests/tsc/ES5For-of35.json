@@ -43,9 +43,7 @@
                       "start": 60,
                       "end": 61
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "AssignmentPattern",
@@ -83,9 +81,7 @@
                       "start": 70,
                       "end": 71
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   },
                   "value": {
                     "type": "AssignmentPattern",

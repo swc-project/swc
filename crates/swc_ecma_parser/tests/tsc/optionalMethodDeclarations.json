@@ -37,9 +37,7 @@
               "start": 184,
               "end": 190
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": true
+            "value": "method"
           },
           "function": {
             "params": [],

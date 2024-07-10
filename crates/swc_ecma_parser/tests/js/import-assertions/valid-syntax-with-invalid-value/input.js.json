@@ -55,9 +55,7 @@
                 "start": 37,
                 "end": 41
               },
-              "ctxt": 0,
-              "value": "type",
-              "optional": false
+              "value": "type"
             },
             "value": {
               "type": "StringLiteral",
@@ -77,9 +75,7 @@
                 "start": 51,
                 "end": 55
               },
-              "ctxt": 0,
-              "value": "lazy",
-              "optional": false
+              "value": "lazy"
             },
             "value": {
               "type": "BooleanLiteral",
@@ -98,9 +94,7 @@
                 "start": 63,
                 "end": 74
               },
-              "ctxt": 0,
-              "value": "startAtLine",
-              "optional": false
+              "value": "startAtLine"
             },
             "value": {
               "type": "NumericLiteral",

@@ -38,9 +38,7 @@
               "start": 176,
               "end": 187
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -103,9 +101,7 @@
                         "start": 209,
                         "end": 217
                       },
-                      "ctxt": 0,
-                      "value": "compiler",
-                      "optional": false
+                      "value": "compiler"
                     }
                   },
                   "right": {
@@ -167,9 +163,7 @@
               "start": 244,
               "end": 251
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -283,9 +277,7 @@
               "start": 367,
               "end": 374
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {

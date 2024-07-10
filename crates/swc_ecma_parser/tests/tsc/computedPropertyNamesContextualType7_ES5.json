@@ -797,9 +797,7 @@
                       "start": 265,
                       "end": 266
                     },
-                    "ctxt": 0,
-                    "value": "p",
-                    "optional": false
+                    "value": "p"
                   },
                   "value": {
                     "type": "StringLiteral",

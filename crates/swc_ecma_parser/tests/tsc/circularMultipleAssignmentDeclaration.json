@@ -40,9 +40,7 @@
               "start": 111,
               "end": 115
             },
-            "ctxt": 0,
-            "value": "next",
-            "optional": false
+            "value": "next"
           }
         },
         "right": {
@@ -74,9 +72,7 @@
                 "start": 121,
                 "end": 125
               },
-              "ctxt": 0,
-              "value": "next",
-              "optional": false
+              "value": "next"
             }
           },
           "right": {
@@ -94,9 +90,7 @@
                     "start": 131,
                     "end": 137
                   },
-                  "ctxt": 0,
-                  "value": "shared",
-                  "optional": false
+                  "value": "shared"
                 },
                 "value": {
                   "type": "ObjectExpression",
@@ -159,9 +153,7 @@
                   "start": 148,
                   "end": 152
                 },
-                "ctxt": 0,
-                "value": "next",
-                "optional": false
+                "value": "next"
               }
             },
             "property": {
@@ -170,9 +162,7 @@
                 "start": 153,
                 "end": 159
               },
-              "ctxt": 0,
-              "value": "shared",
-              "optional": false
+              "value": "shared"
             }
           },
           "property": {
@@ -181,9 +171,7 @@
               "start": 160,
               "end": 168
             },
-            "ctxt": 0,
-            "value": "mymethod",
-            "optional": false
+            "value": "mymethod"
           }
         },
         "right": {

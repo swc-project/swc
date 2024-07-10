@@ -63,6 +63,10 @@
                     },
                     "typeName": {
                       "type": "TsQualifiedName",
+                      "span": {
+                        "start": 78,
+                        "end": 97
+                      },
                       "left": {
                         "type": "Identifier",
                         "span": {
@@ -79,9 +83,7 @@
                           "start": 84,
                           "end": 97
                         },
-                        "ctxt": 0,
-                        "value": "ComponentType",
-                        "optional": false
+                        "value": "ComponentType"
                       }
                     },
                     "typeParams": {
@@ -137,9 +139,7 @@
                       "start": 277,
                       "end": 288
                     },
-                    "ctxt": 0,
-                    "value": "displayName",
-                    "optional": false
+                    "value": "displayName"
                   },
                   "value": {
                     "type": "TemplateLiteral",
@@ -229,9 +229,7 @@
                       "start": 351,
                       "end": 356
                     },
-                    "ctxt": 0,
-                    "value": "state",
-                    "optional": false
+                    "value": "state"
                   },
                   "value": {
                     "type": "ObjectExpression",
@@ -248,9 +246,7 @@
                             "start": 367,
                             "end": 372
                           },
-                          "ctxt": 0,
-                          "value": "teams",
-                          "optional": false
+                          "value": "teams"
                         },
                         "value": {
                           "type": "ArrayExpression",
@@ -269,9 +265,7 @@
                             "start": 384,
                             "end": 396
                           },
-                          "ctxt": 0,
-                          "value": "loadingTeams",
-                          "optional": false
+                          "value": "loadingTeams"
                         },
                         "value": {
                           "type": "BooleanLiteral",
@@ -290,9 +284,7 @@
                             "start": 410,
                             "end": 415
                           },
-                          "ctxt": 0,
-                          "value": "error",
-                          "optional": false
+                          "value": "error"
                         },
                         "value": {
                           "type": "NullLiteral",
@@ -327,9 +319,7 @@
                       "start": 435,
                       "end": 452
                     },
-                    "ctxt": 0,
-                    "value": "componentDidMount",
-                    "optional": false
+                    "value": "componentDidMount"
                   },
                   "function": {
                     "params": [],
@@ -379,9 +369,7 @@
                                   "start": 468,
                                   "end": 478
                                 },
-                                "ctxt": 0,
-                                "value": "fetchTeams",
-                                "optional": false
+                                "value": "fetchTeams"
                               }
                             },
                             "arguments": [],
@@ -414,9 +402,7 @@
                       "start": 499,
                       "end": 509
                     },
-                    "ctxt": 0,
-                    "value": "fetchTeams",
-                    "optional": false
+                    "value": "fetchTeams"
                   },
                   "function": {
                     "params": [],
@@ -466,9 +452,7 @@
                                   "start": 525,
                                   "end": 533
                                 },
-                                "ctxt": 0,
-                                "value": "setState",
-                                "optional": false
+                                "value": "setState"
                               }
                             },
                             "arguments": [
@@ -489,9 +473,7 @@
                                           "start": 544,
                                           "end": 556
                                         },
-                                        "ctxt": 0,
-                                        "value": "loadingTeams",
-                                        "optional": false
+                                        "value": "loadingTeams"
                                       },
                                       "value": {
                                         "type": "BooleanLiteral",
@@ -558,9 +540,7 @@
                                         "start": 602,
                                         "end": 606
                                       },
-                                      "ctxt": 0,
-                                      "value": "mark",
-                                      "optional": false
+                                      "value": "mark"
                                     }
                                   },
                                   "arguments": [
@@ -581,9 +561,7 @@
                                                 "start": 609,
                                                 "end": 613
                                               },
-                                              "ctxt": 0,
-                                              "value": "name",
-                                              "optional": false
+                                              "value": "name"
                                             },
                                             "value": {
                                               "type": "StringLiteral",
@@ -704,9 +682,7 @@
                                                   "start": 709,
                                                   "end": 714
                                                 },
-                                                "ctxt": 0,
-                                                "value": "props",
-                                                "optional": false
+                                                "value": "props"
                                               }
                                             },
                                             "property": {
@@ -715,9 +691,7 @@
                                                 "start": 715,
                                                 "end": 718
                                               },
-                                              "ctxt": 0,
-                                              "value": "api",
-                                              "optional": false
+                                              "value": "api"
                                             }
                                           },
                                           "property": {
@@ -726,9 +700,7 @@
                                               "start": 719,
                                               "end": 733
                                             },
-                                            "ctxt": 0,
-                                            "value": "requestPromise",
-                                            "optional": false
+                                            "value": "requestPromise"
                                           }
                                         },
                                         "arguments": [
@@ -760,9 +732,7 @@
                                                     "start": 750,
                                                     "end": 771
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "getUsersTeamsEndpoint",
-                                                  "optional": false
+                                                  "value": "getUsersTeamsEndpoint"
                                                 }
                                               },
                                               "arguments": [],
@@ -809,9 +779,7 @@
                                         "start": 798,
                                         "end": 806
                                       },
-                                      "ctxt": 0,
-                                      "value": "setState",
-                                      "optional": false
+                                      "value": "setState"
                                     }
                                   },
                                   "arguments": [
@@ -832,9 +800,7 @@
                                                 "start": 832,
                                                 "end": 837
                                               },
-                                              "ctxt": 0,
-                                              "value": "teams",
-                                              "optional": false
+                                              "value": "teams"
                                             },
                                             "value": {
                                               "type": "Identifier",
@@ -855,9 +821,7 @@
                                                 "start": 870,
                                                 "end": 882
                                               },
-                                              "ctxt": 0,
-                                              "value": "loadingTeams",
-                                              "optional": false
+                                              "value": "loadingTeams"
                                             },
                                             "value": {
                                               "type": "BooleanLiteral",
@@ -924,9 +888,7 @@
                                                       "start": 941,
                                                       "end": 948
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "measure",
-                                                    "optional": false
+                                                    "value": "measure"
                                                   }
                                                 },
                                                 "arguments": [
@@ -947,9 +909,7 @@
                                                               "start": 965,
                                                               "end": 969
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "name",
-                                                            "optional": false
+                                                            "value": "name"
                                                           },
                                                           "value": {
                                                             "type": "StringLiteral",
@@ -969,9 +929,7 @@
                                                               "start": 1007,
                                                               "end": 1012
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "start",
-                                                            "optional": false
+                                                            "value": "start"
                                                           },
                                                           "value": {
                                                             "type": "StringLiteral",
@@ -991,9 +949,7 @@
                                                               "start": 1054,
                                                               "end": 1058
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "data",
-                                                            "optional": false
+                                                            "value": "data"
                                                           },
                                                           "value": {
                                                             "type": "ObjectExpression",
@@ -1010,9 +966,7 @@
                                                                     "start": 1078,
                                                                     "end": 1082
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "name",
-                                                                  "optional": false
+                                                                  "value": "name"
                                                                 },
                                                                 "value": {
                                                                   "type": "StringLiteral",
@@ -1032,9 +986,7 @@
                                                                     "start": 1114,
                                                                     "end": 1119
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "route",
-                                                                  "optional": false
+                                                                  "value": "route"
                                                                 },
                                                                 "value": {
                                                                   "type": "StringLiteral",
@@ -1054,9 +1006,7 @@
                                                                     "start": 1173,
                                                                     "end": 1188
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "organization_id",
-                                                                  "optional": false
+                                                                  "value": "organization_id"
                                                                 },
                                                                 "value": {
                                                                   "type": "CallExpression",
@@ -1109,9 +1059,7 @@
                                                                                 "start": 1204,
                                                                                 "end": 1209
                                                                               },
-                                                                              "ctxt": 0,
-                                                                              "value": "props",
-                                                                              "optional": false
+                                                                              "value": "props"
                                                                             }
                                                                           },
                                                                           "property": {
@@ -1120,9 +1068,7 @@
                                                                               "start": 1210,
                                                                               "end": 1222
                                                                             },
-                                                                            "ctxt": 0,
-                                                                            "value": "organization",
-                                                                            "optional": false
+                                                                            "value": "organization"
                                                                           }
                                                                         },
                                                                         "property": {
@@ -1131,9 +1077,7 @@
                                                                             "start": 1223,
                                                                             "end": 1225
                                                                           },
-                                                                          "ctxt": 0,
-                                                                          "value": "id",
-                                                                          "optional": false
+                                                                          "value": "id"
                                                                         }
                                                                       }
                                                                     },
@@ -1234,9 +1178,7 @@
                                           "start": 1325,
                                           "end": 1333
                                         },
-                                        "ctxt": 0,
-                                        "value": "setState",
-                                        "optional": false
+                                        "value": "setState"
                                       }
                                     },
                                     "arguments": [
@@ -1267,9 +1209,7 @@
                                                   "start": 1363,
                                                   "end": 1375
                                                 },
-                                                "ctxt": 0,
-                                                "value": "loadingTeams",
-                                                "optional": false
+                                                "value": "loadingTeams"
                                               },
                                               "value": {
                                                 "type": "BooleanLiteral",
@@ -1318,9 +1258,7 @@
                       "start": 1415,
                       "end": 1440
                     },
-                    "ctxt": 0,
-                    "value": "populateTeamsWithProjects",
-                    "optional": false
+                    "value": "populateTeamsWithProjects"
                   },
                   "function": {
                     "params": [
@@ -1514,9 +1452,7 @@
                                       "start": 1521,
                                       "end": 1524
                                     },
-                                    "ctxt": 0,
-                                    "value": "get",
-                                    "optional": false
+                                    "value": "get"
                                   }
                                 },
                                 "arguments": [
@@ -1736,9 +1672,7 @@
                                       "start": 1707,
                                       "end": 1710
                                     },
-                                    "ctxt": 0,
-                                    "value": "map",
-                                    "optional": false
+                                    "value": "map"
                                   }
                                 },
                                 "arguments": [
@@ -1850,9 +1784,7 @@
                                                             "start": 1772,
                                                             "end": 1776
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "slug",
-                                                          "optional": false
+                                                          "value": "slug"
                                                         }
                                                       }
                                                     }
@@ -1908,9 +1840,7 @@
                                                       "start": 1811,
                                                       "end": 1819
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "projects",
-                                                    "optional": false
+                                                    "value": "projects"
                                                   },
                                                   "value": {
                                                     "type": "Identifier",
@@ -1973,9 +1903,7 @@
                                   "start": 1858,
                                   "end": 1866
                                 },
-                                "ctxt": 0,
-                                "value": "setState",
-                                "optional": false
+                                "value": "setState"
                               }
                             },
                             "arguments": [
@@ -1996,9 +1924,7 @@
                                           "start": 1877,
                                           "end": 1882
                                         },
-                                        "ctxt": 0,
-                                        "value": "teams",
-                                        "optional": false
+                                        "value": "teams"
                                       },
                                       "value": {
                                         "type": "Identifier",
@@ -2019,9 +1945,7 @@
                                           "start": 1911,
                                           "end": 1923
                                         },
-                                        "ctxt": 0,
-                                        "value": "loadingTeams",
-                                        "optional": false
+                                        "value": "loadingTeams"
                                       },
                                       "value": {
                                         "type": "BooleanLiteral",
@@ -2065,9 +1989,7 @@
                       "start": 1953,
                       "end": 1974
                     },
-                    "ctxt": 0,
-                    "value": "getUsersTeamsEndpoint",
-                    "optional": false
+                    "value": "getUsersTeamsEndpoint"
                   },
                   "function": {
                     "params": [],
@@ -2129,9 +2051,7 @@
                                         "start": 2015,
                                         "end": 2020
                                       },
-                                      "ctxt": 0,
-                                      "value": "props",
-                                      "optional": false
+                                      "value": "props"
                                     }
                                   },
                                   "property": {
@@ -2140,9 +2060,7 @@
                                       "start": 2021,
                                       "end": 2033
                                     },
-                                    "ctxt": 0,
-                                    "value": "organization",
-                                    "optional": false
+                                    "value": "organization"
                                   }
                                 },
                                 "property": {
@@ -2151,9 +2069,7 @@
                                     "start": 2034,
                                     "end": 2038
                                   },
-                                  "ctxt": 0,
-                                  "value": "slug",
-                                  "optional": false
+                                  "value": "slug"
                                 }
                               }
                             ],
@@ -2207,9 +2123,7 @@
                       "start": 2065,
                       "end": 2071
                     },
-                    "ctxt": 0,
-                    "value": "render",
-                    "optional": false
+                    "value": "render"
                   },
                   "function": {
                     "params": [],
@@ -2299,9 +2213,7 @@
                                               "start": 2137,
                                               "end": 2142
                                             },
-                                            "ctxt": 0,
-                                            "value": "props",
-                                            "optional": false
+                                            "value": "props"
                                           }
                                         },
                                         "typeAnnotation": {
@@ -2377,9 +2289,7 @@
                                           "start": 2186,
                                           "end": 2191
                                         },
-                                        "ctxt": 0,
-                                        "value": "state",
-                                        "optional": false
+                                        "value": "state"
                                       }
                                     }
                                   }
@@ -2429,9 +2339,7 @@
                     "start": 128,
                     "end": 137
                   },
-                  "ctxt": 0,
-                  "value": "Component",
-                  "optional": false
+                  "value": "Component"
                 }
               },
               "isAbstract": false,

@@ -64,9 +64,7 @@
                           "start": 43,
                           "end": 52
                         },
-                        "ctxt": 0,
-                        "value": "arguments",
-                        "optional": false
+                        "value": "arguments"
                       },
                       "value": {
                         "type": "Identifier",
@@ -142,9 +140,7 @@
                     "start": 91,
                     "end": 97
                   },
-                  "ctxt": 0,
-                  "value": "random",
-                  "optional": false
+                  "value": "random"
                 }
               },
               "arguments": [],

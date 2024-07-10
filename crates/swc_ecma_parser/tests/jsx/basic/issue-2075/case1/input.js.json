@@ -67,9 +67,7 @@
                       "start": 16,
                       "end": 23
                     },
-                    "ctxt": 0,
-                    "value": "onclick",
-                    "optional": false
+                    "value": "onclick"
                   },
                   "value": {
                     "type": "JSXExpressionContainer",
@@ -92,9 +90,7 @@
                               "start": 27,
                               "end": 35
                             },
-                            "ctxt": 0,
-                            "value": "function",
-                            "optional": false
+                            "value": "function"
                           },
                           "value": {
                             "type": "NumericLiteral",

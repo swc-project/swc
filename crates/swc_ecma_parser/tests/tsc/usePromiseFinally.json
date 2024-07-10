@@ -138,9 +138,7 @@
                   "start": 112,
                   "end": 119
                 },
-                "ctxt": 0,
-                "value": "finally",
-                "optional": false
+                "value": "finally"
               }
             },
             "arguments": [

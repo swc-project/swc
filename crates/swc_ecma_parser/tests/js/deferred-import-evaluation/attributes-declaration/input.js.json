@@ -55,9 +55,7 @@
                 "start": 38,
                 "end": 42
               },
-              "ctxt": 0,
-              "value": "attr",
-              "optional": false
+              "value": "attr"
             },
             "value": {
               "type": "StringLiteral",

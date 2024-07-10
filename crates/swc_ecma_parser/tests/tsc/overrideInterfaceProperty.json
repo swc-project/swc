@@ -621,9 +621,7 @@
               "start": 379,
               "end": 383
             },
-            "ctxt": 0,
-            "value": "size",
-            "optional": false
+            "value": "size"
           },
           "function": {
             "params": [],
@@ -719,9 +717,7 @@
               "start": 432,
               "end": 436
             },
-            "ctxt": 0,
-            "value": "size",
-            "optional": false
+            "value": "size"
           },
           "value": {
             "type": "UnaryExpression",

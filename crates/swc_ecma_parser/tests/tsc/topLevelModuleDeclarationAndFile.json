@@ -253,9 +253,7 @@
                   "start": 269,
                   "end": 270
                 },
-                "ctxt": 0,
-                "value": "x",
-                "optional": false
+                "value": "x"
               }
             },
             "right": {
@@ -335,9 +333,7 @@
                     "start": 335,
                     "end": 336
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 }
               },
               "arguments": [],

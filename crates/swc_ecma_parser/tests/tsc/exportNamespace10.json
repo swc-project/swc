@@ -154,6 +154,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 146,
+                    "end": 150
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -170,9 +174,7 @@
                       "start": 149,
                       "end": 150
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 },
                 "typeParams": null
@@ -208,9 +210,7 @@
                   "start": 160,
                   "end": 161
                 },
-                "ctxt": 0,
-                "value": "A",
-                "optional": false
+                "value": "A"
               }
             },
             "arguments": [],

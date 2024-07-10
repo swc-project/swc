@@ -153,9 +153,7 @@
                 "start": 155,
                 "end": 156
               },
-              "ctxt": 0,
-              "value": "s",
-              "optional": false
+              "value": "s"
             },
             "value": {
               "type": "NumericLiteral",
@@ -189,9 +187,7 @@
                 "start": 166,
                 "end": 167
               },
-              "ctxt": 0,
-              "value": "p",
-              "optional": false
+              "value": "p"
             },
             "value": {
               "type": "NumericLiteral",
@@ -225,9 +221,7 @@
                 "start": 177,
                 "end": 183
               },
-              "ctxt": 0,
-              "value": "method",
-              "optional": false
+              "value": "method"
             },
             "function": {
               "params": [],

@@ -37,9 +37,7 @@
               "start": 103,
               "end": 106
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -186,9 +184,7 @@
                   "start": 140,
                   "end": 148
                 },
-                "ctxt": 0,
-                "value": "toString",
-                "optional": false
+                "value": "toString"
               }
             },
             "arguments": [],
@@ -321,9 +317,7 @@
                 "start": 189,
                 "end": 192
               },
-              "ctxt": 0,
-              "value": "foo",
-              "optional": false
+              "value": "foo"
             }
           },
           "definite": false
@@ -570,9 +564,7 @@
                   "start": 268,
                   "end": 276
                 },
-                "ctxt": 0,
-                "value": "toString",
-                "optional": false
+                "value": "toString"
               }
             },
             "arguments": [],
@@ -705,9 +697,7 @@
                 "start": 317,
                 "end": 320
               },
-              "ctxt": 0,
-              "value": "bar",
-              "optional": false
+              "value": "bar"
             }
           },
           "definite": false
@@ -820,9 +810,7 @@
                     "start": 356,
                     "end": 359
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "value": {
                   "type": "StringLiteral",
@@ -896,9 +884,7 @@
                   "start": 378,
                   "end": 386
                 },
-                "ctxt": 0,
-                "value": "toString",
-                "optional": false
+                "value": "toString"
               }
             },
             "arguments": [],
@@ -1031,9 +1017,7 @@
                 "start": 428,
                 "end": 431
               },
-              "ctxt": 0,
-              "value": "foo",
-              "optional": false
+              "value": "foo"
             }
           },
           "definite": false

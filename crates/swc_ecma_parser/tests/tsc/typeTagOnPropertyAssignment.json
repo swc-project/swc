@@ -47,9 +47,7 @@
                     "start": 132,
                     "end": 133
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 },
                 "value": {
                   "type": "StringLiteral",
@@ -69,9 +67,7 @@
                     "start": 173,
                     "end": 174
                   },
-                  "ctxt": 0,
-                  "value": "n",
-                  "optional": false
+                  "value": "n"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -130,9 +126,7 @@
             "start": 191,
             "end": 192
           },
-          "ctxt": 0,
-          "value": "a",
-          "optional": false
+          "value": "a"
         }
       }
     },
@@ -164,9 +158,7 @@
             "start": 195,
             "end": 196
           },
-          "ctxt": 0,
-          "value": "n",
-          "optional": false
+          "value": "n"
         }
       }
     }

@@ -114,9 +114,7 @@
               "start": 227,
               "end": 235
             },
-            "ctxt": 0,
-            "value": "inherits",
-            "optional": false
+            "value": "inherits"
           }
         },
         "right": {

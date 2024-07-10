@@ -40,9 +40,7 @@
               "start": 6,
               "end": 9
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           }
         }
       }
@@ -95,9 +93,7 @@
                   "start": 16,
                   "end": 19
                 },
-                "ctxt": 0,
-                "value": "bar",
-                "optional": false
+                "value": "bar"
               }
             }
           },
@@ -107,9 +103,7 @@
               "start": 21,
               "end": 24
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           }
         }
       }
@@ -155,9 +149,7 @@
                 "start": 30,
                 "end": 33
               },
-              "ctxt": 0,
-              "value": "bar",
-              "optional": false
+              "value": "bar"
             }
           },
           "property": {
@@ -166,9 +158,7 @@
               "start": 35,
               "end": 38
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           }
         }
       }

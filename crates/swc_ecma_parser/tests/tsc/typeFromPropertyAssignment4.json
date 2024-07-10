@@ -79,9 +79,7 @@
               "start": 118,
               "end": 123
             },
-            "ctxt": 0,
-            "value": "Inner",
-            "optional": false
+            "value": "Inner"
           }
         },
         "right": {
@@ -107,9 +105,7 @@
                   "start": 138,
                   "end": 149
                 },
-                "ctxt": 0,
-                "value": "constructor",
-                "optional": false
+                "value": "constructor"
               },
               "params": [],
               "body": {
@@ -152,9 +148,7 @@
                             "start": 197,
                             "end": 198
                           },
-                          "ctxt": 0,
-                          "value": "y",
-                          "optional": false
+                          "value": "y"
                         }
                       },
                       "right": {
@@ -242,9 +236,7 @@
             "start": 256,
             "end": 257
           },
-          "ctxt": 0,
-          "value": "y",
-          "optional": false
+          "value": "y"
         }
       }
     },
@@ -304,9 +296,7 @@
                   "start": 280,
                   "end": 285
                 },
-                "ctxt": 0,
-                "value": "Inner",
-                "optional": false
+                "value": "Inner"
               }
             },
             "arguments": [],
@@ -344,9 +334,7 @@
             "start": 294,
             "end": 295
           },
-          "ctxt": 0,
-          "value": "y",
-          "optional": false
+          "value": "y"
         }
       }
     },
@@ -410,9 +398,7 @@
             "start": 351,
             "end": 352
           },
-          "ctxt": 0,
-          "value": "y",
-          "optional": false
+          "value": "y"
         }
       }
     },
@@ -472,9 +458,7 @@
                   "start": 371,
                   "end": 376
                 },
-                "ctxt": 0,
-                "value": "Inner",
-                "optional": false
+                "value": "Inner"
               }
             },
             "arguments": [],
@@ -512,9 +496,7 @@
             "start": 381,
             "end": 382
           },
-          "ctxt": 0,
-          "value": "y",
-          "optional": false
+          "value": "y"
         }
       }
     }

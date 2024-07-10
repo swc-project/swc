@@ -218,9 +218,7 @@
             "start": 256,
             "end": 257
           },
-          "ctxt": 0,
-          "value": "A",
-          "optional": false
+          "value": "A"
         }
       }
     }

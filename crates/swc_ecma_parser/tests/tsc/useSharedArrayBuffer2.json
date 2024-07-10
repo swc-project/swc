@@ -125,9 +125,7 @@
                   "start": 86,
                   "end": 91
                 },
-                "ctxt": 0,
-                "value": "slice",
-                "optional": false
+                "value": "slice"
               }
             },
             "arguments": [
@@ -211,9 +209,7 @@
                 "start": 115,
                 "end": 125
               },
-              "ctxt": 0,
-              "value": "byteLength",
-              "optional": false
+              "value": "byteLength"
             }
           },
           "definite": false

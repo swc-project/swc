@@ -266,9 +266,7 @@
                             "start": 256,
                             "end": 265
                           },
-                          "ctxt": 0,
-                          "value": "directive",
-                          "optional": false
+                          "value": "directive"
                         },
                         "value": {
                           "type": "Identifier",

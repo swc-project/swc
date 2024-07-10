@@ -527,9 +527,7 @@
               "start": 271,
               "end": 282
             },
-            "ctxt": 0,
-            "value": "doSomething",
-            "optional": false
+            "value": "doSomething"
           },
           "function": {
             "params": [],
@@ -599,9 +597,7 @@
               "start": 345,
               "end": 348
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
@@ -717,9 +713,7 @@
               "start": 431,
               "end": 442
             },
-            "ctxt": 0,
-            "value": "doSomethang",
-            "optional": false
+            "value": "doSomethang"
           },
           "function": {
             "params": [],

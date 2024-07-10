@@ -1951,9 +1951,7 @@
                             "start": 1262,
                             "end": 1266
                           },
-                          "ctxt": 0,
-                          "value": "call",
-                          "optional": false
+                          "value": "call"
                         }
                       },
                       "arguments": [
@@ -2625,9 +2623,7 @@
                     "start": 1602,
                     "end": 1610
                   },
-                  "ctxt": 0,
-                  "value": "anything",
-                  "optional": false
+                  "value": "anything"
                 }
               }
             }

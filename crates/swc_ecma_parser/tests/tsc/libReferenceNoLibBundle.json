@@ -402,9 +402,7 @@
                       "start": 509,
                       "end": 514
                     },
-                    "ctxt": 0,
-                    "value": "field",
-                    "optional": false
+                    "value": "field"
                   },
                   "value": {
                     "type": "StringLiteral",

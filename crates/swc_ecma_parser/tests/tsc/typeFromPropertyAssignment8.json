@@ -97,9 +97,7 @@
               "start": 128,
               "end": 131
             },
-            "ctxt": 0,
-            "value": "app",
-            "optional": false
+            "value": "app"
           }
         },
         "right": {
@@ -131,9 +129,7 @@
                 "start": 137,
                 "end": 140
               },
-              "ctxt": 0,
-              "value": "app",
-              "optional": false
+              "value": "app"
             }
           },
           "right": {
@@ -188,9 +184,7 @@
                 "start": 152,
                 "end": 155
               },
-              "ctxt": 0,
-              "value": "app",
-              "optional": false
+              "value": "app"
             }
           },
           "property": {
@@ -199,9 +193,7 @@
               "start": 156,
               "end": 167
             },
-            "ctxt": 0,
-            "value": "Application",
-            "optional": false
+            "value": "Application"
           }
         },
         "right": {
@@ -361,9 +353,7 @@
                 "start": 259,
                 "end": 262
               },
-              "ctxt": 0,
-              "value": "app",
-              "optional": false
+              "value": "app"
             }
           },
           "property": {
@@ -372,9 +362,7 @@
               "start": 263,
               "end": 274
             },
-            "ctxt": 0,
-            "value": "Application",
-            "optional": false
+            "value": "Application"
           }
         },
         "arguments": [],
@@ -437,9 +425,7 @@
                   "start": 314,
                   "end": 317
                 },
-                "ctxt": 0,
-                "value": "min",
-                "optional": false
+                "value": "min"
               }
             },
             "right": {
@@ -490,9 +476,7 @@
               "start": 329,
               "end": 332
             },
-            "ctxt": 0,
-            "value": "app",
-            "optional": false
+            "value": "app"
           }
         },
         "right": {
@@ -524,9 +508,7 @@
                 "start": 339,
                 "end": 342
               },
-              "ctxt": 0,
-              "value": "app",
-              "optional": false
+              "value": "app"
             }
           },
           "right": {
@@ -581,9 +563,7 @@
                 "start": 355,
                 "end": 358
               },
-              "ctxt": 0,
-              "value": "app",
-              "optional": false
+              "value": "app"
             }
           },
           "property": {
@@ -592,9 +572,7 @@
               "start": 359,
               "end": 370
             },
-            "ctxt": 0,
-            "value": "Application",
-            "optional": false
+            "value": "Application"
           }
         },
         "right": {
@@ -754,9 +732,7 @@
                 "start": 463,
                 "end": 466
               },
-              "ctxt": 0,
-              "value": "app",
-              "optional": false
+              "value": "app"
             }
           },
           "property": {
@@ -765,9 +741,7 @@
               "start": 467,
               "end": 478
             },
-            "ctxt": 0,
-            "value": "Application",
-            "optional": false
+            "value": "Application"
           }
         },
         "arguments": [],

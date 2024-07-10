@@ -86,9 +86,7 @@
                       "start": 26,
                       "end": 29
                     },
-                    "ctxt": 0,
-                    "value": "bar",
-                    "optional": false
+                    "value": "bar"
                   }
                 },
                 "consequent": {
@@ -131,9 +129,7 @@
                             "start": 37,
                             "end": 40
                           },
-                          "ctxt": 0,
-                          "value": "bar",
-                          "optional": false
+                          "value": "bar"
                         }
                       },
                       "property": {
@@ -142,9 +138,7 @@
                           "start": 41,
                           "end": 44
                         },
-                        "ctxt": 0,
-                        "value": "bas",
-                        "optional": false
+                        "value": "bas"
                       }
                     },
                     "consequent": {

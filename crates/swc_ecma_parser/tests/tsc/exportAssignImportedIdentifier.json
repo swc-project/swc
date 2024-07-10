@@ -146,9 +146,7 @@
                 "start": 129,
                 "end": 130
               },
-              "ctxt": 0,
-              "value": "x",
-              "optional": false
+              "value": "x"
             }
           },
           "definite": false

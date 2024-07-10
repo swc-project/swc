@@ -74,9 +74,7 @@
               "start": 138,
               "end": 147
             },
-            "ctxt": 0,
-            "value": "prototype",
-            "optional": false
+            "value": "prototype"
           }
         },
         "right": {

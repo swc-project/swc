@@ -312,7 +312,7 @@ where
                 };
                 let prop = match &e.prop {
                     MemberProp::Ident(i) => {
-                        let mut i = i.clone();
+                        let mut i = Ident::from(i.clone());
                         i.ctxt = exported_ctxt;
                         i
                     }
@@ -351,7 +351,7 @@ where
         };
 
         let mut prop = match &me.prop {
-            MemberProp::Ident(v) => v.clone(),
+            MemberProp::Ident(v) => Ident::from(v.clone()),
             _ => return,
         };
         prop.ctxt = self.imported_idents.get(&obj.to_id()).copied().unwrap();

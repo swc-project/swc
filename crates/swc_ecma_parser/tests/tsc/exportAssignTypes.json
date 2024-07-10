@@ -298,9 +298,7 @@
                     "start": 255,
                     "end": 261
                   },
-                  "ctxt": 0,
-                  "value": "answer",
-                  "optional": false
+                  "value": "answer"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -320,9 +318,7 @@
                     "start": 267,
                     "end": 271
                   },
-                  "ctxt": 0,
-                  "value": "when",
-                  "optional": false
+                  "value": "when"
                 },
                 "value": {
                   "type": "NumericLiteral",

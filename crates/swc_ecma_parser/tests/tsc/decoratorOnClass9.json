@@ -127,9 +127,7 @@
               "start": 176,
               "end": 177
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": {
             "type": "NumericLiteral",
@@ -163,9 +161,7 @@
               "start": 194,
               "end": 195
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "value": {
             "type": "MemberExpression",
@@ -189,9 +185,7 @@
                 "start": 200,
                 "end": 201
               },
-              "ctxt": 0,
-              "value": "x",
-              "optional": false
+              "value": "x"
             }
           },
           "typeAnnotation": null,
@@ -217,9 +211,7 @@
               "start": 207,
               "end": 208
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "function": {
             "params": [],
@@ -265,9 +257,7 @@
                         "start": 230,
                         "end": 231
                       },
-                      "ctxt": 0,
-                      "value": "x",
-                      "optional": false
+                      "value": "x"
                     }
                   }
                 }

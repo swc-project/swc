@@ -101,9 +101,7 @@
               "start": 61,
               "end": 63
             },
-            "ctxt": 0,
-            "value": "id",
-            "optional": false
+            "value": "id"
           },
           "value": null,
           "typeAnnotation": {
@@ -143,9 +141,7 @@
               "start": 77,
               "end": 82
             },
-            "ctxt": 0,
-            "value": "valid",
-            "optional": false
+            "value": "valid"
           },
           "value": null,
           "typeAnnotation": {
@@ -231,9 +227,7 @@
               "start": 121,
               "end": 125
             },
-            "ctxt": 0,
-            "value": "name",
-            "optional": false
+            "value": "name"
           },
           "value": null,
           "typeAnnotation": {
@@ -309,9 +303,7 @@
               "start": 154,
               "end": 160
             },
-            "ctxt": 0,
-            "value": "source",
-            "optional": false
+            "value": "source"
           },
           "value": null,
           "typeAnnotation": {
@@ -361,9 +353,7 @@
               "start": 169,
               "end": 176
             },
-            "ctxt": 0,
-            "value": "recurse",
-            "optional": false
+            "value": "recurse"
           },
           "value": null,
           "typeAnnotation": {
@@ -439,9 +429,7 @@
               "start": 188,
               "end": 195
             },
-            "ctxt": 0,
-            "value": "wrapped",
-            "optional": false
+            "value": "wrapped"
           },
           "value": null,
           "typeAnnotation": {
@@ -730,9 +718,7 @@
                       "start": 294,
                       "end": 298
                     },
-                    "ctxt": 0,
-                    "value": "name",
-                    "optional": false
+                    "value": "name"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -871,9 +857,7 @@
                             "start": 368,
                             "end": 376
                           },
-                          "ctxt": 0,
-                          "value": "toString",
-                          "optional": false
+                          "value": "toString"
                         }
                       },
                       "arguments": [],
@@ -2011,9 +1995,7 @@
                 "start": 779,
                 "end": 780
               },
-              "ctxt": 0,
-              "value": "A",
-              "optional": false
+              "value": "A"
             }
           },
           "definite": false

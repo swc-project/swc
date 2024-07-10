@@ -11,7 +11,7 @@ use crate::{
         Accessibility, TsExprWithTypeArgs, TsIndexSignature, TsTypeAnn, TsTypeParamDecl,
         TsTypeParamInstantiation,
     },
-    BigInt, ComputedPropName, EmptyStmt, Id, Ident, Number,
+    BigInt, ComputedPropName, EmptyStmt, Id, Ident, IdentName, Number,
 };
 
 #[ast_node]
@@ -295,7 +295,8 @@ pub enum Key {
     Public(PropName),
 }
 
-bridge_from!(Key, PropName, Ident);
+bridge_from!(Key, IdentName, Ident);
+bridge_from!(Key, PropName, IdentName);
 bridge_from!(Key, PropName, Id);
 bridge_from!(Key, PropName, Number);
 bridge_from!(Key, PropName, ComputedPropName);

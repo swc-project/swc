@@ -124,9 +124,7 @@
                 "start": 394,
                 "end": 405
               },
-              "ctxt": 0,
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [
               {
@@ -208,9 +206,7 @@
                           "start": 483,
                           "end": 488
                         },
-                        "ctxt": 0,
-                        "value": "field",
-                        "optional": false
+                        "value": "field"
                       }
                     },
                     "right": {
@@ -242,9 +238,7 @@
                 "start": 580,
                 "end": 584
               },
-              "ctxt": 0,
-              "value": "doIt",
-              "optional": false
+              "value": "doIt"
             },
             "function": {
               "params": [],

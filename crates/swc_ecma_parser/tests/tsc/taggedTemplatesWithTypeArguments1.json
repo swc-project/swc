@@ -502,9 +502,7 @@
                           "start": 241,
                           "end": 242
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       }
                     },
                     "async": false,
@@ -554,9 +552,7 @@
                           "start": 275,
                           "end": 276
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       }
                     },
                     "async": false,
@@ -606,9 +602,7 @@
                           "start": 309,
                           "end": 310
                         },
-                        "ctxt": 0,
-                        "value": "z",
-                        "optional": false
+                        "value": "z"
                       }
                     },
                     "async": false,
@@ -1336,9 +1330,7 @@
                           "start": 545,
                           "end": 546
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       }
                     },
                     "async": false,
@@ -1388,9 +1380,7 @@
                           "start": 579,
                           "end": 580
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       }
                     },
                     "async": false,
@@ -1440,9 +1430,7 @@
                           "start": 613,
                           "end": 614
                         },
-                        "ctxt": 0,
-                        "value": "z",
-                        "optional": false
+                        "value": "z"
                       }
                     },
                     "async": false,
@@ -2026,9 +2014,7 @@
               "start": 809,
               "end": 824
             },
-            "ctxt": 0,
-            "value": "returnedObjProp",
-            "optional": false
+            "value": "returnedObjProp"
           }
         },
         "property": {
@@ -2037,9 +2023,7 @@
             "start": 825,
             "end": 826
           },
-          "ctxt": 0,
-          "value": "x",
-          "optional": false
+          "value": "x"
         }
       }
     },
@@ -2077,9 +2061,7 @@
               "start": 830,
               "end": 845
             },
-            "ctxt": 0,
-            "value": "returnedObjProp",
-            "optional": false
+            "value": "returnedObjProp"
           }
         },
         "property": {
@@ -2088,9 +2070,7 @@
             "start": 846,
             "end": 847
           },
-          "ctxt": 0,
-          "value": "y",
-          "optional": false
+          "value": "y"
         }
       }
     },
@@ -2128,9 +2108,7 @@
               "start": 851,
               "end": 866
             },
-            "ctxt": 0,
-            "value": "returnedObjProp",
-            "optional": false
+            "value": "returnedObjProp"
           }
         },
         "property": {
@@ -2139,9 +2117,7 @@
             "start": 867,
             "end": 868
           },
-          "ctxt": 0,
-          "value": "z",
-          "optional": false
+          "value": "z"
         }
       }
     },
@@ -2198,9 +2174,7 @@
                 "start": 879,
                 "end": 883
               },
-              "ctxt": 0,
-              "value": "prop",
-              "optional": false
+              "value": "prop"
             }
           },
           "typeParameters": {
@@ -2356,9 +2330,7 @@
               "start": 924,
               "end": 939
             },
-            "ctxt": 0,
-            "value": "returnedObjProp",
-            "optional": false
+            "value": "returnedObjProp"
           }
         },
         "property": {
@@ -2367,9 +2339,7 @@
             "start": 940,
             "end": 941
           },
-          "ctxt": 0,
-          "value": "x",
-          "optional": false
+          "value": "x"
         }
       }
     },
@@ -2407,9 +2377,7 @@
               "start": 945,
               "end": 960
             },
-            "ctxt": 0,
-            "value": "returnedObjProp",
-            "optional": false
+            "value": "returnedObjProp"
           }
         },
         "property": {
@@ -2418,9 +2386,7 @@
             "start": 961,
             "end": 962
           },
-          "ctxt": 0,
-          "value": "y",
-          "optional": false
+          "value": "y"
         }
       }
     },
@@ -2458,9 +2424,7 @@
               "start": 966,
               "end": 981
             },
-            "ctxt": 0,
-            "value": "returnedObjProp",
-            "optional": false
+            "value": "returnedObjProp"
           }
         },
         "property": {
@@ -2469,9 +2433,7 @@
             "start": 982,
             "end": 983
           },
-          "ctxt": 0,
-          "value": "z",
-          "optional": false
+          "value": "z"
         }
       }
     }

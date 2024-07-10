@@ -75,13 +75,6 @@
     : ^^^^^^^
  11 | // b
     `----
-  x Ident
-    ,-[$DIR/tests/comments/issue-4876/input.js:10:1]
-  9 | // a
- 10 | console.log(1);
-    :         ^^^
- 11 | // b
-    `----
   x ExprOrSpread
     ,-[$DIR/tests/comments/issue-4876/input.js:10:1]
   9 | // a

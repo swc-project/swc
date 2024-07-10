@@ -230,9 +230,7 @@
                     "start": 109,
                     "end": 112
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "value": {
                   "type": "StringLiteral",
@@ -252,9 +250,7 @@
                     "start": 123,
                     "end": 126
                   },
-                  "ctxt": 0,
-                  "value": "baz",
-                  "optional": false
+                  "value": "baz"
                 },
                 "value": {
                   "type": "StringLiteral",
@@ -274,9 +270,7 @@
                     "start": 137,
                     "end": 141
                   },
-                  "ctxt": 0,
-                  "value": "quux",
-                  "optional": false
+                  "value": "quux"
                 },
                 "value": {
                   "type": "StringLiteral",
@@ -412,9 +406,7 @@
               "start": 196,
               "end": 199
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           }
         }
       }

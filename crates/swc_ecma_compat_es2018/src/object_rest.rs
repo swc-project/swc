@@ -754,10 +754,7 @@ impl ObjectRest {
                             ref value, span, ..
                         }) => {
                             let value = value.clone();
-                            (
-                                key,
-                                MemberProp::Ident(quote_ident!(Default::default(), span, value)),
-                            )
+                            (key, MemberProp::Ident(IdentName::new(value, span)))
                         }
                         PropName::Num(Number { span, value, .. }) => (
                             key,
@@ -953,7 +950,7 @@ fn object_without_properties(
                         span: DUMMY_SP,
                         elems: excluded_props,
                     }
-                    .make_member(Ident::new_no_ctxt("map".into(), DUMMY_SP))
+                    .make_member(quote_ident!("map"))
                     .as_callee(),
                     args: vec![helper_expr!(to_property_key).as_arg()],
                     ..Default::default()

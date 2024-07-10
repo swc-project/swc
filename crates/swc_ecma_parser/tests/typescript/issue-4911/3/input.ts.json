@@ -149,9 +149,7 @@
                                       "start": 64,
                                       "end": 71
                                     },
-                                    "ctxt": 0,
-                                    "value": "extname",
-                                    "optional": false
+                                    "value": "extname"
                                   },
                                   "value": {
                                     "type": "FunctionExpression",
@@ -417,9 +415,7 @@
                                                         "start": 153,
                                                         "end": 159
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "length",
-                                                      "optional": false
+                                                      "value": "length"
                                                     }
                                                   },
                                                   "right": {
@@ -1215,9 +1211,7 @@
                                                     "start": 416,
                                                     "end": 421
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "slice",
-                                                  "optional": false
+                                                  "value": "slice"
                                                 }
                                               },
                                               "arguments": [
@@ -1268,9 +1262,7 @@
                                       "start": 447,
                                       "end": 453
                                     },
-                                    "ctxt": 0,
-                                    "value": "format",
-                                    "optional": false
+                                    "value": "format"
                                   },
                                   "value": {
                                     "type": "FunctionExpression",

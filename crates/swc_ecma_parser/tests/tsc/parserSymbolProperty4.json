@@ -59,9 +59,7 @@
                   "start": 46,
                   "end": 57
                 },
-                "ctxt": 0,
-                "value": "toPrimitive",
-                "optional": false
+                "value": "toPrimitive"
               }
             }
           },

@@ -118,9 +118,7 @@
               "start": 66,
               "end": 69
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "function": {
             "params": [],

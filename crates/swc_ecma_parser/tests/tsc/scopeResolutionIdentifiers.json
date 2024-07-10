@@ -580,9 +580,7 @@
               "start": 390,
               "end": 391
             },
-            "ctxt": 0,
-            "value": "s",
-            "optional": false
+            "value": "s"
           },
           "value": null,
           "typeAnnotation": {
@@ -632,9 +630,7 @@
               "start": 403,
               "end": 404
             },
-            "ctxt": 0,
-            "value": "n",
-            "optional": false
+            "value": "n"
           },
           "value": {
             "type": "MemberExpression",
@@ -655,9 +651,7 @@
                 "start": 412,
                 "end": 413
               },
-              "ctxt": 0,
-              "value": "s",
-              "optional": false
+              "value": "s"
             }
           },
           "typeAnnotation": null,
@@ -683,9 +677,7 @@
               "start": 419,
               "end": 420
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "function": {
             "params": [],
@@ -749,9 +741,7 @@
                             "start": 446,
                             "end": 447
                           },
-                          "ctxt": 0,
-                          "value": "n",
-                          "optional": false
+                          "value": "n"
                         }
                       },
                       "definite": false

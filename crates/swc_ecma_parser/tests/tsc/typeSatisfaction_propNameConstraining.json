@@ -145,9 +145,7 @@
                       "start": 53,
                       "end": 54
                     },
-                    "ctxt": 0,
-                    "value": "a",
-                    "optional": false
+                    "value": "a"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -167,9 +165,7 @@
                       "start": 63,
                       "end": 64
                     },
-                    "ctxt": 0,
-                    "value": "b",
-                    "optional": false
+                    "value": "b"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -189,9 +185,7 @@
                       "start": 79,
                       "end": 80
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -350,9 +344,7 @@
                     "start": 240,
                     "end": 241
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 }
               },
               "property": {
@@ -361,9 +353,7 @@
                   "start": 242,
                   "end": 249
                 },
-                "ctxt": 0,
-                "value": "toFixed",
-                "optional": false
+                "value": "toFixed"
               }
             },
             "arguments": [],
@@ -435,9 +425,7 @@
                     "start": 263,
                     "end": 264
                   },
-                  "ctxt": 0,
-                  "value": "b",
-                  "optional": false
+                  "value": "b"
                 }
               },
               "property": {
@@ -446,9 +434,7 @@
                   "start": 265,
                   "end": 274
                 },
-                "ctxt": 0,
-                "value": "substring",
-                "optional": false
+                "value": "substring"
               }
             },
             "arguments": [
@@ -520,9 +506,7 @@
                 "start": 334,
                 "end": 335
               },
-              "ctxt": 0,
-              "value": "d",
-              "optional": false
+              "value": "d"
             }
           },
           "definite": false

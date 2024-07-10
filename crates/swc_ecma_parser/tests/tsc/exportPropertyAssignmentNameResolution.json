@@ -46,9 +46,7 @@
                 "start": 87,
                 "end": 94
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -57,9 +55,7 @@
               "start": 95,
               "end": 96
             },
-            "ctxt": 0,
-            "value": "D",
-            "optional": false
+            "value": "D"
           }
         },
         "right": {

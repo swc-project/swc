@@ -246,9 +246,7 @@
                                 "start": 473,
                                 "end": 482
                               },
-                              "ctxt": 0,
-                              "value": "Something",
-                              "optional": false
+                              "value": "Something"
                             }
                           },
                           "definite": false

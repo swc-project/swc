@@ -77,9 +77,7 @@
               "start": 638,
               "end": 639
             },
-            "ctxt": 0,
-            "value": "b",
-            "optional": false
+            "value": "b"
           },
           "value": {
             "type": "Identifier",
@@ -115,9 +113,7 @@
               "start": 655,
               "end": 666
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -245,9 +241,7 @@
               "start": 714,
               "end": 715
             },
-            "ctxt": 0,
-            "value": "b",
-            "optional": false
+            "value": "b"
           },
           "value": {
             "type": "Identifier",
@@ -283,9 +277,7 @@
               "start": 731,
               "end": 742
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -414,9 +406,7 @@
               "start": 799,
               "end": 800
             },
-            "ctxt": 0,
-            "value": "b",
-            "optional": false
+            "value": "b"
           },
           "value": {
             "type": "Identifier",
@@ -452,9 +442,7 @@
               "start": 820,
               "end": 831
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {

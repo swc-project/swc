@@ -70,9 +70,7 @@
                           "start": 42,
                           "end": 44
                         },
-                        "ctxt": 0,
-                        "value": "hi",
-                        "optional": false
+                        "value": "hi"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -92,9 +90,7 @@
                           "start": 50,
                           "end": 55
                         },
-                        "ctxt": 0,
-                        "value": "hello",
-                        "optional": false
+                        "value": "hello"
                       },
                       "value": {
                         "type": "NumericLiteral",

@@ -182,9 +182,7 @@
                   "start": 67,
                   "end": 73
                 },
-                "ctxt": 0,
-                "value": "export",
-                "optional": false
+                "value": "export"
               }
             },
             "arguments": [],

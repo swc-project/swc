@@ -701,9 +701,7 @@
                     "start": 626,
                     "end": 627
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 }
               },
               "right": {
@@ -894,9 +892,7 @@
                           "start": 712,
                           "end": 713
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       }
                     },
                     "right": {
@@ -955,9 +951,7 @@
                           "start": 752,
                           "end": 753
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       }
                     },
                     "right": {

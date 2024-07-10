@@ -1273,9 +1273,7 @@
               "start": 1051,
               "end": 1062
             },
-            "ctxt": 0,
-            "value": "toUpperCase",
-            "optional": false
+            "value": "toUpperCase"
           }
         },
         "consequent": {
@@ -2477,9 +2475,7 @@
                   "start": 2157,
                   "end": 2168
                 },
-                "ctxt": 0,
-                "value": "toUpperCase",
-                "optional": false
+                "value": "toUpperCase"
               }
             },
             "consequent": {
@@ -2892,9 +2888,7 @@
                   "start": 2524,
                   "end": 2535
                 },
-                "ctxt": 0,
-                "value": "toUpperCase",
-                "optional": false
+                "value": "toUpperCase"
               }
             },
             "consequent": {

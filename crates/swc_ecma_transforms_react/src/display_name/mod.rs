@@ -2,7 +2,6 @@ use std::ops::DerefMut;
 
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_utils::quote_ident;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 #[cfg(test)]
@@ -167,7 +166,7 @@ fn add_display_name(call: &mut CallExpr, name: Box<Expr>) {
     }
 
     props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-        key: PropName::Ident(quote_ident!("displayName")),
+        key: PropName::Ident("displayName".into()),
         value: name,
     }))));
 }

@@ -576,9 +576,7 @@
                           "start": 446,
                           "end": 447
                         },
-                        "ctxt": 0,
-                        "value": "B",
-                        "optional": false
+                        "value": "B"
                       }
                     }
                   }

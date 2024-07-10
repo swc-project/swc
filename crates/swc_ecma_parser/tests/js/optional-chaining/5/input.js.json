@@ -47,9 +47,7 @@
                 "start": 5,
                 "end": 6
               },
-              "ctxt": 0,
-              "value": "a",
-              "optional": false
+              "value": "a"
             }
           },
           "arguments": [],

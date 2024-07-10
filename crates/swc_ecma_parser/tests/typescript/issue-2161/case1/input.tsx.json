@@ -63,6 +63,10 @@
                     },
                     "typeName": {
                       "type": "TsQualifiedName",
+                      "span": {
+                        "start": 38,
+                        "end": 57
+                      },
                       "left": {
                         "type": "Identifier",
                         "span": {
@@ -79,9 +83,7 @@
                           "start": 44,
                           "end": 57
                         },
-                        "ctxt": 0,
-                        "value": "ComponentType",
-                        "optional": false
+                        "value": "ComponentType"
                       }
                     },
                     "typeParams": {
@@ -144,9 +146,7 @@
                     "start": 112,
                     "end": 116
                   },
-                  "ctxt": 0,
-                  "value": "memo",
-                  "optional": false
+                  "value": "memo"
                 }
               },
               "arguments": [],
@@ -206,6 +206,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 64,
+                    "end": 83
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -222,9 +226,7 @@
                       "start": 70,
                       "end": 83
                     },
-                    "ctxt": 0,
-                    "value": "ComponentType",
-                    "optional": false
+                    "value": "ComponentType"
                   }
                 },
                 "typeParams": {

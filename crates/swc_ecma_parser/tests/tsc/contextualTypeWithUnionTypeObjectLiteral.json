@@ -784,9 +784,7 @@
                     "start": 832,
                     "end": 836
                   },
-                  "ctxt": 0,
-                  "value": "prop",
-                  "optional": false
+                  "value": "prop"
                 },
                 "value": {
                   "type": "Identifier",
@@ -914,9 +912,7 @@
                     "start": 905,
                     "end": 909
                   },
-                  "ctxt": 0,
-                  "value": "prop",
-                  "optional": false
+                  "value": "prop"
                 },
                 "value": {
                   "type": "Identifier",
@@ -1115,9 +1111,7 @@
                     "start": 1003,
                     "end": 1007
                   },
-                  "ctxt": 0,
-                  "value": "prop",
-                  "optional": false
+                  "value": "prop"
                 },
                 "value": {
                   "type": "Identifier",
@@ -1316,9 +1310,7 @@
                     "start": 1105,
                     "end": 1109
                   },
-                  "ctxt": 0,
-                  "value": "prop",
-                  "optional": false
+                  "value": "prop"
                 },
                 "value": {
                   "type": "Identifier",
@@ -1339,9 +1331,7 @@
                     "start": 1128,
                     "end": 1136
                   },
-                  "ctxt": 0,
-                  "value": "anotherP",
-                  "optional": false
+                  "value": "anotherP"
                 },
                 "value": {
                   "type": "Identifier",
@@ -1575,9 +1565,7 @@
                     "start": 1245,
                     "end": 1249
                   },
-                  "ctxt": 0,
-                  "value": "prop",
-                  "optional": false
+                  "value": "prop"
                 },
                 "value": {
                   "type": "Identifier",
@@ -1598,9 +1586,7 @@
                     "start": 1268,
                     "end": 1276
                   },
-                  "ctxt": 0,
-                  "value": "anotherP",
-                  "optional": false
+                  "value": "anotherP"
                 },
                 "value": {
                   "type": "Identifier",
@@ -1834,9 +1820,7 @@
                     "start": 1385,
                     "end": 1389
                   },
-                  "ctxt": 0,
-                  "value": "prop",
-                  "optional": false
+                  "value": "prop"
                 },
                 "value": {
                   "type": "Identifier",
@@ -1857,9 +1841,7 @@
                     "start": 1408,
                     "end": 1416
                   },
-                  "ctxt": 0,
-                  "value": "anotherP",
-                  "optional": false
+                  "value": "anotherP"
                 },
                 "value": {
                   "type": "Identifier",
@@ -1880,9 +1862,7 @@
                     "start": 1427,
                     "end": 1436
                   },
-                  "ctxt": 0,
-                  "value": "anotherP1",
-                  "optional": false
+                  "value": "anotherP1"
                 },
                 "value": {
                   "type": "Identifier",
@@ -2522,9 +2502,7 @@
                     "start": 1748,
                     "end": 1779
                   },
-                  "ctxt": 0,
-                  "value": "commonMethodDifferentReturnType",
-                  "optional": false
+                  "value": "commonMethodDifferentReturnType"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -2621,9 +2599,7 @@
                                     "start": 1811,
                                     "end": 1817
                                   },
-                                  "ctxt": 0,
-                                  "value": "charAt",
-                                  "optional": false
+                                  "value": "charAt"
                                 }
                               },
                               "arguments": [
@@ -2771,9 +2747,7 @@
                     "start": 1893,
                     "end": 1924
                   },
-                  "ctxt": 0,
-                  "value": "commonMethodDifferentReturnType",
-                  "optional": false
+                  "value": "commonMethodDifferentReturnType"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -2870,9 +2844,7 @@
                                     "start": 1956,
                                     "end": 1966
                                   },
-                                  "ctxt": 0,
-                                  "value": "charCodeAt",
-                                  "optional": false
+                                  "value": "charCodeAt"
                                 }
                               },
                               "arguments": [
@@ -3083,9 +3055,7 @@
                     "start": 2088,
                     "end": 2119
                   },
-                  "ctxt": 0,
-                  "value": "commonMethodDifferentReturnType",
-                  "optional": false
+                  "value": "commonMethodDifferentReturnType"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",

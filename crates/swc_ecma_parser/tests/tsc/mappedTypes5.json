@@ -2847,9 +2847,7 @@
                         "start": 1108,
                         "end": 1114
                       },
-                      "ctxt": 0,
-                      "value": "create",
-                      "optional": false
+                      "value": "create"
                     }
                   },
                   "arguments": [
@@ -2976,9 +2974,7 @@
                         "start": 1159,
                         "end": 1165
                       },
-                      "ctxt": 0,
-                      "value": "create",
-                      "optional": false
+                      "value": "create"
                     }
                   },
                   "arguments": [
@@ -3949,9 +3945,7 @@
                         "start": 1617,
                         "end": 1623
                       },
-                      "ctxt": 0,
-                      "value": "create",
-                      "optional": false
+                      "value": "create"
                     }
                   },
                   "arguments": [
@@ -4078,9 +4072,7 @@
                         "start": 1673,
                         "end": 1679
                       },
-                      "ctxt": 0,
-                      "value": "create",
-                      "optional": false
+                      "value": "create"
                     }
                   },
                   "arguments": [

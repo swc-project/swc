@@ -321,9 +321,7 @@
                                   "start": 253,
                                   "end": 262
                                 },
-                                "ctxt": 0,
-                                "value": "dontPanic",
-                                "optional": false
+                                "value": "dontPanic"
                               }
                             },
                             "arguments": [],
@@ -365,9 +363,7 @@
                                   "start": 288,
                                   "end": 295
                                 },
-                                "ctxt": 0,
-                                "value": "doPanic",
-                                "optional": false
+                                "value": "doPanic"
                               }
                             },
                             "arguments": [],
@@ -446,9 +442,7 @@
                                   "start": 427,
                                   "end": 434
                                 },
-                                "ctxt": 0,
-                                "value": "message",
-                                "optional": false
+                                "value": "message"
                               }
                             }
                           },
@@ -480,9 +474,7 @@
                                   "start": 452,
                                   "end": 459
                                 },
-                                "ctxt": 0,
-                                "value": "massage",
-                                "optional": false
+                                "value": "massage"
                               }
                             }
                           }

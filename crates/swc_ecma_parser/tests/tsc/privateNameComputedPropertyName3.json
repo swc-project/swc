@@ -63,9 +63,7 @@
               "start": 65,
               "end": 76
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -160,9 +158,7 @@
               "start": 123,
               "end": 131
             },
-            "ctxt": 0,
-            "value": "getValue",
-            "optional": false
+            "value": "getValue"
           },
           "function": {
             "params": [
@@ -545,9 +541,7 @@
               "start": 352,
               "end": 355
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -605,9 +599,7 @@
                     "start": 372,
                     "end": 380
                   },
-                  "ctxt": 0,
-                  "value": "getValue",
-                  "optional": false
+                  "value": "getValue"
                 }
               },
               "arguments": [

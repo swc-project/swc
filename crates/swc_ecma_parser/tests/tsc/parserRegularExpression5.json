@@ -55,9 +55,7 @@
                 "start": 33,
                 "end": 37
               },
-              "ctxt": 0,
-              "value": "test",
-              "optional": false
+              "value": "test"
             }
           },
           "arguments": [
@@ -85,9 +83,7 @@
                     "start": 40,
                     "end": 44
                   },
-                  "ctxt": 0,
-                  "value": "href",
-                  "optional": false
+                  "value": "href"
                 }
               }
             }

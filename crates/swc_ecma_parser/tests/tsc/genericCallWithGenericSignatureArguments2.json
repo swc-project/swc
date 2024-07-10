@@ -2461,9 +2461,7 @@
                             "start": 1193,
                             "end": 1194
                           },
-                          "ctxt": 0,
-                          "value": "A",
-                          "optional": false
+                          "value": "A"
                         }
                       }
                     },
@@ -2511,9 +2509,7 @@
                               "start": 1205,
                               "end": 1206
                             },
-                            "ctxt": 0,
-                            "value": "A",
-                            "optional": false
+                            "value": "A"
                           }
                         },
                         "async": false,
@@ -2566,9 +2562,7 @@
                               "start": 1217,
                               "end": 1218
                             },
-                            "ctxt": 0,
-                            "value": "A",
-                            "optional": false
+                            "value": "A"
                           }
                         },
                         "async": false,
@@ -5104,9 +5098,7 @@
                             "start": 2040,
                             "end": 2041
                           },
-                          "ctxt": 0,
-                          "value": "A",
-                          "optional": false
+                          "value": "A"
                         }
                       }
                     },
@@ -5154,9 +5146,7 @@
                               "start": 2052,
                               "end": 2053
                             },
-                            "ctxt": 0,
-                            "value": "A",
-                            "optional": false
+                            "value": "A"
                           }
                         },
                         "async": false,
@@ -5209,9 +5199,7 @@
                               "start": 2064,
                               "end": 2065
                             },
-                            "ctxt": 0,
-                            "value": "A",
-                            "optional": false
+                            "value": "A"
                           }
                         },
                         "async": false,

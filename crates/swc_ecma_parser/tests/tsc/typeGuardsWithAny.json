@@ -61,9 +61,7 @@
                     "start": 16,
                     "end": 17
                   },
-                  "ctxt": 0,
-                  "value": "p",
-                  "optional": false
+                  "value": "p"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -151,9 +149,7 @@
                   "start": 58,
                   "end": 59
                 },
-                "ctxt": 0,
-                "value": "p",
-                "optional": false
+                "value": "p"
               }
             }
           }
@@ -195,9 +191,7 @@
                   "start": 134,
                   "end": 135
                 },
-                "ctxt": 0,
-                "value": "p",
-                "optional": false
+                "value": "p"
               }
             }
           }
@@ -281,9 +275,7 @@
                   "start": 233,
                   "end": 234
                 },
-                "ctxt": 0,
-                "value": "p",
-                "optional": false
+                "value": "p"
               }
             }
           }
@@ -325,9 +317,7 @@
                   "start": 303,
                   "end": 304
                 },
-                "ctxt": 0,
-                "value": "p",
-                "optional": false
+                "value": "p"
               }
             }
           }
@@ -411,9 +401,7 @@
                   "start": 388,
                   "end": 389
                 },
-                "ctxt": 0,
-                "value": "p",
-                "optional": false
+                "value": "p"
               }
             }
           }
@@ -455,9 +443,7 @@
                   "start": 458,
                   "end": 459
                 },
-                "ctxt": 0,
-                "value": "p",
-                "optional": false
+                "value": "p"
               }
             }
           }
@@ -541,9 +527,7 @@
                   "start": 544,
                   "end": 545
                 },
-                "ctxt": 0,
-                "value": "p",
-                "optional": false
+                "value": "p"
               }
             }
           }
@@ -585,9 +569,7 @@
                   "start": 614,
                   "end": 615
                 },
-                "ctxt": 0,
-                "value": "p",
-                "optional": false
+                "value": "p"
               }
             }
           }
@@ -671,9 +653,7 @@
                   "start": 699,
                   "end": 700
                 },
-                "ctxt": 0,
-                "value": "p",
-                "optional": false
+                "value": "p"
               }
             }
           }
@@ -715,9 +695,7 @@
                   "start": 777,
                   "end": 778
                 },
-                "ctxt": 0,
-                "value": "p",
-                "optional": false
+                "value": "p"
               }
             }
           }

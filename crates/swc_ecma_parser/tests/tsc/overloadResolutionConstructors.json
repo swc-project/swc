@@ -37,9 +37,7 @@
               "start": 30,
               "end": 31
             },
-            "ctxt": 0,
-            "value": "n",
-            "optional": false
+            "value": "n"
           },
           "value": null,
           "typeAnnotation": null,
@@ -65,9 +63,7 @@
               "start": 45,
               "end": 46
             },
-            "ctxt": 0,
-            "value": "s",
-            "optional": false
+            "value": "s"
           },
           "value": null,
           "typeAnnotation": {
@@ -134,9 +130,7 @@
               "start": 108,
               "end": 109
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "value": null,
           "typeAnnotation": null,
@@ -198,9 +192,7 @@
               "start": 163,
               "end": 164
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "value": null,
           "typeAnnotation": null,
@@ -262,9 +254,7 @@
               "start": 218,
               "end": 219
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "value": null,
           "typeAnnotation": null,
@@ -3940,9 +3930,7 @@
                           "start": 3023,
                           "end": 3030
                         },
-                        "ctxt": 0,
-                        "value": "toFixed",
-                        "optional": false
+                        "value": "toFixed"
                       }
                     },
                     "arguments": [],
@@ -4057,9 +4045,7 @@
                           "start": 3060,
                           "end": 3066
                         },
-                        "ctxt": 0,
-                        "value": "substr",
-                        "optional": false
+                        "value": "substr"
                       }
                     },
                     "arguments": [

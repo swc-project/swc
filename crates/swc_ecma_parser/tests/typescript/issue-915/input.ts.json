@@ -43,9 +43,7 @@
                 "start": 45,
                 "end": 52
               },
-              "ctxt": 0,
-              "value": "newLine",
-              "optional": false
+              "value": "newLine"
             },
             "value": {
               "type": "CallExpression",
@@ -76,9 +74,7 @@
                     "start": 63,
                     "end": 69
                   },
-                  "ctxt": 0,
-                  "value": "encode",
-                  "optional": false
+                  "value": "encode"
                 }
               },
               "arguments": [

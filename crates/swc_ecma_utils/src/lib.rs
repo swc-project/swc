@@ -6,10 +6,11 @@
 #![cfg_attr(not(feature = "concurrent"), allow(unused))]
 
 #[doc(hidden)]
-pub extern crate swc_ecma_ast;
-
+pub extern crate swc_atoms;
 #[doc(hidden)]
 pub extern crate swc_common;
+#[doc(hidden)]
+pub extern crate swc_ecma_ast;
 
 use std::{borrow::Cow, hash::Hash, num::FpCategory, ops::Add};
 
@@ -1080,7 +1081,7 @@ pub trait ExprExt {
 
             Expr::Member(MemberExpr {
                 obj,
-                prop: MemberProp::Ident(Ident { sym: length, .. }),
+                prop: MemberProp::Ident(IdentName { sym: length, .. }),
                 ..
             }) if &**length == "length" => match &**obj {
                 Expr::Array(ArrayLit { .. }) | Expr::Lit(Lit::Str(..)) => Known(Type::Num),
@@ -1379,7 +1380,7 @@ pub trait ExprExt {
                                 Prop::Shorthand(Ident { sym, .. })
                                 | Prop::KeyValue(KeyValueProp {
                                     key:
-                                        PropName::Ident(Ident { sym, .. })
+                                        PropName::Ident(IdentName { sym, .. })
                                         | PropName::Str(Str { value: sym, .. }),
                                     ..
                                 }) => &**sym == "__proto__",
@@ -2107,7 +2108,7 @@ pub fn alias_if_required(expr: &Expr, default: &str) -> (Ident, bool) {
 
 pub fn prop_name_to_expr(p: PropName) -> Expr {
     match p {
-        PropName::Ident(i) => Expr::Ident(i),
+        PropName::Ident(i) => Expr::Ident(i.into()),
         PropName::Str(s) => Expr::Lit(Lit::Str(s)),
         PropName::Num(n) => Expr::Lit(Lit::Num(n)),
         PropName::BigInt(b) => Expr::Lit(Lit::BigInt(b)),
@@ -2157,7 +2158,7 @@ pub fn default_constructor(has_super: bool) -> Constructor {
 
     Constructor {
         span: DUMMY_SP,
-        key: PropName::Ident(quote_ident!("constructor")),
+        key: PropName::Ident("constructor".into()),
         is_optional: false,
         params: if has_super {
             vec![ParamOrTsParamProp::Param(Param {
@@ -2180,7 +2181,7 @@ pub fn default_constructor(has_super: bool) -> Constructor {
                     callee: Callee::Super(Super { span: DUMMY_SP }),
                     args: vec![ExprOrSpread {
                         spread: Some(DUMMY_SP),
-                        expr: Box::new(Expr::Ident(quote_ident!("args"))),
+                        expr: Box::new(Expr::Ident(quote_ident!("args").into())),
                     }],
                     ..Default::default()
                 }
@@ -2704,7 +2705,7 @@ impl VisitMut for IdentReplacer<'_> {
                 i.visit_mut_with(self);
                 if i.sym != cloned.sym || i.ctxt != cloned.ctxt {
                     *node = Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(Ident::new_no_ctxt(cloned.sym, cloned.span)),
+                        key: PropName::Ident(IdentName::new(cloned.sym, cloned.span)),
                         value: Box::new(Expr::Ident(i.clone())),
                     });
                 }
@@ -3069,7 +3070,7 @@ impl VisitMut for IdentRenamer<'_> {
                 i.visit_mut_with(self);
                 if i.sym != cloned.sym || i.ctxt != cloned.ctxt {
                     *node = Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(Ident::new_no_ctxt(cloned.sym, cloned.span)),
+                        key: PropName::Ident(IdentName::new(cloned.sym, cloned.span)),
                         value: Box::new(Expr::Ident(i.clone())),
                     });
                 }

@@ -40,9 +40,7 @@
               "start": 100,
               "end": 114
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -88,9 +86,7 @@
                       "start": 135,
                       "end": 140
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -110,9 +106,7 @@
                       "start": 146,
                       "end": 154
                     },
-                    "ctxt": 0,
-                    "value": "writable",
-                    "optional": false
+                    "value": "writable"
                   },
                   "value": {
                     "type": "BooleanLiteral",
@@ -165,9 +159,7 @@
               "start": 172,
               "end": 186
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -213,9 +205,7 @@
                       "start": 214,
                       "end": 219
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -235,9 +225,7 @@
                       "start": 230,
                       "end": 238
                     },
-                    "ctxt": 0,
-                    "value": "writable",
-                    "optional": false
+                    "value": "writable"
                   },
                   "value": {
                     "type": "BooleanLiteral",
@@ -290,9 +278,7 @@
               "start": 257,
               "end": 271
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -338,9 +324,7 @@
                       "start": 298,
                       "end": 301
                     },
-                    "ctxt": 0,
-                    "value": "get",
-                    "optional": false
+                    "value": "get"
                   },
                   "params": [],
                   "decorators": [],
@@ -388,9 +372,7 @@
                       "start": 322,
                       "end": 325
                     },
-                    "ctxt": 0,
-                    "value": "set",
-                    "optional": false
+                    "value": "set"
                   },
                   "params": [
                     {
@@ -475,9 +457,7 @@
               "start": 355,
               "end": 369
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -523,9 +503,7 @@
                       "start": 401,
                       "end": 404
                     },
-                    "ctxt": 0,
-                    "value": "get",
-                    "optional": false
+                    "value": "get"
                   },
                   "params": [],
                   "decorators": [],
@@ -607,9 +585,7 @@
               "start": 435,
               "end": 449
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -655,9 +631,7 @@
                       "start": 515,
                       "end": 518
                     },
-                    "ctxt": 0,
-                    "value": "set",
-                    "optional": false
+                    "value": "set"
                   },
                   "params": [
                     {
@@ -726,9 +700,7 @@
                                 "start": 539,
                                 "end": 550
                               },
-                              "ctxt": 0,
-                              "value": "rwAccessors",
-                              "optional": false
+                              "value": "rwAccessors"
                             }
                           },
                           "right": {
@@ -816,9 +788,7 @@
               "start": 606,
               "end": 620
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -846,9 +816,7 @@
                   "start": 628,
                   "end": 635
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             }
           },
@@ -881,9 +849,7 @@
                       "start": 648,
                       "end": 653
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -903,9 +869,7 @@
                       "start": 662,
                       "end": 670
                     },
-                    "ctxt": 0,
-                    "value": "writable",
-                    "optional": false
+                    "value": "writable"
                   },
                   "value": {
                     "type": "BooleanLiteral",
@@ -958,9 +922,7 @@
               "start": 688,
               "end": 702
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -988,9 +950,7 @@
                   "start": 710,
                   "end": 717
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             }
           },
@@ -1023,9 +983,7 @@
                       "start": 737,
                       "end": 742
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -1045,9 +1003,7 @@
                       "start": 753,
                       "end": 761
                     },
-                    "ctxt": 0,
-                    "value": "writable",
-                    "optional": false
+                    "value": "writable"
                   },
                   "value": {
                     "type": "BooleanLiteral",
@@ -1100,9 +1056,7 @@
               "start": 780,
               "end": 794
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -1130,9 +1084,7 @@
                   "start": 802,
                   "end": 809
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             }
           },
@@ -1165,9 +1117,7 @@
                       "start": 828,
                       "end": 831
                     },
-                    "ctxt": 0,
-                    "value": "get",
-                    "optional": false
+                    "value": "get"
                   },
                   "params": [],
                   "decorators": [],
@@ -1215,9 +1165,7 @@
                       "start": 852,
                       "end": 855
                     },
-                    "ctxt": 0,
-                    "value": "set",
-                    "optional": false
+                    "value": "set"
                   },
                   "params": [
                     {
@@ -1302,9 +1250,7 @@
               "start": 885,
               "end": 899
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -1332,9 +1278,7 @@
                   "start": 907,
                   "end": 914
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             }
           },
@@ -1367,9 +1311,7 @@
                       "start": 938,
                       "end": 941
                     },
-                    "ctxt": 0,
-                    "value": "get",
-                    "optional": false
+                    "value": "get"
                   },
                   "params": [],
                   "decorators": [],
@@ -1451,9 +1393,7 @@
               "start": 972,
               "end": 986
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -1481,9 +1421,7 @@
                   "start": 994,
                   "end": 1001
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             }
           },
@@ -1516,9 +1454,7 @@
                       "start": 1059,
                       "end": 1062
                     },
-                    "ctxt": 0,
-                    "value": "set",
-                    "optional": false
+                    "value": "set"
                   },
                   "params": [
                     {
@@ -1587,9 +1523,7 @@
                                 "start": 1083,
                                 "end": 1094
                               },
-                              "ctxt": 0,
-                              "value": "rwAccessors",
-                              "optional": false
+                              "value": "rwAccessors"
                             }
                           },
                           "right": {
@@ -1714,9 +1648,7 @@
                 "start": 1199,
                 "end": 1204
               },
-              "ctxt": 0,
-              "value": "thing",
-              "optional": false
+              "value": "thing"
             }
           },
           "definite": false
@@ -1795,9 +1727,7 @@
                 "start": 1261,
                 "end": 1266
               },
-              "ctxt": 0,
-              "value": "thing",
-              "optional": false
+              "value": "thing"
             }
           },
           "definite": false
@@ -1887,9 +1817,7 @@
             "start": 1345,
             "end": 1350
           },
-          "ctxt": 0,
-          "value": "thing",
-          "optional": false
+          "value": "thing"
         }
       }
     },
@@ -1921,9 +1849,7 @@
             "start": 1355,
             "end": 1367
           },
-          "ctxt": 0,
-          "value": "readonlyProp",
-          "optional": false
+          "value": "readonlyProp"
         }
       }
     },
@@ -1955,9 +1881,7 @@
             "start": 1372,
             "end": 1383
           },
-          "ctxt": 0,
-          "value": "rwAccessors",
-          "optional": false
+          "value": "rwAccessors"
         }
       }
     },
@@ -1989,9 +1913,7 @@
             "start": 1388,
             "end": 1404
           },
-          "ctxt": 0,
-          "value": "readonlyAccessor",
-          "optional": false
+          "value": "readonlyAccessor"
         }
       }
     },
@@ -2023,9 +1945,7 @@
             "start": 1409,
             "end": 1424
           },
-          "ctxt": 0,
-          "value": "setonlyAccessor",
-          "optional": false
+          "value": "setonlyAccessor"
         }
       }
     },
@@ -2064,9 +1984,7 @@
               "start": 1453,
               "end": 1458
             },
-            "ctxt": 0,
-            "value": "thing",
-            "optional": false
+            "value": "thing"
           }
         },
         "right": {
@@ -2115,9 +2033,7 @@
               "start": 1468,
               "end": 1479
             },
-            "ctxt": 0,
-            "value": "rwAccessors",
-            "optional": false
+            "value": "rwAccessors"
           }
         },
         "right": {
@@ -2166,9 +2082,7 @@
               "start": 1489,
               "end": 1504
             },
-            "ctxt": 0,
-            "value": "setonlyAccessor",
-            "optional": false
+            "value": "setonlyAccessor"
           }
         },
         "right": {
@@ -2217,9 +2131,7 @@
               "start": 1544,
               "end": 1556
             },
-            "ctxt": 0,
-            "value": "readonlyProp",
-            "optional": false
+            "value": "readonlyProp"
           }
         },
         "right": {
@@ -2268,9 +2180,7 @@
               "start": 1570,
               "end": 1586
             },
-            "ctxt": 0,
-            "value": "readonlyAccessor",
-            "optional": false
+            "value": "readonlyAccessor"
           }
         },
         "right": {
@@ -2319,9 +2229,7 @@
               "start": 1596,
               "end": 1601
             },
-            "ctxt": 0,
-            "value": "thing",
-            "optional": false
+            "value": "thing"
           }
         },
         "right": {
@@ -2370,9 +2278,7 @@
               "start": 1613,
               "end": 1624
             },
-            "ctxt": 0,
-            "value": "rwAccessors",
-            "optional": false
+            "value": "rwAccessors"
           }
         },
         "right": {
@@ -2421,9 +2327,7 @@
               "start": 1636,
               "end": 1651
             },
-            "ctxt": 0,
-            "value": "setonlyAccessor",
-            "optional": false
+            "value": "setonlyAccessor"
           }
         },
         "right": {
@@ -2500,9 +2404,7 @@
             "start": 1693,
             "end": 1698
           },
-          "ctxt": 0,
-          "value": "thing",
-          "optional": false
+          "value": "thing"
         }
       }
     },
@@ -2534,9 +2436,7 @@
             "start": 1703,
             "end": 1715
           },
-          "ctxt": 0,
-          "value": "readonlyProp",
-          "optional": false
+          "value": "readonlyProp"
         }
       }
     },
@@ -2568,9 +2468,7 @@
             "start": 1720,
             "end": 1731
           },
-          "ctxt": 0,
-          "value": "rwAccessors",
-          "optional": false
+          "value": "rwAccessors"
         }
       }
     },
@@ -2602,9 +2500,7 @@
             "start": 1736,
             "end": 1752
           },
-          "ctxt": 0,
-          "value": "readonlyAccessor",
-          "optional": false
+          "value": "readonlyAccessor"
         }
       }
     },
@@ -2636,9 +2532,7 @@
             "start": 1757,
             "end": 1772
           },
-          "ctxt": 0,
-          "value": "setonlyAccessor",
-          "optional": false
+          "value": "setonlyAccessor"
         }
       }
     },
@@ -2677,9 +2571,7 @@
               "start": 1801,
               "end": 1806
             },
-            "ctxt": 0,
-            "value": "thing",
-            "optional": false
+            "value": "thing"
           }
         },
         "right": {
@@ -2728,9 +2620,7 @@
               "start": 1818,
               "end": 1829
             },
-            "ctxt": 0,
-            "value": "rwAccessors",
-            "optional": false
+            "value": "rwAccessors"
           }
         },
         "right": {
@@ -2779,9 +2669,7 @@
               "start": 1839,
               "end": 1854
             },
-            "ctxt": 0,
-            "value": "setonlyAccessor",
-            "optional": false
+            "value": "setonlyAccessor"
           }
         },
         "right": {
@@ -2830,9 +2718,7 @@
               "start": 1894,
               "end": 1906
             },
-            "ctxt": 0,
-            "value": "readonlyProp",
-            "optional": false
+            "value": "readonlyProp"
           }
         },
         "right": {
@@ -2881,9 +2767,7 @@
               "start": 1920,
               "end": 1936
             },
-            "ctxt": 0,
-            "value": "readonlyAccessor",
-            "optional": false
+            "value": "readonlyAccessor"
           }
         },
         "right": {
@@ -2932,9 +2816,7 @@
               "start": 1946,
               "end": 1951
             },
-            "ctxt": 0,
-            "value": "thing",
-            "optional": false
+            "value": "thing"
           }
         },
         "right": {
@@ -2983,9 +2865,7 @@
               "start": 1960,
               "end": 1971
             },
-            "ctxt": 0,
-            "value": "rwAccessors",
-            "optional": false
+            "value": "rwAccessors"
           }
         },
         "right": {
@@ -3034,9 +2914,7 @@
               "start": 1983,
               "end": 1998
             },
-            "ctxt": 0,
-            "value": "setonlyAccessor",
-            "optional": false
+            "value": "setonlyAccessor"
           }
         },
         "right": {

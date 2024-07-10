@@ -123,9 +123,7 @@
                           "start": 111,
                           "end": 115
                         },
-                        "ctxt": 0,
-                        "value": "swap",
-                        "optional": false
+                        "value": "swap"
                       }
                     },
                     "right": {

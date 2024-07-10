@@ -303,9 +303,7 @@
                       "start": 197,
                       "end": 198
                     },
-                    "ctxt": 0,
-                    "value": "B",
-                    "optional": false
+                    "value": "B"
                   }
                 },
                 "right": {

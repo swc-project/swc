@@ -4295,9 +4295,7 @@
               "start": 1822,
               "end": 1830
             },
-            "ctxt": 0,
-            "value": "toVector",
-            "optional": false
+            "value": "toVector"
           },
           "function": {
             "params": [],
@@ -4637,9 +4635,7 @@
               "start": 1973,
               "end": 1977
             },
-            "ctxt": 0,
-            "value": "tail",
-            "optional": false
+            "value": "tail"
           },
           "function": {
             "params": [],
@@ -4791,9 +4787,7 @@
               "start": 2039,
               "end": 2049
             },
-            "ctxt": 0,
-            "value": "partition2",
-            "optional": false
+            "value": "partition2"
           },
           "function": {
             "params": [
@@ -5159,9 +5153,7 @@
               "start": 2128,
               "end": 2138
             },
-            "ctxt": 0,
-            "value": "partition2",
-            "optional": false
+            "value": "partition2"
           },
           "function": {
             "params": [
@@ -5401,9 +5393,7 @@
               "start": 2193,
               "end": 2203
             },
-            "ctxt": 0,
-            "value": "partition2",
-            "optional": false
+            "value": "partition2"
           },
           "function": {
             "params": [
@@ -11589,9 +11579,7 @@
                     "start": 4826,
                     "end": 4827
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 },
                 "value": {
                   "type": "NumericLiteral",

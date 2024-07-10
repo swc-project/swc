@@ -2528,6 +2528,10 @@
             },
             "exprName": {
               "type": "TsQualifiedName",
+              "span": {
+                "start": 1398,
+                "end": 1414
+              },
               "left": {
                 "type": "Identifier",
                 "span": {
@@ -2544,9 +2548,7 @@
                   "start": 1409,
                   "end": 1414
                 },
-                "ctxt": 0,
-                "value": "Break",
-                "optional": false
+                "value": "Break"
               }
             },
             "typeArguments": null
@@ -4432,9 +4434,7 @@
                                 "start": 2610,
                                 "end": 2615
                               },
-                              "ctxt": 0,
-                              "value": "title",
-                              "optional": false
+                              "value": "title"
                             },
                             "value": {
                               "type": "StringLiteral",
@@ -4454,9 +4454,7 @@
                                 "start": 2625,
                                 "end": 2636
                               },
-                              "ctxt": 0,
-                              "value": "placeholder",
-                              "optional": false
+                              "value": "placeholder"
                             },
                             "value": {
                               "type": "StringLiteral",
@@ -4730,9 +4728,7 @@
                     "start": 2797,
                     "end": 2802
                   },
-                  "ctxt": 0,
-                  "value": "Break",
-                  "optional": false
+                  "value": "Break"
                 }
               }
             }

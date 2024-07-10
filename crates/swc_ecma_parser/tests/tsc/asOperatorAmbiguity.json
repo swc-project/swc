@@ -390,9 +390,7 @@
                 "start": 193,
                 "end": 194
               },
-              "ctxt": 0,
-              "value": "m",
-              "optional": false
+              "value": "m"
             }
           },
           "definite": false

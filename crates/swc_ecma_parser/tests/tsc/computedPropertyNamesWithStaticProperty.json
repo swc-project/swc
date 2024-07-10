@@ -37,9 +37,7 @@
               "start": 39,
               "end": 49
             },
-            "ctxt": 0,
-            "value": "staticProp",
-            "optional": false
+            "value": "staticProp"
           },
           "value": {
             "type": "NumericLiteral",
@@ -95,9 +93,7 @@
                   "start": 68,
                   "end": 78
                 },
-                "ctxt": 0,
-                "value": "staticProp",
-                "optional": false
+                "value": "staticProp"
               }
             }
           },
@@ -181,9 +177,7 @@
                   "start": 126,
                   "end": 136
                 },
-                "ctxt": 0,
-                "value": "staticProp",
-                "optional": false
+                "value": "staticProp"
               }
             }
           },
@@ -326,9 +320,7 @@
                   "start": 184,
                   "end": 194
                 },
-                "ctxt": 0,
-                "value": "staticProp",
-                "optional": false
+                "value": "staticProp"
               }
             }
           },
@@ -411,9 +403,7 @@
                   "start": 228,
                   "end": 238
                 },
-                "ctxt": 0,
-                "value": "staticProp",
-                "optional": false
+                "value": "staticProp"
               },
               "value": {
                 "type": "NumericLiteral",
@@ -469,9 +459,7 @@
                       "start": 257,
                       "end": 267
                     },
-                    "ctxt": 0,
-                    "value": "staticProp",
-                    "optional": false
+                    "value": "staticProp"
                   }
                 }
               },
@@ -555,9 +543,7 @@
                       "start": 315,
                       "end": 325
                     },
-                    "ctxt": 0,
-                    "value": "staticProp",
-                    "optional": false
+                    "value": "staticProp"
                   }
                 }
               },
@@ -700,9 +686,7 @@
                       "start": 373,
                       "end": 383
                     },
-                    "ctxt": 0,
-                    "value": "staticProp",
-                    "optional": false
+                    "value": "staticProp"
                   }
                 }
               },

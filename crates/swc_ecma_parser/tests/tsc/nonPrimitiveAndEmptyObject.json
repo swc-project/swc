@@ -325,9 +325,7 @@
             "start": 251,
             "end": 258
           },
-          "ctxt": 0,
-          "value": "barProp",
-          "optional": false
+          "value": "barProp"
         }
       }
     }

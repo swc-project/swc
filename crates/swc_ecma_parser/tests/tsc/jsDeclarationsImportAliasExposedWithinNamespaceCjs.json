@@ -79,9 +79,7 @@
               "start": 525,
               "end": 532
             },
-            "ctxt": 0,
-            "value": "myTypes",
-            "optional": false
+            "value": "myTypes"
           }
         },
         "right": {
@@ -418,9 +416,7 @@
               "start": 1067,
               "end": 1074
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {

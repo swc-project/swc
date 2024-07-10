@@ -37,9 +37,7 @@
               "start": 60,
               "end": 61
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "function": {
             "params": [
@@ -158,9 +156,7 @@
               "start": 105,
               "end": 106
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "function": {
             "params": [],
@@ -366,9 +362,7 @@
                   "start": 174,
                   "end": 175
                 },
-                "ctxt": 0,
-                "value": "x",
-                "optional": false
+                "value": "x"
               }
             },
             "arguments": [

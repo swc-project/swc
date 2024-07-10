@@ -62,9 +62,7 @@
                     "start": 83,
                     "end": 92
                   },
-                  "ctxt": 0,
-                  "value": "decorator",
-                  "optional": false
+                  "value": "decorator"
                 },
                 "function": {
                   "params": [
@@ -198,9 +196,7 @@
                     "start": 167,
                     "end": 173
                   },
-                  "ctxt": 0,
-                  "value": "method",
-                  "optional": false
+                  "value": "method"
                 },
                 "function": {
                   "params": [],
@@ -230,9 +226,7 @@
                             "start": 148,
                             "end": 157
                           },
-                          "ctxt": 0,
-                          "value": "decorator",
-                          "optional": false
+                          "value": "decorator"
                         }
                       }
                     }

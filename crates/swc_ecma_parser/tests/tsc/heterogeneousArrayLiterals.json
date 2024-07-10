@@ -546,9 +546,7 @@
                           "start": 319,
                           "end": 322
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -568,9 +566,7 @@
                           "start": 327,
                           "end": 330
                         },
-                        "ctxt": 0,
-                        "value": "bar",
-                        "optional": false
+                        "value": "bar"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -602,9 +598,7 @@
                           "start": 340,
                           "end": 343
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -676,9 +670,7 @@
                           "start": 381,
                           "end": 384
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -698,9 +690,7 @@
                           "start": 389,
                           "end": 392
                         },
-                        "ctxt": 0,
-                        "value": "bar",
-                        "optional": false
+                        "value": "bar"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -732,9 +722,7 @@
                           "start": 402,
                           "end": 405
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -1282,9 +1270,7 @@
               "start": 669,
               "end": 672
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -1351,9 +1337,7 @@
               "start": 713,
               "end": 716
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "value": null,
           "typeAnnotation": {
@@ -1429,9 +1413,7 @@
               "start": 758,
               "end": 761
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           },
           "value": null,
           "typeAnnotation": {
@@ -1719,9 +1701,7 @@
                                 "start": 868,
                                 "end": 871
                               },
-                              "ctxt": 0,
-                              "value": "foo",
-                              "optional": false
+                              "value": "foo"
                             },
                             "value": {
                               "type": "Identifier",
@@ -1742,9 +1722,7 @@
                                 "start": 879,
                                 "end": 885
                               },
-                              "ctxt": 0,
-                              "value": "basear",
-                              "optional": false
+                              "value": "basear"
                             },
                             "value": {
                               "type": "Identifier",
@@ -1777,9 +1755,7 @@
                                 "start": 900,
                                 "end": 903
                               },
-                              "ctxt": 0,
-                              "value": "foo",
-                              "optional": false
+                              "value": "foo"
                             },
                             "value": {
                               "type": "Identifier",
@@ -1852,9 +1828,7 @@
                                 "start": 946,
                                 "end": 949
                               },
-                              "ctxt": 0,
-                              "value": "foo",
-                              "optional": false
+                              "value": "foo"
                             },
                             "value": {
                               "type": "Identifier",
@@ -1875,9 +1849,7 @@
                                 "start": 957,
                                 "end": 963
                               },
-                              "ctxt": 0,
-                              "value": "basear",
-                              "optional": false
+                              "value": "basear"
                             },
                             "value": {
                               "type": "Identifier",
@@ -1910,9 +1882,7 @@
                                 "start": 978,
                                 "end": 981
                               },
-                              "ctxt": 0,
-                              "value": "foo",
-                              "optional": false
+                              "value": "foo"
                             },
                             "value": {
                               "type": "Identifier",

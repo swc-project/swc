@@ -170,9 +170,7 @@
                             "start": 138,
                             "end": 149
                           },
-                          "ctxt": 0,
-                          "value": "toUpperCase",
-                          "optional": false
+                          "value": "toUpperCase"
                         }
                       },
                       "arguments": [],
@@ -267,9 +265,7 @@
                             "start": 215,
                             "end": 226
                           },
-                          "ctxt": 0,
-                          "value": "toUpperCase",
-                          "optional": false
+                          "value": "toUpperCase"
                         }
                       },
                       "arguments": [],
@@ -485,9 +481,7 @@
                             "start": 357,
                             "end": 368
                           },
-                          "ctxt": 0,
-                          "value": "toUpperCase",
-                          "optional": false
+                          "value": "toUpperCase"
                         }
                       },
                       "arguments": [],
@@ -582,9 +576,7 @@
                             "start": 439,
                             "end": 450
                           },
-                          "ctxt": 0,
-                          "value": "toUpperCase",
-                          "optional": false
+                          "value": "toUpperCase"
                         }
                       },
                       "arguments": [],

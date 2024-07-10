@@ -167,9 +167,7 @@
               "start": 158,
               "end": 164
             },
-            "ctxt": 0,
-            "value": "answer",
-            "optional": false
+            "value": "answer"
           }
         },
         "right": {

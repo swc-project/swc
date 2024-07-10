@@ -38,9 +38,7 @@
               "start": 31,
               "end": 42
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -159,9 +157,7 @@
               "start": 130,
               "end": 131
             },
-            "ctxt": 0,
-            "value": "c",
-            "optional": false
+            "value": "c"
           },
           "value": {
             "type": "FunctionExpression",
@@ -226,9 +222,7 @@
               "start": 173,
               "end": 174
             },
-            "ctxt": 0,
-            "value": "d",
-            "optional": false
+            "value": "d"
           },
           "value": {
             "type": "FunctionExpression",
@@ -321,9 +315,7 @@
               "start": 239,
               "end": 250
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -785,9 +777,7 @@
                     "start": 526,
                     "end": 527
                   },
-                  "ctxt": 0,
-                  "value": "k",
-                  "optional": false
+                  "value": "k"
                 },
                 "value": {
                   "type": "FunctionExpression",

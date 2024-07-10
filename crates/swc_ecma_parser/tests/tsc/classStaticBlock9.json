@@ -37,9 +37,7 @@
               "start": 62,
               "end": 65
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "value": {
             "type": "BinaryExpression",
@@ -70,9 +68,7 @@
                   "start": 70,
                   "end": 73
                 },
-                "ctxt": 0,
-                "value": "foo",
-                "optional": false
+                "value": "foo"
               }
             },
             "right": {
@@ -145,9 +141,7 @@
                         "start": 101,
                         "end": 104
                       },
-                      "ctxt": 0,
-                      "value": "foo",
-                      "optional": false
+                      "value": "foo"
                     }
                   },
                   "right": {
@@ -176,9 +170,7 @@
               "start": 127,
               "end": 130
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": {
             "type": "NumericLiteral",

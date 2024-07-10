@@ -309,7 +309,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                 span: super_token,
                 obj: Box::new({
                     let name = self.super_class.clone().unwrap_or_else(|| {
-                        quote_ident!(if self.is_static { "Function" } else { "Object" })
+                        quote_ident!(if self.is_static { "Function" } else { "Object" }).into()
                     });
                     // in static default super class is Function.prototype
                     if self.is_static && self.super_class.is_some() {
@@ -482,7 +482,7 @@ fn is_assign_to_super_prop(left: &AssignTarget) -> bool {
 
 fn prop_arg(prop: SuperProp) -> Expr {
     match prop {
-        SuperProp::Ident(Ident {
+        SuperProp::Ident(IdentName {
             sym: value, span, ..
         }) => Expr::Lit(Lit::Str(Str {
             span,

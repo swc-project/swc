@@ -77,7 +77,7 @@ impl VisitMut for FnName {
             //
             p.value = if let PropName::Ident(ref i) = p.key {
                 Box::new(Expr::Fn(FnExpr {
-                    ident: Some(prepare(i.clone())),
+                    ident: Some(prepare(i.clone().into())),
                     ..expr.take()
                 }))
             } else {

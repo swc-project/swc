@@ -37,9 +37,7 @@
               "start": 47,
               "end": 52
             },
-            "ctxt": 0,
-            "value": "dummy",
-            "optional": false
+            "value": "dummy"
           },
           "value": null,
           "typeAnnotation": {
@@ -116,9 +114,7 @@
               "start": 104,
               "end": 109
             },
-            "ctxt": 0,
-            "value": "dummy",
-            "optional": false
+            "value": "dummy"
           },
           "value": null,
           "typeAnnotation": {
@@ -360,9 +356,7 @@
               "start": 179,
               "end": 184
             },
-            "ctxt": 0,
-            "value": "dummy",
-            "optional": false
+            "value": "dummy"
           },
           "value": null,
           "typeAnnotation": {
@@ -988,9 +982,7 @@
               "start": 428,
               "end": 440
             },
-            "ctxt": 0,
-            "value": "tableColumns",
-            "optional": false
+            "value": "tableColumns"
           },
           "function": {
             "params": [
@@ -1171,9 +1163,7 @@
               "start": 506,
               "end": 511
             },
-            "ctxt": 0,
-            "value": "dummy",
-            "optional": false
+            "value": "dummy"
           },
           "value": null,
           "typeAnnotation": {
@@ -2075,9 +2065,7 @@
                           "start": 1027,
                           "end": 1039
                         },
-                        "ctxt": 0,
-                        "value": "tableColumns",
-                        "optional": false
+                        "value": "tableColumns"
                       }
                     },
                     "arguments": [

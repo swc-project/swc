@@ -38,9 +38,7 @@
               "start": 165,
               "end": 176
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -86,9 +84,7 @@
                         "start": 197,
                         "end": 200
                       },
-                      "ctxt": 0,
-                      "value": "log",
-                      "optional": false
+                      "value": "log"
                     }
                   },
                   "arguments": [
@@ -155,9 +151,7 @@
               "start": 238,
               "end": 245
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -297,9 +291,7 @@
               "start": 350,
               "end": 361
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -342,9 +334,7 @@
                         "start": 457,
                         "end": 464
                       },
-                      "ctxt": 0,
-                      "value": "objects",
-                      "optional": false
+                      "value": "objects"
                     }
                   },
                   "right": {
@@ -374,9 +364,7 @@
               "start": 566,
               "end": 578
             },
-            "ctxt": 0,
-            "value": "addRectangle",
-            "optional": false
+            "value": "addRectangle"
           },
           "function": {
             "params": [],
@@ -483,9 +471,7 @@
                             "start": 633,
                             "end": 640
                           },
-                          "ctxt": 0,
-                          "value": "objects",
-                          "optional": false
+                          "value": "objects"
                         }
                       },
                       "property": {
@@ -494,9 +480,7 @@
                           "start": 641,
                           "end": 645
                         },
-                        "ctxt": 0,
-                        "value": "push",
-                        "optional": false
+                        "value": "push"
                       }
                     },
                     "arguments": [
@@ -590,9 +574,7 @@
               "start": 688,
               "end": 695
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -785,9 +767,7 @@
               "start": 804,
               "end": 816
             },
-            "ctxt": 0,
-            "value": "addRectangle",
-            "optional": false
+            "value": "addRectangle"
           }
         },
         "arguments": [],
@@ -829,9 +809,7 @@
               "start": 828,
               "end": 831
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -871,9 +849,7 @@
                   "start": 850,
                   "end": 857
                 },
-                "ctxt": 0,
-                "value": "objects",
-                "optional": false
+                "value": "objects"
               }
             }
           }

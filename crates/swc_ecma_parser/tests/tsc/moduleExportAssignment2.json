@@ -61,9 +61,7 @@
                   "start": 92,
                   "end": 99
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             },
             "right": {
@@ -156,9 +154,7 @@
                 "start": 129,
                 "end": 136
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -167,9 +163,7 @@
               "start": 137,
               "end": 152
             },
-            "ctxt": 0,
-            "value": "asReadInstalled",
-            "optional": false
+            "value": "asReadInstalled"
           }
         },
         "right": {
@@ -286,9 +280,7 @@
                         "start": 236,
                         "end": 243
                       },
-                      "ctxt": 0,
-                      "value": "exports",
-                      "optional": false
+                      "value": "exports"
                     }
                   },
                   "arguments": [

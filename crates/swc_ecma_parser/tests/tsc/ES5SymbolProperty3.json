@@ -105,9 +105,7 @@
                   "start": 56,
                   "end": 64
                 },
-                "ctxt": 0,
-                "value": "iterator",
-                "optional": false
+                "value": "iterator"
               }
             }
           },
@@ -214,9 +212,7 @@
                 "start": 90,
                 "end": 98
               },
-              "ctxt": 0,
-              "value": "iterator",
-              "optional": false
+              "value": "iterator"
             }
           }
         }

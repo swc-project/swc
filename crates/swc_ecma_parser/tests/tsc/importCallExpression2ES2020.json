@@ -43,9 +43,7 @@
                 "start": 79,
                 "end": 84
               },
-              "ctxt": 0,
-              "value": "print",
-              "optional": false
+              "value": "print"
             },
             "function": {
               "params": [],
@@ -224,9 +222,7 @@
                     "start": 166,
                     "end": 170
                   },
-                  "ctxt": 0,
-                  "value": "then",
-                  "optional": false
+                  "value": "then"
                 }
               },
               "arguments": [
@@ -316,9 +312,7 @@
                                       "start": 208,
                                       "end": 209
                                     },
-                                    "ctxt": 0,
-                                    "value": "B",
-                                    "optional": false
+                                    "value": "B"
                                   }
                                 },
                                 "arguments": [],
@@ -363,9 +357,7 @@
                                   "start": 223,
                                   "end": 228
                                 },
-                                "ctxt": 0,
-                                "value": "print",
-                                "optional": false
+                                "value": "print"
                               }
                             },
                             "arguments": [],

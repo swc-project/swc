@@ -88,9 +88,7 @@
               "start": 62,
               "end": 73
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -398,9 +396,7 @@
                               "start": 272,
                               "end": 273
                             },
-                            "ctxt": 0,
-                            "value": "x",
-                            "optional": false
+                            "value": "x"
                           },
                           "value": {
                             "type": "MemberExpression",
@@ -447,9 +443,7 @@
                               "start": 292,
                               "end": 293
                             },
-                            "ctxt": 0,
-                            "value": "x",
-                            "optional": false
+                            "value": "x"
                           },
                           "value": {
                             "type": "ArrowFunctionExpression",

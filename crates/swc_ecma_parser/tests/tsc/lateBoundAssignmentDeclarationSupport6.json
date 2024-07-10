@@ -171,9 +171,7 @@
                 "start": 239,
                 "end": 248
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -182,9 +180,7 @@
               "start": 249,
               "end": 259
             },
-            "ctxt": 0,
-            "value": "defsAClass",
-            "optional": false
+            "value": "defsAClass"
           }
         },
         "right": {
@@ -232,9 +228,7 @@
               "start": 275,
               "end": 289
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -262,9 +256,7 @@
                   "start": 292,
                   "end": 301
                 },
-                "ctxt": 0,
-                "value": "prototype",
-                "optional": false
+                "value": "prototype"
               }
             }
           },
@@ -298,9 +290,7 @@
                       "start": 310,
                       "end": 315
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -354,9 +344,7 @@
               "start": 332,
               "end": 346
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -384,9 +372,7 @@
                   "start": 349,
                   "end": 358
                 },
-                "ctxt": 0,
-                "value": "prototype",
-                "optional": false
+                "value": "prototype"
               }
             }
           },
@@ -420,9 +406,7 @@
                       "start": 367,
                       "end": 372
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -663,9 +647,7 @@
                 "start": 458,
                 "end": 465
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -674,9 +656,7 @@
               "start": 466,
               "end": 467
             },
-            "ctxt": 0,
-            "value": "F",
-            "optional": false
+            "value": "F"
           }
         },
         "right": {
@@ -732,9 +712,7 @@
                 "start": 480,
                 "end": 487
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -743,9 +721,7 @@
               "start": 488,
               "end": 489
             },
-            "ctxt": 0,
-            "value": "S",
-            "optional": false
+            "value": "S"
           }
         },
         "right": {
@@ -880,9 +856,7 @@
                   "start": 607,
                   "end": 608
                 },
-                "ctxt": 0,
-                "value": "F",
-                "optional": false
+                "value": "F"
               }
             },
             "arguments": [],
@@ -1027,9 +1001,7 @@
                     "start": 660,
                     "end": 661
                   },
-                  "ctxt": 0,
-                  "value": "S",
-                  "optional": false
+                  "value": "S"
                 }
               }
             }

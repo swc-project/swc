@@ -269,9 +269,7 @@
                       "start": 148,
                       "end": 153
                     },
-                    "ctxt": 0,
-                    "value": "works",
-                    "optional": false
+                    "value": "works"
                   }
                 },
                 "property": {
@@ -280,9 +278,7 @@
                     "start": 154,
                     "end": 158
                   },
-                  "ctxt": 0,
-                  "value": "prop",
-                  "optional": false
+                  "value": "prop"
                 }
               },
               "right": {
@@ -354,9 +350,7 @@
                     "start": 195,
                     "end": 199
                   },
-                  "ctxt": 0,
-                  "value": "prop",
-                  "optional": false
+                  "value": "prop"
                 }
               },
               "right": {
@@ -416,9 +410,7 @@
                 "start": 286,
                 "end": 291
               },
-              "ctxt": 0,
-              "value": "works",
-              "optional": false
+              "value": "works"
             }
           }
         },
@@ -498,9 +490,7 @@
                     "start": 329,
                     "end": 333
                   },
-                  "ctxt": 0,
-                  "value": "prop",
-                  "optional": false
+                  "value": "prop"
                 }
               },
               "right": {
@@ -555,9 +545,7 @@
                       "start": 411,
                       "end": 416
                     },
-                    "ctxt": 0,
-                    "value": "works",
-                    "optional": false
+                    "value": "works"
                   }
                 },
                 "property": {
@@ -566,9 +554,7 @@
                     "start": 417,
                     "end": 421
                   },
-                  "ctxt": 0,
-                  "value": "prop",
-                  "optional": false
+                  "value": "prop"
                 }
               },
               "right": {

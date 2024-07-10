@@ -62,9 +62,7 @@
                     "start": 43,
                     "end": 46
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -131,9 +129,7 @@
                     "start": 95,
                     "end": 98
                   },
-                  "ctxt": 0,
-                  "value": "bar",
-                  "optional": false
+                  "value": "bar"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -226,9 +222,7 @@
                       "start": 129,
                       "end": 138
                     },
-                    "ctxt": 0,
-                    "value": "prototype",
-                    "optional": false
+                    "value": "prototype"
                   }
                 },
                 "definite": false
@@ -263,9 +257,7 @@
                   "start": 146,
                   "end": 149
                 },
-                "ctxt": 0,
-                "value": "foo",
-                "optional": false
+                "value": "foo"
               }
             }
           },
@@ -318,9 +310,7 @@
                       "start": 166,
                       "end": 175
                     },
-                    "ctxt": 0,
-                    "value": "prototype",
-                    "optional": false
+                    "value": "prototype"
                   }
                 },
                 "definite": false
@@ -355,9 +345,7 @@
                   "start": 184,
                   "end": 187
                 },
-                "ctxt": 0,
-                "value": "bar",
-                "optional": false
+                "value": "bar"
               }
             }
           }
@@ -421,9 +409,7 @@
                     "start": 236,
                     "end": 239
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -473,9 +459,7 @@
                     "start": 252,
                     "end": 255
                   },
-                  "ctxt": 0,
-                  "value": "bar",
-                  "optional": false
+                  "value": "bar"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -604,9 +588,7 @@
                     "start": 309,
                     "end": 312
                   },
-                  "ctxt": 0,
-                  "value": "baz",
-                  "optional": false
+                  "value": "baz"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -656,9 +638,7 @@
                     "start": 325,
                     "end": 329
                   },
-                  "ctxt": 0,
-                  "value": "bing",
-                  "optional": false
+                  "value": "bing"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -857,9 +837,7 @@
                       "start": 355,
                       "end": 364
                     },
-                    "ctxt": 0,
-                    "value": "prototype",
-                    "optional": false
+                    "value": "prototype"
                   }
                 },
                 "definite": false
@@ -915,9 +893,7 @@
                       "start": 396,
                       "end": 399
                     },
-                    "ctxt": 0,
-                    "value": "foo",
-                    "optional": false
+                    "value": "foo"
                   }
                 },
                 "definite": false
@@ -973,9 +949,7 @@
                       "start": 423,
                       "end": 432
                     },
-                    "ctxt": 0,
-                    "value": "prototype",
-                    "optional": false
+                    "value": "prototype"
                   }
                 },
                 "definite": false
@@ -1031,9 +1005,7 @@
                       "start": 465,
                       "end": 468
                     },
-                    "ctxt": 0,
-                    "value": "baz",
-                    "optional": false
+                    "value": "baz"
                   }
                 },
                 "definite": false

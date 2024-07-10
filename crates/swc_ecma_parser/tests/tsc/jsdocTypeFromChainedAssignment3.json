@@ -40,9 +40,7 @@
               "start": 81,
               "end": 89
             },
-            "ctxt": 0,
-            "value": "wrapSync",
-            "optional": false
+            "value": "wrapSync"
           }
         },
         "right": {
@@ -74,9 +72,7 @@
                 "start": 100,
                 "end": 112
               },
-              "ctxt": 0,
-              "value": "selectSeries",
-              "optional": false
+              "value": "selectSeries"
             }
           },
           "right": {
@@ -108,9 +104,7 @@
                   "start": 123,
                   "end": 134
                 },
-                "ctxt": 0,
-                "value": "selectLimit",
-                "optional": false
+                "value": "selectLimit"
               }
             },
             "right": {
@@ -142,9 +136,7 @@
                     "start": 145,
                     "end": 151
                   },
-                  "ctxt": 0,
-                  "value": "select",
-                  "optional": false
+                  "value": "select"
                 }
               },
               "right": {
@@ -176,9 +168,7 @@
                       "start": 162,
                       "end": 167
                     },
-                    "ctxt": 0,
-                    "value": "foldr",
-                    "optional": false
+                    "value": "foldr"
                   }
                 },
                 "right": {
@@ -210,9 +200,7 @@
                         "start": 178,
                         "end": 183
                       },
-                      "ctxt": 0,
-                      "value": "foldl",
-                      "optional": false
+                      "value": "foldl"
                     }
                   },
                   "right": {
@@ -244,9 +232,7 @@
                           "start": 194,
                           "end": 200
                         },
-                        "ctxt": 0,
-                        "value": "inject",
-                        "optional": false
+                        "value": "inject"
                       }
                     },
                     "right": {
@@ -278,9 +264,7 @@
                             "start": 211,
                             "end": 225
                           },
-                          "ctxt": 0,
-                          "value": "forEachOfLimit",
-                          "optional": false
+                          "value": "forEachOfLimit"
                         }
                       },
                       "right": {
@@ -312,9 +296,7 @@
                               "start": 236,
                               "end": 251
                             },
-                            "ctxt": 0,
-                            "value": "forEachOfSeries",
-                            "optional": false
+                            "value": "forEachOfSeries"
                           }
                         },
                         "right": {
@@ -346,9 +328,7 @@
                                 "start": 262,
                                 "end": 271
                               },
-                              "ctxt": 0,
-                              "value": "forEachOf",
-                              "optional": false
+                              "value": "forEachOf"
                             }
                           },
                           "right": {
@@ -380,9 +360,7 @@
                                   "start": 282,
                                   "end": 294
                                 },
-                                "ctxt": 0,
-                                "value": "forEachLimit",
-                                "optional": false
+                                "value": "forEachLimit"
                               }
                             },
                             "right": {
@@ -414,9 +392,7 @@
                                     "start": 305,
                                     "end": 318
                                   },
-                                  "ctxt": 0,
-                                  "value": "forEachSeries",
-                                  "optional": false
+                                  "value": "forEachSeries"
                                 }
                               },
                               "right": {
@@ -448,9 +424,7 @@
                                       "start": 329,
                                       "end": 336
                                     },
-                                    "ctxt": 0,
-                                    "value": "forEach",
-                                    "optional": false
+                                    "value": "forEach"
                                   }
                                 },
                                 "right": {
@@ -482,9 +456,7 @@
                                         "start": 347,
                                         "end": 357
                                       },
-                                      "ctxt": 0,
-                                      "value": "findSeries",
-                                      "optional": false
+                                      "value": "findSeries"
                                     }
                                   },
                                   "right": {
@@ -516,9 +488,7 @@
                                           "start": 368,
                                           "end": 377
                                         },
-                                        "ctxt": 0,
-                                        "value": "findLimit",
-                                        "optional": false
+                                        "value": "findLimit"
                                       }
                                     },
                                     "right": {
@@ -550,9 +520,7 @@
                                             "start": 388,
                                             "end": 392
                                           },
-                                          "ctxt": 0,
-                                          "value": "find",
-                                          "optional": false
+                                          "value": "find"
                                         }
                                       },
                                       "right": {
@@ -584,9 +552,7 @@
                                               "start": 403,
                                               "end": 412
                                             },
-                                            "ctxt": 0,
-                                            "value": "anySeries",
-                                            "optional": false
+                                            "value": "anySeries"
                                           }
                                         },
                                         "right": {
@@ -618,9 +584,7 @@
                                                 "start": 423,
                                                 "end": 431
                                               },
-                                              "ctxt": 0,
-                                              "value": "anyLimit",
-                                              "optional": false
+                                              "value": "anyLimit"
                                             }
                                           },
                                           "right": {
@@ -652,9 +616,7 @@
                                                   "start": 442,
                                                   "end": 445
                                                 },
-                                                "ctxt": 0,
-                                                "value": "any",
-                                                "optional": false
+                                                "value": "any"
                                               }
                                             },
                                             "right": {
@@ -686,9 +648,7 @@
                                                     "start": 456,
                                                     "end": 465
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "allSeries",
-                                                  "optional": false
+                                                  "value": "allSeries"
                                                 }
                                               },
                                               "right": {
@@ -720,9 +680,7 @@
                                                       "start": 476,
                                                       "end": 484
                                                     },
-                                                    "ctxt": 0,
-                                                    "value": "allLimit",
-                                                    "optional": false
+                                                    "value": "allLimit"
                                                   }
                                                 },
                                                 "right": {
@@ -754,9 +712,7 @@
                                                         "start": 495,
                                                         "end": 498
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "all",
-                                                      "optional": false
+                                                      "value": "all"
                                                     }
                                                   },
                                                   "right": {
@@ -788,9 +744,7 @@
                                                           "start": 509,
                                                           "end": 515
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "whilst",
-                                                        "optional": false
+                                                        "value": "whilst"
                                                       }
                                                     },
                                                     "right": {
@@ -822,9 +776,7 @@
                                                             "start": 526,
                                                             "end": 535
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "waterfall",
-                                                          "optional": false
+                                                          "value": "waterfall"
                                                         }
                                                       },
                                                       "right": {
@@ -856,9 +808,7 @@
                                                               "start": 546,
                                                               "end": 551
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "until",
-                                                            "optional": false
+                                                            "value": "until"
                                                           }
                                                         },
                                                         "right": {
@@ -890,9 +840,7 @@
                                                                 "start": 562,
                                                                 "end": 571
                                                               },
-                                                              "ctxt": 0,
-                                                              "value": "unmemoize",
-                                                              "optional": false
+                                                              "value": "unmemoize"
                                                             }
                                                           },
                                                           "right": {
@@ -924,9 +872,7 @@
                                                                   "start": 582,
                                                                   "end": 589
                                                                 },
-                                                                "ctxt": 0,
-                                                                "value": "tryEach",
-                                                                "optional": false
+                                                                "value": "tryEach"
                                                               }
                                                             },
                                                             "right": {
@@ -958,9 +904,7 @@
                                                                     "start": 600,
                                                                     "end": 609
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "transform",
-                                                                  "optional": false
+                                                                  "value": "transform"
                                                                 }
                                                               },
                                                               "right": {
@@ -992,9 +936,7 @@
                                                                       "start": 620,
                                                                       "end": 631
                                                                     },
-                                                                    "ctxt": 0,
-                                                                    "value": "timesSeries",
-                                                                    "optional": false
+                                                                    "value": "timesSeries"
                                                                   }
                                                                 },
                                                                 "right": {
@@ -1026,9 +968,7 @@
                                                                         "start": 642,
                                                                         "end": 652
                                                                       },
-                                                                      "ctxt": 0,
-                                                                      "value": "timesLimit",
-                                                                      "optional": false
+                                                                      "value": "timesLimit"
                                                                     }
                                                                   },
                                                                   "right": {
@@ -1060,9 +1000,7 @@
                                                                           "start": 663,
                                                                           "end": 668
                                                                         },
-                                                                        "ctxt": 0,
-                                                                        "value": "times",
-                                                                        "optional": false
+                                                                        "value": "times"
                                                                       }
                                                                     },
                                                                     "right": {
@@ -1094,9 +1032,7 @@
                                                                             "start": 679,
                                                                             "end": 686
                                                                           },
-                                                                          "ctxt": 0,
-                                                                          "value": "timeout",
-                                                                          "optional": false
+                                                                          "value": "timeout"
                                                                         }
                                                                       },
                                                                       "right": {
@@ -1128,9 +1064,7 @@
                                                                               "start": 697,
                                                                               "end": 703
                                                                             },
-                                                                            "ctxt": 0,
-                                                                            "value": "sortBy",
-                                                                            "optional": false
+                                                                            "value": "sortBy"
                                                                           }
                                                                         },
                                                                         "right": {
@@ -1162,9 +1096,7 @@
                                                                                 "start": 714,
                                                                                 "end": 724
                                                                               },
-                                                                              "ctxt": 0,
-                                                                              "value": "someSeries",
-                                                                              "optional": false
+                                                                              "value": "someSeries"
                                                                             }
                                                                           },
                                                                           "right": {
@@ -1196,9 +1128,7 @@
                                                                                   "start": 735,
                                                                                   "end": 744
                                                                                 },
-                                                                                "ctxt": 0,
-                                                                                "value": "someLimit",
-                                                                                "optional": false
+                                                                                "value": "someLimit"
                                                                               }
                                                                             },
                                                                             "right": {
@@ -1230,9 +1160,7 @@
                                                                                     "start": 755,
                                                                                     "end": 759
                                                                                   },
-                                                                                  "ctxt": 0,
-                                                                                  "value": "some",
-                                                                                  "optional": false
+                                                                                  "value": "some"
                                                                                 }
                                                                               },
                                                                               "right": {
@@ -1264,9 +1192,7 @@
                                                                                       "start": 770,
                                                                                       "end": 782
                                                                                     },
-                                                                                    "ctxt": 0,
-                                                                                    "value": "setImmediate",
-                                                                                    "optional": false
+                                                                                    "value": "setImmediate"
                                                                                   }
                                                                                 },
                                                                                 "right": {
@@ -1298,9 +1224,7 @@
                                                                                         "start": 793,
                                                                                         "end": 799
                                                                                       },
-                                                                                      "ctxt": 0,
-                                                                                      "value": "series",
-                                                                                      "optional": false
+                                                                                      "value": "series"
                                                                                     }
                                                                                   },
                                                                                   "right": {
@@ -1332,9 +1256,7 @@
                                                                                           "start": 810,
                                                                                           "end": 813
                                                                                         },
-                                                                                        "ctxt": 0,
-                                                                                        "value": "seq",
-                                                                                        "optional": false
+                                                                                        "value": "seq"
                                                                                       }
                                                                                     },
                                                                                     "right": {
@@ -1366,9 +1288,7 @@
                                                                                             "start": 824,
                                                                                             "end": 833
                                                                                           },
-                                                                                          "ctxt": 0,
-                                                                                          "value": "retryable",
-                                                                                          "optional": false
+                                                                                          "value": "retryable"
                                                                                         }
                                                                                       },
                                                                                       "right": {
@@ -1400,9 +1320,7 @@
                                                                                               "start": 844,
                                                                                               "end": 849
                                                                                             },
-                                                                                            "ctxt": 0,
-                                                                                            "value": "retry",
-                                                                                            "optional": false
+                                                                                            "value": "retry"
                                                                                           }
                                                                                         },
                                                                                         "right": {
@@ -1434,9 +1352,7 @@
                                                                                                 "start": 860,
                                                                                                 "end": 872
                                                                                               },
-                                                                                              "ctxt": 0,
-                                                                                              "value": "rejectSeries",
-                                                                                              "optional": false
+                                                                                              "value": "rejectSeries"
                                                                                             }
                                                                                           },
                                                                                           "right": {
@@ -1468,9 +1384,7 @@
                                                                                                   "start": 883,
                                                                                                   "end": 894
                                                                                                 },
-                                                                                                "ctxt": 0,
-                                                                                                "value": "rejectLimit",
-                                                                                                "optional": false
+                                                                                                "value": "rejectLimit"
                                                                                               }
                                                                                             },
                                                                                             "right": {
@@ -1502,9 +1416,7 @@
                                                                                                     "start": 905,
                                                                                                     "end": 911
                                                                                                   },
-                                                                                                  "ctxt": 0,
-                                                                                                  "value": "reject",
-                                                                                                  "optional": false
+                                                                                                  "value": "reject"
                                                                                                 }
                                                                                               },
                                                                                               "right": {
@@ -1536,9 +1448,7 @@
                                                                                                       "start": 922,
                                                                                                       "end": 932
                                                                                                     },
-                                                                                                    "ctxt": 0,
-                                                                                                    "value": "reflectAll",
-                                                                                                    "optional": false
+                                                                                                    "value": "reflectAll"
                                                                                                   }
                                                                                                 },
                                                                                                 "right": {
@@ -1570,9 +1480,7 @@
                                                                                                         "start": 943,
                                                                                                         "end": 950
                                                                                                       },
-                                                                                                      "ctxt": 0,
-                                                                                                      "value": "reflect",
-                                                                                                      "optional": false
+                                                                                                      "value": "reflect"
                                                                                                     }
                                                                                                   },
                                                                                                   "right": {
@@ -1604,9 +1512,7 @@
                                                                                                           "start": 961,
                                                                                                           "end": 972
                                                                                                         },
-                                                                                                        "ctxt": 0,
-                                                                                                        "value": "reduceRight",
-                                                                                                        "optional": false
+                                                                                                        "value": "reduceRight"
                                                                                                       }
                                                                                                     },
                                                                                                     "right": {
@@ -1638,9 +1544,7 @@
                                                                                                             "start": 983,
                                                                                                             "end": 989
                                                                                                           },
-                                                                                                          "ctxt": 0,
-                                                                                                          "value": "reduce",
-                                                                                                          "optional": false
+                                                                                                          "value": "reduce"
                                                                                                         }
                                                                                                       },
                                                                                                       "right": {
@@ -1672,9 +1576,7 @@
                                                                                                               "start": 1000,
                                                                                                               "end": 1004
                                                                                                             },
-                                                                                                            "ctxt": 0,
-                                                                                                            "value": "race",
-                                                                                                            "optional": false
+                                                                                                            "value": "race"
                                                                                                           }
                                                                                                         },
                                                                                                         "right": {
@@ -1706,9 +1608,7 @@
                                                                                                                 "start": 1015,
                                                                                                                 "end": 1020
                                                                                                               },
-                                                                                                              "ctxt": 0,
-                                                                                                              "value": "queue",
-                                                                                                              "optional": false
+                                                                                                              "value": "queue"
                                                                                                             }
                                                                                                           },
                                                                                                           "right": {
@@ -1740,9 +1640,7 @@
                                                                                                                   "start": 1031,
                                                                                                                   "end": 1044
                                                                                                                 },
-                                                                                                                "ctxt": 0,
-                                                                                                                "value": "priorityQueue",
-                                                                                                                "optional": false
+                                                                                                                "value": "priorityQueue"
                                                                                                               }
                                                                                                             },
                                                                                                             "right": {
@@ -1774,9 +1672,7 @@
                                                                                                                     "start": 1055,
                                                                                                                     "end": 1068
                                                                                                                   },
-                                                                                                                  "ctxt": 0,
-                                                                                                                  "value": "parallelLimit",
-                                                                                                                  "optional": false
+                                                                                                                  "value": "parallelLimit"
                                                                                                                 }
                                                                                                               },
                                                                                                               "right": {
@@ -1808,9 +1704,7 @@
                                                                                                                       "start": 1079,
                                                                                                                       "end": 1087
                                                                                                                     },
-                                                                                                                    "ctxt": 0,
-                                                                                                                    "value": "parallel",
-                                                                                                                    "optional": false
+                                                                                                                    "value": "parallel"
                                                                                                                   }
                                                                                                                 },
                                                                                                                 "right": {
@@ -1842,9 +1736,7 @@
                                                                                                                         "start": 1098,
                                                                                                                         "end": 1106
                                                                                                                       },
-                                                                                                                      "ctxt": 0,
-                                                                                                                      "value": "nextTick",
-                                                                                                                      "optional": false
+                                                                                                                      "value": "nextTick"
                                                                                                                     }
                                                                                                                   },
                                                                                                                   "right": {
@@ -1876,9 +1768,7 @@
                                                                                                                           "start": 1117,
                                                                                                                           "end": 1124
                                                                                                                         },
-                                                                                                                        "ctxt": 0,
-                                                                                                                        "value": "memoize",
-                                                                                                                        "optional": false
+                                                                                                                        "value": "memoize"
                                                                                                                       }
                                                                                                                     },
                                                                                                                     "right": {
@@ -1910,9 +1800,7 @@
                                                                                                                             "start": 1135,
                                                                                                                             "end": 1150
                                                                                                                           },
-                                                                                                                          "ctxt": 0,
-                                                                                                                          "value": "mapValuesSeries",
-                                                                                                                          "optional": false
+                                                                                                                          "value": "mapValuesSeries"
                                                                                                                         }
                                                                                                                       },
                                                                                                                       "right": {
@@ -1944,9 +1832,7 @@
                                                                                                                               "start": 1161,
                                                                                                                               "end": 1175
                                                                                                                             },
-                                                                                                                            "ctxt": 0,
-                                                                                                                            "value": "mapValuesLimit",
-                                                                                                                            "optional": false
+                                                                                                                            "value": "mapValuesLimit"
                                                                                                                           }
                                                                                                                         },
                                                                                                                         "right": {
@@ -1978,9 +1864,7 @@
                                                                                                                                 "start": 1186,
                                                                                                                                 "end": 1195
                                                                                                                               },
-                                                                                                                              "ctxt": 0,
-                                                                                                                              "value": "mapValues",
-                                                                                                                              "optional": false
+                                                                                                                              "value": "mapValues"
                                                                                                                             }
                                                                                                                           },
                                                                                                                           "right": {
@@ -2012,9 +1896,7 @@
                                                                                                                                   "start": 1206,
                                                                                                                                   "end": 1215
                                                                                                                                 },
-                                                                                                                                "ctxt": 0,
-                                                                                                                                "value": "mapSeries",
-                                                                                                                                "optional": false
+                                                                                                                                "value": "mapSeries"
                                                                                                                               }
                                                                                                                             },
                                                                                                                             "right": {
@@ -2046,9 +1928,7 @@
                                                                                                                                     "start": 1226,
                                                                                                                                     "end": 1234
                                                                                                                                   },
-                                                                                                                                  "ctxt": 0,
-                                                                                                                                  "value": "mapLimit",
-                                                                                                                                  "optional": false
+                                                                                                                                  "value": "mapLimit"
                                                                                                                                 }
                                                                                                                               },
                                                                                                                               "right": {
@@ -2080,9 +1960,7 @@
                                                                                                                                       "start": 1245,
                                                                                                                                       "end": 1248
                                                                                                                                     },
-                                                                                                                                    "ctxt": 0,
-                                                                                                                                    "value": "map",
-                                                                                                                                    "optional": false
+                                                                                                                                    "value": "map"
                                                                                                                                   }
                                                                                                                                 },
                                                                                                                                 "right": {
@@ -2114,9 +1992,7 @@
                                                                                                                                         "start": 1259,
                                                                                                                                         "end": 1262
                                                                                                                                       },
-                                                                                                                                      "ctxt": 0,
-                                                                                                                                      "value": "log",
-                                                                                                                                      "optional": false
+                                                                                                                                      "value": "log"
                                                                                                                                     }
                                                                                                                                   },
                                                                                                                                   "right": {
@@ -2148,9 +2024,7 @@
                                                                                                                                           "start": 1273,
                                                                                                                                           "end": 1286
                                                                                                                                         },
-                                                                                                                                        "ctxt": 0,
-                                                                                                                                        "value": "groupBySeries",
-                                                                                                                                        "optional": false
+                                                                                                                                        "value": "groupBySeries"
                                                                                                                                       }
                                                                                                                                     },
                                                                                                                                     "right": {
@@ -2182,9 +2056,7 @@
                                                                                                                                             "start": 1297,
                                                                                                                                             "end": 1309
                                                                                                                                           },
-                                                                                                                                          "ctxt": 0,
-                                                                                                                                          "value": "groupByLimit",
-                                                                                                                                          "optional": false
+                                                                                                                                          "value": "groupByLimit"
                                                                                                                                         }
                                                                                                                                       },
                                                                                                                                       "right": {
@@ -2216,9 +2088,7 @@
                                                                                                                                               "start": 1320,
                                                                                                                                               "end": 1327
                                                                                                                                             },
-                                                                                                                                            "ctxt": 0,
-                                                                                                                                            "value": "groupBy",
-                                                                                                                                            "optional": false
+                                                                                                                                            "value": "groupBy"
                                                                                                                                           }
                                                                                                                                         },
                                                                                                                                         "right": {
@@ -2250,9 +2120,7 @@
                                                                                                                                                 "start": 1338,
                                                                                                                                                 "end": 1345
                                                                                                                                               },
-                                                                                                                                              "ctxt": 0,
-                                                                                                                                              "value": "forever",
-                                                                                                                                              "optional": false
+                                                                                                                                              "value": "forever"
                                                                                                                                             }
                                                                                                                                           },
                                                                                                                                           "right": {
@@ -2284,9 +2152,7 @@
                                                                                                                                                   "start": 1356,
                                                                                                                                                   "end": 1368
                                                                                                                                                 },
-                                                                                                                                                "ctxt": 0,
-                                                                                                                                                "value": "filterSeries",
-                                                                                                                                                "optional": false
+                                                                                                                                                "value": "filterSeries"
                                                                                                                                               }
                                                                                                                                             },
                                                                                                                                             "right": {
@@ -2318,9 +2184,7 @@
                                                                                                                                                     "start": 1379,
                                                                                                                                                     "end": 1390
                                                                                                                                                   },
-                                                                                                                                                  "ctxt": 0,
-                                                                                                                                                  "value": "filterLimit",
-                                                                                                                                                  "optional": false
+                                                                                                                                                  "value": "filterLimit"
                                                                                                                                                 }
                                                                                                                                               },
                                                                                                                                               "right": {
@@ -2352,9 +2216,7 @@
                                                                                                                                                       "start": 1401,
                                                                                                                                                       "end": 1407
                                                                                                                                                     },
-                                                                                                                                                    "ctxt": 0,
-                                                                                                                                                    "value": "filter",
-                                                                                                                                                    "optional": false
+                                                                                                                                                    "value": "filter"
                                                                                                                                                   }
                                                                                                                                                 },
                                                                                                                                                 "right": {
@@ -2386,9 +2248,7 @@
                                                                                                                                                         "start": 1418,
                                                                                                                                                         "end": 1429
                                                                                                                                                       },
-                                                                                                                                                      "ctxt": 0,
-                                                                                                                                                      "value": "everySeries",
-                                                                                                                                                      "optional": false
+                                                                                                                                                      "value": "everySeries"
                                                                                                                                                     }
                                                                                                                                                   },
                                                                                                                                                   "right": {
@@ -2420,9 +2280,7 @@
                                                                                                                                                           "start": 1440,
                                                                                                                                                           "end": 1450
                                                                                                                                                         },
-                                                                                                                                                        "ctxt": 0,
-                                                                                                                                                        "value": "everyLimit",
-                                                                                                                                                        "optional": false
+                                                                                                                                                        "value": "everyLimit"
                                                                                                                                                       }
                                                                                                                                                     },
                                                                                                                                                     "right": {
@@ -2454,9 +2312,7 @@
                                                                                                                                                             "start": 1461,
                                                                                                                                                             "end": 1466
                                                                                                                                                           },
-                                                                                                                                                          "ctxt": 0,
-                                                                                                                                                          "value": "every",
-                                                                                                                                                          "optional": false
+                                                                                                                                                          "value": "every"
                                                                                                                                                         }
                                                                                                                                                       },
                                                                                                                                                       "right": {
@@ -2488,9 +2344,7 @@
                                                                                                                                                               "start": 1477,
                                                                                                                                                               "end": 1488
                                                                                                                                                             },
-                                                                                                                                                            "ctxt": 0,
-                                                                                                                                                            "value": "ensureAsync",
-                                                                                                                                                            "optional": false
+                                                                                                                                                            "value": "ensureAsync"
                                                                                                                                                           }
                                                                                                                                                         },
                                                                                                                                                         "right": {
@@ -2522,9 +2376,7 @@
                                                                                                                                                                 "start": 1499,
                                                                                                                                                                 "end": 1509
                                                                                                                                                               },
-                                                                                                                                                              "ctxt": 0,
-                                                                                                                                                              "value": "eachSeries",
-                                                                                                                                                              "optional": false
+                                                                                                                                                              "value": "eachSeries"
                                                                                                                                                             }
                                                                                                                                                           },
                                                                                                                                                           "right": {
@@ -2556,9 +2408,7 @@
                                                                                                                                                                   "start": 1520,
                                                                                                                                                                   "end": 1532
                                                                                                                                                                 },
-                                                                                                                                                                "ctxt": 0,
-                                                                                                                                                                "value": "eachOfSeries",
-                                                                                                                                                                "optional": false
+                                                                                                                                                                "value": "eachOfSeries"
                                                                                                                                                               }
                                                                                                                                                             },
                                                                                                                                                             "right": {
@@ -2590,9 +2440,7 @@
                                                                                                                                                                     "start": 1543,
                                                                                                                                                                     "end": 1554
                                                                                                                                                                   },
-                                                                                                                                                                  "ctxt": 0,
-                                                                                                                                                                  "value": "eachOfLimit",
-                                                                                                                                                                  "optional": false
+                                                                                                                                                                  "value": "eachOfLimit"
                                                                                                                                                                 }
                                                                                                                                                               },
                                                                                                                                                               "right": {
@@ -2624,9 +2472,7 @@
                                                                                                                                                                       "start": 1565,
                                                                                                                                                                       "end": 1571
                                                                                                                                                                     },
-                                                                                                                                                                    "ctxt": 0,
-                                                                                                                                                                    "value": "eachOf",
-                                                                                                                                                                    "optional": false
+                                                                                                                                                                    "value": "eachOf"
                                                                                                                                                                   }
                                                                                                                                                                 },
                                                                                                                                                                 "right": {
@@ -2658,9 +2504,7 @@
                                                                                                                                                                         "start": 1582,
                                                                                                                                                                         "end": 1591
                                                                                                                                                                       },
-                                                                                                                                                                      "ctxt": 0,
-                                                                                                                                                                      "value": "eachLimit",
-                                                                                                                                                                      "optional": false
+                                                                                                                                                                      "value": "eachLimit"
                                                                                                                                                                     }
                                                                                                                                                                   },
                                                                                                                                                                   "right": {
@@ -2692,9 +2536,7 @@
                                                                                                                                                                           "start": 1602,
                                                                                                                                                                           "end": 1606
                                                                                                                                                                         },
-                                                                                                                                                                        "ctxt": 0,
-                                                                                                                                                                        "value": "each",
-                                                                                                                                                                        "optional": false
+                                                                                                                                                                        "value": "each"
                                                                                                                                                                       }
                                                                                                                                                                     },
                                                                                                                                                                     "right": {
@@ -2726,9 +2568,7 @@
                                                                                                                                                                             "start": 1617,
                                                                                                                                                                             "end": 1623
                                                                                                                                                                           },
-                                                                                                                                                                          "ctxt": 0,
-                                                                                                                                                                          "value": "during",
-                                                                                                                                                                          "optional": false
+                                                                                                                                                                          "value": "during"
                                                                                                                                                                         }
                                                                                                                                                                       },
                                                                                                                                                                       "right": {
@@ -2760,9 +2600,7 @@
                                                                                                                                                                               "start": 1634,
                                                                                                                                                                               "end": 1642
                                                                                                                                                                             },
-                                                                                                                                                                            "ctxt": 0,
-                                                                                                                                                                            "value": "doWhilst",
-                                                                                                                                                                            "optional": false
+                                                                                                                                                                            "value": "doWhilst"
                                                                                                                                                                           }
                                                                                                                                                                         },
                                                                                                                                                                         "right": {
@@ -2794,9 +2632,7 @@
                                                                                                                                                                                 "start": 1653,
                                                                                                                                                                                 "end": 1660
                                                                                                                                                                               },
-                                                                                                                                                                              "ctxt": 0,
-                                                                                                                                                                              "value": "doUntil",
-                                                                                                                                                                              "optional": false
+                                                                                                                                                                              "value": "doUntil"
                                                                                                                                                                             }
                                                                                                                                                                           },
                                                                                                                                                                           "right": {
@@ -2828,9 +2664,7 @@
                                                                                                                                                                                   "start": 1671,
                                                                                                                                                                                   "end": 1679
                                                                                                                                                                                 },
-                                                                                                                                                                                "ctxt": 0,
-                                                                                                                                                                                "value": "doDuring",
-                                                                                                                                                                                "optional": false
+                                                                                                                                                                                "value": "doDuring"
                                                                                                                                                                               }
                                                                                                                                                                             },
                                                                                                                                                                             "right": {
@@ -2862,9 +2696,7 @@
                                                                                                                                                                                     "start": 1690,
                                                                                                                                                                                     "end": 1693
                                                                                                                                                                                   },
-                                                                                                                                                                                  "ctxt": 0,
-                                                                                                                                                                                  "value": "dir",
-                                                                                                                                                                                  "optional": false
+                                                                                                                                                                                  "value": "dir"
                                                                                                                                                                                 }
                                                                                                                                                                               },
                                                                                                                                                                               "right": {
@@ -2896,9 +2728,7 @@
                                                                                                                                                                                       "start": 1704,
                                                                                                                                                                                       "end": 1716
                                                                                                                                                                                     },
-                                                                                                                                                                                    "ctxt": 0,
-                                                                                                                                                                                    "value": "detectSeries",
-                                                                                                                                                                                    "optional": false
+                                                                                                                                                                                    "value": "detectSeries"
                                                                                                                                                                                   }
                                                                                                                                                                                 },
                                                                                                                                                                                 "right": {
@@ -2930,9 +2760,7 @@
                                                                                                                                                                                         "start": 1727,
                                                                                                                                                                                         "end": 1738
                                                                                                                                                                                       },
-                                                                                                                                                                                      "ctxt": 0,
-                                                                                                                                                                                      "value": "detectLimit",
-                                                                                                                                                                                      "optional": false
+                                                                                                                                                                                      "value": "detectLimit"
                                                                                                                                                                                     }
                                                                                                                                                                                   },
                                                                                                                                                                                   "right": {
@@ -2964,9 +2792,7 @@
                                                                                                                                                                                           "start": 1749,
                                                                                                                                                                                           "end": 1755
                                                                                                                                                                                         },
-                                                                                                                                                                                        "ctxt": 0,
-                                                                                                                                                                                        "value": "detect",
-                                                                                                                                                                                        "optional": false
+                                                                                                                                                                                        "value": "detect"
                                                                                                                                                                                       }
                                                                                                                                                                                     },
                                                                                                                                                                                     "right": {
@@ -2998,9 +2824,7 @@
                                                                                                                                                                                             "start": 1766,
                                                                                                                                                                                             "end": 1774
                                                                                                                                                                                           },
-                                                                                                                                                                                          "ctxt": 0,
-                                                                                                                                                                                          "value": "constant",
-                                                                                                                                                                                          "optional": false
+                                                                                                                                                                                          "value": "constant"
                                                                                                                                                                                         }
                                                                                                                                                                                       },
                                                                                                                                                                                       "right": {
@@ -3032,9 +2856,7 @@
                                                                                                                                                                                               "start": 1785,
                                                                                                                                                                                               "end": 1797
                                                                                                                                                                                             },
-                                                                                                                                                                                            "ctxt": 0,
-                                                                                                                                                                                            "value": "concatSeries",
-                                                                                                                                                                                            "optional": false
+                                                                                                                                                                                            "value": "concatSeries"
                                                                                                                                                                                           }
                                                                                                                                                                                         },
                                                                                                                                                                                         "right": {
@@ -3066,9 +2888,7 @@
                                                                                                                                                                                                 "start": 1808,
                                                                                                                                                                                                 "end": 1819
                                                                                                                                                                                               },
-                                                                                                                                                                                              "ctxt": 0,
-                                                                                                                                                                                              "value": "concatLimit",
-                                                                                                                                                                                              "optional": false
+                                                                                                                                                                                              "value": "concatLimit"
                                                                                                                                                                                             }
                                                                                                                                                                                           },
                                                                                                                                                                                           "right": {
@@ -3100,9 +2920,7 @@
                                                                                                                                                                                                   "start": 1830,
                                                                                                                                                                                                   "end": 1836
                                                                                                                                                                                                 },
-                                                                                                                                                                                                "ctxt": 0,
-                                                                                                                                                                                                "value": "concat",
-                                                                                                                                                                                                "optional": false
+                                                                                                                                                                                                "value": "concat"
                                                                                                                                                                                               }
                                                                                                                                                                                             },
                                                                                                                                                                                             "right": {
@@ -3134,9 +2952,7 @@
                                                                                                                                                                                                     "start": 1847,
                                                                                                                                                                                                     "end": 1854
                                                                                                                                                                                                   },
-                                                                                                                                                                                                  "ctxt": 0,
-                                                                                                                                                                                                  "value": "compose",
-                                                                                                                                                                                                  "optional": false
+                                                                                                                                                                                                  "value": "compose"
                                                                                                                                                                                                 }
                                                                                                                                                                                               },
                                                                                                                                                                                               "right": {
@@ -3168,9 +2984,7 @@
                                                                                                                                                                                                       "start": 1865,
                                                                                                                                                                                                       "end": 1870
                                                                                                                                                                                                     },
-                                                                                                                                                                                                    "ctxt": 0,
-                                                                                                                                                                                                    "value": "cargo",
-                                                                                                                                                                                                    "optional": false
+                                                                                                                                                                                                    "value": "cargo"
                                                                                                                                                                                                   }
                                                                                                                                                                                                 },
                                                                                                                                                                                                 "right": {
@@ -3202,9 +3016,7 @@
                                                                                                                                                                                                         "start": 1881,
                                                                                                                                                                                                         "end": 1891
                                                                                                                                                                                                       },
-                                                                                                                                                                                                      "ctxt": 0,
-                                                                                                                                                                                                      "value": "autoInject",
-                                                                                                                                                                                                      "optional": false
+                                                                                                                                                                                                      "value": "autoInject"
                                                                                                                                                                                                     }
                                                                                                                                                                                                   },
                                                                                                                                                                                                   "right": {
@@ -3236,9 +3048,7 @@
                                                                                                                                                                                                           "start": 1902,
                                                                                                                                                                                                           "end": 1906
                                                                                                                                                                                                         },
-                                                                                                                                                                                                        "ctxt": 0,
-                                                                                                                                                                                                        "value": "auto",
-                                                                                                                                                                                                        "optional": false
+                                                                                                                                                                                                        "value": "auto"
                                                                                                                                                                                                       }
                                                                                                                                                                                                     },
                                                                                                                                                                                                     "right": {
@@ -3270,9 +3080,7 @@
                                                                                                                                                                                                             "start": 1917,
                                                                                                                                                                                                             "end": 1925
                                                                                                                                                                                                           },
-                                                                                                                                                                                                          "ctxt": 0,
-                                                                                                                                                                                                          "value": "asyncify",
-                                                                                                                                                                                                          "optional": false
+                                                                                                                                                                                                          "value": "asyncify"
                                                                                                                                                                                                         }
                                                                                                                                                                                                       },
                                                                                                                                                                                                       "right": {
@@ -3304,9 +3112,7 @@
                                                                                                                                                                                                               "start": 1936,
                                                                                                                                                                                                               "end": 1951
                                                                                                                                                                                                             },
-                                                                                                                                                                                                            "ctxt": 0,
-                                                                                                                                                                                                            "value": "applyEachSeries",
-                                                                                                                                                                                                            "optional": false
+                                                                                                                                                                                                            "value": "applyEachSeries"
                                                                                                                                                                                                           }
                                                                                                                                                                                                         },
                                                                                                                                                                                                         "right": {
@@ -3338,9 +3144,7 @@
                                                                                                                                                                                                                 "start": 1962,
                                                                                                                                                                                                                 "end": 1971
                                                                                                                                                                                                               },
-                                                                                                                                                                                                              "ctxt": 0,
-                                                                                                                                                                                                              "value": "applyEach",
-                                                                                                                                                                                                              "optional": false
+                                                                                                                                                                                                              "value": "applyEach"
                                                                                                                                                                                                             }
                                                                                                                                                                                                           },
                                                                                                                                                                                                           "right": {
@@ -3372,9 +3176,7 @@
                                                                                                                                                                                                                   "start": 1982,
                                                                                                                                                                                                                   "end": 1987
                                                                                                                                                                                                                 },
-                                                                                                                                                                                                                "ctxt": 0,
-                                                                                                                                                                                                                "value": "apply",
-                                                                                                                                                                                                                "optional": false
+                                                                                                                                                                                                                "value": "apply"
                                                                                                                                                                                                               }
                                                                                                                                                                                                             },
                                                                                                                                                                                                             "right": {

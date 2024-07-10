@@ -21,7 +21,7 @@ use crate::{
     lit::{Bool, Number, Str},
     module::ModuleItem,
     pat::{ArrayPat, AssignPat, ObjectPat, Pat, RestPat},
-    BigInt, BindingIdent, TplElement,
+    BigInt, BindingIdent, IdentName, TplElement,
 };
 
 #[ast_node("TsTypeAnnotation")]
@@ -104,10 +104,9 @@ pub enum TsParamPropParam {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsQualifiedName {
-    #[span(lo)]
+    pub span: Span,
     pub left: TsEntityName,
-    #[span(hi)]
-    pub right: Ident,
+    pub right: IdentName,
 }
 
 #[ast_node]

@@ -174,9 +174,7 @@
                 "start": 327,
                 "end": 330
               },
-              "ctxt": 0,
-              "value": "ADD",
-              "optional": false
+              "value": "ADD"
             }
           },
           "definite": false
@@ -231,9 +229,7 @@
                       "start": 408,
                       "end": 411
                     },
-                    "ctxt": 0,
-                    "value": "ADD",
-                    "optional": false
+                    "value": "ADD"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -253,9 +249,7 @@
                       "start": 424,
                       "end": 430
                     },
-                    "ctxt": 0,
-                    "value": "REMOVE",
-                    "optional": false
+                    "value": "REMOVE"
                   },
                   "value": {
                     "type": "StringLiteral",

@@ -294,7 +294,9 @@ impl FastDts {
                             match prop {
                                 Prop::KeyValue(key_value) => {
                                     let (key, computed) = match key_value.key {
-                                        PropName::Ident(ident) => (Expr::Ident(ident), false),
+                                        PropName::Ident(ident) => {
+                                            (Expr::Ident(ident.into()), false)
+                                        }
                                         PropName::Str(str_prop) => {
                                             (Expr::Lit(Lit::Str(str_prop)), false)
                                         }

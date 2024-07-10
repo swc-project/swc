@@ -1235,9 +1235,7 @@
                           "start": 542,
                           "end": 543
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -1400,9 +1398,7 @@
                           "start": 602,
                           "end": 603
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -1573,9 +1569,7 @@
                           "start": 668,
                           "end": 669
                         },
-                        "ctxt": 0,
-                        "value": "z",
-                        "optional": false
+                        "value": "z"
                       },
                       "value": {
                         "type": "Identifier",
@@ -1774,9 +1768,7 @@
                           "start": 753,
                           "end": 754
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -1939,9 +1931,7 @@
                           "start": 814,
                           "end": 815
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -2112,9 +2102,7 @@
                           "start": 881,
                           "end": 882
                         },
-                        "ctxt": 0,
-                        "value": "z",
-                        "optional": false
+                        "value": "z"
                       },
                       "value": {
                         "type": "Identifier",
@@ -2762,9 +2750,7 @@
                           "start": 1148,
                           "end": 1149
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "NumericLiteral",

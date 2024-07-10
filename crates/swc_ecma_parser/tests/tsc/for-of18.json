@@ -37,9 +37,7 @@
               "start": 43,
               "end": 47
             },
-            "ctxt": 0,
-            "value": "next",
-            "optional": false
+            "value": "next"
           },
           "function": {
             "params": [],
@@ -78,9 +76,7 @@
                             "start": 81,
                             "end": 86
                           },
-                          "ctxt": 0,
-                          "value": "value",
-                          "optional": false
+                          "value": "value"
                         },
                         "value": {
                           "type": "StringLiteral",
@@ -100,9 +96,7 @@
                             "start": 104,
                             "end": 108
                           },
-                          "ctxt": 0,
-                          "value": "done",
-                          "optional": false
+                          "value": "done"
                         },
                         "value": {
                           "type": "BooleanLiteral",
@@ -164,9 +158,7 @@
                   "start": 145,
                   "end": 153
                 },
-                "ctxt": 0,
-                "value": "iterator",
-                "optional": false
+                "value": "iterator"
               }
             }
           },

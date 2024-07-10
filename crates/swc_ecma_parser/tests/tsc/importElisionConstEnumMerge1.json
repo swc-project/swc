@@ -260,9 +260,7 @@
             "start": 241,
             "end": 244
           },
-          "ctxt": 0,
-          "value": "One",
-          "optional": false
+          "value": "One"
         }
       }
     }

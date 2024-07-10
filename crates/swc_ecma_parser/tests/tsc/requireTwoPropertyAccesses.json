@@ -40,9 +40,7 @@
               "start": 97,
               "end": 104
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -60,9 +58,7 @@
                   "start": 113,
                   "end": 114
                 },
-                "ctxt": 0,
-                "value": "x",
-                "optional": false
+                "value": "x"
               },
               "value": {
                 "type": "ObjectExpression",
@@ -79,9 +75,7 @@
                         "start": 126,
                         "end": 127
                       },
-                      "ctxt": 0,
-                      "value": "y",
-                      "optional": false
+                      "value": "y"
                     },
                     "value": {
                       "type": "StringLiteral",
@@ -178,9 +172,7 @@
                   "start": 220,
                   "end": 221
                 },
-                "ctxt": 0,
-                "value": "x",
-                "optional": false
+                "value": "x"
               }
             },
             "property": {
@@ -189,9 +181,7 @@
                 "start": 222,
                 "end": 223
               },
-              "ctxt": 0,
-              "value": "y",
-              "optional": false
+              "value": "y"
             }
           },
           "definite": false
@@ -233,9 +223,7 @@
               "start": 232,
               "end": 235
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [

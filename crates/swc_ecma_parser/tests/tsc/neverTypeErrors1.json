@@ -979,9 +979,7 @@
                       "start": 503,
                       "end": 508
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "ArrayExpression",

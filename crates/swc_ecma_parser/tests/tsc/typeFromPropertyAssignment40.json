@@ -106,9 +106,7 @@
                     "start": 148,
                     "end": 149
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 }
               },
               "right": {
@@ -189,9 +187,7 @@
             "start": 187,
             "end": 188
           },
-          "ctxt": 0,
-          "value": "y",
-          "optional": false
+          "value": "y"
         }
       }
     }

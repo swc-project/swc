@@ -203,9 +203,7 @@
                   "start": 247,
                   "end": 248
                 },
-                "ctxt": 0,
-                "value": "y",
-                "optional": false
+                "value": "y"
               },
               "value": null,
               "typeAnnotation": {
@@ -366,9 +364,7 @@
                   "start": 404,
                   "end": 405
                 },
-                "ctxt": 0,
-                "value": "y",
-                "optional": false
+                "value": "y"
               },
               "value": null,
               "typeAnnotation": {
@@ -529,9 +525,7 @@
                   "start": 561,
                   "end": 562
                 },
-                "ctxt": 0,
-                "value": "y",
-                "optional": false
+                "value": "y"
               },
               "value": null,
               "typeAnnotation": {
@@ -692,9 +686,7 @@
                   "start": 718,
                   "end": 719
                 },
-                "ctxt": 0,
-                "value": "y",
-                "optional": false
+                "value": "y"
               },
               "value": null,
               "typeAnnotation": {

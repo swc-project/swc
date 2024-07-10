@@ -50,9 +50,7 @@
               "start": 9,
               "end": 10
             },
-            "ctxt": 0,
-            "value": "b",
-            "optional": false
+            "value": "b"
           }
         },
         "arguments": [],

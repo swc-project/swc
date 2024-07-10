@@ -40,9 +40,7 @@
               "start": 153,
               "end": 156
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -77,9 +75,7 @@
                     "start": 162,
                     "end": 181
                   },
-                  "ctxt": 0,
-                  "value": "getCanonicalLocales",
-                  "optional": false
+                  "value": "getCanonicalLocales"
                 }
               },
               "arguments": [
@@ -138,9 +134,7 @@
               "start": 238,
               "end": 241
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -175,9 +169,7 @@
                     "start": 247,
                     "end": 266
                   },
-                  "ctxt": 0,
-                  "value": "getCanonicalLocales",
-                  "optional": false
+                  "value": "getCanonicalLocales"
                 }
               },
               "arguments": [
@@ -274,9 +266,7 @@
                     "start": 342,
                     "end": 361
                   },
-                  "ctxt": 0,
-                  "value": "getCanonicalLocales",
-                  "optional": false
+                  "value": "getCanonicalLocales"
                 }
               },
               "arguments": [
@@ -358,9 +348,7 @@
                       "start": 398,
                       "end": 401
                     },
-                    "ctxt": 0,
-                    "value": "log",
-                    "optional": false
+                    "value": "log"
                   }
                 },
                 "arguments": [
@@ -395,9 +383,7 @@
                             "start": 406,
                             "end": 414
                           },
-                          "ctxt": 0,
-                          "value": "toString",
-                          "optional": false
+                          "value": "toString"
                         }
                       },
                       "arguments": [],

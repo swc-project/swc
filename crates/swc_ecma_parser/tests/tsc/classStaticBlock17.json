@@ -293,9 +293,7 @@
               "start": 115,
               "end": 126
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -404,9 +402,7 @@
               "start": 165,
               "end": 169
             },
-            "ctxt": 0,
-            "value": "getX",
-            "optional": false
+            "value": "getX"
           },
           "function": {
             "params": [],
@@ -520,9 +516,7 @@
                             "start": 233,
                             "end": 237
                           },
-                          "ctxt": 0,
-                          "value": "getX",
-                          "optional": false
+                          "value": "getX"
                         },
                         "params": [
                           {
@@ -606,9 +600,7 @@
                             "start": 268,
                             "end": 272
                           },
-                          "ctxt": 0,
-                          "value": "setX",
-                          "optional": false
+                          "value": "setX"
                         },
                         "params": [
                           {
@@ -775,9 +767,7 @@
               "start": 331,
               "end": 342
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -888,9 +878,7 @@
                             "start": 373,
                             "end": 377
                           },
-                          "ctxt": 0,
-                          "value": "getX",
-                          "optional": false
+                          "value": "getX"
                         }
                       },
                       "arguments": [
@@ -949,9 +937,7 @@
                         "start": 400,
                         "end": 404
                       },
-                      "ctxt": 0,
-                      "value": "setX",
-                      "optional": false
+                      "value": "setX"
                     }
                   },
                   "arguments": [
@@ -1185,9 +1171,7 @@
               "start": 473,
               "end": 477
             },
-            "ctxt": 0,
-            "value": "getX",
-            "optional": false
+            "value": "getX"
           }
         },
         "arguments": [],

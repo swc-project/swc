@@ -895,9 +895,7 @@
               "start": 410,
               "end": 411
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": {
@@ -2952,9 +2950,7 @@
                       "start": 1217,
                       "end": 1218
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   }
                 }
               }
@@ -2967,9 +2963,7 @@
               "start": 1220,
               "end": 1231
             },
-            "ctxt": 0,
-            "value": "toLowerCase",
-            "optional": false
+            "value": "toLowerCase"
           }
         },
         "arguments": [],
@@ -3385,9 +3379,7 @@
               "start": 1409,
               "end": 1420
             },
-            "ctxt": 0,
-            "value": "toLowerCase",
-            "optional": false
+            "value": "toLowerCase"
           }
         },
         "arguments": [],

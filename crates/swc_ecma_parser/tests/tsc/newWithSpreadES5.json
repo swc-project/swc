@@ -448,9 +448,7 @@
               "start": 201,
               "end": 212
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -1947,9 +1945,7 @@
               "start": 764,
               "end": 765
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           }
         },
         "arguments": [
@@ -2028,9 +2024,7 @@
               "start": 789,
               "end": 790
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           }
         },
         "arguments": [
@@ -2113,9 +2107,7 @@
               "start": 810,
               "end": 811
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           }
         },
         "arguments": [
@@ -2216,9 +2208,7 @@
                 "start": 872,
                 "end": 873
               },
-              "ctxt": 0,
-              "value": "f",
-              "optional": false
+              "value": "f"
             }
           }
         },
@@ -2304,9 +2294,7 @@
                 "start": 899,
                 "end": 900
               },
-              "ctxt": 0,
-              "value": "f",
-              "optional": false
+              "value": "f"
             }
           }
         },
@@ -2396,9 +2384,7 @@
                 "start": 922,
                 "end": 923
               },
-              "ctxt": 0,
-              "value": "f",
-              "optional": false
+              "value": "f"
             }
           }
         },
@@ -2517,9 +2503,7 @@
               "start": 988,
               "end": 989
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           }
         },
         "arguments": [
@@ -2621,9 +2605,7 @@
               "start": 1016,
               "end": 1017
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           }
         },
         "arguments": [
@@ -2729,9 +2711,7 @@
               "start": 1040,
               "end": 1041
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           }
         },
         "arguments": [
@@ -2849,9 +2829,7 @@
               "start": 1130,
               "end": 1131
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           }
         },
         "arguments": [
@@ -2953,9 +2931,7 @@
               "start": 1162,
               "end": 1163
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           }
         },
         "arguments": [
@@ -3061,9 +3037,7 @@
               "start": 1190,
               "end": 1191
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           }
         },
         "arguments": [

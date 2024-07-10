@@ -54,9 +54,7 @@
                 "start": 186,
                 "end": 193
               },
-              "ctxt": 0,
-              "value": "isArray",
-              "optional": false
+              "value": "isArray"
             }
           },
           "definite": false

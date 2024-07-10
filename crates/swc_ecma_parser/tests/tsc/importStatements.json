@@ -69,9 +69,7 @@
                       "start": 45,
                       "end": 56
                     },
-                    "ctxt": 0,
-                    "value": "constructor",
-                    "optional": false
+                    "value": "constructor"
                   },
                   "params": [
                     {
@@ -459,6 +457,10 @@
                       },
                       "typeName": {
                         "type": "TsQualifiedName",
+                        "span": {
+                          "start": 385,
+                          "end": 392
+                        },
                         "left": {
                           "type": "Identifier",
                           "span": {
@@ -475,9 +477,7 @@
                             "start": 387,
                             "end": 392
                           },
-                          "ctxt": 0,
-                          "value": "Point",
-                          "optional": false
+                          "value": "Point"
                         }
                       },
                       "typeParams": null
@@ -531,9 +531,7 @@
                           "start": 407,
                           "end": 408
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -553,9 +551,7 @@
                           "start": 412,
                           "end": 413
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -686,9 +682,7 @@
                         "start": 491,
                         "end": 496
                       },
-                      "ctxt": 0,
-                      "value": "Point",
-                      "optional": false
+                      "value": "Point"
                     }
                   },
                   "arguments": [
@@ -830,6 +824,10 @@
                         },
                         "typeName": {
                           "type": "TsQualifiedName",
+                          "span": {
+                            "start": 565,
+                            "end": 572
+                          },
                           "left": {
                             "type": "Identifier",
                             "span": {
@@ -846,9 +844,7 @@
                               "start": 567,
                               "end": 572
                             },
-                            "ctxt": 0,
-                            "value": "Point",
-                            "optional": false
+                            "value": "Point"
                           }
                         },
                         "typeParams": null
@@ -918,9 +914,7 @@
                                 "start": 594,
                                 "end": 600
                               },
-                              "ctxt": 0,
-                              "value": "Origin",
-                              "optional": false
+                              "value": "Origin"
                             }
                           },
                           "property": {
@@ -929,9 +923,7 @@
                               "start": 601,
                               "end": 602
                             },
-                            "ctxt": 0,
-                            "value": "x",
-                            "optional": false
+                            "value": "x"
                           }
                         },
                         "right": {
@@ -956,9 +948,7 @@
                               "start": 607,
                               "end": 608
                             },
-                            "ctxt": 0,
-                            "value": "x",
-                            "optional": false
+                            "value": "x"
                           }
                         }
                       }

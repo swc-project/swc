@@ -47,9 +47,7 @@
                     "start": 16,
                     "end": 21
                   },
-                  "ctxt": 0,
-                  "value": "break",
-                  "optional": false
+                  "value": "break"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -69,9 +67,7 @@
                     "start": 30,
                     "end": 35
                   },
-                  "ctxt": 0,
-                  "value": "super",
-                  "optional": false
+                  "value": "super"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -91,9 +87,7 @@
                     "start": 44,
                     "end": 49
                   },
-                  "ctxt": 0,
-                  "value": "const",
-                  "optional": false
+                  "value": "const"
                 },
                 "value": {
                   "type": "NumericLiteral",

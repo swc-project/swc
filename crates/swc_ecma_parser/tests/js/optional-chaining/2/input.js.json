@@ -109,9 +109,7 @@
                                   "start": 4,
                                   "end": 5
                                 },
-                                "ctxt": 0,
-                                "value": "b",
-                                "optional": false
+                                "value": "b"
                               }
                             }
                           },
@@ -129,9 +127,7 @@
                       "start": 11,
                       "end": 12
                     },
-                    "ctxt": 0,
-                    "value": "c",
-                    "optional": false
+                    "value": "c"
                   }
                 }
               },

@@ -45,12 +45,6 @@
    : ^
  2 | c[d]
    `----
-  x Ident
-   ,-[$DIR/tests/span/js/expr/member.js:1:1]
- 1 | a.b
-   :   ^
- 2 | c[d]
-   `----
   x ModuleItem
    ,-[$DIR/tests/span/js/expr/member.js:2:1]
  1 | a.b

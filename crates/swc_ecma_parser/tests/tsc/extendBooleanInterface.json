@@ -291,9 +291,7 @@
                   "start": 109,
                   "end": 116
                 },
-                "ctxt": 0,
-                "value": "doStuff",
-                "optional": false
+                "value": "doStuff"
               }
             },
             "arguments": [],
@@ -373,9 +371,7 @@
                   "start": 138,
                   "end": 150
                 },
-                "ctxt": 0,
-                "value": "doOtherStuff",
-                "optional": false
+                "value": "doOtherStuff"
               }
             },
             "arguments": [

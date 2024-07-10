@@ -47,9 +47,7 @@
                     "start": 118,
                     "end": 122
                   },
-                  "ctxt": 0,
-                  "value": "type",
-                  "optional": false
+                  "value": "type"
                 },
                 "value": {
                   "type": "StringLiteral",
@@ -102,9 +100,7 @@
               "start": 140,
               "end": 147
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -163,9 +159,7 @@
               "start": 198,
               "end": 205
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -183,9 +177,7 @@
                   "start": 212,
                   "end": 218
                 },
-                "ctxt": 0,
-                "value": "nested",
-                "optional": false
+                "value": "nested"
               },
               "value": {
                 "type": "CallExpression",
@@ -316,9 +308,7 @@
                 "start": 306,
                 "end": 312
               },
-              "ctxt": 0,
-              "value": "nested",
-              "optional": false
+              "value": "nested"
             }
           },
           "definite": false

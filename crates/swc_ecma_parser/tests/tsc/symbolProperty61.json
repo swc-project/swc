@@ -136,6 +136,10 @@
                 },
                 "exprName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 146,
+                    "end": 156
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -152,9 +156,7 @@
                       "start": 153,
                       "end": 156
                     },
-                    "ctxt": 0,
-                    "value": "obs",
-                    "optional": false
+                    "value": "obs"
                   }
                 },
                 "typeArguments": null
@@ -183,9 +185,7 @@
                 "start": 166,
                 "end": 169
               },
-              "ctxt": 0,
-              "value": "obs",
-              "optional": false
+              "value": "obs"
             }
           },
           "definite": false
@@ -231,9 +231,7 @@
                 "start": 206,
                 "end": 217
               },
-              "ctxt": 0,
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [
               {
@@ -307,9 +305,7 @@
                 "start": 243,
                 "end": 252
               },
-              "ctxt": 0,
-              "value": "subscribe",
-              "optional": false
+              "value": "subscribe"
             },
             "function": {
               "params": [
@@ -458,9 +454,7 @@
                                 "start": 297,
                                 "end": 301
                               },
-                              "ctxt": 0,
-                              "value": "_val",
-                              "optional": false
+                              "value": "_val"
                             }
                           }
                         }
@@ -671,9 +665,7 @@
                   "start": 402,
                   "end": 405
                 },
-                "ctxt": 0,
-                "value": "obs",
-                "optional": false
+                "value": "obs"
               }
             },
             "computed": true,
@@ -983,9 +975,7 @@
                         "start": 529,
                         "end": 532
                       },
-                      "ctxt": 0,
-                      "value": "obs",
-                      "optional": false
+                      "value": "obs"
                     }
                   }
                 }

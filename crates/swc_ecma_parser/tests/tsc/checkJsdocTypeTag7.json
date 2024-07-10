@@ -37,9 +37,7 @@
               "start": 172,
               "end": 175
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [
@@ -121,9 +119,7 @@
               "start": 229,
               "end": 257
             },
-            "ctxt": 0,
-            "value": "methodWithOptionalParameters",
-            "optional": false
+            "value": "methodWithOptionalParameters"
           },
           "function": {
             "params": [],

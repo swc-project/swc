@@ -40,9 +40,7 @@
               "start": 23,
               "end": 41
             },
-            "ctxt": 0,
-            "value": "isConcatSpreadable",
-            "optional": false
+            "value": "isConcatSpreadable"
           }
         },
         "right": {
@@ -99,9 +97,7 @@
               "start": 62,
               "end": 73
             },
-            "ctxt": 0,
-            "value": "toPrimitive",
-            "optional": false
+            "value": "toPrimitive"
           }
         }
       }

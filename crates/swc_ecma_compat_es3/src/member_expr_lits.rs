@@ -52,7 +52,7 @@ impl Fold for MemberExprLit {
                 };
             } else {
                 return MemberExpr {
-                    prop: MemberProp::Ident(swc_ecma_utils::quote_ident!(i.ctxt, i.span, i.sym)),
+                    prop: MemberProp::Ident(IdentName::new(i.sym, i.span)),
                     ..e
                 };
             }

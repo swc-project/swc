@@ -161,9 +161,7 @@
               "start": 336,
               "end": 340
             },
-            "ctxt": 0,
-            "value": "test",
-            "optional": false
+            "value": "test"
           },
           "function": {
             "params": [

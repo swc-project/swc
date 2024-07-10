@@ -32,9 +32,7 @@
                   "start": 30,
                   "end": 31
                 },
-                "ctxt": 0,
-                "value": "m",
-                "optional": false
+                "value": "m"
               },
               "params": [],
               "decorators": [],

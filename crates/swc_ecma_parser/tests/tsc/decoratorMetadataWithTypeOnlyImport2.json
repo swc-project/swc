@@ -197,9 +197,7 @@
                 "start": 286,
                 "end": 291
               },
-              "ctxt": 0,
-              "value": "field",
-              "optional": false
+              "value": "field"
             },
             "value": null,
             "typeAnnotation": {
@@ -216,6 +214,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 293,
+                    "end": 309
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -232,9 +234,7 @@
                       "start": 302,
                       "end": 309
                     },
-                    "ctxt": 0,
-                    "value": "Service",
-                    "optional": false
+                    "value": "Service"
                   }
                 },
                 "typeParams": null

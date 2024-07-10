@@ -163,9 +163,7 @@
                       "start": 61,
                       "end": 64
                     },
-                    "ctxt": 0,
-                    "value": "foo",
-                    "optional": false
+                    "value": "foo"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -285,9 +283,7 @@
                 "start": 118,
                 "end": 121
               },
-              "ctxt": 0,
-              "value": "foo",
-              "optional": false
+              "value": "foo"
             },
             "value": null,
             "typeAnnotation": {
@@ -1063,9 +1059,7 @@
                         "start": 432,
                         "end": 435
                       },
-                      "ctxt": 0,
-                      "value": "foo",
-                      "optional": false
+                      "value": "foo"
                     },
                     "value": null,
                     "typeAnnotation": {
@@ -1213,6 +1207,10 @@
                   },
                   "exprName": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 500,
+                      "end": 505
+                    },
                     "left": {
                       "type": "Identifier",
                       "span": {
@@ -1229,9 +1227,7 @@
                         "start": 502,
                         "end": 505
                       },
-                      "ctxt": 0,
-                      "value": "foo",
-                      "optional": false
+                      "value": "foo"
                     }
                   },
                   "typeArguments": null
@@ -1381,6 +1377,10 @@
                   },
                   "exprName": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 576,
+                      "end": 581
+                    },
                     "left": {
                       "type": "Identifier",
                       "span": {
@@ -1397,9 +1397,7 @@
                         "start": 578,
                         "end": 581
                       },
-                      "ctxt": 0,
-                      "value": "foo",
-                      "optional": false
+                      "value": "foo"
                     }
                   },
                   "typeArguments": null
@@ -1566,6 +1564,10 @@
                   },
                   "exprName": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 657,
+                      "end": 660
+                    },
                     "left": {
                       "type": "Identifier",
                       "span": {
@@ -1582,9 +1584,7 @@
                         "start": 659,
                         "end": 660
                       },
-                      "ctxt": 0,
-                      "value": "A",
-                      "optional": false
+                      "value": "A"
                     }
                   },
                   "typeArguments": null
@@ -1817,9 +1817,7 @@
                         "start": 789,
                         "end": 792
                       },
-                      "ctxt": 0,
-                      "value": "foo",
-                      "optional": false
+                      "value": "foo"
                     },
                     "value": null,
                     "typeAnnotation": {

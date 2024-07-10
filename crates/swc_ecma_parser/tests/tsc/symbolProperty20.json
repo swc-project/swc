@@ -60,9 +60,7 @@
                   "start": 42,
                   "end": 50
                 },
-                "ctxt": 0,
-                "value": "iterator",
-                "optional": false
+                "value": "iterator"
               }
             },
             "computed": true,
@@ -153,9 +151,7 @@
                   "start": 88,
                   "end": 99
                 },
-                "ctxt": 0,
-                "value": "toStringTag",
-                "optional": false
+                "value": "toStringTag"
               }
             },
             "computed": true,
@@ -295,9 +291,7 @@
                         "start": 149,
                         "end": 157
                       },
-                      "ctxt": 0,
-                      "value": "iterator",
-                      "optional": false
+                      "value": "iterator"
                     }
                   }
                 },
@@ -367,9 +361,7 @@
                         "start": 180,
                         "end": 191
                       },
-                      "ctxt": 0,
-                      "value": "toStringTag",
-                      "optional": false
+                      "value": "toStringTag"
                     }
                   }
                 },

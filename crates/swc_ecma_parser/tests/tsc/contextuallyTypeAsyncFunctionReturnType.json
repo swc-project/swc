@@ -126,9 +126,7 @@
                       "start": 145,
                       "end": 148
                     },
-                    "ctxt": 0,
-                    "value": "key",
-                    "optional": false
+                    "value": "key"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -323,9 +321,7 @@
                                           "start": 255,
                                           "end": 258
                                         },
-                                        "ctxt": 0,
-                                        "value": "key",
-                                        "optional": false
+                                        "value": "key"
                                       },
                                       "value": {
                                         "type": "StringLiteral",
@@ -468,9 +464,7 @@
                         "start": 339,
                         "end": 342
                       },
-                      "ctxt": 0,
-                      "value": "key",
-                      "optional": false
+                      "value": "key"
                     },
                     "value": {
                       "type": "StringLiteral",
@@ -672,9 +666,7 @@
                                             "start": 455,
                                             "end": 458
                                           },
-                                          "ctxt": 0,
-                                          "value": "key",
-                                          "optional": false
+                                          "value": "key"
                                         },
                                         "value": {
                                           "type": "StringLiteral",
@@ -795,9 +787,7 @@
               "start": 517,
               "end": 526
             },
-            "ctxt": 0,
-            "value": "_runnable",
-            "optional": false
+            "value": "_runnable"
           },
           "value": null,
           "typeAnnotation": null,
@@ -2765,9 +2755,7 @@
                           "start": 1746,
                           "end": 1749
                         },
-                        "ctxt": 0,
-                        "value": "all",
-                        "optional": false
+                        "value": "all"
                       }
                     },
                     "arguments": [
@@ -2815,9 +2803,7 @@
                                     "start": 1781,
                                     "end": 1787
                                   },
-                                  "ctxt": 0,
-                                  "value": "filter",
-                                  "optional": false
+                                  "value": "filter"
                                 }
                               },
                               "arguments": [
@@ -2872,9 +2858,7 @@
                                             "start": 1798,
                                             "end": 1817
                                           },
-                                          "ctxt": 0,
-                                          "value": "isApplicationScoped",
-                                          "optional": false
+                                          "value": "isApplicationScoped"
                                         }
                                       }
                                     },
@@ -2893,9 +2877,7 @@
                                 "start": 1828,
                                 "end": 1831
                               },
-                              "ctxt": 0,
-                              "value": "map",
-                              "optional": false
+                              "value": "map"
                             }
                           },
                           "arguments": [

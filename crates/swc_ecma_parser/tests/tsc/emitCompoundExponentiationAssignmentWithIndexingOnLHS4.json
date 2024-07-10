@@ -198,9 +198,7 @@
                         "start": 121,
                         "end": 126
                       },
-                      "ctxt": 0,
-                      "value": "floor",
-                      "optional": false
+                      "value": "floor"
                     }
                   },
                   "arguments": [
@@ -242,9 +240,7 @@
                                 "start": 132,
                                 "end": 138
                               },
-                              "ctxt": 0,
-                              "value": "random",
-                              "optional": false
+                              "value": "random"
                             }
                           },
                           "arguments": [],
@@ -470,9 +466,7 @@
                         "start": 226,
                         "end": 232
                       },
-                      "ctxt": 0,
-                      "value": "length",
-                      "optional": false
+                      "value": "length"
                     }
                   }
                 }
@@ -569,9 +563,7 @@
                         "start": 270,
                         "end": 276
                       },
-                      "ctxt": 0,
-                      "value": "length",
-                      "optional": false
+                      "value": "length"
                     }
                   }
                 }
@@ -651,9 +643,7 @@
                           "start": 310,
                           "end": 316
                         },
-                        "ctxt": 0,
-                        "value": "length",
-                        "optional": false
+                        "value": "length"
                       }
                     }
                   }
@@ -751,9 +741,7 @@
                         "start": 354,
                         "end": 360
                       },
-                      "ctxt": 0,
-                      "value": "length",
-                      "optional": false
+                      "value": "length"
                     }
                   }
                 }
@@ -833,9 +821,7 @@
                           "start": 394,
                           "end": 400
                         },
-                        "ctxt": 0,
-                        "value": "length",
-                        "optional": false
+                        "value": "length"
                       }
                     }
                   }

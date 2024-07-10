@@ -46,9 +46,7 @@
                 "start": 130,
                 "end": 137
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -57,9 +55,7 @@
               "start": 138,
               "end": 143
             },
-            "ctxt": 0,
-            "value": "apply",
-            "optional": false
+            "value": "apply"
           }
         },
         "right": {
@@ -149,9 +145,7 @@
                 "start": 181,
                 "end": 188
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -160,9 +154,7 @@
               "start": 189,
               "end": 194
             },
-            "ctxt": 0,
-            "value": "apply",
-            "optional": false
+            "value": "apply"
           }
         },
         "right": {
@@ -218,9 +210,7 @@
                 "start": 207,
                 "end": 214
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -229,9 +219,7 @@
               "start": 215,
               "end": 220
             },
-            "ctxt": 0,
-            "value": "apply",
-            "optional": false
+            "value": "apply"
           }
         },
         "right": {
@@ -287,9 +275,7 @@
                 "start": 233,
                 "end": 240
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -298,9 +284,7 @@
               "start": 241,
               "end": 246
             },
-            "ctxt": 0,
-            "value": "apply",
-            "optional": false
+            "value": "apply"
           }
         },
         "arguments": [],

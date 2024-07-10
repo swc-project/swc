@@ -94,9 +94,7 @@
                           "start": 59,
                           "end": 68
                         },
-                        "ctxt": 0,
-                        "value": "arguments",
-                        "optional": false
+                        "value": "arguments"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -149,9 +147,7 @@
                     "start": 94,
                     "end": 100
                   },
-                  "ctxt": 0,
-                  "value": "random",
-                  "optional": false
+                  "value": "random"
                 }
               },
               "arguments": [],

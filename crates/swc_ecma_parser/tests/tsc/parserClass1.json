@@ -43,9 +43,7 @@
                 "start": 65,
                 "end": 76
               },
-              "ctxt": 0,
-              "value": "information",
-              "optional": false
+              "value": "information"
             },
             "function": {
               "params": [],
@@ -118,9 +116,7 @@
                 "start": 121,
                 "end": 126
               },
-              "ctxt": 0,
-              "value": "debug",
-              "optional": false
+              "value": "debug"
             },
             "function": {
               "params": [],
@@ -193,9 +189,7 @@
                 "start": 171,
                 "end": 178
               },
-              "ctxt": 0,
-              "value": "warning",
-              "optional": false
+              "value": "warning"
             },
             "function": {
               "params": [],
@@ -268,9 +262,7 @@
                 "start": 223,
                 "end": 228
               },
-              "ctxt": 0,
-              "value": "error",
-              "optional": false
+              "value": "error"
             },
             "function": {
               "params": [],
@@ -343,9 +335,7 @@
                 "start": 273,
                 "end": 278
               },
-              "ctxt": 0,
-              "value": "fatal",
-              "optional": false
+              "value": "fatal"
             },
             "function": {
               "params": [],
@@ -418,9 +408,7 @@
                 "start": 323,
                 "end": 326
               },
-              "ctxt": 0,
-              "value": "log",
-              "optional": false
+              "value": "log"
             },
             "function": {
               "params": [

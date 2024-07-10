@@ -145,9 +145,7 @@
               "start": 242,
               "end": 248
             },
-            "ctxt": 0,
-            "value": "addAll",
-            "optional": false
+            "value": "addAll"
           }
         },
         "arguments": [
@@ -200,9 +198,7 @@
               "start": 467,
               "end": 473
             },
-            "ctxt": 0,
-            "value": "addAll",
-            "optional": false
+            "value": "addAll"
           },
           "function": {
             "params": [
@@ -287,9 +283,7 @@
                   "start": 499,
                   "end": 507
                 },
-                "ctxt": 0,
-                "value": "iterator",
-                "optional": false
+                "value": "iterator"
               }
             }
           },
@@ -364,9 +358,7 @@
               "start": 524,
               "end": 531
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {

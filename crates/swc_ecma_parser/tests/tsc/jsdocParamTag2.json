@@ -1071,9 +1071,7 @@
                     "start": 1396,
                     "end": 1399
                   },
-                  "ctxt": 0,
-                  "value": "log",
-                  "optional": false
+                  "value": "log"
                 }
               },
               "arguments": [

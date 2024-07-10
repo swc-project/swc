@@ -180,9 +180,7 @@
                       "start": 103,
                       "end": 107
                     },
-                    "ctxt": 0,
-                    "value": "from",
-                    "optional": false
+                    "value": "from"
                   }
                 },
                 "arguments": [

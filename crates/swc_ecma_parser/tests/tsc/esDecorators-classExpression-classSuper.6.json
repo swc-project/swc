@@ -83,9 +83,7 @@
               "start": 128,
               "end": 134
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           },
           "function": {
             "params": [
@@ -187,9 +185,7 @@
               "start": 164,
               "end": 170
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           },
           "function": {
             "params": [
@@ -347,9 +343,7 @@
                   "start": 297,
                   "end": 298
                 },
-                "ctxt": 0,
-                "value": "m",
-                "optional": false
+                "value": "m"
               },
               "function": {
                 "params": [],
@@ -399,9 +393,7 @@
                               "start": 309,
                               "end": 315
                             },
-                            "ctxt": 0,
-                            "value": "method",
-                            "optional": false
+                            "value": "method"
                           }
                         },
                         "arguments": [],
@@ -434,9 +426,7 @@
                   "start": 336,
                   "end": 337
                 },
-                "ctxt": 0,
-                "value": "x",
-                "optional": false
+                "value": "x"
               },
               "function": {
                 "params": [],
@@ -486,9 +476,7 @@
                               "start": 355,
                               "end": 361
                             },
-                            "ctxt": 0,
-                            "value": "method",
-                            "optional": false
+                            "value": "method"
                           }
                         },
                         "arguments": [],
@@ -521,9 +509,7 @@
                   "start": 382,
                   "end": 383
                 },
-                "ctxt": 0,
-                "value": "x",
-                "optional": false
+                "value": "x"
               },
               "function": {
                 "params": [
@@ -607,9 +593,7 @@
                               "start": 403,
                               "end": 409
                             },
-                            "ctxt": 0,
-                            "value": "method",
-                            "optional": false
+                            "value": "method"
                           }
                         },
                         "arguments": [],
@@ -643,9 +627,7 @@
                   "start": 420,
                   "end": 431
                 },
-                "ctxt": 0,
-                "value": "constructor",
-                "optional": false
+                "value": "constructor"
               },
               "params": [],
               "body": {
@@ -712,9 +694,7 @@
                             "start": 467,
                             "end": 473
                           },
-                          "ctxt": 0,
-                          "value": "method",
-                          "optional": false
+                          "value": "method"
                         }
                       },
                       "arguments": [],
@@ -738,9 +718,7 @@
                   "start": 488,
                   "end": 489
                 },
-                "ctxt": 0,
-                "value": "a",
-                "optional": false
+                "value": "a"
               },
               "value": {
                 "type": "CallExpression",
@@ -768,9 +746,7 @@
                       "start": 498,
                       "end": 504
                     },
-                    "ctxt": 0,
-                    "value": "method",
-                    "optional": false
+                    "value": "method"
                   }
                 },
                 "arguments": [],
@@ -799,9 +775,7 @@
                   "start": 512,
                   "end": 513
                 },
-                "ctxt": 0,
-                "value": "m",
-                "optional": false
+                "value": "m"
               },
               "function": {
                 "params": [],
@@ -851,9 +825,7 @@
                               "start": 524,
                               "end": 530
                             },
-                            "ctxt": 0,
-                            "value": "method",
-                            "optional": false
+                            "value": "method"
                           }
                         },
                         "arguments": [],
@@ -886,9 +858,7 @@
                   "start": 544,
                   "end": 545
                 },
-                "ctxt": 0,
-                "value": "x",
-                "optional": false
+                "value": "x"
               },
               "function": {
                 "params": [],
@@ -938,9 +908,7 @@
                               "start": 563,
                               "end": 569
                             },
-                            "ctxt": 0,
-                            "value": "method",
-                            "optional": false
+                            "value": "method"
                           }
                         },
                         "arguments": [],
@@ -973,9 +941,7 @@
                   "start": 583,
                   "end": 584
                 },
-                "ctxt": 0,
-                "value": "x",
-                "optional": false
+                "value": "x"
               },
               "function": {
                 "params": [
@@ -1059,9 +1025,7 @@
                               "start": 604,
                               "end": 610
                             },
-                            "ctxt": 0,
-                            "value": "method",
-                            "optional": false
+                            "value": "method"
                           }
                         },
                         "arguments": [],

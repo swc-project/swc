@@ -163,9 +163,7 @@
                 "start": 130,
                 "end": 132
               },
-              "ctxt": 0,
-              "value": "E1",
-              "optional": false
+              "value": "E1"
             }
           },
           "property": {
@@ -174,9 +172,7 @@
               "start": 133,
               "end": 134
             },
-            "ctxt": 0,
-            "value": "A",
-            "optional": false
+            "value": "A"
           }
         },
         "right": {

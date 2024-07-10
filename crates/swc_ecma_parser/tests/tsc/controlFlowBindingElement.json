@@ -55,9 +55,7 @@
                         "start": 82,
                         "end": 87
                       },
-                      "ctxt": 0,
-                      "value": "param",
-                      "optional": false
+                      "value": "param"
                     },
                     "value": {
                       "type": "StringLiteral",
@@ -249,9 +247,7 @@
                   "start": 215,
                   "end": 218
                 },
-                "ctxt": 0,
-                "value": "log",
-                "optional": false
+                "value": "log"
               }
             },
             "arguments": [
@@ -324,9 +320,7 @@
                         "start": 308,
                         "end": 313
                       },
-                      "ctxt": 0,
-                      "value": "param",
-                      "optional": false
+                      "value": "param"
                     },
                     "value": {
                       "type": "StringLiteral",
@@ -623,9 +617,7 @@
                         "start": 524,
                         "end": 529
                       },
-                      "ctxt": 0,
-                      "value": "param",
-                      "optional": false
+                      "value": "param"
                     },
                     "value": {
                       "type": "StringLiteral",
@@ -918,9 +910,7 @@
                         "start": 726,
                         "end": 731
                       },
-                      "ctxt": 0,
-                      "value": "param",
-                      "optional": false
+                      "value": "param"
                     },
                     "value": {
                       "type": "StringLiteral",
@@ -1404,9 +1394,7 @@
                   "start": 1023,
                   "end": 1029
                 },
-                "ctxt": 0,
-                "value": "window",
-                "optional": false
+                "value": "window"
               }
             },
             "right": {
@@ -1928,9 +1916,7 @@
                   "start": 1340,
                   "end": 1346
                 },
-                "ctxt": 0,
-                "value": "window",
-                "optional": false
+                "value": "window"
               }
             },
             "right": {
@@ -2452,9 +2438,7 @@
                   "start": 1658,
                   "end": 1664
                 },
-                "ctxt": 0,
-                "value": "window",
-                "optional": false
+                "value": "window"
               }
             },
             "right": {

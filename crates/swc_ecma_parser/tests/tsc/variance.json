@@ -202,9 +202,7 @@
                       "start": 189,
                       "end": 193
                     },
-                    "ctxt": 0,
-                    "value": "prop",
-                    "optional": false
+                    "value": "prop"
                   },
                   "value": {
                     "type": "BooleanLiteral",
@@ -505,9 +503,7 @@
               "start": 360,
               "end": 368
             },
-            "ctxt": 0,
-            "value": "instance",
-            "optional": false
+            "value": "instance"
           },
           "value": {
             "type": "ArrayExpression",
@@ -587,9 +583,7 @@
               "start": 393,
               "end": 397
             },
-            "ctxt": 0,
-            "value": "cast",
-            "optional": false
+            "value": "cast"
           },
           "function": {
             "params": [
@@ -748,9 +742,7 @@
               "start": 456,
               "end": 464
             },
-            "ctxt": 0,
-            "value": "pushThis",
-            "optional": false
+            "value": "pushThis"
           },
           "function": {
             "params": [],
@@ -809,9 +801,7 @@
                             "start": 477,
                             "end": 485
                           },
-                          "ctxt": 0,
-                          "value": "instance",
-                          "optional": false
+                          "value": "instance"
                         }
                       },
                       "property": {
@@ -820,9 +810,7 @@
                           "start": 486,
                           "end": 490
                         },
-                        "ctxt": 0,
-                        "value": "push",
-                        "optional": false
+                        "value": "push"
                       }
                     },
                     "arguments": [

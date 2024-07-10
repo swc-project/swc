@@ -374,9 +374,7 @@
                 "start": 164,
                 "end": 169
               },
-              "ctxt": 0,
-              "value": "apply",
-              "optional": false
+              "value": "apply"
             }
           },
           "definite": false
@@ -714,9 +712,7 @@
                 "start": 290,
                 "end": 295
               },
-              "ctxt": 0,
-              "value": "apply",
-              "optional": false
+              "value": "apply"
             }
           },
           "definite": false

@@ -466,9 +466,7 @@
                                           "start": 413,
                                           "end": 432
                                         },
-                                        "ctxt": 0,
-                                        "value": "lastStrategyApplied",
-                                        "optional": false
+                                        "value": "lastStrategyApplied"
                                       }
                                     },
                                     "right": {

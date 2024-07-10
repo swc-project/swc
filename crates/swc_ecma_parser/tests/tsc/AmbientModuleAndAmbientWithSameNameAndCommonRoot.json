@@ -256,9 +256,7 @@
                       "start": 243,
                       "end": 254
                     },
-                    "ctxt": 0,
-                    "value": "constructor",
-                    "optional": false
+                    "value": "constructor"
                   },
                   "params": [
                     {
@@ -344,9 +342,7 @@
                       "start": 286,
                       "end": 287
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -386,9 +382,7 @@
                       "start": 305,
                       "end": 306
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -599,9 +593,7 @@
                   "start": 390,
                   "end": 395
                 },
-                "ctxt": 0,
-                "value": "Point",
-                "optional": false
+                "value": "Point"
               }
             },
             "property": {
@@ -610,9 +602,7 @@
                 "start": 396,
                 "end": 402
               },
-              "ctxt": 0,
-              "value": "Origin",
-              "optional": false
+              "value": "Origin"
             }
           },
           "definite": false
@@ -675,9 +665,7 @@
                   "start": 418,
                   "end": 423
                 },
-                "ctxt": 0,
-                "value": "Point",
-                "optional": false
+                "value": "Point"
               }
             },
             "arguments": [

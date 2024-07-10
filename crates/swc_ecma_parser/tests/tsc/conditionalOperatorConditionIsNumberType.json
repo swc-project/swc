@@ -1348,9 +1348,7 @@
               "start": 1075,
               "end": 1081
             },
-            "ctxt": 0,
-            "value": "length",
-            "optional": false
+            "value": "length"
           }
         },
         "consequent": {
@@ -2618,9 +2616,7 @@
                   "start": 2191,
                   "end": 2197
                 },
-                "ctxt": 0,
-                "value": "length",
-                "optional": false
+                "value": "length"
               }
             },
             "consequent": {

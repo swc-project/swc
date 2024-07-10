@@ -566,9 +566,7 @@
                                   "start": 558,
                                   "end": 566
                                 },
-                                "ctxt": 0,
-                                "value": "Standard",
-                                "optional": false
+                                "value": "Standard"
                               }
                             }
                           },
@@ -605,9 +603,7 @@
                                         "start": 578,
                                         "end": 586
                                       },
-                                      "ctxt": 0,
-                                      "value": "Standard",
-                                      "optional": false
+                                      "value": "Standard"
                                     }
                                   }
                                 },
@@ -635,9 +631,7 @@
                                         "start": 597,
                                         "end": 604
                                       },
-                                      "ctxt": 0,
-                                      "value": "MiniApp",
-                                      "optional": false
+                                      "value": "MiniApp"
                                     }
                                   }
                                 }
@@ -680,9 +674,7 @@
                                   "start": 621,
                                   "end": 633
                                 },
-                                "ctxt": 0,
-                                "value": "Relationship",
-                                "optional": false
+                                "value": "Relationship"
                               }
                             }
                           },
@@ -719,9 +711,7 @@
                                         "start": 645,
                                         "end": 653
                                       },
-                                      "ctxt": 0,
-                                      "value": "Standard",
-                                      "optional": false
+                                      "value": "Standard"
                                     }
                                   }
                                 },
@@ -749,9 +739,7 @@
                                         "start": 664,
                                         "end": 668
                                       },
-                                      "ctxt": 0,
-                                      "value": "Tree",
-                                      "optional": false
+                                      "value": "Tree"
                                     }
                                   }
                                 },
@@ -779,9 +767,7 @@
                                         "start": 679,
                                         "end": 689
                                       },
-                                      "ctxt": 0,
-                                      "value": "TreeEntity",
-                                      "optional": false
+                                      "value": "TreeEntity"
                                     }
                                   }
                                 }
@@ -824,9 +810,7 @@
                                   "start": 706,
                                   "end": 718
                                 },
-                                "ctxt": 0,
-                                "value": "AdvancedList",
-                                "optional": false
+                                "value": "AdvancedList"
                               }
                             }
                           },
@@ -863,9 +847,7 @@
                                         "start": 730,
                                         "end": 738
                                       },
-                                      "ctxt": 0,
-                                      "value": "Standard",
-                                      "optional": false
+                                      "value": "Standard"
                                     }
                                   }
                                 },
@@ -893,9 +875,7 @@
                                         "start": 749,
                                         "end": 756
                                       },
-                                      "ctxt": 0,
-                                      "value": "MiniApp",
-                                      "optional": false
+                                      "value": "MiniApp"
                                     }
                                   }
                                 }
@@ -1184,9 +1164,7 @@
                           "start": 863,
                           "end": 864
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "BooleanLiteral",
@@ -1217,9 +1195,7 @@
                           "start": 876,
                           "end": 877
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "BooleanLiteral",

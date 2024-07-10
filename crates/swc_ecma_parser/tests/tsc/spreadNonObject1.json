@@ -112,9 +112,7 @@
                     "start": 129,
                     "end": 130
                   },
-                  "ctxt": 0,
-                  "value": "c",
-                  "optional": false
+                  "value": "c"
                 },
                 "value": {
                   "type": "CallExpression",
@@ -195,9 +193,7 @@
                         "start": 147,
                         "end": 150
                       },
-                      "ctxt": 0,
-                      "value": "map",
-                      "optional": false
+                      "value": "map"
                     }
                   },
                   "arguments": [
@@ -300,9 +296,7 @@
                                             "start": 188,
                                             "end": 189
                                           },
-                                          "ctxt": 0,
-                                          "value": "y",
-                                          "optional": false
+                                          "value": "y"
                                         },
                                         "value": {
                                           "type": "NumericLiteral",

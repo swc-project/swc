@@ -300,9 +300,7 @@
                 "start": 74,
                 "end": 75
               },
-              "ctxt": 0,
-              "value": "a",
-              "optional": false
+              "value": "a"
             }
           },
           "property": {
@@ -366,9 +364,7 @@
                 "start": 89,
                 "end": 90
               },
-              "ctxt": 0,
-              "value": "a",
-              "optional": false
+              "value": "a"
             }
           },
           "property": {

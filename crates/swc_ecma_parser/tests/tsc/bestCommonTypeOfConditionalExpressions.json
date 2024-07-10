@@ -271,9 +271,7 @@
               "start": 254,
               "end": 257
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -340,9 +338,7 @@
               "start": 298,
               "end": 301
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "value": null,
           "typeAnnotation": {
@@ -418,9 +414,7 @@
               "start": 343,
               "end": 346
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           },
           "value": null,
           "typeAnnotation": {

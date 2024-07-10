@@ -75,9 +75,7 @@
                           "start": 549,
                           "end": 557
                         },
-                        "ctxt": 0,
-                        "value": "toString",
-                        "optional": false
+                        "value": "toString"
                       },
                       "value": {
                         "type": "FunctionExpression",
@@ -601,9 +599,7 @@
                             "start": 747,
                             "end": 754
                           },
-                          "ctxt": 0,
-                          "value": "indexOf",
-                          "optional": false
+                          "value": "indexOf"
                         }
                       },
                       "arguments": [
@@ -700,9 +696,7 @@
                             "start": 811,
                             "end": 818
                           },
-                          "ctxt": 0,
-                          "value": "indexOf",
-                          "optional": false
+                          "value": "indexOf"
                         }
                       },
                       "arguments": [
@@ -768,9 +762,7 @@
                           "start": 871,
                           "end": 878
                         },
-                        "ctxt": 0,
-                        "value": "indexOf",
-                        "optional": false
+                        "value": "indexOf"
                       }
                     },
                     "arguments": [
@@ -844,9 +836,7 @@
                         "start": 931,
                         "end": 938
                       },
-                      "ctxt": 0,
-                      "value": "indexOf",
-                      "optional": false
+                      "value": "indexOf"
                     }
                   },
                   "arguments": [

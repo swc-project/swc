@@ -292,9 +292,7 @@
                         "start": 255,
                         "end": 259
                       },
-                      "ctxt": 0,
-                      "value": "bind",
-                      "optional": false
+                      "value": "bind"
                     }
                   }
                 },

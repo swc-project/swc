@@ -179,9 +179,7 @@
                         "start": 133,
                         "end": 134
                       },
-                      "ctxt": 0,
-                      "value": "a",
-                      "optional": false
+                      "value": "a"
                     }
                   }
                 },

@@ -68,9 +68,7 @@
                       "start": 45,
                       "end": 46
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -110,9 +108,7 @@
                       "start": 64,
                       "end": 65
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -208,9 +204,7 @@
                     "start": 121,
                     "end": 135
                   },
-                  "ctxt": 0,
-                  "value": "fromCarthesian",
-                  "optional": false
+                  "value": "fromCarthesian"
                 },
                 "function": {
                   "params": [
@@ -244,6 +238,10 @@
                             },
                             "typeName": {
                               "type": "TsQualifiedName",
+                              "span": {
+                                "start": 139,
+                                "end": 146
+                              },
                               "left": {
                                 "type": "Identifier",
                                 "span": {
@@ -260,9 +258,7 @@
                                   "start": 141,
                                   "end": 146
                                 },
-                                "ctxt": 0,
-                                "value": "Point",
-                                "optional": false
+                                "value": "Point"
                               }
                             },
                             "typeParams": null
@@ -306,9 +302,7 @@
                                   "start": 171,
                                   "end": 172
                                 },
-                                "ctxt": 0,
-                                "value": "x",
-                                "optional": false
+                                "value": "x"
                               },
                               "value": {
                                 "type": "MemberExpression",
@@ -332,9 +326,7 @@
                                     "start": 176,
                                     "end": 177
                                   },
-                                  "ctxt": 0,
-                                  "value": "x",
-                                  "optional": false
+                                  "value": "x"
                                 }
                               }
                             },
@@ -346,9 +338,7 @@
                                   "start": 179,
                                   "end": 180
                                 },
-                                "ctxt": 0,
-                                "value": "y",
-                                "optional": false
+                                "value": "y"
                               },
                               "value": {
                                 "type": "MemberExpression",
@@ -372,9 +362,7 @@
                                     "start": 184,
                                     "end": 185
                                   },
-                                  "ctxt": 0,
-                                  "value": "y",
-                                  "optional": false
+                                  "value": "y"
                                 }
                               }
                             }
@@ -561,6 +549,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 278,
+                    "end": 285
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -577,9 +569,7 @@
                       "start": 280,
                       "end": 285
                     },
-                    "ctxt": 0,
-                    "value": "Point",
-                    "optional": false
+                    "value": "Point"
                   }
                 },
                 "typeParams": null
@@ -690,9 +680,7 @@
                           "start": 335,
                           "end": 341
                         },
-                        "ctxt": 0,
-                        "value": "length",
-                        "optional": false
+                        "value": "length"
                       },
                       "value": null,
                       "typeAnnotation": {
@@ -852,9 +840,7 @@
                                     "start": 460,
                                     "end": 464
                                   },
-                                  "ctxt": 0,
-                                  "value": "name",
-                                  "optional": false
+                                  "value": "name"
                                 },
                                 "value": null,
                                 "typeAnnotation": {
@@ -1021,10 +1007,22 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 570,
+                    "end": 580
+                  },
                   "left": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 570,
+                      "end": 575
+                    },
                     "left": {
                       "type": "TsQualifiedName",
+                      "span": {
+                        "start": 570,
+                        "end": 573
+                      },
                       "left": {
                         "type": "Identifier",
                         "span": {
@@ -1041,9 +1039,7 @@
                           "start": 572,
                           "end": 573
                         },
-                        "ctxt": 0,
-                        "value": "Y",
-                        "optional": false
+                        "value": "Y"
                       }
                     },
                     "right": {
@@ -1052,9 +1048,7 @@
                         "start": 574,
                         "end": 575
                       },
-                      "ctxt": 0,
-                      "value": "Z",
-                      "optional": false
+                      "value": "Z"
                     }
                   },
                   "right": {
@@ -1063,9 +1057,7 @@
                       "start": 576,
                       "end": 580
                     },
-                    "ctxt": 0,
-                    "value": "Line",
-                    "optional": false
+                    "value": "Line"
                   }
                 },
                 "typeParams": null

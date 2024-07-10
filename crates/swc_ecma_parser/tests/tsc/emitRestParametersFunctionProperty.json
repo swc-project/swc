@@ -169,9 +169,7 @@
                     "start": 77,
                     "end": 81
                   },
-                  "ctxt": 0,
-                  "value": "func",
-                  "optional": false
+                  "value": "func"
                 },
                 "params": [
                   {
