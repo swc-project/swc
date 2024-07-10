@@ -391,7 +391,7 @@ impl<'a> HookCollector<'a> {
         let ident = match callee {
             Expr::Ident(ident) => {
                 hook_call = Some(HookCall::Ident(ident.clone()));
-                Some(ident)
+                Some(&ident.sym)
             }
             // hook cannot be used in class, so we're fine without SuperProp
             Expr::Member(MemberExpr {
@@ -400,11 +400,11 @@ impl<'a> HookCollector<'a> {
                 ..
             }) => {
                 hook_call = Some(HookCall::Member(*obj.clone(), ident.clone()));
-                Some(ident)
+                Some(&ident.sym)
             }
             _ => None,
         }?;
-        let name = if is_hook_like(&ident.sym) {
+        let name = if is_hook_like(&ident) {
             Some(ident)
         } else {
             None
@@ -415,7 +415,7 @@ impl<'a> HookCollector<'a> {
             String::new()
         };
         // Some built-in Hooks reset on edits to arguments.
-        if &name.sym == "useState" && !expr.args.is_empty() {
+        if *name == "useState" && !expr.args.is_empty() {
             // useState first argument is initial state.
             let _ = write!(
                 key,
@@ -424,7 +424,7 @@ impl<'a> HookCollector<'a> {
                     .span_to_snippet(expr.args[0].span())
                     .unwrap_or_default()
             );
-        } else if &name.sym == "useReducer" && expr.args.len() > 1 {
+        } else if name == "useReducer" && expr.args.len() > 1 {
             // useReducer second argument is initial state.
             let _ = write!(
                 key,
