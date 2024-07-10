@@ -869,7 +869,7 @@ impl<C: Comments> ClassProperties<C> {
                                     },
                                 }));
                             if inserted && self.c.private_as_properties {
-                                Some(Ident::dummy())
+                                Some(IdentName::default())
                             } else {
                                 None
                             }
@@ -894,7 +894,7 @@ impl<C: Comments> ClassProperties<C> {
                                     name: weak_coll_var.clone(),
                                     fn_name: fn_name.clone(),
                                 }));
-                                Some(Ident::dummy())
+                                Some(Default::default())
                             } else {
                                 None
                             }

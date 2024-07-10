@@ -773,7 +773,7 @@ impl VisitMut for Generator {
             let mut args = node.args.take().into_iter().map(Some).collect::<Vec<_>>();
             let arg = self.visit_elements(&mut args, None, None);
 
-            let apply = callee.make_member(Ident::new_no_ctxt("apply".into(), node.span));
+            let apply = callee.make_member(IdentName::new("apply".into(), node.span));
 
             *node = CallExpr {
                 span: node.span,

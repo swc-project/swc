@@ -868,7 +868,7 @@ impl VisitMut for AssignFolder {
                                 span: *span,
                                 op: op!("="),
                                 left: p.key.clone().into(),
-                                right: right.take().make_member(p.key.clone()).into(),
+                                right: right.take().make_member(p.key.clone().into()).into(),
                             });
                             return;
                         }
