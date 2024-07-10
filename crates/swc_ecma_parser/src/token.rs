@@ -279,7 +279,6 @@ pub enum Token {
     /// String literal. Span of this token contains quote.
     Str {
         value: Atom,
-        raw: Atom,
     },
 
     /// Regexp literal.
@@ -288,12 +287,10 @@ pub enum Token {
     /// TODO: Make Num as enum and separate decimal, binary, ..etc
     Num {
         value: f64,
-        raw: Atom,
     },
 
     BigInt {
         value: Box<BigIntValue>,
-        raw: Atom,
     },
 
     JSXName {
@@ -301,7 +298,6 @@ pub enum Token {
     },
     JSXText {
         value: Atom,
-        raw: Atom,
     },
     JSXTagStart,
     JSXTagEnd,
