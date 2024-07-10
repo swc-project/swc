@@ -37,9 +37,7 @@
               "start": 15,
               "end": 24
             },
-            "ctxt": 0,
-            "value": "prototype",
-            "optional": false
+            "value": "prototype"
           },
           "value": null,
           "typeAnnotation": {
@@ -79,9 +77,7 @@
               "start": 51,
               "end": 60
             },
-            "ctxt": 0,
-            "value": "prototype",
-            "optional": false
+            "value": "prototype"
           },
           "value": null,
           "typeAnnotation": {

@@ -123,9 +123,7 @@
                         "start": 81,
                         "end": 89
                       },
-                      "ctxt": 0,
-                      "value": "iterator",
-                      "optional": false
+                      "value": "iterator"
                     }
                   }
                 },

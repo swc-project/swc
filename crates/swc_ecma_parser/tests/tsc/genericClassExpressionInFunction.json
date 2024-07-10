@@ -37,9 +37,7 @@
               "start": 18,
               "end": 28
             },
-            "ctxt": 0,
-            "value": "genericVar",
-            "optional": false
+            "value": "genericVar"
           },
           "value": null,
           "typeAnnotation": {
@@ -269,9 +267,7 @@
               "start": 141,
               "end": 145
             },
-            "ctxt": 0,
-            "value": "anon",
-            "optional": false
+            "value": "anon"
           },
           "value": {
             "type": "ClassExpression",
@@ -566,9 +562,7 @@
               "start": 299,
               "end": 304
             },
-            "ctxt": 0,
-            "value": "namae",
-            "optional": false
+            "value": "namae"
           },
           "value": null,
           "typeAnnotation": {
@@ -670,9 +664,7 @@
               "start": 362,
               "end": 366
             },
-            "ctxt": 0,
-            "value": "name",
-            "optional": false
+            "value": "name"
           },
           "value": null,
           "typeAnnotation": {
@@ -755,9 +747,7 @@
               "start": 350,
               "end": 354
             },
-            "ctxt": 0,
-            "value": "anon",
-            "optional": false
+            "value": "anon"
           }
         }
       },
@@ -865,9 +855,7 @@
               "start": 446,
               "end": 449
             },
-            "ctxt": 0,
-            "value": "nom",
-            "optional": false
+            "value": "nom"
           },
           "value": null,
           "typeAnnotation": {
@@ -1115,9 +1103,7 @@
               "start": 514,
               "end": 524
             },
-            "ctxt": 0,
-            "value": "genericVar",
-            "optional": false
+            "value": "genericVar"
           }
         },
         "right": {
@@ -1166,9 +1152,7 @@
               "start": 533,
               "end": 543
             },
-            "ctxt": 0,
-            "value": "genericVar",
-            "optional": false
+            "value": "genericVar"
           }
         },
         "right": {
@@ -1217,9 +1201,7 @@
               "start": 552,
               "end": 562
             },
-            "ctxt": 0,
-            "value": "genericVar",
-            "optional": false
+            "value": "genericVar"
           }
         },
         "right": {

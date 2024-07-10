@@ -425,9 +425,7 @@
                         "start": 183,
                         "end": 187
                       },
-                      "ctxt": 0,
-                      "value": "test",
-                      "optional": false
+                      "value": "test"
                     },
                     "value": {
                       "type": "StringLiteral",
@@ -447,9 +445,7 @@
                         "start": 195,
                         "end": 198
                       },
-                      "ctxt": 0,
-                      "value": "arg",
-                      "optional": false
+                      "value": "arg"
                     },
                     "value": {
                       "type": "Identifier",
@@ -505,9 +501,7 @@
                         "start": 267,
                         "end": 271
                       },
-                      "ctxt": 0,
-                      "value": "test",
-                      "optional": false
+                      "value": "test"
                     },
                     "value": {
                       "type": "StringLiteral",
@@ -527,9 +521,7 @@
                         "start": 280,
                         "end": 283
                       },
-                      "ctxt": 0,
-                      "value": "arg",
-                      "optional": false
+                      "value": "arg"
                     },
                     "value": {
                       "type": "Identifier",
@@ -550,9 +542,7 @@
                         "start": 288,
                         "end": 291
                       },
-                      "ctxt": 0,
-                      "value": "arr",
-                      "optional": false
+                      "value": "arr"
                     },
                     "value": {
                       "type": "Identifier",

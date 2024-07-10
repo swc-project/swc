@@ -37,9 +37,7 @@
               "start": 117,
               "end": 120
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [
@@ -176,9 +174,7 @@
               "start": 174,
               "end": 177
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [
@@ -291,9 +287,7 @@
               "start": 245,
               "end": 248
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [
@@ -667,9 +661,7 @@
                   "start": 359,
                   "end": 362
                 },
-                "ctxt": 0,
-                "value": "foo",
-                "optional": false
+                "value": "foo"
               }
             },
             "arguments": [
@@ -760,9 +752,7 @@
                   "start": 381,
                   "end": 384
                 },
-                "ctxt": 0,
-                "value": "foo",
-                "optional": false
+                "value": "foo"
               }
             },
             "arguments": [

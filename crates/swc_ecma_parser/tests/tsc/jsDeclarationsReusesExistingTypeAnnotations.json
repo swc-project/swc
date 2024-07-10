@@ -37,9 +37,7 @@
               "start": 179,
               "end": 181
             },
-            "ctxt": 0,
-            "value": "p1",
-            "optional": false
+            "value": "p1"
           },
           "value": {
             "type": "Identifier",
@@ -74,9 +72,7 @@
               "start": 238,
               "end": 240
             },
-            "ctxt": 0,
-            "value": "p2",
-            "optional": false
+            "value": "p2"
           },
           "value": {
             "type": "Identifier",
@@ -111,9 +107,7 @@
               "start": 286,
               "end": 288
             },
-            "ctxt": 0,
-            "value": "p3",
-            "optional": false
+            "value": "p3"
           },
           "value": {
             "type": "NullLiteral",
@@ -145,9 +139,7 @@
               "start": 335,
               "end": 337
             },
-            "ctxt": 0,
-            "value": "p4",
-            "optional": false
+            "value": "p4"
           },
           "value": {
             "type": "NullLiteral",
@@ -206,9 +198,7 @@
               "start": 396,
               "end": 398
             },
-            "ctxt": 0,
-            "value": "p1",
-            "optional": false
+            "value": "p1"
           },
           "function": {
             "params": [],
@@ -269,9 +259,7 @@
               "start": 482,
               "end": 484
             },
-            "ctxt": 0,
-            "value": "p2",
-            "optional": false
+            "value": "p2"
           },
           "function": {
             "params": [],
@@ -332,9 +320,7 @@
               "start": 557,
               "end": 559
             },
-            "ctxt": 0,
-            "value": "p3",
-            "optional": false
+            "value": "p3"
           },
           "function": {
             "params": [],
@@ -392,9 +378,7 @@
               "start": 633,
               "end": 635
             },
-            "ctxt": 0,
-            "value": "p4",
-            "optional": false
+            "value": "p4"
           },
           "function": {
             "params": [],
@@ -479,9 +463,7 @@
               "start": 718,
               "end": 720
             },
-            "ctxt": 0,
-            "value": "p1",
-            "optional": false
+            "value": "p1"
           },
           "function": {
             "params": [],
@@ -542,9 +524,7 @@
               "start": 800,
               "end": 802
             },
-            "ctxt": 0,
-            "value": "p1",
-            "optional": false
+            "value": "p1"
           },
           "function": {
             "params": [
@@ -614,9 +594,7 @@
                           "start": 825,
                           "end": 827
                         },
-                        "ctxt": 0,
-                        "value": "p1",
-                        "optional": false
+                        "value": "p1"
                       }
                     },
                     "right": {
@@ -657,9 +635,7 @@
               "start": 890,
               "end": 892
             },
-            "ctxt": 0,
-            "value": "p2",
-            "optional": false
+            "value": "p2"
           },
           "function": {
             "params": [],
@@ -720,9 +696,7 @@
               "start": 983,
               "end": 985
             },
-            "ctxt": 0,
-            "value": "p2",
-            "optional": false
+            "value": "p2"
           },
           "function": {
             "params": [
@@ -792,9 +766,7 @@
                           "start": 1008,
                           "end": 1010
                         },
-                        "ctxt": 0,
-                        "value": "p2",
-                        "optional": false
+                        "value": "p2"
                       }
                     },
                     "right": {
@@ -835,9 +807,7 @@
               "start": 1062,
               "end": 1064
             },
-            "ctxt": 0,
-            "value": "p3",
-            "optional": false
+            "value": "p3"
           },
           "function": {
             "params": [],
@@ -895,9 +865,7 @@
               "start": 1139,
               "end": 1141
             },
-            "ctxt": 0,
-            "value": "p3",
-            "optional": false
+            "value": "p3"
           },
           "function": {
             "params": [
@@ -967,9 +935,7 @@
                           "start": 1164,
                           "end": 1166
                         },
-                        "ctxt": 0,
-                        "value": "p3",
-                        "optional": false
+                        "value": "p3"
                       }
                     },
                     "right": {
@@ -1010,9 +976,7 @@
               "start": 1224,
               "end": 1226
             },
-            "ctxt": 0,
-            "value": "p4",
-            "optional": false
+            "value": "p4"
           },
           "function": {
             "params": [],
@@ -1070,9 +1034,7 @@
               "start": 1307,
               "end": 1309
             },
-            "ctxt": 0,
-            "value": "p4",
-            "optional": false
+            "value": "p4"
           },
           "function": {
             "params": [
@@ -1142,9 +1104,7 @@
                           "start": 1332,
                           "end": 1334
                         },
-                        "ctxt": 0,
-                        "value": "p4",
-                        "optional": false
+                        "value": "p4"
                       }
                     },
                     "right": {
@@ -1212,9 +1172,7 @@
               "start": 1408,
               "end": 1410
             },
-            "ctxt": 0,
-            "value": "p1",
-            "optional": false
+            "value": "p1"
           },
           "function": {
             "params": [
@@ -1284,9 +1242,7 @@
                           "start": 1433,
                           "end": 1435
                         },
-                        "ctxt": 0,
-                        "value": "p1",
-                        "optional": false
+                        "value": "p1"
                       }
                     },
                     "right": {
@@ -1327,9 +1283,7 @@
               "start": 1505,
               "end": 1507
             },
-            "ctxt": 0,
-            "value": "p2",
-            "optional": false
+            "value": "p2"
           },
           "function": {
             "params": [
@@ -1399,9 +1353,7 @@
                           "start": 1530,
                           "end": 1532
                         },
-                        "ctxt": 0,
-                        "value": "p2",
-                        "optional": false
+                        "value": "p2"
                       }
                     },
                     "right": {
@@ -1442,9 +1394,7 @@
               "start": 1591,
               "end": 1593
             },
-            "ctxt": 0,
-            "value": "p3",
-            "optional": false
+            "value": "p3"
           },
           "function": {
             "params": [
@@ -1514,9 +1464,7 @@
                           "start": 1616,
                           "end": 1618
                         },
-                        "ctxt": 0,
-                        "value": "p3",
-                        "optional": false
+                        "value": "p3"
                       }
                     },
                     "right": {
@@ -1557,9 +1505,7 @@
               "start": 1683,
               "end": 1685
             },
-            "ctxt": 0,
-            "value": "p4",
-            "optional": false
+            "value": "p4"
           },
           "function": {
             "params": [
@@ -1629,9 +1575,7 @@
                           "start": 1708,
                           "end": 1710
                         },
-                        "ctxt": 0,
-                        "value": "p4",
-                        "optional": false
+                        "value": "p4"
                       }
                     },
                     "right": {

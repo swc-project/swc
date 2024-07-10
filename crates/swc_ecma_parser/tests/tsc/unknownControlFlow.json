@@ -7197,9 +7197,7 @@
                       "start": 5170,
                       "end": 5177
                     },
-                    "ctxt": 0,
-                    "value": "isArray",
-                    "optional": false
+                    "value": "isArray"
                   }
                 },
                 "arguments": [
@@ -7248,9 +7246,7 @@
                       "start": 5190,
                       "end": 5197
                     },
-                    "ctxt": 0,
-                    "value": "isArray",
-                    "optional": false
+                    "value": "isArray"
                   }
                 },
                 "arguments": [
@@ -7346,9 +7342,7 @@
                         "start": 5247,
                         "end": 5251
                       },
-                      "ctxt": 0,
-                      "value": "keys",
-                      "optional": false
+                      "value": "keys"
                     }
                   },
                   "arguments": [
@@ -7374,9 +7368,7 @@
                     "start": 5255,
                     "end": 5261
                   },
-                  "ctxt": 0,
-                  "value": "length",
-                  "optional": false
+                  "value": "length"
                 }
               },
               "right": {
@@ -7414,9 +7406,7 @@
                         "start": 5273,
                         "end": 5277
                       },
-                      "ctxt": 0,
-                      "value": "keys",
-                      "optional": false
+                      "value": "keys"
                     }
                   },
                   "arguments": [
@@ -7442,9 +7432,7 @@
                     "start": 5281,
                     "end": 5287
                   },
-                  "ctxt": 0,
-                  "value": "length",
-                  "optional": false
+                  "value": "length"
                 }
               }
             },

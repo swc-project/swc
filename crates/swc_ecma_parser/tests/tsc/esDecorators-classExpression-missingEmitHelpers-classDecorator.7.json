@@ -128,9 +128,7 @@
                     "start": 249,
                     "end": 250
                   },
-                  "ctxt": 0,
-                  "value": "C",
-                  "optional": false
+                  "value": "C"
                 },
                 "value": {
                   "type": "AssignmentPattern",

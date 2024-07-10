@@ -8,7 +8,7 @@ use crate::{
     ident::Ident,
     lit::Str,
     typescript::{TsExportAssignment, TsImportEqualsDecl, TsInterfaceDecl, TsNamespaceExportDecl},
-    ObjectLit,
+    BindingIdent, IdentName, ObjectLit,
 };
 
 #[ast_node]
@@ -358,6 +358,9 @@ pub enum ModuleExportName {
     #[tag("StringLiteral")]
     Str(Str),
 }
+
+bridge_from!(ModuleExportName, Ident, BindingIdent);
+bridge_from!(ModuleExportName, Ident, IdentName);
 
 impl ModuleExportName {
     /// Get the atom of the export name.

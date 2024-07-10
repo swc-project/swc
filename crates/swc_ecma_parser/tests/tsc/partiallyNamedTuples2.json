@@ -1318,9 +1318,7 @@
                   "start": 688,
                   "end": 691
                 },
-                "ctxt": 0,
-                "value": "get",
-                "optional": false
+                "value": "get"
               }
             },
             "arguments": [

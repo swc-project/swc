@@ -87,9 +87,7 @@
                     "start": 185,
                     "end": 188
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "value": {
                   "type": "Identifier",
@@ -110,9 +108,7 @@
                     "start": 237,
                     "end": 240
                   },
-                  "ctxt": 0,
-                  "value": "bar",
-                  "optional": false
+                  "value": "bar"
                 },
                 "value": {
                   "type": "StringLiteral",
@@ -132,9 +128,7 @@
                     "start": 292,
                     "end": 299
                   },
-                  "ctxt": 0,
-                  "value": "method1",
-                  "optional": false
+                  "value": "method1"
                 },
                 "params": [
                   {
@@ -275,9 +269,7 @@
                     "start": 453,
                     "end": 462
                   },
-                  "ctxt": 0,
-                  "value": "arrowFunc",
-                  "optional": false
+                  "value": "arrowFunc"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -373,9 +365,7 @@
               "start": 488,
               "end": 491
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           }
         },
         "right": {
@@ -417,9 +407,7 @@
             "start": 507,
             "end": 510
           },
-          "ctxt": 0,
-          "value": "lol",
-          "optional": false
+          "value": "lol"
         }
       }
     },
@@ -458,9 +446,7 @@
               "start": 515,
               "end": 518
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           }
         },
         "right": {
@@ -531,9 +517,7 @@
                   "start": 544,
                   "end": 551
                 },
-                "ctxt": 0,
-                "value": "method1",
-                "optional": false
+                "value": "method1"
               }
             },
             "arguments": [
@@ -591,9 +575,7 @@
               "start": 560,
               "end": 564
             },
-            "ctxt": 0,
-            "value": "bar1",
-            "optional": false
+            "value": "bar1"
           }
         },
         "right": {
@@ -642,9 +624,7 @@
               "start": 577,
               "end": 586
             },
-            "ctxt": 0,
-            "value": "arrowFunc",
-            "optional": false
+            "value": "arrowFunc"
           }
         },
         "arguments": [

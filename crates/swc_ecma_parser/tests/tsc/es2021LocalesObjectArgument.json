@@ -61,9 +61,7 @@
                   "start": 43,
                   "end": 49
                 },
-                "ctxt": 0,
-                "value": "Locale",
-                "optional": false
+                "value": "Locale"
               }
             },
             "arguments": [
@@ -142,9 +140,7 @@
                   "start": 82,
                   "end": 88
                 },
-                "ctxt": 0,
-                "value": "Locale",
-                "optional": false
+                "value": "Locale"
               }
             },
             "arguments": [
@@ -223,9 +219,7 @@
                   "start": 121,
                   "end": 127
                 },
-                "ctxt": 0,
-                "value": "Locale",
-                "optional": false
+                "value": "Locale"
               }
             },
             "arguments": [
@@ -283,9 +277,7 @@
               "start": 148,
               "end": 158
             },
-            "ctxt": 0,
-            "value": "ListFormat",
-            "optional": false
+            "value": "ListFormat"
           }
         },
         "arguments": [
@@ -341,9 +333,7 @@
               "start": 175,
               "end": 185
             },
-            "ctxt": 0,
-            "value": "ListFormat",
-            "optional": false
+            "value": "ListFormat"
           }
         },
         "arguments": [
@@ -430,9 +420,7 @@
                 "start": 206,
                 "end": 216
               },
-              "ctxt": 0,
-              "value": "ListFormat",
-              "optional": false
+              "value": "ListFormat"
             }
           },
           "property": {
@@ -441,9 +429,7 @@
               "start": 217,
               "end": 235
             },
-            "ctxt": 0,
-            "value": "supportedLocalesOf",
-            "optional": false
+            "value": "supportedLocalesOf"
           }
         },
         "arguments": [
@@ -505,9 +491,7 @@
                 "start": 248,
                 "end": 258
               },
-              "ctxt": 0,
-              "value": "ListFormat",
-              "optional": false
+              "value": "ListFormat"
             }
           },
           "property": {
@@ -516,9 +500,7 @@
               "start": 259,
               "end": 277
             },
-            "ctxt": 0,
-            "value": "supportedLocalesOf",
-            "optional": false
+            "value": "supportedLocalesOf"
           }
         },
         "arguments": [

@@ -40,9 +40,7 @@
               "start": 23,
               "end": 26
             },
-            "ctxt": 0,
-            "value": "UTC",
-            "optional": false
+            "value": "UTC"
           }
         },
         "arguments": [

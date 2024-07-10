@@ -64,9 +64,7 @@
                     "start": 12,
                     "end": 14
                   },
-                  "ctxt": 0,
-                  "value": "jh",
-                  "optional": false
+                  "value": "jh"
                 }
               },
               "property": {
@@ -122,9 +120,7 @@
                       "start": 20,
                       "end": 22
                     },
-                    "ctxt": 0,
-                    "value": "jh",
-                    "optional": false
+                    "value": "jh"
                   }
                 },
                 "property": {

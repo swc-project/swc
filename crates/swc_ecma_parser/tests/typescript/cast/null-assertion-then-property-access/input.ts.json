@@ -40,9 +40,7 @@
             "start": 4,
             "end": 5
           },
-          "ctxt": 0,
-          "value": "y",
-          "optional": false
+          "value": "y"
         }
       }
     }

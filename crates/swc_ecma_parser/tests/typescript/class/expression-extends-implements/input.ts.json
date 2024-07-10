@@ -105,9 +105,7 @@
                     "start": 36,
                     "end": 37
                   },
-                  "ctxt": 0,
-                  "value": "Y",
-                  "optional": false
+                  "value": "Y"
                 }
               },
               "typeArguments": {
@@ -251,9 +249,7 @@
                     "start": 83,
                     "end": 84
                   },
-                  "ctxt": 0,
-                  "value": "Y",
-                  "optional": false
+                  "value": "Y"
                 }
               },
               "typeArguments": {

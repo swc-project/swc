@@ -194,9 +194,7 @@
                     "start": 89,
                     "end": 91
                   },
-                  "ctxt": 0,
-                  "value": "p1",
-                  "optional": false
+                  "value": "p1"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -216,9 +214,7 @@
                     "start": 97,
                     "end": 99
                   },
-                  "ctxt": 0,
-                  "value": "p2",
-                  "optional": false
+                  "value": "p2"
                 },
                 "value": {
                   "type": "NumericLiteral",

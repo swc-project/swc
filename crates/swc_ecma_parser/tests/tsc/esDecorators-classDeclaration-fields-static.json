@@ -123,9 +123,7 @@
               "start": 203,
               "end": 209
             },
-            "ctxt": 0,
-            "value": "field1",
-            "optional": false
+            "value": "field1"
           },
           "value": {
             "type": "NumericLiteral",

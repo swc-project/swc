@@ -43,9 +43,7 @@
                 "start": 79,
                 "end": 84
               },
-              "ctxt": 0,
-              "value": "print",
-              "optional": false
+              "value": "print"
             },
             "function": {
               "params": [],
@@ -206,9 +204,7 @@
                   "start": 193,
                   "end": 194
                 },
-                "ctxt": 0,
-                "value": "B",
-                "optional": false
+                "value": "B"
               }
             },
             "isAbstract": false,
@@ -302,9 +298,7 @@
                     "start": 225,
                     "end": 230
                   },
-                  "ctxt": 0,
-                  "value": "print",
-                  "optional": false
+                  "value": "print"
                 }
               },
               "arguments": [],

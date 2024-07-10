@@ -4,9 +4,8 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, 
 use crate::{
     decl::{Decl, VarDecl},
     expr::Expr,
-    ident::Ident,
     pat::Pat,
-    Lit, Str, UsingDecl,
+    Ident, Lit, Str, UsingDecl,
 };
 
 /// Use when only block statements are allowed.

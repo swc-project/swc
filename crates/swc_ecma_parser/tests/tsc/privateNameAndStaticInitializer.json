@@ -70,9 +70,7 @@
               "start": 68,
               "end": 72
             },
-            "ctxt": 0,
-            "value": "inst",
-            "optional": false
+            "value": "inst"
           },
           "value": {
             "type": "NewExpression",

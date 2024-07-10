@@ -126,9 +126,7 @@
                       "start": 86,
                       "end": 97
                     },
-                    "ctxt": 0,
-                    "value": "constructor",
-                    "optional": false
+                    "value": "constructor"
                   },
                   "params": [
                     {
@@ -332,9 +330,7 @@
                 "start": 181,
                 "end": 184
               },
-              "ctxt": 0,
-              "value": "Red",
-              "optional": false
+              "value": "Red"
             }
           },
           "definite": false
@@ -514,9 +510,7 @@
                   "start": 241,
                   "end": 246
                 },
-                "ctxt": 0,
-                "value": "Point",
-                "optional": false
+                "value": "Point"
               }
             },
             "arguments": [

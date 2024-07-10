@@ -247,9 +247,7 @@
                             "start": 280,
                             "end": 291
                           },
-                          "ctxt": 0,
-                          "value": "toUpperCase",
-                          "optional": false
+                          "value": "toUpperCase"
                         }
                       },
                       "arguments": [],
@@ -362,9 +360,7 @@
                 "start": 398,
                 "end": 406
               },
-              "ctxt": 0,
-              "value": "getWorld",
-              "optional": false
+              "value": "getWorld"
             },
             "function": {
               "params": [],

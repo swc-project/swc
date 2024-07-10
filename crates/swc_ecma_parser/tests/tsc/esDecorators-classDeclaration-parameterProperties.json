@@ -84,9 +84,7 @@
               "start": 164,
               "end": 175
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -150,9 +148,7 @@
               "start": 216,
               "end": 221
             },
-            "ctxt": 0,
-            "value": "speak",
-            "optional": false
+            "value": "speak"
           },
           "function": {
             "params": [],

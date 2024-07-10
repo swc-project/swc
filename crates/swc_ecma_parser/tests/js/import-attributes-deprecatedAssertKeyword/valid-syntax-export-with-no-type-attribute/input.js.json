@@ -57,9 +57,7 @@
                 "start": 45,
                 "end": 49
               },
-              "ctxt": 0,
-              "value": "lazy",
-              "optional": false
+              "value": "lazy"
             },
             "value": {
               "type": "StringLiteral",

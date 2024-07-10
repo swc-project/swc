@@ -37,9 +37,7 @@
               "start": 13,
               "end": 17
             },
-            "ctxt": 0,
-            "value": "test",
-            "optional": false
+            "value": "test"
           },
           "value": null,
           "typeAnnotation": {
@@ -106,9 +104,7 @@
               "start": 51,
               "end": 56
             },
-            "ctxt": 0,
-            "value": "test2",
-            "optional": false
+            "value": "test2"
           },
           "value": null,
           "typeAnnotation": {

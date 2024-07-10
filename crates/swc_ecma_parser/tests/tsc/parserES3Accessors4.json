@@ -51,9 +51,7 @@
                     "start": 15,
                     "end": 18
                   },
-                  "ctxt": 0,
-                  "value": "Foo",
-                  "optional": false
+                  "value": "Foo"
                 },
                 "thisParam": null,
                 "param": {

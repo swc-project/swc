@@ -37,9 +37,7 @@
               "start": 46,
               "end": 50
             },
-            "ctxt": 0,
-            "value": "data",
-            "optional": false
+            "value": "data"
           },
           "value": null,
           "typeAnnotation": {
@@ -89,9 +87,7 @@
               "start": 59,
               "end": 63
             },
-            "ctxt": 0,
-            "value": "next",
-            "optional": false
+            "value": "next"
           },
           "value": null,
           "typeAnnotation": {

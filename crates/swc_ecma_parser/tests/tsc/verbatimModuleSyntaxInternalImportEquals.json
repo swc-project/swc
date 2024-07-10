@@ -174,6 +174,10 @@
       },
       "moduleRef": {
         "type": "TsQualifiedName",
+        "span": {
+          "start": 171,
+          "end": 178
+        },
         "left": {
           "type": "Identifier",
           "span": {
@@ -190,9 +194,7 @@
             "start": 175,
             "end": 178
           },
-          "ctxt": 0,
-          "value": "foo",
-          "optional": false
+          "value": "foo"
         }
       }
     },
@@ -216,6 +218,10 @@
       },
       "moduleRef": {
         "type": "TsQualifiedName",
+        "span": {
+          "start": 192,
+          "end": 197
+        },
         "left": {
           "type": "Identifier",
           "span": {
@@ -232,9 +238,7 @@
             "start": 196,
             "end": 197
           },
-          "ctxt": 0,
-          "value": "T",
-          "optional": false
+          "value": "T"
         }
       }
     }

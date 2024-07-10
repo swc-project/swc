@@ -408,7 +408,7 @@ where
         if !is_export_assign && self.exports.is_some() {
             let filename = self.cm.span_to_filename(module_span);
             let exported_name = self.config.determine_export_name(filename);
-            let global_lib = global.clone().make_member(exported_name);
+            let global_lib = global.clone().make_member(exported_name.into());
 
             cjs_args.push(quote_ident!("exports").as_arg());
             amd_dep_list.push(Some(quote_str!("exports").as_arg()));

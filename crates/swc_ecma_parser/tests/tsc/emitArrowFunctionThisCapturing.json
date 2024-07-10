@@ -80,9 +80,7 @@
                           "start": 42,
                           "end": 45
                         },
-                        "ctxt": 0,
-                        "value": "age",
-                        "optional": false
+                        "value": "age"
                       }
                     },
                     "right": {
@@ -208,9 +206,7 @@
                           "start": 90,
                           "end": 94
                         },
-                        "ctxt": 0,
-                        "value": "name",
-                        "optional": false
+                        "value": "name"
                       }
                     },
                     "right": {
@@ -394,9 +390,7 @@
                             "start": 161,
                             "end": 164
                           },
-                          "ctxt": 0,
-                          "value": "age",
-                          "optional": false
+                          "value": "age"
                         }
                       },
                       "right": {

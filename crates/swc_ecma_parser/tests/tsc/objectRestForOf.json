@@ -423,9 +423,7 @@
                 "start": 168,
                 "end": 169
               },
-              "ctxt": 0,
-              "value": "x",
-              "optional": false
+              "value": "x"
             },
             "value": {
               "type": "Identifier",
@@ -597,9 +595,7 @@
               "start": 251,
               "end": 254
             },
-            "ctxt": 0,
-            "value": "map",
-            "optional": false
+            "value": "map"
           }
         },
         "arguments": [
@@ -663,9 +659,7 @@
                           "start": 269,
                           "end": 270
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -734,9 +728,7 @@
                         "start": 302,
                         "end": 303
                       },
-                      "ctxt": 0,
-                      "value": "x",
-                      "optional": false
+                      "value": "x"
                     }
                   }
                 },
@@ -764,9 +756,7 @@
                         "start": 312,
                         "end": 313
                       },
-                      "ctxt": 0,
-                      "value": "y",
-                      "optional": false
+                      "value": "y"
                     }
                   }
                 }

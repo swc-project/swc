@@ -9241,9 +9241,7 @@
                                             "start": 5881,
                                             "end": 5888
                                           },
-                                          "ctxt": 0,
-                                          "value": "options",
-                                          "optional": false
+                                          "value": "options"
                                         }
                                       },
                                       "property": {
@@ -9252,9 +9250,7 @@
                                           "start": 5889,
                                           "end": 5899
                                         },
-                                        "ctxt": 0,
-                                        "value": "goChildren",
-                                        "optional": false
+                                        "value": "goChildren"
                                       }
                                     },
                                     "right": {
@@ -9621,9 +9617,7 @@
                                       "start": 6145,
                                       "end": 6164
                                     },
-                                    "ctxt": 0,
-                                    "value": "getAstWalkerFactory",
-                                    "optional": false
+                                    "value": "getAstWalkerFactory"
                                   }
                                 },
                                 "arguments": [],
@@ -9635,9 +9629,7 @@
                                   "start": 6167,
                                   "end": 6176
                                 },
-                                "ctxt": 0,
-                                "value": "getWalker",
-                                "optional": false
+                                "value": "getWalker"
                               }
                             },
                             "arguments": [
@@ -9709,9 +9701,7 @@
                               "start": 6204,
                               "end": 6208
                             },
-                            "ctxt": 0,
-                            "value": "walk",
-                            "optional": false
+                            "value": "walk"
                           }
                         },
                         "arguments": [
@@ -9961,9 +9951,7 @@
                               "start": 6444,
                               "end": 6452
                             },
-                            "ctxt": 0,
-                            "value": "nodeType",
-                            "optional": false
+                            "value": "nodeType"
                           }
                         },
                         "definite": false
@@ -10054,9 +10042,7 @@
                                   "start": 6499,
                                   "end": 6503
                                 },
-                                "ctxt": 0,
-                                "value": "_map",
-                                "optional": false
+                                "value": "_map"
                               }
                             },
                             "property": {
@@ -10249,9 +10235,7 @@
                           "start": 6655,
                           "end": 6670
                         },
-                        "ctxt": 0,
-                        "value": "DefaultCallback",
-                        "optional": false
+                        "value": "DefaultCallback"
                       }
                     },
                     "consequent": {
@@ -10297,9 +10281,7 @@
                                   "start": 6702,
                                   "end": 6717
                                 },
-                                "ctxt": 0,
-                                "value": "DefaultCallback",
-                                "optional": false
+                                "value": "DefaultCallback"
                               }
                             },
                             "arguments": [

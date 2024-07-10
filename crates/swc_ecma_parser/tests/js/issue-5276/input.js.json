@@ -43,9 +43,7 @@
                 "start": 47,
                 "end": 53
               },
-              "ctxt": 0,
-              "value": "export",
-              "optional": false
+              "value": "export"
             },
             "value": {
               "type": "BooleanLiteral",

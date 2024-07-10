@@ -37,9 +37,7 @@
               "start": 31,
               "end": 34
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "function": {
             "params": [],
@@ -147,9 +145,7 @@
                                               "start": 101,
                                               "end": 104
                                             },
-                                            "ctxt": 0,
-                                            "value": "bar",
-                                            "optional": false
+                                            "value": "bar"
                                           }
                                         },
                                         "arguments": [],

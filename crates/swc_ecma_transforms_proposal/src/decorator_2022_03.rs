@@ -164,7 +164,7 @@ impl Decorator2022_03 {
             None
         } else {
             Some(ObjectPatProp::KeyValue(KeyValuePatProp {
-                key: PropName::Ident(quote_ident!("e")),
+                key: PropName::Ident("e".into()),
                 value: Box::new(Pat::Array(ArrayPat {
                     span: DUMMY_SP,
                     elems: e_lhs,
@@ -178,7 +178,7 @@ impl Decorator2022_03 {
             None
         } else {
             Some(ObjectPatProp::KeyValue(KeyValuePatProp {
-                key: PropName::Ident(quote_ident!("c")),
+                key: PropName::Ident("c".into()),
                 value: Box::new(Pat::Array(ArrayPat {
                     span: DUMMY_SP,
                     elems: self.state.class_lhs.take(),
@@ -333,7 +333,7 @@ impl Decorator2022_03 {
             insert_index,
             ClassMember::Constructor(Constructor {
                 span: DUMMY_SP,
-                key: PropName::Ident(quote_ident!("constructor")),
+                key: PropName::Ident("constructor".into()),
                 params: vec![],
                 body: Some(BlockStmt {
                     span: DUMMY_SP,

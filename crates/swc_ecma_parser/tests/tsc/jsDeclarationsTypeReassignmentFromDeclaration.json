@@ -223,9 +223,7 @@
               "start": 288,
               "end": 295
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {

@@ -126,9 +126,7 @@
               "start": 73,
               "end": 77
             },
-            "ctxt": 0,
-            "value": "foo1",
-            "optional": false
+            "value": "foo1"
           },
           "function": {
             "params": [],
@@ -207,9 +205,7 @@
               "start": 106,
               "end": 110
             },
-            "ctxt": 0,
-            "value": "foo2",
-            "optional": false
+            "value": "foo2"
           },
           "function": {
             "params": [],

@@ -191,9 +191,7 @@
                 "start": 164,
                 "end": 166
               },
-              "ctxt": 0,
-              "value": "as",
-              "optional": false
+              "value": "as"
             }
           },
           "definite": false
@@ -249,9 +247,7 @@
                 "start": 179,
                 "end": 185
               },
-              "ctxt": 0,
-              "value": "return",
-              "optional": false
+              "value": "return"
             }
           },
           "definite": false

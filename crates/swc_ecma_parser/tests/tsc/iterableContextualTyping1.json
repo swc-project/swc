@@ -165,9 +165,7 @@
                         "start": 68,
                         "end": 74
                       },
-                      "ctxt": 0,
-                      "value": "length",
-                      "optional": false
+                      "value": "length"
                     }
                   },
                   "async": false,

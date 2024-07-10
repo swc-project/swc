@@ -61,9 +61,7 @@
                   "start": 90,
                   "end": 98
                 },
-                "ctxt": 0,
-                "value": "GLOBSTAR",
-                "optional": false
+                "value": "GLOBSTAR"
               }
             },
             "right": {
@@ -148,9 +146,7 @@
               "start": 130,
               "end": 131
             },
-            "ctxt": 0,
-            "value": "p",
-            "optional": false
+            "value": "p"
           }
         },
         "right": {
@@ -205,9 +201,7 @@
                 "start": 138,
                 "end": 146
               },
-              "ctxt": 0,
-              "value": "GLOBSTAR",
-              "optional": false
+              "value": "GLOBSTAR"
             }
           },
           "property": {
@@ -216,9 +210,7 @@
               "start": 147,
               "end": 148
             },
-            "ctxt": 0,
-            "value": "q",
-            "optional": false
+            "value": "q"
           }
         },
         "right": {
@@ -260,9 +252,7 @@
             "start": 163,
             "end": 164
           },
-          "ctxt": 0,
-          "value": "p",
-          "optional": false
+          "value": "p"
         }
       }
     },
@@ -294,9 +284,7 @@
             "start": 174,
             "end": 175
           },
-          "ctxt": 0,
-          "value": "q",
-          "optional": false
+          "value": "q"
         }
       }
     },
@@ -334,9 +322,7 @@
               "start": 178,
               "end": 186
             },
-            "ctxt": 0,
-            "value": "GLOBSTAR",
-            "optional": false
+            "value": "GLOBSTAR"
           }
         },
         "property": {
@@ -345,9 +331,7 @@
             "start": 187,
             "end": 188
           },
-          "ctxt": 0,
-          "value": "p",
-          "optional": false
+          "value": "p"
         }
       }
     },
@@ -385,9 +369,7 @@
               "start": 191,
               "end": 199
             },
-            "ctxt": 0,
-            "value": "GLOBSTAR",
-            "optional": false
+            "value": "GLOBSTAR"
           }
         },
         "property": {
@@ -396,9 +378,7 @@
             "start": 200,
             "end": 201
           },
-          "ctxt": 0,
-          "value": "q",
-          "optional": false
+          "value": "q"
         }
       }
     }

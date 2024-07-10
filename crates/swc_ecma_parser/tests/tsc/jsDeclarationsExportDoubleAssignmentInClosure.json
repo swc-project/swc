@@ -68,9 +68,7 @@
                     "start": 143,
                     "end": 150
                   },
-                  "ctxt": 0,
-                  "value": "exports",
-                  "optional": false
+                  "value": "exports"
                 }
               },
               "right": {
@@ -380,9 +378,7 @@
                     "start": 360,
                     "end": 367
                   },
-                  "ctxt": 0,
-                  "value": "methods",
-                  "optional": false
+                  "value": "methods"
                 }
               },
               "right": {

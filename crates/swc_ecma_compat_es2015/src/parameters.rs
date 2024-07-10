@@ -790,7 +790,7 @@ fn make_arg_nth(n: usize) -> MemberExpr {
 fn check_arg_len(n: usize) -> Expr {
     Expr::Bin(BinExpr {
         left: Expr::Ident(Ident::new_no_ctxt("arguments".into(), DUMMY_SP))
-            .make_member(Ident::new_no_ctxt("length".into(), DUMMY_SP))
+            .make_member(IdentName::new("length".into(), DUMMY_SP))
             .into(),
         op: op!(">"),
         right: n.into(),

@@ -37,9 +37,7 @@
               "start": 43,
               "end": 47
             },
-            "ctxt": 0,
-            "value": "next",
-            "optional": false
+            "value": "next"
           },
           "value": null,
           "typeAnnotation": {
@@ -101,9 +99,7 @@
                   "start": 66,
                   "end": 74
                 },
-                "ctxt": 0,
-                "value": "iterator",
-                "optional": false
+                "value": "iterator"
               }
             }
           },

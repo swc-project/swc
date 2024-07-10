@@ -1706,9 +1706,7 @@
                 "start": 602,
                 "end": 603
               },
-              "ctxt": 0,
-              "value": "a",
-              "optional": false
+              "value": "a"
             }
           },
           "property": {
@@ -1717,9 +1715,7 @@
               "start": 604,
               "end": 610
             },
-            "ctxt": 0,
-            "value": "substr",
-            "optional": false
+            "value": "substr"
           }
         },
         "arguments": [
@@ -1790,9 +1786,7 @@
             "start": 624,
             "end": 625
           },
-          "ctxt": 0,
-          "value": "b",
-          "optional": false
+          "value": "b"
         }
       }
     },

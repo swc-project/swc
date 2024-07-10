@@ -53,9 +53,7 @@
                       "start": 262,
                       "end": 263
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -109,9 +107,7 @@
               "start": 294,
               "end": 297
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -152,9 +148,7 @@
                       "start": 300,
                       "end": 301
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   }
                 },
                 "property": {
@@ -163,9 +157,7 @@
                     "start": 302,
                     "end": 309
                   },
-                  "ctxt": 0,
-                  "value": "toFixed",
-                  "optional": false
+                  "value": "toFixed"
                 }
               },
               "arguments": [],
@@ -225,9 +217,7 @@
                 "start": 341,
                 "end": 342
               },
-              "ctxt": 0,
-              "value": "y",
-              "optional": false
+              "value": "y"
             }
           },
           "definite": false

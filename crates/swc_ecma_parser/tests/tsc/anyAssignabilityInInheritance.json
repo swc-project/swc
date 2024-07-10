@@ -2112,9 +2112,7 @@
               "start": 1242,
               "end": 1245
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -2414,9 +2412,7 @@
               "start": 1367,
               "end": 1370
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -4068,9 +4064,7 @@
               "start": 2017,
               "end": 2020
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           },
           "value": null,
           "typeAnnotation": {

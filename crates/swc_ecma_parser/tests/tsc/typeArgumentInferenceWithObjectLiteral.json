@@ -389,9 +389,7 @@
                       "start": 217,
                       "end": 221
                     },
-                    "ctxt": 0,
-                    "value": "read",
-                    "optional": false
+                    "value": "read"
                   },
                   "value": {
                     "type": "ArrowFunctionExpression",
@@ -425,9 +423,7 @@
                       "start": 236,
                       "end": 241
                     },
-                    "ctxt": 0,
-                    "value": "write",
-                    "optional": false
+                    "value": "write"
                   },
                   "value": {
                     "type": "ArrowFunctionExpression",
@@ -532,9 +528,7 @@
                       "start": 276,
                       "end": 281
                     },
-                    "ctxt": 0,
-                    "value": "write",
-                    "optional": false
+                    "value": "write"
                   },
                   "value": {
                     "type": "ArrowFunctionExpression",
@@ -599,9 +593,7 @@
                       "start": 307,
                       "end": 311
                     },
-                    "ctxt": 0,
-                    "value": "read",
-                    "optional": false
+                    "value": "read"
                   },
                   "value": {
                     "type": "ArrowFunctionExpression",
@@ -1158,9 +1150,7 @@
                           "start": 525,
                           "end": 526
                         },
-                        "ctxt": 0,
-                        "value": "w",
-                        "optional": false
+                        "value": "w"
                       },
                       "value": {
                         "type": "ArrowFunctionExpression",
@@ -1206,9 +1196,7 @@
                           "start": 536,
                           "end": 537
                         },
-                        "ctxt": 0,
-                        "value": "r",
-                        "optional": false
+                        "value": "r"
                       },
                       "value": {
                         "type": "ArrowFunctionExpression",
@@ -1317,9 +1305,7 @@
                           "start": 568,
                           "end": 569
                         },
-                        "ctxt": 0,
-                        "value": "w",
-                        "optional": false
+                        "value": "w"
                       },
                       "value": {
                         "type": "ArrowFunctionExpression",
@@ -1365,9 +1351,7 @@
                           "start": 579,
                           "end": 580
                         },
-                        "ctxt": 0,
-                        "value": "r",
-                        "optional": false
+                        "value": "r"
                       },
                       "value": {
                         "type": "ArrowFunctionExpression",
@@ -1419,9 +1403,7 @@
                       "start": 596,
                       "end": 597
                     },
-                    "ctxt": 0,
-                    "value": "X",
-                    "optional": false
+                    "value": "X"
                   }
                 }
               }
@@ -1494,9 +1476,7 @@
                           "start": 614,
                           "end": 615
                         },
-                        "ctxt": 0,
-                        "value": "w",
-                        "optional": false
+                        "value": "w"
                       },
                       "value": {
                         "type": "ArrowFunctionExpression",
@@ -1542,9 +1522,7 @@
                           "start": 625,
                           "end": 626
                         },
-                        "ctxt": 0,
-                        "value": "r",
-                        "optional": false
+                        "value": "r"
                       },
                       "value": {
                         "type": "ArrowFunctionExpression",
@@ -1576,9 +1554,7 @@
                               "start": 637,
                               "end": 638
                             },
-                            "ctxt": 0,
-                            "value": "X",
-                            "optional": false
+                            "value": "X"
                           }
                         },
                         "async": false,
@@ -1727,9 +1703,7 @@
                           "start": 673,
                           "end": 674
                         },
-                        "ctxt": 0,
-                        "value": "w",
-                        "optional": false
+                        "value": "w"
                       },
                       "value": {
                         "type": "ArrowFunctionExpression",
@@ -1775,9 +1749,7 @@
                           "start": 684,
                           "end": 685
                         },
-                        "ctxt": 0,
-                        "value": "r",
-                        "optional": false
+                        "value": "r"
                       },
                       "value": {
                         "type": "ArrowFunctionExpression",
@@ -1809,9 +1781,7 @@
                               "start": 696,
                               "end": 697
                             },
-                            "ctxt": 0,
-                            "value": "X",
-                            "optional": false
+                            "value": "X"
                           }
                         },
                         "async": false,
@@ -1847,9 +1817,7 @@
                       "start": 704,
                       "end": 705
                     },
-                    "ctxt": 0,
-                    "value": "X",
-                    "optional": false
+                    "value": "X"
                   }
                 }
               }
@@ -1922,9 +1890,7 @@
                           "start": 723,
                           "end": 724
                         },
-                        "ctxt": 0,
-                        "value": "w",
-                        "optional": false
+                        "value": "w"
                       },
                       "value": {
                         "type": "ArrowFunctionExpression",
@@ -1970,9 +1936,7 @@
                           "start": 734,
                           "end": 735
                         },
-                        "ctxt": 0,
-                        "value": "r",
-                        "optional": false
+                        "value": "r"
                       },
                       "value": {
                         "type": "ArrowFunctionExpression",
@@ -2004,9 +1968,7 @@
                               "start": 746,
                               "end": 747
                             },
-                            "ctxt": 0,
-                            "value": "X",
-                            "optional": false
+                            "value": "X"
                           }
                         },
                         "async": false,
@@ -2042,9 +2004,7 @@
                       "start": 754,
                       "end": 755
                     },
-                    "ctxt": 0,
-                    "value": "X",
-                    "optional": false
+                    "value": "X"
                   }
                 }
               }

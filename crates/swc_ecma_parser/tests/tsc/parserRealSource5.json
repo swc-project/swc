@@ -68,9 +68,7 @@
                       "start": 330,
                       "end": 337
                     },
-                    "ctxt": 0,
-                    "value": "builder",
-                    "optional": false
+                    "value": "builder"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -104,9 +102,7 @@
                       "start": 359,
                       "end": 366
                     },
-                    "ctxt": 0,
-                    "value": "indent1",
-                    "optional": false
+                    "value": "indent1"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -140,9 +136,7 @@
                       "start": 390,
                       "end": 403
                     },
-                    "ctxt": 0,
-                    "value": "indentStrings",
-                    "optional": false
+                    "value": "indentStrings"
                   },
                   "value": {
                     "type": "ArrayExpression",
@@ -196,9 +190,7 @@
                       "start": 435,
                       "end": 444
                     },
-                    "ctxt": 0,
-                    "value": "indentAmt",
-                    "optional": false
+                    "value": "indentAmt"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -233,9 +225,7 @@
                       "start": 459,
                       "end": 470
                     },
-                    "ctxt": 0,
-                    "value": "constructor",
-                    "optional": false
+                    "value": "constructor"
                   },
                   "params": [
                     {
@@ -355,9 +345,7 @@
                       "start": 552,
                       "end": 566
                     },
-                    "ctxt": 0,
-                    "value": "increaseIndent",
-                    "optional": false
+                    "value": "increaseIndent"
                   },
                   "function": {
                     "params": [],
@@ -408,9 +396,7 @@
                                   "start": 588,
                                   "end": 597
                                 },
-                                "ctxt": 0,
-                                "value": "indentAmt",
-                                "optional": false
+                                "value": "indentAmt"
                               }
                             }
                           }
@@ -441,9 +427,7 @@
                       "start": 627,
                       "end": 641
                     },
-                    "ctxt": 0,
-                    "value": "decreaseIndent",
-                    "optional": false
+                    "value": "decreaseIndent"
                   },
                   "function": {
                     "params": [],
@@ -494,9 +478,7 @@
                                   "start": 663,
                                   "end": 672
                                 },
-                                "ctxt": 0,
-                                "value": "indentAmt",
-                                "optional": false
+                                "value": "indentAmt"
                               }
                             }
                           }
@@ -527,9 +509,7 @@
                       "start": 702,
                       "end": 711
                     },
-                    "ctxt": 0,
-                    "value": "startLine",
-                    "optional": false
+                    "value": "startLine"
                   },
                   "function": {
                     "params": [],
@@ -585,9 +565,7 @@
                                     "start": 737,
                                     "end": 744
                                   },
-                                  "ctxt": 0,
-                                  "value": "builder",
-                                  "optional": false
+                                  "value": "builder"
                                 }
                               },
                               "property": {
@@ -596,9 +574,7 @@
                                   "start": 745,
                                   "end": 751
                                 },
-                                "ctxt": 0,
-                                "value": "length",
-                                "optional": false
+                                "value": "length"
                               }
                             },
                             "right": {
@@ -654,9 +630,7 @@
                                         "start": 795,
                                         "end": 800
                                       },
-                                      "ctxt": 0,
-                                      "value": "Alert",
-                                      "optional": false
+                                      "value": "Alert"
                                     }
                                   },
                                   "arguments": [
@@ -681,9 +655,7 @@
                                             "start": 806,
                                             "end": 813
                                           },
-                                          "ctxt": 0,
-                                          "value": "builder",
-                                          "optional": false
+                                          "value": "builder"
                                         }
                                       }
                                     }
@@ -747,9 +719,7 @@
                                       "start": 866,
                                       "end": 879
                                     },
-                                    "ctxt": 0,
-                                    "value": "indentStrings",
-                                    "optional": false
+                                    "value": "indentStrings"
                                   }
                                 },
                                 "property": {
@@ -777,9 +747,7 @@
                                         "start": 885,
                                         "end": 894
                                       },
-                                      "ctxt": 0,
-                                      "value": "indentAmt",
-                                      "optional": false
+                                      "value": "indentAmt"
                                     }
                                   }
                                 }
@@ -947,9 +915,7 @@
                                         "start": 1019,
                                         "end": 1028
                                       },
-                                      "ctxt": 0,
-                                      "value": "indentAmt",
-                                      "optional": false
+                                      "value": "indentAmt"
                                     }
                                   }
                                 },
@@ -1023,9 +989,7 @@
                                               "start": 1078,
                                               "end": 1085
                                             },
-                                            "ctxt": 0,
-                                            "value": "indent1",
-                                            "optional": false
+                                            "value": "indent1"
                                           }
                                         }
                                       }
@@ -1071,9 +1035,7 @@
                                           "start": 1126,
                                           "end": 1139
                                         },
-                                        "ctxt": 0,
-                                        "value": "indentStrings",
-                                        "optional": false
+                                        "value": "indentStrings"
                                       }
                                     },
                                     "property": {
@@ -1101,9 +1063,7 @@
                                             "start": 1145,
                                             "end": 1154
                                           },
-                                          "ctxt": 0,
-                                          "value": "indentAmt",
-                                          "optional": false
+                                          "value": "indentAmt"
                                         }
                                       }
                                     }
@@ -1156,9 +1116,7 @@
                                   "start": 1203,
                                   "end": 1210
                                 },
-                                "ctxt": 0,
-                                "value": "builder",
-                                "optional": false
+                                "value": "builder"
                               }
                             },
                             "right": {
@@ -1199,9 +1157,7 @@
                       "start": 1254,
                       "end": 1259
                     },
-                    "ctxt": 0,
-                    "value": "write",
-                    "optional": false
+                    "value": "write"
                   },
                   "function": {
                     "params": [
@@ -1271,9 +1227,7 @@
                                   "start": 1282,
                                   "end": 1289
                                 },
-                                "ctxt": 0,
-                                "value": "builder",
-                                "optional": false
+                                "value": "builder"
                               }
                             },
                             "right": {
@@ -1314,9 +1268,7 @@
                       "start": 1322,
                       "end": 1331
                     },
-                    "ctxt": 0,
-                    "value": "writeLine",
-                    "optional": false
+                    "value": "writeLine"
                   },
                   "function": {
                     "params": [
@@ -1386,9 +1338,7 @@
                                   "start": 1354,
                                   "end": 1361
                                 },
-                                "ctxt": 0,
-                                "value": "builder",
-                                "optional": false
+                                "value": "builder"
                               }
                             },
                             "right": {
@@ -1441,9 +1391,7 @@
                                     "start": 1385,
                                     "end": 1392
                                   },
-                                  "ctxt": 0,
-                                  "value": "outfile",
-                                  "optional": false
+                                  "value": "outfile"
                                 }
                               },
                               "property": {
@@ -1452,9 +1400,7 @@
                                   "start": 1393,
                                   "end": 1402
                                 },
-                                "ctxt": 0,
-                                "value": "WriteLine",
-                                "optional": false
+                                "value": "WriteLine"
                               }
                             },
                             "arguments": [
@@ -1479,9 +1425,7 @@
                                       "start": 1408,
                                       "end": 1415
                                     },
-                                    "ctxt": 0,
-                                    "value": "builder",
-                                    "optional": false
+                                    "value": "builder"
                                   }
                                 }
                               }
@@ -1521,9 +1465,7 @@
                                   "start": 1435,
                                   "end": 1442
                                 },
-                                "ctxt": 0,
-                                "value": "builder",
-                                "optional": false
+                                "value": "builder"
                               }
                             },
                             "right": {
@@ -1802,9 +1744,7 @@
                                 "start": 1596,
                                 "end": 1601
                               },
-                              "ctxt": 0,
-                              "value": "state",
-                              "optional": false
+                              "value": "state"
                             }
                           },
                           "typeAnnotation": {
@@ -1865,9 +1805,7 @@
                             "start": 1616,
                             "end": 1621
                           },
-                          "ctxt": 0,
-                          "value": "print",
-                          "optional": false
+                          "value": "print"
                         }
                       },
                       "arguments": [
@@ -1923,9 +1861,7 @@
                             "start": 1638,
                             "end": 1652
                           },
-                          "ctxt": 0,
-                          "value": "increaseIndent",
-                          "optional": false
+                          "value": "increaseIndent"
                         }
                       },
                       "arguments": [],
@@ -2200,9 +2136,7 @@
                                 "start": 1814,
                                 "end": 1819
                               },
-                              "ctxt": 0,
-                              "value": "state",
-                              "optional": false
+                              "value": "state"
                             }
                           },
                           "typeAnnotation": {
@@ -2263,9 +2197,7 @@
                             "start": 1832,
                             "end": 1846
                           },
-                          "ctxt": 0,
-                          "value": "decreaseIndent",
-                          "optional": false
+                          "value": "decreaseIndent"
                         }
                       },
                       "arguments": [],

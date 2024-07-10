@@ -275,9 +275,7 @@
                     "start": 209,
                     "end": 210
                   },
-                  "ctxt": 0,
-                  "value": "n",
-                  "optional": false
+                  "value": "n"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -301,9 +299,7 @@
                     "start": 224,
                     "end": 225
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 },
                 "typeAnnotation": null,
                 "body": {
@@ -339,9 +335,7 @@
                             "start": 251,
                             "end": 252
                           },
-                          "ctxt": 0,
-                          "value": "n",
-                          "optional": false
+                          "value": "n"
                         }
                       }
                     }
@@ -360,9 +354,7 @@
                     "start": 265,
                     "end": 266
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 },
                 "thisParam": {
                   "type": "Identifier",
@@ -450,9 +442,7 @@
                               "start": 288,
                               "end": 293
                             },
-                            "ctxt": 0,
-                            "value": "wrong",
-                            "optional": false
+                            "value": "wrong"
                           }
                         },
                         "right": {
@@ -541,9 +531,7 @@
                     "start": 340,
                     "end": 341
                   },
-                  "ctxt": 0,
-                  "value": "n",
-                  "optional": false
+                  "value": "n"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -567,9 +555,7 @@
                     "start": 355,
                     "end": 356
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 },
                 "typeAnnotation": null,
                 "body": {
@@ -605,9 +591,7 @@
                             "start": 373,
                             "end": 374
                           },
-                          "ctxt": 0,
-                          "value": "n",
-                          "optional": false
+                          "value": "n"
                         }
                       }
                     }

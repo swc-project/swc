@@ -495,11 +495,10 @@ where
                     }
 
                     *prop = Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(Ident {
+                        key: PropName::Ident(IdentName {
                             // clear mark
                             span: i.span,
-                            ctxt: SyntaxContext::empty(),
-                            ..i.clone()
+                            sym: i.sym.clone(),
                         }),
                         value: Box::new(Expr::Ident(renamed)),
                     })

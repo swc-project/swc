@@ -40,9 +40,7 @@
               "start": 94,
               "end": 97
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           }
         },
         "right": {
@@ -122,9 +120,7 @@
             "start": 159,
             "end": 162
           },
-          "ctxt": 0,
-          "value": "foo",
-          "optional": false
+          "value": "foo"
         }
       }
     }

@@ -60,9 +60,7 @@
                     "start": 9,
                     "end": 14
                   },
-                  "ctxt": 0,
-                  "value": "inner",
-                  "optional": false
+                  "value": "inner"
                 }
               },
               "property": {
@@ -71,9 +69,7 @@
                   "start": 16,
                   "end": 21
                 },
-                "ctxt": 0,
-                "value": "greet",
-                "optional": false
+                "value": "greet"
               }
             }
           },

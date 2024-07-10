@@ -131,9 +131,7 @@
                 "start": 187,
                 "end": 191
               },
-              "ctxt": 0,
-              "value": "type",
-              "optional": false
+              "value": "type"
             },
             "value": {
               "type": "StringLiteral",
@@ -219,9 +217,7 @@
                 "start": 236,
                 "end": 240
               },
-              "ctxt": 0,
-              "value": "type",
-              "optional": false
+              "value": "type"
             },
             "value": {
               "type": "StringLiteral",
@@ -267,9 +263,7 @@
                 "start": 278,
                 "end": 282
               },
-              "ctxt": 0,
-              "value": "type",
-              "optional": false
+              "value": "type"
             },
             "value": {
               "type": "StringLiteral",
@@ -334,9 +328,7 @@
                 "start": 326,
                 "end": 330
               },
-              "ctxt": 0,
-              "value": "type",
-              "optional": false
+              "value": "type"
             },
             "value": {
               "type": "StringLiteral",
@@ -505,9 +497,7 @@
                 "start": 440,
                 "end": 441
               },
-              "ctxt": 0,
-              "value": "a",
-              "optional": false
+              "value": "a"
             },
             "value": {
               "type": "StringLiteral",
@@ -527,9 +517,7 @@
                 "start": 448,
                 "end": 449
               },
-              "ctxt": 0,
-              "value": "b",
-              "optional": false
+              "value": "b"
             },
             "value": {
               "type": "StringLiteral",
@@ -549,9 +537,7 @@
                 "start": 456,
                 "end": 457
               },
-              "ctxt": 0,
-              "value": "c",
-              "optional": false
+              "value": "c"
             },
             "value": {
               "type": "StringLiteral",

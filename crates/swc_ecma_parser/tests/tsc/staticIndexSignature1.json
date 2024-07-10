@@ -234,9 +234,7 @@
               "start": 88,
               "end": 91
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           }
         },
         "right": {

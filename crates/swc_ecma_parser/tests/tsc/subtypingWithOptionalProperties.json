@@ -284,9 +284,7 @@
                           "start": 228,
                           "end": 229
                         },
-                        "ctxt": 0,
-                        "value": "s",
-                        "optional": false
+                        "value": "s"
                       },
                       "value": {
                         "type": "NewExpression",
@@ -354,9 +352,7 @@
               "start": 256,
               "end": 257
             },
-            "ctxt": 0,
-            "value": "s",
-            "optional": false
+            "value": "s"
           }
         },
         "right": {
@@ -394,9 +390,7 @@
                   "start": 263,
                   "end": 264
                 },
-                "ctxt": 0,
-                "value": "s",
-                "optional": false
+                "value": "s"
               }
             },
             "property": {
@@ -405,9 +399,7 @@
                 "start": 265,
                 "end": 272
               },
-              "ctxt": 0,
-              "value": "toFixed",
-              "optional": false
+              "value": "toFixed"
             }
           },
           "arguments": [],

@@ -37,9 +37,7 @@
               "start": 13,
               "end": 19
             },
-            "ctxt": 0,
-            "value": "public",
-            "optional": false
+            "value": "public"
           },
           "function": {
             "params": [],
@@ -82,9 +80,7 @@
               "start": 27,
               "end": 33
             },
-            "ctxt": 0,
-            "value": "static",
-            "optional": false
+            "value": "static"
           },
           "function": {
             "params": [],
@@ -127,9 +123,7 @@
               "start": 49,
               "end": 55
             },
-            "ctxt": 0,
-            "value": "public",
-            "optional": false
+            "value": "public"
           },
           "function": {
             "params": [],
@@ -172,9 +166,7 @@
               "start": 70,
               "end": 76
             },
-            "ctxt": 0,
-            "value": "static",
-            "optional": false
+            "value": "static"
           },
           "function": {
             "params": [],
@@ -217,9 +209,7 @@
               "start": 99,
               "end": 105
             },
-            "ctxt": 0,
-            "value": "public",
-            "optional": false
+            "value": "public"
           },
           "function": {
             "params": [],
@@ -262,9 +252,7 @@
               "start": 127,
               "end": 133
             },
-            "ctxt": 0,
-            "value": "static",
-            "optional": false
+            "value": "static"
           },
           "function": {
             "params": [],
@@ -307,9 +295,7 @@
               "start": 151,
               "end": 157
             },
-            "ctxt": 0,
-            "value": "public",
-            "optional": false
+            "value": "public"
           },
           "function": {
             "params": [],
@@ -352,9 +338,7 @@
               "start": 172,
               "end": 178
             },
-            "ctxt": 0,
-            "value": "static",
-            "optional": false
+            "value": "static"
           },
           "function": {
             "params": [],

@@ -102,7 +102,7 @@ impl VisitMut for ConstPropagation<'_> {
         if let Prop::Shorthand(i) = p {
             if let Some(expr) = self.scope.find_var(&i.to_id()) {
                 *p = Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(i.take()),
+                    key: PropName::Ident(i.take().into()),
                     value: expr.clone(),
                 });
             }

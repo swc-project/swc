@@ -237,9 +237,7 @@
                         "start": 336,
                         "end": 350
                       },
-                      "ctxt": 0,
-                      "value": "DateTimeFormat",
-                      "optional": false
+                      "value": "DateTimeFormat"
                     }
                   },
                   "arguments": [
@@ -272,9 +270,7 @@
                                 "start": 366,
                                 "end": 374
                               },
-                              "ctxt": 0,
-                              "value": "timeZone",
-                              "optional": false
+                              "value": "timeZone"
                             },
                             "value": {
                               "type": "StringLiteral",
@@ -294,9 +290,7 @@
                                 "start": 403,
                                 "end": 415
                               },
-                              "ctxt": 0,
-                              "value": "timeZoneName",
-                              "optional": false
+                              "value": "timeZoneName"
                             },
                             "value": {
                               "type": "Identifier",
@@ -554,9 +548,7 @@
                         "start": 607,
                         "end": 624
                       },
-                      "ctxt": 0,
-                      "value": "supportedValuesOf",
-                      "optional": false
+                      "value": "supportedValuesOf"
                     }
                   },
                   "arguments": [

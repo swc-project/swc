@@ -2428,9 +2428,7 @@
                   "start": 1312,
                   "end": 1313
                 },
-                "ctxt": 0,
-                "value": "a",
-                "optional": false
+                "value": "a"
               }
             }
           }
@@ -2522,9 +2520,7 @@
                   "start": 1333,
                   "end": 1334
                 },
-                "ctxt": 0,
-                "value": "a",
-                "optional": false
+                "value": "a"
               }
             }
           },
@@ -2552,9 +2548,7 @@
                   "start": 1338,
                   "end": 1339
                 },
-                "ctxt": 0,
-                "value": "b",
-                "optional": false
+                "value": "b"
               }
             }
           }

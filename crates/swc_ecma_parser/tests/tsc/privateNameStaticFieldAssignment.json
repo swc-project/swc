@@ -71,9 +71,7 @@
               "start": 58,
               "end": 69
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -769,9 +767,7 @@
                             "start": 391,
                             "end": 399
                           },
-                          "ctxt": 0,
-                          "value": "getClass",
-                          "optional": false
+                          "value": "getClass"
                         }
                       },
                       "arguments": [],
@@ -845,9 +841,7 @@
                             "start": 424,
                             "end": 432
                           },
-                          "ctxt": 0,
-                          "value": "getClass",
-                          "optional": false
+                          "value": "getClass"
                         }
                       },
                       "arguments": [],
@@ -921,9 +915,7 @@
                             "start": 458,
                             "end": 466
                           },
-                          "ctxt": 0,
-                          "value": "getClass",
-                          "optional": false
+                          "value": "getClass"
                         }
                       },
                       "arguments": [],
@@ -997,9 +989,7 @@
                             "start": 492,
                             "end": 500
                           },
-                          "ctxt": 0,
-                          "value": "getClass",
-                          "optional": false
+                          "value": "getClass"
                         }
                       },
                       "arguments": [],
@@ -1073,9 +1063,7 @@
                             "start": 526,
                             "end": 534
                           },
-                          "ctxt": 0,
-                          "value": "getClass",
-                          "optional": false
+                          "value": "getClass"
                         }
                       },
                       "arguments": [],
@@ -1149,9 +1137,7 @@
                             "start": 560,
                             "end": 568
                           },
-                          "ctxt": 0,
-                          "value": "getClass",
-                          "optional": false
+                          "value": "getClass"
                         }
                       },
                       "arguments": [],
@@ -1225,9 +1211,7 @@
                             "start": 595,
                             "end": 603
                           },
-                          "ctxt": 0,
-                          "value": "getClass",
-                          "optional": false
+                          "value": "getClass"
                         }
                       },
                       "arguments": [],
@@ -1301,9 +1285,7 @@
                             "start": 629,
                             "end": 637
                           },
-                          "ctxt": 0,
-                          "value": "getClass",
-                          "optional": false
+                          "value": "getClass"
                         }
                       },
                       "arguments": [],
@@ -1377,9 +1359,7 @@
                             "start": 664,
                             "end": 672
                           },
-                          "ctxt": 0,
-                          "value": "getClass",
-                          "optional": false
+                          "value": "getClass"
                         }
                       },
                       "arguments": [],
@@ -1453,9 +1433,7 @@
                             "start": 699,
                             "end": 707
                           },
-                          "ctxt": 0,
-                          "value": "getClass",
-                          "optional": false
+                          "value": "getClass"
                         }
                       },
                       "arguments": [],
@@ -1529,9 +1507,7 @@
                             "start": 736,
                             "end": 744
                           },
-                          "ctxt": 0,
-                          "value": "getClass",
-                          "optional": false
+                          "value": "getClass"
                         }
                       },
                       "arguments": [],
@@ -1605,9 +1581,7 @@
                             "start": 771,
                             "end": 779
                           },
-                          "ctxt": 0,
-                          "value": "getClass",
-                          "optional": false
+                          "value": "getClass"
                         }
                       },
                       "arguments": [],
@@ -1681,9 +1655,7 @@
                             "start": 806,
                             "end": 814
                           },
-                          "ctxt": 0,
-                          "value": "getClass",
-                          "optional": false
+                          "value": "getClass"
                         }
                       },
                       "arguments": [],
@@ -1726,9 +1698,7 @@
               "start": 848,
               "end": 856
             },
-            "ctxt": 0,
-            "value": "getClass",
-            "optional": false
+            "value": "getClass"
           },
           "function": {
             "params": [],

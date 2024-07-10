@@ -120,9 +120,7 @@
                               "start": 72,
                               "end": 75
                             },
-                            "ctxt": 0,
-                            "value": "map",
-                            "optional": false
+                            "value": "map"
                           }
                         },
                         "arguments": [

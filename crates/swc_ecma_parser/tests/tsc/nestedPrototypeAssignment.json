@@ -40,9 +40,7 @@
               "start": 132,
               "end": 141
             },
-            "ctxt": 0,
-            "value": "prototype",
-            "optional": false
+            "value": "prototype"
           }
         },
         "right": {
@@ -102,9 +100,7 @@
                   "start": 149,
                   "end": 158
                 },
-                "ctxt": 0,
-                "value": "prototype",
-                "optional": false
+                "value": "prototype"
               }
             },
             "property": {
@@ -113,9 +109,7 @@
                 "start": 159,
                 "end": 162
               },
-              "ctxt": 0,
-              "value": "bar",
-              "optional": false
+              "value": "bar"
             }
           },
           "property": {
@@ -124,9 +118,7 @@
               "start": 163,
               "end": 166
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           }
         },
         "right": {

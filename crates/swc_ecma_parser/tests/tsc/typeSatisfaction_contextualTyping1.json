@@ -174,9 +174,7 @@
                       "start": 77,
                       "end": 83
                     },
-                    "ctxt": 0,
-                    "value": "isEven",
-                    "optional": false
+                    "value": "isEven"
                   },
                   "value": {
                     "type": "ArrowFunctionExpression",
@@ -256,9 +254,7 @@
                       "start": 107,
                       "end": 112
                     },
-                    "ctxt": 0,
-                    "value": "isOdd",
-                    "optional": false
+                    "value": "isOdd"
                   },
                   "value": {
                     "type": "ArrowFunctionExpression",

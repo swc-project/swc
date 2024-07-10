@@ -1736,9 +1736,7 @@
               "start": 2280,
               "end": 2281
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "value": null,
           "typeAnnotation": null,
@@ -1791,9 +1789,7 @@
               "start": 2322,
               "end": 2323
             },
-            "ctxt": 0,
-            "value": "q",
-            "optional": false
+            "value": "q"
           },
           "value": null,
           "typeAnnotation": null,
@@ -2566,9 +2562,7 @@
                       "start": 3179,
                       "end": 3180
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "NullLiteral",
@@ -2586,9 +2580,7 @@
                       "start": 3188,
                       "end": 3189
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   },
                   "value": {
                     "type": "Identifier",
@@ -3066,9 +3058,7 @@
               "start": 3654,
               "end": 3655
             },
-            "ctxt": 0,
-            "value": "r",
-            "optional": false
+            "value": "r"
           },
           "value": null,
           "typeAnnotation": {
@@ -3144,9 +3134,7 @@
               "start": 3696,
               "end": 3697
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": null,
@@ -3392,9 +3380,7 @@
                           "start": 4056,
                           "end": 4064
                         },
-                        "ctxt": 0,
-                        "value": "toString",
-                        "optional": false
+                        "value": "toString"
                       }
                     },
                     "arguments": [],

@@ -463,9 +463,7 @@
                     "start": 233,
                     "end": 234
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 },
                 "value": {
                   "type": "Identifier",

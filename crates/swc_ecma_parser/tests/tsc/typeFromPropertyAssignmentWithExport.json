@@ -86,9 +86,7 @@
               "start": 142,
               "end": 146
             },
-            "ctxt": 0,
-            "value": "prop",
-            "optional": false
+            "value": "prop"
           }
         },
         "right": {
@@ -136,9 +134,7 @@
               "start": 196,
               "end": 207
             },
-            "ctxt": 0,
-            "value": "asyncMethod",
-            "optional": false
+            "value": "asyncMethod"
           }
         },
         "right": {

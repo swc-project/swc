@@ -87,9 +87,7 @@
               "start": 275,
               "end": 276
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "function": {
             "params": [],

@@ -94,9 +94,7 @@
                           "start": 66,
                           "end": 77
                         },
-                        "ctxt": 0,
-                        "value": "constructor",
-                        "optional": false
+                        "value": "constructor"
                       },
                       "params": [
                         {
@@ -391,9 +389,7 @@
                       "start": 210,
                       "end": 211
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   }
                 },
                 "definite": false
@@ -449,9 +445,7 @@
                       "start": 227,
                       "end": 228
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   }
                 },
                 "definite": false
@@ -587,9 +581,7 @@
                           "start": 314,
                           "end": 315
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "Identifier",
@@ -625,9 +617,7 @@
                           "start": 333,
                           "end": 344
                         },
-                        "ctxt": 0,
-                        "value": "constructor",
-                        "optional": false
+                        "value": "constructor"
                       },
                       "params": [
                         {
@@ -887,9 +877,7 @@
                       "start": 457,
                       "end": 458
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   }
                 },
                 "definite": false
@@ -945,9 +933,7 @@
                       "start": 474,
                       "end": 475
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   }
                 },
                 "definite": false
@@ -1116,9 +1102,7 @@
                           "start": 572,
                           "end": 573
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "Identifier",
@@ -1153,9 +1137,7 @@
                           "start": 598,
                           "end": 599
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       },
                       "value": {
                         "type": "Identifier",
@@ -1385,9 +1367,7 @@
                       "start": 697,
                       "end": 698
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   }
                 },
                 "definite": false
@@ -1443,9 +1423,7 @@
                       "start": 714,
                       "end": 715
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   }
                 },
                 "definite": false

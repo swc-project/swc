@@ -292,9 +292,7 @@
               "start": 77,
               "end": 78
             },
-            "ctxt": 0,
-            "value": "A",
-            "optional": false
+            "value": "A"
           }
         }
       }
@@ -417,9 +415,7 @@
               "start": 101,
               "end": 102
             },
-            "ctxt": 0,
-            "value": "A",
-            "optional": false
+            "value": "A"
           }
         }
       }
@@ -506,9 +502,7 @@
               "start": 118,
               "end": 119
             },
-            "ctxt": 0,
-            "value": "A",
-            "optional": false
+            "value": "A"
           }
         }
       }
@@ -559,9 +553,7 @@
               "start": 127,
               "end": 128
             },
-            "ctxt": 0,
-            "value": "B",
-            "optional": false
+            "value": "B"
           }
         }
       }

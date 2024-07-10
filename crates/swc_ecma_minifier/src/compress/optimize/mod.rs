@@ -2235,7 +2235,7 @@ impl VisitMut for Optimizer<'_> {
         let ctx = Ctx {
             dont_use_prepend_nor_append: contains_leaping_continue_with_label(
                 &n.body,
-                n.label.to_id(),
+                n.label.sym.clone(),
             ),
             ..self.ctx
         };
@@ -2397,7 +2397,7 @@ impl VisitMut for Optimizer<'_> {
                 e.visit_mut_with(self);
 
                 *n = Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(i.clone()),
+                    key: PropName::Ident(i.clone().into()),
                     value: e,
                 });
             }

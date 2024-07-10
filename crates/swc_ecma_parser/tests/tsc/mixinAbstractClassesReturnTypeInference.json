@@ -102,9 +102,7 @@
               "start": 133,
               "end": 151
             },
-            "ctxt": 0,
-            "value": "abstractBaseMethod",
-            "optional": false
+            "value": "abstractBaseMethod"
           },
           "function": {
             "params": [],
@@ -252,9 +250,7 @@
                     "start": 476,
                     "end": 487
                   },
-                  "ctxt": 0,
-                  "value": "mixinMethod",
-                  "optional": false
+                  "value": "mixinMethod"
                 },
                 "function": {
                   "params": [],
@@ -311,9 +307,7 @@
                     "start": 514,
                     "end": 531
                   },
-                  "ctxt": 0,
-                  "value": "staticMixinMethod",
-                  "optional": false
+                  "value": "staticMixinMethod"
                 },
                 "function": {
                   "params": [],
@@ -548,9 +542,7 @@
               "start": 637,
               "end": 655
             },
-            "ctxt": 0,
-            "value": "abstractBaseMethod",
-            "optional": false
+            "value": "abstractBaseMethod"
           },
           "function": {
             "params": [],

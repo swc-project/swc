@@ -37,9 +37,7 @@
               "start": 72,
               "end": 73
             },
-            "ctxt": 0,
-            "value": "p",
-            "optional": false
+            "value": "p"
           },
           "function": {
             "params": [],
@@ -127,9 +125,7 @@
               "start": 121,
               "end": 132
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {

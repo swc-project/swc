@@ -62,9 +62,7 @@
                     "start": 67,
                     "end": 68
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 },
                 "function": {
                   "params": [],
@@ -163,9 +161,7 @@
                     "start": 129,
                     "end": 130
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 },
                 "function": {
                   "params": [
@@ -355,9 +351,7 @@
                     "start": 180,
                     "end": 181
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 }
               },
               "right": {
@@ -382,9 +376,7 @@
                     "start": 186,
                     "end": 187
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 }
               }
             }
@@ -470,9 +462,7 @@
                     "start": 250,
                     "end": 255
                   },
-                  "ctxt": 0,
-                  "value": "value",
-                  "optional": false
+                  "value": "value"
                 },
                 "function": {
                   "params": [],
@@ -545,9 +535,7 @@
                     "start": 319,
                     "end": 324
                   },
-                  "ctxt": 0,
-                  "value": "value",
-                  "optional": false
+                  "value": "value"
                 },
                 "function": {
                   "params": [
@@ -744,9 +732,7 @@
                     "start": 410,
                     "end": 415
                   },
-                  "ctxt": 0,
-                  "value": "value",
-                  "optional": false
+                  "value": "value"
                 }
               },
               "right": {

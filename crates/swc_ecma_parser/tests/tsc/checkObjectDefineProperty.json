@@ -79,9 +79,7 @@
               "start": 115,
               "end": 129
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -127,9 +125,7 @@
                       "start": 143,
                       "end": 148
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -149,9 +145,7 @@
                       "start": 161,
                       "end": 169
                     },
-                    "ctxt": 0,
-                    "value": "writable",
-                    "optional": false
+                    "value": "writable"
                   },
                   "value": {
                     "type": "BooleanLiteral",
@@ -204,9 +198,7 @@
               "start": 187,
               "end": 201
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -252,9 +244,7 @@
                       "start": 221,
                       "end": 226
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -308,9 +298,7 @@
               "start": 243,
               "end": 257
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -356,9 +344,7 @@
                       "start": 275,
                       "end": 280
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -378,9 +364,7 @@
                       "start": 291,
                       "end": 299
                     },
-                    "ctxt": 0,
-                    "value": "writable",
-                    "optional": false
+                    "value": "writable"
                   },
                   "value": {
                     "type": "BooleanLiteral",
@@ -433,9 +417,7 @@
               "start": 318,
               "end": 332
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -481,9 +463,7 @@
                       "start": 345,
                       "end": 348
                     },
-                    "ctxt": 0,
-                    "value": "get",
-                    "optional": false
+                    "value": "get"
                   },
                   "params": [],
                   "decorators": [],
@@ -531,9 +511,7 @@
                       "start": 369,
                       "end": 372
                     },
-                    "ctxt": 0,
-                    "value": "set",
-                    "optional": false
+                    "value": "set"
                   },
                   "params": [
                     {
@@ -618,9 +596,7 @@
               "start": 402,
               "end": 416
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -666,9 +642,7 @@
                       "start": 437,
                       "end": 440
                     },
-                    "ctxt": 0,
-                    "value": "get",
-                    "optional": false
+                    "value": "get"
                   },
                   "params": [],
                   "decorators": [],
@@ -750,9 +724,7 @@
               "start": 471,
               "end": 485
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -798,9 +770,7 @@
                       "start": 536,
                       "end": 539
                     },
-                    "ctxt": 0,
-                    "value": "set",
-                    "optional": false
+                    "value": "set"
                   },
                   "params": [
                     {
@@ -869,9 +839,7 @@
                                 "start": 560,
                                 "end": 563
                               },
-                              "ctxt": 0,
-                              "value": "zip",
-                              "optional": false
+                              "value": "zip"
                             }
                           },
                           "right": {
@@ -1000,9 +968,7 @@
                   "start": 671,
                   "end": 675
                 },
-                "ctxt": 0,
-                "value": "name",
-                "optional": false
+                "value": "name"
               }
             }
           }
@@ -1103,9 +1069,7 @@
                 "start": 729,
                 "end": 732
               },
-              "ctxt": 0,
-              "value": "zip",
-              "optional": false
+              "value": "zip"
             }
           },
           "definite": false
@@ -1161,9 +1125,7 @@
                 "start": 771,
                 "end": 782
               },
-              "ctxt": 0,
-              "value": "houseNumber",
-              "optional": false
+              "value": "houseNumber"
             }
           },
           "definite": false
@@ -1590,9 +1552,7 @@
               "start": 1214,
               "end": 1221
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -1670,9 +1630,7 @@
             "start": 1379,
             "end": 1383
           },
-          "ctxt": 0,
-          "value": "name",
-          "optional": false
+          "value": "name"
         }
       }
     },
@@ -1704,9 +1662,7 @@
             "start": 1387,
             "end": 1397
           },
-          "ctxt": 0,
-          "value": "middleInit",
-          "optional": false
+          "value": "middleInit"
         }
       }
     },
@@ -1738,9 +1694,7 @@
             "start": 1401,
             "end": 1409
           },
-          "ctxt": 0,
-          "value": "lastName",
-          "optional": false
+          "value": "lastName"
         }
       }
     },
@@ -1772,9 +1726,7 @@
             "start": 1413,
             "end": 1416
           },
-          "ctxt": 0,
-          "value": "zip",
-          "optional": false
+          "value": "zip"
         }
       }
     },
@@ -1806,9 +1758,7 @@
             "start": 1420,
             "end": 1431
           },
-          "ctxt": 0,
-          "value": "houseNumber",
-          "optional": false
+          "value": "houseNumber"
         }
       }
     },
@@ -1840,9 +1790,7 @@
             "start": 1435,
             "end": 1441
           },
-          "ctxt": 0,
-          "value": "zipStr",
-          "optional": false
+          "value": "zipStr"
         }
       }
     },
@@ -1881,9 +1829,7 @@
               "start": 1446,
               "end": 1450
             },
-            "ctxt": 0,
-            "value": "name",
-            "optional": false
+            "value": "name"
           }
         },
         "right": {
@@ -1932,9 +1878,7 @@
               "start": 1466,
               "end": 1469
             },
-            "ctxt": 0,
-            "value": "zip",
-            "optional": false
+            "value": "zip"
           }
         },
         "right": {
@@ -1983,9 +1927,7 @@
               "start": 1481,
               "end": 1487
             },
-            "ctxt": 0,
-            "value": "zipStr",
-            "optional": false
+            "value": "zipStr"
           }
         },
         "right": {
@@ -2034,9 +1976,7 @@
               "start": 1499,
               "end": 1507
             },
-            "ctxt": 0,
-            "value": "lastName",
-            "optional": false
+            "value": "lastName"
           }
         },
         "right": {
@@ -2085,9 +2025,7 @@
               "start": 1527,
               "end": 1538
             },
-            "ctxt": 0,
-            "value": "houseNumber",
-            "optional": false
+            "value": "houseNumber"
           }
         },
         "right": {
@@ -2136,9 +2074,7 @@
               "start": 1567,
               "end": 1573
             },
-            "ctxt": 0,
-            "value": "zipStr",
-            "optional": false
+            "value": "zipStr"
           }
         },
         "right": {
@@ -2187,9 +2123,7 @@
               "start": 1597,
               "end": 1607
             },
-            "ctxt": 0,
-            "value": "middleInit",
-            "optional": false
+            "value": "middleInit"
           }
         },
         "right": {

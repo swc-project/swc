@@ -37,9 +37,7 @@
               "start": 29,
               "end": 30
             },
-            "ctxt": 0,
-            "value": "p",
-            "optional": false
+            "value": "p"
           },
           "value": {
             "type": "NumericLiteral",
@@ -87,9 +85,7 @@
               "start": 60,
               "end": 62
             },
-            "ctxt": 0,
-            "value": "pp",
-            "optional": false
+            "value": "pp"
           },
           "value": {
             "type": "NumericLiteral",
@@ -137,9 +133,7 @@
               "start": 89,
               "end": 92
             },
-            "ctxt": 0,
-            "value": "ppp",
-            "optional": false
+            "value": "ppp"
           },
           "value": {
             "type": "NumericLiteral",
@@ -187,9 +181,7 @@
               "start": 127,
               "end": 129
             },
-            "ctxt": 0,
-            "value": "sp",
-            "optional": false
+            "value": "sp"
           },
           "value": {
             "type": "NumericLiteral",
@@ -237,9 +229,7 @@
               "start": 166,
               "end": 169
             },
-            "ctxt": 0,
-            "value": "spp",
-            "optional": false
+            "value": "spp"
           },
           "value": {
             "type": "NumericLiteral",
@@ -287,9 +277,7 @@
               "start": 203,
               "end": 207
             },
-            "ctxt": 0,
-            "value": "sppp",
-            "optional": false
+            "value": "sppp"
           },
           "value": {
             "type": "NumericLiteral",
@@ -579,9 +567,7 @@
               "start": 386,
               "end": 387
             },
-            "ctxt": 0,
-            "value": "p",
-            "optional": false
+            "value": "p"
           },
           "value": null,
           "typeAnnotation": {
@@ -631,9 +617,7 @@
               "start": 406,
               "end": 408
             },
-            "ctxt": 0,
-            "value": "pp",
-            "optional": false
+            "value": "pp"
           },
           "value": null,
           "typeAnnotation": {
@@ -683,9 +667,7 @@
               "start": 424,
               "end": 427
             },
-            "ctxt": 0,
-            "value": "ppp",
-            "optional": false
+            "value": "ppp"
           },
           "value": null,
           "typeAnnotation": {
@@ -735,9 +717,7 @@
               "start": 451,
               "end": 453
             },
-            "ctxt": 0,
-            "value": "sp",
-            "optional": false
+            "value": "sp"
           },
           "value": null,
           "typeAnnotation": {
@@ -777,9 +757,7 @@
               "start": 484,
               "end": 487
             },
-            "ctxt": 0,
-            "value": "spp",
-            "optional": false
+            "value": "spp"
           },
           "value": null,
           "typeAnnotation": {
@@ -819,9 +797,7 @@
               "start": 515,
               "end": 519
             },
-            "ctxt": 0,
-            "value": "sppp",
-            "optional": false
+            "value": "sppp"
           },
           "value": null,
           "typeAnnotation": {
@@ -927,9 +903,7 @@
                 "start": 540,
                 "end": 549
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -938,9 +912,7 @@
               "start": 550,
               "end": 560
             },
-            "ctxt": 0,
-            "value": "extension1",
-            "optional": false
+            "value": "extension1"
           }
         },
         "right": {
@@ -1070,9 +1042,7 @@
                         "start": 611,
                         "end": 612
                       },
-                      "ctxt": 0,
-                      "value": "p",
-                      "optional": false
+                      "value": "p"
                     }
                   },
                   "right": {
@@ -1119,9 +1089,7 @@
                         "start": 627,
                         "end": 629
                       },
-                      "ctxt": 0,
-                      "value": "pp",
-                      "optional": false
+                      "value": "pp"
                     }
                   },
                   "right": {
@@ -1168,9 +1136,7 @@
                         "start": 644,
                         "end": 647
                       },
-                      "ctxt": 0,
-                      "value": "ppp",
-                      "optional": false
+                      "value": "ppp"
                     }
                   },
                   "right": {
@@ -1220,9 +1186,7 @@
                         "start": 665,
                         "end": 667
                       },
-                      "ctxt": 0,
-                      "value": "sp",
-                      "optional": false
+                      "value": "sp"
                     }
                   },
                   "right": {
@@ -1272,9 +1236,7 @@
                         "start": 685,
                         "end": 688
                       },
-                      "ctxt": 0,
-                      "value": "spp",
-                      "optional": false
+                      "value": "spp"
                     }
                   },
                   "right": {
@@ -1324,9 +1286,7 @@
                         "start": 706,
                         "end": 710
                       },
-                      "ctxt": 0,
-                      "value": "sppp",
-                      "optional": false
+                      "value": "sppp"
                     }
                   },
                   "right": {
@@ -1391,9 +1351,7 @@
                 "start": 727,
                 "end": 736
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -1402,9 +1360,7 @@
               "start": 737,
               "end": 747
             },
-            "ctxt": 0,
-            "value": "extension2",
-            "optional": false
+            "value": "extension2"
           }
         },
         "right": {
@@ -1534,9 +1490,7 @@
                         "start": 811,
                         "end": 812
                       },
-                      "ctxt": 0,
-                      "value": "p",
-                      "optional": false
+                      "value": "p"
                     }
                   },
                   "right": {
@@ -1583,9 +1537,7 @@
                         "start": 827,
                         "end": 829
                       },
-                      "ctxt": 0,
-                      "value": "pp",
-                      "optional": false
+                      "value": "pp"
                     }
                   },
                   "right": {
@@ -1632,9 +1584,7 @@
                         "start": 844,
                         "end": 847
                       },
-                      "ctxt": 0,
-                      "value": "ppp",
-                      "optional": false
+                      "value": "ppp"
                     }
                   },
                   "right": {
@@ -1684,9 +1634,7 @@
                         "start": 865,
                         "end": 867
                       },
-                      "ctxt": 0,
-                      "value": "sp",
-                      "optional": false
+                      "value": "sp"
                     }
                   },
                   "right": {
@@ -1736,9 +1684,7 @@
                         "start": 885,
                         "end": 888
                       },
-                      "ctxt": 0,
-                      "value": "spp",
-                      "optional": false
+                      "value": "spp"
                     }
                   },
                   "right": {
@@ -1788,9 +1734,7 @@
                         "start": 906,
                         "end": 910
                       },
-                      "ctxt": 0,
-                      "value": "sppp",
-                      "optional": false
+                      "value": "sppp"
                     }
                   },
                   "right": {
@@ -1998,9 +1942,7 @@
                     "start": 991,
                     "end": 992
                   },
-                  "ctxt": 0,
-                  "value": "p",
-                  "optional": false
+                  "value": "p"
                 }
               },
               "right": {
@@ -2047,9 +1989,7 @@
                     "start": 1007,
                     "end": 1009
                   },
-                  "ctxt": 0,
-                  "value": "pp",
-                  "optional": false
+                  "value": "pp"
                 }
               },
               "right": {
@@ -2096,9 +2036,7 @@
                     "start": 1024,
                     "end": 1027
                   },
-                  "ctxt": 0,
-                  "value": "ppp",
-                  "optional": false
+                  "value": "ppp"
                 }
               },
               "right": {
@@ -2148,9 +2086,7 @@
                     "start": 1045,
                     "end": 1047
                   },
-                  "ctxt": 0,
-                  "value": "sp",
-                  "optional": false
+                  "value": "sp"
                 }
               },
               "right": {
@@ -2200,9 +2136,7 @@
                     "start": 1065,
                     "end": 1068
                   },
-                  "ctxt": 0,
-                  "value": "spp",
-                  "optional": false
+                  "value": "spp"
                 }
               },
               "right": {
@@ -2252,9 +2186,7 @@
                     "start": 1086,
                     "end": 1090
                   },
-                  "ctxt": 0,
-                  "value": "sppp",
-                  "optional": false
+                  "value": "sppp"
                 }
               },
               "right": {
@@ -2364,9 +2296,7 @@
                 "start": 1107,
                 "end": 1116
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -2375,9 +2305,7 @@
               "start": 1117,
               "end": 1127
             },
-            "ctxt": 0,
-            "value": "extension3",
-            "optional": false
+            "value": "extension3"
           }
         },
         "right": {
@@ -2565,9 +2493,7 @@
                     "start": 1223,
                     "end": 1224
                   },
-                  "ctxt": 0,
-                  "value": "p",
-                  "optional": false
+                  "value": "p"
                 }
               },
               "right": {
@@ -2614,9 +2540,7 @@
                     "start": 1239,
                     "end": 1241
                   },
-                  "ctxt": 0,
-                  "value": "pp",
-                  "optional": false
+                  "value": "pp"
                 }
               },
               "right": {
@@ -2663,9 +2587,7 @@
                     "start": 1256,
                     "end": 1259
                   },
-                  "ctxt": 0,
-                  "value": "ppp",
-                  "optional": false
+                  "value": "ppp"
                 }
               },
               "right": {
@@ -2715,9 +2637,7 @@
                     "start": 1284,
                     "end": 1286
                   },
-                  "ctxt": 0,
-                  "value": "sp",
-                  "optional": false
+                  "value": "sp"
                 }
               },
               "right": {
@@ -2767,9 +2687,7 @@
                     "start": 1311,
                     "end": 1314
                   },
-                  "ctxt": 0,
-                  "value": "spp",
-                  "optional": false
+                  "value": "spp"
                 }
               },
               "right": {
@@ -2819,9 +2737,7 @@
                     "start": 1339,
                     "end": 1343
                   },
-                  "ctxt": 0,
-                  "value": "sppp",
-                  "optional": false
+                  "value": "sppp"
                 }
               },
               "right": {

@@ -70,9 +70,7 @@
               "start": 59,
               "end": 68
             },
-            "ctxt": 0,
-            "value": "something",
-            "optional": false
+            "value": "something"
           },
           "function": {
             "params": [
@@ -301,9 +299,7 @@
                                           "start": 143,
                                           "end": 144
                                         },
-                                        "ctxt": 0,
-                                        "value": "s",
-                                        "optional": false
+                                        "value": "s"
                                       },
                                       "value": {
                                         "type": "StringLiteral",
@@ -342,9 +338,7 @@
                                 "start": 158,
                                 "end": 159
                               },
-                              "ctxt": 0,
-                              "value": "s",
-                              "optional": false
+                              "value": "s"
                             }
                           }
                         }
@@ -484,9 +478,7 @@
                                           "start": 211,
                                           "end": 212
                                         },
-                                        "ctxt": 0,
-                                        "value": "s",
-                                        "optional": false
+                                        "value": "s"
                                       },
                                       "value": {
                                         "type": "StringLiteral",
@@ -525,9 +517,7 @@
                                 "start": 226,
                                 "end": 227
                               },
-                              "ctxt": 0,
-                              "value": "s",
-                              "optional": false
+                              "value": "s"
                             }
                           }
                         }

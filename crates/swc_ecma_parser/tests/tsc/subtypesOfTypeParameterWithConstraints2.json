@@ -1737,9 +1737,7 @@
               "start": 777,
               "end": 780
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -1806,9 +1804,7 @@
               "start": 806,
               "end": 809
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -2063,9 +2059,7 @@
               "start": 893,
               "end": 896
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           },
           "value": null,
           "typeAnnotation": {
@@ -4043,9 +4037,7 @@
                             "start": 1790,
                             "end": 1793
                           },
-                          "ctxt": 0,
-                          "value": "foo",
-                          "optional": false
+                          "value": "foo"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -4140,9 +4132,7 @@
                             "start": 1836,
                             "end": 1839
                           },
-                          "ctxt": 0,
-                          "value": "foo",
-                          "optional": false
+                          "value": "foo"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -6302,9 +6292,7 @@
                         "start": 2711,
                         "end": 2712
                       },
-                      "ctxt": 0,
-                      "value": "A",
-                      "optional": false
+                      "value": "A"
                     }
                   },
                   "alternate": {
@@ -6395,9 +6383,7 @@
                         "start": 2751,
                         "end": 2752
                       },
-                      "ctxt": 0,
-                      "value": "A",
-                      "optional": false
+                      "value": "A"
                     }
                   }
                 },

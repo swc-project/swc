@@ -78,9 +78,7 @@
                             "start": 99,
                             "end": 100
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -100,9 +98,7 @@
                             "start": 105,
                             "end": 106
                           },
-                          "ctxt": 0,
-                          "value": "y",
-                          "optional": false
+                          "value": "y"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -297,9 +293,7 @@
                           "start": 214,
                           "end": 215
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -319,9 +313,7 @@
                           "start": 220,
                           "end": 221
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -575,9 +567,7 @@
                       "start": 409,
                       "end": 413
                     },
-                    "ctxt": 0,
-                    "value": "name",
-                    "optional": false
+                    "value": "name"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -661,6 +651,10 @@
             },
             "moduleRef": {
               "type": "TsQualifiedName",
+              "span": {
+                "start": 458,
+                "end": 461
+              },
               "left": {
                 "type": "Identifier",
                 "span": {
@@ -677,9 +671,7 @@
                   "start": 460,
                   "end": 461
                 },
-                "ctxt": 0,
-                "value": "Y",
-                "optional": false
+                "value": "Y"
               }
             }
           },
@@ -833,6 +825,10 @@
             },
             "moduleRef": {
               "type": "TsQualifiedName",
+              "span": {
+                "start": 558,
+                "end": 561
+              },
               "left": {
                 "type": "Identifier",
                 "span": {
@@ -849,9 +845,7 @@
                   "start": 560,
                   "end": 561
                 },
-                "ctxt": 0,
-                "value": "A",
-                "optional": false
+                "value": "A"
               }
             }
           },
@@ -937,6 +931,10 @@
             },
             "moduleRef": {
               "type": "TsQualifiedName",
+              "span": {
+                "start": 613,
+                "end": 616
+              },
               "left": {
                 "type": "Identifier",
                 "span": {
@@ -953,9 +951,7 @@
                   "start": 615,
                   "end": 616
                 },
-                "ctxt": 0,
-                "value": "A",
-                "optional": false
+                "value": "A"
               }
             }
           }
@@ -1081,6 +1077,10 @@
             },
             "moduleRef": {
               "type": "TsQualifiedName",
+              "span": {
+                "start": 693,
+                "end": 696
+              },
               "left": {
                 "type": "Identifier",
                 "span": {
@@ -1097,9 +1097,7 @@
                   "start": 695,
                   "end": 696
                 },
-                "ctxt": 0,
-                "value": "Q",
-                "optional": false
+                "value": "Q"
               }
             }
           },
@@ -1185,6 +1183,10 @@
             },
             "moduleRef": {
               "type": "TsQualifiedName",
+              "span": {
+                "start": 751,
+                "end": 754
+              },
               "left": {
                 "type": "Identifier",
                 "span": {
@@ -1201,9 +1203,7 @@
                   "start": 753,
                   "end": 754
                 },
-                "ctxt": 0,
-                "value": "Q",
-                "optional": false
+                "value": "Q"
               }
             }
           },

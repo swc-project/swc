@@ -63,9 +63,7 @@
                     "start": 43,
                     "end": 54
                   },
-                  "ctxt": 0,
-                  "value": "constructor",
-                  "optional": false
+                  "value": "constructor"
                 },
                 "params": [
                   {
@@ -269,9 +267,7 @@
                     "start": 161,
                     "end": 172
                   },
-                  "ctxt": 0,
-                  "value": "constructor",
-                  "optional": false
+                  "value": "constructor"
                 },
                 "params": [
                   {
@@ -325,9 +321,7 @@
                     "start": 193,
                     "end": 204
                   },
-                  "ctxt": 0,
-                  "value": "constructor",
-                  "optional": false
+                  "value": "constructor"
                 },
                 "params": [
                   {
@@ -381,9 +375,7 @@
                     "start": 225,
                     "end": 236
                   },
-                  "ctxt": 0,
-                  "value": "constructor",
-                  "optional": false
+                  "value": "constructor"
                 },
                 "params": [
                   {
@@ -893,9 +885,7 @@
                     "start": 513,
                     "end": 524
                   },
-                  "ctxt": 0,
-                  "value": "constructor",
-                  "optional": false
+                  "value": "constructor"
                 },
                 "params": [
                   {
@@ -1139,9 +1129,7 @@
                     "start": 631,
                     "end": 642
                   },
-                  "ctxt": 0,
-                  "value": "constructor",
-                  "optional": false
+                  "value": "constructor"
                 },
                 "params": [
                   {
@@ -1205,9 +1193,7 @@
                     "start": 658,
                     "end": 669
                   },
-                  "ctxt": 0,
-                  "value": "constructor",
-                  "optional": false
+                  "value": "constructor"
                 },
                 "params": [
                   {
@@ -1314,9 +1300,7 @@
                     "start": 691,
                     "end": 702
                   },
-                  "ctxt": 0,
-                  "value": "constructor",
-                  "optional": false
+                  "value": "constructor"
                 },
                 "params": [
                   {

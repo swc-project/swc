@@ -66,9 +66,7 @@
               "start": 127,
               "end": 134
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -86,9 +84,7 @@
                   "start": 139,
                   "end": 142
                 },
-                "ctxt": 0,
-                "value": "Foo",
-                "optional": false
+                "value": "Foo"
               },
               "value": {
                 "type": "Identifier",

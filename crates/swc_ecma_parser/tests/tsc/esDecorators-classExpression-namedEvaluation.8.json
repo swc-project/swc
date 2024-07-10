@@ -179,9 +179,7 @@
                   "start": 416,
                   "end": 417
                 },
-                "ctxt": 0,
-                "value": "y",
-                "optional": false
+                "value": "y"
               },
               "value": null,
               "typeAnnotation": {

@@ -83,9 +83,7 @@
               "start": 128,
               "end": 134
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           },
           "function": {
             "params": [
@@ -306,9 +304,7 @@
                         "start": 242,
                         "end": 248
                       },
-                      "ctxt": 0,
-                      "value": "method",
-                      "optional": false
+                      "value": "method"
                     }
                   },
                   "arguments": [],
@@ -442,9 +438,7 @@
                         "start": 319,
                         "end": 325
                       },
-                      "ctxt": 0,
-                      "value": "method",
-                      "optional": false
+                      "value": "method"
                     }
                   },
                   "typeParameters": null,

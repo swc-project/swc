@@ -141,9 +141,7 @@
                   "start": 117,
                   "end": 123
                 },
-                "ctxt": 0,
-                "value": "length",
-                "optional": false
+                "value": "length"
               }
             }
           }
@@ -4035,9 +4033,7 @@
                                 "start": 2365,
                                 "end": 2371
                               },
-                              "ctxt": 0,
-                              "value": "length",
-                              "optional": false
+                              "value": "length"
                             }
                           },
                           "right": {

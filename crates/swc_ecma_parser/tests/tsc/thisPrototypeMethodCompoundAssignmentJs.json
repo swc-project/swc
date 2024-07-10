@@ -46,9 +46,7 @@
                 "start": 104,
                 "end": 113
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -57,9 +55,7 @@
               "start": 114,
               "end": 120
             },
-            "ctxt": 0,
-            "value": "remove",
-            "optional": false
+            "value": "remove"
           }
         },
         "right": {
@@ -132,9 +128,7 @@
                               "start": 146,
                               "end": 156
                             },
-                            "ctxt": 0,
-                            "value": "parentNode",
-                            "optional": false
+                            "value": "parentNode"
                           }
                         },
                         "property": {
@@ -143,9 +137,7 @@
                             "start": 158,
                             "end": 169
                           },
-                          "ctxt": 0,
-                          "value": "removeChild",
-                          "optional": false
+                          "value": "removeChild"
                         }
                       }
                     },
@@ -215,9 +207,7 @@
                 "start": 211,
                 "end": 220
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -226,9 +216,7 @@
               "start": 221,
               "end": 227
             },
-            "ctxt": 0,
-            "value": "remove",
-            "optional": false
+            "value": "remove"
           }
         },
         "right": {
@@ -301,9 +289,7 @@
                               "start": 253,
                               "end": 263
                             },
-                            "ctxt": 0,
-                            "value": "parentNode",
-                            "optional": false
+                            "value": "parentNode"
                           }
                         },
                         "property": {
@@ -312,9 +298,7 @@
                             "start": 265,
                             "end": 276
                           },
-                          "ctxt": 0,
-                          "value": "removeChild",
-                          "optional": false
+                          "value": "removeChild"
                         }
                       }
                     },

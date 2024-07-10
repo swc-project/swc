@@ -743,9 +743,7 @@
                     "start": 1683,
                     "end": 1684
                   },
-                  "ctxt": 0,
-                  "value": "z",
-                  "optional": false
+                  "value": "z"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -882,9 +880,7 @@
                     "start": 1786,
                     "end": 1789
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -1021,9 +1017,7 @@
                     "start": 1950,
                     "end": 1953
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "value": {
                   "type": "StringLiteral",
@@ -1134,9 +1128,7 @@
                     "start": 2035,
                     "end": 2036
                   },
-                  "ctxt": 0,
-                  "value": "z",
-                  "optional": false
+                  "value": "z"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -1187,9 +1179,7 @@
                           "start": 2045,
                           "end": 2053
                         },
-                        "ctxt": 0,
-                        "value": "toString",
-                        "optional": false
+                        "value": "toString"
                       }
                     },
                     "arguments": [],
@@ -1300,9 +1290,7 @@
                     "start": 2149,
                     "end": 2150
                   },
-                  "ctxt": 0,
-                  "value": "z",
-                  "optional": false
+                  "value": "z"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -1879,9 +1867,7 @@
                           "start": 2824,
                           "end": 2832
                         },
-                        "ctxt": 0,
-                        "value": "toString",
-                        "optional": false
+                        "value": "toString"
                       }
                     },
                     "arguments": [],

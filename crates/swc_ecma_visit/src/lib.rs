@@ -1001,7 +1001,7 @@ define!({
         pub prop: MemberProp,
     }
     pub enum MemberProp {
-        Ident(Ident),
+        Ident(IdentName),
         PrivateName(PrivateName),
         Computed(ComputedPropName),
     }
@@ -1011,7 +1011,7 @@ define!({
         pub prop: SuperProp,
     }
     pub enum SuperProp {
-        Ident(Ident),
+        Ident(IdentName),
         Computed(ComputedPropName),
     }
     pub struct CondExpr {
@@ -1182,6 +1182,11 @@ define!({
         pub optional: bool,
     }
 
+    pub struct IdentName {
+        pub span: Span,
+        pub sym: Atom,
+    }
+
     pub struct PrivateName {
         pub span: Span,
         pub name: Atom,
@@ -1192,12 +1197,14 @@ define!({
         Ident(Ident),
     }
     pub struct JSXMemberExpr {
+        pub span: Span,
         pub obj: JSXObject,
-        pub prop: Ident,
+        pub prop: IdentName,
     }
     pub struct JSXNamespacedName {
-        pub ns: Ident,
-        pub name: Ident,
+        pub span: Span,
+        pub ns: IdentName,
+        pub name: IdentName,
     }
     pub struct JSXEmptyExpr {
         pub span: Span,
@@ -1240,7 +1247,7 @@ define!({
         pub value: Option<JSXAttrValue>,
     }
     pub enum JSXAttrName {
-        Ident(Ident),
+        Ident(IdentName),
         JSXNamespacedName(JSXNamespacedName),
     }
     pub enum JSXAttrValue {
@@ -1546,6 +1553,7 @@ define!({
         pub value: Box<Expr>,
     }
     pub struct AssignProp {
+        pub span: Span,
         pub key: Ident,
         pub value: Box<Expr>,
     }
@@ -1567,7 +1575,7 @@ define!({
         pub function: Box<Function>,
     }
     pub enum PropName {
-        Ident(Ident),
+        Ident(IdentName),
         Str(Str),
         Num(Number),
         BigInt(BigInt),
@@ -1739,8 +1747,9 @@ define!({
         Assign(AssignPat),
     }
     pub struct TsQualifiedName {
+        pub span: Span,
         pub left: TsEntityName,
-        pub right: Ident,
+        pub right: IdentName,
     }
     pub enum TsEntityName {
         TsQualifiedName(Box<TsQualifiedName>),

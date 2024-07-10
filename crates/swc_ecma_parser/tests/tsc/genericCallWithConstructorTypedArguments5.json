@@ -201,9 +201,7 @@
                     "start": 226,
                     "end": 228
                   },
-                  "ctxt": 0,
-                  "value": "cb",
-                  "optional": false
+                  "value": "cb"
                 }
               },
               "arguments": [
@@ -1221,9 +1219,7 @@
                     "start": 570,
                     "end": 572
                   },
-                  "ctxt": 0,
-                  "value": "cb",
-                  "optional": false
+                  "value": "cb"
                 }
               },
               "arguments": [

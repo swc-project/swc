@@ -1454,9 +1454,7 @@
                       "start": 770,
                       "end": 777
                     },
-                    "ctxt": 0,
-                    "value": "context",
-                    "optional": false
+                    "value": "context"
                   },
                   "value": {
                     "type": "ObjectExpression",
@@ -1473,9 +1471,7 @@
                             "start": 785,
                             "end": 790
                           },
-                          "ctxt": 0,
-                          "value": "count",
-                          "optional": false
+                          "value": "count"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -1498,9 +1494,7 @@
                       "start": 802,
                       "end": 807
                     },
-                    "ctxt": 0,
-                    "value": "entry",
-                    "optional": false
+                    "value": "entry"
                   },
                   "value": {
                     "type": "CallExpression",
@@ -1537,9 +1531,7 @@
                                   "start": 822,
                                   "end": 827
                                 },
-                                "ctxt": 0,
-                                "value": "count",
-                                "optional": false
+                                "value": "count"
                               },
                               "value": {
                                 "type": "ArrowFunctionExpression",
@@ -1641,9 +1633,7 @@
                                         "start": 863,
                                         "end": 868
                                       },
-                                      "ctxt": 0,
-                                      "value": "count",
-                                      "optional": false
+                                      "value": "count"
                                     }
                                   }
                                 },

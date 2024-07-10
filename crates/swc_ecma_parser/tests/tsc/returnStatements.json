@@ -637,9 +637,7 @@
               "start": 433,
               "end": 435
             },
-            "ctxt": 0,
-            "value": "id",
-            "optional": false
+            "value": "id"
           },
           "value": null,
           "typeAnnotation": {
@@ -679,9 +677,7 @@
               "start": 449,
               "end": 456
             },
-            "ctxt": 0,
-            "value": "dispose",
-            "optional": false
+            "value": "dispose"
           },
           "function": {
             "params": [],
@@ -770,9 +766,7 @@
               "start": 488,
               "end": 492
             },
-            "ctxt": 0,
-            "value": "name",
-            "optional": false
+            "value": "name"
           },
           "value": null,
           "typeAnnotation": {
@@ -865,9 +859,7 @@
                       "start": 534,
                       "end": 536
                     },
-                    "ctxt": 0,
-                    "value": "id",
-                    "optional": false
+                    "value": "id"
                   },
                   "value": {
                     "type": "NumericLiteral",

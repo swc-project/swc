@@ -115,9 +115,7 @@
               "start": 68,
               "end": 69
             },
-            "ctxt": 0,
-            "value": "c",
-            "optional": false
+            "value": "c"
           },
           "value": null,
           "typeAnnotation": null,
@@ -189,9 +187,7 @@
               "start": 98,
               "end": 99
             },
-            "ctxt": 0,
-            "value": "d",
-            "optional": false
+            "value": "d"
           },
           "value": null,
           "typeAnnotation": null,
@@ -263,9 +259,7 @@
               "start": 128,
               "end": 129
             },
-            "ctxt": 0,
-            "value": "e",
-            "optional": false
+            "value": "e"
           },
           "value": null,
           "typeAnnotation": null,
@@ -337,9 +331,7 @@
               "start": 152,
               "end": 153
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           },
           "value": null,
           "typeAnnotation": null,
@@ -401,9 +393,7 @@
               "start": 185,
               "end": 186
             },
-            "ctxt": 0,
-            "value": "i",
-            "optional": false
+            "value": "i"
           },
           "value": {
             "type": "StringLiteral",
@@ -437,9 +427,7 @@
               "start": 196,
               "end": 197
             },
-            "ctxt": 0,
-            "value": "c",
-            "optional": false
+            "value": "c"
           },
           "value": null,
           "typeAnnotation": null,
@@ -511,9 +499,7 @@
               "start": 222,
               "end": 223
             },
-            "ctxt": 0,
-            "value": "i",
-            "optional": false
+            "value": "i"
           },
           "value": {
             "type": "StringLiteral",
@@ -547,9 +533,7 @@
               "start": 233,
               "end": 234
             },
-            "ctxt": 0,
-            "value": "d",
-            "optional": false
+            "value": "d"
           },
           "value": null,
           "typeAnnotation": null,

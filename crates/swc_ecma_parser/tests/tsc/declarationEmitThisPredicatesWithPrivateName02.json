@@ -187,9 +187,7 @@
                       "start": 135,
                       "end": 136
                     },
-                    "ctxt": 0,
-                    "value": "m",
-                    "optional": false
+                    "value": "m"
                   },
                   "params": [],
                   "decorators": [],
@@ -333,9 +331,7 @@
                                     "start": 210,
                                     "end": 211
                                   },
-                                  "ctxt": 0,
-                                  "value": "a",
-                                  "optional": false
+                                  "value": "a"
                                 }
                               },
                               "right": {
@@ -375,9 +371,7 @@
                                     "start": 227,
                                     "end": 228
                                   },
-                                  "ctxt": 0,
-                                  "value": "b",
-                                  "optional": false
+                                  "value": "b"
                                 }
                               },
                               "right": {
@@ -418,9 +412,7 @@
                                   "start": 244,
                                   "end": 245
                                 },
-                                "ctxt": 0,
-                                "value": "c",
-                                "optional": false
+                                "value": "c"
                               }
                             },
                             "right": {

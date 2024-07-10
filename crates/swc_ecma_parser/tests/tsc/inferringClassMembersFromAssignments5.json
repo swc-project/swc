@@ -37,9 +37,7 @@
               "start": 141,
               "end": 142
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "function": {
             "params": [],
@@ -89,9 +87,7 @@
                           "start": 160,
                           "end": 161
                         },
-                        "ctxt": 0,
-                        "value": "p",
-                        "optional": false
+                        "value": "p"
                       }
                     },
                     "right": {
@@ -159,9 +155,7 @@
               "start": 207,
               "end": 218
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -228,9 +222,7 @@
                         "start": 329,
                         "end": 330
                       },
-                      "ctxt": 0,
-                      "value": "p",
-                      "optional": false
+                      "value": "p"
                     }
                   },
                   "right": {
@@ -261,9 +253,7 @@
               "start": 345,
               "end": 349
             },
-            "ctxt": 0,
-            "value": "test",
-            "optional": false
+            "value": "test"
           },
           "function": {
             "params": [],
@@ -306,9 +296,7 @@
                         "start": 374,
                         "end": 375
                       },
-                      "ctxt": 0,
-                      "value": "p",
-                      "optional": false
+                      "value": "p"
                     }
                   }
                 }

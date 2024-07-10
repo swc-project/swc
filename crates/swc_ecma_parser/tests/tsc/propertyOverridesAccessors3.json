@@ -37,9 +37,7 @@
               "start": 73,
               "end": 79
             },
-            "ctxt": 0,
-            "value": "_sound",
-            "optional": false
+            "value": "_sound"
           },
           "value": {
             "type": "StringLiteral",
@@ -73,9 +71,7 @@
               "start": 122,
               "end": 127
             },
-            "ctxt": 0,
-            "value": "sound",
-            "optional": false
+            "value": "sound"
           },
           "function": {
             "params": [],
@@ -118,9 +114,7 @@
                         "start": 144,
                         "end": 150
                       },
-                      "ctxt": 0,
-                      "value": "_sound",
-                      "optional": false
+                      "value": "_sound"
                     }
                   }
                 }
@@ -150,9 +144,7 @@
               "start": 161,
               "end": 166
             },
-            "ctxt": 0,
-            "value": "sound",
-            "optional": false
+            "value": "sound"
           },
           "function": {
             "params": [
@@ -222,9 +214,7 @@
                           "start": 185,
                           "end": 191
                         },
-                        "ctxt": 0,
-                        "value": "_sound",
-                        "optional": false
+                        "value": "_sound"
                       }
                     },
                     "right": {
@@ -265,9 +255,7 @@
               "start": 283,
               "end": 292
             },
-            "ctxt": 0,
-            "value": "makeSound",
-            "optional": false
+            "value": "makeSound"
           },
           "function": {
             "params": [],
@@ -320,9 +308,7 @@
                           "start": 313,
                           "end": 316
                         },
-                        "ctxt": 0,
-                        "value": "log",
-                        "optional": false
+                        "value": "log"
                       }
                     },
                     "arguments": [
@@ -347,9 +333,7 @@
                               "start": 322,
                               "end": 328
                             },
-                            "ctxt": 0,
-                            "value": "_sound",
-                            "optional": false
+                            "value": "_sound"
                           }
                         }
                       }
@@ -464,9 +448,7 @@
               "start": 362,
               "end": 371
             },
-            "ctxt": 0,
-            "value": "makeSound",
-            "optional": false
+            "value": "makeSound"
           }
         },
         "arguments": [],
@@ -505,9 +487,7 @@
               "start": 441,
               "end": 446
             },
-            "ctxt": 0,
-            "value": "sound",
-            "optional": false
+            "value": "sound"
           },
           "value": {
             "type": "StringLiteral",
@@ -631,9 +611,7 @@
               "start": 501,
               "end": 510
             },
-            "ctxt": 0,
-            "value": "makeSound",
-            "optional": false
+            "value": "makeSound"
           }
         },
         "arguments": [],

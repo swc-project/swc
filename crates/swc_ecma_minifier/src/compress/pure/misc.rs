@@ -168,7 +168,7 @@ impl Pure<'_> {
         let arr = match callee {
             Expr::Member(MemberExpr {
                 obj,
-                prop: MemberProp::Ident(Ident { sym, .. }),
+                prop: MemberProp::Ident(IdentName { sym, .. }),
                 ..
             }) if *sym == *"join" => {
                 if let Expr::Array(arr) = &mut **obj {

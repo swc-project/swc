@@ -176,9 +176,7 @@
                   "start": 191,
                   "end": 192
                 },
-                "ctxt": 0,
-                "value": "x",
-                "optional": false
+                "value": "x"
               }
             },
             "right": {

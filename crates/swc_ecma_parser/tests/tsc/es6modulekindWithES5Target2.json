@@ -42,9 +42,7 @@
                 "start": 73,
                 "end": 74
               },
-              "ctxt": 0,
-              "value": "s",
-              "optional": false
+              "value": "s"
             },
             "value": {
               "type": "NumericLiteral",
@@ -78,9 +76,7 @@
                 "start": 84,
                 "end": 85
               },
-              "ctxt": 0,
-              "value": "p",
-              "optional": false
+              "value": "p"
             },
             "value": {
               "type": "NumericLiteral",
@@ -114,9 +110,7 @@
                 "start": 95,
                 "end": 101
               },
-              "ctxt": 0,
-              "value": "method",
-              "optional": false
+              "value": "method"
             },
             "function": {
               "params": [],

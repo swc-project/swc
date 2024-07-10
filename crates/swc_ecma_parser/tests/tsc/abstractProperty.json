@@ -37,9 +37,7 @@
               "start": 103,
               "end": 104
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": {
@@ -79,9 +77,7 @@
               "start": 125,
               "end": 128
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
@@ -134,9 +130,7 @@
                           "start": 149,
                           "end": 152
                         },
-                        "ctxt": 0,
-                        "value": "log",
-                        "optional": false
+                        "value": "log"
                       }
                     },
                     "arguments": [
@@ -161,9 +155,7 @@
                               "start": 158,
                               "end": 159
                             },
-                            "ctxt": 0,
-                            "value": "x",
-                            "optional": false
+                            "value": "x"
                           }
                         }
                       }
@@ -224,9 +216,7 @@
               "start": 205,
               "end": 206
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": {
             "type": "StringLiteral",
@@ -296,9 +286,7 @@
               "start": 257,
               "end": 258
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "function": {
             "params": [],

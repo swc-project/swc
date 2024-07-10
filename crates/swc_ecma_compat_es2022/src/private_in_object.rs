@@ -339,7 +339,7 @@ impl VisitMut for PrivateInObject {
                         var_name.clone(),
                         Some(Box::new(Expr::New(NewExpr {
                             span: DUMMY_SP,
-                            callee: Box::new(Expr::Ident(quote_ident!("WeakSet"))),
+                            callee: Box::new(Expr::Ident(quote_ident!("WeakSet").into())),
                             args: Some(Default::default()),
                             ..Default::default()
                         }))),

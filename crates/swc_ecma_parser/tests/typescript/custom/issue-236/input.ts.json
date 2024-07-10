@@ -88,6 +88,10 @@
                   },
                   "typeName": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 72,
+                      "end": 86
+                    },
                     "left": {
                       "type": "Identifier",
                       "span": {
@@ -104,9 +108,7 @@
                         "start": 80,
                         "end": 86
                       },
-                      "ctxt": 0,
-                      "value": "IScope",
-                      "optional": false
+                      "value": "IScope"
                     }
                   },
                   "typeParams": null
@@ -144,6 +146,10 @@
                   },
                   "typeName": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 96,
+                      "end": 115
+                    },
                     "left": {
                       "type": "Identifier",
                       "span": {
@@ -160,9 +166,7 @@
                         "start": 104,
                         "end": 115
                       },
-                      "ctxt": 0,
-                      "value": "IAttributes",
-                      "optional": false
+                      "value": "IAttributes"
                     }
                   },
                   "typeParams": null
@@ -217,9 +221,7 @@
                       "start": 128,
                       "end": 134
                     },
-                    "ctxt": 0,
-                    "value": "$scope",
-                    "optional": false
+                    "value": "$scope"
                   }
                 },
                 "right": {
@@ -266,9 +268,7 @@
                       "start": 154,
                       "end": 160
                     },
-                    "ctxt": 0,
-                    "value": "$attrs",
-                    "optional": false
+                    "value": "$attrs"
                   }
                 },
                 "right": {

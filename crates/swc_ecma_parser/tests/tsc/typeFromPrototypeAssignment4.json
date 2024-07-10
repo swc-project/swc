@@ -65,9 +65,7 @@
                     "start": 155,
                     "end": 159
                   },
-                  "ctxt": 0,
-                  "value": "_map",
-                  "optional": false
+                  "value": "_map"
                 }
               },
               "right": {
@@ -155,9 +153,7 @@
                   "start": 272,
                   "end": 275
                 },
-                "ctxt": 0,
-                "value": "get",
-                "optional": false
+                "value": "get"
               },
               "params": [
                 {
@@ -225,9 +221,7 @@
                             "start": 299,
                             "end": 303
                           },
-                          "ctxt": 0,
-                          "value": "_map",
-                          "optional": false
+                          "value": "_map"
                         }
                       },
                       "property": {
@@ -648,9 +642,7 @@
               "start": 517,
               "end": 520
             },
-            "ctxt": 0,
-            "value": "get",
-            "optional": false
+            "value": "get"
           }
         },
         "arguments": [
@@ -755,9 +747,7 @@
               "start": 549,
               "end": 554
             },
-            "ctxt": 0,
-            "value": "addon",
-            "optional": false
+            "value": "addon"
           }
         },
         "arguments": [],
@@ -799,9 +789,7 @@
               "start": 563,
               "end": 578
             },
-            "ctxt": 0,
-            "value": "__underscores__",
-            "optional": false
+            "value": "__underscores__"
           }
         },
         "arguments": [],

@@ -40,9 +40,7 @@
               "start": 99,
               "end": 103
             },
-            "ctxt": 0,
-            "value": "Item",
-            "optional": false
+            "value": "Item"
           }
         },
         "right": {
@@ -107,9 +105,7 @@
               "start": 124,
               "end": 130
             },
-            "ctxt": 0,
-            "value": "Object",
-            "optional": false
+            "value": "Object"
           }
         },
         "right": {
@@ -144,9 +140,7 @@
                 "start": 153,
                 "end": 157
               },
-              "ctxt": 0,
-              "value": "Item",
-              "optional": false
+              "value": "Item"
             }
           },
           "isAbstract": false,
@@ -191,9 +185,7 @@
               "start": 172,
               "end": 178
             },
-            "ctxt": 0,
-            "value": "Object",
-            "optional": false
+            "value": "Object"
           }
         },
         "right": {
@@ -228,9 +220,7 @@
                 "start": 202,
                 "end": 208
               },
-              "ctxt": 0,
-              "value": "Object",
-              "optional": false
+              "value": "Object"
             }
           },
           "isAbstract": false,

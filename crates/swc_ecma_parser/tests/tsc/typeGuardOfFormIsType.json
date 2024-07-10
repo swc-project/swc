@@ -37,9 +37,7 @@
               "start": 17,
               "end": 19
             },
-            "ctxt": 0,
-            "value": "p1",
-            "optional": false
+            "value": "p1"
           },
           "value": null,
           "typeAnnotation": {
@@ -106,9 +104,7 @@
               "start": 46,
               "end": 48
             },
-            "ctxt": 0,
-            "value": "p2",
-            "optional": false
+            "value": "p2"
           },
           "value": null,
           "typeAnnotation": {
@@ -175,9 +171,7 @@
               "start": 86,
               "end": 88
             },
-            "ctxt": 0,
-            "value": "p3",
-            "optional": false
+            "value": "p3"
           },
           "value": null,
           "typeAnnotation": {
@@ -945,9 +939,7 @@
                 "start": 375,
                 "end": 377
               },
-              "ctxt": 0,
-              "value": "p1",
-              "optional": false
+              "value": "p1"
             }
           }
         }
@@ -1040,9 +1032,7 @@
                 "start": 414,
                 "end": 416
               },
-              "ctxt": 0,
-              "value": "p2",
-              "optional": false
+              "value": "p2"
             }
           }
         }
@@ -1135,9 +1125,7 @@
                 "start": 453,
                 "end": 455
               },
-              "ctxt": 0,
-              "value": "p1",
-              "optional": false
+              "value": "p1"
             }
           }
         }
@@ -1230,9 +1218,7 @@
                 "start": 492,
                 "end": 494
               },
-              "ctxt": 0,
-              "value": "p3",
-              "optional": false
+              "value": "p3"
             }
           }
         }
@@ -1408,9 +1394,7 @@
                 "start": 553,
                 "end": 555
               },
-              "ctxt": 0,
-              "value": "p2",
-              "optional": false
+              "value": "p2"
             }
           }
         }
@@ -1503,9 +1487,7 @@
                 "start": 592,
                 "end": 594
               },
-              "ctxt": 0,
-              "value": "p3",
-              "optional": false
+              "value": "p3"
             }
           }
         }
@@ -1598,9 +1580,7 @@
                 "start": 631,
                 "end": 633
               },
-              "ctxt": 0,
-              "value": "p1",
-              "optional": false
+              "value": "p1"
             }
           }
         }

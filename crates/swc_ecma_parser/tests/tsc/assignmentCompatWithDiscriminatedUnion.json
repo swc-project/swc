@@ -4693,9 +4693,7 @@
                           "start": 2694,
                           "end": 2698
                         },
-                        "ctxt": 0,
-                        "value": "type",
-                        "optional": false
+                        "value": "type"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -4715,9 +4713,7 @@
                           "start": 2705,
                           "end": 2709
                         },
-                        "ctxt": 0,
-                        "value": "data",
-                        "optional": false
+                        "value": "data"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -4819,9 +4815,7 @@
                   "start": 2749,
                   "end": 2753
                 },
-                "ctxt": 0,
-                "value": "type",
-                "optional": false
+                "value": "type"
               }
             }
           },
@@ -4853,9 +4847,7 @@
                   "start": 2774,
                   "end": 2778
                 },
-                "ctxt": 0,
-                "value": "type",
-                "optional": false
+                "value": "type"
               }
             }
           },
@@ -5316,9 +5308,7 @@
                                   "start": 3150,
                                   "end": 3155
                                 },
-                                "ctxt": 0,
-                                "value": "color",
-                                "optional": false
+                                "value": "color"
                               },
                               "value": {
                                 "type": "Identifier",
@@ -5851,9 +5841,7 @@
                           "start": 3644,
                           "end": 3648
                         },
-                        "ctxt": 0,
-                        "value": "type",
-                        "optional": false
+                        "value": "type"
                       },
                       "value": {
                         "type": "CallExpression",
@@ -5948,9 +5936,7 @@
                           "start": 3693,
                           "end": 3697
                         },
-                        "ctxt": 0,
-                        "value": "type",
-                        "optional": false
+                        "value": "type"
                       },
                       "value": {
                         "type": "Identifier",
@@ -6004,9 +5990,7 @@
                     "start": 3721,
                     "end": 3725
                   },
-                  "ctxt": 0,
-                  "value": "type",
-                  "optional": false
+                  "value": "type"
                 }
               },
               "right": {
@@ -6420,9 +6404,7 @@
                             "start": 4106,
                             "end": 4110
                           },
-                          "ctxt": 0,
-                          "value": "type",
-                          "optional": false
+                          "value": "type"
                         },
                         "value": {
                           "type": "Identifier",
@@ -6801,9 +6783,7 @@
                             "start": 4392,
                             "end": 4396
                           },
-                          "ctxt": 0,
-                          "value": "type",
-                          "optional": false
+                          "value": "type"
                         },
                         "value": {
                           "type": "ParenthesisExpression",
@@ -7229,9 +7209,7 @@
                                 "start": 4701,
                                 "end": 4705
                               },
-                              "ctxt": 0,
-                              "value": "type",
-                              "optional": false
+                              "value": "type"
                             },
                             "value": {
                               "type": "MemberExpression",
@@ -7255,9 +7233,7 @@
                                   "start": 4712,
                                   "end": 4716
                                 },
-                                "ctxt": 0,
-                                "value": "type",
-                                "optional": false
+                                "value": "type"
                               }
                             }
                           }

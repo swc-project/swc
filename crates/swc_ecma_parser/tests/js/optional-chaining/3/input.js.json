@@ -53,9 +53,7 @@
                   "start": 10,
                   "end": 15
                 },
-                "ctxt": 0,
-                "value": "thing",
-                "optional": false
+                "value": "thing"
               }
             }
           },
@@ -65,9 +63,7 @@
               "start": 16,
               "end": 20
             },
-            "ctxt": 0,
-            "value": "name",
-            "optional": false
+            "value": "name"
           }
         }
       }

@@ -716,9 +716,7 @@
               "start": 409,
               "end": 410
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           }
         }
       }
@@ -769,9 +767,7 @@
               "start": 428,
               "end": 430
             },
-            "ctxt": 0,
-            "value": "a2",
-            "optional": false
+            "value": "a2"
           }
         }
       }
@@ -822,9 +818,7 @@
               "start": 448,
               "end": 450
             },
-            "ctxt": 0,
-            "value": "a3",
-            "optional": false
+            "value": "a3"
           }
         }
       }
@@ -875,9 +869,7 @@
               "start": 471,
               "end": 473
             },
-            "ctxt": 0,
-            "value": "a4",
-            "optional": false
+            "value": "a4"
           }
         }
       }
@@ -928,9 +920,7 @@
               "start": 494,
               "end": 496
             },
-            "ctxt": 0,
-            "value": "a5",
-            "optional": false
+            "value": "a5"
           }
         }
       }
@@ -981,9 +971,7 @@
               "start": 514,
               "end": 516
             },
-            "ctxt": 0,
-            "value": "a6",
-            "optional": false
+            "value": "a6"
           }
         }
       }
@@ -1123,9 +1111,7 @@
               "start": 576,
               "end": 577
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           }
         }
       }
@@ -1176,9 +1162,7 @@
               "start": 596,
               "end": 598
             },
-            "ctxt": 0,
-            "value": "a2",
-            "optional": false
+            "value": "a2"
           }
         }
       }
@@ -1229,9 +1213,7 @@
               "start": 617,
               "end": 619
             },
-            "ctxt": 0,
-            "value": "a3",
-            "optional": false
+            "value": "a3"
           }
         }
       }
@@ -1282,9 +1264,7 @@
               "start": 638,
               "end": 640
             },
-            "ctxt": 0,
-            "value": "a4",
-            "optional": false
+            "value": "a4"
           }
         }
       }
@@ -1335,9 +1315,7 @@
               "start": 659,
               "end": 661
             },
-            "ctxt": 0,
-            "value": "a5",
-            "optional": false
+            "value": "a5"
           }
         }
       }
@@ -1388,9 +1366,7 @@
               "start": 680,
               "end": 682
             },
-            "ctxt": 0,
-            "value": "a6",
-            "optional": false
+            "value": "a6"
           }
         }
       }
@@ -1530,9 +1506,7 @@
               "start": 741,
               "end": 742
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           }
         }
       }
@@ -1583,9 +1557,7 @@
               "start": 761,
               "end": 763
             },
-            "ctxt": 0,
-            "value": "a2",
-            "optional": false
+            "value": "a2"
           }
         }
       }
@@ -1636,9 +1608,7 @@
               "start": 782,
               "end": 784
             },
-            "ctxt": 0,
-            "value": "a3",
-            "optional": false
+            "value": "a3"
           }
         }
       }
@@ -1689,9 +1659,7 @@
               "start": 803,
               "end": 805
             },
-            "ctxt": 0,
-            "value": "a4",
-            "optional": false
+            "value": "a4"
           }
         }
       }
@@ -1742,9 +1710,7 @@
               "start": 824,
               "end": 826
             },
-            "ctxt": 0,
-            "value": "a5",
-            "optional": false
+            "value": "a5"
           }
         }
       }
@@ -1795,9 +1761,7 @@
               "start": 845,
               "end": 847
             },
-            "ctxt": 0,
-            "value": "a6",
-            "optional": false
+            "value": "a6"
           }
         }
       }
@@ -1962,9 +1926,7 @@
               "start": 917,
               "end": 918
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           }
         }
       }
@@ -2015,9 +1977,7 @@
               "start": 937,
               "end": 939
             },
-            "ctxt": 0,
-            "value": "a2",
-            "optional": false
+            "value": "a2"
           }
         }
       }
@@ -2068,9 +2028,7 @@
               "start": 958,
               "end": 960
             },
-            "ctxt": 0,
-            "value": "a3",
-            "optional": false
+            "value": "a3"
           }
         }
       }
@@ -2121,9 +2079,7 @@
               "start": 979,
               "end": 981
             },
-            "ctxt": 0,
-            "value": "a4",
-            "optional": false
+            "value": "a4"
           }
         }
       }
@@ -2174,9 +2130,7 @@
               "start": 1000,
               "end": 1002
             },
-            "ctxt": 0,
-            "value": "a5",
-            "optional": false
+            "value": "a5"
           }
         }
       }
@@ -2227,9 +2181,7 @@
               "start": 1021,
               "end": 1023
             },
-            "ctxt": 0,
-            "value": "a6",
-            "optional": false
+            "value": "a6"
           }
         }
       }
@@ -2394,9 +2346,7 @@
               "start": 1091,
               "end": 1092
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           }
         }
       }
@@ -2447,9 +2397,7 @@
               "start": 1111,
               "end": 1113
             },
-            "ctxt": 0,
-            "value": "a2",
-            "optional": false
+            "value": "a2"
           }
         }
       }
@@ -2500,9 +2448,7 @@
               "start": 1132,
               "end": 1134
             },
-            "ctxt": 0,
-            "value": "a3",
-            "optional": false
+            "value": "a3"
           }
         }
       }
@@ -2553,9 +2499,7 @@
               "start": 1153,
               "end": 1155
             },
-            "ctxt": 0,
-            "value": "a4",
-            "optional": false
+            "value": "a4"
           }
         }
       }
@@ -2606,9 +2550,7 @@
               "start": 1174,
               "end": 1176
             },
-            "ctxt": 0,
-            "value": "a5",
-            "optional": false
+            "value": "a5"
           }
         }
       }
@@ -2659,9 +2601,7 @@
               "start": 1195,
               "end": 1197
             },
-            "ctxt": 0,
-            "value": "a6",
-            "optional": false
+            "value": "a6"
           }
         }
       }

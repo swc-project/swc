@@ -37,9 +37,7 @@
               "start": 72,
               "end": 73
             },
-            "ctxt": 0,
-            "value": "p",
-            "optional": false
+            "value": "p"
           },
           "function": {
             "params": [],
@@ -126,9 +124,7 @@
               "start": 121,
               "end": 122
             },
-            "ctxt": 0,
-            "value": "p",
-            "optional": false
+            "value": "p"
           },
           "value": {
             "type": "StringLiteral",
@@ -198,9 +194,7 @@
               "start": 156,
               "end": 163
             },
-            "ctxt": 0,
-            "value": "_secret",
-            "optional": false
+            "value": "_secret"
           },
           "value": {
             "type": "NumericLiteral",
@@ -234,9 +228,7 @@
               "start": 177,
               "end": 178
             },
-            "ctxt": 0,
-            "value": "p",
-            "optional": false
+            "value": "p"
           },
           "function": {
             "params": [],
@@ -279,9 +271,7 @@
                         "start": 195,
                         "end": 202
                       },
-                      "ctxt": 0,
-                      "value": "_secret",
-                      "optional": false
+                      "value": "_secret"
                     }
                   }
                 }
@@ -311,9 +301,7 @@
               "start": 213,
               "end": 214
             },
-            "ctxt": 0,
-            "value": "p",
-            "optional": false
+            "value": "p"
           },
           "function": {
             "params": [
@@ -383,9 +371,7 @@
                           "start": 229,
                           "end": 236
                         },
-                        "ctxt": 0,
-                        "value": "_secret",
-                        "optional": false
+                        "value": "_secret"
                       }
                     },
                     "right": {
@@ -453,9 +439,7 @@
               "start": 273,
               "end": 274
             },
-            "ctxt": 0,
-            "value": "p",
-            "optional": false
+            "value": "p"
           },
           "value": {
             "type": "NumericLiteral",

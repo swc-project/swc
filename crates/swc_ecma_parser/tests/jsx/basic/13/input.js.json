@@ -46,9 +46,7 @@
                   "start": 12,
                   "end": 16
                 },
-                "ctxt": 0,
-                "value": "left",
-                "optional": false
+                "value": "left"
               },
               "value": {
                 "type": "JSXElement",
@@ -92,9 +90,7 @@
                   "start": 23,
                   "end": 28
                 },
-                "ctxt": 0,
-                "value": "right",
-                "optional": false
+                "value": "right"
               },
               "value": {
                 "type": "JSXElement",

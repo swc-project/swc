@@ -364,9 +364,7 @@
                 "start": 462,
                 "end": 471
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -375,9 +373,7 @@
               "start": 472,
               "end": 479
             },
-            "ctxt": 0,
-            "value": "animate",
-            "optional": false
+            "value": "animate"
           }
         },
         "right": {

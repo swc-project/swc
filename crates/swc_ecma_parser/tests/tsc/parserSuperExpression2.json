@@ -37,9 +37,7 @@
               "start": 13,
               "end": 14
             },
-            "ctxt": 0,
-            "value": "M",
-            "optional": false
+            "value": "M"
           },
           "function": {
             "params": [],

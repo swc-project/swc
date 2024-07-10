@@ -1,4 +1,5 @@
 use std::{
+    borrow::Cow,
     fmt::Display,
     ops::{Deref, DerefMut},
 };
@@ -173,9 +174,22 @@ impl From<BindingIdent> for Ident {
     }
 }
 
-impl From<&'_ str> for Ident {
-    fn from(bi: &str) -> Self {
-        Ident::new_no_ctxt(bi.into(), DUMMY_SP)
+impl From<Atom> for Ident {
+    fn from(bi: Atom) -> Self {
+        Ident::new_no_ctxt(bi, DUMMY_SP)
+    }
+}
+bridge_from!(Ident, Atom, &'_ str);
+bridge_from!(Ident, Atom, Cow<'_, str>);
+bridge_from!(Ident, Atom, String);
+
+impl From<(Atom, Span)> for Ident {
+    fn from((sym, span): (Atom, Span)) -> Self {
+        Ident {
+            span,
+            sym,
+            ..Default::default()
+        }
     }
 }
 
@@ -353,6 +367,89 @@ impl Ident {
     }
 }
 
+#[ast_node("Identifier")]
+#[derive(Eq, Hash, Default, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct IdentName {
+    #[cfg_attr(feature = "__rkyv", omit_bounds)]
+    pub span: Span,
+
+    #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
+    pub sym: Atom,
+}
+
+impl From<Atom> for IdentName {
+    fn from(sym: Atom) -> Self {
+        IdentName {
+            span: DUMMY_SP,
+            sym,
+        }
+    }
+}
+
+impl From<(Atom, Span)> for IdentName {
+    fn from((sym, span): (Atom, Span)) -> Self {
+        IdentName { span, sym }
+    }
+}
+
+bridge_from!(IdentName, Atom, &'_ str);
+bridge_from!(IdentName, Atom, Cow<'_, str>);
+bridge_from!(IdentName, Atom, String);
+bridge_from!(IdentName, Ident, &'_ BindingIdent);
+bridge_from!(IdentName, Ident, BindingIdent);
+
+impl AsRef<str> for IdentName {
+    fn as_ref(&self) -> &str {
+        &self.sym
+    }
+}
+
+impl IdentName {
+    pub const fn new(sym: Atom, span: Span) -> Self {
+        Self { span, sym }
+    }
+}
+
+impl Take for IdentName {
+    fn dummy() -> Self {
+        Default::default()
+    }
+}
+
+impl From<Ident> for IdentName {
+    fn from(i: Ident) -> Self {
+        IdentName {
+            span: i.span,
+            sym: i.sym,
+        }
+    }
+}
+
+impl From<IdentName> for Ident {
+    fn from(i: IdentName) -> Self {
+        Ident {
+            span: i.span,
+            sym: i.sym,
+            ..Default::default()
+        }
+    }
+}
+
+bridge_from!(BindingIdent, Ident, Atom);
+bridge_from!(BindingIdent, Atom, &'_ str);
+bridge_from!(BindingIdent, Atom, Cow<'_, str>);
+bridge_from!(BindingIdent, Atom, String);
+
+impl From<IdentName> for BindingIdent {
+    fn from(i: IdentName) -> Self {
+        BindingIdent {
+            id: i.into(),
+            ..Default::default()
+        }
+    }
+}
+
 /// See [Ident] for documentation.
 pub type Id = (Atom, SyntaxContext);
 
@@ -365,6 +462,12 @@ impl Take for Ident {
 impl Display for Ident {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}{:?}", self.sym, self.ctxt)
+    }
+}
+
+impl Display for IdentName {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.sym)
     }
 }
 
@@ -524,6 +627,7 @@ pub trait EsReserved: AsRef<str> {
 }
 
 impl EsReserved for Atom {}
+impl EsReserved for IdentName {}
 impl EsReserved for Ident {}
 impl EsReserved for BindingIdent {}
 impl EsReserved for &'_ str {}

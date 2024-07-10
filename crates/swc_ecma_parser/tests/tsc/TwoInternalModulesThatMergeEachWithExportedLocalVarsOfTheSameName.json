@@ -272,9 +272,7 @@
                                         "start": 218,
                                         "end": 219
                                       },
-                                      "ctxt": 0,
-                                      "value": "x",
-                                      "optional": false
+                                      "value": "x"
                                     },
                                     "value": {
                                       "type": "MemberExpression",
@@ -298,9 +296,7 @@
                                           "start": 223,
                                           "end": 224
                                         },
-                                        "ctxt": 0,
-                                        "value": "y",
-                                        "optional": false
+                                        "value": "y"
                                       }
                                     }
                                   },
@@ -312,9 +308,7 @@
                                         "start": 226,
                                         "end": 227
                                       },
-                                      "ctxt": 0,
-                                      "value": "y",
-                                      "optional": false
+                                      "value": "y"
                                     },
                                     "value": {
                                       "type": "MemberExpression",
@@ -338,9 +332,7 @@
                                           "start": 231,
                                           "end": 232
                                         },
-                                        "ctxt": 0,
-                                        "value": "x",
-                                        "optional": false
+                                        "value": "x"
                                       }
                                     }
                                   }
@@ -478,9 +470,7 @@
                               "start": 286,
                               "end": 287
                             },
-                            "ctxt": 0,
-                            "value": "x",
-                            "optional": false
+                            "value": "x"
                           },
                           "value": {
                             "type": "NumericLiteral",
@@ -500,9 +490,7 @@
                               "start": 292,
                               "end": 293
                             },
-                            "ctxt": 0,
-                            "value": "y",
-                            "optional": false
+                            "value": "y"
                           },
                           "value": {
                             "type": "NumericLiteral",
@@ -628,9 +616,7 @@
                               "start": 442,
                               "end": 443
                             },
-                            "ctxt": 0,
-                            "value": "x",
-                            "optional": false
+                            "value": "x"
                           },
                           "value": {
                             "type": "NumericLiteral",
@@ -650,9 +636,7 @@
                               "start": 448,
                               "end": 449
                             },
-                            "ctxt": 0,
-                            "value": "y",
-                            "optional": false
+                            "value": "y"
                           },
                           "value": {
                             "type": "NumericLiteral",
@@ -741,9 +725,7 @@
                                 "start": 524,
                                 "end": 535
                               },
-                              "ctxt": 0,
-                              "value": "constructor",
-                              "optional": false
+                              "value": "constructor"
                             },
                             "params": [
                               {

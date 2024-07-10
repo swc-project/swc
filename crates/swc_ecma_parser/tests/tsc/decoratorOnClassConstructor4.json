@@ -146,9 +146,7 @@
               "start": 163,
               "end": 174
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {

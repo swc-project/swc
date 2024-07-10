@@ -46,9 +46,7 @@
                 "start": 6,
                 "end": 11
               },
-              "ctxt": 0,
-              "value": "match",
-              "optional": false
+              "value": "match"
             }
           },
           "arguments": [

@@ -122,9 +122,7 @@
                           "start": 102,
                           "end": 104
                         },
-                        "ctxt": 0,
-                        "value": "a1",
-                        "optional": false
+                        "value": "a1"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -248,9 +246,7 @@
                           "start": 145,
                           "end": 147
                         },
-                        "ctxt": 0,
-                        "value": "a2",
-                        "optional": false
+                        "value": "a2"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -392,9 +388,7 @@
                           "start": 233,
                           "end": 235
                         },
-                        "ctxt": 0,
-                        "value": "a1",
-                        "optional": false
+                        "value": "a1"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -518,9 +512,7 @@
                           "start": 281,
                           "end": 283
                         },
-                        "ctxt": 0,
-                        "value": "a2",
-                        "optional": false
+                        "value": "a2"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -662,9 +654,7 @@
                           "start": 381,
                           "end": 383
                         },
-                        "ctxt": 0,
-                        "value": "a1",
-                        "optional": false
+                        "value": "a1"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -684,9 +674,7 @@
                           "start": 391,
                           "end": 393
                         },
-                        "ctxt": 0,
-                        "value": "b1",
-                        "optional": false
+                        "value": "b1"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -810,9 +798,7 @@
                           "start": 436,
                           "end": 438
                         },
-                        "ctxt": 0,
-                        "value": "a2",
-                        "optional": false
+                        "value": "a2"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -832,9 +818,7 @@
                           "start": 446,
                           "end": 448
                         },
-                        "ctxt": 0,
-                        "value": "b2",
-                        "optional": false
+                        "value": "b2"
                       },
                       "value": {
                         "type": "NumericLiteral",

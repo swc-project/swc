@@ -46,9 +46,7 @@
                 "start": 44,
                 "end": 53
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -57,9 +55,7 @@
               "start": 54,
               "end": 60
             },
-            "ctxt": 0,
-            "value": "remove",
-            "optional": false
+            "value": "remove"
           }
         },
         "right": {
@@ -132,9 +128,7 @@
                               "start": 86,
                               "end": 96
                             },
-                            "ctxt": 0,
-                            "value": "parentNode",
-                            "optional": false
+                            "value": "parentNode"
                           }
                         },
                         "property": {
@@ -143,9 +137,7 @@
                             "start": 98,
                             "end": 109
                           },
-                          "ctxt": 0,
-                          "value": "removeChild",
-                          "optional": false
+                          "value": "removeChild"
                         }
                       }
                     },

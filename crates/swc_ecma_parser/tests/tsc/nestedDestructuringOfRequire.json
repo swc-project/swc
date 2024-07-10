@@ -47,9 +47,7 @@
                     "start": 118,
                     "end": 122
                   },
-                  "ctxt": 0,
-                  "value": "grey",
-                  "optional": false
+                  "value": "grey"
                 },
                 "value": {
                   "type": "ObjectExpression",
@@ -107,9 +105,7 @@
                 "start": 137,
                 "end": 144
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -118,9 +114,7 @@
               "start": 145,
               "end": 150
             },
-            "ctxt": 0,
-            "value": "chalk",
-            "optional": false
+            "value": "chalk"
           }
         },
         "right": {
@@ -166,9 +160,7 @@
                     "start": 194,
                     "end": 199
                   },
-                  "ctxt": 0,
-                  "value": "chalk",
-                  "optional": false
+                  "value": "chalk"
                 },
                 "value": {
                   "type": "ObjectPattern",

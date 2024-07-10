@@ -71,9 +71,7 @@
               "start": 65,
               "end": 76
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -119,9 +117,7 @@
                         "start": 97,
                         "end": 100
                       },
-                      "ctxt": 0,
-                      "value": "log",
-                      "optional": false
+                      "value": "log"
                     }
                   },
                   "arguments": [

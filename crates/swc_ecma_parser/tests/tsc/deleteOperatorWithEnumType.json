@@ -681,9 +681,7 @@
               "start": 500,
               "end": 501
             },
-            "ctxt": 0,
-            "value": "B",
-            "optional": false
+            "value": "B"
           }
         }
       }

@@ -37,9 +37,7 @@
               "start": 19,
               "end": 20
             },
-            "ctxt": 0,
-            "value": "p",
-            "optional": false
+            "value": "p"
           },
           "value": null,
           "typeAnnotation": {

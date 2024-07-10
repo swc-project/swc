@@ -571,9 +571,7 @@
                   "start": 292,
                   "end": 305
                 },
-                "ctxt": 0,
-                "value": "equalsShallow",
-                "optional": false
+                "value": "equalsShallow"
               }
             },
             "arguments": [

@@ -26538,9 +26538,7 @@
                   "start": 12772,
                   "end": 12776
                 },
-                "ctxt": 0,
-                "value": "bind",
-                "optional": false
+                "value": "bind"
               }
             },
             "arguments": [

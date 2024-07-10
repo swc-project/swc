@@ -240,9 +240,7 @@
                       "start": 171,
                       "end": 182
                     },
-                    "ctxt": 0,
-                    "value": "constructor",
-                    "optional": false
+                    "value": "constructor"
                   },
                   "params": [
                     {
@@ -342,9 +340,7 @@
                       "start": 232,
                       "end": 242
                     },
-                    "ctxt": 0,
-                    "value": "fromOrigin",
-                    "optional": false
+                    "value": "fromOrigin"
                   },
                   "function": {
                     "params": [

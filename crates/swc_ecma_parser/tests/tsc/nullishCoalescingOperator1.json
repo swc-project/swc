@@ -1996,9 +1996,7 @@
                       "start": 1091,
                       "end": 1092
                     },
-                    "ctxt": 0,
-                    "value": "b",
-                    "optional": false
+                    "value": "b"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -2076,9 +2074,7 @@
                       "start": 1117,
                       "end": 1118
                     },
-                    "ctxt": 0,
-                    "value": "b",
-                    "optional": false
+                    "value": "b"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -2156,9 +2152,7 @@
                       "start": 1143,
                       "end": 1144
                     },
-                    "ctxt": 0,
-                    "value": "b",
-                    "optional": false
+                    "value": "b"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -2236,9 +2230,7 @@
                       "start": 1169,
                       "end": 1170
                     },
-                    "ctxt": 0,
-                    "value": "b",
-                    "optional": false
+                    "value": "b"
                   },
                   "value": {
                     "type": "NumericLiteral",

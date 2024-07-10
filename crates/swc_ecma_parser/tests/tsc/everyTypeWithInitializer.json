@@ -101,9 +101,7 @@
               "start": 61,
               "end": 63
             },
-            "ctxt": 0,
-            "value": "id",
-            "optional": false
+            "value": "id"
           },
           "value": null,
           "typeAnnotation": {
@@ -189,9 +187,7 @@
               "start": 92,
               "end": 98
             },
-            "ctxt": 0,
-            "value": "source",
-            "optional": false
+            "value": "source"
           },
           "value": null,
           "typeAnnotation": {
@@ -241,9 +237,7 @@
               "start": 107,
               "end": 114
             },
-            "ctxt": 0,
-            "value": "recurse",
-            "optional": false
+            "value": "recurse"
           },
           "value": null,
           "typeAnnotation": {
@@ -319,9 +313,7 @@
               "start": 126,
               "end": 133
             },
-            "ctxt": 0,
-            "value": "wrapped",
-            "optional": false
+            "value": "wrapped"
           },
           "value": null,
           "typeAnnotation": {
@@ -610,9 +602,7 @@
                       "start": 232,
                       "end": 236
                     },
-                    "ctxt": 0,
-                    "value": "name",
-                    "optional": false
+                    "value": "name"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -751,9 +741,7 @@
                             "start": 306,
                             "end": 314
                           },
-                          "ctxt": 0,
-                          "value": "toString",
-                          "optional": false
+                          "value": "toString"
                         }
                       },
                       "arguments": [],
@@ -1285,9 +1273,7 @@
                     "start": 596,
                     "end": 598
                   },
-                  "ctxt": 0,
-                  "value": "id",
-                  "optional": false
+                  "value": "id"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -1508,9 +1494,7 @@
                   "start": 695,
                   "end": 696
                 },
-                "ctxt": 0,
-                "value": "A",
-                "optional": false
+                "value": "A"
               }
             },
             "arguments": [],
@@ -1569,9 +1553,7 @@
                 "start": 726,
                 "end": 728
               },
-              "ctxt": 0,
-              "value": "F2",
-              "optional": false
+              "value": "F2"
             }
           },
           "definite": false

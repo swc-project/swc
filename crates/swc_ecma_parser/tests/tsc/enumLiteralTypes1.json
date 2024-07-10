@@ -120,6 +120,10 @@
             },
             "typeName": {
               "type": "TsQualifiedName",
+              "span": {
+                "start": 55,
+                "end": 65
+              },
               "left": {
                 "type": "Identifier",
                 "span": {
@@ -136,9 +140,7 @@
                   "start": 62,
                   "end": 65
                 },
-                "ctxt": 0,
-                "value": "Yes",
-                "optional": false
+                "value": "Yes"
               }
             },
             "typeParams": null
@@ -151,6 +153,10 @@
             },
             "typeName": {
               "type": "TsQualifiedName",
+              "span": {
+                "start": 68,
+                "end": 77
+              },
               "left": {
                 "type": "Identifier",
                 "span": {
@@ -167,9 +173,7 @@
                   "start": 75,
                   "end": 77
                 },
-                "ctxt": 0,
-                "value": "No",
-                "optional": false
+                "value": "No"
               }
             },
             "typeParams": null
@@ -210,6 +214,10 @@
             },
             "typeName": {
               "type": "TsQualifiedName",
+              "span": {
+                "start": 92,
+                "end": 101
+              },
               "left": {
                 "type": "Identifier",
                 "span": {
@@ -226,9 +234,7 @@
                   "start": 99,
                   "end": 101
                 },
-                "ctxt": 0,
-                "value": "No",
-                "optional": false
+                "value": "No"
               }
             },
             "typeParams": null
@@ -241,6 +247,10 @@
             },
             "typeName": {
               "type": "TsQualifiedName",
+              "span": {
+                "start": 104,
+                "end": 114
+              },
               "left": {
                 "type": "Identifier",
                 "span": {
@@ -257,9 +267,7 @@
                   "start": 111,
                   "end": 114
                 },
-                "ctxt": 0,
-                "value": "Yes",
-                "optional": false
+                "value": "Yes"
               }
             },
             "typeParams": null
@@ -300,6 +308,10 @@
             },
             "typeName": {
               "type": "TsQualifiedName",
+              "span": {
+                "start": 136,
+                "end": 150
+              },
               "left": {
                 "type": "Identifier",
                 "span": {
@@ -316,9 +328,7 @@
                   "start": 143,
                   "end": 150
                 },
-                "ctxt": 0,
-                "value": "Unknown",
-                "optional": false
+                "value": "Unknown"
               }
             },
             "typeParams": null
@@ -331,6 +341,10 @@
             },
             "typeName": {
               "type": "TsQualifiedName",
+              "span": {
+                "start": 153,
+                "end": 163
+              },
               "left": {
                 "type": "Identifier",
                 "span": {
@@ -347,9 +361,7 @@
                   "start": 160,
                   "end": 163
                 },
-                "ctxt": 0,
-                "value": "Yes",
-                "optional": false
+                "value": "Yes"
               }
             },
             "typeParams": null
@@ -362,6 +374,10 @@
             },
             "typeName": {
               "type": "TsQualifiedName",
+              "span": {
+                "start": 166,
+                "end": 175
+              },
               "left": {
                 "type": "Identifier",
                 "span": {
@@ -378,9 +394,7 @@
                   "start": 173,
                   "end": 175
                 },
-                "ctxt": 0,
-                "value": "No",
-                "optional": false
+                "value": "No"
               }
             },
             "typeParams": null
@@ -574,6 +588,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 241,
+                              "end": 251
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -590,9 +608,7 @@
                                 "start": 248,
                                 "end": 251
                               },
-                              "ctxt": 0,
-                              "value": "Yes",
-                              "optional": false
+                              "value": "Yes"
                             }
                           },
                           "typeParams": null
@@ -605,6 +621,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 254,
+                              "end": 263
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -621,9 +641,7 @@
                                 "start": 261,
                                 "end": 263
                               },
-                              "ctxt": 0,
-                              "value": "No",
-                              "optional": false
+                              "value": "No"
                             }
                           },
                           "typeParams": null
@@ -683,6 +701,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 276,
+                              "end": 285
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -699,9 +721,7 @@
                                 "start": 283,
                                 "end": 285
                               },
-                              "ctxt": 0,
-                              "value": "No",
-                              "optional": false
+                              "value": "No"
                             }
                           },
                           "typeParams": null
@@ -714,6 +734,10 @@
                           },
                           "typeName": {
                             "type": "TsQualifiedName",
+                            "span": {
+                              "start": 288,
+                              "end": 298
+                            },
                             "left": {
                               "type": "Identifier",
                               "span": {
@@ -730,9 +754,7 @@
                                 "start": 295,
                                 "end": 298
                               },
-                              "ctxt": 0,
-                              "value": "Yes",
-                              "optional": false
+                              "value": "Yes"
                             }
                           },
                           "typeParams": null
@@ -1070,6 +1092,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 406,
+                    "end": 416
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -1086,9 +1112,7 @@
                       "start": 413,
                       "end": 416
                     },
-                    "ctxt": 0,
-                    "value": "Yes",
-                    "optional": false
+                    "value": "Yes"
                   }
                 },
                 "typeParams": null
@@ -2296,6 +2320,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 808,
+                    "end": 818
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -2312,9 +2340,7 @@
                       "start": 815,
                       "end": 818
                     },
-                    "ctxt": 0,
-                    "value": "Yes",
-                    "optional": false
+                    "value": "Yes"
                   }
                 },
                 "typeParams": null
@@ -2483,6 +2509,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 875,
+                    "end": 885
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -2499,9 +2529,7 @@
                       "start": 882,
                       "end": 885
                     },
-                    "ctxt": 0,
-                    "value": "Yes",
-                    "optional": false
+                    "value": "Yes"
                   }
                 },
                 "typeParams": null
@@ -2580,6 +2608,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 918,
+                    "end": 927
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -2596,9 +2628,7 @@
                       "start": 925,
                       "end": 927
                     },
-                    "ctxt": 0,
-                    "value": "No",
-                    "optional": false
+                    "value": "No"
                   }
                 },
                 "typeParams": null
@@ -2944,9 +2974,7 @@
                             "start": 1053,
                             "end": 1056
                           },
-                          "ctxt": 0,
-                          "value": "Yes",
-                          "optional": false
+                          "value": "Yes"
                         }
                       }
                     }
@@ -3026,9 +3054,7 @@
                             "start": 1081,
                             "end": 1083
                           },
-                          "ctxt": 0,
-                          "value": "No",
-                          "optional": false
+                          "value": "No"
                         }
                       }
                     }
@@ -3481,9 +3507,7 @@
                       "start": 1292,
                       "end": 1295
                     },
-                    "ctxt": 0,
-                    "value": "Yes",
-                    "optional": false
+                    "value": "Yes"
                   }
                 },
                 "consequent": [
@@ -3533,9 +3557,7 @@
                       "start": 1332,
                       "end": 1334
                     },
-                    "ctxt": 0,
-                    "value": "No",
-                    "optional": false
+                    "value": "No"
                   }
                 },
                 "consequent": [
@@ -3683,9 +3705,7 @@
                       "start": 1423,
                       "end": 1426
                     },
-                    "ctxt": 0,
-                    "value": "Yes",
-                    "optional": false
+                    "value": "Yes"
                   }
                 },
                 "consequent": [
@@ -3735,9 +3755,7 @@
                       "start": 1463,
                       "end": 1465
                     },
-                    "ctxt": 0,
-                    "value": "No",
-                    "optional": false
+                    "value": "No"
                   }
                 },
                 "consequent": [
@@ -4076,9 +4094,7 @@
                     "start": 1665,
                     "end": 1668
                   },
-                  "ctxt": 0,
-                  "value": "Yes",
-                  "optional": false
+                  "value": "Yes"
                 }
               }
             },
@@ -4209,6 +4225,10 @@
                     },
                     "typeName": {
                       "type": "TsQualifiedName",
+                      "span": {
+                        "start": 1744,
+                        "end": 1754
+                      },
                       "left": {
                         "type": "Identifier",
                         "span": {
@@ -4225,9 +4245,7 @@
                           "start": 1751,
                           "end": 1754
                         },
-                        "ctxt": 0,
-                        "value": "Yes",
-                        "optional": false
+                        "value": "Yes"
                       }
                     },
                     "typeParams": null
@@ -4311,6 +4329,10 @@
                     },
                     "typeName": {
                       "type": "TsQualifiedName",
+                      "span": {
+                        "start": 1782,
+                        "end": 1791
+                      },
                       "left": {
                         "type": "Identifier",
                         "span": {
@@ -4327,9 +4349,7 @@
                           "start": 1789,
                           "end": 1791
                         },
-                        "ctxt": 0,
-                        "value": "No",
-                        "optional": false
+                        "value": "No"
                       }
                     },
                     "typeParams": null
@@ -4476,9 +4496,7 @@
                   "start": 1845,
                   "end": 1849
                 },
-                "ctxt": 0,
-                "value": "kind",
-                "optional": false
+                "value": "kind"
               }
             },
             "cases": [
@@ -4510,9 +4528,7 @@
                       "start": 1873,
                       "end": 1876
                     },
-                    "ctxt": 0,
-                    "value": "Yes",
-                    "optional": false
+                    "value": "Yes"
                   }
                 },
                 "consequent": [
@@ -4544,9 +4560,7 @@
                           "start": 1887,
                           "end": 1888
                         },
-                        "ctxt": 0,
-                        "value": "a",
-                        "optional": false
+                        "value": "a"
                       }
                     }
                   }
@@ -4580,9 +4594,7 @@
                       "start": 1910,
                       "end": 1912
                     },
-                    "ctxt": 0,
-                    "value": "No",
-                    "optional": false
+                    "value": "No"
                   }
                 },
                 "consequent": [
@@ -4614,9 +4626,7 @@
                           "start": 1923,
                           "end": 1924
                         },
-                        "ctxt": 0,
-                        "value": "b",
-                        "optional": false
+                        "value": "b"
                       }
                     }
                   }
@@ -4731,9 +4741,7 @@
                   "start": 1973,
                   "end": 1977
                 },
-                "ctxt": 0,
-                "value": "kind",
-                "optional": false
+                "value": "kind"
               }
             },
             "cases": [
@@ -4765,9 +4773,7 @@
                       "start": 2001,
                       "end": 2004
                     },
-                    "ctxt": 0,
-                    "value": "Yes",
-                    "optional": false
+                    "value": "Yes"
                   }
                 },
                 "consequent": [
@@ -4799,9 +4805,7 @@
                           "start": 2015,
                           "end": 2016
                         },
-                        "ctxt": 0,
-                        "value": "a",
-                        "optional": false
+                        "value": "a"
                       }
                     }
                   }
@@ -4835,9 +4839,7 @@
                       "start": 2038,
                       "end": 2040
                     },
-                    "ctxt": 0,
-                    "value": "No",
-                    "optional": false
+                    "value": "No"
                   }
                 },
                 "consequent": [
@@ -4869,9 +4871,7 @@
                           "start": 2051,
                           "end": 2052
                         },
-                        "ctxt": 0,
-                        "value": "b",
-                        "optional": false
+                        "value": "b"
                       }
                     }
                   }

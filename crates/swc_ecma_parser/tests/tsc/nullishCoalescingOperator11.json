@@ -189,9 +189,7 @@
                     "start": 91,
                     "end": 98
                   },
-                  "ctxt": 0,
-                  "value": "toFixed",
-                  "optional": false
+                  "value": "toFixed"
                 }
               },
               "arguments": [],

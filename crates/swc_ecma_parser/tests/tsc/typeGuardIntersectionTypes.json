@@ -1144,9 +1144,7 @@
                     "start": 596,
                     "end": 597
                   },
-                  "ctxt": 0,
-                  "value": "b",
-                  "optional": false
+                  "value": "b"
                 }
               }
             }
@@ -1878,9 +1876,7 @@
                         "start": 1090,
                         "end": 1094
                       },
-                      "ctxt": 0,
-                      "value": "legs",
-                      "optional": false
+                      "value": "legs"
                     }
                   }
                 },
@@ -2083,9 +2079,7 @@
                         "start": 1170,
                         "end": 1175
                       },
-                      "ctxt": 0,
-                      "value": "wings",
-                      "optional": false
+                      "value": "wings"
                     }
                   }
                 }
@@ -2351,9 +2345,7 @@
                                 "start": 1431,
                                 "end": 1435
                               },
-                              "ctxt": 0,
-                              "value": "legs",
-                              "optional": false
+                              "value": "legs"
                             }
                           },
                           "right": {
@@ -2462,9 +2454,7 @@
                                   "start": 1534,
                                   "end": 1538
                                 },
-                                "ctxt": 0,
-                                "value": "legs",
-                                "optional": false
+                                "value": "legs"
                               }
                             },
                             "right": {
@@ -2601,9 +2591,7 @@
                                                 "start": 1665,
                                                 "end": 1669
                                               },
-                                              "ctxt": 0,
-                                              "value": "legs",
-                                              "optional": false
+                                              "value": "legs"
                                             }
                                           }
                                         ],
@@ -2704,9 +2692,7 @@
                                         "start": 1807,
                                         "end": 1811
                                       },
-                                      "ctxt": 0,
-                                      "value": "legs",
-                                      "optional": false
+                                      "value": "legs"
                                     }
                                   }
                                 ],

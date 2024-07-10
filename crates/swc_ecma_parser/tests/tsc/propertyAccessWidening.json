@@ -118,9 +118,7 @@
                                 "start": 88,
                                 "end": 100
                               },
-                              "ctxt": 0,
-                              "value": "hasLineBreak",
-                              "optional": false
+                              "value": "hasLineBreak"
                             },
                             "value": {
                               "type": "BooleanLiteral",
@@ -139,9 +137,7 @@
                                 "start": 109,
                                 "end": 114
                               },
-                              "ctxt": 0,
-                              "value": "cells",
-                              "optional": false
+                              "value": "cells"
                             },
                             "value": {
                               "type": "ArrayExpression",
@@ -225,9 +221,7 @@
                                     "start": 143,
                                     "end": 148
                                   },
-                                  "ctxt": 0,
-                                  "value": "cells",
-                                  "optional": false
+                                  "value": "cells"
                                 },
                                 "value": {
                                   "type": "Identifier",
@@ -251,9 +245,7 @@
                         "start": 165,
                         "end": 171
                       },
-                      "ctxt": 0,
-                      "value": "concat",
-                      "optional": false
+                      "value": "concat"
                     }
                   },
                   "arguments": [
@@ -397,9 +389,7 @@
                                 "start": 226,
                                 "end": 238
                               },
-                              "ctxt": 0,
-                              "value": "hasLineBreak",
-                              "optional": false
+                              "value": "hasLineBreak"
                             },
                             "value": {
                               "type": "BooleanLiteral",
@@ -418,9 +408,7 @@
                                 "start": 247,
                                 "end": 252
                               },
-                              "ctxt": 0,
-                              "value": "cells",
-                              "optional": false
+                              "value": "cells"
                             },
                             "value": {
                               "type": "ArrayExpression",
@@ -504,9 +492,7 @@
                                     "start": 281,
                                     "end": 286
                                   },
-                                  "ctxt": 0,
-                                  "value": "cells",
-                                  "optional": false
+                                  "value": "cells"
                                 },
                                 "value": {
                                   "type": "Identifier",
@@ -774,9 +760,7 @@
                       "start": 478,
                       "end": 479
                     },
-                    "ctxt": 0,
-                    "value": "a",
-                    "optional": false
+                    "value": "a"
                   }
                 },
                 "definite": false
@@ -928,9 +912,7 @@
                     "start": 595,
                     "end": 596
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 }
               },
               "right": {

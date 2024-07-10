@@ -679,9 +679,7 @@
                   "start": 893,
                   "end": 917
                 },
-                "ctxt": 0,
-                "value": "methodWithMoreParameters",
-                "optional": false
+                "value": "methodWithMoreParameters"
               },
               "params": [
                 {

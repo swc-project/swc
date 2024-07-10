@@ -1691,9 +1691,7 @@
                     "start": 779,
                     "end": 785
                   },
-                  "ctxt": 0,
-                  "value": "assign",
-                  "optional": false
+                  "value": "assign"
                 }
               },
               "arguments": [
@@ -2260,9 +2258,7 @@
                     "start": 979,
                     "end": 980
                   },
-                  "ctxt": 0,
-                  "value": "s",
-                  "optional": false
+                  "value": "s"
                 },
                 "value": {
                   "type": "StringLiteral",

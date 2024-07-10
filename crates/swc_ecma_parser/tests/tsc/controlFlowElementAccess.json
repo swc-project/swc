@@ -97,9 +97,7 @@
                     "start": 27,
                     "end": 28
                   },
-                  "ctxt": 0,
-                  "value": "o",
-                  "optional": false
+                  "value": "o"
                 },
                 "value": {
                   "type": "BooleanLiteral",

@@ -1655,9 +1655,7 @@
                     "start": 702,
                     "end": 706
                   },
-                  "ctxt": 0,
-                  "value": "from",
-                  "optional": false
+                  "value": "from"
                 }
               },
               "arguments": [
@@ -1826,9 +1824,7 @@
                     "start": 748,
                     "end": 752
                   },
-                  "ctxt": 0,
-                  "value": "from",
-                  "optional": false
+                  "value": "from"
                 }
               },
               "arguments": [

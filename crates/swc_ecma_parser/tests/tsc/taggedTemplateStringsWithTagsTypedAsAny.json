@@ -223,9 +223,7 @@
                 "start": 49,
                 "end": 50
               },
-              "ctxt": 0,
-              "value": "g",
-              "optional": false
+              "value": "g"
             }
           },
           "property": {
@@ -234,9 +232,7 @@
               "start": 51,
               "end": 52
             },
-            "ctxt": 0,
-            "value": "h",
-            "optional": false
+            "value": "h"
           }
         },
         "typeParameters": null,
@@ -303,9 +299,7 @@
                 "start": 62,
                 "end": 63
               },
-              "ctxt": 0,
-              "value": "g",
-              "optional": false
+              "value": "g"
             }
           },
           "property": {
@@ -314,9 +308,7 @@
               "start": 64,
               "end": 65
             },
-            "ctxt": 0,
-            "value": "h",
-            "optional": false
+            "value": "h"
           }
         },
         "typeParameters": null,
@@ -438,9 +430,7 @@
             "start": 96,
             "end": 102
           },
-          "ctxt": 0,
-          "value": "member",
-          "optional": false
+          "value": "member"
         }
       }
     },
@@ -540,9 +530,7 @@
             "start": 126,
             "end": 132
           },
-          "ctxt": 0,
-          "value": "member",
-          "optional": false
+          "value": "member"
         }
       }
     },
@@ -810,9 +798,7 @@
               "start": 207,
               "end": 219
             },
-            "ctxt": 0,
-            "value": "someOtherTag",
-            "optional": false
+            "value": "someOtherTag"
           }
         },
         "typeParameters": null,
@@ -1003,9 +989,7 @@
               "start": 274,
               "end": 286
             },
-            "ctxt": 0,
-            "value": "someOtherTag",
-            "optional": false
+            "value": "someOtherTag"
           }
         },
         "typeParameters": null,
@@ -1105,9 +1089,7 @@
               "start": 311,
               "end": 324
             },
-            "ctxt": 0,
-            "value": "thisIsNotATag",
-            "optional": false
+            "value": "thisIsNotATag"
           }
         },
         "arguments": [
@@ -1173,9 +1155,7 @@
               "start": 336,
               "end": 349
             },
-            "ctxt": 0,
-            "value": "thisIsNotATag",
-            "optional": false
+            "value": "thisIsNotATag"
           }
         },
         "arguments": [

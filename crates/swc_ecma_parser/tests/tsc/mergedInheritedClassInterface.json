@@ -136,9 +136,7 @@
               "start": 97,
               "end": 107
             },
-            "ctxt": 0,
-            "value": "baseMethod",
-            "optional": false
+            "value": "baseMethod"
           },
           "function": {
             "params": [],
@@ -181,9 +179,7 @@
               "start": 118,
               "end": 128
             },
-            "ctxt": 0,
-            "value": "baseNumber",
-            "optional": false
+            "value": "baseNumber"
           },
           "value": null,
           "typeAnnotation": {
@@ -333,9 +329,7 @@
               "start": 244,
               "end": 255
             },
-            "ctxt": 0,
-            "value": "classNumber",
-            "optional": false
+            "value": "classNumber"
           },
           "value": null,
           "typeAnnotation": {
@@ -375,9 +369,7 @@
               "start": 269,
               "end": 275
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           },
           "function": {
             "params": [],
@@ -539,9 +531,7 @@
               "start": 392,
               "end": 403
             },
-            "ctxt": 0,
-            "value": "classString",
-            "optional": false
+            "value": "classString"
           },
           "value": null,
           "typeAnnotation": {
@@ -581,9 +571,7 @@
               "start": 417,
               "end": 424
             },
-            "ctxt": 0,
-            "value": "method2",
-            "optional": false
+            "value": "method2"
           },
           "function": {
             "params": [],
@@ -740,9 +728,7 @@
             "start": 550,
             "end": 558
           },
-          "ctxt": 0,
-          "value": "required",
-          "optional": false
+          "value": "required"
         }
       }
     },
@@ -774,9 +760,7 @@
             "start": 566,
             "end": 574
           },
-          "ctxt": 0,
-          "value": "optional",
-          "optional": false
+          "value": "optional"
         }
       }
     },
@@ -808,9 +792,7 @@
             "start": 582,
             "end": 592
           },
-          "ctxt": 0,
-          "value": "additional",
-          "optional": false
+          "value": "additional"
         }
       }
     },
@@ -842,9 +824,7 @@
             "start": 600,
             "end": 610
           },
-          "ctxt": 0,
-          "value": "baseNumber",
-          "optional": false
+          "value": "baseNumber"
         }
       }
     },
@@ -876,9 +856,7 @@
             "start": 618,
             "end": 629
           },
-          "ctxt": 0,
-          "value": "classNumber",
-          "optional": false
+          "value": "classNumber"
         }
       }
     },
@@ -917,9 +895,7 @@
               "start": 637,
               "end": 647
             },
-            "ctxt": 0,
-            "value": "baseMethod",
-            "optional": false
+            "value": "baseMethod"
           }
         },
         "arguments": [],
@@ -961,9 +937,7 @@
               "start": 657,
               "end": 663
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           }
         },
         "arguments": [],
@@ -1054,9 +1028,7 @@
             "start": 707,
             "end": 715
           },
-          "ctxt": 0,
-          "value": "required",
-          "optional": false
+          "value": "required"
         }
       }
     },
@@ -1088,9 +1060,7 @@
             "start": 728,
             "end": 736
           },
-          "ctxt": 0,
-          "value": "optional",
-          "optional": false
+          "value": "optional"
         }
       }
     },
@@ -1122,9 +1092,7 @@
             "start": 749,
             "end": 760
           },
-          "ctxt": 0,
-          "value": "additional2",
-          "optional": false
+          "value": "additional2"
         }
       }
     },
@@ -1156,9 +1124,7 @@
             "start": 773,
             "end": 784
           },
-          "ctxt": 0,
-          "value": "classString",
-          "optional": false
+          "value": "classString"
         }
       }
     },
@@ -1197,9 +1163,7 @@
               "start": 797,
               "end": 804
             },
-            "ctxt": 0,
-            "value": "method2",
-            "optional": false
+            "value": "method2"
           }
         },
         "arguments": [],

@@ -46,9 +46,7 @@
                 "start": 130,
                 "end": 135
               },
-              "ctxt": 0,
-              "value": "Inner",
-              "optional": false
+              "value": "Inner"
             }
           },
           "property": {
@@ -57,9 +55,7 @@
               "start": 136,
               "end": 143
             },
-            "ctxt": 0,
-            "value": "Message",
-            "optional": false
+            "value": "Message"
           }
         },
         "right": {
@@ -144,9 +140,7 @@
                   "start": 181,
                   "end": 186
                 },
-                "ctxt": 0,
-                "value": "Inner",
-                "optional": false
+                "value": "Inner"
               }
             },
             "arguments": [],
@@ -184,9 +178,7 @@
             "start": 191,
             "end": 195
           },
-          "ctxt": 0,
-          "value": "name",
-          "optional": false
+          "value": "name"
         }
       }
     },
@@ -250,9 +242,7 @@
             "start": 273,
             "end": 277
           },
-          "ctxt": 0,
-          "value": "name",
-          "optional": false
+          "value": "name"
         }
       }
     },
@@ -330,9 +320,7 @@
               "start": 321,
               "end": 326
             },
-            "ctxt": 0,
-            "value": "Inner",
-            "optional": false
+            "value": "Inner"
           }
         },
         "right": {
@@ -357,9 +345,7 @@
                   "start": 339,
                   "end": 343
                 },
-                "ctxt": 0,
-                "value": "name",
-                "optional": false
+                "value": "name"
               },
               "function": {
                 "params": [],

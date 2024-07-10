@@ -848,9 +848,7 @@
                   "start": 564,
                   "end": 575
                 },
-                "ctxt": 0,
-                "value": "toLowerCase",
-                "optional": false
+                "value": "toLowerCase"
               }
             },
             "arguments": [],
@@ -1034,9 +1032,7 @@
                   "start": 651,
                   "end": 662
                 },
-                "ctxt": 0,
-                "value": "toPrecision",
-                "optional": false
+                "value": "toPrecision"
               }
             },
             "arguments": [

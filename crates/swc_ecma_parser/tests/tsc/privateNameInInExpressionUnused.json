@@ -115,9 +115,7 @@
               "start": 177,
               "end": 182
             },
-            "ctxt": 0,
-            "value": "isFoo",
-            "optional": false
+            "value": "isFoo"
           },
           "function": {
             "params": [

@@ -65,9 +65,7 @@
               "start": 27,
               "end": 28
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           },
           "value": {
             "type": "NumericLiteral",
@@ -128,9 +126,7 @@
               "start": 60,
               "end": 61
             },
-            "ctxt": 0,
-            "value": "c",
-            "optional": false
+            "value": "c"
           },
           "value": null,
           "typeAnnotation": null,
@@ -209,9 +205,7 @@
               "start": 88,
               "end": 89
             },
-            "ctxt": 0,
-            "value": "d",
-            "optional": false
+            "value": "d"
           },
           "value": null,
           "typeAnnotation": null,
@@ -290,9 +284,7 @@
               "start": 113,
               "end": 114
             },
-            "ctxt": 0,
-            "value": "e",
-            "optional": false
+            "value": "e"
           },
           "value": null,
           "typeAnnotation": null,
@@ -361,9 +353,7 @@
               "start": 138,
               "end": 139
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           },
           "value": null,
           "typeAnnotation": null,
@@ -1627,9 +1617,7 @@
                       "start": 696,
                       "end": 699
                     },
-                    "ctxt": 0,
-                    "value": "one",
-                    "optional": false
+                    "value": "one"
                   }
                 }
               },
@@ -1657,9 +1645,7 @@
                       "start": 704,
                       "end": 707
                     },
-                    "ctxt": 0,
-                    "value": "one",
-                    "optional": false
+                    "value": "one"
                   }
                 }
               }

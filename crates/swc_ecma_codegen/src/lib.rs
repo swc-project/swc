@@ -1714,9 +1714,7 @@ where
 
         emit!(n.key);
 
-        // emit for a computed property, but not an identifier already marked as
-        // optional
-        if n.is_optional && !n.key.as_ident().map(|i| i.optional).unwrap_or(false) {
+        if n.is_optional {
             punct!("?");
         }
 
@@ -2361,6 +2359,11 @@ where
     #[emitter]
     fn emit_ident(&mut self, ident: &Ident) -> Result {
         self.emit_ident_like(ident.span, &ident.sym, ident.optional)?;
+    }
+
+    #[emitter]
+    fn emit_ident_name(&mut self, ident: &IdentName) -> Result {
+        self.emit_ident_like(ident.span, &ident.sym, false)?;
     }
 
     fn emit_ident_like(&mut self, span: Span, sym: &Atom, optional: bool) -> Result {

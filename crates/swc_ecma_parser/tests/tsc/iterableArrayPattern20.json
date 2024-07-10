@@ -37,9 +37,7 @@
               "start": 28,
               "end": 29
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": null,
@@ -92,9 +90,7 @@
               "start": 56,
               "end": 57
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "value": null,
           "typeAnnotation": null,
@@ -156,9 +152,7 @@
               "start": 89,
               "end": 93
             },
-            "ctxt": 0,
-            "value": "next",
-            "optional": false
+            "value": "next"
           },
           "function": {
             "params": [],
@@ -197,9 +191,7 @@
                             "start": 127,
                             "end": 132
                           },
-                          "ctxt": 0,
-                          "value": "value",
-                          "optional": false
+                          "value": "value"
                         },
                         "value": {
                           "type": "ArrayExpression",
@@ -242,9 +234,7 @@
                             "start": 157,
                             "end": 161
                           },
-                          "ctxt": 0,
-                          "value": "done",
-                          "optional": false
+                          "value": "done"
                         },
                         "value": {
                           "type": "BooleanLiteral",
@@ -306,9 +296,7 @@
                   "start": 199,
                   "end": 207
                 },
-                "ctxt": 0,
-                "value": "iterator",
-                "optional": false
+                "value": "iterator"
               }
             }
           },

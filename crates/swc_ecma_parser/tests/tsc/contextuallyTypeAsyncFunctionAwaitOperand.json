@@ -177,9 +177,7 @@
                             "start": 162,
                             "end": 165
                           },
-                          "ctxt": 0,
-                          "value": "key",
-                          "optional": false
+                          "value": "key"
                         },
                         "value": {
                           "type": "StringLiteral",
@@ -330,9 +328,7 @@
                                           "start": 239,
                                           "end": 242
                                         },
-                                        "ctxt": 0,
-                                        "value": "key",
-                                        "optional": false
+                                        "value": "key"
                                       },
                                       "value": {
                                         "type": "StringLiteral",
@@ -391,9 +387,7 @@
                         "start": 276,
                         "end": 279
                       },
-                      "ctxt": 0,
-                      "value": "key",
-                      "optional": false
+                      "value": "key"
                     },
                     "value": {
                       "type": "StringLiteral",

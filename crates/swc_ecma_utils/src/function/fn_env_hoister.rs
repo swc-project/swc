@@ -520,7 +520,7 @@ impl VisitMut for FnEnvHoister {
                             callee: self.super_update_computed(*span).as_callee(),
                             ..Default::default()
                         })
-                        .make_member(quote_ident!("_"))
+                        .make_member("_".into())
                         .into()
                     } else {
                         Expr::Call(CallExpr {
@@ -644,7 +644,7 @@ fn extend_super(
                 props: vec![
                     Prop::Getter(GetterProp {
                         span: DUMMY_SP,
-                        key: PropName::Ident(quote_ident!("_")),
+                        key: PropName::Ident("_".into()),
                         type_ann: None,
                         body: Some(BlockStmt {
                             stmts: vec![Expr::Ident(
@@ -662,7 +662,7 @@ fn extend_super(
                     }),
                     Prop::Setter(SetterProp {
                         span: DUMMY_SP,
-                        key: PropName::Ident(quote_ident!("_")),
+                        key: PropName::Ident("_".into()),
                         this_param: None,
                         param: value.clone().into(),
                         body: Some(BlockStmt {
@@ -702,7 +702,7 @@ fn extend_super(
                     props: vec![
                         Prop::Getter(GetterProp {
                             span: DUMMY_SP,
-                            key: PropName::Ident(quote_ident!("_")),
+                            key: PropName::Ident("_".into()),
                             type_ann: None,
                             body: Some(BlockStmt {
                                 stmts: vec![Expr::Ident(
@@ -719,7 +719,7 @@ fn extend_super(
                         }),
                         Prop::Setter(SetterProp {
                             span: DUMMY_SP,
-                            key: PropName::Ident(quote_ident!("_")),
+                            key: PropName::Ident("_".into()),
                             this_param: None,
                             param: value.clone().into(),
                             body: Some(BlockStmt {
@@ -755,7 +755,7 @@ fn extend_super(
             body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::SuperProp(
                 SuperPropExpr {
                     obj: Super { span: DUMMY_SP },
-                    prop: SuperProp::Ident(quote_ident!(key)),
+                    prop: SuperProp::Ident(key.into()),
                     span: DUMMY_SP,
                 },
             )))),
@@ -798,7 +798,7 @@ fn extend_super(
                     span: DUMMY_SP,
                     left: SuperPropExpr {
                         obj: Super { span: DUMMY_SP },
-                        prop: SuperProp::Ident(quote_ident!(key)),
+                        prop: SuperProp::Ident(key.into()),
                         span: DUMMY_SP,
                     }
                     .into(),

@@ -43,9 +43,7 @@
                 "start": 81,
                 "end": 86
               },
-              "ctxt": 0,
-              "value": "yadda",
-              "optional": false
+              "value": "yadda"
             },
             "function": {
               "params": [],
@@ -128,9 +126,7 @@
                 "start": 143,
                 "end": 148
               },
-              "ctxt": 0,
-              "value": "yadda",
-              "optional": false
+              "value": "yadda"
             },
             "function": {
               "params": [],
@@ -221,9 +217,7 @@
                 "start": 209,
                 "end": 212
               },
-              "ctxt": 0,
-              "value": "foo",
-              "optional": false
+              "value": "foo"
             },
             "function": {
               "params": [],
@@ -306,9 +300,7 @@
                 "start": 287,
                 "end": 290
               },
-              "ctxt": 0,
-              "value": "foo",
-              "optional": false
+              "value": "foo"
             },
             "function": {
               "params": [],
@@ -357,9 +349,7 @@
                 "start": 314,
                 "end": 317
               },
-              "ctxt": 0,
-              "value": "bar",
-              "optional": false
+              "value": "bar"
             },
             "function": {
               "params": [],
@@ -476,9 +466,7 @@
                       "start": 413,
                       "end": 416
                     },
-                    "ctxt": 0,
-                    "value": "foo",
-                    "optional": false
+                    "value": "foo"
                   },
                   "function": {
                     "params": [],
@@ -561,9 +549,7 @@
                       "start": 495,
                       "end": 498
                     },
-                    "ctxt": 0,
-                    "value": "foo",
-                    "optional": false
+                    "value": "foo"
                   },
                   "function": {
                     "params": [],
@@ -612,9 +598,7 @@
                       "start": 526,
                       "end": 529
                     },
-                    "ctxt": 0,
-                    "value": "bar",
-                    "optional": false
+                    "value": "bar"
                   },
                   "function": {
                     "params": [],
@@ -709,9 +693,7 @@
                 "start": 589,
                 "end": 592
               },
-              "ctxt": 0,
-              "value": "foo",
-              "optional": false
+              "value": "foo"
             },
             "function": {
               "params": [],
@@ -802,9 +784,7 @@
                 "start": 667,
                 "end": 670
               },
-              "ctxt": 0,
-              "value": "foo",
-              "optional": false
+              "value": "foo"
             },
             "function": {
               "params": [],
@@ -861,9 +841,7 @@
                 "start": 696,
                 "end": 699
               },
-              "ctxt": 0,
-              "value": "bar",
-              "optional": false
+              "value": "bar"
             },
             "function": {
               "params": [],

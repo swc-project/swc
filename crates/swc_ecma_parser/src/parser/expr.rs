@@ -1423,7 +1423,7 @@ impl<I: Tokens> Parser<I> {
             return Ok((
                 Box::new(match obj {
                     callee @ Callee::Import(_) => match prop {
-                        MemberProp::Ident(Ident { sym, .. }) => {
+                        MemberProp::Ident(IdentName { sym, .. }) => {
                             if !self.ctx().can_be_module {
                                 let span = span!(self, start);
                                 self.emit_err(span, SyntaxError::ImportMetaInScript);

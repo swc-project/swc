@@ -37,9 +37,7 @@
               "start": 68,
               "end": 69
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "function": {
             "params": [],
@@ -109,9 +107,7 @@
               "start": 102,
               "end": 103
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "value": {
             "type": "ArrowFunctionExpression",

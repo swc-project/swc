@@ -266,9 +266,7 @@
                           "start": 150,
                           "end": 161
                         },
-                        "ctxt": 0,
-                        "value": "toUpperCase",
-                        "optional": false
+                        "value": "toUpperCase"
                       }
                     },
                     "arguments": [],
@@ -557,9 +555,7 @@
                           "start": 293,
                           "end": 304
                         },
-                        "ctxt": 0,
-                        "value": "toUpperCase",
-                        "optional": false
+                        "value": "toUpperCase"
                       }
                     },
                     "arguments": [],
@@ -754,9 +750,7 @@
                           "start": 393,
                           "end": 404
                         },
-                        "ctxt": 0,
-                        "value": "toUpperCase",
-                        "optional": false
+                        "value": "toUpperCase"
                       }
                     },
                     "arguments": [],
@@ -951,9 +945,7 @@
                           "start": 495,
                           "end": 506
                         },
-                        "ctxt": 0,
-                        "value": "toUpperCase",
-                        "optional": false
+                        "value": "toUpperCase"
                       }
                     },
                     "arguments": [],
@@ -1425,9 +1417,7 @@
                                 "start": 716,
                                 "end": 727
                               },
-                              "ctxt": 0,
-                              "value": "toUpperCase",
-                              "optional": false
+                              "value": "toUpperCase"
                             }
                           },
                           "arguments": [],
@@ -1570,9 +1560,7 @@
                                 "start": 806,
                                 "end": 813
                               },
-                              "ctxt": 0,
-                              "value": "toFixed",
-                              "optional": false
+                              "value": "toFixed"
                             }
                           },
                           "arguments": [],
@@ -1867,9 +1855,7 @@
                           "start": 949,
                           "end": 960
                         },
-                        "ctxt": 0,
-                        "value": "toUpperCase",
-                        "optional": false
+                        "value": "toUpperCase"
                       }
                     },
                     "arguments": [],

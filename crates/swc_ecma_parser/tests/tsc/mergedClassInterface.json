@@ -317,9 +317,7 @@
               "start": 249,
               "end": 251
             },
-            "ctxt": 0,
-            "value": "x2",
-            "optional": false
+            "value": "x2"
           },
           "value": null,
           "typeAnnotation": {
@@ -566,9 +564,7 @@
             "start": 393,
             "end": 395
           },
-          "ctxt": 0,
-          "value": "x1",
-          "optional": false
+          "value": "x1"
         }
       }
     },
@@ -600,9 +596,7 @@
             "start": 400,
             "end": 402
           },
-          "ctxt": 0,
-          "value": "x2",
-          "optional": false
+          "value": "x2"
         }
       }
     },
@@ -634,9 +628,7 @@
             "start": 407,
             "end": 409
           },
-          "ctxt": 0,
-          "value": "x3",
-          "optional": false
+          "value": "x3"
         }
       }
     },
@@ -668,9 +660,7 @@
             "start": 414,
             "end": 416
           },
-          "ctxt": 0,
-          "value": "x4",
-          "optional": false
+          "value": "x4"
         }
       }
     },

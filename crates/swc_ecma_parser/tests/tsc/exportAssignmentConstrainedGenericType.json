@@ -37,9 +37,7 @@
               "start": 91,
               "end": 95
             },
-            "ctxt": 0,
-            "value": "test",
-            "optional": false
+            "value": "test"
           },
           "value": null,
           "typeAnnotation": {
@@ -90,9 +88,7 @@
               "start": 101,
               "end": 112
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -443,9 +439,7 @@
                           "start": 251,
                           "end": 252
                         },
-                        "ctxt": 0,
-                        "value": "a",
-                        "optional": false
+                        "value": "a"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -465,9 +459,7 @@
                           "start": 262,
                           "end": 263
                         },
-                        "ctxt": 0,
-                        "value": "b",
-                        "optional": false
+                        "value": "b"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -558,9 +550,7 @@
                   "start": 305,
                   "end": 309
                 },
-                "ctxt": 0,
-                "value": "test",
-                "optional": false
+                "value": "test"
               }
             },
             "property": {
@@ -569,9 +559,7 @@
                 "start": 310,
                 "end": 311
               },
-              "ctxt": 0,
-              "value": "b",
-              "optional": false
+              "value": "b"
             }
           },
           "definite": false

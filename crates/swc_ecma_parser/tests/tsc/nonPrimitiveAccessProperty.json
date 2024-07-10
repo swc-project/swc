@@ -86,9 +86,7 @@
               "start": 18,
               "end": 26
             },
-            "ctxt": 0,
-            "value": "toString",
-            "optional": false
+            "value": "toString"
           }
         },
         "arguments": [],
@@ -130,9 +128,7 @@
               "start": 32,
               "end": 40
             },
-            "ctxt": 0,
-            "value": "nonExist",
-            "optional": false
+            "value": "nonExist"
           }
         },
         "arguments": [],

@@ -37,9 +37,7 @@
               "start": 66,
               "end": 74
             },
-            "ctxt": 0,
-            "value": "property",
-            "optional": false
+            "value": "property"
           },
           "value": {
             "type": "NumericLiteral",
@@ -100,9 +98,7 @@
               "start": 121,
               "end": 129
             },
-            "ctxt": 0,
-            "value": "property",
-            "optional": false
+            "value": "property"
           },
           "value": null,
           "typeAnnotation": {

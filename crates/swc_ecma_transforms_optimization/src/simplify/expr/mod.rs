@@ -127,10 +127,10 @@ impl SimplifyExpr {
             IndexStr(JsWord),
         }
         let op = match prop {
-            MemberProp::Ident(Ident { sym, .. }) if &**sym == "length" && !obj.is_object() => {
+            MemberProp::Ident(IdentName { sym, .. }) if &**sym == "length" && !obj.is_object() => {
                 KnownOp::Len
             }
-            MemberProp::Ident(Ident { sym, .. }) => {
+            MemberProp::Ident(IdentName { sym, .. }) => {
                 if self.in_callee {
                     return;
                 }

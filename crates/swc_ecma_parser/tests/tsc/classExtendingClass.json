@@ -37,9 +37,7 @@
               "start": 15,
               "end": 18
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -79,9 +77,7 @@
               "start": 32,
               "end": 37
             },
-            "ctxt": 0,
-            "value": "thing",
-            "optional": false
+            "value": "thing"
           },
           "function": {
             "params": [],
@@ -124,9 +120,7 @@
               "start": 55,
               "end": 60
             },
-            "ctxt": 0,
-            "value": "other",
-            "optional": false
+            "value": "other"
           },
           "function": {
             "params": [],
@@ -196,9 +190,7 @@
               "start": 94,
               "end": 97
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "value": null,
           "typeAnnotation": {
@@ -347,9 +339,7 @@
                 "start": 130,
                 "end": 133
               },
-              "ctxt": 0,
-              "value": "foo",
-              "optional": false
+              "value": "foo"
             }
           },
           "definite": false
@@ -405,9 +395,7 @@
                 "start": 146,
                 "end": 149
               },
-              "ctxt": 0,
-              "value": "bar",
-              "optional": false
+              "value": "bar"
             }
           },
           "definite": false
@@ -470,9 +458,7 @@
                   "start": 162,
                   "end": 167
                 },
-                "ctxt": 0,
-                "value": "thing",
-                "optional": false
+                "value": "thing"
               }
             },
             "arguments": [],
@@ -538,9 +524,7 @@
                   "start": 182,
                   "end": 187
                 },
-                "ctxt": 0,
-                "value": "other",
-                "optional": false
+                "value": "other"
               }
             },
             "arguments": [],
@@ -582,9 +566,7 @@
               "start": 210,
               "end": 213
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -634,9 +616,7 @@
               "start": 222,
               "end": 227
             },
-            "ctxt": 0,
-            "value": "thing",
-            "optional": false
+            "value": "thing"
           },
           "function": {
             "params": [
@@ -723,9 +703,7 @@
               "start": 249,
               "end": 254
             },
-            "ctxt": 0,
-            "value": "other",
-            "optional": false
+            "value": "other"
           },
           "function": {
             "params": [
@@ -899,9 +877,7 @@
               "start": 303,
               "end": 306
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "value": null,
           "typeAnnotation": {
@@ -1122,9 +1098,7 @@
                 "start": 351,
                 "end": 354
               },
-              "ctxt": 0,
-              "value": "foo",
-              "optional": false
+              "value": "foo"
             }
           },
           "definite": false
@@ -1180,9 +1154,7 @@
                 "start": 368,
                 "end": 371
               },
-              "ctxt": 0,
-              "value": "bar",
-              "optional": false
+              "value": "bar"
             }
           },
           "definite": false
@@ -1245,9 +1217,7 @@
                   "start": 385,
                   "end": 390
                 },
-                "ctxt": 0,
-                "value": "thing",
-                "optional": false
+                "value": "thing"
               }
             },
             "arguments": [
@@ -1326,9 +1296,7 @@
                   "start": 408,
                   "end": 413
                 },
-                "ctxt": 0,
-                "value": "other",
-                "optional": false
+                "value": "other"
               }
             },
             "arguments": [

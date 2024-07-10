@@ -113,9 +113,7 @@
                                   "start": 79,
                                   "end": 86
                                 },
-                                "ctxt": 0,
-                                "value": "resolve",
-                                "optional": false
+                                "value": "resolve"
                               }
                             },
                             "arguments": [
@@ -162,9 +160,7 @@
                     "start": 104,
                     "end": 107
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "function": {
                   "params": [],
@@ -352,9 +348,7 @@
                                           "start": 181,
                                           "end": 185
                                         },
-                                        "ctxt": 0,
-                                        "value": "next",
-                                        "optional": false
+                                        "value": "next"
                                       }
                                     },
                                     "arguments": [],
@@ -366,9 +360,7 @@
                                       "start": 188,
                                       "end": 193
                                     },
-                                    "ctxt": 0,
-                                    "value": "value",
-                                    "optional": false
+                                    "value": "value"
                                   }
                                 },
                                 "right": {
@@ -465,9 +457,7 @@
                                             "start": 222,
                                             "end": 226
                                           },
-                                          "ctxt": 0,
-                                          "value": "next",
-                                          "optional": false
+                                          "value": "next"
                                         }
                                       },
                                       "arguments": [],
@@ -481,9 +471,7 @@
                                     "start": 230,
                                     "end": 235
                                   },
-                                  "ctxt": 0,
-                                  "value": "value",
-                                  "optional": false
+                                  "value": "value"
                                 }
                               },
                               "right": {
@@ -664,9 +652,7 @@
                                       "start": 324,
                                       "end": 331
                                     },
-                                    "ctxt": 0,
-                                    "value": "resolve",
-                                    "optional": false
+                                    "value": "resolve"
                                   }
                                 },
                                 "arguments": [
@@ -773,9 +759,7 @@
                   "start": 355,
                   "end": 358
                 },
-                "ctxt": 0,
-                "value": "foo",
-                "optional": false
+                "value": "foo"
               }
             },
             "arguments": [],
@@ -787,9 +771,7 @@
               "start": 361,
               "end": 365
             },
-            "ctxt": 0,
-            "value": "then",
-            "optional": false
+            "value": "then"
           }
         },
         "arguments": [
@@ -817,9 +799,7 @@
                   "start": 374,
                   "end": 377
                 },
-                "ctxt": 0,
-                "value": "log",
-                "optional": false
+                "value": "log"
               }
             }
           }

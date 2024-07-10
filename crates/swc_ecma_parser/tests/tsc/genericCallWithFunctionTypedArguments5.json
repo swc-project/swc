@@ -200,9 +200,7 @@
                     "start": 219,
                     "end": 221
                   },
-                  "ctxt": 0,
-                  "value": "cb",
-                  "optional": false
+                  "value": "cb"
                 }
               },
               "arguments": [
@@ -321,9 +319,7 @@
                     "start": 244,
                     "end": 246
                   },
-                  "ctxt": 0,
-                  "value": "cb",
-                  "optional": false
+                  "value": "cb"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -547,9 +543,7 @@
                           "start": 331,
                           "end": 333
                         },
-                        "ctxt": 0,
-                        "value": "cb",
-                        "optional": false
+                        "value": "cb"
                       },
                       "value": {
                         "type": "ArrowFunctionExpression",
@@ -747,9 +741,7 @@
                           "start": 385,
                           "end": 387
                         },
-                        "ctxt": 0,
-                        "value": "cb",
-                        "optional": false
+                        "value": "cb"
                       },
                       "value": {
                         "type": "ArrowFunctionExpression",
@@ -1065,9 +1057,7 @@
                     "start": 502,
                     "end": 504
                   },
-                  "ctxt": 0,
-                  "value": "cb",
-                  "optional": false
+                  "value": "cb"
                 }
               },
               "arguments": [
@@ -1281,9 +1271,7 @@
                           "start": 578,
                           "end": 580
                         },
-                        "ctxt": 0,
-                        "value": "cb",
-                        "optional": false
+                        "value": "cb"
                       },
                       "value": {
                         "type": "ArrowFunctionExpression",
@@ -1446,9 +1434,7 @@
                           "start": 623,
                           "end": 625
                         },
-                        "ctxt": 0,
-                        "value": "cb",
-                        "optional": false
+                        "value": "cb"
                       },
                       "value": {
                         "type": "ArrowFunctionExpression",
@@ -1571,9 +1557,7 @@
                           "start": 674,
                           "end": 676
                         },
-                        "ctxt": 0,
-                        "value": "cb",
-                        "optional": false
+                        "value": "cb"
                       },
                       "value": {
                         "type": "ArrowFunctionExpression",

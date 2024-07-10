@@ -44,6 +44,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 9,
+                    "end": 15
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -60,9 +64,7 @@
                       "start": 11,
                       "end": 15
                     },
-                    "ctxt": 0,
-                    "value": "void",
-                    "optional": false
+                    "value": "void"
                   }
                 },
                 "typeParams": null

@@ -136,9 +136,7 @@
                           "start": 57,
                           "end": 58
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -158,9 +156,7 @@
                           "start": 64,
                           "end": 65
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       },
                       "value": {
                         "type": "BooleanLiteral",
@@ -260,9 +256,7 @@
                 "start": 97,
                 "end": 98
               },
-              "ctxt": 0,
-              "value": "y",
-              "optional": false
+              "value": "y"
             },
             "value": {
               "type": "AssignmentPattern",
@@ -303,9 +297,7 @@
                     "start": 106,
                     "end": 107
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 }
               }
             }

@@ -47,9 +47,7 @@
                     "start": 87,
                     "end": 90
                   },
-                  "ctxt": 0,
-                  "value": "min",
-                  "optional": false
+                  "value": "min"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -102,9 +100,7 @@
               "start": 105,
               "end": 108
             },
-            "ctxt": 0,
-            "value": "fn1",
-            "optional": false
+            "value": "fn1"
           }
         },
         "arguments": [],
@@ -146,9 +142,7 @@
               "start": 120,
               "end": 123
             },
-            "ctxt": 0,
-            "value": "fn2",
-            "optional": false
+            "value": "fn2"
           }
         },
         "right": {
@@ -173,9 +167,7 @@
               "start": 130,
               "end": 133
             },
-            "ctxt": 0,
-            "value": "min",
-            "optional": false
+            "value": "min"
           }
         }
       }

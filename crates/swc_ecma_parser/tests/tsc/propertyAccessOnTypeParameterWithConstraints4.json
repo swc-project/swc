@@ -37,9 +37,7 @@
               "start": 31,
               "end": 32
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           },
           "function": {
             "params": [],
@@ -239,9 +237,7 @@
                             "start": 128,
                             "end": 135
                           },
-                          "ctxt": 0,
-                          "value": "notHere",
-                          "optional": false
+                          "value": "notHere"
                         }
                       },
                       "arguments": [],
@@ -416,9 +412,7 @@
                   "start": 172,
                   "end": 173
                 },
-                "ctxt": 0,
-                "value": "f",
-                "optional": false
+                "value": "f"
               }
             },
             "arguments": [],
@@ -693,9 +687,7 @@
                     "start": 249,
                     "end": 252
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 }
               },
               "property": {
@@ -704,9 +696,7 @@
                   "start": 253,
                   "end": 260
                 },
-                "ctxt": 0,
-                "value": "notHere",
-                "optional": false
+                "value": "notHere"
               }
             },
             "arguments": [],
@@ -778,9 +768,7 @@
                     "start": 276,
                     "end": 279
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 }
               },
               "property": {
@@ -1015,9 +1003,7 @@
                   "start": 354,
                   "end": 361
                 },
-                "ctxt": 0,
-                "value": "notHere",
-                "optional": false
+                "value": "notHere"
               }
             },
             "arguments": [],
@@ -1167,9 +1153,7 @@
                     "start": 416,
                     "end": 419
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -1349,9 +1333,7 @@
                                   "start": 525,
                                   "end": 532
                                 },
-                                "ctxt": 0,
-                                "value": "notHere",
-                                "optional": false
+                                "value": "notHere"
                               }
                             },
                             "arguments": [],
@@ -1446,9 +1428,7 @@
                     "start": 547,
                     "end": 550
                   },
-                  "ctxt": 0,
-                  "value": "bar",
-                  "optional": false
+                  "value": "bar"
                 },
                 "value": {
                   "type": "CallExpression",
@@ -1492,9 +1472,7 @@
                             "start": 554,
                             "end": 557
                           },
-                          "ctxt": 0,
-                          "value": "foo",
-                          "optional": false
+                          "value": "foo"
                         }
                       },
                       "arguments": [],
@@ -1506,9 +1484,7 @@
                         "start": 560,
                         "end": 567
                       },
-                      "ctxt": 0,
-                      "value": "notHere",
-                      "optional": false
+                      "value": "notHere"
                     }
                   },
                   "arguments": [],
@@ -1577,9 +1553,7 @@
                   "start": 584,
                   "end": 587
                 },
-                "ctxt": 0,
-                "value": "foo",
-                "optional": false
+                "value": "foo"
               }
             },
             "arguments": [

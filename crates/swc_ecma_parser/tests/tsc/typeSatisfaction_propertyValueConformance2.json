@@ -320,9 +320,7 @@
                     "start": 197,
                     "end": 198
                   },
-                  "ctxt": 0,
-                  "value": "m",
-                  "optional": false
+                  "value": "m"
                 },
                 "value": {
                   "type": "BooleanLiteral",
@@ -456,9 +454,7 @@
               "start": 276,
               "end": 279
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -486,9 +482,7 @@
                   "start": 282,
                   "end": 283
                 },
-                "ctxt": 0,
-                "value": "z",
-                "optional": false
+                "value": "z"
               }
             }
           }
@@ -559,9 +553,7 @@
                 "start": 356,
                 "end": 357
               },
-              "ctxt": 0,
-              "value": "m",
-              "optional": false
+              "value": "m"
             }
           },
           "definite": false
@@ -661,9 +653,7 @@
                       "start": 463,
                       "end": 464
                     },
-                    "ctxt": 0,
-                    "value": "m",
-                    "optional": false
+                    "value": "m"
                   },
                   "value": {
                     "type": "BooleanLiteral",
@@ -682,9 +672,7 @@
                       "start": 476,
                       "end": 477
                     },
-                    "ctxt": 0,
-                    "value": "s",
-                    "optional": false
+                    "value": "s"
                   },
                   "value": {
                     "type": "StringLiteral",

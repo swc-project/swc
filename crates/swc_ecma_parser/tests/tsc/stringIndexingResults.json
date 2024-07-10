@@ -88,9 +88,7 @@
               "start": 40,
               "end": 41
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "value": {
             "type": "StringLiteral",
@@ -1163,9 +1161,7 @@
                     "start": 367,
                     "end": 368
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 },
                 "value": {
                   "type": "StringLiteral",

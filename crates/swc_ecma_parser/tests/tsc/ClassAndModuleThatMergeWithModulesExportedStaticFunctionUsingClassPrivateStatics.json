@@ -37,9 +37,7 @@
               "start": 24,
               "end": 26
             },
-            "ctxt": 0,
-            "value": "id",
-            "optional": false
+            "value": "id"
           },
           "value": null,
           "typeAnnotation": {
@@ -79,9 +77,7 @@
               "start": 40,
               "end": 45
             },
-            "ctxt": 0,
-            "value": "value",
-            "optional": false
+            "value": "value"
           },
           "value": null,
           "typeAnnotation": {
@@ -131,9 +127,7 @@
               "start": 70,
               "end": 73
             },
-            "ctxt": 0,
-            "value": "sfn",
-            "optional": false
+            "value": "sfn"
           },
           "function": {
             "params": [
@@ -433,9 +427,7 @@
                             "start": 236,
                             "end": 239
                           },
-                          "ctxt": 0,
-                          "value": "sfn",
-                          "optional": false
+                          "value": "sfn"
                         }
                       },
                       "arguments": [

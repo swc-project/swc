@@ -136,9 +136,7 @@
                           "start": 86,
                           "end": 94
                         },
-                        "ctxt": 0,
-                        "value": "iterator",
-                        "optional": false
+                        "value": "iterator"
                       }
                     }
                   },
@@ -246,9 +244,7 @@
                       "start": 127,
                       "end": 135
                     },
-                    "ctxt": 0,
-                    "value": "iterator",
-                    "optional": false
+                    "value": "iterator"
                   }
                 }
               }
@@ -304,9 +300,7 @@
                   "start": 148,
                   "end": 149
                 },
-                "ctxt": 0,
-                "value": "C",
-                "optional": false
+                "value": "C"
               }
             },
             "arguments": null,
@@ -341,9 +335,7 @@
                 "start": 158,
                 "end": 166
               },
-              "ctxt": 0,
-              "value": "iterator",
-              "optional": false
+              "value": "iterator"
             }
           }
         }

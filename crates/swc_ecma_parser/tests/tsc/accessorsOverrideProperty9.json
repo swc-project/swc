@@ -454,9 +454,7 @@
               "start": 351,
               "end": 358
             },
-            "ctxt": 0,
-            "value": "members",
-            "optional": false
+            "value": "members"
           },
           "function": {
             "params": [],
@@ -819,9 +817,7 @@
                     "start": 840,
                     "end": 851
                   },
-                  "ctxt": 0,
-                  "value": "constructor",
-                  "optional": false
+                  "value": "constructor"
                 },
                 "params": [
                   {
@@ -943,9 +939,7 @@
                     "start": 914,
                     "end": 921
                   },
-                  "ctxt": 0,
-                  "value": "members",
-                  "optional": false
+                  "value": "members"
                 },
                 "function": {
                   "params": [],
@@ -1306,9 +1300,7 @@
                 "start": 1153,
                 "end": 1160
               },
-              "ctxt": 0,
-              "value": "members",
-              "optional": false
+              "value": "members"
             },
             "function": {
               "params": [],

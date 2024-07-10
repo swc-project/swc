@@ -1048,7 +1048,7 @@ where
                                                     init: Some(
                                                         mod_var
                                                             .clone()
-                                                            .make_member(orig.clone())
+                                                            .make_member(orig.clone().into())
                                                             .into(),
                                                     ),
                                                     definite: Default::default(),

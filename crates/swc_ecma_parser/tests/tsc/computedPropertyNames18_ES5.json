@@ -94,9 +94,7 @@
                               "start": 64,
                               "end": 67
                             },
-                            "ctxt": 0,
-                            "value": "bar",
-                            "optional": false
+                            "value": "bar"
                           }
                         }
                       },

@@ -1847,9 +1847,7 @@
               "start": 735,
               "end": 743
             },
-            "ctxt": 0,
-            "value": "toString",
-            "optional": false
+            "value": "toString"
           },
           "function": {
             "params": [],
@@ -1921,9 +1919,7 @@
               "start": 775,
               "end": 781
             },
-            "ctxt": 0,
-            "value": "charAt",
-            "optional": false
+            "value": "charAt"
           },
           "function": {
             "params": [
@@ -2029,9 +2025,7 @@
               "start": 824,
               "end": 834
             },
-            "ctxt": 0,
-            "value": "charCodeAt",
-            "optional": false
+            "value": "charCodeAt"
           },
           "function": {
             "params": [
@@ -2137,9 +2131,7 @@
               "start": 879,
               "end": 885
             },
-            "ctxt": 0,
-            "value": "concat",
-            "optional": false
+            "value": "concat"
           },
           "function": {
             "params": [
@@ -2264,9 +2256,7 @@
               "start": 937,
               "end": 944
             },
-            "ctxt": 0,
-            "value": "indexOf",
-            "optional": false
+            "value": "indexOf"
           },
           "function": {
             "params": [
@@ -2405,9 +2395,7 @@
               "start": 1015,
               "end": 1026
             },
-            "ctxt": 0,
-            "value": "lastIndexOf",
-            "optional": false
+            "value": "lastIndexOf"
           },
           "function": {
             "params": [
@@ -2546,9 +2534,7 @@
               "start": 1097,
               "end": 1110
             },
-            "ctxt": 0,
-            "value": "localeCompare",
-            "optional": false
+            "value": "localeCompare"
           },
           "function": {
             "params": [
@@ -2654,9 +2640,7 @@
               "start": 1154,
               "end": 1159
             },
-            "ctxt": 0,
-            "value": "match",
-            "optional": false
+            "value": "match"
           },
           "function": {
             "params": [
@@ -2772,9 +2756,7 @@
               "start": 1212,
               "end": 1219
             },
-            "ctxt": 0,
-            "value": "replace",
-            "optional": false
+            "value": "replace"
           },
           "function": {
             "params": [
@@ -2913,9 +2895,7 @@
               "start": 1286,
               "end": 1292
             },
-            "ctxt": 0,
-            "value": "search",
-            "optional": false
+            "value": "search"
           },
           "function": {
             "params": [
@@ -3021,9 +3001,7 @@
               "start": 1335,
               "end": 1340
             },
-            "ctxt": 0,
-            "value": "slice",
-            "optional": false
+            "value": "slice"
           },
           "function": {
             "params": [
@@ -3162,9 +3140,7 @@
               "start": 1400,
               "end": 1405
             },
-            "ctxt": 0,
-            "value": "split",
-            "optional": false
+            "value": "split"
           },
           "function": {
             "params": [
@@ -3310,9 +3286,7 @@
               "start": 1469,
               "end": 1478
             },
-            "ctxt": 0,
-            "value": "substring",
-            "optional": false
+            "value": "substring"
           },
           "function": {
             "params": [
@@ -3451,9 +3425,7 @@
               "start": 1537,
               "end": 1548
             },
-            "ctxt": 0,
-            "value": "toLowerCase",
-            "optional": false
+            "value": "toLowerCase"
           },
           "function": {
             "params": [],
@@ -3525,9 +3497,7 @@
               "start": 1580,
               "end": 1597
             },
-            "ctxt": 0,
-            "value": "toLocaleLowerCase",
-            "optional": false
+            "value": "toLocaleLowerCase"
           },
           "function": {
             "params": [],
@@ -3599,9 +3569,7 @@
               "start": 1629,
               "end": 1640
             },
-            "ctxt": 0,
-            "value": "toUpperCase",
-            "optional": false
+            "value": "toUpperCase"
           },
           "function": {
             "params": [],
@@ -3673,9 +3641,7 @@
               "start": 1672,
               "end": 1689
             },
-            "ctxt": 0,
-            "value": "toLocaleUpperCase",
-            "optional": false
+            "value": "toLocaleUpperCase"
           },
           "function": {
             "params": [],
@@ -3747,9 +3713,7 @@
               "start": 1721,
               "end": 1725
             },
-            "ctxt": 0,
-            "value": "trim",
-            "optional": false
+            "value": "trim"
           },
           "function": {
             "params": [],
@@ -3821,9 +3785,7 @@
               "start": 1757,
               "end": 1763
             },
-            "ctxt": 0,
-            "value": "length",
-            "optional": false
+            "value": "length"
           },
           "value": null,
           "typeAnnotation": {
@@ -3863,9 +3825,7 @@
               "start": 1777,
               "end": 1783
             },
-            "ctxt": 0,
-            "value": "substr",
-            "optional": false
+            "value": "substr"
           },
           "function": {
             "params": [
@@ -4004,9 +3964,7 @@
               "start": 1844,
               "end": 1851
             },
-            "ctxt": 0,
-            "value": "valueOf",
-            "optional": false
+            "value": "valueOf"
           },
           "function": {
             "params": [],

@@ -262,6 +262,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 216,
+                    "end": 242
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -278,9 +282,7 @@
                       "start": 239,
                       "end": 242
                     },
-                    "ctxt": 0,
-                    "value": "CAT",
-                    "optional": false
+                    "value": "CAT"
                   }
                 },
                 "typeParams": null
@@ -384,6 +386,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 295,
+                    "end": 315
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -400,9 +406,7 @@
                       "start": 312,
                       "end": 315
                     },
-                    "ctxt": 0,
-                    "value": "CAT",
-                    "optional": false
+                    "value": "CAT"
                   }
                 },
                 "typeParams": null
@@ -750,9 +754,7 @@
                     "start": 475,
                     "end": 478
                   },
-                  "ctxt": 0,
-                  "value": "cat",
-                  "optional": false
+                  "value": "cat"
                 },
                 "value": {
                   "type": "ArrayExpression",
@@ -778,9 +780,7 @@
                                 "start": 488,
                                 "end": 492
                               },
-                              "ctxt": 0,
-                              "value": "type",
-                              "optional": false
+                              "value": "type"
                             },
                             "value": {
                               "type": "MemberExpression",
@@ -804,9 +804,7 @@
                                   "start": 517,
                                   "end": 520
                                 },
-                                "ctxt": 0,
-                                "value": "CAT",
-                                "optional": false
+                                "value": "CAT"
                               }
                             }
                           },
@@ -818,9 +816,7 @@
                                 "start": 522,
                                 "end": 529
                               },
-                              "ctxt": 0,
-                              "value": "address",
-                              "optional": false
+                              "value": "address"
                             },
                             "value": {
                               "type": "StringLiteral",
@@ -852,9 +848,7 @@
                                 "start": 543,
                                 "end": 547
                               },
-                              "ctxt": 0,
-                              "value": "type",
-                              "optional": false
+                              "value": "type"
                             },
                             "value": {
                               "type": "MemberExpression",
@@ -878,9 +872,7 @@
                                   "start": 566,
                                   "end": 569
                                 },
-                                "ctxt": 0,
-                                "value": "CAT",
-                                "optional": false
+                                "value": "CAT"
                               }
                             }
                           },
@@ -892,9 +884,7 @@
                                 "start": 571,
                                 "end": 577
                               },
-                              "ctxt": 0,
-                              "value": "planet",
-                              "optional": false
+                              "value": "planet"
                             },
                             "value": {
                               "type": "StringLiteral",
@@ -920,9 +910,7 @@
                     "start": 591,
                     "end": 594
                   },
-                  "ctxt": 0,
-                  "value": "dog",
-                  "optional": false
+                  "value": "dog"
                 },
                 "value": {
                   "type": "TsAsExpression",

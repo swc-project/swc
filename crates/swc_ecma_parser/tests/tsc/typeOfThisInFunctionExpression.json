@@ -445,9 +445,7 @@
               "start": 236,
               "end": 237
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": {
             "type": "FunctionExpression",
@@ -581,9 +579,7 @@
               "start": 306,
               "end": 307
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "value": {
             "type": "FunctionExpression",
