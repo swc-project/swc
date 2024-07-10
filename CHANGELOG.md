@@ -7,6 +7,12 @@
 
 - **(es/compat)** Consider only the variables used in the closure ([#9151](https://github.com/swc-project/swc/issues/9151)) ([1357531](https://github.com/swc-project/swc/commit/1357531805d529b11848b02d1b59c010a02d272d))
 
+### Documentation
+
+
+
+- **(allocator)** Mention `oxc_allocator` ([be99ce0](https://github.com/swc-project/swc/commit/be99ce0a570c41b3fd471c5d609bd63c25740b36))
+
 ### Features
 
 
@@ -1330,9 +1336,6 @@
 
 
 - **(es/codegen)** Fix codegen of a property key in ascii-only mode ([#8493](https://github.com/swc-project/swc/issues/8493)) ([8d9bf4c](https://github.com/swc-project/swc/commit/8d9bf4cfaaeef9a9f3307b53c3349bff1359ccdf))
-
-
-- **(es/compat)** Set inserted var inside export class in destructing ([#8470](https://github.com/swc-project/swc/issues/8470)) ([4416077](https://github.com/swc-project/swc/commit/4416077f4ac1afb74575b9a0e836bb66b8dc8b9a))
 
 
 - **(es/compat)** Correctly handle `this` in arrow function parameters ([#8489](https://github.com/swc-project/swc/issues/8489)) ([52a8f05](https://github.com/swc-project/swc/commit/52a8f05fe419e905465e31b493d2007a1511276c))
