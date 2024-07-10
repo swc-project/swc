@@ -284,7 +284,7 @@ where
                     },
                     ImportSpecifier::Default(s) => {
                         props.push(ObjectPatProp::KeyValue(KeyValuePatProp {
-                            key: PropName::Ident(Ident::new_no_ctxt("default".into(), DUMMY_SP)),
+                            key: PropName::Ident(IdentName::new("default".into(), DUMMY_SP)),
                             value: Box::new(s.local.into()),
                         }));
                     }

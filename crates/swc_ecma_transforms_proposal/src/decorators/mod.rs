@@ -431,9 +431,7 @@ impl Decorators {
                     ClassMember::Method(method) => {
                         let fn_name = match method.key {
                             PropName::Ident(ref i) => Some(i.clone()),
-                            PropName::Str(ref s) => {
-                                Some(Ident::new_no_ctxt(s.value.clone(), s.span))
-                            }
+                            PropName::Str(ref s) => Some(IdentName::new(s.value.clone(), s.span)),
                             _ => None,
                         };
                         let key_prop_value = Box::new(prop_name_to_expr_value(method.key.clone()));

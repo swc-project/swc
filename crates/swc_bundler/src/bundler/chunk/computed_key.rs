@@ -205,11 +205,9 @@ impl ExportToReturn {
     }
 
     fn export_key_value(&mut self, mut key: Ident, value: Ident) {
-        key.ctxt = SyntaxContext::empty();
-
         self.return_props
             .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                key: PropName::Ident(key),
+                key: PropName::Ident(key.into()),
                 value: Box::new(Expr::Ident(value)),
             }))));
     }

@@ -1,5 +1,5 @@
 use swc_ecma_ast::*;
-use swc_ecma_utils::is_valid_ident;
+use swc_ecma_utils::{is_valid_ident, quote_ident};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 use swc_trace_macro::swc_trace;
 
@@ -52,7 +52,7 @@ impl Fold for MemberExprLit {
                 };
             } else {
                 return MemberExpr {
-                    prop: MemberProp::Ident(swc_ecma_utils::quote_ident!(i.span, i.sym)),
+                    prop: MemberProp::Ident(quote_ident!(i.span, i.sym)),
                     ..e
                 };
             }

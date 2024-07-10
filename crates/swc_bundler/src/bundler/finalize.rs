@@ -206,7 +206,7 @@ where
                                     ExportSpecifier::Default(s) => {
                                         props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                             KeyValueProp {
-                                                key: PropName::Ident(Ident::new_no_ctxt(
+                                                key: PropName::Ident(IdentName::new(
                                                     "default".into(),
                                                     DUMMY_SP,
                                                 )),
@@ -224,7 +224,7 @@ where
                                             };
                                             props.push(PropOrSpread::Prop(Box::new(
                                                 Prop::KeyValue(KeyValueProp {
-                                                    key: PropName::Ident(exported),
+                                                    key: PropName::Ident(exported.into()),
                                                     value: Box::new(Expr::Ident(orig)),
                                                 }),
                                             )));
