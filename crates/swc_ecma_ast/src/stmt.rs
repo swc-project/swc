@@ -226,7 +226,7 @@ pub struct ReturnStmt {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct LabeledStmt {
     pub span: Span,
-    pub label: IdentName,
+    pub label: Ident,
     pub body: Box<Stmt>,
 }
 

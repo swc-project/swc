@@ -1402,7 +1402,7 @@ define!({
     }
     pub struct LabeledStmt {
         pub span: Span,
-        pub label: IdentName,
+        pub label: Ident,
         pub body: Box<Stmt>,
     }
     pub struct BreakStmt {
