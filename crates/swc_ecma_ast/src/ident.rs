@@ -180,6 +180,16 @@ impl From<&'_ str> for Ident {
     }
 }
 
+impl From<(Atom, Span)> for Ident {
+    fn from((sym, span): (Atom, Span)) -> Self {
+        Ident {
+            span,
+            sym,
+            ..Default::default()
+        }
+    }
+}
+
 impl EqIgnoreSpan for Ident {
     fn eq_ignore_span(&self, other: &Self) -> bool {
         if self.sym != other.sym {
@@ -370,6 +380,12 @@ impl From<Atom> for IdentName {
             span: DUMMY_SP,
             sym,
         }
+    }
+}
+
+impl From<(Atom, Span)> for IdentName {
+    fn from((sym, span): (Atom, Span)) -> Self {
+        IdentName { span, sym }
     }
 }
 

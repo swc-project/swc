@@ -13,11 +13,15 @@ macro_rules! private_ident {
 
 #[macro_export]
 macro_rules! quote_ident {
-    ($s:expr) => {
-        quote_ident!(Default::default(), $crate::swc_common::DUMMY_SP, $s)
-    };
+    ($s:expr) => {{
+        let sym: $crate::swc_atoms::Atom = $s.into();
+
+        sym.into()
+    }};
     ($ctxt:expr, $s:expr) => {{
-        quote_ident!($ctxt, $crate::swc_common::DUMMY_SP, $s)
+        let sym: $crate::swc_atoms::Atom = $s.into();
+
+        (sym, ctxt).into()
     }};
 
     ($ctxt:expr, $span:expr, $s:expr) => {{

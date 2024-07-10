@@ -6,10 +6,11 @@
 #![cfg_attr(not(feature = "concurrent"), allow(unused))]
 
 #[doc(hidden)]
-pub extern crate swc_ecma_ast;
-
+pub extern crate swc_atoms;
 #[doc(hidden)]
 pub extern crate swc_common;
+#[doc(hidden)]
+pub extern crate swc_ecma_ast;
 
 use std::{borrow::Cow, hash::Hash, num::FpCategory, ops::Add};
 
