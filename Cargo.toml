@@ -1,6 +1,7 @@
 [workspace]
 members = [
   "xtask",
+  "crates/swc_allocator",
   "crates/swc_core",
   "crates/swc_cli_impl",
   "crates/dbg-swc",
@@ -51,6 +52,7 @@ resolver = "2"
   base64                    = "0.21.0"
   bitflags                  = "2.5.0"
   browserslist-rs           = "0.16.0"
+  bumpalo                   = "3.16.0"
   cfg-if                    = "1.0.0"
   chrono                    = "0.4.38"
   codspeed-criterion-compat = "2.6.0"
