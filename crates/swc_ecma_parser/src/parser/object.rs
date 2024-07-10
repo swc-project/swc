@@ -120,7 +120,7 @@ impl<I: Tokens> Parser<I> {
     }
 }
 
-impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
+impl<I: Tokens> ParseObject<Expr> for Parser<I> {
     type Prop = PropOrSpread;
 
     fn make_object(
@@ -128,11 +128,11 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         span: Span,
         props: Vec<Self::Prop>,
         trailing_comma: Option<Span>,
-    ) -> PResult<Box<Expr>> {
+    ) -> PResult<Expr> {
         if let Some(trailing_comma) = trailing_comma {
             self.state.trailing_commas.insert(span.lo, trailing_comma);
         }
-        Ok(Box::new(Expr::Object(ObjectLit { span, props })))
+        Ok(Expr::Object(Box::new(ObjectLit { span, props })))
     }
 
     /// spec: 'PropertyDefinition'
@@ -168,10 +168,10 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                     true,
                 )
                 .map(|function| {
-                    PropOrSpread::Prop(Box::new(Prop::Method(MethodProp {
+                    PropOrSpread::Prop(Prop::Method(MethodProp {
                         key: name,
                         function,
-                    })))
+                    }))
                 });
         }
 

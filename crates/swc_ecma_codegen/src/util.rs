@@ -56,7 +56,7 @@ impl EndsWithAlphaNum for Expr {
             self,
             Expr::Array(..)
                 | Expr::Object(..)
-                | Expr::Lit(box Lit::Str(..))
+                | Expr::Lit( Lit::Str(..))
                 | Expr::Paren(..)
                 | Expr::Member(box MemberExpr {
                     prop: MemberProp::Computed(..),
