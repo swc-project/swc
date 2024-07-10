@@ -1209,11 +1209,7 @@ impl VisitMut for ExportedPatRewriter {
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         if let Pat::Ident(bid) = n {
-            *n = self
-                .id
-                .clone()
-                .make_member(IdentName::from(take(bid)))
-                .into();
+            *n = Expr::from(self.id.clone().make_member(IdentName::from(take(bid)))).into();
             return;
         }
 
