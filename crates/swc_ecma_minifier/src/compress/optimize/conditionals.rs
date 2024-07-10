@@ -273,7 +273,7 @@ impl Optimizer<'_> {
                     self.compress_logical_exprs_as_bang_bang(&mut expr, false);
                     *s = Stmt::Expr(ExprStmt {
                         span: stmt.span,
-                        expr,
+                        expr: expr.into(),
                     });
                 }
             }

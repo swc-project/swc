@@ -831,7 +831,6 @@ impl Transform {
     fn assign_prop(id: &Id, prop: &Ident, span: Span) -> Stmt {
         let expr = prop
             .clone()
-            .into()
             .make_assign_to(op!("="), id.clone().make_member(prop.clone().into()).into());
 
         Stmt::Expr(ExprStmt {
@@ -1209,7 +1208,12 @@ impl VisitMut for ExportedPatRewriter {
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         if let Pat::Ident(bid) = n {
-            *n = Expr::from(self.id.clone().make_member(IdentName::from(take(bid)))).into();
+            *n = Pat::Expr(
+                self.id
+                    .clone()
+                    .make_member(IdentName::from(take(bid)))
+                    .into(),
+            );
             return;
         }
 
@@ -1218,12 +1222,12 @@ impl VisitMut for ExportedPatRewriter {
 
     fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
         if let ObjectPatProp::Assign(AssignPatProp { key, value, .. }) = n {
-            let left = self.id.clone().make_member(key.clone().into()).into();
+            let left = Pat::Expr(self.id.clone().make_member(key.clone().into()).into());
 
             let value = if let Some(right) = value.take() {
                 AssignPat {
                     span: DUMMY_SP,
-                    left,
+                    left: left.into(),
                     right,
                 }
                 .into()
@@ -1233,7 +1237,7 @@ impl VisitMut for ExportedPatRewriter {
 
             *n = ObjectPatProp::KeyValue(KeyValuePatProp {
                 key: PropName::Ident(key.clone().into()),
-                value,
+                value: value.into(),
             });
             return;
         }
