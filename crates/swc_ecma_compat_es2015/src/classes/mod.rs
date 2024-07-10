@@ -133,7 +133,8 @@ where
                                 decl: DefaultDecl::Class(ClassExpr { ident, class }),
                                 ..
                             }) => {
-                                let ident = ident.unwrap_or_else(|| quote_ident!("_default"));
+                                let ident =
+                                    ident.unwrap_or_else(|| quote_ident!("_default").into());
 
                                 let mut decl = self.fold_class_as_var_decl(ident.clone(), class);
                                 decl.visit_mut_children_with(self);
@@ -147,7 +148,7 @@ where
                                                 span: DUMMY_SP,
                                                 orig: ModuleExportName::Ident(ident),
                                                 exported: Some(ModuleExportName::Ident(
-                                                    quote_ident!("default"),
+                                                    quote_ident!("default").into(),
                                                 )),
                                                 is_type_only: false,
                                             }
@@ -527,7 +528,7 @@ where
         super_class_ident: Option<Ident>,
         class: Box<Class>,
     ) -> Vec<Stmt> {
-        let class_name = class_name.unwrap_or_else(|| quote_ident!("_class"));
+        let class_name = class_name.unwrap_or_else(|| quote_ident!("_class").into());
         let mut stmts = vec![];
 
         let mut methods = vec![];
@@ -900,7 +901,7 @@ where
         /// { key: "prop" }
         fn mk_key_prop(key: PropName) -> Box<Prop> {
             Box::new(Prop::KeyValue(KeyValueProp {
-                key: PropName::Ident(quote_ident!(Default::default(), key.span(), "key")),
+                key: PropName::Ident(quote_ident!(Default::default(), key.span(), "key").into()),
                 value: match key {
                     PropName::Ident(i) => Box::new(Expr::Lit(Lit::Str(quote_str!(i.span, i.sym)))),
                     PropName::Str(s) => Box::new(Expr::from(s)),

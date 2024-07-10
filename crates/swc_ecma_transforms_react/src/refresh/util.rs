@@ -1,4 +1,3 @@
-use swc_atoms::Atom;
 use swc_common::{collections::AHashSet, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;

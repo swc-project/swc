@@ -493,7 +493,7 @@ impl ForOf {
             },
             handler: Some(CatchClause {
                 span: DUMMY_SP,
-                param: Some(quote_ident!("err")),
+                param: Some(quote_ident!("err").into()),
                 // _didIteratorError = true;
                 // _iteratorError = err;
                 body: BlockStmt {
@@ -511,7 +511,7 @@ impl ForOf {
                             span: DUMMY_SP,
                             left: error_ident.clone().into(),
                             op: op!("="),
-                            right: Box::new(Expr::Ident(quote_ident!("err"))),
+                            right: Box::new(Expr::Ident(quote_ident!("err").into())),
                         }
                         .into_stmt(),
                     ],
