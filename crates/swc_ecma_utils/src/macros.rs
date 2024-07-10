@@ -15,13 +15,16 @@ macro_rules! private_ident {
 macro_rules! quote_ident {
     ($s:expr) => {{
         let sym: $crate::swc_atoms::Atom = $s.into();
+        let id: $crate::swc_ecma_ast::IdentName = sym.into();
 
-        sym.into()
+        id
     }};
     ($ctxt:expr, $s:expr) => {{
         let sym: $crate::swc_atoms::Atom = $s.into();
+        let id: $crate::swc_ecma_ast::Ident =
+            $crate::swc_ecma_ast::Ident::new(sym, DUMMY_SP, $ctxt);
 
-        (sym, ctxt).into()
+        id.into()
     }};
 
     ($ctxt:expr, $span:expr, $s:expr) => {{
