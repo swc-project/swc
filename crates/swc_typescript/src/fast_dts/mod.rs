@@ -90,7 +90,7 @@ impl FastDts {
             let is_overload = match &item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
                 | ModuleItem::Stmt(Stmt::Decl(decl)) => match decl {
-                    Decl::Fn(box FnDecl {
+                    Decl::Fn(FnDecl {
                         function, declare, ..
                     }) => !declare && function.body.is_none(),
                     _ => false,
@@ -204,6 +204,7 @@ impl FastDts {
                             .into(),
                         )
                                 expr: Expr::Ident(name_ident),
+                                expr: Box::new(Expr::Ident(name_ident)),
                             },
                         )))
                     } else {
@@ -246,11 +247,11 @@ impl FastDts {
 
     fn expr_to_ts_type(
         &mut self,
-        e: Expr,
+        e: Box<Expr>,
         as_const: bool,
         as_readonly: bool,
     ) -> Option<Box<TsType>> {
-        match e {
+        match *e {
             Expr::Array(arr) => {
                 let mut elem_types: Vec<TsTupleElement> = vec![];
 
@@ -313,43 +314,31 @@ impl FastDts {
                                             (Lit::BigInt(big_int).into(), true)
                                         }
                                     };
-                        PropOrSpread::Prop(prop) => match prop {
-                            Prop::KeyValue(key_value) => {
-                                let (key, computed) = match key_value.key {
-                                    PropName::Ident(ident) => (ident.into(), false),
-                                    PropName::Str(str_prop) => {
-                                        (Box::new(Lit::Str(str_prop)).into(), false)
-                                    }
-                                    PropName::Num(num) => (Box::new(Lit::Num(num)).into(), true),
-                                    PropName::Computed(computed) => (computed.expr, true),
-                                    PropName::BigInt(big_int) => {
-                                        (Box::new(Lit::BigInt(big_int)).into(), true)
-                                    }
-                                };
 
-                                let init_type = self
-                                    .expr_to_ts_type(key_value.value, as_const, as_readonly)
-                                    .map(type_ann);
+                                    let init_type = self
+                                        .expr_to_ts_type(key_value.value, as_const, as_readonly)
+                                        .map(type_ann);
 
-                                members.push(TsTypeElement::TsPropertySignature(
-                                    TsPropertySignature {
-                                        span: DUMMY_SP,
-                                        readonly: as_readonly,
-                                        key,
-                                        computed,
-                                        optional: false,
-                                        type_ann: init_type,
-                                    },
-                                ));
+                                    members.push(TsTypeElement::TsPropertySignature(
+                                        TsPropertySignature {
+                                            span: DUMMY_SP,
+                                            readonly: as_readonly,
+                                            key: Box::new(key),
+                                            computed,
+                                            optional: false,
+                                            type_ann: init_type,
+                                        },
+                                    ));
+                                }
+                                Prop::Shorthand(_)
+                                | Prop::Assign(_)
+                                | Prop::Getter(_)
+                                | Prop::Setter(_)
+                                | Prop::Method(_) => {
+                                    self.mark_diagnostic_unsupported_prop(prop.span());
+                                }
                             }
-                            Prop::Shorthand(_)
-                            | Prop::Assign(_)
-                            | Prop::Getter(_)
-                            | Prop::Setter(_)
-                            | Prop::Method(_) => {
-                                self.mark_diagnostic_unsupported_prop(prop.span());
-                            }
-                        },
+                        }
                         PropOrSpread::Spread(_) => {
                             self.mark_diagnostic(DtsIssue::UnableToInferTypeFromSpread {
                                 range: self.source_range_to_range(item.span()),
@@ -482,7 +471,7 @@ impl FastDts {
                                     }
 
                                     ident.optional = true;
-                                    param.pat = ident.clone().into();
+                                    param.pat = Pat::Ident(ident.clone());
                                 }
                                 Pat::Array(arr_pat) => {
                                     if arr_pat.type_ann.is_none() {
@@ -494,7 +483,7 @@ impl FastDts {
                                     }
 
                                     arr_pat.optional = true;
-                                    param.pat = arr_pat.clone().into();
+                                    param.pat = Pat::Array(arr_pat.clone());
                                 }
                                 Pat::Object(obj_pat) => {
                                     if obj_pat.type_ann.is_none() {
@@ -506,7 +495,7 @@ impl FastDts {
                                     }
 
                                     obj_pat.optional = true;
-                                    param.pat = obj_pat.clone().into();
+                                    param.pat = Pat::Object(obj_pat.clone());
                                 }
                                 Pat::Rest(_) | Pat::Assign(_) | Pat::Expr(_) | Pat::Invalid(_) => {}
                             };
@@ -617,13 +606,13 @@ impl FastDts {
             Expr::Member(member_expr) => self.valid_enum_init_expr(&member_expr.obj),
             Expr::OptChain(opt_expr) => match &*opt_expr.base {
                 OptChainBase::Member(member_expr) => {
-                    self.valid_enum_init_expr(&member_expr.clone().into())
+                    self.valid_enum_init_expr(&Expr::Member(member_expr.clone()))
                 }
                 OptChainBase::Call(_) => false,
             },
             // TS does infer the type of identifiers
             Expr::Ident(_) => true,
-            Expr::Lit(lit) => match &**lit {
+            Expr::Lit(lit) => match lit {
                 Lit::Num(_) | Lit::Str(_) => true,
                 Lit::Bool(_) | Lit::Null(_) | Lit::BigInt(_) | Lit::Regex(_) | Lit::JSXText(_) => {
                     false
@@ -737,7 +726,7 @@ impl FastDts {
 
     fn infer_expr_fallback_any(
         &mut self,
-        expr: Expr,
+        expr: Box<Expr>,
         as_const: bool,
         as_readonly: bool,
     ) -> Option<Box<TsTypeAnn>> {
@@ -844,7 +833,6 @@ impl FastDts {
             Pat::Rest(rest_pat) => Some(TsFnParam::Rest(rest_pat)),
             Pat::Object(obj) => Some(TsFnParam::Object(obj)),
             Pat::Assign(assign_pat) => {
-                let assign_pat = *assign_pat;
                 self.expr_to_ts_type(assign_pat.right, false, false)
                     .map(|param| {
                         let name = if let Pat::Ident(ident) = *assign_pat.left {
