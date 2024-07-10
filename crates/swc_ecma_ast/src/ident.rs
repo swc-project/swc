@@ -448,6 +448,12 @@ impl Display for Ident {
     }
 }
 
+impl Display for IdentName {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.sym)
+    }
+}
+
 impl Display for BindingIdent {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}{:?}", self.sym, self.ctxt)
