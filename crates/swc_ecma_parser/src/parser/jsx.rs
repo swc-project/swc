@@ -203,13 +203,13 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_jsx_opening_element_at(
         &mut self,
         start: BytePos,
-    ) -> PResult<EitherBoxed<JSXOpeningFragment, JSXOpeningElement>> {
+    ) -> PResult<Either<JSXOpeningFragment, Box<JSXOpeningElement>>> {
         debug_assert!(self.input.syntax().jsx());
 
         if eat!(self, JSXTagEnd) {
-            return Ok(Either::Left(Box::new(JSXOpeningFragment {
+            return Ok(Either::Left(JSXOpeningFragment {
                 span: span!(self, start),
-            })));
+            }));
         }
 
         let ctx = Context {
@@ -250,13 +250,13 @@ impl<I: Tokens> Parser<I> {
         if !eat!(self, JSXTagEnd) & !(self.ctx().in_forced_jsx_context && eat!(self, '>')) {
             unexpected!(self, "> (jsx closing tag)");
         }
-        Ok(JSXOpeningElement {
+        Ok(Box::new(JSXOpeningElement {
             span: span!(self, start),
             name,
             attrs,
             self_closing,
             type_args,
-        })
+        }))
     }
 
     /// Parses JSX closing tag starting after "</".
@@ -373,18 +373,20 @@ impl<I: Tokens> Parser<I> {
                         }
                     );
                 }
-                (Either::Left(opening), Some(Either::Left(closing))) => Either::Left(JSXFragment {
-                    span,
-                    opening,
-                    children,
-                    closing,
-                }),
-                (Either::Right(opening), None) => Either::Right(JSXElement {
+                (Either::Left(opening), Some(Either::Left(closing))) => {
+                    Either::Left(Box::new(JSXFragment {
+                        span,
+                        opening,
+                        children,
+                        closing,
+                    }))
+                }
+                (Either::Right(opening), None) => Either::Right(Box::new(JSXElement {
                     span,
                     opening,
                     children,
                     closing: None,
-                }),
+                })),
                 (Either::Right(opening), Some(Either::Right(closing))) => {
                     if get_qualified_jsx_name(&closing.name)
                         != get_qualified_jsx_name(&opening.name)
@@ -397,12 +399,12 @@ impl<I: Tokens> Parser<I> {
                             }
                         );
                     }
-                    Either::Right(JSXElement {
+                    Either::Right(Box::new(JSXElement {
                         span,
                         opening,
                         children,
                         closing: Some(closing),
-                    })
+                    }))
                 }
                 _ => unreachable!(),
             })
