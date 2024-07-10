@@ -541,7 +541,7 @@ impl Pure<'_> {
                          always null or undefined"
                     );
 
-                    *e = *Expr::undefined(span);
+                    *e = *Expr::undefined(*span);
                 }
             }
 
@@ -553,7 +553,7 @@ impl Pure<'_> {
                          because object is always null or undefined"
                     );
 
-                    *e = **span.into();
+                    *e = *Expr::undefined(*span);
                 }
             }
         }

@@ -329,7 +329,7 @@ impl Pure<'_> {
                 match op {
                     KnownOp::Index(idx) => {
                         if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= value.len() {
-                            Some(**span.into())
+                            Some(*Expr::undefined(*span))
                         } else {
                             // idx is in bounds, this is handled in simplify
                             None
@@ -345,7 +345,7 @@ impl Pure<'_> {
                         if is_string_symbol(key.as_str()) {
                             None
                         } else {
-                            Some(**span.into())
+                            Some(*Expr::undefined(*span))
                         }
                     }
                 }
@@ -389,7 +389,7 @@ impl Pure<'_> {
                             // Side effects exist, replacement is:
                             // (x(), y(), void 0)
                             // Where `x()` and `y()` are side effects.
-                            exprs.push(*span.into());
+                            exprs.push(Expr::undefined(*span));
 
                             SeqExpr {
                                 span: *span,
@@ -444,7 +444,8 @@ impl Pure<'_> {
                                 prop: prop.clone(),
                             }.into()
                         } else {
-                            let val = *span.into();
+                            let val = Expr::undefined(
+                                *span);
 
                             if exprs.is_empty() {
                                 // No side effects, replacement is:
@@ -522,7 +523,7 @@ impl Pure<'_> {
                 }
 
                 // Can be optimized fully or partially
-                Some(self.expr_ctx.preserve_effects(
+                Some(*self.expr_ctx.preserve_effects(
                     *span,
                     if is_known_symbol {
                         // Valid key, e.g. "hasOwnProperty". Replacement:
@@ -539,7 +540,7 @@ impl Pure<'_> {
                         .into()
                     } else {
                         // Invalid key. Replace with side effects plus `undefined`.
-                        **span.into()
+                        *Expr::undefined(*span)
                     },
                     props.drain(..).map(|x| match x {
                         PropOrSpread::Prop(prop) => match *prop {
