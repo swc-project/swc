@@ -623,7 +623,7 @@ impl Optimizer<'_> {
     fn compress_undefined(&mut self, e: &mut Expr) {
         if let Expr::Ident(Ident { span, sym, .. }) = e {
             if &**sym == "undefined" {
-                *e = **span.into();
+                *e = *Expr::undefined(*span);
             }
         }
     }
@@ -2426,12 +2426,12 @@ impl VisitMut for Optimizer<'_> {
 
         if let Prop::Shorthand(i) = n {
             if self.vars.has_pending_inline_for(&i.to_id()) {
-                let mut e = i.clone().into();
+                let mut e: Expr = i.clone().into();
                 e.visit_mut_with(self);
 
                 *n = Prop::KeyValue(KeyValueProp {
                     key: PropName::Ident(i.clone().into()),
-                    value: e,
+                    value: Box::new(e),
                 });
             }
         }

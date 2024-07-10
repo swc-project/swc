@@ -191,7 +191,7 @@ impl Optimizer<'_> {
                                     e.prepend_exprs(take(&mut exprs));
                                 }
                                 _ => {
-                                    let mut e = stmt.span.into();
+                                    let mut e = Expr::undefined(stmt.span);
                                     e.prepend_exprs(take(&mut exprs));
 
                                     stmt.arg = Some(e);
@@ -325,7 +325,7 @@ impl Optimizer<'_> {
                             if !exprs.is_empty() {
                                 new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
                                     span: DUMMY_SP,
-                                    expr: take(&mut exprs).into(),
+                                    expr: Expr::from_exprs(take(&mut exprs)),
                                 })))
                             }
 
@@ -337,7 +337,7 @@ impl Optimizer<'_> {
                     if !exprs.is_empty() {
                         new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
                             span: DUMMY_SP,
-                            expr: take(&mut exprs).into(),
+                            expr: Expr::from_exprs(take(&mut exprs)),
                         })))
                     }
 

@@ -568,7 +568,7 @@ impl Optimizer<'_> {
                         exprs.push(body.take());
 
                         report_change!("inline: Inlining a call to an arrow function");
-                        *e = *Expr::from_exprs(*exprs);
+                        *e = *Expr::from_exprs(exprs);
                         e.visit_mut_with(self);
                     }
                 }
@@ -639,7 +639,7 @@ impl Optimizer<'_> {
                 if body.stmts.is_empty() && call.args.is_empty() {
                     self.changed = true;
                     report_change!("iife: Inlining an empty function call as `undefined`");
-                    *e = *f.function.span.into();
+                    *e = *Expr::undefined(f.function.span);
                     return;
                 }
 
@@ -1020,7 +1020,7 @@ impl Optimizer<'_> {
             }
             .into();
         } else {
-            return Some(*body.span.into());
+            return Some(*Expr::undefined(body.span));
         }
 
         let mut e = SeqExpr {
