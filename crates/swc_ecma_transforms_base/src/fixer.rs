@@ -486,8 +486,8 @@ impl VisitMut for Fixer<'_> {
                         _ => false,
                     } =>
                 {
-                    let expr = p.clone().expect_ident().into();
-                    s.left = ForHead::Pat(Box::new(expr).into());
+                    let expr: Pat = p.clone().expect_ident().into();
+                    s.left = ForHead::Pat(expr.into());
                 }
                 _ => (),
             }

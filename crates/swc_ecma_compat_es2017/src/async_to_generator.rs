@@ -426,8 +426,6 @@ fn make_fn_ref(mut expr: FnExpr) -> Expr {
 
     let span = expr.span();
 
-    let expr = expr.into();
-
     CallExpr {
         span,
         callee: helper,
@@ -713,7 +711,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     iter_next.into()
                 };
 
-                let assign_to_step = AssignExpr {
+                let assign_to_step: Expr = AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
                     left: step.into(),
@@ -815,7 +813,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             alt: None,
         });
 
-        let iterator_return = CallExpr {
+        let iterator_return: Expr = CallExpr {
             span: DUMMY_SP,
             callee: iterator
                 .clone()
@@ -835,17 +833,15 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 span: DUMMY_SP,
                 delegate: false,
                 arg: Some(if is_async_generator {
-                    Box::new(
-                        CallExpr {
-                            span: DUMMY_SP,
-                            callee: helper!(await_async_generator),
-                            args: vec![iterator_return.as_arg()],
-                            ..Default::default()
-                        }
-                        .into(),
-                    )
+                    CallExpr {
+                        span: DUMMY_SP,
+                        callee: helper!(await_async_generator),
+                        args: vec![iterator_return.as_arg()],
+                        ..Default::default()
+                    }
+                    .into()
                 } else {
-                    iterator_return
+                    iterator_return.into()
                 }),
             }
             .into(),
