@@ -395,7 +395,7 @@ impl From<(Atom, Span)> for IdentName {
 bridge_from!(IdentName, Atom, &'_ str);
 bridge_from!(IdentName, Atom, Cow<'_, str>);
 bridge_from!(IdentName, Atom, String);
-bridge_from!(IdentName, Ident, &BindingIdent);
+bridge_from!(IdentName, Ident, &'_ BindingIdent);
 bridge_from!(IdentName, Ident, BindingIdent);
 
 impl AsRef<str> for IdentName {
@@ -435,15 +435,6 @@ impl From<IdentName> for Ident {
     }
 }
 
-impl From<BindingIdent> for IdentName {
-    fn from(i: BindingIdent) -> Self {
-        let id = i.id;
-        IdentName {
-            span: id.span,
-            sym: id.sym,
-        }
-    }
-}
 bridge_from!(BindingIdent, Ident, Atom);
 bridge_from!(BindingIdent, Atom, &'_ str);
 bridge_from!(BindingIdent, Atom, Cow<'_, str>);
