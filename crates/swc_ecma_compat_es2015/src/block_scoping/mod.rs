@@ -653,8 +653,8 @@ struct FlowHelper<'a> {
 }
 
 enum Label {
-    Break(Ident),
-    Continue(Ident),
+    Break(IdentName),
+    Continue(IdentName),
 }
 
 impl<'a> FlowHelper<'a> {
@@ -667,7 +667,7 @@ impl<'a> FlowHelper<'a> {
         }
     }
 
-    fn has_outer_label(&self, label: &Option<Ident>) -> bool {
+    fn has_outer_label(&self, label: &Option<IdentName>) -> bool {
         match label {
             Some(l) => !self.inner_label.contains(&l.sym),
             None => false,
@@ -808,7 +808,7 @@ impl VisitMut for FlowHelper<'_> {
                     arg: Some(Box::new(Expr::Object(ObjectLit {
                         span,
                         props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                            key: PropName::Ident(Ident::new_no_ctxt("v".into(), DUMMY_SP)),
+                            key: PropName::Ident(IdentName::new("v".into(), DUMMY_SP)),
                             value: s.arg.take().unwrap_or_else(|| {
                                 Box::new(Expr::Unary(UnaryExpr {
                                     span: DUMMY_SP,

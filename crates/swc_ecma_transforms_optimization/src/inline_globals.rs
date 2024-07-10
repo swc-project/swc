@@ -135,7 +135,7 @@ impl VisitMut for InlineGlobals {
                                 }
                             }
 
-                            MemberProp::Ident(Ident { sym, .. }) => {
+                            MemberProp::Ident(IdentName { sym, .. }) => {
                                 if let Some(env) = self.envs.get(sym) {
                                     *expr = env.clone();
                                 }

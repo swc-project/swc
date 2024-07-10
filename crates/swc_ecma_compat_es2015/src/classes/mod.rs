@@ -303,7 +303,7 @@ where
         if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut *n.value {
             match &n.key {
                 PropName::Ident(ident) => {
-                    c.ident = Some(ident.clone().into_private());
+                    c.ident = Some(Ident::from(ident.clone()).into_private());
                 }
                 PropName::Str(Str { value, span, .. }) => {
                     if is_valid_prop_ident(value) {
