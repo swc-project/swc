@@ -1,6 +1,6 @@
 extern crate swc_malloc;
 
-use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
+use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{FileName, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{Parser, StringInput, Syntax};

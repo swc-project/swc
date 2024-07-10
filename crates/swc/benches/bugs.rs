@@ -2,7 +2,7 @@ extern crate swc_malloc;
 
 use std::{io::stderr, path::Path};
 
-use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
+use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{errors::Handler, sync::Lrc, FilePathMapping, SourceMap};
 use swc_ecma_utils::swc_common::GLOBALS;
 
