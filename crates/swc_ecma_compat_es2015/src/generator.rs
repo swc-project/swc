@@ -1216,7 +1216,7 @@ impl Generator {
                     left: MemberExpr {
                         span: DUMMY_SP,
                         obj: Box::new(Expr::Ident(temp.clone())),
-                        prop: MemberProp::Ident(p.clone()),
+                        prop: MemberProp::Ident(p.clone().into()),
                     }
                     .into(),
                     right: Box::new(Expr::Ident(p)),

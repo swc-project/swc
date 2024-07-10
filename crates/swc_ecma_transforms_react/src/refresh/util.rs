@@ -96,15 +96,15 @@ impl Visit for UsedInJsx {
 
         if let Callee::Expr(expr) = &n.callee {
             let ident = match expr.as_ref() {
-                Expr::Ident(ident) => ident,
+                Expr::Ident(ident) => ident.to_id(),
                 Expr::Member(MemberExpr {
                     prop: MemberProp::Ident(ident),
                     ..
-                }) => ident,
+                }) => (ident.sym.clone(), SyntaxContext::empty()),
                 _ => return,
             };
             if matches!(
-                ident.sym.as_ref(),
+                ident.0.as_ref(),
                 "createElement" | "jsx" | "jsxDEV" | "jsxs"
             ) {
                 if let Some(ExprOrSpread { expr, .. }) = n.args.first() {
