@@ -824,7 +824,7 @@ impl SimplifyExpr {
                 if let (_, Known(val)) = arg.cast_to_bool(&self.expr_ctx) {
                     self.changed = true;
 
-                    *expr = make_bool_expr(&self.expr_ctx, *span, !val, iter::once(arg.take()));
+                    *expr = *make_bool_expr(&self.expr_ctx, *span, !val, iter::once(arg.take()));
                 }
             }
             op!(unary, "+") => {
@@ -832,7 +832,7 @@ impl SimplifyExpr {
                     self.changed = true;
 
                     if v.is_nan() {
-                        *expr = self.expr_ctx.preserve_effects(
+                        *expr = *self.expr_ctx.preserve_effects(
                             *span,
                             Ident::new("NaN".into(), *span, self.expr_ctx.unresolved_ctxt).into(),
                             iter::once(arg.take()),
@@ -840,7 +840,7 @@ impl SimplifyExpr {
                         return;
                     }
 
-                    *expr = self.expr_ctx.preserve_effects(
+                    *expr = *self.expr_ctx.preserve_effects(
                         *span,
                         Lit::Num(Number {
                             value: v,

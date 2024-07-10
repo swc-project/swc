@@ -1061,13 +1061,9 @@ impl VisitMut for Decorator2022_03 {
                             }
                             .into();
 
-                            Some(
-                                init_proto
-                                    .into_iter()
-                                    .chain(once(init_call))
-                                    .collect()
-                                    .into(),
-                            )
+                            Some(Expr::from_exprs(
+                                init_proto.into_iter().chain(once(init_call)).collect(),
+                            ))
                         },
                         type_ann: None,
                         is_static: accessor.is_static,
