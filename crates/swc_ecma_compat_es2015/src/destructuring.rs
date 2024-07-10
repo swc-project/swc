@@ -842,7 +842,7 @@ impl VisitMut for AssignFolder {
                                 exprs.push(Box::new(assign_expr));
                             }
                             Pat::Rest(RestPat { arg, .. }) => {
-                                let mut assign_expr = AssignExpr {
+                                let mut assign_expr: Expr = AssignExpr {
                                     span: elem_span,
                                     op: op!("="),
                                     left: arg.take().try_into().unwrap(),
@@ -863,7 +863,7 @@ impl VisitMut for AssignFolder {
                                 exprs.push(Box::new(assign_expr));
                             }
                             _ => {
-                                let mut assign_expr = AssignExpr {
+                                let mut assign_expr: Expr = AssignExpr {
                                     span: elem_span,
                                     op: op!("="),
                                     left: elem.take().try_into().unwrap(),

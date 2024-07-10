@@ -417,7 +417,6 @@ where
                     span: DUMMY_SP,
                     props: Default::default(),
                 }
-                .into()
                 .make_assign_to(op!("="), global_lib.into())
                 .as_arg(),
             );

@@ -635,7 +635,7 @@ impl<C: Comments> ClassProperties<C> {
                         _ => (),
                     };
 
-                    let mut value = prop.value.unwrap_or_else(|| prop_span.into());
+                    let mut value = prop.value.unwrap_or_else(|| Expr::undefined(prop_span));
 
                     value.visit_mut_with(&mut NewTargetInProp);
 

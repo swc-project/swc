@@ -150,7 +150,7 @@ impl MemberInitRecord {
                 MemberInit::PubProp(PubProp { span, name, value }) => value_init.push(
                     if self.c.set_public_fields {
                         let this = ThisExpr { span: DUMMY_SP };
-                        AssignExpr {
+                        Expr::from(AssignExpr {
                             span,
                             left: match name {
                                 PropName::Ident(id) => this.make_member(id).into(),
@@ -158,8 +158,7 @@ impl MemberInitRecord {
                             },
                             op: op!("="),
                             right: value,
-                        }
-                        .into()
+                        })
                     } else {
                         CallExpr {
                             span,
