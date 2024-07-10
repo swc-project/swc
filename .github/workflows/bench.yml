@@ -59,18 +59,21 @@ jobs:
 
       - uses: ./.github/actions/setup-node
 
-      - name: Run benchmark
-        run: cargo bench -p ${{ matrix.crate }} -- --output-format bencher --sample-size 10 | tee output-${{ matrix.crate }}.txt
-
-      - name: List outputs
-        run: ls -l output-*.txt
-
-      - name: Upload benchmark result
-        uses: actions/upload-artifact@v2
-        # We need to merge output.txt for each crates
+      - name: Setup rust toolchain, cache and cargo-codspeed binary
+        uses: moonrepo/setup-rust@v0
         with:
-          name: output
-          path: output-*
+          channel: stable
+          cache-target: release
+          bins: cargo-codspeed
+
+      - name: Build the benchmark target(s)
+        run: cargo codspeed build -p ${{ matrix.crate }} --release
+
+      - name: Run the benchmarks
+        uses: CodSpeedHQ/action@v2
+        with:
+          run: cargo codspeed run -p ${{ matrix.crate }}
+          token: ${{ secrets.CODSPEED_TOKEN }}
 
   process-result:
     name: Process result
