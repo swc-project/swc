@@ -320,7 +320,7 @@ impl AssignFolder {
                         decls.push(VarDeclarator {
                             span: decl.span,
                             name: p.key.clone().into(),
-                            init: Some(decl.init.unwrap().make_member(p.key.clone()).into()),
+                            init: Some(decl.init.unwrap().make_member(p.key.clone().into()).into()),
                             definite: false,
                         });
                         return;

@@ -406,7 +406,7 @@ where
     where
         T: StmtLike,
         // Fn(Vec<(local, imported)>, src, body)
-        F: Fn(Vec<(Ident, Ident)>, &str, &mut Vec<T>),
+        F: Fn(Vec<(Ident, IdentName)>, &str, &mut Vec<T>),
     {
         if self.runtime == Runtime::Automatic {
             if let Some(local) = self.import_create_element.take() {
@@ -1081,7 +1081,7 @@ where
                         ImportSpecifier::Named(ImportNamedSpecifier {
                             span: DUMMY_SP,
                             local,
-                            imported: Some(ModuleExportName::Ident(imported)),
+                            imported: Some(ModuleExportName::Ident(imported.into())),
                             is_type_only: false,
                         })
                     })
@@ -1130,7 +1130,7 @@ where
 
 // const { createElement } = require('react')
 // const { jsx: jsx } = require('react/jsx-runtime')
-fn add_require(imports: Vec<(Ident, Ident)>, src: &str, unresolved_mark: Mark) -> Stmt {
+fn add_require(imports: Vec<(Ident, IdentName)>, src: &str, unresolved_mark: Mark) -> Stmt {
     Stmt::Decl(Decl::Var(Box::new(VarDecl {
         span: DUMMY_SP,
         kind: VarDeclKind::Const,

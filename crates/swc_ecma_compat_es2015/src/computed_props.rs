@@ -247,7 +247,7 @@ impl VisitMut for ComputedProps {
                     let left = if is_compute {
                         obj_ident.clone().computed_member(key)
                     } else {
-                        obj_ident.clone().make_member(key.ident().unwrap())
+                        obj_ident.clone().make_member(key.ident().unwrap().into())
                     };
                     Box::new(Expr::Assign(AssignExpr {
                         span,

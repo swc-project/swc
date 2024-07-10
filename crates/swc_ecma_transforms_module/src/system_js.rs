@@ -290,7 +290,7 @@ impl SystemJs {
                     ..Default::default()
                 }
                 .into(),
-                right: Box::new(Expr::Ident(target.clone())),
+                right: Box::new(Expr::Ident(target.clone().into())),
 
                 body: Box::new(Stmt::Block(BlockStmt {
                     span: DUMMY_SP,
