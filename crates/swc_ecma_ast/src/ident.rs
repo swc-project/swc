@@ -1,4 +1,5 @@
 use std::{
+    borrow::Cow,
     fmt::Display,
     ops::{Deref, DerefMut},
 };
@@ -362,6 +363,19 @@ pub struct IdentName {
     #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
     pub sym: Atom,
 }
+
+impl From<Atom> for IdentName {
+    fn from(sym: Atom) -> Self {
+        IdentName {
+            span: DUMMY_SP,
+            sym,
+        }
+    }
+}
+
+bridge_from!(IdentName, Atom, &'_ str);
+bridge_from!(IdentName, Atom, Cow<'_, str>);
+bridge_from!(IdentName, Atom, String);
 
 impl AsRef<str> for IdentName {
     fn as_ref(&self) -> &str {
