@@ -540,7 +540,7 @@ impl Pure<'_> {
                         .into()
                     } else {
                         // Invalid key. Replace with side effects plus `undefined`.
-                        *Expr::undefined(*span)
+                        Expr::undefined(*span)
                     },
                     props.drain(..).map(|x| match x {
                         PropOrSpread::Prop(prop) => match *prop {

@@ -232,7 +232,7 @@ impl Pure<'_> {
                 return;
             }
 
-            let sep = Lit::Str(Str {
+            let sep: Box<Expr> = Lit::Str(Str {
                 span: DUMMY_SP,
                 raw: None,
                 value: separator,

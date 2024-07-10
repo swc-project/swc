@@ -200,7 +200,7 @@ impl Evaluator {
             }) if !prop.is_computed() => {
                 let obj = self.eval_as_expr(obj)?;
 
-                let mut e = MemberExpr {
+                let mut e: Expr = MemberExpr {
                     span: *span,
                     obj,
                     prop: prop.clone(),
@@ -232,7 +232,7 @@ impl Evaluator {
             });
         }
 
-        let mut e = Tpl {
+        let mut e: Box<Expr> = Tpl {
             span: q.span,
             exprs,
             quasis: q.quasis.clone(),
