@@ -145,15 +145,9 @@ impl Stmt {
     pub fn is_use_strict(&self) -> bool {
         match self {
             Stmt::Expr(expr) => match &expr.expr {
-                Expr::Lit(s) => {
-                    let Lit::Str(Str {
-                        raw: Some(value), ..
-                    }) = &**s
-                    else {
-                        return false;
-                    };
-                    value == "\"use strict\"" || value == "'use strict'"
-                }
+                Expr::Lit(Lit::Str(Str {
+                    raw: Some(value), ..
+                })) => value == "\"use strict\"" || value == "'use strict'",
                 _ => false,
             },
             _ => false,
