@@ -1010,8 +1010,6 @@ define!({
     }
     pub enum SuperProp {
         Ident(IdentName),
-        Computed(ComputedPropName),
-        Ident(Ident),
         Computed(Box<ComputedPropName>),
     }
     pub struct CondExpr {
@@ -1248,8 +1246,6 @@ define!({
     }
     pub enum JSXAttrName {
         Ident(IdentName),
-        JSXNamespacedName(JSXNamespacedName),
-        Ident(Ident),
         JSXNamespacedName(Box<JSXNamespacedName>),
     }
     pub enum JSXAttrValue {
