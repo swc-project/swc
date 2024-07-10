@@ -177,7 +177,7 @@ impl Params {
                                 span: DUMMY_SP,
                                 left: Box::new(Ident::from(ident).into()),
                                 op: op!("==="),
-                                right: DUMMY_SP.into(),
+                                right: Expr::undefined(DUMMY_SP),
                             }
                             .into(),
                             cons: Box::new(Stmt::Expr(ExprStmt {

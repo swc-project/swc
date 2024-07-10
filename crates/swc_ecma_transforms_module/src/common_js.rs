@@ -110,7 +110,7 @@ where
         }
 
         if !self.config.allow_top_level_this {
-            top_level_this(&mut n.body, *DUMMY_SP.into());
+            top_level_this(&mut n.body, *Expr::undefined(DUMMY_SP));
         }
 
         let import_interop = self.config.import_interop();

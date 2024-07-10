@@ -2044,7 +2044,7 @@ impl VisitMut for Optimizer<'_> {
                     #[cfg(feature = "debug")]
                     dump_change_detail!("Removed {}", start);
 
-                    DUMMY_SP.into()
+                    Expr::undefined(DUMMY_SP)
                 });
             }
         } else {

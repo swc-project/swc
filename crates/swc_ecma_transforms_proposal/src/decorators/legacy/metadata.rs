@@ -537,7 +537,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
 
     let param = match param {
         Some(v) => &v.type_ann,
-        None => return *DUMMY_SP.into(),
+        None => return *Expr::undefined(DUMMY_SP),
     };
 
     serialize_type_node(class_name.map(|v| &*v.sym).unwrap_or(""), param)

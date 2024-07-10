@@ -816,7 +816,7 @@ impl VisitMut for Generator {
                     &mut args,
                     Some(ExprOrSpread {
                         spread: None,
-                        expr: DUMMY_SP.into(),
+                        expr: Expr::undefined(DUMMY_SP),
                     }),
                     None,
                 ))
@@ -3528,7 +3528,7 @@ impl Generator {
 
             _ => {
                 if !is_new_call {
-                    (callee, DUMMY_SP.into())
+                    (callee, Expr::undefined(DUMMY_SP))
                 } else {
                     let this_arg = self.create_temp_variable();
                     let target = callee.make_assign_to(op!("="), this_arg.clone().into());

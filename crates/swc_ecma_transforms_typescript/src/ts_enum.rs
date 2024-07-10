@@ -81,7 +81,7 @@ impl From<TsEnumRecordValue> for Expr {
                 raw: None,
             })
             .into(),
-            TsEnumRecordValue::Void => *DUMMY_SP.into(),
+            TsEnumRecordValue::Void => *Expr::undefined(DUMMY_SP),
             TsEnumRecordValue::Opaque(expr) => *expr,
         }
     }

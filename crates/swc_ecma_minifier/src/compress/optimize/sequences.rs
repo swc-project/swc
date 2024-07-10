@@ -2335,7 +2335,7 @@ impl Optimizer<'_> {
                                 return Ok(false);
                             }
 
-                            right_val = DUMMY_SP.into();
+                            right_val = Expr::undefined(DUMMY_SP);
                             (left, Some(&mut right_val))
                         }
                     }
@@ -2395,7 +2395,7 @@ impl Optimizer<'_> {
 
                         if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
                             if usage.var_kind == Some(VarDeclKind::Const) {
-                                a.init = Some(DUMMY_SP.into());
+                                a.init = Some(Expr::undefined(DUMMY_SP));
                             }
                         }
 
@@ -2403,7 +2403,7 @@ impl Optimizer<'_> {
                     } else {
                         a.init.clone()
                     }
-                    .unwrap_or_else(|| DUMMY_SP.into())
+                    .unwrap_or_else(|| Expr::undefined(DUMMY_SP))
                 }
                 Mergable::Expr(a) => {
                     if can_remove || force_drop {

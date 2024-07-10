@@ -905,7 +905,7 @@ impl Optimizer<'_> {
                 span: DUMMY_SP,
                 name: param.clone().into(),
                 init: if self.ctx.executed_multiple_time && no_arg {
-                    Some(DUMMY_SP.into())
+                    Some(Expr::undefined(DUMMY_SP))
                 } else {
                     None
                 },
