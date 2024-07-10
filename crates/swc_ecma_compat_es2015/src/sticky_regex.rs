@@ -41,12 +41,13 @@ impl VisitMut for StickyRegex {
 
         if let Expr::Lit(Lit::Regex(Regex { exp, flags, span })) = e {
             if flags.contains('y') {
-                *e = Expr::New(NewExpr {
+                *e = NewExpr {
                     span: *span,
                     callee: Box::new(quote_ident!(Default::default(), *span, "RegExp").into()),
                     args: Some(vec![exp.clone().as_arg(), flags.clone().as_arg()]),
                     ..Default::default()
-                })
+                }
+                .into()
             }
         }
     }

@@ -222,12 +222,13 @@ impl VisitMut for RegeneratorHandler {
                 _ => return,
             };
 
-            let init = Box::new(Expr::Call(CallExpr {
+            let init = CallExpr {
                 span: DUMMY_SP,
                 callee: quote_ident!("require").as_callee(),
                 args: vec![quote_str!("regenerator-runtime").as_arg()],
                 ..Default::default()
-            }));
+            }
+            .into();
 
             let decl = VarDeclarator {
                 span: DUMMY_SP,

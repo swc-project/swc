@@ -13,7 +13,7 @@ impl Swcify for LVal {
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
             LVal::Id(i) => i.swcify(ctx).into(),
-            LVal::MemberExpr(e) => Pat::Expr(Box::new(e.swcify(ctx))),
+            LVal::MemberExpr(e) => Box::new(e.swcify(ctx)).into(),
             LVal::RestEl(e) => e.swcify(ctx).into(),
             LVal::AssignmentPat(e) => e.swcify(ctx).into(),
             LVal::ArrayPat(e) => e.swcify(ctx).into(),
@@ -58,7 +58,7 @@ impl Swcify for AssignmentPatternLeft {
             AssignmentPatternLeft::Id(v) => v.swcify(ctx).into(),
             AssignmentPatternLeft::Object(v) => v.swcify(ctx).into(),
             AssignmentPatternLeft::Array(v) => v.swcify(ctx).into(),
-            AssignmentPatternLeft::Member(v) => Pat::Expr(Box::new(v.swcify(ctx))),
+            AssignmentPatternLeft::Member(v) => Box::new(v.swcify(ctx)).into(),
         }
     }
 }
@@ -81,11 +81,11 @@ impl Swcify for PatternLike {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            PatternLike::Id(v) => Pat::from(v.swcify(ctx)),
-            PatternLike::RestEl(v) => Pat::from(v.swcify(ctx)),
-            PatternLike::AssignmentPat(v) => Pat::from(v.swcify(ctx)),
-            PatternLike::ArrayPat(v) => Pat::from(v.swcify(ctx)),
-            PatternLike::ObjectPat(v) => Pat::from(v.swcify(ctx)),
+            PatternLike::Id(v) => v.swcify(ctx).into(),
+            PatternLike::RestEl(v) => v.swcify(ctx).into(),
+            PatternLike::AssignmentPat(v) => v.swcify(ctx).into(),
+            PatternLike::ArrayPat(v) => v.swcify(ctx).into(),
+            PatternLike::ObjectPat(v) => v.swcify(ctx).into(),
         }
     }
 }
@@ -143,9 +143,9 @@ impl Swcify for swc_estree_ast::Pattern {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            swc_estree_ast::Pattern::Assignment(v) => Pat::from(v.swcify(ctx)),
-            swc_estree_ast::Pattern::Array(v) => Pat::from(v.swcify(ctx)),
-            swc_estree_ast::Pattern::Object(v) => Pat::from(v.swcify(ctx)),
+            swc_estree_ast::Pattern::Assignment(v) => v.swcify(ctx).into(),
+            swc_estree_ast::Pattern::Array(v) => v.swcify(ctx).into(),
+            swc_estree_ast::Pattern::Object(v) => v.swcify(ctx).into(),
         }
     }
 }

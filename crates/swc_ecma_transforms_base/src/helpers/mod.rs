@@ -434,7 +434,7 @@ impl InjectHelpers {
     fn build_reqire(&self, name: &str, mark: Mark) -> Stmt {
         let c = CallExpr {
             span: DUMMY_SP,
-            callee: Expr::Ident(Ident {
+            callee: Expr::from(Ident {
                 span: DUMMY_SP,
                 ctxt: SyntaxContext::empty().apply_mark(self.global_mark),
                 sym: "require".into(),

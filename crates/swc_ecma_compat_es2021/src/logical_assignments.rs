@@ -111,13 +111,14 @@ impl VisitMut for Operators {
                             });
 
                             (
-                                Box::new(Expr::Assign(AssignExpr {
+                                AssignExpr {
                                     span: DUMMY_SP,
                                     op: op!("="),
                                     left: alias.clone().into(),
                                     right: obj.into(),
-                                })),
-                                Box::new(Expr::Ident(alias)),
+                                }
+                                .into(),
+                                alias.into(),
                             )
                         }
                     };
@@ -131,16 +132,18 @@ impl VisitMut for Operators {
                     };
 
                     (
-                        Box::new(Expr::Member(MemberExpr {
+                        MemberExpr {
                             span: DUMMY_SP,
                             obj: left_obj,
                             prop: left_prop,
-                        })),
-                        Box::new(Expr::Member(MemberExpr {
+                        }
+                        .into(),
+                        MemberExpr {
                             span: DUMMY_SP,
                             obj: right_obj,
                             prop: right_prop,
-                        })),
+                        }
+                        .into(),
                     )
                 }
                 _ => {
@@ -149,12 +152,13 @@ impl VisitMut for Operators {
                 }
             };
 
-            let right = Box::new(Expr::Assign(AssignExpr {
+            let right = AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
                 left: r_assign_target.try_into().unwrap(),
                 right: right.take(),
-            }));
+            }
+            .into();
 
             let op = match *op {
                 op!("??=") => op!("??"),
@@ -163,12 +167,13 @@ impl VisitMut for Operators {
                 _ => unreachable!(),
             };
 
-            *e = Expr::Bin(BinExpr {
+            *e = BinExpr {
                 span: *span,
                 op,
                 left: left_expr,
                 right,
-            });
+            }
+            .into();
         }
     }
 

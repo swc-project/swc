@@ -75,7 +75,7 @@ impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
             Expr::This(ThisExpr { span }) if self.in_nested_scope => {
-                *n = Expr::Ident(quote_ident!(
+                *n = quote_ident!(
                     SyntaxContext::empty().apply_mark(
                         *self
                             .this_alias_mark
@@ -83,7 +83,8 @@ impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
                     ),
                     *span,
                     "_this"
-                ));
+                )
+                .into();
             }
             // We pretend method folding mode for while folding injected `_define_property`
             // calls.
@@ -210,7 +211,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                 let mut args = args.clone();
 
                 if args.len() == 1 && is_rest_arguments(&args[0]) {
-                    *n = Expr::Call(CallExpr {
+                    *n = CallExpr {
                         span: DUMMY_SP,
                         callee: callee.make_member(quote_ident!("apply")).as_callee(),
                         args: iter::once(this)
@@ -221,16 +222,18 @@ impl<'a> SuperFieldAccessFolder<'a> {
                             }))
                             .collect(),
                         ..Default::default()
-                    });
+                    }
+                    .into();
                     return;
                 }
 
-                *n = Expr::Call(CallExpr {
+                *n = CallExpr {
                     span: DUMMY_SP,
                     callee: callee.make_member(quote_ident!("call")).as_callee(),
                     args: iter::once(this).chain(args).collect(),
                     ..Default::default()
-                });
+                }
+                .into();
             }
         }
     }
@@ -313,7 +316,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     });
                     // in static default super class is Function.prototype
                     if self.is_static && self.super_class.is_some() {
-                        Expr::Ident(name)
+                        name.into()
                     } else {
                         name.make_member(quote_ident!("prototype")).into()
                     }
@@ -370,18 +373,19 @@ impl<'a> SuperFieldAccessFolder<'a> {
                 },
             };
 
-            Expr::Assign(AssignExpr {
+            AssignExpr {
                 span: super_token,
                 left: left.into(),
                 op,
                 right: rhs,
-            })
+            }
+            .into()
         } else {
             let proto_arg = self.proto_arg();
 
             let prop_arg = prop_arg(prop).as_arg();
 
-            Expr::Call(CallExpr {
+            CallExpr {
                 span: super_token,
                 callee: helper!(set),
                 args: vec![
@@ -393,7 +397,8 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     true.as_arg(),
                 ],
                 ..Default::default()
-            })
+            }
+            .into()
         }
     }
 
@@ -404,7 +409,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
 
         let this_arg = self.this_arg(super_token).as_arg();
 
-        let expr = Expr::Call(CallExpr {
+        let expr: Expr = CallExpr {
             span: super_token,
             callee: helper!(update),
             args: vec![
@@ -415,7 +420,8 @@ impl<'a> SuperFieldAccessFolder<'a> {
                 true.as_arg(),
             ],
             ..Default::default()
-        });
+        }
+        .into();
 
         expr.make_member(quote_ident!("_"))
     }
@@ -423,7 +429,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
     fn proto_arg(&mut self) -> Box<Expr> {
         let expr = if self.is_static {
             // Foo
-            Box::new(Expr::Ident(self.class_name.clone()))
+            self.class_name.clone().into()
         } else {
             // Foo.prototype
             self.class_name
@@ -484,11 +490,12 @@ fn prop_arg(prop: SuperProp) -> Expr {
     match prop {
         SuperProp::Ident(IdentName {
             sym: value, span, ..
-        }) => Expr::Lit(Lit::Str(Str {
+        }) => Lit::Str(Str {
             span,
             raw: None,
             value,
-        })),
+        })
+        .into(),
         SuperProp::Computed(c) => *c.expr,
     }
 }

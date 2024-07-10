@@ -38,21 +38,27 @@ impl VisitMut for DisplayName {
         ) = &expr.left
         {
             return expr.right.visit_mut_with(&mut Folder {
-                name: Some(Box::new(Expr::Lit(Lit::Str(Str {
-                    span: prop.span,
-                    raw: None,
-                    value: prop.sym.clone(),
-                })))),
+                name: Some(
+                    Lit::Str(Str {
+                        span: prop.span,
+                        raw: None,
+                        value: prop.sym.clone(),
+                    })
+                    .into(),
+                ),
             });
         };
 
         if let Some(ident) = expr.left.as_ident() {
             expr.right.visit_mut_with(&mut Folder {
-                name: Some(Box::new(Expr::Lit(Lit::Str(Str {
-                    span: ident.span,
-                    raw: None,
-                    value: ident.sym.clone(),
-                })))),
+                name: Some(
+                    Lit::Str(Str {
+                        span: ident.span,
+                        raw: None,
+                        value: ident.sym.clone(),
+                    })
+                    .into(),
+                ),
             });
         }
     }
@@ -62,11 +68,14 @@ impl VisitMut for DisplayName {
 
         if let ModuleDecl::ExportDefaultExpr(e) = decl {
             e.visit_mut_with(&mut Folder {
-                name: Some(Box::new(Expr::Lit(Lit::Str(Str {
-                    span: DUMMY_SP,
-                    raw: None,
-                    value: "input".into(),
-                })))),
+                name: Some(
+                    Lit::Str(Str {
+                        span: DUMMY_SP,
+                        raw: None,
+                        value: "input".into(),
+                    })
+                    .into(),
+                ),
             });
         }
     }
@@ -77,14 +86,15 @@ impl VisitMut for DisplayName {
         if let Prop::KeyValue(KeyValueProp { key, value }) = prop {
             value.visit_mut_with(&mut Folder {
                 name: Some(match key {
-                    PropName::Ident(ref i) => Box::new(Expr::Lit(Lit::Str(Str {
+                    PropName::Ident(ref i) => Lit::Str(Str {
                         span: i.span,
                         raw: None,
                         value: i.sym.clone(),
-                    }))),
-                    PropName::Str(ref s) => Box::new(Expr::Lit(Lit::Str(s.clone()))),
-                    PropName::Num(ref n) => Box::new(Expr::Lit(Lit::Num(n.clone()))),
-                    PropName::BigInt(ref b) => Box::new(Expr::Lit(Lit::BigInt(b.clone()))),
+                    })
+                    .into(),
+                    PropName::Str(ref s) => Lit::Str(s.clone()).into(),
+                    PropName::Num(ref n) => Lit::Num(n.clone()).into(),
+                    PropName::BigInt(ref b) => Lit::BigInt(b.clone()).into(),
                     PropName::Computed(ref c) => c.expr.clone(),
                 }),
             });
@@ -94,11 +104,14 @@ impl VisitMut for DisplayName {
     fn visit_mut_var_declarator(&mut self, decl: &mut VarDeclarator) {
         if let Pat::Ident(ref ident) = decl.name {
             decl.init.visit_mut_with(&mut Folder {
-                name: Some(Box::new(Expr::Lit(Lit::Str(Str {
-                    span: ident.span,
-                    value: ident.sym.clone(),
-                    raw: None,
-                })))),
+                name: Some(
+                    Lit::Str(Str {
+                        span: ident.span,
+                        value: ident.sym.clone(),
+                        raw: None,
+                    })
+                    .into(),
+                ),
             });
         }
     }

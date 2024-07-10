@@ -197,7 +197,7 @@ impl FastDts {
                         new_items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
                             ExportDefaultExpr {
                                 span: export.span,
-                                expr: Box::new(Expr::Ident(name_ident)),
+                                expr: name_ident.into(),
                             },
                         )))
                     } else {
@@ -298,12 +298,12 @@ impl FastDts {
                                             (Expr::Ident(ident.into()), false)
                                         }
                                         PropName::Str(str_prop) => {
-                                            (Expr::Lit(Lit::Str(str_prop)), false)
+                                            (Lit::Str(str_prop).into(), false)
                                         }
-                                        PropName::Num(num) => (Expr::Lit(Lit::Num(num)), true),
+                                        PropName::Num(num) => (Lit::Num(num).into(), true),
                                         PropName::Computed(computed) => (*computed.expr, true),
                                         PropName::BigInt(big_int) => {
-                                            (Expr::Lit(Lit::BigInt(big_int)), true)
+                                            (Lit::BigInt(big_int).into(), true)
                                         }
                                     };
 
@@ -463,7 +463,7 @@ impl FastDts {
                                     }
 
                                     ident.optional = true;
-                                    param.pat = Pat::Ident(ident.clone());
+                                    param.pat = ident.clone().into();
                                 }
                                 Pat::Array(arr_pat) => {
                                     if arr_pat.type_ann.is_none() {
@@ -475,7 +475,7 @@ impl FastDts {
                                     }
 
                                     arr_pat.optional = true;
-                                    param.pat = Pat::Array(arr_pat.clone());
+                                    param.pat = arr_pat.clone().into();
                                 }
                                 Pat::Object(obj_pat) => {
                                     if obj_pat.type_ann.is_none() {
@@ -487,7 +487,7 @@ impl FastDts {
                                     }
 
                                     obj_pat.optional = true;
-                                    param.pat = Pat::Object(obj_pat.clone());
+                                    param.pat = obj_pat.clone().into();
                                 }
                                 Pat::Rest(_) | Pat::Assign(_) | Pat::Expr(_) | Pat::Invalid(_) => {}
                             };
@@ -598,7 +598,7 @@ impl FastDts {
             Expr::Member(member_expr) => self.valid_enum_init_expr(&member_expr.obj),
             Expr::OptChain(opt_expr) => match &*opt_expr.base {
                 OptChainBase::Member(member_expr) => {
-                    self.valid_enum_init_expr(&Expr::Member(member_expr.clone()))
+                    self.valid_enum_init_expr(&member_expr.clone().into())
                 }
                 OptChainBase::Call(_) => false,
             },

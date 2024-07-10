@@ -356,7 +356,7 @@ where
         };
         prop.ctxt = self.imported_idents.get(&obj.to_id()).copied().unwrap();
 
-        *e = Expr::Ident(prop);
+        *e = prop.into();
     }
 }
 

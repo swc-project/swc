@@ -504,7 +504,7 @@ impl VisitMut for Inlining<'_> {
                 PatFoldingMode::Param => {
                     self.declare(
                         i.to_id(),
-                        Some(Cow::Owned(Expr::Ident(Ident::from(i)))),
+                        Some(Cow::Owned(Ident::from(i).into())),
                         false,
                         VarType::Param,
                     );
@@ -512,7 +512,7 @@ impl VisitMut for Inlining<'_> {
                 PatFoldingMode::CatchParam => {
                     self.declare(
                         i.to_id(),
-                        Some(Cow::Owned(Expr::Ident(Ident::from(i)))),
+                        Some(Cow::Owned(Ident::from(i).into())),
                         false,
                         VarType::Var(VarDeclKind::Var),
                     );
@@ -649,9 +649,7 @@ impl VisitMut for Inlining<'_> {
 
                         tracing::trace!("Trying to optimize variable declaration: {:?}", id);
 
-                        if self
-                            .scope
-                            .is_inline_prevented(&Expr::Ident(Ident::from(name)))
+                        if self.scope.is_inline_prevented(&Ident::from(name).into())
                             || !self.scope.has_same_this(&id, node.init.as_deref())
                         {
                             tracing::trace!("Inline is prevented for {:?}", id);
@@ -666,7 +664,7 @@ impl VisitMut for Inlining<'_> {
                             if let Expr::Ident(ri) = &**init {
                                 self.declare(
                                     name.to_id(),
-                                    Some(Cow::Owned(Expr::Ident(ri.clone()))),
+                                    Some(Cow::Owned(ri.clone().into())),
                                     false,
                                     kind,
                                 );
@@ -690,10 +688,7 @@ impl VisitMut for Inlining<'_> {
                             Some(e) if e.is_lit() || e.is_ident() => Some(e),
                             Some(e) => {
                                 let e = *e;
-                                if self
-                                    .scope
-                                    .is_inline_prevented(&Expr::Ident(Ident::from(name)))
-                                {
+                                if self.scope.is_inline_prevented(&Ident::from(name).into()) {
                                     node.init = Some(Box::new(e));
                                     return;
                                 }

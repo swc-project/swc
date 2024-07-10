@@ -40,7 +40,7 @@ impl Swcify for Expression {
             Expression::Call(e) => e.swcify(ctx).into(),
             Expression::Conditional(e) => e.swcify(ctx).into(),
             Expression::Func(e) => e.swcify(ctx).into(),
-            Expression::Id(e) => Expr::Ident(e.swcify(ctx).into()),
+            Expression::Id(e) => e.swcify(ctx).id.into(),
             Expression::Literal(Literal::String(e)) => e.swcify(ctx).into(),
             Expression::Literal(Literal::Numeric(e)) => e.swcify(ctx).into(),
             Expression::Literal(Literal::Null(e)) => Lit::from(e.swcify(ctx)).into(),
@@ -63,7 +63,7 @@ impl Swcify for Expression {
             Expression::TemplateLiteral(e) => e.swcify(ctx).into(),
             Expression::Yield(e) => e.swcify(ctx).into(),
             Expression::Await(e) => e.swcify(ctx).into(),
-            Expression::Literal(Literal::BigInt(e)) => Expr::Lit(e.swcify(ctx).into()),
+            Expression::Literal(Literal::BigInt(e)) => e.swcify(ctx).into(),
             Expression::OptionalMember(e) => e.swcify(ctx).into(),
             Expression::OptionalCall(e) => e.swcify(ctx).into(),
             Expression::JSXElement(e) => return e.swcify(ctx).into(),
@@ -138,7 +138,7 @@ impl Swcify for BinaryExprLeft {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            BinaryExprLeft::Private(e) => Box::new(Expr::PrivateName(e.swcify(ctx))),
+            BinaryExprLeft::Private(e) => e.swcify(ctx).into(),
             BinaryExprLeft::Expr(e) => e.swcify(ctx),
         }
     }
@@ -266,7 +266,7 @@ impl Swcify for Arg {
             },
             Arg::JSXName(e) => ExprOrSpread {
                 spread: None,
-                expr: Box::new(Expr::JSXNamespacedName(e.swcify(ctx))),
+                expr: e.swcify(ctx).into(),
             },
             Arg::Placeholder(_) => return None,
             Arg::Expr(e) => ExprOrSpread {
@@ -363,7 +363,7 @@ impl Swcify for MemberExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match *self.object {
-            Expression::Super(s) => Expr::SuperProp(SuperPropExpr {
+            Expression::Super(s) => SuperPropExpr {
                 span: ctx.span(&self.base),
                 obj: s.swcify(ctx),
                 prop: match (*self.property, self.computed) {
@@ -377,8 +377,9 @@ impl Swcify for MemberExpression {
                     }
                     _ => unreachable!(),
                 },
-            }),
-            _ => Expr::Member(MemberExpr {
+            }
+            .into(),
+            _ => MemberExpr {
                 span: ctx.span(&self.base),
                 obj: self.object.swcify(ctx),
                 prop: match (*self.property, self.computed) {
@@ -395,7 +396,8 @@ impl Swcify for MemberExpression {
                     }
                     _ => unreachable!(),
                 },
-            }),
+            }
+            .into(),
         }
     }
 }
@@ -511,7 +513,7 @@ impl Swcify for ObjectProperty {
             key: self.key.swcify(ctx),
             value: match self.value {
                 ObjectPropVal::Pattern(pat) => match pat {
-                    PatternLike::Id(i) => Box::new(Expr::Ident(i.swcify(ctx).into())),
+                    PatternLike::Id(i) => i.swcify(ctx).into(),
                     _ => {
                         panic!("swc does not support ObjectPropVal::Pattern({:?})", pat)
                     }
@@ -792,7 +794,7 @@ impl Swcify for OptionalMemberExprProp {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            OptionalMemberExprProp::Id(v) => Box::new(Expr::Ident(v.swcify(ctx).into())),
+            OptionalMemberExprProp::Id(v) => v.swcify(ctx).into(),
             OptionalMemberExprProp::Expr(v) => v.swcify(ctx),
         }
     }

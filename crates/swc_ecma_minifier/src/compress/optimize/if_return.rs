@@ -31,12 +31,13 @@ impl Optimizer<'_> {
             self.changed = true;
             report_change!("if_return: Merging nested if statements");
 
-            s.test = Box::new(Expr::Bin(BinExpr {
+            s.test = BinExpr {
                 span: s.test.span(),
                 op: op!("&&"),
                 left: s.test.take(),
                 right: test.take(),
-            }));
+            }
+            .into();
             s.cons = cons.take();
         }
     }
@@ -313,7 +314,7 @@ impl Optimizer<'_> {
                             )
                         }
                     },
-                    None => cur = Some(Box::new(Expr::Seq(v))),
+                    None => cur = Some(v.into()),
                 },
                 Expr::Cond(v) => match &mut cur {
                     Some(cur) => match &mut **cur {
@@ -328,26 +329,31 @@ impl Optimizer<'_> {
                                 (prev_seq.span, exprs)
                             };
 
-                            *alt = Expr::Cond(CondExpr {
+                            *alt = CondExpr {
                                 span: DUMMY_SP,
-                                test: Box::new(Expr::Seq(SeqExpr { span, exprs })),
+                                test: SeqExpr { span, exprs }.into(),
                                 cons: v.cons,
                                 alt: v.alt,
-                            });
+                            }
+                            .into();
                         }
                         Expr::Seq(prev_seq) => {
                             prev_seq.exprs.push(v.test);
                             let exprs = prev_seq.exprs.take();
 
-                            *cur = Box::new(Expr::Cond(CondExpr {
+                            *cur = CondExpr {
                                 span: DUMMY_SP,
-                                test: Box::new(Expr::Seq(SeqExpr {
-                                    span: prev_seq.span,
-                                    exprs,
-                                })),
+                                test: Box::new(
+                                    SeqExpr {
+                                        span: prev_seq.span,
+                                        exprs,
+                                    }
+                                    .into(),
+                                ),
                                 cons: v.cons,
                                 alt: v.alt,
-                            }));
+                            }
+                            .into();
                         }
                         _ => {
                             unreachable!(
@@ -356,7 +362,7 @@ impl Optimizer<'_> {
                             )
                         }
                     },
-                    None => cur = Some(Box::new(Expr::Cond(v))),
+                    None => cur = Some(v.into()),
                 },
                 _ => {
                     unreachable!(
@@ -432,34 +438,41 @@ impl Optimizer<'_> {
 
                 exprs.push(test);
 
-                Expr::Cond(CondExpr {
+                CondExpr {
                     span,
-                    test: Box::new(Expr::Seq(SeqExpr {
+                    test: SeqExpr {
                         span: DUMMY_SP,
                         exprs,
-                    })),
+                    }
+                    .into(),
                     cons,
                     alt,
-                })
+                }
+                .into()
             }
             Stmt::Expr(stmt) => {
-                exprs.push(Box::new(Expr::Unary(UnaryExpr {
-                    span: DUMMY_SP,
-                    op: op!("void"),
-                    arg: stmt.expr,
-                })));
-                Expr::Seq(SeqExpr {
+                exprs.push(
+                    UnaryExpr {
+                        span: DUMMY_SP,
+                        op: op!("void"),
+                        arg: stmt.expr,
+                    }
+                    .into(),
+                );
+                SeqExpr {
                     span: DUMMY_SP,
                     exprs,
-                })
+                }
+                .into()
             }
             Stmt::Return(stmt) => {
                 let span = stmt.span;
                 exprs.push(stmt.arg.unwrap_or_else(|| Expr::undefined(span)));
-                Expr::Seq(SeqExpr {
+                SeqExpr {
                     span: DUMMY_SP,
                     exprs,
-                })
+                }
+                .into()
             }
             _ => unreachable!(),
         }

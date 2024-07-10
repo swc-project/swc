@@ -420,7 +420,7 @@ pub trait StmtExt {
                 .into_iter()
                 .map(|i| VarDeclarator {
                     span: i.span,
-                    name: Pat::Ident(i.into()),
+                    name: i.into(),
                     init: None,
                     definite: false,
                 })
@@ -2108,10 +2108,10 @@ pub fn alias_if_required(expr: &Expr, default: &str) -> (Ident, bool) {
 
 pub fn prop_name_to_expr(p: PropName) -> Expr {
     match p {
-        PropName::Ident(i) => Expr::Ident(i.into()),
-        PropName::Str(s) => Expr::Lit(Lit::Str(s)),
-        PropName::Num(n) => Expr::Lit(Lit::Num(n)),
-        PropName::BigInt(b) => Expr::Lit(Lit::BigInt(b)),
+        PropName::Ident(i) => i.into(),
+        PropName::Str(s) => Lit::Str(s).into(),
+        PropName::Num(n) => Lit::Num(n).into(),
+        PropName::BigInt(b) => Lit::BigInt(b).into(),
         PropName::Computed(c) => *c.expr,
     }
 }
@@ -2120,14 +2120,15 @@ pub fn prop_name_to_expr(p: PropName) -> Expr {
 /// e.g. value from `{ key: value }`
 pub fn prop_name_to_expr_value(p: PropName) -> Expr {
     match p {
-        PropName::Ident(i) => Expr::Lit(Lit::Str(Str {
+        PropName::Ident(i) => Lit::Str(Str {
             span: i.span,
             raw: None,
             value: i.sym,
-        })),
-        PropName::Str(s) => Expr::Lit(Lit::Str(s)),
-        PropName::Num(n) => Expr::Lit(Lit::Num(n)),
-        PropName::BigInt(b) => Expr::Lit(Lit::BigInt(b)),
+        })
+        .into(),
+        PropName::Str(s) => Lit::Str(s).into(),
+        PropName::Num(n) => Lit::Num(n).into(),
+        PropName::BigInt(b) => Lit::BigInt(b).into(),
         PropName::Computed(c) => *c.expr,
     }
 }
@@ -2211,29 +2212,33 @@ pub fn opt_chain_test(
     no_document_all: bool,
 ) -> Expr {
     if no_document_all {
-        Expr::Bin(BinExpr {
+        BinExpr {
             span,
             left,
             op: op!("=="),
-            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-        })
+            right: Lit::Null(Null { span: DUMMY_SP }).into(),
+        }
+        .into()
     } else {
-        Expr::Bin(BinExpr {
+        BinExpr {
             span,
-            left: Box::new(Expr::Bin(BinExpr {
+            left: BinExpr {
                 span: DUMMY_SP,
                 left,
                 op: op!("==="),
                 right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-            })),
+            }
+            .into(),
             op: op!("||"),
-            right: Box::new(Expr::Bin(BinExpr {
+            right: BinExpr {
                 span: DUMMY_SP,
                 left: right,
                 op: op!("==="),
                 right: Expr::undefined(DUMMY_SP),
-            })),
-        })
+            }
+            .into(),
+        }
+        .into()
     }
 }
 
@@ -2457,7 +2462,7 @@ impl<'a> IdentUsageFinder<'a> {
 impl ExprCtx {
     /// make a new expression which evaluates `val` preserving side effects, if
     /// any.
-    pub fn preserve_effects<I>(&self, span: Span, val: Expr, exprs: I) -> Expr
+    pub fn preserve_effects<I>(&self, span: Span, val: Box<Expr>, exprs: I) -> Box<Expr>
     where
         I: IntoIterator<Item = Box<Expr>>,
     {
@@ -2469,9 +2474,9 @@ impl ExprCtx {
         if exprs.is_empty() {
             val
         } else {
-            exprs.push(Box::new(val));
+            exprs.push(val);
 
-            Expr::Seq(SeqExpr { exprs, span })
+            SeqExpr { exprs, span }.into()
         }
     }
 
@@ -2511,7 +2516,7 @@ impl ExprCtx {
                     }
                 }
 
-                to.push(Box::new(Expr::New(e)))
+                to.push(e.into())
             }
             Expr::Member(_) | Expr::SuperProp(_) => to.push(Box::new(expr)),
 
@@ -2587,7 +2592,7 @@ impl ExprCtx {
                 });
 
                 if has_spread {
-                    to.push(Box::new(Expr::Object(ObjectLit { span, props })))
+                    to.push(ObjectLit { span, props }.into())
                 } else {
                     props.into_iter().for_each(|prop| match prop {
                         PropOrSpread::Prop(node) => match *node {
@@ -2706,7 +2711,7 @@ impl VisitMut for IdentReplacer<'_> {
                 if i.sym != cloned.sym || i.ctxt != cloned.ctxt {
                     *node = Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(IdentName::new(cloned.sym, cloned.span)),
-                        value: Box::new(Expr::Ident(i.clone())),
+                        value: i.clone().into(),
                     });
                 }
             }
@@ -3041,11 +3046,12 @@ impl VisitMut for IdentRenamer<'_> {
                     Some(default) => {
                         *i = ObjectPatProp::KeyValue(KeyValuePatProp {
                             key: PropName::Ident(orig.clone().into()),
-                            value: Box::new(Pat::Assign(AssignPat {
+                            value: AssignPat {
                                 span: DUMMY_SP,
                                 left: p.key.clone().into(),
                                 right: default,
-                            })),
+                            }
+                            .into(),
                         });
                     }
                     None => {
@@ -3071,7 +3077,7 @@ impl VisitMut for IdentRenamer<'_> {
                 if i.sym != cloned.sym || i.ctxt != cloned.ctxt {
                     *node = Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(IdentName::new(cloned.sym, cloned.span)),
-                        value: Box::new(Expr::Ident(i.clone())),
+                        value: i.clone().into(),
                     });
                 }
             }
@@ -3153,7 +3159,7 @@ where
         match n {
             Pat::Ident(id) => {
                 if let Some(expr) = self.query.query_lhs(&id.clone().into()) {
-                    *n = Pat::Expr(expr);
+                    *n = expr.into();
                 }
             }
             _ => n.visit_mut_children_with(self),

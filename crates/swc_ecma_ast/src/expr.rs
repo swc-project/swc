@@ -302,10 +302,11 @@ impl Expr {
         if exprs.len() == 1 {
             exprs.remove(0)
         } else {
-            Box::new(Expr::Seq(SeqExpr {
+            SeqExpr {
                 span: DUMMY_SP,
                 exprs,
-            }))
+            }
+            .into()
         }
     }
 
@@ -418,7 +419,7 @@ impl Clone for Expr {
 
 impl Take for Expr {
     fn dummy() -> Self {
-        Expr::Invalid(Invalid { span: DUMMY_SP })
+        Invalid { span: DUMMY_SP }.into()
     }
 }
 
@@ -469,12 +470,14 @@ boxed_expr!(JSXEmptyExpr);
 boxed_expr!(Box<JSXElement>);
 boxed_expr!(JSXFragment);
 boxed_expr!(TsTypeAssertion);
+boxed_expr!(TsSatisfiesExpr);
 boxed_expr!(TsConstAssertion);
 boxed_expr!(TsNonNullExpr);
 boxed_expr!(TsAsExpr);
 boxed_expr!(TsInstantiation);
 boxed_expr!(PrivateName);
 boxed_expr!(OptChainExpr);
+boxed_expr!(Invalid);
 
 #[ast_node("ThisExpression")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
@@ -567,7 +570,7 @@ impl From<ImportWith> for ObjectLit {
                 .map(|item| {
                     PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(item.key),
-                        value: Box::new(Expr::Lit(Lit::Str(item.value))),
+                        value: Lit::Str(item.value).into(),
                     })))
                 })
                 .collect(),
@@ -1387,7 +1390,7 @@ impl TryFrom<Pat> for AssignTarget {
 
             Pat::Expr(e) => match Self::try_from(e) {
                 Ok(v) => v,
-                Err(e) => return Err(Pat::Expr(e)),
+                Err(e) => return Err(e.into()),
             },
 
             _ => return Err(p),
@@ -1437,9 +1440,9 @@ impl Default for AssignTargetPat {
 impl From<AssignTargetPat> for Pat {
     fn from(pat: AssignTargetPat) -> Self {
         match pat {
-            AssignTargetPat::Array(a) => Pat::Array(a),
-            AssignTargetPat::Object(o) => Pat::Object(o),
-            AssignTargetPat::Invalid(i) => Pat::Invalid(i),
+            AssignTargetPat::Array(a) => a.into(),
+            AssignTargetPat::Object(o) => o.into(),
+            AssignTargetPat::Invalid(i) => i.into(),
         }
     }
 }
@@ -1551,17 +1554,17 @@ bridge_from!(AssignTarget, AssignTargetPat, ObjectPat);
 impl From<SimpleAssignTarget> for Box<Expr> {
     fn from(s: SimpleAssignTarget) -> Self {
         match s {
-            SimpleAssignTarget::Ident(i) => Box::new(Expr::Ident(i.into())),
-            SimpleAssignTarget::Member(m) => Box::new(Expr::Member(m)),
-            SimpleAssignTarget::SuperProp(s) => Box::new(Expr::SuperProp(s)),
-            SimpleAssignTarget::Paren(s) => Box::new(Expr::Paren(s)),
-            SimpleAssignTarget::OptChain(s) => Box::new(Expr::OptChain(s)),
-            SimpleAssignTarget::TsAs(a) => Box::new(Expr::TsAs(a)),
-            SimpleAssignTarget::TsSatisfies(s) => Box::new(Expr::TsSatisfies(s)),
-            SimpleAssignTarget::TsNonNull(n) => Box::new(Expr::TsNonNull(n)),
-            SimpleAssignTarget::TsTypeAssertion(a) => Box::new(Expr::TsTypeAssertion(a)),
-            SimpleAssignTarget::TsInstantiation(a) => Box::new(Expr::TsInstantiation(a)),
-            SimpleAssignTarget::Invalid(i) => Box::new(Expr::Invalid(i)),
+            SimpleAssignTarget::Ident(i) => i.into(),
+            SimpleAssignTarget::Member(m) => m.into(),
+            SimpleAssignTarget::SuperProp(s) => s.into(),
+            SimpleAssignTarget::Paren(s) => s.into(),
+            SimpleAssignTarget::OptChain(s) => s.into(),
+            SimpleAssignTarget::TsAs(a) => a.into(),
+            SimpleAssignTarget::TsSatisfies(s) => s.into(),
+            SimpleAssignTarget::TsNonNull(n) => n.into(),
+            SimpleAssignTarget::TsTypeAssertion(a) => a.into(),
+            SimpleAssignTarget::TsInstantiation(a) => a.into(),
+            SimpleAssignTarget::Invalid(i) => i.into(),
         }
     }
 }

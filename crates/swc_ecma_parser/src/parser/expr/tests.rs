@@ -34,16 +34,20 @@ fn expr(s: &'static str) -> Box<Expr> {
     })
 }
 fn regex_expr() -> Box<Expr> {
-    Box::new(Expr::Assign(AssignExpr {
+    AssignExpr {
         span,
         left: Ident::new_no_ctxt("re".into(), span).into(),
         op: AssignOp::Assign,
-        right: Box::new(Expr::Lit(Lit::Regex(Regex {
-            span,
-            exp: "w+".into(),
-            flags: "".into(),
-        }))),
-    }))
+        right: Box::new(
+            Lit::Regex(Regex {
+                span,
+                exp: "w+".into(),
+                flags: "".into(),
+            })
+            .into(),
+        ),
+    }
+    .into()
 }
 #[test]
 fn regex_single_line_comment() {

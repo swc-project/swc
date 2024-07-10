@@ -135,7 +135,7 @@ impl ArgReplacer<'_> {
                 let p = Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(private_ident!(format!("argument_{}", start)).into()),
+                    pat: private_ident!(format!("argument_{}", start)).into(),
                 };
                 start += 1;
                 p
@@ -191,7 +191,7 @@ impl VisitMut for ArgReplacer<'_> {
                                         "arguments: Replacing access to arguments to normal \
                                          reference"
                                     );
-                                    *n = Expr::Ident(i.id.clone());
+                                    *n = i.id.clone().into();
                                 }
                             }
                         }
@@ -213,7 +213,7 @@ impl VisitMut for ArgReplacer<'_> {
                                          reference"
                                     );
                                     self.changed = true;
-                                    *n = Expr::Ident(i.id.clone());
+                                    *n = i.id.clone().into();
                                 }
                             }
                         }
