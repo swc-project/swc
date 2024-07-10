@@ -1318,7 +1318,8 @@ define!({
         pub value: Box<Expr>,
     }
     pub struct AssignProp {
-        pub key: IdentName,
+        pub span: Span,
+        pub key: Ident,
         pub value: Box<Expr>,
     }
     pub struct GetterProp {
