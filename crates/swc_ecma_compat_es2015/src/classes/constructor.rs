@@ -237,7 +237,6 @@ impl VisitMut for ConstructorFolder<'_> {
                             left: call,
                             op: op!("||"),
                             right: Box::new(ThisExpr { span: DUMMY_SP }.into()),
-                            right: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
                         }
                         .into()
                     } else {
@@ -368,7 +367,7 @@ pub(super) enum ReturningMode {
     Returning {
         /// Mark for `_this`
         mark: Mark,
-        arg: Option<Expr>,
+        arg: Option<Box<Expr>>,
     },
 
     /// `super()` call

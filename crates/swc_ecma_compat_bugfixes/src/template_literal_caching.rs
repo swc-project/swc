@@ -84,14 +84,6 @@ impl Fold for TemplateLiteralCaching {
                             }
                             .into(),
                         ),
-                        Some(Expr::Arrow(ArrowExpr {
-                            span: DUMMY_SP,
-                            params: vec![t.clone().into()],
-                            body: Box::new(BlockStmtOrExpr::Expr(t.into())),
-                            is_async: false,
-                            is_generator: false,
-                            ..Default::default()
-                        })),
                     )
                 }
 
@@ -116,7 +108,6 @@ impl Fold for TemplateLiteralCaching {
                 let t = private_ident!("t");
                 self.create_binding(t.clone(), None);
                 let inline_cache: Expr = BinExpr {
-                let inline_cache = BinExpr {
                     span: DUMMY_SP,
                     op: op!("||"),
                     left: t.clone().into(),
@@ -129,7 +120,6 @@ impl Fold for TemplateLiteralCaching {
                     .into(),
                 }
                 .into();
-                });
 
                 // The original tag function becomes a plain function call.
                 // The expressions omitted from the cached Strings tag are

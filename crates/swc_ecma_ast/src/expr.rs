@@ -336,14 +336,9 @@ impl Expr {
             exprs.remove(0)
         } else {
             SeqExpr {
-            Expr::Seq(Box::new(SeqExpr {
                 span: DUMMY_SP,
                 exprs,
             }
-            Box::new(SeqExpr {
-                span: DUMMY_SP,
-                exprs,
-            })
             .into()
         }
     }
@@ -609,8 +604,6 @@ impl From<ImportWith> for ObjectLit {
                     PropOrSpread::Prop(Prop::KeyValue(Box::new(KeyValueProp {
                         key: PropName::Ident(item.key),
                         value: Lit::Str(item.value).into(),
-                        value: Expr::Lit(Box::new(Lit::Str(item.value))),
-                        value: Box::new(Lit::Str(item.value)).into(),
                     })))
                 })
                 .collect(),
