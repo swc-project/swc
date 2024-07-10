@@ -1132,7 +1132,7 @@ fn get_module_export_expr(module_export_name: &ModuleExportName) -> Expr {
 #[inline]
 fn get_module_export_member_prop(module_export_name: &ModuleExportName) -> MemberProp {
     match &module_export_name {
-        ModuleExportName::Ident(ident) => MemberProp::Ident(ident.clone()),
+        ModuleExportName::Ident(ident) => MemberProp::Ident(ident.clone().into()),
         ModuleExportName::Str(s) => MemberProp::Computed(ComputedPropName {
             span: s.span,
             expr: Box::new(Expr::Lit(Lit::Str(quote_str!(s.value.clone())))),
