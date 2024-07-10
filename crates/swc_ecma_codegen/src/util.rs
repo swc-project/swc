@@ -313,7 +313,7 @@ impl StartsWithAlphaNum for Stmt {
             | Stmt::ForIn(..)
             | Stmt::ForOf(..)
             | Stmt::If(..) => true,
-            Stmt::Block(..) | Stmt::Empty(..) => false,
+            Stmt::Block(..) | Stmt::Empty(..) | Stmt::Directive(..) => false,
         }
     }
 }
