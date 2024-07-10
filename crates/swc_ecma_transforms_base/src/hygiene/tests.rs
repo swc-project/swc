@@ -591,7 +591,7 @@ fn flat_in_fn() {
             let mark2 = Mark::fresh(mark1);
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
-                ident: quote_ident!("Foo"),
+                ident: quote_ident!("Foo").into(),
                 function: Box::new(Function {
                     span: DUMMY_SP,
                     is_async: false,

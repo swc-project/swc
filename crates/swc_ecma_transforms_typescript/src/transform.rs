@@ -172,7 +172,7 @@ impl VisitMut for Transform {
                             };
 
                             let id = binding_ident.id.to_id();
-                            let prop_name = PropName::Ident(binding_ident.id.clone());
+                            let prop_name = PropName::Ident(binding_ident.id.clone().into());
                             let value = binding_ident.id.clone().into();
 
                             (
@@ -468,7 +468,7 @@ impl Transform {
                             let stmt = if decl.is_export {
                                 // Foo.foo = bar.baz
                                 mutable_export_ids.insert(decl.id.to_id());
-                                let left = id.clone().make_member(decl.id.clone());
+                                let left = id.clone().make_member(decl.id.clone().into());
                                 let expr = init.make_assign_to(op!("="), left.into());
 
                                 ExprStmt {
@@ -804,7 +804,7 @@ impl Transform {
             prop_list
                 .into_iter()
                 .map(Ident::from)
-                .map(PropName::Ident)
+                .map(PropName::from)
                 .map(|key| ClassProp {
                     span: DUMMY_SP,
                     key,
@@ -974,10 +974,10 @@ impl Transform {
         match n {
             TsEntityName::Ident(i) => i.into(),
             TsEntityName::TsQualifiedName(q) => {
-                let TsQualifiedName { left, right } = *q;
+                let TsQualifiedName { span, left, right } = *q;
 
                 MemberExpr {
-                    span: DUMMY_SP,
+                    span,
                     obj: Box::new(Self::ts_entity_name_to_expr(left)),
                     prop: MemberProp::Ident(right),
                 }
@@ -1255,6 +1255,7 @@ impl QueryRef for ExportQuery {
     fn query_jsx(&self, ident: &Ident) -> Option<JSXElementName> {
         self.export_id_list.contains(&ident.to_id()).then(|| {
             JSXMemberExpr {
+                span: DUMMY_SP,
                 obj: JSXObject::Ident(self.namesapce_id.clone().into()),
                 prop: ident.clone(),
             }
