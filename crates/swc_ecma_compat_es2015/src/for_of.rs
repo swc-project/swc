@@ -77,7 +77,7 @@ struct ForOf {
 impl ForOf {
     fn fold_for_stmt(
         &mut self,
-        label: Option<IdentName>,
+        label: Option<Ident>,
         ForOfStmt {
             span,
             left,
