@@ -47,9 +47,10 @@ pub use self::{
     },
     source_map::{SourceMapperExt, SpanExt},
     stmt::{
-        BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, DoWhileStmt, EmptyStmt,
-        ExprStmt, ForHead, ForInStmt, ForOfStmt, ForStmt, IfStmt, LabeledStmt, ReturnStmt, Stmt,
-        SwitchCase, SwitchStmt, ThrowStmt, TryStmt, VarDeclOrExpr, WhileStmt, WithStmt,
+        BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, Directive, DoWhileStmt,
+        EmptyStmt, ExprStmt, ForHead, ForInStmt, ForOfStmt, ForStmt, IfStmt, LabeledStmt,
+        ReturnStmt, Stmt, SwitchCase, SwitchStmt, ThrowStmt, TryStmt, VarDeclOrExpr, WhileStmt,
+        WithStmt,
     },
     typescript::{
         Accessibility, TruePlusMinus, TsArrayType, TsAsExpr, TsCallSignatureDecl,
@@ -204,9 +205,9 @@ pub use self::{
     },
     stmt::{
         ArchivedBlockStmt, ArchivedBreakStmt, ArchivedCatchClause, ArchivedContinueStmt,
-        ArchivedDebuggerStmt, ArchivedDoWhileStmt, ArchivedEmptyStmt, ArchivedExprStmt,
-        ArchivedForHead, ArchivedForInStmt, ArchivedForOfStmt, ArchivedForStmt, ArchivedIfStmt,
-        ArchivedLabeledStmt, ArchivedReturnStmt, ArchivedStmt, ArchivedSwitchCase,
+        ArchivedDebuggerStmt, ArchivedDirective, ArchivedDoWhileStmt, ArchivedEmptyStmt,
+        ArchivedExprStmt, ArchivedForHead, ArchivedForInStmt, ArchivedForOfStmt, ArchivedForStmt,
+        ArchivedIfStmt, ArchivedLabeledStmt, ArchivedReturnStmt, ArchivedStmt, ArchivedSwitchCase,
         ArchivedSwitchStmt, ArchivedThrowStmt, ArchivedTryStmt, ArchivedVarDeclOrExpr,
         ArchivedWhileStmt, ArchivedWithStmt,
     },
