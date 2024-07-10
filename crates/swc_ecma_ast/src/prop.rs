@@ -56,8 +56,6 @@ pub struct KeyValueProp {
 pub struct AssignProp {
     pub span: Span,
     pub key: Ident,
-    pub value: Box<Expr>,
-    #[span(hi)]
     pub value: Expr,
 }
 

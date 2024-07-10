@@ -183,7 +183,6 @@ boxed_variants!(
         CallExpr,
         NewExpr,
         SeqExpr,
-        Lit,
         Tpl,
         AwaitExpr,
         TaggedTpl,
@@ -582,10 +581,7 @@ impl ObjectLit {
                         values.push(ImportWithItem {
                             key,
                             value: match &kv.value {
-                                Expr::Lit(s) => {
-                                    let Lit::Str(s) = &**s else { return None };
-                                    s.clone()
-                                }
+                                Expr::Lit(Lit::Str(s)) => s.clone(),
                                 _ => return None,
                             },
                         });
