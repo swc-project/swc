@@ -771,7 +771,7 @@ define!({
         pub prop: MemberProp,
     }
     pub enum MemberProp {
-        Ident(Ident),
+        Ident(IdentName),
         PrivateName(PrivateName),
         Computed(ComputedPropName),
     }
@@ -781,7 +781,7 @@ define!({
         pub prop: SuperProp,
     }
     pub enum SuperProp {
-        Ident(Ident),
+        Ident(IdentName),
         Computed(ComputedPropName),
     }
     pub struct CondExpr {
@@ -962,12 +962,14 @@ define!({
         Ident(Ident),
     }
     pub struct JSXMemberExpr {
+        pub span: Span,
         pub obj: JSXObject,
-        pub prop: Ident,
+        pub prop: IdentName,
     }
     pub struct JSXNamespacedName {
-        pub ns: Ident,
-        pub name: Ident,
+        pub span:Span
+        pub ns: IdentName,
+        pub name: IdentName,
     }
     pub struct JSXEmptyExpr {
         pub span: Span,
@@ -1010,7 +1012,7 @@ define!({
         pub value: Option<JSXAttrValue>,
     }
     pub enum JSXAttrName {
-        Ident(Ident),
+        Ident(IdentName),
         JSXNamespacedName(JSXNamespacedName),
     }
     pub enum JSXAttrValue {
@@ -1316,7 +1318,7 @@ define!({
         pub value: Box<Expr>,
     }
     pub struct AssignProp {
-        pub key: Ident,
+        pub key: IdentName,
         pub value: Box<Expr>,
     }
     pub struct GetterProp {
@@ -1337,7 +1339,7 @@ define!({
         pub function: Box<Function>,
     }
     pub enum PropName {
-        Ident(Ident),
+        Ident(IdentName),
         Str(Str),
         Num(Number),
         BigInt(BigInt),
@@ -1394,16 +1396,16 @@ define!({
     }
     pub struct LabeledStmt {
         pub span: Span,
-        pub label: Ident,
+        pub label: IdentName,
         pub body: Box<Stmt>,
     }
     pub struct BreakStmt {
         pub span: Span,
-        pub label: Option<Ident>,
+        pub label: Option<IdentName>,
     }
     pub struct ContinueStmt {
         pub span: Span,
-        pub label: Option<Ident>,
+        pub label: Option<IdentName>,
     }
     pub struct IfStmt {
         pub span: Span,
@@ -1509,8 +1511,9 @@ define!({
         Assign(AssignPat),
     }
     pub struct TsQualifiedName {
+        pub span: Span,
         pub left: TsEntityName,
-        pub right: Ident,
+        pub right: IdentName,
     }
     pub enum TsEntityName {
         TsQualifiedName(Box<TsQualifiedName>),
