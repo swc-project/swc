@@ -298,7 +298,7 @@ impl<I: Tokens> Parser<I> {
         let arg_span = self.input.cur_span();
 
         let arg = match cur!(self, true) {
-            Token::Str { .. } => self.parse_str_lit()?.into(),
+            Token::Str { .. } => self.parse_str_lit()?,
             _ => {
                 bump!(self);
                 self.emit_err(arg_span, SyntaxError::TS1141);

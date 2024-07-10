@@ -98,9 +98,7 @@ impl<'a> Lexer<'a> {
                                     panic!("failed to parse {} into float using BigInt", val_str)
                                 });
 
-                            return self
-                                .make_legacy_octal(start, val)
-                                .map(|value| Either::Left(value));
+                            return self.make_legacy_octal(start, val).map(Either::Left);
                         }
                     }
                 }
