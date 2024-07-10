@@ -779,7 +779,7 @@ impl<C: Comments> ClassProperties<C> {
                             name: ident.into(),
                             init: Some(Box::new(Expr::from(NewExpr {
                                 span,
-                                callee: Box::new(Expr::Ident(quote_ident!("WeakMap"))),
+                                callee: Box::new(Expr::Ident(quote_ident!("WeakMap").into())),
                                 args: Some(Default::default()),
                                 ..Default::default()
                             }))),
@@ -923,7 +923,7 @@ impl<C: Comments> ClassProperties<C> {
                             } else {
                                 Expr::New(NewExpr {
                                     span,
-                                    callee: Box::new(Expr::Ident(extra)),
+                                    callee: Box::new(Expr::Ident(extra.into())),
                                     args: Some(Default::default()),
                                     ..Default::default()
                                 })

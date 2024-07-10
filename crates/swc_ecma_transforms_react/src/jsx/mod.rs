@@ -1144,7 +1144,7 @@ fn add_require(imports: Vec<(Ident, IdentName)>, src: &str, unresolved_mark: Mar
                     .map(|(local, imported)| {
                         if imported.sym != local.sym {
                             ObjectPatProp::KeyValue(KeyValuePatProp {
-                                key: PropName::Ident(imported.into()),
+                                key: PropName::Ident(imported),
                                 value: Box::new(Pat::Ident(local.into())),
                             })
                         } else {

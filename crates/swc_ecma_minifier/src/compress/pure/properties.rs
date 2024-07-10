@@ -1,5 +1,4 @@
 use swc_atoms::js_word;
-use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 
 use super::Pure;

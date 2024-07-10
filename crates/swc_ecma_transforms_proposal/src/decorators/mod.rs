@@ -133,7 +133,10 @@ impl Fold for Decorators {
                     return Expr::Class(ClassExpr { ident, class });
                 }
 
-                self.fold_class_inner(ident.unwrap_or_else(|| quote_ident!("_class")), class)
+                self.fold_class_inner(
+                    ident.unwrap_or_else(|| quote_ident!("_class").into()),
+                    class,
+                )
             }
             _ => expr,
         }
@@ -148,9 +151,10 @@ impl Fold for Decorators {
                 decl: DefaultDecl::Class(ClassExpr { ident, class }),
                 ..
             }) => {
-                let decorate_call = Box::new(
-                    self.fold_class_inner(ident.unwrap_or_else(|| quote_ident!("_class")), class),
-                );
+                let decorate_call = Box::new(self.fold_class_inner(
+                    ident.unwrap_or_else(|| quote_ident!("_class").into()),
+                    class,
+                ));
 
                 ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
                     span,
@@ -205,7 +209,9 @@ impl Fold for Decorators {
                             specifiers: vec![ExportNamedSpecifier {
                                 span: DUMMY_SP,
                                 orig: ModuleExportName::Ident(ident),
-                                exported: Some(ModuleExportName::Ident(quote_ident!("default"))),
+                                exported: Some(ModuleExportName::Ident(
+                                    quote_ident!("default").into(),
+                                )),
                                 is_type_only: false,
                             }
                             .into()],

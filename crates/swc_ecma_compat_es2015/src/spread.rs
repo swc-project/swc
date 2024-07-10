@@ -440,7 +440,7 @@ impl Spread {
                         elems: vec![],
                     })
                 })
-                .make_member(Ident::new_no_ctxt("concat".into(), span))
+                .make_member(IdentName::new("concat".into(), span))
                 .as_callee(),
 
             args: buf,

@@ -60,10 +60,9 @@ impl<'a> HookRegister<'a> {
                 .map(|id| VarDeclarator {
                     span: DUMMY_SP,
                     name: id.into(),
-                    init: Some(Box::new(make_call_expr(quote_ident!(self
-                        .options
-                        .refresh_sig
-                        .clone())))),
+                    init: Some(Box::new(make_call_expr(
+                        quote_ident!(self.options.refresh_sig.clone()).into(),
+                    ))),
                     definite: false,
                 })
                 .collect(),
@@ -154,7 +153,7 @@ impl<'a> HookRegister<'a> {
                             HookCall::Member(obj, prop) => Expr::Member(MemberExpr {
                                 span: DUMMY_SP,
                                 obj: Box::new(obj),
-                                prop: MemberProp::Ident(prop.into()),
+                                prop: MemberProp::Ident(prop),
                             }),
                         }
                         .as_arg(),
@@ -404,7 +403,7 @@ impl<'a> HookCollector<'a> {
             }
             _ => None,
         }?;
-        let name = if is_hook_like(&ident) {
+        let name = if is_hook_like(ident) {
             Some(ident)
         } else {
             None

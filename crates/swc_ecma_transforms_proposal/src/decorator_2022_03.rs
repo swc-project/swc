@@ -1521,7 +1521,7 @@ impl VisitMut for Decorator2022_03 {
                     .push(ExportSpecifier::Named(ExportNamedSpecifier {
                         span: *span,
                         orig: ModuleExportName::Ident(ident),
-                        exported: Some(quote_ident!("default")),
+                        exported: Some(quote_ident!("default").into()),
                         is_type_only: false,
                     }));
 
