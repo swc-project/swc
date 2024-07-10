@@ -286,7 +286,7 @@ impl SimplifyExpr {
 
                         // element value
                         let v = match e {
-                            None => Expr::undefined(span),
+                            None => Expr::undefined(*span),
                             Some(e) => e.expr,
                         };
 
@@ -351,7 +351,7 @@ impl SimplifyExpr {
 
                 self.changed = true;
 
-                *expr = self.expr_ctx.preserve_effects(
+                *expr = *self.expr_ctx.preserve_effects(
                     *span,
                     v,
                     once(
@@ -386,7 +386,7 @@ impl SimplifyExpr {
                         // TODO: Optimize
                         self.changed = true;
 
-                        *expr = make_bool_expr(&self.expr_ctx, *span, v, {
+                        *expr = *make_bool_expr(&self.expr_ctx, *span, v, {
                             iter::once(left.take()).chain(iter::once(right.take()))
                         });
                         return;
@@ -413,7 +413,7 @@ impl SimplifyExpr {
                             ))
                         };
 
-                        *expr = self.expr_ctx.preserve_effects(*span, value_expr, {
+                        *expr = *self.expr_ctx.preserve_effects(*span, value_expr.into(), {
                             iter::once(left.take()).chain(iter::once(right.take()))
                         });
                         return;
@@ -504,7 +504,7 @@ impl SimplifyExpr {
                                         .into()
                                     };
 
-                                    *expr = self.expr_ctx.preserve_effects(
+                                    *expr = *self.expr_ctx.preserve_effects(
                                         span,
                                         value_expr,
                                         iter::once(left.take()).chain(iter::once(right.take())),
@@ -615,14 +615,14 @@ impl SimplifyExpr {
                 if is_non_obj(left) {
                     self.changed = true;
 
-                    *expr = make_bool_expr(&self.expr_ctx, *span, false, iter::once(right.take()));
+                    *expr = *make_bool_expr(&self.expr_ctx, *span, false, iter::once(right.take()));
                     return;
                 }
 
                 if is_obj(left) && right.is_global_ref_to(&self.expr_ctx, "Object") {
                     self.changed = true;
 
-                    *expr = make_bool_expr(&self.expr_ctx, *span, true, iter::once(left.take()));
+                    *expr = *make_bool_expr(&self.expr_ctx, *span, true, iter::once(left.take()));
                 }
             }
 
@@ -1707,7 +1707,7 @@ impl VisitMut for SimplifyExpr {
 }
 
 /// make a new boolean expression preserving side effects, if any.
-fn make_bool_expr<I>(ctx: &ExprCtx, span: Span, value: bool, orig: I) -> Expr
+fn make_bool_expr<I>(ctx: &ExprCtx, span: Span, value: bool, orig: I) -> Box<Expr>
 where
     I: IntoIterator<Item = Box<Expr>>,
 {
@@ -1756,7 +1756,7 @@ fn need_zero_for_this(e: &Expr) -> bool {
 /// Gets the value of the given key from the given object properties, if the key
 /// exists. If the key does exist, `Some` is returned and the property is
 /// removed from the given properties.
-fn get_key_value(key: &str, props: &mut Vec<PropOrSpread>) -> Option<Expr> {
+fn get_key_value(key: &str, props: &mut Vec<PropOrSpread>) -> Option<Box<Expr>> {
     // It's impossible to know the value for certain if a spread property exists.
     let has_spread = props.iter().any(|prop| prop.is_spread());
 
@@ -1809,7 +1809,7 @@ fn get_key_value(key: &str, props: &mut Vec<PropOrSpread>) -> Option<Expr> {
                         Prop::KeyValue(x) => x,
                         _ => unreachable!(),
                     };
-                    return Some(*prop.value);
+                    return Some(prop.value);
                 }
             }
 
