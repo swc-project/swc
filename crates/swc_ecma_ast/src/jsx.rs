@@ -254,6 +254,11 @@ pub enum JSXElementChild {
     JSXFragment(Box<JSXFragment>),
 }
 
+boxed_variants!(
+    JSXElementChild,
+    [JSXExprContainer, JSXSpreadChild, JSXElement, JSXFragment]
+);
+
 #[ast_node("JSXFragment")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
