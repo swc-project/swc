@@ -5,7 +5,7 @@ use crate::{
     decl::{Decl, VarDecl},
     expr::Expr,
     pat::Pat,
-    Ident, IdentName, Lit, Str, UsingDecl,
+    Ident,  Lit, Str, UsingDecl,
 };
 
 /// Use when only block statements are allowed.
