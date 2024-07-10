@@ -599,7 +599,7 @@ impl Fold for SystemJs {
 
         match prop {
             Prop::Shorthand(shorthand) => Prop::KeyValue(KeyValueProp {
-                key: PropName::Ident(shorthand.clone()),
+                key: PropName::Ident(shorthand.clone().into()),
                 value: Box::new(self.fold_module_name_ident(shorthand)),
             }),
             Prop::KeyValue(key_value_prop) => Prop::KeyValue(KeyValueProp {
@@ -680,7 +680,9 @@ impl Fold for SystemJs {
                                                 ))),
                                                 prop: match specifier.imported {
                                                     Some(m) => get_module_export_member_prop(&m),
-                                                    None => MemberProp::Ident(specifier.local),
+                                                    None => {
+                                                        MemberProp::Ident(specifier.local.into())
+                                                    }
                                                 },
                                             })),
                                         }

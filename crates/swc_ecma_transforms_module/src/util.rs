@@ -372,16 +372,16 @@ pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportKV>) ->
     }
 }
 
-pub(crate) fn prop_name(key: &str, (span, ctxt): SpanCtx) -> IdentOrStr {
+pub(crate) fn prop_name(key: &str, (span, _): SpanCtx) -> IdentOrStr {
     if is_valid_prop_ident(key) {
-        IdentOrStr::Ident(quote_ident!(ctxt, span, key))
+        IdentOrStr::Ident(IdentName::new(key.into(), span))
     } else {
         IdentOrStr::Str(quote_str!(span, key))
     }
 }
 
 pub(crate) enum IdentOrStr {
-    Ident(Ident),
+    Ident(IdentName),
     Str(Str),
 }
 

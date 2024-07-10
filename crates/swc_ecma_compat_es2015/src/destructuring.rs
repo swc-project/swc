@@ -1169,7 +1169,7 @@ fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>, mut computed: bool) ->
                 expr: prop,
             })
         } else {
-            MemberProp::Ident(prop.ident().unwrap())
+            MemberProp::Ident(prop.ident().unwrap().into())
         },
     })
 }
