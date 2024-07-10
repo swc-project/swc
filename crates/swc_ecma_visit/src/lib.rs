@@ -1359,6 +1359,7 @@ define!({
         pub stmts: Vec<Stmt>,
     }
     pub enum Stmt {
+        Directive(Directive),
         Block(BlockStmt),
         Empty(EmptyStmt),
         Debugger(DebuggerStmt),
@@ -1378,6 +1379,10 @@ define!({
         ForOf(Box<ForOfStmt>),
         Decl(Decl),
         Expr(ExprStmt),
+    }
+    pub struct Directive {
+        pub span: Span,
+        pub value: Atom,
     }
     pub struct ExprStmt {
         pub span: Span,
