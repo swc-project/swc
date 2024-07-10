@@ -441,7 +441,9 @@ impl Visit for FieldInitFinder {
         if !self.in_rhs || self.in_object_assign {
             if let Expr::Ident(obj) = &*e.obj {
                 match &e.prop {
-                    MemberProp::Ident(Ident { sym: prop_sym, .. }) if *prop_sym == *"prototype" => {
+                    MemberProp::Ident(IdentName { sym: prop_sym, .. })
+                        if *prop_sym == *"prototype" =>
+                    {
                         self.accessed.insert(obj.into());
                     }
                     _ => {}

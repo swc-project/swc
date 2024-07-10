@@ -52,10 +52,9 @@ impl Optimizer<'_> {
 
                         self.changed = true;
                         report_change!("arguments: Optimizing computed access to arguments");
-                        *prop = SuperProp::Ident(Ident {
+                        *prop = SuperProp::Ident(IdentName {
                             span: s.span,
                             sym: s.take().value,
-                            ..Default::default()
                         })
                     }
                 }
