@@ -24,8 +24,9 @@ swc_common  = { version = "0.34.0", path = "../swc_common" }
 swc_css_ast = { version = "0.141.0", path = "../swc_css_ast" }
 
 [dev-dependencies]
-criterion  = { workspace = true }
-serde_json = { workspace = true }
+codspeed-criterion-compat = { workspace = true }
+criterion                 = { workspace = true }
+serde_json                = { workspace = true }
 
 swc_css_ast = { version = "0.141.0", path = "../swc_css_ast", features = [
   "serde-impl",

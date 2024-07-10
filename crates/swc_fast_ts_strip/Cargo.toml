@@ -11,8 +11,8 @@ version       = "0.1.7"
 
 
 [dependencies]
-anyhow = "1.0.66"
-serde  = { version = "1", features = ["derive"] }
+anyhow = { workspace = true }
+serde  = { workspace = true, features = ["derive"] }
 
 swc_common      = { version = "0.34.3", path = "../swc_common" }
 swc_ecma_ast    = { version = "0.115.1", path = "../swc_ecma_ast" }

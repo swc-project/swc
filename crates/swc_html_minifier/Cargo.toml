@@ -44,7 +44,8 @@ swc_html_utils = { version = "0.19.0", path = "../swc_html_utils" }
 swc_html_visit = { version = "0.34.0", path = "../swc_html_visit" }
 
 [dev-dependencies]
-criterion = { workspace = true }
+codspeed-criterion-compat = { workspace = true }
+criterion                 = { workspace = true }
 
 swc_malloc = { version = "0.5.10", path = "../swc_malloc" }
 testing    = { version = "0.36.0", path = "../testing" }

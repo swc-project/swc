@@ -2,7 +2,7 @@
 
 extern crate swc_malloc;
 
-use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
+use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use rayon::prelude::*;
 use swc_common::{errors::HANDLER, FileName, Mark, GLOBALS};
 use swc_ecma_parser::{Parser, StringInput, Syntax};

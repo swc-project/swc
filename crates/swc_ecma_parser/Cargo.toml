@@ -50,6 +50,7 @@ pretty_assertions = { workspace = true }
 serde_json        = { workspace = true }
 walkdir           = { workspace = true }
 
+codspeed-criterion-compat = { workspace = true }
 swc_ecma_ast = { version = "0.115.0", path = "../swc_ecma_ast", features = [
   "serde-impl",
 ] }

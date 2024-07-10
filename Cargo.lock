@@ -633,10 +633,42 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "702fc72eb24e5a1e48ce58027a675bc24edd52096d5397d4aea7c6dd9eca0bd1"
 
 [[package]]
+name = "codspeed"
+version = "2.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3a104ac948e0188b921eb3fcbdd55dcf62e542df4c7ab7e660623f6288302089"
+dependencies = [
+ "colored",
+ "libc",
+ "serde_json",
+]
+
+[[package]]
+name = "codspeed-criterion-compat"
+version = "2.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "722c36bdc62d9436d027256ce2627af81ac7a596dfc7d13d849d0d212448d7fe"
+dependencies = [
+ "codspeed",
+ "colored",
+ "criterion",
+]
+
+[[package]]
 name = "colorchoice"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "acbf1af155f9b9ef647e42cdc158db4b64a1b61f743629225fde6f3e0be2a7c7"
+
+[[package]]
+name = "colored"
+version = "2.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cbf2150cce219b664a8a70df7a1f933836724b503f8a413af9365b4dcc4d90b8"
+dependencies = [
+ "lazy_static",
+ "windows-sys 0.48.0",
+]
 
 [[package]]
 name = "console"
@@ -3598,6 +3630,7 @@ dependencies = [
  "ansi_term",
  "anyhow",
  "base64",
+ "codspeed-criterion-compat",
  "criterion",
  "dashmap",
  "either",
@@ -3754,6 +3787,7 @@ dependencies = [
  "better_scoped_tls",
  "bytecheck",
  "cfg-if",
+ "codspeed-criterion-compat",
  "criterion",
  "either",
  "from_variant",
@@ -3975,6 +4009,7 @@ dependencies = [
 name = "swc_css_minifier"
 version = "0.117.1"
 dependencies = [
+ "codspeed-criterion-compat",
  "criterion",
  "serde",
  "swc_atoms",
@@ -4010,6 +4045,7 @@ dependencies = [
 name = "swc_css_parser"
 version = "0.151.0"
 dependencies = [
+ "codspeed-criterion-compat",
  "criterion",
  "lexical",
  "serde",
@@ -4089,6 +4125,7 @@ name = "swc_ecma_codegen"
 version = "0.151.1"
 dependencies = [
  "base64",
+ "codspeed-criterion-compat",
  "criterion",
  "memchr",
  "num-bigint",
@@ -4369,6 +4406,7 @@ dependencies = [
  "anyhow",
  "arrayvec",
  "backtrace",
+ "codspeed-criterion-compat",
  "criterion",
  "indexmap 2.2.6",
  "num-bigint",
@@ -4407,6 +4445,7 @@ dependencies = [
 name = "swc_ecma_parser"
 version = "0.146.12"
 dependencies = [
+ "codspeed-criterion-compat",
  "criterion",
  "either",
  "new_debug_unreachable",
@@ -4435,6 +4474,7 @@ name = "swc_ecma_preset_env"
 version = "0.210.0"
 dependencies = [
  "anyhow",
+ "codspeed-criterion-compat",
  "criterion",
  "dashmap",
  "indexmap 2.2.6",
@@ -4526,6 +4566,7 @@ version = "0.140.3"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.5.0",
+ "codspeed-criterion-compat",
  "criterion",
  "indexmap 2.2.6",
  "once_cell",
@@ -4748,6 +4789,7 @@ dependencies = [
 name = "swc_ecma_transforms_typescript"
 version = "0.191.2"
 dependencies = [
+ "codspeed-criterion-compat",
  "criterion",
  "ryu-js",
  "serde",
@@ -4867,6 +4909,7 @@ version = "0.204.0"
 dependencies = [
  "ahash 0.8.8",
  "anyhow",
+ "codspeed-criterion-compat",
  "copyless",
  "criterion",
  "pretty_assertions",
@@ -4976,6 +5019,7 @@ dependencies = [
 name = "swc_html_minifier"
 version = "0.139.1"
 dependencies = [
+ "codspeed-criterion-compat",
  "criterion",
  "once_cell",
  "serde",
@@ -5006,6 +5050,7 @@ dependencies = [
 name = "swc_html_parser"
 version = "0.40.0"
 dependencies = [
+ "codspeed-criterion-compat",
  "criterion",
  "serde",
  "serde_json",
@@ -5140,6 +5185,7 @@ name = "swc_plugin_runner"
 version = "0.109.1"
 dependencies = [
  "anyhow",
+ "codspeed-criterion-compat",
  "criterion",
  "enumset",
  "futures",
