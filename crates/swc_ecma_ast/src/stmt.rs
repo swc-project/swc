@@ -1,11 +1,12 @@
 use is_macro::Is;
+use swc_atoms::Atom;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, DUMMY_SP};
 
 use crate::{
     decl::{Decl, VarDecl},
     expr::Expr,
     pat::Pat,
-    Ident, Lit, Str, UsingDecl,
+    Ident, UsingDecl,
 };
 
 /// Use when only block statements are allowed.
@@ -35,6 +36,9 @@ impl Take for BlockStmt {
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Stmt {
+    #[tag("Directive")]
+    Directive(Directive),
+
     #[tag("BlockStatement")]
     Block(BlockStmt),
 
@@ -144,12 +148,7 @@ stmt_from!(
 impl Stmt {
     pub fn is_use_strict(&self) -> bool {
         match self {
-            Stmt::Expr(expr) => match &expr.expr {
-                Expr::Lit(Lit::Str(Str {
-                    raw: Some(value), ..
-                })) => value == "\"use strict\"" || value == "'use strict'",
-                _ => false,
-            },
+            Stmt::Directive(Directive { value, .. }) => value == "use strict",
             _ => false,
         }
     }
@@ -177,6 +176,7 @@ impl Clone for Stmt {
     fn clone(&self) -> Self {
         use Stmt::*;
         match self {
+            Directive(s) => Directive(s.clone()),
             Block(s) => Block(s.clone()),
             Empty(s) => Empty(s.clone()),
             Debugger(s) => Debugger(s.clone()),
@@ -210,6 +210,16 @@ impl Take for Stmt {
     fn dummy() -> Self {
         Default::default()
     }
+}
+
+bridge_stmt_from!(Box<TryStmt>, TryStmt);
+
+#[ast_node("Directive")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct Directive {
+    pub span: Span,
+    pub value: Atom,
 }
 
 #[ast_node("ExpressionStatement")]
