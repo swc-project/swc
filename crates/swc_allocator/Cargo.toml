@@ -1,0 +1,12 @@
+[package]
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "A thin wrapper for bumpalo"
+documentation = "https://rustdoc.swc.rs/swc_allocator/"
+edition       = "2021"
+license       = "Apache-2.0"
+name          = "swc_allocator"
+repository    = { workspace = true }
+version       = "0.1.0"
+
+[dependencies]
+bumpalo = { workspace = true, features = ["boxed", "collections"] }
