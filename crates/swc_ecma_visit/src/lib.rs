@@ -952,6 +952,11 @@ define!({
         pub optional: bool,
     }
 
+    pub struct IdentName {
+        pub span: Span,
+        pub sym: Atom,
+    }
+
     pub struct PrivateName {
         pub span: Span,
         pub name: Atom,
