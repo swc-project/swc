@@ -552,13 +552,15 @@ pub(crate) fn amd_dynamic_import(
 fn amd_import_meta_url(span: Span, module: Ident) -> Expr {
     MemberExpr {
         span,
-        obj: Box::new(Expr::New(quote_ident!("URL").into_new_expr(
-            DUMMY_SP,
-            Some(vec![
-                module.make_member(quote_ident!("uri")).as_arg(),
-                member_expr!(Default::default(), DUMMY_SP, document.baseURI).as_arg(),
-            ]),
-        ))),
+        obj: quote_ident!("URL")
+            .into_new_expr(
+                DUMMY_SP,
+                Some(vec![
+                    module.make_member(quote_ident!("uri")).as_arg(),
+                    member_expr!(Default::default(), DUMMY_SP, document.baseURI).as_arg(),
+                ]),
+            )
+            .into(),
         prop: MemberProp::Ident("href".into()),
     }
     .into()

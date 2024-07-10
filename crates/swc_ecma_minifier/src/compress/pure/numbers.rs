@@ -18,11 +18,12 @@ impl Pure<'_> {
 
             self.changed = true;
             report_change!("numbers: Converting a string literal to {:?}", value);
-            *e = Expr::Lit(Lit::Num(Number {
+            *e = Lit::Num(Number {
                 span: *span,
                 value,
                 raw: None,
-            }));
+            })
+            .into();
         }
     }
 
@@ -47,16 +48,18 @@ impl Pure<'_> {
                     self.changed = true;
                     report_change!("numbers: Lifting `-`");
 
-                    *e = Expr::Unary(UnaryExpr {
+                    *e = UnaryExpr {
                         span: arg.span,
                         op: op!(unary, "-"),
-                        arg: Box::new(Expr::Bin(BinExpr {
+                        arg: BinExpr {
                             span: arg.span,
                             op: arg.op,
                             left: arg.left.take(),
                             right: right_arg.take(),
-                        })),
-                    });
+                        }
+                        .into(),
+                    }
+                    .into();
                 }
 
                 Expr::Lit(Lit::Num(Number { span, value, .. })) => {
@@ -64,10 +67,10 @@ impl Pure<'_> {
                         self.changed = true;
                         report_change!("numbers: Lifting `-` in a literal");
 
-                        *e = Expr::Unary(UnaryExpr {
+                        *e = UnaryExpr {
                             span: arg.span,
                             op: op!(unary, "-"),
-                            arg: Box::new(Expr::Bin(BinExpr {
+                            arg: BinExpr {
                                 span: arg.span,
                                 op: arg.op,
                                 left: arg.left.take(),
@@ -76,8 +79,10 @@ impl Pure<'_> {
                                     value: -*value,
                                     raw: None,
                                 }))),
-                            })),
-                        });
+                            }
+                            .into(),
+                        }
+                        .into();
                     }
                 }
 

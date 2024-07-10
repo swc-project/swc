@@ -62,12 +62,13 @@ impl VisitMut for InstanceOf {
                 hi: right.span_lo(),
             };
 
-            *expr = Expr::Call(CallExpr {
+            *expr = CallExpr {
                 span: *span,
                 callee: helper!(instanceof_span, instanceof),
                 args: vec![left.take().as_arg(), right.take().as_arg()],
                 ..Default::default()
-            });
+            }
+            .into();
         }
     }
 }

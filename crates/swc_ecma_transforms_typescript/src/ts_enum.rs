@@ -49,34 +49,38 @@ impl TsEnumRecordValue {
 impl From<TsEnumRecordValue> for Expr {
     fn from(value: TsEnumRecordValue) -> Self {
         match value {
-            TsEnumRecordValue::String(string) => Expr::Lit(Lit::Str(string.into())),
-            TsEnumRecordValue::Number(num) if f64::is_nan(num) => Expr::Ident(Ident {
+            TsEnumRecordValue::String(string) => Lit::Str(string.into()).into(),
+            TsEnumRecordValue::Number(num) if f64::is_nan(num) => Ident {
                 span: DUMMY_SP,
                 sym: "NaN".into(),
                 ..Default::default()
-            }),
+            }
+            .into(),
             TsEnumRecordValue::Number(num) if f64::is_infinite(num) => {
-                let value = Expr::Ident(Ident {
+                let value: Expr = Ident {
                     span: DUMMY_SP,
                     sym: "Infinity".into(),
                     ..Default::default()
-                });
+                }
+                .into();
 
                 if f64::is_sign_negative(num) {
-                    Expr::Unary(UnaryExpr {
+                    UnaryExpr {
                         span: DUMMY_SP,
                         op: op!(unary, "-"),
                         arg: value.into(),
-                    })
+                    }
+                    .into()
                 } else {
                     value
                 }
             }
-            TsEnumRecordValue::Number(num) => Expr::Lit(Lit::Num(Number {
+            TsEnumRecordValue::Number(num) => Lit::Num(Number {
                 span: DUMMY_SP,
                 value: num,
                 raw: None,
-            })),
+            })
+            .into(),
             TsEnumRecordValue::Void => *Expr::undefined(DUMMY_SP),
             TsEnumRecordValue::Opaque(expr) => *expr,
         }

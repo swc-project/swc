@@ -413,10 +413,10 @@ where
             cjs_args.push(quote_ident!("exports").as_arg());
             amd_dep_list.push(Some(quote_str!("exports").as_arg()));
             browser_args.push(
-                Expr::Object(ObjectLit {
+                ObjectLit {
                     span: DUMMY_SP,
                     props: Default::default(),
-                })
+                }
                 .make_assign_to(op!("="), global_lib.into())
                 .as_arg(),
             );

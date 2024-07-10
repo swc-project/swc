@@ -120,12 +120,13 @@ fn fold_noop_impl_vec(b: &mut Bencher) {
 }
 
 fn mk_expr() -> Expr {
-    Expr::Call(CallExpr {
+    CallExpr {
         span: DUMMY_SP,
         callee: Ident::new_no_ctxt("foo".into(), DUMMY_SP).as_callee(),
         args: vec![],
         ..Default::default()
-    })
+    }
+    .into()
 }
 
 fn boxing_boxed_clone(b: &mut Bencher) {

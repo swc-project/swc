@@ -19,7 +19,7 @@ impl<'a> VisitMut for ClassNameTdzFolder<'a> {
                 //
 
                 if i.sym == self.class_name.sym {
-                    *expr = Expr::Seq(SeqExpr {
+                    *expr = SeqExpr {
                         span: DUMMY_SP,
                         exprs: vec![
                             Box::new(Expr::Call(CallExpr {
@@ -36,7 +36,8 @@ impl<'a> VisitMut for ClassNameTdzFolder<'a> {
                             })),
                             Box::new(Expr::Ident(i.clone())),
                         ],
-                    });
+                    }
+                    .into();
                 }
             }
 

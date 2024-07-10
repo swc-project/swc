@@ -51,12 +51,15 @@ impl Mode {
                     definite: Default::default(),
                 });
                 if let Some(init) = init {
-                    init_exprs.push(Box::new(Expr::Assign(AssignExpr {
-                        span: DUMMY_SP,
-                        op: op!("="),
-                        left: n.into(),
-                        right: init,
-                    })));
+                    init_exprs.push(
+                        AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: n.into(),
+                            right: init,
+                        }
+                        .into(),
+                    );
                 }
             }
             Mode::ClassDecl { vars } => {
@@ -265,7 +268,7 @@ impl VisitMut for PrivateInObject {
                 }));
                 bs.visit_mut_with(self);
 
-                p.right = Box::new(Expr::Call(CallExpr {
+                p.right = CallExpr {
                     span: DUMMY_SP,
                     callee: ArrowExpr {
                         span: DUMMY_SP,
@@ -278,7 +281,8 @@ impl VisitMut for PrivateInObject {
                     .as_callee(),
                     args: Default::default(),
                     ..Default::default()
-                }));
+                }
+                .into();
             }
         }
     }
@@ -297,10 +301,11 @@ impl VisitMut for PrivateInObject {
                 }
                 _ => {
                     prepend_exprs.push(Box::new(e.take()));
-                    *e = Expr::Seq(SeqExpr {
+                    *e = SeqExpr {
                         span: DUMMY_SP,
                         exprs: prepend_exprs,
-                    });
+                    }
+                    .into();
                 }
             }
             return;
@@ -320,12 +325,13 @@ impl VisitMut for PrivateInObject {
 
                 if let Some(cls_ident) = self.cls.ident.clone() {
                     if is_static && is_method {
-                        *e = Expr::Bin(BinExpr {
+                        *e = BinExpr {
                             span: *span,
                             op: op!("==="),
-                            left: Box::new(Expr::Ident(cls_ident)),
+                            left: cls_ident.into(),
                             right: right.take(),
-                        });
+                        }
+                        .into();
                         return;
                     }
                 }
@@ -337,18 +343,20 @@ impl VisitMut for PrivateInObject {
                 {
                     self.cls.vars.push_var(
                         var_name.clone(),
-                        Some(Box::new(Expr::New(NewExpr {
-                            span: DUMMY_SP,
-                            callee: Box::new(Expr::Ident(quote_ident!("WeakSet").into())),
-                            args: Some(Default::default()),
-                            ..Default::default()
-                        }))),
+                        Some(
+                            NewExpr {
+                                span: DUMMY_SP,
+                                callee: Box::new(quote_ident!("WeakSet").into()),
+                                args: Some(Default::default()),
+                                ..Default::default()
+                            }
+                            .into(),
+                        ),
                     );
 
                     if is_method {
-                        self.cls
-                            .constructor_exprs
-                            .push(Box::new(Expr::Call(CallExpr {
+                        self.cls.constructor_exprs.push(
+                            CallExpr {
                                 span: DUMMY_SP,
                                 callee: var_name
                                     .clone()
@@ -356,16 +364,19 @@ impl VisitMut for PrivateInObject {
                                     .as_callee(),
                                 args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
                                 ..Default::default()
-                            })));
+                            }
+                            .into(),
+                        );
                     }
                 }
 
-                *e = Expr::Call(CallExpr {
+                *e = CallExpr {
                     span: *span,
                     callee: var_name.make_member(quote_ident!("has")).as_callee(),
                     args: vec![right.take().as_arg()],
                     ..Default::default()
-                });
+                }
+                .into();
             }
 
             _ => {}
@@ -404,36 +415,45 @@ impl VisitMut for PrivateInObject {
 
                     self.cls.vars.push_var(tmp.clone(), None);
 
-                    let assign = Box::new(Expr::Assign(AssignExpr {
+                    let assign = AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
                         left: tmp.clone().into(),
                         right: init.take(),
-                    }));
+                    }
+                    .into();
 
-                    let add_to_checker = Box::new(Expr::Call(CallExpr {
+                    let add_to_checker = CallExpr {
                         span: DUMMY_SP,
                         callee: var_name.make_member(quote_ident!("add")).as_callee(),
                         args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
                         ..Default::default()
-                    }));
+                    }
+                    .into();
 
-                    *init = Box::new(Expr::Seq(SeqExpr {
+                    *init = SeqExpr {
                         span: init_span,
                         exprs: vec![assign, add_to_checker, Box::new(tmp.into())],
-                    }));
+                    }
+                    .into();
                 }
                 None => {
-                    n.value = Some(Box::new(Expr::Unary(UnaryExpr {
-                        span: DUMMY_SP,
-                        op: op!("void"),
-                        arg: Box::new(Expr::Call(CallExpr {
+                    n.value = Some(
+                        UnaryExpr {
                             span: DUMMY_SP,
-                            callee: var_name.make_member(quote_ident!("add")).as_callee(),
-                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                            ..Default::default()
-                        })),
-                    })))
+                            op: op!("void"),
+                            arg: Box::new(
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: var_name.make_member(quote_ident!("add")).as_callee(),
+                                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                                    ..Default::default()
+                                }
+                                .into(),
+                            ),
+                        }
+                        .into(),
+                    )
                 }
             }
         }

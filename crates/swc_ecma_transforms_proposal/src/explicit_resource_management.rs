@@ -338,12 +338,13 @@ impl ExplicitResourceManagement {
             ..Default::default()
         };
         let dispose_stmt = if state.has_await {
-            Expr::Await(AwaitExpr {
+            AwaitExpr {
                 span: DUMMY_SP,
                 arg: Box::new(dispose_expr.into()),
-            })
+            }
+            .into()
         } else {
-            dispose_expr.into()
+            Expr::from(dispose_expr)
         }
         .into_stmt();
 

@@ -59,7 +59,7 @@ impl VisitMut for PropFolder {
                             span: ident.span,
                             expr: quote_str!(ident.sym.clone()).into(),
                         }),
-                        value: Box::new(Expr::Ident(ident.clone())),
+                        value: ident.clone().into(),
                     })
                 }
             }
@@ -102,11 +102,12 @@ impl<'a> VisitMut for PropNameFolder<'a> {
                 if !self.props.insert(ident.sym.clone()) {
                     *name = PropName::Computed(ComputedPropName {
                         span,
-                        expr: Box::new(Expr::Lit(Lit::Str(Str {
+                        expr: Lit::Str(Str {
                             span,
                             raw: None,
                             value: ident.sym.clone(),
-                        }))),
+                        })
+                        .into(),
                     })
                 }
             }

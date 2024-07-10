@@ -156,12 +156,15 @@ impl<C: Comments> VisitMut for Actual<C> {
                     .into_iter()
                     .chain(iter::once(Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
-                        arg: Some(Box::new(Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee: expr.as_callee(),
-                            args: vec![],
-                            ..Default::default()
-                        }))),
+                        arg: Some(
+                            CallExpr {
+                                span: DUMMY_SP,
+                                callee: expr.as_callee(),
+                                args: vec![],
+                                ..Default::default()
+                            }
+                            .into(),
+                        ),
                     })))
                     .collect(),
                 ..Default::default()
@@ -267,18 +270,15 @@ impl<C: Comments> VisitMut for Actual<C> {
         );
 
         let fn_ref = if is_this_used {
-            fn_ref.apply(
-                DUMMY_SP,
-                Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
-                vec![],
-            )
+            fn_ref.apply(DUMMY_SP, ThisExpr { span: DUMMY_SP }.into(), vec![])
         } else {
-            Expr::Call(CallExpr {
+            CallExpr {
                 span: DUMMY_SP,
                 callee: fn_ref.as_callee(),
                 args: vec![],
                 ..Default::default()
-            })
+            }
+            .into()
         };
 
         prop.function = Function {
@@ -427,14 +427,13 @@ fn make_fn_ref(mut expr: FnExpr) -> Expr {
 
     let span = expr.span();
 
-    let expr = Expr::Fn(expr);
-
-    Expr::Call(CallExpr {
+    CallExpr {
         span,
         callee: helper,
         args: vec![expr.as_arg()],
         ..Default::default()
-    })
+    }
+    .into()
 }
 
 struct AsyncFnBodyHandler {
@@ -470,7 +469,7 @@ impl VisitMut for AsyncFnBodyHandler {
                 delegate: true,
             }) => {
                 let callee = helper!(async_generator_delegate);
-                let arg = Box::new(Expr::Call(CallExpr {
+                let arg = CallExpr {
                     span: *span,
                     callee,
                     args: vec![
@@ -484,34 +483,39 @@ impl VisitMut for AsyncFnBodyHandler {
                         helper_expr!(await_async_generator).as_arg(),
                     ],
                     ..Default::default()
-                }));
-                *expr = Expr::Yield(YieldExpr {
+                }
+                .into();
+                *expr = YieldExpr {
                     span: *span,
                     delegate: true,
                     arg: Some(arg),
-                })
+                }
+                .into()
             }
 
             Expr::Await(AwaitExpr { span, arg }) => {
                 if self.is_async_generator {
                     let callee = helper!(await_async_generator);
-                    let arg = Box::new(Expr::Call(CallExpr {
+                    let arg = CallExpr {
                         span: *span,
                         callee,
                         args: vec![arg.take().as_arg()],
                         ..Default::default()
-                    }));
-                    *expr = Expr::Yield(YieldExpr {
+                    }
+                    .into();
+                    *expr = YieldExpr {
                         span: *span,
                         delegate: false,
                         arg: Some(arg),
-                    })
+                    }
+                    .into()
                 } else {
-                    *expr = Expr::Yield(YieldExpr {
+                    *expr = YieldExpr {
                         span: *span,
                         delegate: false,
                         arg: Some(arg.take()),
-                    })
+                    }
+                    .into()
                 }
             }
             _ => {}
@@ -606,7 +610,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 let var_decl = VarDeclarator {
                     span: DUMMY_SP,
                     name: var.name,
-                    init: Some(Box::new(Expr::Ident(value))),
+                    init: Some(value.into()),
                     definite: false,
                 };
                 for_loop_body.push(
@@ -623,12 +627,13 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             ForHead::Pat(p) => {
                 for_loop_body.push(Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
-                    expr: Box::new(Expr::Assign(AssignExpr {
+                    expr: AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
                         left: p.try_into().unwrap(),
-                        right: Box::new(Expr::Ident(value)),
-                    })),
+                        right: Box::new(value.into()),
+                    }
+                    .into(),
                 }));
             }
 
@@ -653,12 +658,15 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             init: {
                 let callee = helper!(async_iterator);
 
-                Some(Box::new(Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee,
-                    args: vec![s.right.as_arg()],
-                    ..Default::default()
-                })))
+                Some(
+                    CallExpr {
+                        span: DUMMY_SP,
+                        callee,
+                        args: vec![s.right.as_arg()],
+                        ..Default::default()
+                    }
+                    .into(),
+                )
             },
             definite: false,
         });
@@ -693,49 +701,59 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 };
 
                 let yield_arg = if is_async_generator {
-                    Box::new(Expr::Call(CallExpr {
+                    CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(await_async_generator),
                         args: vec![iter_next.as_arg()],
                         ..Default::default()
-                    }))
+                    }
+                    .into()
                 } else {
-                    Box::new(Expr::Call(iter_next))
+                    iter_next.into()
                 };
 
-                let assign_to_step = Expr::Assign(AssignExpr {
+                let assign_to_step: Expr = AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
                     left: step.into(),
-                    right: Box::new(Expr::Yield(YieldExpr {
+                    right: YieldExpr {
                         span: DUMMY_SP,
                         arg: Some(yield_arg),
                         delegate: false,
-                    })),
-                });
+                    }
+                    .into(),
+                }
+                .into();
 
-                let right = Box::new(Expr::Unary(UnaryExpr {
+                let right = UnaryExpr {
                     span: DUMMY_SP,
                     op: op!("!"),
                     arg: assign_to_step.make_member(quote_ident!("done")).into(),
-                }));
+                }
+                .into();
 
                 let left = iterator_abrupt_completion.clone().into();
 
-                Some(Box::new(Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    op: op!("="),
-                    left,
-                    right,
-                })))
+                Some(
+                    AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left,
+                        right,
+                    }
+                    .into(),
+                )
             },
             // _iteratorNormalCompletion = true
-            update: Some(Box::new(Expr::Assign(AssignExpr {
-                span: DUMMY_SP,
-                op: op!("="),
-                left: iterator_abrupt_completion.clone().into(),
-                right: false.into(),
-            }))),
+            update: Some(
+                AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: iterator_abrupt_completion.clone().into(),
+                    right: false.into(),
+                }
+                .into(),
+            ),
             body: Box::new(Stmt::Block(for_loop_body)),
         });
 
@@ -750,22 +768,24 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         // _didIteratorError = true;
         let mark_as_errorred = Stmt::Expr(ExprStmt {
             span: DUMMY_SP,
-            expr: Box::new(Expr::Assign(AssignExpr {
+            expr: AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
                 left: did_iteration_error.clone().into(),
                 right: true.into(),
-            })),
+            }
+            .into(),
         });
         // _iteratorError = err;
         let store_error = Stmt::Expr(ExprStmt {
             span: DUMMY_SP,
-            expr: Box::new(Expr::Assign(AssignExpr {
+            expr: AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
                 left: iterator_error.clone().into(),
-                right: Box::new(Expr::Ident(err_param.clone())),
-            })),
+                right: Box::new(err_param.clone().into()),
+            }
+            .into(),
         });
 
         CatchClause {
@@ -781,11 +801,11 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
     let finally_block = {
         let throw_iterator_error = Stmt::Throw(ThrowStmt {
             span: DUMMY_SP,
-            arg: Box::new(Expr::Ident(iterator_error.clone())),
+            arg: iterator_error.clone().into(),
         });
         let throw_iterator_error = Stmt::If(IfStmt {
             span: DUMMY_SP,
-            test: Box::new(Expr::Ident(did_iteration_error.clone())),
+            test: did_iteration_error.clone().into(),
             cons: Box::new(Stmt::Block(BlockStmt {
                 span: DUMMY_SP,
                 stmts: vec![throw_iterator_error],
@@ -794,7 +814,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             alt: None,
         });
 
-        let iterator_return = Box::new(Expr::Call(CallExpr {
+        let iterator_return: Expr = CallExpr {
             span: DUMMY_SP,
             callee: iterator
                 .clone()
@@ -802,45 +822,52 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 .as_callee(),
             args: vec![],
             ..Default::default()
-        }));
+        }
+        .into();
 
         // yield _iterator.return();
         // or
         // yield _awaitAsyncGenerator(_iterator.return());
         let yield_stmt = Stmt::Expr(ExprStmt {
             span: DUMMY_SP,
-            expr: Box::new(Expr::Yield(YieldExpr {
+            expr: YieldExpr {
                 span: DUMMY_SP,
                 delegate: false,
                 arg: Some(if is_async_generator {
-                    Box::new(Expr::Call(CallExpr {
+                    CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(await_async_generator),
                         args: vec![iterator_return.as_arg()],
                         ..Default::default()
-                    }))
+                    }
+                    .into()
                 } else {
-                    iterator_return
+                    iterator_return.into()
                 }),
-            })),
+            }
+            .into(),
         });
 
         let conditional_yield = Stmt::If(IfStmt {
             span: DUMMY_SP,
             // _iteratorAbruptCompletion && _iterator.return != null
-            test: Box::new(Expr::Bin(BinExpr {
+            test: BinExpr {
                 span: DUMMY_SP,
                 op: op!("&&"),
                 // _iteratorAbruptCompletion
-                left: Box::new(Expr::Ident(iterator_abrupt_completion.clone())),
+                left: Box::new(iterator_abrupt_completion.clone().into()),
                 // _iterator.return != null
-                right: Box::new(Expr::Bin(BinExpr {
-                    span: DUMMY_SP,
-                    op: op!("!="),
-                    left: iterator.make_member(quote_ident!("return")).into(),
-                    right: Null { span: DUMMY_SP }.into(),
-                })),
-            })),
+                right: Box::new(
+                    BinExpr {
+                        span: DUMMY_SP,
+                        op: op!("!="),
+                        left: iterator.make_member(quote_ident!("return")).into(),
+                        right: Null { span: DUMMY_SP }.into(),
+                    }
+                    .into(),
+                ),
+            }
+            .into(),
             cons: Box::new(Stmt::Block(BlockStmt {
                 stmts: vec![yield_stmt],
                 ..Default::default()

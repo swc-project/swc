@@ -99,12 +99,13 @@ impl Optimizer<'_> {
                 report_change!("conditionals: `if (foo) bar;` => `foo && bar`");
                 *s = Stmt::Expr(ExprStmt {
                     span: stmt.span,
-                    expr: Box::new(Expr::Bin(BinExpr {
+                    expr: BinExpr {
                         span: stmt.test.span(),
                         op: op!("&&"),
                         left: stmt.test.take(),
                         right: cons.expr.take(),
-                    })),
+                    }
+                    .into(),
                 });
             }
         }
@@ -194,7 +195,7 @@ impl Optimizer<'_> {
                             span: e.span,
                             op: e.op,
                             left: left.left.take(),
-                            right: Box::new(Expr::Bin(res)),
+                            right: res.into(),
                         };
                     }
                 }
@@ -283,7 +284,7 @@ impl Optimizer<'_> {
                                 span,
                                 op: op!("=="),
                                 left: cmp.take(),
-                                right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                                right: Lit::Null(Null { span: DUMMY_SP }).into(),
                             });
                         } else {
                             report_change!(
@@ -293,7 +294,7 @@ impl Optimizer<'_> {
                                 span,
                                 op: op!("!="),
                                 left: cmp.take(),
-                                right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                                right: Lit::Null(Null { span: DUMMY_SP }).into(),
                             });
                         }
                     }

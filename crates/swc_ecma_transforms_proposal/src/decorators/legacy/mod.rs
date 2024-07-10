@@ -119,29 +119,33 @@ impl TscDecorator {
                 // Declare var
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(var_name.clone().into()),
+                    name: var_name.clone().into(),
                     init: None,
                     definite: Default::default(),
                 });
 
                 // Initialize var
-                self.prepended_exprs.push(Box::new(Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    op: op!("="),
-                    left: var_name.clone().into(),
-                    right: k.expr.take(),
-                })));
+                self.prepended_exprs.push(
+                    AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: var_name.clone().into(),
+                        right: k.expr.take(),
+                    }
+                    .into(),
+                );
 
-                k.expr = Box::new(Expr::Ident(var_name.clone()));
+                k.expr = var_name.clone().into();
 
-                return Expr::Ident(var_name);
+                return var_name.into();
             }
             PropName::Ident(i) => {
-                return Expr::Lit(Lit::Str(Str {
+                return Lit::Str(Str {
                     span: DUMMY_SP,
                     raw: None,
                     value: i.sym.clone(),
-                }))
+                })
+                .into()
             }
             _ => {}
         }
@@ -174,12 +178,15 @@ impl TscDecorator {
         remove_span(&mut target.expr);
         remove_span(&mut desc.expr);
 
-        self.appended_exprs.push(Box::new(Expr::Call(CallExpr {
-            span: DUMMY_SP,
-            callee: helper!(ts, ts_decorate),
-            args: vec![decorators, target, key, desc],
-            ..Default::default()
-        })));
+        self.appended_exprs.push(
+            CallExpr {
+                span: DUMMY_SP,
+                callee: helper!(ts, ts_decorate),
+                args: vec![decorators, target, key, desc],
+                ..Default::default()
+            }
+            .into(),
+        );
     }
 }
 
@@ -254,7 +261,7 @@ impl VisitMut for TscDecorator {
                 }
                 .as_arg();
 
-                let decorated = Box::new(Expr::Call(CallExpr {
+                let decorated = CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(ts, ts_decorate),
                     args: vec![
@@ -265,13 +272,17 @@ impl VisitMut for TscDecorator {
                             .as_arg(),
                     ],
                     ..Default::default()
-                }));
-                self.appended_exprs.push(Box::new(Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    op: op!("="),
-                    left: class_name.with_pos(BytePos::DUMMY, BytePos::DUMMY).into(),
-                    right: decorated,
-                })));
+                }
+                .into();
+                self.appended_exprs.push(
+                    AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: class_name.with_pos(BytePos::DUMMY, BytePos::DUMMY).into(),
+                        right: decorated,
+                    }
+                    .into(),
+                );
             }
         }
     }
@@ -292,12 +303,12 @@ impl VisitMut for TscDecorator {
         if let Some(var_name) = self.assign_class_expr_to.take() {
             self.vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(var_name.clone().into()),
+                name: var_name.clone().into(),
                 init: None,
                 definite: Default::default(),
             });
 
-            *e = Expr::Seq(SeqExpr {
+            *e = SeqExpr {
                 span: DUMMY_SP,
                 exprs: iter::once(AssignExpr {
                     span: DUMMY_SP,
@@ -309,7 +320,8 @@ impl VisitMut for TscDecorator {
                 .chain(appended_exprs)
                 .chain(iter::once(var_name.into()))
                 .collect(),
-            });
+            }
+            .into();
         }
     }
 
