@@ -695,7 +695,6 @@ where
                                     }
                                     None => {
                                         let init = c;
-                                        let init = c.into();
                                         new.push(init.assign_to(local.clone()).into_module_item(
                                             injected_ctxt,
                                             "prepare -> export default decl -> class -> without \
@@ -997,21 +996,6 @@ where
                                             }
                                             .into(),
                                         ),
-                                        name: Pat::Ident(mod_var.clone().into()),
-                                        name: mod_var.clone().into().into(),
-                                        init: Some(
-                                            CallExpr {
-                                                span: DUMMY_SP,
-                                                callee: Ident::new(
-                                                    "load".into(),
-                                                    DUMMY_SP,
-                                                    dep.export_ctxt(),
-                                                )
-                                                .as_callee(),
-                                                ..Default::default()
-                                            }
-                                            .into(),
-                                        ),
                                         definite: Default::default(),
                                     });
                                     for s in specifiers {
@@ -1022,8 +1006,6 @@ where
                                                         vars.push(VarDeclarator {
                                                             span: s.span,
                                                             name: name.clone().into(),
-                                                            name: Pat::Ident(name.clone().into()),
-                                                            name: name.clone().into().into(),
                                                             init: Some(mod_var.clone().into()),
                                                             definite: Default::default(),
                                                         });
@@ -1039,7 +1021,6 @@ where
                                                 vars.push(VarDeclarator {
                                                     span: DUMMY_SP,
                                                     name: s.exported.clone().into(),
-                                                    name: s.exported.clone().into().into(),
                                                     init: Some(
                                                         mod_var
                                                             .clone()
@@ -1071,7 +1052,6 @@ where
                                                 vars.push(VarDeclarator {
                                                     span: s.span,
                                                     name: exported.clone().unwrap().into(),
-                                                    name: exported.clone().unwrap().into().into(),
                                                     init: Some(
                                                         mod_var
                                                             .clone()

@@ -319,7 +319,7 @@ impl Pure<'_> {
                 let replacement = self.optimize_member_expr(exprs.last_mut()?, prop)?;
 
                 // Replace last element with replacement
-                let mut exprs: Vec<Expr> = exprs.drain(..(exprs.len() - 1)).collect();
+                let mut exprs: Vec<Box<Expr>> = exprs.drain(..(exprs.len() - 1)).collect();
                 exprs.push(Box::new(replacement));
 
                 Some(SeqExpr { span: *span, exprs }.into())
@@ -329,7 +329,7 @@ impl Pure<'_> {
                 match op {
                     KnownOp::Index(idx) => {
                         if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= value.len() {
-                            Some(**span.into())
+                            Some(*Expr::undefined(*span))
                         } else {
                             // idx is in bounds, this is handled in simplify
                             None
@@ -345,7 +345,7 @@ impl Pure<'_> {
                         if is_string_symbol(key.as_str()) {
                             None
                         } else {
-                            Some(**span.into())
+                            Some(*Expr::undefined(*span))
                         }
                     }
                 }
@@ -389,7 +389,7 @@ impl Pure<'_> {
                             // Side effects exist, replacement is:
                             // (x(), y(), void 0)
                             // Where `x()` and `y()` are side effects.
-                            exprs.push(*span.into());
+                            exprs.push(Expr::undefined(*span));
 
                             SeqExpr {
                                 span: *span,
@@ -446,7 +446,6 @@ impl Pure<'_> {
                         } else {
                             let val = Expr::undefined(
                                 *span);
-                            let val = *span.into();
 
                             if exprs.is_empty() {
                                 // No side effects, replacement is:
@@ -539,16 +538,9 @@ impl Pure<'_> {
                             prop: MemberProp::Ident(IdentName::new(key, *span)),
                         }
                         .into()
-                            })),
-                            }
-                            .into(),
-                            prop: MemberProp::Ident(Ident::new_no_ctxt(key, *span)),
-                        }
-                        .into()
                     } else {
                         // Invalid key. Replace with side effects plus `undefined`.
                         Expr::undefined(*span)
-                        **span.into()
                     },
                     props.drain(..).map(|x| match x {
                         PropOrSpread::Prop(prop) => match *prop {

@@ -114,7 +114,6 @@ impl<'a> HookRegister<'a> {
                 raw: None,
                 value: sign.into(),
             })
-            .into()
             .as_arg(),
         );
 
@@ -151,7 +150,6 @@ impl<'a> HookRegister<'a> {
                     Some(
                         match hook {
                             HookCall::Ident(ident) => Expr::from(ident),
-                            HookCall::Ident(ident) => ident.into(),
                             HookCall::Member(obj, prop) => MemberExpr {
                                 span: DUMMY_SP,
                                 obj: Box::new(obj),

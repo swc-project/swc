@@ -488,10 +488,6 @@ impl VisitMut for Fixer<'_> {
                 {
                     let expr: Pat = p.clone().expect_ident().into();
                     s.left = ForHead::Pat(expr.into());
-                    let expr = Expr::Ident(p.clone().expect_ident().into());
-                    let expr = p.clone().expect_ident().into().into();
-                    let expr = p.clone().expect_ident().into();
-                    s.left = ForHead::Pat(Box::new(Box::new(expr).into()));
                 }
                 _ => (),
             }
@@ -1052,7 +1048,7 @@ impl Fixer<'_> {
     }
 }
 
-fn ignore_return_value(expr: Expr, has_padding_value: &mut bool) -> Option<Expr> {
+fn ignore_return_value(expr: Box<Expr>, has_padding_value: &mut bool) -> Option<Box<Expr>> {
     match *expr {
         Expr::Fn(..) | Expr::Arrow(..) | Expr::Lit(..) => {
             if *has_padding_value {
@@ -1093,7 +1089,7 @@ fn ignore_return_value(expr: Expr, has_padding_value: &mut bool) -> Option<Expr>
 // at least 3 element in seq, which means we can safely
 // remove that padding, if not at last position
 #[allow(clippy::vec_box)]
-fn ignore_padding_value(exprs: Vec<Expr>) -> Vec<Expr> {
+fn ignore_padding_value(exprs: Vec<Box<Expr>>) -> Vec<Box<Expr>> {
     let len = exprs.len();
 
     if len > 2 {

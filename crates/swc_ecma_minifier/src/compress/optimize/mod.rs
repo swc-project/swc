@@ -226,7 +226,7 @@ struct Vars {
     /// Cheap to clone.
     ///
     /// Used for inlining.
-    lits: FxHashMap<Id, Expr>,
+    lits: FxHashMap<Id, Box<Expr>>,
 
     /// Used for `hoist_props`.
     hoisted_props: Box<FxHashMap<(Id, JsWord), Ident>>,
@@ -235,16 +235,16 @@ struct Vars {
     /// making output bigger.
     ///
     /// https://github.com/swc-project/swc/issues/4415
-    lits_for_cmp: FxHashMap<Id, Expr>,
+    lits_for_cmp: FxHashMap<Id, Box<Expr>>,
 
     /// This stores [Expr::Array] if all elements are literals.
-    lits_for_array_access: FxHashMap<Id, Expr>,
+    lits_for_array_access: FxHashMap<Id, Box<Expr>>,
 
     /// Used for copying functions.
     ///
     /// We use this to distinguish [Callee::Expr] from other [Expr]s.
-    simple_functions: FxHashMap<Id, Expr>,
-    vars_for_inlining: FxHashMap<Id, Expr>,
+    simple_functions: FxHashMap<Id, Box<Expr>>,
+    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
 
     /// Variables which should be removed by [Finalizer] because of the order of
     /// visit.
@@ -623,7 +623,7 @@ impl Optimizer<'_> {
     fn compress_undefined(&mut self, e: &mut Expr) {
         if let Expr::Ident(Ident { span, sym, .. }) = e {
             if &**sym == "undefined" {
-                *e = **span.into();
+                *e = *Expr::undefined(*span);
             }
         }
     }
@@ -652,7 +652,6 @@ impl Optimizer<'_> {
                     .into(),
                 }
                 .into();
-                });
             }
         }
     }
@@ -722,11 +721,12 @@ impl Optimizer<'_> {
                     return Some(cls.take().into());
                 }
 
-                let exprs: Vec<Expr> = extract_class_side_effect(&self.expr_ctx, *cls.class.take())
-                    .into_iter()
-                    .filter_map(|mut e| self.ignore_return_value(&mut e))
-                    .map(Box::new)
-                    .collect();
+                let exprs: Vec<Box<Expr>> =
+                    extract_class_side_effect(&self.expr_ctx, *cls.class.take())
+                        .into_iter()
+                        .filter_map(|mut e| self.ignore_return_value(&mut e))
+                        .map(Box::new)
+                        .collect();
 
                 if exprs.is_empty() {
                     return None;
@@ -2048,7 +2048,7 @@ impl VisitMut for Optimizer<'_> {
                     #[cfg(feature = "debug")]
                     dump_change_detail!("Removed {}", start);
 
-                    DUMMY_SP.into()
+                    Expr::undefined(DUMMY_SP)
                 });
             }
         } else {
@@ -2431,7 +2431,6 @@ impl VisitMut for Optimizer<'_> {
         if let Prop::Shorthand(i) = n {
             if self.vars.has_pending_inline_for(&i.to_id()) {
                 let mut e: Expr = i.clone().into();
-                let mut e = i.clone().into();
                 e.visit_mut_with(self);
 
                 *n = Prop::KeyValue(KeyValueProp {

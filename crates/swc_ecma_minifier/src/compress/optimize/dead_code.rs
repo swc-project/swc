@@ -91,8 +91,6 @@ impl Optimizer<'_> {
                             span: assign.span,
                             op,
                             left: lhs.clone().into(),
-                            left: Box::new(Expr::Ident(lhs.clone().into())),
-                            left: lhs.clone().into().into(),
                             right: assign.right.take(),
                         }
                         .into();

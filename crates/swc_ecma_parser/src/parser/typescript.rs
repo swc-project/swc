@@ -1030,13 +1030,13 @@ impl<I: Tokens> Parser<I> {
         let ident = self.parse_ident_name()?.into();
         let expr = self.parse_subscripts(Callee::Expr(ident), true, true)?;
         if !matches!(
-            &expr,
+            &*expr,
             Expr::Ident(..) | Expr::Member(..) | Expr::TsInstantiation(..)
         ) {
             self.emit_err(span!(self, start), SyntaxError::TS2499);
         }
 
-        match expr {
+        match *expr {
             Expr::TsInstantiation(v) => Ok(TsExprWithTypeArgs {
                 span: v.span,
                 expr: v.expr,
@@ -1372,7 +1372,7 @@ impl<I: Tokens> Parser<I> {
     /// `parsePropertyName` in babel.
     ///
     /// Returns `(computed, key)`.
-    fn parse_ts_property_name(&mut self) -> PResult<(bool, Expr)> {
+    fn parse_ts_property_name(&mut self) -> PResult<(bool, Box<Expr>)> {
         let (computed, key) = if eat!(self, '[') {
             let key = self.parse_assignment_expr()?;
             expect!(self, ']');
@@ -1740,13 +1740,11 @@ impl<I: Tokens> Parser<I> {
                     span: span!(p, start),
                     dot3_token,
                     arg: ident.into(),
-                    arg: Pat::Ident(ident.into()),
                     type_ann: None,
                 }
                 .into()
             } else {
                 ident.into()
-                ident.into().into()
             }))
         })
     }
@@ -2392,6 +2390,7 @@ impl<I: Tokens> Parser<I> {
                     .map(|decl| match decl {
                         Decl::Fn(f) => FnDecl {
                         Decl::Fn(f) => Decl::Fn(Box::new(FnDecl {
+                        Decl::Fn(f) => Decl::Fn(FnDecl {
                             declare: true,
                             function: Box::new(Function {
                                 span: Span {
@@ -2405,6 +2404,7 @@ impl<I: Tokens> Parser<I> {
                         .into(),
                             ..*f
                         })),
+                        }),
                         _ => decl,
                     })
                     .map(Some);
@@ -2416,6 +2416,7 @@ impl<I: Tokens> Parser<I> {
                     .map(|decl| match decl {
                         Decl::Class(c) => ClassDecl {
                         Decl::Class(c) => Decl::Class(Box::new(ClassDecl {
+                        Decl::Class(c) => Decl::Class(ClassDecl {
                             declare: true,
                             class: Box::new(Class {
                                 span: Span {
@@ -2429,6 +2430,7 @@ impl<I: Tokens> Parser<I> {
                         .into(),
                             ..*c
                         })),
+                        }),
                         _ => decl,
                     })
                     .map(Some);
@@ -2611,7 +2613,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn try_parse_ts_generic_async_arrow_fn(
         &mut self,
         start: BytePos,
-    ) -> PResult<Option<Box<ArrowExpr>>> {
+    ) -> PResult<Option<ArrowExpr>> {
         if !cfg!(feature = "typescript") {
             return Ok(Default::default());
         }
@@ -2650,7 +2652,7 @@ impl<I: Tokens> Parser<I> {
             let is_generator = false;
             let is_async = true;
             let body = p.parse_fn_body(true, false, true, params.is_simple_parameter_list())?;
-            Ok(Some(Box::new(ArrowExpr {
+            Ok(Some(ArrowExpr {
                 span: span!(p, start),
                 body,
                 is_async,
@@ -2659,7 +2661,7 @@ impl<I: Tokens> Parser<I> {
                 params,
                 return_type,
                 ..Default::default()
-            })))
+            }))
         })
     }
 

@@ -390,7 +390,7 @@ impl VisitMut for Pure<'_> {
                         },
                     );
                     if arg.is_invalid() {
-                        *e = **span.into();
+                        *e = *Expr::undefined(*span);
                         return;
                     }
                 }
@@ -622,7 +622,7 @@ impl VisitMut for Pure<'_> {
         }
     }
 
-    fn visit_mut_exprs(&mut self, nodes: &mut Vec<Expr>) {
+    fn visit_mut_exprs(&mut self, nodes: &mut Vec<Box<Expr>>) {
         self.visit_par(nodes);
     }
 

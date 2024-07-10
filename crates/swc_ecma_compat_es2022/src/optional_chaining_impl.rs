@@ -135,13 +135,6 @@ impl VisitMut for OptionalChaining {
                 ..Default::default()
             }
             .into();
-                })
-                .into()
-                .as_callee(),
-                args: vec![],
-                ..Default::default()
-            }
-            .into();
         }
 
         self.vars = uninit;
@@ -160,7 +153,7 @@ impl VisitMut for OptionalChaining {
 #[derive(Debug, Clone)]
 enum Memo {
     Cache(Ident),
-    Raw(Expr),
+    Raw(Box<Expr>),
 }
 
 impl Memo {
@@ -313,7 +306,7 @@ impl OptionalChaining {
                         cons: if is_delete {
                             true.into()
                         } else {
-                            DUMMY_SP.into()
+                            Expr::undefined(DUMMY_SP)
                         },
                         alt: Take::dummy(),
                     });
@@ -334,7 +327,7 @@ impl OptionalChaining {
                         cons: if is_delete {
                             true.into()
                         } else {
-                            DUMMY_SP.into()
+                            Expr::undefined(DUMMY_SP)
                         },
                         alt: Take::dummy(),
                     });
@@ -431,7 +424,7 @@ impl OptionalChaining {
     }
 }
 
-fn init_and_eq_null_or_undefined(i: &Memo, init: Expr, no_document_all: bool) -> Expr {
+fn init_and_eq_null_or_undefined(i: &Memo, init: Expr, no_document_all: bool) -> Box<Expr> {
     let lhs = match i {
         Memo::Cache(i) => AssignExpr {
             span: DUMMY_SP,
@@ -449,7 +442,6 @@ fn init_and_eq_null_or_undefined(i: &Memo, init: Expr, no_document_all: bool) ->
             left: lhs,
             op: op!("=="),
             right: Box::new(Lit::Null(Null { span: DUMMY_SP }).into()),
-            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
         }
         .into();
     }
@@ -459,7 +451,6 @@ fn init_and_eq_null_or_undefined(i: &Memo, init: Expr, no_document_all: bool) ->
         left: lhs,
         op: op!("==="),
         right: Box::new(Lit::Null(Null { span: DUMMY_SP }).into()),
-        right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
     }
     .into();
 
@@ -472,7 +463,7 @@ fn init_and_eq_null_or_undefined(i: &Memo, init: Expr, no_document_all: bool) ->
         span: DUMMY_SP,
         left: left_expr,
         op: op!("==="),
-        right: DUMMY_SP.into(),
+        right: Expr::undefined(DUMMY_SP),
     }
     .into();
 

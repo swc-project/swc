@@ -63,7 +63,7 @@ pub(crate) struct Transform {
     record: TsEnumRecord,
 
     in_class_prop: Vec<Id>,
-    in_class_prop_init: Vec<Expr>,
+    in_class_prop_init: Vec<Box<Expr>>,
     class_prop_decls: Vec<VarDeclarator>,
 }
 
@@ -702,7 +702,8 @@ impl Transform {
             id: id.clone().into(),
         });
 
-        let mut expr_list: Vec<Expr> = var_decl.decls.into_iter().filter_map(|d| d.init).collect();
+        let mut expr_list: Vec<Box<Expr>> =
+            var_decl.decls.into_iter().filter_map(|d| d.init).collect();
 
         if expr_list.is_empty() {
             return None;
@@ -728,7 +729,7 @@ impl Transform {
         &mut self,
         class_member_list: &mut Vec<ClassMember>,
         prop_list: Vec<Id>,
-        mut init_list: Vec<Expr>,
+        mut init_list: Vec<Box<Expr>>,
     ) {
         let mut constructor = None;
         let mut cons_index = 0;
@@ -833,10 +834,6 @@ impl Transform {
         let expr = prop
             .clone()
             .make_assign_to(op!("="), id.clone().make_member(prop.clone().into()).into());
-        let expr = prop
-            .clone()
-            .into()
-            .make_assign_to(op!("="), id.clone().make_member(prop.clone()).into());
 
         ExprStmt {
             span,
@@ -1217,14 +1214,6 @@ impl VisitMut for ExportedPatRewriter {
                     .make_member(IdentName::from(take(bid)))
                     .into(),
             );
-            *n = Pat::Expr(self.id.clone().make_member(Ident::from(take(bid))).into());
-            *n = self
-                .id
-                .clone()
-                .make_member(Ident::from(take(bid)))
-                .into()
-                .into();
-            *n = self.id.clone().make_member(Ident::from(take(bid))).into();
             return;
         }
 
@@ -1234,11 +1223,6 @@ impl VisitMut for ExportedPatRewriter {
     fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
         if let ObjectPatProp::Assign(AssignPatProp { key, value, .. }) = n {
             let left = Pat::Expr(self.id.clone().make_member(key.clone().into()).into());
-            let left = Box::new(Pat::Expr(
-                self.id.clone().make_member(key.clone().into()).into(),
-            ));
-            let left = Box::new(self.id.clone().make_member(key.clone()).into().into());
-            let left = Box::new(self.id.clone().make_member(key.clone()).into());
 
             let value = if let Some(right) = value.take() {
                 AssignPat {
@@ -1275,13 +1259,9 @@ impl QueryRef for ExportQuery {
                 .make_member(ident.clone().into())
                 .into()
         })
-    fn query_ref(&self, ident: &Ident) -> Option<Expr> {
-        self.export_id_list
-            .contains(&ident.to_id())
-            .then(|| self.namesapce_id.clone().make_member(ident.clone()).into())
     }
 
-    fn query_lhs(&self, ident: &Ident) -> Option<Expr> {
+    fn query_lhs(&self, ident: &Ident) -> Option<Box<Expr>> {
         self.query_ref(ident)
     }
 

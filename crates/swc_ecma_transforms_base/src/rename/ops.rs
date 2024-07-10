@@ -187,7 +187,7 @@ where
         })
     }
 
-    fn visit_mut_exprs(&mut self, n: &mut Vec<Expr>) {
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
         self.maybe_par(cpu_count() * 8, n, |v, n| {
             n.visit_mut_with(v);
         })
@@ -481,14 +481,6 @@ where
                             right: default_expr,
                         }
                         .into(),
-                        Some(default_expr) => Box::new(
-                            AssignPat {
-                                span: p.span,
-                                left: renamed.into(),
-                                right: default_expr,
-                            }
-                            .into(),
-                        ),
                         None => renamed.into(),
                     },
                 }

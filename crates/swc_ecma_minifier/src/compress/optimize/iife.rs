@@ -236,7 +236,7 @@ impl Optimizer<'_> {
                                 param.id.ctxt
                             );
 
-                            vars.insert(param.to_id(), param.span().into());
+                            vars.insert(param.to_id(), Expr::undefined(param.span()));
                         }
                     }
 
@@ -406,7 +406,7 @@ impl Optimizer<'_> {
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, mut vars: FxHashMap<Id, Expr>)
+    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, mut vars: FxHashMap<Id, Box<Expr>>)
     where
         N: for<'aa> VisitMutWith<NormalMultiReplacer<'aa>>,
     {
@@ -568,7 +568,7 @@ impl Optimizer<'_> {
                         exprs.push(body.take());
 
                         report_change!("inline: Inlining a call to an arrow function");
-                        *e = *exprs.into();
+                        *e = *Expr::from_exprs(exprs);
                         e.visit_mut_with(self);
                     }
                 }
@@ -639,7 +639,7 @@ impl Optimizer<'_> {
                 if body.stmts.is_empty() && call.args.is_empty() {
                     self.changed = true;
                     report_change!("iife: Inlining an empty function call as `undefined`");
-                    *e = *f.function.span.into();
+                    *e = *Expr::undefined(f.function.span);
                     return;
                 }
 
@@ -861,7 +861,7 @@ impl Optimizer<'_> {
         &mut self,
         params: &[Ident],
         args: &mut [ExprOrSpread],
-        exprs: &mut Vec<Expr>,
+        exprs: &mut Vec<Box<Expr>>,
     ) -> Vec<VarDeclarator> {
         let mut vars = Vec::new();
 
@@ -904,9 +904,8 @@ impl Optimizer<'_> {
             vars.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: param.clone().into(),
-                name: param.clone().into().into(),
                 init: if self.ctx.executed_multiple_time && no_arg {
-                    Some(DUMMY_SP.into())
+                    Some(Expr::undefined(DUMMY_SP))
                 } else {
                     None
                 },
@@ -996,7 +995,7 @@ impl Optimizer<'_> {
 
                 Stmt::Return(stmt) => {
                     let span = stmt.span;
-                    let val = *stmt.arg.unwrap_or_else(|| span.into());
+                    let val = *stmt.arg.unwrap_or_else(|| Expr::undefined(span));
                     exprs.push(Box::new(val));
 
                     let mut e = SeqExpr {
@@ -1021,7 +1020,7 @@ impl Optimizer<'_> {
             }
             .into();
         } else {
-            return Some(*body.span.into());
+            return Some(*Expr::undefined(body.span));
         }
 
         let mut e = SeqExpr {

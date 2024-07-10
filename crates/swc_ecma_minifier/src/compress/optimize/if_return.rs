@@ -271,7 +271,7 @@ impl Optimizer<'_> {
 
         self.changed = true;
 
-        let mut cur: Option<Expr> = None;
+        let mut cur: Option<Box<Expr>> = None;
         let mut new = Vec::with_capacity(stmts.len());
 
         let len = stmts.len();
@@ -421,7 +421,7 @@ impl Optimizer<'_> {
     /// This method returns [Expr::Seq] or [Expr::Cond].
     ///
     /// `exprs` is a simple optimization.
-    fn merge_if_returns_to(&mut self, stmt: Stmt, mut exprs: Vec<Expr>) -> Expr {
+    fn merge_if_returns_to(&mut self, stmt: Stmt, mut exprs: Vec<Box<Expr>>) -> Expr {
         //
         match stmt {
             Stmt::Block(s) => {
@@ -439,7 +439,7 @@ impl Optimizer<'_> {
                 let cons = Box::new(self.merge_if_returns_to(*cons, vec![]));
                 let alt = match alt {
                     Some(alt) => Box::new(self.merge_if_returns_to(*alt, vec![])),
-                    None => DUMMY_SP.into(),
+                    None => Expr::undefined(DUMMY_SP),
                 };
 
                 exprs.push(test);
@@ -466,7 +466,6 @@ impl Optimizer<'_> {
                     .into(),
                 );
                 SeqExpr {
-                Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
                     exprs,
                 }
@@ -475,7 +474,6 @@ impl Optimizer<'_> {
             Stmt::Return(stmt) => {
                 let span = stmt.span;
                 exprs.push(stmt.arg.unwrap_or_else(|| Expr::undefined(span)));
-                exprs.push(stmt.arg.unwrap_or_else(|| span.into()));
                 SeqExpr {
                     span: DUMMY_SP,
                     exprs,

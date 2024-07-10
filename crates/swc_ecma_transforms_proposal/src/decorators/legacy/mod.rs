@@ -40,8 +40,8 @@ pub(super) struct TscDecorator {
 
     /// Used for computed keys, and this variables are not initialized.
     vars: Vec<VarDeclarator>,
-    appended_exprs: Vec<Expr>,
-    prepended_exprs: Vec<Expr>,
+    appended_exprs: Vec<Box<Expr>>,
+    prepended_exprs: Vec<Box<Expr>>,
 
     class_name: Option<Ident>,
 
@@ -122,7 +122,6 @@ impl TscDecorator {
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
                     name: var_name.clone().into(),
-                    name: var_name.clone().into().into(),
                     init: None,
                     definite: Default::default(),
                 });
@@ -159,7 +158,7 @@ impl TscDecorator {
     /// Creates `__decorate` calls.
     fn add_decorate_call(
         &mut self,
-        decorators: impl IntoIterator<Item = Expr>,
+        decorators: impl IntoIterator<Item = Box<Expr>>,
         mut target: ExprOrSpread,
         key: ExprOrSpread,
         mut desc: ExprOrSpread,
@@ -307,7 +306,6 @@ impl VisitMut for TscDecorator {
             self.vars.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: var_name.clone().into(),
-                name: var_name.clone().into().into(),
                 init: None,
                 definite: Default::default(),
             });
@@ -392,7 +390,7 @@ impl VisitMut for TscDecorator {
                     c.decorators.drain(..).map(|d| d.expr),
                     target,
                     key.as_arg(),
-                    DUMMY_SP.into().as_arg(),
+                    Expr::undefined(DUMMY_SP).as_arg(),
                 );
             }
         }

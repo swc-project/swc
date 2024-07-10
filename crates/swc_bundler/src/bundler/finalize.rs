@@ -225,8 +225,6 @@ where
                                             props.push(PropOrSpread::Prop(Box::new(
                                                 Prop::KeyValue(KeyValueProp {
                                                     key: PropName::Ident(exported.into()),
-                                                    value: Box::new(Expr::Ident(orig)),
-                                                    key: PropName::Ident(exported),
                                                     value: orig.into(),
                                                 }),
                                             )));
@@ -311,7 +309,6 @@ where
                             let var = VarDeclarator {
                                 span: DUMMY_SP,
                                 name: default_var.into(),
-                                name: default_var.into().into(),
                                 init: Some(export.expr),
                                 definite: false,
                             };

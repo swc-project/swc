@@ -129,7 +129,7 @@ where
         }
 
         if !self.config.config.allow_top_level_this {
-            top_level_this(module_items, *DUMMY_SP.into());
+            top_level_this(module_items, *Expr::undefined(DUMMY_SP));
         }
 
         let import_interop = self.config.config.import_interop();
@@ -417,7 +417,6 @@ where
                     span: DUMMY_SP,
                     props: Default::default(),
                 }
-                .into()
                 .make_assign_to(op!("="), global_lib.into())
                 .as_arg(),
             );

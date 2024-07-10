@@ -115,7 +115,7 @@ pub fn parse_expr_for_jsx(
     name: &str,
     src: String,
     top_level_mark: Mark,
-) -> Arc<Expr> {
+) -> Arc<Box<Expr>> {
     let fm = cm.new_source_file(
         FileName::Internal(format!("jsx-config-{}.js", name)).into(),
         src,
@@ -250,9 +250,9 @@ where
     import_fragment: Option<Ident>,
     top_level_node: bool,
 
-    pragma: Arc<Expr>,
+    pragma: Arc<Box<Expr>>,
     comments: Option<C>,
-    pragma_frag: Arc<Expr>,
+    pragma_frag: Arc<Box<Expr>>,
     development: bool,
     throw_if_namespace: bool,
 }
@@ -265,10 +265,10 @@ pub struct JsxDirectives {
     pub import_source: Option<JsWord>,
 
     /// Parsed from `@jsx`
-    pub pragma: Option<Arc<Expr>>,
+    pub pragma: Option<Arc<Box<Expr>>>,
 
     /// Parsed from `@jsxFrag`
-    pub pragma_frag: Option<Arc<Expr>>,
+    pub pragma_frag: Option<Arc<Box<Expr>>>,
 }
 
 fn respan(e: &mut Expr, span: Span) {
@@ -530,7 +530,7 @@ where
                 let args = once(fragment.as_arg()).chain(once(props_obj.as_arg()));
 
                 let args = if self.development {
-                    args.chain(once(DUMMY_SP.into().as_arg()))
+                    args.chain(once(Expr::undefined(DUMMY_SP).as_arg()))
                         .chain(once(use_jsxs.as_arg()))
                         .collect()
                 } else {
@@ -803,19 +803,19 @@ where
                     // set undefined literal to key if key is None
                     let key = match key {
                         Some(key) => key,
-                        None => DUMMY_SP.into().as_arg(),
+                        None => Expr::undefined(DUMMY_SP).as_arg(),
                     };
 
                     // set undefined literal to __source if __source is None
                     let source_props = match source_props {
                         Some(source_props) => source_props,
-                        None => DUMMY_SP.into().as_arg(),
+                        None => Expr::undefined(DUMMY_SP).as_arg(),
                     };
 
                     // set undefined literal to __self if __self is None
                     let self_props = match self_props {
                         Some(self_props) => self_props,
-                        None => DUMMY_SP.into().as_arg(),
+                        None => Expr::undefined(DUMMY_SP).as_arg(),
                     };
                     args.chain(once(key))
                         .chain(once(use_jsxs.as_arg()))
@@ -892,7 +892,7 @@ where
         })
     }
 
-    fn fold_attrs_for_classic(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Expr {
+    fn fold_attrs_for_classic(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
         if attrs.is_empty() {
             return Lit::Null(Null { span: DUMMY_SP }).into();
         }
@@ -1198,7 +1198,7 @@ impl<C> Jsx<C>
 where
     C: Comments,
 {
-    fn jsx_name(&self, name: JSXElementName) -> Expr {
+    fn jsx_name(&self, name: JSXElementName) -> Box<Expr> {
         let span = name.span();
         match name {
             JSXElementName::Ident(i) => {
@@ -1246,14 +1246,12 @@ where
             }
             JSXElementName::JSXMemberExpr(JSXMemberExpr { obj, prop, .. }) => {
                 fn convert_obj(obj: JSXObject) -> Box<Expr> {
-            JSXElementName::JSXMemberExpr(JSXMemberExpr { obj, prop }) => {
-                fn convert_obj(obj: JSXObject) -> Expr {
                     let span = obj.span();
 
                     (match obj {
                         JSXObject::Ident(i) => {
                             if i.sym == "this" {
-                                ThisExpr { span }.into()
+                                Expr::This(ThisExpr { span })
                             } else {
                                 i.into()
                             }
@@ -1336,7 +1334,7 @@ fn jsx_text_to_str(t: Atom) -> JsWord {
     buf.into()
 }
 
-fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Expr> {
+fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
     Some(match v {
         JSXAttrValue::Lit(Lit::Str(s)) => {
             let value = transform_jsx_attr_str(&s.value);

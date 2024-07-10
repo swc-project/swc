@@ -520,12 +520,6 @@ impl VisitMut for Polyfills {
                                 sym: "require".into(),
                                 ..Default::default()
                             }
-                            callee: Expr::Ident(Ident {
-                                ctxt: SyntaxContext::empty().apply_mark(self.unresolved_mark),
-                                sym: "require".into(),
-                                ..Default::default()
-                            }
-                            .into()
                             .as_callee(),
                             args: vec![Str {
                                 span: DUMMY_SP,
@@ -554,12 +548,6 @@ impl VisitMut for Polyfills {
                                 sym: "require".into(),
                                 ..Default::default()
                             }
-                            callee: Expr::Ident(Ident {
-                                ctxt: SyntaxContext::empty().apply_mark(self.unresolved_mark),
-                                sym: "require".into(),
-                                ..Default::default()
-                            }
-                            .into()
                             .as_callee(),
                             args: vec![Str {
                                 span: DUMMY_SP,

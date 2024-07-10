@@ -110,7 +110,7 @@ where
         }
 
         if !self.config.allow_top_level_this {
-            top_level_this(&mut n.body, *DUMMY_SP.into());
+            top_level_this(&mut n.body, *Expr::undefined(DUMMY_SP));
         }
 
         let import_interop = self.config.import_interop();
@@ -538,10 +538,6 @@ where
                         .make_require_call(self.unresolved_mark, src.clone(), DUMMY_SP);
 
                 quote_ident!("__export").as_call(DUMMY_SP, vec![import_expr.as_arg()])
-                Expr::Ident(quote_ident!("__export").into())
-                quote_ident!("__export")
-                    .into()
-                    .as_call(DUMMY_SP, vec![import_expr.as_arg()])
             })
             .reduce(|left, right| {
                 BinExpr {
