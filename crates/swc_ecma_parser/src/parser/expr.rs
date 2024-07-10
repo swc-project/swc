@@ -478,12 +478,6 @@ impl<I: Tokens> Parser<I> {
                 .into());
             } else {
                 return Ok(id.into());
-                }));
-                })));
-                })
-                .into());
-            } else {
-                return Ok(id.into());
             }
         }
 
