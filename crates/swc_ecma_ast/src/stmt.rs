@@ -122,12 +122,7 @@ pub struct Directive {
 impl Stmt {
     pub fn is_use_strict(&self) -> bool {
         match self {
-            Stmt::Expr(expr) => match *expr.expr {
-                Expr::Lit(Lit::Str(Str { ref raw, .. })) => {
-                    matches!(raw, Some(value) if value == "\"use strict\"" || value == "'use strict'")
-                }
-                _ => false,
-            },
+            Stmt::Directive(d) => d.value.value == "use strict",
             _ => false,
         }
     }
