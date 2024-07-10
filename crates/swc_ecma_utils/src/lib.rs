@@ -2108,7 +2108,7 @@ pub fn alias_if_required(expr: &Expr, default: &str) -> (Ident, bool) {
 
 pub fn prop_name_to_expr(p: PropName) -> Expr {
     match p {
-        PropName::Ident(i) => i.into().into(),
+        PropName::Ident(i) => i.into(),
         PropName::Str(s) => Lit::Str(s).into(),
         PropName::Num(n) => Lit::Num(n).into(),
         PropName::BigInt(b) => Lit::BigInt(b).into(),

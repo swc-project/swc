@@ -690,9 +690,7 @@ impl Fold for SystemJs {
                                             right: MemberExpr {
                                                 span: DUMMY_SP,
                                                 obj: Box::new(
-                                                    quote_ident!(source_alias.clone())
-                                                        .into()
-                                                        .into(),
+                                                    quote_ident!(source_alias.clone()).into(),
                                                 ),
                                                 prop: match specifier.imported {
                                                     Some(m) => get_module_export_member_prop(&m),
@@ -756,9 +754,7 @@ impl Fold for SystemJs {
                                             MemberExpr {
                                                 span: DUMMY_SP,
                                                 obj: Box::new(
-                                                    quote_ident!(source_alias.clone())
-                                                        .into()
-                                                        .into(),
+                                                    quote_ident!(source_alias.clone()).into(),
                                                 ),
                                                 prop: get_module_export_member_prop(
                                                     &specifier.orig,

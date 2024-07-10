@@ -786,7 +786,7 @@ impl<C: Comments> ClassProperties<C> {
                             init: Some(
                                 NewExpr {
                                     span,
-                                    callee: Box::new(quote_ident!("WeakMap").into().into()),
+                                    callee: Box::new(quote_ident!("WeakMap").into()),
                                     args: Some(Default::default()),
                                     ..Default::default()
                                 }

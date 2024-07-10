@@ -410,7 +410,7 @@ fn prop_name_to_expr(p: PropName, loose: bool) -> (Expr, bool) {
     match p {
         PropName::Ident(i) => (
             if loose {
-                i.into().into()
+                i.into()
             } else {
                 Lit::Str(Str {
                     raw: None,

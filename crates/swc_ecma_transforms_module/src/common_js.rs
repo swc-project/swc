@@ -545,7 +545,6 @@ where
 
                 quote_ident!("__export")
                     .into()
-                    .into()
                     .as_call(DUMMY_SP, vec![import_expr.as_arg()])
             })
             .reduce(|left, right| {

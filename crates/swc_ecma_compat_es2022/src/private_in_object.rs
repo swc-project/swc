@@ -345,7 +345,7 @@ impl VisitMut for PrivateInObject {
                         Some(
                             NewExpr {
                                 span: DUMMY_SP,
-                                callee: Box::new(quote_ident!("WeakSet").into().into()),
+                                callee: Box::new(quote_ident!("WeakSet").into()),
                                 args: Some(Default::default()),
                                 ..Default::default()
                             }
