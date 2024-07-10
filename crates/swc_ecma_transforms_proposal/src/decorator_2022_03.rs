@@ -164,7 +164,7 @@ impl Decorator2022_03 {
             None
         } else {
             Some(ObjectPatProp::KeyValue(KeyValuePatProp {
-                key: PropName::Ident(quote_ident!("e")),
+                key: PropName::Ident("e".into()),
                 value: Box::new(Pat::Array(ArrayPat {
                     span: DUMMY_SP,
                     elems: e_lhs,

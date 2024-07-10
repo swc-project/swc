@@ -874,8 +874,9 @@ impl Swcify for JSXMemberExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         JSXMemberExpr {
+            span: ctx.span(&self.base),
             obj: self.object.swcify(ctx),
-            prop: self.property.swcify(ctx),
+            prop: self.property.swcify(ctx).into(),
         }
     }
 }
@@ -921,7 +922,9 @@ impl Swcify for swc_estree_ast::JSXAttrName {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            swc_estree_ast::JSXAttrName::Id(v) => swc_ecma_ast::JSXAttrName::Ident(v.swcify(ctx)),
+            swc_estree_ast::JSXAttrName::Id(v) => {
+                swc_ecma_ast::JSXAttrName::Ident(v.swcify(ctx).into())
+            }
             swc_estree_ast::JSXAttrName::Name(v) => {
                 swc_ecma_ast::JSXAttrName::JSXNamespacedName(v.swcify(ctx))
             }

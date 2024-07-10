@@ -32,11 +32,9 @@ impl Pure<'_> {
                     "properties: Computed member => member expr with identifier as a prop"
                 );
 
-                Some(Ident {
+                Some(IdentName {
                     span: s.span,
-                    ctxt: Default::default(),
                     sym: s.value.clone(),
-                    optional: false,
                 })
             }
 
@@ -62,11 +60,7 @@ impl Pure<'_> {
                         || s.value.is_reserved_in_es3()
                         || is_valid_identifier(&s.value, false)
                     {
-                        *p = PropName::Ident(Ident::new(
-                            s.value.clone(),
-                            s.span,
-                            SyntaxContext::empty(),
-                        ));
+                        *p = PropName::Ident(IdentName::new(s.value.clone(), s.span));
                     } else {
                         *p = PropName::Str(s.clone());
                     }
@@ -130,7 +124,7 @@ impl Pure<'_> {
 
                 self.changed = true;
 
-                Some(Ident::new_no_ctxt(s.value.clone(), s.span))
+                Some(IdentName::new(s.value.clone(), s.span))
             }
             _ => None,
         }
