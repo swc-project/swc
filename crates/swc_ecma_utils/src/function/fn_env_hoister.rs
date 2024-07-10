@@ -472,7 +472,7 @@ impl VisitMut for FnEnvHoister {
                         match &mut super_prop.prop {
                             SuperProp::Computed(c) => {
                                 let callee = self.super_get_computed(super_prop.span);
-                                let call = CallExpr {
+                                let call: Expr = CallExpr {
                                     span: *span,
                                     args: vec![c.expr.take().as_arg()],
                                     callee: callee.as_callee(),
@@ -487,7 +487,7 @@ impl VisitMut for FnEnvHoister {
                             }
                             SuperProp::Ident(id) => {
                                 let callee = self.super_get(&id.sym, super_prop.span);
-                                let call = CallExpr {
+                                let call: Expr = CallExpr {
                                     span: *span,
                                     args: Vec::new(),
                                     callee: callee.as_callee(),
@@ -518,13 +518,12 @@ impl VisitMut for FnEnvHoister {
                 SuperProp::Computed(c) => {
                     c.expr.visit_mut_children_with(self);
                     *e = if self.in_pat {
-                        CallExpr {
+                        Expr::from(CallExpr {
                             span: *span,
                             args: vec![c.expr.take().as_arg()],
                             callee: self.super_update_computed(*span).as_callee(),
                             ..Default::default()
-                        }
-                        .into()
+                        })
                         .make_member("_".into())
                         .into()
                     } else {
