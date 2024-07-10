@@ -428,6 +428,7 @@ impl Default for Expr {
     }
 }
 
+bridge_expr_from!(Ident, IdentName);
 bridge_expr_from!(Ident, Id);
 bridge_expr_from!(FnExpr, Function);
 bridge_expr_from!(ClassExpr, Class);
