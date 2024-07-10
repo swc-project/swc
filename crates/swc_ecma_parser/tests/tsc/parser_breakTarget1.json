@@ -17,7 +17,9 @@
           "start": 1,
           "end": 7
         },
-        "value": "target"
+        "ctxt": 0,
+        "value": "target",
+        "optional": false
       },
       "body": {
         "type": "BreakStatement",
@@ -31,7 +33,9 @@
             "start": 17,
             "end": 23
           },
-          "value": "target"
+          "ctxt": 0,
+          "value": "target",
+          "optional": false
         }
       }
     }

@@ -1249,7 +1249,9 @@
           "start": 887,
           "end": 888
         },
-        "value": "z"
+        "ctxt": 0,
+        "value": "z",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",
@@ -1289,7 +1291,9 @@
           "start": 906,
           "end": 907
         },
-        "value": "r"
+        "ctxt": 0,
+        "value": "r",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",
@@ -1407,7 +1411,9 @@
           "start": 951,
           "end": 952
         },
-        "value": "z"
+        "ctxt": 0,
+        "value": "z",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",
@@ -1462,7 +1468,9 @@
           "start": 966,
           "end": 967
         },
-        "value": "z"
+        "ctxt": 0,
+        "value": "z",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",
@@ -1517,7 +1525,9 @@
           "start": 984,
           "end": 985
         },
-        "value": "z"
+        "ctxt": 0,
+        "value": "z",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",
@@ -1572,7 +1582,9 @@
           "start": 1001,
           "end": 1002
         },
-        "value": "z"
+        "ctxt": 0,
+        "value": "z",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",

@@ -548,7 +548,9 @@
               "start": 151,
               "end": 154
             },
-            "value": "foo"
+            "ctxt": 0,
+            "value": "foo",
+            "optional": false
           },
           "body": {
             "type": "ExpressionStatement",

@@ -2027,7 +2027,9 @@
                 "start": 999,
                 "end": 1004
               },
-              "value": "block"
+              "ctxt": 0,
+              "value": "block",
+              "optional": false
             },
             "body": {
               "type": "BlockStatement",
@@ -2072,7 +2074,9 @@
                       "start": 1039,
                       "end": 1044
                     },
-                    "value": "block"
+                    "ctxt": 0,
+                    "value": "block",
+                    "optional": false
                   }
                 }
               ]

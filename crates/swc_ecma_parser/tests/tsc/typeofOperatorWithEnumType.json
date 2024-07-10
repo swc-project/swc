@@ -769,7 +769,9 @@
           "start": 587,
           "end": 588
         },
-        "value": "z"
+        "ctxt": 0,
+        "value": "z",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",
@@ -809,7 +811,9 @@
           "start": 603,
           "end": 604
         },
-        "value": "z"
+        "ctxt": 0,
+        "value": "z",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",

@@ -1767,7 +1767,9 @@
           "start": 1143,
           "end": 1144
         },
-        "value": "z"
+        "ctxt": 0,
+        "value": "z",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",
@@ -1807,7 +1809,9 @@
           "start": 1161,
           "end": 1162
         },
-        "value": "x"
+        "ctxt": 0,
+        "value": "x",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",
@@ -1847,7 +1851,9 @@
           "start": 1180,
           "end": 1181
         },
-        "value": "r"
+        "ctxt": 0,
+        "value": "r",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",
@@ -1967,7 +1973,9 @@
           "start": 1219,
           "end": 1220
         },
-        "value": "z"
+        "ctxt": 0,
+        "value": "z",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",
@@ -2022,7 +2030,9 @@
           "start": 1234,
           "end": 1235
         },
-        "value": "z"
+        "ctxt": 0,
+        "value": "z",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",
@@ -2077,7 +2087,9 @@
           "start": 1252,
           "end": 1253
         },
-        "value": "z"
+        "ctxt": 0,
+        "value": "z",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",
@@ -2132,7 +2144,9 @@
           "start": 1269,
           "end": 1270
         },
-        "value": "z"
+        "ctxt": 0,
+        "value": "z",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",

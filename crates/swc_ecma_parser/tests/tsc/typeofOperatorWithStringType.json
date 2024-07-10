@@ -1836,7 +1836,9 @@
           "start": 1173,
           "end": 1174
         },
-        "value": "z"
+        "ctxt": 0,
+        "value": "z",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",
@@ -1876,7 +1878,9 @@
           "start": 1191,
           "end": 1192
         },
-        "value": "x"
+        "ctxt": 0,
+        "value": "x",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",
@@ -1916,7 +1920,9 @@
           "start": 1210,
           "end": 1211
         },
-        "value": "r"
+        "ctxt": 0,
+        "value": "r",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",
@@ -2036,7 +2042,9 @@
           "start": 1251,
           "end": 1252
         },
-        "value": "z"
+        "ctxt": 0,
+        "value": "z",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",
@@ -2091,7 +2099,9 @@
           "start": 1266,
           "end": 1267
         },
-        "value": "z"
+        "ctxt": 0,
+        "value": "z",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",
@@ -2146,7 +2156,9 @@
           "start": 1284,
           "end": 1285
         },
-        "value": "z"
+        "ctxt": 0,
+        "value": "z",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",
@@ -2201,7 +2213,9 @@
           "start": 1301,
           "end": 1302
         },
-        "value": "z"
+        "ctxt": 0,
+        "value": "z",
+        "optional": false
       },
       "body": {
         "type": "ExpressionStatement",

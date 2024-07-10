@@ -4674,7 +4674,9 @@
                 "start": 2379,
                 "end": 2382
               },
-              "value": "foo"
+              "ctxt": 0,
+              "value": "foo",
+              "optional": false
             },
             "body": {
               "type": "BlockStatement",
@@ -4728,7 +4730,9 @@
                       "start": 2415,
                       "end": 2418
                     },
-                    "value": "foo"
+                    "ctxt": 0,
+                    "value": "foo",
+                    "optional": false
                   }
                 }
               ]

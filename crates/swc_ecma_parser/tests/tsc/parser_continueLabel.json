@@ -17,7 +17,9 @@
           "start": 1,
           "end": 7
         },
-        "value": "label1"
+        "ctxt": 0,
+        "value": "label1",
+        "optional": false
       },
       "body": {
         "type": "ForStatement",
@@ -131,7 +133,9 @@
                   "start": 51,
                   "end": 57
                 },
-                "value": "label1"
+                "ctxt": 0,
+                "value": "label1",
+                "optional": false
               }
             }
           ]
