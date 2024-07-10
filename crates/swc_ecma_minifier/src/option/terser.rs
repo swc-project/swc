@@ -456,28 +456,31 @@ impl From<TerserTopRetainOption> for Vec<JsWord> {
 
 fn value_to_expr(v: Value) -> Box<Expr> {
     match v {
-        Value::Null => Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-        Value::Bool(value) => Box::new(Expr::Lit(Lit::Bool(Bool {
+        Value::Null => Lit::Null(Null { span: DUMMY_SP }).into(),
+        Value::Bool(value) => Lit::Bool(Bool {
             span: DUMMY_SP,
             value,
-        }))),
+        })
+        .into(),
         Value::Number(v) => {
             trace_op!("Creating a numeric literal from value");
 
-            Box::new(Expr::Lit(Lit::Num(Number {
+            Lit::Num(Number {
                 span: DUMMY_SP,
                 value: v.as_f64().unwrap(),
                 raw: None,
-            })))
+            })
+            .into()
         }
         Value::String(v) => {
             let value: JsWord = v.into();
 
-            Box::new(Expr::Lit(Lit::Str(Str {
+            Lit::Str(Str {
                 span: DUMMY_SP,
                 raw: None,
                 value,
-            })))
+            })
+            .into()
         }
 
         Value::Array(arr) => {
@@ -486,10 +489,11 @@ fn value_to_expr(v: Value) -> Box<Expr> {
                 .map(value_to_expr)
                 .map(|expr| Some(ExprOrSpread { spread: None, expr }))
                 .collect();
-            Box::new(Expr::Array(ArrayLit {
+            ArrayLit {
                 span: DUMMY_SP,
                 elems,
-            }))
+            }
+            .into()
         }
 
         Value::Object(obj) => {
@@ -509,10 +513,11 @@ fn value_to_expr(v: Value) -> Box<Expr> {
                 .map(PropOrSpread::Prop)
                 .collect();
 
-            Box::new(Expr::Object(ObjectLit {
+            ObjectLit {
                 span: DUMMY_SP,
                 props,
-            }))
+            }
+            .into()
         }
     }
 }

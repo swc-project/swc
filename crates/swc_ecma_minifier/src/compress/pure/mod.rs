@@ -419,7 +419,7 @@ impl VisitMut for Pure<'_> {
 
         if let Expr::Seq(seq) = e {
             if seq.exprs.is_empty() {
-                *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                *e = Invalid { span: DUMMY_SP }.into();
                 return;
             }
             if seq.exprs.len() == 1 {

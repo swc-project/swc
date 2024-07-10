@@ -162,7 +162,7 @@ impl VisitMut for Transform {
                             let value = Ident::from(&*binding_ident).into();
 
                             (
-                                Pat::Ident(binding_ident.clone()),
+                                binding_ident.clone().into(),
                                 assign_value_to_this_prop(prop_name, value),
                                 id,
                             )
@@ -179,7 +179,7 @@ impl VisitMut for Transform {
                             let value = binding_ident.id.clone().into();
 
                             (
-                                Pat::Assign(assign_pat.clone()),
+                                assign_pat.clone().into(),
                                 assign_value_to_this_prop(prop_name, value),
                                 id,
                             )
@@ -249,10 +249,11 @@ impl VisitMut for Transform {
                 .map(Box::new)
                 .collect();
 
-            *n = Expr::Seq(SeqExpr {
+            *n = SeqExpr {
                 span: DUMMY_SP,
                 exprs,
-            });
+            }
+            .into();
 
             self.class_prop_decls.extend(decls);
         }
@@ -762,11 +763,11 @@ impl Transform {
                                 definite: false,
                             });
 
-                            **expr = Expr::Ident(ident.clone());
+                            **expr = ident.clone().into();
 
                             PropName::Computed(ComputedPropName {
                                 span: *span,
-                                expr: Box::new(Expr::Ident(ident)),
+                                expr: ident.into(),
                             })
                         }
                         _ => key.clone(),
@@ -831,7 +832,8 @@ impl Transform {
 impl Transform {
     // Foo.x = x;
     fn assign_prop(id: &Id, prop: &Ident, span: Span) -> Stmt {
-        let expr = Expr::Ident(prop.clone())
+        let expr = prop
+            .clone()
             .make_assign_to(op!("="), id.clone().make_member(prop.clone().into()).into());
 
         Stmt::Expr(ExprStmt {
@@ -1232,14 +1234,12 @@ impl VisitMut for ExportedPatRewriter {
 
     fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
         if let ObjectPatProp::Assign(AssignPatProp { key, value, .. }) = n {
-            let left = Box::new(Pat::Expr(
-                self.id.clone().make_member(key.clone().into()).into(),
-            ));
+            let left = Pat::Expr(self.id.clone().make_member(key.clone().into()).into());
 
             let value = if let Some(right) = value.take() {
                 AssignPat {
                     span: DUMMY_SP,
-                    left,
+                    left: left.into(),
                     right,
                 }
                 .into()
@@ -1249,7 +1249,7 @@ impl VisitMut for ExportedPatRewriter {
 
             *n = ObjectPatProp::KeyValue(KeyValuePatProp {
                 key: PropName::Ident(key.clone().into()),
-                value,
+                value: value.into(),
             });
             return;
         }

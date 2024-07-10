@@ -69,12 +69,13 @@ impl ParamMetadata {
 
         Decorator {
             span: DUMMY_SP,
-            expr: Box::new(Expr::Call(CallExpr {
+            expr: CallExpr {
                 span: DUMMY_SP,
                 callee: helper!(ts, ts_param),
                 args: vec![param_index.as_arg(), decorator_expr.as_arg()],
                 ..Default::default()
-            })),
+            }
+            .into(),
         }
     }
 }
@@ -266,12 +267,13 @@ impl<'a> Metadata<'a> {
     fn create_metadata_design_decorator(&self, design: &str, type_arg: ExprOrSpread) -> Decorator {
         Decorator {
             span: DUMMY_SP,
-            expr: Box::new(Expr::Call(CallExpr {
+            expr: CallExpr {
                 span: DUMMY_SP,
                 callee: helper!(ts, ts_metadata),
                 args: vec![design.as_arg(), type_arg],
                 ..Default::default()
-            })),
+            }
+            .into(),
         }
     }
 }
@@ -281,40 +283,51 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
         match *expr {
             Expr::Member(ref member_expr) => {
                 let obj_expr = member_expr.obj.clone();
-                Box::new(Expr::Bin(BinExpr {
+                BinExpr {
                     span: DUMMY_SP,
                     left: check_object_existed(obj_expr),
                     op: op!("||"),
-                    right: Box::new(Expr::Bin(BinExpr {
-                        span: DUMMY_SP,
-                        left: Box::new(Expr::Unary(UnaryExpr {
+                    right: Box::new(
+                        BinExpr {
                             span: DUMMY_SP,
-                            op: op!("typeof"),
-                            arg: expr,
-                        })),
-                        op: op!("==="),
-                        right: Box::new(Expr::Lit(Lit::Str(Str {
-                            span: DUMMY_SP,
-                            value: "undefined".into(),
-                            raw: None,
-                        }))),
-                    })),
-                }))
+                            left: Box::new(Expr::Unary(UnaryExpr {
+                                span: DUMMY_SP,
+                                op: op!("typeof"),
+                                arg: expr,
+                            })),
+                            op: op!("==="),
+                            right: Box::new(Expr::Lit(Lit::Str(Str {
+                                span: DUMMY_SP,
+                                value: "undefined".into(),
+                                raw: None,
+                            }))),
+                        }
+                        .into(),
+                    ),
+                }
+                .into()
             }
-            _ => Box::new(Expr::Bin(BinExpr {
+            _ => BinExpr {
                 span: DUMMY_SP,
-                left: Box::new(Expr::Unary(UnaryExpr {
-                    span: DUMMY_SP,
-                    op: op!("typeof"),
-                    arg: expr,
-                })),
+                left: Box::new(
+                    UnaryExpr {
+                        span: DUMMY_SP,
+                        op: op!("typeof"),
+                        arg: expr,
+                    }
+                    .into(),
+                ),
                 op: op!("==="),
-                right: Box::new(Expr::Lit(Lit::Str(Str {
-                    span: DUMMY_SP,
-                    value: "undefined".into(),
-                    raw: None,
-                }))),
-            })),
+                right: Box::new(
+                    Lit::Str(Str {
+                        span: DUMMY_SP,
+                        value: "undefined".into(),
+                        raw: None,
+                    })
+                    .into(),
+                ),
+            }
+            .into(),
         }
     }
 
@@ -336,12 +349,13 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
         // `typeof` operator allows us to use the expression even if it is not defined,
         // fallback is just `Object`.
 
-        Expr::Cond(CondExpr {
+        CondExpr {
             span: DUMMY_SP,
             test: check_object_existed(Box::new(member_expr.clone())),
             cons: Box::new(quote_ident!("Object").into()),
             alt: Box::new(member_expr),
-        })
+        }
+        .into()
     }
 
     fn serialize_type_list(class_name: &str, types: &[Box<TsType>]) -> Expr {
@@ -469,12 +483,13 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsBigIntKeyword,
                 ..
-            }) => Expr::Cond(CondExpr {
+            }) => CondExpr {
                 span: DUMMY_SP,
                 test: check_object_existed(quote_ident!("BigInt").into()),
                 cons: quote_ident!("Object").into(),
                 alt: quote_ident!("BigInt").into(),
-            }),
+            }
+            .into(),
 
             TsType::TsLitType(ty) => {
                 // TODO: Proper error reporting
@@ -533,13 +548,14 @@ fn ts_entity_to_member_expr(type_name: &TsEntityName) -> Expr {
         TsEntityName::TsQualifiedName(q) => {
             let obj = ts_entity_to_member_expr(&q.left);
 
-            Expr::Member(MemberExpr {
+            MemberExpr {
                 span: DUMMY_SP,
                 obj: obj.into(),
                 prop: MemberProp::Ident(q.right.clone()),
-            })
+            }
+            .into()
         }
-        TsEntityName::Ident(i) => Expr::Ident(i.clone().with_pos(BytePos::DUMMY, BytePos::DUMMY)),
+        TsEntityName::Ident(i) => i.clone().with_pos(BytePos::DUMMY, BytePos::DUMMY).into(),
     }
 }
 

@@ -267,10 +267,11 @@ impl BlockScoping {
             }
 
             if !inits.is_empty() {
-                call = Expr::Seq(SeqExpr {
+                call = SeqExpr {
                     span: DUMMY_SP,
                     exprs: inits.into_iter().chain(once(Box::new(call))).collect(),
-                })
+                }
+                .into()
             }
 
             if flow_helper.has_return || flow_helper.has_break || !flow_helper.label.is_empty() {
@@ -297,7 +298,7 @@ impl BlockScoping {
                     stmts.push(
                         IfStmt {
                             span: DUMMY_SP,
-                            test: Box::new(Expr::Bin(BinExpr {
+                            test: BinExpr {
                                 span: DUMMY_SP,
                                 op: op!("==="),
                                 left: {
@@ -314,7 +315,8 @@ impl BlockScoping {
                                 },
                                 //"object"
                                 right: "object".into(),
-                            })),
+                            }
+                            .into(),
                             cons: Box::new(Stmt::Return(ReturnStmt {
                                 span: DUMMY_SP,
                                 arg: Some(ret.clone().make_member(quote_ident!("v")).into()),
@@ -792,11 +794,14 @@ impl VisitMut for FlowHelper<'_> {
                 };
                 *node = Stmt::Return(ReturnStmt {
                     span,
-                    arg: Some(Box::new(Expr::Lit(Lit::Str(Str {
-                        span,
-                        value,
-                        raw: None,
-                    })))),
+                    arg: Some(
+                        Lit::Str(Str {
+                            span,
+                            value,
+                            raw: None,
+                        })
+                        .into(),
+                    ),
                 });
             }
             Stmt::Return(s) => {
@@ -805,19 +810,24 @@ impl VisitMut for FlowHelper<'_> {
 
                 *node = Stmt::Return(ReturnStmt {
                     span,
-                    arg: Some(Box::new(Expr::Object(ObjectLit {
-                        span,
-                        props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                            key: PropName::Ident(IdentName::new("v".into(), DUMMY_SP)),
-                            value: s.arg.take().unwrap_or_else(|| {
-                                Box::new(Expr::Unary(UnaryExpr {
-                                    span: DUMMY_SP,
-                                    op: op!("void"),
-                                    arg: Expr::undefined(DUMMY_SP),
-                                }))
-                            }),
-                        })))],
-                    }))),
+                    arg: Some(
+                        ObjectLit {
+                            span,
+                            props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                KeyValueProp {
+                                    key: PropName::Ident(IdentName::new("v".into(), DUMMY_SP)),
+                                    value: s.arg.take().unwrap_or_else(|| {
+                                        Box::new(Expr::Unary(UnaryExpr {
+                                            span: DUMMY_SP,
+                                            op: op!("void"),
+                                            arg: Expr::undefined(DUMMY_SP),
+                                        }))
+                                    }),
+                                },
+                            )))],
+                        }
+                        .into(),
+                    ),
                 });
             }
             _ => node.visit_mut_children_with(self),
@@ -869,19 +879,23 @@ impl MutationHandler<'_> {
         let mut exprs = Vec::with_capacity(self.map.len() + 1);
 
         for (id, ctxt) in &*self.map {
-            exprs.push(Box::new(Expr::Assign(AssignExpr {
-                span: DUMMY_SP,
-                left: Ident::new(id.0.clone(), DUMMY_SP, id.1).into(),
-                op: op!("="),
-                right: Box::new(Expr::Ident(Ident::new(id.0.clone(), DUMMY_SP, *ctxt))),
-            })));
+            exprs.push(
+                AssignExpr {
+                    span: DUMMY_SP,
+                    left: Ident::new(id.0.clone(), DUMMY_SP, id.1).into(),
+                    op: op!("="),
+                    right: Box::new(Ident::new(id.0.clone(), DUMMY_SP, *ctxt).into()),
+                }
+                .into(),
+            );
         }
         exprs.push(orig.unwrap_or_else(|| Expr::undefined(DUMMY_SP)));
 
-        Expr::Seq(SeqExpr {
+        SeqExpr {
             span: DUMMY_SP,
             exprs,
-        })
+        }
+        .into()
     }
 }
 

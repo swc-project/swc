@@ -33,7 +33,7 @@ impl<T> FunctionWrapper<T> {
                 Pat::Array(..) | Pat::Object(..) => Some(Param {
                     span: param.span,
                     decorators: param.decorators.clone(),
-                    pat: Pat::Ident(private_ident!("_").into()),
+                    pat: private_ident!("_").into(),
                 }),
                 _ => None,
             })
@@ -235,7 +235,7 @@ impl<T> FunctionWrapper<T> {
             span: DUMMY_SP,
             arg: Some(Box::new(ref_ident.apply(
                 DUMMY_SP,
-                Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                ThisExpr { span: DUMMY_SP }.into(),
                 vec![quote_ident!("arguments").as_arg()],
             ))),
         });

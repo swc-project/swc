@@ -55,7 +55,7 @@ impl Clone for Pat {
 
 impl Default for Pat {
     fn default() -> Self {
-        Pat::Invalid(Invalid { span: DUMMY_SP })
+        Invalid { span: DUMMY_SP }.into()
     }
 }
 impl Take for Pat {
@@ -80,6 +80,7 @@ pat_to_other!(ArrayPat);
 pat_to_other!(ObjectPat);
 pat_to_other!(AssignPat);
 pat_to_other!(RestPat);
+pat_to_other!(Box<Expr>);
 
 #[ast_node("ArrayPattern")]
 #[derive(Eq, Hash, EqIgnoreSpan)]

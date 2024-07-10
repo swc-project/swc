@@ -71,11 +71,12 @@ impl SwcLoader {
         for (k, v) in envs_map {
             m.insert(
                 k,
-                Expr::Lit(Lit::Str(Str {
+                Lit::Str(Str {
                     span: DUMMY_SP,
                     raw: None,
                     value: v,
-                })),
+                })
+                .into(),
             );
         }
 

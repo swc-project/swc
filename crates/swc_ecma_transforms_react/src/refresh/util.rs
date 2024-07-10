@@ -42,12 +42,13 @@ fn assert_hygiene(e: &Expr) {
 pub fn make_assign_stmt(handle: Ident, expr: Box<Expr>) -> Expr {
     assert_hygiene(&expr);
 
-    Expr::Assign(AssignExpr {
+    AssignExpr {
         span: expr.span(),
         op: op!("="),
         left: handle.into(),
         right: expr,
-    })
+    }
+    .into()
 }
 
 pub fn make_call_stmt(handle: Ident) -> Stmt {
@@ -58,12 +59,13 @@ pub fn make_call_stmt(handle: Ident) -> Stmt {
 }
 
 pub fn make_call_expr(handle: Ident) -> Expr {
-    Expr::Call(CallExpr {
+    CallExpr {
         span: DUMMY_SP,
         callee: handle.as_callee(),
         args: Vec::new(),
         ..Default::default()
-    })
+    }
+    .into()
 }
 
 pub fn is_import_or_require(expr: &Expr) -> bool {

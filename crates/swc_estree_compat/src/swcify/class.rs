@@ -197,16 +197,17 @@ impl Swcify for TSExpressionWithTypeArguments {
         // if we change its conversion logic, it will break.
         fn swcify_expr(expr: TSEntityName, ctx: &Context) -> Box<Expr> {
             match expr {
-                TSEntityName::Id(v) => Box::new(Expr::Ident(v.swcify(ctx).into())),
+                TSEntityName::Id(v) => v.swcify(ctx).into(),
                 TSEntityName::Qualified(v) => swcify_qualified_name(v, ctx),
             }
         }
         fn swcify_qualified_name(qualified_name: TSQualifiedName, ctx: &Context) -> Box<Expr> {
-            Box::new(Expr::Member(MemberExpr {
+            MemberExpr {
                 obj: swcify_expr(*qualified_name.left, ctx),
                 prop: MemberProp::Ident(qualified_name.right.swcify(ctx).into()),
                 span: ctx.span(&qualified_name.base),
-            }))
+            }
+            .into()
         }
 
         TsExprWithTypeArgs {

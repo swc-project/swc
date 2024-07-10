@@ -2,8 +2,8 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
     BlockStmt, BreakStmt, ClassDecl, ClassExpr, ContinueStmt, DebuggerStmt, Decl, DefaultDecl,
     DoWhileStmt, EmptyStmt, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
-    ExportNamedSpecifier, Expr, ExprStmt, FnDecl, FnExpr, ForHead, ForInStmt, ForOfStmt, ForStmt,
-    IfStmt, ImportDecl, ImportNamedSpecifier, ImportSpecifier, ImportStarAsSpecifier, KeyValueProp,
+    ExportNamedSpecifier, ExprStmt, FnDecl, FnExpr, ForHead, ForInStmt, ForOfStmt, ForStmt, IfStmt,
+    ImportDecl, ImportNamedSpecifier, ImportSpecifier, ImportStarAsSpecifier, KeyValueProp,
     LabeledStmt, Lit, ModuleDecl, ModuleItem, NamedExport, ObjectLit, Pat, Prop, PropName,
     PropOrSpread, ReturnStmt, Stmt, SwitchStmt, ThrowStmt, TryStmt, TsExportAssignment,
     TsInterfaceDecl, TsModuleDecl, TsTypeAliasDecl, VarDecl, VarDeclKind, VarDeclOrExpr,
@@ -345,9 +345,9 @@ impl Swcify for swc_estree_ast::CatchClauseParam {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            swc_estree_ast::CatchClauseParam::Id(v) => Pat::from(v.swcify(ctx)),
-            swc_estree_ast::CatchClauseParam::Array(v) => Pat::from(v.swcify(ctx)),
-            swc_estree_ast::CatchClauseParam::Object(v) => Pat::from(v.swcify(ctx)),
+            swc_estree_ast::CatchClauseParam::Id(v) => v.swcify(ctx).into(),
+            swc_estree_ast::CatchClauseParam::Array(v) => v.swcify(ctx).into(),
+            swc_estree_ast::CatchClauseParam::Object(v) => v.swcify(ctx).into(),
         }
     }
 }
@@ -463,7 +463,7 @@ impl Swcify for ImportAttribute {
     fn swcify(self, ctx: &Context) -> Self::Output {
         KeyValueProp {
             key: self.key.swcify(ctx),
-            value: Box::new(Expr::Lit(Lit::Str(self.value.swcify(ctx)))),
+            value: Lit::Str(self.value.swcify(ctx)).into(),
         }
     }
 }

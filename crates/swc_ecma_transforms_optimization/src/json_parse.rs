@@ -69,7 +69,7 @@ impl VisitMut for JsonParse {
                             unreachable!("failed to serialize serde_json::Value as json: {}", err)
                         });
 
-                    *expr = Expr::Call(CallExpr {
+                    *expr = CallExpr {
                         span: expr.span(),
                         callee: member_expr!(Default::default(), DUMMY_SP, JSON.parse).as_callee(),
                         args: vec![Lit::Str(Str {
@@ -79,7 +79,8 @@ impl VisitMut for JsonParse {
                         })
                         .as_arg()],
                         ..Default::default()
-                    });
+                    }
+                    .into();
                     return;
                 }
 

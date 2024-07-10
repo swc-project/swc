@@ -229,34 +229,41 @@ impl VisitMut for ObjectRest {
                 definite: false,
             });
             // println!("Expr: var_ident = right");
-            self.exprs.push(Box::new(Expr::Assign(AssignExpr {
-                span: DUMMY_SP,
-                left: var_ident.clone().into(),
-                op: op!("="),
-                right: right.take(),
-            })));
+            self.exprs.push(
+                AssignExpr {
+                    span: DUMMY_SP,
+                    left: var_ident.clone().into(),
+                    op: op!("="),
+                    right: right.take(),
+                }
+                .into(),
+            );
             let pat = self.fold_rest(
                 &mut 0,
                 pat.take().into(),
-                Box::new(Expr::Ident(var_ident.clone())),
+                var_ident.clone().into(),
                 true,
                 true,
             );
 
             match pat {
                 Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
-                _ => self.exprs.push(Box::new(Expr::Assign(AssignExpr {
-                    span: *span,
-                    left: pat.try_into().unwrap(),
-                    op: op!("="),
-                    right: Box::new(var_ident.clone().into()),
-                }))),
+                _ => self.exprs.push(
+                    AssignExpr {
+                        span: *span,
+                        left: pat.try_into().unwrap(),
+                        op: op!("="),
+                        right: Box::new(var_ident.clone().into()),
+                    }
+                    .into(),
+                ),
             }
             self.exprs.push(Box::new(var_ident.into()));
-            *expr = Expr::Seq(SeqExpr {
+            *expr = SeqExpr {
                 span: DUMMY_SP,
                 exprs: mem::take(&mut self.exprs),
-            });
+            }
+            .into();
         };
     }
 
@@ -362,21 +369,24 @@ impl VisitMut for ObjectRest {
                         self.vars.push(VarDeclarator {
                             span: prop.span(),
                             name: *prop.arg,
-                            init: Some(Box::new(Expr::Call(CallExpr {
-                                span: DUMMY_SP,
-                                callee: helper!(extends),
-                                args: vec![
-                                    ObjectLit {
-                                        span: DUMMY_SP,
-                                        props: vec![],
-                                    }
-                                    .as_arg(),
-                                    helper_expr!(object_destructuring_empty)
-                                        .as_call(DUMMY_SP, vec![init.as_arg()])
+                            init: Some(
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: helper!(extends),
+                                    args: vec![
+                                        ObjectLit {
+                                            span: DUMMY_SP,
+                                            props: vec![],
+                                        }
                                         .as_arg(),
-                                ],
-                                ..Default::default()
-                            }))),
+                                        helper_expr!(object_destructuring_empty)
+                                            .as_call(DUMMY_SP, vec![init.as_arg()])
+                                            .as_arg(),
+                                    ],
+                                    ..Default::default()
+                                }
+                                .into(),
+                            ),
                             definite: false,
                         });
                         continue;
@@ -400,13 +410,8 @@ impl VisitMut for ObjectRest {
             }
 
             let mut index = self.vars.len();
-            let mut pat = self.fold_rest(
-                &mut index,
-                decl.name,
-                Box::new(Expr::Ident(var_ident.clone())),
-                false,
-                true,
-            );
+            let mut pat =
+                self.fold_rest(&mut index, decl.name, var_ident.clone().into(), false, true);
             match pat {
                 // skip `{} = z`
                 Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
@@ -426,7 +431,7 @@ impl VisitMut for ObjectRest {
                             name: pat,
                             // preserve
                             init: if has_init {
-                                Some(Box::new(Expr::Ident(var_ident.clone())))
+                                Some(var_ident.clone().into())
                             } else {
                                 None
                             },
@@ -567,13 +572,8 @@ impl ObjectRest {
             .map(|mut param| {
                 let var_ident = private_ident!(param.span(), "_param");
                 let mut index = self.vars.len();
-                param.pat = self.fold_rest(
-                    &mut index,
-                    param.pat,
-                    Box::new(Expr::Ident(var_ident.clone())),
-                    false,
-                    true,
-                );
+                param.pat =
+                    self.fold_rest(&mut index, param.pat, var_ident.clone().into(), false, true);
 
                 match param.pat {
                     Pat::Rest(..) | Pat::Ident(..) => param,
@@ -591,18 +591,19 @@ impl ObjectRest {
                             VarDeclarator {
                                 span,
                                 name: *left,
-                                init: Some(Box::new(Expr::Ident(var_ident.clone()))),
+                                init: Some(var_ident.clone().into()),
                                 definite: false,
                             },
                         );
                         Param {
                             span: DUMMY_SP,
                             decorators: Default::default(),
-                            pat: Pat::Assign(AssignPat {
+                            pat: AssignPat {
                                 span,
                                 left: var_ident.into(),
                                 right,
-                            }),
+                            }
+                            .into(),
                         }
                     }
                     _ => {
@@ -612,7 +613,7 @@ impl ObjectRest {
                             VarDeclarator {
                                 span: DUMMY_SP,
                                 name: param.pat,
-                                init: Some(Box::new(Expr::Ident(var_ident.clone()))),
+                                init: Some(var_ident.clone().into()),
                                 definite: false,
                             },
                         );
@@ -693,7 +694,7 @@ impl ObjectRest {
                     use_expr_for_assign,
                     use_member_for_array,
                 ));
-                return Pat::Assign(AssignPat { span, left, right });
+                return AssignPat { span, left, right }.into();
             }
             Pat::Array(n) => {
                 let ArrayPat { span, elems, .. } = n;
@@ -717,7 +718,7 @@ impl ObjectRest {
                     })
                     .collect();
 
-                return Pat::Array(ArrayPat { span, elems, ..n });
+                return ArrayPat { span, elems, ..n }.into();
             }
             _ => return pat,
         };
@@ -760,11 +761,12 @@ impl ObjectRest {
                             key,
                             MemberProp::Computed(ComputedPropName {
                                 span,
-                                expr: Box::new(Expr::Lit(Lit::Str(Str {
+                                expr: Lit::Str(Str {
                                     span,
                                     raw: None,
                                     value: format!("{}", value).into(),
-                                }))),
+                                })
+                                .into(),
                             }),
                         ),
                         PropName::BigInt(BigInt {
@@ -775,11 +777,12 @@ impl ObjectRest {
                                 key,
                                 MemberProp::Computed(ComputedPropName {
                                     span,
-                                    expr: Box::new(Expr::Lit(Lit::Str(Str {
+                                    expr: Lit::Str(Str {
                                         span,
                                         raw: None,
                                         value: format!("{}", value).into(),
-                                    }))),
+                                    })
+                                    .into(),
                                 }),
                             )
                         }
@@ -802,7 +805,7 @@ impl ObjectRest {
                             (
                                 PropName::Computed(ComputedPropName {
                                     span: c.span,
-                                    expr: Box::new(Expr::Ident(ident.clone())),
+                                    expr: ident.clone().into(),
                                 }),
                                 MemberProp::Computed(ComputedPropName {
                                     span: c.span,
@@ -837,12 +840,13 @@ impl ObjectRest {
         match props.last() {
             Some(ObjectPatProp::Rest(..)) => {}
             _ => {
-                return Pat::Object(ObjectPat {
+                return ObjectPat {
                     span,
                     props,
                     optional: false,
                     type_ann,
-                });
+                }
+                .into();
             }
         }
         let last = match props.pop() {
@@ -854,16 +858,19 @@ impl ObjectRest {
 
         if use_expr_for_assign {
             // println!("Expr: last.arg = objectWithoutProperties()",);
-            self.exprs.push(Box::new(Expr::Assign(AssignExpr {
-                span: DUMMY_SP,
-                left: last.arg.try_into().unwrap(),
-                op: op!("="),
-                right: Box::new(object_without_properties(
-                    obj,
-                    excluded_props,
-                    self.config.no_symbol,
-                )),
-            })));
+            self.exprs.push(
+                AssignExpr {
+                    span: DUMMY_SP,
+                    left: last.arg.try_into().unwrap(),
+                    op: op!("="),
+                    right: Box::new(object_without_properties(
+                        obj,
+                        excluded_props,
+                        self.config.no_symbol,
+                    )),
+                }
+                .into(),
+            );
         } else {
             // println!("Var: rest = objectWithoutProperties()",);
             self.push_var_if_not_empty(VarDeclarator {
@@ -878,12 +885,13 @@ impl ObjectRest {
             });
         }
 
-        Pat::Object(ObjectPat {
+        ObjectPat {
             props,
             span,
             type_ann,
             optional: false,
-        })
+        }
+        .into()
     }
 }
 
@@ -894,7 +902,7 @@ fn object_without_properties(
     no_symbol: bool,
 ) -> Expr {
     if excluded_props.is_empty() {
-        return Expr::Call(CallExpr {
+        return CallExpr {
             span: DUMMY_SP,
             callee: helper!(extends),
             args: vec![
@@ -908,7 +916,8 @@ fn object_without_properties(
                     .as_arg(),
             ],
             ..Default::default()
-        });
+        }
+        .into();
     }
 
     let excluded_props = excluded_props
@@ -916,11 +925,12 @@ fn object_without_properties(
         .map(|v| {
             v.map(|v| match *v.expr {
                 Expr::Lit(Lit::Num(Number { span, value, .. })) => ExprOrSpread {
-                    expr: Box::new(Expr::Lit(Lit::Str(Str {
+                    expr: Lit::Str(Str {
                         span,
                         raw: None,
                         value: value.to_string().into(),
-                    }))),
+                    })
+                    .into(),
                     ..v
                 },
                 _ => v,
@@ -928,7 +938,7 @@ fn object_without_properties(
         })
         .collect();
 
-    Expr::Call(CallExpr {
+    CallExpr {
         span: DUMMY_SP,
         callee: if no_symbol {
             helper!(object_without_properties_loose)
@@ -959,7 +969,8 @@ fn object_without_properties(
             },
         ],
         ..Default::default()
-    })
+    }
+    .into()
 }
 
 #[tracing::instrument(level = "info", skip_all)]

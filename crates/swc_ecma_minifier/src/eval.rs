@@ -200,11 +200,12 @@ impl Evaluator {
             }) if !prop.is_computed() => {
                 let obj = self.eval_as_expr(obj)?;
 
-                let mut e = Expr::Member(MemberExpr {
+                let mut e: Expr = MemberExpr {
                     span: *span,
                     obj,
                     prop: prop.clone(),
-                });
+                }
+                .into();
 
                 e.visit_mut_with(&mut expr_simplifier(
                     self.marks.unresolved_mark,
@@ -226,16 +227,17 @@ impl Evaluator {
         for expr in &q.exprs {
             let res = self.eval(expr)?;
             exprs.push(match res {
-                EvalResult::Lit(v) => Box::new(Expr::Lit(v)),
+                EvalResult::Lit(v) => v.into(),
                 EvalResult::Undefined => Expr::undefined(DUMMY_SP),
             });
         }
 
-        let mut e = Expr::Tpl(Tpl {
+        let mut e: Box<Expr> = Tpl {
             span: q.span,
             exprs,
             quasis: q.quasis.clone(),
-        });
+        }
+        .into();
 
         {
             e.visit_mut_with(&mut pure_optimizer(

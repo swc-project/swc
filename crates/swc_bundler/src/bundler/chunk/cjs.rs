@@ -108,7 +108,7 @@ fn wrap_module(
     }
 
     // ... body of foo
-    let module_fn = Expr::Fn(FnExpr {
+    let module_fn: Expr = FnExpr {
         ident: None,
         function: Box::new(Function {
             params: vec![
@@ -145,7 +145,8 @@ fn wrap_module(
             is_async: false,
             ..Default::default()
         }),
-    });
+    }
+    .into();
 
     // var load = __swcpack_require__.bind(void 0, moduleDecl)
 
@@ -355,15 +356,12 @@ impl VisitMut for DefaultHandler {
 
         if let Expr::Ident(i) = e {
             if i.sym == "default" {
-                *e = Expr::Member(MemberExpr {
+                *e = MemberExpr {
                     span: i.span,
-                    obj: Box::new(Expr::Ident(Ident::new(
-                        "module".into(),
-                        DUMMY_SP,
-                        self.local_ctxt,
-                    ))),
+                    obj: Ident::new("module".into(), DUMMY_SP, self.local_ctxt).into(),
                     prop: MemberProp::Ident(quote_ident!("exports")),
-                });
+                }
+                .into();
             }
         }
     }

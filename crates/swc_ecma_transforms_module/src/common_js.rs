@@ -543,8 +543,7 @@ where
                     self.resolver
                         .make_require_call(self.unresolved_mark, src.clone(), DUMMY_SP);
 
-                Expr::Ident(quote_ident!("__export").into())
-                    .as_call(DUMMY_SP, vec![import_expr.as_arg()])
+                quote_ident!("__export").as_call(DUMMY_SP, vec![import_expr.as_arg()])
             })
             .reduce(|left, right| {
                 BinExpr {

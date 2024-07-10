@@ -178,13 +178,16 @@ impl AssignFolder {
                                         VarDeclarator {
                                             span: p.span(),
                                             name: *p.arg,
-                                            init: Some(Box::new(Expr::Array(ArrayLit {
-                                                span: DUMMY_SP,
-                                                elems: arr_elems
-                                                    .take()
-                                                    .expect("two rest element?")
-                                                    .collect(),
-                                            }))),
+                                            init: Some(
+                                                ArrayLit {
+                                                    span: DUMMY_SP,
+                                                    elems: arr_elems
+                                                        .take()
+                                                        .expect("two rest element?")
+                                                        .collect(),
+                                                }
+                                                .into(),
+                                            ),
                                             definite: false,
                                         },
                                     );
@@ -249,20 +252,23 @@ impl AssignFolder {
                         }) => VarDeclarator {
                             span: dot3_token,
                             name: *arg,
-                            init: Some(Box::new(Expr::Call(CallExpr {
-                                span: DUMMY_SP,
-                                callee: ref_ident
-                                    .clone()
-                                    .make_member(quote_ident!("slice"))
-                                    .as_callee(),
-                                args: vec![Number {
-                                    value: i as f64,
-                                    span: dot3_token,
-                                    raw: None,
+                            init: Some(
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: ref_ident
+                                        .clone()
+                                        .make_member(quote_ident!("slice"))
+                                        .as_callee(),
+                                    args: vec![Number {
+                                        value: i as f64,
+                                        span: dot3_token,
+                                        raw: None,
+                                    }
+                                    .as_arg()],
+                                    ..Default::default()
                                 }
-                                .as_arg()],
-                                ..Default::default()
-                            }))),
+                                .into(),
+                            ),
                             definite: false,
                         },
                         _ => VarDeclarator {
@@ -339,7 +345,7 @@ impl AssignFolder {
                 let ref_ident = make_ref_ident(self.c, ref_decls, decl.init);
 
                 let ref_ident = if can_be_null {
-                    let init = Box::new(Expr::Ident(ref_ident));
+                    let init = ref_ident.into();
                     make_ref_ident(self.c, ref_decls, Some(init))
                 } else {
                     ref_ident
@@ -507,7 +513,7 @@ impl Destructuring {
                     decls.push(VarDeclarator {
                         span,
                         name: param.pat,
-                        init: Some(Box::new(Expr::Ident(ref_ident))),
+                        init: Some(ref_ident.into()),
                         definite: false,
                     })
                 }
@@ -570,20 +576,22 @@ impl AssignFolder {
             .into(),
         )];
 
-        let mut assign_cond_expr = Expr::Assign(AssignExpr {
+        let mut assign_cond_expr: Expr = AssignExpr {
             span,
             left: pat.left.take().try_into().unwrap(),
             op: op!("="),
             right: Box::new(make_cond_expr(ref_ident, pat.right.take())),
-        });
+        }
+        .into();
 
         assign_cond_expr.visit_mut_with(self);
         exprs.push(Box::new(assign_cond_expr));
 
-        Expr::Seq(SeqExpr {
+        SeqExpr {
             span: DUMMY_SP,
             exprs,
-        })
+        }
+        .into()
     }
 }
 
@@ -662,18 +670,24 @@ impl VisitMut for AssignFolder {
                                 let mut arr_elems = Some(arr.elems.take().into_iter());
                                 elems.iter_mut().for_each(|p| match p {
                                     Some(Pat::Rest(p)) => {
-                                        exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                            span: p.span(),
-                                            left: p.arg.take().try_into().unwrap(),
-                                            op: op!("="),
-                                            right: Box::new(Expr::Array(ArrayLit {
-                                                span: DUMMY_SP,
-                                                elems: arr_elems
-                                                    .take()
-                                                    .expect("two rest element?")
-                                                    .collect(),
-                                            })),
-                                        })));
+                                        exprs.push(
+                                            AssignExpr {
+                                                span: p.span(),
+                                                left: p.arg.take().try_into().unwrap(),
+                                                op: op!("="),
+                                                right: Box::new(
+                                                    ArrayLit {
+                                                        span: DUMMY_SP,
+                                                        elems: arr_elems
+                                                            .take()
+                                                            .expect("two rest element?")
+                                                            .collect(),
+                                                    }
+                                                    .into(),
+                                                ),
+                                            }
+                                            .into(),
+                                        );
                                     }
                                     Some(p) => {
                                         let e = arr_elems
@@ -692,12 +706,13 @@ impl VisitMut for AssignFolder {
                                         let mut expr = if let Pat::Assign(pat) = p {
                                             self.handle_assign_pat(*span, pat, &mut right)
                                         } else {
-                                            Expr::Assign(AssignExpr {
+                                            AssignExpr {
                                                 span: p.span(),
                                                 left: p.try_into().unwrap(),
                                                 op: op!("="),
                                                 right,
-                                            })
+                                            }
+                                            .into()
                                         };
 
                                         self.visit_mut_expr(&mut expr);
@@ -730,57 +745,68 @@ impl VisitMut for AssignFolder {
                             elems.len()
                         }),
                     );
-                    exprs.push(Box::new(Expr::Assign(AssignExpr {
-                        span: DUMMY_SP,
-                        op: op!("="),
-                        left: ref_ident.clone().into(),
-                        right: if self.c.loose {
-                            right.take()
-                        } else {
-                            match &mut **right {
-                                Expr::Ident(Ident { sym, .. }) if &**sym == "arguments" => {
-                                    Box::new(Expr::Call(CallExpr {
-                                        span: DUMMY_SP,
-                                        callee: member_expr!(
-                                            Default::default(),
-                                            Default::default(),
-                                            Array.prototype.slice.call
-                                        )
-                                        .as_callee(),
-                                        args: vec![right.take().as_arg()],
-                                        ..Default::default()
-                                    }))
-                                }
-                                Expr::Array(..) => right.take(),
-                                _ => {
-                                    // if left has rest then need `_to_array`
-                                    // else `_sliced_to_array`
-                                    if elems.iter().any(|elem| matches!(elem, Some(Pat::Rest(..))))
-                                    {
-                                        Box::new(Expr::Call(CallExpr {
-                                            span: DUMMY_SP,
-                                            callee: helper!(to_array),
-                                            args: vec![right.take().as_arg()],
-                                            ..Default::default()
-                                        }))
-                                    } else {
+                    exprs.push(
+                        AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: ref_ident.clone().into(),
+                            right: if self.c.loose {
+                                right.take()
+                            } else {
+                                match &mut **right {
+                                    Expr::Ident(Ident { sym, .. }) if &**sym == "arguments" => {
                                         Box::new(
                                             CallExpr {
                                                 span: DUMMY_SP,
-                                                callee: helper!(sliced_to_array),
-                                                args: vec![
-                                                    right.take().as_arg(),
-                                                    elems.len().as_arg(),
-                                                ],
+                                                callee: member_expr!(
+                                                    Default::default(),
+                                                    Default::default(),
+                                                    Array.prototype.slice.call
+                                                )
+                                                .as_callee(),
+                                                args: vec![right.take().as_arg()],
                                                 ..Default::default()
                                             }
                                             .into(),
                                         )
                                     }
+                                    Expr::Array(..) => right.take(),
+                                    _ => {
+                                        // if left has rest then need `_to_array`
+                                        // else `_sliced_to_array`
+                                        if elems
+                                            .iter()
+                                            .any(|elem| matches!(elem, Some(Pat::Rest(..))))
+                                        {
+                                            Box::new(
+                                                CallExpr {
+                                                    span: DUMMY_SP,
+                                                    callee: helper!(to_array),
+                                                    args: vec![right.take().as_arg()],
+                                                    ..Default::default()
+                                                }
+                                                .into(),
+                                            )
+                                        } else {
+                                            Box::new(
+                                                CallExpr {
+                                                    span: DUMMY_SP,
+                                                    callee: helper!(sliced_to_array),
+                                                    args: vec![
+                                                        right.take().as_arg(),
+                                                        elems.len().as_arg(),
+                                                    ],
+                                                    ..Default::default()
+                                                }
+                                                .into(),
+                                            )
+                                        }
+                                    }
                                 }
-                            }
-                        },
-                    })));
+                            },
+                        }
+                        .into(),
+                    );
 
                     for (i, elem) in elems.iter_mut().enumerate() {
                         let elem = match elem {
@@ -795,29 +821,33 @@ impl VisitMut for AssignFolder {
                             }) => {
                                 // initialized by sequence expression.
                                 let assign_ref_ident = make_ref_ident(self.c, &mut self.vars, None);
-                                exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                    span: DUMMY_SP,
-                                    left: assign_ref_ident.clone().into(),
-                                    op: op!("="),
-                                    right: ref_ident.clone().computed_member(i as f64).into(),
-                                })));
+                                exprs.push(
+                                    AssignExpr {
+                                        span: DUMMY_SP,
+                                        left: assign_ref_ident.clone().into(),
+                                        op: op!("="),
+                                        right: ref_ident.clone().computed_member(i as f64).into(),
+                                    }
+                                    .into(),
+                                );
 
-                                let mut assign_expr = Expr::Assign(AssignExpr {
+                                let mut assign_expr: Expr = AssignExpr {
                                     span: *span,
                                     left: left.take().try_into().unwrap(),
                                     op: op!("="),
                                     right: Box::new(make_cond_expr(assign_ref_ident, right.take())),
-                                });
+                                }
+                                .into();
                                 assign_expr.visit_mut_with(self);
 
                                 exprs.push(Box::new(assign_expr));
                             }
                             Pat::Rest(RestPat { arg, .. }) => {
-                                let mut assign_expr = Expr::Assign(AssignExpr {
+                                let mut assign_expr: Expr = AssignExpr {
                                     span: elem_span,
                                     op: op!("="),
                                     left: arg.take().try_into().unwrap(),
-                                    right: Box::new(Expr::Call(CallExpr {
+                                    right: CallExpr {
                                         span: DUMMY_SP,
                                         callee: ref_ident
                                             .clone()
@@ -825,19 +855,22 @@ impl VisitMut for AssignFolder {
                                             .as_callee(),
                                         args: vec![(i as f64).as_arg()],
                                         ..Default::default()
-                                    })),
-                                });
+                                    }
+                                    .into(),
+                                }
+                                .into();
 
                                 assign_expr.visit_mut_with(self);
                                 exprs.push(Box::new(assign_expr));
                             }
                             _ => {
-                                let mut assign_expr = Expr::Assign(AssignExpr {
+                                let mut assign_expr: Expr = AssignExpr {
                                     span: elem_span,
                                     op: op!("="),
                                     left: elem.take().try_into().unwrap(),
                                     right: make_ref_idx_expr(&ref_ident, i).into(),
-                                });
+                                }
+                                .into();
 
                                 assign_expr.visit_mut_with(self);
                                 exprs.push(Box::new(assign_expr))
@@ -846,12 +879,13 @@ impl VisitMut for AssignFolder {
                     }
 
                     // last one should be `ref`
-                    exprs.push(Box::new(Expr::Ident(ref_ident)));
+                    exprs.push(ref_ident.into());
 
-                    *expr = Expr::Seq(SeqExpr {
+                    *expr = SeqExpr {
                         span: DUMMY_SP,
                         exprs,
-                    })
+                    }
+                    .into()
                 }
                 AssignTargetPat::Object(ObjectPat { props, .. }) if props.is_empty() => {
                     let mut right = right.take();
@@ -865,12 +899,13 @@ impl VisitMut for AssignFolder {
                         if let ObjectPatProp::Assign(p @ AssignPatProp { value: None, .. }) =
                             &props[0]
                         {
-                            *expr = Expr::Assign(AssignExpr {
+                            *expr = AssignExpr {
                                 span: *span,
                                 op: op!("="),
                                 left: p.key.clone().into(),
                                 right: right.take().make_member(p.key.clone().into()).into(),
-                            });
+                            }
+                            .into();
                             return;
                         }
                     }
@@ -900,12 +935,13 @@ impl VisitMut for AssignFolder {
                                 let mut expr = if let Pat::Assign(pat) = *value {
                                     self.handle_assign_pat(span, pat, &mut right)
                                 } else {
-                                    Expr::Assign(AssignExpr {
+                                    AssignExpr {
                                         span,
                                         left: value.try_into().unwrap(),
                                         op: op!("="),
                                         right,
-                                    })
+                                    }
+                                    .into()
                                 };
 
                                 expr.visit_mut_with(self);
@@ -919,38 +955,47 @@ impl VisitMut for AssignFolder {
                                         let prop_ident =
                                             make_ref_ident(self.c, &mut self.vars, None);
 
-                                        exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                            span,
-                                            left: prop_ident.clone().into(),
-                                            op: op!("="),
-                                            right: Box::new(make_ref_prop_expr(
-                                                &ref_ident,
-                                                key.clone().into(),
-                                                computed,
-                                            )),
-                                        })));
+                                        exprs.push(
+                                            AssignExpr {
+                                                span,
+                                                left: prop_ident.clone().into(),
+                                                op: op!("="),
+                                                right: Box::new(make_ref_prop_expr(
+                                                    &ref_ident,
+                                                    key.clone().into(),
+                                                    computed,
+                                                )),
+                                            }
+                                            .into(),
+                                        );
 
-                                        exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                            span,
-                                            left: key.clone().into(),
-                                            op: op!("="),
-                                            right: Box::new(make_cond_expr(
-                                                prop_ident,
-                                                value.take(),
-                                            )),
-                                        })));
+                                        exprs.push(
+                                            AssignExpr {
+                                                span,
+                                                left: key.clone().into(),
+                                                op: op!("="),
+                                                right: Box::new(make_cond_expr(
+                                                    prop_ident,
+                                                    value.take(),
+                                                )),
+                                            }
+                                            .into(),
+                                        );
                                     }
                                     None => {
-                                        exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                            span,
-                                            left: key.clone().into(),
-                                            op: op!("="),
-                                            right: Box::new(make_ref_prop_expr(
-                                                &ref_ident,
-                                                key.clone().into(),
-                                                computed,
-                                            )),
-                                        })));
+                                        exprs.push(
+                                            AssignExpr {
+                                                span,
+                                                left: key.clone().into(),
+                                                op: op!("="),
+                                                right: Box::new(make_ref_prop_expr(
+                                                    &ref_ident,
+                                                    key.clone().into(),
+                                                    computed,
+                                                )),
+                                            }
+                                            .into(),
+                                        );
                                     }
                                 }
                             }
@@ -962,12 +1007,13 @@ impl VisitMut for AssignFolder {
                     }
 
                     // Last one should be object itself.
-                    exprs.push(Box::new(Expr::Ident(ref_ident)));
+                    exprs.push(ref_ident.into());
 
-                    *expr = Expr::Seq(SeqExpr {
+                    *expr = SeqExpr {
                         span: DUMMY_SP,
                         exprs,
-                    });
+                    }
+                    .into();
                 }
 
                 AssignTargetPat::Invalid(..) => unreachable!(),
@@ -1161,7 +1207,7 @@ fn make_ref_ident_for_array(
 fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>, mut computed: bool) -> Expr {
     computed |= matches!(*prop, Expr::Lit(Lit::Num(..)) | Expr::Lit(Lit::Str(..)));
 
-    Expr::Member(MemberExpr {
+    MemberExpr {
         span: DUMMY_SP,
         obj: Box::new(ref_ident.clone().into()),
         prop: if computed {
@@ -1172,14 +1218,15 @@ fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>, mut computed: bool) ->
         } else {
             MemberProp::Ident(prop.ident().unwrap().into())
         },
-    })
+    }
+    .into()
 }
 
 /// Creates `tmp === void 0 ? def_value : tmp`
 fn make_cond_expr(tmp: Ident, def_value: Box<Expr>) -> Expr {
-    Expr::Cond(CondExpr {
+    CondExpr {
         span: DUMMY_SP,
-        test: Box::new(Expr::Bin(BinExpr {
+        test: BinExpr {
             span: DUMMY_SP,
             left: Box::new(Expr::Ident(tmp.clone())),
             op: op!("==="),
@@ -1188,10 +1235,12 @@ fn make_cond_expr(tmp: Ident, def_value: Box<Expr>) -> Expr {
                 op: op!("void"),
                 arg: 0.0.into(),
             })),
-        })),
+        }
+        .into(),
         cons: def_value,
-        alt: Box::new(Expr::Ident(tmp)),
-    })
+        alt: tmp.into(),
+    }
+    .into()
 }
 
 fn can_be_null(e: &Expr) -> bool {

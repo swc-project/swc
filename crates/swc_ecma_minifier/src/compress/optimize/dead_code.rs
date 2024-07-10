@@ -87,12 +87,13 @@ impl Optimizer<'_> {
                         );
 
                         self.changed = true;
-                        *e = Expr::Bin(BinExpr {
+                        *e = BinExpr {
                             span: assign.span,
                             op,
-                            left: Box::new(Expr::Ident(lhs.clone().into())),
+                            left: lhs.clone().into(),
                             right: assign.right.take(),
-                        });
+                        }
+                        .into();
                         return true;
                     }
                 }

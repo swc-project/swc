@@ -85,7 +85,7 @@ impl VisitMut for Wrapper {
                 is_async: false,
                 ..Default::default()
             });
-            let generator_object = Box::new(Expr::Call(CallExpr {
+            let generator_object = CallExpr {
                 span: DUMMY_SP,
                 callee: helper!(ts, ts_generator),
                 args: vec![
@@ -97,7 +97,8 @@ impl VisitMut for Wrapper {
                     .as_arg(),
                 ],
                 ..Default::default()
-            }));
+            }
+            .into();
             let mut stmts = vec![];
             if !v.hoisted_vars.is_empty() {
                 stmts.push(
@@ -494,7 +495,7 @@ impl VisitMut for Generator {
 
                     self.mark_label(result_label);
 
-                    *e = Expr::Ident(result_local);
+                    *e = result_local.into();
                 } else {
                     node.visit_mut_with(self);
                 }
@@ -528,10 +529,11 @@ impl VisitMut for Generator {
                                     expr: if pending_expressions.len() == 1 {
                                         pending_expressions.remove(0)
                                     } else {
-                                        Box::new(Expr::Seq(SeqExpr {
+                                        SeqExpr {
                                             span: DUMMY_SP,
                                             exprs: pending_expressions.take(),
-                                        }))
+                                        }
+                                        .into()
                                     },
                                 })))),
                                 None,
@@ -565,7 +567,7 @@ impl VisitMut for Generator {
                     //  .mark resumeLabel
                     //      a = _a[%sent%]
 
-                    *obj = Box::new(Expr::Ident(self.cache_expression(obj.take())));
+                    *obj = self.cache_expression(obj.take()).into();
                     prop.visit_mut_with(self);
                     return;
                 }
@@ -590,7 +592,7 @@ impl VisitMut for Generator {
                                 left.obj.visit_mut_with(self);
                                 let obj = self.cache_expression(left.obj.take());
 
-                                left.obj = Box::new(Expr::Ident(obj));
+                                left.obj = obj.into();
                             }
                             MemberProp::Computed(prop) => {
                                 // [source]
@@ -611,10 +613,10 @@ impl VisitMut for Generator {
                                 prop.visit_mut_with(self);
                                 let prop = self.cache_expression(prop.expr.take());
 
-                                left.obj = Box::new(Expr::Ident(obj));
+                                left.obj = obj.into();
                                 left.prop = MemberProp::Computed(ComputedPropName {
                                     span: prop_span,
-                                    expr: Box::new(Expr::Ident(prop)),
+                                    expr: prop.into(),
                                 });
                             }
                         }
@@ -630,12 +632,13 @@ impl VisitMut for Generator {
 
                     node.right.visit_mut_with(self);
 
-                    *e = Expr::Assign(AssignExpr {
+                    *e = AssignExpr {
                         span: node.right.span(),
                         op: node.op,
                         left: left_of_right.into(),
                         right: node.right.take(),
-                    });
+                    }
+                    .into();
                 } else {
                     node.right.visit_mut_with(self);
                 }
@@ -672,7 +675,7 @@ impl VisitMut for Generator {
 
                 self.emit_assignment(
                     temp.clone().into(),
-                    Box::new(Expr::Object(ObjectLit {
+                    ObjectLit {
                         span: DUMMY_SP,
                         props: node
                             .props
@@ -680,7 +683,8 @@ impl VisitMut for Generator {
                             .take(num_initial_properties)
                             .map(|v| v.take())
                             .collect(),
-                    })),
+                    }
+                    .into(),
                     None,
                 );
 
@@ -736,7 +740,7 @@ impl VisitMut for Generator {
                         self.reduce_property(exprs, property, &mut temp)
                     });
 
-                expressions.push(Box::new(Expr::Ident(temp)));
+                expressions.push(temp.into());
 
                 *e = *Expr::from_exprs(expressions);
             }
@@ -821,7 +825,7 @@ impl VisitMut for Generator {
                 None
             };
 
-            let apply = Expr::Ident(callee).apply(
+            let apply = callee.apply(
                 node.span,
                 this_arg,
                 arg.take().map(|v| v.as_arg()).into_iter().collect(),
@@ -863,10 +867,11 @@ impl VisitMut for Generator {
                 Some(VarDeclOrExpr::Expr(if exprs.len() == 1 {
                     exprs.remove(0)
                 } else {
-                    Box::new(Expr::Seq(SeqExpr {
+                    SeqExpr {
                         span: DUMMY_SP,
                         exprs,
-                    }))
+                    }
+                    .into()
                 }))
             };
             node.test.visit_mut_with(self);
@@ -1030,10 +1035,11 @@ impl VisitMut for Generator {
                     expr: if exprs.len() == 1 {
                         exprs.remove(0)
                     } else {
-                        Box::new(Expr::Seq(SeqExpr {
+                        SeqExpr {
                             span: DUMMY_SP,
                             exprs,
-                        }))
+                        }
+                        .into()
                     },
                 });
             }
@@ -1082,7 +1088,7 @@ impl Generator {
 
             self.emit_assignment(
                 temp.clone().unwrap().into(),
-                Box::new(Expr::Array(ArrayLit {
+                ArrayLit {
                     span: DUMMY_SP,
                     elems: leading_element
                         .take()
@@ -1095,7 +1101,8 @@ impl Generator {
                                 .map(|e| e.take()),
                         )
                         .collect(),
-                })),
+                }
+                .into(),
                 None,
             );
         }
@@ -1109,7 +1116,7 @@ impl Generator {
             });
 
         if let Some(temp) = temp {
-            Expr::Call(CallExpr {
+            CallExpr {
                 span: DUMMY_SP,
                 callee: temp.make_member(quote_ident!("concat")).as_callee(),
                 args: vec![ExprOrSpread {
@@ -1120,9 +1127,10 @@ impl Generator {
                     })),
                 }],
                 ..Default::default()
-            })
+            }
+            .into()
         } else {
-            Expr::Array(ArrayLit {
+            ArrayLit {
                 span: DUMMY_SP,
                 elems: leading_element
                     .take()
@@ -1130,7 +1138,8 @@ impl Generator {
                     .map(Some)
                     .chain(expressions)
                     .collect(),
-            })
+            }
+            .into()
         }
     }
 
@@ -1150,7 +1159,7 @@ impl Generator {
             self.emit_assignment(
                 temp.clone().unwrap().into(),
                 if has_assigned_temp {
-                    Box::new(Expr::Call(CallExpr {
+                    CallExpr {
                         span: DUMMY_SP,
                         callee: temp
                             .clone()
@@ -1163,7 +1172,8 @@ impl Generator {
                         }))
                         .as_arg()],
                         ..Default::default()
-                    }))
+                    }
+                    .into()
                 } else {
                     Box::new(
                         ArrayLit {
@@ -1209,47 +1219,50 @@ impl Generator {
             }));
         }
 
-        let mut expression = match property {
+        let mut expression: Expr = match property {
             CompiledProp::Prop(p) => match p {
-                Prop::Shorthand(p) => Expr::Assign(AssignExpr {
+                Prop::Shorthand(p) => AssignExpr {
                     span: p.span,
                     op: op!("="),
                     left: MemberExpr {
                         span: DUMMY_SP,
-                        obj: Box::new(Expr::Ident(temp.clone())),
+                        obj: temp.clone().into(),
                         prop: MemberProp::Ident(p.clone().into()),
                     }
                     .into(),
-                    right: Box::new(Expr::Ident(p)),
-                }),
-                Prop::KeyValue(p) => Expr::Assign(AssignExpr {
+                    right: p.into(),
+                }
+                .into(),
+                Prop::KeyValue(p) => AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
                     left: MemberExpr {
                         span: DUMMY_SP,
-                        obj: Box::new(Expr::Ident(temp.clone())),
+                        obj: temp.clone().into(),
                         prop: p.key.into(),
                     }
                     .into(),
                     right: p.value,
-                }),
+                }
+                .into(),
                 Prop::Assign(_) => {
                     unreachable!("assignment property be removed before generator pass")
                 }
                 Prop::Getter(_) | Prop::Setter(_) => {
                     unreachable!("getter/setter property be compiled as CompiledProp::Accessor")
                 }
-                Prop::Method(p) => Expr::Assign(AssignExpr {
+                Prop::Method(p) => AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
                     left: MemberExpr {
                         span: DUMMY_SP,
-                        obj: Box::new(Expr::Ident(temp.clone())),
+                        obj: temp.clone().into(),
                         prop: p.key.into(),
                     }
                     .into(),
                     right: p.function.into(),
-                }),
+                }
+                .into(),
             },
             CompiledProp::Accessor(getter, setter) => {
                 let key = getter
@@ -1293,7 +1306,7 @@ impl Generator {
                         .collect(),
                 };
 
-                Expr::Call(CallExpr {
+                CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(define_property),
                     args: vec![
@@ -1302,7 +1315,8 @@ impl Generator {
                         desc.as_arg(),
                     ],
                     ..Default::default()
-                })
+                }
+                .into()
             }
         };
 
@@ -1329,7 +1343,7 @@ impl Generator {
             //      _a + %sent% + c()
 
             node.left.visit_mut_with(self);
-            node.left = Box::new(Expr::Ident(self.cache_expression(node.left.take())));
+            node.left = self.cache_expression(node.left.take()).into();
             node.right.visit_mut_with(self);
             return None;
         }
@@ -1404,7 +1418,7 @@ impl Generator {
         );
         self.mark_label(result_label);
 
-        Expr::Ident(result_local)
+        result_local.into()
     }
 
     fn transform_and_emit_stmts(&mut self, stmts: Vec<Stmt>, start: usize) {
@@ -1509,10 +1523,11 @@ impl Generator {
                     expr: if pending_expressions.len() == 1 {
                         pending_expressions.pop().unwrap()
                     } else {
-                        Box::new(Expr::Seq(SeqExpr {
+                        SeqExpr {
                             span: DUMMY_SP,
                             exprs: take(&mut pending_expressions),
-                        }))
+                        }
+                        .into()
                     },
                 }))
             }
@@ -1748,7 +1763,7 @@ impl Generator {
                 right: node.right.take(),
                 body: Box::new(Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
-                    expr: Box::new(Expr::Call(CallExpr {
+                    expr: CallExpr {
                         span: DUMMY_SP,
                         callee: keys_array
                             .clone()
@@ -1756,7 +1771,8 @@ impl Generator {
                             .as_callee(),
                         args: vec![key.as_arg()],
                         ..Default::default()
-                    })),
+                    }
+                    .into(),
                 })),
             }));
 
@@ -1797,14 +1813,15 @@ impl Generator {
             };
             self.emit_assignment(
                 variable.try_into().unwrap(),
-                Box::new(Expr::Member(MemberExpr {
+                MemberExpr {
                     span: DUMMY_SP,
                     obj: Box::new(keys_array.into()),
                     prop: MemberProp::Computed(ComputedPropName {
                         span: DUMMY_SP,
                         expr: Box::new(keys_index.clone().into()),
                     }),
-                })),
+                }
+                .into(),
                 None,
             );
             self.transform_and_emit_embedded_stmt(*node.body);
@@ -1812,12 +1829,13 @@ impl Generator {
             self.mark_label(increment_label);
             self.emit_stmt(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
-                expr: Box::new(Expr::Update(UpdateExpr {
+                expr: UpdateExpr {
                     span: DUMMY_SP,
                     prefix: false,
                     op: op!("++"),
                     arg: Box::new(keys_index.clone().into()),
-                })),
+                }
+                .into(),
             }));
 
             self.emit_break(condition_label, None);
@@ -1966,7 +1984,7 @@ impl Generator {
                     clauses_written += pending_clauses.len();
                     self.emit_stmt(Stmt::Switch(SwitchStmt {
                         span: DUMMY_SP,
-                        discriminant: Box::new(Expr::Ident(expression.clone())),
+                        discriminant: expression.clone().into(),
                         cases: take(&mut pending_clauses),
                     }));
                 }
@@ -2302,7 +2320,7 @@ impl Generator {
 
         self.emit_assignment(
             name.clone().into(),
-            Box::new(Expr::Call(CallExpr {
+            CallExpr {
                 span: DUMMY_SP,
                 callee: self
                     .state
@@ -2311,7 +2329,8 @@ impl Generator {
                     .as_callee(),
                 args: vec![],
                 ..Default::default()
-            })),
+            }
+            .into(),
             None,
         );
 
@@ -2594,9 +2613,10 @@ impl Generator {
                         .unwrap()
                         .push(expr);
                 }
-                return Box::new(Expr::Invalid(Invalid {
+                return Invalid {
                     span: Span::new(BytePos(label.0 as _), BytePos(label.0 as _)),
-                }));
+                }
+                .into();
             }
         }
 
@@ -2631,10 +2651,13 @@ impl Generator {
         ];
         ReturnStmt {
             span: span.unwrap_or(DUMMY_SP),
-            arg: Some(Box::new(Expr::Array(ArrayLit {
-                span: DUMMY_SP,
-                elems: args,
-            }))),
+            arg: Some(
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: args,
+                }
+                .into(),
+            ),
         }
     }
 
@@ -2645,22 +2668,25 @@ impl Generator {
     fn create_inline_return(&mut self, expr: Option<Box<Expr>>, loc: Option<Span>) -> ReturnStmt {
         ReturnStmt {
             span: loc.unwrap_or(DUMMY_SP),
-            arg: Some(Box::new(Expr::Array(ArrayLit {
-                span: DUMMY_SP,
-                elems: match expr {
-                    Some(expr) => vec![
-                        Some(self.create_instruction(Instruction::Return).as_arg()),
-                        Some(expr.as_arg()),
-                    ],
-                    None => vec![Some(self.create_instruction(Instruction::Return).as_arg())],
-                },
-            }))),
+            arg: Some(
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: match expr {
+                        Some(expr) => vec![
+                            Some(self.create_instruction(Instruction::Return).as_arg()),
+                            Some(expr.as_arg()),
+                        ],
+                        None => vec![Some(self.create_instruction(Instruction::Return).as_arg())],
+                    },
+                }
+                .into(),
+            ),
         }
     }
 
     /// Creates an expression that can be used to resume from a Yield operation.
     fn create_generator_resume(&mut self, loc: Option<Span>) -> Box<Expr> {
-        Box::new(Expr::Call(CallExpr {
+        CallExpr {
             span: loc.unwrap_or(DUMMY_SP),
             callee: self
                 .state
@@ -2669,7 +2695,8 @@ impl Generator {
                 .as_callee(),
             args: vec![],
             ..Default::default()
-        }))
+        }
+        .into()
     }
 
     /// Emits an empty instruction.
@@ -2976,7 +3003,7 @@ impl Generator {
                     0,
                     Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
-                        expr: Box::new(Expr::Call(CallExpr {
+                        expr: CallExpr {
                             span: DUMMY_SP,
                             callee: self
                                 .state
@@ -2995,7 +3022,8 @@ impl Generator {
                             }
                             .as_arg()],
                             ..Default::default()
-                        })),
+                        }
+                        .into(),
                     }),
                 );
             }
@@ -3007,12 +3035,13 @@ impl Generator {
 
                 stmts.push(Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
-                    expr: Box::new(Expr::Assign(AssignExpr {
+                    expr: AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
                         left: self.state.clone().make_member(quote_ident!("label")).into(),
                         right: (self.label_number + 1).into(),
-                    })),
+                    }
+                    .into(),
                 }));
             }
 
@@ -3241,12 +3270,13 @@ impl Generator {
     fn write_assign(&mut self, left: AssignTarget, right: Box<Expr>, op_loc: Option<Span>) {
         self.write_stmt(Stmt::Expr(ExprStmt {
             span: op_loc.unwrap_or(DUMMY_SP),
-            expr: Box::new(Expr::Assign(AssignExpr {
+            expr: AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
                 left,
                 right,
-            })),
+            }
+            .into(),
         }))
     }
 
@@ -3276,17 +3306,20 @@ impl Generator {
         let inst = self.create_instruction(Instruction::Return);
         self.write_stmt(Stmt::Return(ReturnStmt {
             span: op_loc.unwrap_or(DUMMY_SP),
-            arg: Some(Box::new(Expr::Array(ArrayLit {
-                span: DUMMY_SP,
-                elems: match expr {
-                    Some(expr) => {
-                        vec![Some(inst.as_arg()), Some(expr.as_arg())]
-                    }
-                    _ => {
-                        vec![Some(inst.as_arg())]
-                    }
-                },
-            }))),
+            arg: Some(
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: match expr {
+                        Some(expr) => {
+                            vec![Some(inst.as_arg()), Some(expr.as_arg())]
+                        }
+                        _ => {
+                            vec![Some(inst.as_arg())]
+                        }
+                    },
+                }
+                .into(),
+            ),
         }))
     }
 
@@ -3301,10 +3334,13 @@ impl Generator {
         let label = self.create_label(Some(label));
         self.write_stmt(Stmt::Return(ReturnStmt {
             span: op_loc.unwrap_or(DUMMY_SP),
-            arg: Some(Box::new(Expr::Array(ArrayLit {
-                span: DUMMY_SP,
-                elems: vec![Some(inst.as_arg()), Some(label.as_arg())],
-            }))),
+            arg: Some(
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: vec![Some(inst.as_arg()), Some(label.as_arg())],
+                }
+                .into(),
+            ),
         }))
     }
 
@@ -3321,10 +3357,13 @@ impl Generator {
             test: cond,
             cons: Box::new(Stmt::Return(ReturnStmt {
                 span: op_loc.unwrap_or(DUMMY_SP),
-                arg: Some(Box::new(Expr::Array(ArrayLit {
-                    span: DUMMY_SP,
-                    elems: vec![Some(inst.as_arg()), Some(label.as_arg())],
-                }))),
+                arg: Some(
+                    ArrayLit {
+                        span: DUMMY_SP,
+                        elems: vec![Some(inst.as_arg()), Some(label.as_arg())],
+                    }
+                    .into(),
+                ),
             })),
             alt: None,
         }))
@@ -3340,17 +3379,21 @@ impl Generator {
         let label = self.create_label(Some(label));
         self.write_stmt(Stmt::If(IfStmt {
             span: DUMMY_SP,
-            test: Box::new(Expr::Unary(UnaryExpr {
+            test: UnaryExpr {
                 span: DUMMY_SP,
                 op: op!("!"),
                 arg: cond,
-            })),
+            }
+            .into(),
             cons: Box::new(Stmt::Return(ReturnStmt {
                 span: op_loc.unwrap_or(DUMMY_SP),
-                arg: Some(Box::new(Expr::Array(ArrayLit {
-                    span: DUMMY_SP,
-                    elems: vec![Some(inst.as_arg()), Some(label.as_arg())],
-                }))),
+                arg: Some(
+                    ArrayLit {
+                        span: DUMMY_SP,
+                        elems: vec![Some(inst.as_arg()), Some(label.as_arg())],
+                    }
+                    .into(),
+                ),
             })),
             alt: None,
         }))
@@ -3374,10 +3417,13 @@ impl Generator {
         };
         self.write_stmt(Stmt::Return(ReturnStmt {
             span: op_loc.unwrap_or(DUMMY_SP),
-            arg: Some(Box::new(Expr::Array(ArrayLit {
-                span: DUMMY_SP,
-                elems,
-            }))),
+            arg: Some(
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems,
+                }
+                .into(),
+            ),
         }));
     }
 
@@ -3391,10 +3437,13 @@ impl Generator {
         let arg1 = self.create_instruction(Instruction::YieldStar);
         self.write_stmt(Stmt::Return(ReturnStmt {
             span: op_loc.unwrap_or(DUMMY_SP),
-            arg: Some(Box::new(Expr::Array(ArrayLit {
-                span: DUMMY_SP,
-                elems: vec![Some(arg1.as_arg()), Some(expr.as_arg())],
-            }))),
+            arg: Some(
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: vec![Some(arg1.as_arg()), Some(expr.as_arg())],
+                }
+                .into(),
+            ),
         }))
     }
 
@@ -3405,10 +3454,13 @@ impl Generator {
         let arg = self.create_instruction(Instruction::Endfinally);
         self.write_stmt(Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
-            arg: Some(Box::new(Expr::Array(ArrayLit {
-                span: DUMMY_SP,
-                elems: vec![Some(arg.as_arg())],
-            }))),
+            arg: Some(
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: vec![Some(arg.as_arg())],
+                }
+                .into(),
+            ),
         }))
     }
 
@@ -3472,7 +3524,7 @@ impl Generator {
                 let this_arg = self.create_temp_variable();
                 *obj = Box::new(obj.take().make_assign_to(op!("="), this_arg.clone().into()));
 
-                (callee, Box::new(Expr::Ident(this_arg)))
+                (callee, this_arg.into())
             }
 
             _ => {
@@ -3481,7 +3533,7 @@ impl Generator {
                 } else {
                     let this_arg = self.create_temp_variable();
                     let target = callee.make_assign_to(op!("="), this_arg.clone().into());
-                    (Box::new(target), Box::new(Expr::Ident(this_arg)))
+                    (Box::new(target), this_arg.into())
                 }
             }
         }

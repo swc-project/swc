@@ -19,12 +19,12 @@ impl<I: Tokens> Parser<I> {
                     &tok!("in") if ctx.include_in_expr => {
                         self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
 
-                        Box::new(Expr::Invalid(Invalid { span: err.span() }))
+                        Invalid { span: err.span() }.into()
                     }
                     &tok!("instanceof") | &Token::BinOp(..) => {
                         self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
 
-                        Box::new(Expr::Invalid(Invalid { span: err.span() }))
+                        Invalid { span: err.span() }.into()
                     }
                     _ => return Err(err),
                 }
@@ -98,17 +98,19 @@ impl<I: Tokens> Parser<I> {
                 bump!(self); // as
                 let _ = cur!(self, false);
                 bump!(self); // const
-                Box::new(Expr::TsConstAssertion(TsConstAssertion {
+                TsConstAssertion {
                     span: span!(self, start),
                     expr,
-                }))
+                }
+                .into()
             } else {
                 let type_ann = self.next_then_parse_ts_type()?;
-                Box::new(Expr::TsAs(TsAsExpr {
+                TsAsExpr {
                     span: span!(self, start),
                     expr,
                     type_ann,
-                }))
+                }
+                .into()
             };
 
             return self.parse_bin_op_recursively_inner(node, min_prec);
@@ -121,11 +123,12 @@ impl<I: Tokens> Parser<I> {
             let expr = left;
             let node = {
                 let type_ann = self.next_then_parse_ts_type()?;
-                Box::new(Expr::TsSatisfies(TsSatisfiesExpr {
+                TsSatisfiesExpr {
                     span: span!(self, start),
                     expr,
                     type_ann,
-                }))
+                }
+                .into()
             };
 
             return self.parse_bin_op_recursively_inner(node, min_prec);
@@ -227,12 +230,13 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        let node = Box::new(Expr::Bin(BinExpr {
+        let node = BinExpr {
             span: Span::new(left.span_lo(), right.span_hi()),
             op,
             left,
             right,
-        }));
+        }
+        .into();
 
         Ok((node, Some(min_prec)))
     }
@@ -248,10 +252,11 @@ impl<I: Tokens> Parser<I> {
             if eat!(self, "const") {
                 expect!(self, '>');
                 let expr = self.parse_unary_expr()?;
-                return Ok(Box::new(Expr::TsConstAssertion(TsConstAssertion {
+                return Ok(TsConstAssertion {
                     span: span!(self, start),
                     expr,
-                })));
+                }
+                .into());
             }
 
             return self
@@ -272,12 +277,13 @@ impl<I: Tokens> Parser<I> {
             let span = Span::new(start, arg.span_hi());
             self.check_assign_target(&arg, false);
 
-            return Ok(Box::new(Expr::Update(UpdateExpr {
+            return Ok(UpdateExpr {
                 span,
                 prefix: true,
                 op,
                 arg,
-            })));
+            }
+            .into());
         }
 
         // Parse unary expression
@@ -297,9 +303,10 @@ impl<I: Tokens> Parser<I> {
                 Ok(expr) => expr,
                 Err(err) => {
                     self.emit_error(err);
-                    Box::new(Expr::Invalid(Invalid {
+                    Invalid {
                         span: Span::new(arg_start, arg_start),
-                    }))
+                    }
+                    .into()
                 }
             };
 
@@ -321,11 +328,12 @@ impl<I: Tokens> Parser<I> {
                 }
             }
 
-            return Ok(Box::new(Expr::Unary(UnaryExpr {
+            return Ok(UnaryExpr {
                 span: Span::new(start, arg.span_hi()),
                 op,
                 arg,
-            })));
+            }
+            .into());
         }
 
         if is!(self, "await") {
@@ -350,12 +358,13 @@ impl<I: Tokens> Parser<I> {
                 op!("--")
             };
 
-            return Ok(Box::new(Expr::Update(UpdateExpr {
+            return Ok(UpdateExpr {
                 span: span!(self, expr.span_lo()),
                 prefix: false,
                 op,
                 arg: expr,
-            })));
+            }
+            .into());
         }
         Ok(expr)
     }
@@ -383,10 +392,7 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(span, SyntaxError::InvalidIdentInAsync);
             }
 
-            return Ok(Box::new(Expr::Ident(Ident::new_no_ctxt(
-                "await".into(),
-                span,
-            ))));
+            return Ok(Ident::new_no_ctxt("await".into(), span).into());
         }
 
         if ctx.in_function && !ctx.in_async {
@@ -398,10 +404,11 @@ impl<I: Tokens> Parser<I> {
         }
 
         let arg = self.parse_unary_expr()?;
-        Ok(Box::new(Expr::Await(AwaitExpr {
+        Ok(AwaitExpr {
             span: span!(self, start),
             arg,
-        })))
+        }
+        .into())
     }
 }
 

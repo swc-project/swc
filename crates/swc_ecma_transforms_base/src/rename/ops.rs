@@ -132,7 +132,7 @@ where
                     let var = VarDeclarator {
                         span,
                         name: cls.ident.clone().into(),
-                        init: Some(Box::new(Expr::Class(expr))),
+                        init: Some(expr.into()),
                         definite: false,
                     };
                     *decl = VarDecl {
@@ -466,11 +466,12 @@ where
                 *n = KeyValuePatProp {
                     key: PropName::Ident(p.key.take().into()),
                     value: match p.value.take() {
-                        Some(default_expr) => Box::new(Pat::Assign(AssignPat {
+                        Some(default_expr) => AssignPat {
                             span: p.span,
                             left: renamed.into(),
                             right: default_expr,
-                        })),
+                        }
+                        .into(),
                         None => renamed.into(),
                     },
                 }
@@ -500,7 +501,7 @@ where
                             span: i.span,
                             sym: i.sym.clone(),
                         }),
-                        value: Box::new(Expr::Ident(renamed)),
+                        value: renamed.into(),
                     })
                 }
             }

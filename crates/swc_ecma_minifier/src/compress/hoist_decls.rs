@@ -148,7 +148,7 @@ impl Hoister<'_> {
 
                                         var_decls.push(VarDeclarator {
                                             span: DUMMY_SP,
-                                            name: Pat::Ident(id.into()),
+                                            name: id.into(),
                                             init: None,
                                             definite: false,
                                         })
@@ -157,12 +157,15 @@ impl Hoister<'_> {
 
                                 if let Some(init) = decl.init {
                                     //
-                                    exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                        span: decl.span,
-                                        left: decl.name.try_into().unwrap(),
-                                        op: op!("="),
-                                        right: init,
-                                    })));
+                                    exprs.push(
+                                        AssignExpr {
+                                            span: decl.span,
+                                            left: decl.name.try_into().unwrap(),
+                                            op: op!("="),
+                                            right: init,
+                                        }
+                                        .into(),
+                                    );
                                 }
                             }
 
@@ -174,10 +177,11 @@ impl Hoister<'_> {
                                 expr: if exprs.len() == 1 {
                                     exprs.into_iter().next().unwrap()
                                 } else {
-                                    Box::new(Expr::Seq(SeqExpr {
+                                    SeqExpr {
                                         span: DUMMY_SP,
                                         exprs,
-                                    }))
+                                    }
+                                    .into()
                                 },
                             })))
                         }

@@ -641,15 +641,17 @@ impl Optimizer<'_> {
             if let Lit::Bool(v) = lit {
                 self.changed = true;
                 report_change!("Compressing boolean literal");
-                *e = Expr::Unary(UnaryExpr {
+                *e = UnaryExpr {
                     span: v.span,
                     op: op!("!"),
-                    arg: Box::new(Expr::Lit(Lit::Num(Number {
+                    arg: Lit::Num(Number {
                         span: v.span,
                         value: if v.value { 0.0 } else { 1.0 },
                         raw: None,
-                    }))),
-                });
+                    })
+                    .into(),
+                }
+                .into();
             }
         }
     }
@@ -716,7 +718,7 @@ impl Optimizer<'_> {
                     .any(|m| m.as_static_block().iter().any(|s| !s.body.is_empty()))
                 {
                     // there's nothing we can do about it
-                    return Some(Expr::Class(cls.take()));
+                    return Some(cls.take().into());
                 }
 
                 let exprs: Vec<Box<Expr>> =
@@ -730,10 +732,13 @@ impl Optimizer<'_> {
                     return None;
                 }
 
-                return Some(Expr::Seq(SeqExpr {
-                    span: cls.class.span,
-                    exprs,
-                }));
+                return Some(
+                    SeqExpr {
+                        span: cls.class.span,
+                        exprs,
+                    }
+                    .into(),
+                );
             }
 
             Expr::Paren(e) => return self.ignore_return_value(&mut e.expr),
@@ -807,10 +812,13 @@ impl Optimizer<'_> {
 
                 self.changed = true;
                 report_change!("ignore_return_value: Compressing binary as seq");
-                return Some(Expr::Seq(SeqExpr {
-                    span,
-                    exprs: vec![Box::new(left.unwrap()), Box::new(right.unwrap())],
-                }));
+                return Some(
+                    SeqExpr {
+                        span,
+                        exprs: vec![Box::new(left.unwrap()), Box::new(right.unwrap())],
+                    }
+                    .into(),
+                );
             }
 
             // Pure calls can be removed
@@ -890,10 +898,13 @@ impl Optimizer<'_> {
                                         return None;
                                     }
 
-                                    return Some(Expr::Array(ArrayLit {
-                                        span: callee.span,
-                                        elems,
-                                    }));
+                                    return Some(
+                                        ArrayLit {
+                                            span: callee.span,
+                                            elems,
+                                        }
+                                        .into(),
+                                    );
                                 }
 
                                 let args = args
@@ -907,10 +918,13 @@ impl Optimizer<'_> {
                                     return None;
                                 }
 
-                                return Some(Expr::Seq(SeqExpr {
-                                    span: callee.span,
-                                    exprs: args,
-                                }));
+                                return Some(
+                                    SeqExpr {
+                                        span: callee.span,
+                                        exprs: args,
+                                    }
+                                    .into(),
+                                );
                             }
                         }
                     }
@@ -1022,25 +1036,28 @@ impl Optimizer<'_> {
                     }) => true,
                     _ => false,
                 }) {
-                    return Some(Expr::Array(ArrayLit {
-                        elems: arr
-                            .elems
-                            .take()
-                            .into_iter()
-                            .flatten()
-                            .filter_map(|mut e| {
-                                if e.spread.is_some() {
-                                    return Some(e);
-                                }
+                    return Some(
+                        ArrayLit {
+                            elems: arr
+                                .elems
+                                .take()
+                                .into_iter()
+                                .flatten()
+                                .filter_map(|mut e| {
+                                    if e.spread.is_some() {
+                                        return Some(e);
+                                    }
 
-                                self.ignore_return_value(&mut e.expr)
-                                    .map(Box::new)
-                                    .map(|expr| ExprOrSpread { expr, spread: None })
-                            })
-                            .map(Some)
-                            .collect(),
-                        ..*arr
-                    }));
+                                    self.ignore_return_value(&mut e.expr)
+                                        .map(Box::new)
+                                        .map(|expr| ExprOrSpread { expr, spread: None })
+                                })
+                                .map(Some)
+                                .collect(),
+                            ..*arr
+                        }
+                        .into(),
+                    );
                 }
 
                 let mut exprs = vec![];
@@ -1060,10 +1077,13 @@ impl Optimizer<'_> {
                     return None;
                 }
 
-                return Some(Expr::Seq(SeqExpr {
-                    span: arr.span,
-                    exprs,
-                }));
+                return Some(
+                    SeqExpr {
+                        span: arr.span,
+                        exprs,
+                    }
+                    .into(),
+                );
             }
 
             Expr::Object(obj) => {
@@ -1120,10 +1140,13 @@ impl Optimizer<'_> {
                     return None;
                 }
 
-                return Some(Expr::Seq(SeqExpr {
-                    span: obj.span,
-                    exprs,
-                }));
+                return Some(
+                    SeqExpr {
+                        span: obj.span,
+                        exprs,
+                    }
+                    .into(),
+                );
             }
 
             // Preserves negated iife
@@ -1174,10 +1197,11 @@ impl Optimizer<'_> {
                 let left = self.ignore_return_value(left).map(Box::new);
                 let right = self.ignore_return_value(right).map(Box::new);
 
-                let mut seq = Expr::Seq(SeqExpr {
+                let mut seq = SeqExpr {
                     span: *span,
                     exprs: left.into_iter().chain(right).collect(),
-                });
+                }
+                .into();
                 return self.ignore_return_value(&mut seq);
             }
 
@@ -1205,20 +1229,23 @@ impl Optimizer<'_> {
 
                 // TODO: Remove if test is side effect free.
 
-                return Some(Expr::Cond(CondExpr {
-                    span: cond.span,
-                    test: cond.test.take(),
-                    cons: cons.unwrap_or_else(|| {
-                        report_change!("ignore_return_value: Dropped `cons`");
-                        self.changed = true;
-                        Expr::undefined(cons_span)
-                    }),
-                    alt: alt.unwrap_or_else(|| {
-                        report_change!("ignore_return_value: Dropped `alt`");
-                        self.changed = true;
-                        Expr::undefined(alt_span)
-                    }),
-                }));
+                return Some(
+                    CondExpr {
+                        span: cond.span,
+                        test: cond.test.take(),
+                        cons: cons.unwrap_or_else(|| {
+                            report_change!("ignore_return_value: Dropped `cons`");
+                            self.changed = true;
+                            Expr::undefined(cons_span)
+                        }),
+                        alt: alt.unwrap_or_else(|| {
+                            report_change!("ignore_return_value: Dropped `alt`");
+                            self.changed = true;
+                            Expr::undefined(alt_span)
+                        }),
+                    }
+                    .into(),
+                );
             }
 
             Expr::Seq(seq) => {
@@ -1263,11 +1290,12 @@ impl Optimizer<'_> {
                         if let Some(last) = exprs.last_mut() {
                             report_change!("ignore_return_value: Shifting void");
                             self.changed = true;
-                            *last = Box::new(Expr::Unary(UnaryExpr {
+                            *last = UnaryExpr {
                                 span: DUMMY_SP,
                                 op: op!("void"),
                                 arg: last.take(),
-                            }));
+                            }
+                            .into();
                         }
                     }
 
@@ -1276,10 +1304,13 @@ impl Optimizer<'_> {
                         return None;
                     }
 
-                    return Some(Expr::Seq(SeqExpr {
-                        span: seq.span,
-                        exprs,
-                    }));
+                    return Some(
+                        SeqExpr {
+                            span: seq.span,
+                            exprs,
+                        }
+                        .into(),
+                    );
                 }
             }
 
@@ -1626,18 +1657,20 @@ impl VisitMut for Optimizer<'_> {
         if is_this_undefined {
             if let Callee::Expr(callee) = &mut e.callee {
                 if let Expr::Member(..) = &mut **callee {
-                    let zero = Box::new(Expr::Lit(Lit::Num(Number {
+                    let zero = Lit::Num(Number {
                         span: DUMMY_SP,
                         value: 0.0,
                         raw: None,
-                    })));
+                    })
+                    .into();
                     self.changed = true;
                     report_change!("injecting zero to preserve `this` in call");
 
-                    *callee = Box::new(Expr::Seq(SeqExpr {
+                    *callee = SeqExpr {
                         span: callee.span(),
                         exprs: vec![zero, callee.take()],
-                    }));
+                    }
+                    .into();
                 }
             }
         }
@@ -2393,12 +2426,12 @@ impl VisitMut for Optimizer<'_> {
 
         if let Prop::Shorthand(i) = n {
             if self.vars.has_pending_inline_for(&i.to_id()) {
-                let mut e = Box::new(Expr::Ident(i.clone()));
+                let mut e: Expr = i.clone().into();
                 e.visit_mut_with(self);
 
                 *n = Prop::KeyValue(KeyValueProp {
                     key: PropName::Ident(i.clone().into()),
-                    value: e,
+                    value: Box::new(e),
                 });
             }
         }
@@ -3036,10 +3069,11 @@ impl VisitMut for Optimizer<'_> {
                         expr: if side_effects.len() == 1 {
                             side_effects.remove(0)
                         } else {
-                            Box::new(Expr::Seq(SeqExpr {
+                            SeqExpr {
                                 span: DUMMY_SP,
                                 exprs: side_effects.take(),
-                            }))
+                            }
+                            .into()
                         },
                     }));
                 } else {
@@ -3061,10 +3095,11 @@ impl VisitMut for Optimizer<'_> {
                     expr: if side_effects.len() == 1 {
                         side_effects.remove(0)
                     } else {
-                        Box::new(Expr::Seq(SeqExpr {
+                        SeqExpr {
                             span: DUMMY_SP,
                             exprs: side_effects,
-                        }))
+                        }
+                        .into()
                     },
                 }));
             }

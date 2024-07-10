@@ -88,16 +88,17 @@ impl Pure<'_> {
                             report_change!("evaluate: Reducing array.slice({}) call", start);
 
                             if start >= arr.elems.len() {
-                                *e = Expr::Array(ArrayLit {
+                                *e = ArrayLit {
                                     span: *span,
                                     elems: Default::default(),
-                                });
+                                }
+                                .into();
                                 return;
                             }
 
                             let elems = arr.elems.drain(start..).collect();
 
-                            *e = Expr::Array(ArrayLit { span: *span, elems });
+                            *e = ArrayLit { span: *span, elems }.into();
                         }
                     }
                     _ => {
@@ -129,16 +130,17 @@ impl Pure<'_> {
                                     end
                                 );
                                 if start >= arr.elems.len() {
-                                    *e = Expr::Array(ArrayLit {
+                                    *e = ArrayLit {
                                         span: *span,
                                         elems: Default::default(),
-                                    });
+                                    }
+                                    .into();
                                     return;
                                 }
 
                                 let elems = arr.elems.drain(start..end).collect();
 
-                                *e = Expr::Array(ArrayLit { span: *span, elems });
+                                *e = ArrayLit { span: *span, elems }.into();
                             }
                         }
                     }
@@ -282,11 +284,12 @@ impl Pure<'_> {
                             "evaluate: Reducing a call to `Number` into an unary operation"
                         );
 
-                        *e = Expr::Unary(UnaryExpr {
+                        *e = UnaryExpr {
                             span: *span,
                             op: op!(unary, "+"),
                             arg: args.take().into_iter().next().unwrap().expr,
-                        });
+                        }
+                        .into();
                     }
                 }
             }
@@ -369,11 +372,12 @@ impl Pure<'_> {
                     value
                 );
 
-                *e = Expr::Lit(Lit::Str(Str {
+                *e = Lit::Str(Str {
                     span: e.span(),
                     raw: None,
                     value: value.into(),
-                }));
+                })
+                .into();
             }
 
             return;
@@ -393,11 +397,12 @@ impl Pure<'_> {
                     value
                 );
 
-                *e = Expr::Lit(Lit::Str(Str {
+                *e = Lit::Str(Str {
                     span: e.span(),
                     raw: None,
                     value,
-                }));
+                })
+                .into();
                 return;
             }
 
@@ -418,11 +423,12 @@ impl Pure<'_> {
                     num,
                     value
                 );
-                *e = Expr::Lit(Lit::Str(Str {
+                *e = Lit::Str(Str {
                     span: e.span(),
                     raw: None,
                     value: value.into(),
-                }));
+                })
+                .into();
                 return;
             }
         }
@@ -439,11 +445,12 @@ impl Pure<'_> {
                     value
                 );
 
-                *e = Expr::Lit(Lit::Str(Str {
+                *e = Lit::Str(Str {
                     span: e.span(),
                     raw: None,
                     value,
-                }));
+                })
+                .into();
                 return;
             } else if let Some(precision) = args
                 .first()
@@ -465,11 +472,12 @@ impl Pure<'_> {
                     value
                 );
 
-                *e = Expr::Lit(Lit::Str(Str {
+                *e = Lit::Str(Str {
                     span: e.span(),
                     raw: None,
                     value,
-                }));
+                })
+                .into();
                 return;
             }
         }
@@ -481,11 +489,12 @@ impl Pure<'_> {
             {
                 if base.trunc() == 10. {
                     let value = num.value.to_js_string().into();
-                    *e = Expr::Lit(Lit::Str(Str {
+                    *e = Lit::Str(Str {
                         span: e.span(),
                         raw: None,
                         value,
-                    }));
+                    })
+                    .into();
                     return;
                 }
 
@@ -505,11 +514,12 @@ impl Pure<'_> {
                     }
                     .into();
 
-                    *e = Expr::Lit(Lit::Str(Str {
+                    *e = Lit::Str(Str {
                         span: e.span(),
                         raw: None,
                         value,
-                    }))
+                    })
+                    .into()
                 }
             }
         }
@@ -570,10 +580,11 @@ impl Pure<'_> {
                     self.changed = true;
                     report_change!("evaluate: `foo || true` => `foo, 1`");
 
-                    *e = Expr::Seq(SeqExpr {
+                    *e = SeqExpr {
                         span: bin_expr.span,
                         exprs: vec![bin_expr.left.clone(), bin_expr.right.clone()],
-                    });
+                    }
+                    .into();
                 } else {
                     self.changed = true;
                     report_change!("evaluate: `foo || false` => `foo` (bool ctx)");
@@ -603,10 +614,11 @@ impl Pure<'_> {
                     self.changed = true;
                     report_change!("evaluate: `foo && false` => `foo, false`");
 
-                    *e = Expr::Seq(SeqExpr {
+                    *e = SeqExpr {
                         span: bin_expr.span,
                         exprs: vec![bin_expr.left.clone(), bin_expr.right.clone()],
-                    });
+                    }
+                    .into();
                 }
                 return;
             }
@@ -749,22 +761,19 @@ impl Pure<'_> {
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `{}`",
                                 v
                             );
-                            *e = Expr::Lit(Lit::Num(Number {
+                            *e = Lit::Num(Number {
                                 span: call.span,
                                 value: v as usize as f64,
                                 raw: None,
-                            }))
+                            })
+                            .into()
                         }
                         None => {
                             self.changed = true;
                             report_change!(
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `NaN`",
                             );
-                            *e = Expr::Ident(Ident::new(
-                                "NaN".into(),
-                                e.span(),
-                                SyntaxContext::empty(),
-                            ))
+                            *e = Ident::new("NaN".into(), e.span(), SyntaxContext::empty()).into()
                         }
                     }
                 }
@@ -788,22 +797,24 @@ impl Pure<'_> {
                                 "evaluate: Evaluated `codePointAt` of a string literal as `{}`",
                                 v
                             );
-                            *e = Expr::Lit(Lit::Num(Number {
+                            *e = Lit::Num(Number {
                                 span: call.span,
                                 value: v as usize as f64,
                                 raw: None,
-                            }))
+                            })
+                            .into()
                         }
                         None => {
                             self.changed = true;
                             report_change!(
                                 "evaluate: Evaluated `codePointAt` of a string literal as `NaN`",
                             );
-                            *e = Expr::Ident(Ident::new(
+                            *e = Ident::new(
                                 "NaN".into(),
                                 e.span(),
                                 SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                            ))
+                            )
+                            .into()
                         }
                     }
                 }
@@ -814,11 +825,12 @@ impl Pure<'_> {
 
         self.changed = true;
         report_change!("evaluate: Evaluated `{method}` of a string literal");
-        *e = Expr::Lit(Lit::Str(Str {
+        *e = Lit::Str(Str {
             value: new_val.into(),
             raw: None,
             ..s
-        }));
+        })
+        .into();
     }
 }
 

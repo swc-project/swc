@@ -25,10 +25,11 @@ impl Fold for Normalizer {
 
         match e {
             Expr::Paren(ParenExpr { expr, .. }) if self.is_test262 => *expr,
-            Expr::New(n @ NewExpr { args: None, .. }) if self.is_test262 => Expr::New(NewExpr {
+            Expr::New(n @ NewExpr { args: None, .. }) if self.is_test262 => NewExpr {
                 args: Some(vec![]),
                 ..n
-            }),
+            }
+            .into(),
             // Flatten comma expressions.
             Expr::Seq(SeqExpr { mut exprs, span }) => {
                 let need_work = exprs.iter().any(|n| matches!(**n, Expr::Seq(..)));
@@ -42,7 +43,7 @@ impl Fold for Normalizer {
                         v
                     });
                 }
-                Expr::Seq(SeqExpr { exprs, span })
+                SeqExpr { exprs, span }.into()
             }
             _ => e,
         }
@@ -84,9 +85,9 @@ impl Fold for Normalizer {
 
         if let Pat::Expr(expr) = node {
             match *expr {
-                Expr::Ident(i) => return Pat::Ident(i.into()),
+                Expr::Ident(i) => return i.into(),
                 _ => {
-                    node = Pat::Expr(expr);
+                    node = expr.into();
                 }
             }
         }

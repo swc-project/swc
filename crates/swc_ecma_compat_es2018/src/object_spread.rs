@@ -95,12 +95,13 @@ impl VisitMut for ObjectSpread {
                 buf
             };
 
-            *expr = Expr::Call(CallExpr {
+            *expr = CallExpr {
                 span: *span,
                 callee,
                 args,
                 ..Default::default()
-            });
+            }
+            .into();
         }
     }
 }
