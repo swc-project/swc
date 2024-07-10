@@ -425,7 +425,7 @@ impl Take for Expr {
 
 impl Default for Expr {
     fn default() -> Self {
-        Default::default().into()
+        Expr::Invalid(Default::default())
     }
 }
 
@@ -470,12 +470,14 @@ boxed_expr!(JSXEmptyExpr);
 boxed_expr!(Box<JSXElement>);
 boxed_expr!(JSXFragment);
 boxed_expr!(TsTypeAssertion);
+boxed_expr!(TsSatisfiesExpr);
 boxed_expr!(TsConstAssertion);
 boxed_expr!(TsNonNullExpr);
 boxed_expr!(TsAsExpr);
 boxed_expr!(TsInstantiation);
 boxed_expr!(PrivateName);
 boxed_expr!(OptChainExpr);
+boxed_expr!(Invalid);
 
 #[ast_node("ThisExpression")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]

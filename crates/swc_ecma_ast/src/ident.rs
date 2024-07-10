@@ -63,7 +63,7 @@ impl AsRef<str> for BindingIdent {
 
 impl From<BindingIdent> for Box<Expr> {
     fn from(bi: BindingIdent) -> Self {
-        bi.into()
+        Box::new(Expr::Ident(bi.into()))
     }
 }
 impl From<&'_ BindingIdent> for Ident {
