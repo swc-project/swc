@@ -702,7 +702,11 @@ where
                                         Prop::KeyValue(KeyValueProp { key, value }),
                                     )));
                                 }
-                                JSXAttrName::JSXNamespacedName(JSXNamespacedName { ns, name }) => {
+                                JSXAttrName::JSXNamespacedName(JSXNamespacedName {
+                                    ns,
+                                    name,
+                                    ..
+                                }) => {
                                     if self.throw_if_namespace {
                                         HANDLER.with(|handler| {
                                             handler
@@ -1140,7 +1144,7 @@ fn add_require(imports: Vec<(Ident, Ident)>, src: &str, unresolved_mark: Mark) -
                     .map(|(local, imported)| {
                         if imported.sym != local.sym {
                             ObjectPatProp::KeyValue(KeyValuePatProp {
-                                key: PropName::Ident(imported),
+                                key: PropName::Ident(imported.into()),
                                 value: Box::new(Pat::Ident(local.into())),
                             })
                         } else {
@@ -1203,7 +1207,9 @@ where
                     Box::new(Expr::Ident(i))
                 }
             }
-            JSXElementName::JSXNamespacedName(JSXNamespacedName { ref ns, ref name }) => {
+            JSXElementName::JSXNamespacedName(JSXNamespacedName {
+                ref ns, ref name, ..
+            }) => {
                 if self.throw_if_namespace {
                     HANDLER.with(|handler| {
                         handler
@@ -1226,7 +1232,7 @@ where
                     value: value.into(),
                 })))
             }
-            JSXElementName::JSXMemberExpr(JSXMemberExpr { obj, prop }) => {
+            JSXElementName::JSXMemberExpr(JSXMemberExpr { obj, prop, .. }) => {
                 fn convert_obj(obj: JSXObject) -> Box<Expr> {
                     let span = obj.span();
 
@@ -1271,7 +1277,7 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
                 PropName::Ident(i)
             }
         }
-        JSXAttrName::JSXNamespacedName(JSXNamespacedName { ns, name }) => {
+        JSXAttrName::JSXNamespacedName(JSXNamespacedName { ns, name, .. }) => {
             let value = format!("{}:{}", ns.sym, name.sym);
 
             PropName::Str(Str {

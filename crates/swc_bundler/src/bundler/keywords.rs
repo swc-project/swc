@@ -133,7 +133,7 @@ impl VisitMut for KeywordRenamer {
             Prop::Shorthand(i) => {
                 if let Some(renamed) = self.renamed(i) {
                     *n = Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(i.clone()),
+                        key: PropName::Ident(i.clone().into()),
                         value: Box::new(Expr::Ident(renamed)),
                     });
                 }
