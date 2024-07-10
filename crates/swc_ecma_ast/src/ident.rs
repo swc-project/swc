@@ -395,6 +395,8 @@ impl From<(Atom, Span)> for IdentName {
 bridge_from!(IdentName, Atom, &'_ str);
 bridge_from!(IdentName, Atom, Cow<'_, str>);
 bridge_from!(IdentName, Atom, String);
+bridge_from!(IdentName, Ident, &BindingIdent);
+bridge_from!(IdentName, Ident, BindingIdent);
 
 impl AsRef<str> for IdentName {
     fn as_ref(&self) -> &str {
