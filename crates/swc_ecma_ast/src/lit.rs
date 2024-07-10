@@ -36,6 +36,8 @@ pub enum Lit {
     JSXText(JSXText),
 }
 
+boxed_variants!(Lit, [Regex]);
+
 macro_rules! bridge_lit_from {
     ($bridge: ty, $src:ty) => {
         bridge_expr_from!(crate::Lit, $src);
