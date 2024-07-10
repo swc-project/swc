@@ -36,16 +36,6 @@ pub enum Pat {
     Expr(Box<Expr>),
 }
 
-bridge_from!(Box<Pat>, Pat, BindingIdent);
-bridge_from!(Box<Pat>, Pat, Ident);
-bridge_from!(Box<Pat>, Pat, IdentName);
-bridge_from!(Box<Pat>, Pat, ArrayPat);
-bridge_from!(Box<Pat>, Pat, RestPat);
-bridge_from!(Box<Pat>, Pat, ObjectPat);
-bridge_from!(Box<Pat>, Pat, AssignPat);
-bridge_from!(Box<Pat>, Pat, Invalid);
-bridge_from!(Box<Pat>, Pat, Expr);
-
 // Implement Clone without inline to avoid multiple copies of the
 // implementation.
 impl Clone for Pat {
@@ -90,6 +80,7 @@ pat_to_other!(ArrayPat);
 pat_to_other!(ObjectPat);
 pat_to_other!(AssignPat);
 pat_to_other!(RestPat);
+pat_to_other!(Box<Expr>);
 
 #[ast_node("ArrayPattern")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
