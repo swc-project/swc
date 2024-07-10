@@ -95,21 +95,19 @@ impl<I: Tokens> Parser<I> {
 
                         p.emit_err(span!(p, inner_start), SyntaxError::TS1171);
 
-                        expr = Box::new(
-                            SeqExpr {
-                                span: span!(p, inner_start),
-                                exprs,
-                            }
-                            .into(),
-                        );
+                        expr = SeqExpr {
+                            span: span!(p, inner_start),
+                            exprs,
+                        }
+                        .into();
                     }
 
                     expect!(p, ']');
 
-                    PropName::Computed(ComputedPropName {
+                    PropName::Computed(Box::new(ComputedPropName {
                         span: span!(p, start),
                         expr,
-                    })
+                    }))
                 }
                 _ => unexpected!(
                     p,
