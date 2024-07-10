@@ -282,8 +282,9 @@ impl Optimizer<'_> {
                                     if exprs.is_empty() {
                                         stmt.init = None;
                                     } else {
-                                        stmt.init =
-                                            Some(VarDeclOrExpr::Expr(take(&mut exprs).into()))
+                                        stmt.init = Some(VarDeclOrExpr::Expr(Expr::from_exprs(
+                                            take(&mut exprs),
+                                        )))
                                     }
                                 }
                                 _ => {
@@ -1999,7 +2000,7 @@ impl Optimizer<'_> {
                                                 shorthand.span,
                                             )
                                             .into(),
-                                            value: new_b.clone(),
+                                            value: new_b.clone().into(),
                                         }));
                                     }
 

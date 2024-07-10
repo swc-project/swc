@@ -158,7 +158,7 @@ impl Pure<'_> {
                 *obj = arr.elems[0]
                     .take()
                     .map(|elem| elem.expr)
-                    .unwrap_or_else(|| *span.into());
+                    .unwrap_or_else(|| Expr::undefined(*span));
             }
         }
     }
@@ -541,7 +541,7 @@ impl Pure<'_> {
                          always null or undefined"
                     );
 
-                    *e = **span.into();
+                    *e = *Expr::undefined(span);
                 }
             }
 
