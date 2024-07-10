@@ -541,7 +541,7 @@ pub(crate) fn amd_dynamic_import(
 
     NewExpr {
         span,
-        callee: Box::new(quote_ident!("Promise").into()),
+        callee: Box::new(quote_ident!("Promise")),
         args: Some(vec![promise_executer.as_arg()]),
         ..Default::default()
     }

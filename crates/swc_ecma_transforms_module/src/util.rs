@@ -284,7 +284,7 @@ pub(crate) fn esm_export() -> Function {
     let name = private_ident!("name");
 
     let getter = KeyValueProp {
-        key: quote_ident!("get").into(),
+        key: quote_ident!("get"),
         value: all.clone().computed_member(Expr::from(name.clone())).into(),
     };
 

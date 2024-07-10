@@ -322,9 +322,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
         match &ty.type_name {
             // We should omit references to self (class) since it will throw a ReferenceError at
             // runtime due to babel transpile output.
-            TsEntityName::Ident(i) if &*i.sym == class_name => {
-                return quote_ident!("Object").into()
-            }
+            TsEntityName::Ident(i) if &*i.sym == class_name => return quote_ident!("Object"),
             _ => {}
         }
 
@@ -339,7 +337,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
         Expr::Cond(CondExpr {
             span: DUMMY_SP,
             test: check_object_existed(Box::new(member_expr.clone())),
-            cons: Box::new(quote_ident!("Object").into()),
+            cons: Box::new(quote_ident!("Object")),
             alt: Box::new(member_expr),
         })
     }
@@ -371,7 +369,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                     kind: TsKeywordTypeKind::TsUndefinedKeyword,
                     ..
                 }) => {
-                    return quote_ident!("Object").into();
+                    return quote_ident!("Object");
                 }
 
                 _ => {}
@@ -399,10 +397,10 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                     match prev {
                         Expr::Ident(prev) => match &item {
                             Expr::Ident(item) if prev.sym == item.sym => {}
-                            _ => return quote_ident!("Object").into(),
+                            _ => return quote_ident!("Object"),
                         },
 
-                        _ => return quote_ident!("Object").into(),
+                        _ => return quote_ident!("Object"),
                     }
                 }
             }
@@ -410,7 +408,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
 
         match u {
             Some(i) => i,
-            _ => quote_ident!("Object").into(),
+            _ => quote_ident!("Object"),
         }
     }
 
@@ -436,9 +434,9 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
 
             TsType::TsParenthesizedType(ty) => serialize_type_node(class_name, &ty.type_ann),
 
-            TsType::TsFnOrConstructorType(_) => quote_ident!("Function").into(),
+            TsType::TsFnOrConstructorType(_) => quote_ident!("Function"),
 
-            TsType::TsArrayType(_) | TsType::TsTupleType(_) => quote_ident!("Array").into(),
+            TsType::TsArrayType(_) | TsType::TsTupleType(_) => quote_ident!("Array"),
 
             TsType::TsLitType(TsLitType {
                 lit: TsLit::Bool(..),
@@ -448,14 +446,14 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             | TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsBooleanKeyword,
                 ..
-            }) => quote_ident!("Boolean").into(),
+            }) => quote_ident!("Boolean"),
 
-            ty if is_str(ty) => quote_ident!("String").into(),
+            ty if is_str(ty) => quote_ident!("String"),
 
             TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsObjectKeyword,
                 ..
-            }) => quote_ident!("Object").into(),
+            }) => quote_ident!("Object"),
 
             TsType::TsLitType(TsLitType {
                 lit: TsLit::Number(..),
@@ -464,16 +462,16 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             | TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsNumberKeyword,
                 ..
-            }) => quote_ident!("Number").into(),
+            }) => quote_ident!("Number"),
 
             TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsBigIntKeyword,
                 ..
             }) => Expr::Cond(CondExpr {
                 span: DUMMY_SP,
-                test: check_object_existed(quote_ident!("BigInt").into()),
-                cons: quote_ident!("Object").into(),
-                alt: quote_ident!("BigInt").into(),
+                test: check_object_existed(quote_ident!("BigInt")),
+                cons: quote_ident!("Object"),
+                alt: quote_ident!("BigInt"),
             }),
 
             TsType::TsLitType(ty) => {
@@ -484,7 +482,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsSymbolKeyword,
                 ..
-            }) => quote_ident!("Symbol").into(),
+            }) => quote_ident!("Symbol"),
 
             TsType::TsTypeQuery(_)
             | TsType::TsTypeOperator(_)
@@ -499,7 +497,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                 kind: TsKeywordTypeKind::TsUnknownKeyword,
                 ..
             })
-            | TsType::TsThisType(..) => quote_ident!("Object").into(),
+            | TsType::TsThisType(..) => quote_ident!("Object"),
 
             TsType::TsUnionOrIntersectionType(ty) => match ty {
                 TsUnionOrIntersectionType::TsUnionType(ty) => {
