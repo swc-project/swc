@@ -369,6 +369,7 @@ impl Ident {
 
 #[ast_node("Identifier")]
 #[derive(Eq, Hash, Default, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct IdentName {
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub span: Span,
