@@ -967,7 +967,7 @@ define!({
         pub prop: IdentName,
     }
     pub struct JSXNamespacedName {
-        pub span:Span
+        pub span: Span,
         pub ns: IdentName,
         pub name: IdentName,
     }
