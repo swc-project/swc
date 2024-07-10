@@ -174,11 +174,14 @@ impl From<BindingIdent> for Ident {
     }
 }
 
-impl From<&'_ str> for Ident {
-    fn from(bi: &str) -> Self {
-        Ident::new_no_ctxt(bi.into(), DUMMY_SP)
+impl From<Atom> for Ident {
+    fn from(bi: Atom) -> Self {
+        Ident::new_no_ctxt(bi, DUMMY_SP)
     }
 }
+bridge_from!(Ident, Atom, &'_ str);
+bridge_from!(Ident, Atom, Cow<'_, str>);
+bridge_from!(Ident, Atom, String);
 
 impl From<(Atom, Span)> for Ident {
     fn from((sym, span): (Atom, Span)) -> Self {
