@@ -10,7 +10,7 @@ impl Pure<'_> {
         &mut self,
         obj: Option<&Expr>,
         c: &mut ComputedPropName,
-    ) -> Option<Ident> {
+    ) -> Option<IdentName> {
         if !self.options.props {
             return None;
         }
@@ -113,7 +113,7 @@ impl Pure<'_> {
     pub(super) fn handle_known_computed_member_expr(
         &mut self,
         c: &mut ComputedPropName,
-    ) -> Option<Ident> {
+    ) -> Option<IdentName> {
         if !self.options.props || !self.options.evaluate {
             return None;
         }
