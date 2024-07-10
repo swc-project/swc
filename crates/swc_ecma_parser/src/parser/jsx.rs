@@ -2,7 +2,6 @@ use either::Either;
 use swc_common::Spanned;
 
 use super::*;
-use crate::EitherBoxed;
 
 #[cfg(test)]
 mod tests;
@@ -44,10 +43,6 @@ impl<I: Tokens> Parser<I> {
             ns,
             name,
         }))
-        let name = self.parse_jsx_ident()?;
-        Ok(JSXAttrName::JSXNamespacedName(Box::new(
-            JSXNamespacedName { ns, name },
-        )))
     }
 
     /// Parses element name in any form - namespaced, member or single
@@ -65,15 +60,13 @@ impl<I: Tokens> Parser<I> {
             let prop = self.parse_jsx_ident().map(IdentName::from)?;
             let new_node = JSXElementName::JSXMemberExpr(JSXMemberExpr {
                 span: span!(self, start),
-            let prop = self.parse_jsx_ident()?;
-            let new_node = JSXElementName::JSXMemberExpr(Box::new(JSXMemberExpr {
                 obj: match node {
                     JSXElementName::Ident(i) => JSXObject::Ident(i),
-                    JSXElementName::JSXMemberExpr(i) => JSXObject::JSXMemberExpr(i),
+                    JSXElementName::JSXMemberExpr(i) => JSXObject::JSXMemberExpr(Box::new(i)),
                     _ => unimplemented!("JSXNamespacedName -> JSXObject"),
                 },
                 prop,
-            }));
+            });
             node = new_node;
         }
         Ok(node)
@@ -107,7 +100,7 @@ impl<I: Tokens> Parser<I> {
                 let expr = self.parse_jsx_element()?;
                 match expr {
                     Either::Left(n) => Ok(JSXAttrValue::JSXFragment(n)),
-                    Either::Right(n) => Ok(JSXAttrValue::JSXElement(n)),
+                    Either::Right(n) => Ok(JSXAttrValue::JSXElement(Box::new(n))),
                 }
             }
 
@@ -131,7 +124,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// Parse JSX spread child
-    pub(super) fn parse_jsx_spread_child(&mut self) -> PResult<Box<JSXSpreadChild>> {
+    pub(super) fn parse_jsx_spread_child(&mut self) -> PResult<JSXSpreadChild> {
         debug_assert!(self.input.syntax().jsx());
         let start = cur_pos!(self);
         expect!(self, '{');
@@ -139,17 +132,14 @@ impl<I: Tokens> Parser<I> {
         let expr = self.parse_expr()?;
         expect!(self, '}');
 
-        Ok(Box::new(JSXSpreadChild {
+        Ok(JSXSpreadChild {
             span: span!(self, start),
             expr,
-        }))
+        })
     }
 
     /// Parses JSX expression enclosed into curly brackets.
-    pub(super) fn parse_jsx_expr_container(
-        &mut self,
-        _: BytePos,
-    ) -> PResult<Box<JSXExprContainer>> {
+    pub(super) fn parse_jsx_expr_container(&mut self, _: BytePos) -> PResult<JSXExprContainer> {
         debug_assert!(self.input.syntax().jsx());
 
         let start = cur_pos!(self);
@@ -163,10 +153,10 @@ impl<I: Tokens> Parser<I> {
             self.parse_expr().map(JSXExpr::Expr)?
         };
         expect!(self, '}');
-        Ok(Box::new(JSXExprContainer {
+        Ok(JSXExprContainer {
             span: span!(self, start),
             expr,
-        }))
+        })
     }
 
     /// Parses following JSX attribute name-value pair.
@@ -210,7 +200,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_jsx_opening_element_at(
         &mut self,
         start: BytePos,
-    ) -> PResult<Either<JSXOpeningFragment, Box<JSXOpeningElement>>> {
+    ) -> PResult<Either<JSXOpeningFragment, JSXOpeningElement>> {
         debug_assert!(self.input.syntax().jsx());
 
         if eat!(self, JSXTagEnd) {
@@ -233,7 +223,7 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         start: BytePos,
         name: JSXElementName,
-    ) -> PResult<Box<JSXOpeningElement>> {
+    ) -> PResult<JSXOpeningElement> {
         debug_assert!(self.input.syntax().jsx());
 
         let type_args = if self.input.syntax().typescript() && is!(self, '<') {
@@ -257,13 +247,13 @@ impl<I: Tokens> Parser<I> {
         if !eat!(self, JSXTagEnd) & !(self.ctx().in_forced_jsx_context && eat!(self, '>')) {
             unexpected!(self, "> (jsx closing tag)");
         }
-        Ok(Box::new(JSXOpeningElement {
+        Ok(JSXOpeningElement {
             span: span!(self, start),
             name,
             attrs,
             self_closing,
             type_args,
-        }))
+        })
     }
 
     /// Parses JSX closing tag starting after "</".
@@ -294,7 +284,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_jsx_element_at(
         &mut self,
         start_pos: BytePos,
-    ) -> PResult<EitherBoxed<JSXFragment, JSXElement>> {
+    ) -> PResult<Either<JSXFragment, JSXElement>> {
         debug_assert!(self.input.syntax().jsx());
 
         let _ = cur!(self, true);
@@ -343,7 +333,7 @@ impl<I: Tokens> Parser<I> {
 
                             children.push(p.parse_jsx_element_at(start).map(|e| match e {
                                 Either::Left(e) => JSXElementChild::from(e),
-                                Either::Right(e) => JSXElementChild::from(e),
+                                Either::Right(e) => JSXElementChild::from(Box::new(e)),
                             })?);
                         }
                         Token::JSXText { .. } => {
@@ -380,20 +370,18 @@ impl<I: Tokens> Parser<I> {
                         }
                     );
                 }
-                (Either::Left(opening), Some(Either::Left(closing))) => {
-                    Either::Left(Box::new(JSXFragment {
-                        span,
-                        opening,
-                        children,
-                        closing,
-                    }))
-                }
-                (Either::Right(opening), None) => Either::Right(Box::new(JSXElement {
+                (Either::Left(opening), Some(Either::Left(closing))) => Either::Left(JSXFragment {
+                    span,
+                    opening,
+                    children,
+                    closing,
+                }),
+                (Either::Right(opening), None) => Either::Right(JSXElement {
                     span,
                     opening,
                     children,
                     closing: None,
-                })),
+                }),
                 (Either::Right(opening), Some(Either::Right(closing))) => {
                     if get_qualified_jsx_name(&closing.name)
                         != get_qualified_jsx_name(&opening.name)
@@ -406,12 +394,12 @@ impl<I: Tokens> Parser<I> {
                             }
                         );
                     }
-                    Either::Right(Box::new(JSXElement {
+                    Either::Right(JSXElement {
                         span,
                         opening,
                         children,
                         closing: Some(closing),
-                    }))
+                    })
                 }
                 _ => unreachable!(),
             })
@@ -421,7 +409,7 @@ impl<I: Tokens> Parser<I> {
     /// Parses entire JSX element from current position.
     ///
     /// babel: `jsxParseElement`
-    pub(super) fn parse_jsx_element(&mut self) -> PResult<EitherBoxed<JSXFragment, JSXElement>> {
+    pub(super) fn parse_jsx_element(&mut self) -> PResult<Either<JSXFragment, JSXElement>> {
         trace_cur!(self, parse_jsx_element);
 
         debug_assert!(self.input.syntax().jsx());
@@ -470,11 +458,5 @@ fn get_qualified_jsx_name(name: &JSXElementName) -> JsWord {
         JSXElementName::JSXMemberExpr(JSXMemberExpr {
             ref obj, ref prop, ..
         }) => format!("{}.{}", get_qualified_obj_name(obj), prop.sym).into(),
-        JSXElementName::JSXNamespacedName(box JSXNamespacedName { ref ns, ref name }) => {
-            format!("{}:{}", ns.sym, name.sym).into()
-        }
-        JSXElementName::JSXMemberExpr(box JSXMemberExpr { ref obj, ref prop }) => {
-            format!("{}.{}", get_qualified_obj_name(obj), prop.sym).into()
-        }
     }
 }
