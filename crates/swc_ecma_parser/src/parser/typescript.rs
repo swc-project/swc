@@ -876,7 +876,7 @@ impl<I: Tokens> Parser<I> {
             let id = self.parse_ident_name()?;
             (true, TsModuleName::Ident(id.into()))
         } else if matches!(*cur!(self, true), Token::Str { .. }) {
-            let id = self.parse_lit().map(|lit| match *lit {
+            let id = self.parse_lit().map(|lit| match lit {
                 Lit::Str(s) => TsModuleName::Str(s),
                 _ => unreachable!(),
             })?;
