@@ -104,7 +104,7 @@ impl Fold for TemplateLiteralCaching {
                 //   _t || (_t = identity`a${0}`)
                 let t = private_ident!("t");
                 self.create_binding(t.clone(), None);
-                let inline_cache = BinExpr {
+                let inline_cache: Expr = BinExpr {
                     span: DUMMY_SP,
                     op: op!("||"),
                     left: t.clone().into(),

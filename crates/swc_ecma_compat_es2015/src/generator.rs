@@ -824,7 +824,7 @@ impl VisitMut for Generator {
                 None
             };
 
-            let apply = callee.into().apply(
+            let apply = callee.apply(
                 node.span,
                 this_arg,
                 arg.take().map(|v| v.as_arg()).into_iter().collect(),

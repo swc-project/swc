@@ -669,7 +669,6 @@ impl VisitMut for Params {
                             })),
                             ..Default::default()
                         }
-                        .into()
                         .as_iife()
                         .into(),
                         _ => func,
@@ -803,9 +802,7 @@ impl VisitMut for Params {
 }
 
 fn make_arg_nth(n: usize) -> MemberExpr {
-    Ident::new_no_ctxt("arguments".into(), DUMMY_SP)
-        .into()
-        .computed_member(n)
+    Ident::new_no_ctxt("arguments".into(), DUMMY_SP).computed_member(n)
 }
 
 fn check_arg_len(n: usize) -> Expr {

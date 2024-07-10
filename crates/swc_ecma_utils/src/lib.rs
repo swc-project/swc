@@ -2462,7 +2462,7 @@ impl<'a> IdentUsageFinder<'a> {
 impl ExprCtx {
     /// make a new expression which evaluates `val` preserving side effects, if
     /// any.
-    pub fn preserve_effects<I>(&self, span: Span, val: Expr, exprs: I) -> Expr
+    pub fn preserve_effects<I>(&self, span: Span, val: Box<Expr>, exprs: I) -> Box<Expr>
     where
         I: IntoIterator<Item = Box<Expr>>,
     {
@@ -2474,7 +2474,7 @@ impl ExprCtx {
         if exprs.is_empty() {
             val
         } else {
-            exprs.push(Box::new(val));
+            exprs.push(val);
 
             SeqExpr { exprs, span }.into()
         }

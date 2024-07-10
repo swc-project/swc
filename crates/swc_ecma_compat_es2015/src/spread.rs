@@ -95,7 +95,7 @@ impl VisitMut for Spread {
                         (obj.as_ident().unwrap().clone().into(), None)
                     }
 
-                    Expr::Ident(Ident { span, .. }) => (*span.into(), None),
+                    Expr::Ident(Ident { span, .. }) => (Expr::undefined(*span), None),
 
                     Expr::Member(MemberExpr { span, obj, prop }) => {
                         let ident = alias_ident_for(obj, "_instance");
@@ -109,7 +109,7 @@ impl VisitMut for Spread {
                         });
 
                         let this = ident.clone().into();
-                        let callee = AssignExpr {
+                        let callee: Expr = AssignExpr {
                             span: DUMMY_SP,
                             left: ident.into(),
                             op: op!("="),

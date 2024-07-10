@@ -130,7 +130,6 @@ impl VisitMut for OptionalChaining {
                     is_generator: false,
                     ..Default::default()
                 }
-                .into()
                 .as_callee(),
                 args: vec![],
                 ..Default::default()
