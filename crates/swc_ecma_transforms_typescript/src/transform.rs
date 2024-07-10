@@ -159,7 +159,7 @@ impl VisitMut for Transform {
                             let value = Ident::from(&*binding_ident).into();
 
                             (
-                                Pat::Ident(binding_ident.clone()),
+                                binding_ident.clone().into(),
                                 assign_value_to_this_prop(prop_name, value),
                                 id,
                             )
@@ -176,7 +176,7 @@ impl VisitMut for Transform {
                             let value = binding_ident.id.clone().into();
 
                             (
-                                Pat::Assign(assign_pat.clone()),
+                                assign_pat.clone().into(),
                                 assign_value_to_this_prop(prop_name, value),
                                 id,
                             )
@@ -1206,12 +1206,12 @@ impl VisitMut for ExportedPatRewriter {
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         if let Pat::Ident(bid) = n {
-            *n = Pat::Expr(
-                self.id
-                    .clone()
-                    .make_member(IdentName::from(take(bid)))
-                    .into(),
-            );
+            *n = self
+                .id
+                .clone()
+                .make_member(IdentName::from(take(bid)))
+                .into()
+                .into();
             return;
         }
 
@@ -1220,12 +1220,7 @@ impl VisitMut for ExportedPatRewriter {
 
     fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
         if let ObjectPatProp::Assign(AssignPatProp { key, value, .. }) = n {
-            let left = self
-                .id
-                .clone()
-                .make_member(key.clone().into())
-                .into()
-                .into();
+            let left = self.id.clone().make_member(key.clone().into()).into();
 
             let value = if let Some(right) = value.take() {
                 AssignPat {

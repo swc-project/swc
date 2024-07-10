@@ -597,11 +597,12 @@ impl ObjectRest {
                         Param {
                             span: DUMMY_SP,
                             decorators: Default::default(),
-                            pat: Pat::Assign(AssignPat {
+                            pat: AssignPat {
                                 span,
                                 left: var_ident.into(),
                                 right,
-                            }),
+                            }
+                            .into(),
                         }
                     }
                     _ => {
@@ -692,7 +693,7 @@ impl ObjectRest {
                     use_expr_for_assign,
                     use_member_for_array,
                 ));
-                return Pat::Assign(AssignPat { span, left, right });
+                return AssignPat { span, left, right }.into();
             }
             Pat::Array(n) => {
                 let ArrayPat { span, elems, .. } = n;
@@ -716,7 +717,7 @@ impl ObjectRest {
                     })
                     .collect();
 
-                return Pat::Array(ArrayPat { span, elems, ..n });
+                return ArrayPat { span, elems, ..n }.into();
             }
             _ => return pat,
         };
@@ -838,12 +839,13 @@ impl ObjectRest {
         match props.last() {
             Some(ObjectPatProp::Rest(..)) => {}
             _ => {
-                return Pat::Object(ObjectPat {
+                return ObjectPat {
                     span,
                     props,
                     optional: false,
                     type_ann,
-                });
+                }
+                .into();
             }
         }
         let last = match props.pop() {
@@ -882,12 +884,13 @@ impl ObjectRest {
             });
         }
 
-        Pat::Object(ObjectPat {
+        ObjectPat {
             props,
             span,
             type_ann,
             optional: false,
-        })
+        }
+        .into()
     }
 }
 

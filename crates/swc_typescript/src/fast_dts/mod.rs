@@ -463,7 +463,7 @@ impl FastDts {
                                     }
 
                                     ident.optional = true;
-                                    param.pat = Pat::Ident(ident.clone());
+                                    param.pat = ident.clone().into();
                                 }
                                 Pat::Array(arr_pat) => {
                                     if arr_pat.type_ann.is_none() {
@@ -475,7 +475,7 @@ impl FastDts {
                                     }
 
                                     arr_pat.optional = true;
-                                    param.pat = Pat::Array(arr_pat.clone());
+                                    param.pat = arr_pat.clone().into();
                                 }
                                 Pat::Object(obj_pat) => {
                                     if obj_pat.type_ann.is_none() {
@@ -487,7 +487,7 @@ impl FastDts {
                                     }
 
                                     obj_pat.optional = true;
-                                    param.pat = Pat::Object(obj_pat.clone());
+                                    param.pat = obj_pat.clone().into();
                                 }
                                 Pat::Rest(_) | Pat::Assign(_) | Pat::Expr(_) | Pat::Invalid(_) => {}
                             };

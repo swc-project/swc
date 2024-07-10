@@ -902,7 +902,7 @@ impl Optimizer<'_> {
 
             vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(param.clone().into()),
+                name: param.clone().into().into(),
                 init: if self.ctx.executed_multiple_time && no_arg {
                     Some(Expr::undefined(DUMMY_SP))
                 } else {

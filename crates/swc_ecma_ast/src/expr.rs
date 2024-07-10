@@ -1388,7 +1388,7 @@ impl TryFrom<Pat> for AssignTarget {
 
             Pat::Expr(e) => match Self::try_from(e) {
                 Ok(v) => v,
-                Err(e) => return Err(Pat::Expr(e)),
+                Err(e) => return Err(e.into()),
             },
 
             _ => return Err(p),
@@ -1438,9 +1438,9 @@ impl Default for AssignTargetPat {
 impl From<AssignTargetPat> for Pat {
     fn from(pat: AssignTargetPat) -> Self {
         match pat {
-            AssignTargetPat::Array(a) => Pat::Array(a),
-            AssignTargetPat::Object(o) => Pat::Object(o),
-            AssignTargetPat::Invalid(i) => Pat::Invalid(i),
+            AssignTargetPat::Array(a) => a.into(),
+            AssignTargetPat::Object(o) => o.into(),
+            AssignTargetPat::Invalid(i) => i.into(),
         }
     }
 }

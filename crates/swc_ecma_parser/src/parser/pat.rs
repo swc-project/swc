@@ -76,11 +76,12 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(span!(self, start), SyntaxError::TS2371);
             }
 
-            return Ok(Pat::Assign(AssignPat {
+            return Ok(AssignPat {
                 span: span!(self, start),
                 left: Box::new(left),
                 right,
-            }));
+            }
+            .into());
         }
 
         Ok(left)
@@ -117,12 +118,13 @@ impl<I: Tokens> Parser<I> {
 
                 let pat = self.parse_binding_pat_or_ident()?;
                 rest_span = span!(self, start);
-                let pat = Pat::Rest(RestPat {
+                let pat = RestPat {
                     span: rest_span,
                     dot3_token,
                     arg: Box::new(pat),
                     type_ann: None,
-                });
+                }
+                .into();
                 elems.push(Some(pat));
             } else {
                 elems.push(self.parse_binding_element().map(Some)?);
@@ -139,12 +141,13 @@ impl<I: Tokens> Parser<I> {
         expect!(self, ']');
         let optional = (self.input.syntax().dts() || self.ctx().in_declare) && eat!(self, '?');
 
-        Ok(Pat::Array(ArrayPat {
+        Ok(ArrayPat {
             span: span!(self, start),
             elems,
             optional,
             type_ann: None,
-        }))
+        }
+        .into())
     }
 
     pub(super) fn eat_any_ts_modifier(&mut self) -> PResult<bool> {
@@ -260,11 +263,12 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(span!(self, start), SyntaxError::TS2371);
             }
 
-            Pat::Assign(AssignPat {
+            AssignPat {
                 span: span!(self, start),
                 left: Box::new(pat),
                 right,
-            })
+            }
+            .into()
         } else {
             pat
         };
@@ -304,12 +308,13 @@ impl<I: Tokens> Parser<I> {
                 };
 
                 rest_span = span!(self, pat_start);
-                let pat = Pat::Rest(RestPat {
+                let pat = RestPat {
                     span: rest_span,
                     dot3_token,
                     arg: Box::new(pat),
                     type_ann,
-                });
+                }
+                .into();
                 params.push(ParamOrTsParamProp::Param(Param {
                     span: span!(self, param_start),
                     decorators,
@@ -429,12 +434,13 @@ impl<I: Tokens> Parser<I> {
                 };
 
                 rest_span = span!(self, pat_start);
-                let pat = Pat::Rest(RestPat {
+                let pat = RestPat {
                     span: rest_span,
                     dot3_token,
                     arg: Box::new(pat),
                     type_ann,
-                });
+                }
+                .into();
 
                 if self.syntax().typescript() && eat!(self, '?') {
                     self.emit_err(self.input.prev_span(), SyntaxError::TS1047);
@@ -493,7 +499,7 @@ impl<I: Tokens> Parser<I> {
     /// rest.
     pub(super) fn reparse_expr_as_pat(&mut self, pat_ty: PatType, expr: Box<Expr>) -> PResult<Pat> {
         if let Expr::Invalid(i) = *expr {
-            return Ok(Pat::Invalid(i));
+            return Ok(i.into());
         }
 
         if pat_ty == PatType::AssignPat {
@@ -536,11 +542,11 @@ impl<I: Tokens> Parser<I> {
                     // to these rules if that phrase were substituted for
                     // LeftHandSideExpression. This rule is recursively applied.
                     Expr::Paren(..) => {
-                        return Ok(Pat::Expr(expr));
+                        return Ok(expr.into());
                     }
                     Expr::Ident(i) => return Ok(i.into()),
                     _ => {
-                        return Ok(Pat::Expr(expr));
+                        return Ok(expr.into());
                     }
                 },
             }
@@ -572,7 +578,7 @@ impl<I: Tokens> Parser<I> {
                     match *expr {
                         Expr::Ident(i) => return Ok(i.into()),
                         _ => {
-                            return Ok(Pat::Expr(expr));
+                            return Ok(expr.into());
                         }
                     }
                 }
@@ -587,7 +593,7 @@ impl<I: Tokens> Parser<I> {
         match *expr {
             Expr::Paren(..) => {
                 self.emit_err(span, SyntaxError::InvalidPat);
-                Ok(Pat::Invalid(Invalid { span }))
+                Ok(Invalid { span }.into())
             }
             Expr::Assign(
                 assign_expr @ AssignExpr {
@@ -598,7 +604,7 @@ impl<I: Tokens> Parser<I> {
                 let AssignExpr {
                     span, left, right, ..
                 } = assign_expr;
-                Ok(Pat::Assign(AssignPat {
+                Ok(AssignPat {
                     span,
                     left: match left {
                         AssignTarget::Simple(left) => {
@@ -607,7 +613,8 @@ impl<I: Tokens> Parser<I> {
                         AssignTarget::Pat(pat) => pat.into(),
                     },
                     right,
-                }))
+                }
+                .into())
             }
             Expr::Object(ObjectLit {
                 span: object_span,
@@ -615,7 +622,7 @@ impl<I: Tokens> Parser<I> {
             }) => {
                 // {}
                 let len = props.len();
-                Ok(Pat::Object(ObjectPat {
+                Ok(ObjectPat {
                     span: object_span,
                     props: props
                         .into_iter()
@@ -690,19 +697,21 @@ impl<I: Tokens> Parser<I> {
                         .collect::<PResult<_>>()?,
                     optional: false,
                     type_ann: None,
-                }))
+                }
+                .into())
             }
             Expr::Ident(ident) => Ok(ident.into()),
             Expr::Array(ArrayLit {
                 elems: mut exprs, ..
             }) => {
                 if exprs.is_empty() {
-                    return Ok(Pat::Array(ArrayPat {
+                    return Ok(ArrayPat {
                         span,
                         elems: vec![],
                         optional: false,
                         type_ann: None,
-                    }));
+                    }
+                    .into());
                 }
 
                 // Trailing comma may exist. We should remove those commas.
@@ -753,12 +762,13 @@ impl<I: Tokens> Parser<I> {
                             let expr_span = expr.span();
                             self.reparse_expr_as_pat(pat_ty.element(), expr)
                                 .map(|pat| {
-                                    Pat::Rest(RestPat {
+                                    RestPat {
                                         span: expr_span,
                                         dot3_token,
                                         arg: Box::new(pat),
                                         type_ann: None,
-                                    })
+                                    }
+                                    .into()
                                 })
                                 .map(Some)?
                         }
@@ -771,30 +781,31 @@ impl<I: Tokens> Parser<I> {
                     };
                     params.push(last);
                 }
-                Ok(Pat::Array(ArrayPat {
+                Ok(ArrayPat {
                     span,
                     elems: params,
                     optional: false,
                     type_ann: None,
-                }))
+                }
+                .into())
             }
 
             // Invalid patterns.
             // Note that assignment expression with '=' is valid, and handled above.
             Expr::Lit(..) | Expr::Assign(..) => {
                 self.emit_err(span, SyntaxError::InvalidPat);
-                Ok(Pat::Invalid(Invalid { span }))
+                Ok(Invalid { span }.into())
             }
 
             Expr::Yield(..) if self.ctx().in_generator => {
                 self.emit_err(span, SyntaxError::InvalidPat);
-                Ok(Pat::Invalid(Invalid { span }))
+                Ok(Invalid { span }.into())
             }
 
             _ => {
                 self.emit_err(span, SyntaxError::InvalidPat);
 
-                Ok(Pat::Invalid(Invalid { span }))
+                Ok(Invalid { span }.into())
             }
         }
     }
@@ -845,12 +856,13 @@ impl<I: Tokens> Parser<I> {
                 }
                 let expr_span = expr.span();
                 self.reparse_expr_as_pat(pat_ty, expr).map(|pat| {
-                    Pat::Rest(RestPat {
+                    RestPat {
                         span: expr_span,
                         dot3_token,
                         arg: Box::new(pat),
                         type_ann: None,
-                    })
+                    }
+                    .into()
                 })?
             }
             AssignTargetOrSpread::ExprOrSpread(ExprOrSpread { expr, .. }) => {
@@ -940,12 +952,15 @@ mod tests {
     }
 
     fn rest() -> Option<Pat> {
-        Some(Pat::Rest(RestPat {
-            span,
-            dot3_token: span,
-            type_ann: None,
-            arg: ident("tail").into().into(),
-        }))
+        Some(
+            RestPat {
+                span,
+                dot3_token: span,
+                type_ann: None,
+                arg: ident("tail").into().into(),
+            }
+            .into(),
+        )
     }
 
     #[test]

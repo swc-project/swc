@@ -420,7 +420,7 @@ pub trait StmtExt {
                 .into_iter()
                 .map(|i| VarDeclarator {
                     span: i.span,
-                    name: Pat::Ident(i.into()),
+                    name: i.into().into(),
                     init: None,
                     definite: false,
                 })
@@ -3156,7 +3156,7 @@ where
         match n {
             Pat::Ident(id) => {
                 if let Some(expr) = self.query.query_lhs(&id.clone().into()) {
-                    *n = Pat::Expr(expr);
+                    *n = expr.into();
                 }
             }
             _ => n.visit_mut_children_with(self),
