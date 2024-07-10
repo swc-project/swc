@@ -252,11 +252,11 @@ pub trait ExprFactory: Into<Box<Expr>> {
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn make_member(self, prop: impl Into<IdentName>) -> MemberExpr {
+    fn make_member(self, prop: IdentName) -> MemberExpr {
         MemberExpr {
             obj: self.into(),
             span: DUMMY_SP,
-            prop: MemberProp::Ident(prop.into()),
+            prop: MemberProp::Ident(prop),
         }
     }
 

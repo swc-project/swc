@@ -520,7 +520,7 @@ impl VisitMut for FnEnvHoister {
                             callee: self.super_update_computed(*span).as_callee(),
                             ..Default::default()
                         })
-                        .make_member("_")
+                        .make_member("_".into())
                         .into()
                     } else {
                         Expr::Call(CallExpr {
