@@ -95,7 +95,7 @@ impl VisitMut for Spread {
                         (obj.as_ident().unwrap().clone().into(), None)
                     }
 
-                    Expr::Ident(Ident { span, .. }) => (Expr::undefined(*span), None),
+                    Expr::Ident(Ident { span, .. }) => (*span.into(), None),
 
                     Expr::Member(MemberExpr { span, obj, prop }) => {
                         let ident = alias_ident_for(obj, "_instance");
@@ -109,12 +109,13 @@ impl VisitMut for Spread {
                         });
 
                         let this = ident.clone().into();
-                        let callee = Expr::Assign(AssignExpr {
+                        let callee = AssignExpr {
                             span: DUMMY_SP,
                             left: ident.into(),
                             op: op!("="),
                             right: obj.clone(),
-                        });
+                        }
+                        .into();
                         (
                             this,
                             Some(
@@ -143,10 +144,11 @@ impl VisitMut for Spread {
                     matches!(e, ExprOrSpread { spread: None, .. })
                         || matches!(e, ExprOrSpread { expr, .. } if expr.is_array())
                 }) {
-                    Expr::Array(ArrayLit {
+                    ArrayLit {
                         span: *span,
                         elems: expand_literal_args(args.take().into_iter().map(Some)),
-                    })
+                    }
+                    .into()
                 } else {
                     self.concat_args(*span, args.take().into_iter().map(Some), false)
                 };
@@ -157,12 +159,13 @@ impl VisitMut for Spread {
                     prop: MemberProp::Ident(IdentName::new("apply".into(), *span)),
                 };
 
-                *e = Expr::Call(CallExpr {
+                *e = CallExpr {
                     span: *span,
                     callee: apply.as_callee(),
                     args: vec![this.as_arg(), args_array.as_arg()],
                     ..Default::default()
-                })
+                }
+                .into()
             }
             Expr::New(NewExpr {
                 callee,
@@ -179,12 +182,13 @@ impl VisitMut for Spread {
 
                 let args = self.concat_args(*span, args.take().into_iter().map(Some), true);
 
-                *e = Expr::Call(CallExpr {
+                *e = CallExpr {
                     span: *span,
                     callee: helper!(construct),
                     args: vec![callee.take().as_arg(), args.as_arg()],
                     ..Default::default()
-                });
+                }
+                .into();
             }
             _ => {}
         };
@@ -294,7 +298,7 @@ impl Spread {
                 );
             }
 
-            return Expr::Call(CallExpr {
+            return CallExpr {
                 span: DUMMY_SP,
                 callee: ArrayLit {
                     span: DUMMY_SP,
@@ -304,7 +308,8 @@ impl Spread {
                 .as_callee(),
                 args: arg_list,
                 ..Default::default()
-            });
+            }
+            .into();
         }
 
         for arg in args {
@@ -341,7 +346,7 @@ impl Spread {
                             Expr::Ident(Ident { ref sym, .. }) if &**sym == "arguments" => {
                                 if args_len == 1 {
                                     if need_array {
-                                        return Expr::Call(CallExpr {
+                                        return CallExpr {
                                             span,
                                             callee: member_expr!(
                                                 Default::default(),
@@ -351,7 +356,8 @@ impl Spread {
                                             .as_callee(),
                                             args: vec![expr.as_arg()],
                                             ..Default::default()
-                                        });
+                                        }
+                                        .into();
                                     } else {
                                         return *expr;
                                     }
@@ -375,13 +381,13 @@ impl Spread {
                                     return if self.c.loose {
                                         *expr
                                     } else {
-                                        Expr::Call(to_consumable_array(expr, span))
+                                        to_consumable_array(expr, span).into()
                                     };
                                 }
                                 // [].concat(arr) is shorter than _to_consumable_array(arr)
                                 if args_len == 1 {
                                     return if self.c.loose {
-                                        Expr::Call(CallExpr {
+                                        CallExpr {
                                             span: DUMMY_SP,
                                             callee: ArrayLit {
                                                 span: DUMMY_SP,
@@ -391,9 +397,10 @@ impl Spread {
                                             .as_callee(),
                                             args: vec![expr.as_arg()],
                                             ..Default::default()
-                                        })
+                                        }
+                                        .into()
                                     } else {
-                                        Expr::Call(to_consumable_array(expr, span))
+                                        to_consumable_array(expr, span).into()
                                     };
                                 }
                                 to_consumable_array(expr, span).as_arg()
@@ -421,15 +428,16 @@ impl Spread {
                 .make_member(IdentName::new("concat".into(), DUMMY_SP))
                 .as_callee();
 
-            return Expr::Call(CallExpr {
+            return CallExpr {
                 span,
                 callee,
                 args: buf,
                 ..Default::default()
-            });
+            }
+            .into();
         }
 
-        Expr::Call(CallExpr {
+        CallExpr {
             // TODO
             span,
 
@@ -449,7 +457,8 @@ impl Spread {
 
             args: buf,
             ..Default::default()
-        })
+        }
+        .into()
     }
 }
 

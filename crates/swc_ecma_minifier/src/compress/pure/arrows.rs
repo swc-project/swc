@@ -28,14 +28,15 @@ impl Pure<'_> {
             self.changed = true;
             report_change!("unsafe_arrows: Fn expr => arrow");
 
-            *e = Expr::Arrow(ArrowExpr {
+            *e = ArrowExpr {
                 span: function.span,
                 params: function.params.take().into_iter().map(|p| p.pat).collect(),
                 body: Box::new(BlockStmtOrExpr::BlockStmt(function.body.take().unwrap())),
                 is_async: function.is_async,
                 is_generator: function.is_generator,
                 ..Default::default()
-            });
+            }
+            .into();
         }
     }
 

@@ -315,7 +315,7 @@ impl VisitMut for TemplateLiteral {
                         //     return data;
                         // };
                         let assign_expr = {
-                            Expr::Assign(AssignExpr {
+                            AssignExpr {
                                 span: DUMMY_SP,
                                 left: fn_ident.clone().into(),
                                 op: op!("="),
@@ -335,7 +335,8 @@ impl VisitMut for TemplateLiteral {
                                     ..Default::default()
                                 }
                                 .into(),
-                            })
+                            }
+                            .into()
                         };
 
                         Some(BlockStmt {
@@ -361,7 +362,7 @@ impl VisitMut for TemplateLiteral {
                     function: f.into(),
                 })));
 
-                *e = Expr::Call(CallExpr {
+                *e = CallExpr {
                     span: DUMMY_SP,
                     callee: tag.take().as_callee(),
                     args: iter::once(
@@ -376,7 +377,8 @@ impl VisitMut for TemplateLiteral {
                     .chain(tpl.exprs.take().into_iter().map(|e| e.as_arg()))
                     .collect(),
                     ..Default::default()
-                })
+                }
+                .into()
             }
 
             _ => {}

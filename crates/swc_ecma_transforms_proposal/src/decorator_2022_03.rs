@@ -76,7 +76,7 @@ impl Decorator2022_03 {
         let ident = private_ident!("_dec");
         self.extra_vars.push(VarDeclarator {
             span: DUMMY_SP,
-            name: ident.clone().into().into(),
+            name: ident.clone().into(),
             init: None,
             definite: false,
         });
@@ -119,7 +119,7 @@ impl Decorator2022_03 {
         if let Some(init) = self.state.init_proto.clone() {
             self.extra_vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: init.clone().into().into(),
+                name: init.clone().into(),
                 init: None,
                 definite: false,
             });
@@ -130,7 +130,7 @@ impl Decorator2022_03 {
         if let Some(init) = self.state.init_static.clone() {
             self.extra_vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: init.clone().into().into(),
+                name: init.clone().into(),
                 init: None,
                 definite: false,
             });
@@ -203,12 +203,15 @@ impl Decorator2022_03 {
                 type_ann: None,
             }
             .into(),
-            right: Box::new(Expr::Call(CallExpr {
-                span: DUMMY_SP,
-                callee: helper!(apply_decs_2203_r),
-                args: combined_args,
-                ..Default::default()
-            })),
+            right: Box::new(
+                CallExpr {
+                    span: DUMMY_SP,
+                    callee: helper!(apply_decs_2203_r),
+                    args: combined_args,
+                    ..Default::default()
+                }
+                .into(),
+            ),
         }
         .into();
 
@@ -264,7 +267,7 @@ impl Decorator2022_03 {
                 let key_ident = private_ident!("_computedKey");
                 self.extra_vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: key_ident.clone().into().into(),
+                    name: key_ident.clone().into(),
                     init: None,
                     definite: false,
                 });
@@ -367,7 +370,7 @@ impl Decorator2022_03 {
             let id = alias_ident_for(&super_class, "_super");
             self.extra_vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: id.clone().into().into(),
+                name: id.clone().into(),
                 init: None,
                 definite: false,
             });
@@ -396,7 +399,7 @@ impl Decorator2022_03 {
 
         self.extra_vars.push(VarDeclarator {
             span: DUMMY_SP,
-            name: init_class.clone().into().into(),
+            name: init_class.clone().into(),
             init: None,
             definite: false,
         });
@@ -417,7 +420,7 @@ impl Decorator2022_03 {
 
         self.extra_vars.push(VarDeclarator {
             span: DUMMY_SP,
-            name: new_class_name.clone().into().into(),
+            name: new_class_name.clone().into(),
             init: None,
             definite: false,
         });
@@ -458,7 +461,7 @@ impl Decorator2022_03 {
 
         self.extra_vars.push(VarDeclarator {
             span: DUMMY_SP,
-            name: init_class.clone().into().into(),
+            name: init_class.clone().into(),
             init: None,
             definite: false,
         });
@@ -468,7 +471,7 @@ impl Decorator2022_03 {
 
         self.extra_lets.push(VarDeclarator {
             span: DUMMY_SP,
-            name: new_class_name.clone().into().into(),
+            name: new_class_name.clone().into(),
             init: None,
             definite: false,
         });
@@ -508,7 +511,7 @@ impl Decorator2022_03 {
                     | ClassMember::PrivateProp(PrivateProp { value, .. }) => {
                         if let Some(value) = value {
                             if let Some(last_static_block) = last_static_block.take() {
-                                **value = Expr::Seq(SeqExpr {
+                                **value = SeqExpr {
                                     span: DUMMY_SP,
                                     exprs: vec![
                                         Box::new(Expr::Call(CallExpr {
@@ -533,7 +536,8 @@ impl Decorator2022_03 {
                                         })),
                                         value.take(),
                                     ],
-                                })
+                                }
+                                .into()
                             }
                         }
                     }
@@ -739,7 +743,7 @@ impl Decorator2022_03 {
                 let ident = private_ident!("_computedKey");
                 self.extra_vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: ident.clone().into().into(),
+                    name: ident.clone().into(),
                     init: None,
                     definite: false,
                 });
@@ -849,7 +853,7 @@ impl VisitMut for Decorator2022_03 {
 
             self.extra_vars.push(VarDeclarator {
                 span: p.span,
-                name: init.clone().into().into(),
+                name: init.clone().into(),
                 init: None,
                 definite: false,
             });
@@ -1057,9 +1061,13 @@ impl VisitMut for Decorator2022_03 {
                             }
                             .into();
 
-                            Some(Expr::from_exprs(
-                                init_proto.into_iter().chain(once(init_call)).collect(),
-                            ))
+                            Some(
+                                init_proto
+                                    .into_iter()
+                                    .chain(once(init_call))
+                                    .collect()
+                                    .into(),
+                            )
                         },
                         type_ann: None,
                         is_static: accessor.is_static,
@@ -1136,7 +1144,7 @@ impl VisitMut for Decorator2022_03 {
 
                         self.extra_vars.push(VarDeclarator {
                             span: accessor.span,
-                            name: init.clone().into().into(),
+                            name: init.clone().into(),
                             init: None,
                             definite: false,
                         });
@@ -1180,13 +1188,13 @@ impl VisitMut for Decorator2022_03 {
 
                                         self.extra_vars.push(VarDeclarator {
                                             span: DUMMY_SP,
-                                            name: getter_var.clone().unwrap().into().into(),
+                                            name: getter_var.clone().unwrap().into(),
                                             init: None,
                                             definite: false,
                                         });
                                         self.extra_vars.push(VarDeclarator {
                                             span: DUMMY_SP,
-                                            name: setter_var.clone().unwrap().into().into(),
+                                            name: setter_var.clone().unwrap().into(),
                                             init: None,
                                             definite: false,
                                         });
@@ -1458,7 +1466,7 @@ impl VisitMut for Decorator2022_03 {
 
         self.extra_vars.push(VarDeclarator {
             span: p.span,
-            name: init.clone().into().into(),
+            name: init.clone().into(),
             init: None,
             definite: false,
         });
@@ -1506,10 +1514,11 @@ impl VisitMut for Decorator2022_03 {
 
                 c.visit_mut_with(self);
 
-                *e = Expr::Seq(SeqExpr {
+                *e = SeqExpr {
                     span: DUMMY_SP,
                     exprs: vec![Box::new(e.take()), Box::new(Expr::Ident(new))],
-                });
+                }
+                .into();
 
                 return;
             }
@@ -1593,7 +1602,7 @@ impl VisitMut for Decorator2022_03 {
                     index,
                     Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
-                        expr: Expr::from_exprs(self.pre_class_inits.take()),
+                        expr: self.pre_class_inits.take().into(),
                     })
                     .into(),
                 );
@@ -1660,7 +1669,7 @@ impl VisitMut for Decorator2022_03 {
 
         self.extra_vars.push(VarDeclarator {
             span: p.span,
-            name: init.clone().into().into(),
+            name: init.clone().into(),
             init: None,
             definite: false,
         });
@@ -1796,7 +1805,7 @@ impl VisitMut for Decorator2022_03 {
                     index,
                     Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
-                        expr: Expr::from_exprs(self.pre_class_inits.take()),
+                        expr: self.pre_class_inits.take().into(),
                     }),
                 );
             }

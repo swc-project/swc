@@ -114,12 +114,13 @@ impl VisitMut for ObjectSuper {
                 }
             }
             if let Some(obj) = replacer.obj {
-                *expr = Expr::Assign(AssignExpr {
+                *expr = AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
                     left: obj.clone().into(),
                     right: Box::new(expr.take()),
-                });
+                }
+                .into();
                 self.extra_vars.push(obj);
             }
         }
@@ -176,13 +177,14 @@ impl SuperReplacer {
     }
 
     fn get_proto(&mut self) -> ExprOrSpread {
-        Expr::Call(CallExpr {
+        CallExpr {
             span: DUMMY_SP,
             callee: helper!(get_prototype_of),
             args: vec![self.get_obj_ref().as_arg()],
 
             ..Default::default()
-        })
+        }
+        .into()
         .as_arg()
     }
 
@@ -228,7 +230,7 @@ impl SuperReplacer {
                     SuperReplacer::super_to_get_call(self.get_proto(), *super_token, prop.as_arg());
                 let this = ThisExpr { span: DUMMY_SP }.as_arg();
                 if args.len() == 1 && is_rest_arguments(&args[0]) {
-                    *n = Expr::Call(CallExpr {
+                    *n = CallExpr {
                         span: DUMMY_SP,
                         callee: MemberExpr {
                             span: DUMMY_SP,
@@ -244,11 +246,12 @@ impl SuperReplacer {
                             }))
                             .collect(),
                         ..Default::default()
-                    });
+                    }
+                    .into();
                     return;
                 }
 
-                *n = Expr::Call(CallExpr {
+                *n = CallExpr {
                     span: DUMMY_SP,
                     callee: MemberExpr {
                         span: DUMMY_SP,
@@ -258,7 +261,8 @@ impl SuperReplacer {
                     .as_callee(),
                     args: iter::once(this).chain(args.take()).collect(),
                     ..Default::default()
-                });
+                }
+                .into();
             }
         }
     }
@@ -306,12 +310,13 @@ impl SuperReplacer {
                     return;
                 }
                 left.visit_mut_children_with(self);
-                *n = Expr::Assign(AssignExpr {
+                *n = AssignExpr {
                     span: *span,
                     left: left.take(),
                     op: *op,
                     right: right.take(),
-                });
+                }
+                .into();
             }
             _ => {}
         }
@@ -340,12 +345,13 @@ impl SuperReplacer {
     }
 
     fn super_to_get_call(proto: ExprOrSpread, super_token: Span, prop: ExprOrSpread) -> Expr {
-        Expr::Call(CallExpr {
+        CallExpr {
             span: super_token,
             callee: helper!(get),
             args: vec![proto, prop, ThisExpr { span: super_token }.as_arg()],
             ..Default::default()
-        })
+        }
+        .into()
     }
 
     fn to_bin_expr(left: Box<Expr>, op: AssignOp, rhs: Box<Expr>) -> BinExpr {
@@ -363,7 +369,7 @@ impl SuperReplacer {
         prop: ExprOrSpread,
         rhs: ExprOrSpread,
     ) -> Expr {
-        Expr::Call(CallExpr {
+        CallExpr {
             span: super_token,
             callee: helper!(set),
             args: vec![
@@ -375,7 +381,8 @@ impl SuperReplacer {
                 true.as_arg(),
             ],
             ..Default::default()
-        })
+        }
+        .into()
     }
 
     fn super_to_set_call(
@@ -401,12 +408,13 @@ impl SuperReplacer {
                     if computed {
                         let ref_ident = alias_ident_for(&rhs, "_ref").into_private();
                         self.vars.push(ref_ident.clone());
-                        *prop = Expr::Assign(AssignExpr {
+                        *prop = AssignExpr {
                             span: DUMMY_SP,
                             left: ref_ident.clone().into(),
                             op: op!("="),
                             right: prop.take(),
-                        });
+                        }
+                        .into();
                         ref_ident.as_arg()
                     } else {
                         prop.clone().as_arg()
@@ -432,7 +440,7 @@ impl SuperReplacer {
                     } else {
                         let update_ident = alias_ident_for(&rhs, "_super").into_private();
                         self.vars.push(update_ident.clone());
-                        Expr::Seq(SeqExpr {
+                        SeqExpr {
                             span: DUMMY_SP,
                             exprs: vec![
                                 Box::new(
@@ -461,7 +469,8 @@ impl SuperReplacer {
                                 ),
                                 Box::new(Expr::Ident(update_ident)),
                             ],
-                        })
+                        }
+                        .into()
                     }
                 } else {
                     self.call_set_helper(

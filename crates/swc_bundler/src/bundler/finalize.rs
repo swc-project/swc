@@ -302,7 +302,7 @@ where
                             ))));
                             let var = VarDeclarator {
                                 span: DUMMY_SP,
-                                name: default_var.into().into(),
+                                name: default_var.into(),
                                 init: Some(export.expr),
                                 definite: false,
                             };

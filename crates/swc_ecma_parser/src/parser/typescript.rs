@@ -1739,12 +1739,12 @@ impl<I: Tokens> Parser<I> {
                 RestPat {
                     span: span!(p, start),
                     dot3_token,
-                    arg: ident.into().into(),
+                    arg: ident.into(),
                     type_ann: None,
                 }
                 .into()
             } else {
-                ident.into().into()
+                ident.into()
             }))
         })
     }

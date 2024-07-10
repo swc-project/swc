@@ -140,7 +140,7 @@ impl VisitMut for ExprInjector<'_> {
             self.injected = true;
             let e = expr.take();
 
-            *expr = Expr::Seq(SeqExpr {
+            *expr = SeqExpr {
                 span: DUMMY_SP,
                 exprs: iter::once(
                     AssignExpr {
@@ -156,7 +156,8 @@ impl VisitMut for ExprInjector<'_> {
                     self.injected_tmp.as_ref().cloned().unwrap().into(),
                 ))
                 .collect(),
-            })
+            }
+            .into()
         }
     }
 

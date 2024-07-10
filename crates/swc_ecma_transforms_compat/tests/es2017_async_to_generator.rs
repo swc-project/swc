@@ -25,8 +25,8 @@ impl Fold for ParenRemover {
 
         match expr {
             Expr::Paren(ParenExpr { expr, .. }) => match *expr {
-                Expr::Member(e) => Expr::Member(MemberExpr { span, ..e }),
-                Expr::New(e) => Expr::New(NewExpr { span, ..e }),
+                Expr::Member(e) => MemberExpr { span, ..e }.into(),
+                Expr::New(e) => NewExpr { span, ..e }.into(),
                 _ => *expr,
             },
             _ => expr,

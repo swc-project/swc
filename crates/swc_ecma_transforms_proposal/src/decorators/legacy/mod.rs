@@ -119,7 +119,7 @@ impl TscDecorator {
                 // Declare var
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: var_name.clone().into().into(),
+                    name: var_name.clone().into(),
                     init: None,
                     definite: Default::default(),
                 });
@@ -137,14 +137,15 @@ impl TscDecorator {
 
                 k.expr = var_name.clone().into();
 
-                return Expr::Ident(var_name);
+                return var_name.into();
             }
             PropName::Ident(i) => {
-                return Expr::Lit(Lit::Str(Str {
+                return Lit::Str(Str {
                     span: DUMMY_SP,
                     raw: None,
                     value: i.sym.clone(),
-                }))
+                })
+                .into()
             }
             _ => {}
         }
@@ -302,12 +303,12 @@ impl VisitMut for TscDecorator {
         if let Some(var_name) = self.assign_class_expr_to.take() {
             self.vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: var_name.clone().into().into(),
+                name: var_name.clone().into(),
                 init: None,
                 definite: Default::default(),
             });
 
-            *e = Expr::Seq(SeqExpr {
+            *e = SeqExpr {
                 span: DUMMY_SP,
                 exprs: iter::once(AssignExpr {
                     span: DUMMY_SP,
@@ -319,7 +320,8 @@ impl VisitMut for TscDecorator {
                 .chain(appended_exprs)
                 .chain(iter::once(var_name.into()))
                 .collect(),
-            });
+            }
+            .into();
         }
     }
 
@@ -386,7 +388,7 @@ impl VisitMut for TscDecorator {
                     c.decorators.drain(..).map(|d| d.expr),
                     target,
                     key.as_arg(),
-                    Expr::undefined(DUMMY_SP).as_arg(),
+                    DUMMY_SP.into().as_arg(),
                 );
             }
         }

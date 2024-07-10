@@ -329,12 +329,13 @@ impl Optimizer<'_> {
                                 (prev_seq.span, exprs)
                             };
 
-                            *alt = Expr::Cond(CondExpr {
+                            *alt = CondExpr {
                                 span: DUMMY_SP,
                                 test: SeqExpr { span, exprs }.into(),
                                 cons: v.cons,
                                 alt: v.alt,
-                            });
+                            }
+                            .into();
                         }
                         Expr::Seq(prev_seq) => {
                             prev_seq.exprs.push(v.test);
@@ -342,10 +343,13 @@ impl Optimizer<'_> {
 
                             *cur = CondExpr {
                                 span: DUMMY_SP,
-                                test: Box::new(Expr::Seq(SeqExpr {
-                                    span: prev_seq.span,
-                                    exprs,
-                                })),
+                                test: Box::new(
+                                    SeqExpr {
+                                        span: prev_seq.span,
+                                        exprs,
+                                    }
+                                    .into(),
+                                ),
                                 cons: v.cons,
                                 alt: v.alt,
                             }
@@ -429,12 +433,12 @@ impl Optimizer<'_> {
                 let cons = Box::new(self.merge_if_returns_to(*cons, vec![]));
                 let alt = match alt {
                     Some(alt) => Box::new(self.merge_if_returns_to(*alt, vec![])),
-                    None => Expr::undefined(DUMMY_SP),
+                    None => DUMMY_SP.into(),
                 };
 
                 exprs.push(test);
 
-                Expr::Cond(CondExpr {
+                CondExpr {
                     span,
                     test: SeqExpr {
                         span: DUMMY_SP,
@@ -443,7 +447,8 @@ impl Optimizer<'_> {
                     .into(),
                     cons,
                     alt,
-                })
+                }
+                .into()
             }
             Stmt::Expr(stmt) => {
                 exprs.push(
@@ -454,18 +459,20 @@ impl Optimizer<'_> {
                     }
                     .into(),
                 );
-                Expr::Seq(SeqExpr {
+                SeqExpr {
                     span: DUMMY_SP,
                     exprs,
-                })
+                }
+                .into()
             }
             Stmt::Return(stmt) => {
                 let span = stmt.span;
-                exprs.push(stmt.arg.unwrap_or_else(|| Expr::undefined(span)));
-                Expr::Seq(SeqExpr {
+                exprs.push(stmt.arg.unwrap_or_else(|| span.into()));
+                SeqExpr {
                     span: DUMMY_SP,
                     exprs,
-                })
+                }
+                .into()
             }
             _ => unreachable!(),
         }

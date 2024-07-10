@@ -93,7 +93,7 @@ impl VisitMut for KeywordRenamer {
                             key: PropName::Ident(pat.key.take().into()),
                             value: AssignPat {
                                 span: pat.span,
-                                left: Box::new(renamed.into().into()),
+                                left: Box::new(renamed.into()),
                                 right: default.take(),
                             }
                             .into(),

@@ -44,7 +44,7 @@ impl Resolver {
     ) -> Expr {
         let src = self.resolve(src);
 
-        Expr::Call(CallExpr {
+        CallExpr {
             span: DUMMY_SP,
             callee: quote_ident!(
                 SyntaxContext::empty().apply_mark(unresolved_mark),
@@ -58,7 +58,8 @@ impl Resolver {
             })
             .as_arg()],
             ..Default::default()
-        })
+        }
+        .into()
     }
 }
 

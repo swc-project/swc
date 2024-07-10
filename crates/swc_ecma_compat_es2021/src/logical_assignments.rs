@@ -167,12 +167,13 @@ impl VisitMut for Operators {
                 _ => unreachable!(),
             };
 
-            *e = Expr::Bin(BinExpr {
+            *e = BinExpr {
                 span: *span,
                 op,
                 left: left_expr,
                 right,
-            });
+            }
+            .into();
         }
     }
 

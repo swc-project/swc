@@ -300,10 +300,11 @@ impl VisitMut for PrivateInObject {
                 }
                 _ => {
                     prepend_exprs.push(Box::new(e.take()));
-                    *e = Expr::Seq(SeqExpr {
+                    *e = SeqExpr {
                         span: DUMMY_SP,
                         exprs: prepend_exprs,
-                    });
+                    }
+                    .into();
                 }
             }
             return;
@@ -323,12 +324,13 @@ impl VisitMut for PrivateInObject {
 
                 if let Some(cls_ident) = self.cls.ident.clone() {
                     if is_static && is_method {
-                        *e = Expr::Bin(BinExpr {
+                        *e = BinExpr {
                             span: *span,
                             op: op!("==="),
                             left: cls_ident.into(),
                             right: right.take(),
-                        });
+                        }
+                        .into();
                         return;
                     }
                 }
@@ -343,7 +345,7 @@ impl VisitMut for PrivateInObject {
                         Some(
                             NewExpr {
                                 span: DUMMY_SP,
-                                callee: Box::new(Expr::Ident(quote_ident!("WeakSet").into())),
+                                callee: Box::new(quote_ident!("WeakSet").into().into()),
                                 args: Some(Default::default()),
                                 ..Default::default()
                             }
@@ -367,12 +369,13 @@ impl VisitMut for PrivateInObject {
                     }
                 }
 
-                *e = Expr::Call(CallExpr {
+                *e = CallExpr {
                     span: *span,
                     callee: var_name.make_member(quote_ident!("has")).as_callee(),
                     args: vec![right.take().as_arg()],
                     ..Default::default()
-                });
+                }
+                .into();
             }
 
             _ => {}
@@ -438,12 +441,15 @@ impl VisitMut for PrivateInObject {
                         UnaryExpr {
                             span: DUMMY_SP,
                             op: op!("void"),
-                            arg: Box::new(Expr::Call(CallExpr {
-                                span: DUMMY_SP,
-                                callee: var_name.make_member(quote_ident!("add")).as_callee(),
-                                args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                                ..Default::default()
-                            })),
+                            arg: Box::new(
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: var_name.make_member(quote_ident!("add")).as_callee(),
+                                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                                    ..Default::default()
+                                }
+                                .into(),
+                            ),
                         }
                         .into(),
                     )

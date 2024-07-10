@@ -294,16 +294,14 @@ impl FastDts {
                             match prop {
                                 Prop::KeyValue(key_value) => {
                                     let (key, computed) = match key_value.key {
-                                        PropName::Ident(ident) => {
-                                            (Expr::Ident(ident.into()), false)
-                                        }
+                                        PropName::Ident(ident) => (ident.into().into(), false),
                                         PropName::Str(str_prop) => {
-                                            (Expr::Lit(Lit::Str(str_prop)), false)
+                                            (Lit::Str(str_prop).into(), false)
                                         }
-                                        PropName::Num(num) => (Expr::Lit(Lit::Num(num)), true),
+                                        PropName::Num(num) => (Lit::Num(num).into(), true),
                                         PropName::Computed(computed) => (*computed.expr, true),
                                         PropName::BigInt(big_int) => {
-                                            (Expr::Lit(Lit::BigInt(big_int)), true)
+                                            (Lit::BigInt(big_int).into(), true)
                                         }
                                     };
 
@@ -598,7 +596,7 @@ impl FastDts {
             Expr::Member(member_expr) => self.valid_enum_init_expr(&member_expr.obj),
             Expr::OptChain(opt_expr) => match &*opt_expr.base {
                 OptChainBase::Member(member_expr) => {
-                    self.valid_enum_init_expr(&Expr::Member(member_expr.clone()))
+                    self.valid_enum_init_expr(&member_expr.clone().into())
                 }
                 OptChainBase::Call(_) => false,
             },

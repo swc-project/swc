@@ -530,22 +530,23 @@ where
                 let args = once(fragment.as_arg()).chain(once(props_obj.as_arg()));
 
                 let args = if self.development {
-                    args.chain(once(Expr::undefined(DUMMY_SP).as_arg()))
+                    args.chain(once(DUMMY_SP.into().as_arg()))
                         .chain(once(use_jsxs.as_arg()))
                         .collect()
                 } else {
                     args.collect()
                 };
 
-                Expr::Call(CallExpr {
+                CallExpr {
                     span,
                     callee: jsx.as_callee(),
                     args,
                     ..Default::default()
-                })
+                }
+                .into()
             }
             Runtime::Classic => {
-                Expr::Call(CallExpr {
+                CallExpr {
                     span,
                     callee: (*self.pragma).clone().as_callee(),
                     args: iter::once((*self.pragma_frag).clone().as_arg())
@@ -559,7 +560,8 @@ where
                         })
                         .collect(),
                     ..Default::default()
-                })
+                }
+                .into()
             }
         }
     }
@@ -801,19 +803,19 @@ where
                     // set undefined literal to key if key is None
                     let key = match key {
                         Some(key) => key,
-                        None => Expr::undefined(DUMMY_SP).as_arg(),
+                        None => DUMMY_SP.into().as_arg(),
                     };
 
                     // set undefined literal to __source if __source is None
                     let source_props = match source_props {
                         Some(source_props) => source_props,
-                        None => Expr::undefined(DUMMY_SP).as_arg(),
+                        None => DUMMY_SP.into().as_arg(),
                     };
 
                     // set undefined literal to __self if __self is None
                     let self_props = match self_props {
                         Some(self_props) => self_props,
-                        None => Expr::undefined(DUMMY_SP).as_arg(),
+                        None => DUMMY_SP.into().as_arg(),
                     };
                     args.chain(once(key))
                         .chain(once(use_jsxs.as_arg()))
@@ -823,15 +825,16 @@ where
                 } else {
                     args.chain(key).collect()
                 };
-                Expr::Call(CallExpr {
+                CallExpr {
                     span,
                     callee: jsx.as_callee(),
                     args,
                     ..Default::default()
-                })
+                }
+                .into()
             }
             Runtime::Classic => {
-                Expr::Call(CallExpr {
+                CallExpr {
                     span,
                     callee: (*self.pragma).clone().as_callee(),
                     args: iter::once(name.as_arg())
@@ -847,7 +850,8 @@ where
                         })
                         .collect(),
                     ..Default::default()
-                })
+                }
+                .into()
             }
         }
     }
@@ -1245,16 +1249,17 @@ where
                     (match obj {
                         JSXObject::Ident(i) => {
                             if i.sym == "this" {
-                                Expr::This(ThisExpr { span })
+                                ThisExpr { span }.into()
                             } else {
-                                Expr::Ident(i)
+                                i.into()
                             }
                         }
-                        JSXObject::JSXMemberExpr(e) => Expr::Member(MemberExpr {
+                        JSXObject::JSXMemberExpr(e) => MemberExpr {
                             span,
                             obj: convert_obj(e.obj),
                             prop: MemberProp::Ident(e.prop),
-                        }),
+                        }
+                        .into(),
                     })
                     .into()
                 }

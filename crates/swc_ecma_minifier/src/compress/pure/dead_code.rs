@@ -525,7 +525,7 @@ impl Pure<'_> {
                                         .into_iter()
                                         .map(|name| VarDeclarator {
                                             span: DUMMY_SP,
-                                            name: name.into().into(),
+                                            name: name.into(),
                                             init: None,
                                             definite: Default::default(),
                                         })
@@ -551,7 +551,7 @@ impl Pure<'_> {
                                     .into_iter()
                                     .map(|name| VarDeclarator {
                                         span: DUMMY_SP,
-                                        name: name.into().into(),
+                                        name: name.into(),
                                         init: None,
                                         definite: Default::default(),
                                     })

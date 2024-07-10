@@ -419,13 +419,13 @@ impl Clone for Expr {
 
 impl Take for Expr {
     fn dummy() -> Self {
-        Expr::Invalid(Invalid { span: DUMMY_SP })
+        Invalid { span: DUMMY_SP }.into()
     }
 }
 
 impl Default for Expr {
     fn default() -> Self {
-        Expr::Invalid(Default::default())
+        Default::default().into()
     }
 }
 

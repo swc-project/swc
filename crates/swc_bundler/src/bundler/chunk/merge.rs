@@ -693,7 +693,7 @@ where
                                         ))
                                     }
                                     None => {
-                                        let init = Expr::Class(c);
+                                        let init = c.into();
                                         new.push(init.assign_to(local.clone()).into_module_item(
                                             injected_ctxt,
                                             "prepare -> export default decl -> class -> without \
@@ -974,7 +974,7 @@ where
 
                                     vars.push(VarDeclarator {
                                         span: DUMMY_SP,
-                                        name: mod_var.clone().into().into(),
+                                        name: mod_var.clone().into(),
                                         init: Some(
                                             CallExpr {
                                                 span: DUMMY_SP,
@@ -997,7 +997,7 @@ where
                                                     ModuleExportName::Ident(name) => {
                                                         vars.push(VarDeclarator {
                                                             span: s.span,
-                                                            name: name.clone().into().into(),
+                                                            name: name.clone().into(),
                                                             init: Some(mod_var.clone().into()),
                                                             definite: Default::default(),
                                                         });
@@ -1012,7 +1012,7 @@ where
                                             ExportSpecifier::Default(s) => {
                                                 vars.push(VarDeclarator {
                                                     span: DUMMY_SP,
-                                                    name: s.exported.clone().into().into(),
+                                                    name: s.exported.clone().into(),
                                                     init: Some(
                                                         mod_var
                                                             .clone()
@@ -1043,7 +1043,7 @@ where
                                                 };
                                                 vars.push(VarDeclarator {
                                                     span: s.span,
-                                                    name: exported.clone().unwrap().into().into(),
+                                                    name: exported.clone().unwrap().into(),
                                                     init: Some(
                                                         mod_var
                                                             .clone()
@@ -1338,7 +1338,7 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
             ..
         }) = e
         {
-            *e = Expr::Ident(self.inline_ident.clone());
+            *e = self.inline_ident.clone().into();
             self.occurred = true;
         }
     }

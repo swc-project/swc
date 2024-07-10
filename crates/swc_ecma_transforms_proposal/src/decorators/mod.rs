@@ -130,7 +130,7 @@ impl Fold for Decorators {
         match expr {
             Expr::Class(ClassExpr { ident, class }) => {
                 if !contains_decorator(&class) {
-                    return Expr::Class(ClassExpr { ident, class });
+                    return ClassExpr { ident, class }.into();
                 }
 
                 self.fold_class_inner(
@@ -541,7 +541,7 @@ impl Decorators {
                                     }),
                                     _ => Prop::KeyValue(KeyValueProp {
                                         key: PropName::Ident(quote_ident!("value")),
-                                        value: Expr::undefined(DUMMY_SP),
+                                        value: DUMMY_SP.into(),
                                     }),
                                 }))))
                                 .collect(),
@@ -557,7 +557,7 @@ impl Decorators {
 
         self.vars.extend(vars);
 
-        Expr::Call(make_decorate_call(
+        make_decorate_call(
             class.decorators,
             iter::once({
                 // function(_initialize) {}
@@ -630,7 +630,8 @@ impl Decorators {
                 .as_arg()
             })
             .chain(super_class_expr.map(|e| e.as_arg())),
-        ))
+        )
+        .into()
     }
 }
 

@@ -79,12 +79,13 @@ impl Pure<'_> {
                     match s.test.as_deref_mut() {
                         Some(e) => {
                             let orig_test = e.take();
-                            *e = Expr::Bin(BinExpr {
+                            *e = BinExpr {
                                 span: *span,
                                 op: op!("&&"),
                                 left: Box::new(orig_test),
                                 right: test.take(),
-                            });
+                            }
+                            .into();
                         }
                         None => {
                             s.test = Some(test.take());
@@ -110,12 +111,13 @@ impl Pure<'_> {
                     match s.test.as_deref_mut() {
                         Some(e) => {
                             let orig_test = e.take();
-                            *e = Expr::Bin(BinExpr {
+                            *e = BinExpr {
                                 span: *span,
                                 op: op!("&&"),
                                 left: Box::new(orig_test),
                                 right: test.take(),
-                            });
+                            }
+                            .into();
                         }
                         None => {
                             s.test = Some(test.take());

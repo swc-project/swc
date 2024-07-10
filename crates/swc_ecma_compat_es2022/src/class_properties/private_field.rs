@@ -102,12 +102,13 @@ impl VisitMut for BrandCheckHandler<'_> {
                 if let Expr::Ident(right) = &**right {
                     let curr_class = self.private.curr_class();
                     if curr_class.sym == right.sym && curr_class.ctxt == right.ctxt {
-                        *e = Expr::Bin(BinExpr {
+                        *e = BinExpr {
                             span: *span,
                             op: op!("==="),
                             left: curr_class.clone().into(),
                             right: right.clone().into(),
-                        });
+                        }
+                        .into();
                         return;
                     }
                 }
@@ -119,12 +120,13 @@ impl VisitMut for BrandCheckHandler<'_> {
                 }
 
                 if kind.is_static {
-                    *e = Expr::Bin(BinExpr {
+                    *e = BinExpr {
                         span: *span,
                         op: op!("==="),
                         left: right.take(),
                         right: class_name.clone().into(),
-                    });
+                    }
+                    .into();
                     return;
                 }
 
@@ -134,13 +136,14 @@ impl VisitMut for BrandCheckHandler<'_> {
                     SyntaxContext::empty().apply_mark(mark),
                 );
 
-                *e = Expr::Call(CallExpr {
+                *e = CallExpr {
                     span: *span,
                     callee: weak_coll_ident.make_member(quote_ident!("has")).as_callee(),
                     args: vec![right.take().as_arg()],
 
                     ..Default::default()
-                });
+                }
+                .into();
             }
 
             _ => {}
@@ -254,12 +257,13 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                     SyntaxContext::empty().apply_mark(mark),
                 );
 
-                *e = Expr::Call(CallExpr {
+                *e = CallExpr {
                     callee: helper!(class_private_field_loose_base),
                     span: *span,
                     args: vec![obj.take().as_arg(), ident.clone().as_arg()],
                     ..Default::default()
-                })
+                }
+                .into()
                 .computed_member(ident)
                 .into();
             } else {
@@ -290,12 +294,13 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 let n = match &left.prop {
                     MemberProp::PrivateName(n) => n.clone(),
                     _ => {
-                        *e = Expr::Assign(AssignExpr {
+                        *e = AssignExpr {
                             span: *span,
                             left: left.into(),
                             op: *op,
                             right: right.take(),
-                        });
+                        }
+                        .into();
 
                         return;
                     }
@@ -355,7 +360,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 };
 
                 if kind.is_static {
-                    *e = Expr::Call(CallExpr {
+                    *e = CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(class_static_private_field_spec_set),
                         args: vec![
@@ -366,7 +371,8 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                         ],
 
                         ..Default::default()
-                    });
+                    }
+                    .into();
                 } else if kind.is_readonly() {
                     let err = CallExpr {
                         span: DUMMY_SP,
@@ -375,20 +381,22 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                         ..Default::default()
                     }
                     .into();
-                    *e = Expr::Seq(SeqExpr {
+                    *e = SeqExpr {
                         span: *span,
                         exprs: vec![this, value, err],
-                    });
+                    }
+                    .into();
                 } else {
                     let set = helper!(class_private_field_set);
 
-                    *e = Expr::Call(CallExpr {
+                    *e = CallExpr {
                         span: DUMMY_SP,
                         callee: set,
                         args: vec![this.as_arg(), ident.as_arg(), value.as_arg()],
 
                         ..Default::default()
-                    });
+                    }
+                    .into();
                 }
             }
 
@@ -415,7 +423,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 let (expr, this) = self.visit_mut_private_get(&mut tag, None);
 
                 if let Some(this) = this {
-                    *e = Expr::TaggedTpl(TaggedTpl {
+                    *e = TaggedTpl {
                         span: *span,
                         tag: CallExpr {
                             span: DUMMY_SP,
@@ -426,14 +434,16 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                         .into(),
                         tpl: tpl.take(),
                         ..Default::default()
-                    });
+                    }
+                    .into();
                 } else {
-                    *e = Expr::TaggedTpl(TaggedTpl {
+                    *e = TaggedTpl {
                         span: *span,
                         tag: Box::new(expr),
                         tpl: tpl.take(),
                         ..Default::default()
-                    });
+                    }
+                    .into();
                 }
             }
 
@@ -449,19 +459,21 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
 
                 let (expr, this) = self.visit_mut_private_get(&mut callee, None);
                 if let Some(this) = this {
-                    *e = Expr::Call(CallExpr {
+                    *e = CallExpr {
                         span: *span,
                         callee: expr.make_member(quote_ident!("call")).as_callee(),
                         args: iter::once(this.as_arg()).chain(args.take()).collect(),
                         ..Default::default()
-                    });
+                    }
+                    .into();
                 } else {
-                    *e = Expr::Call(CallExpr {
+                    *e = CallExpr {
                         span: *span,
                         callee: expr.as_callee(),
                         args: args.take(),
                         ..Default::default()
-                    });
+                    }
+                    .into();
                 }
             }
 
@@ -520,12 +532,13 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                     SyntaxContext::empty().apply_mark(mark),
                 );
 
-                *e = Expr::Call(CallExpr {
+                *e = CallExpr {
                     callee: helper!(class_private_field_loose_base),
                     span: *span,
                     args: vec![obj.take().as_arg(), ident.clone().as_arg()],
                     ..Default::default()
-                })
+                }
+                .into()
                 .computed_member(ident)
                 .into();
             } else {
@@ -663,7 +676,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                 let h = helper!(class_static_private_method_get);
 
                 return (
-                    Expr::Call(CallExpr {
+                    CallExpr {
                         span: DUMMY_SP,
                         callee: h,
                         args: vec![
@@ -672,21 +685,23 @@ impl<'a> PrivateAccessVisitor<'a> {
                             method_name.as_arg(),
                         ],
                         ..Default::default()
-                    }),
-                    Some(Expr::Ident(class_name.clone())),
+                    }
+                    .into(),
+                    Some(class_name.clone().into()),
                 );
             }
 
             let get = helper!(class_static_private_field_spec_get);
 
             (
-                Expr::Call(CallExpr {
+                CallExpr {
                     span: DUMMY_SP,
                     callee: get,
                     args: vec![obj.as_arg(), class_name.clone().as_arg(), ident.as_arg()],
                     ..Default::default()
-                }),
-                Some(Expr::Ident(class_name.clone())),
+                }
+                .into(),
+                Some(class_name.clone().into()),
             )
         } else {
             match self.private_access_type {
@@ -776,7 +791,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                                 }
                                 .into()
                             },
-                            Some(Expr::This(*this)),
+                            Some(*this.into()),
                         ),
                         _ => {
                             let mut aliased = false;
@@ -822,7 +837,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                                     ..Default::default()
                                 }
                                 .into(),
-                                Some(Expr::Ident(var)),
+                                Some(var.into()),
                             )
                         }
                     }

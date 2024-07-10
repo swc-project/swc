@@ -109,14 +109,15 @@ impl VisitMut for NullishCoalescing {
                 }
 
                 let var_expr = if aliased {
-                    Expr::Assign(AssignExpr {
+                    AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
                         left: l.clone().into(),
                         right: left.take(),
-                    })
+                    }
+                    .into()
                 } else {
-                    Expr::Ident(l.clone())
+                    l.clone().into()
                 };
 
                 *e = make_cond(self.c, *span, &l, var_expr, right.take());
@@ -125,7 +126,7 @@ impl VisitMut for NullishCoalescing {
             Expr::Assign(ref mut assign @ AssignExpr { op: op!("??="), .. }) => {
                 match &mut assign.left {
                     AssignTarget::Simple(SimpleAssignTarget::Ident(i)) => {
-                        *e = Expr::Assign(AssignExpr {
+                        *e = AssignExpr {
                             span: assign.span,
                             op: op!("="),
                             left: i.clone().into(),
@@ -136,7 +137,8 @@ impl VisitMut for NullishCoalescing {
                                 Expr::Ident(Ident::from(&*i)),
                                 assign.right.take(),
                             )),
-                        });
+                        }
+                        .into();
                     }
 
                     AssignTarget::Simple(left) => {
@@ -157,14 +159,15 @@ impl VisitMut for NullishCoalescing {
                         }
                         .into();
 
-                        let var_expr = Expr::Assign(AssignExpr {
+                        let var_expr = AssignExpr {
                             span: DUMMY_SP,
                             op: op!("="),
                             left: alias.clone().into(),
                             right: left.take().into(),
-                        });
+                        }
+                        .into();
 
-                        *e = Expr::Assign(AssignExpr {
+                        *e = AssignExpr {
                             span: assign.span,
                             op: op!("="),
                             left: alias.clone().into(),
@@ -175,7 +178,8 @@ impl VisitMut for NullishCoalescing {
                                 var_expr,
                                 right_expr,
                             )),
-                        });
+                        }
+                        .into();
                     }
 
                     _ => {}
@@ -222,7 +226,7 @@ impl VisitMut for NullishCoalescing {
 
 #[tracing::instrument(level = "info", skip_all)]
 fn make_cond(c: Config, span: Span, alias: &Ident, var_expr: Expr, init: Box<Expr>) -> Expr {
-    Expr::Cond(if c.no_document_all {
+    if c.no_document_all {
         CondExpr {
             span,
             test: BinExpr {
@@ -258,5 +262,6 @@ fn make_cond(c: Config, span: Span, alias: &Ident, var_expr: Expr, init: Box<Exp
             cons: alias.clone().into(),
             alt: init,
         }
-    })
+    }
+    .into()
 }

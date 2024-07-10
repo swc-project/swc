@@ -111,7 +111,7 @@ impl SystemJs {
                 .make_member(quote_ident!("id"))
                 .into();
         }
-        Expr::Ident(ident)
+        ident.into()
     }
 
     fn replace_assign_expr(&mut self, assign_expr: AssignExpr) -> Expr {
@@ -120,16 +120,16 @@ impl SystemJs {
                 SimpleAssignTarget::Ident(ident) => {
                     for (k, v) in self.export_map.iter() {
                         if ident.to_id() == *k {
-                            let mut expr = Expr::Assign(assign_expr);
+                            let mut expr = assign_expr.into();
                             for value in v.iter() {
-                                expr = Expr::Call(self.export_call(value.clone(), DUMMY_SP, expr));
+                                expr = self.export_call(value.clone(), DUMMY_SP, expr).into();
                             }
                             return expr;
                         }
                     }
-                    Expr::Assign(assign_expr)
+                    assign_expr.into()
                 }
-                _ => Expr::Assign(assign_expr),
+                _ => assign_expr.into(),
             },
             AssignTarget::Pat(pat) => {
                 let mut to: Vec<Id> = vec![];
@@ -156,12 +156,13 @@ impl SystemJs {
                                 }
                             }
                         }
-                        Expr::Seq(SeqExpr {
+                        SeqExpr {
                             span: DUMMY_SP,
                             exprs,
-                        })
+                        }
+                        .into()
                     }
-                    _ => Expr::Assign(assign_expr),
+                    _ => assign_expr.into(),
                 }
             }
         }
@@ -173,7 +174,7 @@ impl SystemJs {
                 Expr::Ident(ident) => {
                     for (k, v) in self.export_map.iter() {
                         if ident.to_id() == *k {
-                            let mut expr = Expr::Bin(BinExpr {
+                            let mut expr = BinExpr {
                                 span: DUMMY_SP,
                                 op: op!(bin, "+"),
                                 left: UnaryExpr {
@@ -183,22 +184,24 @@ impl SystemJs {
                                 }
                                 .into(),
                                 right: 1.0.into(),
-                            });
-                            for value in v.iter() {
-                                expr = Expr::Call(self.export_call(value.clone(), DUMMY_SP, expr));
                             }
-                            return Expr::Seq(SeqExpr {
+                            .into();
+                            for value in v.iter() {
+                                expr = self.export_call(value.clone(), DUMMY_SP, expr).into();
+                            }
+                            return SeqExpr {
                                 span: DUMMY_SP,
                                 exprs: vec![Box::new(expr), Box::new(Expr::Update(update_expr))],
-                            });
+                            }
+                            .into();
                         }
                     }
-                    Expr::Update(update_expr)
+                    update_expr.into()
                 }
-                _ => Expr::Update(update_expr),
+                _ => update_expr.into(),
             }
         } else {
-            Expr::Update(update_expr)
+            update_expr.into()
         }
     }
 
@@ -394,7 +397,7 @@ impl SystemJs {
                         if (sym.clone(), ctxt) == *k {
                             for value in v.iter() {
                                 self.export_names.push(value.clone());
-                                self.export_values.push(Expr::undefined(DUMMY_SP));
+                                self.export_values.push(DUMMY_SP.into());
                             }
                             break;
                         }
@@ -418,10 +421,13 @@ impl SystemJs {
         }
         match exprs.len() {
             0 => None,
-            _ => Some(Expr::Seq(SeqExpr {
-                span: DUMMY_SP,
-                exprs,
-            })),
+            _ => Some(
+                SeqExpr {
+                    span: DUMMY_SP,
+                    exprs,
+                }
+                .into(),
+            ),
         }
     }
 
@@ -438,7 +444,7 @@ impl SystemJs {
                             if to == *k {
                                 for value in v.iter() {
                                     self.export_names.push(value.clone());
-                                    self.export_values.push(Expr::undefined(DUMMY_SP));
+                                    self.export_values.push(DUMMY_SP.into());
                                 }
                                 break;
                             }
@@ -559,7 +565,7 @@ impl Fold for SystemJs {
             }
             Expr::Update(update) => self.replace_update_expr(update),
             Expr::Call(call) => match call.callee {
-                Callee::Import(_) => Expr::Call(CallExpr {
+                Callee::Import(_) => CallExpr {
                     args: call.args.fold_with(self),
                     callee: self
                         .context_ident
@@ -567,8 +573,9 @@ impl Fold for SystemJs {
                         .make_member(quote_ident!("import"))
                         .as_callee(),
                     ..call
-                }),
-                _ => Expr::Call(call),
+                }
+                .into(),
+                _ => call.into(),
             },
             Expr::MetaProp(meta_prop_expr) => match meta_prop_expr.kind {
                 MetaPropKind::ImportMeta => self
@@ -576,14 +583,14 @@ impl Fold for SystemJs {
                     .clone()
                     .make_member(quote_ident!("meta"))
                     .into(),
-                _ => Expr::MetaProp(meta_prop_expr),
+                _ => meta_prop_expr.into(),
             },
             Expr::Await(await_expr) => {
                 if self.enter_async_fn == 0 {
                     self.tla = true;
                 }
 
-                Expr::Await(await_expr)
+                await_expr.into()
             }
             _ => expr,
         }
@@ -624,7 +631,7 @@ impl Fold for SystemJs {
         let module = {
             let mut module = module;
             if !self.config.allow_top_level_this {
-                top_level_this(&mut module, *Expr::undefined(DUMMY_SP));
+                top_level_this(&mut module, *DUMMY_SP.into());
             }
             module
         };
@@ -682,9 +689,11 @@ impl Fold for SystemJs {
                                             left: specifier.local.clone().into(),
                                             right: MemberExpr {
                                                 span: DUMMY_SP,
-                                                obj: Box::new(Expr::Ident(
-                                                    quote_ident!(source_alias.clone()).into(),
-                                                )),
+                                                obj: Box::new(
+                                                    quote_ident!(source_alias.clone())
+                                                        .into()
+                                                        .into(),
+                                                ),
                                                 prop: match specifier.imported {
                                                     Some(m) => get_module_export_member_prop(&m),
                                                     None => {
@@ -746,9 +755,11 @@ impl Fold for SystemJs {
                                         export_values.push(
                                             MemberExpr {
                                                 span: DUMMY_SP,
-                                                obj: Box::new(Expr::Ident(
-                                                    quote_ident!(source_alias.clone()).into(),
-                                                )),
+                                                obj: Box::new(
+                                                    quote_ident!(source_alias.clone())
+                                                        .into()
+                                                        .into(),
+                                                ),
                                                 prop: get_module_export_member_prop(
                                                     &specifier.orig,
                                                 ),
@@ -825,7 +836,7 @@ impl Fold for SystemJs {
                             Decl::Class(class_decl) => {
                                 let ident = class_decl.ident;
                                 self.export_names.push(ident.sym.clone());
-                                self.export_values.push(Expr::undefined(DUMMY_SP));
+                                self.export_values.push(DUMMY_SP.into());
                                 self.add_declare_var_idents(&ident);
                                 self.add_export_name(ident.to_id(), ident.sym.clone());
                                 execute_stmts.push(
@@ -875,7 +886,7 @@ impl Fold for SystemJs {
                             DefaultDecl::Class(class_expr) => {
                                 if let Some(ident) = &class_expr.ident {
                                     self.export_names.push("default".into());
-                                    self.export_values.push(Expr::undefined(DUMMY_SP));
+                                    self.export_values.push(DUMMY_SP.into());
                                     self.add_declare_var_idents(ident);
                                     self.add_export_name(ident.to_id(), "default".into());
                                     execute_stmts.push(
@@ -1066,7 +1077,7 @@ impl Fold for SystemJs {
                         .iter()
                         .map(|i| VarDeclarator {
                             span: i.span,
-                            name: i.clone().into().into(),
+                            name: i.clone().into(),
                             init: None,
                             definite: false,
                         })
@@ -1137,8 +1148,8 @@ fn get_module_export_name(module_export_name: &ModuleExportName) -> Id {
 #[inline]
 fn get_module_export_expr(module_export_name: &ModuleExportName) -> Expr {
     match &module_export_name {
-        ModuleExportName::Ident(ident) => Expr::Ident(ident.clone()),
-        ModuleExportName::Str(s) => Expr::Lit(Lit::Str(quote_str!(s.value.clone()))),
+        ModuleExportName::Ident(ident) => ident.clone().into(),
+        ModuleExportName::Str(s) => Lit::Str(quote_str!(s.value.clone())).into(),
     }
 }
 

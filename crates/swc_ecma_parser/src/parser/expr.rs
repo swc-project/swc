@@ -437,7 +437,7 @@ impl<I: Tokens> Parser<I> {
                     let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;
                     return Ok(TsAsExpr {
                         span: span!(self, start),
-                        expr: Box::new(Expr::Ident(id)),
+                        expr: Box::new(id.into()),
                         type_ann,
                     }
                     .into());
@@ -940,10 +940,9 @@ impl<I: Tokens> Parser<I> {
             // It's a call expression
             return Ok(CallExpr {
                 span: span!(self, async_span.lo()),
-                callee: Callee::Expr(Box::new(Expr::Ident(Ident::new_no_ctxt(
-                    "async".into(),
-                    async_span,
-                )))),
+                callee: Callee::Expr(Box::new(
+                    Ident::new_no_ctxt("async".into(), async_span).into(),
+                )),
                 args: expr_or_spreads,
                 ..Default::default()
             }
@@ -1334,11 +1333,12 @@ impl<I: Tokens> Parser<I> {
                             }
                             syntax_error!(self, self.input.cur_span(), SyntaxError::InvalidSuper);
                         } else {
-                            Expr::SuperProp(SuperPropExpr {
+                            SuperPropExpr {
                                 span,
                                 obj,
                                 prop: SuperProp::Computed(prop),
-                            })
+                            }
+                            .into()
                         }
                     }
                     Callee::Expr(obj) => {
@@ -1349,21 +1349,23 @@ impl<I: Tokens> Parser<I> {
                             prop: MemberProp::Computed(prop),
                         };
                         let expr = if is_opt_chain || question_dot_token.is_some() {
-                            Expr::OptChain(OptChainExpr {
+                            OptChainExpr {
                                 span,
                                 optional: question_dot_token.is_some(),
                                 base: Box::new(OptChainBase::Member(expr)),
-                            })
+                            }
+                            .into()
                         } else {
-                            Expr::Member(expr)
+                            expr.into()
                         };
 
                         if let Some(type_args) = type_args {
-                            Expr::TsInstantiation(TsInstantiation {
+                            TsInstantiation {
                                 expr: Box::new(expr),
                                 type_args,
                                 span: span!(self, start),
-                            })
+                            }
+                            .into()
                         } else {
                             expr
                         }
@@ -1451,20 +1453,22 @@ impl<I: Tokens> Parser<I> {
                                 self.emit_err(span, SyntaxError::ImportMetaInScript);
                             }
                             match &*sym {
-                                "meta" => Expr::MetaProp(MetaPropExpr {
+                                "meta" => MetaPropExpr {
                                     span,
                                     kind: MetaPropKind::ImportMeta,
-                                }),
+                                }
+                                .into(),
                                 _ => {
                                     let args = self.parse_args(true)?;
 
-                                    Expr::Call(CallExpr {
+                                    CallExpr {
                                         span,
                                         callee,
                                         args,
                                         type_args: None,
                                         ..Default::default()
-                                    })
+                                    }
+                                    .into()
                                 }
                             }
                         }
@@ -1488,11 +1492,12 @@ impl<I: Tokens> Parser<I> {
                             syntax_error!(self, self.input.cur_span(), SyntaxError::InvalidSuper);
                         } else {
                             match prop {
-                                MemberProp::Ident(ident) => Expr::SuperProp(SuperPropExpr {
+                                MemberProp::Ident(ident) => SuperPropExpr {
                                     span,
                                     obj,
                                     prop: SuperProp::Ident(ident),
-                                }),
+                                }
+                                .into(),
                                 MemberProp::PrivateName(..) => syntax_error!(
                                     self,
                                     self.input.cur_span(),
@@ -1507,20 +1512,22 @@ impl<I: Tokens> Parser<I> {
                         let expr = if unwrap_ts_non_null(&expr.obj).is_opt_chain()
                             || question_dot_token.is_some()
                         {
-                            Expr::OptChain(OptChainExpr {
+                            OptChainExpr {
                                 span: span!(self, start),
                                 optional: question_dot_token.is_some(),
                                 base: Box::new(OptChainBase::Member(expr)),
-                            })
+                            }
+                            .into()
                         } else {
-                            Expr::Member(expr)
+                            expr.into()
                         };
                         if let Some(type_args) = type_args {
-                            Expr::TsInstantiation(TsInstantiation {
+                            TsInstantiation {
                                 expr: Box::new(expr),
                                 type_args,
                                 span: span!(self, start),
-                            })
+                            }
+                            .into()
                         } else {
                             expr
                         }

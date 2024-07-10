@@ -17,7 +17,7 @@ impl VisitMut for ThisInStaticFolder {
         e.visit_mut_children_with(self);
 
         if let Expr::This(..) = e {
-            *e = Expr::Ident(self.ident.clone())
+            *e = self.ident.clone().into()
         }
     }
 
@@ -41,7 +41,7 @@ impl VisitMut for NewTargetInProp {
             kind: MetaPropKind::NewTarget,
         }) = e
         {
-            *e = *Expr::undefined(*span);
+            *e = **span.into();
         }
     }
 

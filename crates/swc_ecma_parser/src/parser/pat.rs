@@ -957,7 +957,7 @@ mod tests {
                 span,
                 dot3_token: span,
                 type_ann: None,
-                arg: ident("tail").into().into(),
+                arg: ident("tail").into(),
             }
             .into(),
         )

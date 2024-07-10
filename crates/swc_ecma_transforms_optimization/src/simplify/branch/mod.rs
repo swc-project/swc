@@ -128,7 +128,7 @@ impl VisitMut for Remover {
                 if cfg!(feature = "debug") {
                     debug!("Dropping assignment to the same variable");
                 }
-                *e = Expr::Ident(r.take().ident().unwrap());
+                *e = r.take().ident().unwrap().into();
             }
 
             Expr::Assign(AssignExpr {
@@ -1512,11 +1512,7 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
 
             match (left, right) {
                 (Some(l), Some(r)) => ignore_result(
-                    ctx.preserve_effects(
-                        span,
-                        *Expr::undefined(span),
-                        vec![Box::new(l), Box::new(r)],
-                    ),
+                    ctx.preserve_effects(span, *span.into(), vec![Box::new(l), Box::new(r)]),
                     true,
                     ctx,
                 ),
@@ -1548,12 +1544,15 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
                         None
                     }
                 } else {
-                    Some(Expr::Bin(BinExpr {
-                        span,
-                        left,
-                        op,
-                        right,
-                    }))
+                    Some(
+                        BinExpr {
+                            span,
+                            left,
+                            op,
+                            right,
+                        }
+                        .into(),
+                    )
                 }
             } else {
                 debug_assert!(op == op!("||") || op == op!("??"));
@@ -1569,12 +1568,15 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
                 } else {
                     let right = ignore_result(*right, true, ctx);
                     if let Some(right) = right {
-                        Some(Expr::Bin(BinExpr {
-                            span,
-                            left,
-                            op,
-                            right: Box::new(right),
-                        }))
+                        Some(
+                            BinExpr {
+                                span,
+                                left,
+                                op,
+                                right: Box::new(right),
+                            }
+                            .into(),
+                        )
                     } else {
                         ignore_result(*left, true, ctx)
                     }
@@ -1593,13 +1595,13 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
                     _ => false,
                 } =>
             {
-                Some(Expr::Unary(UnaryExpr { span, op, arg }))
+                Some(UnaryExpr { span, op, arg }.into())
             }
 
             op!("void") | op!(unary, "+") | op!(unary, "-") | op!("!") | op!("~") => {
                 ignore_result(*arg, true, ctx)
             }
-            _ => Some(Expr::Unary(UnaryExpr { span, op, arg })),
+            _ => Some(UnaryExpr { span, op, arg }.into()),
         },
 
         Expr::Array(ArrayLit { span, elems, .. }) => {
@@ -1625,12 +1627,12 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
             if elems.is_empty() {
                 None
             } else if has_spread {
-                Some(Expr::Array(ArrayLit { span, elems }))
+                Some(ArrayLit { span, elems }.into())
             } else {
                 ignore_result(
                     ctx.preserve_effects(
                         span,
-                        *Expr::undefined(span),
+                        *span.into(),
                         elems.into_iter().map(|v| v.unwrap().expr),
                     ),
                     true,
@@ -1657,7 +1659,7 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
                 ignore_result(
                     ctx.preserve_effects(
                         span,
-                        *Expr::undefined(DUMMY_SP),
+                        *DUMMY_SP.into(),
                         once(ObjectLit { span, props }.into()),
                     ),
                     true,
@@ -1672,12 +1674,13 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
             args,
             ..
         }) if callee.is_pure_callee(ctx) => ignore_result(
-            Expr::Array(ArrayLit {
+            ArrayLit {
                 span,
                 elems: args
                     .map(|args| args.into_iter().map(Some).collect())
                     .unwrap_or_else(Default::default),
-            }),
+            }
+            .into(),
             true,
             ctx,
         ),
@@ -1688,23 +1691,22 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
             args,
             ..
         }) if callee.is_pure_callee(ctx) => ignore_result(
-            Expr::Array(ArrayLit {
+            ArrayLit {
                 span,
                 elems: args.into_iter().map(Some).collect(),
-            }),
+            }
+            .into(),
             true,
             ctx,
         ),
 
-        Expr::Tpl(Tpl { span, exprs, .. }) => ignore_result(
-            ctx.preserve_effects(span, *Expr::undefined(span), exprs),
-            true,
-            ctx,
-        ),
+        Expr::Tpl(Tpl { span, exprs, .. }) => {
+            ignore_result(ctx.preserve_effects(span, *span.into(), exprs), true, ctx)
+        }
 
         Expr::TaggedTpl(TaggedTpl { span, tag, tpl, .. }) if tag.is_pure_callee(ctx) => {
             ignore_result(
-                ctx.preserve_effects(span, *Expr::undefined(span), tpl.exprs),
+                ctx.preserve_effects(span, *span.into(), tpl.exprs),
                 true,
                 ctx,
             )
@@ -1737,7 +1739,7 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
                 return Some(*exprs.pop().unwrap());
             }
 
-            Some(Expr::Seq(SeqExpr { span, exprs }))
+            Some(SeqExpr { span, exprs }.into())
         }
 
         Expr::Cond(CondExpr {
@@ -1750,12 +1752,13 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
                 alt
             } else {
                 return ignore_result(
-                    Expr::Bin(BinExpr {
+                    BinExpr {
                         span,
                         left: test,
                         op: op!("&&"),
                         right: cons,
-                    }),
+                    }
+                    .into(),
                     true,
                     ctx,
                 );
@@ -1765,23 +1768,27 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
                 cons
             } else {
                 return ignore_result(
-                    Expr::Bin(BinExpr {
+                    BinExpr {
                         span,
                         left: test,
                         op: op!("||"),
                         right: Box::new(alt),
-                    }),
+                    }
+                    .into(),
                     true,
                     ctx,
                 );
             };
 
-            Some(Expr::Cond(CondExpr {
-                span,
-                test,
-                cons: Box::new(cons),
-                alt: Box::new(alt),
-            }))
+            Some(
+                CondExpr {
+                    span,
+                    test,
+                    cons: Box::new(cons),
+                    alt: Box::new(alt),
+                }
+                .into(),
+            )
         }
 
         _ => Some(e),

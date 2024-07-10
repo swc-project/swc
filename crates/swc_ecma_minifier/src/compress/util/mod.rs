@@ -165,11 +165,12 @@ fn negate_inner(
     } else {
         report_change!("negate: e => !e");
 
-        *e = Expr::Unary(UnaryExpr {
+        *e = UnaryExpr {
             span: DUMMY_SP,
             op: op!("!"),
             arg,
-        });
+        }
+        .into();
 
         dump_change_detail!("Negated `{}` as `{}`", start_str, dump(&*e, false));
 
