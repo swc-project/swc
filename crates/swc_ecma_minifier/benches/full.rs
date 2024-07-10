@@ -16,7 +16,7 @@ use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_visit::FoldWith;
 
 pub fn bench_files(c: &mut Criterion) {
-    let mut group = c.benchmark_group("es/minify/libraries");
+    let mut group = c.benchmark_group("es/minifier/libs");
     group.sample_size(10);
 
     let mut bench_file = |name: &str| {
