@@ -482,7 +482,7 @@ fn is_assign_to_super_prop(left: &AssignTarget) -> bool {
 
 fn prop_arg(prop: SuperProp) -> Expr {
     match prop {
-        SuperProp::Ident(Ident {
+        SuperProp::Ident(IdentName {
             sym: value, span, ..
         }) => Expr::Lit(Lit::Str(Str {
             span,
