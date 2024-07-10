@@ -198,9 +198,7 @@
               "start": 172,
               "end": 176
             },
-            "ctxt": 0,
-            "value": "then",
-            "optional": false
+            "value": "then"
           }
         },
         "arguments": [
@@ -269,9 +267,7 @@
                             "start": 203,
                             "end": 206
                           },
-                          "ctxt": 0,
-                          "value": "foo",
-                          "optional": false
+                          "value": "foo"
                         }
                       },
                       "arguments": [],
@@ -488,9 +484,7 @@
               "start": 311,
               "end": 317
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           },
           "function": {
             "params": [],
@@ -629,9 +623,7 @@
                 "start": 394,
                 "end": 400
               },
-              "ctxt": 0,
-              "value": "method",
-              "optional": false
+              "value": "method"
             },
             "function": {
               "params": [],

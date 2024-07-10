@@ -87,9 +87,7 @@
               "start": 106,
               "end": 113
             },
-            "ctxt": 0,
-            "value": "toFixed",
-            "optional": false
+            "value": "toFixed"
           }
         },
         "arguments": [],
@@ -215,9 +213,7 @@
                     "start": 169,
                     "end": 176
                   },
-                  "ctxt": 0,
-                  "value": "toFixed",
-                  "optional": false
+                  "value": "toFixed"
                 }
               },
               "arguments": [],
@@ -259,9 +255,7 @@
                     "start": 214,
                     "end": 227
                   },
-                  "ctxt": 0,
-                  "value": "toExponential",
-                  "optional": false
+                  "value": "toExponential"
                 }
               },
               "arguments": [],
@@ -323,9 +317,7 @@
               "start": 294,
               "end": 297
             },
-            "ctxt": 0,
-            "value": "non",
-            "optional": false
+            "value": "non"
           },
           "value": {
             "type": "StringLiteral",
@@ -359,9 +351,7 @@
               "start": 310,
               "end": 317
             },
-            "ctxt": 0,
-            "value": "methode",
-            "optional": false
+            "value": "methode"
           },
           "function": {
             "params": [],
@@ -404,9 +394,7 @@
                         "start": 383,
                         "end": 387
                       },
-                      "ctxt": 0,
-                      "value": "none",
-                      "optional": false
+                      "value": "none"
                     }
                   }
                 }
@@ -463,9 +451,7 @@
               "start": 431,
               "end": 438
             },
-            "ctxt": 0,
-            "value": "methode",
-            "optional": false
+            "value": "methode"
           },
           "function": {
             "params": [],
@@ -508,9 +494,7 @@
                         "start": 506,
                         "end": 510
                       },
-                      "ctxt": 0,
-                      "value": "none",
-                      "optional": false
+                      "value": "none"
                     }
                   }
                 }
@@ -586,9 +570,7 @@
                     "start": 540,
                     "end": 547
                   },
-                  "ctxt": 0,
-                  "value": "spaaace",
-                  "optional": false
+                  "value": "spaaace"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -634,9 +616,7 @@
             "start": 560,
             "end": 568
           },
-          "ctxt": 0,
-          "value": "spaaaace",
-          "optional": false
+          "value": "spaaaace"
         }
       }
     },
@@ -675,9 +655,7 @@
               "start": 593,
               "end": 599
             },
-            "ctxt": 0,
-            "value": "spaace",
-            "optional": false
+            "value": "spaace"
           }
         },
         "right": {
@@ -726,9 +704,7 @@
               "start": 630,
               "end": 635
             },
-            "ctxt": 0,
-            "value": "fresh",
-            "optional": false
+            "value": "fresh"
           }
         },
         "right": {
@@ -770,9 +746,7 @@
             "start": 653,
             "end": 659
           },
-          "ctxt": 0,
-          "value": "puuuce",
-          "optional": false
+          "value": "puuuce"
         }
       }
     },
@@ -821,9 +795,7 @@
               "start": 696,
               "end": 706
             },
-            "ctxt": 0,
-            "value": "getGMTDate",
-            "optional": false
+            "value": "getGMTDate"
           }
         },
         "arguments": [],
@@ -914,9 +886,7 @@
                           "start": 821,
                           "end": 824
                         },
-                        "ctxt": 0,
-                        "value": "log",
-                        "optional": false
+                        "value": "log"
                       }
                     },
                     "arguments": [
@@ -1150,9 +1120,7 @@
                     "start": 973,
                     "end": 978
                   },
-                  "ctxt": 0,
-                  "value": "puuce",
-                  "optional": false
+                  "value": "puuce"
                 },
                 "value": {
                   "type": "NumericLiteral",

@@ -43,9 +43,7 @@
                 "start": 59,
                 "end": 61
               },
-              "ctxt": 0,
-              "value": "m1",
-              "optional": false
+              "value": "m1"
             },
             "value": {
               "type": "NumericLiteral",
@@ -79,9 +77,7 @@
                 "start": 76,
                 "end": 78
               },
-              "ctxt": 0,
-              "value": "s1",
-              "optional": false
+              "value": "s1"
             },
             "value": {
               "type": "BooleanLiteral",
@@ -459,6 +455,10 @@
       },
       "moduleRef": {
         "type": "TsQualifiedName",
+        "span": {
+          "start": 365,
+          "end": 371
+        },
         "left": {
           "type": "Identifier",
           "span": {
@@ -475,9 +475,7 @@
             "start": 369,
             "end": 371
           },
-          "ctxt": 0,
-          "value": "M1",
-          "optional": false
+          "value": "M1"
         }
       }
     },
@@ -520,6 +518,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 380,
+                    "end": 384
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -536,9 +538,7 @@
                       "start": 382,
                       "end": 384
                     },
-                    "ctxt": 0,
-                    "value": "I2",
-                    "optional": false
+                    "value": "I2"
                   }
                 },
                 "typeParams": null
@@ -589,6 +589,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 393,
+                    "end": 399
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -605,9 +609,7 @@
                       "start": 397,
                       "end": 399
                     },
-                    "ctxt": 0,
-                    "value": "C1",
-                    "optional": false
+                    "value": "C1"
                   }
                 },
                 "typeParams": null
@@ -716,8 +718,16 @@
                 },
                 "exprName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 434,
+                    "end": 443
+                  },
                   "left": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 434,
+                      "end": 440
+                    },
                     "left": {
                       "type": "Identifier",
                       "span": {
@@ -734,9 +744,7 @@
                         "start": 438,
                         "end": 440
                       },
-                      "ctxt": 0,
-                      "value": "C1",
-                      "optional": false
+                      "value": "C1"
                     }
                   },
                   "right": {
@@ -745,9 +753,7 @@
                       "start": 441,
                       "end": 443
                     },
-                    "ctxt": 0,
-                    "value": "s1",
-                    "optional": false
+                    "value": "s1"
                   }
                 },
                 "typeArguments": null
@@ -805,8 +811,16 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 460,
+                    "end": 469
+                  },
                   "left": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 460,
+                      "end": 466
+                    },
                     "left": {
                       "type": "Identifier",
                       "span": {
@@ -823,9 +837,7 @@
                         "start": 464,
                         "end": 466
                       },
-                      "ctxt": 0,
-                      "value": "M1",
-                      "optional": false
+                      "value": "M1"
                     }
                   },
                   "right": {
@@ -834,9 +846,7 @@
                       "start": 467,
                       "end": 469
                     },
-                    "ctxt": 0,
-                    "value": "I2",
-                    "optional": false
+                    "value": "I2"
                   }
                 },
                 "typeParams": null
@@ -912,6 +922,10 @@
               },
               "typeName": {
                 "type": "TsQualifiedName",
+                "span": {
+                  "start": 488,
+                  "end": 494
+                },
                 "left": {
                   "type": "Identifier",
                   "span": {
@@ -928,9 +942,7 @@
                     "start": 492,
                     "end": 494
                   },
-                  "ctxt": 0,
-                  "value": "E1",
-                  "optional": false
+                  "value": "E1"
                 }
               },
               "typeParams": null

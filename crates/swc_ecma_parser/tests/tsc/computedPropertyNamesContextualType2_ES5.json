@@ -367,9 +367,7 @@
                             "start": 170,
                             "end": 176
                           },
-                          "ctxt": 0,
-                          "value": "length",
-                          "optional": false
+                          "value": "length"
                         }
                       }
                     }
@@ -448,9 +446,7 @@
                         "start": 202,
                         "end": 208
                       },
-                      "ctxt": 0,
-                      "value": "length",
-                      "optional": false
+                      "value": "length"
                     }
                   },
                   "async": false,

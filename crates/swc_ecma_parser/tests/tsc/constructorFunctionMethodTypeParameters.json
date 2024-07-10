@@ -85,9 +85,7 @@
                     "start": 186,
                     "end": 187
                   },
-                  "ctxt": 0,
-                  "value": "t",
-                  "optional": false
+                  "value": "t"
                 }
               },
               "right": {
@@ -150,9 +148,7 @@
                 "start": 279,
                 "end": 288
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -161,9 +157,7 @@
               "start": 289,
               "end": 304
             },
-            "ctxt": 0,
-            "value": "topLevelComment",
-            "optional": false
+            "value": "topLevelComment"
           }
         },
         "right": {
@@ -290,9 +284,7 @@
                 "start": 346,
                 "end": 355
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -301,9 +293,7 @@
               "start": 356,
               "end": 369
             },
-            "ctxt": 0,
-            "value": "nestedComment",
-            "optional": false
+            "value": "nestedComment"
           }
         },
         "right": {
@@ -509,9 +499,7 @@
                   "start": 556,
                   "end": 571
                 },
-                "ctxt": 0,
-                "value": "topLevelComment",
-                "optional": false
+                "value": "topLevelComment"
               }
             },
             "arguments": [
@@ -602,9 +590,7 @@
                   "start": 595,
                   "end": 608
                 },
-                "ctxt": 0,
-                "value": "nestedComment",
-                "optional": false
+                "value": "nestedComment"
               }
             },
             "arguments": [

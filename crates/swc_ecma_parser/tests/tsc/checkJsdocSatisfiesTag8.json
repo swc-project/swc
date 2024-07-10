@@ -53,9 +53,7 @@
                       "start": 212,
                       "end": 213
                     },
-                    "ctxt": 0,
-                    "value": "m",
-                    "optional": false
+                    "value": "m"
                   },
                   "value": {
                     "type": "BooleanLiteral",
@@ -74,9 +72,7 @@
                       "start": 225,
                       "end": 226
                     },
-                    "ctxt": 0,
-                    "value": "s",
-                    "optional": false
+                    "value": "s"
                   },
                   "value": {
                     "type": "StringLiteral",

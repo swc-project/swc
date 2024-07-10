@@ -37,9 +37,7 @@
               "start": 52,
               "end": 61
             },
-            "ctxt": 0,
-            "value": "generator",
-            "optional": false
+            "value": "generator"
           },
           "function": {
             "params": [],

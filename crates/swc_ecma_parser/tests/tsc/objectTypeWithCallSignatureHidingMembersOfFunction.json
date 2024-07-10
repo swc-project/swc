@@ -437,9 +437,7 @@
                 "start": 269,
                 "end": 274
               },
-              "ctxt": 0,
-              "value": "apply",
-              "optional": false
+              "value": "apply"
             }
           },
           "definite": false
@@ -595,9 +593,7 @@
                 "start": 338,
                 "end": 342
               },
-              "ctxt": 0,
-              "value": "call",
-              "optional": false
+              "value": "call"
             }
           },
           "definite": false
@@ -653,9 +649,7 @@
                 "start": 356,
                 "end": 365
               },
-              "ctxt": 0,
-              "value": "arguments",
-              "optional": false
+              "value": "arguments"
             }
           },
           "definite": false
@@ -1056,9 +1050,7 @@
                 "start": 521,
                 "end": 526
               },
-              "ctxt": 0,
-              "value": "apply",
-              "optional": false
+              "value": "apply"
             }
           },
           "definite": false
@@ -1214,9 +1206,7 @@
                 "start": 590,
                 "end": 594
               },
-              "ctxt": 0,
-              "value": "call",
-              "optional": false
+              "value": "call"
             }
           },
           "definite": false
@@ -1272,9 +1262,7 @@
                 "start": 608,
                 "end": 617
               },
-              "ctxt": 0,
-              "value": "arguments",
-              "optional": false
+              "value": "arguments"
             }
           },
           "definite": false

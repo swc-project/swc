@@ -81,9 +81,7 @@
                     "start": 151,
                     "end": 159
                   },
-                  "ctxt": 0,
-                  "value": "toString",
-                  "optional": false
+                  "value": "toString"
                 }
               },
               "arguments": [],

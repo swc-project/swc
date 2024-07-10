@@ -260,9 +260,7 @@
                 "start": 263,
                 "end": 270
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "right": {
@@ -313,9 +311,7 @@
               "start": 283,
               "end": 284
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           }
         },
         "right": {
@@ -432,9 +428,7 @@
                     "start": 322,
                     "end": 323
                   },
-                  "ctxt": 0,
-                  "value": "p",
-                  "optional": false
+                  "value": "p"
                 }
               },
               "right": {
@@ -575,9 +569,7 @@
                   "start": 430,
                   "end": 431
                 },
-                "ctxt": 0,
-                "value": "f",
-                "optional": false
+                "value": "f"
               }
             },
             "arguments": [

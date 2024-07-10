@@ -69,9 +69,7 @@
                           "start": 20,
                           "end": 26
                         },
-                        "ctxt": 0,
-                        "value": "assert",
-                        "optional": false
+                        "value": "assert"
                       },
                       "value": {
                         "type": "ObjectExpression",
@@ -88,9 +86,7 @@
                                 "start": 30,
                                 "end": 34
                               },
-                              "ctxt": 0,
-                              "value": "type",
-                              "optional": false
+                              "value": "type"
                             },
                             "value": {
                               "type": "StringLiteral",
@@ -117,9 +113,7 @@
               "start": 53,
               "end": 57
             },
-            "ctxt": 0,
-            "value": "then",
-            "optional": false
+            "value": "then"
           }
         },
         "arguments": [
@@ -174,9 +168,7 @@
                       "start": 76,
                       "end": 79
                     },
-                    "ctxt": 0,
-                    "value": "log",
-                    "optional": false
+                    "value": "log"
                   }
                 },
                 "arguments": [

@@ -284,9 +284,7 @@
             "start": 278,
             "end": 290
           },
-          "ctxt": 0,
-          "value": "ImportClause",
-          "optional": false
+          "value": "ImportClause"
         }
       }
     },
@@ -318,9 +316,7 @@
             "start": 304,
             "end": 308
           },
-          "ctxt": 0,
-          "value": "Type",
-          "optional": false
+          "value": "Type"
         }
       }
     },
@@ -363,6 +359,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 320,
+                    "end": 343
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -379,9 +379,7 @@
                       "start": 331,
                       "end": 343
                     },
-                    "ctxt": 0,
-                    "value": "ImportClause",
-                    "optional": false
+                    "value": "ImportClause"
                   }
                 },
                 "typeParams": null
@@ -475,6 +473,10 @@
         },
         "typeName": {
           "type": "TsQualifiedName",
+          "span": {
+            "start": 386,
+            "end": 402
+          },
           "left": {
             "type": "Identifier",
             "span": {
@@ -491,9 +493,7 @@
               "start": 398,
               "end": 402
             },
-            "ctxt": 0,
-            "value": "Type",
-            "optional": false
+            "value": "Type"
           }
         },
         "typeParams": null
@@ -683,9 +683,7 @@
                 "start": 559,
                 "end": 563
               },
-              "ctxt": 0,
-              "value": "Type",
-              "optional": false
+              "value": "Type"
             }
           },
           "definite": false

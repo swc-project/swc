@@ -193,6 +193,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 122,
+                    "end": 129
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -209,9 +213,7 @@
                       "start": 124,
                       "end": 129
                     },
-                    "ctxt": 0,
-                    "value": "Color",
-                    "optional": false
+                    "value": "Color"
                   }
                 },
                 "typeParams": null
@@ -246,9 +248,7 @@
                   "start": 134,
                   "end": 139
                 },
-                "ctxt": 0,
-                "value": "Color",
-                "optional": false
+                "value": "Color"
               }
             },
             "property": {
@@ -257,9 +257,7 @@
                 "start": 140,
                 "end": 143
               },
-              "ctxt": 0,
-              "value": "Red",
-              "optional": false
+              "value": "Red"
             }
           },
           "definite": false
@@ -321,9 +319,7 @@
                   "start": 178,
                   "end": 181
                 },
-                "ctxt": 0,
-                "value": "Day",
-                "optional": false
+                "value": "Day"
               }
             },
             "property": {
@@ -332,9 +328,7 @@
                 "start": 182,
                 "end": 188
               },
-              "ctxt": 0,
-              "value": "Monday",
-              "optional": false
+              "value": "Monday"
             }
           },
           "definite": false

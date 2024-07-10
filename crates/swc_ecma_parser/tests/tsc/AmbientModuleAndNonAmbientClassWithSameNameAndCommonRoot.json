@@ -256,9 +256,7 @@
                       "start": 238,
                       "end": 249
                     },
-                    "ctxt": 0,
-                    "value": "constructor",
-                    "optional": false
+                    "value": "constructor"
                   },
                   "params": [
                     {
@@ -529,9 +527,7 @@
                   "start": 364,
                   "end": 369
                 },
-                "ctxt": 0,
-                "value": "Point",
-                "optional": false
+                "value": "Point"
               }
             },
             "property": {
@@ -540,9 +536,7 @@
                 "start": 370,
                 "end": 376
               },
-              "ctxt": 0,
-              "value": "Origin",
-              "optional": false
+              "value": "Origin"
             }
           },
           "definite": false
@@ -605,9 +599,7 @@
                   "start": 392,
                   "end": 397
                 },
-                "ctxt": 0,
-                "value": "Point",
-                "optional": false
+                "value": "Point"
               }
             },
             "arguments": [

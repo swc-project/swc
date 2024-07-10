@@ -363,9 +363,7 @@
                     "start": 187,
                     "end": 190
                   },
-                  "ctxt": 0,
-                  "value": "bar",
-                  "optional": false
+                  "value": "bar"
                 },
                 "value": {
                   "type": "StringLiteral",
@@ -492,9 +490,7 @@
                     "start": 243,
                     "end": 246
                   },
-                  "ctxt": 0,
-                  "value": "bar",
-                  "optional": false
+                  "value": "bar"
                 },
                 "value": {
                   "type": "StringLiteral",

@@ -562,9 +562,7 @@
                 "start": 241,
                 "end": 246
               },
-              "ctxt": 0,
-              "value": "apply",
-              "optional": false
+              "value": "apply"
             }
           },
           "definite": false
@@ -720,9 +718,7 @@
                 "start": 310,
                 "end": 314
               },
-              "ctxt": 0,
-              "value": "call",
-              "optional": false
+              "value": "call"
             }
           },
           "definite": false
@@ -778,9 +774,7 @@
                 "start": 328,
                 "end": 337
               },
-              "ctxt": 0,
-              "value": "arguments",
-              "optional": false
+              "value": "arguments"
             }
           },
           "definite": false
@@ -836,9 +830,7 @@
                 "start": 351,
                 "end": 355
               },
-              "ctxt": 0,
-              "value": "data",
-              "optional": false
+              "value": "data"
             }
           },
           "definite": false
@@ -1303,9 +1295,7 @@
                 "start": 555,
                 "end": 560
               },
-              "ctxt": 0,
-              "value": "apply",
-              "optional": false
+              "value": "apply"
             }
           },
           "definite": false
@@ -1461,9 +1451,7 @@
                 "start": 624,
                 "end": 628
               },
-              "ctxt": 0,
-              "value": "call",
-              "optional": false
+              "value": "call"
             }
           },
           "definite": false
@@ -1519,9 +1507,7 @@
                 "start": 642,
                 "end": 651
               },
-              "ctxt": 0,
-              "value": "arguments",
-              "optional": false
+              "value": "arguments"
             }
           },
           "definite": false
@@ -1577,9 +1563,7 @@
                 "start": 665,
                 "end": 669
               },
-              "ctxt": 0,
-              "value": "data",
-              "optional": false
+              "value": "data"
             }
           },
           "definite": false

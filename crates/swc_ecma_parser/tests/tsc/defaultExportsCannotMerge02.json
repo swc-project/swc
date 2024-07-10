@@ -366,6 +366,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 278,
+                    "end": 286
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -382,9 +386,7 @@
                       "start": 285,
                       "end": 286
                     },
-                    "ctxt": 0,
-                    "value": "I",
-                    "optional": false
+                    "value": "I"
                   }
                 },
                 "typeParams": null
@@ -503,9 +505,7 @@
                   "start": 322,
                   "end": 324
                 },
-                "ctxt": 0,
-                "value": "p1",
-                "optional": false
+                "value": "p1"
               }
             },
             "right": {
@@ -530,9 +530,7 @@
                   "start": 329,
                   "end": 331
                 },
-                "ctxt": 0,
-                "value": "p2",
-                "optional": false
+                "value": "p2"
               }
             }
           },

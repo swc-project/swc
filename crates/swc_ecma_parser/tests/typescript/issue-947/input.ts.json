@@ -47,9 +47,7 @@
                 "start": 13,
                 "end": 19
               },
-              "ctxt": 0,
-              "value": "myProp",
-              "optional": false
+              "value": "myProp"
             }
           }
         }

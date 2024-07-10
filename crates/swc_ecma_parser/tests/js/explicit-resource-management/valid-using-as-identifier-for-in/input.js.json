@@ -66,9 +66,7 @@
             "start": 31,
             "end": 34
           },
-          "ctxt": 0,
-          "value": "foo",
-          "optional": false
+          "value": "foo"
         }
       },
       "right": {
@@ -125,9 +123,7 @@
             "start": 56,
             "end": 59
           },
-          "ctxt": 0,
-          "value": "foo",
-          "optional": false
+          "value": "foo"
         }
       },
       "right": {
@@ -203,9 +199,7 @@
             "start": 81,
             "end": 84
           },
-          "ctxt": 0,
-          "value": "foo",
-          "optional": false
+          "value": "foo"
         }
       },
       "right": {

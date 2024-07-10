@@ -276,9 +276,7 @@
                               "start": 184,
                               "end": 189
                             },
-                            "ctxt": 0,
-                            "value": "value",
-                            "optional": false
+                            "value": "value"
                           }
                         }
                       },
@@ -299,9 +297,7 @@
                     "start": 197,
                     "end": 201
                   },
-                  "ctxt": 0,
-                  "value": "push",
-                  "optional": false
+                  "value": "push"
                 }
               },
               "arguments": [
@@ -493,9 +489,7 @@
                               "start": 280,
                               "end": 285
                             },
-                            "ctxt": 0,
-                            "value": "value",
-                            "optional": false
+                            "value": "value"
                           }
                         }
                       },
@@ -516,9 +510,7 @@
                     "start": 293,
                     "end": 297
                   },
-                  "ctxt": 0,
-                  "value": "push",
-                  "optional": false
+                  "value": "push"
                 }
               },
               "arguments": [
@@ -710,9 +702,7 @@
                               "start": 376,
                               "end": 381
                             },
-                            "ctxt": 0,
-                            "value": "value",
-                            "optional": false
+                            "value": "value"
                           }
                         }
                       },
@@ -733,9 +723,7 @@
                     "start": 389,
                     "end": 393
                   },
-                  "ctxt": 0,
-                  "value": "push",
-                  "optional": false
+                  "value": "push"
                 }
               },
               "arguments": [

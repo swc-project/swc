@@ -37,9 +37,7 @@
               "start": 16,
               "end": 21
             },
-            "ctxt": 0,
-            "value": "propA",
-            "optional": false
+            "value": "propA"
           },
           "value": null,
           "typeAnnotation": {
@@ -106,9 +104,7 @@
               "start": 48,
               "end": 53
             },
-            "ctxt": 0,
-            "value": "propB",
-            "optional": false
+            "value": "propB"
           },
           "value": null,
           "typeAnnotation": {
@@ -175,9 +171,7 @@
               "start": 90,
               "end": 95
             },
-            "ctxt": 0,
-            "value": "propC",
-            "optional": false
+            "value": "propC"
           },
           "value": null,
           "typeAnnotation": {
@@ -786,9 +780,7 @@
                   "start": 308,
                   "end": 313
                 },
-                "ctxt": 0,
-                "value": "propC",
-                "optional": false
+                "value": "propC"
               }
             }
           }
@@ -928,9 +920,7 @@
                   "start": 377,
                   "end": 382
                 },
-                "ctxt": 0,
-                "value": "propC",
-                "optional": false
+                "value": "propC"
               }
             }
           }
@@ -1097,9 +1087,7 @@
                   "start": 446,
                   "end": 451
                 },
-                "ctxt": 0,
-                "value": "propA",
-                "optional": false
+                "value": "propA"
               }
             }
           }
@@ -1433,9 +1421,7 @@
                   "start": 751,
                   "end": 756
                 },
-                "ctxt": 0,
-                "value": "propC",
-                "optional": false
+                "value": "propC"
               }
             }
           }
@@ -1629,9 +1615,7 @@
               "start": 826,
               "end": 833
             },
-            "ctxt": 0,
-            "value": "method1",
-            "optional": false
+            "value": "method1"
           },
           "function": {
             "params": [

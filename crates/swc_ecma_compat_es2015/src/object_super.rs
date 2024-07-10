@@ -189,7 +189,7 @@ impl SuperReplacer {
     // .a -> "a"
     fn normalize_computed_expr(&mut self, prop: &mut SuperProp) -> Box<Expr> {
         match prop.take() {
-            SuperProp::Ident(Ident {
+            SuperProp::Ident(IdentName {
                 sym: value, span, ..
             }) => Box::new(Expr::Lit(Lit::Str(Str {
                 raw: None,

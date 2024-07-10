@@ -457,9 +457,7 @@
                     "start": 405,
                     "end": 411
                   },
-                  "ctxt": 0,
-                  "value": "concat",
-                  "optional": false
+                  "value": "concat"
                 }
               },
               "arguments": [

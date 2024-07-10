@@ -110,9 +110,7 @@
                 "start": 128,
                 "end": 139
               },
-              "ctxt": 0,
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [],
             "body": {
@@ -158,9 +156,7 @@
                           "start": 161,
                           "end": 164
                         },
-                        "ctxt": 0,
-                        "value": "log",
-                        "optional": false
+                        "value": "log"
                       }
                     },
                     "arguments": [
@@ -345,9 +341,7 @@
                 "start": 246,
                 "end": 257
               },
-              "ctxt": 0,
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [],
             "body": {
@@ -393,9 +387,7 @@
                           "start": 279,
                           "end": 282
                         },
-                        "ctxt": 0,
-                        "value": "log",
-                        "optional": false
+                        "value": "log"
                       }
                     },
                     "arguments": [
@@ -792,9 +784,7 @@
                 "start": 468,
                 "end": 479
               },
-              "ctxt": 0,
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [],
             "body": {
@@ -840,9 +830,7 @@
                           "start": 501,
                           "end": 504
                         },
-                        "ctxt": 0,
-                        "value": "log",
-                        "optional": false
+                        "value": "log"
                       }
                     },
                     "arguments": [

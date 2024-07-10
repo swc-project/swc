@@ -40,9 +40,7 @@
               "start": 118,
               "end": 128
             },
-            "ctxt": 0,
-            "value": "formatters",
-            "optional": false
+            "value": "formatters"
           }
         },
         "right": {
@@ -155,9 +153,7 @@
                 "start": 192,
                 "end": 202
               },
-              "ctxt": 0,
-              "value": "formatters",
-              "optional": false
+              "value": "formatters"
             }
           },
           "property": {
@@ -166,9 +162,7 @@
               "start": 203,
               "end": 204
             },
-            "ctxt": 0,
-            "value": "j",
-            "optional": false
+            "value": "j"
           }
         },
         "right": {
@@ -335,9 +329,7 @@
                 "start": 296,
                 "end": 306
               },
-              "ctxt": 0,
-              "value": "formatters",
-              "optional": false
+              "value": "formatters"
             }
           },
           "property": {
@@ -346,9 +338,7 @@
               "start": 307,
               "end": 308
             },
-            "ctxt": 0,
-            "value": "o",
-            "optional": false
+            "value": "o"
           }
         },
         "right": {
@@ -487,9 +477,7 @@
               "start": 401,
               "end": 411
             },
-            "ctxt": 0,
-            "value": "formatters",
-            "optional": false
+            "value": "formatters"
           }
         },
         "property": {
@@ -498,9 +486,7 @@
             "start": 412,
             "end": 413
           },
-          "ctxt": 0,
-          "value": "j",
-          "optional": false
+          "value": "j"
         }
       }
     },
@@ -566,9 +552,7 @@
                     "start": 430,
                     "end": 440
                   },
-                  "ctxt": 0,
-                  "value": "formatters",
-                  "optional": false
+                  "value": "formatters"
                 }
               },
               "property": {
@@ -577,9 +561,7 @@
                   "start": 441,
                   "end": 442
                 },
-                "ctxt": 0,
-                "value": "o",
-                "optional": false
+                "value": "o"
               }
             },
             "arguments": [

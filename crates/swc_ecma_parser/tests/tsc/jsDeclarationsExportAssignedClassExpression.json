@@ -40,9 +40,7 @@
               "start": 123,
               "end": 130
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -77,9 +75,7 @@
                   "start": 192,
                   "end": 203
                 },
-                "ctxt": 0,
-                "value": "constructor",
-                "optional": false
+                "value": "constructor"
               },
               "params": [
                 {
@@ -142,9 +138,7 @@
                             "start": 222,
                             "end": 223
                           },
-                          "ctxt": 0,
-                          "value": "t",
-                          "optional": false
+                          "value": "t"
                         }
                       },
                       "right": {

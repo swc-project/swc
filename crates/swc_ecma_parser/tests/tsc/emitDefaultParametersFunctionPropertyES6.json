@@ -47,9 +47,7 @@
                     "start": 33,
                     "end": 38
                   },
-                  "ctxt": 0,
-                  "value": "func1",
-                  "optional": false
+                  "value": "func1"
                 },
                 "params": [
                   {
@@ -147,9 +145,7 @@
                     "start": 65,
                     "end": 70
                   },
-                  "ctxt": 0,
-                  "value": "func2",
-                  "optional": false
+                  "value": "func2"
                 },
                 "params": [
                   {
@@ -216,9 +212,7 @@
                     "start": 93,
                     "end": 98
                   },
-                  "ctxt": 0,
-                  "value": "func3",
-                  "optional": false
+                  "value": "func3"
                 },
                 "params": [
                   {
@@ -351,9 +345,7 @@
                     "start": 143,
                     "end": 148
                   },
-                  "ctxt": 0,
-                  "value": "func4",
-                  "optional": false
+                  "value": "func4"
                 },
                 "params": [
                   {

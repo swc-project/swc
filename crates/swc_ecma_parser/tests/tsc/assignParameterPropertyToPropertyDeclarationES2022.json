@@ -37,9 +37,7 @@
               "start": 68,
               "end": 71
             },
-            "ctxt": 0,
-            "value": "qux",
-            "optional": false
+            "value": "qux"
           },
           "value": {
             "type": "MemberExpression",
@@ -60,9 +58,7 @@
                 "start": 79,
                 "end": 82
               },
-              "ctxt": 0,
-              "value": "bar",
-              "optional": false
+              "value": "bar"
             }
           },
           "typeAnnotation": null,
@@ -88,9 +84,7 @@
               "start": 103,
               "end": 106
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "value": {
             "type": "MemberExpression",
@@ -111,9 +105,7 @@
                 "start": 114,
                 "end": 117
               },
-              "ctxt": 0,
-              "value": "foo",
-              "optional": false
+              "value": "foo"
             }
           },
           "typeAnnotation": null,
@@ -139,9 +131,7 @@
               "start": 138,
               "end": 142
             },
-            "ctxt": 0,
-            "value": "quiz",
-            "optional": false
+            "value": "quiz"
           },
           "value": {
             "type": "MemberExpression",
@@ -162,9 +152,7 @@
                 "start": 150,
                 "end": 153
               },
-              "ctxt": 0,
-              "value": "bar",
-              "optional": false
+              "value": "bar"
             }
           },
           "typeAnnotation": null,
@@ -190,9 +178,7 @@
               "start": 164,
               "end": 170
             },
-            "ctxt": 0,
-            "value": "quench",
-            "optional": false
+            "value": "quench"
           },
           "value": {
             "type": "CallExpression",
@@ -220,9 +206,7 @@
                   "start": 178,
                   "end": 180
                 },
-                "ctxt": 0,
-                "value": "m1",
-                "optional": false
+                "value": "m1"
               }
             },
             "arguments": [],
@@ -251,9 +235,7 @@
               "start": 193,
               "end": 199
             },
-            "ctxt": 0,
-            "value": "quanch",
-            "optional": false
+            "value": "quanch"
           },
           "value": {
             "type": "CallExpression",
@@ -281,9 +263,7 @@
                   "start": 207,
                   "end": 209
                 },
-                "ctxt": 0,
-                "value": "m3",
-                "optional": false
+                "value": "m3"
               }
             },
             "arguments": [],
@@ -312,9 +292,7 @@
               "start": 232,
               "end": 234
             },
-            "ctxt": 0,
-            "value": "m1",
-            "optional": false
+            "value": "m1"
           },
           "function": {
             "params": [],
@@ -357,9 +335,7 @@
                         "start": 252,
                         "end": 255
                       },
-                      "ctxt": 0,
-                      "value": "foo",
-                      "optional": false
+                      "value": "foo"
                     }
                   }
                 }
@@ -389,9 +365,7 @@
               "start": 272,
               "end": 274
             },
-            "ctxt": 0,
-            "value": "m3",
-            "optional": false
+            "value": "m3"
           },
           "value": {
             "type": "FunctionExpression",
@@ -441,9 +415,7 @@
               "start": 296,
               "end": 307
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -507,9 +479,7 @@
               "start": 335,
               "end": 339
             },
-            "ctxt": 0,
-            "value": "quim",
-            "optional": false
+            "value": "quim"
           },
           "value": {
             "type": "MemberExpression",
@@ -530,9 +500,7 @@
                 "start": 347,
                 "end": 350
               },
-              "ctxt": 0,
-              "value": "baz",
-              "optional": false
+              "value": "baz"
             }
           },
           "typeAnnotation": null,
@@ -558,9 +526,7 @@
               "start": 371,
               "end": 374
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           },
           "value": {
             "type": "MemberExpression",
@@ -581,9 +547,7 @@
                 "start": 382,
                 "end": 385
               },
-              "ctxt": 0,
-              "value": "foo",
-              "optional": false
+              "value": "foo"
             }
           },
           "typeAnnotation": null,
@@ -609,9 +573,7 @@
               "start": 407,
               "end": 411
             },
-            "ctxt": 0,
-            "value": "quid",
-            "optional": false
+            "value": "quid"
           },
           "value": {
             "type": "MemberExpression",
@@ -632,9 +594,7 @@
                 "start": 419,
                 "end": 422
               },
-              "ctxt": 0,
-              "value": "baz",
-              "optional": false
+              "value": "baz"
             }
           },
           "typeAnnotation": null,
@@ -660,9 +620,7 @@
               "start": 433,
               "end": 435
             },
-            "ctxt": 0,
-            "value": "m2",
-            "optional": false
+            "value": "m2"
           },
           "function": {
             "params": [],
@@ -705,9 +663,7 @@
                         "start": 453,
                         "end": 456
                       },
-                      "ctxt": 0,
-                      "value": "foo",
-                      "optional": false
+                      "value": "foo"
                     }
                   }
                 }
@@ -764,9 +720,7 @@
               "start": 496,
               "end": 501
             },
-            "ctxt": 0,
-            "value": "quill",
-            "optional": false
+            "value": "quill"
           },
           "value": {
             "type": "MemberExpression",
@@ -787,9 +741,7 @@
                 "start": 509,
                 "end": 512
               },
-              "ctxt": 0,
-              "value": "foo",
-              "optional": false
+              "value": "foo"
             }
           },
           "typeAnnotation": null,
@@ -851,9 +803,7 @@
               "start": 536,
               "end": 539
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "value": {
             "type": "ArrowFunctionExpression",
@@ -889,9 +839,7 @@
                     "start": 553,
                     "end": 557
                   },
-                  "ctxt": 0,
-                  "value": "foo1",
-                  "optional": false
+                  "value": "foo1"
                 }
               },
               "right": {
@@ -913,9 +861,7 @@
                     "start": 565,
                     "end": 569
                   },
-                  "ctxt": 0,
-                  "value": "foo2",
-                  "optional": false
+                  "value": "foo2"
                 }
               }
             },
@@ -947,9 +893,7 @@
               "start": 586,
               "end": 590
             },
-            "ctxt": 0,
-            "value": "foo1",
-            "optional": false
+            "value": "foo1"
           },
           "value": {
             "type": "StringLiteral",
@@ -984,9 +928,7 @@
               "start": 601,
               "end": 612
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -1077,9 +1019,7 @@
               "start": 654,
               "end": 659
             },
-            "ctxt": 0,
-            "value": "Inner",
-            "optional": false
+            "value": "Inner"
           },
           "value": {
             "type": "ClassExpression",
@@ -1103,9 +1043,7 @@
                     "start": 688,
                     "end": 690
                   },
-                  "ctxt": 0,
-                  "value": "p2",
-                  "optional": false
+                  "value": "p2"
                 },
                 "value": {
                   "type": "MemberExpression",
@@ -1126,9 +1064,7 @@
                       "start": 698,
                       "end": 700
                     },
-                    "ctxt": 0,
-                    "value": "p1",
-                    "optional": false
+                    "value": "p1"
                   }
                 },
                 "typeAnnotation": null,
@@ -1181,9 +1117,7 @@
               "start": 711,
               "end": 713
             },
-            "ctxt": 0,
-            "value": "p1",
-            "optional": false
+            "value": "p1"
           },
           "value": {
             "type": "NumericLiteral",
@@ -1244,9 +1178,7 @@
               "start": 734,
               "end": 739
             },
-            "ctxt": 0,
-            "value": "Inner",
-            "optional": false
+            "value": "Inner"
           },
           "value": {
             "type": "ClassExpression",
@@ -1270,9 +1202,7 @@
                     "start": 768,
                     "end": 770
                   },
-                  "ctxt": 0,
-                  "value": "p2",
-                  "optional": false
+                  "value": "p2"
                 },
                 "value": {
                   "type": "MemberExpression",
@@ -1293,9 +1223,7 @@
                       "start": 778,
                       "end": 780
                     },
-                    "ctxt": 0,
-                    "value": "p1",
-                    "optional": false
+                    "value": "p1"
                   }
                 },
                 "typeAnnotation": null,
@@ -1349,9 +1277,7 @@
               "start": 791,
               "end": 802
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -1443,9 +1369,7 @@
               "start": 841,
               "end": 852
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -1519,9 +1443,7 @@
               "start": 882,
               "end": 884
             },
-            "ctxt": 0,
-            "value": "p2",
-            "optional": false
+            "value": "p2"
           },
           "value": {
             "type": "ArrowFunctionExpression",
@@ -1570,9 +1492,7 @@
                           "start": 915,
                           "end": 917
                         },
-                        "ctxt": 0,
-                        "value": "p1",
-                        "optional": false
+                        "value": "p1"
                       }
                     },
                     "property": {
@@ -1581,9 +1501,7 @@
                         "start": 918,
                         "end": 921
                       },
-                      "ctxt": 0,
-                      "value": "foo",
-                      "optional": false
+                      "value": "foo"
                     }
                   }
                 }
@@ -1617,9 +1535,7 @@
               "start": 941,
               "end": 943
             },
-            "ctxt": 0,
-            "value": "p3",
-            "optional": false
+            "value": "p3"
           },
           "value": {
             "type": "ArrowFunctionExpression",
@@ -1654,9 +1570,7 @@
                     "start": 957,
                     "end": 959
                   },
-                  "ctxt": 0,
-                  "value": "p1",
-                  "optional": false
+                  "value": "p1"
                 }
               },
               "property": {
@@ -1665,9 +1579,7 @@
                   "start": 960,
                   "end": 963
                 },
-                "ctxt": 0,
-                "value": "foo",
-                "optional": false
+                "value": "foo"
               }
             },
             "async": false,

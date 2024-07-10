@@ -1219,9 +1219,7 @@
                       "start": 735,
                       "end": 736
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "Identifier",
@@ -1610,9 +1608,7 @@
               "start": 891,
               "end": 894
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -1963,9 +1959,7 @@
                       "start": 1039,
                       "end": 1042
                     },
-                    "ctxt": 0,
-                    "value": "foo",
-                    "optional": false
+                    "value": "foo"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -2655,9 +2649,7 @@
               "start": 1400,
               "end": 1403
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -2698,9 +2690,7 @@
               "start": 1417,
               "end": 1428
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {

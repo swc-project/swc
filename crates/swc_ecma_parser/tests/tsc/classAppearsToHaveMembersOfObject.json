@@ -37,9 +37,7 @@
               "start": 11,
               "end": 14
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -186,9 +184,7 @@
                   "start": 47,
                   "end": 55
                 },
-                "ctxt": 0,
-                "value": "toString",
-                "optional": false
+                "value": "toString"
               }
             },
             "arguments": [],
@@ -254,9 +250,7 @@
                   "start": 70,
                   "end": 84
                 },
-                "ctxt": 0,
-                "value": "hasOwnProperty",
-                "optional": false
+                "value": "hasOwnProperty"
               }
             },
             "arguments": [

@@ -534,9 +534,7 @@
             "start": 157,
             "end": 158
           },
-          "ctxt": 0,
-          "value": "a",
-          "optional": false
+          "value": "a"
         }
       }
     }

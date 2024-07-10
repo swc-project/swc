@@ -772,9 +772,7 @@
                   "start": 331,
                   "end": 332
                 },
-                "ctxt": 0,
-                "value": "f",
-                "optional": false
+                "value": "f"
               },
               "value": {
                 "type": "ArrowFunctionExpression",
@@ -842,9 +840,7 @@
                   "start": 351,
                   "end": 352
                 },
-                "ctxt": 0,
-                "value": "f",
-                "optional": false
+                "value": "f"
               },
               "value": {
                 "type": "ArrowFunctionExpression",
@@ -978,9 +974,7 @@
                   "start": 377,
                   "end": 378
                 },
-                "ctxt": 0,
-                "value": "f",
-                "optional": false
+                "value": "f"
               },
               "value": {
                 "type": "FunctionExpression",
@@ -1076,9 +1070,7 @@
                   "start": 415,
                   "end": 416
                 },
-                "ctxt": 0,
-                "value": "f",
-                "optional": false
+                "value": "f"
               },
               "params": [
                 {
@@ -1195,9 +1187,7 @@
                   "start": 451,
                   "end": 452
                 },
-                "ctxt": 0,
-                "value": "f",
-                "optional": false
+                "value": "f"
               },
               "value": {
                 "type": "ArrowFunctionExpression",
@@ -1265,9 +1255,7 @@
                   "start": 470,
                   "end": 471
                 },
-                "ctxt": 0,
-                "value": "f",
-                "optional": false
+                "value": "f"
               },
               "value": {
                 "type": "ArrowFunctionExpression",
@@ -1401,9 +1389,7 @@
                   "start": 497,
                   "end": 498
                 },
-                "ctxt": 0,
-                "value": "f",
-                "optional": false
+                "value": "f"
               },
               "value": {
                 "type": "FunctionExpression",

@@ -179,6 +179,10 @@
                 },
                 "exprName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 135,
+                    "end": 142
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -195,9 +199,7 @@
                       "start": 141,
                       "end": 142
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 },
                 "typeArguments": null
@@ -248,6 +250,10 @@
                 },
                 "exprName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 158,
+                    "end": 165
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -264,9 +270,7 @@
                       "start": 164,
                       "end": 165
                     },
-                    "ctxt": 0,
-                    "value": "B",
-                    "optional": false
+                    "value": "B"
                   }
                 },
                 "typeArguments": null
@@ -344,9 +348,7 @@
                     "start": 287,
                     "end": 288
                   },
-                  "ctxt": 0,
-                  "value": "A",
-                  "optional": false
+                  "value": "A"
                 },
                 "value": {
                   "type": "TsAsExpression",
@@ -382,9 +384,7 @@
                     "start": 310,
                     "end": 311
                   },
-                  "ctxt": 0,
-                  "value": "B",
-                  "optional": false
+                  "value": "B"
                 },
                 "value": {
                   "type": "TsAsExpression",

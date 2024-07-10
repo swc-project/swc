@@ -57,9 +57,7 @@
                 "start": 43,
                 "end": 47
               },
-              "ctxt": 0,
-              "value": "type",
-              "optional": false
+              "value": "type"
             },
             "value": {
               "type": "StringLiteral",
@@ -79,9 +77,7 @@
                 "start": 57,
                 "end": 71
               },
-              "ctxt": 0,
-              "value": "hasOwnProperty",
-              "optional": false
+              "value": "hasOwnProperty"
             },
             "value": {
               "type": "StringLiteral",

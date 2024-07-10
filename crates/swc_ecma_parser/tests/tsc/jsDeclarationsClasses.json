@@ -76,9 +76,7 @@
                 "start": 163,
                 "end": 166
               },
-              "ctxt": 0,
-              "value": "cat",
-              "optional": false
+              "value": "cat"
             },
             "value": {
               "type": "StringLiteral",
@@ -146,9 +144,7 @@
                 "start": 207,
                 "end": 210
               },
-              "ctxt": 0,
-              "value": "Cls",
-              "optional": false
+              "value": "Cls"
             },
             "value": {
               "type": "ClassExpression",
@@ -224,9 +220,7 @@
                 "start": 312,
                 "end": 323
               },
-              "ctxt": 0,
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [
               {
@@ -326,9 +320,7 @@
                 "start": 419,
                 "end": 424
               },
-              "ctxt": 0,
-              "value": "field",
-              "optional": false
+              "value": "field"
             },
             "value": null,
             "typeAnnotation": null,
@@ -354,9 +346,7 @@
                 "start": 579,
                 "end": 592
               },
-              "ctxt": 0,
-              "value": "readonlyField",
-              "optional": false
+              "value": "readonlyField"
             },
             "value": null,
             "typeAnnotation": null,
@@ -382,9 +372,7 @@
                 "start": 599,
                 "end": 615
               },
-              "ctxt": 0,
-              "value": "initializedField",
-              "optional": false
+              "value": "initializedField"
             },
             "value": {
               "type": "NumericLiteral",
@@ -418,9 +406,7 @@
                 "start": 666,
                 "end": 668
               },
-              "ctxt": 0,
-              "value": "f1",
-              "optional": false
+              "value": "f1"
             },
             "function": {
               "params": [],
@@ -485,9 +471,7 @@
                 "start": 752,
                 "end": 754
               },
-              "ctxt": 0,
-              "value": "f1",
-              "optional": false
+              "value": "f1"
             },
             "function": {
               "params": [
@@ -550,9 +534,7 @@
                 "start": 806,
                 "end": 808
               },
-              "ctxt": 0,
-              "value": "f2",
-              "optional": false
+              "value": "f2"
             },
             "function": {
               "params": [],
@@ -617,9 +599,7 @@
                 "start": 892,
                 "end": 894
               },
-              "ctxt": 0,
-              "value": "f3",
-              "optional": false
+              "value": "f3"
             },
             "function": {
               "params": [
@@ -683,9 +663,7 @@
                 "start": 963,
                 "end": 974
               },
-              "ctxt": 0,
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [
               {
@@ -751,9 +729,7 @@
                 "start": 1035,
                 "end": 1046
               },
-              "ctxt": 0,
-              "value": "staticField",
-              "optional": false
+              "value": "staticField"
             },
             "value": null,
             "typeAnnotation": null,
@@ -779,9 +755,7 @@
                 "start": 1209,
                 "end": 1228
               },
-              "ctxt": 0,
-              "value": "staticReadonlyField",
-              "optional": false
+              "value": "staticReadonlyField"
             },
             "value": null,
             "typeAnnotation": null,
@@ -807,9 +781,7 @@
                 "start": 1242,
                 "end": 1264
               },
-              "ctxt": 0,
-              "value": "staticInitializedField",
-              "optional": false
+              "value": "staticInitializedField"
             },
             "value": {
               "type": "NumericLiteral",
@@ -843,9 +815,7 @@
                 "start": 1327,
                 "end": 1329
               },
-              "ctxt": 0,
-              "value": "s1",
-              "optional": false
+              "value": "s1"
             },
             "function": {
               "params": [],
@@ -905,9 +875,7 @@
                 "start": 1405,
                 "end": 1407
               },
-              "ctxt": 0,
-              "value": "s1",
-              "optional": false
+              "value": "s1"
             },
             "function": {
               "params": [
@@ -970,9 +938,7 @@
                 "start": 1471,
                 "end": 1473
               },
-              "ctxt": 0,
-              "value": "s2",
-              "optional": false
+              "value": "s2"
             },
             "function": {
               "params": [],
@@ -1032,9 +998,7 @@
                 "start": 1549,
                 "end": 1551
               },
-              "ctxt": 0,
-              "value": "s3",
-              "optional": false
+              "value": "s3"
             },
             "function": {
               "params": [
@@ -1131,9 +1095,7 @@
                 "start": 1645,
                 "end": 1650
               },
-              "ctxt": 0,
-              "value": "field",
-              "optional": false
+              "value": "field"
             },
             "value": null,
             "typeAnnotation": null,
@@ -1160,9 +1122,7 @@
                 "start": 1712,
                 "end": 1723
               },
-              "ctxt": 0,
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [
               {
@@ -1228,9 +1188,7 @@
                 "start": 1822,
                 "end": 1828
               },
-              "ctxt": 0,
-              "value": "create",
-              "optional": false
+              "value": "create"
             },
             "function": {
               "params": [
@@ -1671,9 +1629,7 @@
                 "start": 2023,
                 "end": 2034
               },
-              "ctxt": 0,
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [],
             "body": {
@@ -1716,9 +1672,7 @@
                           "start": 2052,
                           "end": 2054
                         },
-                        "ctxt": 0,
-                        "value": "p1",
-                        "optional": false
+                        "value": "p1"
                       }
                     },
                     "right": {
@@ -1764,9 +1718,7 @@
                           "start": 2074,
                           "end": 2076
                         },
-                        "ctxt": 0,
-                        "value": "p2",
-                        "optional": false
+                        "value": "p2"
                       }
                     },
                     "right": {
@@ -1797,9 +1749,7 @@
                 "start": 2096,
                 "end": 2102
               },
-              "ctxt": 0,
-              "value": "method",
-              "optional": false
+              "value": "method"
             },
             "function": {
               "params": [],
@@ -1842,9 +1792,7 @@
                           "start": 2127,
                           "end": 2129
                         },
-                        "ctxt": 0,
-                        "value": "p1",
-                        "optional": false
+                        "value": "p1"
                       }
                     }
                   }
@@ -1951,9 +1899,7 @@
                 "start": 2203,
                 "end": 2214
               },
-              "ctxt": 0,
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [],
             "body": {
@@ -1996,9 +1942,7 @@
                           "start": 2232,
                           "end": 2236
                         },
-                        "ctxt": 0,
-                        "value": "prop",
-                        "optional": false
+                        "value": "prop"
                       }
                     },
                     "right": {
@@ -2070,9 +2014,7 @@
                 "start": 2348,
                 "end": 2359
               },
-              "ctxt": 0,
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [
               {
@@ -2159,9 +2101,7 @@
                           "start": 2399,
                           "end": 2406
                         },
-                        "ctxt": 0,
-                        "value": "another",
-                        "optional": false
+                        "value": "another"
                       }
                     },
                     "right": {
@@ -2237,9 +2177,7 @@
                 "start": 2539,
                 "end": 2550
               },
-              "ctxt": 0,
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [
               {
@@ -2340,9 +2278,7 @@
                           "start": 2595,
                           "end": 2603
                         },
-                        "ctxt": 0,
-                        "value": "another2",
-                        "optional": false
+                        "value": "another2"
                       }
                     },
                     "right": {
@@ -2504,9 +2440,7 @@
                 "start": 2732,
                 "end": 2744
               },
-              "ctxt": 0,
-              "value": "staticMethod",
-              "optional": false
+              "value": "staticMethod"
             },
             "function": {
               "params": [],
@@ -2583,9 +2517,7 @@
                 "start": 2813,
                 "end": 2817
               },
-              "ctxt": 0,
-              "value": "also",
-              "optional": false
+              "value": "also"
             },
             "function": {
               "params": [],

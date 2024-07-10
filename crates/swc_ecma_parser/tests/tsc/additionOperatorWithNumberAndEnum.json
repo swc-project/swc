@@ -654,9 +654,7 @@
                   "start": 166,
                   "end": 167
                 },
-                "ctxt": 0,
-                "value": "a",
-                "optional": false
+                "value": "a"
               }
             },
             "right": {
@@ -729,9 +727,7 @@
                   "start": 184,
                   "end": 185
                 },
-                "ctxt": 0,
-                "value": "a",
-                "optional": false
+                "value": "a"
               }
             },
             "right": {
@@ -756,9 +752,7 @@
                   "start": 190,
                   "end": 191
                 },
-                "ctxt": 0,
-                "value": "b",
-                "optional": false
+                "value": "b"
               }
             }
           },

@@ -37,9 +37,7 @@
               "start": 52,
               "end": 53
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": {
@@ -79,9 +77,7 @@
               "start": 84,
               "end": 86
             },
-            "ctxt": 0,
-            "value": "fn",
-            "optional": false
+            "value": "fn"
           },
           "function": {
             "params": [],
@@ -155,9 +151,7 @@
               "start": 150,
               "end": 151
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           },
           "function": {
             "params": [],
@@ -217,9 +211,7 @@
               "start": 193,
               "end": 194
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           },
           "function": {
             "params": [
@@ -309,9 +301,7 @@
               "start": 272,
               "end": 273
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": {
@@ -351,9 +341,7 @@
               "start": 303,
               "end": 305
             },
-            "ctxt": 0,
-            "value": "fn",
-            "optional": false
+            "value": "fn"
           },
           "function": {
             "params": [],
@@ -427,9 +415,7 @@
               "start": 367,
               "end": 368
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           },
           "function": {
             "params": [],
@@ -489,9 +475,7 @@
               "start": 408,
               "end": 409
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           },
           "function": {
             "params": [

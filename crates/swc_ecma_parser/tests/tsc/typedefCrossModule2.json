@@ -66,9 +66,7 @@
               "start": 184,
               "end": 187
             },
-            "ctxt": 0,
-            "value": "Bar",
-            "optional": false
+            "value": "Bar"
           }
         },
         "right": {
@@ -124,9 +122,7 @@
               "start": 237,
               "end": 244
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -144,9 +140,7 @@
                   "start": 253,
                   "end": 256
                 },
-                "ctxt": 0,
-                "value": "Baz",
-                "optional": false
+                "value": "Baz"
               },
               "value": {
                 "type": "ClassExpression",
@@ -244,9 +238,7 @@
               "start": 359,
               "end": 363
             },
-            "ctxt": 0,
-            "value": "Quid",
-            "optional": false
+            "value": "Quid"
           }
         },
         "right": {
@@ -295,9 +287,7 @@
               "start": 408,
               "end": 415
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -315,9 +305,7 @@
                   "start": 424,
                   "end": 429
                 },
-                "ctxt": 0,
-                "value": "Quack",
-                "optional": false
+                "value": "Quack"
               },
               "value": {
                 "type": "NumericLiteral",
@@ -517,9 +505,7 @@
                   "start": 585,
                   "end": 588
                 },
-                "ctxt": 0,
-                "value": "Baz",
-                "optional": false
+                "value": "Baz"
               }
             },
             "arguments": [],

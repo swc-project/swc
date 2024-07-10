@@ -67,9 +67,7 @@
                       "start": 17,
                       "end": 21
                     },
-                    "ctxt": 0,
-                    "value": "test",
-                    "optional": false
+                    "value": "test"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -93,9 +91,7 @@
                       "start": 29,
                       "end": 34
                     },
-                    "ctxt": 0,
-                    "value": "other",
-                    "optional": false
+                    "value": "other"
                   },
                   "value": {
                     "type": "JSXExpressionContainer",

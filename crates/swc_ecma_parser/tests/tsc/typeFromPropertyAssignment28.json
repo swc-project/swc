@@ -38,9 +38,7 @@
               "start": 131,
               "end": 142
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -83,9 +81,7 @@
                         "start": 152,
                         "end": 153
                       },
-                      "ctxt": 0,
-                      "value": "p",
-                      "optional": false
+                      "value": "p"
                     }
                   },
                   "right": {
@@ -146,9 +142,7 @@
               "start": 405,
               "end": 414
             },
-            "ctxt": 0,
-            "value": "prototype",
-            "optional": false
+            "value": "prototype"
           }
         },
         "right": {
@@ -166,9 +160,7 @@
                   "start": 419,
                   "end": 420
                 },
-                "ctxt": 0,
-                "value": "q",
-                "optional": false
+                "value": "q"
               },
               "value": {
                 "type": "NumericLiteral",
@@ -263,9 +255,7 @@
             "start": 448,
             "end": 449
           },
-          "ctxt": 0,
-          "value": "p",
-          "optional": false
+          "value": "p"
         }
       }
     },
@@ -297,9 +287,7 @@
             "start": 452,
             "end": 453
           },
-          "ctxt": 0,
-          "value": "q",
-          "optional": false
+          "value": "q"
         }
       }
     }

@@ -136,9 +136,7 @@
                           "start": 57,
                           "end": 58
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -158,9 +156,7 @@
                           "start": 64,
                           "end": 65
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       },
                       "value": {
                         "type": "BooleanLiteral",
@@ -291,9 +287,7 @@
                   "start": 103,
                   "end": 104
                 },
-                "ctxt": 0,
-                "value": "x",
-                "optional": false
+                "value": "x"
               }
             }
           }

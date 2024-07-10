@@ -195,9 +195,7 @@
                       "start": 180,
                       "end": 187
                     },
-                    "ctxt": 0,
-                    "value": "resolve",
-                    "optional": false
+                    "value": "resolve"
                   },
                   "value": {
                     "type": "ArrowFunctionExpression",
@@ -305,9 +303,7 @@
                                           "start": 252,
                                           "end": 259
                                         },
-                                        "ctxt": 0,
-                                        "value": "objects",
-                                        "optional": false
+                                        "value": "objects"
                                       },
                                       "value": {
                                         "type": "NumericLiteral",

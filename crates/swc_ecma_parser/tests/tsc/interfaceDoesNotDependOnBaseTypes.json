@@ -145,9 +145,7 @@
                     "start": 55,
                     "end": 59
                   },
-                  "ctxt": 0,
-                  "value": "push",
-                  "optional": false
+                  "value": "push"
                 }
               },
               "arguments": [
@@ -202,9 +200,7 @@
                     "start": 71,
                     "end": 75
                   },
-                  "ctxt": 0,
-                  "value": "push",
-                  "optional": false
+                  "value": "push"
                 }
               },
               "arguments": [

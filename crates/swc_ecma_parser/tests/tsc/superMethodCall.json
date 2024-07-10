@@ -37,9 +37,7 @@
               "start": 51,
               "end": 57
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": true
+            "value": "method"
           },
           "function": {
             "params": [],
@@ -109,9 +107,7 @@
               "start": 101,
               "end": 107
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           },
           "function": {
             "params": [],
@@ -168,9 +164,7 @@
                             "start": 133,
                             "end": 139
                           },
-                          "ctxt": 0,
-                          "value": "method",
-                          "optional": false
+                          "value": "method"
                         }
                       },
                       "arguments": [],
@@ -204,9 +198,7 @@
               "start": 162,
               "end": 173
             },
-            "ctxt": 0,
-            "value": "asyncMethod",
-            "optional": false
+            "value": "asyncMethod"
           },
           "function": {
             "params": [],
@@ -263,9 +255,7 @@
                             "start": 199,
                             "end": 205
                           },
-                          "ctxt": 0,
-                          "value": "method",
-                          "optional": false
+                          "value": "method"
                         }
                       },
                       "arguments": [],

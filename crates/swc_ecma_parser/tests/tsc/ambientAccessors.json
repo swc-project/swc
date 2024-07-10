@@ -37,9 +37,7 @@
               "start": 119,
               "end": 120
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           },
           "function": {
             "params": [],
@@ -88,9 +86,7 @@
               "start": 147,
               "end": 148
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           },
           "function": {
             "params": [
@@ -159,9 +155,7 @@
               "start": 189,
               "end": 190
             },
-            "ctxt": 0,
-            "value": "b",
-            "optional": false
+            "value": "b"
           },
           "function": {
             "params": [],
@@ -210,9 +204,7 @@
               "start": 225,
               "end": 226
             },
-            "ctxt": 0,
-            "value": "b",
-            "optional": false
+            "value": "b"
           },
           "function": {
             "params": [
@@ -281,9 +273,7 @@
               "start": 250,
               "end": 251
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "function": {
             "params": [],
@@ -332,9 +322,7 @@
               "start": 271,
               "end": 272
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "function": {
             "params": [
@@ -403,9 +391,7 @@
               "start": 306,
               "end": 307
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "function": {
             "params": [],
@@ -454,9 +440,7 @@
               "start": 335,
               "end": 336
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "function": {
             "params": [

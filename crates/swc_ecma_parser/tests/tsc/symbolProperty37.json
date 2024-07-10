@@ -60,9 +60,7 @@
                   "start": 42,
                   "end": 60
                 },
-                "ctxt": 0,
-                "value": "isConcatSpreadable",
-                "optional": false
+                "value": "isConcatSpreadable"
               }
             },
             "computed": true,
@@ -112,9 +110,7 @@
                   "start": 83,
                   "end": 101
                 },
-                "ctxt": 0,
-                "value": "isConcatSpreadable",
-                "optional": false
+                "value": "isConcatSpreadable"
               }
             },
             "computed": true,

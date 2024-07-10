@@ -278,9 +278,7 @@
               "start": 218,
               "end": 219
             },
-            "ctxt": 0,
-            "value": "n",
-            "optional": false
+            "value": "n"
           },
           "value": null,
           "typeAnnotation": {
@@ -320,9 +318,7 @@
               "start": 233,
               "end": 245
             },
-            "ctxt": 0,
-            "value": "explicitThis",
-            "optional": false
+            "value": "explicitThis"
           },
           "function": {
             "params": [
@@ -438,9 +434,7 @@
                           "start": 299,
                           "end": 300
                         },
-                        "ctxt": 0,
-                        "value": "n",
-                        "optional": false
+                        "value": "n"
                       }
                     },
                     "right": {
@@ -495,9 +489,7 @@
               "start": 316,
               "end": 328
             },
-            "ctxt": 0,
-            "value": "implicitThis",
-            "optional": false
+            "value": "implicitThis"
           },
           "function": {
             "params": [
@@ -581,9 +573,7 @@
                           "start": 370,
                           "end": 371
                         },
-                        "ctxt": 0,
-                        "value": "n",
-                        "optional": false
+                        "value": "n"
                       }
                     },
                     "right": {
@@ -638,9 +628,7 @@
               "start": 387,
               "end": 399
             },
-            "ctxt": 0,
-            "value": "explicitVoid",
-            "optional": false
+            "value": "explicitVoid"
           },
           "function": {
             "params": [
@@ -899,9 +887,7 @@
               "start": 482,
               "end": 494
             },
-            "ctxt": 0,
-            "value": "explicitVoid",
-            "optional": false
+            "value": "explicitVoid"
           }
         },
         "right": {
@@ -926,9 +912,7 @@
               "start": 499,
               "end": 511
             },
-            "ctxt": 0,
-            "value": "explicitThis",
-            "optional": false
+            "value": "explicitThis"
           }
         }
       }
@@ -975,9 +959,7 @@
                     "start": 566,
                     "end": 567
                   },
-                  "ctxt": 0,
-                  "value": "n",
-                  "optional": false
+                  "value": "n"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -997,9 +979,7 @@
                     "start": 578,
                     "end": 590
                   },
-                  "ctxt": 0,
-                  "value": "explicitThis",
-                  "optional": false
+                  "value": "explicitThis"
                 },
                 "value": {
                   "type": "FunctionExpression",
@@ -1101,9 +1081,7 @@
                                   "start": 639,
                                   "end": 640
                                 },
-                                "ctxt": 0,
-                                "value": "n",
-                                "optional": false
+                                "value": "n"
                               }
                             },
                             "property": {
@@ -1112,9 +1090,7 @@
                                 "start": 641,
                                 "end": 647
                               },
-                              "ctxt": 0,
-                              "value": "length",
-                              "optional": false
+                              "value": "length"
                             }
                           }
                         }
@@ -1135,9 +1111,7 @@
                     "start": 706,
                     "end": 718
                   },
-                  "ctxt": 0,
-                  "value": "implicitThis",
-                  "optional": false
+                  "value": "implicitThis"
                 },
                 "params": [
                   {
@@ -1363,9 +1337,7 @@
                     "start": 787,
                     "end": 788
                   },
-                  "ctxt": 0,
-                  "value": "n",
-                  "optional": false
+                  "value": "n"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -1385,9 +1357,7 @@
                     "start": 800,
                     "end": 812
                   },
-                  "ctxt": 0,
-                  "value": "explicitThis",
-                  "optional": false
+                  "value": "explicitThis"
                 },
                 "value": {
                   "type": "FunctionExpression",
@@ -1475,9 +1445,7 @@
                                   "start": 854,
                                   "end": 855
                                 },
-                                "ctxt": 0,
-                                "value": "n",
-                                "optional": false
+                                "value": "n"
                               }
                             },
                             "property": {
@@ -1486,9 +1454,7 @@
                                 "start": 856,
                                 "end": 862
                               },
-                              "ctxt": 0,
-                              "value": "length",
-                              "optional": false
+                              "value": "length"
                             }
                           }
                         }
@@ -1556,9 +1522,7 @@
                 "start": 929,
                 "end": 941
               },
-              "ctxt": 0,
-              "value": "explicitThis",
-              "optional": false
+              "value": "explicitThis"
             }
           },
           "definite": false
@@ -1734,9 +1698,7 @@
                 "start": 1019,
                 "end": 1033
               },
-              "ctxt": 0,
-              "value": "implicitNoThis",
-              "optional": false
+              "value": "implicitNoThis"
             }
           },
           "definite": false
@@ -1837,9 +1799,7 @@
               "start": 1084,
               "end": 1096
             },
-            "ctxt": 0,
-            "value": "explicitVoid",
-            "optional": false
+            "value": "explicitVoid"
           }
         },
         "right": {
@@ -1864,9 +1824,7 @@
               "start": 1101,
               "end": 1113
             },
-            "ctxt": 0,
-            "value": "implicitThis",
-            "optional": false
+            "value": "implicitThis"
           }
         }
       }
@@ -1906,9 +1864,7 @@
               "start": 1146,
               "end": 1158
             },
-            "ctxt": 0,
-            "value": "implicitThis",
-            "optional": false
+            "value": "implicitThis"
           }
         },
         "right": {
@@ -1933,9 +1889,7 @@
               "start": 1163,
               "end": 1175
             },
-            "ctxt": 0,
-            "value": "implicitThis",
-            "optional": false
+            "value": "implicitThis"
           }
         }
       }
@@ -1975,9 +1929,7 @@
               "start": 1209,
               "end": 1221
             },
-            "ctxt": 0,
-            "value": "implicitThis",
-            "optional": false
+            "value": "implicitThis"
           }
         },
         "right": {
@@ -2002,9 +1954,7 @@
               "start": 1226,
               "end": 1238
             },
-            "ctxt": 0,
-            "value": "explicitThis",
-            "optional": false
+            "value": "explicitThis"
           }
         }
       }
@@ -2044,9 +1994,7 @@
               "start": 1314,
               "end": 1326
             },
-            "ctxt": 0,
-            "value": "implicitThis",
-            "optional": false
+            "value": "implicitThis"
           }
         },
         "right": {
@@ -2071,9 +2019,7 @@
               "start": 1331,
               "end": 1343
             },
-            "ctxt": 0,
-            "value": "explicitThis",
-            "optional": false
+            "value": "explicitThis"
           }
         }
       }
@@ -2113,9 +2059,7 @@
               "start": 1347,
               "end": 1359
             },
-            "ctxt": 0,
-            "value": "explicitThis",
-            "optional": false
+            "value": "explicitThis"
           }
         },
         "right": {
@@ -2187,9 +2131,7 @@
                         "start": 1393,
                         "end": 1394
                       },
-                      "ctxt": 0,
-                      "value": "n",
-                      "optional": false
+                      "value": "n"
                     }
                   },
                   "property": {
@@ -2198,9 +2140,7 @@
                       "start": 1395,
                       "end": 1401
                     },
-                    "ctxt": 0,
-                    "value": "length",
-                    "optional": false
+                    "value": "length"
                   }
                 }
               }

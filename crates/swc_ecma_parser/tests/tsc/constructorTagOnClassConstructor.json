@@ -77,9 +77,7 @@
                 "start": 155,
                 "end": 166
               },
-              "ctxt": 0,
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [],
             "body": {

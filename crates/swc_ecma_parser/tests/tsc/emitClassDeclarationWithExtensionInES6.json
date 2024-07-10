@@ -37,9 +37,7 @@
               "start": 31,
               "end": 34
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           },
           "function": {
             "params": [
@@ -178,9 +176,7 @@
               "start": 84,
               "end": 87
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
@@ -223,9 +219,7 @@
               "start": 98,
               "end": 101
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           },
           "function": {
             "params": [
@@ -342,9 +336,7 @@
                           "start": 139,
                           "end": 142
                         },
-                        "ctxt": 0,
-                        "value": "baz",
-                        "optional": false
+                        "value": "baz"
                       }
                     },
                     "arguments": [
@@ -441,9 +433,7 @@
               "start": 182,
               "end": 193
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -495,9 +485,7 @@
               "start": 226,
               "end": 229
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
@@ -547,9 +535,7 @@
                           "start": 248,
                           "end": 251
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       }
                     },
                     "arguments": [],
@@ -582,9 +568,7 @@
               "start": 266,
               "end": 269
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           },
           "function": {
             "params": [],
@@ -634,9 +618,7 @@
                           "start": 288,
                           "end": 291
                         },
-                        "ctxt": 0,
-                        "value": "baz",
-                        "optional": false
+                        "value": "baz"
                       }
                     },
                     "arguments": [

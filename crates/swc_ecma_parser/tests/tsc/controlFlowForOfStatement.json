@@ -298,9 +298,7 @@
                             "start": 128,
                             "end": 141
                           },
-                          "ctxt": 0,
-                          "value": "toExponential",
-                          "optional": false
+                          "value": "toExponential"
                         }
                       },
                       "arguments": [],

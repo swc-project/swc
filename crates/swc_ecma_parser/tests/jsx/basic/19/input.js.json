@@ -46,9 +46,7 @@
                   "start": 6,
                   "end": 9
                 },
-                "ctxt": 0,
-                "value": "pre",
-                "optional": false
+                "value": "pre"
               },
               "value": {
                 "type": "StringLiteral",
@@ -72,9 +70,7 @@
                   "start": 20,
                   "end": 24
                 },
-                "ctxt": 0,
-                "value": "pre2",
-                "optional": false
+                "value": "pre2"
               },
               "value": {
                 "type": "StringLiteral",

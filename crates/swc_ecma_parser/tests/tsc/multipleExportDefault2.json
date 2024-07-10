@@ -26,9 +26,7 @@
                 "start": 22,
                 "end": 26
               },
-              "ctxt": 0,
-              "value": "uhoh",
-              "optional": false
+              "value": "uhoh"
             },
             "value": {
               "type": "StringLiteral",

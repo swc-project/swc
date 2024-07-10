@@ -37,9 +37,7 @@
               "start": 31,
               "end": 35
             },
-            "ctxt": 0,
-            "value": "prop",
-            "optional": false
+            "value": "prop"
           },
           "value": null,
           "typeAnnotation": null,

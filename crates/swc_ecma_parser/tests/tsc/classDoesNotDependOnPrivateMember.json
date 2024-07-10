@@ -96,9 +96,7 @@
                       "start": 90,
                       "end": 91
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": null,
                   "typeAnnotation": {

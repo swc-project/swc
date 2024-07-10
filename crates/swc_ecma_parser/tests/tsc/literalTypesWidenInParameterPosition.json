@@ -37,9 +37,7 @@
               "start": 24,
               "end": 31
             },
-            "ctxt": 0,
-            "value": "noWiden",
-            "optional": false
+            "value": "noWiden"
           },
           "value": {
             "type": "NumericLiteral",
@@ -74,9 +72,7 @@
               "start": 40,
               "end": 51
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -158,9 +154,7 @@
                         "start": 87,
                         "end": 94
                       },
-                      "ctxt": 0,
-                      "value": "noWiden",
-                      "optional": false
+                      "value": "noWiden"
                     }
                   },
                   "right": {
@@ -206,9 +200,7 @@
                         "start": 122,
                         "end": 127
                       },
-                      "ctxt": 0,
-                      "value": "widen",
-                      "optional": false
+                      "value": "widen"
                     }
                   },
                   "right": {

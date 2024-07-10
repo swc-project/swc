@@ -321,9 +321,7 @@
               "start": 190,
               "end": 194
             },
-            "ctxt": 0,
-            "value": "test",
-            "optional": false
+            "value": "test"
           },
           "function": {
             "params": [],
@@ -913,9 +911,7 @@
                               "start": 511,
                               "end": 519
                             },
-                            "ctxt": 0,
-                            "value": "getClass",
-                            "optional": false
+                            "value": "getClass"
                           }
                         },
                         "arguments": [],
@@ -1018,9 +1014,7 @@
               "start": 569,
               "end": 577
             },
-            "ctxt": 0,
-            "value": "getClass",
-            "optional": false
+            "value": "getClass"
           },
           "function": {
             "params": [],

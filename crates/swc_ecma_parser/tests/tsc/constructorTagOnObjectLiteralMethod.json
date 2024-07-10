@@ -47,9 +47,7 @@
                     "start": 141,
                     "end": 144
                   },
-                  "ctxt": 0,
-                  "value": "Foo",
-                  "optional": false
+                  "value": "Foo"
                 },
                 "params": [],
                 "decorators": [],
@@ -98,9 +96,7 @@
                               "start": 154,
                               "end": 157
                             },
-                            "ctxt": 0,
-                            "value": "bar",
-                            "optional": false
+                            "value": "bar"
                           }
                         },
                         "right": {
@@ -174,9 +170,7 @@
                   "start": 180,
                   "end": 183
                 },
-                "ctxt": 0,
-                "value": "Foo",
-                "optional": false
+                "value": "Foo"
               }
             },
             "arguments": [],
@@ -189,9 +183,7 @@
             "start": 187,
             "end": 190
           },
-          "ctxt": 0,
-          "value": "bar",
-          "optional": false
+          "value": "bar"
         }
       }
     }

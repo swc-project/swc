@@ -126,9 +126,7 @@
               "start": 158,
               "end": 165
             },
-            "ctxt": 0,
-            "value": "expando",
-            "optional": false
+            "value": "expando"
           }
         },
         "right": {

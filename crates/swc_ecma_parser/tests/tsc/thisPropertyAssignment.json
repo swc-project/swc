@@ -37,9 +37,7 @@
               "start": 506,
               "end": 507
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           }
         },
         "right": {
@@ -90,9 +88,7 @@
                 "start": 519,
                 "end": 520
               },
-              "ctxt": 0,
-              "value": "x",
-              "optional": false
+              "value": "x"
             }
           },
           "property": {
@@ -101,9 +97,7 @@
               "start": 521,
               "end": 522
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           }
         },
         "right": {
@@ -305,9 +299,7 @@
                     "start": 609,
                     "end": 610
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 }
               },
               "right": {
@@ -358,9 +350,7 @@
                       "start": 624,
                       "end": 625
                     },
-                    "ctxt": 0,
-                    "value": "a",
-                    "optional": false
+                    "value": "a"
                   }
                 },
                 "property": {
@@ -369,9 +359,7 @@
                     "start": 626,
                     "end": 627
                   },
-                  "ctxt": 0,
-                  "value": "b",
-                  "optional": false
+                  "value": "b"
                 }
               },
               "right": {
@@ -599,9 +587,7 @@
             "start": 699,
             "end": 700
           },
-          "ctxt": 0,
-          "value": "a",
-          "optional": false
+          "value": "a"
         }
       }
     },
@@ -633,9 +619,7 @@
             "start": 704,
             "end": 705
           },
-          "ctxt": 0,
-          "value": "b",
-          "optional": false
+          "value": "b"
         }
       }
     }

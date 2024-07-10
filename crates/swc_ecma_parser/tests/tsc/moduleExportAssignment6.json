@@ -38,9 +38,7 @@
               "start": 137,
               "end": 148
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -103,9 +101,7 @@
                         "start": 167,
                         "end": 168
                       },
-                      "ctxt": 0,
-                      "value": "x",
-                      "optional": false
+                      "value": "x"
                     }
                   },
                   "right": {
@@ -152,9 +148,7 @@
                         "start": 186,
                         "end": 193
                       },
-                      "ctxt": 0,
-                      "value": "exports",
-                      "optional": false
+                      "value": "exports"
                     }
                   },
                   "right": {
@@ -198,9 +192,7 @@
               "start": 239,
               "end": 240
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "function": {
             "params": [
@@ -270,9 +262,7 @@
                           "start": 266,
                           "end": 267
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       }
                     },
                     "right": {
@@ -428,9 +418,7 @@
                   "start": 346,
                   "end": 353
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             }
           }
@@ -583,9 +571,7 @@
                           "start": 552,
                           "end": 559
                         },
-                        "ctxt": 0,
-                        "value": "exports",
-                        "optional": false
+                        "value": "exports"
                       }
                     }
                   }

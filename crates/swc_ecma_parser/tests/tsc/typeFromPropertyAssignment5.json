@@ -80,9 +80,7 @@
               "start": 135,
               "end": 138
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           }
         },
         "right": {
@@ -140,9 +138,7 @@
             "start": 161,
             "end": 164
           },
-          "ctxt": 0,
-          "value": "bar",
-          "optional": false
+          "value": "bar"
         }
       }
     },
@@ -212,9 +208,7 @@
             "start": 209,
             "end": 212
           },
-          "ctxt": 0,
-          "value": "bar",
-          "optional": false
+          "value": "bar"
         }
       }
     },

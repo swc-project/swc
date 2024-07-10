@@ -294,9 +294,7 @@
                 "start": 97,
                 "end": 98
               },
-              "ctxt": 0,
-              "value": "A",
-              "optional": false
+              "value": "A"
             }
           },
           "property": {
@@ -305,9 +303,7 @@
               "start": 99,
               "end": 107
             },
-            "ctxt": 0,
-            "value": "toString",
-            "optional": false
+            "value": "toString"
           }
         },
         "arguments": [],
@@ -355,9 +351,7 @@
                 "start": 113,
                 "end": 114
               },
-              "ctxt": 0,
-              "value": "B",
-              "optional": false
+              "value": "B"
             }
           },
           "property": {
@@ -366,9 +360,7 @@
               "start": 115,
               "end": 123
             },
-            "ctxt": 0,
-            "value": "toString",
-            "optional": false
+            "value": "toString"
           }
         },
         "arguments": [],
@@ -416,9 +408,7 @@
                 "start": 129,
                 "end": 130
               },
-              "ctxt": 0,
-              "value": "C",
-              "optional": false
+              "value": "C"
             }
           },
           "property": {
@@ -427,9 +417,7 @@
               "start": 131,
               "end": 139
             },
-            "ctxt": 0,
-            "value": "toString",
-            "optional": false
+            "value": "toString"
           }
         },
         "arguments": [],
@@ -477,9 +465,7 @@
                 "start": 145,
                 "end": 146
               },
-              "ctxt": 0,
-              "value": "D",
-              "optional": false
+              "value": "D"
             }
           },
           "property": {
@@ -488,9 +474,7 @@
               "start": 147,
               "end": 155
             },
-            "ctxt": 0,
-            "value": "toString",
-            "optional": false
+            "value": "toString"
           }
         },
         "arguments": [],
@@ -555,9 +539,7 @@
               "start": 167,
               "end": 175
             },
-            "ctxt": 0,
-            "value": "toString",
-            "optional": false
+            "value": "toString"
           }
         },
         "arguments": [],
@@ -622,9 +604,7 @@
               "start": 186,
               "end": 194
             },
-            "ctxt": 0,
-            "value": "toString",
-            "optional": false
+            "value": "toString"
           }
         },
         "arguments": [],
@@ -689,9 +669,7 @@
               "start": 205,
               "end": 213
             },
-            "ctxt": 0,
-            "value": "toString",
-            "optional": false
+            "value": "toString"
           }
         },
         "arguments": [],
@@ -756,9 +734,7 @@
               "start": 224,
               "end": 232
             },
-            "ctxt": 0,
-            "value": "toString",
-            "optional": false
+            "value": "toString"
           }
         },
         "arguments": [],
@@ -823,9 +799,7 @@
               "start": 243,
               "end": 251
             },
-            "ctxt": 0,
-            "value": "toString",
-            "optional": false
+            "value": "toString"
           }
         },
         "arguments": [],

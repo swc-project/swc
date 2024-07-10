@@ -511,7 +511,7 @@ impl ForOf {
                             span: DUMMY_SP,
                             left: error_ident.clone().into(),
                             op: op!("="),
-                            right: Box::new(Expr::Ident(quote_ident!("err"))),
+                            right: Box::new(Expr::Ident(quote_ident!("err").into())),
                         }
                         .into_stmt(),
                     ],

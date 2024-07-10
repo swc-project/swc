@@ -38,9 +38,7 @@
               "start": 19,
               "end": 30
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -140,9 +138,7 @@
               "start": 83,
               "end": 89
             },
-            "ctxt": 0,
-            "value": "Origin",
-            "optional": false
+            "value": "Origin"
           },
           "value": {
             "type": "ObjectExpression",
@@ -159,9 +155,7 @@
                     "start": 101,
                     "end": 102
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -181,9 +175,7 @@
                     "start": 107,
                     "end": 108
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -371,9 +363,7 @@
                       "start": 238,
                       "end": 249
                     },
-                    "ctxt": 0,
-                    "value": "constructor",
-                    "optional": false
+                    "value": "constructor"
                   },
                   "params": [
                     {
@@ -473,9 +463,7 @@
                       "start": 306,
                       "end": 312
                     },
-                    "ctxt": 0,
-                    "value": "Origin",
-                    "optional": false
+                    "value": "Origin"
                   },
                   "value": {
                     "type": "ObjectExpression",
@@ -492,9 +480,7 @@
                             "start": 324,
                             "end": 325
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -514,9 +500,7 @@
                             "start": 330,
                             "end": 331
                           },
-                          "ctxt": 0,
-                          "value": "y",
-                          "optional": false
+                          "value": "y"
                         },
                         "value": {
                           "type": "NumericLiteral",

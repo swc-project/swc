@@ -37,9 +37,7 @@
               "start": 24,
               "end": 30
             },
-            "ctxt": 0,
-            "value": "banana",
-            "optional": false
+            "value": "banana"
           },
           "function": {
             "params": [

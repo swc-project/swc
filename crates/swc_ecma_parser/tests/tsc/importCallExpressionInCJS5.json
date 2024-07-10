@@ -43,9 +43,7 @@
                 "start": 117,
                 "end": 122
               },
-              "ctxt": 0,
-              "value": "print",
-              "optional": false
+              "value": "print"
             },
             "function": {
               "params": [],
@@ -295,9 +293,7 @@
               "start": 320,
               "end": 328
             },
-            "ctxt": 0,
-            "value": "myModule",
-            "optional": false
+            "value": "myModule"
           },
           "value": {
             "type": "CallExpression",
@@ -353,9 +349,7 @@
               "start": 350,
               "end": 356
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           },
           "function": {
             "params": [],
@@ -473,9 +467,7 @@
                             "start": 416,
                             "end": 424
                           },
-                          "ctxt": 0,
-                          "value": "myModule",
-                          "optional": false
+                          "value": "myModule"
                         }
                       },
                       "property": {
@@ -484,9 +476,7 @@
                           "start": 425,
                           "end": 429
                         },
-                        "ctxt": 0,
-                        "value": "then",
-                        "optional": false
+                        "value": "then"
                       }
                     },
                     "arguments": [
@@ -555,9 +545,7 @@
                                         "start": 460,
                                         "end": 463
                                       },
-                                      "ctxt": 0,
-                                      "value": "log",
-                                      "optional": false
+                                      "value": "log"
                                     }
                                   },
                                   "arguments": [
@@ -592,9 +580,7 @@
                                               "start": 469,
                                               "end": 472
                                             },
-                                            "ctxt": 0,
-                                            "value": "foo",
-                                            "optional": false
+                                            "value": "foo"
                                           }
                                         },
                                         "arguments": [],
@@ -678,9 +664,7 @@
                                         "start": 523,
                                         "end": 526
                                       },
-                                      "ctxt": 0,
-                                      "value": "log",
-                                      "optional": false
+                                      "value": "log"
                                     }
                                   },
                                   "arguments": [
@@ -805,9 +789,7 @@
                                         "start": 596,
                                         "end": 599
                                       },
-                                      "ctxt": 0,
-                                      "value": "log",
-                                      "optional": false
+                                      "value": "log"
                                     }
                                   },
                                   "arguments": [
@@ -842,9 +824,7 @@
                                               "start": 604,
                                               "end": 610
                                             },
-                                            "ctxt": 0,
-                                            "value": "backup",
-                                            "optional": false
+                                            "value": "backup"
                                           }
                                         },
                                         "arguments": [],
@@ -926,9 +906,7 @@
                 "start": 665,
                 "end": 673
               },
-              "ctxt": 0,
-              "value": "myModule",
-              "optional": false
+              "value": "myModule"
             },
             "value": {
               "type": "CallExpression",
@@ -984,9 +962,7 @@
                 "start": 695,
                 "end": 701
               },
-              "ctxt": 0,
-              "value": "method",
-              "optional": false
+              "value": "method"
             },
             "function": {
               "params": [],
@@ -1104,9 +1080,7 @@
                               "start": 760,
                               "end": 768
                             },
-                            "ctxt": 0,
-                            "value": "myModule",
-                            "optional": false
+                            "value": "myModule"
                           }
                         },
                         "property": {
@@ -1115,9 +1089,7 @@
                             "start": 769,
                             "end": 773
                           },
-                          "ctxt": 0,
-                          "value": "then",
-                          "optional": false
+                          "value": "then"
                         }
                       },
                       "arguments": [
@@ -1186,9 +1158,7 @@
                                           "start": 804,
                                           "end": 807
                                         },
-                                        "ctxt": 0,
-                                        "value": "log",
-                                        "optional": false
+                                        "value": "log"
                                       }
                                     },
                                     "arguments": [
@@ -1223,9 +1193,7 @@
                                                 "start": 813,
                                                 "end": 816
                                               },
-                                              "ctxt": 0,
-                                              "value": "foo",
-                                              "optional": false
+                                              "value": "foo"
                                             }
                                           },
                                           "arguments": [],
@@ -1309,9 +1277,7 @@
                                           "start": 867,
                                           "end": 870
                                         },
-                                        "ctxt": 0,
-                                        "value": "log",
-                                        "optional": false
+                                        "value": "log"
                                       }
                                     },
                                     "arguments": [
@@ -1436,9 +1402,7 @@
                                           "start": 940,
                                           "end": 943
                                         },
-                                        "ctxt": 0,
-                                        "value": "log",
-                                        "optional": false
+                                        "value": "log"
                                       }
                                     },
                                     "arguments": [
@@ -1473,9 +1437,7 @@
                                                 "start": 948,
                                                 "end": 954
                                               },
-                                              "ctxt": 0,
-                                              "value": "backup",
-                                              "optional": false
+                                              "value": "backup"
                                             }
                                           },
                                           "arguments": [],

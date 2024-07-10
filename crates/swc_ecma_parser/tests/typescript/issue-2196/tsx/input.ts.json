@@ -75,9 +75,7 @@
                         "start": 45,
                         "end": 54
                       },
-                      "ctxt": 0,
-                      "value": "reproFunc",
-                      "optional": false
+                      "value": "reproFunc"
                     },
                     "value": {
                       "type": "ArrowFunctionExpression",

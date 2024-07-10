@@ -327,9 +327,7 @@
                     "start": 115,
                     "end": 116
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 },
                 "value": {
                   "type": "StringLiteral",
@@ -349,9 +347,7 @@
                     "start": 123,
                     "end": 124
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -1017,9 +1013,7 @@
                           "start": 428,
                           "end": 433
                         },
-                        "ctxt": 0,
-                        "value": "first",
-                        "optional": false
+                        "value": "first"
                       },
                       "value": {
                         "type": "ObjectExpression",
@@ -1036,9 +1030,7 @@
                                 "start": 437,
                                 "end": 441
                               },
-                              "ctxt": 0,
-                              "value": "view",
-                              "optional": false
+                              "value": "view"
                             },
                             "value": {
                               "type": "NumericLiteral",
@@ -1058,9 +1050,7 @@
                                 "start": 446,
                                 "end": 456
                               },
-                              "ctxt": 0,
-                              "value": "styleMedia",
-                              "optional": false
+                              "value": "styleMedia"
                             },
                             "value": {
                               "type": "StringLiteral",
@@ -1158,9 +1148,7 @@
                 "start": 500,
                 "end": 505
               },
-              "ctxt": 0,
-              "value": "first",
-              "optional": false
+              "value": "first"
             }
           },
           "definite": false

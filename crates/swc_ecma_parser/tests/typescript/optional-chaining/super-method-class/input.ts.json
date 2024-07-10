@@ -38,9 +38,7 @@
               "start": 25,
               "end": 36
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -93,9 +91,7 @@
                         "start": 57,
                         "end": 58
                       },
-                      "ctxt": 0,
-                      "value": "b",
-                      "optional": false
+                      "value": "b"
                     }
                   }
                 }

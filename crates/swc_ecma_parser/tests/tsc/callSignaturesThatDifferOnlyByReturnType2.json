@@ -345,9 +345,7 @@
                   "start": 299,
                   "end": 302
                 },
-                "ctxt": 0,
-                "value": "foo",
-                "optional": false
+                "value": "foo"
               }
             },
             "arguments": [
@@ -426,9 +424,7 @@
                   "start": 330,
                   "end": 333
                 },
-                "ctxt": 0,
-                "value": "foo",
-                "optional": false
+                "value": "foo"
               }
             },
             "arguments": [

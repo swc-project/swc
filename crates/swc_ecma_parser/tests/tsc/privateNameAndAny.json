@@ -145,9 +145,7 @@
               "start": 107,
               "end": 113
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           },
           "function": {
             "params": [
@@ -405,9 +403,7 @@
               "start": 255,
               "end": 262
             },
-            "ctxt": 0,
-            "value": "methodU",
-            "optional": false
+            "value": "methodU"
           },
           "function": {
             "params": [
@@ -665,9 +661,7 @@
               "start": 393,
               "end": 400
             },
-            "ctxt": 0,
-            "value": "methodN",
-            "optional": false
+            "value": "methodN"
           },
           "function": {
             "params": [

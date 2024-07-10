@@ -101,9 +101,7 @@
                   "start": 23,
                   "end": 29
                 },
-                "ctxt": 0,
-                "value": "charAt",
-                "optional": false
+                "value": "charAt"
               }
             },
             "arguments": [
@@ -182,9 +180,7 @@
                   "start": 44,
                   "end": 58
                 },
-                "ctxt": 0,
-                "value": "hasOwnProperty",
-                "optional": false
+                "value": "hasOwnProperty"
               }
             },
             "arguments": [

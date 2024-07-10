@@ -56,9 +56,7 @@
                           "start": 31,
                           "end": 32
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -78,9 +76,7 @@
                           "start": 38,
                           "end": 39
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -139,9 +135,7 @@
                       "start": 56,
                       "end": 57
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "AssignmentPattern",
@@ -179,9 +173,7 @@
                       "start": 67,
                       "end": 68
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   },
                   "value": {
                     "type": "AssignmentPattern",

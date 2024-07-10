@@ -127,9 +127,7 @@
               "start": 204,
               "end": 205
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           },
           "function": {
             "params": [],
@@ -219,9 +217,7 @@
               "start": 244,
               "end": 251
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -305,9 +301,7 @@
                     "start": 322,
                     "end": 331
                   },
-                  "ctxt": 0,
-                  "value": "SomeClass",
-                  "optional": false
+                  "value": "SomeClass"
                 },
                 "value": {
                   "type": "Identifier",
@@ -397,9 +391,7 @@
               "start": 371,
               "end": 378
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {

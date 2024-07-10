@@ -7563,9 +7563,7 @@
                 "start": 4619,
                 "end": 4622
               },
-              "ctxt": 0,
-              "value": "get",
-              "optional": false
+              "value": "get"
             },
             "function": {
               "params": [
@@ -7684,9 +7682,7 @@
                 "start": 4646,
                 "end": 4652
               },
-              "ctxt": 0,
-              "value": "update",
-              "optional": false
+              "value": "update"
             },
             "function": {
               "params": [
@@ -7806,9 +7802,7 @@
                             "start": 4686,
                             "end": 4689
                           },
-                          "ctxt": 0,
-                          "value": "get",
-                          "optional": false
+                          "value": "get"
                         }
                       },
                       "arguments": [

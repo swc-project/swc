@@ -37,9 +37,7 @@
               "start": 15,
               "end": 16
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": null,
@@ -65,9 +63,7 @@
               "start": 22,
               "end": 23
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": true
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": null,
@@ -93,9 +89,7 @@
               "start": 30,
               "end": 31
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": {
@@ -135,9 +129,7 @@
               "start": 45,
               "end": 46
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": {
             "type": "NumericLiteral",
@@ -185,9 +177,7 @@
               "start": 64,
               "end": 65
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": null,
@@ -213,9 +203,7 @@
               "start": 72,
               "end": 73
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": {
@@ -255,9 +243,7 @@
               "start": 88,
               "end": 93
             },
-            "ctxt": 0,
-            "value": "async",
-            "optional": false
+            "value": "async"
           },
           "value": null,
           "typeAnnotation": {
@@ -297,9 +283,7 @@
               "start": 115,
               "end": 120
             },
-            "ctxt": 0,
-            "value": "async",
-            "optional": false
+            "value": "async"
           },
           "value": null,
           "typeAnnotation": {

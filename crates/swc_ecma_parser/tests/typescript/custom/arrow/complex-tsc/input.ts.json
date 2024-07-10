@@ -86,9 +86,7 @@
                           "start": 59,
                           "end": 65
                         },
-                        "ctxt": 0,
-                        "value": "Normal",
-                        "optional": false
+                        "value": "Normal"
                       }
                     }
                   }

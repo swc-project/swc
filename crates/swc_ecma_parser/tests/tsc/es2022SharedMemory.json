@@ -81,9 +81,7 @@
                         "start": 116,
                         "end": 133
                       },
-                      "ctxt": 0,
-                      "value": "BYTES_PER_ELEMENT",
-                      "optional": false
+                      "value": "BYTES_PER_ELEMENT"
                     }
                   },
                   "right": {
@@ -245,9 +243,7 @@
                         "start": 228,
                         "end": 245
                       },
-                      "ctxt": 0,
-                      "value": "BYTES_PER_ELEMENT",
-                      "optional": false
+                      "value": "BYTES_PER_ELEMENT"
                     }
                   },
                   "right": {
@@ -389,9 +385,7 @@
                   "start": 321,
                   "end": 325
                 },
-                "ctxt": 0,
-                "value": "wait",
-                "optional": false
+                "value": "wait"
               }
             },
             "arguments": [
@@ -533,9 +527,7 @@
                   "start": 373,
                   "end": 382
                 },
-                "ctxt": 0,
-                "value": "waitAsync",
-                "optional": false
+                "value": "waitAsync"
               }
             },
             "arguments": [
@@ -614,9 +606,7 @@
                     "start": 405,
                     "end": 410
                   },
-                  "ctxt": 0,
-                  "value": "async",
-                  "optional": false
+                  "value": "async"
                 },
                 "value": {
                   "type": "Identifier",
@@ -638,9 +628,7 @@
                     "start": 421,
                     "end": 426
                   },
-                  "ctxt": 0,
-                  "value": "value",
-                  "optional": false
+                  "value": "value"
                 },
                 "value": {
                   "type": "Identifier",
@@ -687,9 +675,7 @@
                   "start": 448,
                   "end": 457
                 },
-                "ctxt": 0,
-                "value": "waitAsync",
-                "optional": false
+                "value": "waitAsync"
               }
             },
             "arguments": [

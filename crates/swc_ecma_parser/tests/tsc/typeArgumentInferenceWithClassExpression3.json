@@ -65,9 +65,7 @@
                       "start": 29,
                       "end": 33
                     },
-                    "ctxt": 0,
-                    "value": "prop",
-                    "optional": false
+                    "value": "prop"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -261,9 +259,7 @@
                         "start": 82,
                         "end": 86
                       },
-                      "ctxt": 0,
-                      "value": "prop",
-                      "optional": false
+                      "value": "prop"
                     },
                     "value": {
                       "type": "StringLiteral",
@@ -302,9 +298,7 @@
             "start": 100,
             "end": 106
           },
-          "ctxt": 0,
-          "value": "length",
-          "optional": false
+          "value": "length"
         }
       }
     }

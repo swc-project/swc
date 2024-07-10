@@ -44,6 +44,10 @@
                 },
                 "exprName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 15,
+                    "end": 18
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -60,9 +64,7 @@
                       "start": 17,
                       "end": 18
                     },
-                    "ctxt": 0,
-                    "value": "z",
-                    "optional": false
+                    "value": "z"
                   }
                 },
                 "typeArguments": null

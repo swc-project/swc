@@ -97,12 +97,6 @@
  2 |     get a() {
    :         ^
    `----
-  x Ident
-   ,-[$DIR/tests/span/js/decl/accessor.js:2:1]
- 1 | class Foo {
- 2 |     get a() {
-   :         ^
-   `----
   x Function
    ,-[$DIR/tests/span/js/decl/accessor.js:2:1]
  1 |     class Foo {
@@ -136,12 +130,6 @@
  8 |     }
    `----
   x PropName
-   ,-[$DIR/tests/span/js/decl/accessor.js:5:1]
- 4 |     }
- 5 |     set a(v) {
-   :         ^
-   `----
-  x Ident
    ,-[$DIR/tests/span/js/decl/accessor.js:5:1]
  4 |     }
  5 |     set a(v) {
@@ -279,13 +267,6 @@
     :         ^
  12 |     set a(v) { },
     `----
-  x Ident
-    ,-[$DIR/tests/span/js/decl/accessor.js:11:1]
- 10 | let obj = {
- 11 |     get a() { },
-    :         ^
- 12 |     set a(v) { },
-    `----
   x BlockStmt
     ,-[$DIR/tests/span/js/decl/accessor.js:11:1]
  10 | let obj = {
@@ -315,13 +296,6 @@
  13 | }
     `----
   x PropName
-    ,-[$DIR/tests/span/js/decl/accessor.js:12:1]
- 11 |     get a() { },
- 12 |     set a(v) { },
-    :         ^
- 13 | }
-    `----
-  x Ident
     ,-[$DIR/tests/span/js/decl/accessor.js:12:1]
  11 |     get a() { },
  12 |     set a(v) { },

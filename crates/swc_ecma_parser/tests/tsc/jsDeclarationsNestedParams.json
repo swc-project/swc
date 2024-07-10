@@ -37,9 +37,7 @@
               "start": 509,
               "end": 515
             },
-            "ctxt": 0,
-            "value": "cancel",
-            "optional": false
+            "value": "cancel"
           },
           "function": {
             "params": [
@@ -167,9 +165,7 @@
               "start": 1068,
               "end": 1074
             },
-            "ctxt": 0,
-            "value": "cancel",
-            "optional": false
+            "value": "cancel"
           },
           "function": {
             "params": [

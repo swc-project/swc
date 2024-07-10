@@ -43,9 +43,7 @@
                 "start": 109,
                 "end": 126
               },
-              "ctxt": 0,
-              "value": "prepareGetRequest",
-              "optional": false
+              "value": "prepareGetRequest"
             },
             "function": {
               "params": [],

@@ -231,9 +231,7 @@
               "start": 288,
               "end": 289
             },
-            "ctxt": 0,
-            "value": "A",
-            "optional": false
+            "value": "A"
           }
         },
         "right": {

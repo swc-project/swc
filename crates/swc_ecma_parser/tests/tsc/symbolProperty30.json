@@ -59,9 +59,7 @@
                   "start": 39,
                   "end": 50
                 },
-                "ctxt": 0,
-                "value": "toStringTag",
-                "optional": false
+                "value": "toStringTag"
               }
             }
           },
@@ -102,9 +100,7 @@
                             "start": 73,
                             "end": 74
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "StringLiteral",

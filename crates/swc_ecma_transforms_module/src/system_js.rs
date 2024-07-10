@@ -290,7 +290,7 @@ impl SystemJs {
                     ..Default::default()
                 }
                 .into(),
-                right: Box::new(Expr::Ident(target.clone())),
+                right: Box::new(Expr::Ident(target.clone().into())),
 
                 body: Box::new(Stmt::Block(BlockStmt {
                     span: DUMMY_SP,
@@ -599,7 +599,7 @@ impl Fold for SystemJs {
 
         match prop {
             Prop::Shorthand(shorthand) => Prop::KeyValue(KeyValueProp {
-                key: PropName::Ident(shorthand.clone()),
+                key: PropName::Ident(shorthand.clone().into()),
                 value: Box::new(self.fold_module_name_ident(shorthand)),
             }),
             Prop::KeyValue(key_value_prop) => Prop::KeyValue(KeyValueProp {
@@ -675,12 +675,14 @@ impl Fold for SystemJs {
                                             left: specifier.local.clone().into(),
                                             right: Box::new(Expr::Member(MemberExpr {
                                                 span: DUMMY_SP,
-                                                obj: Box::new(Expr::Ident(quote_ident!(
-                                                    source_alias.clone()
-                                                ))),
+                                                obj: Box::new(Expr::Ident(
+                                                    quote_ident!(source_alias.clone()).into(),
+                                                )),
                                                 prop: match specifier.imported {
                                                     Some(m) => get_module_export_member_prop(&m),
-                                                    None => MemberProp::Ident(specifier.local),
+                                                    None => {
+                                                        MemberProp::Ident(specifier.local.into())
+                                                    }
                                                 },
                                             })),
                                         }
@@ -695,9 +697,9 @@ impl Fold for SystemJs {
                                             span: specifier.span,
                                             op: op!("="),
                                             left: specifier.local.into(),
-                                            right: Box::new(Expr::Ident(quote_ident!(
-                                                source_alias.clone()
-                                            ))),
+                                            right: Box::new(Expr::Ident(
+                                                quote_ident!(source_alias.clone()).into(),
+                                            )),
                                         }
                                         .into_stmt(),
                                     );
@@ -737,9 +739,9 @@ impl Fold for SystemJs {
                                         });
                                         export_values.push(Box::new(Expr::Member(MemberExpr {
                                             span: DUMMY_SP,
-                                            obj: Box::new(Expr::Ident(quote_ident!(
-                                                source_alias.clone()
-                                            ))),
+                                            obj: Box::new(Expr::Ident(
+                                                quote_ident!(source_alias.clone()).into(),
+                                            )),
                                             prop: get_module_export_member_prop(&specifier.orig),
                                         })));
                                     }
@@ -754,9 +756,9 @@ impl Fold for SystemJs {
                                     ExportSpecifier::Namespace(specifier) => {
                                         export_names
                                             .push(get_module_export_name(&specifier.name).0);
-                                        export_values.push(Box::new(Expr::Ident(quote_ident!(
-                                            source_alias.clone()
-                                        ))));
+                                        export_values.push(Box::new(Expr::Ident(
+                                            quote_ident!(source_alias.clone()).into(),
+                                        )));
                                     }
                                 }
 
@@ -1130,7 +1132,7 @@ fn get_module_export_expr(module_export_name: &ModuleExportName) -> Expr {
 #[inline]
 fn get_module_export_member_prop(module_export_name: &ModuleExportName) -> MemberProp {
     match &module_export_name {
-        ModuleExportName::Ident(ident) => MemberProp::Ident(ident.clone()),
+        ModuleExportName::Ident(ident) => MemberProp::Ident(ident.clone().into()),
         ModuleExportName::Str(s) => MemberProp::Computed(ComputedPropName {
             span: s.span,
             expr: Box::new(Expr::Lit(Lit::Str(quote_str!(s.value.clone())))),

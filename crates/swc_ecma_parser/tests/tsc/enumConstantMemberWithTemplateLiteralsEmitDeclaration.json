@@ -907,9 +907,7 @@
                 "start": 349,
                 "end": 355
               },
-              "ctxt": 0,
-              "value": "length",
-              "optional": false
+              "value": "length"
             }
           }
         }

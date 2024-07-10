@@ -143,9 +143,7 @@
                       "start": 123,
                       "end": 130
                     },
-                    "ctxt": 0,
-                    "value": "species",
-                    "optional": false
+                    "value": "species"
                   }
                 },
                 "computed": true,
@@ -483,9 +481,7 @@
                       "start": 243,
                       "end": 247
                     },
-                    "ctxt": 0,
-                    "value": "from",
-                    "optional": false
+                    "value": "from"
                   }
                 },
                 "arguments": [
@@ -511,9 +507,7 @@
                   "start": 251,
                   "end": 257
                 },
-                "ctxt": 0,
-                "value": "concat",
-                "optional": false
+                "value": "concat"
               }
             },
             "arguments": [
@@ -548,9 +542,7 @@
                         "start": 264,
                         "end": 268
                       },
-                      "ctxt": 0,
-                      "value": "from",
-                      "optional": false
+                      "value": "from"
                     }
                   },
                   "arguments": [

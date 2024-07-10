@@ -10956,9 +10956,7 @@
               "start": 5037,
               "end": 5041
             },
-            "ctxt": 0,
-            "value": "emit",
-            "optional": false
+            "value": "emit"
           }
         },
         "arguments": [
@@ -11037,9 +11035,7 @@
               "start": 5070,
               "end": 5074
             },
-            "ctxt": 0,
-            "value": "emit",
-            "optional": false
+            "value": "emit"
           }
         },
         "arguments": [
@@ -11118,9 +11114,7 @@
               "start": 5101,
               "end": 5105
             },
-            "ctxt": 0,
-            "value": "emit",
-            "optional": false
+            "value": "emit"
           }
         },
         "arguments": [
@@ -11187,9 +11181,7 @@
               "start": 5130,
               "end": 5134
             },
-            "ctxt": 0,
-            "value": "emit",
-            "optional": false
+            "value": "emit"
           }
         },
         "arguments": [

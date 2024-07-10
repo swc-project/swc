@@ -152,9 +152,7 @@
                           "start": 180,
                           "end": 187
                         },
-                        "ctxt": 0,
-                        "value": "toFixed",
-                        "optional": false
+                        "value": "toFixed"
                       }
                     },
                     "arguments": [],
@@ -306,9 +304,7 @@
                     "start": 217,
                     "end": 224
                   },
-                  "ctxt": 0,
-                  "value": "getDate",
-                  "optional": false
+                  "value": "getDate"
                 }
               },
               "arguments": [],
@@ -516,9 +512,7 @@
                           "start": 362,
                           "end": 369
                         },
-                        "ctxt": 0,
-                        "value": "toFixed",
-                        "optional": false
+                        "value": "toFixed"
                       }
                     },
                     "arguments": [],
@@ -709,9 +703,7 @@
                     "start": 399,
                     "end": 406
                   },
-                  "ctxt": 0,
-                  "value": "getDate",
-                  "optional": false
+                  "value": "getDate"
                 }
               },
               "arguments": [],

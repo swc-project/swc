@@ -212,9 +212,7 @@
                           "start": 147,
                           "end": 148
                         },
-                        "ctxt": 0,
-                        "value": "a",
-                        "optional": false
+                        "value": "a"
                       },
                       "value": {
                         "type": "Identifier",
@@ -300,9 +298,7 @@
                           "start": 179,
                           "end": 180
                         },
-                        "ctxt": 0,
-                        "value": "a",
-                        "optional": false
+                        "value": "a"
                       },
                       "value": {
                         "type": "Identifier",
@@ -324,9 +320,7 @@
                           "start": 186,
                           "end": 187
                         },
-                        "ctxt": 0,
-                        "value": "b",
-                        "optional": false
+                        "value": "b"
                       },
                       "value": {
                         "type": "Identifier",

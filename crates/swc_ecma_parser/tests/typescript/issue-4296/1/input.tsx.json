@@ -473,9 +473,7 @@
                                   "start": 274,
                                   "end": 277
                                 },
-                                "ctxt": 0,
-                                "value": "map",
-                                "optional": false
+                                "value": "map"
                               }
                             },
                             "arguments": [
@@ -544,9 +542,7 @@
                                                   "start": 363,
                                                   "end": 371
                                                 },
-                                                "ctxt": 0,
-                                                "value": "callback",
-                                                "optional": false
+                                                "value": "callback"
                                               },
                                               "value": {
                                                 "type": "JSXExpressionContainer",
@@ -591,9 +587,7 @@
                                                           "start": 393,
                                                           "end": 396
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "log",
-                                                        "optional": false
+                                                        "value": "log"
                                                       }
                                                     },
                                                     "arguments": [
@@ -737,6 +731,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 212,
+                    "end": 223
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -753,9 +751,7 @@
                       "start": 216,
                       "end": 223
                     },
-                    "ctxt": 0,
-                    "value": "Element",
-                    "optional": false
+                    "value": "Element"
                   }
                 },
                 "typeParams": null

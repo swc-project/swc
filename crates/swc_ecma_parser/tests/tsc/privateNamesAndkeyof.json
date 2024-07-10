@@ -271,9 +271,7 @@
               "start": 161,
               "end": 164
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "value": {
             "type": "NumericLiteral",
@@ -307,9 +305,7 @@
               "start": 174,
               "end": 177
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           },
           "value": {
             "type": "NumericLiteral",

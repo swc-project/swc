@@ -102,7 +102,7 @@ impl Fold for Normalizer {
         }
 
         match n {
-            PropName::Ident(Ident { span, sym, .. }) => PropName::Str(Str {
+            PropName::Ident(IdentName { span, sym, .. }) => PropName::Str(Str {
                 span,
                 value: sym,
                 raw: None,

@@ -2231,9 +2231,7 @@
               "start": 1825,
               "end": 1826
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           },
           "function": {
             "params": [],
@@ -2268,9 +2266,7 @@
               "start": 1842,
               "end": 1843
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           },
           "function": {
             "params": [
@@ -2339,9 +2335,7 @@
               "start": 1860,
               "end": 1861
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           },
           "function": {
             "params": [],
@@ -2384,9 +2378,7 @@
               "start": 1881,
               "end": 1882
             },
-            "ctxt": 0,
-            "value": "g",
-            "optional": false
+            "value": "g"
           },
           "function": {
             "params": [
@@ -2455,9 +2447,7 @@
               "start": 1906,
               "end": 1907
             },
-            "ctxt": 0,
-            "value": "g",
-            "optional": false
+            "value": "g"
           },
           "function": {
             "params": [],
@@ -2492,9 +2482,7 @@
               "start": 1915,
               "end": 1916
             },
-            "ctxt": 0,
-            "value": "g",
-            "optional": false
+            "value": "g"
           },
           "function": {
             "params": [],

@@ -60,9 +60,7 @@
                   "start": 42,
                   "end": 53
                 },
-                "ctxt": 0,
-                "value": "toPrimitive",
-                "optional": false
+                "value": "toPrimitive"
               }
             },
             "computed": true,
@@ -156,9 +154,7 @@
                   "start": 109,
                   "end": 120
                 },
-                "ctxt": 0,
-                "value": "toPrimitive",
-                "optional": false
+                "value": "toPrimitive"
               }
             }
           },

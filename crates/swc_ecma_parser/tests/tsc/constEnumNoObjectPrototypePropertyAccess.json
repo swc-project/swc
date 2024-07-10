@@ -60,9 +60,7 @@
               "start": 122,
               "end": 125
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -90,9 +88,7 @@
                   "start": 132,
                   "end": 143
                 },
-                "ctxt": 0,
-                "value": "constructor",
-                "optional": false
+                "value": "constructor"
               }
             }
           }
@@ -135,9 +131,7 @@
               "start": 153,
               "end": 156
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -165,9 +159,7 @@
                   "start": 163,
                   "end": 177
                 },
-                "ctxt": 0,
-                "value": "hasOwnProperty",
-                "optional": false
+                "value": "hasOwnProperty"
               }
             }
           }
@@ -210,9 +202,7 @@
               "start": 187,
               "end": 190
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -240,9 +230,7 @@
                   "start": 197,
                   "end": 210
                 },
-                "ctxt": 0,
-                "value": "isPrototypeOf",
-                "optional": false
+                "value": "isPrototypeOf"
               }
             }
           }
@@ -285,9 +273,7 @@
               "start": 220,
               "end": 223
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -315,9 +301,7 @@
                   "start": 230,
                   "end": 250
                 },
-                "ctxt": 0,
-                "value": "propertyIsEnumerable",
-                "optional": false
+                "value": "propertyIsEnumerable"
               }
             }
           }
@@ -360,9 +344,7 @@
               "start": 260,
               "end": 263
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -390,9 +372,7 @@
                   "start": 270,
                   "end": 284
                 },
-                "ctxt": 0,
-                "value": "toLocaleString",
-                "optional": false
+                "value": "toLocaleString"
               }
             }
           }
@@ -435,9 +415,7 @@
               "start": 294,
               "end": 297
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -465,9 +443,7 @@
                   "start": 304,
                   "end": 312
                 },
-                "ctxt": 0,
-                "value": "toString",
-                "optional": false
+                "value": "toString"
               }
             }
           }
@@ -510,9 +486,7 @@
               "start": 322,
               "end": 325
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -540,9 +514,7 @@
                   "start": 332,
                   "end": 339
                 },
-                "ctxt": 0,
-                "value": "valueOf",
-                "optional": false
+                "value": "valueOf"
               }
             }
           }

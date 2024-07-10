@@ -273,9 +273,7 @@
                   "start": 202,
                   "end": 206
                 },
-                "ctxt": 0,
-                "value": "bind",
-                "optional": false
+                "value": "bind"
               }
             },
             "arguments": [
@@ -296,9 +294,7 @@
                           "start": 209,
                           "end": 213
                         },
-                        "ctxt": 0,
-                        "value": "blub",
-                        "optional": false
+                        "value": "blub"
                       },
                       "value": {
                         "type": "StringLiteral",

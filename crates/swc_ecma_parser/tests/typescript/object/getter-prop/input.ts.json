@@ -51,9 +51,7 @@
                     "start": 23,
                     "end": 28
                   },
-                  "ctxt": 0,
-                  "value": "prop1",
-                  "optional": false
+                  "value": "prop1"
                 },
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
@@ -109,9 +107,7 @@
                     "start": 75,
                     "end": 80
                   },
-                  "ctxt": 0,
-                  "value": "prop2",
-                  "optional": false
+                  "value": "prop2"
                 },
                 "typeAnnotation": null,
                 "body": {

@@ -186,6 +186,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_ts_entity_name(&mut self, allow_reserved_words: bool) -> PResult<TsEntityName> {
         debug_assert!(self.input.syntax().typescript());
         trace_cur!(self, parse_ts_entity_name);
+        let start = cur_pos!(self);
 
         let init = self.parse_ident_name()?;
         if &*init.sym == "void" {
@@ -193,7 +194,7 @@ impl<I: Tokens> Parser<I> {
             let dot_span = span!(self, dot_start);
             self.emit_err(dot_span, SyntaxError::TS1005)
         }
-        let mut entity = TsEntityName::Ident(init);
+        let mut entity = TsEntityName::Ident(init.into());
         while eat!(self, '.') {
             let dot_start = cur_pos!(self);
             if !is!(self, '#') && !is!(self, IdentName) {
@@ -205,9 +206,10 @@ impl<I: Tokens> Parser<I> {
             let right = if allow_reserved_words {
                 self.parse_ident_name()?
             } else {
-                self.parse_ident(false, false)?
+                self.parse_ident(false, false)?.into()
             };
-            entity = TsEntityName::TsQualifiedName(Box::new(TsQualifiedName { left, right }));
+            let span = span!(self, start);
+            entity = TsEntityName::TsQualifiedName(Box::new(TsQualifiedName { span, left, right }));
         }
 
         Ok(entity)
@@ -430,7 +432,7 @@ impl<I: Tokens> Parser<I> {
             };
         }
 
-        let name = self.in_type().parse_ident_name()?;
+        let name = self.in_type().parse_ident_name()?.into();
         let constraint = self.eat_then_parse_ts_type(&tok!("extends"))?;
         let default = self.eat_then_parse_ts_type(&tok!('='))?;
 
@@ -525,7 +527,7 @@ impl<I: Tokens> Parser<I> {
             let node = Box::new(TsType::TsTypePredicate(TsTypePredicate {
                 span: span!(p, type_pred_start),
                 asserts: has_type_pred_asserts,
-                param_name: TsThisTypeOrIdent::Ident(type_pred_var),
+                param_name: TsThisTypeOrIdent::Ident(type_pred_var.into()),
                 type_ann,
             }));
 
@@ -761,7 +763,10 @@ impl<I: Tokens> Parser<I> {
 
                 TsEnumMemberId::Ident(Ident::new_no_ctxt(js_word!(""), span!(self, start)))
             }
-            _ => self.parse_ident_name().map(TsEnumMemberId::from)?,
+            _ => self
+                .parse_ident_name()
+                .map(Ident::from)
+                .map(TsEnumMemberId::from)?,
         };
 
         let init = if eat!(self, '=') {
@@ -801,7 +806,7 @@ impl<I: Tokens> Parser<I> {
             span: span!(self, start),
             declare: false,
             is_const,
-            id,
+            id: id.into(),
             members,
         }))
     }
@@ -854,7 +859,7 @@ impl<I: Tokens> Parser<I> {
         Ok(Box::new(TsModuleDecl {
             span: span!(self, start),
             declare: false,
-            id: TsModuleName::Ident(id),
+            id: TsModuleName::Ident(id.into()),
             body: Some(body),
             global: false,
         }))
@@ -869,7 +874,7 @@ impl<I: Tokens> Parser<I> {
 
         let (global, id) = if is!(self, "global") {
             let id = self.parse_ident_name()?;
-            (true, TsModuleName::Ident(id))
+            (true, TsModuleName::Ident(id.into()))
         } else if matches!(*cur!(self, true), Token::Str { .. }) {
             let id = self.parse_lit().map(|lit| match lit {
                 Lit::Str(s) => TsModuleName::Str(s),
@@ -1022,7 +1027,7 @@ impl<I: Tokens> Parser<I> {
         // Note: TS uses parseLeftHandSideExpressionOrHigher,
         // then has grammar errors later if it's not an EntityName.
 
-        let ident = Box::new(Expr::Ident(self.parse_ident_name()?));
+        let ident = Box::new(Expr::Ident(self.parse_ident_name()?.into()));
         let expr = self.parse_subscripts(Callee::Expr(ident), true, true)?;
         if !matches!(
             &*expr,
@@ -1099,7 +1104,7 @@ impl<I: Tokens> Parser<I> {
         Ok(Box::new(TsInterfaceDecl {
             span: span!(self, start),
             declare: false,
-            id,
+            id: id.into(),
             type_params,
             extends,
             body,
@@ -1120,7 +1125,7 @@ impl<I: Tokens> Parser<I> {
         Ok(Box::new(TsTypeAliasDecl {
             declare: false,
             span: span!(self, start),
-            id,
+            id: id.into(),
             type_params,
             type_ann,
         }))
@@ -1387,7 +1392,7 @@ impl<I: Tokens> Parser<I> {
 
                             Box::new(Expr::PrivateName(e))
                         }
-                        Either::Right(e) => Box::new(Expr::Ident(e)),
+                        Either::Right(e) => Box::new(Expr::Ident(e.into())),
                     }),
                 };
 
@@ -1604,7 +1609,7 @@ impl<I: Tokens> Parser<I> {
 
         Ok(TsTypeParam {
             span: span!(self, start),
-            name,
+            name: name.into(),
             is_in: false,
             is_out: false,
             is_const: false,
@@ -1723,7 +1728,7 @@ impl<I: Tokens> Parser<I> {
                 None
             };
 
-            let mut ident = p.parse_ident_name()?;
+            let mut ident = p.parse_ident_name().map(Ident::from)?;
             if eat!(p, '?') {
                 ident.optional = true;
                 ident.span = ident.span.with_hi(p.input.prev_span().hi);
@@ -2254,7 +2259,7 @@ impl<I: Tokens> Parser<I> {
         });
         let type_param = TsTypeParam {
             span: type_param_name.span(),
-            name: type_param_name,
+            name: type_param_name.into(),
             is_in: false,
             is_out: false,
             is_const: false,

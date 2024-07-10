@@ -65,9 +65,7 @@
                     "start": 300,
                     "end": 304
                   },
-                  "ctxt": 0,
-                  "value": "prop",
-                  "optional": false
+                  "value": "prop"
                 }
               },
               "right": {
@@ -219,9 +217,7 @@
                 "start": 450,
                 "end": 459
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -230,9 +226,7 @@
               "start": 460,
               "end": 466
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           }
         },
         "right": {
@@ -371,9 +365,7 @@
               "start": 606,
               "end": 616
             },
-            "ctxt": 0,
-            "value": "staticProp",
-            "optional": false
+            "value": "staticProp"
           }
         },
         "right": {
@@ -509,9 +501,7 @@
               "start": 789,
               "end": 796
             },
-            "ctxt": 0,
-            "value": "method1",
-            "optional": false
+            "value": "method1"
           },
           "function": {
             "params": [
@@ -665,9 +655,7 @@
                 "start": 931,
                 "end": 940
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "property": {
@@ -676,9 +664,7 @@
               "start": 941,
               "end": 948
             },
-            "ctxt": 0,
-            "value": "method2",
-            "optional": false
+            "value": "method2"
           }
         },
         "right": {
@@ -817,9 +803,7 @@
               "start": 1088,
               "end": 1098
             },
-            "ctxt": 0,
-            "value": "staticProp",
-            "optional": false
+            "value": "staticProp"
           }
         },
         "right": {

@@ -559,7 +559,7 @@ fn amd_import_meta_url(span: Span, module: Ident) -> Expr {
                 member_expr!(Default::default(), DUMMY_SP, document.baseURI).as_arg(),
             ]),
         ))),
-        prop: quote_ident!("href").into(),
+        prop: MemberProp::Ident("href".into()),
     }
     .into()
 }

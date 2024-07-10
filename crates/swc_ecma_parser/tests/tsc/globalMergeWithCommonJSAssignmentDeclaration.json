@@ -40,9 +40,7 @@
               "start": 87,
               "end": 91
             },
-            "ctxt": 0,
-            "value": "name",
-            "optional": false
+            "value": "name"
           }
         },
         "right": {
@@ -84,9 +82,7 @@
             "start": 104,
             "end": 111
           },
-          "ctxt": 0,
-          "value": "console",
-          "optional": false
+          "value": "console"
         }
       }
     },
@@ -125,9 +121,7 @@
               "start": 205,
               "end": 212
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {

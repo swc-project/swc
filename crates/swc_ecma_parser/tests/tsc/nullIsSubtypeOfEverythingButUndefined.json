@@ -1003,9 +1003,7 @@
                       "start": 511,
                       "end": 514
                     },
-                    "ctxt": 0,
-                    "value": "foo",
-                    "optional": false
+                    "value": "foo"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -1094,9 +1092,7 @@
                       "start": 553,
                       "end": 556
                     },
-                    "ctxt": 0,
-                    "value": "foo",
-                    "optional": false
+                    "value": "foo"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -1861,9 +1857,7 @@
               "start": 896,
               "end": 899
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -2112,9 +2106,7 @@
               "start": 994,
               "end": 997
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -2615,9 +2607,7 @@
                   "start": 1168,
                   "end": 1169
                 },
-                "ctxt": 0,
-                "value": "A",
-                "optional": false
+                "value": "A"
               }
             },
             "alternate": {
@@ -2702,9 +2692,7 @@
                   "start": 1204,
                   "end": 1205
                 },
-                "ctxt": 0,
-                "value": "A",
-                "optional": false
+                "value": "A"
               }
             }
           },
@@ -3035,9 +3023,7 @@
               "start": 1347,
               "end": 1350
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           },
           "value": null,
           "typeAnnotation": {

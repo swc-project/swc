@@ -37,9 +37,7 @@
               "start": 128,
               "end": 129
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": {
@@ -106,9 +104,7 @@
               "start": 174,
               "end": 175
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "value": null,
           "typeAnnotation": {
@@ -494,9 +490,7 @@
                           "start": 282,
                           "end": 285
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       },
                       "value": {
                         "type": "NewExpression",
@@ -527,9 +521,7 @@
                           "start": 299,
                           "end": 302
                         },
-                        "ctxt": 0,
-                        "value": "bar",
-                        "optional": false
+                        "value": "bar"
                       },
                       "value": {
                         "type": "NewExpression",
@@ -624,9 +616,7 @@
                           "start": 335,
                           "end": 338
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       },
                       "value": {
                         "type": "NewExpression",
@@ -657,9 +647,7 @@
                           "start": 355,
                           "end": 358
                         },
-                        "ctxt": 0,
-                        "value": "bar",
-                        "optional": false
+                        "value": "bar"
                       },
                       "value": {
                         "type": "NewExpression",

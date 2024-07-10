@@ -44,9 +44,7 @@
                 "start": 160,
                 "end": 171
               },
-              "ctxt": 0,
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [],
             "body": {
@@ -89,9 +87,7 @@
                           "start": 189,
                           "end": 192
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       }
                     },
                     "right": {
@@ -122,9 +118,7 @@
                 "start": 214,
                 "end": 220
               },
-              "ctxt": 0,
-              "value": "slicey",
-              "optional": false
+              "value": "slicey"
             },
             "function": {
               "params": [],
@@ -174,9 +168,7 @@
                             "start": 238,
                             "end": 241
                           },
-                          "ctxt": 0,
-                          "value": "foo",
-                          "optional": false
+                          "value": "foo"
                         }
                       },
                       "right": {
@@ -211,9 +203,7 @@
                                 "start": 249,
                                 "end": 252
                               },
-                              "ctxt": 0,
-                              "value": "foo",
-                              "optional": false
+                              "value": "foo"
                             }
                           },
                           "property": {
@@ -222,9 +212,7 @@
                               "start": 253,
                               "end": 258
                             },
-                            "ctxt": 0,
-                            "value": "slice",
-                            "optional": false
+                            "value": "slice"
                           }
                         },
                         "arguments": [],
@@ -258,9 +246,7 @@
                 "start": 272,
                 "end": 273
               },
-              "ctxt": 0,
-              "value": "m",
-              "optional": false
+              "value": "m"
             },
             "function": {
               "params": [],
@@ -303,9 +289,7 @@
                           "start": 291,
                           "end": 294
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       }
                     }
                   }
@@ -391,9 +375,7 @@
                     "start": 342,
                     "end": 343
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 }
               },
               "right": {
@@ -439,9 +421,7 @@
                     "start": 358,
                     "end": 359
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 }
               },
               "right": {
@@ -500,9 +480,7 @@
                                 "start": 380,
                                 "end": 381
                               },
-                              "ctxt": 0,
-                              "value": "x",
-                              "optional": false
+                              "value": "x"
                             }
                           },
                           "property": {
@@ -511,9 +489,7 @@
                               "start": 382,
                               "end": 390
                             },
-                            "ctxt": 0,
-                            "value": "toString",
-                            "optional": false
+                            "value": "toString"
                           }
                         },
                         "arguments": [],

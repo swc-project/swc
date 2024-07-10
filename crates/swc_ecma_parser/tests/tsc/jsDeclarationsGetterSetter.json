@@ -43,9 +43,7 @@
                 "start": 141,
                 "end": 142
               },
-              "ctxt": 0,
-              "value": "x",
-              "optional": false
+              "value": "x"
             },
             "function": {
               "params": [],
@@ -139,9 +137,7 @@
                 "start": 244,
                 "end": 245
               },
-              "ctxt": 0,
-              "value": "x",
-              "optional": false
+              "value": "x"
             },
             "function": {
               "params": [
@@ -238,9 +234,7 @@
                 "start": 288,
                 "end": 289
               },
-              "ctxt": 0,
-              "value": "x",
-              "optional": false
+              "value": "x"
             },
             "function": {
               "params": [],
@@ -300,9 +294,7 @@
                 "start": 327,
                 "end": 328
               },
-              "ctxt": 0,
-              "value": "x",
-              "optional": false
+              "value": "x"
             },
             "function": {
               "params": [
@@ -429,9 +421,7 @@
               "start": 371,
               "end": 385
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -459,9 +449,7 @@
                   "start": 388,
                   "end": 397
                 },
-                "ctxt": 0,
-                "value": "prototype",
-                "optional": false
+                "value": "prototype"
               }
             }
           },
@@ -494,9 +482,7 @@
                       "start": 410,
                       "end": 413
                     },
-                    "ctxt": 0,
-                    "value": "get",
-                    "optional": false
+                    "value": "get"
                   },
                   "params": [],
                   "decorators": [],
@@ -611,9 +597,7 @@
               "start": 473,
               "end": 487
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -641,9 +625,7 @@
                   "start": 490,
                   "end": 499
                 },
-                "ctxt": 0,
-                "value": "prototype",
-                "optional": false
+                "value": "prototype"
               }
             }
           },
@@ -676,9 +658,7 @@
                       "start": 556,
                       "end": 559
                     },
-                    "ctxt": 0,
-                    "value": "set",
-                    "optional": false
+                    "value": "set"
                   },
                   "params": [
                     {
@@ -796,9 +776,7 @@
               "start": 599,
               "end": 613
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -826,9 +804,7 @@
                   "start": 616,
                   "end": 625
                 },
-                "ctxt": 0,
-                "value": "prototype",
-                "optional": false
+                "value": "prototype"
               }
             }
           },
@@ -861,9 +837,7 @@
                       "start": 638,
                       "end": 641
                     },
-                    "ctxt": 0,
-                    "value": "get",
-                    "optional": false
+                    "value": "get"
                   },
                   "params": [],
                   "decorators": [],
@@ -911,9 +885,7 @@
                       "start": 720,
                       "end": 723
                     },
-                    "ctxt": 0,
-                    "value": "set",
-                    "optional": false
+                    "value": "set"
                   },
                   "params": [
                     {
@@ -1031,9 +1003,7 @@
               "start": 763,
               "end": 777
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -1061,9 +1031,7 @@
                   "start": 780,
                   "end": 789
                 },
-                "ctxt": 0,
-                "value": "prototype",
-                "optional": false
+                "value": "prototype"
               }
             }
           },
@@ -1096,9 +1064,7 @@
                       "start": 848,
                       "end": 851
                     },
-                    "ctxt": 0,
-                    "value": "set",
-                    "optional": false
+                    "value": "set"
                   },
                   "params": [
                     {
@@ -1228,9 +1194,7 @@
               "start": 894,
               "end": 908
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -1258,9 +1222,7 @@
                   "start": 911,
                   "end": 920
                 },
-                "ctxt": 0,
-                "value": "prototype",
-                "optional": false
+                "value": "prototype"
               }
             }
           },
@@ -1293,9 +1255,7 @@
                       "start": 933,
                       "end": 936
                     },
-                    "ctxt": 0,
-                    "value": "set",
-                    "optional": false
+                    "value": "set"
                   },
                   "params": [],
                   "decorators": [],
@@ -1393,9 +1353,7 @@
               "start": 973,
               "end": 987
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -1423,9 +1381,7 @@
                   "start": 990,
                   "end": 999
                 },
-                "ctxt": 0,
-                "value": "prototype",
-                "optional": false
+                "value": "prototype"
               }
             }
           },
@@ -1458,9 +1414,7 @@
                       "start": 1053,
                       "end": 1056
                     },
-                    "ctxt": 0,
-                    "value": "set",
-                    "optional": false
+                    "value": "set"
                   },
                   "value": {
                     "type": "ArrowFunctionExpression",
@@ -1637,9 +1591,7 @@
               "start": 1153,
               "end": 1167
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -1667,9 +1619,7 @@
                   "start": 1170,
                   "end": 1179
                 },
-                "ctxt": 0,
-                "value": "prototype",
-                "optional": false
+                "value": "prototype"
               }
             }
           },
@@ -1702,9 +1652,7 @@
                       "start": 1192,
                       "end": 1195
                     },
-                    "ctxt": 0,
-                    "value": "set",
-                    "optional": false
+                    "value": "set"
                   },
                   "value": {
                     "type": "Identifier",
@@ -1922,9 +1870,7 @@
               "start": 1347,
               "end": 1361
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -1952,9 +1898,7 @@
                   "start": 1364,
                   "end": 1373
                 },
-                "ctxt": 0,
-                "value": "prototype",
-                "optional": false
+                "value": "prototype"
               }
             }
           },
@@ -1987,9 +1931,7 @@
                       "start": 1386,
                       "end": 1389
                     },
-                    "ctxt": 0,
-                    "value": "set",
-                    "optional": false
+                    "value": "set"
                   },
                   "value": {
                     "type": "ConditionalExpression",
@@ -2026,9 +1968,7 @@
                             "start": 1396,
                             "end": 1402
                           },
-                          "ctxt": 0,
-                          "value": "random",
-                          "optional": false
+                          "value": "random"
                         }
                       },
                       "arguments": [],
@@ -2261,9 +2201,7 @@
               "start": 1569,
               "end": 1583
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -2291,9 +2229,7 @@
                   "start": 1586,
                   "end": 1595
                 },
-                "ctxt": 0,
-                "value": "prototype",
-                "optional": false
+                "value": "prototype"
               }
             }
           },
@@ -2326,9 +2262,7 @@
                       "start": 1608,
                       "end": 1611
                     },
-                    "ctxt": 0,
-                    "value": "set",
-                    "optional": false
+                    "value": "set"
                   },
                   "value": {
                     "type": "ConditionalExpression",
@@ -2365,9 +2299,7 @@
                             "start": 1618,
                             "end": 1624
                           },
-                          "ctxt": 0,
-                          "value": "random",
-                          "optional": false
+                          "value": "random"
                         }
                       },
                       "arguments": [],
@@ -2600,9 +2532,7 @@
               "start": 1811,
               "end": 1825
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -2630,9 +2560,7 @@
                   "start": 1828,
                   "end": 1837
                 },
-                "ctxt": 0,
-                "value": "prototype",
-                "optional": false
+                "value": "prototype"
               }
             }
           },
@@ -2665,9 +2593,7 @@
                       "start": 1850,
                       "end": 1853
                     },
-                    "ctxt": 0,
-                    "value": "set",
-                    "optional": false
+                    "value": "set"
                   },
                   "value": {
                     "type": "ConditionalExpression",
@@ -2704,9 +2630,7 @@
                             "start": 1860,
                             "end": 1866
                           },
-                          "ctxt": 0,
-                          "value": "random",
-                          "optional": false
+                          "value": "random"
                         }
                       },
                       "arguments": [],

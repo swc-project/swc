@@ -365,9 +365,7 @@
               "start": 262,
               "end": 265
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -551,6 +549,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 365,
+                    "end": 372
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -567,9 +569,7 @@
                       "start": 371,
                       "end": 372
                     },
-                    "ctxt": 0,
-                    "value": "B",
-                    "optional": false
+                    "value": "B"
                   }
                 },
                 "typeParams": null
@@ -616,9 +616,7 @@
               "start": 382,
               "end": 385
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -841,9 +839,7 @@
               "start": 485,
               "end": 488
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -1053,9 +1049,7 @@
             "start": 657,
             "end": 660
           },
-          "ctxt": 0,
-          "value": "One",
-          "optional": false
+          "value": "One"
         }
       }
     },
@@ -1132,9 +1126,7 @@
                 "start": 675,
                 "end": 678
               },
-              "ctxt": 0,
-              "value": "Two",
-              "optional": false
+              "value": "Two"
             }
           },
           "definite": false
@@ -1180,6 +1172,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 687,
+                    "end": 692
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -1196,9 +1192,7 @@
                       "start": 689,
                       "end": 692
                     },
-                    "ctxt": 0,
-                    "value": "Two",
-                    "optional": false
+                    "value": "Two"
                   }
                 },
                 "typeParams": null
@@ -1227,9 +1221,7 @@
                 "start": 697,
                 "end": 700
               },
-              "ctxt": 0,
-              "value": "Two",
-              "optional": false
+              "value": "Two"
             }
           },
           "definite": false
@@ -1271,9 +1263,7 @@
               "start": 710,
               "end": 713
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -1442,6 +1432,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 784,
+                    "end": 789
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -1458,9 +1452,7 @@
                       "start": 786,
                       "end": 789
                     },
-                    "ctxt": 0,
-                    "value": "Two",
-                    "optional": false
+                    "value": "Two"
                   }
                 },
                 "typeParams": null
@@ -1507,9 +1499,7 @@
               "start": 799,
               "end": 802
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -1719,9 +1709,7 @@
               "start": 934,
               "end": 937
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [
@@ -1914,9 +1902,7 @@
             "start": 1128,
             "end": 1131
           },
-          "ctxt": 0,
-          "value": "One",
-          "optional": false
+          "value": "One"
         }
       }
     }

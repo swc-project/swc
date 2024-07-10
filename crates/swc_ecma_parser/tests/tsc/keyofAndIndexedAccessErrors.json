@@ -37,9 +37,7 @@
               "start": 19,
               "end": 23
             },
-            "ctxt": 0,
-            "value": "name",
-            "optional": false
+            "value": "name"
           },
           "value": null,
           "typeAnnotation": {
@@ -79,9 +77,7 @@
               "start": 37,
               "end": 42
             },
-            "ctxt": 0,
-            "value": "width",
-            "optional": false
+            "value": "width"
           },
           "value": null,
           "typeAnnotation": {
@@ -121,9 +117,7 @@
               "start": 56,
               "end": 62
             },
-            "ctxt": 0,
-            "value": "height",
-            "optional": false
+            "value": "height"
           },
           "value": null,
           "typeAnnotation": {
@@ -163,9 +157,7 @@
               "start": 76,
               "end": 83
             },
-            "ctxt": 0,
-            "value": "visible",
-            "optional": false
+            "value": "visible"
           },
           "value": null,
           "typeAnnotation": {
@@ -8065,9 +8057,7 @@
               "start": 3856,
               "end": 3861
             },
-            "ctxt": 0,
-            "value": "testy",
-            "optional": false
+            "value": "testy"
           },
           "value": null,
           "typeAnnotation": {
@@ -8118,9 +8108,7 @@
               "start": 3869,
               "end": 3880
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -8207,9 +8195,7 @@
                         "start": 3898,
                         "end": 3903
                       },
-                      "ctxt": 0,
-                      "value": "testy",
-                      "optional": false
+                      "value": "testy"
                     }
                   },
                   "right": {
@@ -8241,9 +8227,7 @@
               "start": 3923,
               "end": 3924
             },
-            "ctxt": 0,
-            "value": "t",
-            "optional": false
+            "value": "t"
           },
           "function": {
             "params": [
@@ -8351,9 +8335,7 @@
                             "start": 3958,
                             "end": 3963
                           },
-                          "ctxt": 0,
-                          "value": "testy",
-                          "optional": false
+                          "value": "testy"
                         }
                       },
                       "property": {
@@ -8416,9 +8398,7 @@
                           "start": 4001,
                           "end": 4006
                         },
-                        "ctxt": 0,
-                        "value": "testy",
-                        "optional": false
+                        "value": "testy"
                       }
                     },
                     "property": {

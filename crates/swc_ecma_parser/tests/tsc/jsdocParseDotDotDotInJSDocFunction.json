@@ -209,9 +209,7 @@
                 "start": 293,
                 "end": 305
               },
-              "ctxt": 0,
-              "value": "fromCharCode",
-              "optional": false
+              "value": "fromCharCode"
             }
           },
           "definite": false

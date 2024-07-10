@@ -51,9 +51,7 @@
               "start": 5,
               "end": 8
             },
-            "ctxt": 0,
-            "value": "map",
-            "optional": false
+            "value": "map"
           }
         },
         "arguments": [

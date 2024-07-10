@@ -37,7 +37,7 @@ struct Hook {
 #[allow(clippy::large_enum_variant)]
 enum HookCall {
     Ident(Ident),
-    Member(Expr, Ident), // for obj and prop
+    Member(Expr, IdentName), // for obj and prop
 }
 pub struct HookRegister<'a> {
     pub options: &'a RefreshOptions,
@@ -60,10 +60,9 @@ impl<'a> HookRegister<'a> {
                 .map(|id| VarDeclarator {
                     span: DUMMY_SP,
                     name: id.into(),
-                    init: Some(Box::new(make_call_expr(quote_ident!(self
-                        .options
-                        .refresh_sig
-                        .clone())))),
+                    init: Some(Box::new(make_call_expr(
+                        quote_ident!(self.options.refresh_sig.clone()).into(),
+                    ))),
                     definite: false,
                 })
                 .collect(),
@@ -83,15 +82,15 @@ impl<'a> HookRegister<'a> {
 
         for hook in hooks {
             let name = match &hook.callee {
-                HookCall::Ident(i) => i,
-                HookCall::Member(_, i) => i,
+                HookCall::Ident(i) => i.clone(),
+                HookCall::Member(_, i) => i.clone().into(),
             };
             sign.push(format!("{}{{{}}}", name.sym, hook.key));
             match &hook.callee {
-                HookCall::Ident(ident) if !is_builtin_hook(ident) => {
+                HookCall::Ident(ident) if !is_builtin_hook(&ident.sym) => {
                     custom_hook.push(hook.callee);
                 }
-                HookCall::Member(Expr::Ident(obj_ident), prop) if !is_builtin_hook(prop) => {
+                HookCall::Member(Expr::Ident(obj_ident), prop) if !is_builtin_hook(&prop.sym) => {
                     if obj_ident.sym.as_ref() != "React" {
                         custom_hook.push(hook.callee);
                     }
@@ -391,7 +390,7 @@ impl<'a> HookCollector<'a> {
         let ident = match callee {
             Expr::Ident(ident) => {
                 hook_call = Some(HookCall::Ident(ident.clone()));
-                Some(ident)
+                Some(&ident.sym)
             }
             // hook cannot be used in class, so we're fine without SuperProp
             Expr::Member(MemberExpr {
@@ -400,11 +399,11 @@ impl<'a> HookCollector<'a> {
                 ..
             }) => {
                 hook_call = Some(HookCall::Member(*obj.clone(), ident.clone()));
-                Some(ident)
+                Some(&ident.sym)
             }
             _ => None,
         }?;
-        let name = if is_hook_like(&ident.sym) {
+        let name = if is_hook_like(ident) {
             Some(ident)
         } else {
             None
@@ -415,7 +414,7 @@ impl<'a> HookCollector<'a> {
             String::new()
         };
         // Some built-in Hooks reset on edits to arguments.
-        if &name.sym == "useState" && !expr.args.is_empty() {
+        if *name == "useState" && !expr.args.is_empty() {
             // useState first argument is initial state.
             let _ = write!(
                 key,
@@ -424,7 +423,7 @@ impl<'a> HookCollector<'a> {
                     .span_to_snippet(expr.args[0].span())
                     .unwrap_or_default()
             );
-        } else if &name.sym == "useReducer" && expr.args.len() > 1 {
+        } else if name == "useReducer" && expr.args.len() > 1 {
             // useReducer second argument is initial state.
             let _ = write!(
                 key,

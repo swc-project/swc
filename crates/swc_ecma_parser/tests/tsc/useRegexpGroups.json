@@ -101,9 +101,7 @@
                   "start": 112,
                   "end": 116
                 },
-                "ctxt": 0,
-                "value": "exec",
-                "optional": false
+                "value": "exec"
               }
             },
             "arguments": [
@@ -245,9 +243,7 @@
                   "start": 175,
                   "end": 181
                 },
-                "ctxt": 0,
-                "value": "groups",
-                "optional": false
+                "value": "groups"
               }
             },
             "property": {
@@ -256,9 +252,7 @@
                 "start": 182,
                 "end": 186
               },
-              "ctxt": 0,
-              "value": "year",
-              "optional": false
+              "value": "year"
             }
           },
           "definite": false
@@ -384,9 +378,7 @@
                   "start": 232,
                   "end": 238
                 },
-                "ctxt": 0,
-                "value": "groups",
-                "optional": false
+                "value": "groups"
               }
             },
             "property": {
@@ -395,9 +387,7 @@
                 "start": 239,
                 "end": 244
               },
-              "ctxt": 0,
-              "value": "month",
-              "optional": false
+              "value": "month"
             }
           },
           "definite": false
@@ -523,9 +513,7 @@
                   "start": 289,
                   "end": 295
                 },
-                "ctxt": 0,
-                "value": "groups",
-                "optional": false
+                "value": "groups"
               }
             },
             "property": {
@@ -534,9 +522,7 @@
                 "start": 296,
                 "end": 299
               },
-              "ctxt": 0,
-              "value": "day",
-              "optional": false
+              "value": "day"
             }
           },
           "definite": false
@@ -680,9 +666,7 @@
                         "start": 340,
                         "end": 345
                       },
-                      "ctxt": 0,
-                      "value": "match",
-                      "optional": false
+                      "value": "match"
                     }
                   },
                   "arguments": [
@@ -708,9 +692,7 @@
                   "start": 362,
                   "end": 368
                 },
-                "ctxt": 0,
-                "value": "groups",
-                "optional": false
+                "value": "groups"
               }
             },
             "property": {
@@ -719,9 +701,7 @@
                 "start": 369,
                 "end": 372
               },
-              "ctxt": 0,
-              "value": "foo",
-              "optional": false
+              "value": "foo"
             }
           },
           "definite": false

@@ -172,9 +172,7 @@
               "start": 187,
               "end": 198
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -201,9 +199,7 @@
               "start": 216,
               "end": 217
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           },
           "value": null,
           "typeAnnotation": {
@@ -243,9 +239,7 @@
               "start": 237,
               "end": 238
             },
-            "ctxt": 0,
-            "value": "b",
-            "optional": false
+            "value": "b"
           },
           "value": null,
           "typeAnnotation": {
@@ -285,9 +279,7 @@
               "start": 261,
               "end": 262
             },
-            "ctxt": 0,
-            "value": "c",
-            "optional": false
+            "value": "c"
           },
           "value": null,
           "typeAnnotation": {
@@ -589,9 +581,7 @@
               "start": 437,
               "end": 438
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           },
           "value": null,
           "typeAnnotation": {
@@ -641,9 +631,7 @@
               "start": 468,
               "end": 469
             },
-            "ctxt": 0,
-            "value": "X",
-            "optional": false
+            "value": "X"
           },
           "function": {
             "params": [],
@@ -703,9 +691,7 @@
               "start": 513,
               "end": 514
             },
-            "ctxt": 0,
-            "value": "X",
-            "optional": false
+            "value": "X"
           },
           "function": {
             "params": [
@@ -768,9 +754,7 @@
               "start": 533,
               "end": 536
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
@@ -830,9 +814,7 @@
               "start": 587,
               "end": 589
             },
-            "ctxt": 0,
-            "value": "sa",
-            "optional": false
+            "value": "sa"
           },
           "value": null,
           "typeAnnotation": {
@@ -872,9 +854,7 @@
               "start": 616,
               "end": 618
             },
-            "ctxt": 0,
-            "value": "sb",
-            "optional": false
+            "value": "sb"
           },
           "value": null,
           "typeAnnotation": {
@@ -914,9 +894,7 @@
               "start": 646,
               "end": 649
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
@@ -959,9 +937,7 @@
               "start": 677,
               "end": 678
             },
-            "ctxt": 0,
-            "value": "X",
-            "optional": false
+            "value": "X"
           },
           "function": {
             "params": [],
@@ -2234,9 +2210,7 @@
                     "start": 1484,
                     "end": 1485
                   },
-                  "ctxt": 0,
-                  "value": "a",
-                  "optional": false
+                  "value": "a"
                 },
                 "value": {
                   "type": "StringLiteral",
@@ -2256,9 +2230,7 @@
                     "start": 1495,
                     "end": 1496
                   },
-                  "ctxt": 0,
-                  "value": "b",
-                  "optional": false
+                  "value": "b"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -2278,9 +2250,7 @@
                     "start": 1506,
                     "end": 1507
                   },
-                  "ctxt": 0,
-                  "value": "c",
-                  "optional": false
+                  "value": "c"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -2439,9 +2409,7 @@
                     "start": 1609,
                     "end": 1610
                   },
-                  "ctxt": 0,
-                  "value": "f",
-                  "optional": false
+                  "value": "f"
                 },
                 "value": {
                   "type": "TsTypeAssertion",
@@ -2488,9 +2456,7 @@
                     "start": 1638,
                     "end": 1639
                   },
-                  "ctxt": 0,
-                  "value": "X",
-                  "optional": false
+                  "value": "X"
                 },
                 "typeAnnotation": null,
                 "body": {
@@ -2532,9 +2498,7 @@
                     "start": 1679,
                     "end": 1680
                   },
-                  "ctxt": 0,
-                  "value": "X",
-                  "optional": false
+                  "value": "X"
                 },
                 "thisParam": null,
                 "param": {
@@ -2566,9 +2530,7 @@
                     "start": 1694,
                     "end": 1697
                   },
-                  "ctxt": 0,
-                  "value": "foo",
-                  "optional": false
+                  "value": "foo"
                 },
                 "params": [],
                 "decorators": [],

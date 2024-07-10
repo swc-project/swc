@@ -238,9 +238,7 @@
                     "start": 294,
                     "end": 298
                   },
-                  "ctxt": 0,
-                  "value": "name",
-                  "optional": false
+                  "value": "name"
                 },
                 "value": null,
                 "typeAnnotation": {

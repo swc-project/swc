@@ -209,9 +209,7 @@
                         "start": 181,
                         "end": 182
                       },
-                      "ctxt": 0,
-                      "value": "d",
-                      "optional": false
+                      "value": "d"
                     }
                   }
                 }

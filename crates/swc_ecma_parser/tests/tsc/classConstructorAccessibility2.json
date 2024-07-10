@@ -38,9 +38,7 @@
               "start": 49,
               "end": 60
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -104,9 +102,7 @@
               "start": 87,
               "end": 101
             },
-            "ctxt": 0,
-            "value": "createInstance",
-            "optional": false
+            "value": "createInstance"
           },
           "function": {
             "params": [],
@@ -218,9 +214,7 @@
               "start": 153,
               "end": 164
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -284,9 +278,7 @@
               "start": 191,
               "end": 205
             },
-            "ctxt": 0,
-            "value": "createInstance",
-            "optional": false
+            "value": "createInstance"
           },
           "function": {
             "params": [],
@@ -398,9 +390,7 @@
               "start": 255,
               "end": 266
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -464,9 +454,7 @@
               "start": 293,
               "end": 307
             },
-            "ctxt": 0,
-            "value": "createInstance",
-            "optional": false
+            "value": "createInstance"
           },
           "function": {
             "params": [],
@@ -550,9 +538,7 @@
               "start": 339,
               "end": 353
             },
-            "ctxt": 0,
-            "value": "staticInstance",
-            "optional": false
+            "value": "staticInstance"
           },
           "function": {
             "params": [],
@@ -664,9 +650,7 @@
               "start": 412,
               "end": 423
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -769,9 +753,7 @@
               "start": 460,
               "end": 474
             },
-            "ctxt": 0,
-            "value": "createInstance",
-            "optional": false
+            "value": "createInstance"
           },
           "function": {
             "params": [],
@@ -855,9 +837,7 @@
               "start": 502,
               "end": 520
             },
-            "ctxt": 0,
-            "value": "createBaseInstance",
-            "optional": false
+            "value": "createBaseInstance"
           },
           "function": {
             "params": [],
@@ -941,9 +921,7 @@
               "start": 552,
               "end": 570
             },
-            "ctxt": 0,
-            "value": "staticBaseInstance",
-            "optional": false
+            "value": "staticBaseInstance"
           },
           "function": {
             "params": [],
@@ -1064,9 +1042,7 @@
               "start": 629,
               "end": 640
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -1169,9 +1145,7 @@
               "start": 677,
               "end": 691
             },
-            "ctxt": 0,
-            "value": "createInstance",
-            "optional": false
+            "value": "createInstance"
           },
           "function": {
             "params": [],
@@ -1255,9 +1229,7 @@
               "start": 719,
               "end": 737
             },
-            "ctxt": 0,
-            "value": "createBaseInstance",
-            "optional": false
+            "value": "createBaseInstance"
           },
           "function": {
             "params": [],
@@ -1341,9 +1313,7 @@
               "start": 775,
               "end": 793
             },
-            "ctxt": 0,
-            "value": "staticBaseInstance",
-            "optional": false
+            "value": "staticBaseInstance"
           },
           "function": {
             "params": [],
@@ -1464,9 +1434,7 @@
               "start": 867,
               "end": 878
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -1569,9 +1537,7 @@
               "start": 915,
               "end": 929
             },
-            "ctxt": 0,
-            "value": "createInstance",
-            "optional": false
+            "value": "createInstance"
           },
           "function": {
             "params": [],
@@ -1655,9 +1621,7 @@
               "start": 957,
               "end": 975
             },
-            "ctxt": 0,
-            "value": "createBaseInstance",
-            "optional": false
+            "value": "createBaseInstance"
           },
           "function": {
             "params": [],
@@ -1741,9 +1705,7 @@
               "start": 1017,
               "end": 1035
             },
-            "ctxt": 0,
-            "value": "staticBaseInstance",
-            "optional": false
+            "value": "staticBaseInstance"
           },
           "function": {
             "params": [],

@@ -87,9 +87,7 @@
                     "start": 179,
                     "end": 182
                   },
-                  "ctxt": 0,
-                  "value": "bar",
-                  "optional": false
+                  "value": "bar"
                 }
               },
               "property": {
@@ -98,9 +96,7 @@
                   "start": 183,
                   "end": 184
                 },
-                "ctxt": 0,
-                "value": "p",
-                "optional": false
+                "value": "p"
               }
             }
           }

@@ -167,9 +167,7 @@
               "start": 90,
               "end": 101
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -297,9 +295,7 @@
               "start": 177,
               "end": 188
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -643,9 +639,7 @@
                       "start": 467,
                       "end": 474
                     },
-                    "ctxt": 0,
-                    "value": "message",
-                    "optional": false
+                    "value": "message"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -679,9 +673,7 @@
                       "start": 494,
                       "end": 499
                     },
-                    "ctxt": 0,
-                    "value": "print",
-                    "optional": false
+                    "value": "print"
                   },
                   "function": {
                     "params": [],
@@ -759,9 +751,7 @@
                                         "start": 536,
                                         "end": 537
                                       },
-                                      "ctxt": 0,
-                                      "value": "x",
-                                      "optional": false
+                                      "value": "x"
                                     }
                                   },
                                   "right": {
@@ -793,9 +783,7 @@
                                       "start": 551,
                                       "end": 552
                                     },
-                                    "ctxt": 0,
-                                    "value": "y",
-                                    "optional": false
+                                    "value": "y"
                                   }
                                 }
                               },
@@ -1204,9 +1192,7 @@
                     "start": 737,
                     "end": 741
                   },
-                  "ctxt": 0,
-                  "value": "_tag",
-                  "optional": false
+                  "value": "_tag"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -1247,9 +1233,7 @@
                     "start": 759,
                     "end": 770
                   },
-                  "ctxt": 0,
-                  "value": "constructor",
-                  "optional": false
+                  "value": "constructor"
                 },
                 "params": [
                   {
@@ -1386,9 +1370,7 @@
                               "start": 834,
                               "end": 838
                             },
-                            "ctxt": 0,
-                            "value": "_tag",
-                            "optional": false
+                            "value": "_tag"
                           }
                         },
                         "right": {
@@ -1769,9 +1751,7 @@
             "start": 965,
             "end": 972
           },
-          "ctxt": 0,
-          "value": "message",
-          "optional": false
+          "value": "message"
         }
       }
     },
@@ -1919,9 +1899,7 @@
                   "start": 1040,
                   "end": 1041
                 },
-                "ctxt": 0,
-                "value": "x",
-                "optional": false
+                "value": "x"
               }
             }
           },
@@ -1953,9 +1931,7 @@
                   "start": 1053,
                   "end": 1057
                 },
-                "ctxt": 0,
-                "value": "_tag",
-                "optional": false
+                "value": "_tag"
               }
             }
           }
@@ -2110,9 +2086,7 @@
                   "start": 1127,
                   "end": 1128
                 },
-                "ctxt": 0,
-                "value": "x",
-                "optional": false
+                "value": "x"
               }
             }
           },
@@ -2144,9 +2118,7 @@
                   "start": 1140,
                   "end": 1144
                 },
-                "ctxt": 0,
-                "value": "_tag",
-                "optional": false
+                "value": "_tag"
               }
             }
           },
@@ -2185,9 +2157,7 @@
                     "start": 1156,
                     "end": 1161
                   },
-                  "ctxt": 0,
-                  "value": "print",
-                  "optional": false
+                  "value": "print"
                 }
               },
               "arguments": [],
@@ -2234,9 +2204,7 @@
               "start": 1202,
               "end": 1213
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -2374,9 +2342,7 @@
                         "start": 1269,
                         "end": 1273
                       },
-                      "ctxt": 0,
-                      "value": "_tag",
-                      "optional": false
+                      "value": "_tag"
                     }
                   },
                   "right": {
@@ -2408,9 +2374,7 @@
               "start": 1291,
               "end": 1295
             },
-            "ctxt": 0,
-            "value": "test",
-            "optional": false
+            "value": "test"
           },
           "function": {
             "params": [],
@@ -2460,9 +2424,7 @@
                           "start": 1313,
                           "end": 1318
                         },
-                        "ctxt": 0,
-                        "value": "print",
-                        "optional": false
+                        "value": "print"
                       }
                     },
                     "arguments": [],

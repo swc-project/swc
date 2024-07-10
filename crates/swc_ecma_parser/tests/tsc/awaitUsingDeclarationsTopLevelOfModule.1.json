@@ -145,9 +145,7 @@
                         "start": 186,
                         "end": 198
                       },
-                      "ctxt": 0,
-                      "value": "asyncDispose",
-                      "optional": false
+                      "value": "asyncDispose"
                     }
                   }
                 },
@@ -323,9 +321,7 @@
               "start": 271,
               "end": 274
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [

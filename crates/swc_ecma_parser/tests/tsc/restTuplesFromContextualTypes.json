@@ -6438,9 +6438,7 @@
                         "start": 1899,
                         "end": 1905
                       },
-                      "ctxt": 0,
-                      "value": "length",
-                      "optional": false
+                      "value": "length"
                     }
                   },
                   "async": false,

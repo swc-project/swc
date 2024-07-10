@@ -21,8 +21,16 @@
           "type": "JSXOpeningElement",
           "name": {
             "type": "JSXMemberExpression",
+            "span": {
+              "start": 2,
+              "end": 7
+            },
             "object": {
               "type": "JSXMemberExpression",
+              "span": {
+                "start": 2,
+                "end": 5
+              },
               "object": {
                 "type": "Identifier",
                 "span": {
@@ -39,9 +47,7 @@
                   "start": 4,
                   "end": 5
                 },
-                "ctxt": 0,
-                "value": "b",
-                "optional": false
+                "value": "b"
               }
             },
             "property": {
@@ -50,9 +56,7 @@
                 "start": 6,
                 "end": 7
               },
-              "ctxt": 0,
-              "value": "c",
-              "optional": false
+              "value": "c"
             }
           },
           "span": {
@@ -72,8 +76,16 @@
           },
           "name": {
             "type": "JSXMemberExpression",
+            "span": {
+              "start": 10,
+              "end": 15
+            },
             "object": {
               "type": "JSXMemberExpression",
+              "span": {
+                "start": 10,
+                "end": 13
+              },
               "object": {
                 "type": "Identifier",
                 "span": {
@@ -90,9 +102,7 @@
                   "start": 12,
                   "end": 13
                 },
-                "ctxt": 0,
-                "value": "b",
-                "optional": false
+                "value": "b"
               }
             },
             "property": {
@@ -101,9 +111,7 @@
                 "start": 14,
                 "end": 15
               },
-              "ctxt": 0,
-              "value": "c",
-              "optional": false
+              "value": "c"
             }
           }
         }

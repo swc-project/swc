@@ -261,9 +261,7 @@
                             "start": 261,
                             "end": 265
                           },
-                          "ctxt": 0,
-                          "value": "test",
-                          "optional": false
+                          "value": "test"
                         }
                       },
                       "arguments": [],
@@ -348,9 +346,7 @@
                       "start": 339,
                       "end": 343
                     },
-                    "ctxt": 0,
-                    "value": "test",
-                    "optional": false
+                    "value": "test"
                   }
                 },
                 "arguments": [],
@@ -448,9 +444,7 @@
                             "start": 443,
                             "end": 447
                           },
-                          "ctxt": 0,
-                          "value": "test",
-                          "optional": false
+                          "value": "test"
                         }
                       },
                       "arguments": [],
@@ -535,9 +529,7 @@
                       "start": 539,
                       "end": 543
                     },
-                    "ctxt": 0,
-                    "value": "test",
-                    "optional": false
+                    "value": "test"
                   }
                 },
                 "arguments": [],
@@ -635,9 +627,7 @@
                             "start": 649,
                             "end": 653
                           },
-                          "ctxt": 0,
-                          "value": "test",
-                          "optional": false
+                          "value": "test"
                         }
                       },
                       "arguments": [],
@@ -722,9 +712,7 @@
                       "start": 751,
                       "end": 755
                     },
-                    "ctxt": 0,
-                    "value": "test",
-                    "optional": false
+                    "value": "test"
                   }
                 },
                 "arguments": [],

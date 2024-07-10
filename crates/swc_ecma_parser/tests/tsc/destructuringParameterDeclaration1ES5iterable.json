@@ -404,9 +404,7 @@
                     "start": 460,
                     "end": 461
                   },
-                  "ctxt": 0,
-                  "value": "l",
-                  "optional": false
+                  "value": "l"
                 },
                 "value": {
                   "type": "ObjectPattern",
@@ -466,9 +464,7 @@
                     "start": 471,
                     "end": 472
                   },
-                  "ctxt": 0,
-                  "value": "q",
-                  "optional": false
+                  "value": "q"
                 },
                 "value": {
                   "type": "ArrayPattern",
@@ -1380,9 +1376,7 @@
                       "start": 997,
                       "end": 998
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -1402,9 +1396,7 @@
                       "start": 1003,
                       "end": 1004
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   },
                   "value": {
                     "type": "Identifier",
@@ -1484,9 +1476,7 @@
                       "start": 1036,
                       "end": 1037
                     },
-                    "ctxt": 0,
-                    "value": "z",
-                    "optional": false
+                    "value": "z"
                   },
                   "value": {
                     "type": "ObjectPattern",
@@ -1522,9 +1512,7 @@
                             "start": 1043,
                             "end": 1044
                           },
-                          "ctxt": 0,
-                          "value": "y",
-                          "optional": false
+                          "value": "y"
                         },
                         "value": {
                           "type": "ObjectPattern",
@@ -1581,9 +1569,7 @@
                       "start": 1056,
                       "end": 1057
                     },
-                    "ctxt": 0,
-                    "value": "z",
-                    "optional": false
+                    "value": "z"
                   },
                   "value": {
                     "type": "ObjectExpression",
@@ -1600,9 +1586,7 @@
                             "start": 1061,
                             "end": 1062
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "StringLiteral",
@@ -1622,9 +1606,7 @@
                             "start": 1070,
                             "end": 1071
                           },
-                          "ctxt": 0,
-                          "value": "y",
-                          "optional": false
+                          "value": "y"
                         },
                         "value": {
                           "type": "ObjectExpression",
@@ -1641,9 +1623,7 @@
                                   "start": 1075,
                                   "end": 1076
                                 },
-                                "ctxt": 0,
-                                "value": "j",
-                                "optional": false
+                                "value": "j"
                               },
                               "value": {
                                 "type": "NumericLiteral",
@@ -1821,9 +1801,7 @@
                         "start": 1134,
                         "end": 1135
                       },
-                      "ctxt": 0,
-                      "value": "m",
-                      "optional": false
+                      "value": "m"
                     },
                     "value": {
                       "type": "ObjectPattern",
@@ -2389,9 +2367,7 @@
                       "start": 1362,
                       "end": 1363
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -2411,9 +2387,7 @@
                       "start": 1370,
                       "end": 1371
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -2485,9 +2459,7 @@
                       "start": 1401,
                       "end": 1402
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -2507,9 +2479,7 @@
                       "start": 1409,
                       "end": 1410
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   },
                   "value": {
                     "type": "BooleanLiteral",
@@ -2800,9 +2770,7 @@
                     "start": 1713,
                     "end": 1714
                   },
-                  "ctxt": 0,
-                  "value": "z",
-                  "optional": false
+                  "value": "z"
                 },
                 "value": {
                   "type": "ObjectPattern",
@@ -2838,9 +2806,7 @@
                           "start": 1720,
                           "end": 1721
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       },
                       "value": {
                         "type": "ObjectPattern",
@@ -2976,9 +2942,7 @@
                       "start": 1754,
                       "end": 1755
                     },
-                    "ctxt": 0,
-                    "value": "z",
-                    "optional": false
+                    "value": "z"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -3235,9 +3199,7 @@
                       "start": 1834,
                       "end": 1835
                     },
-                    "ctxt": 0,
-                    "value": "b",
-                    "optional": false
+                    "value": "b"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -3549,9 +3511,7 @@
                       "start": 1921,
                       "end": 1922
                     },
-                    "ctxt": 0,
-                    "value": "z",
-                    "optional": false
+                    "value": "z"
                   },
                   "value": {
                     "type": "ObjectExpression",
@@ -3568,9 +3528,7 @@
                             "start": 1927,
                             "end": 1928
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -3590,9 +3548,7 @@
                             "start": 1933,
                             "end": 1934
                           },
-                          "ctxt": 0,
-                          "value": "y",
-                          "optional": false
+                          "value": "y"
                         },
                         "value": {
                           "type": "ObjectExpression",
@@ -3609,9 +3565,7 @@
                                   "start": 1938,
                                   "end": 1939
                                 },
-                                "ctxt": 0,
-                                "value": "j",
-                                "optional": false
+                                "value": "j"
                               },
                               "value": {
                                 "type": "StringLiteral",
@@ -3677,9 +3631,7 @@
                       "start": 2013,
                       "end": 2014
                     },
-                    "ctxt": 0,
-                    "value": "z",
-                    "optional": false
+                    "value": "z"
                   },
                   "value": {
                     "type": "ObjectExpression",
@@ -3696,9 +3648,7 @@
                             "start": 2019,
                             "end": 2020
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "StringLiteral",
@@ -3718,9 +3668,7 @@
                             "start": 2032,
                             "end": 2033
                           },
-                          "ctxt": 0,
-                          "value": "y",
-                          "optional": false
+                          "value": "y"
                         },
                         "value": {
                           "type": "ObjectExpression",
@@ -3737,9 +3685,7 @@
                                   "start": 2037,
                                   "end": 2038
                                 },
-                                "ctxt": 0,
-                                "value": "j",
-                                "optional": false
+                                "value": "j"
                               },
                               "value": {
                                 "type": "BooleanLiteral",
@@ -3831,9 +3777,7 @@
                       "start": 2156,
                       "end": 2157
                     },
-                    "ctxt": 0,
-                    "value": "z",
-                    "optional": false
+                    "value": "z"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -3932,9 +3876,7 @@
                       "start": 2253,
                       "end": 2254
                     },
-                    "ctxt": 0,
-                    "value": "z",
-                    "optional": false
+                    "value": "z"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -3994,9 +3936,7 @@
                       "start": 2303,
                       "end": 2304
                     },
-                    "ctxt": 0,
-                    "value": "b",
-                    "optional": false
+                    "value": "b"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -4648,9 +4588,7 @@
               "start": 2814,
               "end": 2825
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -4677,9 +4615,7 @@
               "start": 2836,
               "end": 2838
             },
-            "ctxt": 0,
-            "value": "d3",
-            "optional": false
+            "value": "d3"
           },
           "function": {
             "params": [],
@@ -4722,9 +4658,7 @@
               "start": 2849,
               "end": 2851
             },
-            "ctxt": 0,
-            "value": "d4",
-            "optional": false
+            "value": "d4"
           },
           "function": {
             "params": [],
@@ -4767,9 +4701,7 @@
               "start": 2862,
               "end": 2864
             },
-            "ctxt": 0,
-            "value": "e0",
-            "optional": false
+            "value": "e0"
           },
           "function": {
             "params": [
@@ -4911,9 +4843,7 @@
               "start": 2912,
               "end": 2914
             },
-            "ctxt": 0,
-            "value": "d3",
-            "optional": false
+            "value": "d3"
           },
           "function": {
             "params": [
@@ -5009,9 +4939,7 @@
               "start": 2934,
               "end": 2936
             },
-            "ctxt": 0,
-            "value": "d4",
-            "optional": false
+            "value": "d4"
           },
           "function": {
             "params": [
@@ -5131,9 +5059,7 @@
               "start": 2956,
               "end": 2958
             },
-            "ctxt": 0,
-            "value": "e0",
-            "optional": false
+            "value": "e0"
           },
           "function": {
             "params": [
@@ -5334,9 +5260,7 @@
                       "start": 3001,
                       "end": 3002
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -5356,9 +5280,7 @@
                       "start": 3007,
                       "end": 3008
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -5458,9 +5380,7 @@
                     "start": 3405,
                     "end": 3406
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 },
                 "value": {
                   "type": "Identifier",
@@ -5782,9 +5702,7 @@
                     "start": 3596,
                     "end": 3597
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 },
                 "value": {
                   "type": "ArrayPattern",
@@ -5893,9 +5811,7 @@
                     "start": 3670,
                     "end": 3671
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 },
                 "value": {
                   "type": "ArrayPattern",

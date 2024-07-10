@@ -117,7 +117,7 @@ impl NoAlert {
 
     fn handle_member_prop(&mut self, prop: &MemberProp) {
         match prop {
-            MemberProp::Ident(Ident { sym, .. }) => {
+            MemberProp::Ident(IdentName { sym, .. }) => {
                 self.prop = Some(sym.clone());
             }
             MemberProp::Computed(comp) => {

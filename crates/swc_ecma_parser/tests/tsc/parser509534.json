@@ -126,9 +126,7 @@
                 "start": 57,
                 "end": 64
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -137,9 +135,7 @@
               "start": 65,
               "end": 70
             },
-            "ctxt": 0,
-            "value": "route",
-            "optional": false
+            "value": "route"
           }
         },
         "right": {
@@ -215,9 +211,7 @@
                         "start": 126,
                         "end": 129
                       },
-                      "ctxt": 0,
-                      "value": "get",
-                      "optional": false
+                      "value": "get"
                     }
                   },
                   "arguments": [
@@ -258,9 +252,7 @@
                                 "start": 137,
                                 "end": 140
                               },
-                              "ctxt": 0,
-                              "value": "env",
-                              "optional": false
+                              "value": "env"
                             }
                           },
                           "property": {
@@ -269,9 +261,7 @@
                               "start": 141,
                               "end": 149
                             },
-                            "ctxt": 0,
-                            "value": "siteRoot",
-                            "optional": false
+                            "value": "siteRoot"
                           }
                         },
                         "right": {
@@ -398,9 +388,7 @@
                                       "start": 263,
                                       "end": 271
                                     },
-                                    "ctxt": 0,
-                                    "value": "redirect",
-                                    "optional": false
+                                    "value": "redirect"
                                   }
                                 },
                                 "arguments": [

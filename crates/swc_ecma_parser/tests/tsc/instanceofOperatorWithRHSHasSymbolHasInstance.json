@@ -506,9 +506,7 @@
                           "start": 252,
                           "end": 263
                         },
-                        "ctxt": 0,
-                        "value": "hasInstance",
-                        "optional": false
+                        "value": "hasInstance"
                       }
                     },
                     "computed": true,
@@ -632,9 +630,7 @@
                           "start": 322,
                           "end": 333
                         },
-                        "ctxt": 0,
-                        "value": "hasInstance",
-                        "optional": false
+                        "value": "hasInstance"
                       }
                     },
                     "computed": true,
@@ -758,9 +754,7 @@
                           "start": 388,
                           "end": 399
                         },
-                        "ctxt": 0,
-                        "value": "hasInstance",
-                        "optional": false
+                        "value": "hasInstance"
                       }
                     },
                     "computed": true,
@@ -919,9 +913,7 @@
                           "start": 461,
                           "end": 472
                         },
-                        "ctxt": 0,
-                        "value": "hasInstance",
-                        "optional": false
+                        "value": "hasInstance"
                       }
                     },
                     "computed": true,
@@ -1117,9 +1109,7 @@
                           "start": 543,
                           "end": 554
                         },
-                        "ctxt": 0,
-                        "value": "hasInstance",
-                        "optional": false
+                        "value": "hasInstance"
                       }
                     },
                     "computed": true,
@@ -1315,9 +1305,7 @@
                           "start": 624,
                           "end": 635
                         },
-                        "ctxt": 0,
-                        "value": "hasInstance",
-                        "optional": false
+                        "value": "hasInstance"
                       }
                     },
                     "computed": true,
@@ -1531,9 +1519,7 @@
                           "start": 718,
                           "end": 729
                         },
-                        "ctxt": 0,
-                        "value": "hasInstance",
-                        "optional": false
+                        "value": "hasInstance"
                       }
                     },
                     "computed": true,
@@ -1717,9 +1703,7 @@
                   "start": 813,
                   "end": 824
                 },
-                "ctxt": 0,
-                "value": "hasInstance",
-                "optional": false
+                "value": "hasInstance"
               }
             }
           },
@@ -1853,9 +1837,7 @@
                   "start": 890,
                   "end": 901
                 },
-                "ctxt": 0,
-                "value": "hasInstance",
-                "optional": false
+                "value": "hasInstance"
               }
             }
           },
@@ -1989,9 +1971,7 @@
                   "start": 963,
                   "end": 974
                 },
-                "ctxt": 0,
-                "value": "hasInstance",
-                "optional": false
+                "value": "hasInstance"
               }
             }
           },
@@ -2160,9 +2140,7 @@
                   "start": 1044,
                   "end": 1055
                 },
-                "ctxt": 0,
-                "value": "hasInstance",
-                "optional": false
+                "value": "hasInstance"
               }
             }
           },
@@ -2368,9 +2346,7 @@
                   "start": 1134,
                   "end": 1145
                 },
-                "ctxt": 0,
-                "value": "hasInstance",
-                "optional": false
+                "value": "hasInstance"
               }
             }
           },
@@ -2576,9 +2552,7 @@
                   "start": 1223,
                   "end": 1234
                 },
-                "ctxt": 0,
-                "value": "hasInstance",
-                "optional": false
+                "value": "hasInstance"
               }
             }
           },
@@ -2802,9 +2776,7 @@
                   "start": 1325,
                   "end": 1336
                 },
-                "ctxt": 0,
-                "value": "hasInstance",
-                "optional": false
+                "value": "hasInstance"
               }
             }
           },
@@ -6500,9 +6472,7 @@
                   "start": 3593,
                   "end": 3604
                 },
-                "ctxt": 0,
-                "value": "hasInstance",
-                "optional": false
+                "value": "hasInstance"
               }
             }
           },
@@ -6692,6 +6662,10 @@
                         },
                         "typeName": {
                           "type": "TsQualifiedName",
+                          "span": {
+                            "start": 3664,
+                            "end": 3683
+                          },
                           "left": {
                             "type": "Identifier",
                             "span": {
@@ -6708,9 +6682,7 @@
                               "start": 3675,
                               "end": 3683
                             },
-                            "ctxt": 0,
-                            "value": "Function",
-                            "optional": false
+                            "value": "Function"
                           }
                         },
                         "typeParams": null
@@ -7387,9 +7359,7 @@
                   "start": 4248,
                   "end": 4259
                 },
-                "ctxt": 0,
-                "value": "hasInstance",
-                "optional": false
+                "value": "hasInstance"
               }
             },
             "computed": true,
@@ -7658,9 +7628,7 @@
                   "start": 4427,
                   "end": 4438
                 },
-                "ctxt": 0,
-                "value": "hasInstance",
-                "optional": false
+                "value": "hasInstance"
               }
             },
             "computed": true,
@@ -7801,9 +7769,7 @@
                   "start": 4501,
                   "end": 4512
                 },
-                "ctxt": 0,
-                "value": "hasInstance",
-                "optional": false
+                "value": "hasInstance"
               }
             },
             "computed": true,

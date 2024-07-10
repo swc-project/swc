@@ -858,9 +858,7 @@
               "start": 1080,
               "end": 1081
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": null,
@@ -913,9 +911,7 @@
               "start": 1114,
               "end": 1115
             },
-            "ctxt": 0,
-            "value": "y",
-            "optional": false
+            "value": "y"
           },
           "value": null,
           "typeAnnotation": null,
@@ -968,9 +964,7 @@
               "start": 1157,
               "end": 1158
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "value": null,
           "typeAnnotation": null,
@@ -1032,9 +1026,7 @@
               "start": 1200,
               "end": 1201
             },
-            "ctxt": 0,
-            "value": "n",
-            "optional": false
+            "value": "n"
           },
           "value": null,
           "typeAnnotation": null,

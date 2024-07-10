@@ -175,9 +175,7 @@
               "start": 287,
               "end": 298
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -251,9 +249,7 @@
               "start": 352,
               "end": 358
             },
-            "ctxt": 0,
-            "value": "method",
-            "optional": false
+            "value": "method"
           },
           "function": {
             "params": [

@@ -196,9 +196,7 @@
               "start": 235,
               "end": 242
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -268,9 +266,7 @@
                 "start": 293,
                 "end": 300
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -279,9 +275,7 @@
               "start": 301,
               "end": 302
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           }
         },
         "right": {
@@ -456,9 +450,7 @@
               "start": 424,
               "end": 425
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           }
         },
         "arguments": [],

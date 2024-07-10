@@ -77,9 +77,7 @@
               "start": 54,
               "end": 65
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -188,9 +186,7 @@
               "start": 119,
               "end": 121
             },
-            "ctxt": 0,
-            "value": "t1",
-            "optional": false
+            "value": "t1"
           },
           "function": {
             "params": [
@@ -337,9 +333,7 @@
               "start": 179,
               "end": 181
             },
-            "ctxt": 0,
-            "value": "t2",
-            "optional": false
+            "value": "t2"
           },
           "function": {
             "params": [
@@ -500,9 +494,7 @@
               "start": 243,
               "end": 245
             },
-            "ctxt": 0,
-            "value": "t3",
-            "optional": false
+            "value": "t3"
           },
           "function": {
             "params": [
@@ -634,9 +626,7 @@
               "start": 293,
               "end": 295
             },
-            "ctxt": 0,
-            "value": "t4",
-            "optional": false
+            "value": "t4"
           },
           "function": {
             "params": [

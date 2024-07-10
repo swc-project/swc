@@ -808,7 +808,7 @@ impl VisitMut for FlowHelper<'_> {
                     arg: Some(Box::new(Expr::Object(ObjectLit {
                         span,
                         props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                            key: PropName::Ident(Ident::new_no_ctxt("v".into(), DUMMY_SP)),
+                            key: PropName::Ident(IdentName::new("v".into(), DUMMY_SP)),
                             value: s.arg.take().unwrap_or_else(|| {
                                 Box::new(Expr::Unary(UnaryExpr {
                                     span: DUMMY_SP,

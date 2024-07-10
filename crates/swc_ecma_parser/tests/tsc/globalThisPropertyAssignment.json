@@ -37,9 +37,7 @@
               "start": 105,
               "end": 106
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           }
         },
         "right": {
@@ -128,9 +126,7 @@
               "start": 149,
               "end": 150
             },
-            "ctxt": 0,
-            "value": "z",
-            "optional": false
+            "value": "z"
           }
         },
         "right": {
@@ -179,9 +175,7 @@
               "start": 230,
               "end": 235
             },
-            "ctxt": 0,
-            "value": "alpha",
-            "optional": false
+            "value": "alpha"
           }
         },
         "right": {

@@ -346,9 +346,7 @@
             "start": 224,
             "end": 235
           },
-          "ctxt": 0,
-          "value": "displayName",
-          "optional": false
+          "value": "displayName"
         }
       }
     }

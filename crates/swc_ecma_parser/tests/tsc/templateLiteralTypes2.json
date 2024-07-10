@@ -6762,9 +6762,7 @@
                     "start": 3373,
                     "end": 3379
                   },
-                  "ctxt": 0,
-                  "value": "rotate",
-                  "optional": false
+                  "value": "rotate"
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -6971,9 +6969,7 @@
                       "start": 3488,
                       "end": 3494
                     },
-                    "ctxt": 0,
-                    "value": "rotate",
-                    "optional": false
+                    "value": "rotate"
                   }
                 }
               ],

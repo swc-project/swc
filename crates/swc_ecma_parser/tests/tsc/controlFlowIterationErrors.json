@@ -141,9 +141,7 @@
                   "start": 85,
                   "end": 91
                 },
-                "ctxt": 0,
-                "value": "length",
-                "optional": false
+                "value": "length"
               }
             }
           }

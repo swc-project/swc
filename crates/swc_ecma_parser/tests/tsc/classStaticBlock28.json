@@ -165,9 +165,7 @@
               "start": 93,
               "end": 96
             },
-            "ctxt": 0,
-            "value": "log",
-            "optional": false
+            "value": "log"
           }
         },
         "arguments": [

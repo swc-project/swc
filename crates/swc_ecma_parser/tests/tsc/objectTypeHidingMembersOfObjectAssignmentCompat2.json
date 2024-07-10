@@ -286,9 +286,7 @@
               "start": 114,
               "end": 122
             },
-            "ctxt": 0,
-            "value": "toString",
-            "optional": false
+            "value": "toString"
           },
           "function": {
             "params": [],
@@ -527,9 +525,7 @@
                     "start": 206,
                     "end": 214
                   },
-                  "ctxt": 0,
-                  "value": "toString",
-                  "optional": false
+                  "value": "toString"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",

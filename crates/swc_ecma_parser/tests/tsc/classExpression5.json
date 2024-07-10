@@ -53,9 +53,7 @@
                       "start": 17,
                       "end": 19
                     },
-                    "ctxt": 0,
-                    "value": "hi",
-                    "optional": false
+                    "value": "hi"
                   },
                   "function": {
                     "params": [],
@@ -119,9 +117,7 @@
               "start": 56,
               "end": 58
             },
-            "ctxt": 0,
-            "value": "hi",
-            "optional": false
+            "value": "hi"
           }
         },
         "arguments": [],

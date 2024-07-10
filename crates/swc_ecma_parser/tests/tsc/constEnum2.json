@@ -168,9 +168,7 @@
                     "start": 423,
                     "end": 428
                   },
-                  "ctxt": 0,
-                  "value": "floor",
-                  "optional": false
+                  "value": "floor"
                 }
               },
               "arguments": [
@@ -212,9 +210,7 @@
                             "start": 434,
                             "end": 440
                           },
-                          "ctxt": 0,
-                          "value": "random",
-                          "optional": false
+                          "value": "random"
                         }
                       },
                       "arguments": [],
@@ -320,9 +316,7 @@
                         "start": 476,
                         "end": 481
                       },
-                      "ctxt": 0,
-                      "value": "floor",
-                      "optional": false
+                      "value": "floor"
                     }
                   },
                   "arguments": [
@@ -364,9 +358,7 @@
                                 "start": 487,
                                 "end": 493
                               },
-                              "ctxt": 0,
-                              "value": "random",
-                              "optional": false
+                              "value": "random"
                             }
                           },
                           "arguments": [],

@@ -37,9 +37,7 @@
               "start": 30,
               "end": 38
             },
-            "ctxt": 0,
-            "value": "accessor",
-            "optional": false
+            "value": "accessor"
           },
           "function": {
             "params": [],

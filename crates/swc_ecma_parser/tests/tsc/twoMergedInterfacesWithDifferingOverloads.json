@@ -803,9 +803,7 @@
                   "start": 344,
                   "end": 347
                 },
-                "ctxt": 0,
-                "value": "foo",
-                "optional": false
+                "value": "foo"
               }
             },
             "arguments": [
@@ -1476,9 +1474,7 @@
                   "start": 573,
                   "end": 576
                 },
-                "ctxt": 0,
-                "value": "foo",
-                "optional": false
+                "value": "foo"
               }
             },
             "arguments": [
@@ -2205,9 +2201,7 @@
                   "start": 799,
                   "end": 802
                 },
-                "ctxt": 0,
-                "value": "foo",
-                "optional": false
+                "value": "foo"
               }
             },
             "arguments": [

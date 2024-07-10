@@ -150,9 +150,7 @@
               "start": 197,
               "end": 203
             },
-            "ctxt": 0,
-            "value": "answer",
-            "optional": false
+            "value": "answer"
           }
         },
         "right": {

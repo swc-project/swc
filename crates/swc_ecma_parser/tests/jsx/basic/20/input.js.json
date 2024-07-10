@@ -46,9 +46,7 @@
                   "start": 4,
                   "end": 6
                 },
-                "ctxt": 0,
-                "value": "aa",
-                "optional": false
+                "value": "aa"
               },
               "value": {
                 "type": "JSXExpressionContainer",
@@ -84,9 +82,7 @@
                         "start": 11,
                         "end": 13
                       },
-                      "ctxt": 0,
-                      "value": "bb",
-                      "optional": false
+                      "value": "bb"
                     }
                   },
                   "property": {
@@ -95,9 +91,7 @@
                       "start": 14,
                       "end": 16
                     },
-                    "ctxt": 0,
-                    "value": "cc",
-                    "optional": false
+                    "value": "cc"
                   }
                 }
               }
@@ -114,9 +108,7 @@
                   "start": 18,
                   "end": 20
                 },
-                "ctxt": 0,
-                "value": "bb",
-                "optional": false
+                "value": "bb"
               },
               "value": {
                 "type": "JSXExpressionContainer",
@@ -152,9 +144,7 @@
                         "start": 25,
                         "end": 27
                       },
-                      "ctxt": 0,
-                      "value": "cc",
-                      "optional": false
+                      "value": "cc"
                     }
                   },
                   "property": {
@@ -163,9 +153,7 @@
                       "start": 28,
                       "end": 30
                     },
-                    "ctxt": 0,
-                    "value": "dd",
-                    "optional": false
+                    "value": "dd"
                   }
                 }
               }
@@ -230,9 +218,7 @@
                       "start": 41,
                       "end": 42
                     },
-                    "ctxt": 0,
-                    "value": "b",
-                    "optional": false
+                    "value": "b"
                   }
                 }
               }

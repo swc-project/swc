@@ -37,9 +37,7 @@
               "start": 87,
               "end": 96
             },
-            "ctxt": 0,
-            "value": "propertyX",
-            "optional": false
+            "value": "propertyX"
           },
           "value": null,
           "typeAnnotation": {
@@ -79,9 +77,7 @@
               "start": 103,
               "end": 113
             },
-            "ctxt": 0,
-            "value": "propertyX1",
-            "optional": false
+            "value": "propertyX1"
           },
           "value": null,
           "typeAnnotation": {
@@ -121,9 +117,7 @@
               "start": 123,
               "end": 133
             },
-            "ctxt": 0,
-            "value": "propertyX2",
-            "optional": false
+            "value": "propertyX2"
           },
           "value": null,
           "typeAnnotation": {
@@ -197,9 +191,7 @@
               "start": 165,
               "end": 174
             },
-            "ctxt": 0,
-            "value": "propertyA",
-            "optional": false
+            "value": "propertyA"
           },
           "value": null,
           "typeAnnotation": {
@@ -282,9 +274,7 @@
               "start": 206,
               "end": 215
             },
-            "ctxt": 0,
-            "value": "propertyB",
-            "optional": false
+            "value": "propertyB"
           },
           "value": null,
           "typeAnnotation": {
@@ -1057,9 +1047,7 @@
                     "start": 604,
                     "end": 614
                   },
-                  "ctxt": 0,
-                  "value": "propertyX1",
-                  "optional": false
+                  "value": "propertyX1"
                 }
               },
               "async": false,
@@ -1109,9 +1097,7 @@
                     "start": 626,
                     "end": 636
                   },
-                  "ctxt": 0,
-                  "value": "propertyX2",
-                  "optional": false
+                  "value": "propertyX2"
                 }
               },
               "async": false,
@@ -1273,9 +1259,7 @@
                     "start": 686,
                     "end": 696
                   },
-                  "ctxt": 0,
-                  "value": "propertyX1",
-                  "optional": false
+                  "value": "propertyX1"
                 }
               },
               "async": false,
@@ -1325,9 +1309,7 @@
                     "start": 708,
                     "end": 718
                   },
-                  "ctxt": 0,
-                  "value": "propertyX2",
-                  "optional": false
+                  "value": "propertyX2"
                 }
               },
               "async": false,
@@ -1489,9 +1471,7 @@
                     "start": 769,
                     "end": 779
                   },
-                  "ctxt": 0,
-                  "value": "propertyX1",
-                  "optional": false
+                  "value": "propertyX1"
                 }
               },
               "async": false,
@@ -1541,9 +1521,7 @@
                     "start": 791,
                     "end": 801
                   },
-                  "ctxt": 0,
-                  "value": "propertyX2",
-                  "optional": false
+                  "value": "propertyX2"
                 }
               },
               "async": false,
@@ -1722,9 +1700,7 @@
                     "start": 860,
                     "end": 870
                   },
-                  "ctxt": 0,
-                  "value": "propertyX1",
-                  "optional": false
+                  "value": "propertyX1"
                 }
               },
               "async": false,
@@ -1774,9 +1750,7 @@
                     "start": 882,
                     "end": 892
                   },
-                  "ctxt": 0,
-                  "value": "propertyX2",
-                  "optional": false
+                  "value": "propertyX2"
                 }
               },
               "async": false,

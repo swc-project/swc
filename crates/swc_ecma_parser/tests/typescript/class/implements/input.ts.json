@@ -58,9 +58,7 @@
                 "start": 22,
                 "end": 23
               },
-              "ctxt": 0,
-              "value": "Y",
-              "optional": false
+              "value": "Y"
             }
           },
           "typeArguments": {

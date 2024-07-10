@@ -37,9 +37,7 @@
               "start": 82,
               "end": 85
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "value": null,
           "typeAnnotation": {
@@ -106,9 +104,7 @@
               "start": 126,
               "end": 129
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "value": null,
           "typeAnnotation": {
@@ -184,9 +180,7 @@
               "start": 174,
               "end": 177
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           },
           "value": null,
           "typeAnnotation": {
@@ -543,9 +537,7 @@
                           "start": 341,
                           "end": 344
                         },
-                        "ctxt": 0,
-                        "value": "opt",
-                        "optional": false
+                        "value": "opt"
                       },
                       "value": {
                         "type": "NewExpression",
@@ -1724,9 +1716,7 @@
                           "start": 855,
                           "end": 858
                         },
-                        "ctxt": 0,
-                        "value": "opt",
-                        "optional": false
+                        "value": "opt"
                       },
                       "value": {
                         "type": "NewExpression",

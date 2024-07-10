@@ -87,9 +87,7 @@
                           "start": 60,
                           "end": 61
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       }
                     },
                     "right": {
@@ -237,9 +235,7 @@
               "start": 115,
               "end": 116
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": {
             "type": "NumericLiteral",
@@ -273,9 +269,7 @@
               "start": 126,
               "end": 130
             },
-            "ctxt": 0,
-            "value": "test",
-            "optional": false
+            "value": "test"
           },
           "function": {
             "params": [],
@@ -886,9 +880,7 @@
                               "start": 425,
                               "end": 433
                             },
-                            "ctxt": 0,
-                            "value": "getClass",
-                            "optional": false
+                            "value": "getClass"
                           }
                         },
                         "arguments": [],
@@ -1013,9 +1005,7 @@
                               "start": 475,
                               "end": 483
                             },
-                            "ctxt": 0,
-                            "value": "getClass",
-                            "optional": false
+                            "value": "getClass"
                           }
                         },
                         "arguments": [],
@@ -1150,9 +1140,7 @@
                                     "start": 538,
                                     "end": 546
                                   },
-                                  "ctxt": 0,
-                                  "value": "getClass",
-                                  "optional": false
+                                  "value": "getClass"
                                 }
                               },
                               "arguments": [],
@@ -1285,9 +1273,7 @@
                                   "start": 607,
                                   "end": 615
                                 },
-                                "ctxt": 0,
-                                "value": "getClass",
-                                "optional": false
+                                "value": "getClass"
                               }
                             },
                             "arguments": [],
@@ -1393,9 +1379,7 @@
               "start": 669,
               "end": 677
             },
-            "ctxt": 0,
-            "value": "getClass",
-            "optional": false
+            "value": "getClass"
           },
           "function": {
             "params": [],

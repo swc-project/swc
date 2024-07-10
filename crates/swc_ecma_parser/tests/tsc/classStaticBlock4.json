@@ -37,9 +37,7 @@
               "start": 50,
               "end": 52
             },
-            "ctxt": 0,
-            "value": "s1",
-            "optional": false
+            "value": "s1"
           },
           "value": {
             "type": "NumericLiteral",
@@ -100,9 +98,7 @@
                       "start": 85,
                       "end": 87
                     },
-                    "ctxt": 0,
-                    "value": "s1",
-                    "optional": false
+                    "value": "s1"
                   }
                 }
               },
@@ -134,9 +130,7 @@
                       "start": 99,
                       "end": 101
                     },
-                    "ctxt": 0,
-                    "value": "s1",
-                    "optional": false
+                    "value": "s1"
                   }
                 }
               },
@@ -165,9 +159,7 @@
                       "start": 117,
                       "end": 119
                     },
-                    "ctxt": 0,
-                    "value": "s2",
-                    "optional": false
+                    "value": "s2"
                   }
                 }
               },
@@ -199,9 +191,7 @@
                       "start": 131,
                       "end": 133
                     },
-                    "ctxt": 0,
-                    "value": "s2",
-                    "optional": false
+                    "value": "s2"
                   }
                 }
               }
@@ -220,9 +210,7 @@
               "start": 153,
               "end": 155
             },
-            "ctxt": 0,
-            "value": "s2",
-            "optional": false
+            "value": "s2"
           },
           "value": {
             "type": "NumericLiteral",
@@ -256,9 +244,7 @@
               "start": 172,
               "end": 175
             },
-            "ctxt": 0,
-            "value": "ss2",
-            "optional": false
+            "value": "ss2"
           },
           "value": {
             "type": "MemberExpression",
@@ -279,9 +265,7 @@
                 "start": 183,
                 "end": 185
               },
-              "ctxt": 0,
-              "value": "s1",
-              "optional": false
+              "value": "s1"
             }
           },
           "typeAnnotation": null,

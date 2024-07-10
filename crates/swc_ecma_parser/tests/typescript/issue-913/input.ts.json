@@ -158,9 +158,7 @@
               "start": 126,
               "end": 134
             },
-            "ctxt": 0,
-            "value": "testPlan",
-            "optional": false
+            "value": "testPlan"
           }
         },
         "arguments": [
@@ -229,9 +227,7 @@
                             "start": 185,
                             "end": 194
                           },
-                          "ctxt": 0,
-                          "value": "testSuite",
-                          "optional": false
+                          "value": "testSuite"
                         }
                       },
                       "arguments": [
@@ -300,9 +296,7 @@
                                           "start": 253,
                                           "end": 261
                                         },
-                                        "ctxt": 0,
-                                        "value": "testCase",
-                                        "optional": false
+                                        "value": "testCase"
                                       }
                                     },
                                     "arguments": [
@@ -398,9 +392,7 @@
                                                               "start": 337,
                                                               "end": 341
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "Http",
-                                                            "optional": false
+                                                            "value": "Http"
                                                           }
                                                         },
                                                         "property": {
@@ -409,9 +401,7 @@
                                                             "start": 342,
                                                             "end": 348
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "Server",
-                                                          "optional": false
+                                                          "value": "Server"
                                                         }
                                                       },
                                                       "arguments": [
@@ -432,9 +422,7 @@
                                                                     "start": 367,
                                                                     "end": 376
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "resources",
-                                                                  "optional": false
+                                                                  "value": "resources"
                                                                 },
                                                                 "value": {
                                                                   "type": "ArrayExpression",
@@ -525,9 +513,7 @@
                                                             "start": 467,
                                                             "end": 478
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "mockRequest",
-                                                          "optional": false
+                                                          "value": "mockRequest"
                                                         }
                                                       },
                                                       "arguments": [
@@ -612,9 +598,7 @@
                                                               "start": 534,
                                                               "end": 551
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "handleHttpRequest",
-                                                            "optional": false
+                                                            "value": "handleHttpRequest"
                                                           }
                                                         },
                                                         "arguments": [
@@ -674,9 +658,7 @@
                                                         "start": 582,
                                                         "end": 606
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "assertResponseJsonEquals",
-                                                      "optional": false
+                                                      "value": "assertResponseJsonEquals"
                                                     }
                                                   },
                                                   "arguments": [
@@ -711,9 +693,7 @@
                                                               "start": 632,
                                                               "end": 644
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "responseBody",
-                                                            "optional": false
+                                                            "value": "responseBody"
                                                           }
                                                         },
                                                         "arguments": [
@@ -797,9 +777,7 @@
                                           "start": 739,
                                           "end": 747
                                         },
-                                        "ctxt": 0,
-                                        "value": "testCase",
-                                        "optional": false
+                                        "value": "testCase"
                                       }
                                     },
                                     "arguments": [
@@ -895,9 +873,7 @@
                                                               "start": 808,
                                                               "end": 812
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "Http",
-                                                            "optional": false
+                                                            "value": "Http"
                                                           }
                                                         },
                                                         "property": {
@@ -906,9 +882,7 @@
                                                             "start": 813,
                                                             "end": 819
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "Server",
-                                                          "optional": false
+                                                          "value": "Server"
                                                         }
                                                       },
                                                       "arguments": [
@@ -929,9 +903,7 @@
                                                                     "start": 838,
                                                                     "end": 847
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "resources",
-                                                                  "optional": false
+                                                                  "value": "resources"
                                                                 },
                                                                 "value": {
                                                                   "type": "ArrayExpression",
@@ -1022,9 +994,7 @@
                                                             "start": 938,
                                                             "end": 949
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "mockRequest",
-                                                          "optional": false
+                                                          "value": "mockRequest"
                                                         }
                                                       },
                                                       "arguments": [
@@ -1069,9 +1039,7 @@
                                                                     "start": 987,
                                                                     "end": 994
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "headers",
-                                                                  "optional": false
+                                                                  "value": "headers"
                                                                 },
                                                                 "value": {
                                                                   "type": "ObjectExpression",
@@ -1088,9 +1056,7 @@
                                                                           "start": 1018,
                                                                           "end": 1028
                                                                         },
-                                                                        "ctxt": 0,
-                                                                        "value": "csrf_token",
-                                                                        "optional": false
+                                                                        "value": "csrf_token"
                                                                       },
                                                                       "value": {
                                                                         "type": "StringLiteral",
@@ -1177,9 +1143,7 @@
                                                               "start": 1124,
                                                               "end": 1141
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "handleHttpRequest",
-                                                            "optional": false
+                                                            "value": "handleHttpRequest"
                                                           }
                                                         },
                                                         "arguments": [
@@ -1239,9 +1203,7 @@
                                                         "start": 1172,
                                                         "end": 1196
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "assertResponseJsonEquals",
-                                                      "optional": false
+                                                      "value": "assertResponseJsonEquals"
                                                     }
                                                   },
                                                   "arguments": [
@@ -1276,9 +1238,7 @@
                                                               "start": 1222,
                                                               "end": 1234
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "responseBody",
-                                                            "optional": false
+                                                            "value": "responseBody"
                                                           }
                                                         },
                                                         "arguments": [
@@ -1316,9 +1276,7 @@
                                                                 "start": 1264,
                                                                 "end": 1268
                                                               },
-                                                              "ctxt": 0,
-                                                              "value": "name",
-                                                              "optional": false
+                                                              "value": "name"
                                                             },
                                                             "value": {
                                                               "type": "StringLiteral",
@@ -1396,9 +1354,7 @@
                             "start": 1325,
                             "end": 1334
                           },
-                          "ctxt": 0,
-                          "value": "testSuite",
-                          "optional": false
+                          "value": "testSuite"
                         }
                       },
                       "arguments": [
@@ -1467,9 +1423,7 @@
                                           "start": 1401,
                                           "end": 1409
                                         },
-                                        "ctxt": 0,
-                                        "value": "testCase",
-                                        "optional": false
+                                        "value": "testCase"
                                       }
                                     },
                                     "arguments": [
@@ -1565,9 +1519,7 @@
                                                               "start": 1506,
                                                               "end": 1510
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "Http",
-                                                            "optional": false
+                                                            "value": "Http"
                                                           }
                                                         },
                                                         "property": {
@@ -1576,9 +1528,7 @@
                                                             "start": 1511,
                                                             "end": 1517
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "Server",
-                                                          "optional": false
+                                                          "value": "Server"
                                                         }
                                                       },
                                                       "arguments": [
@@ -1599,9 +1549,7 @@
                                                                     "start": 1536,
                                                                     "end": 1545
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "resources",
-                                                                  "optional": false
+                                                                  "value": "resources"
                                                                 },
                                                                 "value": {
                                                                   "type": "ArrayExpression",
@@ -1692,9 +1640,7 @@
                                                             "start": 1644,
                                                             "end": 1655
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "mockRequest",
-                                                          "optional": false
+                                                          "value": "mockRequest"
                                                         }
                                                       },
                                                       "arguments": [
@@ -1739,9 +1685,7 @@
                                                                     "start": 1693,
                                                                     "end": 1700
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "headers",
-                                                                  "optional": false
+                                                                  "value": "headers"
                                                                 },
                                                                 "value": {
                                                                   "type": "ObjectExpression",
@@ -1758,9 +1702,7 @@
                                                                           "start": 1724,
                                                                           "end": 1734
                                                                         },
-                                                                        "ctxt": 0,
-                                                                        "value": "csrf_token",
-                                                                        "optional": false
+                                                                        "value": "csrf_token"
                                                                       },
                                                                       "value": {
                                                                         "type": "StringLiteral",
@@ -1847,9 +1789,7 @@
                                                               "start": 1830,
                                                               "end": 1847
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "handleHttpRequest",
-                                                            "optional": false
+                                                            "value": "handleHttpRequest"
                                                           }
                                                         },
                                                         "arguments": [
@@ -1909,9 +1849,7 @@
                                                         "start": 1878,
                                                         "end": 1902
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "assertResponseJsonEquals",
-                                                      "optional": false
+                                                      "value": "assertResponseJsonEquals"
                                                     }
                                                   },
                                                   "arguments": [
@@ -1946,9 +1884,7 @@
                                                               "start": 1928,
                                                               "end": 1940
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "responseBody",
-                                                            "optional": false
+                                                            "value": "responseBody"
                                                           }
                                                         },
                                                         "arguments": [
@@ -1986,9 +1922,7 @@
                                                                 "start": 1970,
                                                                 "end": 1974
                                                               },
-                                                              "ctxt": 0,
-                                                              "value": "name",
-                                                              "optional": false
+                                                              "value": "name"
                                                             },
                                                             "value": {
                                                               "type": "StringLiteral",
@@ -2048,9 +1982,7 @@
                                                           "start": 2018,
                                                           "end": 2025
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "asserts",
-                                                        "optional": false
+                                                        "value": "asserts"
                                                       }
                                                     },
                                                     "property": {
@@ -2059,9 +1991,7 @@
                                                         "start": 2026,
                                                         "end": 2038
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "assertEquals",
-                                                      "optional": false
+                                                      "value": "assertEquals"
                                                     }
                                                   },
                                                   "arguments": [
@@ -2108,9 +2038,7 @@
                                                                   "start": 2048,
                                                                   "end": 2055
                                                                 },
-                                                                "ctxt": 0,
-                                                                "value": "headers",
-                                                                "optional": false
+                                                                "value": "headers"
                                                               }
                                                             }
                                                           },
@@ -2120,9 +2048,7 @@
                                                               "start": 2057,
                                                               "end": 2060
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "get",
-                                                            "optional": false
+                                                            "value": "get"
                                                           }
                                                         },
                                                         "arguments": [
@@ -2217,9 +2143,7 @@
                             "start": 2112,
                             "end": 2121
                           },
-                          "ctxt": 0,
-                          "value": "testSuite",
-                          "optional": false
+                          "value": "testSuite"
                         }
                       },
                       "arguments": [
@@ -2288,9 +2212,7 @@
                                           "start": 2187,
                                           "end": 2195
                                         },
-                                        "ctxt": 0,
-                                        "value": "testCase",
-                                        "optional": false
+                                        "value": "testCase"
                                       }
                                     },
                                     "arguments": [
@@ -2386,9 +2308,7 @@
                                                               "start": 2292,
                                                               "end": 2296
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "Http",
-                                                            "optional": false
+                                                            "value": "Http"
                                                           }
                                                         },
                                                         "property": {
@@ -2397,9 +2317,7 @@
                                                             "start": 2297,
                                                             "end": 2303
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "Server",
-                                                          "optional": false
+                                                          "value": "Server"
                                                         }
                                                       },
                                                       "arguments": [
@@ -2420,9 +2338,7 @@
                                                                     "start": 2322,
                                                                     "end": 2331
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "resources",
-                                                                  "optional": false
+                                                                  "value": "resources"
                                                                 },
                                                                 "value": {
                                                                   "type": "ArrayExpression",
@@ -2513,9 +2429,7 @@
                                                             "start": 2429,
                                                             "end": 2440
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "mockRequest",
-                                                          "optional": false
+                                                          "value": "mockRequest"
                                                         }
                                                       },
                                                       "arguments": [
@@ -2560,9 +2474,7 @@
                                                                     "start": 2478,
                                                                     "end": 2485
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "headers",
-                                                                  "optional": false
+                                                                  "value": "headers"
                                                                 },
                                                                 "value": {
                                                                   "type": "ObjectExpression",
@@ -2579,9 +2491,7 @@
                                                                           "start": 2509,
                                                                           "end": 2519
                                                                         },
-                                                                        "ctxt": 0,
-                                                                        "value": "csrf_token",
-                                                                        "optional": false
+                                                                        "value": "csrf_token"
                                                                       },
                                                                       "value": {
                                                                         "type": "StringLiteral",
@@ -2668,9 +2578,7 @@
                                                               "start": 2615,
                                                               "end": 2632
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "handleHttpRequest",
-                                                            "optional": false
+                                                            "value": "handleHttpRequest"
                                                           }
                                                         },
                                                         "arguments": [
@@ -2736,9 +2644,7 @@
                                                           "start": 2660,
                                                           "end": 2667
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "asserts",
-                                                        "optional": false
+                                                        "value": "asserts"
                                                       }
                                                     },
                                                     "property": {
@@ -2747,9 +2653,7 @@
                                                         "start": 2668,
                                                         "end": 2680
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "assertEquals",
-                                                      "optional": false
+                                                      "value": "assertEquals"
                                                     }
                                                   },
                                                   "arguments": [
@@ -2784,9 +2688,7 @@
                                                               "start": 2689,
                                                               "end": 2701
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "responseBody",
-                                                            "optional": false
+                                                            "value": "responseBody"
                                                           }
                                                         },
                                                         "arguments": [
@@ -2864,9 +2766,7 @@
                                                           "start": 2747,
                                                           "end": 2754
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "asserts",
-                                                        "optional": false
+                                                        "value": "asserts"
                                                       }
                                                     },
                                                     "property": {
@@ -2875,9 +2775,7 @@
                                                         "start": 2755,
                                                         "end": 2767
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "assertEquals",
-                                                      "optional": false
+                                                      "value": "assertEquals"
                                                     }
                                                   },
                                                   "arguments": [
@@ -2924,9 +2822,7 @@
                                                                   "start": 2794,
                                                                   "end": 2801
                                                                 },
-                                                                "ctxt": 0,
-                                                                "value": "headers",
-                                                                "optional": false
+                                                                "value": "headers"
                                                               }
                                                             }
                                                           },
@@ -2936,9 +2832,7 @@
                                                               "start": 2803,
                                                               "end": 2806
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "get",
-                                                            "optional": false
+                                                            "value": "get"
                                                           }
                                                         },
                                                         "arguments": [
@@ -3015,9 +2909,7 @@
                                                           "start": 2885,
                                                           "end": 2892
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "asserts",
-                                                        "optional": false
+                                                        "value": "asserts"
                                                       }
                                                     },
                                                     "property": {
@@ -3026,9 +2918,7 @@
                                                         "start": 2893,
                                                         "end": 2905
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "assertEquals",
-                                                      "optional": false
+                                                      "value": "assertEquals"
                                                     }
                                                   },
                                                   "arguments": [
@@ -3075,9 +2965,7 @@
                                                                   "start": 2915,
                                                                   "end": 2922
                                                                 },
-                                                                "ctxt": 0,
-                                                                "value": "headers",
-                                                                "optional": false
+                                                                "value": "headers"
                                                               }
                                                             }
                                                           },
@@ -3087,9 +2975,7 @@
                                                               "start": 2924,
                                                               "end": 2927
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "get",
-                                                            "optional": false
+                                                            "value": "get"
                                                           }
                                                         },
                                                         "arguments": [
@@ -3184,9 +3070,7 @@
                             "start": 2979,
                             "end": 2988
                           },
-                          "ctxt": 0,
-                          "value": "testSuite",
-                          "optional": false
+                          "value": "testSuite"
                         }
                       },
                       "arguments": [
@@ -3255,9 +3139,7 @@
                                           "start": 3041,
                                           "end": 3049
                                         },
-                                        "ctxt": 0,
-                                        "value": "testCase",
-                                        "optional": false
+                                        "value": "testCase"
                                       }
                                     },
                                     "arguments": [
@@ -3353,9 +3235,7 @@
                                                               "start": 3135,
                                                               "end": 3139
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "Http",
-                                                            "optional": false
+                                                            "value": "Http"
                                                           }
                                                         },
                                                         "property": {
@@ -3364,9 +3244,7 @@
                                                             "start": 3140,
                                                             "end": 3146
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "Server",
-                                                          "optional": false
+                                                          "value": "Server"
                                                         }
                                                       },
                                                       "arguments": [
@@ -3387,9 +3265,7 @@
                                                                     "start": 3165,
                                                                     "end": 3174
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "resources",
-                                                                  "optional": false
+                                                                  "value": "resources"
                                                                 },
                                                                 "value": {
                                                                   "type": "ArrayExpression",
@@ -3480,9 +3356,7 @@
                                                             "start": 3259,
                                                             "end": 3270
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "mockRequest",
-                                                          "optional": false
+                                                          "value": "mockRequest"
                                                         }
                                                       },
                                                       "arguments": [
@@ -3527,9 +3401,7 @@
                                                                     "start": 3308,
                                                                     "end": 3315
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "headers",
-                                                                  "optional": false
+                                                                  "value": "headers"
                                                                 },
                                                                 "value": {
                                                                   "type": "ObjectExpression",
@@ -3546,9 +3418,7 @@
                                                                           "start": 3339,
                                                                           "end": 3349
                                                                         },
-                                                                        "ctxt": 0,
-                                                                        "value": "csrf_token",
-                                                                        "optional": false
+                                                                        "value": "csrf_token"
                                                                       },
                                                                       "value": {
                                                                         "type": "StringLiteral",
@@ -3635,9 +3505,7 @@
                                                               "start": 3445,
                                                               "end": 3462
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "handleHttpRequest",
-                                                            "optional": false
+                                                            "value": "handleHttpRequest"
                                                           }
                                                         },
                                                         "arguments": [
@@ -3703,9 +3571,7 @@
                                                           "start": 3490,
                                                           "end": 3497
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "asserts",
-                                                        "optional": false
+                                                        "value": "asserts"
                                                       }
                                                     },
                                                     "property": {
@@ -3714,9 +3580,7 @@
                                                         "start": 3498,
                                                         "end": 3510
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "assertEquals",
-                                                      "optional": false
+                                                      "value": "assertEquals"
                                                     }
                                                   },
                                                   "arguments": [
@@ -3751,9 +3615,7 @@
                                                               "start": 3519,
                                                               "end": 3531
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "responseBody",
-                                                            "optional": false
+                                                            "value": "responseBody"
                                                           }
                                                         },
                                                         "arguments": [
@@ -3831,9 +3693,7 @@
                                                           "start": 3577,
                                                           "end": 3584
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "asserts",
-                                                        "optional": false
+                                                        "value": "asserts"
                                                       }
                                                     },
                                                     "property": {
@@ -3842,9 +3702,7 @@
                                                         "start": 3585,
                                                         "end": 3597
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "assertEquals",
-                                                      "optional": false
+                                                      "value": "assertEquals"
                                                     }
                                                   },
                                                   "arguments": [
@@ -3891,9 +3749,7 @@
                                                                   "start": 3624,
                                                                   "end": 3631
                                                                 },
-                                                                "ctxt": 0,
-                                                                "value": "headers",
-                                                                "optional": false
+                                                                "value": "headers"
                                                               }
                                                             }
                                                           },
@@ -3903,9 +3759,7 @@
                                                               "start": 3633,
                                                               "end": 3636
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "get",
-                                                            "optional": false
+                                                            "value": "get"
                                                           }
                                                         },
                                                         "arguments": [
@@ -3982,9 +3836,7 @@
                                                           "start": 3715,
                                                           "end": 3722
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "asserts",
-                                                        "optional": false
+                                                        "value": "asserts"
                                                       }
                                                     },
                                                     "property": {
@@ -3993,9 +3845,7 @@
                                                         "start": 3723,
                                                         "end": 3735
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "assertEquals",
-                                                      "optional": false
+                                                      "value": "assertEquals"
                                                     }
                                                   },
                                                   "arguments": [
@@ -4042,9 +3892,7 @@
                                                                   "start": 3745,
                                                                   "end": 3752
                                                                 },
-                                                                "ctxt": 0,
-                                                                "value": "headers",
-                                                                "optional": false
+                                                                "value": "headers"
                                                               }
                                                             }
                                                           },
@@ -4054,9 +3902,7 @@
                                                               "start": 3754,
                                                               "end": 3757
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "get",
-                                                            "optional": false
+                                                            "value": "get"
                                                           }
                                                         },
                                                         "arguments": [
@@ -4151,9 +3997,7 @@
                             "start": 3809,
                             "end": 3818
                           },
-                          "ctxt": 0,
-                          "value": "testSuite",
-                          "optional": false
+                          "value": "testSuite"
                         }
                       },
                       "arguments": [
@@ -4222,9 +4066,7 @@
                                           "start": 3878,
                                           "end": 3886
                                         },
-                                        "ctxt": 0,
-                                        "value": "testCase",
-                                        "optional": false
+                                        "value": "testCase"
                                       }
                                     },
                                     "arguments": [
@@ -4320,9 +4162,7 @@
                                                               "start": 3955,
                                                               "end": 3959
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "Http",
-                                                            "optional": false
+                                                            "value": "Http"
                                                           }
                                                         },
                                                         "property": {
@@ -4331,9 +4171,7 @@
                                                             "start": 3960,
                                                             "end": 3966
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "Server",
-                                                          "optional": false
+                                                          "value": "Server"
                                                         }
                                                       },
                                                       "arguments": [
@@ -4354,9 +4192,7 @@
                                                                     "start": 3985,
                                                                     "end": 3994
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "resources",
-                                                                  "optional": false
+                                                                  "value": "resources"
                                                                 },
                                                                 "value": {
                                                                   "type": "ArrayExpression",
@@ -4447,9 +4283,7 @@
                                                             "start": 4086,
                                                             "end": 4097
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "mockRequest",
-                                                          "optional": false
+                                                          "value": "mockRequest"
                                                         }
                                                       },
                                                       "arguments": [
@@ -4494,9 +4328,7 @@
                                                                     "start": 4135,
                                                                     "end": 4142
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "headers",
-                                                                  "optional": false
+                                                                  "value": "headers"
                                                                 },
                                                                 "value": {
                                                                   "type": "ObjectExpression",
@@ -4513,9 +4345,7 @@
                                                                           "start": 4166,
                                                                           "end": 4176
                                                                         },
-                                                                        "ctxt": 0,
-                                                                        "value": "csrf_token",
-                                                                        "optional": false
+                                                                        "value": "csrf_token"
                                                                       },
                                                                       "value": {
                                                                         "type": "StringLiteral",
@@ -4602,9 +4432,7 @@
                                                               "start": 4272,
                                                               "end": 4289
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "handleHttpRequest",
-                                                            "optional": false
+                                                            "value": "handleHttpRequest"
                                                           }
                                                         },
                                                         "arguments": [
@@ -4664,9 +4492,7 @@
                                                         "start": 4320,
                                                         "end": 4344
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "assertResponseJsonEquals",
-                                                      "optional": false
+                                                      "value": "assertResponseJsonEquals"
                                                     }
                                                   },
                                                   "arguments": [
@@ -4701,9 +4527,7 @@
                                                               "start": 4370,
                                                               "end": 4382
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "responseBody",
-                                                            "optional": false
+                                                            "value": "responseBody"
                                                           }
                                                         },
                                                         "arguments": [
@@ -4741,9 +4565,7 @@
                                                                 "start": 4412,
                                                                 "end": 4416
                                                               },
-                                                              "ctxt": 0,
-                                                              "value": "name",
-                                                              "optional": false
+                                                              "value": "name"
                                                             },
                                                             "value": {
                                                               "type": "StringLiteral",
@@ -4821,9 +4643,7 @@
                             "start": 4473,
                             "end": 4482
                           },
-                          "ctxt": 0,
-                          "value": "testSuite",
-                          "optional": false
+                          "value": "testSuite"
                         }
                       },
                       "arguments": [
@@ -4892,9 +4712,7 @@
                                           "start": 4550,
                                           "end": 4558
                                         },
-                                        "ctxt": 0,
-                                        "value": "testCase",
-                                        "optional": false
+                                        "value": "testCase"
                                       }
                                     },
                                     "arguments": [
@@ -4990,9 +4808,7 @@
                                                               "start": 4627,
                                                               "end": 4631
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "Http",
-                                                            "optional": false
+                                                            "value": "Http"
                                                           }
                                                         },
                                                         "property": {
@@ -5001,9 +4817,7 @@
                                                             "start": 4632,
                                                             "end": 4638
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "Server",
-                                                          "optional": false
+                                                          "value": "Server"
                                                         }
                                                       },
                                                       "arguments": [
@@ -5024,9 +4838,7 @@
                                                                     "start": 4657,
                                                                     "end": 4666
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "resources",
-                                                                  "optional": false
+                                                                  "value": "resources"
                                                                 },
                                                                 "value": {
                                                                   "type": "ArrayExpression",
@@ -5117,9 +4929,7 @@
                                                             "start": 4766,
                                                             "end": 4777
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "mockRequest",
-                                                          "optional": false
+                                                          "value": "mockRequest"
                                                         }
                                                       },
                                                       "arguments": [
@@ -5164,9 +4974,7 @@
                                                                     "start": 4815,
                                                                     "end": 4822
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "headers",
-                                                                  "optional": false
+                                                                  "value": "headers"
                                                                 },
                                                                 "value": {
                                                                   "type": "ObjectExpression",
@@ -5183,9 +4991,7 @@
                                                                           "start": 4846,
                                                                           "end": 4856
                                                                         },
-                                                                        "ctxt": 0,
-                                                                        "value": "csrf_token",
-                                                                        "optional": false
+                                                                        "value": "csrf_token"
                                                                       },
                                                                       "value": {
                                                                         "type": "StringLiteral",
@@ -5272,9 +5078,7 @@
                                                               "start": 4952,
                                                               "end": 4969
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "handleHttpRequest",
-                                                            "optional": false
+                                                            "value": "handleHttpRequest"
                                                           }
                                                         },
                                                         "arguments": [
@@ -5334,9 +5138,7 @@
                                                         "start": 5000,
                                                         "end": 5024
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "assertResponseJsonEquals",
-                                                      "optional": false
+                                                      "value": "assertResponseJsonEquals"
                                                     }
                                                   },
                                                   "arguments": [
@@ -5371,9 +5173,7 @@
                                                               "start": 5050,
                                                               "end": 5062
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "responseBody",
-                                                            "optional": false
+                                                            "value": "responseBody"
                                                           }
                                                         },
                                                         "arguments": [
@@ -5411,9 +5211,7 @@
                                                                 "start": 5092,
                                                                 "end": 5096
                                                               },
-                                                              "ctxt": 0,
-                                                              "value": "name",
-                                                              "optional": false
+                                                              "value": "name"
                                                             },
                                                             "value": {
                                                               "type": "StringLiteral",
@@ -5473,9 +5271,7 @@
                                                           "start": 5140,
                                                           "end": 5147
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "asserts",
-                                                        "optional": false
+                                                        "value": "asserts"
                                                       }
                                                     },
                                                     "property": {
@@ -5484,9 +5280,7 @@
                                                         "start": 5148,
                                                         "end": 5160
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "assertEquals",
-                                                      "optional": false
+                                                      "value": "assertEquals"
                                                     }
                                                   },
                                                   "arguments": [
@@ -5533,9 +5327,7 @@
                                                                   "start": 5170,
                                                                   "end": 5177
                                                                 },
-                                                                "ctxt": 0,
-                                                                "value": "headers",
-                                                                "optional": false
+                                                                "value": "headers"
                                                               }
                                                             }
                                                           },
@@ -5545,9 +5337,7 @@
                                                               "start": 5179,
                                                               "end": 5182
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "get",
-                                                            "optional": false
+                                                            "value": "get"
                                                           }
                                                         },
                                                         "arguments": [
@@ -5642,9 +5432,7 @@
                             "start": 5234,
                             "end": 5243
                           },
-                          "ctxt": 0,
-                          "value": "testSuite",
-                          "optional": false
+                          "value": "testSuite"
                         }
                       },
                       "arguments": [
@@ -5713,9 +5501,7 @@
                                           "start": 5302,
                                           "end": 5310
                                         },
-                                        "ctxt": 0,
-                                        "value": "testCase",
-                                        "optional": false
+                                        "value": "testCase"
                                       }
                                     },
                                     "arguments": [
@@ -5811,9 +5597,7 @@
                                                               "start": 5378,
                                                               "end": 5382
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "Http",
-                                                            "optional": false
+                                                            "value": "Http"
                                                           }
                                                         },
                                                         "property": {
@@ -5822,9 +5606,7 @@
                                                             "start": 5383,
                                                             "end": 5389
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "Server",
-                                                          "optional": false
+                                                          "value": "Server"
                                                         }
                                                       },
                                                       "arguments": [
@@ -5845,9 +5627,7 @@
                                                                     "start": 5408,
                                                                     "end": 5417
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "resources",
-                                                                  "optional": false
+                                                                  "value": "resources"
                                                                 },
                                                                 "value": {
                                                                   "type": "ArrayExpression",
@@ -5938,9 +5718,7 @@
                                                             "start": 5508,
                                                             "end": 5519
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "mockRequest",
-                                                          "optional": false
+                                                          "value": "mockRequest"
                                                         }
                                                       },
                                                       "arguments": [
@@ -5985,9 +5763,7 @@
                                                                     "start": 5557,
                                                                     "end": 5564
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "headers",
-                                                                  "optional": false
+                                                                  "value": "headers"
                                                                 },
                                                                 "value": {
                                                                   "type": "ObjectExpression",
@@ -6004,9 +5780,7 @@
                                                                           "start": 5588,
                                                                           "end": 5598
                                                                         },
-                                                                        "ctxt": 0,
-                                                                        "value": "csrf_token",
-                                                                        "optional": false
+                                                                        "value": "csrf_token"
                                                                       },
                                                                       "value": {
                                                                         "type": "StringLiteral",
@@ -6093,9 +5867,7 @@
                                                               "start": 5694,
                                                               "end": 5711
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "handleHttpRequest",
-                                                            "optional": false
+                                                            "value": "handleHttpRequest"
                                                           }
                                                         },
                                                         "arguments": [
@@ -6161,9 +5933,7 @@
                                                           "start": 5739,
                                                           "end": 5746
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "asserts",
-                                                        "optional": false
+                                                        "value": "asserts"
                                                       }
                                                     },
                                                     "property": {
@@ -6172,9 +5942,7 @@
                                                         "start": 5747,
                                                         "end": 5759
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "assertEquals",
-                                                      "optional": false
+                                                      "value": "assertEquals"
                                                     }
                                                   },
                                                   "arguments": [
@@ -6209,9 +5977,7 @@
                                                               "start": 5768,
                                                               "end": 5780
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "responseBody",
-                                                            "optional": false
+                                                            "value": "responseBody"
                                                           }
                                                         },
                                                         "arguments": [
@@ -6289,9 +6055,7 @@
                                                           "start": 5826,
                                                           "end": 5833
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "asserts",
-                                                        "optional": false
+                                                        "value": "asserts"
                                                       }
                                                     },
                                                     "property": {
@@ -6300,9 +6064,7 @@
                                                         "start": 5834,
                                                         "end": 5846
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "assertEquals",
-                                                      "optional": false
+                                                      "value": "assertEquals"
                                                     }
                                                   },
                                                   "arguments": [
@@ -6349,9 +6111,7 @@
                                                                   "start": 5873,
                                                                   "end": 5880
                                                                 },
-                                                                "ctxt": 0,
-                                                                "value": "headers",
-                                                                "optional": false
+                                                                "value": "headers"
                                                               }
                                                             }
                                                           },
@@ -6361,9 +6121,7 @@
                                                               "start": 5882,
                                                               "end": 5885
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "get",
-                                                            "optional": false
+                                                            "value": "get"
                                                           }
                                                         },
                                                         "arguments": [
@@ -6458,9 +6216,7 @@
                             "start": 5977,
                             "end": 5986
                           },
-                          "ctxt": 0,
-                          "value": "testSuite",
-                          "optional": false
+                          "value": "testSuite"
                         }
                       },
                       "arguments": [
@@ -6529,9 +6285,7 @@
                                           "start": 6053,
                                           "end": 6061
                                         },
-                                        "ctxt": 0,
-                                        "value": "testCase",
-                                        "optional": false
+                                        "value": "testCase"
                                       }
                                     },
                                     "arguments": [
@@ -6627,9 +6381,7 @@
                                                               "start": 6147,
                                                               "end": 6151
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "Http",
-                                                            "optional": false
+                                                            "value": "Http"
                                                           }
                                                         },
                                                         "property": {
@@ -6638,9 +6390,7 @@
                                                             "start": 6152,
                                                             "end": 6158
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "Server",
-                                                          "optional": false
+                                                          "value": "Server"
                                                         }
                                                       },
                                                       "arguments": [
@@ -6661,9 +6411,7 @@
                                                                     "start": 6177,
                                                                     "end": 6186
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "resources",
-                                                                  "optional": false
+                                                                  "value": "resources"
                                                                 },
                                                                 "value": {
                                                                   "type": "ArrayExpression",
@@ -6754,9 +6502,7 @@
                                                             "start": 6285,
                                                             "end": 6296
                                                           },
-                                                          "ctxt": 0,
-                                                          "value": "mockRequest",
-                                                          "optional": false
+                                                          "value": "mockRequest"
                                                         }
                                                       },
                                                       "arguments": [
@@ -6801,9 +6547,7 @@
                                                                     "start": 6334,
                                                                     "end": 6341
                                                                   },
-                                                                  "ctxt": 0,
-                                                                  "value": "headers",
-                                                                  "optional": false
+                                                                  "value": "headers"
                                                                 },
                                                                 "value": {
                                                                   "type": "ObjectExpression",
@@ -6820,9 +6564,7 @@
                                                                           "start": 6365,
                                                                           "end": 6375
                                                                         },
-                                                                        "ctxt": 0,
-                                                                        "value": "csrf_token",
-                                                                        "optional": false
+                                                                        "value": "csrf_token"
                                                                       },
                                                                       "value": {
                                                                         "type": "StringLiteral",
@@ -6909,9 +6651,7 @@
                                                               "start": 6471,
                                                               "end": 6488
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "handleHttpRequest",
-                                                            "optional": false
+                                                            "value": "handleHttpRequest"
                                                           }
                                                         },
                                                         "arguments": [
@@ -6977,9 +6717,7 @@
                                                           "start": 6516,
                                                           "end": 6523
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "asserts",
-                                                        "optional": false
+                                                        "value": "asserts"
                                                       }
                                                     },
                                                     "property": {
@@ -6988,9 +6726,7 @@
                                                         "start": 6524,
                                                         "end": 6536
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "assertEquals",
-                                                      "optional": false
+                                                      "value": "assertEquals"
                                                     }
                                                   },
                                                   "arguments": [
@@ -7025,9 +6761,7 @@
                                                               "start": 6545,
                                                               "end": 6557
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "responseBody",
-                                                            "optional": false
+                                                            "value": "responseBody"
                                                           }
                                                         },
                                                         "arguments": [
@@ -7105,9 +6839,7 @@
                                                           "start": 6603,
                                                           "end": 6610
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "asserts",
-                                                        "optional": false
+                                                        "value": "asserts"
                                                       }
                                                     },
                                                     "property": {
@@ -7116,9 +6848,7 @@
                                                         "start": 6611,
                                                         "end": 6623
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "assertEquals",
-                                                      "optional": false
+                                                      "value": "assertEquals"
                                                     }
                                                   },
                                                   "arguments": [
@@ -7165,9 +6895,7 @@
                                                                   "start": 6650,
                                                                   "end": 6657
                                                                 },
-                                                                "ctxt": 0,
-                                                                "value": "headers",
-                                                                "optional": false
+                                                                "value": "headers"
                                                               }
                                                             }
                                                           },
@@ -7177,9 +6905,7 @@
                                                               "start": 6659,
                                                               "end": 6662
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "get",
-                                                            "optional": false
+                                                            "value": "get"
                                                           }
                                                         },
                                                         "arguments": [
@@ -7256,9 +6982,7 @@
                                                           "start": 6741,
                                                           "end": 6748
                                                         },
-                                                        "ctxt": 0,
-                                                        "value": "asserts",
-                                                        "optional": false
+                                                        "value": "asserts"
                                                       }
                                                     },
                                                     "property": {
@@ -7267,9 +6991,7 @@
                                                         "start": 6749,
                                                         "end": 6761
                                                       },
-                                                      "ctxt": 0,
-                                                      "value": "assertEquals",
-                                                      "optional": false
+                                                      "value": "assertEquals"
                                                     }
                                                   },
                                                   "arguments": [
@@ -7316,9 +7038,7 @@
                                                                   "start": 6771,
                                                                   "end": 6778
                                                                 },
-                                                                "ctxt": 0,
-                                                                "value": "headers",
-                                                                "optional": false
+                                                                "value": "headers"
                                                               }
                                                             }
                                                           },
@@ -7328,9 +7048,7 @@
                                                               "start": 6780,
                                                               "end": 6783
                                                             },
-                                                            "ctxt": 0,
-                                                            "value": "get",
-                                                            "optional": false
+                                                            "value": "get"
                                                           }
                                                         },
                                                         "arguments": [
@@ -7437,9 +7155,7 @@
               "start": 6835,
               "end": 6838
             },
-            "ctxt": 0,
-            "value": "run",
-            "optional": false
+            "value": "run"
           }
         },
         "arguments": [],
@@ -7554,8 +7270,16 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 7162,
+                    "end": 7180
+                  },
                   "left": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 7162,
+                      "end": 7172
+                    },
                     "left": {
                       "type": "Identifier",
                       "span": {
@@ -7572,9 +7296,7 @@
                         "start": 7168,
                         "end": 7172
                       },
-                      "ctxt": 0,
-                      "value": "Http",
-                      "optional": false
+                      "value": "Http"
                     }
                   },
                   "right": {
@@ -7583,9 +7305,7 @@
                       "start": 7173,
                       "end": 7180
                     },
-                    "ctxt": 0,
-                    "value": "Request",
-                    "optional": false
+                    "value": "Request"
                   }
                 },
                 "typeParams": null
@@ -7623,8 +7343,16 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 7196,
+                    "end": 7215
+                  },
                   "left": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 7196,
+                      "end": 7206
+                    },
                     "left": {
                       "type": "Identifier",
                       "span": {
@@ -7641,9 +7369,7 @@
                         "start": 7202,
                         "end": 7206
                       },
-                      "ctxt": 0,
-                      "value": "Http",
-                      "optional": false
+                      "value": "Http"
                     }
                   },
                   "right": {
@@ -7652,9 +7378,7 @@
                       "start": 7207,
                       "end": 7215
                     },
-                    "ctxt": 0,
-                    "value": "Response",
-                    "optional": false
+                    "value": "Response"
                   }
                 },
                 "typeParams": null
@@ -7719,9 +7443,7 @@
                       "start": 7237,
                       "end": 7251
                     },
-                    "ctxt": 0,
-                    "value": "getHeaderParam",
-                    "optional": false
+                    "value": "getHeaderParam"
                   }
                 },
                 "arguments": [
@@ -7797,9 +7519,7 @@
                             "start": 7301,
                             "end": 7311
                           },
-                          "ctxt": 0,
-                          "value": "Exceptions",
-                          "optional": false
+                          "value": "Exceptions"
                         }
                       },
                       "property": {
@@ -7808,9 +7528,7 @@
                           "start": 7312,
                           "end": 7335
                         },
-                        "ctxt": 0,
-                        "value": "HttpMiddlewareException",
-                        "optional": false
+                        "value": "HttpMiddlewareException"
                       }
                     },
                     "arguments": [
@@ -7897,8 +7615,16 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 7454,
+                    "end": 7472
+                  },
                   "left": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 7454,
+                      "end": 7464
+                    },
                     "left": {
                       "type": "Identifier",
                       "span": {
@@ -7915,9 +7641,7 @@
                         "start": 7460,
                         "end": 7464
                       },
-                      "ctxt": 0,
-                      "value": "Http",
-                      "optional": false
+                      "value": "Http"
                     }
                   },
                   "right": {
@@ -7926,9 +7650,7 @@
                       "start": 7465,
                       "end": 7472
                     },
-                    "ctxt": 0,
-                    "value": "Request",
-                    "optional": false
+                    "value": "Request"
                   }
                 },
                 "typeParams": null
@@ -7966,8 +7688,16 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 7488,
+                    "end": 7507
+                  },
                   "left": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 7488,
+                      "end": 7498
+                    },
                     "left": {
                       "type": "Identifier",
                       "span": {
@@ -7984,9 +7714,7 @@
                         "start": 7494,
                         "end": 7498
                       },
-                      "ctxt": 0,
-                      "value": "Http",
-                      "optional": false
+                      "value": "Http"
                     }
                   },
                   "right": {
@@ -7995,9 +7723,7 @@
                       "start": 7499,
                       "end": 7507
                     },
-                    "ctxt": 0,
-                    "value": "Response",
-                    "optional": false
+                    "value": "Response"
                   }
                 },
                 "typeParams": null
@@ -8061,9 +7787,7 @@
                       "start": 7526,
                       "end": 7533
                     },
-                    "ctxt": 0,
-                    "value": "headers",
-                    "optional": false
+                    "value": "headers"
                   }
                 },
                 "property": {
@@ -8072,9 +7796,7 @@
                     "start": 7534,
                     "end": 7537
                   },
-                  "ctxt": 0,
-                  "value": "set",
-                  "optional": false
+                  "value": "set"
                 }
               },
               "arguments": [
@@ -8141,9 +7863,7 @@
                     "start": 7581,
                     "end": 7585
                   },
-                  "ctxt": 0,
-                  "value": "body",
-                  "optional": false
+                  "value": "body"
                 }
               },
               "right": {
@@ -8208,8 +7928,16 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 7655,
+                    "end": 7673
+                  },
                   "left": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 7655,
+                      "end": 7665
+                    },
                     "left": {
                       "type": "Identifier",
                       "span": {
@@ -8226,9 +7954,7 @@
                         "start": 7661,
                         "end": 7665
                       },
-                      "ctxt": 0,
-                      "value": "Http",
-                      "optional": false
+                      "value": "Http"
                     }
                   },
                   "right": {
@@ -8237,9 +7963,7 @@
                       "start": 7666,
                       "end": 7673
                     },
-                    "ctxt": 0,
-                    "value": "Request",
-                    "optional": false
+                    "value": "Request"
                   }
                 },
                 "typeParams": null
@@ -8277,8 +8001,16 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 7689,
+                    "end": 7708
+                  },
                   "left": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 7689,
+                      "end": 7699
+                    },
                     "left": {
                       "type": "Identifier",
                       "span": {
@@ -8295,9 +8027,7 @@
                         "start": 7695,
                         "end": 7699
                       },
-                      "ctxt": 0,
-                      "value": "Http",
-                      "optional": false
+                      "value": "Http"
                     }
                   },
                   "right": {
@@ -8306,9 +8036,7 @@
                       "start": 7700,
                       "end": 7708
                     },
-                    "ctxt": 0,
-                    "value": "Response",
-                    "optional": false
+                    "value": "Response"
                   }
                 },
                 "typeParams": null
@@ -8372,9 +8100,7 @@
                       "start": 7727,
                       "end": 7734
                     },
-                    "ctxt": 0,
-                    "value": "headers",
-                    "optional": false
+                    "value": "headers"
                   }
                 },
                 "property": {
@@ -8383,9 +8109,7 @@
                     "start": 7735,
                     "end": 7738
                   },
-                  "ctxt": 0,
-                  "value": "set",
-                  "optional": false
+                  "value": "set"
                 }
               },
               "arguments": [
@@ -8484,9 +8208,7 @@
                     "start": 7769,
                     "end": 7773
                   },
-                  "ctxt": 0,
-                  "value": "Http",
-                  "optional": false
+                  "value": "Http"
                 }
               },
               "property": {
@@ -8495,9 +8217,7 @@
                   "start": 7774,
                   "end": 7784
                 },
-                "ctxt": 0,
-                "value": "Middleware",
-                "optional": false
+                "value": "Middleware"
               }
             },
             "arguments": [
@@ -8518,9 +8238,7 @@
                           "start": 7787,
                           "end": 7801
                         },
-                        "ctxt": 0,
-                        "value": "before_request",
-                        "optional": false
+                        "value": "before_request"
                       },
                       "value": {
                         "type": "ArrayExpression",
@@ -8566,9 +8284,7 @@
               "start": 7902,
               "end": 7907
             },
-            "ctxt": 0,
-            "value": "paths",
-            "optional": false
+            "value": "paths"
           },
           "value": {
             "type": "ArrayExpression",
@@ -8626,9 +8342,7 @@
               "start": 7952,
               "end": 7957
             },
-            "ctxt": 0,
-            "value": "users",
-            "optional": false
+            "value": "users"
           },
           "value": {
             "type": "NewExpression",
@@ -8695,9 +8409,7 @@
                                       "start": 7999,
                                       "end": 8003
                                     },
-                                    "ctxt": 0,
-                                    "value": "name",
-                                    "optional": false
+                                    "value": "name"
                                   },
                                   "value": {
                                     "type": "StringLiteral",
@@ -8753,9 +8465,7 @@
                                       "start": 8030,
                                       "end": 8034
                                     },
-                                    "ctxt": 0,
-                                    "value": "name",
-                                    "optional": false
+                                    "value": "name"
                                   },
                                   "value": {
                                     "type": "StringLiteral",
@@ -8836,9 +8546,7 @@
               "start": 8066,
               "end": 8069
             },
-            "ctxt": 0,
-            "value": "GET",
-            "optional": false
+            "value": "GET"
           },
           "function": {
             "params": [],
@@ -8915,9 +8623,7 @@
                                 "start": 8101,
                                 "end": 8108
                               },
-                              "ctxt": 0,
-                              "value": "request",
-                              "optional": false
+                              "value": "request"
                             }
                           },
                           "property": {
@@ -8926,9 +8632,7 @@
                               "start": 8109,
                               "end": 8121
                             },
-                            "ctxt": 0,
-                            "value": "getPathParam",
-                            "optional": false
+                            "value": "getPathParam"
                           }
                         },
                         "arguments": [
@@ -9013,9 +8717,7 @@
                                   "start": 8167,
                                   "end": 8175
                                 },
-                                "ctxt": 0,
-                                "value": "response",
-                                "optional": false
+                                "value": "response"
                               }
                             },
                             "property": {
@@ -9024,9 +8726,7 @@
                                 "start": 8176,
                                 "end": 8180
                               },
-                              "ctxt": 0,
-                              "value": "body",
-                              "optional": false
+                              "value": "body"
                             }
                           },
                           "right": {
@@ -9061,9 +8761,7 @@
                                     "start": 8188,
                                     "end": 8193
                                   },
-                                  "ctxt": 0,
-                                  "value": "users",
-                                  "optional": false
+                                  "value": "users"
                                 }
                               },
                               "property": {
@@ -9072,9 +8770,7 @@
                                   "start": 8194,
                                   "end": 8197
                                 },
-                                "ctxt": 0,
-                                "value": "get",
-                                "optional": false
+                                "value": "get"
                               }
                             },
                             "arguments": [
@@ -9149,9 +8845,7 @@
                         "start": 8277,
                         "end": 8285
                       },
-                      "ctxt": 0,
-                      "value": "response",
-                      "optional": false
+                      "value": "response"
                     }
                   }
                 }
@@ -9198,9 +8892,7 @@
               "start": 7875,
               "end": 7879
             },
-            "ctxt": 0,
-            "value": "Http",
-            "optional": false
+            "value": "Http"
           }
         },
         "property": {
@@ -9209,9 +8901,7 @@
             "start": 7880,
             "end": 7888
           },
-          "ctxt": 0,
-          "value": "Resource",
-          "optional": false
+          "value": "Resource"
         }
       },
       "isAbstract": false,
@@ -9279,9 +8969,7 @@
                     "start": 8303,
                     "end": 8307
                   },
-                  "ctxt": 0,
-                  "value": "Http",
-                  "optional": false
+                  "value": "Http"
                 }
               },
               "property": {
@@ -9290,9 +8978,7 @@
                   "start": 8308,
                   "end": 8318
                 },
-                "ctxt": 0,
-                "value": "Middleware",
-                "optional": false
+                "value": "Middleware"
               }
             },
             "arguments": [
@@ -9313,9 +8999,7 @@
                           "start": 8326,
                           "end": 8340
                         },
-                        "ctxt": 0,
-                        "value": "before_request",
-                        "optional": false
+                        "value": "before_request"
                       },
                       "value": {
                         "type": "ArrayExpression",
@@ -9374,9 +9058,7 @@
               "start": 8478,
               "end": 8483
             },
-            "ctxt": 0,
-            "value": "paths",
-            "optional": false
+            "value": "paths"
           },
           "value": {
             "type": "ArrayExpression",
@@ -9434,9 +9116,7 @@
               "start": 8528,
               "end": 8533
             },
-            "ctxt": 0,
-            "value": "users",
-            "optional": false
+            "value": "users"
           },
           "value": {
             "type": "NewExpression",
@@ -9503,9 +9183,7 @@
                                       "start": 8575,
                                       "end": 8579
                                     },
-                                    "ctxt": 0,
-                                    "value": "name",
-                                    "optional": false
+                                    "value": "name"
                                   },
                                   "value": {
                                     "type": "StringLiteral",
@@ -9561,9 +9239,7 @@
                                       "start": 8606,
                                       "end": 8610
                                     },
-                                    "ctxt": 0,
-                                    "value": "name",
-                                    "optional": false
+                                    "value": "name"
                                   },
                                   "value": {
                                     "type": "StringLiteral",
@@ -9644,9 +9320,7 @@
               "start": 8642,
               "end": 8645
             },
-            "ctxt": 0,
-            "value": "GET",
-            "optional": false
+            "value": "GET"
           },
           "function": {
             "params": [],
@@ -9723,9 +9397,7 @@
                                 "start": 8677,
                                 "end": 8684
                               },
-                              "ctxt": 0,
-                              "value": "request",
-                              "optional": false
+                              "value": "request"
                             }
                           },
                           "property": {
@@ -9734,9 +9406,7 @@
                               "start": 8685,
                               "end": 8697
                             },
-                            "ctxt": 0,
-                            "value": "getPathParam",
-                            "optional": false
+                            "value": "getPathParam"
                           }
                         },
                         "arguments": [
@@ -9821,9 +9491,7 @@
                                   "start": 8743,
                                   "end": 8751
                                 },
-                                "ctxt": 0,
-                                "value": "response",
-                                "optional": false
+                                "value": "response"
                               }
                             },
                             "property": {
@@ -9832,9 +9500,7 @@
                                 "start": 8752,
                                 "end": 8756
                               },
-                              "ctxt": 0,
-                              "value": "body",
-                              "optional": false
+                              "value": "body"
                             }
                           },
                           "right": {
@@ -9869,9 +9535,7 @@
                                     "start": 8764,
                                     "end": 8769
                                   },
-                                  "ctxt": 0,
-                                  "value": "users",
-                                  "optional": false
+                                  "value": "users"
                                 }
                               },
                               "property": {
@@ -9880,9 +9544,7 @@
                                   "start": 8770,
                                   "end": 8773
                                 },
-                                "ctxt": 0,
-                                "value": "get",
-                                "optional": false
+                                "value": "get"
                               }
                             },
                             "arguments": [
@@ -9957,9 +9619,7 @@
                         "start": 8853,
                         "end": 8861
                       },
-                      "ctxt": 0,
-                      "value": "response",
-                      "optional": false
+                      "value": "response"
                     }
                   }
                 }
@@ -10006,9 +9666,7 @@
               "start": 8451,
               "end": 8455
             },
-            "ctxt": 0,
-            "value": "Http",
-            "optional": false
+            "value": "Http"
           }
         },
         "property": {
@@ -10017,9 +9675,7 @@
             "start": 8456,
             "end": 8464
           },
-          "ctxt": 0,
-          "value": "Resource",
-          "optional": false
+          "value": "Resource"
         }
       },
       "isAbstract": false,
@@ -10087,9 +9743,7 @@
                     "start": 8879,
                     "end": 8883
                   },
-                  "ctxt": 0,
-                  "value": "Http",
-                  "optional": false
+                  "value": "Http"
                 }
               },
               "property": {
@@ -10098,9 +9752,7 @@
                   "start": 8884,
                   "end": 8894
                 },
-                "ctxt": 0,
-                "value": "Middleware",
-                "optional": false
+                "value": "Middleware"
               }
             },
             "arguments": [
@@ -10121,9 +9773,7 @@
                           "start": 8902,
                           "end": 8915
                         },
-                        "ctxt": 0,
-                        "value": "after_request",
-                        "optional": false
+                        "value": "after_request"
                       },
                       "value": {
                         "type": "ArrayExpression",
@@ -10182,9 +9832,7 @@
               "start": 9058,
               "end": 9063
             },
-            "ctxt": 0,
-            "value": "paths",
-            "optional": false
+            "value": "paths"
           },
           "value": {
             "type": "ArrayExpression",
@@ -10242,9 +9890,7 @@
               "start": 9108,
               "end": 9113
             },
-            "ctxt": 0,
-            "value": "users",
-            "optional": false
+            "value": "users"
           },
           "value": {
             "type": "NewExpression",
@@ -10311,9 +9957,7 @@
                                       "start": 9155,
                                       "end": 9159
                                     },
-                                    "ctxt": 0,
-                                    "value": "name",
-                                    "optional": false
+                                    "value": "name"
                                   },
                                   "value": {
                                     "type": "StringLiteral",
@@ -10369,9 +10013,7 @@
                                       "start": 9186,
                                       "end": 9190
                                     },
-                                    "ctxt": 0,
-                                    "value": "name",
-                                    "optional": false
+                                    "value": "name"
                                   },
                                   "value": {
                                     "type": "StringLiteral",
@@ -10452,9 +10094,7 @@
               "start": 9222,
               "end": 9225
             },
-            "ctxt": 0,
-            "value": "GET",
-            "optional": false
+            "value": "GET"
           },
           "function": {
             "params": [],
@@ -10497,9 +10137,7 @@
                         "start": 9250,
                         "end": 9258
                       },
-                      "ctxt": 0,
-                      "value": "response",
-                      "optional": false
+                      "value": "response"
                     }
                   }
                 }
@@ -10546,9 +10184,7 @@
               "start": 9031,
               "end": 9035
             },
-            "ctxt": 0,
-            "value": "Http",
-            "optional": false
+            "value": "Http"
           }
         },
         "property": {
@@ -10557,9 +10193,7 @@
             "start": 9036,
             "end": 9044
           },
-          "ctxt": 0,
-          "value": "Resource",
-          "optional": false
+          "value": "Resource"
         }
       },
       "isAbstract": false,
@@ -10627,9 +10261,7 @@
                     "start": 9276,
                     "end": 9280
                   },
-                  "ctxt": 0,
-                  "value": "Http",
-                  "optional": false
+                  "value": "Http"
                 }
               },
               "property": {
@@ -10638,9 +10270,7 @@
                   "start": 9281,
                   "end": 9291
                 },
-                "ctxt": 0,
-                "value": "Middleware",
-                "optional": false
+                "value": "Middleware"
               }
             },
             "arguments": [
@@ -10661,9 +10291,7 @@
                           "start": 9307,
                           "end": 9321
                         },
-                        "ctxt": 0,
-                        "value": "before_request",
-                        "optional": false
+                        "value": "before_request"
                       },
                       "value": {
                         "type": "ArrayExpression",
@@ -10696,9 +10324,7 @@
                           "start": 9353,
                           "end": 9366
                         },
-                        "ctxt": 0,
-                        "value": "after_request",
-                        "optional": false
+                        "value": "after_request"
                       },
                       "value": {
                         "type": "ArrayExpression",
@@ -10744,9 +10370,7 @@
               "start": 9481,
               "end": 9486
             },
-            "ctxt": 0,
-            "value": "paths",
-            "optional": false
+            "value": "paths"
           },
           "value": {
             "type": "ArrayExpression",
@@ -10804,9 +10428,7 @@
               "start": 9531,
               "end": 9536
             },
-            "ctxt": 0,
-            "value": "users",
-            "optional": false
+            "value": "users"
           },
           "value": {
             "type": "NewExpression",
@@ -10873,9 +10495,7 @@
                                       "start": 9578,
                                       "end": 9582
                                     },
-                                    "ctxt": 0,
-                                    "value": "name",
-                                    "optional": false
+                                    "value": "name"
                                   },
                                   "value": {
                                     "type": "StringLiteral",
@@ -10931,9 +10551,7 @@
                                       "start": 9609,
                                       "end": 9613
                                     },
-                                    "ctxt": 0,
-                                    "value": "name",
-                                    "optional": false
+                                    "value": "name"
                                   },
                                   "value": {
                                     "type": "StringLiteral",
@@ -11014,9 +10632,7 @@
               "start": 9645,
               "end": 9648
             },
-            "ctxt": 0,
-            "value": "GET",
-            "optional": false
+            "value": "GET"
           },
           "function": {
             "params": [],
@@ -11059,9 +10675,7 @@
                         "start": 9673,
                         "end": 9681
                       },
-                      "ctxt": 0,
-                      "value": "response",
-                      "optional": false
+                      "value": "response"
                     }
                   }
                 }
@@ -11108,9 +10722,7 @@
               "start": 9454,
               "end": 9458
             },
-            "ctxt": 0,
-            "value": "Http",
-            "optional": false
+            "value": "Http"
           }
         },
         "property": {
@@ -11119,9 +10731,7 @@
             "start": 9459,
             "end": 9467
           },
-          "ctxt": 0,
-          "value": "Resource",
-          "optional": false
+          "value": "Resource"
         }
       },
       "isAbstract": false,
@@ -11161,9 +10771,7 @@
               "start": 9774,
               "end": 9779
             },
-            "ctxt": 0,
-            "value": "paths",
-            "optional": false
+            "value": "paths"
           },
           "value": {
             "type": "ArrayExpression",
@@ -11221,9 +10829,7 @@
               "start": 9824,
               "end": 9829
             },
-            "ctxt": 0,
-            "value": "users",
-            "optional": false
+            "value": "users"
           },
           "value": {
             "type": "NewExpression",
@@ -11290,9 +10896,7 @@
                                       "start": 9871,
                                       "end": 9875
                                     },
-                                    "ctxt": 0,
-                                    "value": "name",
-                                    "optional": false
+                                    "value": "name"
                                   },
                                   "value": {
                                     "type": "StringLiteral",
@@ -11348,9 +10952,7 @@
                                       "start": 9902,
                                       "end": 9906
                                     },
-                                    "ctxt": 0,
-                                    "value": "name",
-                                    "optional": false
+                                    "value": "name"
                                   },
                                   "value": {
                                     "type": "StringLiteral",
@@ -11431,9 +11033,7 @@
               "start": 10001,
               "end": 10004
             },
-            "ctxt": 0,
-            "value": "GET",
-            "optional": false
+            "value": "GET"
           },
           "function": {
             "params": [],
@@ -11479,9 +11079,7 @@
                           "start": 9938,
                           "end": 9942
                         },
-                        "ctxt": 0,
-                        "value": "Http",
-                        "optional": false
+                        "value": "Http"
                       }
                     },
                     "property": {
@@ -11490,9 +11088,7 @@
                         "start": 9943,
                         "end": 9953
                       },
-                      "ctxt": 0,
-                      "value": "Middleware",
-                      "optional": false
+                      "value": "Middleware"
                     }
                   },
                   "arguments": [
@@ -11513,9 +11109,7 @@
                                 "start": 9956,
                                 "end": 9970
                               },
-                              "ctxt": 0,
-                              "value": "before_request",
-                              "optional": false
+                              "value": "before_request"
                             },
                             "value": {
                               "type": "ArrayExpression",
@@ -11620,9 +11214,7 @@
                                 "start": 10036,
                                 "end": 10043
                               },
-                              "ctxt": 0,
-                              "value": "request",
-                              "optional": false
+                              "value": "request"
                             }
                           },
                           "property": {
@@ -11631,9 +11223,7 @@
                               "start": 10044,
                               "end": 10056
                             },
-                            "ctxt": 0,
-                            "value": "getPathParam",
-                            "optional": false
+                            "value": "getPathParam"
                           }
                         },
                         "arguments": [
@@ -11718,9 +11308,7 @@
                                   "start": 10102,
                                   "end": 10110
                                 },
-                                "ctxt": 0,
-                                "value": "response",
-                                "optional": false
+                                "value": "response"
                               }
                             },
                             "property": {
@@ -11729,9 +11317,7 @@
                                 "start": 10111,
                                 "end": 10115
                               },
-                              "ctxt": 0,
-                              "value": "body",
-                              "optional": false
+                              "value": "body"
                             }
                           },
                           "right": {
@@ -11766,9 +11352,7 @@
                                     "start": 10123,
                                     "end": 10128
                                   },
-                                  "ctxt": 0,
-                                  "value": "users",
-                                  "optional": false
+                                  "value": "users"
                                 }
                               },
                               "property": {
@@ -11777,9 +11361,7 @@
                                   "start": 10129,
                                   "end": 10132
                                 },
-                                "ctxt": 0,
-                                "value": "get",
-                                "optional": false
+                                "value": "get"
                               }
                             },
                             "arguments": [
@@ -11854,9 +11436,7 @@
                         "start": 10212,
                         "end": 10220
                       },
-                      "ctxt": 0,
-                      "value": "response",
-                      "optional": false
+                      "value": "response"
                     }
                   }
                 }
@@ -11903,9 +11483,7 @@
               "start": 9747,
               "end": 9751
             },
-            "ctxt": 0,
-            "value": "Http",
-            "optional": false
+            "value": "Http"
           }
         },
         "property": {
@@ -11914,9 +11492,7 @@
             "start": 9752,
             "end": 9760
           },
-          "ctxt": 0,
-          "value": "Resource",
-          "optional": false
+          "value": "Resource"
         }
       },
       "isAbstract": false,
@@ -11956,9 +11532,7 @@
               "start": 10312,
               "end": 10317
             },
-            "ctxt": 0,
-            "value": "paths",
-            "optional": false
+            "value": "paths"
           },
           "value": {
             "type": "ArrayExpression",
@@ -12016,9 +11590,7 @@
               "start": 10362,
               "end": 10367
             },
-            "ctxt": 0,
-            "value": "users",
-            "optional": false
+            "value": "users"
           },
           "value": {
             "type": "NewExpression",
@@ -12085,9 +11657,7 @@
                                       "start": 10409,
                                       "end": 10413
                                     },
-                                    "ctxt": 0,
-                                    "value": "name",
-                                    "optional": false
+                                    "value": "name"
                                   },
                                   "value": {
                                     "type": "StringLiteral",
@@ -12143,9 +11713,7 @@
                                       "start": 10440,
                                       "end": 10444
                                     },
-                                    "ctxt": 0,
-                                    "value": "name",
-                                    "optional": false
+                                    "value": "name"
                                   },
                                   "value": {
                                     "type": "StringLiteral",
@@ -12226,9 +11794,7 @@
               "start": 10544,
               "end": 10547
             },
-            "ctxt": 0,
-            "value": "GET",
-            "optional": false
+            "value": "GET"
           },
           "function": {
             "params": [],
@@ -12274,9 +11840,7 @@
                           "start": 10476,
                           "end": 10480
                         },
-                        "ctxt": 0,
-                        "value": "Http",
-                        "optional": false
+                        "value": "Http"
                       }
                     },
                     "property": {
@@ -12285,9 +11849,7 @@
                         "start": 10481,
                         "end": 10491
                       },
-                      "ctxt": 0,
-                      "value": "Middleware",
-                      "optional": false
+                      "value": "Middleware"
                     }
                   },
                   "arguments": [
@@ -12308,9 +11870,7 @@
                                 "start": 10494,
                                 "end": 10507
                               },
-                              "ctxt": 0,
-                              "value": "after_request",
-                              "optional": false
+                              "value": "after_request"
                             },
                             "value": {
                               "type": "ArrayExpression",
@@ -12381,9 +11941,7 @@
                         "start": 10572,
                         "end": 10580
                       },
-                      "ctxt": 0,
-                      "value": "response",
-                      "optional": false
+                      "value": "response"
                     }
                   }
                 }
@@ -12430,9 +11988,7 @@
               "start": 10285,
               "end": 10289
             },
-            "ctxt": 0,
-            "value": "Http",
-            "optional": false
+            "value": "Http"
           }
         },
         "property": {
@@ -12441,9 +11997,7 @@
             "start": 10290,
             "end": 10298
           },
-          "ctxt": 0,
-          "value": "Resource",
-          "optional": false
+          "value": "Resource"
         }
       },
       "isAbstract": false,
@@ -12483,9 +12037,7 @@
               "start": 10681,
               "end": 10686
             },
-            "ctxt": 0,
-            "value": "paths",
-            "optional": false
+            "value": "paths"
           },
           "value": {
             "type": "ArrayExpression",
@@ -12543,9 +12095,7 @@
               "start": 10731,
               "end": 10736
             },
-            "ctxt": 0,
-            "value": "users",
-            "optional": false
+            "value": "users"
           },
           "value": {
             "type": "NewExpression",
@@ -12612,9 +12162,7 @@
                                       "start": 10778,
                                       "end": 10782
                                     },
-                                    "ctxt": 0,
-                                    "value": "name",
-                                    "optional": false
+                                    "value": "name"
                                   },
                                   "value": {
                                     "type": "StringLiteral",
@@ -12670,9 +12218,7 @@
                                       "start": 10809,
                                       "end": 10813
                                     },
-                                    "ctxt": 0,
-                                    "value": "name",
-                                    "optional": false
+                                    "value": "name"
                                   },
                                   "value": {
                                     "type": "StringLiteral",
@@ -12753,9 +12299,7 @@
               "start": 10950,
               "end": 10953
             },
-            "ctxt": 0,
-            "value": "GET",
-            "optional": false
+            "value": "GET"
           },
           "function": {
             "params": [],
@@ -12801,9 +12345,7 @@
                           "start": 10845,
                           "end": 10849
                         },
-                        "ctxt": 0,
-                        "value": "Http",
-                        "optional": false
+                        "value": "Http"
                       }
                     },
                     "property": {
@@ -12812,9 +12354,7 @@
                         "start": 10850,
                         "end": 10860
                       },
-                      "ctxt": 0,
-                      "value": "Middleware",
-                      "optional": false
+                      "value": "Middleware"
                     }
                   },
                   "arguments": [
@@ -12835,9 +12375,7 @@
                                 "start": 10872,
                                 "end": 10886
                               },
-                              "ctxt": 0,
-                              "value": "before_request",
-                              "optional": false
+                              "value": "before_request"
                             },
                             "value": {
                               "type": "ArrayExpression",
@@ -12955,9 +12493,7 @@
                                 "start": 10985,
                                 "end": 10992
                               },
-                              "ctxt": 0,
-                              "value": "request",
-                              "optional": false
+                              "value": "request"
                             }
                           },
                           "property": {
@@ -12966,9 +12502,7 @@
                               "start": 10993,
                               "end": 11005
                             },
-                            "ctxt": 0,
-                            "value": "getPathParam",
-                            "optional": false
+                            "value": "getPathParam"
                           }
                         },
                         "arguments": [
@@ -13053,9 +12587,7 @@
                                   "start": 11051,
                                   "end": 11059
                                 },
-                                "ctxt": 0,
-                                "value": "response",
-                                "optional": false
+                                "value": "response"
                               }
                             },
                             "property": {
@@ -13064,9 +12596,7 @@
                                 "start": 11060,
                                 "end": 11064
                               },
-                              "ctxt": 0,
-                              "value": "body",
-                              "optional": false
+                              "value": "body"
                             }
                           },
                           "right": {
@@ -13101,9 +12631,7 @@
                                     "start": 11072,
                                     "end": 11077
                                   },
-                                  "ctxt": 0,
-                                  "value": "users",
-                                  "optional": false
+                                  "value": "users"
                                 }
                               },
                               "property": {
@@ -13112,9 +12640,7 @@
                                   "start": 11078,
                                   "end": 11081
                                 },
-                                "ctxt": 0,
-                                "value": "get",
-                                "optional": false
+                                "value": "get"
                               }
                             },
                             "arguments": [
@@ -13189,9 +12715,7 @@
                         "start": 11161,
                         "end": 11169
                       },
-                      "ctxt": 0,
-                      "value": "response",
-                      "optional": false
+                      "value": "response"
                     }
                   }
                 }
@@ -13238,9 +12762,7 @@
               "start": 10654,
               "end": 10658
             },
-            "ctxt": 0,
-            "value": "Http",
-            "optional": false
+            "value": "Http"
           }
         },
         "property": {
@@ -13249,9 +12771,7 @@
             "start": 10659,
             "end": 10667
           },
-          "ctxt": 0,
-          "value": "Resource",
-          "optional": false
+          "value": "Resource"
         }
       },
       "isAbstract": false,
@@ -13291,9 +12811,7 @@
               "start": 11269,
               "end": 11274
             },
-            "ctxt": 0,
-            "value": "paths",
-            "optional": false
+            "value": "paths"
           },
           "value": {
             "type": "ArrayExpression",
@@ -13351,9 +12869,7 @@
               "start": 11319,
               "end": 11324
             },
-            "ctxt": 0,
-            "value": "users",
-            "optional": false
+            "value": "users"
           },
           "value": {
             "type": "NewExpression",
@@ -13420,9 +12936,7 @@
                                       "start": 11366,
                                       "end": 11370
                                     },
-                                    "ctxt": 0,
-                                    "value": "name",
-                                    "optional": false
+                                    "value": "name"
                                   },
                                   "value": {
                                     "type": "StringLiteral",
@@ -13478,9 +12992,7 @@
                                       "start": 11397,
                                       "end": 11401
                                     },
-                                    "ctxt": 0,
-                                    "value": "name",
-                                    "optional": false
+                                    "value": "name"
                                   },
                                   "value": {
                                     "type": "StringLiteral",
@@ -13561,9 +13073,7 @@
               "start": 11543,
               "end": 11546
             },
-            "ctxt": 0,
-            "value": "GET",
-            "optional": false
+            "value": "GET"
           },
           "function": {
             "params": [],
@@ -13609,9 +13119,7 @@
                           "start": 11433,
                           "end": 11437
                         },
-                        "ctxt": 0,
-                        "value": "Http",
-                        "optional": false
+                        "value": "Http"
                       }
                     },
                     "property": {
@@ -13620,9 +13128,7 @@
                         "start": 11438,
                         "end": 11448
                       },
-                      "ctxt": 0,
-                      "value": "Middleware",
-                      "optional": false
+                      "value": "Middleware"
                     }
                   },
                   "arguments": [
@@ -13643,9 +13149,7 @@
                                 "start": 11460,
                                 "end": 11473
                               },
-                              "ctxt": 0,
-                              "value": "after_request",
-                              "optional": false
+                              "value": "after_request"
                             },
                             "value": {
                               "type": "ArrayExpression",
@@ -13729,9 +13233,7 @@
                         "start": 11571,
                         "end": 11579
                       },
-                      "ctxt": 0,
-                      "value": "response",
-                      "optional": false
+                      "value": "response"
                     }
                   }
                 }
@@ -13778,9 +13280,7 @@
               "start": 11242,
               "end": 11246
             },
-            "ctxt": 0,
-            "value": "Http",
-            "optional": false
+            "value": "Http"
           }
         },
         "property": {
@@ -13789,9 +13289,7 @@
             "start": 11247,
             "end": 11255
           },
-          "ctxt": 0,
-          "value": "Resource",
-          "optional": false
+          "value": "Resource"
         }
       },
       "isAbstract": false,

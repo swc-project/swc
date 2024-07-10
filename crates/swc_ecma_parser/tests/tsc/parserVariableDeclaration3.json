@@ -95,9 +95,7 @@
                           "start": 53,
                           "end": 61
                         },
-                        "ctxt": 0,
-                        "value": "Compiler",
-                        "optional": false
+                        "value": "Compiler"
                       }
                     },
                     "property": {
@@ -106,9 +104,7 @@
                         "start": 62,
                         "end": 78
                       },
-                      "ctxt": 0,
-                      "value": "WriterAggregator",
-                      "optional": false
+                      "value": "WriterAggregator"
                     }
                   },
                   "arguments": [],
@@ -168,9 +164,7 @@
                           "start": 110,
                           "end": 118
                         },
-                        "ctxt": 0,
-                        "value": "Compiler",
-                        "optional": false
+                        "value": "Compiler"
                       }
                     },
                     "property": {
@@ -179,9 +173,7 @@
                         "start": 119,
                         "end": 135
                       },
-                      "ctxt": 0,
-                      "value": "WriterAggregator",
-                      "optional": false
+                      "value": "WriterAggregator"
                     }
                   },
                   "arguments": [],
@@ -241,9 +233,7 @@
                           "start": 203,
                           "end": 221
                         },
-                        "ctxt": 0,
-                        "value": "TypeScriptCompiler",
-                        "optional": false
+                        "value": "TypeScriptCompiler"
                       }
                     },
                     "arguments": [
@@ -271,6 +261,10 @@
                     },
                     "typeName": {
                       "type": "TsQualifiedName",
+                      "span": {
+                        "start": 158,
+                        "end": 187
+                      },
                       "left": {
                         "type": "Identifier",
                         "span": {
@@ -287,9 +281,7 @@
                           "start": 169,
                           "end": 187
                         },
-                        "ctxt": 0,
-                        "value": "TypeScriptCompiler",
-                        "optional": false
+                        "value": "TypeScriptCompiler"
                       }
                     },
                     "typeParams": null

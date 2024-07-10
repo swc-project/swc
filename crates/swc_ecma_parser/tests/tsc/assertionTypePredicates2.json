@@ -102,9 +102,7 @@
                           "start": 289,
                           "end": 290
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       }
                     },
                     "right": {
@@ -265,9 +263,7 @@
                                   "start": 410,
                                   "end": 411
                                 },
-                                "ctxt": 0,
-                                "value": "x",
-                                "optional": false
+                                "value": "x"
                               },
                               "value": {
                                 "type": "NumericLiteral",

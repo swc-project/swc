@@ -704,6 +704,10 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 134,
+                    "end": 137
+                  },
                   "left": {
                     "type": "Identifier",
                     "span": {
@@ -720,9 +724,7 @@
                       "start": 136,
                       "end": 137
                     },
-                    "ctxt": 0,
-                    "value": "F",
-                    "optional": false
+                    "value": "F"
                   }
                 },
                 "typeParams": {
@@ -895,8 +897,16 @@
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
+                  "span": {
+                    "start": 162,
+                    "end": 167
+                  },
                   "left": {
                     "type": "TsQualifiedName",
+                    "span": {
+                      "start": 162,
+                      "end": 165
+                    },
                     "left": {
                       "type": "Identifier",
                       "span": {
@@ -913,9 +923,7 @@
                         "start": 164,
                         "end": 165
                       },
-                      "ctxt": 0,
-                      "value": "H",
-                      "optional": false
+                      "value": "H"
                     }
                   },
                   "right": {
@@ -924,9 +932,7 @@
                       "start": 166,
                       "end": 167
                     },
-                    "ctxt": 0,
-                    "value": "I",
-                    "optional": false
+                    "value": "I"
                   }
                 },
                 "typeParams": {

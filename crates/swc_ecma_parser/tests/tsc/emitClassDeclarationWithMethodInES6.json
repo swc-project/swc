@@ -37,9 +37,7 @@
               "start": 30,
               "end": 34
             },
-            "ctxt": 0,
-            "value": "_bar",
-            "optional": false
+            "value": "_bar"
           },
           "value": null,
           "typeAnnotation": {
@@ -79,9 +77,7 @@
               "start": 48,
               "end": 51
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [],
@@ -376,9 +372,7 @@
               "start": 182,
               "end": 185
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "function": {
             "params": [],
@@ -421,9 +415,7 @@
                         "start": 218,
                         "end": 222
                       },
-                      "ctxt": 0,
-                      "value": "_bar",
-                      "optional": false
+                      "value": "_bar"
                     }
                   }
                 }
@@ -467,9 +459,7 @@
               "start": 235,
               "end": 238
             },
-            "ctxt": 0,
-            "value": "baz",
-            "optional": false
+            "value": "baz"
           },
           "function": {
             "params": [
@@ -861,9 +851,7 @@
               "start": 454,
               "end": 466
             },
-            "ctxt": 0,
-            "value": "staticMethod",
-            "optional": false
+            "value": "staticMethod"
           },
           "function": {
             "params": [],
@@ -981,9 +969,7 @@
               "start": 528,
               "end": 531
             },
-            "ctxt": 0,
-            "value": "foo",
-            "optional": false
+            "value": "foo"
           },
           "function": {
             "params": [
@@ -1060,9 +1046,7 @@
               "start": 558,
               "end": 561
             },
-            "ctxt": 0,
-            "value": "bar",
-            "optional": false
+            "value": "bar"
           },
           "function": {
             "params": [

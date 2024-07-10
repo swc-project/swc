@@ -208,9 +208,7 @@
                             "start": 157,
                             "end": 158
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -230,9 +228,7 @@
                             "start": 163,
                             "end": 164
                           },
-                          "ctxt": 0,
-                          "value": "y",
-                          "optional": false
+                          "value": "y"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -406,9 +402,7 @@
                             "start": 312,
                             "end": 313
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -428,9 +422,7 @@
                             "start": 318,
                             "end": 319
                           },
-                          "ctxt": 0,
-                          "value": "y",
-                          "optional": false
+                          "value": "y"
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -450,9 +442,7 @@
                             "start": 324,
                             "end": 325
                           },
-                          "ctxt": 0,
-                          "value": "z",
-                          "optional": false
+                          "value": "z"
                         },
                         "value": {
                           "type": "NumericLiteral",

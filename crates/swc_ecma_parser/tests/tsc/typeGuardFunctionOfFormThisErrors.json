@@ -37,9 +37,7 @@
               "start": 46,
               "end": 54
             },
-            "ctxt": 0,
-            "value": "isLeader",
-            "optional": false
+            "value": "isLeader"
           },
           "function": {
             "params": [],
@@ -161,9 +159,7 @@
               "start": 130,
               "end": 140
             },
-            "ctxt": 0,
-            "value": "isFollower",
-            "optional": false
+            "value": "isFollower"
           },
           "function": {
             "params": [],
@@ -312,9 +308,7 @@
               "start": 264,
               "end": 268
             },
-            "ctxt": 0,
-            "value": "lead",
-            "optional": false
+            "value": "lead"
           },
           "function": {
             "params": [],
@@ -414,9 +408,7 @@
               "start": 329,
               "end": 335
             },
-            "ctxt": 0,
-            "value": "follow",
-            "optional": false
+            "value": "follow"
           },
           "function": {
             "params": [],
@@ -716,9 +708,7 @@
               "start": 528,
               "end": 538
             },
-            "ctxt": 0,
-            "value": "isFollower",
-            "optional": false
+            "value": "isFollower"
           }
         },
         "right": {
@@ -743,9 +733,7 @@
               "start": 543,
               "end": 551
             },
-            "ctxt": 0,
-            "value": "isLeader",
-            "optional": false
+            "value": "isLeader"
           }
         }
       }
@@ -785,9 +773,7 @@
               "start": 555,
               "end": 563
             },
-            "ctxt": 0,
-            "value": "isLeader",
-            "optional": false
+            "value": "isLeader"
           }
         },
         "right": {
@@ -812,9 +798,7 @@
               "start": 568,
               "end": 578
             },
-            "ctxt": 0,
-            "value": "isFollower",
-            "optional": false
+            "value": "isFollower"
           }
         }
       }
@@ -854,9 +838,7 @@
               "start": 583,
               "end": 593
             },
-            "ctxt": 0,
-            "value": "isFollower",
-            "optional": false
+            "value": "isFollower"
           }
         },
         "right": {
@@ -881,9 +863,7 @@
               "start": 598,
               "end": 606
             },
-            "ctxt": 0,
-            "value": "isLeader",
-            "optional": false
+            "value": "isLeader"
           }
         }
       }
@@ -923,9 +903,7 @@
               "start": 610,
               "end": 618
             },
-            "ctxt": 0,
-            "value": "isLeader",
-            "optional": false
+            "value": "isLeader"
           }
         },
         "right": {
@@ -950,9 +928,7 @@
               "start": 623,
               "end": 633
             },
-            "ctxt": 0,
-            "value": "isFollower",
-            "optional": false
+            "value": "isFollower"
           }
         }
       }
@@ -1327,9 +1303,7 @@
               "start": 821,
               "end": 833
             },
-            "ctxt": 0,
-            "value": "invalidGuard",
-            "optional": false
+            "value": "invalidGuard"
           }
         },
         "arguments": [
@@ -1487,9 +1461,7 @@
                 "start": 907,
                 "end": 917
               },
-              "ctxt": 0,
-              "value": "isFollower",
-              "optional": false
+              "value": "isFollower"
             }
           },
           "definite": false
@@ -1565,9 +1537,7 @@
                     "start": 944,
                     "end": 950
                   },
-                  "ctxt": 0,
-                  "value": "follow",
-                  "optional": false
+                  "value": "follow"
                 }
               },
               "arguments": [],
@@ -1619,9 +1589,7 @@
                     "start": 969,
                     "end": 973
                   },
-                  "ctxt": 0,
-                  "value": "lead",
-                  "optional": false
+                  "value": "lead"
                 }
               },
               "arguments": [],

@@ -8556,9 +8556,7 @@
                         "start": 8151,
                         "end": 8154
                       },
-                      "ctxt": 0,
-                      "value": "ES3",
-                      "optional": false
+                      "value": "ES3"
                     }
                   },
                   "definite": false
@@ -8645,9 +8643,7 @@
                         "start": 8223,
                         "end": 8234
                       },
-                      "ctxt": 0,
-                      "value": "Synchronous",
-                      "optional": false
+                      "value": "Synchronous"
                     }
                   },
                   "definite": false
@@ -9202,9 +9198,7 @@
                                                     "start": 8569,
                                                     "end": 8575
                                                   },
-                                                  "ctxt": 0,
-                                                  "value": "length",
-                                                  "optional": false
+                                                  "value": "length"
                                                 }
                                               },
                                               "right": {

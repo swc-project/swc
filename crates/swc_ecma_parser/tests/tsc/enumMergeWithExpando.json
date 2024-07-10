@@ -132,9 +132,7 @@
               "start": 230,
               "end": 235
             },
-            "ctxt": 0,
-            "value": "Order",
-            "optional": false
+            "value": "Order"
           }
         },
         "right": {
@@ -188,9 +186,7 @@
                 "start": 244,
                 "end": 249
               },
-              "ctxt": 0,
-              "value": "Order",
-              "optional": false
+              "value": "Order"
             }
           },
           "property": {
@@ -199,9 +195,7 @@
               "start": 250,
               "end": 254
             },
-            "ctxt": 0,
-            "value": "DESC",
-            "optional": false
+            "value": "DESC"
           }
         },
         "right": {
@@ -256,9 +250,7 @@
                 "start": 263,
                 "end": 268
               },
-              "ctxt": 0,
-              "value": "Order",
-              "optional": false
+              "value": "Order"
             }
           },
           "property": {
@@ -267,9 +259,7 @@
               "start": 269,
               "end": 272
             },
-            "ctxt": 0,
-            "value": "ASC",
-            "optional": false
+            "value": "ASC"
           }
         },
         "right": {

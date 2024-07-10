@@ -151,9 +151,7 @@
                       "start": 74,
                       "end": 83
                     },
-                    "ctxt": 0,
-                    "value": "className",
-                    "optional": false
+                    "value": "className"
                   }
                 },
                 "right": {
@@ -191,9 +189,7 @@
                           "start": 91,
                           "end": 100
                         },
-                        "ctxt": 0,
-                        "value": "className",
-                        "optional": false
+                        "value": "className"
                       }
                     },
                     "property": {
@@ -202,9 +198,7 @@
                         "start": 101,
                         "end": 108
                       },
-                      "ctxt": 0,
-                      "value": "replace",
-                      "optional": false
+                      "value": "replace"
                     }
                   },
                   "arguments": [
@@ -390,9 +384,7 @@
                                           "start": 222,
                                           "end": 228
                                         },
-                                        "ctxt": 0,
-                                        "value": "length",
-                                        "optional": false
+                                        "value": "length"
                                       }
                                     },
                                     "right": {
@@ -417,9 +409,7 @@
                                           "start": 246,
                                           "end": 252
                                         },
-                                        "ctxt": 0,
-                                        "value": "length",
-                                        "optional": false
+                                        "value": "length"
                                       }
                                     }
                                   },

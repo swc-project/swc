@@ -703,9 +703,7 @@
               "start": 477,
               "end": 478
             },
-            "ctxt": 0,
-            "value": "j",
-            "optional": false
+            "value": "j"
           },
           "value": {
             "type": "ArrayExpression",
@@ -785,9 +783,7 @@
               "start": 517,
               "end": 518
             },
-            "ctxt": 0,
-            "value": "k",
-            "optional": false
+            "value": "k"
           },
           "value": {
             "type": "ArrayExpression",

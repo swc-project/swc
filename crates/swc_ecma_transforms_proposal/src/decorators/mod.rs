@@ -133,7 +133,10 @@ impl Fold for Decorators {
                     return Expr::Class(ClassExpr { ident, class });
                 }
 
-                self.fold_class_inner(ident.unwrap_or_else(|| quote_ident!("_class")), class)
+                self.fold_class_inner(
+                    ident.unwrap_or_else(|| quote_ident!("_class").into()),
+                    class,
+                )
             }
             _ => expr,
         }
@@ -148,9 +151,10 @@ impl Fold for Decorators {
                 decl: DefaultDecl::Class(ClassExpr { ident, class }),
                 ..
             }) => {
-                let decorate_call = Box::new(
-                    self.fold_class_inner(ident.unwrap_or_else(|| quote_ident!("_class")), class),
-                );
+                let decorate_call = Box::new(self.fold_class_inner(
+                    ident.unwrap_or_else(|| quote_ident!("_class").into()),
+                    class,
+                ));
 
                 ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
                     span,
@@ -205,7 +209,9 @@ impl Fold for Decorators {
                             specifiers: vec![ExportNamedSpecifier {
                                 span: DUMMY_SP,
                                 orig: ModuleExportName::Ident(ident),
-                                exported: Some(ModuleExportName::Ident(quote_ident!("default"))),
+                                exported: Some(ModuleExportName::Ident(
+                                    quote_ident!("default").into(),
+                                )),
                                 is_type_only: false,
                             }
                             .into()],
@@ -402,7 +408,7 @@ impl Decorators {
                                 key: PropName::Ident(quote_ident!("value")),
                                 value: Box::new(
                                     FnExpr {
-                                        ident: fn_name.map(Ident::into_private),
+                                        ident: fn_name.map(Ident::from).map(Ident::into_private),
                                         function: Function {
                                             decorators: vec![],
                                             ..*method.function
@@ -431,9 +437,7 @@ impl Decorators {
                     ClassMember::Method(method) => {
                         let fn_name = match method.key {
                             PropName::Ident(ref i) => Some(i.clone()),
-                            PropName::Str(ref s) => {
-                                Some(Ident::new_no_ctxt(s.value.clone(), s.span))
-                            }
+                            PropName::Str(ref s) => Some(IdentName::new(s.value.clone(), s.span)),
                             _ => None,
                         };
                         let key_prop_value = Box::new(prop_name_to_expr_value(method.key.clone()));

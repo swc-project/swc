@@ -380,9 +380,7 @@
               "start": 210,
               "end": 211
             },
-            "ctxt": 0,
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": {

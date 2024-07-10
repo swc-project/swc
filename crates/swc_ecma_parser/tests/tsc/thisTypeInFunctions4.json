@@ -582,9 +582,7 @@
                                   "start": 354,
                                   "end": 358
                                 },
-                                "ctxt": 0,
-                                "value": "name",
-                                "optional": false
+                                "value": "name"
                               }
                             },
                             "right": {

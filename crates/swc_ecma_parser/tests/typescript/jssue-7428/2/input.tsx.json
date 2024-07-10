@@ -37,9 +37,7 @@
               "start": 15,
               "end": 16
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           },
           "function": {
             "params": [],
@@ -100,9 +98,7 @@
               "start": 45,
               "end": 46
             },
-            "ctxt": 0,
-            "value": "f",
-            "optional": false
+            "value": "f"
           },
           "value": {
             "type": "ClassExpression",
@@ -126,9 +122,7 @@
                     "start": 75,
                     "end": 76
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 },
                 "function": {
                   "params": [],

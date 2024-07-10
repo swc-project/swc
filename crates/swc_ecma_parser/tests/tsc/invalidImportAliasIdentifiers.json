@@ -106,9 +106,7 @@
               "start": 105,
               "end": 109
             },
-            "ctxt": 0,
-            "value": "name",
-            "optional": false
+            "value": "name"
           },
           "value": null,
           "typeAnnotation": {

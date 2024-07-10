@@ -460,6 +460,10 @@
       },
       "moduleRef": {
         "type": "TsQualifiedName",
+        "span": {
+          "start": 270,
+          "end": 273
+        },
         "left": {
           "type": "Identifier",
           "span": {
@@ -476,9 +480,7 @@
             "start": 272,
             "end": 273
           },
-          "ctxt": 0,
-          "value": "x",
-          "optional": false
+          "value": "x"
         }
       }
     },

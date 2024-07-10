@@ -133,9 +133,7 @@
                       "start": 158,
                       "end": 161
                     },
-                    "ctxt": 0,
-                    "value": "con",
-                    "optional": false
+                    "value": "con"
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -184,9 +182,7 @@
                       "start": 203,
                       "end": 214
                     },
-                    "ctxt": 0,
-                    "value": "constructor",
-                    "optional": false
+                    "value": "constructor"
                   },
                   "params": [
                     {
@@ -286,9 +282,7 @@
                       "start": 292,
                       "end": 299
                     },
-                    "ctxt": 0,
-                    "value": "getDist",
-                    "optional": false
+                    "value": "getDist"
                   },
                   "function": {
                     "params": [],
@@ -341,9 +335,7 @@
                                   "start": 316,
                                   "end": 320
                                 },
-                                "ctxt": 0,
-                                "value": "sqrt",
-                                "optional": false
+                                "value": "sqrt"
                               }
                             },
                             "arguments": [
@@ -382,9 +374,7 @@
                                           "start": 326,
                                           "end": 327
                                         },
-                                        "ctxt": 0,
-                                        "value": "x",
-                                        "optional": false
+                                        "value": "x"
                                       }
                                     },
                                     "right": {
@@ -406,9 +396,7 @@
                                           "start": 335,
                                           "end": 336
                                         },
-                                        "ctxt": 0,
-                                        "value": "x",
-                                        "optional": false
+                                        "value": "x"
                                       }
                                     }
                                   },
@@ -438,9 +426,7 @@
                                           "start": 344,
                                           "end": 345
                                         },
-                                        "ctxt": 0,
-                                        "value": "y",
-                                        "optional": false
+                                        "value": "y"
                                       }
                                     },
                                     "right": {
@@ -462,9 +448,7 @@
                                           "start": 353,
                                           "end": 354
                                         },
-                                        "ctxt": 0,
-                                        "value": "y",
-                                        "optional": false
+                                        "value": "y"
                                       }
                                     }
                                   }
@@ -500,9 +484,7 @@
                       "start": 400,
                       "end": 406
                     },
-                    "ctxt": 0,
-                    "value": "origin",
-                    "optional": false
+                    "value": "origin"
                   },
                   "value": {
                     "type": "NewExpression",
@@ -670,9 +652,7 @@
                   "start": 482,
                   "end": 487
                 },
-                "ctxt": 0,
-                "value": "Point",
-                "optional": false
+                "value": "Point"
               }
             },
             "arguments": [
@@ -763,9 +743,7 @@
                   "start": 508,
                   "end": 515
                 },
-                "ctxt": 0,
-                "value": "getDist",
-                "optional": false
+                "value": "getDist"
               }
             },
             "arguments": [],

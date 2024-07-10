@@ -60,9 +60,7 @@
                   "start": 42,
                   "end": 53
                 },
-                "ctxt": 0,
-                "value": "unscopables",
-                "optional": false
+                "value": "unscopables"
               }
             },
             "computed": true,
@@ -111,9 +109,7 @@
                   "start": 76,
                   "end": 87
                 },
-                "ctxt": 0,
-                "value": "toPrimitive",
-                "optional": false
+                "value": "toPrimitive"
               }
             },
             "computed": true,

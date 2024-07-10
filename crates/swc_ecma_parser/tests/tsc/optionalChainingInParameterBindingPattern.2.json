@@ -207,9 +207,7 @@
                               "start": 197,
                               "end": 198
                             },
-                            "ctxt": 0,
-                            "value": "d",
-                            "optional": false
+                            "value": "d"
                           }
                         }
                       }
@@ -420,9 +418,7 @@
                               "start": 254,
                               "end": 255
                             },
-                            "ctxt": 0,
-                            "value": "d",
-                            "optional": false
+                            "value": "d"
                           }
                         }
                       }

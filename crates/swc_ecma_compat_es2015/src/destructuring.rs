@@ -321,7 +321,7 @@ impl AssignFolder {
                         decls.push(VarDeclarator {
                             span: decl.span,
                             name: p.key.clone().into(),
-                            init: Some(decl.init.unwrap().make_member(p.key.clone()).into()),
+                            init: Some(decl.init.unwrap().make_member(p.key.clone().into()).into()),
                             definite: false,
                         });
                         return;
@@ -869,7 +869,7 @@ impl VisitMut for AssignFolder {
                                 span: *span,
                                 op: op!("="),
                                 left: p.key.clone().into(),
-                                right: right.take().make_member(p.key.clone()).into(),
+                                right: right.take().make_member(p.key.clone().into()).into(),
                             });
                             return;
                         }
@@ -1170,7 +1170,7 @@ fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>, mut computed: bool) ->
                 expr: prop,
             })
         } else {
-            MemberProp::Ident(prop.ident().unwrap())
+            MemberProp::Ident(prop.ident().unwrap().into())
         },
     })
 }

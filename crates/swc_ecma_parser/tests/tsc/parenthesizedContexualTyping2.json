@@ -2782,9 +2782,7 @@
                               "start": 1276,
                               "end": 1282
                             },
-                            "ctxt": 0,
-                            "value": "random",
-                            "optional": false
+                            "value": "random"
                           }
                         },
                         "arguments": [],
@@ -3061,9 +3059,7 @@
                               "start": 1376,
                               "end": 1382
                             },
-                            "ctxt": 0,
-                            "value": "random",
-                            "optional": false
+                            "value": "random"
                           }
                         },
                         "arguments": [],
@@ -3354,9 +3350,7 @@
                               "start": 1480,
                               "end": 1486
                             },
-                            "ctxt": 0,
-                            "value": "random",
-                            "optional": false
+                            "value": "random"
                           }
                         },
                         "arguments": [],
@@ -3765,9 +3759,7 @@
                                 "start": 1627,
                                 "end": 1633
                               },
-                              "ctxt": 0,
-                              "value": "random",
-                              "optional": false
+                              "value": "random"
                             }
                           },
                           "arguments": [],
@@ -4687,9 +4679,7 @@
                     "start": 1992,
                     "end": 1993
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -4761,9 +4751,7 @@
                     "start": 2016,
                     "end": 2017
                   },
-                  "ctxt": 0,
-                  "value": "y",
-                  "optional": false
+                  "value": "y"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -4905,9 +4893,7 @@
                       "start": 2065,
                       "end": 2066
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "ArrowFunctionExpression",
@@ -4979,9 +4965,7 @@
                       "start": 2089,
                       "end": 2090
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   },
                   "value": {
                     "type": "ArrowFunctionExpression",

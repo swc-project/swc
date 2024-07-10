@@ -47,9 +47,7 @@
                     "start": 393,
                     "end": 402
                   },
-                  "ctxt": 0,
-                  "value": "parseHTML",
-                  "optional": false
+                  "value": "parseHTML"
                 },
                 "value": {
                   "type": "ObjectExpression",
@@ -66,9 +64,7 @@
                           "start": 414,
                           "end": 416
                         },
-                        "ctxt": 0,
-                        "value": "id",
-                        "optional": false
+                        "value": "id"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -88,9 +84,7 @@
                           "start": 439,
                           "end": 444
                         },
-                        "ctxt": 0,
-                        "value": "label",
-                        "optional": false
+                        "value": "label"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -113,9 +107,7 @@
                     "start": 476,
                     "end": 487
                   },
-                  "ctxt": 0,
-                  "value": "styleLayout",
-                  "optional": false
+                  "value": "styleLayout"
                 },
                 "value": {
                   "type": "ObjectExpression",
@@ -132,9 +124,7 @@
                           "start": 499,
                           "end": 501
                         },
-                        "ctxt": 0,
-                        "value": "id",
-                        "optional": false
+                        "value": "id"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -154,9 +144,7 @@
                           "start": 526,
                           "end": 531
                         },
-                        "ctxt": 0,
-                        "value": "label",
-                        "optional": false
+                        "value": "label"
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -251,9 +239,7 @@
               "start": 637,
               "end": 644
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {
@@ -422,9 +408,7 @@
               "start": 1124,
               "end": 1135
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -520,9 +504,7 @@
               "start": 1154,
               "end": 1161
             },
-            "ctxt": 0,
-            "value": "exports",
-            "optional": false
+            "value": "exports"
           }
         },
         "right": {

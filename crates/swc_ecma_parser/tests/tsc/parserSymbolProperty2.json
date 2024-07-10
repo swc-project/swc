@@ -59,9 +59,7 @@
                   "start": 42,
                   "end": 53
                 },
-                "ctxt": 0,
-                "value": "unscopables",
-                "optional": false
+                "value": "unscopables"
               }
             },
             "computed": true,

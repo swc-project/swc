@@ -37,9 +37,7 @@
               "start": 19,
               "end": 25
             },
-            "ctxt": 0,
-            "value": "myFunc",
-            "optional": false
+            "value": "myFunc"
           },
           "value": {
             "type": "ArrowFunctionExpression",

@@ -183,7 +183,7 @@ impl<T> IntoParallelIterator for T where T: IntoIterator {}
 
 fn metadata(key: &str, value: &str) -> PropOrSpread {
     PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-        key: PropName::Ident(Ident::new_no_ctxt(key.into(), DUMMY_SP)),
+        key: PropName::Ident(IdentName::new(key.into(), DUMMY_SP)),
         value: Box::new(Expr::Lit(Lit::Str(Str {
             span: DUMMY_SP,
             value: value.into(),
@@ -242,7 +242,7 @@ impl ExportMetadata {
             for prop in &with.props {
                 if let PropOrSpread::Prop(p) = prop {
                     if let Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(Ident { sym, .. }),
+                        key: PropName::Ident(IdentName { sym, .. }),
                         value,
                         ..
                     }) = &**p

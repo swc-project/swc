@@ -54,9 +54,7 @@
                       "start": 31,
                       "end": 32
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -117,9 +115,7 @@
             "start": 52,
             "end": 53
           },
-          "ctxt": 0,
-          "value": "x",
-          "optional": false
+          "value": "x"
         }
       },
       "right": {
@@ -177,9 +173,7 @@
                   "start": 78,
                   "end": 79
                 },
-                "ctxt": 0,
-                "value": "x",
-                "optional": false
+                "value": "x"
               }
             },
             "right": {
@@ -257,9 +251,7 @@
                             "start": 111,
                             "end": 112
                           },
-                          "ctxt": 0,
-                          "value": "x",
-                          "optional": false
+                          "value": "x"
                         }
                       },
                       "definite": false

@@ -194,9 +194,7 @@
                                 "start": 320,
                                 "end": 326
                               },
-                              "ctxt": 0,
-                              "value": "length",
-                              "optional": false
+                              "value": "length"
                             }
                           },
                           "right": {
@@ -331,9 +329,7 @@
               "start": 575,
               "end": 586
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [
             {
@@ -396,9 +392,7 @@
                         "start": 605,
                         "end": 611
                       },
-                      "ctxt": 0,
-                      "value": "length",
-                      "optional": false
+                      "value": "length"
                     }
                   },
                   "right": {
@@ -582,9 +576,7 @@
             "start": 663,
             "end": 669
           },
-          "ctxt": 0,
-          "value": "length",
-          "optional": false
+          "value": "length"
         }
       }
     },
@@ -822,9 +814,7 @@
                     "start": 855,
                     "end": 861
                   },
-                  "ctxt": 0,
-                  "value": "length",
-                  "optional": false
+                  "value": "length"
                 }
               },
               "right": {
@@ -1003,9 +993,7 @@
             "start": 911,
             "end": 917
           },
-          "ctxt": 0,
-          "value": "length",
-          "optional": false
+          "value": "length"
         }
       }
     },
@@ -1218,9 +1206,7 @@
             "start": 1069,
             "end": 1075
           },
-          "ctxt": 0,
-          "value": "length",
-          "optional": false
+          "value": "length"
         }
       }
     },
@@ -1321,9 +1307,7 @@
                           "start": 1154,
                           "end": 1175
                         },
-                        "ctxt": 0,
-                        "value": "not_length_on_purpose",
-                        "optional": false
+                        "value": "not_length_on_purpose"
                       }
                     },
                     "right": {

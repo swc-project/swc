@@ -160,9 +160,7 @@
             "start": 107,
             "end": 108
           },
-          "ctxt": 0,
-          "value": "y",
-          "optional": false
+          "value": "y"
         }
       }
     },

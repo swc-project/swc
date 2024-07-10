@@ -424,9 +424,7 @@
               "start": 179,
               "end": 180
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "function": {
             "params": [],
@@ -486,9 +484,7 @@
                                 "start": 203,
                                 "end": 206
                               },
-                              "ctxt": 0,
-                              "value": "bar",
-                              "optional": false
+                              "value": "bar"
                             },
                             "value": {
                               "type": "NumericLiteral",
@@ -541,9 +537,7 @@
                           "start": 225,
                           "end": 228
                         },
-                        "ctxt": 0,
-                        "value": "log",
-                        "optional": false
+                        "value": "log"
                       }
                     },
                     "arguments": [
@@ -735,9 +729,7 @@
                           "start": 334,
                           "end": 337
                         },
-                        "ctxt": 0,
-                        "value": "foo",
-                        "optional": false
+                        "value": "foo"
                       }
                     },
                     "right": {
@@ -786,9 +778,7 @@
                                 "start": 362,
                                 "end": 363
                               },
-                              "ctxt": 0,
-                              "value": "o",
-                              "optional": false
+                              "value": "o"
                             },
                             "value": {
                               "type": "MemberExpression",
@@ -832,9 +822,7 @@
                                 "start": 383,
                                 "end": 384
                               },
-                              "ctxt": 0,
-                              "value": "o",
-                              "optional": false
+                              "value": "o"
                             },
                             "value": {
                               "type": "ObjectExpression",
@@ -981,9 +969,7 @@
                                 "start": 452,
                                 "end": 455
                               },
-                              "ctxt": 0,
-                              "value": "foo",
-                              "optional": false
+                              "value": "foo"
                             },
                             "value": {
                               "type": "MemberExpression",
@@ -1019,9 +1005,7 @@
                                   "start": 469,
                                   "end": 472
                                 },
-                                "ctxt": 0,
-                                "value": "foo",
-                                "optional": false
+                                "value": "foo"
                               }
                             }
                           }
@@ -1085,9 +1069,7 @@
                                 "start": 508,
                                 "end": 511
                               },
-                              "ctxt": 0,
-                              "value": "foo",
-                              "optional": false
+                              "value": "foo"
                             },
                             "value": {
                               "type": "ObjectPattern",
@@ -1140,9 +1122,7 @@
                                         "start": 530,
                                         "end": 533
                                       },
-                                      "ctxt": 0,
-                                      "value": "foo",
-                                      "optional": false
+                                      "value": "foo"
                                     }
                                   },
                                   "typeAnnotation": null
@@ -1220,9 +1200,7 @@
                                 "start": 578,
                                 "end": 579
                               },
-                              "ctxt": 0,
-                              "value": "o",
-                              "optional": false
+                              "value": "o"
                             },
                             "value": {
                               "type": "MemberExpression",
@@ -1585,9 +1563,7 @@
               "start": 781,
               "end": 782
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           }
         },
         "arguments": [],

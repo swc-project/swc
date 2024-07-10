@@ -37,9 +37,7 @@
               "start": 17,
               "end": 23
             },
-            "ctxt": 0,
-            "value": "delete",
-            "optional": false
+            "value": "delete"
           },
           "function": {
             "params": [

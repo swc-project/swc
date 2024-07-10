@@ -432,9 +432,7 @@
                       "start": 239,
                       "end": 243
                     },
-                    "ctxt": 0,
-                    "value": "none",
-                    "optional": false
+                    "value": "none"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -1188,9 +1186,7 @@
                                     "start": 615,
                                     "end": 619
                                   },
-                                  "ctxt": 0,
-                                  "value": "some",
-                                  "optional": false
+                                  "value": "some"
                                 }
                               },
                               "alternate": {
@@ -1551,9 +1547,7 @@
                               "start": 851,
                               "end": 856
                             },
-                            "ctxt": 0,
-                            "value": "slice",
-                            "optional": false
+                            "value": "slice"
                           }
                         },
                         "arguments": [],
@@ -1882,9 +1876,7 @@
                                   "start": 1102,
                                   "end": 1107
                                 },
-                                "ctxt": 0,
-                                "value": "slice",
-                                "optional": false
+                                "value": "slice"
                               }
                             },
                             "arguments": [],
@@ -3192,9 +3184,7 @@
                     "start": 2306,
                     "end": 2311
                   },
-                  "ctxt": 0,
-                  "value": "slice",
-                  "optional": false
+                  "value": "slice"
                 }
               },
               "arguments": [],
@@ -3278,9 +3268,7 @@
                     "start": 2334,
                     "end": 2339
                   },
-                  "ctxt": 0,
-                  "value": "slice",
-                  "optional": false
+                  "value": "slice"
                 }
               },
               "arguments": [],
@@ -3365,9 +3353,7 @@
                     "start": 2369,
                     "end": 2374
                   },
-                  "ctxt": 0,
-                  "value": "slice",
-                  "optional": false
+                  "value": "slice"
                 }
               },
               "arguments": [],
@@ -3449,9 +3435,7 @@
                     "start": 2399,
                     "end": 2404
                   },
-                  "ctxt": 0,
-                  "value": "slice",
-                  "optional": false
+                  "value": "slice"
                 }
               },
               "arguments": [],
@@ -3568,9 +3552,7 @@
                     "start": 2452,
                     "end": 2457
                   },
-                  "ctxt": 0,
-                  "value": "slice",
-                  "optional": false
+                  "value": "slice"
                 }
               },
               "arguments": [],
@@ -3686,9 +3668,7 @@
                     "start": 2500,
                     "end": 2505
                   },
-                  "ctxt": 0,
-                  "value": "slice",
-                  "optional": false
+                  "value": "slice"
                 }
               },
               "arguments": [],
@@ -3804,9 +3784,7 @@
                     "start": 2543,
                     "end": 2548
                   },
-                  "ctxt": 0,
-                  "value": "slice",
-                  "optional": false
+                  "value": "slice"
                 }
               },
               "arguments": [],
@@ -3936,9 +3914,7 @@
                     "start": 2597,
                     "end": 2602
                   },
-                  "ctxt": 0,
-                  "value": "slice",
-                  "optional": false
+                  "value": "slice"
                 }
               },
               "arguments": [],

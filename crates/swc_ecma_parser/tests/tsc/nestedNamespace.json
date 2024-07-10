@@ -164,9 +164,7 @@
                   "start": 140,
                   "end": 145
                 },
-                "ctxt": 0,
-                "value": "types",
-                "optional": false
+                "value": "types"
               }
             },
             "property": {
@@ -175,9 +173,7 @@
                 "start": 146,
                 "end": 147
               },
-              "ctxt": 0,
-              "value": "A",
-              "optional": false
+              "value": "A"
             }
           },
           "typeArguments": null

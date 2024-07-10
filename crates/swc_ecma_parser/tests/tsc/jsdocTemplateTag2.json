@@ -47,9 +47,7 @@
                     "start": 177,
                     "end": 178
                   },
-                  "ctxt": 0,
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 },
                 "value": {
                   "type": "FunctionExpression",

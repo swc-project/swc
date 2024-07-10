@@ -1011,9 +1011,7 @@
                       "start": 765,
                       "end": 766
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 },
                 "consequent": [
@@ -1063,9 +1061,7 @@
                       "start": 792,
                       "end": 793
                     },
-                    "ctxt": 0,
-                    "value": "B",
-                    "optional": false
+                    "value": "B"
                   }
                 },
                 "consequent": [
@@ -1273,9 +1269,7 @@
                         "start": 922,
                         "end": 923
                       },
-                      "ctxt": 0,
-                      "value": "A",
-                      "optional": false
+                      "value": "A"
                     }
                   },
                   "consequent": [
@@ -1325,9 +1319,7 @@
                         "start": 953,
                         "end": 954
                       },
-                      "ctxt": 0,
-                      "value": "B",
-                      "optional": false
+                      "value": "B"
                     }
                   },
                   "consequent": [
@@ -2068,9 +2060,7 @@
                   "start": 1353,
                   "end": 1357
                 },
-                "ctxt": 0,
-                "value": "kind",
-                "optional": false
+                "value": "kind"
               }
             },
             "cases": [
@@ -2143,9 +2133,7 @@
                               "start": 1393,
                               "end": 1397
                             },
-                            "ctxt": 0,
-                            "value": "size",
-                            "optional": false
+                            "value": "size"
                           }
                         },
                         "right": {
@@ -2170,9 +2158,7 @@
                               "start": 1402,
                               "end": 1406
                             },
-                            "ctxt": 0,
-                            "value": "size",
-                            "optional": false
+                            "value": "size"
                           }
                         }
                       }
@@ -2257,9 +2243,7 @@
                               "start": 1450,
                               "end": 1455
                             },
-                            "ctxt": 0,
-                            "value": "width",
-                            "optional": false
+                            "value": "width"
                           }
                         },
                         "right": {
@@ -2284,9 +2268,7 @@
                               "start": 1460,
                               "end": 1466
                             },
-                            "ctxt": 0,
-                            "value": "height",
-                            "optional": false
+                            "value": "height"
                           }
                         }
                       }
@@ -2378,9 +2360,7 @@
                                 "start": 1510,
                                 "end": 1512
                               },
-                              "ctxt": 0,
-                              "value": "PI",
-                              "optional": false
+                              "value": "PI"
                             }
                           },
                           "right": {
@@ -2405,9 +2385,7 @@
                                 "start": 1517,
                                 "end": 1523
                               },
-                              "ctxt": 0,
-                              "value": "radius",
-                              "optional": false
+                              "value": "radius"
                             }
                           }
                         },
@@ -2433,9 +2411,7 @@
                               "start": 1528,
                               "end": 1534
                             },
-                            "ctxt": 0,
-                            "value": "radius",
-                            "optional": false
+                            "value": "radius"
                           }
                         }
                       }
@@ -2541,9 +2517,7 @@
                                     "start": 1580,
                                     "end": 1584
                                   },
-                                  "ctxt": 0,
-                                  "value": "sqrt",
-                                  "optional": false
+                                  "value": "sqrt"
                                 }
                               },
                               "arguments": [
@@ -2594,9 +2568,7 @@
                                 "start": 1596,
                                 "end": 1600
                               },
-                              "ctxt": 0,
-                              "value": "side",
-                              "optional": false
+                              "value": "side"
                             }
                           }
                         },
@@ -2622,9 +2594,7 @@
                               "start": 1605,
                               "end": 1609
                             },
-                            "ctxt": 0,
-                            "value": "side",
-                            "optional": false
+                            "value": "side"
                           }
                         }
                       }
@@ -2865,9 +2835,7 @@
                                 "start": 1737,
                                 "end": 1741
                               },
-                              "ctxt": 0,
-                              "value": "kind",
-                              "optional": false
+                              "value": "kind"
                             }
                           },
                           "cases": [
@@ -2922,9 +2890,7 @@
                                           "start": 1781,
                                           "end": 1785
                                         },
-                                        "ctxt": 0,
-                                        "value": "size",
-                                        "optional": false
+                                        "value": "size"
                                       }
                                     },
                                     "right": {
@@ -2949,9 +2915,7 @@
                                           "start": 1790,
                                           "end": 1794
                                         },
-                                        "ctxt": 0,
-                                        "value": "size",
-                                        "optional": false
+                                        "value": "size"
                                       }
                                     }
                                   }
@@ -3009,9 +2973,7 @@
                                           "start": 1835,
                                           "end": 1840
                                         },
-                                        "ctxt": 0,
-                                        "value": "width",
-                                        "optional": false
+                                        "value": "width"
                                       }
                                     },
                                     "right": {
@@ -3036,9 +2998,7 @@
                                           "start": 1845,
                                           "end": 1851
                                         },
-                                        "ctxt": 0,
-                                        "value": "height",
-                                        "optional": false
+                                        "value": "height"
                                       }
                                     }
                                   }
@@ -3103,9 +3063,7 @@
                                             "start": 1892,
                                             "end": 1894
                                           },
-                                          "ctxt": 0,
-                                          "value": "PI",
-                                          "optional": false
+                                          "value": "PI"
                                         }
                                       },
                                       "right": {
@@ -3130,9 +3088,7 @@
                                             "start": 1899,
                                             "end": 1905
                                           },
-                                          "ctxt": 0,
-                                          "value": "radius",
-                                          "optional": false
+                                          "value": "radius"
                                         }
                                       }
                                     },
@@ -3158,9 +3114,7 @@
                                           "start": 1910,
                                           "end": 1916
                                         },
-                                        "ctxt": 0,
-                                        "value": "radius",
-                                        "optional": false
+                                        "value": "radius"
                                       }
                                     }
                                   }
@@ -3239,9 +3193,7 @@
                                                 "start": 1959,
                                                 "end": 1963
                                               },
-                                              "ctxt": 0,
-                                              "value": "sqrt",
-                                              "optional": false
+                                              "value": "sqrt"
                                             }
                                           },
                                           "arguments": [
@@ -3292,9 +3244,7 @@
                                             "start": 1975,
                                             "end": 1979
                                           },
-                                          "ctxt": 0,
-                                          "value": "side",
-                                          "optional": false
+                                          "value": "side"
                                         }
                                       }
                                     },
@@ -3320,9 +3270,7 @@
                                           "start": 1984,
                                           "end": 1988
                                         },
-                                        "ctxt": 0,
-                                        "value": "side",
-                                        "optional": false
+                                        "value": "side"
                                       }
                                     }
                                   }
@@ -3602,9 +3550,7 @@
                       "start": 2165,
                       "end": 2166
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 },
                 "consequent": [
@@ -3681,9 +3627,7 @@
                       "start": 2205,
                       "end": 2206
                     },
-                    "ctxt": 0,
-                    "value": "B",
-                    "optional": false
+                    "value": "B"
                   }
                 },
                 "consequent": [
@@ -3935,9 +3879,7 @@
                       "start": 2328,
                       "end": 2329
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 },
                 "consequent": [
@@ -4014,9 +3956,7 @@
                       "start": 2368,
                       "end": 2369
                     },
-                    "ctxt": 0,
-                    "value": "B",
-                    "optional": false
+                    "value": "B"
                   }
                 },
                 "consequent": [
@@ -4275,9 +4215,7 @@
                       "start": 2522,
                       "end": 2523
                     },
-                    "ctxt": 0,
-                    "value": "A",
-                    "optional": false
+                    "value": "A"
                   }
                 },
                 "consequent": [
@@ -4327,9 +4265,7 @@
                       "start": 2558,
                       "end": 2559
                     },
-                    "ctxt": 0,
-                    "value": "B",
-                    "optional": false
+                    "value": "B"
                   }
                 },
                 "consequent": [
@@ -4611,9 +4547,7 @@
                             "start": 2740,
                             "end": 2743
                           },
-                          "ctxt": 0,
-                          "value": "One",
-                          "optional": false
+                          "value": "One"
                         }
                       },
                       "consequent": [
@@ -4663,9 +4597,7 @@
                                   "start": 2764,
                                   "end": 2767
                                 },
-                                "ctxt": 0,
-                                "value": "Two",
-                                "optional": false
+                                "value": "Two"
                               }
                             }
                           }
@@ -4708,9 +4640,7 @@
                             "start": 2797,
                             "end": 2800
                           },
-                          "ctxt": 0,
-                          "value": "Two",
-                          "optional": false
+                          "value": "Two"
                         }
                       },
                       "consequent": [
@@ -4760,9 +4690,7 @@
                                   "start": 2821,
                                   "end": 2824
                                 },
-                                "ctxt": 0,
-                                "value": "One",
-                                "optional": false
+                                "value": "One"
                               }
                             }
                           }
@@ -5228,9 +5156,7 @@
                   "start": 3112,
                   "end": 3116
                 },
-                "ctxt": 0,
-                "value": "kind",
-                "optional": false
+                "value": "kind"
               }
             },
             "cases": [
@@ -5312,9 +5238,7 @@
                           "start": 3213,
                           "end": 3217
                         },
-                        "ctxt": 0,
-                        "value": "kind",
-                        "optional": false
+                        "value": "kind"
                       }
                     },
                     "cases": [
@@ -5582,9 +5506,7 @@
                   "start": 3504,
                   "end": 3508
                 },
-                "ctxt": 0,
-                "value": "kind",
-                "optional": false
+                "value": "kind"
               }
             },
             "cases": [
@@ -5666,9 +5588,7 @@
                           "start": 3605,
                           "end": 3609
                         },
-                        "ctxt": 0,
-                        "value": "kind",
-                        "optional": false
+                        "value": "kind"
                       }
                     },
                     "cases": [
@@ -6309,9 +6229,7 @@
                       "start": 4095,
                       "end": 4101
                     },
-                    "ctxt": 0,
-                    "value": "animal",
-                    "optional": false
+                    "value": "animal"
                   }
                 }
               },
@@ -6337,9 +6255,7 @@
                     "start": 4112,
                     "end": 4115
                   },
-                  "ctxt": 0,
-                  "value": "DOG",
-                  "optional": false
+                  "value": "DOG"
                 }
               }
             },
@@ -6372,9 +6288,7 @@
                       "start": 4139,
                       "end": 4142
                     },
-                    "ctxt": 0,
-                    "value": "DOG",
-                    "optional": false
+                    "value": "DOG"
                   }
                 },
                 "consequent": [
@@ -6406,9 +6320,7 @@
                           "start": 4158,
                           "end": 4161
                         },
-                        "ctxt": 0,
-                        "value": "DOG",
-                        "optional": false
+                        "value": "DOG"
                       }
                     }
                   }
@@ -6442,9 +6354,7 @@
                       "start": 4182,
                       "end": 4185
                     },
-                    "ctxt": 0,
-                    "value": "CAT",
-                    "optional": false
+                    "value": "CAT"
                   }
                 },
                 "consequent": [
@@ -6476,9 +6386,7 @@
                           "start": 4201,
                           "end": 4204
                         },
-                        "ctxt": 0,
-                        "value": "CAT",
-                        "optional": false
+                        "value": "CAT"
                       }
                     }
                   }
@@ -7429,9 +7337,7 @@
                   "start": 4759,
                   "end": 4763
                 },
-                "ctxt": 0,
-                "value": "kind",
-                "optional": false
+                "value": "kind"
               }
             },
             "cases": [
@@ -7521,9 +7427,7 @@
                           "start": 4829,
                           "end": 4833
                         },
-                        "ctxt": 0,
-                        "value": "kind",
-                        "optional": false
+                        "value": "kind"
                       }
                     }
                   }

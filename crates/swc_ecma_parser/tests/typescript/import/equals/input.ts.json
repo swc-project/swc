@@ -25,6 +25,10 @@
       },
       "moduleRef": {
         "type": "TsQualifiedName",
+        "span": {
+          "start": 12,
+          "end": 15
+        },
         "left": {
           "type": "Identifier",
           "span": {
@@ -41,9 +45,7 @@
             "start": 14,
             "end": 15
           },
-          "ctxt": 0,
-          "value": "C",
-          "optional": false
+          "value": "C"
         }
       }
     }

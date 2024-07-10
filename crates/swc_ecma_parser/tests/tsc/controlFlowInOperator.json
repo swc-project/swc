@@ -1073,9 +1073,7 @@
                     "start": 593,
                     "end": 602
                   },
-                  "ctxt": 0,
-                  "value": "MAX_VALUE",
-                  "optional": false
+                  "value": "MAX_VALUE"
                 }
               }
             },

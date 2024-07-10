@@ -108,9 +108,7 @@
                 "start": 228,
                 "end": 239
               },
-              "ctxt": 0,
-              "value": "constructor",
-              "optional": false
+              "value": "constructor"
             },
             "params": [],
             "body": {
@@ -193,9 +191,7 @@
                 "start": 282,
                 "end": 288
               },
-              "ctxt": 0,
-              "value": "method",
-              "optional": false
+              "value": "method"
             },
             "function": {
               "params": [],

@@ -131,9 +131,7 @@
               "start": 227,
               "end": 241
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -161,9 +159,7 @@
                   "start": 249,
                   "end": 256
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             }
           },
@@ -197,9 +193,7 @@
                       "start": 266,
                       "end": 271
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -253,9 +247,7 @@
               "start": 289,
               "end": 303
             },
-            "ctxt": 0,
-            "value": "defineProperty",
-            "optional": false
+            "value": "defineProperty"
           }
         },
         "arguments": [
@@ -283,9 +275,7 @@
                   "start": 311,
                   "end": 318
                 },
-                "ctxt": 0,
-                "value": "exports",
-                "optional": false
+                "value": "exports"
               }
             }
           },
@@ -319,9 +309,7 @@
                       "start": 328,
                       "end": 333
                     },
-                    "ctxt": 0,
-                    "value": "value",
-                    "optional": false
+                    "value": "value"
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -381,9 +369,7 @@
                 "start": 351,
                 "end": 358
               },
-              "ctxt": 0,
-              "value": "exports",
-              "optional": false
+              "value": "exports"
             }
           },
           "property": {
@@ -392,9 +378,7 @@
               "start": 359,
               "end": 360
             },
-            "ctxt": 0,
-            "value": "S",
-            "optional": false
+            "value": "S"
           }
         },
         "right": {
@@ -608,9 +592,7 @@
                     "start": 500,
                     "end": 501
                   },
-                  "ctxt": 0,
-                  "value": "S",
-                  "optional": false
+                  "value": "S"
                 }
               }
             }

@@ -316,9 +316,7 @@
                       "start": 106,
                       "end": 107
                     },
-                    "ctxt": 0,
-                    "value": "p",
-                    "optional": false
+                    "value": "p"
                   },
                   "value": {
                     "type": "StringLiteral",

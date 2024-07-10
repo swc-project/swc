@@ -94,9 +94,7 @@
                           "start": 72,
                           "end": 83
                         },
-                        "ctxt": 0,
-                        "value": "constructor",
-                        "optional": false
+                        "value": "constructor"
                       },
                       "params": [
                         {
@@ -463,9 +461,7 @@
                       "start": 211,
                       "end": 212
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   }
                 },
                 "definite": false
@@ -521,9 +517,7 @@
                       "start": 228,
                       "end": 229
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   }
                 },
                 "definite": false
@@ -669,9 +663,7 @@
                           "start": 316,
                           "end": 317
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "Identifier",
@@ -707,9 +699,7 @@
                           "start": 335,
                           "end": 346
                         },
-                        "ctxt": 0,
-                        "value": "constructor",
-                        "optional": false
+                        "value": "constructor"
                       },
                       "params": [
                         {
@@ -1039,9 +1029,7 @@
                       "start": 459,
                       "end": 460
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   }
                 },
                 "definite": false
@@ -1097,9 +1085,7 @@
                       "start": 476,
                       "end": 477
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   }
                 },
                 "definite": false
@@ -1288,9 +1274,7 @@
                           "start": 570,
                           "end": 571
                         },
-                        "ctxt": 0,
-                        "value": "x",
-                        "optional": false
+                        "value": "x"
                       },
                       "value": {
                         "type": "Identifier",
@@ -1325,9 +1309,7 @@
                           "start": 596,
                           "end": 597
                         },
-                        "ctxt": 0,
-                        "value": "y",
-                        "optional": false
+                        "value": "y"
                       },
                       "value": {
                         "type": "Identifier",
@@ -1609,9 +1591,7 @@
                       "start": 700,
                       "end": 701
                     },
-                    "ctxt": 0,
-                    "value": "x",
-                    "optional": false
+                    "value": "x"
                   }
                 },
                 "definite": false
@@ -1667,9 +1647,7 @@
                       "start": 717,
                       "end": 718
                     },
-                    "ctxt": 0,
-                    "value": "y",
-                    "optional": false
+                    "value": "y"
                   }
                 },
                 "definite": false

@@ -38,9 +38,7 @@
               "start": 257,
               "end": 268
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -97,9 +95,7 @@
                           "start": 295,
                           "end": 304
                         },
-                        "ctxt": 0,
-                        "value": "prototype",
-                        "optional": false
+                        "value": "prototype"
                       }
                     },
                     "definite": false
@@ -159,9 +155,7 @@
                             "start": 328,
                             "end": 342
                           },
-                          "ctxt": 0,
-                          "value": "hasOwnProperty",
-                          "optional": false
+                          "value": "hasOwnProperty"
                         }
                       },
                       "arguments": [
@@ -201,9 +195,7 @@
               "start": 359,
               "end": 361
             },
-            "ctxt": 0,
-            "value": "fn",
-            "optional": false
+            "value": "fn"
           },
           "function": {
             "params": [],
@@ -267,9 +259,7 @@
                             "start": 388,
                             "end": 397
                           },
-                          "ctxt": 0,
-                          "value": "prototype",
-                          "optional": false
+                          "value": "prototype"
                         }
                       },
                       "definite": false
@@ -329,9 +319,7 @@
                               "start": 421,
                               "end": 435
                             },
-                            "ctxt": 0,
-                            "value": "hasOwnProperty",
-                            "optional": false
+                            "value": "hasOwnProperty"
                           }
                         },
                         "arguments": [
@@ -380,9 +368,7 @@
               "start": 452,
               "end": 453
             },
-            "ctxt": 0,
-            "value": "m",
-            "optional": false
+            "value": "m"
           },
           "value": {
             "type": "SuperPropExpression",
@@ -403,9 +389,7 @@
                 "start": 462,
                 "end": 471
               },
-              "ctxt": 0,
-              "value": "prototype",
-              "optional": false
+              "value": "prototype"
             }
           },
           "typeAnnotation": null,
@@ -431,9 +415,7 @@
               "start": 477,
               "end": 478
             },
-            "ctxt": 0,
-            "value": "n",
-            "optional": false
+            "value": "n"
           },
           "value": {
             "type": "CallExpression",
@@ -461,9 +443,7 @@
                   "start": 487,
                   "end": 501
                 },
-                "ctxt": 0,
-                "value": "hasOwnProperty",
-                "optional": false
+                "value": "hasOwnProperty"
               }
             },
             "arguments": [
@@ -505,9 +485,7 @@
               "start": 715,
               "end": 722
             },
-            "ctxt": 0,
-            "value": "static1",
-            "optional": false
+            "value": "static1"
           },
           "function": {
             "params": [],
@@ -557,9 +535,7 @@
                           "start": 741,
                           "end": 755
                         },
-                        "ctxt": 0,
-                        "value": "hasOwnProperty",
-                        "optional": false
+                        "value": "hasOwnProperty"
                       }
                     },
                     "arguments": [
@@ -605,9 +581,7 @@
               "start": 790,
               "end": 797
             },
-            "ctxt": 0,
-            "value": "static2",
-            "optional": false
+            "value": "static2"
           },
           "function": {
             "params": [],
@@ -657,9 +631,7 @@
                           "start": 816,
                           "end": 830
                         },
-                        "ctxt": 0,
-                        "value": "hasOwnProperty",
-                        "optional": false
+                        "value": "hasOwnProperty"
                       }
                     },
                     "arguments": [
@@ -721,9 +693,7 @@
               "start": 884,
               "end": 891
             },
-            "ctxt": 0,
-            "value": "static2",
-            "optional": false
+            "value": "static2"
           },
           "function": {
             "params": [
@@ -793,9 +763,7 @@
                           "start": 911,
                           "end": 925
                         },
-                        "ctxt": 0,
-                        "value": "hasOwnProperty",
-                        "optional": false
+                        "value": "hasOwnProperty"
                       }
                     },
                     "arguments": [
@@ -868,9 +836,7 @@
               "start": 969,
               "end": 980
             },
-            "ctxt": 0,
-            "value": "privateFunc",
-            "optional": false
+            "value": "privateFunc"
           },
           "function": {
             "params": [],
@@ -913,9 +879,7 @@
               "start": 999,
               "end": 1012
             },
-            "ctxt": 0,
-            "value": "privateMember",
-            "optional": false
+            "value": "privateMember"
           },
           "value": {
             "type": "NumericLiteral",
@@ -949,9 +913,7 @@
               "start": 1030,
               "end": 1040
             },
-            "ctxt": 0,
-            "value": "publicFunc",
-            "optional": false
+            "value": "publicFunc"
           },
           "function": {
             "params": [],
@@ -994,9 +956,7 @@
               "start": 1058,
               "end": 1070
             },
-            "ctxt": 0,
-            "value": "publicMember",
-            "optional": false
+            "value": "publicMember"
           },
           "value": {
             "type": "NumericLiteral",
@@ -1030,9 +990,7 @@
               "start": 1096,
               "end": 1113
             },
-            "ctxt": 0,
-            "value": "privateStaticFunc",
-            "optional": false
+            "value": "privateStaticFunc"
           },
           "function": {
             "params": [],
@@ -1075,9 +1033,7 @@
               "start": 1139,
               "end": 1158
             },
-            "ctxt": 0,
-            "value": "privateStaticMember",
-            "optional": false
+            "value": "privateStaticMember"
           },
           "value": {
             "type": "NumericLiteral",
@@ -1111,9 +1067,7 @@
               "start": 1183,
               "end": 1199
             },
-            "ctxt": 0,
-            "value": "publicStaticFunc",
-            "optional": false
+            "value": "publicStaticFunc"
           },
           "function": {
             "params": [],
@@ -1156,9 +1110,7 @@
               "start": 1224,
               "end": 1242
             },
-            "ctxt": 0,
-            "value": "publicStaticMember",
-            "optional": false
+            "value": "publicStaticMember"
           },
           "value": {
             "type": "NumericLiteral",
@@ -1220,9 +1172,7 @@
               "start": 1605,
               "end": 1616
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -1289,9 +1239,7 @@
                         "start": 1652,
                         "end": 1664
                       },
-                      "ctxt": 0,
-                      "value": "publicMember",
-                      "optional": false
+                      "value": "publicMember"
                     }
                   },
                   "right": {
@@ -1322,9 +1270,7 @@
               "start": 1681,
               "end": 1683
             },
-            "ctxt": 0,
-            "value": "fn",
-            "optional": false
+            "value": "fn"
           },
           "function": {
             "params": [],
@@ -1388,9 +1334,7 @@
                             "start": 1710,
                             "end": 1722
                           },
-                          "ctxt": 0,
-                          "value": "publicMember",
-                          "optional": false
+                          "value": "publicMember"
                         }
                       },
                       "definite": false
@@ -1423,9 +1367,7 @@
               "start": 1739,
               "end": 1740
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           },
           "function": {
             "params": [],
@@ -1489,9 +1431,7 @@
                             "start": 1767,
                             "end": 1779
                           },
-                          "ctxt": 0,
-                          "value": "publicMember",
-                          "optional": false
+                          "value": "publicMember"
                         }
                       },
                       "definite": false
@@ -1541,9 +1481,7 @@
               "start": 1821,
               "end": 1822
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           },
           "function": {
             "params": [
@@ -1624,9 +1562,7 @@
                           "start": 1846,
                           "end": 1858
                         },
-                        "ctxt": 0,
-                        "value": "publicMember",
-                        "optional": false
+                        "value": "publicMember"
                       }
                     }
                   }
@@ -1657,9 +1593,7 @@
               "start": 1870,
               "end": 1873
             },
-            "ctxt": 0,
-            "value": "fn2",
-            "optional": false
+            "value": "fn2"
           },
           "function": {
             "params": [],
@@ -1737,9 +1671,7 @@
                                 "start": 1923,
                                 "end": 1933
                               },
-                              "ctxt": 0,
-                              "value": "publicFunc",
-                              "optional": false
+                              "value": "publicFunc"
                             }
                           },
                           "arguments": [],
@@ -1795,9 +1727,7 @@
                                 "start": 1977,
                                 "end": 1981
                               },
-                              "ctxt": 0,
-                              "value": "test",
-                              "optional": false
+                              "value": "test"
                             },
                             "value": {
                               "type": "FunctionExpression",
@@ -1849,9 +1779,7 @@
                                             "start": 2010,
                                             "end": 2020
                                           },
-                                          "ctxt": 0,
-                                          "value": "publicFunc",
-                                          "optional": false
+                                          "value": "publicFunc"
                                         }
                                       },
                                       "arguments": [],
@@ -1935,9 +1863,7 @@
               "start": 2294,
               "end": 2305
             },
-            "ctxt": 0,
-            "value": "constructor",
-            "optional": false
+            "value": "constructor"
           },
           "params": [],
           "body": {
@@ -2004,9 +1930,7 @@
                         "start": 2341,
                         "end": 2354
                       },
-                      "ctxt": 0,
-                      "value": "privateMember",
-                      "optional": false
+                      "value": "privateMember"
                     }
                   },
                   "right": {
@@ -2037,9 +1961,7 @@
               "start": 2371,
               "end": 2373
             },
-            "ctxt": 0,
-            "value": "fn",
-            "optional": false
+            "value": "fn"
           },
           "function": {
             "params": [],
@@ -2103,9 +2025,7 @@
                             "start": 2400,
                             "end": 2413
                           },
-                          "ctxt": 0,
-                          "value": "privateMember",
-                          "optional": false
+                          "value": "privateMember"
                         }
                       },
                       "definite": false
@@ -2138,9 +2058,7 @@
               "start": 2430,
               "end": 2431
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           },
           "function": {
             "params": [],
@@ -2204,9 +2122,7 @@
                             "start": 2458,
                             "end": 2471
                           },
-                          "ctxt": 0,
-                          "value": "privateMember",
-                          "optional": false
+                          "value": "privateMember"
                         }
                       },
                       "definite": false
@@ -2256,9 +2172,7 @@
               "start": 2513,
               "end": 2514
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           },
           "function": {
             "params": [
@@ -2339,9 +2253,7 @@
                           "start": 2538,
                           "end": 2551
                         },
-                        "ctxt": 0,
-                        "value": "privateMember",
-                        "optional": false
+                        "value": "privateMember"
                       }
                     }
                   }
@@ -2408,9 +2320,7 @@
               "start": 2945,
               "end": 2947
             },
-            "ctxt": 0,
-            "value": "fn",
-            "optional": false
+            "value": "fn"
           },
           "function": {
             "params": [],
@@ -2460,9 +2370,7 @@
                           "start": 2966,
                           "end": 2984
                         },
-                        "ctxt": 0,
-                        "value": "publicStaticMember",
-                        "optional": false
+                        "value": "publicStaticMember"
                       }
                     },
                     "right": {
@@ -2508,9 +2416,7 @@
                           "start": 3004,
                           "end": 3023
                         },
-                        "ctxt": 0,
-                        "value": "privateStaticMember",
-                        "optional": false
+                        "value": "privateStaticMember"
                       }
                     },
                     "right": {
@@ -2556,9 +2462,7 @@
                           "start": 3043,
                           "end": 3060
                         },
-                        "ctxt": 0,
-                        "value": "privateStaticFunc",
-                        "optional": false
+                        "value": "privateStaticFunc"
                       }
                     },
                     "arguments": [],
@@ -2591,9 +2495,7 @@
               "start": 3085,
               "end": 3086
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           },
           "function": {
             "params": [],
@@ -2643,9 +2545,7 @@
                           "start": 3105,
                           "end": 3123
                         },
-                        "ctxt": 0,
-                        "value": "publicStaticMember",
-                        "optional": false
+                        "value": "publicStaticMember"
                       }
                     },
                     "right": {
@@ -2691,9 +2591,7 @@
                           "start": 3143,
                           "end": 3162
                         },
-                        "ctxt": 0,
-                        "value": "privateStaticMember",
-                        "optional": false
+                        "value": "privateStaticMember"
                       }
                     },
                     "right": {
@@ -2739,9 +2637,7 @@
                           "start": 3182,
                           "end": 3199
                         },
-                        "ctxt": 0,
-                        "value": "privateStaticFunc",
-                        "optional": false
+                        "value": "privateStaticFunc"
                       }
                     },
                     "arguments": [],
@@ -2790,9 +2686,7 @@
               "start": 3243,
               "end": 3244
             },
-            "ctxt": 0,
-            "value": "a",
-            "optional": false
+            "value": "a"
           },
           "function": {
             "params": [
@@ -2862,9 +2756,7 @@
                           "start": 3264,
                           "end": 3282
                         },
-                        "ctxt": 0,
-                        "value": "publicStaticMember",
-                        "optional": false
+                        "value": "publicStaticMember"
                       }
                     },
                     "right": {
@@ -2910,9 +2802,7 @@
                           "start": 3302,
                           "end": 3321
                         },
-                        "ctxt": 0,
-                        "value": "privateStaticMember",
-                        "optional": false
+                        "value": "privateStaticMember"
                       }
                     },
                     "right": {
@@ -2958,9 +2848,7 @@
                           "start": 3341,
                           "end": 3358
                         },
-                        "ctxt": 0,
-                        "value": "privateStaticFunc",
-                        "optional": false
+                        "value": "privateStaticFunc"
                       }
                     },
                     "arguments": [],
@@ -3039,9 +2927,7 @@
                     "start": 3404,
                     "end": 3405
                   },
-                  "ctxt": 0,
-                  "value": "n",
-                  "optional": false
+                  "value": "n"
                 },
                 "value": {
                   "type": "SuperPropExpression",
@@ -3062,9 +2948,7 @@
                       "start": 3413,
                       "end": 3416
                     },
-                    "ctxt": 0,
-                    "value": "wat",
-                    "optional": false
+                    "value": "wat"
                   }
                 }
               },
@@ -3076,9 +2960,7 @@
                     "start": 3418,
                     "end": 3419
                   },
-                  "ctxt": 0,
-                  "value": "p",
-                  "optional": false
+                  "value": "p"
                 },
                 "value": {
                   "type": "CallExpression",
@@ -3106,9 +2988,7 @@
                         "start": 3427,
                         "end": 3430
                       },
-                      "ctxt": 0,
-                      "value": "foo",
-                      "optional": false
+                      "value": "foo"
                     }
                   },
                   "arguments": [],
