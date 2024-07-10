@@ -349,7 +349,7 @@ impl Optimizer<'_> {
         if !exprs.is_empty() {
             new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
-                expr: take(&mut exprs).into(),
+                expr: Expr::from_exprs(take(&mut exprs)),
             })))
         }
 

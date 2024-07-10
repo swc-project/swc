@@ -1249,7 +1249,7 @@ where
                     (match obj {
                         JSXObject::Ident(i) => {
                             if i.sym == "this" {
-                                ThisExpr { span }.into()
+                                Expr::This(ThisExpr { span })
                             } else {
                                 i.into()
                             }

@@ -344,7 +344,7 @@ impl ExplicitResourceManagement {
             }
             .into()
         } else {
-            dispose_expr.into()
+            Expr::from(dispose_expr)
         }
         .into_stmt();
 
