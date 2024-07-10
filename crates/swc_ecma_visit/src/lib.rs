@@ -1407,11 +1407,11 @@ define!({
     }
     pub struct BreakStmt {
         pub span: Span,
-        pub label: Option<IdentName>,
+        pub label: Option<Ident>,
     }
     pub struct ContinueStmt {
         pub span: Span,
-        pub label: Option<IdentName>,
+        pub label: Option<Ident>,
     }
     pub struct IfStmt {
         pub span: Span,

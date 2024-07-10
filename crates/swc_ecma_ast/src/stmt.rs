@@ -236,7 +236,7 @@ pub struct LabeledStmt {
 pub struct BreakStmt {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub label: Option<IdentName>,
+    pub label: Option<Ident>,
 }
 
 #[ast_node("ContinueStatement")]
@@ -245,7 +245,7 @@ pub struct BreakStmt {
 pub struct ContinueStmt {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub label: Option<IdentName>,
+    pub label: Option<Ident>,
 }
 
 #[ast_node("IfStatement")]
