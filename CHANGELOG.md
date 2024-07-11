@@ -46,6 +46,9 @@
 
 - **(es/typescript)** Add a benchmark for fast TS strip ([#9205](https://github.com/swc-project/swc/issues/9205)) ([7d9364c](https://github.com/swc-project/swc/commit/7d9364cad3618d9039eadbab6fa8c57091ec7794))
 
+
+- **(es/visit)** Introduce `standard_only_*` macros ([#9207](https://github.com/swc-project/swc/issues/9207)) ([92879b1](https://github.com/swc-project/swc/commit/92879b14fee2f74034c365b4a80ca82f2a512c4a))
+
 ## [1.6.13] - 2024-07-06
 
 ### Bug Fixes
@@ -1330,9 +1333,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/codegen)** Emit abstract keyword ([#8479](https://github.com/swc-project/swc/issues/8479)) ([a12eaae](https://github.com/swc-project/swc/commit/a12eaae0e544d7e485ce7ce11e56591e7ff34108))
 
 
 - **(es/codegen)** Emit declare keyword for class properties ([#8478](https://github.com/swc-project/swc/issues/8478)) ([2076ef8](https://github.com/swc-project/swc/commit/2076ef8f359941ad511c860000ec3eaa74410cac))
