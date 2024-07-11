@@ -2328,8 +2328,6 @@ where
 }
 
 impl<I: IdentLike> Visit for DestructuringFinder<I> {
-    standard_only_visit!();
-
     /// No-op (we don't care about expressions)
     fn visit_expr(&mut self, _: &Expr) {}
 
@@ -2337,8 +2335,14 @@ impl<I: IdentLike> Visit for DestructuringFinder<I> {
         self.found.push(I::from_ident(i));
     }
 
+    fn visit_jsx_member_expr(&mut self, n: &JSXMemberExpr) {
+        n.obj.visit_with(self);
+    }
+
     /// No-op (we don't care about expressions)
     fn visit_prop_name(&mut self, _: &PropName) {}
+
+    fn visit_ts_type(&mut self, _: &TsType) {}
 }
 
 /// Finds all **binding** idents of variables.
