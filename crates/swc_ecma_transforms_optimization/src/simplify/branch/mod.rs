@@ -14,7 +14,10 @@ use swc_ecma_utils::{
     extract_var_ids, is_literal, prepend_stmt, ExprCtx, ExprExt, ExprFactory, Hoister, IsEmpty,
     StmtExt, StmtLike, Value::Known,
 };
-use swc_ecma_visit::{as_folder, standard_only_visit, Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{
+    as_folder, standard_only_visit, standard_only_visit_mut, Visit, VisitMut, VisitMutWith,
+    VisitWith,
+};
 use tracing::{debug, trace};
 
 #[cfg(test)]

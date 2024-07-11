@@ -16,7 +16,7 @@ use swc_ecma_utils::{
     is_literal, prop_name_eq, to_int32, BoolType, ExprCtx, ExprExt, NullType, NumberType,
     ObjectType, StringType, SymbolType, UndefinedType, Value,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, VisitMut, VisitMutWith};
 use Value::{Known, Unknown};
 
 use crate::debug::debug_assert_valid;
