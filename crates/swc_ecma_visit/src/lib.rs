@@ -2180,10 +2180,6 @@ macro_rules! visit_mut_obj_and_computed {
             }
         }
 
-        fn visit_mut_jsx_member_expr(&mut self, n: &mut $crate::swc_ecma_ast::JSXMemberExpr) {
-            n.obj.visit_mut_with(self);
-        }
-
         fn visit_mut_super_prop_expr(&mut self, n: &mut $crate::swc_ecma_ast::SuperPropExpr) {
             if let $crate::swc_ecma_ast::SuperProp::Computed(c) = &mut n.prop {
                 c.visit_mut_with(self);
