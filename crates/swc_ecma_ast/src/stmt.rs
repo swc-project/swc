@@ -108,6 +108,38 @@ pub enum Stmt {
     Expr(ExprStmt),
 }
 
+boxed!(Stmt, [TryStmt]);
+
+macro_rules! stmt_from {
+    ($($varant_ty:ty),*) => {
+        $(
+            bridge_from!(crate::ModuleItem, crate::Stmt, $varant_ty);
+        )*
+    };
+}
+
+stmt_from!(
+    ExprStmt,
+    BlockStmt,
+    EmptyStmt,
+    DebuggerStmt,
+    WithStmt,
+    ReturnStmt,
+    LabeledStmt,
+    BreakStmt,
+    ContinueStmt,
+    IfStmt,
+    SwitchStmt,
+    ThrowStmt,
+    TryStmt,
+    WhileStmt,
+    DoWhileStmt,
+    ForStmt,
+    ForInStmt,
+    ForOfStmt,
+    Decl
+);
+
 impl Stmt {
     pub fn is_use_strict(&self) -> bool {
         match self {
@@ -175,8 +207,6 @@ impl Take for Stmt {
         Default::default()
     }
 }
-
-bridge_stmt_from!(Box<TryStmt>, TryStmt);
 
 #[ast_node("ExpressionStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
