@@ -23,3 +23,7 @@ swc_ecma_visit  = { version = "0.101.0", path = "../swc_ecma_visit" }
 codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 testing                   = { version = "0.36.0", path = "../testing" }
+
+[[bench]]
+harness = false
+name    = "assets"
