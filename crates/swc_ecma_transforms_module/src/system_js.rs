@@ -31,7 +31,7 @@ struct SystemJs {
     declare_var_idents: Vec<Ident>,
     export_map: AHashMap<Id, Vec<JsWord>>,
     export_names: Vec<JsWord>,
-    export_values: Vec<Expr>,
+    export_values: Vec<Box<Expr>>,
     tla: bool,
     enter_async_fn: u32,
     root_fn_decl_idents: Vec<Ident>,
@@ -87,7 +87,7 @@ pub fn system_js_with_resolver(
 
 struct ModuleItemMeta {
     export_names: Vec<JsWord>,
-    export_values: Vec<Expr>,
+    export_values: Vec<Box<Expr>>,
     has_export_all: bool,
     src: JsWord,
     setter_fn_stmts: Vec<Stmt>,
@@ -226,7 +226,7 @@ impl SystemJs {
     fn build_export_call(
         &mut self,
         export_names: &mut Vec<JsWord>,
-        export_values: &mut Vec<Expr>,
+        export_values: &mut Vec<Box<Expr>>,
     ) -> Vec<Stmt> {
         match export_names.len() {
             0 => vec![],
@@ -339,43 +339,6 @@ impl SystemJs {
                 }
                 .into(),
             );
-                right: Box::new(Expr::Ident(target.clone().into())),
-                right: target.clone().into(),
-
-                body: Box::new(Stmt::Block(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: vec![Stmt::If(IfStmt {
-                        span: DUMMY_SP,
-                        test: Box::new(Expr::Bin(BinExpr {
-                            span: DUMMY_SP,
-                            op: op!("&&"),
-                            left: Box::new(
-                                key_ident
-                                    .clone()
-                                    .make_bin(op!("!=="), quote_str!("default")),
-                            ),
-                            right: Box::new(
-                                key_ident
-                                    .clone()
-                                    .make_bin(op!("!=="), quote_str!("__esModule")),
-                            ),
-                        })),
-                        cons: Box::new(Stmt::Block(BlockStmt {
-                            stmts: vec![AssignExpr {
-                                span: DUMMY_SP,
-                                op: op!("="),
-                                left: export_obj.clone().computed_member(key_ident.clone()).into(),
-                                right: target.computed_member(key_ident).into(),
-                            }
-                            .into_stmt()],
-                            ..Default::default()
-                        })),
-                        alt: None,
-                    })],
-
-                    ..Default::default()
-                })),
-            }));
             for (sym, value) in meta
                 .export_names
                 .drain(..)

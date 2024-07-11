@@ -978,8 +978,6 @@ impl VisitMut for TreeShaker {
                         expr: Expr::from_exprs(exprs),
                     }
                     .into();
-                        expr: exprs.into(),
-                    });
                 }
             }
         }
@@ -1077,7 +1075,7 @@ impl VisitMut for TreeShaker {
         self.visit_mut_par(cpu_count() * 8, n);
     }
 
-    fn visit_mut_exprs(&mut self, n: &mut Vec<Expr>) {
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
         self.visit_mut_par(cpu_count() * 8, n);
     }
 }

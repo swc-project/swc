@@ -454,7 +454,7 @@ impl From<TerserTopRetainOption> for Vec<JsWord> {
     }
 }
 
-fn value_to_expr(v: Value) -> Expr {
+fn value_to_expr(v: Value) -> Box<Expr> {
     match v {
         Value::Null => Lit::Null(Null { span: DUMMY_SP }).into(),
         Value::Bool(value) => Lit::Bool(Bool {

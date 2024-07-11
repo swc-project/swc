@@ -143,7 +143,7 @@ impl BlockScoping {
             let mut env_hoister =
                 FnEnvHoister::new(SyntaxContext::empty().apply_mark(self.unresolved_mark));
             body_stmt.visit_mut_with(&mut env_hoister);
-            let mut inits: Vec<Expr> = vec![];
+            let mut inits: Vec<Box<Expr>> = vec![];
 
             for mut var in env_hoister.to_decl() {
                 if let Some(init) = var.init.take() {
@@ -838,38 +838,6 @@ impl VisitMut for FlowHelper<'_> {
                     ),
                 }
                 .into();
-                    arg: Some(Box::new(Expr::Object(ObjectLit {
-                        span,
-                        props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                            key: PropName::Ident(Ident::new_no_ctxt("v".into(), DUMMY_SP)),
-                            value: s.arg.take().unwrap_or_else(|| {
-                                Box::new(Expr::Unary(UnaryExpr {
-                                    span: DUMMY_SP,
-                                    op: op!("void"),
-                                    arg: Expr::undefined(DUMMY_SP),
-                                }))
-                            }),
-                        })))],
-                    }))),
-                    arg: Some(
-                        ObjectLit {
-                            span,
-                            props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                KeyValueProp {
-                                    key: PropName::Ident(Ident::new_no_ctxt("v".into(), DUMMY_SP)),
-                                    value: s.arg.take().unwrap_or_else(|| {
-                                        Box::new(Expr::Unary(UnaryExpr {
-                                            span: DUMMY_SP,
-                                            op: op!("void"),
-                                            arg: Expr::undefined(DUMMY_SP),
-                                        }))
-                                    }),
-                                },
-                            )))],
-                        }
-                        .into(),
-                    ),
-                });
             }
             _ => node.visit_mut_children_with(self),
         }
@@ -912,7 +880,7 @@ struct MutationHandler<'a> {
 }
 
 impl MutationHandler<'_> {
-    fn make_reassignment(&self, orig: Option<Expr>) -> Expr {
+    fn make_reassignment(&self, orig: Option<Box<Expr>>) -> Expr {
         if self.map.is_empty() {
             return *orig.unwrap_or_else(|| Expr::undefined(DUMMY_SP));
         }

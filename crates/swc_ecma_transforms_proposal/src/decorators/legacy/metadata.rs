@@ -63,7 +63,7 @@ impl ParamMetadata {
     fn create_param_decorator(
         &self,
         param_index: usize,
-        mut decorator_expr: Expr,
+        mut decorator_expr: Box<Expr>,
     ) -> Decorator {
         remove_span(&mut decorator_expr);
 
@@ -279,7 +279,7 @@ impl<'a> Metadata<'a> {
 }
 
 fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr {
-    fn check_object_existed(expr: Expr) -> Expr {
+    fn check_object_existed(expr: Box<Expr>) -> Box<Expr> {
         match *expr {
             Expr::Member(ref member_expr) => {
                 let obj_expr = member_expr.obj.clone();

@@ -406,7 +406,7 @@ impl Optimizer<'_> {
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, mut vars: FxHashMap<Id, Expr>)
+    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, mut vars: FxHashMap<Id, Box<Expr>>)
     where
         N: for<'aa> VisitMutWith<NormalMultiReplacer<'aa>>,
     {
@@ -861,7 +861,7 @@ impl Optimizer<'_> {
         &mut self,
         params: &[Ident],
         args: &mut [ExprOrSpread],
-        exprs: &mut Vec<Expr>,
+        exprs: &mut Vec<Box<Expr>>,
     ) -> Vec<VarDeclarator> {
         let mut vars = Vec::new();
 

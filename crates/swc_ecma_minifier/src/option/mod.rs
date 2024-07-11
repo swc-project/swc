@@ -183,7 +183,7 @@ pub struct CompressOptions {
     /// to remove spans.
     #[cfg_attr(feature = "extra-serde", serde(skip))]
     #[cfg_attr(feature = "extra-serde", serde(alias = "global_defs"))]
-    pub global_defs: AHashMap<Expr, Expr>,
+    pub global_defs: AHashMap<Box<Expr>, Box<Expr>>,
 
     #[cfg_attr(feature = "extra-serde", serde(default))]
     #[cfg_attr(feature = "extra-serde", serde(alias = "hoist_funs"))]
@@ -263,7 +263,7 @@ pub struct CompressOptions {
 
     #[cfg_attr(feature = "extra-serde", serde(default))]
     #[cfg_attr(feature = "extra-serde", serde(alias = "pure_funcs"))]
-    pub pure_funcs: Vec<Expr>,
+    pub pure_funcs: Vec<Box<Expr>>,
 
     #[cfg_attr(feature = "extra-serde", serde(default = "true_by_default"))]
     #[cfg_attr(feature = "extra-serde", serde(alias = "reduce_funcs"))]

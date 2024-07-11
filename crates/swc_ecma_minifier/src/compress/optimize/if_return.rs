@@ -271,7 +271,7 @@ impl Optimizer<'_> {
 
         self.changed = true;
 
-        let mut cur: Option<Expr> = None;
+        let mut cur: Option<Box<Expr>> = None;
         let mut new = Vec::with_capacity(stmts.len());
 
         let len = stmts.len();
@@ -421,7 +421,7 @@ impl Optimizer<'_> {
     /// This method returns [Expr::Seq] or [Expr::Cond].
     ///
     /// `exprs` is a simple optimization.
-    fn merge_if_returns_to(&mut self, stmt: Stmt, mut exprs: Vec<Expr>) -> Expr {
+    fn merge_if_returns_to(&mut self, stmt: Stmt, mut exprs: Vec<Box<Expr>>) -> Expr {
         //
         match stmt {
             Stmt::Block(s) => {

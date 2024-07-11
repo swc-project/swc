@@ -1699,7 +1699,7 @@ impl VisitMut for SimplifyExpr {
         });
     }
 
-    fn visit_mut_exprs(&mut self, n: &mut Vec<Expr>) {
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
         self.maybe_par(cpu_count() * 8, n, |v, n| {
             n.visit_mut_with(v);
         });
@@ -1707,9 +1707,9 @@ impl VisitMut for SimplifyExpr {
 }
 
 /// make a new boolean expression preserving side effects, if any.
-fn make_bool_expr<I>(ctx: &ExprCtx, span: Span, value: bool, orig: I) -> Expr
+fn make_bool_expr<I>(ctx: &ExprCtx, span: Span, value: bool, orig: I) -> Box<Expr>
 where
-    I: IntoIterator<Item = Expr>,
+    I: IntoIterator<Item = Box<Expr>>,
 {
     ctx.preserve_effects(span, Lit::Bool(Bool { value, span }).into(), orig)
 }
@@ -1756,7 +1756,7 @@ fn need_zero_for_this(e: &Expr) -> bool {
 /// Gets the value of the given key from the given object properties, if the key
 /// exists. If the key does exist, `Some` is returned and the property is
 /// removed from the given properties.
-fn get_key_value(key: &str, props: &mut Vec<PropOrSpread>) -> Option<Expr> {
+fn get_key_value(key: &str, props: &mut Vec<PropOrSpread>) -> Option<Box<Expr>> {
     // It's impossible to know the value for certain if a spread property exists.
     let has_spread = props.iter().any(|prop| prop.is_spread());
 

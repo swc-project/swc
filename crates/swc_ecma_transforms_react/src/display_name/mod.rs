@@ -118,7 +118,7 @@ impl VisitMut for DisplayName {
 }
 
 struct Folder {
-    name: Option<Expr>,
+    name: Option<Box<Expr>>,
 }
 
 impl VisitMut for Folder {
@@ -163,7 +163,7 @@ fn is_create_class_call(call: &CallExpr) -> bool {
     false
 }
 
-fn add_display_name(call: &mut CallExpr, name: Expr) {
+fn add_display_name(call: &mut CallExpr, name: Box<Expr>) {
     let props = match call.args.first_mut() {
         Some(&mut ExprOrSpread { ref mut expr, .. }) => match expr.deref_mut() {
             Expr::Object(ObjectLit { ref mut props, .. }) => props,
