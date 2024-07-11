@@ -1,6 +1,11 @@
 use std::path::PathBuf;
 
-use swc_common::{chain, comments::SingleThreadedComments, pass::Optional, Mark};
+use swc_common::{
+    chain,
+    comments::{NoopComments, SingleThreadedComments},
+    pass::Optional,
+    Mark,
+};
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -11,17 +16,19 @@ use swc_ecma_transforms_compat::{
     es2022::{class_properties, static_blocks},
 };
 use swc_ecma_transforms_proposal::decorators;
+use swc_ecma_transforms_react::jsx;
 use swc_ecma_transforms_testing::{test, test_exec, test_fixture, Tester};
 use swc_ecma_transforms_typescript::{
     tsx, typescript, ImportsNotUsedAsValues, TsImportExportAssignConfig, TsxConfig,
 };
 use swc_ecma_visit::Fold;
 
-fn tr() -> impl Fold {
-    tr_config(None, None, false)
+fn tr(t: &mut Tester) -> impl Fold {
+    tr_config(t, None, None, false)
 }
 
 fn tr_config(
+    t: &mut Tester,
     config: Option<typescript::Config>,
     decorators_config: Option<decorators::Config>,
     use_define_for_class_fields: bool,
@@ -41,6 +48,13 @@ fn tr_config(
         ),
         resolver(unresolved_mark, top_level_mark, true),
         typescript(config, top_level_mark),
+        jsx(
+            t.cm.clone(),
+            None::<NoopComments>,
+            Default::default(),
+            top_level_mark,
+            unresolved_mark
+        ),
         Optional::new(class_fields_use_set(true), !use_define_for_class_fields),
     )
 }
@@ -100,7 +114,7 @@ macro_rules! to {
                 decorators: true,
                 ..Default::default()
             }),
-            |t| chain!(tr(), properties(t, true)),
+            |t| chain!(tr(t), properties(t, true)),
             $name,
             $from
         );
@@ -120,7 +134,7 @@ macro_rules! test_with_config {
                 decorators: true,
                 ..Default::default()
             }),
-            |_| tr_config(Some($config), None, $use_define),
+            |t| tr_config(t, Some($config), None, $use_define),
             $name,
             $from
         );
@@ -129,12 +143,12 @@ macro_rules! test_with_config {
 
 test!(
     Syntax::Typescript(Default::default()),
-    |_| {
+    |t| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            tr(),
+            tr(t),
             parameters(
                 parameters::Config {
                     ignore_function_length: true
@@ -156,7 +170,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    tr,
     issue_392_2,
     "
 import { PlainObject } from 'simplytyped';
@@ -166,7 +180,7 @@ const dict: PlainObject = {};
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    tr,
     issue_461,
     "for (let x in ['']) {
   (x => 0)(x);
@@ -175,7 +189,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    tr,
     issue_468_1,
     "tView.firstCreatePass ?
       getOrCreateTNode(tView, lView[T_HOST], index, TNodeType.Element, null, null) :
@@ -184,7 +198,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    tr,
     issue_468_2,
     "tView.firstCreatePass ?
       getOrCreateTNode(tView, lView[T_HOST], index, TNodeType.Element, null, null) :
@@ -193,7 +207,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    tr,
     issue_468_3,
     "tView.firstCreatePass ?
       getOrCreateTNode() : tView.data[adjustedIndex] as TElementNode"
@@ -201,42 +215,42 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    tr,
     issue_468_4,
     "a ? b : c"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    tr,
     issue_468_5,
     "a ? b : c as T"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    tr,
     issue_468_6,
     "a.b ? c() : d.e[f] as T"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    tr,
     issue_468_7,
     "tView.firstCreatePass ? getOrCreateTNode() : tView.data[adjustedIndex]"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    tr,
     enum_simple,
     "enum Foo{ a }"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    tr,
     enum_str,
     "enum State {
   closed = 'closed',
@@ -248,7 +262,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    tr,
     enum_key_value,
     "enum StateNum {
   closed = 'cl0',
@@ -259,7 +273,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    tr,
     enum_export_str,
     "export enum State {
   closed = 'closed',
@@ -282,7 +296,7 @@ to!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    tr,
     issue_640,
     "import { Handler } from 'aws-lambda';
 export const handler: Handler = async (event, context) => {};"
@@ -290,7 +304,7 @@ export const handler: Handler = async (event, context) => {};"
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    tr,
     issue_656,
     "export const x = { text: 'hello' } as const;"
 );
@@ -539,7 +553,7 @@ to!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    tr,
     issue_930_instance,
     "class A {
         b = this.a;
@@ -550,7 +564,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |t| chain!(tr(), properties(t, true)),
+    |t| chain!(tr(t), properties(t, true)),
     issue_930_static,
     "class A {
         static b = 'foo';
@@ -561,7 +575,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |t| chain!(tr(), properties(t, true)),
+    |t| chain!(tr(t), properties(t, true)),
     typescript_001,
     "class A {
         foo = new Subject()
@@ -574,7 +588,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    tr,
     typescript_002,
     "class A extends B {
             foo = 'foo'
@@ -592,7 +606,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    tr,
     issue_958,
     "export class Test {
         constructor(readonly test?: string) {}
@@ -604,12 +618,12 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        tr()
+        tr(t)
     ),
     issue_960_1,
     "
@@ -639,12 +653,12 @@ test_exec!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        tr()
+        tr(t)
     ),
     issue_960_2,
     "function DefineAction() { return function(_a, _b, c) { return c } }
@@ -674,7 +688,7 @@ test_exec!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    tr,
     issue_1032,
     r#"import {
     indent as indentFormatter,
@@ -1749,7 +1763,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| tr(),
+    tr,
     deno_7413_1,
     "
     import { a } from './foo';
@@ -1762,7 +1776,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| tr(),
+    tr,
     deno_7413_2,
     "
     import './foo';
@@ -1774,8 +1788,9 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| {
+    |t| {
         tr_config(
+            t,
             Some(typescript::Config {
                 no_empty_export: true,
                 import_not_used_as_values: ImportsNotUsedAsValues::Preserve,
@@ -1832,7 +1847,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| tr(),
+    tr,
     issue_1124,
     "
     import { Type } from './types';
@@ -1894,7 +1909,7 @@ test!(
 
 test!(
     Syntax::Typescript(Default::default()),
-    |_| chain!(tr(), nullish_coalescing(Default::default())),
+    |t| chain!(tr(t), nullish_coalescing(Default::default())),
     issue_1123_1,
     r#"
     interface SuperSubmission {
@@ -1928,7 +1943,8 @@ test!(
 // compile_to_class_constructor_collision_ignores_types
 test!(
     Syntax::Typescript(Default::default()),
-    |_| tr_config(
+    |t| tr_config(
+        t,
         Some(typescript::Config {
             no_empty_export: true,
             ..Default::default()
@@ -1953,7 +1969,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| tr_config(None, Some(Default::default()), false),
+    |t| tr_config(t, None, Some(Default::default()), false),
     issue_367,
     "
 
@@ -2651,7 +2667,7 @@ fn exec(input: PathBuf) {
             tsx: input.to_string_lossy().ends_with(".tsx"),
             ..Default::default()
         }),
-        &|t| chain!(tr(), properties(t, true)),
+        &|t| chain!(tr(t), properties(t, true)),
         &input,
         &output,
         Default::default(),
@@ -2675,7 +2691,7 @@ let b = class {
 
 test!(
     Syntax::Typescript(TsSyntax::default()),
-    |_| tr_config(None, None, true),
+    |t| tr_config(t, None, None, true),
     export_import_assign,
     r#"
     export import foo = require("foo");
@@ -2686,7 +2702,8 @@ test!(
 
 test!(
     Syntax::Typescript(TsSyntax::default()),
-    |_| tr_config(
+    |t| tr_config(
+        t,
         Some(typescript::Config {
             import_export_assign_config: TsImportExportAssignConfig::NodeNext,
             ..Default::default()
@@ -2704,7 +2721,8 @@ test!(
 
 test!(
     Syntax::Typescript(TsSyntax::default()),
-    |_| tr_config(
+    |t| tr_config(
+        t,
         Some(typescript::Config {
             import_export_assign_config: TsImportExportAssignConfig::NodeNext,
             ..Default::default()
@@ -2733,7 +2751,7 @@ test_with_config!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    tr,
     issue_6219,
     "enum A{
         a=a,
@@ -2742,7 +2760,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    tr,
     issue_7106,
     "
     export class test {
@@ -2758,7 +2776,8 @@ test!(
 
 test!(
     Syntax::Typescript(TsSyntax::default()),
-    |_| tr_config(
+    |t| tr_config(
+        t,
         Some(typescript::Config {
             ts_enum_is_mutable: true,
             ..Default::default()
