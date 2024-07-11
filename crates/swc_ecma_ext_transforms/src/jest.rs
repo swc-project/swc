@@ -43,7 +43,7 @@ impl Jest {
                             ..
                         }) => {
                             if self.should_hoist(callee) {
-                                hoisted.push(T::from_stmt(stmt))
+                                hoisted.push(T::from(stmt))
                             } else {
                                 new.push(T::from_stmt(stmt))
                             }

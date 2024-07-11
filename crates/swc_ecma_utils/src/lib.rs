@@ -271,11 +271,10 @@ pub trait ModuleItemLike: StmtLike {
     }
 }
 
-pub trait StmtLike: Sized + 'static + Send + Sync {
+pub trait StmtLike: Sized + 'static + Send + Sync + From<Stmt> {
     fn try_into_stmt(self) -> Result<Stmt, Self>;
     fn as_stmt(&self) -> Option<&Stmt>;
     fn as_stmt_mut(&mut self) -> Option<&mut Stmt>;
-    fn from_stmt(stmt: Stmt) -> Self;
 }
 
 impl ModuleItemLike for Stmt {}
@@ -294,11 +293,6 @@ impl StmtLike for Stmt {
     #[inline]
     fn as_stmt_mut(&mut self) -> Option<&mut Stmt> {
         Some(self)
-    }
-
-    #[inline]
-    fn from_stmt(stmt: Stmt) -> Self {
-        stmt
     }
 }
 
@@ -339,11 +333,6 @@ impl StmtLike for ModuleItem {
             ModuleItem::Stmt(stmt) => Some(stmt),
             _ => None,
         }
-    }
-
-    #[inline]
-    fn from_stmt(stmt: Stmt) -> Self {
-        stmt.into()
     }
 }
 
