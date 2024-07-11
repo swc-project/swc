@@ -52,7 +52,7 @@ impl Default for JsonParse {
 }
 
 impl VisitMut for JsonParse {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     /// Handles parent expressions before child expressions.
     fn visit_mut_expr(&mut self, expr: &mut Expr) {

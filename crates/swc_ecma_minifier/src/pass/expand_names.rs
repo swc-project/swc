@@ -11,5 +11,5 @@ pub fn name_expander() -> impl VisitMut {
 struct Expander {}
 
 impl VisitMut for Expander {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 }

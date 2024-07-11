@@ -35,7 +35,7 @@ impl CompilerPass for GlobalDefs {
 
 /// We use [VisitMut] instead of [swc_ecma_visit::Fold] because it's faster.
 impl VisitMut for GlobalDefs {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         let old = self.in_lhs_of_assign;

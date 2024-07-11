@@ -658,7 +658,7 @@ impl TreeShaker {
 }
 
 impl VisitMut for TreeShaker {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         n.visit_mut_children_with(self);

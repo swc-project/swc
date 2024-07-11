@@ -16,7 +16,7 @@ struct Merger {
 }
 
 impl VisitMut for Merger {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         let was_module = maybe_par!(

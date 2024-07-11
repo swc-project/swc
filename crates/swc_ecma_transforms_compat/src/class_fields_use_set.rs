@@ -93,7 +93,7 @@ struct ClassFieldsUseSet {
 }
 
 impl VisitMut for ClassFieldsUseSet {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         self.visit_mut_stmts_like(n);
@@ -163,7 +163,7 @@ struct FieldsHandler {
 }
 
 impl VisitMut for FieldsHandler {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_class(&mut self, _: &mut Class) {
         // skip inner classes
@@ -266,7 +266,7 @@ struct ComputedFieldsHandler {
 }
 
 impl VisitMut for ComputedFieldsHandler {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_class_prop(&mut self, n: &mut ClassProp) {
         match &mut n.key {

@@ -25,7 +25,7 @@ impl<R> VisitMut for Rewriter<R>
 where
     R: ImportResolver,
 {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
         e.visit_mut_children_with(self);

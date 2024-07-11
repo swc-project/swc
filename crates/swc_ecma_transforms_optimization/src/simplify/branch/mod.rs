@@ -72,7 +72,7 @@ impl Parallel for Remover {
 }
 
 impl VisitMut for Remover {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_array_pat(&mut self, p: &mut ArrayPat) {
         p.visit_mut_children_with(self);

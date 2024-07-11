@@ -103,7 +103,7 @@ impl Inlining<'_> {
 }
 
 impl VisitMut for Inlining<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         self.visit_with_child(ScopeKind::Fn { named: false }, node)

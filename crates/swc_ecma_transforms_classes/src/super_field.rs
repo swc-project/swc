@@ -65,7 +65,7 @@ macro_rules! mark_nested {
 }
 
 impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     // mark_nested!(fold_function, Function);
     mark_nested!(visit_mut_class, Class);

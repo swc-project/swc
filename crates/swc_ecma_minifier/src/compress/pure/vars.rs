@@ -367,7 +367,7 @@ pub(super) struct VarMover {
 }
 
 impl VisitMut for VarMover {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     /// Noop
     fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
@@ -485,7 +485,7 @@ pub(super) struct VarPrepender {
 }
 
 impl VisitMut for VarPrepender {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     /// Noop
     fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}

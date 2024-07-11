@@ -1,3 +1,5 @@
+use std::vec::Vec;
+
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -24,7 +26,7 @@ impl Parallel for PrecompressOptimizer {
 }
 
 impl VisitMut for PrecompressOptimizer {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {

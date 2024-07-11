@@ -21,7 +21,7 @@ impl Parallel for EsReservedWord {
 }
 
 impl VisitMut for EsReservedWord {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     visit_mut_obj_and_computed!();
 

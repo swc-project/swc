@@ -38,7 +38,7 @@ impl<'a> Scope<'a> {
 }
 
 impl VisitMut for ConstPropagation<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     /// No-op
     fn visit_mut_assign_expr(&mut self, _: &mut AssignExpr) {}

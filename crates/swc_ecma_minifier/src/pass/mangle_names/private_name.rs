@@ -44,7 +44,7 @@ impl PrivateNameMangler {
 }
 
 impl VisitMut for PrivateNameMangler {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
         n.obj.visit_mut_with(self);

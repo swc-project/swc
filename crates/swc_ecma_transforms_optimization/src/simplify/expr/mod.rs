@@ -1226,7 +1226,7 @@ impl SimplifyExpr {
 }
 
 impl VisitMut for SimplifyExpr {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         let old = self.is_modifying;

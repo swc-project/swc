@@ -19,7 +19,7 @@ where
 }
 
 impl VisitMut for TopLevelThis {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     noop_visit_mut_type!(visit_mut_function, Function);
 
