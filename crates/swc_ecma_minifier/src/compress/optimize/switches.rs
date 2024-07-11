@@ -44,7 +44,12 @@ impl Optimizer<'_> {
         for (idx, case) in stmt.cases.iter_mut().enumerate() {
             if let Some(test) = case.test.as_ref() {
                 if let Some(e) = is_primitive(&self.expr_ctx, tail_expr(test)) {
-                    if e.eq_ignore_span(tail) {
+                    if match (e, tail) {
+                        (Expr::Lit(Lit::Num(e)), Expr::Lit(Lit::Num(tail))) => {
+                            e.value == tail.value
+                        }
+                        _ => e.eq_ignore_span(tail),
+                    } {
                         cases.push(case.take());
 
                         exact = Some(idx);
