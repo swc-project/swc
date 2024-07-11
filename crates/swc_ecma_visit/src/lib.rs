@@ -545,6 +545,9 @@ macro_rules! standard_only_fold {
 
         standard_only_fold!(fold_jsx_element, JSXElement);
         standard_only_fold!(fold_jsx_fragment, JSXFragment);
+        standard_only_fold!(fold_jsx_empty_expr, JSXEmptyExpr);
+        standard_only_fold!(fold_jsx_member_expr, JSXMemberExpr);
+        standard_only_fold!(fold_jsx_namespaced_name, JSXNamespacedName);
     };
 }
 
@@ -615,6 +618,9 @@ macro_rules! standard_only_visit {
 
         standard_only_visit!(visit_jsx_element, JSXElement);
         standard_only_visit!(visit_jsx_fragment, JSXFragment);
+        standard_only_visit!(visit_jsx_empty_expr, JSXEmptyExpr);
+        standard_only_visit!(visit_jsx_member_expr, JSXMemberExpr);
+        standard_only_visit!(visit_jsx_namespaced_name, JSXNamespacedName);
     };
 }
 
@@ -691,6 +697,9 @@ macro_rules! standard_only_visit_mut {
 
         standard_only_visit_mut!(visit_mut_jsx_element, JSXElement);
         standard_only_visit_mut!(visit_mut_jsx_fragment, JSXFragment);
+        standard_only_visit_mut!(visit_mut_jsx_empty_expr, JSXEmptyExpr);
+        standard_only_visit_mut!(visit_mut_jsx_member_expr, JSXMemberExpr);
+        standard_only_visit_mut!(visit_mut_jsx_namespaced_name, JSXNamespacedName);
     };
 }
 
