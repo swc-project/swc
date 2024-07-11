@@ -126,6 +126,6 @@ pub enum ModuleItem {
 
 impl Take for ModuleItem {
     fn dummy() -> Self {
-        Take::dummy().into()
+        Self::Stmt(Default::default())
     }
 }

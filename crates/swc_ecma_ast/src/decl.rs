@@ -9,6 +9,7 @@ use crate::{
     ident::Ident,
     pat::Pat,
     typescript::{TsEnumDecl, TsInterfaceDecl, TsModuleDecl, TsTypeAliasDecl},
+    Invalid,
 };
 
 #[ast_node]
@@ -33,6 +34,9 @@ pub enum Decl {
     TsEnum(Box<TsEnumDecl>),
     #[tag("TsModuleDeclaration")]
     TsModule(Box<TsModuleDecl>),
+
+    #[tag("Invalid")]
+    Invalid(Invalid),
 }
 
 bridge_decl_from!(Box<VarDecl>, VarDecl);
@@ -46,7 +50,7 @@ bridge_stmt_from!(Decl, FnDecl);
 
 impl Take for Decl {
     fn dummy() -> Self {
-        Take::dummy().into()
+        Decl::Invalid(Default::default())
     }
 }
 
