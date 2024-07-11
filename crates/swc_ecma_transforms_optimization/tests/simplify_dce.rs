@@ -439,7 +439,7 @@ test!(
     issue_1150_1,
     "
 class A {
-    constructor(o: AOptions = {}) {
+    constructor(o = {}) {
         const {
             a = defaultA,
             c,
