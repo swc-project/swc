@@ -489,6 +489,27 @@ fn test_unary_ops_4() {
 }
 
 #[test]
+fn test_unary_ops_5() {
+    // Empty arrays
+    fold("+[]", "0");
+    fold("+[[]]", "0");
+    fold("+[[[]]]", "0");
+    
+    // Arrays with one element
+    fold("+[1]", "1");
+    fold("+[[1]]", "1");
+    fold("+[undefined]", "0");
+    fold("+[null]", "0");
+    fold("+[,]", "0");
+    
+    // Arrays with more than one element
+    fold("+[1, 2]", "NaN");
+    fold("+[[1], 2]", "NaN");
+    fold("+[,1]", "NaN");
+    fold("+[,,]", "NaN");
+}
+
+#[test]
 fn test_unary_ops_string_compare() {
     fold_same("a = -1");
     fold("a = ~0", "a = -1");
