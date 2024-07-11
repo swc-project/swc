@@ -1572,7 +1572,6 @@ pub fn num_from_str(s: &str) -> Value<f64> {
         return Unknown;
     }
 
-    // TODO: Check if this is correct
     let s = s.trim();
 
     if s.is_empty() {
