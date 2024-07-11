@@ -472,6 +472,17 @@ impl VisitMut for Fixer<'_> {
         self.handle_expr_stmt(&mut s.expr);
     }
 
+    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
+        n.visit_mut_children_with(self);
+
+        let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, true);
+        n.left.visit_mut_with(self);
+        n.right.visit_mut_with(self);
+        self.in_for_stmt_head = in_for_stmt_head;
+
+        n.body.visit_mut_with(self);
+    }
+
     fn visit_mut_for_of_stmt(&mut self, s: &mut ForOfStmt) {
         s.visit_mut_children_with(self);
 
