@@ -510,7 +510,7 @@ impl SystemJs {
 }
 
 impl Fold for SystemJs {
-    noop_fold_type!();
+    standard_only_fold!();
 
     fn fold_call_expr(&mut self, expr: CallExpr) -> CallExpr {
         let expr = expr.fold_children_with(self);

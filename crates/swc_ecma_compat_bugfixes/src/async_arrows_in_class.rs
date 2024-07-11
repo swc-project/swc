@@ -26,7 +26,7 @@ struct AsyncArrowsInClass {
 /// TODO: VisitMut
 #[swc_trace]
 impl Fold for AsyncArrowsInClass {
-    noop_fold_type!();
+    standard_only_fold!();
 
     fn fold_class_method(&mut self, n: ClassMethod) -> ClassMethod {
         self.in_class_method = true;

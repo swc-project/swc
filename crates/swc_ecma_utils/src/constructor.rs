@@ -35,7 +35,7 @@ struct Injector<'a> {
 }
 
 impl<'a> Fold for Injector<'a> {
-    noop_fold_type!();
+    standard_only_fold!();
 
     fn fold_class(&mut self, c: Class) -> Class {
         c

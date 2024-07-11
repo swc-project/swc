@@ -28,7 +28,7 @@ struct MemberExprLit;
 
 #[swc_trace]
 impl Fold for MemberExprLit {
-    noop_fold_type!();
+    standard_only_fold!();
 
     fn fold_member_expr(&mut self, e: MemberExpr) -> MemberExpr {
         let e = e.fold_children_with(self);

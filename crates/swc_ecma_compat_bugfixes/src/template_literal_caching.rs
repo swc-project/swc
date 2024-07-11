@@ -55,7 +55,7 @@ impl TemplateLiteralCaching {
 /// TODO: VisitMut
 #[swc_trace]
 impl Fold for TemplateLiteralCaching {
-    noop_fold_type!();
+    standard_only_fold!();
 
     fn fold_expr(&mut self, n: Expr) -> Expr {
         let n = n.fold_children_with(self);
