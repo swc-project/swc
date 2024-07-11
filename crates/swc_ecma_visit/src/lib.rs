@@ -370,7 +370,6 @@ macro_rules! noop_fold_type {
         noop_fold_type!(fold_ts_module_block, TsModuleBlock);
         noop_fold_type!(fold_ts_module_decl, TsModuleDecl);
         noop_fold_type!(fold_ts_module_name, TsModuleName);
-        noop_fold_type!(fold_ts_module_ref, TsModuleRef);
         noop_fold_type!(fold_ts_namespace_body, TsNamespaceBody);
         noop_fold_type!(fold_ts_namespace_decl, TsNamespaceDecl);
         noop_fold_type!(fold_ts_namespace_export_decl, TsNamespaceExportDecl);
@@ -502,7 +501,6 @@ macro_rules! standard_only_fold {
         standard_only_fold!(fold_ts_constructor_type, TsConstructorType);
         standard_only_fold!(fold_ts_entity_name, TsEntityName);
         standard_only_fold!(fold_ts_expr_with_type_args, TsExprWithTypeArgs);
-        standard_only_fold!(fold_ts_external_module_ref, TsExternalModuleRef);
         standard_only_fold!(fold_ts_fn_or_constructor_type, TsFnOrConstructorType);
         standard_only_fold!(fold_ts_fn_param, TsFnParam);
         standard_only_fold!(fold_ts_fn_type, TsFnType);
@@ -517,7 +515,6 @@ macro_rules! standard_only_fold {
         standard_only_fold!(fold_ts_keyword_type_kind, TsKeywordTypeKind);
         standard_only_fold!(fold_ts_mapped_type, TsMappedType);
         standard_only_fold!(fold_ts_method_signature, TsMethodSignature);
-        standard_only_fold!(fold_ts_module_ref, TsModuleRef);
         standard_only_fold!(fold_ts_optional_type, TsOptionalType);
         standard_only_fold!(fold_ts_parenthesized_type, TsParenthesizedType);
         standard_only_fold!(fold_ts_property_signature, TsPropertySignature);
@@ -575,7 +572,6 @@ macro_rules! standard_only_visit {
         standard_only_visit!(visit_ts_constructor_type, TsConstructorType);
         standard_only_visit!(visit_ts_entity_name, TsEntityName);
         standard_only_visit!(visit_ts_expr_with_type_args, TsExprWithTypeArgs);
-        standard_only_visit!(visit_ts_external_module_ref, TsExternalModuleRef);
         standard_only_visit!(visit_ts_fn_or_constructor_type, TsFnOrConstructorType);
         standard_only_visit!(visit_ts_fn_param, TsFnParam);
         standard_only_visit!(visit_ts_fn_type, TsFnType);
@@ -590,7 +586,6 @@ macro_rules! standard_only_visit {
         standard_only_visit!(visit_ts_keyword_type_kind, TsKeywordTypeKind);
         standard_only_visit!(visit_ts_mapped_type, TsMappedType);
         standard_only_visit!(visit_ts_method_signature, TsMethodSignature);
-        standard_only_visit!(visit_ts_module_ref, TsModuleRef);
         standard_only_visit!(visit_ts_optional_type, TsOptionalType);
         standard_only_visit!(visit_ts_parenthesized_type, TsParenthesizedType);
         standard_only_visit!(visit_ts_property_signature, TsPropertySignature);
@@ -651,7 +646,6 @@ macro_rules! standard_only_visit_mut {
         standard_only_visit_mut!(visit_mut_ts_constructor_type, TsConstructorType);
         standard_only_visit_mut!(visit_mut_ts_entity_name, TsEntityName);
         standard_only_visit_mut!(visit_mut_ts_expr_with_type_args, TsExprWithTypeArgs);
-        standard_only_visit_mut!(visit_mut_ts_external_module_ref, TsExternalModuleRef);
         standard_only_visit_mut!(visit_mut_ts_fn_or_constructor_type, TsFnOrConstructorType);
         standard_only_visit_mut!(visit_mut_ts_fn_param, TsFnParam);
         standard_only_visit_mut!(visit_mut_ts_fn_type, TsFnType);
@@ -666,7 +660,6 @@ macro_rules! standard_only_visit_mut {
         standard_only_visit_mut!(visit_mut_ts_keyword_type_kind, TsKeywordTypeKind);
         standard_only_visit_mut!(visit_mut_ts_mapped_type, TsMappedType);
         standard_only_visit_mut!(visit_mut_ts_method_signature, TsMethodSignature);
-        standard_only_visit_mut!(visit_mut_ts_module_ref, TsModuleRef);
         standard_only_visit_mut!(visit_mut_ts_optional_type, TsOptionalType);
         standard_only_visit_mut!(visit_mut_ts_parenthesized_type, TsParenthesizedType);
         standard_only_visit_mut!(visit_mut_ts_property_signature, TsPropertySignature);
