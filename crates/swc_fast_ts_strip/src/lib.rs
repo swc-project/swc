@@ -113,14 +113,52 @@ pub fn operate(
         return Ok(fm.src.to_string());
     }
 
+    let source = fm.src.clone();
     let mut code = fm.src.to_string().into_bytes();
 
     for r in replacements {
-        for c in &mut code[(r.0 .0 - 1) as usize..(r.1 .0 - 1) as usize] {
-            if *c == b'\n' || *c == b'\r' {
-                continue;
+        let (start, end) = (r.0 .0 as usize - 1, r.1 .0 as usize - 1);
+
+        for (i, c) in source[start..end].char_indices() {
+            let i = start + i;
+            match c {
+                // https://262.ecma-international.org/#sec-white-space
+                '\u{0009}' | '\u{0000B}' | '\u{000C}' | '\u{FEFF}' => continue,
+                // Space_Separator
+                '\u{0020}' | '\u{00A0}' | '\u{1680}' | '\u{2000}' | '\u{2001}' | '\u{2002}'
+                | '\u{2003}' | '\u{2004}' | '\u{2005}' | '\u{2006}' | '\u{2007}' | '\u{2008}'
+                | '\u{2009}' | '\u{200A}' | '\u{202F}' | '\u{205F}' | '\u{3000}' => continue,
+                // https://262.ecma-international.org/#sec-line-terminators
+                '\u{000A}' | '\u{000D}' | '\u{2028}' | '\u{2029}' => continue,
+                _ => match c.len_utf8() {
+                    1 => {
+                        // Space 0020
+                        code[i] = 0x20;
+                    }
+                    2 => {
+                        // No-Break Space 00A0
+                        code[i] = 0xc2;
+                        code[i + 1] = 0xa0;
+                    }
+                    3 => {
+                        // En Space 2002
+                        code[i] = 0xe2;
+                        code[i + 1] = 0x80;
+                        code[i + 2] = 0x82;
+                    }
+                    4 => {
+                        // We do not have a 4-byte space character in the Unicode standard.
+
+                        // Space 0020
+                        code[i] = 0x20;
+                        // ZWNBSP FEFF
+                        code[i + 1] = 0xef;
+                        code[i + 2] = 0xbb;
+                        code[i + 3] = 0xbf;
+                    }
+                    _ => unreachable!(),
+                },
             }
-            *c = b' ';
         }
     }
 
@@ -128,7 +166,13 @@ pub fn operate(
         code[i.0 as usize - 1] = v;
     }
 
-    String::from_utf8(code).map_err(|_| anyhow::anyhow!("failed to convert to utf-8"))
+    if cfg!(debug_assertions) {
+        String::from_utf8(code).map_err(|_| anyhow::anyhow!("failed to convert to utf-8"))
+    } else {
+        // SAFETY: We've already validated that the source is valid utf-8
+        // and our operations are limited to character-level string replacements.
+        unsafe { Ok(String::from_utf8_unchecked(code)) }
+    }
 }
 
 struct TsStrip {
@@ -197,15 +241,18 @@ impl Visit for TsStrip {
         if let Some(ret) = &n.return_type {
             self.add_replacement(ret.span);
 
-            let l_paren = self.get_prev_token(ret.span_lo() - BytePos(1));
-            debug_assert_eq!(l_paren.token, Token::RParen);
+            let r_paren = self.get_prev_token(ret.span_lo() - BytePos(1));
+            debug_assert_eq!(r_paren.token, Token::RParen);
             let arrow = self.get_next_token(ret.span_hi());
             debug_assert_eq!(arrow.token, Token::Arrow);
-            let span = span(l_paren.span.lo, arrow.span.hi);
+            let span = span(r_paren.span.lo, arrow.span.lo);
 
-            let slice = self.get_src_slice(span).as_bytes();
-            if slice.contains(&b'\n') {
-                self.add_replacement(l_paren.span);
+            let slice = self.get_src_slice(span);
+            if slice
+                .chars()
+                .any(|c| matches!(c, '\u{000A}' | '\u{000D}' | '\u{2028}' | '\u{2029}'))
+            {
+                self.add_replacement(r_paren.span);
 
                 // Instead of moving the arrow mark, we shift the right parenthesis to the next
                 // line. This is because there might be a line break after the right
@@ -219,11 +266,17 @@ impl Visit for TsStrip {
                 //
                 // ```TypeScript
                 // (
-                //          )=>
+                //         ) =>
                 //     1;
                 // ```
 
-                self.add_overwrite(ret.span_hi() - BytePos(1), b')');
+                let mut pos = ret.span_hi() - BytePos(1);
+                while !self.src.as_bytes()[pos.0 as usize - 1].is_utf8_char_boundary() {
+                    self.add_overwrite(pos, b' ');
+                    pos = pos - BytePos(1);
+                }
+
+                self.add_overwrite(pos, b')');
             }
         }
 
@@ -608,6 +661,19 @@ impl Visit for TsStrip {
         }
 
         n.visit_children_with(self);
+    }
+}
+
+trait U8Helper {
+    fn is_utf8_char_boundary(&self) -> bool;
+}
+
+impl U8Helper for u8 {
+    // Copy from std::core::num::u8
+    #[inline]
+    fn is_utf8_char_boundary(&self) -> bool {
+        // This is bit magic equivalent to: b < 128 || b >= 192
+        (*self as i8) >= -0x40
     }
 }
 

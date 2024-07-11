@@ -180,3 +180,19 @@ void 0;
     (  
           )=>
         1;
+
+{
+    (a, b, c    = []       /*comment-1*/ /*comment-2*/ 
+                       )/*comment-4*/=>
+        1
+};
+
+                
+
+(  
+   )  =>
+1;
+
+( /*comment-1*/              
+                )  /*comment-4*/=>
+1;
