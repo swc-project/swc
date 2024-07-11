@@ -386,7 +386,7 @@ impl ExplicitResourceManagement {
             }),
         };
 
-        new.push(T::from_stmt(Stmt::Try(Box::new(try_stmt))));
+        new.push(T::from_stmt(try_stmt.into()));
         new.extend(extras);
 
         *stmts = new;

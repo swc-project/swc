@@ -707,12 +707,13 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let span = span!(self, start);
-        Ok(Stmt::Try(Box::new(TryStmt {
+        Ok(TryStmt {
             span,
             block,
             handler,
             finalizer,
-        })))
+        }
+        .into())
     }
 
     fn parse_catch_clause(&mut self) -> PResult<Option<CatchClause>> {

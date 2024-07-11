@@ -581,12 +581,13 @@ impl VisitMut for Remover {
                         return Stmt::Block(block);
                     }
 
-                    Stmt::Try(Box::new(TryStmt {
+                    TryStmt {
                         span,
                         block,
                         handler,
                         finalizer,
-                    }))
+                    }
+                    .into()
                 }
 
                 Stmt::Switch(mut s) => {
