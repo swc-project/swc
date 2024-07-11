@@ -7,8 +7,8 @@ fn fast_ts(c: &mut Criterion) {
     c.bench_function("typescript/fast-strip", fast_typescript);
 }
 fn fast_typescript(b: &mut Bencher) {
-    let _ = ::testing::run_test(false, |cm, handler| {
-        b.iter(|| {
+    b.iter(|| {
+        ::testing::run_test(false, |cm, handler| {
             black_box(operate(
                 &cm,
                 handler,
@@ -19,9 +19,11 @@ fn fast_typescript(b: &mut Bencher) {
                     parser: Default::default(),
                 },
             ))
-        });
+            .unwrap();
 
-        Ok(())
+            Ok(())
+        })
+        .unwrap();
     });
 }
 
