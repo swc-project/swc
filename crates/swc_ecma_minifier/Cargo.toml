@@ -33,24 +33,23 @@ serde-impl  = []
 trace-ast   = []
 
 [dependencies]
-arrayvec              = { workspace = true }
-backtrace             = { workspace = true, optional = true }
-indexmap              = { workspace = true }
-new_debug_unreachable = { workspace = true }
-num-bigint            = { workspace = true }
-num_cpus              = { workspace = true }
-once_cell             = { workspace = true }
-parking_lot           = { workspace = true }
-phf                   = { workspace = true }
-pretty_assertions     = { workspace = true, optional = true }
-radix_fmt             = "=1.0.0"
-rayon                 = { workspace = true, optional = true }
-regex                 = { workspace = true }
-rustc-hash            = { workspace = true }
-ryu-js                = { workspace = true }
-serde                 = { workspace = true, features = ["derive"] }
-serde_json            = { workspace = true }
-tracing               = { workspace = true }
+arrayvec          = { workspace = true }
+backtrace         = { workspace = true, optional = true }
+indexmap          = { workspace = true }
+num-bigint        = { workspace = true }
+num_cpus          = { workspace = true }
+once_cell         = { workspace = true }
+parking_lot       = { workspace = true }
+phf               = { workspace = true }
+pretty_assertions = { workspace = true, optional = true }
+radix_fmt         = "=1.0.0"
+rayon             = { workspace = true, optional = true }
+regex             = { workspace = true }
+rustc-hash        = { workspace = true }
+ryu-js            = { workspace = true }
+serde             = { workspace = true, features = ["derive"] }
+serde_json        = { workspace = true }
+tracing           = { workspace = true }
 
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
 swc_common = { version = "0.34.0", path = "../swc_common" }
