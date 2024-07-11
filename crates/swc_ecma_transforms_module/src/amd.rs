@@ -12,7 +12,7 @@ use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
     member_expr, private_ident, quote_ident, quote_str, ExprFactory, FunctionFactory, IsDirective,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, Fold, VisitMut, VisitMutWith};
 
 pub use super::util::Config as InnerConfig;
 use crate::{

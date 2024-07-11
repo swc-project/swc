@@ -16,7 +16,7 @@ use swc_ecma_utils::{
     ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
+    as_folder, standard_only_visit_mut, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
 };
 use swc_trace_macro::swc_trace;
 
