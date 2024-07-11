@@ -450,7 +450,7 @@ impl InjectHelpers {
             ..Default::default()
         };
         let ctxt = SyntaxContext::empty().apply_mark(mark);
-        let decl = VarDecl {
+        VarDecl {
             kind: VarDeclKind::Var,
             decls: vec![VarDeclarator {
                 span: DUMMY_SP,
@@ -460,8 +460,7 @@ impl InjectHelpers {
             }],
             ..Default::default()
         }
-        .into();
-        decl.into()
+        .into()
     }
 
     fn map_helper_ref_ident(&mut self, ref_ident: &Ident) -> Option<Expr> {
