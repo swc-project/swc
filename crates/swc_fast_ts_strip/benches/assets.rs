@@ -1,7 +1,7 @@
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_fast_ts_strip::{operate, Options};
 
-static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
+static SOURCE: &str = include_str!("assets/test.ts");
 
 fn fast_ts(c: &mut Criterion) {
     c.bench_function("typescript/fast-strip", fast_typescript);
