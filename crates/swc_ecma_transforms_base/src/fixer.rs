@@ -601,9 +601,7 @@ impl VisitMut for Fixer<'_> {
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
         let ctx = mem::replace(&mut self.ctx, Context::ForcedExpr);
 
-        let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
         node.args.visit_mut_with(self);
-        self.in_for_stmt_head = in_for_stmt_head;
 
         self.ctx = Context::Callee { is_new: true };
         node.callee.visit_mut_with(self);
@@ -632,9 +630,7 @@ impl VisitMut for Fixer<'_> {
 
         self.ctx = Context::ForcedExpr;
 
-        let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
         node.args.visit_mut_with(self);
-        self.in_for_stmt_head = in_for_stmt_head;
 
         self.ctx = ctx;
     }
@@ -784,6 +780,12 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_params(&mut self, n: &mut std::vec::Vec<Param>) {
+        let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
+        n.visit_mut_children_with(self);
+        self.in_for_stmt_head = in_for_stmt_head;
+    }
+
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut std::vec::Vec<ExprOrSpread>) {
         let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
         n.visit_mut_children_with(self);
         self.in_for_stmt_head = in_for_stmt_head;
