@@ -20,4 +20,6 @@ swc_ecma_parser = { version = "0.146.9", path = "../swc_ecma_parser" }
 swc_ecma_visit  = { version = "0.101.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-testing = { version = "0.36.0", path = "../testing" }
+codspeed-criterion-compat = { workspace = true }
+criterion                 = { workspace = true }
+testing                   = { version = "0.36.0", path = "../testing" }
