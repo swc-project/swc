@@ -356,7 +356,7 @@ impl<C: Comments> ClassProperties<C> {
                                 let (decl, extra) =
                                     self.visit_mut_class_as_decl(ident.clone(), class);
 
-                                extra.merge_with(&mut buf, T::from_stmt(decl.into()));
+                                extra.merge_with(&mut buf, T::from(decl.into()));
 
                                 buf.push(
                                     match T::try_from_module_decl(
@@ -427,11 +427,11 @@ impl<C: Comments> ClassProperties<C> {
                             declare: false,
                         })) => {
                             let (decl, extra) = self.visit_mut_class_as_decl(ident, class);
-                            extra.merge_with(&mut buf, T::from_stmt(decl.into()))
+                            extra.merge_with(&mut buf, T::from(decl.into()))
                         }
                         _ => {
                             stmt.visit_mut_children_with(self);
-                            buf.push(T::from_stmt(stmt))
+                            buf.push(T::from(stmt))
                         }
                     }
                 }

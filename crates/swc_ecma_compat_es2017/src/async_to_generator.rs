@@ -107,9 +107,9 @@ impl<C: Comments + Clone> AsyncToGenerator<C> {
             };
 
             stmt.visit_mut_with(&mut actual);
-            stmts_updated.extend(actual.hoist_stmts.into_iter().map(T::from_stmt));
+            stmts_updated.extend(actual.hoist_stmts.into_iter().map(T::from));
             stmts_updated.push(stmt);
-            stmts_updated.extend(actual.extra_stmts.into_iter().map(T::from_stmt));
+            stmts_updated.extend(actual.extra_stmts.into_iter().map(T::from));
         }
 
         *stmts = stmts_updated;

@@ -159,7 +159,7 @@ impl Optimizer<'_> {
             match stmt.try_into_stmt() {
                 Ok(stmt) => {
                     if is_directive(&stmt) {
-                        new_stmts.push(T::from_stmt(stmt));
+                        new_stmts.push(T::from(stmt));
                         continue;
                     }
                     // If
@@ -170,19 +170,19 @@ impl Optimizer<'_> {
 
                         Stmt::If(mut stmt) => {
                             stmt.test.prepend_exprs(take(&mut exprs));
-                            new_stmts.push(T::from_stmt(stmt.into()));
+                            new_stmts.push(T::from(stmt.into()));
                         }
 
                         Stmt::Switch(mut stmt) => {
                             stmt.discriminant.prepend_exprs(take(&mut exprs));
 
-                            new_stmts.push(T::from_stmt(stmt.into()));
+                            new_stmts.push(T::from(stmt.into()));
                         }
 
                         Stmt::With(mut stmt) => {
                             stmt.obj.prepend_exprs(take(&mut exprs));
 
-                            new_stmts.push(T::from_stmt(stmt.into()));
+                            new_stmts.push(T::from(stmt.into()));
                         }
 
                         Stmt::Return(mut stmt @ ReturnStmt { arg: Some(..), .. }) => {
@@ -198,13 +198,13 @@ impl Optimizer<'_> {
                                 }
                             }
 
-                            new_stmts.push(T::from_stmt(stmt.into()));
+                            new_stmts.push(T::from(stmt.into()));
                         }
 
                         Stmt::Throw(mut stmt) => {
                             stmt.arg.prepend_exprs(take(&mut exprs));
 
-                            new_stmts.push(T::from_stmt(stmt.into()));
+                            new_stmts.push(T::from(stmt.into()));
                         }
 
                         Stmt::For(mut stmt @ ForStmt { init: None, .. })
@@ -270,7 +270,7 @@ impl Optimizer<'_> {
                                                     ));
                                                 }
 
-                                                new_stmts.push(T::from_stmt(stmt.into()));
+                                                new_stmts.push(T::from(stmt.into()));
 
                                                 continue;
                                             }
@@ -291,19 +291,19 @@ impl Optimizer<'_> {
                                     unreachable!()
                                 }
                             }
-                            new_stmts.push(T::from_stmt(stmt.into()));
+                            new_stmts.push(T::from(stmt.into()));
                         }
 
                         Stmt::ForIn(mut stmt) => {
                             stmt.right.prepend_exprs(take(&mut exprs));
 
-                            new_stmts.push(T::from_stmt(stmt.into()));
+                            new_stmts.push(T::from(stmt.into()));
                         }
 
                         Stmt::ForOf(mut stmt) => {
                             stmt.right.prepend_exprs(take(&mut exprs));
 
-                            new_stmts.push(T::from_stmt(stmt.into()));
+                            new_stmts.push(T::from(stmt.into()));
                         }
 
                         Stmt::Decl(Decl::Var(var))
@@ -315,16 +315,16 @@ impl Optimizer<'_> {
                                 }
                             ) && var.decls.iter().all(|v| v.init.is_none()) =>
                         {
-                            new_stmts.push(T::from_stmt(var.into()));
+                            new_stmts.push(T::from(var.into()));
                         }
 
                         Stmt::Decl(Decl::Fn(..)) => {
-                            new_stmts.push(T::from_stmt(stmt));
+                            new_stmts.push(T::from(stmt));
                         }
 
                         _ => {
                             if !exprs.is_empty() {
-                                new_stmts.push(T::from_stmt(
+                                new_stmts.push(T::from(
                                     ExprStmt {
                                         span: DUMMY_SP,
                                         expr: Expr::from_exprs(take(&mut exprs)),
@@ -333,13 +333,13 @@ impl Optimizer<'_> {
                                 ))
                             }
 
-                            new_stmts.push(T::from_stmt(stmt));
+                            new_stmts.push(T::from(stmt));
                         }
                     }
                 }
                 Err(item) => {
                     if !exprs.is_empty() {
-                        new_stmts.push(T::from_stmt(
+                        new_stmts.push(T::from(
                             ExprStmt {
                                 span: DUMMY_SP,
                                 expr: Expr::from_exprs(take(&mut exprs)),
@@ -354,7 +354,7 @@ impl Optimizer<'_> {
         }
 
         if !exprs.is_empty() {
-            new_stmts.push(T::from_stmt(
+            new_stmts.push(T::from(
                 ExprStmt {
                     span: DUMMY_SP,
                     expr: Expr::from_exprs(take(&mut exprs)),
@@ -421,12 +421,12 @@ impl Optimizer<'_> {
                                 .into_iter()
                                 .map(|expr| ExprStmt { span, expr })
                                 .map(Stmt::Expr)
-                                .map(T::from_stmt),
+                                .map(T::from),
                         );
                     }
 
                     _ => {
-                        new_stmts.push(T::from_stmt(stmt));
+                        new_stmts.push(T::from(stmt));
                     }
                 },
                 Err(stmt) => {
@@ -493,11 +493,11 @@ impl Optimizer<'_> {
         op(stmts);
 
         if !self.prepend_stmts.is_empty() {
-            prepend_stmts(stmts, self.prepend_stmts.drain(..).map(T::from_stmt));
+            prepend_stmts(stmts, self.prepend_stmts.drain(..).map(T::from));
         }
 
         if !self.append_stmts.is_empty() {
-            stmts.extend(self.append_stmts.drain(..).map(T::from_stmt));
+            stmts.extend(self.append_stmts.drain(..).map(T::from));
         }
 
         self.prepend_stmts = old_prepend;

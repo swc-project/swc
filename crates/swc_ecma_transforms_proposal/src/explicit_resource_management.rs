@@ -205,7 +205,7 @@ impl ExplicitResourceManagement {
                                     definite: Default::default(),
                                 };
 
-                                new.push(T::from_stmt(
+                                new.push(T::from(
                                     VarDecl {
                                         span: DUMMY_SP,
                                         kind: VarDeclKind::Var,
@@ -271,7 +271,7 @@ impl ExplicitResourceManagement {
                                     })
                                     .collect();
 
-                                new.push(T::from_stmt(
+                                new.push(T::from(
                                     VarDecl {
                                         span: DUMMY_SP,
                                         kind: VarDeclKind::Var,
@@ -404,7 +404,7 @@ impl ExplicitResourceManagement {
             }),
         };
 
-        new.push(T::from_stmt(try_stmt.into()));
+        new.push(T::from(try_stmt.into()));
         new.extend(extras);
 
         *stmts = new;

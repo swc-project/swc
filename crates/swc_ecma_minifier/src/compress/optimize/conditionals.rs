@@ -154,7 +154,7 @@ impl Optimizer<'_> {
                                         }
                                         .into();
                                     } else {
-                                        new.extend(cur.take().map(Stmt::If).map(T::from_stmt));
+                                        new.extend(cur.take().map(Stmt::If).map(T::from));
 
                                         cur = Some(stmt);
                                     }
@@ -165,21 +165,21 @@ impl Optimizer<'_> {
                             }
                         }
                         _ => {
-                            new.extend(cur.take().map(Stmt::If).map(T::from_stmt));
+                            new.extend(cur.take().map(Stmt::If).map(T::from));
 
-                            new.push(T::from_stmt(stmt));
+                            new.push(T::from(stmt));
                         }
                     }
                 }
                 Err(item) => {
-                    new.extend(cur.take().map(Stmt::If).map(T::from_stmt));
+                    new.extend(cur.take().map(Stmt::If).map(T::from));
 
                     new.push(item);
                 }
             }
         }
 
-        new.extend(cur.map(Stmt::If).map(T::from_stmt));
+        new.extend(cur.map(Stmt::If).map(T::from));
 
         *stmts = new;
     }
@@ -883,7 +883,7 @@ impl Optimizer<'_> {
                             swap(&mut cons, &mut alt);
                         }
 
-                        new_stmts.push(T::from_stmt(
+                        new_stmts.push(T::from(
                             IfStmt {
                                 span,
                                 test,
@@ -892,10 +892,10 @@ impl Optimizer<'_> {
                             }
                             .into(),
                         ));
-                        new_stmts.push(T::from_stmt(*alt));
+                        new_stmts.push(T::from(*alt));
                     }
                     _ => {
-                        new_stmts.push(T::from_stmt(stmt));
+                        new_stmts.push(T::from(stmt));
                     }
                 },
                 Err(stmt) => new_stmts.push(stmt),

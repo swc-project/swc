@@ -209,7 +209,7 @@ impl Spread {
         if !self.vars.is_empty() {
             prepend_stmt(
                 items,
-                T::from_stmt(
+                T::from(
                     VarDecl {
                         kind: VarDeclKind::Var,
                         decls: self.vars.take(),

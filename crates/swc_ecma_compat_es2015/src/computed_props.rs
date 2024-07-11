@@ -389,7 +389,7 @@ impl ComputedProps {
             // Add variable declaration
             // e.g. var ref
             if !folder.vars.is_empty() {
-                stmts_updated.push(T::from_stmt(
+                stmts_updated.push(T::from(
                     VarDecl {
                         kind: VarDeclKind::Var,
                         decls: folder.vars,

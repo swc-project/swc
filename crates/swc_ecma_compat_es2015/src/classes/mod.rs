@@ -138,7 +138,7 @@ where
 
                                 let mut decl = self.fold_class_as_var_decl(ident.clone(), class);
                                 decl.visit_mut_children_with(self);
-                                buf.push(T::from_stmt(decl.into()));
+                                buf.push(T::from(decl.into()));
 
                                 buf.push(
                                     match T::try_from_module_decl(
@@ -206,7 +206,7 @@ where
                     }
 
                     stmt.visit_mut_children_with(self);
-                    buf.push(T::from_stmt(stmt));
+                    buf.push(T::from(stmt));
                 }
             }
             first = false;

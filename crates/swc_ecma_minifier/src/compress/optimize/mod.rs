@@ -455,21 +455,21 @@ impl Optimizer<'_> {
                     stmt.visit_with(&mut AssertValid);
                 }
 
-                new.extend(self.prepend_stmts.drain(..).map(T::from_stmt));
+                new.extend(self.prepend_stmts.drain(..).map(T::from));
 
                 match stmt.try_into_stmt() {
                     Ok(Stmt::Block(s)) if s.ctxt.has_mark(self.marks.fake_block) => {
-                        new.extend(s.stmts.into_iter().map(T::from_stmt));
+                        new.extend(s.stmts.into_iter().map(T::from));
                     }
                     Ok(s) => {
-                        new.push(T::from_stmt(s));
+                        new.push(T::from(s));
                     }
                     Err(stmt) => {
                         new.push(stmt);
                     }
                 }
 
-                new.extend(self.append_stmts.drain(..).map(T::from_stmt));
+                new.extend(self.append_stmts.drain(..).map(T::from));
             }
             *stmts = new;
         }
@@ -516,7 +516,7 @@ impl Optimizer<'_> {
             stmts.visit_with(&mut AssertValid);
         }
 
-        // stmts.extend(self.append_stmts.drain(..).map(T::from_stmt));
+        // stmts.extend(self.append_stmts.drain(..).map(T::from));
 
         drop_invalid_stmts(stmts);
 

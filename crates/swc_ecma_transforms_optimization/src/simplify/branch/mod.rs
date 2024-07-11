@@ -1330,7 +1330,7 @@ impl Remover {
                             for t in iter {
                                 match t.try_into_stmt() {
                                     Ok(Stmt::Decl(Decl::Fn(f))) => {
-                                        hoisted_fns.push(T::from_stmt(f.into()));
+                                        hoisted_fns.push(T::from(f.into()));
                                     }
                                     Ok(t) => {
                                         let ids = extract_var_ids(&t).into_iter().map(|i| {
@@ -1348,7 +1348,7 @@ impl Remover {
                             }
 
                             if !decls.is_empty() {
-                                new_stmts.push(T::from_stmt(
+                                new_stmts.push(T::from(
                                     VarDecl {
                                         span: DUMMY_SP,
                                         kind: VarDeclKind::Var,
@@ -1360,7 +1360,7 @@ impl Remover {
                                 ));
                             }
 
-                            let stmt_like = T::from_stmt(stmt);
+                            let stmt_like = T::from(stmt);
                             new_stmts.push(stmt_like);
                             new_stmts.extend(hoisted_fns);
 
@@ -1394,7 +1394,7 @@ impl Remover {
                                     stmts
                                         .into_iter()
                                         .filter(|s| !matches!(s, Stmt::Empty(..)))
-                                        .map(T::from_stmt),
+                                        .map(T::from),
                                 );
                                 continue;
                             }
@@ -1415,7 +1415,7 @@ impl Remover {
                                         let expr = ignore_result(test, true, &self.expr_ctx);
 
                                         if let Some(expr) = expr {
-                                            new_stmts.push(T::from_stmt(
+                                            new_stmts.push(T::from(
                                                 ExprStmt {
                                                     span: DUMMY_SP,
                                                     expr,
@@ -1430,13 +1430,13 @@ impl Remover {
                                         if let Some(var) =
                                             alt.and_then(|alt| alt.extract_var_ids_as_var())
                                         {
-                                            new_stmts.push(T::from_stmt(var.into()))
+                                            new_stmts.push(T::from(var.into()))
                                         }
                                         *cons
                                     } else {
                                         // Hoist vars from cons
                                         if let Some(var) = cons.extract_var_ids_as_var() {
-                                            new_stmts.push(T::from_stmt(var.into()))
+                                            new_stmts.push(T::from(var.into()))
                                         }
                                         match alt {
                                             Some(alt) => *alt,
@@ -1457,7 +1457,7 @@ impl Remover {
                         _ => stmt,
                     };
 
-                    T::from_stmt(stmt)
+                    T::from(stmt)
                 }
                 Err(stmt_like) => stmt_like,
             };
