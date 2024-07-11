@@ -890,38 +890,12 @@ pub trait ExprExt {
                 Lit::Str(Str { value, .. }) => return (Pure, num_from_str(value)),
                 _ => return (Pure, Unknown),
             },
-            Expr::Array(array) => {
-                if array.elems.len() != 1 {
-                    // Can only be converted to a number if there's exactly one element.
-                    return (Pure, Known(if array.elems.is_empty() {
-                        // Empty array is treated as zero.
-                        0.0
-                    } else {
-                        // More than one element is treated as NaN.
-                        f64::NAN
-                    }));
-                }
-
-                let Some(elem) = array.elems.get(0) else {
+            Expr::Array(..) => {
+                let Known(s) = self.as_pure_string(ctx) else {
                     return (Pure, Unknown);
                 };
-
-                // [,] is treated as zero.
-                let Some(e) = elem else {
-                    return (Pure, Known(0.0));
-                };
                 
-                // Ignore spread if it exists.
-                if e.spread.is_some() {
-                    return (Pure, Unknown);
-                }
-                
-                // Special case: undefined is treated as zero in arrays (e.g. +[undefined])
-                if e.expr.is_undefined(ctx) {
-                    return (Pure, Known(0.0));
-                }
-                
-                return e.expr.cast_to_number(ctx);
+                return (Pure, num_from_str(&s));
             },
             Expr::Ident(Ident { sym, span, .. }) => match &**sym {
                 "undefined" | "NaN" if span.ctxt == ctx.unresolved_ctxt => f64::NAN,
