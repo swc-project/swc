@@ -245,7 +245,7 @@ impl Fold for Decorators {
                     }) => handle_class!(class, ident),
 
                     _ => {
-                        let item = ExportDefaultExpr { span, expr }.into();
+                        let item: ModuleItem = ExportDefaultExpr { span, expr }.into();
                         buf.push(item.fold_with(self));
                     }
                 },

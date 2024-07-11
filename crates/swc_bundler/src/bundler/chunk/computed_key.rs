@@ -245,7 +245,7 @@ impl Fold for ExportToReturn {
                     _ => unreachable!(),
                 }
 
-                Some(export.decl.into())
+                Some(ModuleItem::from(export.decl))
             }
 
             ModuleDecl::ExportDefaultDecl(export) => match export.decl {
@@ -334,7 +334,7 @@ impl Fold for ExportToReturn {
         };
 
         if let Some(stmt) = stmt {
-            stmt.into()
+            stmt
         } else {
             EmptyStmt { span: DUMMY_SP }.into()
         }

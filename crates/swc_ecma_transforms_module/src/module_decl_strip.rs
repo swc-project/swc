@@ -75,15 +75,12 @@ impl VisitMut for ModuleDeclStrip {
                         ModuleDecl::ExportNamed(..) => continue,
                         ModuleDecl::ExportDefaultDecl(ExportDefaultDecl { decl, .. }) => match decl
                         {
-                            DefaultDecl::Class(class_expr) => list.extend(
-                                class_expr
-                                    .as_class_decl()
-                                    .map(|decl| decl.into())
-                                    .map(From::from),
-                            ),
-                            DefaultDecl::Fn(fn_expr) => list.extend(
-                                fn_expr.as_fn_decl().map(|decl| decl.into()).map(From::from),
-                            ),
+                            DefaultDecl::Class(class_expr) => {
+                                list.extend(class_expr.as_class_decl().map(From::from))
+                            }
+                            DefaultDecl::Fn(fn_expr) => {
+                                list.extend(fn_expr.as_fn_decl().map(From::from))
+                            }
                             DefaultDecl::TsInterfaceDecl(_) => continue,
                         },
                         ModuleDecl::ExportDefaultExpr(..) => {

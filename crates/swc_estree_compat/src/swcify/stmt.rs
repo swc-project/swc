@@ -1,13 +1,13 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
-    BlockStmt, BreakStmt, ClassDecl, ClassExpr, ContinueStmt, DebuggerStmt, Decl, DefaultDecl,
+    BlockStmt, BreakStmt, ClassDecl, ClassExpr, ContinueStmt, DebuggerStmt, DefaultDecl,
     DoWhileStmt, EmptyStmt, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
     ExportNamedSpecifier, ExprStmt, FnDecl, FnExpr, ForHead, ForInStmt, ForOfStmt, ForStmt, IfStmt,
     ImportDecl, ImportNamedSpecifier, ImportSpecifier, ImportStarAsSpecifier, KeyValueProp,
     LabeledStmt, Lit, ModuleDecl, ModuleItem, NamedExport, ObjectLit, Pat, Prop, PropName,
-    PropOrSpread, ReturnStmt, Stmt, SwitchStmt, ThrowStmt, TryStmt, TsExportAssignment,
-    TsInterfaceDecl, TsModuleDecl, TsTypeAliasDecl, VarDecl, VarDeclKind, VarDeclOrExpr,
-    VarDeclarator, WhileStmt, WithStmt,
+    PropOrSpread, ReturnStmt, SwitchStmt, ThrowStmt, TryStmt, TsExportAssignment, TsInterfaceDecl,
+    TsModuleDecl, TsTypeAliasDecl, VarDecl, VarDeclKind, VarDeclOrExpr, VarDeclarator, WhileStmt,
+    WithStmt,
 };
 use swc_estree_ast::{
     BlockStatement, BreakStatement, ClassDeclaration, ContinueStatement, DebuggerStatement,
@@ -91,7 +91,6 @@ impl Swcify for Statement {
                 todo!("swcify: {:?}", self)
             }
         }
-        .into()
     }
 }
 

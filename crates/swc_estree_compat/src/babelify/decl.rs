@@ -20,7 +20,7 @@ impl Babelify for Decl {
             Decl::TsTypeAlias(d) => Declaration::TSTypeAliasDecl(d.babelify(ctx)),
             Decl::TsEnum(d) => Declaration::TSEnumDecl(d.babelify(ctx)),
             Decl::TsModule(d) => Declaration::TSModuleDecl(d.babelify(ctx)),
-            Decl::Invalid(d) => unreachable!(),
+            Decl::Invalid(..) => unreachable!(),
         }
     }
 }

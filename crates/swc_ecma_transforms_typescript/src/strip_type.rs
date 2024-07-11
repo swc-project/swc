@@ -341,6 +341,7 @@ impl IsDeclare for Decl {
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) => true,
             Decl::TsEnum(ts_enum) => ts_enum.declare,
             Decl::TsModule(ts_module) => ts_module.declare || ts_module.global,
+            Decl::Invalid(..) => false,
         }
     }
 }

@@ -453,7 +453,7 @@ impl VisitMut for Remover {
 
                         self.changed = true;
 
-                        let mut block = BlockStmt {
+                        let mut block: Stmt = BlockStmt {
                             span,
                             stmts,
                             ..Default::default()
@@ -561,7 +561,7 @@ impl VisitMut for Remover {
 
                     // Only leave the finally block if try block is empty
                     if block.is_empty() {
-                        let var = handler.and_then(|h| h.body.into().extract_var_ids_as_var());
+                        let var = handler.and_then(|h| Stmt::from(h.body).extract_var_ids_as_var());
 
                         return if let Some(mut finalizer) = finalizer {
                             if let Some(var) = var.map(Box::new).map(Decl::from).map(Stmt::from) {
@@ -693,7 +693,7 @@ impl VisitMut for Remover {
                             prepend_stmt(&mut stmts, expr.into_stmt());
                         }
 
-                        let mut block = BlockStmt {
+                        let mut block: Stmt = BlockStmt {
                             span: s.span,
                             stmts,
                             ..Default::default()
@@ -829,7 +829,7 @@ impl VisitMut for Remover {
                             if cfg!(feature = "debug") {
                                 debug!("Switch -> Block as we know discriminant");
                             }
-                            let mut block = BlockStmt {
+                            let mut block: Stmt = BlockStmt {
                                 span: s.span,
                                 stmts,
                                 ..Default::default()
@@ -876,7 +876,7 @@ impl VisitMut for Remover {
                                         )
                                     }
 
-                                    let mut block = BlockStmt {
+                                    let mut block: Stmt = BlockStmt {
                                         span: s.span,
                                         stmts,
                                         ..Default::default()
@@ -1011,7 +1011,7 @@ impl VisitMut for Remover {
                             if cfg!(feature = "debug") {
                                 debug!("Stmt -> Block as all cases are empty");
                             }
-                            let mut block = BlockStmt {
+                            let mut block: Stmt = BlockStmt {
                                 span: s.span,
                                 stmts,
                                 ..Default::default()
