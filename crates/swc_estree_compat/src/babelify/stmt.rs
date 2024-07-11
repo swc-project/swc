@@ -61,7 +61,6 @@ impl Babelify for Stmt {
                 Decl::TsTypeAlias(d) => Statement::TSTypeAliasDecl(d.babelify(ctx)),
                 Decl::TsEnum(d) => Statement::TSEnumDecl(d.babelify(ctx)),
                 Decl::TsModule(d) => Statement::TSModuleDecl(d.babelify(ctx)),
-                Decl::Invalid(..) => unreachable!(),
             },
             Stmt::Expr(s) => Statement::Expr(s.babelify(ctx)),
         }

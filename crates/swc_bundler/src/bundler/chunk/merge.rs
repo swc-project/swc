@@ -917,8 +917,7 @@ where
                             | Decl::TsTypeAlias(_)
                             | Decl::TsEnum(_)
                             | Decl::TsModule(_)
-                            | Decl::Using(..)
-                            | Decl::Invalid(..) => continue,
+                            | Decl::Using(..) => continue,
                         };
 
                         tracing::trace!(
