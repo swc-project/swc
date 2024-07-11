@@ -299,9 +299,6 @@ impl IsConcrete for Decl {
             Self::Fn(r#fn) => r#fn.function.body.is_some(),
             Self::Class(..) | Self::Var(..) | Self::Using(..) | Self::TsEnum(..) => true,
             Self::TsModule(ts_module) => ts_module.is_concrete(),
-            Self::Invalid(..) => {
-                unreachable!()
-            }
         }
     }
 }
