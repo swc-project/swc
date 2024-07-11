@@ -307,7 +307,7 @@ impl VisitMut for ObjectRest {
                 var_decl.visit_mut_with(self);
                 self.vars.append(&mut var_decl.decls);
 
-                *decl = ModuleDecl::ExportNamed(export);
+                *decl = export.into();
             }
             _ => {
                 decl.visit_mut_children_with(self);
@@ -469,7 +469,7 @@ impl ObjectRest {
             // Add variable declaration
             // e.g. var ref
             if !folder.mutable_vars.is_empty() {
-                buf.push(T::from_stmt(
+                buf.push(T::from(
                     VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
@@ -481,7 +481,7 @@ impl ObjectRest {
             }
 
             if !folder.vars.is_empty() {
-                buf.push(T::from_stmt(
+                buf.push(T::from(
                     VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
@@ -494,13 +494,7 @@ impl ObjectRest {
 
             buf.push(stmt);
 
-            buf.extend(
-                folder
-                    .exprs
-                    .into_iter()
-                    .map(|v| v.into_stmt())
-                    .map(T::from_stmt),
-            );
+            buf.extend(folder.exprs.into_iter().map(|v| v.into_stmt()).map(T::from));
         }
 
         *stmts = buf;

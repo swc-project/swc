@@ -154,7 +154,7 @@ impl Optimizer<'_> {
                                         }
                                         .into();
                                     } else {
-                                        new.extend(cur.take().map(Stmt::If).map(T::from_stmt));
+                                        new.extend(cur.take().map(Stmt::If).map(T::from));
 
                                         cur = Some(stmt);
                                     }
@@ -165,21 +165,21 @@ impl Optimizer<'_> {
                             }
                         }
                         _ => {
-                            new.extend(cur.take().map(Stmt::If).map(T::from_stmt));
+                            new.extend(cur.take().map(Stmt::If).map(T::from));
 
-                            new.push(T::from_stmt(stmt));
+                            new.push(T::from(stmt));
                         }
                     }
                 }
                 Err(item) => {
-                    new.extend(cur.take().map(Stmt::If).map(T::from_stmt));
+                    new.extend(cur.take().map(Stmt::If).map(T::from));
 
                     new.push(item);
                 }
             }
         }
 
-        new.extend(cur.map(Stmt::If).map(T::from_stmt));
+        new.extend(cur.map(Stmt::If).map(T::from));
 
         *stmts = new;
     }
@@ -214,10 +214,11 @@ impl Optimizer<'_> {
 
         if let Stmt::Empty(..) = &*stmt.cons {
             if (self.options.conditionals || self.options.unused) && stmt.alt.is_none() {
-                *s = Stmt::Expr(ExprStmt {
+                *s = ExprStmt {
                     span: stmt.span,
                     expr: stmt.test.take(),
-                });
+                }
+                .into();
                 self.changed = true;
                 report_change!("conditionals: `if (foo);` => `foo` ");
                 return;
@@ -255,10 +256,11 @@ impl Optimizer<'_> {
                     }
                     .into();
                     self.compress_logical_exprs_as_bang_bang(&mut expr, true);
-                    *s = Stmt::Expr(ExprStmt {
+                    *s = ExprStmt {
                         span: stmt.span,
                         expr: expr.into(),
-                    });
+                    }
+                    .into();
                 }
                 _ => {
                     report_change!("Optimizing `if (foo); else bar();` as `foo || bar();`");
@@ -271,10 +273,11 @@ impl Optimizer<'_> {
                     }
                     .into();
                     self.compress_logical_exprs_as_bang_bang(&mut expr, false);
-                    *s = Stmt::Expr(ExprStmt {
+                    *s = ExprStmt {
                         span: stmt.span,
                         expr: expr.into(),
-                    });
+                    }
+                    .into();
                 }
             }
             return;
@@ -292,10 +295,11 @@ impl Optimizer<'_> {
 
             self.changed = true;
             report_change!("conditionals: Merging cons and alt as only one argument differs");
-            *s = Stmt::Expr(ExprStmt {
+            *s = ExprStmt {
                 span: stmt.span,
                 expr: Box::new(v),
-            });
+            }
+            .into();
             return;
         }
 
@@ -306,7 +310,7 @@ impl Optimizer<'_> {
                  not compressable)"
             );
             self.changed = true;
-            *s = Stmt::Expr(ExprStmt {
+            *s = ExprStmt {
                 span: stmt.span,
                 expr: CondExpr {
                     span: DUMMY_SP,
@@ -315,7 +319,8 @@ impl Optimizer<'_> {
                     alt: Box::new(alt.take()),
                 }
                 .into(),
-            })
+            }
+            .into()
         }
     }
 
@@ -811,14 +816,17 @@ impl Optimizer<'_> {
                 s.alt = Some(if alt.len() == 1 {
                     Box::new(alt.into_iter().next().unwrap())
                 } else {
-                    Box::new(Stmt::Block(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: alt,
-                        ..Default::default()
-                    }))
+                    Box::new(
+                        BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: alt,
+                            ..Default::default()
+                        }
+                        .into(),
+                    )
                 });
 
-                new.push(Stmt::If(s))
+                new.push(s.into())
             }
             _ => {
                 unreachable!()
@@ -875,16 +883,19 @@ impl Optimizer<'_> {
                             swap(&mut cons, &mut alt);
                         }
 
-                        new_stmts.push(T::from_stmt(Stmt::If(IfStmt {
-                            span,
-                            test,
-                            cons,
-                            alt: None,
-                        })));
-                        new_stmts.push(T::from_stmt(*alt));
+                        new_stmts.push(T::from(
+                            IfStmt {
+                                span,
+                                test,
+                                cons,
+                                alt: None,
+                            }
+                            .into(),
+                        ));
+                        new_stmts.push(T::from(*alt));
                     }
                     _ => {
-                        new_stmts.push(T::from_stmt(stmt));
+                        new_stmts.push(T::from(stmt));
                     }
                 },
                 Err(stmt) => new_stmts.push(stmt),

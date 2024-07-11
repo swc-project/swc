@@ -99,11 +99,12 @@ impl Fold for Decorators {
                 class,
             }) => {
                 if !contains_decorator(&class) {
-                    return Decl::Class(ClassDecl {
+                    return ClassDecl {
                         ident,
                         declare: false,
                         class,
-                    });
+                    }
+                    .into();
                 }
 
                 let decorate_call = Box::new(self.fold_class_inner(ident.clone(), class));
@@ -156,10 +157,11 @@ impl Fold for Decorators {
                     class,
                 ));
 
-                ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                ExportDefaultExpr {
                     span,
                     expr: decorate_call,
-                })
+                }
+                .into()
             }
             _ => decl,
         }
@@ -243,9 +245,7 @@ impl Fold for Decorators {
                     }) => handle_class!(class, ident),
 
                     _ => {
-                        let item = ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
-                            ExportDefaultExpr { span, expr },
-                        ));
+                        let item: ModuleItem = ExportDefaultExpr { span, expr }.into();
                         buf.push(item.fold_with(self));
                     }
                 },
@@ -586,42 +586,48 @@ impl Decorators {
                             None
                         }
                         .into_iter()
-                        .chain(iter::once(Stmt::Decl(Decl::Class(ClassDecl {
-                            ident: ident.clone(),
-                            class: Class {
-                                decorators: Default::default(),
-                                body: vec![constructor],
-                                ..*class
-                            }
-                            .into(),
-                            declare: false,
-                        }))))
-                        .chain(iter::once(Stmt::Return(ReturnStmt {
-                            span: DUMMY_SP,
-                            arg: Some(
-                                ObjectLit {
-                                    span: DUMMY_SP,
-                                    props: vec![
-                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                            KeyValueProp {
-                                                key: PropName::Ident(quote_ident!("F")),
-                                                value: Box::new(Expr::Ident(ident)),
-                                            },
-                                        ))),
-                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                            KeyValueProp {
-                                                key: PropName::Ident(quote_ident!("d")),
-                                                value: Box::new(Expr::Array(ArrayLit {
-                                                    span: DUMMY_SP,
-                                                    elems: descriptors,
-                                                })),
-                                            },
-                                        ))),
-                                    ],
+                        .chain(iter::once(
+                            ClassDecl {
+                                ident: ident.clone(),
+                                class: Class {
+                                    decorators: Default::default(),
+                                    body: vec![constructor],
+                                    ..*class
                                 }
                                 .into(),
-                            ),
-                        })))
+                                declare: false,
+                            }
+                            .into(),
+                        ))
+                        .chain(iter::once(
+                            ReturnStmt {
+                                span: DUMMY_SP,
+                                arg: Some(
+                                    ObjectLit {
+                                        span: DUMMY_SP,
+                                        props: vec![
+                                            PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                                KeyValueProp {
+                                                    key: PropName::Ident(quote_ident!("F")),
+                                                    value: Box::new(Expr::Ident(ident)),
+                                                },
+                                            ))),
+                                            PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                                KeyValueProp {
+                                                    key: PropName::Ident(quote_ident!("d")),
+                                                    value: Box::new(Expr::Array(ArrayLit {
+                                                        span: DUMMY_SP,
+                                                        elems: descriptors,
+                                                    })),
+                                                },
+                                            ))),
+                                        ],
+                                    }
+                                    .into(),
+                                ),
+                            }
+                            .into(),
+                        ))
                         .collect(),
                         ..Default::default()
                     }),

@@ -459,7 +459,7 @@ impl VisitMut for Polyfills {
             prepend_stmts(
                 &mut m.body,
                 v.into_iter().map(|src| {
-                    ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                    ImportDecl {
                         span,
                         specifiers: vec![],
                         src: Str {
@@ -471,14 +471,15 @@ impl VisitMut for Polyfills {
                         type_only: false,
                         with: None,
                         phase: Default::default(),
-                    }))
+                    }
+                    .into()
                 }),
             );
         } else {
             prepend_stmts(
                 &mut m.body,
                 required.into_iter().map(|src| {
-                    ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                    ImportDecl {
                         span,
                         specifiers: vec![],
                         src: Str {
@@ -490,7 +491,8 @@ impl VisitMut for Polyfills {
                         type_only: false,
                         with: None,
                         phase: Default::default(),
-                    }))
+                    }
+                    .into()
                 }),
             );
         }
@@ -507,7 +509,7 @@ impl VisitMut for Polyfills {
             prepend_stmts(
                 &mut m.body,
                 v.into_iter().map(|src| {
-                    Stmt::Expr(ExprStmt {
+                    ExprStmt {
                         span: DUMMY_SP,
                         expr: CallExpr {
                             span,
@@ -527,14 +529,15 @@ impl VisitMut for Polyfills {
                             ..Default::default()
                         }
                         .into(),
-                    })
+                    }
+                    .into()
                 }),
             );
         } else {
             prepend_stmts(
                 &mut m.body,
                 required.into_iter().map(|src| {
-                    Stmt::Expr(ExprStmt {
+                    ExprStmt {
                         span: DUMMY_SP,
                         expr: CallExpr {
                             span,
@@ -553,7 +556,8 @@ impl VisitMut for Polyfills {
                             ..Default::default()
                         }
                         .into(),
-                    })
+                    }
+                    .into()
                 }),
             );
         }

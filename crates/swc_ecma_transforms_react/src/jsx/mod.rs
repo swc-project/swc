@@ -1097,7 +1097,7 @@ where
 
                 prepend_stmt(
                     stmts,
-                    ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                    ImportDecl {
                         span: DUMMY_SP,
                         specifiers,
                         src: Str {
@@ -1109,7 +1109,8 @@ where
                         type_only: Default::default(),
                         with: Default::default(),
                         phase: Default::default(),
-                    })),
+                    }
+                    .into(),
                 )
             });
         }
@@ -1139,7 +1140,7 @@ where
 // const { createElement } = require('react')
 // const { jsx: jsx } = require('react/jsx-runtime')
 fn add_require(imports: Vec<(Ident, IdentName)>, src: &str, unresolved_mark: Mark) -> Stmt {
-    Stmt::Decl(Decl::Var(Box::new(VarDecl {
+    VarDecl {
         span: DUMMY_SP,
         kind: VarDeclKind::Const,
         declare: false,
@@ -1189,7 +1190,8 @@ fn add_require(imports: Vec<(Ident, IdentName)>, src: &str, unresolved_mark: Mar
             definite: false,
         }],
         ..Default::default()
-    })))
+    }
+    .into()
 }
 
 impl<C> Jsx<C>

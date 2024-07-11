@@ -72,23 +72,17 @@ impl VisitMut for ModuleDeclStrip {
                     match module_decl {
                         ModuleDecl::Import(..) => continue,
                         ModuleDecl::ExportDecl(ExportDecl { decl, .. }) => {
-                            list.push(Stmt::Decl(decl).into());
+                            list.push(decl.into());
                         }
                         ModuleDecl::ExportNamed(..) => continue,
                         ModuleDecl::ExportDefaultDecl(ExportDefaultDecl { decl, .. }) => match decl
                         {
-                            DefaultDecl::Class(class_expr) => list.extend(
-                                class_expr
-                                    .as_class_decl()
-                                    .map(|decl| Stmt::Decl(Decl::Class(decl)))
-                                    .map(From::from),
-                            ),
-                            DefaultDecl::Fn(fn_expr) => list.extend(
-                                fn_expr
-                                    .as_fn_decl()
-                                    .map(|decl| Stmt::Decl(Decl::Fn(decl)))
-                                    .map(From::from),
-                            ),
+                            DefaultDecl::Class(class_expr) => {
+                                list.extend(class_expr.as_class_decl().map(From::from))
+                            }
+                            DefaultDecl::Fn(fn_expr) => {
+                                list.extend(fn_expr.as_fn_decl().map(From::from))
+                            }
                             DefaultDecl::TsInterfaceDecl(_) => continue,
                         },
                         ModuleDecl::ExportDefaultExpr(..) => {
@@ -273,12 +267,12 @@ impl VisitMut for ModuleDeclStrip {
             ExportItem::new((n.span, Default::default()), ident.clone()),
         );
 
-        self.export_default = Some(Stmt::Decl(
+        self.export_default = Some(
             n.expr
                 .take()
                 .into_var_decl(self.const_var_kind, ident.into())
                 .into(),
-        ));
+        );
     }
 
     /// ```javascript

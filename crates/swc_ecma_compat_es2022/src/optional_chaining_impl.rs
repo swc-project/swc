@@ -407,7 +407,7 @@ impl OptionalChaining {
         if !self.vars.is_empty() {
             prepend_stmt(
                 stmts,
-                T::from_stmt(
+                T::from(
                     VarDecl {
                         span: DUMMY_SP,
                         declare: false,

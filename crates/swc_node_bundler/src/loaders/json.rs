@@ -9,7 +9,7 @@ pub(super) fn load_json_as_module(fm: &Arc<SourceFile>) -> Result<Module, Error>
     let expr = parse_file_as_expr(fm, Syntax::default(), EsVersion::Es2020, None, &mut vec![])
         .map_err(|err| anyhow!("failed parse json as javascript object: {:#?}", err))?;
 
-    let export = ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+    let export = ExprStmt {
         span: DUMMY_SP,
         expr: AssignExpr {
             span: DUMMY_SP,
@@ -23,7 +23,8 @@ pub(super) fn load_json_as_module(fm: &Arc<SourceFile>) -> Result<Module, Error>
             right: expr,
         }
         .into(),
-    }));
+    }
+    .into();
 
     Ok(Module {
         span: DUMMY_SP,

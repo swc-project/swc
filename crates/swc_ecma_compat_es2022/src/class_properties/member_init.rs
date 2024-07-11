@@ -189,8 +189,8 @@ impl MemberInitRecord {
 
         for value in self.record {
             match value {
-                MemberInit::PubProp(PubProp { span, name, value }) => {
-                    value_init.push(Stmt::Expr(ExprStmt {
+                MemberInit::PubProp(PubProp { span, name, value }) => value_init.push(
+                    ExprStmt {
                         span,
                         expr: (if self.c.set_public_fields {
                             let class = class_ident.clone();
@@ -217,11 +217,12 @@ impl MemberInitRecord {
                             .into()
                         })
                         .into(),
-                    }))
-                }
+                    }
+                    .into(),
+                ),
                 MemberInit::PrivProp(PrivProp { span, name, value }) => {
                     value_init.push(if self.c.private_as_properties {
-                        Stmt::Expr(ExprStmt {
+                        ExprStmt {
                             span,
                             expr: CallExpr {
                                 span,
@@ -234,7 +235,8 @@ impl MemberInitRecord {
                                 ..Default::default()
                             }
                             .into(),
-                        })
+                        }
+                        .into()
                     } else {
                         VarDecl {
                             span,
@@ -256,7 +258,7 @@ impl MemberInitRecord {
                     getter,
                     setter,
                 }) => normal_init.push(if self.c.private_as_properties {
-                    Stmt::Expr(ExprStmt {
+                    ExprStmt {
                         span,
                         expr: CallExpr {
                             span,
@@ -269,7 +271,8 @@ impl MemberInitRecord {
                             ..Default::default()
                         }
                         .into(),
-                    })
+                    }
+                    .into()
                 } else {
                     VarDecl {
                         span,
@@ -290,20 +293,23 @@ impl MemberInitRecord {
                     fn_name,
                 }) => {
                     if self.c.private_as_properties {
-                        normal_init.push(Stmt::Expr(ExprStmt {
-                            span,
-                            expr: CallExpr {
+                        normal_init.push(
+                            ExprStmt {
                                 span,
-                                callee: obj_def_prop(),
-                                args: vec![
-                                    class_ident.clone().as_arg(),
-                                    name.as_arg(),
-                                    get_method_desc(Box::new(fn_name.into())).as_arg(),
-                                ],
-                                ..Default::default()
+                                expr: CallExpr {
+                                    span,
+                                    callee: obj_def_prop(),
+                                    args: vec![
+                                        class_ident.clone().as_arg(),
+                                        name.as_arg(),
+                                        get_method_desc(Box::new(fn_name.into())).as_arg(),
+                                    ],
+                                    ..Default::default()
+                                }
+                                .into(),
                             }
                             .into(),
-                        }))
+                        )
                     } else {
                         unreachable!()
                     }

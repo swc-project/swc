@@ -133,7 +133,7 @@ impl<'a, I: Tokens> Parser<I> {
 
                 let v = self.parse_using_decl(start, true)?;
                 if let Some(v) = v {
-                    return Ok(Stmt::Decl(Decl::Using(v)));
+                    return Ok(v.into());
                 }
             }
 
@@ -144,7 +144,7 @@ impl<'a, I: Tokens> Parser<I> {
             eat!(self, ';');
 
             let span = span!(self, start);
-            return Ok(Stmt::Expr(ExprStmt { span, expr }));
+            return Ok(ExprStmt { span, expr }.into());
         }
 
         let is_typescript = self.input.syntax().typescript();
@@ -164,7 +164,7 @@ impl<'a, I: Tokens> Parser<I> {
                     assert_and_bump!(self, "await");
                     let v = self.parse_using_decl(start, true)?;
                     if let Some(v) = v {
-                        return Ok(Stmt::Decl(Decl::Using(v)));
+                        return Ok(v.into());
                     }
                 }
             }
@@ -198,18 +198,19 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 return Ok(if is_break {
-                    Stmt::Break(BreakStmt { span, label })
+                    BreakStmt { span, label }.into()
                 } else {
-                    Stmt::Continue(ContinueStmt { span, label })
+                    ContinueStmt { span, label }.into()
                 });
             }
 
             tok!("debugger") => {
                 bump!(self);
                 expect!(self, ';');
-                return Ok(Stmt::Debugger(DebuggerStmt {
+                return Ok(DebuggerStmt {
                     span: span!(self, start),
-                }));
+                }
+                .into());
             }
 
             tok!("do") => {
@@ -261,10 +262,11 @@ impl<'a, I: Tokens> Parser<I> {
                 let _ = self.parse_catch_clause();
                 let _ = self.parse_finally_block();
 
-                return Ok(Stmt::Expr(ExprStmt {
+                return Ok(ExprStmt {
                     span,
                     expr: Invalid { span }.into(),
-                }));
+                }
+                .into());
             }
 
             // Error recovery
@@ -274,10 +276,11 @@ impl<'a, I: Tokens> Parser<I> {
 
                 let _ = self.parse_finally_block();
 
-                return Ok(Stmt::Expr(ExprStmt {
+                return Ok(ExprStmt {
                     span,
                     expr: Invalid { span }.into(),
-                }));
+                }
+                .into());
             }
 
             tok!("try") => {
@@ -294,12 +297,12 @@ impl<'a, I: Tokens> Parser<I> {
 
             tok!("var") => {
                 let v = self.parse_var_stmt(false)?;
-                return Ok(Stmt::Decl(Decl::Var(v)));
+                return Ok(v.into());
             }
 
             tok!("const") if include_decl => {
                 let v = self.parse_var_stmt(false)?;
-                return Ok(Stmt::Decl(Decl::Var(v)));
+                return Ok(v.into());
             }
 
             // 'let' can start an identifier reference.
@@ -312,14 +315,14 @@ impl<'a, I: Tokens> Parser<I> {
 
                 if is_keyword {
                     let v = self.parse_var_stmt(false)?;
-                    return Ok(Stmt::Decl(Decl::Var(v)));
+                    return Ok(v.into());
                 }
             }
 
             tok!("using") if include_decl => {
                 let v = self.parse_using_decl(start, false)?;
                 if let Some(v) = v {
-                    return Ok(Stmt::Decl(Decl::Using(v)));
+                    return Ok(v.into());
                 }
             }
 
@@ -330,9 +333,7 @@ impl<'a, I: Tokens> Parser<I> {
                 {
                     let start = self.input.cur_pos();
                     bump!(self);
-                    return Ok(Stmt::Decl(Decl::TsInterface(
-                        self.parse_ts_interface_decl(start)?,
-                    )));
+                    return Ok(self.parse_ts_interface_decl(start)?.into());
                 }
             }
 
@@ -343,9 +344,7 @@ impl<'a, I: Tokens> Parser<I> {
                 {
                     let start = self.input.cur_pos();
                     bump!(self);
-                    return Ok(Stmt::Decl(Decl::TsTypeAlias(
-                        self.parse_ts_type_alias_decl(start)?,
-                    )));
+                    return Ok(self.parse_ts_type_alias_decl(start)?.into());
                 }
             }
 
@@ -356,9 +355,7 @@ impl<'a, I: Tokens> Parser<I> {
                 {
                     let start = self.input.cur_pos();
                     bump!(self);
-                    return Ok(Stmt::Decl(Decl::TsEnum(
-                        self.parse_ts_enum_decl(start, false)?,
-                    )));
+                    return Ok(self.parse_ts_enum_decl(start, false)?.into());
                 }
             }
 
@@ -374,9 +371,10 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if eat_exact!(self, ';') {
-            return Ok(Stmt::Empty(EmptyStmt {
+            return Ok(EmptyStmt {
                 span: span!(self, start),
-            }));
+            }
+            .into());
         }
 
         // Handle async function foo() {}
@@ -412,15 +410,16 @@ impl<'a, I: Tokens> Parser<I> {
 
                 eat!(self, ';');
 
-                return Ok(Stmt::Expr(ExprStmt {
+                return Ok(ExprStmt {
                     span: span!(self, start),
                     expr,
-                }));
+                }
+                .into());
             }
 
             if self.input.syntax().typescript() {
                 if let Some(decl) = self.parse_ts_expr_stmt(decorators, ident.clone())? {
-                    return Ok(Stmt::Decl(decl));
+                    return Ok(decl.into());
                 }
             }
         }
@@ -452,10 +451,11 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if eat!(self, ';') {
-            Ok(Stmt::Expr(ExprStmt {
+            Ok(ExprStmt {
                 span: span!(self, start),
                 expr,
-            }))
+            }
+            .into())
         } else {
             if let Token::BinOp(..) = *cur!(self, false)? {
                 self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
@@ -567,7 +567,7 @@ impl<'a, I: Tokens> Parser<I> {
 
                 match &mut cur {
                     Some(cur) => {
-                        self.adjust_if_else_clause(cur, Box::new(Stmt::If(alt)));
+                        self.adjust_if_else_clause(cur, Box::new(alt.into()));
                     }
                     _ => {
                         cur = Some(alt);
@@ -580,7 +580,7 @@ impl<'a, I: Tokens> Parser<I> {
                     if let Some(last) = last {
                         self.adjust_if_else_clause(&mut cur, Box::new(last));
                     }
-                    Some(Stmt::If(cur))
+                    Some(cur.into())
                 }
                 _ => last,
             }
@@ -608,10 +608,11 @@ impl<'a, I: Tokens> Parser<I> {
                 p.include_in_expr(true).parse_expr().map(Some)?
             };
             expect!(p, ';');
-            Ok(Stmt::Return(ReturnStmt {
+            Ok(ReturnStmt {
                 span: span!(p, start),
                 arg,
-            }))
+            }
+            .into())
         });
 
         if !self.ctx().in_function && !self.input.syntax().allow_return_outside_function() {
@@ -674,11 +675,12 @@ impl<'a, I: Tokens> Parser<I> {
         // eof or rbrace
         expect!(self, '}');
 
-        Ok(Stmt::Switch(SwitchStmt {
+        Ok(SwitchStmt {
             span: span!(self, switch_start),
             discriminant,
             cases,
-        }))
+        }
+        .into())
     }
 
     fn parse_throw_stmt(&mut self) -> PResult<Stmt> {
@@ -695,7 +697,7 @@ impl<'a, I: Tokens> Parser<I> {
         expect!(self, ';');
 
         let span = span!(self, start);
-        Ok(Stmt::Throw(ThrowStmt { span, arg }))
+        Ok(ThrowStmt { span, arg }.into())
     }
 
     fn parse_try_stmt(&mut self) -> PResult<Stmt> {
@@ -713,12 +715,13 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let span = span!(self, start);
-        Ok(Stmt::Try(Box::new(TryStmt {
+        Ok(TryStmt {
             span,
             block,
             handler,
             finalizer,
-        })))
+        }
+        .into())
     }
 
     fn parse_catch_clause(&mut self) -> PResult<Option<CatchClause>> {
@@ -1059,7 +1062,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let span = span!(self, start);
 
-        Ok(Stmt::DoWhile(DoWhileStmt { span, test, body }))
+        Ok(DoWhileStmt { span, test, body }.into())
     }
 
     fn parse_while_stmt(&mut self) -> PResult<Stmt> {
@@ -1079,7 +1082,7 @@ impl<'a, I: Tokens> Parser<I> {
         let body = self.with_ctx(ctx).parse_stmt(false).map(Box::new)?;
 
         let span = span!(self, start);
-        Ok(Stmt::While(WhileStmt { span, test, body }))
+        Ok(WhileStmt { span, test, body }.into())
     }
 
     fn parse_with_stmt(&mut self) -> PResult<Stmt> {
@@ -1108,7 +1111,7 @@ impl<'a, I: Tokens> Parser<I> {
         let body = self.with_ctx(ctx).parse_stmt(false).map(Box::new)?;
 
         let span = span!(self, start);
-        Ok(Stmt::With(WithStmt { span, obj, body }))
+        Ok(WithStmt { span, obj, body }.into())
     }
 
     pub(super) fn parse_block(&mut self, allow_directives: bool) -> PResult<BlockStmt> {
@@ -1173,11 +1176,12 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            Ok(Stmt::Labeled(LabeledStmt {
+            Ok(LabeledStmt {
                 span: span!(p, start),
                 label: l,
                 body,
-            }))
+            }
+            .into())
         })
     }
 
@@ -1213,33 +1217,36 @@ impl<'a, I: Tokens> Parser<I> {
                     syntax_error!(self, await_token, SyntaxError::AwaitForStmt);
                 }
 
-                Stmt::For(ForStmt {
+                ForStmt {
                     span,
                     init,
                     test,
                     update,
                     body,
-                })
+                }
+                .into()
             }
             TempForHead::ForIn { left, right } => {
                 if let Some(await_token) = await_token {
                     syntax_error!(self, await_token, SyntaxError::AwaitForStmt);
                 }
 
-                Stmt::ForIn(ForInStmt {
+                ForInStmt {
                     span,
                     left,
                     right,
                     body,
-                })
+                }
+                .into()
             }
-            TempForHead::ForOf { left, right } => Stmt::ForOf(ForOfStmt {
+            TempForHead::ForOf { left, right } => ForOfStmt {
                 span,
                 is_await: await_token.is_some(),
                 left,
                 right,
                 body,
-            }),
+            }
+            .into(),
         })
     }
 

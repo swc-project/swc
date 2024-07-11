@@ -33,8 +33,8 @@ pub trait ModuleItemExt:
 
     fn into_module_item(self) -> ModuleItem {
         match self.into_module_decl() {
-            Ok(v) => ModuleItem::ModuleDecl(v),
-            Err(v) => ModuleItem::Stmt(v),
+            Ok(v) => v.into(),
+            Err(v) => v.into(),
         }
     }
 

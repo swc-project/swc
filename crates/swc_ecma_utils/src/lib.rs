@@ -253,12 +253,12 @@ impl StmtOrModuleItem for ModuleItem {
 
     #[inline]
     fn from_stmt(stmt: Stmt) -> Self {
-        ModuleItem::Stmt(stmt)
+        stmt.into()
     }
 
     #[inline]
     fn try_from_module_decl(decl: ModuleDecl) -> Result<Self, ModuleDecl> {
-        Ok(ModuleItem::ModuleDecl(decl))
+        Ok(decl.into())
     }
 }
 
@@ -271,11 +271,10 @@ pub trait ModuleItemLike: StmtLike {
     }
 }
 
-pub trait StmtLike: Sized + 'static + Send + Sync {
+pub trait StmtLike: Sized + 'static + Send + Sync + From<Stmt> {
     fn try_into_stmt(self) -> Result<Stmt, Self>;
     fn as_stmt(&self) -> Option<&Stmt>;
     fn as_stmt_mut(&mut self) -> Option<&mut Stmt>;
-    fn from_stmt(stmt: Stmt) -> Self;
 }
 
 impl ModuleItemLike for Stmt {}
@@ -295,11 +294,6 @@ impl StmtLike for Stmt {
     fn as_stmt_mut(&mut self) -> Option<&mut Stmt> {
         Some(self)
     }
-
-    #[inline]
-    fn from_stmt(stmt: Stmt) -> Self {
-        stmt
-    }
 }
 
 impl ModuleItemLike for ModuleItem {
@@ -313,7 +307,7 @@ impl ModuleItemLike for ModuleItem {
 
     #[inline]
     fn try_from_module_decl(decl: ModuleDecl) -> Result<Self, ModuleDecl> {
-        Ok(ModuleItem::ModuleDecl(decl))
+        Ok(decl.into())
     }
 }
 impl StmtLike for ModuleItem {
@@ -339,11 +333,6 @@ impl StmtLike for ModuleItem {
             ModuleItem::Stmt(stmt) => Some(stmt),
             _ => None,
         }
-    }
-
-    #[inline]
-    fn from_stmt(stmt: Stmt) -> Self {
-        ModuleItem::Stmt(stmt)
     }
 }
 

@@ -196,10 +196,13 @@ impl<'a> HookRegister<'a> {
 
     fn gen_hook_register_stmt(&mut self, ident: Ident, sig: HookSig) {
         self.ident.push(sig.handle.clone());
-        self.extra_stmt.push(Stmt::Expr(ExprStmt {
-            span: DUMMY_SP,
-            expr: Box::new(self.wrap_with_register(sig.handle, ident.into(), sig.hooks)),
-        }))
+        self.extra_stmt.push(
+            ExprStmt {
+                span: DUMMY_SP,
+                expr: Box::new(self.wrap_with_register(sig.handle, ident.into(), sig.hooks)),
+            }
+            .into(),
+        )
     }
 }
 

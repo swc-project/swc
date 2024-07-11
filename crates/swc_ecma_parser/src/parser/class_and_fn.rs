@@ -1620,21 +1620,23 @@ impl OutputType for Decl {
     ) -> Result<Self, SyntaxError> {
         let ident = ident.ok_or(SyntaxError::ExpectedIdent)?;
 
-        Ok(Decl::Fn(FnDecl {
+        Ok(FnDecl {
             declare: false,
             ident,
             function,
-        }))
+        }
+        .into())
     }
 
     fn finish_class(_: Span, ident: Option<Ident>, class: Box<Class>) -> Result<Self, SyntaxError> {
         let ident = ident.ok_or(SyntaxError::ExpectedIdent)?;
 
-        Ok(Decl::Class(ClassDecl {
+        Ok(ClassDecl {
             declare: false,
             ident,
             class,
-        }))
+        }
+        .into())
     }
 }
 

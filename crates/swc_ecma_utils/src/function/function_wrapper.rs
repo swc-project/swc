@@ -112,38 +112,35 @@ impl<T> FunctionWrapper<T> {
             |ident| private_ident!(ident.span, format!("_{}", ident.sym)),
         );
 
-        let ref_stmt: Stmt = Stmt::Decl(
-            VarDecl {
-                kind: VarDeclKind::Var,
-                decls: vec![VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(ref_ident.clone().into()),
-                    init: Some(Box::new(self.function.take())),
-                    definite: false,
-                }],
+        let ref_stmt: Stmt = VarDecl {
+            kind: VarDeclKind::Var,
+            decls: vec![VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(ref_ident.clone().into()),
+                init: Some(Box::new(self.function.take())),
+                definite: false,
+            }],
 
-                ..Default::default()
-            }
-            .into(),
-        );
+            ..Default::default()
+        }
+        .into();
 
         let fn_decl_stmt = {
             let FnExpr { function, .. } = self.build_function_forward(ref_ident, None);
 
-            Stmt::Decl(
-                FnDecl {
-                    ident: name_ident.clone(),
-                    declare: false,
-                    function,
-                }
-                .into(),
-            )
+            FnDecl {
+                ident: name_ident.clone(),
+                declare: false,
+                function,
+            }
+            .into()
         };
 
-        let return_stmt = Stmt::Return(ReturnStmt {
+        let return_stmt = ReturnStmt {
             span: DUMMY_SP,
             arg: Some(Box::new(name_ident.into())),
-        });
+        }
+        .into();
 
         let block_stmt = BlockStmt {
             stmts: vec![ref_stmt, fn_decl_stmt, return_stmt],
@@ -231,14 +228,15 @@ impl<T> FunctionWrapper<T> {
     /// }
     /// ```
     fn build_function_forward(&mut self, ref_ident: Ident, name_ident: Option<Ident>) -> FnExpr {
-        let apply = Stmt::Return(ReturnStmt {
+        let apply = ReturnStmt {
             span: DUMMY_SP,
             arg: Some(Box::new(ref_ident.apply(
                 DUMMY_SP,
                 ThisExpr { span: DUMMY_SP }.into(),
                 vec![quote_ident!("arguments").as_arg()],
             ))),
-        });
+        }
+        .into();
 
         FnExpr {
             ident: name_ident,

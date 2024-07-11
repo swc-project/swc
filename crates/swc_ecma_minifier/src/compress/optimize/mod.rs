@@ -455,21 +455,21 @@ impl Optimizer<'_> {
                     stmt.visit_with(&mut AssertValid);
                 }
 
-                new.extend(self.prepend_stmts.drain(..).map(T::from_stmt));
+                new.extend(self.prepend_stmts.drain(..).map(T::from));
 
                 match stmt.try_into_stmt() {
                     Ok(Stmt::Block(s)) if s.ctxt.has_mark(self.marks.fake_block) => {
-                        new.extend(s.stmts.into_iter().map(T::from_stmt));
+                        new.extend(s.stmts.into_iter().map(T::from));
                     }
                     Ok(s) => {
-                        new.push(T::from_stmt(s));
+                        new.push(T::from(s));
                     }
                     Err(stmt) => {
                         new.push(stmt);
                     }
                 }
 
-                new.extend(self.append_stmts.drain(..).map(T::from_stmt));
+                new.extend(self.append_stmts.drain(..).map(T::from));
             }
             *stmts = new;
         }
@@ -516,7 +516,7 @@ impl Optimizer<'_> {
             stmts.visit_with(&mut AssertValid);
         }
 
-        // stmts.extend(self.append_stmts.drain(..).map(T::from_stmt));
+        // stmts.extend(self.append_stmts.drain(..).map(T::from));
 
         drop_invalid_stmts(stmts);
 
@@ -1330,7 +1330,7 @@ impl Optimizer<'_> {
             Stmt::Block(bs) => {
                 if bs.stmts.is_empty() {
                     report_change!("Converting empty block to empty statement");
-                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    *s = EmptyStmt { span: DUMMY_SP }.into();
                     return;
                 }
 
@@ -1385,7 +1385,7 @@ impl Optimizer<'_> {
                         if block.stmts.is_empty() {
                             self.changed = true;
                             report_change!("optimizer: Removing empty block");
-                            *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                            *stmt = EmptyStmt { span: DUMMY_SP }.into();
                             return;
                         }
                     }
@@ -1447,7 +1447,7 @@ impl Optimizer<'_> {
 
         match s {
             Stmt::Block(block) if block.stmts.is_empty() => {
-                *s = Stmt::Empty(EmptyStmt { span: block.span });
+                *s = EmptyStmt { span: block.span }.into();
             }
             Stmt::Block(block)
                 if block.stmts.len() == 1 && is_fine_for_if_cons(&block.stmts[0]) =>
@@ -1472,10 +1472,11 @@ impl Optimizer<'_> {
             if let Stmt::Expr(cons) = &mut *stmt.cons {
                 self.changed = true;
                 report_change!("Converting if statement to a form `test && cons`");
-                *s = Stmt::Expr(ExprStmt {
+                *s = ExprStmt {
                     span: stmt.span,
                     expr: Box::new(stmt.test.take().make_bin(op!("&&"), *cons.expr.take())),
-                });
+                }
+                .into();
             }
         }
     }
@@ -1525,10 +1526,13 @@ impl VisitMut for Optimizer<'_> {
                     self.changed = true;
                     report_change!("Converting a body of an arrow expression to BlockStmt");
 
-                    stmts.push(Stmt::Return(ReturnStmt {
-                        span: DUMMY_SP,
-                        arg: Some(v.take()),
-                    }));
+                    stmts.push(
+                        ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(v.take()),
+                        }
+                        .into(),
+                    );
                     n.body = Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
                         span: DUMMY_SP,
                         stmts,
@@ -2543,14 +2547,14 @@ impl VisitMut for Optimizer<'_> {
             match s {
                 // We use var decl with no declarator to indicate we dropped an decl.
                 Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => {
-                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    *s = EmptyStmt { span: DUMMY_SP }.into();
                     self.prepend_stmts = old_prepend;
                     self.append_stmts = old_append;
                     return;
                 }
                 Stmt::Expr(es) => {
                     if es.expr.is_invalid() {
-                        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                        *s = EmptyStmt { span: DUMMY_SP }.into();
                         self.prepend_stmts = old_prepend;
                         self.append_stmts = old_append;
                         return;
@@ -2617,7 +2621,7 @@ impl VisitMut for Optimizer<'_> {
             report_change!("Creating a fake block because of prepend or append");
 
             let span = s.span();
-            *s = Stmt::Block(BlockStmt {
+            *s = BlockStmt {
                 span,
                 ctxt: SyntaxContext::empty().apply_mark(self.marks.fake_block),
                 stmts: self
@@ -2632,7 +2636,8 @@ impl VisitMut for Optimizer<'_> {
                         _ => true,
                     })
                     .collect(),
-            });
+            }
+            .into();
 
             #[cfg(debug_assertions)]
             {
@@ -2660,7 +2665,7 @@ impl VisitMut for Optimizer<'_> {
 
         if let Stmt::Expr(ExprStmt { expr, .. }) = s {
             if is_pure_undefined(&self.expr_ctx, expr) {
-                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                *s = EmptyStmt { span: DUMMY_SP }.into();
                 return;
             }
 
@@ -2675,7 +2680,7 @@ impl VisitMut for Optimizer<'_> {
                 }
             {
                 report_change!("Removing 'use strict'");
-                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                *s = EmptyStmt { span: DUMMY_SP }.into();
                 return;
             }
 
@@ -2688,7 +2693,7 @@ impl VisitMut for Optimizer<'_> {
                     self.changed = true;
                     report_change!("unused: Dropping an expression without side effect");
                     dump_change_detail!("unused: Dropping \n{}\n", dump(&*expr, false));
-                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    *s = EmptyStmt { span: DUMMY_SP }.into();
                     return;
                 }
             }
@@ -2700,7 +2705,7 @@ impl VisitMut for Optimizer<'_> {
         match s {
             // We use var decl with no declarator to indicate we dropped an decl.
             Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => {
-                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                *s = EmptyStmt { span: DUMMY_SP }.into();
                 return;
             }
             _ => {}
@@ -3064,18 +3069,21 @@ impl VisitMut for Optimizer<'_> {
                 if can_prepend {
                     can_prepend = false;
 
-                    self.prepend_stmts.push(Stmt::Expr(ExprStmt {
-                        span: DUMMY_SP,
-                        expr: if side_effects.len() == 1 {
-                            side_effects.remove(0)
-                        } else {
-                            SeqExpr {
-                                span: DUMMY_SP,
-                                exprs: side_effects.take(),
-                            }
-                            .into()
-                        },
-                    }));
+                    self.prepend_stmts.push(
+                        ExprStmt {
+                            span: DUMMY_SP,
+                            expr: if side_effects.len() == 1 {
+                                side_effects.remove(0)
+                            } else {
+                                SeqExpr {
+                                    span: DUMMY_SP,
+                                    exprs: side_effects.take(),
+                                }
+                                .into()
+                            },
+                        }
+                        .into(),
+                    );
                 } else {
                     // We prepend side effects to the initializer.
 
@@ -3090,18 +3098,21 @@ impl VisitMut for Optimizer<'_> {
 
             // We append side effects.
             if !side_effects.is_empty() {
-                self.append_stmts.push(Stmt::Expr(ExprStmt {
-                    span: DUMMY_SP,
-                    expr: if side_effects.len() == 1 {
-                        side_effects.remove(0)
-                    } else {
-                        SeqExpr {
-                            span: DUMMY_SP,
-                            exprs: side_effects,
-                        }
-                        .into()
-                    },
-                }));
+                self.append_stmts.push(
+                    ExprStmt {
+                        span: DUMMY_SP,
+                        expr: if side_effects.len() == 1 {
+                            side_effects.remove(0)
+                        } else {
+                            SeqExpr {
+                                span: DUMMY_SP,
+                                exprs: side_effects,
+                            }
+                            .into()
+                        },
+                    }
+                    .into(),
+                );
             }
 
             vars.retain_mut(|var| {
