@@ -173,16 +173,6 @@ impl Params {
                         });
                         loose_stmt.push(
                             IfStmt {
-                        loose_stmt.push(Stmt::If(IfStmt {
-                            span,
-                            test: BinExpr {
-                                span: DUMMY_SP,
-                                left: Box::new(Ident::from(ident).into()),
-                                op: op!("==="),
-                                right: Expr::undefined(DUMMY_SP),
-                            }
-                            .into(),
-                            cons: Box::new(Stmt::Expr(ExprStmt {
                                 span,
                                 test: BinExpr {
                                     span: DUMMY_SP,
