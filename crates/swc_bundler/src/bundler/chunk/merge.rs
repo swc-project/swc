@@ -578,7 +578,7 @@ where
                     ModuleItem::ModuleDecl(ModuleDecl::Import(mut import)) => {
                         // Preserve imports from node.js builtin modules.
                         if self.config.external_modules.contains(&import.src.value) {
-                            new.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
+                            new.push(ModuleItem::ModuleDecl(import.into()));
                             continue;
                         }
 
@@ -589,7 +589,7 @@ where
                             .find(|s| s.0.src.value == import.src.value)
                         {
                             if !self.scope.get_module(src.module_id).unwrap().is_es6 {
-                                new.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
+                                new.push(ModuleItem::ModuleDecl(import.into()));
                                 continue;
                             }
                         }
@@ -661,7 +661,7 @@ where
                         }
 
                         import.specifiers.clear();
-                        new.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
+                        new.push(ModuleItem::ModuleDecl(import.into()));
                     }
                     ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
                         // At here, we create multiple items.
@@ -772,7 +772,7 @@ where
                             exported: Some(ModuleExportName::Ident(exported)),
                             is_type_only: false,
                         });
-                        extra.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        extra.push(ModuleItem::ModuleDecl(
                             NamedExport {
                                 span: export.span,
                                 specifiers: vec![specifier],
@@ -785,8 +785,9 @@ where
                                     }
                                     .into_with(),
                                 ),
-                            },
-                        )));
+                            }
+                            .into(),
+                        ));
                     }
 
                     ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => {
@@ -824,7 +825,7 @@ where
                             is_type_only: false,
                         });
                         tracing::trace!("Exporting `default` with `export default expr`");
-                        extra.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        extra.push(ModuleItem::ModuleDecl(
                             NamedExport {
                                 span: export.span,
                                 specifiers: vec![specifier],
@@ -837,8 +838,9 @@ where
                                     }
                                     .into_with(),
                                 ),
-                            },
-                        )));
+                            }
+                            .into(),
+                        ));
                     }
 
                     ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
@@ -864,8 +866,8 @@ where
 
                                 new.push(ModuleItem::Stmt(v.into().into()));
 
-                                let export =
-                                    ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                                let export = ModuleItem::ModuleDecl(
+                                    NamedExport {
                                         span: export.span,
                                         specifiers: ids
                                             .into_iter()
@@ -911,7 +913,9 @@ where
                                             }
                                             .into_with(),
                                         ),
-                                    }));
+                                    }
+                                    .into(),
+                                );
                                 extra.push(export);
                                 continue;
                             }
@@ -946,7 +950,7 @@ where
                             is_type_only: false,
                         });
 
-                        extra.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        extra.push(ModuleItem::ModuleDecl(
                             NamedExport {
                                 span: export.span,
                                 specifiers: vec![specifier],
@@ -959,8 +963,9 @@ where
                                     }
                                     .into_with(),
                                 ),
-                            },
-                        )));
+                            }
+                            .into(),
+                        ));
                     }
 
                     ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
@@ -1172,13 +1177,14 @@ where
                                                             },
                                                         );
                                                         extra.push(ModuleItem::ModuleDecl(
-                                                            ModuleDecl::ExportNamed(NamedExport {
+                                                            NamedExport {
                                                                 span: ns.span,
                                                                 specifiers: vec![specifier],
                                                                 src: None,
                                                                 with: None,
                                                                 type_only: false,
-                                                            }),
+                                                            }
+                                                            .into(),
                                                         ));
                                                     }
                                                     None => {

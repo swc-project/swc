@@ -1020,10 +1020,11 @@ impl Transform {
                                 init.into_var_decl(VarDeclKind::Const, decl.id.take().into());
 
                             let module_item = if decl.is_export {
-                                ModuleDecl::ExportDecl(ExportDecl {
+                                ExportDecl {
                                     span: decl.span,
                                     decl: var_decl.into(),
-                                })
+                                }
+                                .into()
                                 .into()
                             } else {
                                 var_decl.span = decl.span;
@@ -1069,10 +1070,11 @@ impl Transform {
                                         .into_var_decl(VarDeclKind::Const, decl.id.take().into());
 
                                     let module_item = if decl.is_export {
-                                        ModuleDecl::ExportDecl(ExportDecl {
+                                        ExportDecl {
                                             span: decl.span,
                                             decl: var_decl.into(),
-                                        })
+                                        }
+                                        .into()
                                         .into()
                                     } else {
                                         var_decl.span = decl.span;
@@ -1111,7 +1113,7 @@ impl Transform {
         if should_inject {
             n.inject_after_directive([
                 // import { createRequire } from "module";
-                ModuleDecl::Import(ImportDecl {
+                ImportDecl {
                     span: DUMMY_SP,
                     specifiers: vec![ImportNamedSpecifier {
                         span: DUMMY_SP,
@@ -1124,7 +1126,8 @@ impl Transform {
                     type_only: false,
                     with: None,
                     phase: Default::default(),
-                })
+                }
+                .into()
                 .into(),
                 // const __require = _createRequire(import.meta.url);
                 create_require
@@ -1169,7 +1172,7 @@ impl Transform {
                     );
                 }
                 TsImportExportAssignConfig::Preserve => {
-                    n.push(ModuleDecl::TsExportAssignment(cjs_export_assign).into());
+                    n.push(cjs_export_assign.into().into());
                 }
                 TsImportExportAssignConfig::NodeNext | TsImportExportAssignConfig::EsNext => {
                     // TS1203

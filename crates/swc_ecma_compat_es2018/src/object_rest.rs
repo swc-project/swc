@@ -307,7 +307,7 @@ impl VisitMut for ObjectRest {
                 var_decl.visit_mut_with(self);
                 self.vars.append(&mut var_decl.decls);
 
-                *decl = ModuleDecl::ExportNamed(export);
+                *decl = export.into();
             }
             _ => {
                 decl.visit_mut_children_with(self);

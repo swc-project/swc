@@ -82,19 +82,22 @@ where
                                 });
                                 additional_items.push((
                                     module_id,
-                                    ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                                        span: DUMMY_SP,
-                                        specifiers: vec![specifier],
-                                        src: None,
-                                        type_only: false,
-                                        with: Some(
-                                            ExportMetadata {
-                                                injected: true,
-                                                ..Default::default()
-                                            }
-                                            .into_with(),
-                                        ),
-                                    })),
+                                    ModuleItem::ModuleDecl(
+                                        NamedExport {
+                                            span: DUMMY_SP,
+                                            specifiers: vec![specifier],
+                                            src: None,
+                                            type_only: false,
+                                            with: Some(
+                                                ExportMetadata {
+                                                    injected: true,
+                                                    ..Default::default()
+                                                }
+                                                .into_with(),
+                                            ),
+                                        }
+                                        .into(),
+                                    ),
                                 ));
                             }
                         }
@@ -289,9 +292,7 @@ impl Fold for ExportToReturn {
                 DefaultDecl::TsInterfaceDecl(_) => None,
             },
             ModuleDecl::ExportDefaultExpr(_) => None,
-            ModuleDecl::ExportAll(export) => {
-                return ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export))
-            }
+            ModuleDecl::ExportAll(export) => return ModuleItem::ModuleDecl(export.into()),
             ModuleDecl::ExportNamed(export) => {
                 for specifier in &export.specifiers {
                     match specifier {
@@ -328,7 +329,7 @@ impl Fold for ExportToReturn {
                 {
                     None
                 } else {
-                    return ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export));
+                    return ModuleItem::ModuleDecl(export.into());
                 }
             }
             ModuleDecl::TsImportEquals(_) => None,

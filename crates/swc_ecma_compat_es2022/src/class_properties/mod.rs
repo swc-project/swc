@@ -363,7 +363,7 @@ impl<C: Comments> ClassProperties<C> {
                                 extra.merge_with(&mut buf, T::from_stmt(decl.into().into()));
 
                                 buf.push(
-                                    match T::try_from_module_decl(ModuleDecl::ExportNamed(
+                                    match T::try_from_module_decl(
                                         NamedExport {
                                             span,
                                             specifiers: vec![ExportNamedSpecifier {
@@ -378,8 +378,9 @@ impl<C: Comments> ClassProperties<C> {
                                             src: None,
                                             type_only: false,
                                             with: None,
-                                        },
-                                    )) {
+                                        }
+                                        .into(),
+                                    ) {
                                         Ok(t) => t,
                                         Err(..) => unreachable!(),
                                     },
@@ -398,12 +399,13 @@ impl<C: Comments> ClassProperties<C> {
                                 let (decl, extra) = self.visit_mut_class_as_decl(ident, class);
                                 extra.merge_with(
                                     &mut buf,
-                                    match T::try_from_module_decl(ModuleDecl::ExportDecl(
+                                    match T::try_from_module_decl(
                                         ExportDecl {
                                             span,
                                             decl: decl.into(),
-                                        },
-                                    )) {
+                                        }
+                                        .into(),
+                                    ) {
                                         Ok(t) => t,
                                         Err(..) => unreachable!(),
                                     },

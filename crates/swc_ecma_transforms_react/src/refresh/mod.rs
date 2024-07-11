@@ -354,12 +354,13 @@ impl<C: Comments> VisitMut for Refresh<C> {
                             if let Some(hook) = hook {
                                 make_hook_reg(expr.as_mut(), hook)
                             }
-                            item = ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
+                            item = ModuleItem::ModuleDecl(
                                 ExportDefaultExpr {
                                     expr: Box::new(make_assign_stmt(reg[0].0.clone(), expr.take())),
                                     span: *span,
-                                },
-                            ));
+                                }
+                                .into(),
+                            );
                             Persist::Hoc(Hoc {
                                 insert: false,
                                 reg,

@@ -1641,13 +1641,16 @@ impl VisitMut for Decorator2022_03 {
         if !self.extra_exports.is_empty() {
             insert_builder.push_back(
                 n.len() + 1,
-                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                    span: DUMMY_SP,
-                    specifiers: self.extra_exports.take(),
-                    src: None,
-                    type_only: false,
-                    with: None,
-                })),
+                ModuleItem::ModuleDecl(
+                    NamedExport {
+                        span: DUMMY_SP,
+                        specifiers: self.extra_exports.take(),
+                        src: None,
+                        type_only: false,
+                        with: None,
+                    }
+                    .into(),
+                ),
             );
         }
 

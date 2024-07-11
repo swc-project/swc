@@ -109,21 +109,25 @@ impl ExplicitResourceManagement {
 
                         // export { C as default }
                         new.push(
-                            T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
-                                span: DUMMY_SP,
-                                specifiers: vec![ExportSpecifier::Named(ExportNamedSpecifier {
+                            T::try_from_module_decl(
+                                NamedExport {
                                     span: DUMMY_SP,
-                                    orig: ModuleExportName::Ident(ident.clone()),
-                                    exported: Some(ModuleExportName::Ident(Ident::new_no_ctxt(
-                                        "default".into(),
-                                        DUMMY_SP,
-                                    ))),
-                                    is_type_only: Default::default(),
-                                })],
-                                src: None,
-                                type_only: Default::default(),
-                                with: None,
-                            }))
+                                    specifiers: vec![ExportSpecifier::Named(
+                                        ExportNamedSpecifier {
+                                            span: DUMMY_SP,
+                                            orig: ModuleExportName::Ident(ident.clone()),
+                                            exported: Some(ModuleExportName::Ident(
+                                                Ident::new_no_ctxt("default".into(), DUMMY_SP),
+                                            )),
+                                            is_type_only: Default::default(),
+                                        },
+                                    )],
+                                    src: None,
+                                    type_only: Default::default(),
+                                    with: None,
+                                }
+                                .into(),
+                            )
                             .unwrap(),
                         );
                         try_body.push(
@@ -152,21 +156,25 @@ impl ExplicitResourceManagement {
 
                         // export { _default as default }
                         new.push(
-                            T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
-                                span: DUMMY_SP,
-                                specifiers: vec![ExportSpecifier::Named(ExportNamedSpecifier {
+                            T::try_from_module_decl(
+                                NamedExport {
                                     span: DUMMY_SP,
-                                    orig: ModuleExportName::Ident(ident.clone()),
-                                    exported: Some(ModuleExportName::Ident(Ident::new_no_ctxt(
-                                        "default".into(),
-                                        DUMMY_SP,
-                                    ))),
-                                    is_type_only: Default::default(),
-                                })],
-                                src: None,
-                                type_only: Default::default(),
-                                with: None,
-                            }))
+                                    specifiers: vec![ExportSpecifier::Named(
+                                        ExportNamedSpecifier {
+                                            span: DUMMY_SP,
+                                            orig: ModuleExportName::Ident(ident.clone()),
+                                            exported: Some(ModuleExportName::Ident(
+                                                Ident::new_no_ctxt("default".into(), DUMMY_SP),
+                                            )),
+                                            is_type_only: Default::default(),
+                                        },
+                                    )],
+                                    src: None,
+                                    type_only: Default::default(),
+                                    with: None,
+                                }
+                                .into(),
+                            )
                             .unwrap(),
                         );
                         try_body.push(
@@ -235,13 +243,16 @@ impl ExplicitResourceManagement {
                                 });
 
                                 extras.push(
-                                    T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
-                                        span: DUMMY_SP,
-                                        specifiers: vec![specifier],
-                                        src: None,
-                                        type_only: false,
-                                        with: None,
-                                    }))
+                                    T::try_from_module_decl(
+                                        NamedExport {
+                                            span: DUMMY_SP,
+                                            specifiers: vec![specifier],
+                                            src: None,
+                                            type_only: false,
+                                            with: None,
+                                        }
+                                        .into(),
+                                    )
                                     .unwrap(),
                                 );
                             }
@@ -312,20 +323,21 @@ impl ExplicitResourceManagement {
                                     .collect();
 
                                 extras.push(
-                                    T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
-                                        span: DUMMY_SP,
-                                        specifiers,
-                                        src: None,
-                                        type_only: false,
-                                        with: None,
-                                    }))
+                                    T::try_from_module_decl(
+                                        NamedExport {
+                                            span: DUMMY_SP,
+                                            specifiers,
+                                            src: None,
+                                            type_only: false,
+                                            with: None,
+                                        }
+                                        .into(),
+                                    )
                                     .unwrap(),
                                 );
                             }
                             _ => {
-                                new.push(
-                                    T::try_from_module_decl(ModuleDecl::ExportDecl(e)).unwrap(),
-                                );
+                                new.push(T::try_from_module_decl(e.into()).unwrap());
                             }
                         };
                     }

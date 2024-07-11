@@ -141,7 +141,7 @@ where
                                 buf.push(T::from_stmt(decl.into()));
 
                                 buf.push(
-                                    match T::try_from_module_decl(ModuleDecl::ExportNamed(
+                                    match T::try_from_module_decl(
                                         NamedExport {
                                             span: DUMMY_SP,
                                             specifiers: vec![ExportNamedSpecifier {
@@ -156,8 +156,9 @@ where
                                             src: None,
                                             type_only: false,
                                             with: None,
-                                        },
-                                    )) {
+                                        }
+                                        .into(),
+                                    ) {
                                         Ok(t) => t,
                                         Err(..) => unreachable!(),
                                     },
@@ -176,12 +177,13 @@ where
                                 let mut decl = self.fold_class_as_var_decl(ident, class);
                                 decl.visit_mut_children_with(self);
                                 buf.push(
-                                    match T::try_from_module_decl(ModuleDecl::ExportDecl(
+                                    match T::try_from_module_decl(
                                         ExportDecl {
                                             span,
                                             decl: decl.into(),
-                                        },
-                                    )) {
+                                        }
+                                        .into(),
+                                    ) {
                                         Ok(t) => t,
                                         Err(..) => unreachable!(),
                                     },

@@ -157,10 +157,11 @@ impl Fold for Decorators {
                     class,
                 ));
 
-                ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                ExportDefaultExpr {
                     span,
                     expr: decorate_call,
-                })
+                }
+                .into()
             }
             _ => decl,
         }
@@ -244,9 +245,7 @@ impl Fold for Decorators {
                     }) => handle_class!(class, ident),
 
                     _ => {
-                        let item = ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
-                            ExportDefaultExpr { span, expr },
-                        ));
+                        let item = ModuleItem::ModuleDecl(ExportDefaultExpr { span, expr }.into());
                         buf.push(item.fold_with(self));
                     }
                 },

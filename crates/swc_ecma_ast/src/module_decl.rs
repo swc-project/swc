@@ -45,7 +45,7 @@ pub enum ModuleDecl {
 
 impl Take for ModuleDecl {
     fn dummy() -> Self {
-        ModuleDecl::Import(ImportDecl::dummy())
+        ImportDecl::dummy().into()
     }
 }
 

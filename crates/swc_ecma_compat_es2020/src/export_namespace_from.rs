@@ -74,35 +74,40 @@ impl VisitMut for ExportNamespaceFrom {
                         }
                     }
 
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                        span,
-                        specifiers: import_specifiers,
-                        src: src.clone(),
-                        type_only: false,
-                        with: with.clone(),
-                        phase: Default::default(),
-                    })));
+                    stmts.push(ModuleItem::ModuleDecl(
+                        ImportDecl {
+                            span,
+                            specifiers: import_specifiers,
+                            src: src.clone(),
+                            type_only: false,
+                            with: with.clone(),
+                            phase: Default::default(),
+                        }
+                        .into(),
+                    ));
 
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                    stmts.push(ModuleItem::ModuleDecl(
                         NamedExport {
                             span,
                             specifiers: export_specifiers,
                             src: None,
                             type_only: false,
                             with: None,
-                        },
-                    )));
+                        }
+                        .into(),
+                    ));
 
                     if !origin_specifiers.is_empty() {
-                        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        stmts.push(ModuleItem::ModuleDecl(
                             NamedExport {
                                 span,
                                 specifiers: origin_specifiers,
                                 src: Some(src),
                                 type_only: false,
                                 with,
-                            },
-                        )));
+                            }
+                            .into(),
+                        ));
                     }
                 }
                 _ => {

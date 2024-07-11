@@ -292,15 +292,18 @@ where
                         );
                     }
                     Err(..) => {
-                        *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                            span: *span,
-                            decl: ClassDecl {
-                                ident: ident.take(),
-                                class: class.take(),
-                                declare: *declare,
+                        *item = ModuleItem::ModuleDecl(
+                            ExportDecl {
+                                span: *span,
+                                decl: ClassDecl {
+                                    ident: ident.take(),
+                                    class: class.take(),
+                                    declare: *declare,
+                                }
+                                .into(),
                             }
                             .into(),
-                        }))
+                        )
                     }
                 }
             }
@@ -335,15 +338,18 @@ where
                         );
                     }
                     Err(..) => {
-                        *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                            span: *span,
-                            decl: FnDecl {
-                                ident,
-                                function,
-                                declare: *declare,
+                        *item = ModuleItem::ModuleDecl(
+                            ExportDecl {
+                                span: *span,
+                                decl: FnDecl {
+                                    ident,
+                                    function,
+                                    declare: *declare,
+                                }
+                                .into(),
                             }
                             .into(),
-                        }))
+                        )
                     }
                 }
             }
@@ -364,14 +370,17 @@ where
                 });
 
                 if renamed.is_empty() {
-                    *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                        span,
-                        decl: VarDecl {
-                            decls,
-                            ..*var.take()
+                    *item = ModuleItem::ModuleDecl(
+                        ExportDecl {
+                            span,
+                            decl: VarDecl {
+                                decls,
+                                ..*var.take()
+                            }
+                            .into(),
                         }
                         .into(),
-                    }));
+                    );
                     return;
                 }
                 *item = ModuleItem::Stmt(
@@ -382,16 +391,16 @@ where
                     .into()
                     .into(),
                 );
-                self.extra
-                    .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                        NamedExport {
-                            span,
-                            specifiers: renamed,
-                            src: None,
-                            type_only: false,
-                            with: None,
-                        },
-                    )));
+                self.extra.push(ModuleItem::ModuleDecl(
+                    NamedExport {
+                        span,
+                        specifiers: renamed,
+                        src: None,
+                        type_only: false,
+                        with: None,
+                    }
+                    .into(),
+                ));
             }
             _ => {
                 item.visit_mut_children_with(self);
