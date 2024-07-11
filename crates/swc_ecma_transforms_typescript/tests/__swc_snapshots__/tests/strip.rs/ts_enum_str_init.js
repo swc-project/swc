@@ -1,4 +1,4 @@
-let FlexSize;
+var FlexSize;
 (function(FlexSize) {
     FlexSize["md"] = "md";
     FlexSize["lg"] = "lg";

@@ -1,4 +1,4 @@
-let StateNum;
+var StateNum;
 (function(StateNum) {
     StateNum["closed"] = "cl0";
     StateNum["opened"] = "op1";

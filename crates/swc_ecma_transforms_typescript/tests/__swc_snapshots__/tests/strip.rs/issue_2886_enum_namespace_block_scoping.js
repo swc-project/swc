@@ -1,8 +1,8 @@
-export let Enum;
+export var Enum;
 (function(Enum) {
     Enum[Enum["test"] = 1] = "test";
 })(Enum || (Enum = {}));
-let Namespace;
+var Namespace;
 (function(Namespace) {
     let Enum;
     (function(Enum) {

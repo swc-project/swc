@@ -1,4 +1,4 @@
-export let State;
+export var State;
 (function(State) {
     State["closed"] = "closed";
     State["opened"] = "opened";

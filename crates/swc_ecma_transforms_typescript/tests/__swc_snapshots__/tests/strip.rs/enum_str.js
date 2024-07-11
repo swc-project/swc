@@ -1,4 +1,4 @@
-let State;
+var State;
 (function(State) {
     State["closed"] = "closed";
     State["opened"] = "opened";

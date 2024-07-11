@@ -1,10 +1,10 @@
-let A;
+var A;
 (function(A) {
     class Test {
     }
     A.Test = Test;
 })(A || (A = {}));
-let B;
+var B;
 (function(B) {
     B.a = A;
     console.log(B.a.Test);
