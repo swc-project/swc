@@ -190,7 +190,7 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                 let ident = ident.unwrap_or_else(|| private_ident!("_class"));
                 let (decl, extra) = self.visit_mut_class_as_decl(ident.clone(), class);
 
-                extra.merge_with(&mut stmts, Stmt::Decl(Decl::Class(decl)));
+                extra.merge_with(&mut stmts, Stmt::Decl(decl.into()));
 
                 stmts.push(Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
@@ -353,10 +353,7 @@ impl<C: Comments> ClassProperties<C> {
                                 let (decl, extra) =
                                     self.visit_mut_class_as_decl(ident.clone(), class);
 
-                                extra.merge_with(
-                                    &mut buf,
-                                    T::from_stmt(Stmt::Decl(Decl::Class(decl))),
-                                );
+                                extra.merge_with(&mut buf, T::from_stmt(Stmt::Decl(decl.into())));
 
                                 buf.push(
                                     match T::try_from_module_decl(ModuleDecl::ExportNamed(
@@ -397,7 +394,7 @@ impl<C: Comments> ClassProperties<C> {
                                     match T::try_from_module_decl(ModuleDecl::ExportDecl(
                                         ExportDecl {
                                             span,
-                                            decl: Decl::Class(decl),
+                                            decl: decl.into(),
                                         },
                                     )) {
                                         Ok(t) => t,
@@ -425,7 +422,7 @@ impl<C: Comments> ClassProperties<C> {
                             declare: false,
                         })) => {
                             let (decl, extra) = self.visit_mut_class_as_decl(ident, class);
-                            extra.merge_with(&mut buf, T::from_stmt(Stmt::Decl(Decl::Class(decl))))
+                            extra.merge_with(&mut buf, T::from_stmt(Stmt::Decl(decl.into())))
                         }
                         _ => {
                             stmt.visit_mut_children_with(self);
@@ -956,11 +953,14 @@ impl<C: Comments> ClassProperties<C> {
                         in_pat: false,
                     });
 
-                    private_method_fn_decls.push(Stmt::Decl(Decl::Fn(FnDecl {
-                        ident: fn_name,
-                        function: method.function,
-                        declare: false,
-                    })))
+                    private_method_fn_decls.push(Stmt::Decl(
+                        FnDecl {
+                            ident: fn_name,
+                            function: method.function,
+                            declare: false,
+                        }
+                        .into(),
+                    ))
                 }
 
                 ClassMember::StaticBlock(..) => {

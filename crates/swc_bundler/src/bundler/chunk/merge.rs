@@ -679,13 +679,14 @@ where
                                 //
                                 match c.ident {
                                     Some(ident) => {
-                                        new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Class(
+                                        new.push(ModuleItem::Stmt(Stmt::Decl(
                                             ClassDecl {
                                                 ident: ident.clone(),
                                                 class: c.class,
                                                 declare: false,
-                                            },
-                                        ))));
+                                            }
+                                            .into(),
+                                        )));
 
                                         new.push(ident.assign_to(local.clone()).into_module_item(
                                             injected_ctxt,
@@ -706,11 +707,14 @@ where
                                 //
                                 match f.ident {
                                     Some(ident) => {
-                                        new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-                                            ident: ident.clone(),
-                                            function: f.function,
-                                            declare: false,
-                                        }))));
+                                        new.push(ModuleItem::Stmt(Stmt::Decl(
+                                            FnDecl {
+                                                ident: ident.clone(),
+                                                function: f.function,
+                                                declare: false,
+                                            }
+                                            .into(),
+                                        )));
 
                                         new.push(ident.assign_to(local.clone()).into_module_item(
                                             injected_ctxt,
@@ -724,11 +728,14 @@ where
                                         //
                                         // See: https://github.com/denoland/deno/issues/9346
                                         let ident = private_ident!("default");
-                                        new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-                                            ident: ident.clone(),
-                                            function: f.function,
-                                            declare: false,
-                                        }))));
+                                        new.push(ModuleItem::Stmt(Stmt::Decl(
+                                            FnDecl {
+                                                ident: ident.clone(),
+                                                function: f.function,
+                                                declare: false,
+                                            }
+                                            .into(),
+                                        )));
 
                                         new.push(ident.assign_to(local.clone()).into_module_item(
                                             injected_ctxt,
@@ -838,13 +845,13 @@ where
                         let local = match export.decl {
                             Decl::Class(c) => {
                                 let i = c.ident.clone();
-                                new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))));
+                                new.push(ModuleItem::Stmt(Stmt::Decl(c.into())));
 
                                 i
                             }
                             Decl::Fn(f) => {
                                 let i = f.ident.clone();
-                                new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))));
+                                new.push(ModuleItem::Stmt(Stmt::Decl(f.into())));
 
                                 i
                             }
@@ -852,7 +859,7 @@ where
                                 let ids: Vec<Ident> = find_pat_ids(&v);
                                 //
 
-                                new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(v))));
+                                new.push(ModuleItem::Stmt(Stmt::Decl(v.into())));
 
                                 let export =
                                     ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {

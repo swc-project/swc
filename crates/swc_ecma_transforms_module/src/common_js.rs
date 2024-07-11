@@ -348,11 +348,7 @@ where
 
                 if decl_mod_ident {
                     let stmt = if is_lazy {
-                        Stmt::Decl(Decl::Fn(lazy_require(
-                            import_expr,
-                            mod_ident,
-                            self.const_var_kind,
-                        )))
+                        Stmt::Decl(lazy_require(import_expr, mod_ident, self.const_var_kind).into())
                     } else {
                         Stmt::Decl(
                             import_expr

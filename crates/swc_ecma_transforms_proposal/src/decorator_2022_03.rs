@@ -724,7 +724,7 @@ impl Decorator2022_03 {
         }));
         self.state = old_state;
 
-        Stmt::Decl(Decl::Class(c.take()))
+        Stmt::Decl(c.take().into())
     }
 
     fn process_decorators(&mut self, decorators: &mut [Decorator]) {

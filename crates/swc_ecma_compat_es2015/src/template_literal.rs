@@ -356,11 +356,14 @@ impl VisitMut for TemplateLiteral {
 
                     ..Default::default()
                 };
-                self.added.push(Stmt::Decl(Decl::Fn(FnDecl {
-                    declare: false,
-                    ident: fn_ident.clone(),
-                    function: f.into(),
-                })));
+                self.added.push(Stmt::Decl(
+                    FnDecl {
+                        declare: false,
+                        ident: fn_ident.clone(),
+                        function: f.into(),
+                    }
+                    .into(),
+                ));
 
                 *e = CallExpr {
                     span: DUMMY_SP,

@@ -93,7 +93,7 @@ impl ExplicitResourceManagement {
                 }
                 Ok(Stmt::Decl(Decl::Var(var))) => {
                     // var.kind = VarDeclKind::Var;
-                    try_body.push(Stmt::Decl(Decl::Var(var)));
+                    try_body.push(Stmt::Decl(var.into()));
                 }
                 Ok(stmt) => try_body.push(stmt),
                 Err(stmt) => match stmt.try_into_module_decl() {

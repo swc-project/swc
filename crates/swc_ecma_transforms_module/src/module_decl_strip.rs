@@ -78,13 +78,13 @@ impl VisitMut for ModuleDeclStrip {
                             DefaultDecl::Class(class_expr) => list.extend(
                                 class_expr
                                     .as_class_decl()
-                                    .map(|decl| Stmt::Decl(Decl::Class(decl)))
+                                    .map(|decl| Stmt::Decl(decl.into()))
                                     .map(From::from),
                             ),
                             DefaultDecl::Fn(fn_expr) => list.extend(
                                 fn_expr
                                     .as_fn_decl()
-                                    .map(|decl| Stmt::Decl(Decl::Fn(decl)))
+                                    .map(|decl| Stmt::Decl(decl.into()))
                                     .map(From::from),
                             ),
                             DefaultDecl::TsInterfaceDecl(_) => continue,

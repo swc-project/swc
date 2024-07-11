@@ -266,11 +266,14 @@ where
                                     },
                                 ))));
 
-                                Some(Stmt::Decl(Decl::Class(ClassDecl {
-                                    ident,
-                                    class: expr.class,
-                                    declare: false,
-                                })))
+                                Some(Stmt::Decl(
+                                    ClassDecl {
+                                        ident,
+                                        class: expr.class,
+                                        declare: false,
+                                    }
+                                    .into(),
+                                ))
                             }
                             DefaultDecl::Fn(expr) => {
                                 let ident = expr.ident;
@@ -287,11 +290,14 @@ where
                                     },
                                 ))));
 
-                                Some(Stmt::Decl(Decl::Fn(FnDecl {
-                                    ident,
-                                    function: expr.function,
-                                    declare: false,
-                                })))
+                                Some(Stmt::Decl(
+                                    FnDecl {
+                                        ident,
+                                        function: expr.function,
+                                        declare: false,
+                                    }
+                                    .into(),
+                                ))
                             }
                             DefaultDecl::TsInterfaceDecl(_) => None,
                         },

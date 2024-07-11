@@ -46,7 +46,7 @@ bridge_stmt_from!(Decl, FnDecl);
 
 impl Take for Decl {
     fn dummy() -> Self {
-        Decl::Var(Take::dummy())
+        Take::dummy().into()
     }
 }
 

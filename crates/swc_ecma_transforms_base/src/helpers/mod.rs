@@ -450,21 +450,18 @@ impl InjectHelpers {
             ..Default::default()
         };
         let ctxt = SyntaxContext::empty().apply_mark(mark);
-        let decl = Decl::Var(
-            VarDecl {
-                kind: VarDeclKind::Var,
-                decls: vec![VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(
-                        Ident::new(format!("_{}", name).into(), DUMMY_SP, ctxt).into(),
-                    ),
-                    init: Some(c.into()),
-                    definite: false,
-                }],
-                ..Default::default()
-            }
-            .into(),
-        );
+        let decl = VarDecl {
+            kind: VarDeclKind::Var,
+            decls: vec![VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(Ident::new(format!("_{}", name).into(), DUMMY_SP, ctxt).into()),
+                init: Some(c.into()),
+                definite: false,
+            }],
+            ..Default::default()
+        }
+        .into()
+        .into();
         Stmt::Decl(decl)
     }
 

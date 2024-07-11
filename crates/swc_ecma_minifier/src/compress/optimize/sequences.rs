@@ -315,7 +315,7 @@ impl Optimizer<'_> {
                                 }
                             ) && var.decls.iter().all(|v| v.init.is_none()) =>
                         {
-                            new_stmts.push(T::from_stmt(Stmt::Decl(Decl::Var(var))));
+                            new_stmts.push(T::from_stmt(Stmt::Decl(var.into())));
                         }
 
                         Stmt::Decl(Decl::Fn(..)) => {

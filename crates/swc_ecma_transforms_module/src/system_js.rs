@@ -856,7 +856,7 @@ impl Fold for SystemJs {
                                     fn_decl.ident.to_id(),
                                     fn_decl.ident.sym.clone(),
                                 );
-                                before_body_stmts.push(Stmt::Decl(Decl::Fn(fn_decl)));
+                                before_body_stmts.push(Stmt::Decl(fn_decl.into()));
                             }
                             Decl::Var(var_decl) => {
                                 let mut decl = VarDecl {
@@ -904,11 +904,14 @@ impl Fold for SystemJs {
                                     self.export_names.push("default".into());
                                     self.export_values.push(ident.clone().into());
                                     self.add_export_name(ident.to_id(), "default".into());
-                                    before_body_stmts.push(Stmt::Decl(Decl::Fn(FnDecl {
-                                        ident: ident.clone(),
-                                        declare: false,
-                                        function: fn_expr.function,
-                                    })));
+                                    before_body_stmts.push(Stmt::Decl(
+                                        FnDecl {
+                                            ident: ident.clone(),
+                                            declare: false,
+                                            function: fn_expr.function,
+                                        }
+                                        .into(),
+                                    ));
                                 } else {
                                     self.export_names.push("default".into());
                                     self.export_values.push(fn_expr.into());
@@ -953,7 +956,7 @@ impl Fold for SystemJs {
                             );
                         }
                         Decl::Fn(fn_decl) => {
-                            before_body_stmts.push(Stmt::Decl(Decl::Fn(fn_decl)));
+                            before_body_stmts.push(Stmt::Decl(fn_decl.into()));
                         }
                         _ => execute_stmts.push(Stmt::Decl(decl)),
                     },

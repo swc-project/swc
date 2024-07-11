@@ -101,7 +101,7 @@ impl VisitMut for ReservedWord {
                         );
                     }
 
-                    *module_item = ModuleItem::Stmt(Decl::Var(var.take()).into());
+                    *module_item = ModuleItem::Stmt(var.take().into().into());
                 }
 
                 _ => {}

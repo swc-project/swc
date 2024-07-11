@@ -99,11 +99,12 @@ impl Fold for Decorators {
                 class,
             }) => {
                 if !contains_decorator(&class) {
-                    return Decl::Class(ClassDecl {
+                    return ClassDecl {
                         ident,
                         declare: false,
                         class,
-                    });
+                    }
+                    .into();
                 }
 
                 let decorate_call = Box::new(self.fold_class_inner(ident.clone(), class));
@@ -586,16 +587,19 @@ impl Decorators {
                             None
                         }
                         .into_iter()
-                        .chain(iter::once(Stmt::Decl(Decl::Class(ClassDecl {
-                            ident: ident.clone(),
-                            class: Class {
-                                decorators: Default::default(),
-                                body: vec![constructor],
-                                ..*class
+                        .chain(iter::once(Stmt::Decl(
+                            ClassDecl {
+                                ident: ident.clone(),
+                                class: Class {
+                                    decorators: Default::default(),
+                                    body: vec![constructor],
+                                    ..*class
+                                }
+                                .into(),
+                                declare: false,
                             }
                             .into(),
-                            declare: false,
-                        }))))
+                        )))
                         .chain(iter::once(Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(

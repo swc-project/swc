@@ -28,7 +28,7 @@ impl Optimizer<'_> {
         report_change!("loops: Removing a for loop with instant break");
         self.prepend_stmts
             .extend(f.init.take().map(|init| match init {
-                VarDeclOrExpr::VarDecl(var) => Stmt::Decl(Decl::Var(var)),
+                VarDeclOrExpr::VarDecl(var) => Stmt::Decl(var.into()),
                 VarDeclOrExpr::Expr(expr) => Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
                     expr,
@@ -91,7 +91,7 @@ impl Optimizer<'_> {
 
                         self.prepend_stmts
                             .extend(f.init.take().map(|init| match init {
-                                VarDeclOrExpr::VarDecl(var) => Stmt::Decl(Decl::Var(var)),
+                                VarDeclOrExpr::VarDecl(var) => Stmt::Decl(var.into()),
                                 VarDeclOrExpr::Expr(expr) => Stmt::Expr(ExprStmt {
                                     span: DUMMY_SP,
                                     expr,

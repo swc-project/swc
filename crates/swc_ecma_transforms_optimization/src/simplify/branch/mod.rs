@@ -1314,7 +1314,7 @@ impl Remover {
                             for t in iter {
                                 match t.try_into_stmt() {
                                     Ok(Stmt::Decl(Decl::Fn(f))) => {
-                                        hoisted_fns.push(T::from_stmt(Stmt::Decl(Decl::Fn(f))));
+                                        hoisted_fns.push(T::from_stmt(Stmt::Decl(f.into())));
                                     }
                                     Ok(t) => {
                                         let ids = extract_var_ids(&t).into_iter().map(|i| {

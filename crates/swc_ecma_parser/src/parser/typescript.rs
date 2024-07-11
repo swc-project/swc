@@ -2388,7 +2388,7 @@ impl<I: Tokens> Parser<I> {
                 return p
                     .parse_fn_decl(decorators)
                     .map(|decl| match decl {
-                        Decl::Fn(f) => Decl::Fn(FnDecl {
+                        Decl::Fn(f) => FnDecl {
                             declare: true,
                             function: Box::new(Function {
                                 span: Span {
@@ -2398,7 +2398,8 @@ impl<I: Tokens> Parser<I> {
                                 ..*f.function
                             }),
                             ..f
-                        }),
+                        }
+                        .into(),
                         _ => decl,
                     })
                     .map(Some);
@@ -2408,7 +2409,7 @@ impl<I: Tokens> Parser<I> {
                 return p
                     .parse_class_decl(start, start, decorators, false)
                     .map(|decl| match decl {
-                        Decl::Class(c) => Decl::Class(ClassDecl {
+                        Decl::Class(c) => ClassDecl {
                             declare: true,
                             class: Box::new(Class {
                                 span: Span {
@@ -2418,7 +2419,8 @@ impl<I: Tokens> Parser<I> {
                                 ..*c.class
                             }),
                             ..c
-                        }),
+                        }
+                        .into(),
                         _ => decl,
                     })
                     .map(Some);

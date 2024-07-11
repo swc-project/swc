@@ -750,18 +750,21 @@ where
                 inject_class_call_check(&mut body, class_name.clone());
             }
 
-            stmts.push(Stmt::Decl(Decl::Fn(FnDecl {
-                ident: class_name.clone(),
-                function: constructor_fn(Constructor {
-                    body: Some(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: body,
-                        ..Default::default()
+            stmts.push(Stmt::Decl(
+                FnDecl {
+                    ident: class_name.clone(),
+                    function: constructor_fn(Constructor {
+                        body: Some(BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: body,
+                            ..Default::default()
+                        }),
+                        ..constructor
                     }),
-                    ..constructor
-                }),
-                declare: false,
-            })));
+                    declare: false,
+                }
+                .into(),
+            ));
         }
 
         // convert class methods
