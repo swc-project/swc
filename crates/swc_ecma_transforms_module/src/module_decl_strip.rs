@@ -7,7 +7,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, ident::IdentLike, private_ident, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, standard_only_visit_mut, VisitMut, VisitMutWith};
 
 use crate::module_ref_rewriter::ImportMap;
 

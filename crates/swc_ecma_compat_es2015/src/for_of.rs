@@ -11,7 +11,9 @@ use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
     alias_if_required, member_expr, prepend_stmt, private_ident, quote_ident, ExprFactory,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, standard_only_visit_mut, Fold, VisitMut, VisitMutWith,
+};
 use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-for-of`

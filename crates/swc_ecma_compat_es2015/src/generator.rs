@@ -17,7 +17,8 @@ use swc_ecma_utils::{
     function::FnEnvHoister, private_ident, prop_name_to_expr_value, quote_ident, ExprFactory,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, standard_only_visit, standard_only_visit_mut,
+    Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::debug;
 
