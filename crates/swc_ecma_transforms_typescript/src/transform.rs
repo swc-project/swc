@@ -991,7 +991,12 @@ impl Transform {
         for mut module_item in n.take() {
             match &mut module_item {
                 ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(decl)) if !decl.is_type_only => {
-                    debug_assert_eq!(decl.id.span.ctxt(), self.unresolved_ctxt);
+                    debug_assert_ne!(
+                        decl.id.span.ctxt(),
+                        self.unresolved_ctxt,
+                        "TsImportEquals has top-level context and it should not be identical to \
+                         the unresolved mark"
+                    );
 
                     match &mut decl.module_ref {
                         // import foo = bar.baz
