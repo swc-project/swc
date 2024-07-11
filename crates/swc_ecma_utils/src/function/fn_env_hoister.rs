@@ -4,7 +4,7 @@ use indexmap::IndexMap;
 use swc_atoms::JsWord;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
 
 use crate::ExprFactory;
 

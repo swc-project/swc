@@ -2,7 +2,7 @@ use std::iter;
 
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{standard_only_fold, Fold, FoldWith, VisitMut, VisitMutWith};
 
 use crate::{prepend_stmts, ExprFactory};
 

@@ -21,8 +21,8 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, visit_obj_and_computed,
-    Visit, VisitMut, VisitMutWith, VisitWith,
+    standard_only_visit, standard_only_visit_mut, visit_mut_obj_and_computed,
+    visit_obj_and_computed, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::trace;
 
@@ -1812,26 +1812,6 @@ impl Visit for LiteralVisitor {
 
     fn visit_invalid(&mut self, _: &Invalid) {
         self.is_lit = false;
-    }
-
-    fn visit_jsx_element(&mut self, _: &JSXElement) {
-        self.is_lit = false
-    }
-
-    fn visit_jsx_empty_expr(&mut self, _: &JSXEmptyExpr) {
-        self.is_lit = false
-    }
-
-    fn visit_jsx_fragment(&mut self, _: &JSXFragment) {
-        self.is_lit = false
-    }
-
-    fn visit_jsx_member_expr(&mut self, _: &JSXMemberExpr) {
-        self.is_lit = false
-    }
-
-    fn visit_jsx_namespaced_name(&mut self, _: &JSXNamespacedName) {
-        self.is_lit = false
     }
 
     fn visit_member_expr(&mut self, _: &MemberExpr) {
