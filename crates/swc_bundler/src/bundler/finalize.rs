@@ -306,13 +306,16 @@ where
                                 init: Some(export.expr),
                                 definite: false,
                             };
-                            Some(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                                span: DUMMY_SP,
-                                kind: VarDeclKind::Const,
-                                declare: false,
-                                decls: vec![var],
-                                ..Default::default()
-                            }))))
+                            Some(Stmt::Decl(
+                                VarDecl {
+                                    span: DUMMY_SP,
+                                    kind: VarDeclKind::Const,
+                                    declare: false,
+                                    decls: vec![var],
+                                    ..Default::default()
+                                }
+                                .into(),
+                            ))
                         }
 
                         ModuleDecl::ExportAll(_) => None,

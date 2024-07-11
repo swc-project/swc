@@ -330,22 +330,25 @@ impl VisitMut for ConstructorFolder<'_> {
                         .into_stmt()
                     }
                     Some(SuperFoldingMode::Var) => {
-                        *stmt = Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                            span: DUMMY_SP,
-                            declare: false,
-                            kind: VarDeclKind::Var,
-                            decls: vec![VarDeclarator {
+                        *stmt = Stmt::Decl(
+                            VarDecl {
                                 span: DUMMY_SP,
-                                name: quote_ident!(
-                                    SyntaxContext::empty().apply_mark(self.mark),
-                                    "_this"
-                                )
-                                .into(),
-                                init: Some(expr),
-                                definite: false,
-                            }],
-                            ..Default::default()
-                        })))
+                                declare: false,
+                                kind: VarDeclKind::Var,
+                                decls: vec![VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: quote_ident!(
+                                        SyntaxContext::empty().apply_mark(self.mark),
+                                        "_this"
+                                    )
+                                    .into(),
+                                    init: Some(expr),
+                                    definite: false,
+                                }],
+                                ..Default::default()
+                            }
+                            .into(),
+                        )
                     }
                     None => {
                         *stmt = Stmt::Return(ReturnStmt {

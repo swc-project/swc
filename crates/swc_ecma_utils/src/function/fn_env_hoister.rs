@@ -123,11 +123,14 @@ impl FnEnvHoister {
         if decls.is_empty() {
             None
         } else {
-            Some(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                kind: VarDeclKind::Var,
-                decls,
-                ..Default::default()
-            }))))
+            Some(Stmt::Decl(
+                VarDecl {
+                    kind: VarDeclKind::Var,
+                    decls,
+                    ..Default::default()
+                }
+                .into(),
+            ))
         }
     }
 
@@ -180,11 +183,14 @@ impl FnEnvHoister {
             (None, None)
         } else {
             (
-                Some(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                    kind: VarDeclKind::Var,
-                    decls,
-                    ..Default::default()
-                })))),
+                Some(Stmt::Decl(
+                    VarDecl {
+                        kind: VarDeclKind::Var,
+                        decls,
+                        ..Default::default()
+                    }
+                    .into(),
+                )),
                 this,
             )
         }
@@ -291,21 +297,24 @@ impl VisitMut for FnEnvHoister {
         if !self.extra_ident.is_empty() {
             b.stmts.insert(
                 0,
-                Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                    kind: VarDeclKind::Var,
-                    decls: self
-                        .extra_ident
-                        .take()
-                        .into_iter()
-                        .map(|ident| VarDeclarator {
-                            span: DUMMY_SP,
-                            name: ident.into(),
-                            init: None,
-                            definite: false,
-                        })
-                        .collect(),
-                    ..Default::default()
-                }))),
+                Stmt::Decl(
+                    VarDecl {
+                        kind: VarDeclKind::Var,
+                        decls: self
+                            .extra_ident
+                            .take()
+                            .into_iter()
+                            .map(|ident| VarDeclarator {
+                                span: DUMMY_SP,
+                                name: ident.into(),
+                                init: None,
+                                definite: false,
+                            })
+                            .collect(),
+                        ..Default::default()
+                    }
+                    .into(),
+                ),
             )
         }
     }

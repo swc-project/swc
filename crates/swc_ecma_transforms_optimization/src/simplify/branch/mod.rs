@@ -427,12 +427,12 @@ impl VisitMut for Remover {
                         if v {
                             // Preserve variables
                             if let Some(var) = alt.and_then(|alt| alt.extract_var_ids_as_var()) {
-                                stmts.push(Stmt::Decl(Decl::Var(Box::new(var))))
+                                stmts.push(Stmt::Decl(var.into()))
                             }
                             stmts.push(*cons);
                         } else {
                             if let Some(var) = cons.extract_var_ids_as_var() {
-                                stmts.push(Stmt::Decl(Decl::Var(Box::new(var))))
+                                stmts.push(Stmt::Decl(var.into()))
                             }
 
                             if let Some(alt) = alt {

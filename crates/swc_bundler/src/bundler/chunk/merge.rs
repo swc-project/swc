@@ -1057,15 +1057,16 @@ where
                                     }
 
                                     if !vars.is_empty() {
-                                        new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(
-                                            Box::new(VarDecl {
+                                        new.push(ModuleItem::Stmt(Stmt::Decl(
+                                            VarDecl {
                                                 span: DUMMY_SP,
                                                 kind: VarDeclKind::Const,
                                                 declare: Default::default(),
                                                 decls: vars,
                                                 ..Default::default()
-                                            }),
-                                        ))));
+                                            }
+                                            .into(),
+                                        )));
                                     }
                                     continue;
                                 }
@@ -1357,25 +1358,30 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                 Ok(key_value_props) => {
                     prepend_stmt(
                         &mut n.body,
-                        ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                            span: n.span,
-                            kind: VarDeclKind::Const,
-                            declare: false,
-                            decls: vec![VarDeclarator {
+                        ModuleItem::Stmt(Stmt::Decl(
+                            VarDecl {
                                 span: n.span,
-                                name: Pat::Ident(self.inline_ident.clone().into()),
-                                init: Some(Box::new(Expr::Object(ObjectLit {
+                                kind: VarDeclKind::Const,
+                                declare: false,
+                                decls: vec![VarDeclarator {
                                     span: n.span,
-                                    props: key_value_props
-                                        .iter()
-                                        .cloned()
-                                        .map(|kv| PropOrSpread::Prop(Box::new(Prop::KeyValue(kv))))
-                                        .collect(),
-                                }))),
-                                definite: false,
-                            }],
-                            ..Default::default()
-                        })))),
+                                    name: Pat::Ident(self.inline_ident.clone().into()),
+                                    init: Some(Box::new(Expr::Object(ObjectLit {
+                                        span: n.span,
+                                        props: key_value_props
+                                            .iter()
+                                            .cloned()
+                                            .map(|kv| {
+                                                PropOrSpread::Prop(Box::new(Prop::KeyValue(kv)))
+                                            })
+                                            .collect(),
+                                    }))),
+                                    definite: false,
+                                }],
+                                ..Default::default()
+                            }
+                            .into(),
+                        )),
                     );
                 }
                 Err(err) => self.err = Some(err),

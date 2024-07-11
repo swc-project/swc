@@ -75,13 +75,16 @@ impl ExplicitResourceManagement {
             definite: Default::default(),
         };
 
-        try_body.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-            span: DUMMY_SP,
-            kind: VarDeclKind::Var,
-            declare: false,
-            decls: vec![using_ctx_var],
-            ..Default::default()
-        }))));
+        try_body.push(Stmt::Decl(
+            VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                declare: false,
+                decls: vec![using_ctx_var],
+                ..Default::default()
+            }
+            .into(),
+        ));
 
         for stmt in stmts.take() {
             match stmt.try_into_stmt() {
@@ -122,21 +125,24 @@ impl ExplicitResourceManagement {
                             }))
                             .unwrap(),
                         );
-                        try_body.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: vec![VarDeclarator {
+                        try_body.push(Stmt::Decl(
+                            VarDecl {
                                 span: DUMMY_SP,
-                                name: ident.into(),
-                                init: Some(match decl.decl {
-                                    DefaultDecl::Class(c) => Box::new(Expr::Class(c)),
-                                    DefaultDecl::Fn(f) => Box::new(Expr::Fn(f)),
-                                    DefaultDecl::TsInterfaceDecl(_) => unreachable!(),
-                                }),
-                                definite: Default::default(),
-                            }],
-                            ..Default::default()
-                        }))));
+                                kind: VarDeclKind::Var,
+                                decls: vec![VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: ident.into(),
+                                    init: Some(match decl.decl {
+                                        DefaultDecl::Class(c) => Box::new(Expr::Class(c)),
+                                        DefaultDecl::Fn(f) => Box::new(Expr::Fn(f)),
+                                        DefaultDecl::TsInterfaceDecl(_) => unreachable!(),
+                                    }),
+                                    definite: Default::default(),
+                                }],
+                                ..Default::default()
+                            }
+                            .into(),
+                        ));
                     }
 
                     Ok(ModuleDecl::ExportDefaultExpr(decl)) => {
@@ -161,18 +167,21 @@ impl ExplicitResourceManagement {
                             }))
                             .unwrap(),
                         );
-                        try_body.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            declare: Default::default(),
-                            decls: vec![VarDeclarator {
+                        try_body.push(Stmt::Decl(
+                            VarDecl {
                                 span: DUMMY_SP,
-                                name: ident.into(),
-                                init: Some(decl.expr),
-                                definite: Default::default(),
-                            }],
-                            ..Default::default()
-                        }))));
+                                kind: VarDeclKind::Var,
+                                declare: Default::default(),
+                                decls: vec![VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: ident.into(),
+                                    init: Some(decl.expr),
+                                    definite: Default::default(),
+                                }],
+                                ..Default::default()
+                            }
+                            .into(),
+                        ));
                     }
 
                     Ok(ModuleDecl::ExportDecl(e)) => {
@@ -188,13 +197,16 @@ impl ExplicitResourceManagement {
                                     definite: Default::default(),
                                 };
 
-                                new.push(T::from_stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                                    span: DUMMY_SP,
-                                    kind: VarDeclKind::Var,
-                                    declare: false,
-                                    decls: vec![var],
-                                    ..Default::default()
-                                })))));
+                                new.push(T::from_stmt(Stmt::Decl(
+                                    VarDecl {
+                                        span: DUMMY_SP,
+                                        kind: VarDeclKind::Var,
+                                        declare: false,
+                                        decls: vec![var],
+                                        ..Default::default()
+                                    }
+                                    .into(),
+                                )));
 
                                 try_body.push(Stmt::Decl(e.decl));
                                 try_body.push(Stmt::Expr(ExprStmt {
@@ -245,13 +257,16 @@ impl ExplicitResourceManagement {
                                     })
                                     .collect();
 
-                                new.push(T::from_stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                                    span: DUMMY_SP,
-                                    kind: VarDeclKind::Var,
-                                    declare: false,
-                                    decls: var_decls,
-                                    ..Default::default()
-                                })))));
+                                new.push(T::from_stmt(Stmt::Decl(
+                                    VarDecl {
+                                        span: DUMMY_SP,
+                                        kind: VarDeclKind::Var,
+                                        declare: false,
+                                        decls: var_decls,
+                                        ..Default::default()
+                                    }
+                                    .into(),
+                                )));
 
                                 try_body.push(Stmt::Decl(e.decl));
                                 try_body.push(Stmt::Expr(ExprStmt {
@@ -421,42 +436,45 @@ impl VisitMut for ExplicitResourceManagement {
 
             state.has_await |= decl.is_await;
 
-            *s = Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                span: DUMMY_SP,
-                kind: if self.is_not_top_level {
-                    VarDeclKind::Const
-                } else {
-                    VarDeclKind::Var
-                },
-                declare: Default::default(),
-                decls: decl
-                    .decls
-                    .take()
-                    .into_iter()
-                    .map(|d| {
-                        let init = CallExpr {
-                            span: decl.span,
-                            callee: state
-                                .using_ctx
-                                .clone()
-                                .make_member(if decl.is_await {
-                                    quote_ident!("a")
-                                } else {
-                                    quote_ident!("u")
-                                })
-                                .as_callee(),
-                            args: vec![d.init.unwrap().as_arg()],
-                            ..Default::default()
-                        };
+            *s = Stmt::Decl(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: if self.is_not_top_level {
+                        VarDeclKind::Const
+                    } else {
+                        VarDeclKind::Var
+                    },
+                    declare: Default::default(),
+                    decls: decl
+                        .decls
+                        .take()
+                        .into_iter()
+                        .map(|d| {
+                            let init = CallExpr {
+                                span: decl.span,
+                                callee: state
+                                    .using_ctx
+                                    .clone()
+                                    .make_member(if decl.is_await {
+                                        quote_ident!("a")
+                                    } else {
+                                        quote_ident!("u")
+                                    })
+                                    .as_callee(),
+                                args: vec![d.init.unwrap().as_arg()],
+                                ..Default::default()
+                            };
 
-                        VarDeclarator {
-                            init: Some(init.into()),
-                            ..d
-                        }
-                    })
-                    .collect(),
-                ..Default::default()
-            })));
+                            VarDeclarator {
+                                init: Some(init.into()),
+                                ..d
+                            }
+                        })
+                        .collect(),
+                    ..Default::default()
+                }
+                .into(),
+            );
         }
     }
 

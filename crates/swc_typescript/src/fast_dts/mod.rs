@@ -175,7 +175,7 @@ impl FastDts {
                         .map(type_ann);
 
                     if let Some(type_ann) = type_ann {
-                        new_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(
+                        new_items.push(ModuleItem::Stmt(Stmt::Decl(
                             VarDecl {
                                 span: DUMMY_SP,
                                 kind: VarDeclKind::Const,
@@ -191,8 +191,9 @@ impl FastDts {
                                     definite: false,
                                 }],
                                 ..Default::default()
-                            },
-                        )))));
+                            }
+                            .into(),
+                        )));
 
                         new_items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
                             ExportDefaultExpr {

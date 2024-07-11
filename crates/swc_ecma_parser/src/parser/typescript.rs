@@ -2839,8 +2839,8 @@ mod tests {
             span: DUMMY_SP,
             shebang: None,
             body: {
-                let first =
-                    ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(Box::new(TsTypeAliasDecl {
+                let first = ModuleItem::Stmt(Stmt::Decl(
+                    TsTypeAliasDecl {
                         span: DUMMY_SP,
                         declare: false,
                         id: Ident::new_no_ctxt("test".into(), DUMMY_SP),
@@ -2853,7 +2853,9 @@ mod tests {
                                 raw: Some("-1".into()),
                             }),
                         })),
-                    }))));
+                    }
+                    .into(),
+                ));
                 vec![first]
             },
         };
@@ -2873,26 +2875,29 @@ mod tests {
             span: DUMMY_SP,
             shebang: None,
             body: {
-                let second = ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Const,
-                    declare: false,
-                    decls: vec![VarDeclarator {
+                let second = ModuleItem::Stmt(Stmt::Decl(
+                    VarDecl {
                         span: DUMMY_SP,
-                        name: Pat::Ident(Ident::new_no_ctxt("t".into(), DUMMY_SP).into()),
-                        init: Some(Box::new(Expr::Unary(UnaryExpr {
+                        kind: VarDeclKind::Const,
+                        declare: false,
+                        decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            op: op!(unary, "-"),
-                            arg: Box::new(Expr::Lit(Lit::Num(Number {
+                            name: Pat::Ident(Ident::new_no_ctxt("t".into(), DUMMY_SP).into()),
+                            init: Some(Box::new(Expr::Unary(UnaryExpr {
                                 span: DUMMY_SP,
-                                value: 1.0,
-                                raw: Some("1".into()),
+                                op: op!(unary, "-"),
+                                arg: Box::new(Expr::Lit(Lit::Num(Number {
+                                    span: DUMMY_SP,
+                                    value: 1.0,
+                                    raw: Some("1".into()),
+                                }))),
                             }))),
-                        }))),
-                        definite: false,
-                    }],
-                    ..Default::default()
-                }))));
+                            definite: false,
+                        }],
+                        ..Default::default()
+                    }
+                    .into(),
+                ));
                 vec![second]
             },
         };

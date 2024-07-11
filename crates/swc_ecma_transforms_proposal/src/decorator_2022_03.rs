@@ -1583,13 +1583,16 @@ impl VisitMut for Decorator2022_03 {
             if !self.extra_lets.is_empty() {
                 insert_builder.push_back(
                     index,
-                    Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Let,
-                        decls: self.extra_lets.take(),
-                        declare: false,
-                        ..Default::default()
-                    })))
+                    Stmt::Decl(
+                        VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Let,
+                            decls: self.extra_lets.take(),
+                            declare: false,
+                            ..Default::default()
+                        }
+                        .into(),
+                    )
                     .into(),
                 );
             }
@@ -1787,13 +1790,16 @@ impl VisitMut for Decorator2022_03 {
             if !self.extra_lets.is_empty() {
                 insert_builder.push_back(
                     index,
-                    Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Let,
-                        decls: self.extra_lets.take(),
-                        declare: false,
-                        ..Default::default()
-                    }))),
+                    Stmt::Decl(
+                        VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Let,
+                            decls: self.extra_lets.take(),
+                            declare: false,
+                            ..Default::default()
+                        }
+                        .into(),
+                    ),
                 );
             }
             if !self.pre_class_inits.is_empty() {

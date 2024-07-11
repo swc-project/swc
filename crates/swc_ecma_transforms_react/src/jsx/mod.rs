@@ -1139,57 +1139,60 @@ where
 // const { createElement } = require('react')
 // const { jsx: jsx } = require('react/jsx-runtime')
 fn add_require(imports: Vec<(Ident, IdentName)>, src: &str, unresolved_mark: Mark) -> Stmt {
-    Stmt::Decl(Decl::Var(Box::new(VarDecl {
-        span: DUMMY_SP,
-        kind: VarDeclKind::Const,
-        declare: false,
-        decls: vec![VarDeclarator {
+    Stmt::Decl(
+        VarDecl {
             span: DUMMY_SP,
-            name: Pat::Object(ObjectPat {
+            kind: VarDeclKind::Const,
+            declare: false,
+            decls: vec![VarDeclarator {
                 span: DUMMY_SP,
-                props: imports
-                    .into_iter()
-                    .map(|(local, imported)| {
-                        if imported.sym != local.sym {
-                            ObjectPatProp::KeyValue(KeyValuePatProp {
-                                key: PropName::Ident(imported),
-                                value: Box::new(Pat::Ident(local.into())),
-                            })
-                        } else {
-                            ObjectPatProp::Assign(AssignPatProp {
-                                span: DUMMY_SP,
-                                key: local.into(),
-                                value: None,
-                            })
-                        }
-                    })
-                    .collect(),
-                optional: false,
-                type_ann: None,
-            }),
-            // require('react')
-            init: Some(Box::new(Expr::Call(CallExpr {
-                span: DUMMY_SP,
-                callee: Callee::Expr(Box::new(Expr::Ident(Ident {
-                    ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
-                    sym: "require".into(),
+                name: Pat::Object(ObjectPat {
+                    span: DUMMY_SP,
+                    props: imports
+                        .into_iter()
+                        .map(|(local, imported)| {
+                            if imported.sym != local.sym {
+                                ObjectPatProp::KeyValue(KeyValuePatProp {
+                                    key: PropName::Ident(imported),
+                                    value: Box::new(Pat::Ident(local.into())),
+                                })
+                            } else {
+                                ObjectPatProp::Assign(AssignPatProp {
+                                    span: DUMMY_SP,
+                                    key: local.into(),
+                                    value: None,
+                                })
+                            }
+                        })
+                        .collect(),
                     optional: false,
+                    type_ann: None,
+                }),
+                // require('react')
+                init: Some(Box::new(Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: Callee::Expr(Box::new(Expr::Ident(Ident {
+                        ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
+                        sym: "require".into(),
+                        optional: false,
+                        ..Default::default()
+                    }))),
+                    args: vec![ExprOrSpread {
+                        spread: None,
+                        expr: Box::new(Expr::Lit(Lit::Str(Str {
+                            span: DUMMY_SP,
+                            value: src.into(),
+                            raw: None,
+                        }))),
+                    }],
                     ..Default::default()
                 }))),
-                args: vec![ExprOrSpread {
-                    spread: None,
-                    expr: Box::new(Expr::Lit(Lit::Str(Str {
-                        span: DUMMY_SP,
-                        value: src.into(),
-                        raw: None,
-                    }))),
-                }],
-                ..Default::default()
-            }))),
-            definite: false,
-        }],
-        ..Default::default()
-    })))
+                definite: false,
+            }],
+            ..Default::default()
+        }
+        .into(),
+    )
 }
 
 impl<C> Jsx<C>

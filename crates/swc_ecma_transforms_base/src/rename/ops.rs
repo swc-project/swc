@@ -356,17 +356,21 @@ where
                 if renamed.is_empty() {
                     *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                         span,
-                        decl: Decl::Var(Box::new(VarDecl {
+                        decl: VarDecl {
                             decls,
                             ..*var.take()
-                        })),
+                        }
+                        .into(),
                     }));
                     return;
                 }
-                *item = ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                    decls,
-                    ..*var.take()
-                }))));
+                *item = ModuleItem::Stmt(Stmt::Decl(
+                    VarDecl {
+                        decls,
+                        ..*var.take()
+                    }
+                    .into(),
+                ));
                 self.extra
                     .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                         NamedExport {

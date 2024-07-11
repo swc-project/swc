@@ -41,13 +41,16 @@ impl TemplateLiteralCaching {
 
     fn create_var_decl(&mut self) -> Option<Stmt> {
         if !self.decls.is_empty() {
-            return Some(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Let,
-                declare: false,
-                decls: self.decls.clone(),
-                ..Default::default()
-            }))));
+            return Some(Stmt::Decl(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Let,
+                    declare: false,
+                    decls: self.decls.clone(),
+                    ..Default::default()
+                }
+                .into(),
+            ));
         }
         None
     }

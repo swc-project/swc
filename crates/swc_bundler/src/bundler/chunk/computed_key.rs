@@ -179,10 +179,7 @@ where
             }],
         };
 
-        module.append(
-            id,
-            ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(var_decl)))),
-        );
+        module.append(id, ModuleItem::Stmt(Stmt::Decl(var_decl.into())));
 
         // print_hygiene(
         //     "wrap",
