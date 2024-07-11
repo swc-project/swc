@@ -8,6 +8,9 @@
 - **(es/compat)** Consider only the variables used in the closure ([#9151](https://github.com/swc-project/swc/issues/9151)) ([1357531](https://github.com/swc-project/swc/commit/1357531805d529b11848b02d1b59c010a02d272d))
 
 
+- **(es/minifier)** Fix case matching ([#9208](https://github.com/swc-project/swc/issues/9208)) ([f81fa6e](https://github.com/swc-project/swc/commit/f81fa6e06335745ff6ab5f7956cecc38116b1343))
+
+
 - **(es/modules)** Fix lint issue ([#9206](https://github.com/swc-project/swc/issues/9206)) ([efb8636](https://github.com/swc-project/swc/commit/efb86368343e7d9909fec21cae8824edac5008e2))
 
 
