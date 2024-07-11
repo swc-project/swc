@@ -3,7 +3,7 @@ use swc_atoms::JsWord;
 use swc_common::{chain, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::{renamer, Renamer};
-use swc_ecma_visit::{noop_visit_mut_type, standard_only_visit_mut, VisitMut, VisitMutWith};
+use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
 
 pub(crate) use self::preserver::idents_to_preserve;
 use crate::{option::MangleOptions, util::base54::Base54Chars};

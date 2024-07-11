@@ -4,7 +4,7 @@ use rustc_hash::FxHashSet;
 use swc_common::{collections::AHashSet, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls, BindingCollector};
-use swc_ecma_visit::{noop_visit_type, standard_only_visit, Visit, VisitWith};
+use swc_ecma_visit::{standard_only_visit, Visit, VisitWith};
 
 pub use self::ctx::Ctx;
 use crate::{marks::Marks, util::is_global_var_with_pure_property_access};

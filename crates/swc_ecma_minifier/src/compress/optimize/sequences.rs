@@ -9,7 +9,7 @@ use swc_ecma_usage_analyzer::{
 use swc_ecma_utils::{
     contains_arguments, contains_this_expr, prepend_stmts, ExprExt, IdentUsageFinder, StmtLike,
 };
-use swc_ecma_visit::{noop_visit_type, standard_only_visit, Visit, VisitWith};
+use swc_ecma_visit::{standard_only_visit, Visit, VisitWith};
 #[cfg(feature = "debug")]
 use tracing::{span, Level};
 
