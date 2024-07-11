@@ -4,7 +4,7 @@ use serde::Deserialize;
 use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{alias_ident_for_simple_assign_tatget, alias_if_required, StmtLike};
-use swc_ecma_visit::{as_folder, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 pub fn nullish_coalescing(c: Config) -> impl Fold + VisitMut + 'static {

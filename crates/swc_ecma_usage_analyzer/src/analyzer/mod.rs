@@ -1,7 +1,7 @@
 use swc_common::{collections::AHashMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, ExprCtx, ExprExt, IsEmpty, StmtExt};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{standard_only_visit, Visit, VisitWith};
 use swc_timer::timer;
 
 pub use self::ctx::Ctx;
