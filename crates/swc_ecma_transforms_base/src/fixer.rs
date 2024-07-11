@@ -71,17 +71,6 @@ enum Context {
     FreeExpr,
 }
 
-macro_rules! array {
-    ($name:ident, $T:tt) => {
-        fn $name(&mut self, e: &mut $T) {
-            let old = self.ctx;
-            self.ctx = Context::ForcedExpr;
-            e.elems.visit_mut_with(self);
-            self.ctx = old;
-        }
-    };
-}
-
 impl Fixer<'_> {
     fn wrap_callee(&mut self, e: &mut Expr) {
         match e {
@@ -102,7 +91,13 @@ impl Fixer<'_> {
 impl VisitMut for Fixer<'_> {
     noop_visit_mut_type!();
 
-    array!(visit_mut_array_lit, ArrayLit);
+    fn visit_mut_array_lit(&mut self, e: &mut ArrayLit) {
+        let ctx = mem::replace(&mut self.ctx, Context::ForcedExpr);
+        let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
+        e.elems.visit_mut_with(self);
+        self.in_for_stmt_head = in_for_stmt_head;
+        self.ctx = ctx;
+    }
 
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         let old = self.ctx;
@@ -345,6 +340,12 @@ impl VisitMut for Fixer<'_> {
         }
     }
 
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+        let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
+        n.visit_mut_children_with(self);
+        self.in_for_stmt_head = in_for_stmt_head;
+    }
+
     fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
         body.visit_mut_children_with(self);
 
@@ -370,15 +371,22 @@ impl VisitMut for Fixer<'_> {
 
         self.ctx = Context::ForcedExpr;
 
+        let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
         node.args.visit_mut_with(self);
+        self.in_for_stmt_head = in_for_stmt_head;
 
         self.ctx = ctx;
     }
 
     fn visit_mut_class(&mut self, node: &mut Class) {
-        let old = self.ctx;
-        self.ctx = Context::Default;
-        node.visit_mut_children_with(self);
+        let ctx = mem::replace(&mut self.ctx, Context::Default);
+
+        node.super_class.visit_mut_with(self);
+
+        let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
+        node.body.visit_mut_with(self);
+        self.in_for_stmt_head = in_for_stmt_head;
+
         match &mut node.super_class {
             Some(e)
                 if e.is_seq()
@@ -393,7 +401,7 @@ impl VisitMut for Fixer<'_> {
             }
             _ => {}
         };
-        self.ctx = old;
+        self.ctx = ctx;
 
         node.body.retain(|m| !matches!(m, ClassMember::Empty(..)));
     }
@@ -472,15 +480,10 @@ impl VisitMut for Fixer<'_> {
         self.handle_expr_stmt(&mut s.expr);
     }
 
-    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
-        n.visit_mut_children_with(self);
-
+    fn visit_mut_for_head(&mut self, n: &mut ForHead) {
         let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, true);
-        n.left.visit_mut_with(self);
-        n.right.visit_mut_with(self);
+        n.visit_mut_children_with(self);
         self.in_for_stmt_head = in_for_stmt_head;
-
-        n.body.visit_mut_with(self);
     }
 
     fn visit_mut_for_of_stmt(&mut self, s: &mut ForOfStmt) {
@@ -515,15 +518,13 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
-        let old = self.in_for_stmt_head;
-        self.in_for_stmt_head = true;
+        let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, true);
         n.init.visit_mut_with(self);
+        self.in_for_stmt_head = in_for_stmt_head;
+
         n.test.visit_mut_with(self);
         n.update.visit_mut_with(self);
-
-        self.in_for_stmt_head = false;
         n.body.visit_mut_with(self);
-        self.in_for_stmt_head = old;
     }
 
     fn visit_mut_if_stmt(&mut self, node: &mut IfStmt) {
@@ -598,10 +599,11 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
-        let old = self.ctx;
-        self.ctx = Context::ForcedExpr;
+        let ctx = mem::replace(&mut self.ctx, Context::ForcedExpr);
+
+        let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
         node.args.visit_mut_with(self);
-        self.ctx = old;
+        self.in_for_stmt_head = in_for_stmt_head;
 
         self.ctx = Context::Callee { is_new: true };
         node.callee.visit_mut_with(self);
@@ -616,7 +618,7 @@ impl VisitMut for Fixer<'_> {
             | Expr::Lit(..) => self.wrap(&mut node.callee),
             _ => {}
         }
-        self.ctx = old;
+        self.ctx = ctx;
     }
 
     fn visit_mut_opt_call(&mut self, node: &mut OptCall) {
@@ -629,7 +631,10 @@ impl VisitMut for Fixer<'_> {
         self.in_opt_chain = in_opt_chain;
 
         self.ctx = Context::ForcedExpr;
+
+        let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
         node.args.visit_mut_with(self);
+        self.in_for_stmt_head = in_for_stmt_head;
 
         self.ctx = ctx;
     }
@@ -770,6 +775,18 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::ForcedExpr;
         expr.arg.visit_mut_with(self);
         self.ctx = old;
+    }
+
+    fn visit_mut_object_lit(&mut self, n: &mut ObjectLit) {
+        let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
+        n.visit_mut_children_with(self);
+        self.in_for_stmt_head = in_for_stmt_head;
+    }
+
+    fn visit_mut_params(&mut self, n: &mut std::vec::Vec<Param>) {
+        let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
+        n.visit_mut_children_with(self);
+        self.in_for_stmt_head = in_for_stmt_head;
     }
 }
 
