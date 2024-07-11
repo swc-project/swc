@@ -11,7 +11,8 @@ use swc_ecma_utils::{
     prop_name_to_expr, quote_ident, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+    as_folder, standard_only_visit, standard_only_visit_mut, Fold, Visit, VisitMut, VisitMutWith,
+    VisitWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -462,7 +463,7 @@ impl AssignFolder {
 #[swc_trace]
 #[fast_path(DestructuringVisitor)]
 impl VisitMut for Destructuring {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     impl_for_for_stmt!(visit_mut_for_in_stmt, ForInStmt);
 
@@ -586,7 +587,7 @@ impl AssignFolder {
 #[swc_trace]
 #[fast_path(DestructuringVisitor)]
 impl VisitMut for AssignFolder {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_export_decl(&mut self, decl: &mut ExportDecl) {
         let old = self.exporting;
@@ -1246,7 +1247,7 @@ struct DestructuringVisitor {
 }
 
 impl Visit for DestructuringVisitor {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_assign_target_pat(&mut self, _: &AssignTargetPat) {
         self.found = true;

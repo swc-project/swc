@@ -732,6 +732,7 @@ impl Options {
                             ),
                         },
                         comments.map(|v| v as _),
+                        unresolved_mark,
                         top_level_mark
                     ),
                     syntax.typescript()

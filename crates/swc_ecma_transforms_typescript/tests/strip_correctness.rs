@@ -108,6 +108,7 @@ fn identity(entry: PathBuf) {
                                 no_empty_export: true,
                                 ..Default::default()
                             },
+                            unresolved_mark,
                             top_level_mark,
                         ))
                         .fold_with(&mut hygiene())

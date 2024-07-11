@@ -3,7 +3,7 @@ use swc_atoms::JsWord;
 use swc_common::{collections::ARandomState, FileName, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
 
 use super::{
     load::{Source, Specifier},
@@ -115,7 +115,7 @@ where
     L: Load,
     R: Resolve,
 {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
         match item {

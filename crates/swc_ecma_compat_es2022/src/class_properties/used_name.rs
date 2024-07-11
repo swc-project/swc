@@ -1,6 +1,6 @@
 use swc_atoms::JsWord;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{standard_only_visit, Visit, VisitWith};
 use swc_trace_macro::swc_trace;
 
 pub(super) struct UsedNameCollector<'a> {
@@ -16,7 +16,7 @@ macro_rules! noop {
 
 #[swc_trace]
 impl<'a> Visit for UsedNameCollector<'a> {
-    noop_visit_type!();
+    standard_only_visit!();
 
     noop!(visit_arrow_expr, ArrowExpr);
 

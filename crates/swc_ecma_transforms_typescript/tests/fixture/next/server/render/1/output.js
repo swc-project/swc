@@ -232,13 +232,15 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         locales: renderOpts.locales,
         defaultLocale: renderOpts.defaultLocale,
         AppTree: (props)=>{
-            return <AppContainer>
-                    <App {...props} Component={Component} router={router}/>
-                </AppContainer>;
+            return React.createElement(AppContainer, null, React.createElement(App, {
+                ...props,
+                Component: Component,
+                router: router
+            }));
         },
         defaultGetInitialProps: async (docCtx)=>{
             const enhanceApp = (AppComp)=>{
-                return (props)=><AppComp {...props}/>;
+                return (props)=>React.createElement(AppComp, props);
             };
             const { html, head } = await docCtx.renderPage({
                 enhanceApp
@@ -262,26 +264,26 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
     let head = defaultHead(inAmpMode);
     let scriptLoader = {};
     const nextExport = !isSSG && (renderOpts.nextExport || dev && (isAutoExport || isFallback));
-    const AppContainer = ({ children })=><RouterContext.Provider value={router}>
-            <AmpStateContext.Provider value={ampState}>
-                <HeadManagerContext.Provider value={{
-            updateHead: (state)=>{
-                head = state;
-            },
-            updateScripts: (scripts)=>{
-                scriptLoader = scripts;
-            },
-            scripts: {},
-            mountedInstances: new Set()
-        }}>
-                    <LoadableContext.Provider value={(moduleName)=>reactLoadableModules.push(moduleName)}>
-                        <StyleRegistry registry={jsxStyleRegistry}>
-                            {children}
-                        </StyleRegistry>
-                    </LoadableContext.Provider>
-                </HeadManagerContext.Provider>
-            </AmpStateContext.Provider>
-        </RouterContext.Provider>;
+    const AppContainer = ({ children })=>React.createElement(RouterContext.Provider, {
+            value: router
+        }, React.createElement(AmpStateContext.Provider, {
+            value: ampState
+        }, React.createElement(HeadManagerContext.Provider, {
+            value: {
+                updateHead: (state)=>{
+                    head = state;
+                },
+                updateScripts: (scripts)=>{
+                    scriptLoader = scripts;
+                },
+                scripts: {},
+                mountedInstances: new Set()
+            }
+        }, React.createElement(LoadableContext.Provider, {
+            value: (moduleName)=>reactLoadableModules.push(moduleName)
+        }, React.createElement(StyleRegistry, {
+            registry: jsxStyleRegistry
+        }, children)))));
     props = await loadGetInitialProps(App, {
         AppTree: ctx.AppTree,
         Component,
@@ -530,7 +532,9 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         if (Document.getInitialProps) {
             const renderPage = (options = {})=>{
                 if (ctx.err && ErrorDebug) {
-                    const html = ReactDOMServer.renderToString(<ErrorDebug error={ctx.err}/>);
+                    const html = ReactDOMServer.renderToString(React.createElement(ErrorDebug, {
+                        error: ctx.err
+                    }));
                     return {
                         html,
                         head
@@ -540,9 +544,11 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
                     throw new Error(`'router' and 'Component' can not be returned in getInitialProps from _app.js https://nextjs.org/docs/messages/cant-override-next-props`);
                 }
                 const { App: EnhancedApp, Component: EnhancedComponent } = enhanceComponents(options, App, Component);
-                const html = ReactDOMServer.renderToString(<AppContainer>
-                        <EnhancedApp Component={EnhancedComponent} router={router} {...props}/>
-                    </AppContainer>);
+                const html = ReactDOMServer.renderToString(React.createElement(AppContainer, null, React.createElement(EnhancedApp, {
+                    Component: EnhancedComponent,
+                    router: router,
+                    ...props
+                })));
                 return {
                     html,
                     head
@@ -563,15 +569,22 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
                 bodyResult: piperFromArray([
                     docProps.html
                 ]),
-                documentElement: (htmlProps)=><Document {...htmlProps} {...docProps}/>,
+                documentElement: (htmlProps)=>React.createElement(Document, {
+                        ...htmlProps,
+                        ...docProps
+                    }),
                 head: docProps.head,
                 headTags: await headTags(documentCtx),
                 styles: docProps.styles
             };
         } else {
-            const content = ctx.err && ErrorDebug ? <ErrorDebug error={ctx.err}/> : <AppContainer>
-                        <App {...props} Component={Component} router={router}/>
-                    </AppContainer>;
+            const content = ctx.err && ErrorDebug ? React.createElement(ErrorDebug, {
+                error: ctx.err
+            }) : React.createElement(AppContainer, null, React.createElement(App, {
+                ...props,
+                Component: Component,
+                router: router
+            }));
             const bodyResult = concurrentFeatures ? await renderToStream(content, generateStaticHTML) : piperFromArray([
                 ReactDOMServer.renderToString(content)
             ]);
@@ -648,11 +661,11 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         styles: documentResult.styles,
         useMaybeDeferContent
     };
-    const documentHTML = ReactDOMServer.renderToStaticMarkup(<AmpStateContext.Provider value={ampState}>
-            <HtmlContext.Provider value={htmlProps}>
-                {documentResult.documentElement(htmlProps)}
-            </HtmlContext.Provider>
-        </AmpStateContext.Provider>);
+    const documentHTML = ReactDOMServer.renderToStaticMarkup(React.createElement(AmpStateContext.Provider, {
+        value: ampState
+    }, React.createElement(HtmlContext.Provider, {
+        value: htmlProps
+    }, documentResult.documentElement(htmlProps))));
     if (process.env.NODE_ENV !== "production") {
         const nonRenderedComponents = [];
         const expectedDocComponents = [

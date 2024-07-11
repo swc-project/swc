@@ -6,7 +6,9 @@ use swc_ecma_utils::{
     function::{init_this, FnEnvHoister},
     prepend_stmt,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, InjectVars, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    as_folder, standard_only_visit_mut, Fold, InjectVars, VisitMut, VisitMutWith,
+};
 use swc_trace_macro::swc_trace;
 
 /// Compile ES2015 arrow functions to ES5
@@ -72,7 +74,7 @@ struct Arrow {
 
 #[swc_trace]
 impl VisitMut for Arrow {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_class(&mut self, c: &mut Class) {
         if c.super_class.is_some() {

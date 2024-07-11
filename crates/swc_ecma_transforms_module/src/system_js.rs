@@ -6,7 +6,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{
     member_expr, private_ident, quote_ident, quote_str, var::VarCollector, ExprFactory,
 };
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{standard_only_fold, Fold, FoldWith, VisitWith};
 
 use crate::{
     path::{ImportResolver, Resolver},
@@ -510,7 +510,7 @@ impl SystemJs {
 }
 
 impl Fold for SystemJs {
-    noop_fold_type!();
+    standard_only_fold!();
 
     fn fold_call_expr(&mut self, expr: CallExpr) -> CallExpr {
         let expr = expr.fold_children_with(self);

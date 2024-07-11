@@ -4,7 +4,7 @@ use indexmap::IndexMap;
 use swc_atoms::JsWord;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
 
 use crate::ExprFactory;
 
@@ -277,7 +277,7 @@ impl FnEnvHoister {
 }
 
 impl VisitMut for FnEnvHoister {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_assign_target_pat(&mut self, n: &mut AssignTargetPat) {
         let in_pat = self.in_pat;
@@ -595,7 +595,7 @@ struct InitThis<'a> {
 
 // babel is skip function and class property
 impl<'a> VisitMut for InitThis<'a> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_class(&mut self, _: &mut Class) {}
 

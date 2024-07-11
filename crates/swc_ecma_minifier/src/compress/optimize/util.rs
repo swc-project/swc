@@ -9,7 +9,7 @@ use swc_common::{collections::AHashSet, util::take::Take, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
 use swc_ecma_utils::{collect_decls, ExprCtx, ExprExt, Remapper};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
 use tracing::debug;
 
 use super::{Ctx, Optimizer};
@@ -306,7 +306,7 @@ enum FinalizerMode {
 }
 
 impl VisitMut for Finalizer<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_callee(&mut self, e: &mut Callee) {
         e.visit_mut_children_with(self);
@@ -481,7 +481,7 @@ impl<'a> NormalMultiReplacer<'a> {
 }
 
 impl VisitMut for NormalMultiReplacer<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         if self.vars.is_empty() {
@@ -568,7 +568,7 @@ impl ExprReplacer {
 }
 
 impl VisitMut for ExprReplacer {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);

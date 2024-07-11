@@ -1,5 +1,5 @@
 class A {
-    constructor(o: AOptions = {}){
+    constructor(o = {}){
         const { a = defaultA, c } = o;
         this.#a = a;
         this.#c = c;

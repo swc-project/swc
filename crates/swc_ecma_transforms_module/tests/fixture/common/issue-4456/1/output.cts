@@ -29,9 +29,6 @@ require(".");
 const _styled = /*#__PURE__*/ _interop_require_default(require("@emotion/styled"));
 const _breakpoints = require("@eduzz/houston-tokens/variables/breakpoints");
 const _css = require("@emotion/css");
-interface IStyledProp {
-    className?: string;
-}
 const breakpoints = _breakpoints.breakpoinstUtils;
 const styled = _styled.default;
 const _default = styled;

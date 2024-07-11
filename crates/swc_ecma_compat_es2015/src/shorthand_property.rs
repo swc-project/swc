@@ -1,7 +1,7 @@
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 /// Compile ES2015 shorthand properties to ES5
@@ -55,7 +55,7 @@ impl Parallel for Shorthand {
 
 #[swc_trace]
 impl VisitMut for Shorthand {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_prop(&mut self, prop: &mut Prop) {
         prop.visit_mut_children_with(self);

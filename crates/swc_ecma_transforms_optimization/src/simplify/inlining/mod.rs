@@ -8,8 +8,8 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{pass::RepeatedJsPass, scope::IdentType};
 use swc_ecma_utils::{contains_this_expr, find_pat_ids};
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, visit_obj_and_computed, Visit, VisitMut,
-    VisitMutWith, VisitWith,
+    as_folder, standard_only_visit, standard_only_visit_mut, visit_obj_and_computed, Visit,
+    VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::{span, Level};
 
@@ -103,7 +103,7 @@ impl Inlining<'_> {
 }
 
 impl VisitMut for Inlining<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         self.visit_with_child(ScopeKind::Fn { named: false }, node)
@@ -744,7 +744,7 @@ struct IdentListVisitor<'a, 'b> {
 }
 
 impl Visit for IdentListVisitor<'_, '_> {
-    noop_visit_type!();
+    standard_only_visit!();
 
     visit_obj_and_computed!();
 
@@ -759,7 +759,7 @@ struct WriteVisitor<'a, 'b> {
 }
 
 impl Visit for WriteVisitor<'_, '_> {
-    noop_visit_type!();
+    standard_only_visit!();
 
     visit_obj_and_computed!();
 

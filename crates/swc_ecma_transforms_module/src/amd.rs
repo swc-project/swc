@@ -12,7 +12,7 @@ use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
     member_expr, private_ident, quote_ident, quote_str, ExprFactory, FunctionFactory, IsDirective,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 
 pub use super::util::Config as InnerConfig;
 use crate::{
@@ -128,7 +128,7 @@ impl<C> VisitMut for Amd<C>
 where
     C: Comments,
 {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module(&mut self, n: &mut Module) {
         if self.module_id.is_none() {

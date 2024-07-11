@@ -15,7 +15,7 @@ function App() {
     _s();
     const bar = (0, _hooks.useFancyState)();
     const foo = (0, _foo.default)();
-    return <h1>{bar}</h1>;
+    return /*#__PURE__*/ React.createElement("h1", null, bar);
 }
 _s(App, "useFancyState{bar}\nuseFoo{foo}", false, function() {
     return [

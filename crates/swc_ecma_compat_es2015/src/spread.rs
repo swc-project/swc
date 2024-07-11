@@ -9,7 +9,8 @@ use swc_ecma_utils::{
     alias_ident_for, member_expr, prepend_stmt, quote_ident, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+    as_folder, standard_only_visit, standard_only_visit_mut, Fold, Visit, VisitMut, VisitMutWith,
+    VisitWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -36,7 +37,7 @@ struct Spread {
 #[swc_trace]
 #[fast_path(SpreadFinder)]
 impl VisitMut for Spread {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_like(n);
@@ -488,7 +489,7 @@ struct SpreadFinder {
 }
 
 impl Visit for SpreadFinder {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_expr_or_spread(&mut self, n: &ExprOrSpread) {
         n.visit_children_with(self);

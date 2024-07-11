@@ -1,7 +1,7 @@
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmt, ExprExt, ExprFactory, StmtExt};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{standard_only_visit, Visit, VisitWith};
 
 use super::Optimizer;
 use crate::{compress::util::is_primitive, util::idents_used_by};
@@ -533,7 +533,7 @@ struct BreakFinder {
 }
 
 impl Visit for BreakFinder {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_break_stmt(&mut self, s: &BreakStmt) {
         if !self.top_level && s.label.is_none() {

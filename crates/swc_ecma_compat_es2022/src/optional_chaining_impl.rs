@@ -3,7 +3,7 @@ use std::mem;
 use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{alias_ident_for, prepend_stmt, quote_ident, ExprFactory, StmtLike};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
 
 /// Not a public API and may break any time. Don't use it directly.
 pub fn optional_chaining_impl(c: Config, unresolved_mark: Mark) -> OptionalChaining {
@@ -35,7 +35,7 @@ pub struct Config {
 }
 
 impl VisitMut for OptionalChaining {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_block_stmt_or_expr(&mut self, expr: &mut BlockStmtOrExpr) {
         if let BlockStmtOrExpr::Expr(e) = expr {

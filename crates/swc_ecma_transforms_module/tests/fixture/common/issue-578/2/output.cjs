@@ -2,13 +2,12 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-const _dep = require("./dep.js");
 class SomeClass {
     constructor(properties){
         this.props = properties;
     }
     call() {
-        const { myFunction  } = this.props;
+        const { myFunction } = this.props;
         if (myFunction) {
             myFunction();
         } else {

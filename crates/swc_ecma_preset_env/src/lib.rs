@@ -6,7 +6,6 @@ use std::path::PathBuf;
 
 use preset_env_base::query::targets_to_versions;
 pub use preset_env_base::{query::Targets, version::Version, BrowserData, Versions};
-use regenerator::RegeneratorVisitor;
 use serde::Deserialize;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{chain, collections::AHashSet, comments::Comments, FromVariant, Mark, DUMMY_SP};
@@ -378,8 +377,7 @@ impl Polyfills {
         T: VisitWith<corejs2::UsageVisitor>
             + VisitWith<corejs3::UsageVisitor>
             + VisitMutWith<corejs2::Entry>
-            + VisitMutWith<corejs3::Entry>
-            + VisitWith<RegeneratorVisitor>,
+            + VisitMutWith<corejs3::Entry>,
     {
         let required = match self.mode {
             None => Default::default(),

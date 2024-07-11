@@ -370,7 +370,6 @@ macro_rules! noop_fold_type {
         noop_fold_type!(fold_ts_module_block, TsModuleBlock);
         noop_fold_type!(fold_ts_module_decl, TsModuleDecl);
         noop_fold_type!(fold_ts_module_name, TsModuleName);
-        noop_fold_type!(fold_ts_module_ref, TsModuleRef);
         noop_fold_type!(fold_ts_namespace_body, TsNamespaceBody);
         noop_fold_type!(fold_ts_namespace_decl, TsNamespaceDecl);
         noop_fold_type!(fold_ts_namespace_export_decl, TsNamespaceExportDecl);
@@ -466,6 +465,237 @@ macro_rules! noop_visit_type {
             TsUnionOrIntersectionType
         );
         noop_visit_type!(visit_ts_union_type, TsUnionType);
+    };
+}
+
+/// NOT A PUBLIC API
+#[doc(hidden)]
+#[inline(always)]
+pub fn fail_not_standard() {
+    unsafe {
+        debug_unreachable::debug_unreachable!(
+            "This visitor supports only standard ECMAScript types"
+        )
+    }
+}
+
+/// Mark visitor as ECMAScript standard only and mark other types as
+/// unreachable.
+///
+/// Used to reduce the binary size.
+#[macro_export]
+macro_rules! standard_only_fold {
+    ($name:ident, $N:ident) => {
+        fn $name(&mut self, n: $crate::swc_ecma_ast::$N) -> $crate::swc_ecma_ast::$N {
+            $crate::fail_not_standard();
+            n
+        }
+    };
+    () => {
+        standard_only_fold!(fold_accessibility, Accessibility);
+        standard_only_fold!(fold_true_plus_minus, TruePlusMinus);
+        standard_only_fold!(fold_ts_array_type, TsArrayType);
+        standard_only_fold!(fold_ts_call_signature_decl, TsCallSignatureDecl);
+        standard_only_fold!(fold_ts_conditional_type, TsConditionalType);
+        standard_only_fold!(fold_ts_construct_signature_decl, TsConstructSignatureDecl);
+        standard_only_fold!(fold_ts_constructor_type, TsConstructorType);
+        standard_only_fold!(fold_ts_entity_name, TsEntityName);
+        standard_only_fold!(fold_ts_expr_with_type_args, TsExprWithTypeArgs);
+        standard_only_fold!(fold_ts_fn_or_constructor_type, TsFnOrConstructorType);
+        standard_only_fold!(fold_ts_fn_param, TsFnParam);
+        standard_only_fold!(fold_ts_fn_type, TsFnType);
+        standard_only_fold!(fold_ts_import_type, TsImportType);
+        standard_only_fold!(fold_ts_index_signature, TsIndexSignature);
+        standard_only_fold!(fold_ts_indexed_access_type, TsIndexedAccessType);
+        standard_only_fold!(fold_ts_infer_type, TsInferType);
+        standard_only_fold!(fold_ts_interface_body, TsInterfaceBody);
+        standard_only_fold!(fold_ts_interface_decl, TsInterfaceDecl);
+        standard_only_fold!(fold_ts_intersection_type, TsIntersectionType);
+        standard_only_fold!(fold_ts_keyword_type, TsKeywordType);
+        standard_only_fold!(fold_ts_keyword_type_kind, TsKeywordTypeKind);
+        standard_only_fold!(fold_ts_mapped_type, TsMappedType);
+        standard_only_fold!(fold_ts_method_signature, TsMethodSignature);
+        standard_only_fold!(fold_ts_optional_type, TsOptionalType);
+        standard_only_fold!(fold_ts_parenthesized_type, TsParenthesizedType);
+        standard_only_fold!(fold_ts_property_signature, TsPropertySignature);
+        standard_only_fold!(fold_ts_qualified_name, TsQualifiedName);
+        standard_only_fold!(fold_ts_rest_type, TsRestType);
+        standard_only_fold!(fold_ts_this_type, TsThisType);
+        standard_only_fold!(fold_ts_this_type_or_ident, TsThisTypeOrIdent);
+        standard_only_fold!(fold_ts_tuple_type, TsTupleType);
+        standard_only_fold!(fold_ts_type, TsType);
+        standard_only_fold!(fold_ts_type_alias_decl, TsTypeAliasDecl);
+        standard_only_fold!(fold_ts_type_ann, TsTypeAnn);
+        standard_only_fold!(fold_ts_type_element, TsTypeElement);
+        standard_only_fold!(fold_ts_type_lit, TsTypeLit);
+        standard_only_fold!(fold_ts_type_operator, TsTypeOperator);
+        standard_only_fold!(fold_ts_type_operator_op, TsTypeOperatorOp);
+        standard_only_fold!(fold_ts_type_param, TsTypeParam);
+        standard_only_fold!(fold_ts_type_param_decl, TsTypeParamDecl);
+        standard_only_fold!(fold_ts_type_param_instantiation, TsTypeParamInstantiation);
+        standard_only_fold!(fold_ts_type_predicate, TsTypePredicate);
+        standard_only_fold!(fold_ts_type_query, TsTypeQuery);
+        standard_only_fold!(fold_ts_type_query_expr, TsTypeQueryExpr);
+        standard_only_fold!(fold_ts_type_ref, TsTypeRef);
+        standard_only_fold!(
+            fold_ts_union_or_intersection_type,
+            TsUnionOrIntersectionType
+        );
+        standard_only_fold!(fold_ts_union_type, TsUnionType);
+
+        standard_only_fold!(fold_jsx_element, JSXElement);
+        standard_only_fold!(fold_jsx_fragment, JSXFragment);
+        standard_only_fold!(fold_jsx_empty_expr, JSXEmptyExpr);
+        standard_only_fold!(fold_jsx_member_expr, JSXMemberExpr);
+        standard_only_fold!(fold_jsx_namespaced_name, JSXNamespacedName);
+    };
+}
+
+/// Mark visitor as ECMAScript standard only and mark other types as
+/// unreachable.
+///
+/// Used to reduce the binary size.
+#[macro_export]
+macro_rules! standard_only_visit {
+    ($name:ident, $N:ident) => {
+        fn $name(&mut self, _: &$crate::swc_ecma_ast::$N) {
+            $crate::fail_not_standard()
+        }
+    };
+    () => {
+        standard_only_visit!(visit_accessibility, Accessibility);
+        standard_only_visit!(visit_true_plus_minus, TruePlusMinus);
+        standard_only_visit!(visit_ts_array_type, TsArrayType);
+        standard_only_visit!(visit_ts_call_signature_decl, TsCallSignatureDecl);
+        standard_only_visit!(visit_ts_conditional_type, TsConditionalType);
+        standard_only_visit!(visit_ts_construct_signature_decl, TsConstructSignatureDecl);
+        standard_only_visit!(visit_ts_constructor_type, TsConstructorType);
+        standard_only_visit!(visit_ts_entity_name, TsEntityName);
+        standard_only_visit!(visit_ts_expr_with_type_args, TsExprWithTypeArgs);
+        standard_only_visit!(visit_ts_fn_or_constructor_type, TsFnOrConstructorType);
+        standard_only_visit!(visit_ts_fn_param, TsFnParam);
+        standard_only_visit!(visit_ts_fn_type, TsFnType);
+        standard_only_visit!(visit_ts_import_type, TsImportType);
+        standard_only_visit!(visit_ts_index_signature, TsIndexSignature);
+        standard_only_visit!(visit_ts_indexed_access_type, TsIndexedAccessType);
+        standard_only_visit!(visit_ts_infer_type, TsInferType);
+        standard_only_visit!(visit_ts_interface_body, TsInterfaceBody);
+        standard_only_visit!(visit_ts_interface_decl, TsInterfaceDecl);
+        standard_only_visit!(visit_ts_intersection_type, TsIntersectionType);
+        standard_only_visit!(visit_ts_keyword_type, TsKeywordType);
+        standard_only_visit!(visit_ts_keyword_type_kind, TsKeywordTypeKind);
+        standard_only_visit!(visit_ts_mapped_type, TsMappedType);
+        standard_only_visit!(visit_ts_method_signature, TsMethodSignature);
+        standard_only_visit!(visit_ts_optional_type, TsOptionalType);
+        standard_only_visit!(visit_ts_parenthesized_type, TsParenthesizedType);
+        standard_only_visit!(visit_ts_property_signature, TsPropertySignature);
+        standard_only_visit!(visit_ts_qualified_name, TsQualifiedName);
+        standard_only_visit!(visit_ts_rest_type, TsRestType);
+        standard_only_visit!(visit_ts_this_type, TsThisType);
+        standard_only_visit!(visit_ts_this_type_or_ident, TsThisTypeOrIdent);
+        standard_only_visit!(visit_ts_tuple_type, TsTupleType);
+        standard_only_visit!(visit_ts_type, TsType);
+        standard_only_visit!(visit_ts_type_alias_decl, TsTypeAliasDecl);
+        standard_only_visit!(visit_ts_type_ann, TsTypeAnn);
+        standard_only_visit!(visit_ts_type_element, TsTypeElement);
+        standard_only_visit!(visit_ts_type_lit, TsTypeLit);
+        standard_only_visit!(visit_ts_type_operator, TsTypeOperator);
+        standard_only_visit!(visit_ts_type_operator_op, TsTypeOperatorOp);
+        standard_only_visit!(visit_ts_type_param, TsTypeParam);
+        standard_only_visit!(visit_ts_type_param_decl, TsTypeParamDecl);
+        standard_only_visit!(visit_ts_type_param_instantiation, TsTypeParamInstantiation);
+        standard_only_visit!(visit_ts_type_predicate, TsTypePredicate);
+        standard_only_visit!(visit_ts_type_query, TsTypeQuery);
+        standard_only_visit!(visit_ts_type_query_expr, TsTypeQueryExpr);
+        standard_only_visit!(visit_ts_type_ref, TsTypeRef);
+        standard_only_visit!(
+            visit_ts_union_or_intersection_type,
+            TsUnionOrIntersectionType
+        );
+        standard_only_visit!(visit_ts_union_type, TsUnionType);
+
+        standard_only_visit!(visit_jsx_element, JSXElement);
+        standard_only_visit!(visit_jsx_fragment, JSXFragment);
+        standard_only_visit!(visit_jsx_empty_expr, JSXEmptyExpr);
+        standard_only_visit!(visit_jsx_member_expr, JSXMemberExpr);
+        standard_only_visit!(visit_jsx_namespaced_name, JSXNamespacedName);
+    };
+}
+
+/// Mark visitor as ECMAScript standard only and mark other types as
+/// unreachable.
+///
+/// Used to reduce the binary size.
+#[macro_export]
+macro_rules! standard_only_visit_mut {
+    ($name:ident, $N:ident) => {
+        fn $name(&mut self, _: &mut $crate::swc_ecma_ast::$N) {
+            $crate::fail_not_standard()
+        }
+    };
+    () => {
+        standard_only_visit_mut!(visit_mut_accessibility, Accessibility);
+        standard_only_visit_mut!(visit_mut_true_plus_minus, TruePlusMinus);
+        standard_only_visit_mut!(visit_mut_ts_array_type, TsArrayType);
+        standard_only_visit_mut!(visit_mut_ts_call_signature_decl, TsCallSignatureDecl);
+        standard_only_visit_mut!(visit_mut_ts_conditional_type, TsConditionalType);
+        standard_only_visit_mut!(
+            visit_mut_ts_construct_signature_decl,
+            TsConstructSignatureDecl
+        );
+        standard_only_visit_mut!(visit_mut_ts_constructor_type, TsConstructorType);
+        standard_only_visit_mut!(visit_mut_ts_entity_name, TsEntityName);
+        standard_only_visit_mut!(visit_mut_ts_expr_with_type_args, TsExprWithTypeArgs);
+        standard_only_visit_mut!(visit_mut_ts_fn_or_constructor_type, TsFnOrConstructorType);
+        standard_only_visit_mut!(visit_mut_ts_fn_param, TsFnParam);
+        standard_only_visit_mut!(visit_mut_ts_fn_type, TsFnType);
+        standard_only_visit_mut!(visit_mut_ts_import_type, TsImportType);
+        standard_only_visit_mut!(visit_mut_ts_index_signature, TsIndexSignature);
+        standard_only_visit_mut!(visit_mut_ts_indexed_access_type, TsIndexedAccessType);
+        standard_only_visit_mut!(visit_mut_ts_infer_type, TsInferType);
+        standard_only_visit_mut!(visit_mut_ts_interface_body, TsInterfaceBody);
+        standard_only_visit_mut!(visit_mut_ts_interface_decl, TsInterfaceDecl);
+        standard_only_visit_mut!(visit_mut_ts_intersection_type, TsIntersectionType);
+        standard_only_visit_mut!(visit_mut_ts_keyword_type, TsKeywordType);
+        standard_only_visit_mut!(visit_mut_ts_keyword_type_kind, TsKeywordTypeKind);
+        standard_only_visit_mut!(visit_mut_ts_mapped_type, TsMappedType);
+        standard_only_visit_mut!(visit_mut_ts_method_signature, TsMethodSignature);
+        standard_only_visit_mut!(visit_mut_ts_optional_type, TsOptionalType);
+        standard_only_visit_mut!(visit_mut_ts_parenthesized_type, TsParenthesizedType);
+        standard_only_visit_mut!(visit_mut_ts_property_signature, TsPropertySignature);
+        standard_only_visit_mut!(visit_mut_ts_qualified_name, TsQualifiedName);
+        standard_only_visit_mut!(visit_mut_ts_rest_type, TsRestType);
+        standard_only_visit_mut!(visit_mut_ts_this_type, TsThisType);
+        standard_only_visit_mut!(visit_mut_ts_this_type_or_ident, TsThisTypeOrIdent);
+        standard_only_visit_mut!(visit_mut_ts_tuple_type, TsTupleType);
+        standard_only_visit_mut!(visit_mut_ts_type, TsType);
+        standard_only_visit_mut!(visit_mut_ts_type_alias_decl, TsTypeAliasDecl);
+        standard_only_visit_mut!(visit_mut_ts_type_ann, TsTypeAnn);
+        standard_only_visit_mut!(visit_mut_ts_type_element, TsTypeElement);
+        standard_only_visit_mut!(visit_mut_ts_type_lit, TsTypeLit);
+        standard_only_visit_mut!(visit_mut_ts_type_operator, TsTypeOperator);
+        standard_only_visit_mut!(visit_mut_ts_type_operator_op, TsTypeOperatorOp);
+        standard_only_visit_mut!(visit_mut_ts_type_param, TsTypeParam);
+        standard_only_visit_mut!(visit_mut_ts_type_param_decl, TsTypeParamDecl);
+        standard_only_visit_mut!(
+            visit_mut_ts_type_param_instantiation,
+            TsTypeParamInstantiation
+        );
+        standard_only_visit_mut!(visit_mut_ts_type_predicate, TsTypePredicate);
+        standard_only_visit_mut!(visit_mut_ts_type_query, TsTypeQuery);
+        standard_only_visit_mut!(visit_mut_ts_type_query_expr, TsTypeQueryExpr);
+        standard_only_visit_mut!(visit_mut_ts_type_ref, TsTypeRef);
+        standard_only_visit_mut!(
+            visit_mut_ts_union_or_intersection_type,
+            TsUnionOrIntersectionType
+        );
+        standard_only_visit_mut!(visit_mut_ts_union_type, TsUnionType);
+
+        standard_only_visit_mut!(visit_mut_jsx_element, JSXElement);
+        standard_only_visit_mut!(visit_mut_jsx_fragment, JSXFragment);
+        standard_only_visit_mut!(visit_mut_jsx_empty_expr, JSXEmptyExpr);
+        standard_only_visit_mut!(visit_mut_jsx_member_expr, JSXMemberExpr);
+        standard_only_visit_mut!(visit_mut_jsx_namespaced_name, JSXNamespacedName);
     };
 }
 
@@ -1943,10 +2173,6 @@ macro_rules! visit_mut_obj_and_computed {
             if let $crate::swc_ecma_ast::MemberProp::Computed(c) = &mut n.prop {
                 c.visit_mut_with(self);
             }
-        }
-
-        fn visit_mut_jsx_member_expr(&mut self, n: &mut $crate::swc_ecma_ast::JSXMemberExpr) {
-            n.obj.visit_mut_with(self);
         }
 
         fn visit_mut_super_prop_expr(&mut self, n: &mut $crate::swc_ecma_ast::SuperPropExpr) {

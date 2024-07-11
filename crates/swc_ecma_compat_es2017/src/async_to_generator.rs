@@ -13,7 +13,8 @@ use swc_ecma_utils::{
     private_ident, quote_ident, ExprFactory, Remapper, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+    as_folder, standard_only_visit, standard_only_visit_mut, Fold, Visit, VisitMut, VisitMutWith,
+    VisitWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -77,7 +78,7 @@ struct Actual<C: Comments> {
 #[swc_trace]
 #[fast_path(ShouldWork)]
 impl<C: Comments + Clone> VisitMut for AsyncToGenerator<C> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_like(n);
@@ -120,7 +121,7 @@ impl<C: Comments + Clone> AsyncToGenerator<C> {
 #[swc_trace]
 #[fast_path(ShouldWork)]
 impl<C: Comments> VisitMut for Actual<C> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
         if m.function.body.is_none() {
@@ -452,7 +453,7 @@ macro_rules! noop {
 
 #[swc_trace]
 impl VisitMut for AsyncFnBodyHandler {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     noop!(visit_mut_fn_expr, FnExpr);
 
@@ -534,7 +535,7 @@ struct ShouldWork {
 
 #[swc_trace]
 impl Visit for ShouldWork {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_function(&mut self, f: &Function) {
         if f.is_async {

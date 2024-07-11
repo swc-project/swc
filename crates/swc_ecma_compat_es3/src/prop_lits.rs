@@ -1,6 +1,6 @@
 use swc_ecma_ast::*;
 use swc_ecma_utils::is_valid_ident;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{standard_only_fold, Fold, FoldWith};
 use swc_trace_macro::swc_trace;
 
 /// babel: `transform-property-literals`
@@ -38,7 +38,7 @@ struct PropertyLiteral;
 
 #[swc_trace]
 impl Fold for PropertyLiteral {
-    noop_fold_type!();
+    standard_only_fold!();
 
     fn fold_prop_name(&mut self, n: PropName) -> PropName {
         let n = n.fold_children_with(self);

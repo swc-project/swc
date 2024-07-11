@@ -2,7 +2,7 @@ use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::{StmtExt, StmtLike};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{standard_only_visit, Visit, VisitWith};
 
 use super::Optimizer;
 #[cfg(feature = "debug")]
@@ -510,7 +510,7 @@ pub(super) struct ReturnFinder {
 }
 
 impl Visit for ReturnFinder {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_return_stmt(&mut self, n: &ReturnStmt) {
         n.visit_children_with(self);

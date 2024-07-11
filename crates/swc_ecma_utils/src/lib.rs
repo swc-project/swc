@@ -21,8 +21,8 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, visit_obj_and_computed,
-    Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, standard_only_visit_mut, visit_mut_obj_and_computed,
+    visit_obj_and_computed, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::trace;
 
@@ -1814,26 +1814,6 @@ impl Visit for LiteralVisitor {
         self.is_lit = false;
     }
 
-    fn visit_jsx_element(&mut self, _: &JSXElement) {
-        self.is_lit = false
-    }
-
-    fn visit_jsx_empty_expr(&mut self, _: &JSXEmptyExpr) {
-        self.is_lit = false
-    }
-
-    fn visit_jsx_fragment(&mut self, _: &JSXFragment) {
-        self.is_lit = false
-    }
-
-    fn visit_jsx_member_expr(&mut self, _: &JSXMemberExpr) {
-        self.is_lit = false
-    }
-
-    fn visit_jsx_namespaced_name(&mut self, _: &JSXNamespacedName) {
-        self.is_lit = false
-    }
-
     fn visit_member_expr(&mut self, _: &MemberExpr) {
         self.is_lit = false;
     }
@@ -2348,8 +2328,6 @@ where
 }
 
 impl<I: IdentLike> Visit for DestructuringFinder<I> {
-    noop_visit_type!();
-
     /// No-op (we don't care about expressions)
     fn visit_expr(&mut self, _: &Expr) {}
 
@@ -2357,8 +2335,14 @@ impl<I: IdentLike> Visit for DestructuringFinder<I> {
         self.found.push(I::from_ident(i));
     }
 
+    fn visit_jsx_member_expr(&mut self, n: &JSXMemberExpr) {
+        n.obj.visit_with(self);
+    }
+
     /// No-op (we don't care about expressions)
     fn visit_prop_name(&mut self, _: &PropName) {}
+
+    fn visit_ts_type(&mut self, _: &TsType) {}
 }
 
 /// Finds all **binding** idents of variables.
@@ -2701,7 +2685,7 @@ pub struct IdentReplacer<'a> {
 }
 
 impl VisitMut for IdentReplacer<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     visit_mut_obj_and_computed!();
 
@@ -2984,7 +2968,7 @@ impl<'a> Remapper<'a> {
 }
 
 impl VisitMut for Remapper<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if let Some(new_ctxt) = self.vars.get(&i.to_id()).copied() {
@@ -3008,6 +2992,10 @@ impl VisitMut for IdentRenamer<'_> {
     noop_visit_mut_type!();
 
     visit_mut_obj_and_computed!();
+
+    fn visit_mut_jsx_member_expr(&mut self, n: &mut JSXMemberExpr) {
+        n.obj.visit_mut_with(self);
+    }
 
     fn visit_mut_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier) {
         if node.exported.is_some() {
@@ -3127,8 +3115,6 @@ impl<T> VisitMut for RefRewriter<T>
 where
     T: QueryRef,
 {
-    noop_visit_mut_type!();
-
     /// replace bar in binding pattern
     /// input:
     /// ```JavaScript

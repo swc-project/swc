@@ -53,7 +53,7 @@ fn as_es(c: &swc::Compiler) -> Program {
 
     program
         .fold_with(&mut resolver(unresolved_mark, top_level_mark, true))
-        .fold_with(&mut typescript::strip(top_level_mark))
+        .fold_with(&mut typescript::strip(unresolved_mark, top_level_mark))
 }
 
 fn base_tr_group(c: &mut Criterion) {

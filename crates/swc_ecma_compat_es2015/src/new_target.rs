@@ -5,7 +5,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{should_work, Check};
 use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
+    as_folder, standard_only_visit, standard_only_visit_mut, Fold, Visit, VisitMut, VisitMutWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -37,7 +37,7 @@ impl NewTarget {
 
 #[swc_trace]
 impl VisitMut for NewTarget {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     fn visit_mut_class_method(&mut self, c: &mut ClassMethod) {
         c.key.visit_mut_with(self);
@@ -147,7 +147,7 @@ struct ShouldWork {
 }
 
 impl Visit for ShouldWork {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr) {
         if let MetaPropExpr {

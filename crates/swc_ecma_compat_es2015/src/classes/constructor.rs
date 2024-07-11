@@ -6,7 +6,7 @@ use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::{get_prototype_of, visit_mut_only_key};
 use swc_ecma_utils::{quote_ident, ExprFactory};
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+    standard_only_visit, standard_only_visit_mut, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -66,7 +66,7 @@ macro_rules! mark_as_complex {
 
 #[swc_trace]
 impl Visit for SuperCallFinder {
-    noop_visit_type!();
+    standard_only_visit!();
 
     mark_as_complex!(visit_arrow_expr, ArrowExpr);
 
@@ -176,7 +176,7 @@ pub(super) enum SuperFoldingMode {
 
 #[swc_trace]
 impl VisitMut for ConstructorFolder<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     visit_mut_only_key!();
 
@@ -460,7 +460,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: &mut Constructor) -> bo
     }
 
     impl VisitMut for Replacer {
-        noop_visit_mut_type!();
+        standard_only_visit_mut!();
 
         // let computed keys be visited
         fn visit_mut_constructor(&mut self, _: &mut Constructor) {}

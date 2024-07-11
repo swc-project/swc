@@ -14,7 +14,7 @@ use swc_ecma_usage_analyzer::{analyzer::UsageAnalyzer, marks::Marks};
 use swc_ecma_utils::{
     prepend_stmts, ExprCtx, ExprExt, ExprFactory, IsEmpty, ModuleItemLike, StmtLike, Type, Value,
 };
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith, VisitWith};
 #[cfg(feature = "debug")]
 use tracing::{debug, span, Level};
 use Value::Known;
@@ -1468,7 +1468,7 @@ impl Optimizer<'_> {
 }
 
 impl VisitMut for Optimizer<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
