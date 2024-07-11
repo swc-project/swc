@@ -5,7 +5,7 @@ use std::hash::Hash;
 use swc_common::{Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_visit::{noop_visit_mut_type, standard_only_visit_mut, VisitMut};
+use swc_ecma_visit::{standard_only_visit_mut, VisitMut};
 
 #[cfg(feature = "concurrent")]
 pub(crate) type Readonly<T> = std::sync::Arc<T>;
