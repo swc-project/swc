@@ -252,7 +252,7 @@ impl Visit for TsStrip {
                 .chars()
                 .any(|c| matches!(c, '\u{000A}' | '\u{000D}' | '\u{2028}' | '\u{2029}'))
             {
-                self.add_replacement(span);
+                self.add_replacement(r_paren.span);
 
                 // Instead of moving the arrow mark, we shift the right parenthesis to the next
                 // line. This is because there might be a line break after the right
