@@ -4416,7 +4416,6 @@ dependencies = [
  "codspeed-criterion-compat",
  "criterion",
  "indexmap 2.2.6",
- "new_debug_unreachable",
  "num-bigint",
  "num_cpus",
  "once_cell",
