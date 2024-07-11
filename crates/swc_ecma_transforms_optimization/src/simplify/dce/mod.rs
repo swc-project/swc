@@ -919,7 +919,7 @@ impl VisitMut for TreeShaker {
                 {
                     debug!("Dropping an import because it's not used");
                     self.changed = true;
-                    *n = ModuleItem::Stmt(EmptyStmt { span: DUMMY_SP }.into());
+                    *n = EmptyStmt { span: DUMMY_SP }.into().into();
                 }
             }
             _ => {

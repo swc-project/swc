@@ -74,7 +74,7 @@ impl VisitMut for ExportNamespaceFrom {
                         }
                     }
 
-                    stmts.push(ModuleItem::ModuleDecl(
+                    stmts.push(
                         ImportDecl {
                             span,
                             specifiers: import_specifiers,
@@ -83,10 +83,11 @@ impl VisitMut for ExportNamespaceFrom {
                             with: with.clone(),
                             phase: Default::default(),
                         }
+                        .into()
                         .into(),
-                    ));
+                    );
 
-                    stmts.push(ModuleItem::ModuleDecl(
+                    stmts.push(
                         NamedExport {
                             span,
                             specifiers: export_specifiers,
@@ -94,11 +95,12 @@ impl VisitMut for ExportNamespaceFrom {
                             type_only: false,
                             with: None,
                         }
+                        .into()
                         .into(),
-                    ));
+                    );
 
                     if !origin_specifiers.is_empty() {
-                        stmts.push(ModuleItem::ModuleDecl(
+                        stmts.push(
                             NamedExport {
                                 span,
                                 specifiers: origin_specifiers,
@@ -106,8 +108,9 @@ impl VisitMut for ExportNamespaceFrom {
                                 type_only: false,
                                 with,
                             }
+                            .into()
                             .into(),
-                        ));
+                        );
                     }
                 }
                 _ => {

@@ -141,7 +141,7 @@ impl VisitMut for ConstModules {
 
                     None
                 } else {
-                    Some(ModuleItem::ModuleDecl(import.into()))
+                    Some(import.into().into())
                 }
             }
             _ => Some(item),

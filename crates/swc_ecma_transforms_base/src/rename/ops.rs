@@ -277,33 +277,31 @@ where
                 let orig_ident = ident.clone();
                 match self.rename_ident(&mut ident) {
                     Ok(..) => {
-                        *item = ModuleItem::Stmt(
-                            ClassDecl {
-                                ident: ident.clone(),
-                                class: class.take(),
-                                declare: *declare,
-                            }
-                            .into()
-                            .into(),
-                        );
+                        *item = ClassDecl {
+                            ident: ident.clone(),
+                            class: class.take(),
+                            declare: *declare,
+                        }
+                        .into()
+                        .into()
+                        .into();
                         export!(
                             ModuleExportName::Ident(orig_ident),
                             ModuleExportName::Ident(ident.take())
                         );
                     }
                     Err(..) => {
-                        *item = ModuleItem::ModuleDecl(
-                            ExportDecl {
-                                span: *span,
-                                decl: ClassDecl {
-                                    ident: ident.take(),
-                                    class: class.take(),
-                                    declare: *declare,
-                                }
-                                .into(),
+                        *item = ExportDecl {
+                            span: *span,
+                            decl: ClassDecl {
+                                ident: ident.take(),
+                                class: class.take(),
+                                declare: *declare,
                             }
                             .into(),
-                        )
+                        }
+                        .into()
+                        .into()
                     }
                 }
             }
@@ -323,33 +321,31 @@ where
                 let orig_ident = ident.clone();
                 match self.rename_ident(&mut ident) {
                     Ok(..) => {
-                        *item = ModuleItem::Stmt(
-                            FnDecl {
-                                ident: ident.clone(),
-                                function,
-                                declare: *declare,
-                            }
-                            .into()
-                            .into(),
-                        );
+                        *item = FnDecl {
+                            ident: ident.clone(),
+                            function,
+                            declare: *declare,
+                        }
+                        .into()
+                        .into()
+                        .into();
                         export!(
                             ModuleExportName::Ident(orig_ident),
                             ModuleExportName::Ident(ident)
                         );
                     }
                     Err(..) => {
-                        *item = ModuleItem::ModuleDecl(
-                            ExportDecl {
-                                span: *span,
-                                decl: FnDecl {
-                                    ident,
-                                    function,
-                                    declare: *declare,
-                                }
-                                .into(),
+                        *item = ExportDecl {
+                            span: *span,
+                            decl: FnDecl {
+                                ident,
+                                function,
+                                declare: *declare,
                             }
                             .into(),
-                        )
+                        }
+                        .into()
+                        .into()
                     }
                 }
             }
@@ -370,28 +366,26 @@ where
                 });
 
                 if renamed.is_empty() {
-                    *item = ModuleItem::ModuleDecl(
-                        ExportDecl {
-                            span,
-                            decl: VarDecl {
-                                decls,
-                                ..*var.take()
-                            }
-                            .into(),
+                    *item = ExportDecl {
+                        span,
+                        decl: VarDecl {
+                            decls,
+                            ..*var.take()
                         }
                         .into(),
-                    );
-                    return;
-                }
-                *item = ModuleItem::Stmt(
-                    VarDecl {
-                        decls,
-                        ..*var.take()
                     }
                     .into()
-                    .into(),
-                );
-                self.extra.push(ModuleItem::ModuleDecl(
+                    .into();
+                    return;
+                }
+                *item = VarDecl {
+                    decls,
+                    ..*var.take()
+                }
+                .into()
+                .into()
+                .into();
+                self.extra.push(
                     NamedExport {
                         span,
                         specifiers: renamed,
@@ -399,8 +393,9 @@ where
                         type_only: false,
                         with: None,
                     }
+                    .into()
                     .into(),
-                ));
+                );
             }
             _ => {
                 item.visit_mut_children_with(self);

@@ -82,22 +82,21 @@ where
                                 });
                                 additional_items.push((
                                     module_id,
-                                    ModuleItem::ModuleDecl(
-                                        NamedExport {
-                                            span: DUMMY_SP,
-                                            specifiers: vec![specifier],
-                                            src: None,
-                                            type_only: false,
-                                            with: Some(
-                                                ExportMetadata {
-                                                    injected: true,
-                                                    ..Default::default()
-                                                }
-                                                .into_with(),
-                                            ),
-                                        }
-                                        .into(),
-                                    ),
+                                    NamedExport {
+                                        span: DUMMY_SP,
+                                        specifiers: vec![specifier],
+                                        src: None,
+                                        type_only: false,
+                                        with: Some(
+                                            ExportMetadata {
+                                                injected: true,
+                                                ..Default::default()
+                                            }
+                                            .into_with(),
+                                        ),
+                                    }
+                                    .into()
+                                    .into(),
                                 ));
                             }
                         }
@@ -183,7 +182,7 @@ where
             }],
         };
 
-        module.append(id, ModuleItem::Stmt(var_decl.into().into()));
+        module.append(id, var_decl.into().into().into());
 
         // print_hygiene(
         //     "wrap",
@@ -234,7 +233,7 @@ impl Fold for ExportToReturn {
         };
 
         let stmt = match decl {
-            ModuleDecl::Import(_) => return ModuleItem::ModuleDecl(decl),
+            ModuleDecl::Import(_) => return decl.into(),
             ModuleDecl::ExportDecl(export) => {
                 match &export.decl {
                     Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
@@ -292,7 +291,7 @@ impl Fold for ExportToReturn {
                 DefaultDecl::TsInterfaceDecl(_) => None,
             },
             ModuleDecl::ExportDefaultExpr(_) => None,
-            ModuleDecl::ExportAll(export) => return ModuleItem::ModuleDecl(export.into()),
+            ModuleDecl::ExportAll(export) => return export.into().into(),
             ModuleDecl::ExportNamed(export) => {
                 for specifier in &export.specifiers {
                     match specifier {
@@ -329,7 +328,7 @@ impl Fold for ExportToReturn {
                 {
                     None
                 } else {
-                    return ModuleItem::ModuleDecl(export.into());
+                    return export.into().into();
                 }
             }
             ModuleDecl::TsImportEquals(_) => None,
@@ -338,9 +337,9 @@ impl Fold for ExportToReturn {
         };
 
         if let Some(stmt) = stmt {
-            ModuleItem::Stmt(stmt)
+            stmt.into()
         } else {
-            ModuleItem::Stmt(EmptyStmt { span: DUMMY_SP }.into())
+            EmptyStmt { span: DUMMY_SP }.into().into()
         }
     }
 }

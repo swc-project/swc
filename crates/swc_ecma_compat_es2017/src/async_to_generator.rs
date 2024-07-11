@@ -227,13 +227,12 @@ impl<C: Comments> VisitMut for Actual<C> {
 
                         let FnWrapperResult { name_fn, ref_fn } = wrapper.into();
 
-                        *item = ModuleItem::ModuleDecl(
-                            ExportDefaultDecl {
-                                span: export_default.span,
-                                decl: name_fn.into(),
-                            }
-                            .into(),
-                        );
+                        *item = ExportDefaultDecl {
+                            span: export_default.span,
+                            decl: name_fn.into(),
+                        }
+                        .into()
+                        .into();
                         self.extra_stmts.push(ref_fn.into().into());
                     };
                 } else {

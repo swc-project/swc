@@ -354,13 +354,12 @@ impl<C: Comments> VisitMut for Refresh<C> {
                             if let Some(hook) = hook {
                                 make_hook_reg(expr.as_mut(), hook)
                             }
-                            item = ModuleItem::ModuleDecl(
-                                ExportDefaultExpr {
-                                    expr: Box::new(make_assign_stmt(reg[0].0.clone(), expr.take())),
-                                    span: *span,
-                                }
-                                .into(),
-                            );
+                            item = ExportDefaultExpr {
+                                expr: Box::new(make_assign_stmt(reg[0].0.clone(), expr.take())),
+                                span: *span,
+                            }
+                            .into()
+                            .into();
                             Persist::Hoc(Hoc {
                                 insert: false,
                                 reg,
@@ -401,7 +400,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
 
                     refresh_regs.push((registration_handle.clone(), persistent_id.to_id()));
 
-                    items.push(ModuleItem::Stmt(
+                    items.push(
                         ExprStmt {
                             span: DUMMY_SP,
                             expr: Box::new(make_assign_stmt(
@@ -409,15 +408,16 @@ impl<C: Comments> VisitMut for Refresh<C> {
                                 persistent_id.into(),
                             )),
                         }
+                        .into()
                         .into(),
-                    ));
+                    );
                 }
 
                 Persist::Hoc(mut hoc) => {
                     hoc.reg = hoc.reg.into_iter().rev().collect();
                     if hoc.insert {
                         let (ident, name) = hoc.reg.last().unwrap();
-                        items.push(ModuleItem::Stmt(
+                        items.push(
                             ExprStmt {
                                 span: DUMMY_SP,
                                 expr: Box::new(make_assign_stmt(
@@ -425,8 +425,9 @@ impl<C: Comments> VisitMut for Refresh<C> {
                                     Ident::new(name.0.clone(), DUMMY_SP, name.1).into(),
                                 )),
                             }
+                            .into()
                             .into(),
-                        ))
+                        )
                     }
                     refresh_regs.append(&mut hoc.reg);
                 }
@@ -434,7 +435,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
         }
 
         if !hook_visitor.ident.is_empty() {
-            items.insert(0, ModuleItem::Stmt(hook_visitor.gen_hook_handle()));
+            items.insert(0, hook_visitor.gen_hook_handle().into());
         }
 
         // Insert
@@ -469,7 +470,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
         // ```
         let refresh_reg = self.options.refresh_reg.as_str();
         for (handle, persistent_id) in refresh_regs {
-            items.push(ModuleItem::Stmt(
+            items.push(
                 ExprStmt {
                     span: DUMMY_SP,
                     expr: CallExpr {
@@ -479,8 +480,9 @@ impl<C: Comments> VisitMut for Refresh<C> {
                     }
                     .into(),
                 }
+                .into()
                 .into(),
-            ));
+            );
         }
 
         *module_items = items

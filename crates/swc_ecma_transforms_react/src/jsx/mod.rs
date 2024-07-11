@@ -1097,22 +1097,21 @@ where
 
                 prepend_stmt(
                     stmts,
-                    ModuleItem::ModuleDecl(
-                        ImportDecl {
+                    ImportDecl {
+                        span: DUMMY_SP,
+                        specifiers,
+                        src: Str {
                             span: DUMMY_SP,
-                            specifiers,
-                            src: Str {
-                                span: DUMMY_SP,
-                                raw: None,
-                                value: src.into(),
-                            }
-                            .into(),
-                            type_only: Default::default(),
-                            with: Default::default(),
-                            phase: Default::default(),
+                            raw: None,
+                            value: src.into(),
                         }
                         .into(),
-                    ),
+                        type_only: Default::default(),
+                        with: Default::default(),
+                        phase: Default::default(),
+                    }
+                    .into()
+                    .into(),
                 )
             });
         }

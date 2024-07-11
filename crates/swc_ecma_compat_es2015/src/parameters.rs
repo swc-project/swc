@@ -798,7 +798,7 @@ impl VisitMut for Params {
         let decl = self.hoister.take().to_stmt();
 
         if let Some(stmt) = decl {
-            prepend_stmt(stmts, ModuleItem::Stmt(stmt));
+            prepend_stmt(stmts, stmt.into());
         }
     }
 

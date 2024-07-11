@@ -74,7 +74,7 @@ impl VisitMut for ExportDefaultFrom {
                         }
                     }
 
-                    stmts.push(ModuleItem::ModuleDecl(
+                    stmts.push(
                         NamedExport {
                             span,
                             specifiers: export_specifiers,
@@ -82,11 +82,12 @@ impl VisitMut for ExportDefaultFrom {
                             type_only: false,
                             with: None,
                         }
+                        .into()
                         .into(),
-                    ));
+                    );
 
                     if !origin_specifiers.is_empty() {
-                        stmts.push(ModuleItem::ModuleDecl(
+                        stmts.push(
                             NamedExport {
                                 span,
                                 specifiers: origin_specifiers,
@@ -94,8 +95,9 @@ impl VisitMut for ExportDefaultFrom {
                                 type_only: false,
                                 with,
                             }
+                            .into()
                             .into(),
-                        ));
+                        );
                     }
                 }
                 _ => {

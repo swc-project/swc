@@ -42,7 +42,7 @@ impl VisitMut for Merger {
         });
 
         if !self.specifiers.is_empty() {
-            stmts.push(ModuleItem::ModuleDecl(
+            stmts.push(
                 NamedExport {
                     src: None,
                     specifiers: self.specifiers.take(),
@@ -50,13 +50,14 @@ impl VisitMut for Merger {
                     type_only: Default::default(),
                     with: Default::default(),
                 }
+                .into()
                 .into(),
-            ));
+            );
         }
 
         // export {}, to preserve module semantics
         if was_module && stmts.iter().all(|s| matches!(s, ModuleItem::Stmt(..))) {
-            stmts.push(ModuleItem::ModuleDecl(
+            stmts.push(
                 NamedExport {
                     src: None,
                     specifiers: Default::default(),
@@ -64,8 +65,9 @@ impl VisitMut for Merger {
                     type_only: Default::default(),
                     with: Default::default(),
                 }
+                .into()
                 .into(),
-            ));
+            );
         }
     }
 

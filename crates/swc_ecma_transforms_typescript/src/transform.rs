@@ -1028,7 +1028,7 @@ impl Transform {
                                 .into()
                             } else {
                                 var_decl.span = decl.span;
-                                ModuleItem::Stmt(var_decl.into())
+                                var_decl.into().into()
                             };
                             n.push(module_item);
                         }
@@ -1058,7 +1058,7 @@ impl Transform {
                                         .into_var_decl(VarDeclKind::Const, decl.id.take().into());
                                     var_decl.span = decl.span;
 
-                                    n.push(ModuleItem::Stmt(var_decl.into()));
+                                    n.push(var_decl.into().into());
                                 }
                                 TsImportExportAssignConfig::Preserve => n.push(module_item),
                                 TsImportExportAssignConfig::NodeNext => {

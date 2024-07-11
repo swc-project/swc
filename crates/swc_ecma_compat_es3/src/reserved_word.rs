@@ -50,7 +50,7 @@ impl VisitMut for ReservedWord {
                         return;
                     }
 
-                    *module_item = ModuleItem::Stmt(decl.take().into());
+                    *module_item = decl.take().into().into();
 
                     let mut orig = ident.clone();
                     orig.visit_mut_with(self);
@@ -101,7 +101,7 @@ impl VisitMut for ReservedWord {
                         );
                     }
 
-                    *module_item = ModuleItem::Stmt(var.take().into().into());
+                    *module_item = var.take().into().into().into();
                 }
 
                 _ => {}
@@ -111,16 +111,15 @@ impl VisitMut for ReservedWord {
         });
 
         if !extra_exports.is_empty() {
-            let module_item = ModuleItem::ModuleDecl(
-                NamedExport {
-                    span: DUMMY_SP,
-                    specifiers: extra_exports,
-                    src: None,
-                    type_only: false,
-                    with: None,
-                }
-                .into(),
-            );
+            let module_item = NamedExport {
+                span: DUMMY_SP,
+                specifiers: extra_exports,
+                src: None,
+                type_only: false,
+                with: None,
+            }
+            .into()
+            .into();
 
             n.push(module_item);
         }

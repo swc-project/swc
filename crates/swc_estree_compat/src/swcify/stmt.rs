@@ -46,7 +46,7 @@ impl Swcify for Statement {
     type Output = ModuleItem;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        ModuleItem::Stmt(match self {
+        match self {
             Statement::Block(v) => v.swcify(ctx).into(),
             Statement::Break(v) => v.swcify(ctx).into(),
             Statement::Continue(v) => v.swcify(ctx).into(),
@@ -90,7 +90,8 @@ impl Swcify for Statement {
             _ => {
                 todo!("swcify: {:?}", self)
             }
-        })
+        }
+        .into()
     }
 }
 

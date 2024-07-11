@@ -65,13 +65,14 @@ where
         });
         module.sort(info.id, &ctx.graph, &ctx.cycles, &self.cm);
 
-        let stmt = ModuleItem::Stmt(wrap_module(
+        let stmt = wrap_module(
             SyntaxContext::empty(),
             SyntaxContext::empty().apply_mark(self.unresolved_mark),
             info.local_ctxt(),
             load_var,
             module.into(),
-        ));
+        )
+        .into();
 
         let wrapped = Modules::from(
             info.id,
@@ -250,16 +251,15 @@ where
             // Side effect import
             if i.specifiers.is_empty() {
                 self.replaced = true;
-                *node = ModuleItem::Stmt(
-                    CallExpr {
-                        span: DUMMY_SP,
-                        callee: load_var.as_callee(),
-                        args: vec![],
+                *node = CallExpr {
+                    span: DUMMY_SP,
+                    callee: load_var.as_callee(),
+                    args: vec![],
 
-                        ..Default::default()
-                    }
-                    .into_stmt(),
-                );
+                    ..Default::default()
+                }
+                .into_stmt()
+                .into();
                 return;
             }
 
@@ -293,63 +293,61 @@ where
                     }
                     ImportSpecifier::Namespace(ns) => {
                         self.replaced = true;
-                        *node = ModuleItem::Stmt(
-                            VarDecl {
-                                span: i.span,
-                                kind: VarDeclKind::Var,
-                                declare: false,
-                                decls: vec![VarDeclarator {
-                                    span: ns.span,
-                                    name: ns.local.into(),
-                                    init: Some(Box::new(
-                                        CallExpr {
-                                            span: DUMMY_SP,
-                                            callee: load_var.as_callee(),
-                                            args: vec![],
+                        *node = VarDecl {
+                            span: i.span,
+                            kind: VarDeclKind::Var,
+                            declare: false,
+                            decls: vec![VarDeclarator {
+                                span: ns.span,
+                                name: ns.local.into(),
+                                init: Some(Box::new(
+                                    CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: load_var.as_callee(),
+                                        args: vec![],
 
-                                            ..Default::default()
-                                        }
-                                        .into(),
-                                    )),
-                                    definite: false,
-                                }],
-                                ..Default::default()
-                            }
-                            .into()
-                            .into(),
-                        );
+                                        ..Default::default()
+                                    }
+                                    .into(),
+                                )),
+                                definite: false,
+                            }],
+                            ..Default::default()
+                        }
+                        .into()
+                        .into()
+                        .into();
                         return;
                     }
                 }
             }
 
             self.replaced = true;
-            *node = ModuleItem::Stmt(
-                VarDecl {
+            *node = VarDecl {
+                span: i.span,
+                kind: VarDeclKind::Var,
+                declare: false,
+                decls: vec![VarDeclarator {
                     span: i.span,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: vec![VarDeclarator {
-                        span: i.span,
-                        name: Pat::Object(ObjectPat {
-                            span: DUMMY_SP,
-                            props,
-                            optional: false,
-                            type_ann: None,
-                        }),
-                        init: Some(Box::new(Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee: load_var.as_callee(),
-                            args: vec![],
-                            ..Default::default()
-                        }))),
-                        definite: false,
-                    }],
-                    ..Default::default()
-                }
-                .into()
-                .into(),
-            );
+                    name: Pat::Object(ObjectPat {
+                        span: DUMMY_SP,
+                        props,
+                        optional: false,
+                        type_ann: None,
+                    }),
+                    init: Some(Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: load_var.as_callee(),
+                        args: vec![],
+                        ..Default::default()
+                    }))),
+                    definite: false,
+                }],
+                ..Default::default()
+            }
+            .into()
+            .into()
+            .into();
         }
     }
 }

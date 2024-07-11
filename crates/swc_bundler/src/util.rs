@@ -17,29 +17,28 @@ const TRACK: bool = false;
 
 pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
     fn into_module_item(self, injected_ctxt: SyntaxContext, name: &str) -> ModuleItem {
-        ModuleItem::Stmt(
-            VarDecl {
-                span: DUMMY_SP,
-                ctxt: injected_ctxt,
-                kind: VarDeclKind::Const,
-                declare: false,
-                decls: if TRACK {
-                    vec![
-                        self.into(),
-                        Str {
-                            span: DUMMY_SP,
-                            raw: None,
-                            value: name.into(),
-                        }
-                        .assign_to(Ident::new_no_ctxt("INJECTED_FROM".into(), DUMMY_SP)),
-                    ]
-                } else {
-                    vec![self.into()]
-                },
-            }
-            .into()
-            .into(),
-        )
+        VarDecl {
+            span: DUMMY_SP,
+            ctxt: injected_ctxt,
+            kind: VarDeclKind::Const,
+            declare: false,
+            decls: if TRACK {
+                vec![
+                    self.into(),
+                    Str {
+                        span: DUMMY_SP,
+                        raw: None,
+                        value: name.into(),
+                    }
+                    .assign_to(Ident::new_no_ctxt("INJECTED_FROM".into(), DUMMY_SP)),
+                ]
+            } else {
+                vec![self.into()]
+            },
+        }
+        .into()
+        .into()
+        .into()
     }
 }
 

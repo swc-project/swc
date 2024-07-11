@@ -461,44 +461,42 @@ impl VisitMut for Polyfills {
             prepend_stmts(
                 &mut m.body,
                 v.into_iter().map(|src| {
-                    ModuleItem::ModuleDecl(
-                        ImportDecl {
-                            span,
-                            specifiers: vec![],
-                            src: Str {
-                                span: DUMMY_SP,
-                                raw: None,
-                                value: src,
-                            }
-                            .into(),
-                            type_only: false,
-                            with: None,
-                            phase: Default::default(),
+                    ImportDecl {
+                        span,
+                        specifiers: vec![],
+                        src: Str {
+                            span: DUMMY_SP,
+                            raw: None,
+                            value: src,
                         }
                         .into(),
-                    )
+                        type_only: false,
+                        with: None,
+                        phase: Default::default(),
+                    }
+                    .into()
+                    .into()
                 }),
             );
         } else {
             prepend_stmts(
                 &mut m.body,
                 required.into_iter().map(|src| {
-                    ModuleItem::ModuleDecl(
-                        ImportDecl {
-                            span,
-                            specifiers: vec![],
-                            src: Str {
-                                span: DUMMY_SP,
-                                raw: None,
-                                value: src,
-                            }
-                            .into(),
-                            type_only: false,
-                            with: None,
-                            phase: Default::default(),
+                    ImportDecl {
+                        span,
+                        specifiers: vec![],
+                        src: Str {
+                            span: DUMMY_SP,
+                            raw: None,
+                            value: src,
                         }
                         .into(),
-                    )
+                        type_only: false,
+                        with: None,
+                        phase: Default::default(),
+                    }
+                    .into()
+                    .into()
                 }),
             );
         }

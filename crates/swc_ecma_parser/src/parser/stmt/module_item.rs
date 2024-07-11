@@ -68,17 +68,16 @@ impl<I: Tokens> Parser<I> {
                 None
             };
             expect!(self, ';');
-            return Ok(ModuleItem::from(
-                ImportDecl {
-                    span: span!(self, start),
-                    src,
-                    specifiers: vec![],
-                    type_only: false,
-                    with,
-                    phase: Default::default(),
-                }
-                .into(),
-            ));
+            return Ok(ImportDecl {
+                span: span!(self, start),
+                src,
+                specifiers: vec![],
+                type_only: false,
+                with,
+                phase: Default::default(),
+            }
+            .into()
+            .into());
         }
 
         let mut type_only = false;
@@ -197,17 +196,16 @@ impl<I: Tokens> Parser<I> {
 
         expect!(self, ';');
 
-        Ok(ModuleItem::from(
-            ImportDecl {
-                span: span!(self, start),
-                specifiers,
-                src,
-                type_only,
-                with,
-                phase,
-            }
-            .into(),
-        ))
+        Ok(ImportDecl {
+            span: span!(self, start),
+            specifiers,
+            src,
+            type_only,
+            with,
+            phase,
+        }
+        .into()
+        .into())
     }
 
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`

@@ -89,13 +89,14 @@ impl TypeScript {
             return;
         }
 
-        n.body.push(ModuleItem::ModuleDecl(
+        n.body.push(
             NamedExport {
                 span,
                 ..NamedExport::dummy()
             }
+            .into()
             .into(),
-        ));
+        );
     }
 }
 

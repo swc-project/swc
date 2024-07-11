@@ -253,12 +253,12 @@ impl StmtOrModuleItem for ModuleItem {
 
     #[inline]
     fn from_stmt(stmt: Stmt) -> Self {
-        ModuleItem::Stmt(stmt)
+        stmt.into()
     }
 
     #[inline]
     fn try_from_module_decl(decl: ModuleDecl) -> Result<Self, ModuleDecl> {
-        Ok(ModuleItem::ModuleDecl(decl))
+        Ok(decl.into())
     }
 }
 
@@ -313,7 +313,7 @@ impl ModuleItemLike for ModuleItem {
 
     #[inline]
     fn try_from_module_decl(decl: ModuleDecl) -> Result<Self, ModuleDecl> {
-        Ok(ModuleItem::ModuleDecl(decl))
+        Ok(decl.into())
     }
 }
 impl StmtLike for ModuleItem {
@@ -343,7 +343,7 @@ impl StmtLike for ModuleItem {
 
     #[inline]
     fn from_stmt(stmt: Stmt) -> Self {
-        ModuleItem::Stmt(stmt)
+        stmt.into()
     }
 }
 

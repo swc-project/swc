@@ -1542,7 +1542,7 @@ impl VisitMut for Decorator2022_03 {
                 let span = *span;
                 let new_stmt = self.handle_class_decl(c);
 
-                *s = ModuleItem::Stmt(new_stmt);
+                *s = new_stmt.into();
                 self.extra_exports
                     .push(ExportSpecifier::Named(ExportNamedSpecifier {
                         span,
@@ -1571,7 +1571,7 @@ impl VisitMut for Decorator2022_03 {
                         is_type_only: false,
                     }));
 
-                *s = ModuleItem::Stmt(new_stmt);
+                *s = new_stmt.into();
             }
             _ => {
                 s.visit_mut_children_with(self);
@@ -1641,16 +1641,15 @@ impl VisitMut for Decorator2022_03 {
         if !self.extra_exports.is_empty() {
             insert_builder.push_back(
                 n.len() + 1,
-                ModuleItem::ModuleDecl(
-                    NamedExport {
-                        span: DUMMY_SP,
-                        specifiers: self.extra_exports.take(),
-                        src: None,
-                        type_only: false,
-                        with: None,
-                    }
-                    .into(),
-                ),
+                NamedExport {
+                    span: DUMMY_SP,
+                    specifiers: self.extra_exports.take(),
+                    src: None,
+                    type_only: false,
+                    with: None,
+                }
+                .into()
+                .into(),
             );
         }
 
