@@ -71,6 +71,24 @@ decl_from!(
     TsModuleDecl
 );
 
+macro_rules! decl_from_boxed {
+    ($($variant_ty:ty),*) => {
+        $(
+            bridge_from!(crate::Stmt, Decl, Box<$variant_ty>);
+            bridge_from!(crate::ModuleItem, crate::Stmt, Box<$variant_ty>);
+        )*
+    };
+}
+
+decl_from_boxed!(
+    VarDecl,
+    UsingDecl,
+    TsInterfaceDecl,
+    TsTypeAliasDecl,
+    TsEnumDecl,
+    TsModuleDecl
+);
+
 impl Take for Decl {
     fn dummy() -> Self {
         Decl::Invalid(Default::default())
