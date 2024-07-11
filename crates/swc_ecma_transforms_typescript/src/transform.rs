@@ -50,6 +50,7 @@ use crate::{
 pub(crate) struct Transform {
     unresolved_mark: Mark,
     unresolved_ctxt: SyntaxContext,
+    top_level_ctxt: SyntaxContext,
 
     import_export_assign_config: TsImportExportAssignConfig,
     ts_enum_is_mutable: bool,
@@ -65,6 +66,7 @@ pub(crate) struct Transform {
 
 pub fn transform(
     unresolved_mark: Mark,
+    top_level_mark: Mark,
     import_export_assign_config: TsImportExportAssignConfig,
     ts_enum_is_mutable: bool,
     verbatim_module_syntax: bool,
@@ -72,6 +74,7 @@ pub fn transform(
     as_folder(Transform {
         unresolved_mark,
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
+        top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
         import_export_assign_config,
         ts_enum_is_mutable,
         verbatim_module_syntax,
@@ -834,7 +837,7 @@ impl Transform {
             return None;
         }
 
-        let kind = if id.1 != self.unresolved_ctxt {
+        let kind = if id.1 != self.top_level_ctxt {
             VarDeclKind::Let
         } else {
             VarDeclKind::Var

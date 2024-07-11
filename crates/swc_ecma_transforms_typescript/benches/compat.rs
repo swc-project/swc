@@ -35,7 +35,7 @@ where
         let top_level_mark = Mark::fresh(Mark::root());
         let module = module
             .fold_with(&mut resolver(unresolved_mark, top_level_mark, true))
-            .fold_with(&mut strip(top_level_mark));
+            .fold_with(&mut strip(unresolved_mark, top_level_mark));
 
         b.iter(|| {
             let module = module.clone();
@@ -78,13 +78,13 @@ fn common_typescript(b: &mut Bencher) {
         let top_level_mark = Mark::fresh(Mark::root());
         let module = module
             .fold_with(&mut resolver(unresolved_mark, top_level_mark, true))
-            .fold_with(&mut strip(top_level_mark));
+            .fold_with(&mut strip(unresolved_mark, top_level_mark));
 
         b.iter(|| {
             let module = module.clone();
 
             helpers::HELPERS.set(&Default::default(), || {
-                black_box(module.fold_with(&mut strip(top_level_mark)));
+                black_box(module.fold_with(&mut strip(unresolved_mark, top_level_mark)));
             });
         });
 

@@ -25,7 +25,7 @@ fn tr(config: common_js::Config, is_ts: bool, comments: Rc<SingleThreadedComment
 
     chain!(
         resolver(unresolved_mark, top_level_mark, is_ts),
-        typescript::typescript(Default::default(), unresolved_mark),
+        typescript::typescript(Default::default(), unresolved_mark, top_level_mark),
         common_js(unresolved_mark, config, available_set, Some(comments)),
     )
 }
