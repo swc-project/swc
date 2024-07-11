@@ -94,51 +94,46 @@ struct ClassExtra {
 
 #[swc_trace]
 impl ClassExtra {
-    fn prepend_with<T: StmtLike + From<Stmt>>(self, stmts: &mut Vec<T>) {
+    fn prepend_with<T: StmtLike>(self, stmts: &mut Vec<T>) {
         if !self.vars.is_empty() {
             prepend_stmt(
                 stmts,
-                VarDecl {
+                T::from(Stmt::from(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: self.vars,
                     ..Default::default()
-                }
-                .into(),
+                })),
             )
         }
 
         if !self.lets.is_empty() {
             prepend_stmt(
                 stmts,
-                VarDecl {
+                T::from(Stmt::from(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
                     decls: self.lets,
                     ..Default::default()
-                }
-                .into(),
+                })),
             )
         }
 
         stmts.extend(self.stmts.into_iter().map(|stmt| stmt.into()))
     }
 
-    fn merge_with<T: StmtLike + From<Stmt>>(self, stmts: &mut Vec<T>, class: T) {
+    fn merge_with<T: StmtLike>(self, stmts: &mut Vec<T>, class: T) {
         if !self.vars.is_empty() {
-            stmts.push(
-                VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: self.vars,
-                    ..Default::default()
-                }
-                .into(),
-            )
+            stmts.push(T::from(Stmt::from(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                decls: self.vars,
+                ..Default::default()
+            })))
         }
 
         if !self.lets.is_empty() {
-            stmts.push(
+            stmts.push(T::from(
                 VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
@@ -146,7 +141,7 @@ impl ClassExtra {
                     ..Default::default()
                 }
                 .into(),
-            )
+            ));
         }
 
         stmts.push(class);
