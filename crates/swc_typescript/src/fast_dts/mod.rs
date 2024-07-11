@@ -193,7 +193,6 @@ impl FastDts {
                                 }],
                                 ..Default::default()
                             }
-                            .into()
                             .into(),
                         );
 

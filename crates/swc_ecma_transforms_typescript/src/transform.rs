@@ -1076,7 +1076,7 @@ impl Transform {
                                         .into()
                                     } else {
                                         var_decl.span = decl.span;
-                                        var_decl.into().into()
+                                        var_decl.into()
                                     };
                                     n.push(module_item);
                                 }
@@ -1138,7 +1138,6 @@ impl Transform {
                         .as_arg()],
                     )
                     .into_var_decl(VarDeclKind::Const, require.clone().into())
-                    .into()
                     .into(),
             ]);
         }

@@ -1599,7 +1599,6 @@ impl VisitMut for Decorator2022_03 {
                         declare: false,
                         ..Default::default()
                     }
-                    .into()
                     .into(),
                 );
             }

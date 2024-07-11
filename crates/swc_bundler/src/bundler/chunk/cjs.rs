@@ -313,7 +313,6 @@ where
                             }],
                             ..Default::default()
                         }
-                        .into()
                         .into();
                         return;
                     }
@@ -343,7 +342,6 @@ where
                 }],
                 ..Default::default()
             }
-            .into()
             .into();
         }
     }

@@ -181,7 +181,7 @@ where
             }],
         };
 
-        module.append(id, var_decl.into().into());
+        module.append(id, var_decl.into());
 
         // print_hygiene(
         //     "wrap",

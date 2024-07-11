@@ -685,7 +685,6 @@ where
                                                 class: c.class,
                                                 declare: false,
                                             }
-                                            .into()
                                             .into(),
                                         );
 
@@ -714,7 +713,6 @@ where
                                                 function: f.function,
                                                 declare: false,
                                             }
-                                            .into()
                                             .into(),
                                         );
 
@@ -736,7 +734,6 @@ where
                                                 function: f.function,
                                                 declare: false,
                                             }
-                                            .into()
                                             .into(),
                                         );
 
@@ -850,13 +847,13 @@ where
                         let local = match export.decl {
                             Decl::Class(c) => {
                                 let i = c.ident.clone();
-                                new.push(c.into().into());
+                                new.push(c.into());
 
                                 i
                             }
                             Decl::Fn(f) => {
                                 let i = f.ident.clone();
-                                new.push(f.into().into());
+                                new.push(f.into());
 
                                 i
                             }
@@ -864,7 +861,7 @@ where
                                 let ids: Vec<Ident> = find_pat_ids(&v);
                                 //
 
-                                new.push(v.into().into());
+                                new.push(v.into());
 
                                 let export = NamedExport {
                                     span: export.span,
@@ -1076,7 +1073,6 @@ where
                                                 decls: vars,
                                                 ..Default::default()
                                             }
-                                            .into()
                                             .into(),
                                         );
                                     }
@@ -1390,7 +1386,6 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                             }],
                             ..Default::default()
                         }
-                        .into()
                         .into(),
                     );
                 }

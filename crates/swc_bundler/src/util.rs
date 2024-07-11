@@ -37,7 +37,6 @@ pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
             },
         }
         .into()
-        .into()
     }
 }
 

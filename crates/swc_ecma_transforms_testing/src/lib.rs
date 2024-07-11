@@ -244,7 +244,6 @@ impl VisitMut for RegeneratorHandler {
                 ..Default::default()
             }
             .into()
-            .into()
         }
     }
 }

@@ -282,7 +282,6 @@ where
                             class: class.take(),
                             declare: *declare,
                         }
-                        .into()
                         .into();
                         export!(
                             ModuleExportName::Ident(orig_ident),
@@ -324,7 +323,6 @@ where
                             function,
                             declare: *declare,
                         }
-                        .into()
                         .into();
                         export!(
                             ModuleExportName::Ident(orig_ident),
@@ -377,7 +375,6 @@ where
                     decls,
                     ..*var.take()
                 }
-                .into()
                 .into();
                 self.extra.push(
                     NamedExport {

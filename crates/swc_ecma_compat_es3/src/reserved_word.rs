@@ -101,7 +101,7 @@ impl VisitMut for ReservedWord {
                         );
                     }
 
-                    *module_item = var.take().into().into();
+                    *module_item = var.take().into();
                 }
 
                 _ => {}
