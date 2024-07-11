@@ -105,8 +105,8 @@ impl<I: Tokens> Parser<I> {
 
                 let type_parameters = p.parse_ts_type_params(false, true)?;
                 let mut arrow = p.parse_assignment_expr_base()?;
-                match *arrow {
-                    Expr::Arrow(ArrowExpr {
+                match arrow {
+                    Expr::Arrow(box ArrowExpr {
                         ref mut span,
                         ref mut type_params,
                         ..
@@ -142,7 +142,7 @@ impl<I: Tokens> Parser<I> {
 
         return_if_arrow!(self, cond);
 
-        match *cond {
+        match cond {
             // if cond is conditional expression but not left-hand-side expression,
             // just return it.
             Expr::Cond(..) | Expr::Bin(..) | Expr::Unary(..) | Expr::Update(..) => return Ok(cond),
@@ -437,7 +437,7 @@ impl<I: Tokens> Parser<I> {
                     let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;
                     return Ok(TsAsExpr {
                         span: span!(self, start),
-                        expr: Box::new(id.into()),
+                        expr: id.into(),
                         type_ann,
                     }
                     .into());
@@ -576,7 +576,7 @@ impl<I: Tokens> Parser<I> {
             return_if_arrow!(self, callee);
 
             if is_new_expr {
-                match *callee {
+                match callee {
                     Expr::OptChain(OptChainExpr {
                         span,
                         optional: true,
@@ -584,16 +584,16 @@ impl<I: Tokens> Parser<I> {
                     }) => {
                         syntax_error!(self, span, SyntaxError::OptChainCannotFollowConstructorCall)
                     }
-                    Expr::Member(MemberExpr { ref obj, .. }) => {
+                    Expr::Member(box MemberExpr { ref obj, .. }) => {
                         if let Expr::OptChain(OptChainExpr {
                             span,
                             optional: true,
                             ..
-                        }) = **obj
+                        }) = obj
                         {
                             syntax_error!(
                                 self,
-                                span,
+                                *span,
                                 SyntaxError::OptChainCannotFollowConstructorCall
                             )
                         }
@@ -896,8 +896,7 @@ impl<I: Tokens> Parser<I> {
                 if let Some(&Token::BinOp(..)) = self.input.cur() {
                     // ) is required
                     self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
-                    let errorred_expr =
-                        self.parse_bin_op_recursively(Box::new(arrow_expr.into()), 0)?;
+                    let errorred_expr = self.parse_bin_op_recursively(arrow_expr.into(), 0)?;
 
                     if !is!(self, ';') {
                         // ; is required
@@ -914,10 +913,10 @@ impl<I: Tokens> Parser<I> {
             // like (a, {b = 1});
             for expr_or_spread in paren_items.iter() {
                 if let AssignTargetOrSpread::ExprOrSpread(e) = expr_or_spread {
-                    if let Expr::Object(o) = &*e.expr {
+                    if let Expr::Object(o) = &e.expr {
                         for p in o.props.iter() {
                             if let PropOrSpread::Prop(prop) = p {
-                                if let Prop::Assign(..) = **prop {
+                                if let Prop::Assign(..) = prop {
                                     self.emit_err(prop.span(), SyntaxError::AssignProperty);
                                 }
                             }
@@ -940,9 +939,7 @@ impl<I: Tokens> Parser<I> {
             // It's a call expression
             return Ok(CallExpr {
                 span: span!(self, async_span.lo()),
-                callee: Callee::Expr(Box::new(
-                    Ident::new_no_ctxt("async".into(), async_span).into(),
-                )),
+                callee: Callee::Expr(Ident::new_no_ctxt("async".into(), async_span).into()),
                 args: expr_or_spreads,
                 ..Default::default()
             }
@@ -1007,10 +1004,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    fn parse_tpl_elements(
-        &mut self,
-        is_tagged_tpl: bool,
-    ) -> PResult<(Vec<Expr>, Vec<TplElement>)> {
+    fn parse_tpl_elements(&mut self, is_tagged_tpl: bool) -> PResult<(Vec<Expr>, Vec<TplElement>)> {
         trace_cur!(self, parse_tpl_elements);
 
         let mut exprs = vec![];
@@ -1205,17 +1199,17 @@ impl<I: Tokens> Parser<I> {
                         let obj = mut_obj_opt.take().unwrap();
 
                         if let Callee::Expr(callee) = &obj {
-                            if let Expr::OptChain(..) = &**callee {
+                            if let Expr::OptChain(..) = callee {
                                 return Ok(Some((
                                     OptChainExpr {
                                         span: span!(p, start),
-                                        base: Box::new(OptChainBase::Call(OptCall {
+                                        base: Box::new(OptChainBase::Call(Box::new(OptCall {
                                             span: span!(p, start),
                                             callee: obj.expect_expr(),
                                             type_args: Some(type_args),
                                             args,
                                             ..Default::default()
-                                        })),
+                                        }))),
                                         optional: false,
                                     }
                                     .into(),
@@ -1304,10 +1298,10 @@ impl<I: Tokens> Parser<I> {
             expect!(self, ']');
             let span = Span::new(obj.span_lo(), self.input.last_pos());
             debug_assert_eq!(obj.span_lo(), span.lo());
-            let prop = ComputedPropName {
+            let prop = Box::new(ComputedPropName {
                 span: Span::new(bracket_lo, self.input.last_pos()),
                 expr: prop,
-            };
+            });
 
             let type_args = if self.syntax().typescript() && is!(self, '<') {
                 self.try_parse_ts_type_args()
@@ -1316,7 +1310,7 @@ impl<I: Tokens> Parser<I> {
             };
 
             return Ok((
-                Box::new(match obj {
+                match obj {
                     Callee::Import(..) => unreachable!(),
                     Callee::Super(obj) => {
                         if !self.ctx().allow_direct_super
@@ -1352,7 +1346,7 @@ impl<I: Tokens> Parser<I> {
                             OptChainExpr {
                                 span,
                                 optional: question_dot_token.is_some(),
-                                base: Box::new(OptChainBase::Member(expr)),
+                                base: Box::new(OptChainBase::Member(Box::new(expr))),
                             }
                             .into()
                         } else {
@@ -1361,7 +1355,7 @@ impl<I: Tokens> Parser<I> {
 
                         if let Some(type_args) = type_args {
                             TsInstantiation {
-                                expr: Box::new(expr),
+                                expr,
                                 type_args,
                                 span: span!(self, start),
                             }
@@ -1370,7 +1364,7 @@ impl<I: Tokens> Parser<I> {
                             expr
                         }
                     }
-                }),
+                },
                 true,
             ));
         }
@@ -1401,13 +1395,13 @@ impl<I: Tokens> Parser<I> {
                         OptChainExpr {
                             span,
                             optional: question_dot_token.is_some(),
-                            base: Box::new(OptChainBase::Call(OptCall {
+                            base: Box::new(OptChainBase::Call(Box::new(OptCall {
                                 span: span!(self, start),
                                 callee,
                                 args,
                                 type_args,
                                 ..Default::default()
-                            })),
+                            }))),
                         }
                         .into(),
                         true,

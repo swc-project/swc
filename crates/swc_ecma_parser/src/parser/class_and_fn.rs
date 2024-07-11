@@ -208,12 +208,12 @@ impl<I: Tokens> Parser<I> {
         } else {
             for member in class.body.iter() {
                 match member {
-                    ClassMember::ClassProp(ClassProp {
+                    ClassMember::ClassProp(box ClassProp {
                         is_abstract: true,
                         span,
                         ..
                     })
-                    | ClassMember::Method(ClassMethod {
+                    | ClassMember::Method(box ClassMethod {
                         span,
                         is_abstract: true,
                         ..
@@ -231,8 +231,8 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_super_class(&mut self) -> PResult<(Expr, Option<Box<TsTypeParamInstantiation>>)> {
         let super_class = self.parse_lhs_expr()?;
-        match *super_class {
-            Expr::TsInstantiation(TsInstantiation {
+        match super_class {
+            Expr::TsInstantiation(box TsInstantiation {
                 expr, type_args, ..
             }) => Ok((expr, Some(type_args))),
             _ => {
@@ -295,10 +295,7 @@ impl<I: Tokens> Parser<I> {
             expect!(self, ')');
             expr
         } else {
-            let expr = self
-                .parse_ident(false, false)
-                .map(Expr::from)
-                .map(Box::new)?;
+            let expr = self.parse_ident(false, false).map(Expr::from)?;
 
             self.parse_subscripts(Callee::Expr(expr), false, true)?
         };
@@ -350,7 +347,7 @@ impl<I: Tokens> Parser<I> {
             let elem = p.parse_class_member()?;
 
             if !p.ctx().in_declare {
-                if let ClassMember::Constructor(Constructor {
+                if let ClassMember::Constructor(box Constructor {
                     body: Some(..),
                     span,
                     ..
@@ -835,7 +832,7 @@ impl<I: Tokens> Parser<I> {
                                 Pat::Assign(ref p) => Some(p.span()),
                                 _ => None,
                             },
-                            ParamOrTsParamProp::TsParamProp(TsParamProp {
+                            ParamOrTsParamProp::TsParamProp(box TsParamProp {
                                 param: TsParamPropParam::Assign(ref p),
                                 ..
                             }) => Some(p.span()),
@@ -858,7 +855,7 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
 
-                return Ok(ClassMember::Constructor(Constructor {
+                return Ok(ClassMember::Constructor(Box::new(Constructor {
                     span: span!(self, start),
                     accessibility,
                     key: match key {
@@ -869,7 +866,7 @@ impl<I: Tokens> Parser<I> {
                     params,
                     body,
                     ..Default::default()
-                }));
+                })));
             } else {
                 return self.make_method(
                     |p| p.parse_formal_params(),
@@ -1092,7 +1089,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             if accessor_token.is_some() {
-                return Ok(ClassMember::AutoAccessor(AutoAccessor {
+                return Ok(ClassMember::AutoAccessor(Box::new(AutoAccessor {
                     span: span!(p, start),
                     key,
                     value,
@@ -1103,7 +1100,7 @@ impl<I: Tokens> Parser<I> {
                     is_abstract,
                     is_override,
                     definite,
-                }));
+                })));
             }
 
             Ok(match key {
@@ -1628,10 +1625,11 @@ impl OutputType for Decl {
         .into())
         Ok(Decl::Fn(Box::new(FnDecl {
         Ok(Decl::Fn(FnDecl {
+        Ok(Decl::Fn(Box::new(FnDecl {
             declare: false,
             ident,
             function,
-        }))
+        })))
     }
 
     fn finish_class(_: Span, ident: Option<Ident>, class: Box<Class>) -> Result<Self, SyntaxError> {
@@ -1645,10 +1643,11 @@ impl OutputType for Decl {
         .into())
         Ok(Decl::Class(Box::new(ClassDecl {
         Ok(Decl::Class(ClassDecl {
+        Ok(Decl::Class(Box::new(ClassDecl {
             declare: false,
             ident,
             class,
-        }))
+        })))
     }
 }
 
@@ -1681,7 +1680,7 @@ impl<I: Tokens> FnBodyParser<Box<BlockStmtOrExpr>> for Parser<I> {
                             self.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
                         }
                     }
-                    BlockStmtOrExpr::BlockStmt(block_stmt)
+                    BlockStmtOrExpr::BlockStmt(Box::new(block_stmt))
                 })
                 .map(Box::new)
         } else {
@@ -1799,9 +1798,9 @@ mod tests {
     fn class_expr() {
         assert_eq_ignore_span!(
             expr("(class extends a {})"),
-            Box::new(Expr::Paren(ParenExpr {
+            Expr::Paren(Box::new(ParenExpr {
                 span,
-                expr: Box::new(Expr::Class(ClassExpr {
+                expr: Expr::Class(Box::new(ClassExpr {
                     ident: None,
                     class: Box::new(Class {
                         decorators: vec![],
