@@ -9,13 +9,13 @@ use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_typescript::typescript;
 use swc_ecma_visit::Fold;
 
-fn simple_strip(top_level_mark: Mark) -> impl Fold {
+fn simple_strip(unresolved_mark: Mark) -> impl Fold {
     typescript(
         typescript::Config {
             no_empty_export: true,
             ..Default::default()
         },
-        top_level_mark,
+        unresolved_mark,
     )
 }
 
@@ -2066,7 +2066,7 @@ test!(
         let top_level_mark = Mark::fresh(Mark::root());
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            simple_strip(top_level_mark),
+            simple_strip(unresolved_mark),
             class_properties(
                 Some(t.comments.clone()),
                 class_properties::Config {
@@ -2105,7 +2105,7 @@ test!(
         let top_level_mark = Mark::new();
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            simple_strip(top_level_mark),
+            simple_strip(unresolved_mark),
             class_properties(
                 Some(t.comments.clone()),
                 class_properties::Config {
@@ -2158,7 +2158,7 @@ test!(
         let top_level_mark = Mark::new();
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            simple_strip(top_level_mark),
+            simple_strip(unresolved_mark),
             inlining(Default::default())
         )
     },
@@ -2192,7 +2192,7 @@ test!(
         let top_level_mark = Mark::new();
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            simple_strip(top_level_mark),
+            simple_strip(unresolved_mark),
             inlining(Default::default())
         )
     },

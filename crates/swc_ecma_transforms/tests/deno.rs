@@ -42,7 +42,7 @@ fn run_test(input: PathBuf) {
                             typescript::TsImportExportAssignConfig::Preserve,
                         ts_enum_is_mutable: true,
                     },
-                    top_level_mark
+                    unresolved_mark
                 ),
                 fixer(None),
                 hygiene(),
