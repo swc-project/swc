@@ -894,9 +894,9 @@ pub trait ExprExt {
                 let Known(s) = self.as_pure_string(ctx) else {
                     return (Pure, Unknown);
                 };
-                
+
                 return (Pure, num_from_str(&s));
-            },
+            }
             Expr::Ident(Ident { sym, span, .. }) => match &**sym {
                 "undefined" | "NaN" if span.ctxt == ctx.unresolved_ctxt => f64::NAN,
                 "Infinity" if span.ctxt == ctx.unresolved_ctxt => f64::INFINITY,

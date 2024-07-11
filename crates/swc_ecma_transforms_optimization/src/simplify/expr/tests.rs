@@ -494,14 +494,14 @@ fn test_unary_ops_5() {
     fold("+[]", "0");
     fold("+[[]]", "0");
     fold("+[[[]]]", "0");
-    
+
     // Arrays with one element
     fold("+[1]", "1");
     fold("+[[1]]", "1");
     fold("+[undefined]", "0");
     fold("+[null]", "0");
     fold("+[,]", "0");
-    
+
     // Arrays with more than one element
     fold("+[1, 2]", "NaN");
     fold("+[[1], 2]", "NaN");
