@@ -21,8 +21,8 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
-    noop_visit_type, standard_only_visit_mut, visit_mut_obj_and_computed, visit_obj_and_computed,
-    Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, standard_only_visit_mut, visit_mut_obj_and_computed,
+    visit_obj_and_computed, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::trace;
 
@@ -2989,9 +2989,13 @@ impl<'a> IdentRenamer<'a> {
 }
 
 impl VisitMut for IdentRenamer<'_> {
-    standard_only_visit_mut!();
+    noop_visit_mut_type!();
 
     visit_mut_obj_and_computed!();
+
+    fn visit_mut_jsx_member_expr(&mut self, n: &mut JSXMemberExpr) {
+        n.obj.visit_mut_with(self);
+    }
 
     fn visit_mut_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier) {
         if node.exported.is_some() {
