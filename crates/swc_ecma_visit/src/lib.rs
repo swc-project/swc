@@ -471,7 +471,7 @@ macro_rules! noop_visit_type {
 
 /// NOT A PUBLIC API
 #[doc(hidden)]
-#[inline]
+#[inline(always)]
 pub fn fail_not_standard() {
     unsafe {
         debug_unreachable::debug_unreachable!("This visitor supports standard ECMAScript types")
@@ -485,8 +485,9 @@ pub fn fail_not_standard() {
 #[macro_export]
 macro_rules! standard_only_fold {
     ($name:ident, $N:ident) => {
-        fn $name(&mut self, _: $crate::swc_ecma_ast::$N) -> $crate::swc_ecma_ast::$N {
-            $crate::fail_not_standard()
+        fn $name(&mut self, n: $crate::swc_ecma_ast::$N) -> $crate::swc_ecma_ast::$N {
+            $crate::fail_not_standard();
+            n
         }
     };
     () => {
