@@ -6,6 +6,7 @@ use swc_ecma_transforms_base::{feature::FeatureFlag, resolver};
 use swc_ecma_transforms_compat::es2015::for_of;
 use swc_ecma_transforms_module::common_js::{self, common_js};
 use swc_ecma_transforms_testing::{test, test_fixture, FixtureTestConfig};
+use swc_ecma_transforms_typescript::typescript;
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -16,18 +17,15 @@ fn ts_syntax() -> Syntax {
     Syntax::Typescript(TsSyntax::default())
 }
 
-fn tr(
-    config: common_js::Config,
-    typescript: bool,
-    comments: Rc<SingleThreadedComments>,
-) -> impl Fold {
+fn tr(config: common_js::Config, is_ts: bool, comments: Rc<SingleThreadedComments>) -> impl Fold {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
     let available_set = FeatureFlag::all();
 
     chain!(
-        resolver(unresolved_mark, top_level_mark, typescript),
+        resolver(unresolved_mark, top_level_mark, is_ts),
+        typescript::typescript(Default::default(), top_level_mark),
         common_js(unresolved_mark, config, available_set, Some(comments)),
     )
 }
