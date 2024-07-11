@@ -2,9 +2,7 @@ use rustc_hash::FxHashSet;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmt, StmtLike};
-use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
-};
+use swc_ecma_visit::{standard_only_visit, Visit, VisitMut, VisitMutWith, VisitWith};
 
 use super::Pure;
 use crate::{

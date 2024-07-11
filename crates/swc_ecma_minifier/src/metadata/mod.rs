@@ -6,9 +6,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::NodeIgnoringSpan;
-use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
-};
+use swc_ecma_visit::{standard_only_visit_mut, Visit, VisitMut, VisitMutWith, VisitWith};
 
 use crate::option::CompressOptions;
 
