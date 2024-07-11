@@ -469,6 +469,90 @@ macro_rules! noop_visit_type {
     };
 }
 
+/// NOT A PUBLIC API
+#[doc(hidden)]
+#[inline]
+pub fn fail_not_standard() {
+    unsafe {
+        debug_unreachable::debug_unreachable!("This visitor supports standard ECMAScript types")
+    }
+}
+
+/// Mark visitor as ECMAScript standard only and mark them as unreachable.
+///
+/// Used to reduce the binary size.
+#[macro_export]
+macro_rules! visit_mut_only_standard {
+    ($name:ident, $N:ident) => {
+        fn $name(&mut self, _: &mut $crate::swc_ecma_ast::$N) {
+            $crate::fail_not_standard()
+        }
+    };
+    () => {
+        visit_mut_only_standard!(visit_mut_accessibility, Accessibility);
+        visit_mut_only_standard!(visit_mut_true_plus_minus, TruePlusMinus);
+        visit_mut_only_standard!(visit_mut_ts_array_type, TsArrayType);
+        visit_mut_only_standard!(visit_mut_ts_call_signature_decl, TsCallSignatureDecl);
+        visit_mut_only_standard!(visit_mut_ts_conditional_type, TsConditionalType);
+        visit_mut_only_standard!(
+            visit_mut_ts_construct_signature_decl,
+            TsConstructSignatureDecl
+        );
+        visit_mut_only_standard!(visit_mut_ts_constructor_type, TsConstructorType);
+        visit_mut_only_standard!(visit_mut_ts_entity_name, TsEntityName);
+        visit_mut_only_standard!(visit_mut_ts_expr_with_type_args, TsExprWithTypeArgs);
+        visit_mut_only_standard!(visit_mut_ts_external_module_ref, TsExternalModuleRef);
+        visit_mut_only_standard!(visit_mut_ts_fn_or_constructor_type, TsFnOrConstructorType);
+        visit_mut_only_standard!(visit_mut_ts_fn_param, TsFnParam);
+        visit_mut_only_standard!(visit_mut_ts_fn_type, TsFnType);
+        visit_mut_only_standard!(visit_mut_ts_import_type, TsImportType);
+        visit_mut_only_standard!(visit_mut_ts_index_signature, TsIndexSignature);
+        visit_mut_only_standard!(visit_mut_ts_indexed_access_type, TsIndexedAccessType);
+        visit_mut_only_standard!(visit_mut_ts_infer_type, TsInferType);
+        visit_mut_only_standard!(visit_mut_ts_interface_body, TsInterfaceBody);
+        visit_mut_only_standard!(visit_mut_ts_interface_decl, TsInterfaceDecl);
+        visit_mut_only_standard!(visit_mut_ts_intersection_type, TsIntersectionType);
+        visit_mut_only_standard!(visit_mut_ts_keyword_type, TsKeywordType);
+        visit_mut_only_standard!(visit_mut_ts_keyword_type_kind, TsKeywordTypeKind);
+        visit_mut_only_standard!(visit_mut_ts_mapped_type, TsMappedType);
+        visit_mut_only_standard!(visit_mut_ts_method_signature, TsMethodSignature);
+        visit_mut_only_standard!(visit_mut_ts_module_ref, TsModuleRef);
+        visit_mut_only_standard!(visit_mut_ts_optional_type, TsOptionalType);
+        visit_mut_only_standard!(visit_mut_ts_parenthesized_type, TsParenthesizedType);
+        visit_mut_only_standard!(visit_mut_ts_property_signature, TsPropertySignature);
+        visit_mut_only_standard!(visit_mut_ts_qualified_name, TsQualifiedName);
+        visit_mut_only_standard!(visit_mut_ts_rest_type, TsRestType);
+        visit_mut_only_standard!(visit_mut_ts_this_type, TsThisType);
+        visit_mut_only_standard!(visit_mut_ts_this_type_or_ident, TsThisTypeOrIdent);
+        visit_mut_only_standard!(visit_mut_ts_tuple_type, TsTupleType);
+        visit_mut_only_standard!(visit_mut_ts_type, TsType);
+        visit_mut_only_standard!(visit_mut_ts_type_alias_decl, TsTypeAliasDecl);
+        visit_mut_only_standard!(visit_mut_ts_type_ann, TsTypeAnn);
+        visit_mut_only_standard!(visit_mut_ts_type_element, TsTypeElement);
+        visit_mut_only_standard!(visit_mut_ts_type_lit, TsTypeLit);
+        visit_mut_only_standard!(visit_mut_ts_type_operator, TsTypeOperator);
+        visit_mut_only_standard!(visit_mut_ts_type_operator_op, TsTypeOperatorOp);
+        visit_mut_only_standard!(visit_mut_ts_type_param, TsTypeParam);
+        visit_mut_only_standard!(visit_mut_ts_type_param_decl, TsTypeParamDecl);
+        visit_mut_only_standard!(
+            visit_mut_ts_type_param_instantiation,
+            TsTypeParamInstantiation
+        );
+        visit_mut_only_standard!(visit_mut_ts_type_predicate, TsTypePredicate);
+        visit_mut_only_standard!(visit_mut_ts_type_query, TsTypeQuery);
+        visit_mut_only_standard!(visit_mut_ts_type_query_expr, TsTypeQueryExpr);
+        visit_mut_only_standard!(visit_mut_ts_type_ref, TsTypeRef);
+        visit_mut_only_standard!(
+            visit_mut_ts_union_or_intersection_type,
+            TsUnionOrIntersectionType
+        );
+        visit_mut_only_standard!(visit_mut_ts_union_type, TsUnionType);
+
+        visit_mut_only_standard!(visit_mut_jsx_element, JSXElement);
+        visit_mut_only_standard!(visit_mut_jsx_fragment, JSXFragment);
+    };
+}
+
 /// Note: Ignoring more types is not considered as a breaking change.
 #[macro_export]
 macro_rules! noop_visit_mut_type {
