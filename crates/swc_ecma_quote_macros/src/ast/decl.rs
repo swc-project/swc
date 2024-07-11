@@ -10,7 +10,8 @@ impl_enum!(
         TsTypeAlias,
         TsEnum,
         TsModule,
-        Using
+        Using,
+        Invalid
     ]
 );
 
