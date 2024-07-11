@@ -38,6 +38,8 @@ pub enum Decl {
 boxed!(
     Decl,
     [
+        ClassDecl,
+        FnDecl,
         VarDecl,
         UsingDecl,
         TsInterfaceDecl,
@@ -57,19 +59,6 @@ macro_rules! decl_from {
 }
 
 decl_from!(
-macro_rules! bridge_decl_from {
-    ($src:ty) => {
-        bridge_from!(crate::Decl, Box<$src>, $src);
-        bridge_from!(crate::Stmt, crate::Decl, $src);
-        bridge_from!(crate::ModuleItem, crate::Stmt, $src);
-    };
-
-    ($($src:ty),*) => {
-        $(bridge_decl_from!($src);)*
-    };
-}
-
-bridge_decl_from!(
     ClassDecl,
     FnDecl,
     VarDecl,
@@ -99,14 +88,6 @@ decl_from_boxed!(
     TsEnumDecl,
     TsModuleDecl
 );
-bridge_decl_from!(Box<ClassDecl>, VarDecl);
-bridge_decl_from!(Box<FnDecl>, VarDecl);
-bridge_decl_from!(Box<VarDecl>, VarDecl);
-bridge_decl_from!(Box<UsingDecl>, UsingDecl);
-bridge_decl_from!(Box<TsInterfaceDecl>, TsInterfaceDecl);
-bridge_decl_from!(Box<TsTypeAliasDecl>, TsTypeAliasDecl);
-bridge_decl_from!(Box<TsEnumDecl>, TsEnumDecl);
-bridge_decl_from!(Box<TsModuleDecl>, TsModuleDecl);
 
 impl Take for Decl {
     fn dummy() -> Self {

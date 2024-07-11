@@ -112,7 +112,7 @@ pub enum Stmt {
     Expr(ExprStmt),
 }
 
-boxed!(Stmt, [TryStmt]);
+boxed!(Stmt, [TryStmt, SwitchStmt, ForStmt, ForInStmt, ForOfStmt]);
 
 macro_rules! stmt_from {
     ($($varant_ty:ty),*) => {
@@ -211,8 +211,6 @@ impl Take for Stmt {
         Default::default()
     }
 }
-
-bridge_stmt_from!(Box<TryStmt>, TryStmt);
 
 #[ast_node("Directive")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
