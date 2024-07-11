@@ -48,8 +48,8 @@ use crate::{
 /// [export and import require]: https://www.typescriptlang.org/docs/handbook/modules.html#export--and-import--require
 #[derive(Debug, Default)]
 pub(crate) struct Transform {
-    top_level_mark: Mark,
-    top_level_ctxt: SyntaxContext,
+    unresolved_mark: Mark,
+    unresolved_ctxt: SyntaxContext,
 
     import_export_assign_config: TsImportExportAssignConfig,
     ts_enum_is_mutable: bool,
@@ -64,14 +64,14 @@ pub(crate) struct Transform {
 }
 
 pub fn transform(
-    top_level_mark: Mark,
+    unresolved_mark: Mark,
     import_export_assign_config: TsImportExportAssignConfig,
     ts_enum_is_mutable: bool,
     verbatim_module_syntax: bool,
 ) -> impl Fold + VisitMut {
     as_folder(Transform {
-        top_level_mark,
-        top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
+        unresolved_mark,
+        unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
         import_export_assign_config,
         ts_enum_is_mutable,
         verbatim_module_syntax,
@@ -545,7 +545,7 @@ impl Transform {
                 &id.to_id(),
                 &default_init,
                 record,
-                self.top_level_mark,
+                self.unresolved_mark,
             );
 
             default_init = value.inc();
@@ -834,7 +834,7 @@ impl Transform {
             return None;
         }
 
-        let kind = if id.1 != self.top_level_ctxt {
+        let kind = if id.1 != self.unresolved_ctxt {
             VarDeclKind::Let
         } else {
             VarDeclKind::Var
@@ -982,7 +982,7 @@ impl Transform {
         // NOTE: This is not correct!
         // However, all unresolved_span are used in TsImportExportAssignConfig::Classic
         // which is deprecated and not used in real world.
-        let unresolved_span = DUMMY_SP.apply_mark(self.top_level_mark);
+        let unresolved_span = DUMMY_SP.apply_mark(self.unresolved_mark);
         let cjs_require = quote_ident!(unresolved_span, "require");
         let cjs_exports = quote_ident!(unresolved_span, "exports");
 
@@ -991,7 +991,7 @@ impl Transform {
         for mut module_item in n.take() {
             match &mut module_item {
                 ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(decl)) if !decl.is_type_only => {
-                    debug_assert_eq!(decl.id.span.ctxt(), self.top_level_ctxt);
+                    debug_assert_eq!(decl.id.span.ctxt(), self.unresolved_ctxt);
 
                     match &mut decl.module_ref {
                         // import foo = bar.baz

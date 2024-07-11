@@ -60,6 +60,7 @@ fn tsxr(t: &Tester) -> impl Fold {
             },
             TsxConfig::default(),
             t.comments.clone(),
+            unresolved_mark,
             top_level_mark,
         ),
         swc_ecma_transforms_react::jsx(
@@ -2814,6 +2815,7 @@ test!(
                 },
                 TsxConfig::default(),
                 t.comments.clone(),
+                unresolved_mark,
                 top_level_mark,
             )
         )

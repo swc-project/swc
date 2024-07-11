@@ -11,10 +11,10 @@ use swc_ecma_visit::{as_folder, Fold, VisitMut, VisitMutWith};
 pub use crate::config::*;
 use crate::{strip_import_export::StripImportExport, strip_type::StripType, transform::transform};
 
-pub fn typescript(config: Config, top_level_mark: Mark) -> impl Fold + VisitMut {
+pub fn typescript(config: Config, unresolved_mark: Mark) -> impl Fold + VisitMut {
     as_folder(TypeScript {
         config,
-        top_level_mark,
+        unresolved_mark,
         id_usage: Default::default(),
     })
 }
@@ -25,7 +25,7 @@ pub fn strip(top_level_mark: Mark) -> impl Fold + VisitMut {
 
 pub(crate) struct TypeScript {
     pub config: Config,
-    pub top_level_mark: Mark,
+    pub unresolved_mark: Mark,
 
     id_usage: AHashSet<Id>,
 }
@@ -44,7 +44,7 @@ impl VisitMut for TypeScript {
         n.visit_mut_with(&mut StripType::default());
 
         n.visit_mut_with(&mut transform(
-            self.top_level_mark,
+            self.unresolved_mark,
             self.config.import_export_assign_config,
             self.config.ts_enum_is_mutable,
             self.config.verbatim_module_syntax,
@@ -104,6 +104,7 @@ pub fn tsx<C>(
     config: Config,
     tsx_config: TsxConfig,
     comments: C,
+    unresolved_mark: Mark,
     top_level_mark: Mark,
 ) -> impl Fold + VisitMut
 where
@@ -116,6 +117,7 @@ where
         comments,
         cm,
         top_level_mark,
+        unresolved_mark,
     })
 }
 
@@ -141,6 +143,7 @@ where
     comments: C,
     cm: Lrc<SourceMap>,
     top_level_mark: Mark,
+    unresolved_mark: Mark,
 }
 
 impl<C> VisitMut for TypeScriptReact<C>
@@ -219,7 +222,7 @@ where
 
         n.visit_mut_with(&mut TypeScript {
             config: mem::take(&mut self.config),
-            top_level_mark: self.top_level_mark,
+            unresolved_mark: self.unresolved_mark,
             id_usage: mem::take(&mut self.id_usage),
         });
     }
