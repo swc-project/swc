@@ -474,7 +474,9 @@ macro_rules! noop_visit_type {
 #[inline(always)]
 pub fn fail_not_standard() {
     unsafe {
-        debug_unreachable::debug_unreachable!("This visitor supports standard ECMAScript types")
+        debug_unreachable::debug_unreachable!(
+            "This visitor supports only standard ECMAScript types"
+        )
     }
 }
 
