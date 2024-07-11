@@ -74,26 +74,28 @@ impl VisitMut for ExportDefaultFrom {
                         }
                     }
 
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                    stmts.push(
                         NamedExport {
                             span,
                             specifiers: export_specifiers,
                             src: Some(src.clone()),
                             type_only: false,
                             with: None,
-                        },
-                    )));
+                        }
+                        .into(),
+                    );
 
                     if !origin_specifiers.is_empty() {
-                        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        stmts.push(
                             NamedExport {
                                 span,
                                 specifiers: origin_specifiers,
                                 src: Some(src),
                                 type_only: false,
                                 with,
-                            },
-                        )));
+                            }
+                            .into(),
+                        );
                     }
                 }
                 _ => {

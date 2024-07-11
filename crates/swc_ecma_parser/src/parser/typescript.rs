@@ -2388,7 +2388,7 @@ impl<I: Tokens> Parser<I> {
                 return p
                     .parse_fn_decl(decorators)
                     .map(|decl| match decl {
-                        Decl::Fn(f) => Decl::Fn(FnDecl {
+                        Decl::Fn(f) => FnDecl {
                             declare: true,
                             function: Box::new(Function {
                                 span: Span {
@@ -2398,7 +2398,8 @@ impl<I: Tokens> Parser<I> {
                                 ..*f.function
                             }),
                             ..f
-                        }),
+                        }
+                        .into(),
                         _ => decl,
                     })
                     .map(Some);
@@ -2408,7 +2409,7 @@ impl<I: Tokens> Parser<I> {
                 return p
                     .parse_class_decl(start, start, decorators, false)
                     .map(|decl| match decl {
-                        Decl::Class(c) => Decl::Class(ClassDecl {
+                        Decl::Class(c) => ClassDecl {
                             declare: true,
                             class: Box::new(Class {
                                 span: Span {
@@ -2418,7 +2419,8 @@ impl<I: Tokens> Parser<I> {
                                 ..*c.class
                             }),
                             ..c
-                        }),
+                        }
+                        .into(),
                         _ => decl,
                     })
                     .map(Some);
@@ -2839,21 +2841,21 @@ mod tests {
             span: DUMMY_SP,
             shebang: None,
             body: {
-                let first =
-                    ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(Box::new(TsTypeAliasDecl {
+                let first = TsTypeAliasDecl {
+                    span: DUMMY_SP,
+                    declare: false,
+                    id: Ident::new_no_ctxt("test".into(), DUMMY_SP),
+                    type_params: None,
+                    type_ann: Box::new(TsType::TsLitType(TsLitType {
                         span: DUMMY_SP,
-                        declare: false,
-                        id: Ident::new_no_ctxt("test".into(), DUMMY_SP),
-                        type_params: None,
-                        type_ann: Box::new(TsType::TsLitType(TsLitType {
+                        lit: TsLit::Number(Number {
                             span: DUMMY_SP,
-                            lit: TsLit::Number(Number {
-                                span: DUMMY_SP,
-                                value: -1.0,
-                                raw: Some("-1".into()),
-                            }),
-                        })),
-                    }))));
+                            value: -1.0,
+                            raw: Some("-1".into()),
+                        }),
+                    })),
+                }
+                .into();
                 vec![first]
             },
         };
@@ -2873,7 +2875,7 @@ mod tests {
             span: DUMMY_SP,
             shebang: None,
             body: {
-                let second = ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                let second = VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Const,
                     declare: false,
@@ -2892,7 +2894,8 @@ mod tests {
                         definite: false,
                     }],
                     ..Default::default()
-                }))));
+                }
+                .into();
                 vec![second]
             },
         };

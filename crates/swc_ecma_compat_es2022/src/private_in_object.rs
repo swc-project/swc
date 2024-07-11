@@ -185,10 +185,13 @@ impl VisitMut for PrivateInObject {
                 }) = m
                 {
                     for expr in take(&mut self.cls.constructor_exprs) {
-                        body.stmts.push(Stmt::Expr(ExprStmt {
-                            span: DUMMY_SP,
-                            expr,
-                        }));
+                        body.stmts.push(
+                            ExprStmt {
+                                span: DUMMY_SP,
+                                expr,
+                            }
+                            .into(),
+                        );
                     }
                 }
             }
@@ -262,10 +265,13 @@ impl VisitMut for PrivateInObject {
                     stmts: vec![],
                     ..Default::default()
                 };
-                bs.stmts.push(Stmt::Return(ReturnStmt {
-                    span: DUMMY_SP,
-                    arg: Some(p.right.take()),
-                }));
+                bs.stmts.push(
+                    ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(p.right.take()),
+                    }
+                    .into(),
+                );
                 bs.visit_mut_with(self);
 
                 p.right = CallExpr {

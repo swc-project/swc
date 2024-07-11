@@ -97,7 +97,7 @@ impl Optimizer<'_> {
             if let Stmt::Expr(cons) = &mut *stmt.cons {
                 self.changed = true;
                 report_change!("conditionals: `if (foo) bar;` => `foo && bar`");
-                *s = Stmt::Expr(ExprStmt {
+                *s = ExprStmt {
                     span: stmt.span,
                     expr: BinExpr {
                         span: stmt.test.span(),
@@ -106,7 +106,8 @@ impl Optimizer<'_> {
                         right: cons.expr.take(),
                     }
                     .into(),
-                });
+                }
+                .into();
             }
         }
     }

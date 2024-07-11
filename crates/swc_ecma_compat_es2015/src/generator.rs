@@ -127,10 +127,13 @@ impl VisitMut for Wrapper {
             }
             stmts.extend(v.hoisted_fns.into_iter().map(Decl::Fn).map(Stmt::Decl));
 
-            stmts.push(Stmt::Return(ReturnStmt {
-                span: DUMMY_SP,
-                arg: Some(generator_object),
-            }));
+            stmts.push(
+                ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(generator_object),
+                }
+                .into(),
+            );
             f.body.as_mut().unwrap().stmts = stmts;
         }
     }
@@ -524,18 +527,21 @@ impl VisitMut for Generator {
                         if contains_yield(&elem) && !pending_expressions.is_empty() {
                             self.emit_worker(
                                 OpCode::Statement,
-                                Some(OpArgs::Stmt(Box::new(Stmt::Expr(ExprStmt {
-                                    span: DUMMY_SP,
-                                    expr: if pending_expressions.len() == 1 {
-                                        pending_expressions.remove(0)
-                                    } else {
-                                        SeqExpr {
-                                            span: DUMMY_SP,
-                                            exprs: pending_expressions.take(),
-                                        }
-                                        .into()
-                                    },
-                                })))),
+                                Some(OpArgs::Stmt(Box::new(
+                                    ExprStmt {
+                                        span: DUMMY_SP,
+                                        expr: if pending_expressions.len() == 1 {
+                                            pending_expressions.remove(0)
+                                        } else {
+                                            SeqExpr {
+                                                span: DUMMY_SP,
+                                                exprs: pending_expressions.take(),
+                                            }
+                                            .into()
+                                        },
+                                    }
+                                    .into(),
+                                ))),
                                 None,
                             );
                         }
@@ -977,7 +983,7 @@ impl VisitMut for Generator {
                 if self.in_statement_containing_yield {
                     let label = self.find_break_target(b.label.as_ref().map(|l| l.sym.clone()));
                     if label.0 > 0 {
-                        *node = Stmt::Return(self.create_inline_break(label, Some(b.span)));
+                        *node = self.create_inline_break(label, Some(b.span)).into();
                         return;
                     }
                 }
@@ -1030,7 +1036,7 @@ impl VisitMut for Generator {
                     return;
                 }
 
-                *node = Stmt::Expr(ExprStmt {
+                *node = ExprStmt {
                     span: v.span,
                     expr: if exprs.len() == 1 {
                         exprs.remove(0)
@@ -1041,7 +1047,8 @@ impl VisitMut for Generator {
                         }
                         .into()
                     },
-                });
+                }
+                .into();
             }
             Stmt::Decl(Decl::Fn(f)) => {
                 self.hoisted_fns.push(f.take());
@@ -1213,10 +1220,13 @@ impl Generator {
             }
         } && !expressions.is_empty()
         {
-            self.emit_stmt(Stmt::Expr(ExprStmt {
-                span: DUMMY_SP,
-                expr: Expr::from_exprs(expressions.take()),
-            }));
+            self.emit_stmt(
+                ExprStmt {
+                    span: DUMMY_SP,
+                    expr: Expr::from_exprs(expressions.take()),
+                }
+                .into(),
+            );
         }
 
         let mut expression: Expr = match property {
@@ -1477,14 +1487,14 @@ impl Generator {
             self.transform_and_emit_stmts(node.stmts, 0);
         } else {
             node.visit_mut_with(self);
-            self.emit_stmt(Stmt::Block(node));
+            self.emit_stmt(node.into());
         }
     }
 
     fn transform_and_emit_expr_stmt(&mut self, mut node: ExprStmt) {
         node.visit_mut_with(self);
 
-        self.emit_stmt(Stmt::Expr(node));
+        self.emit_stmt(node.into());
     }
 
     fn transform_and_emit_var_decl_list(&mut self, mut node: Box<VarDecl>) {
@@ -1518,18 +1528,21 @@ impl Generator {
                 variables_written += cnt;
                 cnt = 0;
 
-                self.emit_stmt(Stmt::Expr(ExprStmt {
-                    span: DUMMY_SP,
-                    expr: if pending_expressions.len() == 1 {
-                        pending_expressions.pop().unwrap()
-                    } else {
-                        SeqExpr {
-                            span: DUMMY_SP,
-                            exprs: take(&mut pending_expressions),
-                        }
-                        .into()
-                    },
-                }))
+                self.emit_stmt(
+                    ExprStmt {
+                        span: DUMMY_SP,
+                        expr: if pending_expressions.len() == 1 {
+                            pending_expressions.pop().unwrap()
+                        } else {
+                            SeqExpr {
+                                span: DUMMY_SP,
+                                exprs: take(&mut pending_expressions),
+                            }
+                            .into()
+                        },
+                    }
+                    .into(),
+                )
             }
         }
     }
@@ -1579,11 +1592,11 @@ impl Generator {
                 self.mark_label(end_label);
             } else {
                 node.visit_mut_with(self);
-                self.emit_stmt(Stmt::If(node));
+                self.emit_stmt(node.into());
             }
         } else {
             node.visit_mut_with(self);
-            self.emit_stmt(Stmt::If(node));
+            self.emit_stmt(node.into());
         }
     }
 
@@ -1617,7 +1630,7 @@ impl Generator {
             self.end_loop_block();
         } else {
             node.visit_mut_with(self);
-            self.emit_stmt(Stmt::DoWhile(node));
+            self.emit_stmt(node.into());
         }
     }
 
@@ -1650,7 +1663,7 @@ impl Generator {
         } else {
             node.visit_mut_children_with(self);
 
-            self.emit_stmt(Stmt::While(node));
+            self.emit_stmt(node.into());
         }
     }
 
@@ -1685,10 +1698,13 @@ impl Generator {
                     }
                     VarDeclOrExpr::Expr(mut init) => {
                         init.visit_mut_with(self);
-                        self.emit_stmt(Stmt::Expr(ExprStmt {
-                            span: init.span(),
-                            expr: init,
-                        }));
+                        self.emit_stmt(
+                            ExprStmt {
+                                span: init.span(),
+                                expr: init,
+                            }
+                            .into(),
+                        );
                     }
                 }
             }
@@ -1707,17 +1723,20 @@ impl Generator {
             if let Some(mut incrementor) = node.update {
                 incrementor.visit_mut_with(self);
 
-                self.emit_stmt(Stmt::Expr(ExprStmt {
-                    span: incrementor.span(),
-                    expr: incrementor,
-                }));
+                self.emit_stmt(
+                    ExprStmt {
+                        span: incrementor.span(),
+                        expr: incrementor,
+                    }
+                    .into(),
+                );
             }
 
             self.emit_break(condition_label, None);
             self.end_loop_block();
         } else {
             node.visit_mut_with(self);
-            self.emit_stmt(Stmt::For(node));
+            self.emit_stmt(node.into());
         }
     }
 
@@ -1757,24 +1776,27 @@ impl Generator {
             );
 
             node.right.visit_mut_with(self);
-            self.emit_stmt(Stmt::ForIn(ForInStmt {
-                span: DUMMY_SP,
-                left: ForHead::Pat(key.clone().into()),
-                right: node.right.take(),
-                body: Box::new(Stmt::Expr(ExprStmt {
+            self.emit_stmt(
+                ForInStmt {
                     span: DUMMY_SP,
-                    expr: CallExpr {
+                    left: ForHead::Pat(key.clone().into()),
+                    right: node.right.take(),
+                    body: Box::new(Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
-                        callee: keys_array
-                            .clone()
-                            .make_member(quote_ident!("push"))
-                            .as_callee(),
-                        args: vec![key.as_arg()],
-                        ..Default::default()
-                    }
-                    .into(),
-                })),
-            }));
+                        expr: CallExpr {
+                            span: DUMMY_SP,
+                            callee: keys_array
+                                .clone()
+                                .make_member(quote_ident!("push"))
+                                .as_callee(),
+                            args: vec![key.as_arg()],
+                            ..Default::default()
+                        }
+                        .into(),
+                    })),
+                }
+                .into(),
+            );
 
             self.emit_assignment(keys_index.clone().into(), 0.into(), None);
 
@@ -1827,22 +1849,25 @@ impl Generator {
             self.transform_and_emit_embedded_stmt(*node.body);
 
             self.mark_label(increment_label);
-            self.emit_stmt(Stmt::Expr(ExprStmt {
-                span: DUMMY_SP,
-                expr: UpdateExpr {
+            self.emit_stmt(
+                ExprStmt {
                     span: DUMMY_SP,
-                    prefix: false,
-                    op: op!("++"),
-                    arg: Box::new(keys_index.clone().into()),
+                    expr: UpdateExpr {
+                        span: DUMMY_SP,
+                        prefix: false,
+                        op: op!("++"),
+                        arg: Box::new(keys_index.clone().into()),
+                    }
+                    .into(),
                 }
                 .into(),
-            }));
+            );
 
             self.emit_break(condition_label, None);
             self.end_loop_block();
         } else {
             node.visit_mut_with(self);
-            self.emit_stmt(Stmt::ForIn(node));
+            self.emit_stmt(node.into());
         }
     }
 
@@ -1853,7 +1878,7 @@ impl Generator {
         } else {
             // invalid continue without a containing loop. Leave the node as is,
             // per #17875.
-            self.emit_stmt(Stmt::Continue(node))
+            self.emit_stmt(node.into())
         }
     }
 
@@ -1864,7 +1889,7 @@ impl Generator {
         } else {
             // invalid break without a containing loop. Leave the node as is,
             // per #17875.
-            self.emit_stmt(Stmt::Break(node))
+            self.emit_stmt(node.into())
         }
     }
 
@@ -1892,7 +1917,7 @@ impl Generator {
             self.end_with_block();
         } else {
             node.visit_mut_with(self);
-            self.emit_stmt(Stmt::With(node));
+            self.emit_stmt(node.into());
         }
     }
 
@@ -1982,11 +2007,14 @@ impl Generator {
 
                 if !pending_clauses.is_empty() {
                     clauses_written += pending_clauses.len();
-                    self.emit_stmt(Stmt::Switch(SwitchStmt {
-                        span: DUMMY_SP,
-                        discriminant: expression.clone().into(),
-                        cases: take(&mut pending_clauses),
-                    }));
+                    self.emit_stmt(
+                        SwitchStmt {
+                            span: DUMMY_SP,
+                            discriminant: expression.clone().into(),
+                            cases: take(&mut pending_clauses),
+                        }
+                        .into(),
+                    );
                 }
 
                 if default_clauses_skipped > 0 {
@@ -2008,7 +2036,7 @@ impl Generator {
             self.end_switch_block()
         } else {
             node.visit_mut_with(self);
-            self.emit_stmt(Stmt::Switch(node))
+            self.emit_stmt(node.into())
         }
     }
 
@@ -2032,7 +2060,7 @@ impl Generator {
             self.end_labeled_block();
         } else {
             node.visit_mut_with(self);
-            self.emit_stmt(Stmt::Labeled(node));
+            self.emit_stmt(node.into());
         }
     }
 
@@ -2076,18 +2104,18 @@ impl Generator {
             //  .mark endLabel
 
             self.begin_exception_block();
-            self.transform_and_emit_embedded_stmt(Stmt::Block(node.block));
+            self.transform_and_emit_embedded_stmt(node.block.into());
             if let Some(catch) = node.handler {
                 self.begin_catch_block(VarDeclarator {
                     name: catch.param.clone().unwrap(),
                     ..Take::dummy()
                 });
-                self.transform_and_emit_embedded_stmt(Stmt::Block(catch.body));
+                self.transform_and_emit_embedded_stmt(catch.body.into());
             }
 
             if let Some(finalizer) = node.finalizer {
                 self.begin_finally_block();
-                self.transform_and_emit_embedded_stmt(Stmt::Block(finalizer));
+                self.transform_and_emit_embedded_stmt(finalizer.into());
             }
 
             self.end_exception_block();
@@ -3001,7 +3029,7 @@ impl Generator {
 
                 stmts.insert(
                     0,
-                    Stmt::Expr(ExprStmt {
+                    ExprStmt {
                         span: DUMMY_SP,
                         expr: CallExpr {
                             span: DUMMY_SP,
@@ -3024,7 +3052,8 @@ impl Generator {
                             ..Default::default()
                         }
                         .into(),
-                    }),
+                    }
+                    .into(),
                 );
             }
 
@@ -3033,16 +3062,19 @@ impl Generator {
                 // label, so we add an assignment statement to
                 // reflect the change in labels.
 
-                stmts.push(Stmt::Expr(ExprStmt {
-                    span: DUMMY_SP,
-                    expr: AssignExpr {
+                stmts.push(
+                    ExprStmt {
                         span: DUMMY_SP,
-                        op: op!("="),
-                        left: self.state.clone().make_member(quote_ident!("label")).into(),
-                        right: (self.label_number + 1).into(),
+                        expr: AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: self.state.clone().make_member(quote_ident!("label")).into(),
+                            right: (self.label_number + 1).into(),
+                        }
+                        .into(),
                     }
                     .into(),
-                }));
+                );
             }
 
             stmts
@@ -3268,16 +3300,19 @@ impl Generator {
 
     /// Writes an Assign operation to the current label's statement list.
     fn write_assign(&mut self, left: AssignTarget, right: Box<Expr>, op_loc: Option<Span>) {
-        self.write_stmt(Stmt::Expr(ExprStmt {
-            span: op_loc.unwrap_or(DUMMY_SP),
-            expr: AssignExpr {
-                span: DUMMY_SP,
-                op: op!("="),
-                left,
-                right,
+        self.write_stmt(
+            ExprStmt {
+                span: op_loc.unwrap_or(DUMMY_SP),
+                expr: AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left,
+                    right,
+                }
+                .into(),
             }
             .into(),
-        }))
+        )
     }
 
     /// Writes a Throw operation to the current label's statement list.
@@ -3289,10 +3324,13 @@ impl Generator {
         self.last_operation_was_completion = true;
 
         // let inst = self.create_instruction(Instruction::Return);
-        self.write_stmt(Stmt::Throw(ThrowStmt {
-            span: op_loc.unwrap_or(DUMMY_SP),
-            arg: expr,
-        }))
+        self.write_stmt(
+            ThrowStmt {
+                span: op_loc.unwrap_or(DUMMY_SP),
+                arg: expr,
+            }
+            .into(),
+        )
     }
 
     /// Writes a Return operation to the current label's statement list.
@@ -3304,23 +3342,26 @@ impl Generator {
         self.last_operation_was_completion = true;
 
         let inst = self.create_instruction(Instruction::Return);
-        self.write_stmt(Stmt::Return(ReturnStmt {
-            span: op_loc.unwrap_or(DUMMY_SP),
-            arg: Some(
-                ArrayLit {
-                    span: DUMMY_SP,
-                    elems: match expr {
-                        Some(expr) => {
-                            vec![Some(inst.as_arg()), Some(expr.as_arg())]
-                        }
-                        _ => {
-                            vec![Some(inst.as_arg())]
-                        }
-                    },
-                }
-                .into(),
-            ),
-        }))
+        self.write_stmt(
+            ReturnStmt {
+                span: op_loc.unwrap_or(DUMMY_SP),
+                arg: Some(
+                    ArrayLit {
+                        span: DUMMY_SP,
+                        elems: match expr {
+                            Some(expr) => {
+                                vec![Some(inst.as_arg()), Some(expr.as_arg())]
+                            }
+                            _ => {
+                                vec![Some(inst.as_arg())]
+                            }
+                        },
+                    }
+                    .into(),
+                ),
+            }
+            .into(),
+        )
     }
 
     /// Writes a Break operation to the current label's statement list.
@@ -3332,16 +3373,19 @@ impl Generator {
 
         let inst = self.create_instruction(Instruction::Break);
         let label = self.create_label(Some(label));
-        self.write_stmt(Stmt::Return(ReturnStmt {
-            span: op_loc.unwrap_or(DUMMY_SP),
-            arg: Some(
-                ArrayLit {
-                    span: DUMMY_SP,
-                    elems: vec![Some(inst.as_arg()), Some(label.as_arg())],
-                }
-                .into(),
-            ),
-        }))
+        self.write_stmt(
+            ReturnStmt {
+                span: op_loc.unwrap_or(DUMMY_SP),
+                arg: Some(
+                    ArrayLit {
+                        span: DUMMY_SP,
+                        elems: vec![Some(inst.as_arg()), Some(label.as_arg())],
+                    }
+                    .into(),
+                ),
+            }
+            .into(),
+        )
     }
 
     /// Writes a BreakWhenTrue operation to the current label's statement list.
@@ -3352,21 +3396,24 @@ impl Generator {
     fn write_break_when_true(&mut self, label: Label, cond: Box<Expr>, op_loc: Option<Span>) {
         let inst = self.create_instruction(Instruction::Break);
         let label = self.create_label(Some(label));
-        self.write_stmt(Stmt::If(IfStmt {
-            span: DUMMY_SP,
-            test: cond,
-            cons: Box::new(Stmt::Return(ReturnStmt {
-                span: op_loc.unwrap_or(DUMMY_SP),
-                arg: Some(
-                    ArrayLit {
-                        span: DUMMY_SP,
-                        elems: vec![Some(inst.as_arg()), Some(label.as_arg())],
-                    }
-                    .into(),
-                ),
-            })),
-            alt: None,
-        }))
+        self.write_stmt(
+            IfStmt {
+                span: DUMMY_SP,
+                test: cond,
+                cons: Box::new(Stmt::Return(ReturnStmt {
+                    span: op_loc.unwrap_or(DUMMY_SP),
+                    arg: Some(
+                        ArrayLit {
+                            span: DUMMY_SP,
+                            elems: vec![Some(inst.as_arg()), Some(label.as_arg())],
+                        }
+                        .into(),
+                    ),
+                })),
+                alt: None,
+            }
+            .into(),
+        )
     }
 
     /// Writes a BreakWhenFalse operation to the current label's statement list.
@@ -3377,26 +3424,29 @@ impl Generator {
     fn write_break_when_false(&mut self, label: Label, cond: Box<Expr>, op_loc: Option<Span>) {
         let inst = self.create_instruction(Instruction::Break);
         let label = self.create_label(Some(label));
-        self.write_stmt(Stmt::If(IfStmt {
-            span: DUMMY_SP,
-            test: UnaryExpr {
+        self.write_stmt(
+            IfStmt {
                 span: DUMMY_SP,
-                op: op!("!"),
-                arg: cond,
+                test: UnaryExpr {
+                    span: DUMMY_SP,
+                    op: op!("!"),
+                    arg: cond,
+                }
+                .into(),
+                cons: Box::new(Stmt::Return(ReturnStmt {
+                    span: op_loc.unwrap_or(DUMMY_SP),
+                    arg: Some(
+                        ArrayLit {
+                            span: DUMMY_SP,
+                            elems: vec![Some(inst.as_arg()), Some(label.as_arg())],
+                        }
+                        .into(),
+                    ),
+                })),
+                alt: None,
             }
             .into(),
-            cons: Box::new(Stmt::Return(ReturnStmt {
-                span: op_loc.unwrap_or(DUMMY_SP),
-                arg: Some(
-                    ArrayLit {
-                        span: DUMMY_SP,
-                        elems: vec![Some(inst.as_arg()), Some(label.as_arg())],
-                    }
-                    .into(),
-                ),
-            })),
-            alt: None,
-        }))
+        )
     }
 
     /// Writes a Yield operation to the current label's statement list.
@@ -3415,16 +3465,19 @@ impl Generator {
                 vec![Some(inst.as_arg())]
             }
         };
-        self.write_stmt(Stmt::Return(ReturnStmt {
-            span: op_loc.unwrap_or(DUMMY_SP),
-            arg: Some(
-                ArrayLit {
-                    span: DUMMY_SP,
-                    elems,
-                }
-                .into(),
-            ),
-        }));
+        self.write_stmt(
+            ReturnStmt {
+                span: op_loc.unwrap_or(DUMMY_SP),
+                arg: Some(
+                    ArrayLit {
+                        span: DUMMY_SP,
+                        elems,
+                    }
+                    .into(),
+                ),
+            }
+            .into(),
+        );
     }
 
     /// Writes a YieldStar instruction to the current label's statement list.
@@ -3435,16 +3488,19 @@ impl Generator {
         self.last_operation_was_abrupt = true;
 
         let arg1 = self.create_instruction(Instruction::YieldStar);
-        self.write_stmt(Stmt::Return(ReturnStmt {
-            span: op_loc.unwrap_or(DUMMY_SP),
-            arg: Some(
-                ArrayLit {
-                    span: DUMMY_SP,
-                    elems: vec![Some(arg1.as_arg()), Some(expr.as_arg())],
-                }
-                .into(),
-            ),
-        }))
+        self.write_stmt(
+            ReturnStmt {
+                span: op_loc.unwrap_or(DUMMY_SP),
+                arg: Some(
+                    ArrayLit {
+                        span: DUMMY_SP,
+                        elems: vec![Some(arg1.as_arg()), Some(expr.as_arg())],
+                    }
+                    .into(),
+                ),
+            }
+            .into(),
+        )
     }
 
     /// Writes an Endfinally instruction to the current label's statement list.
@@ -3452,16 +3508,19 @@ impl Generator {
         self.last_operation_was_abrupt = true;
 
         let arg = self.create_instruction(Instruction::Endfinally);
-        self.write_stmt(Stmt::Return(ReturnStmt {
-            span: DUMMY_SP,
-            arg: Some(
-                ArrayLit {
-                    span: DUMMY_SP,
-                    elems: vec![Some(arg.as_arg())],
-                }
-                .into(),
-            ),
-        }))
+        self.write_stmt(
+            ReturnStmt {
+                span: DUMMY_SP,
+                arg: Some(
+                    ArrayLit {
+                        span: DUMMY_SP,
+                        elems: vec![Some(arg.as_arg())],
+                    }
+                    .into(),
+                ),
+            }
+            .into(),
+        )
     }
 
     fn hoist_variable_declaration(&mut self, id: &Ident) {

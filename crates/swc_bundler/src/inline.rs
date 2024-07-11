@@ -148,7 +148,7 @@ impl VisitMut for Inliner {
 
         match n {
             Stmt::Decl(Decl::Var(var)) if var.decls.is_empty() => {
-                *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                *n = EmptyStmt { span: DUMMY_SP }.into();
             }
             _ => {}
         }

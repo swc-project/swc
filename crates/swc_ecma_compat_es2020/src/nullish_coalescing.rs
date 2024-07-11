@@ -39,7 +39,7 @@ impl NullishCoalescing {
             stmt.visit_mut_with(self);
 
             if !self.vars.is_empty() {
-                buf.push(T::from_stmt(
+                buf.push(T::from(
                     VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,

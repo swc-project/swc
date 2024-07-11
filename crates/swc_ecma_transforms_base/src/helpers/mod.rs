@@ -450,22 +450,17 @@ impl InjectHelpers {
             ..Default::default()
         };
         let ctxt = SyntaxContext::empty().apply_mark(mark);
-        let decl = Decl::Var(
-            VarDecl {
-                kind: VarDeclKind::Var,
-                decls: vec![VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(
-                        Ident::new(format!("_{}", name).into(), DUMMY_SP, ctxt).into(),
-                    ),
-                    init: Some(c.into()),
-                    definite: false,
-                }],
-                ..Default::default()
-            }
-            .into(),
-        );
-        Stmt::Decl(decl)
+        VarDecl {
+            kind: VarDeclKind::Var,
+            decls: vec![VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(Ident::new(format!("_{}", name).into(), DUMMY_SP, ctxt).into()),
+                init: Some(c.into()),
+                definite: false,
+            }],
+            ..Default::default()
+        }
+        .into()
     }
 
     fn map_helper_ref_ident(&mut self, ref_ident: &Ident) -> Option<Expr> {

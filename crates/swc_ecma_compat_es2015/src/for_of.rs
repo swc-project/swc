@@ -186,7 +186,7 @@ impl ForOf {
                 }
             }
 
-            let stmt = Stmt::For(ForStmt {
+            let stmt = ForStmt {
                 span,
                 init: Some(
                     VarDecl {
@@ -201,7 +201,8 @@ impl ForOf {
                 test,
                 update,
                 body: Box::new(Stmt::Block(body)),
-            });
+            }
+            .into();
 
             return match label {
                 Some(label) => LabeledStmt {
@@ -307,7 +308,7 @@ impl ForOf {
             }
             .into();
 
-            let stmt = Stmt::For(ForStmt {
+            let stmt = ForStmt {
                 span,
                 init: Some(
                     VarDecl {
@@ -320,7 +321,8 @@ impl ForOf {
                 test: Some(test),
                 update: None,
                 body: Box::new(Stmt::Block(body)),
-            });
+            }
+            .into();
             return match label {
                 Some(label) => LabeledStmt {
                     span,
@@ -485,16 +487,17 @@ impl ForOf {
                 }
                 .into(),
             ),
-            body: Box::new(Stmt::Block(body)),
+            body: Box::new(body.into()),
         }
         .into();
 
         let for_stmt = match label {
-            Some(label) => Stmt::Labeled(LabeledStmt {
+            Some(label) => LabeledStmt {
                 span,
                 label,
                 body: Box::new(for_stmt),
-            }),
+            }
+            .into(),
             None => for_stmt,
         };
 

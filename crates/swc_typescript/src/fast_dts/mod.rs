@@ -128,12 +128,13 @@ impl FastDts {
                     }
 
                     if let Some(()) = self.decl_to_type_decl(decl) {
-                        new_items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(
+                        new_items.push(
                             ExportDecl {
                                 decl: decl.take(),
                                 span: *span,
-                            },
-                        )));
+                            }
+                            .into(),
+                        );
                     } else {
                         self.mark_diagnostic(DtsIssue::UnableToInferType {
                             range: self.source_range_to_range(*span),
@@ -175,7 +176,7 @@ impl FastDts {
                         .map(type_ann);
 
                     if let Some(type_ann) = type_ann {
-                        new_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(
+                        new_items.push(
                             VarDecl {
                                 span: DUMMY_SP,
                                 kind: VarDeclKind::Const,
@@ -191,22 +192,25 @@ impl FastDts {
                                     definite: false,
                                 }],
                                 ..Default::default()
-                            },
-                        )))));
+                            }
+                            .into(),
+                        );
 
-                        new_items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
+                        new_items.push(
                             ExportDefaultExpr {
                                 span: export.span,
                                 expr: name_ident.into(),
-                            },
-                        )))
+                            }
+                            .into(),
+                        )
                     } else {
-                        new_items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
+                        new_items.push(
                             ExportDefaultExpr {
                                 span: export.span,
                                 expr: export.expr.take(),
-                            },
-                        )))
+                            }
+                            .into(),
+                        )
                     }
                 }
 
