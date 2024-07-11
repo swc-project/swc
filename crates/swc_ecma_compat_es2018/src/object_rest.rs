@@ -13,7 +13,8 @@ use swc_ecma_utils::{
     var::VarCollector, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, standard_only_visit, standard_only_visit_mut, Visit,
+    VisitMut, VisitMutWith, VisitWith,
 };
 use swc_trace_macro::swc_trace;
 
