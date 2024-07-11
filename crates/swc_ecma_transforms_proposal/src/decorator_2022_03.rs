@@ -26,7 +26,7 @@ struct Decorator2022_03 {
     state: ClassState,
 
     /// Prepended before the class
-    pre_class_inits: Vec<Box<Expr>>,
+    pre_class_inits: Vec<Expr>,
 
     rename_map: FxHashMap<Id, Id>,
 
@@ -68,7 +68,7 @@ impl Decorator2022_03 {
             .collect()
     }
 
-    fn preserve_side_effect_of_decorator(&mut self, dec: Box<Expr>) -> Box<Expr> {
+    fn preserve_side_effect_of_decorator(&mut self, dec: Expr) -> Expr {
         if dec.is_ident() || dec.is_arrow() || dec.is_fn_expr() {
             return dec;
         }
@@ -241,7 +241,7 @@ impl Decorator2022_03 {
     }
 
     /// Returns (name, initilaizer_name)
-    fn initializer_name(&mut self, name: &mut PropName, prefix: &str) -> (Box<Expr>, Ident) {
+    fn initializer_name(&mut self, name: &mut PropName, prefix: &str) -> (Expr, Ident) {
         match name {
             PropName::Ident(i) => (
                 Lit::Str(Str {

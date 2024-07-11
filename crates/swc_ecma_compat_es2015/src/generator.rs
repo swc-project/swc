@@ -173,10 +173,10 @@ enum OpCode {
 #[derive(Debug, Is, Clone)]
 enum OpArgs {
     Label(Label),
-    LabelExpr(Label, Box<Expr>),
+    LabelExpr(Label, Expr),
     Stmt(Box<Stmt>),
-    OptExpr(Option<Box<Expr>>),
-    PatAndExpr(AssignTarget, Box<Expr>),
+    OptExpr(Option<Expr>),
+    PatAndExpr(AssignTarget, Expr),
 }
 
 /// whether a generated code block is opening or closing at the current
@@ -1208,10 +1208,10 @@ impl Generator {
 
     fn reduce_property(
         &mut self,
-        mut expressions: Vec<Box<Expr>>,
+        mut expressions: Vec<Expr>,
         property: CompiledProp,
         temp: &mut Ident,
-    ) -> Vec<Box<Expr>> {
+    ) -> Vec<Expr> {
         if match &property {
             CompiledProp::Prop(p) => contains_yield(p),
             CompiledProp::Accessor(g, s) => {
@@ -2141,7 +2141,7 @@ impl Generator {
         0
     }
 
-    fn cache_expression(&mut self, node: Box<Expr>) -> Ident {
+    fn cache_expression(&mut self, node: Expr) -> Ident {
         match *node {
             Expr::Ident(i) => i,
             _ => {
@@ -2618,7 +2618,7 @@ impl Generator {
 
     /// Creates an expression that can be used to indicate the value for a
     /// label.
-    fn create_label(&mut self, label: Option<Label>) -> Box<Expr> {
+    fn create_label(&mut self, label: Option<Label>) -> Expr {
         if let Some(label) = label {
             if label.0 > 0 {
                 #[cfg(debug_assertions)]
@@ -2696,7 +2696,7 @@ impl Generator {
     ///
     /// - `expr`: The expression for the return statement.
     /// - `loc`: An optional source map location for the statement.
-    fn create_inline_return(&mut self, expr: Option<Box<Expr>>, loc: Option<Span>) -> ReturnStmt {
+    fn create_inline_return(&mut self, expr: Option<Expr>, loc: Option<Span>) -> ReturnStmt {
         ReturnStmt {
             span: loc.unwrap_or(DUMMY_SP),
             arg: Some(
@@ -2716,7 +2716,7 @@ impl Generator {
     }
 
     /// Creates an expression that can be used to resume from a Yield operation.
-    fn create_generator_resume(&mut self, loc: Option<Span>) -> Box<Expr> {
+    fn create_generator_resume(&mut self, loc: Option<Span>) -> Expr {
         CallExpr {
             span: loc.unwrap_or(DUMMY_SP),
             callee: self
@@ -2751,7 +2751,7 @@ impl Generator {
     /// - `left`: The left-hand side of the assignment.
     /// - `right`: The right-hand side of the assignment.
     /// - `loc`: An optional source map location for the assignment.
-    fn emit_assignment(&mut self, left: AssignTarget, right: Box<Expr>, loc: Option<Span>) {
+    fn emit_assignment(&mut self, left: AssignTarget, right: Expr, loc: Option<Span>) {
         self.emit_worker(OpCode::Assign, Some(OpArgs::PatAndExpr(left, right)), loc);
     }
 
@@ -2769,7 +2769,7 @@ impl Generator {
     /// - `label`: A label.
     /// - `condition`: The condition.
     /// - `loc`: An optional source map location for the assignment.
-    fn emit_break_when_true(&mut self, label: Label, condition: Box<Expr>, loc: Option<Span>) {
+    fn emit_break_when_true(&mut self, label: Label, condition: Expr, loc: Option<Span>) {
         self.emit_worker(
             OpCode::BreakWhenTrue,
             Some(OpArgs::LabelExpr(label, condition)),
@@ -2783,7 +2783,7 @@ impl Generator {
     /// - `label`: A label.
     /// - `condition`: The condition.
     /// - `loc`: An optional source map location for the assignment.
-    fn emit_break_when_false(&mut self, label: Label, condition: Box<Expr>, loc: Option<Span>) {
+    fn emit_break_when_false(&mut self, label: Label, condition: Expr, loc: Option<Span>) {
         self.emit_worker(
             OpCode::BreakWhenFalse,
             Some(OpArgs::LabelExpr(label, condition)),
@@ -2795,7 +2795,7 @@ impl Generator {
     ///
     /// - `expr`: An optional value for the yield operation.
     /// - `loc`: An optional source map location for the assignment.
-    fn emit_yield_star(&mut self, expr: Option<Box<Expr>>, loc: Option<Span>) {
+    fn emit_yield_star(&mut self, expr: Option<Expr>, loc: Option<Span>) {
         self.emit_worker(OpCode::YieldStar, Some(OpArgs::OptExpr(expr)), loc);
     }
 
@@ -2803,7 +2803,7 @@ impl Generator {
     ///
     /// - `expr`: An optional value for the yield operation.
     /// - `loc`: An optional source map location for the assignment.
-    fn emit_yield(&mut self, expr: Option<Box<Expr>>, loc: Option<Span>) {
+    fn emit_yield(&mut self, expr: Option<Expr>, loc: Option<Span>) {
         self.emit_worker(OpCode::Yield, Some(OpArgs::OptExpr(expr)), loc);
     }
 
@@ -2811,7 +2811,7 @@ impl Generator {
     ///
     /// - `expr`: An optional value for the operation.
     /// - `loc`: An optional source map location for the assignment.
-    fn emit_return(&mut self, expr: Option<Box<Expr>>, loc: Option<Span>) {
+    fn emit_return(&mut self, expr: Option<Expr>, loc: Option<Span>) {
         self.emit_worker(OpCode::Return, Some(OpArgs::OptExpr(expr)), loc);
     }
 
@@ -2819,7 +2819,7 @@ impl Generator {
     ///
     /// - `expr`: A value for the operation.
     /// - `loc`: An optional source map location for the assignment.
-    fn emit_throw(&mut self, expr: Box<Expr>, loc: Option<Span>) {
+    fn emit_throw(&mut self, expr: Expr, loc: Option<Span>) {
         self.emit_worker(OpCode::Throw, Some(OpArgs::OptExpr(Some(expr))), loc);
     }
 
@@ -3330,7 +3330,7 @@ impl Generator {
     ///
     /// @param expr The value to throw
     /// @param operationLocation The source map location for the operation.
-    fn write_throw(&mut self, expr: Box<Expr>, op_loc: Option<Span>) {
+    fn write_throw(&mut self, expr: Expr, op_loc: Option<Span>) {
         self.last_operation_was_abrupt = true;
         self.last_operation_was_completion = true;
 
@@ -3348,7 +3348,7 @@ impl Generator {
     ///
     /// @param label The label for the Break.
     /// @param operationLocation The source map location for the operation.
-    fn write_return(&mut self, expr: Option<Box<Expr>>, op_loc: Option<Span>) {
+    fn write_return(&mut self, expr: Option<Expr>, op_loc: Option<Span>) {
         self.last_operation_was_abrupt = true;
         self.last_operation_was_completion = true;
 
@@ -3404,7 +3404,7 @@ impl Generator {
     /// @param label The label for the Break.
     /// @param condition The condition for the Break.
     /// @param operationLocation The source map location for the operation.
-    fn write_break_when_true(&mut self, label: Label, cond: Box<Expr>, op_loc: Option<Span>) {
+    fn write_break_when_true(&mut self, label: Label, cond: Expr, op_loc: Option<Span>) {
         let inst = self.create_instruction(Instruction::Break);
         let label = self.create_label(Some(label));
         self.write_stmt(
@@ -3432,7 +3432,7 @@ impl Generator {
     /// @param label The label for the Break.
     /// @param condition The condition for the Break.
     /// @param operationLocation The source map location for the operation.
-    fn write_break_when_false(&mut self, label: Label, cond: Box<Expr>, op_loc: Option<Span>) {
+    fn write_break_when_false(&mut self, label: Label, cond: Expr, op_loc: Option<Span>) {
         let inst = self.create_instruction(Instruction::Break);
         let label = self.create_label(Some(label));
         self.write_stmt(
@@ -3464,7 +3464,7 @@ impl Generator {
     ///
     /// - expr: The expression to yield.
     /// - op_loc: The source map location for the operation.
-    fn write_yield(&mut self, expr: Option<Box<Expr>>, op_loc: Option<Span>) {
+    fn write_yield(&mut self, expr: Option<Expr>, op_loc: Option<Span>) {
         self.last_operation_was_abrupt = true;
 
         let inst = self.create_instruction(Instruction::Yield);
@@ -3495,7 +3495,7 @@ impl Generator {
     ///
     /// - expr: The expression to yield.
     /// - op_loc: The source map location for the operation.
-    fn write_yield_star(&mut self, expr: Box<Expr>, op_loc: Option<Span>) {
+    fn write_yield_star(&mut self, expr: Expr, op_loc: Option<Span>) {
         self.last_operation_was_abrupt = true;
 
         let arg1 = self.create_instruction(Instruction::YieldStar);
@@ -3570,9 +3570,9 @@ impl Generator {
     /// Returns `(target, this_arg)`
     fn create_call_binding(
         &mut self,
-        expr: Box<Expr>,
+        expr: Expr,
         is_new_call: bool,
-    ) -> (Box<Expr>, Box<Expr>) {
+    ) -> (Expr, Expr) {
         let mut callee = expr;
 
         match &mut *callee {

@@ -622,7 +622,7 @@ impl VisitMut for Pure<'_> {
         }
     }
 
-    fn visit_mut_exprs(&mut self, nodes: &mut Vec<Box<Expr>>) {
+    fn visit_mut_exprs(&mut self, nodes: &mut Vec<Expr>) {
         self.visit_par(nodes);
     }
 

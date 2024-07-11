@@ -63,7 +63,7 @@ pub(crate) struct Transform {
     record: TsEnumRecord,
 
     in_class_prop: Vec<Id>,
-    in_class_prop_init: Vec<Box<Expr>>,
+    in_class_prop_init: Vec<Expr>,
     class_prop_decls: Vec<VarDeclarator>,
 }
 
@@ -702,8 +702,7 @@ impl Transform {
             id: id.clone().into(),
         });
 
-        let mut expr_list: Vec<Box<Expr>> =
-            var_decl.decls.into_iter().filter_map(|d| d.init).collect();
+        let mut expr_list: Vec<Expr> = var_decl.decls.into_iter().filter_map(|d| d.init).collect();
 
         if expr_list.is_empty() {
             return None;
@@ -729,7 +728,7 @@ impl Transform {
         &mut self,
         class_member_list: &mut Vec<ClassMember>,
         prop_list: Vec<Id>,
-        mut init_list: Vec<Box<Expr>>,
+        mut init_list: Vec<Expr>,
     ) {
         let mut constructor = None;
         let mut cons_index = 0;
@@ -1252,7 +1251,7 @@ struct ExportQuery {
 }
 
 impl QueryRef for ExportQuery {
-    fn query_ref(&self, ident: &Ident) -> Option<Box<Expr>> {
+    fn query_ref(&self, ident: &Ident) -> Option<Expr> {
         self.export_id_list.contains(&ident.to_id()).then(|| {
             self.namesapce_id
                 .clone()
@@ -1261,7 +1260,7 @@ impl QueryRef for ExportQuery {
         })
     }
 
-    fn query_lhs(&self, ident: &Ident) -> Option<Box<Expr>> {
+    fn query_lhs(&self, ident: &Ident) -> Option<Expr> {
         self.query_ref(ident)
     }
 
