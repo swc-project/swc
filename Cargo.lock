@@ -4952,6 +4952,8 @@ name = "swc_fast_ts_strip"
 version = "0.1.7"
 dependencies = [
  "anyhow",
+ "codspeed-criterion-compat",
+ "criterion",
  "serde",
  "swc_common",
  "swc_ecma_ast",
