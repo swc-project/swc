@@ -296,7 +296,7 @@ struct CharFreqAnalyzer<'a> {
 }
 
 impl Visit for CharFreqAnalyzer<'_> {
-    noop_visit_type!();
+    standard_only_visit!();
 
     visit_obj_and_computed!();
 

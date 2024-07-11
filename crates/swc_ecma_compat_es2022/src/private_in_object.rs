@@ -465,7 +465,7 @@ struct ClassAnalyzer<'a> {
 }
 
 impl Visit for ClassAnalyzer<'_> {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_bin_expr(&mut self, n: &BinExpr) {
         n.visit_children_with(self);

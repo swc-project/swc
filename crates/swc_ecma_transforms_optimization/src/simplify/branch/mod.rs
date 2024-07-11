@@ -1903,7 +1903,7 @@ fn check_for_stopper(s: &[Stmt], only_conditional: bool) -> bool {
     }
 
     impl Visit for Visitor {
-        noop_visit_type!();
+        standard_only_visit!();
 
         fn visit_switch_case(&mut self, node: &SwitchCase) {
             let old = self.in_cond;

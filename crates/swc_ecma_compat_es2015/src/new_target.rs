@@ -147,7 +147,7 @@ struct ShouldWork {
 }
 
 impl Visit for ShouldWork {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr) {
         if let MetaPropExpr {

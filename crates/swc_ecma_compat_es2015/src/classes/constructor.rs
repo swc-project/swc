@@ -66,7 +66,7 @@ macro_rules! mark_as_complex {
 
 #[swc_trace]
 impl Visit for SuperCallFinder {
-    noop_visit_type!();
+    standard_only_visit!();
 
     mark_as_complex!(visit_arrow_expr, ArrowExpr);
 

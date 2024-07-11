@@ -327,7 +327,7 @@ struct ComplexVisitor {
 }
 
 impl Visit for ComplexVisitor {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_prop_name(&mut self, pn: &PropName) {
         if let PropName::Computed(..) = *pn {
@@ -414,7 +414,7 @@ struct ShouldWork {
 }
 
 impl Visit for ShouldWork {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_prop_name(&mut self, node: &PropName) {
         if let PropName::Computed(_) = *node {

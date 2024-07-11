@@ -599,7 +599,7 @@ struct LabelFinder<'a> {
     found: bool,
 }
 impl Visit for LabelFinder<'_> {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_break_stmt(&mut self, s: &BreakStmt) {
         match &s.label {

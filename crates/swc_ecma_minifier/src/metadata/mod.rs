@@ -249,7 +249,7 @@ struct InfoCollector<'a> {
 }
 
 impl Visit for InfoCollector<'_> {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_export_decl(&mut self, f: &ExportDecl) {
         f.visit_children_with(self);

@@ -355,7 +355,7 @@ impl Analyzer<'_> {
 }
 
 impl Visit for Analyzer<'_> {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_callee(&mut self, n: &Callee) {
         n.visit_children_with(self);

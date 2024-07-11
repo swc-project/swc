@@ -10,7 +10,7 @@ pub struct VarCollector<'a, I: IdentLike> {
 }
 
 impl<'a, I: IdentLike> Visit for VarCollector<'a, I> {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 

@@ -61,7 +61,7 @@ pub struct ThisVisitor {
 }
 
 impl Visit for ThisVisitor {
-    noop_visit_type!();
+    standard_only_visit!();
 
     /// Don't recurse into constructor
     fn visit_constructor(&mut self, _: &Constructor) {}
@@ -130,7 +130,7 @@ pub struct IdentRefFinder<'a> {
 }
 
 impl Visit for IdentRefFinder<'_> {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
@@ -159,7 +159,7 @@ pub struct ArgumentsFinder {
 }
 
 impl Visit for ArgumentsFinder {
-    noop_visit_type!();
+    standard_only_visit!();
 
     /// Don't recurse into constructor
     fn visit_constructor(&mut self, _: &Constructor) {}
@@ -477,7 +477,7 @@ pub struct Hoister {
 }
 
 impl Visit for Hoister {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_assign_expr(&mut self, node: &AssignExpr) {
         node.right.visit_children_with(self);
@@ -1711,7 +1711,7 @@ pub struct RestPatVisitor {
 }
 
 impl Visit for RestPatVisitor {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_rest_pat(&mut self, _: &RestPat) {
         self.found = true;
@@ -1748,7 +1748,7 @@ pub struct LiteralVisitor {
 }
 
 impl Visit for LiteralVisitor {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_array_lit(&mut self, e: &ArrayLit) {
         if !self.is_lit {
@@ -2348,7 +2348,7 @@ where
 }
 
 impl<I: IdentLike> Visit for DestructuringFinder<I> {
-    noop_visit_type!();
+    standard_only_visit!();
 
     /// No-op (we don't care about expressions)
     fn visit_expr(&mut self, _: &Expr) {}
@@ -2384,7 +2384,7 @@ impl<F> Visit for BindingIdentifierVisitor<F>
 where
     F: for<'a> FnMut(&'a Ident),
 {
-    noop_visit_type!();
+    standard_only_visit!();
 
     /// No-op (we don't care about expressions)
     fn visit_expr(&mut self, _: &Expr) {}
@@ -2436,7 +2436,7 @@ pub struct IdentUsageFinder<'a> {
 }
 
 impl<'a> Visit for IdentUsageFinder<'a> {
-    noop_visit_type!();
+    standard_only_visit!();
 
     visit_obj_and_computed!();
 
@@ -2761,7 +2761,7 @@ impl<I> Visit for BindingCollector<I>
 where
     I: IdentLike + Eq + Hash + Send + Sync,
 {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
         let old = self.is_pat_decl;
@@ -2896,7 +2896,7 @@ pub struct TopLevelAwait {
 }
 
 impl Visit for TopLevelAwait {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_stmt(&mut self, n: &Stmt) {
         if !self.found {

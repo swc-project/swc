@@ -488,7 +488,7 @@ struct SpreadFinder {
 }
 
 impl Visit for SpreadFinder {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_expr_or_spread(&mut self, n: &ExprOrSpread) {
         n.visit_children_with(self);

@@ -534,7 +534,7 @@ struct ShouldWork {
 
 #[swc_trace]
 impl Visit for ShouldWork {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_function(&mut self, f: &Function) {
         if f.is_async {

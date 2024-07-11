@@ -154,7 +154,7 @@ impl UsageVisitor {
 }
 
 impl Visit for UsageVisitor {
-    noop_visit_type!();
+    standard_only_visit!();
 
     /// `[a, b] = c`
     fn visit_array_pat(&mut self, p: &ArrayPat) {

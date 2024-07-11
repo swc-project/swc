@@ -124,7 +124,7 @@ impl UsageVisitor {
 
 /// Detects usage of types
 impl Visit for UsageVisitor {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_ident(&mut self, node: &Ident) {
         node.visit_children_with(self);

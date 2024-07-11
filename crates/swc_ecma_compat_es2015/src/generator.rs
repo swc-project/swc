@@ -3505,7 +3505,7 @@ struct YieldFinder {
 }
 
 impl Visit for YieldFinder {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_yield_expr(&mut self, _: &YieldExpr) {
         self.found = true;

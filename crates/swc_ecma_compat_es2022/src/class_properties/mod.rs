@@ -1068,7 +1068,7 @@ struct ShouldWork {
 
 #[swc_trace]
 impl Visit for ShouldWork {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_class_method(&mut self, _: &ClassMethod) {
         self.found = true;
@@ -1103,7 +1103,7 @@ struct SuperVisitor {
 }
 
 impl Visit for SuperVisitor {
-    noop_visit_type!();
+    standard_only_visit!();
 
     /// Don't recurse into constructor
     fn visit_constructor(&mut self, _: &Constructor) {}

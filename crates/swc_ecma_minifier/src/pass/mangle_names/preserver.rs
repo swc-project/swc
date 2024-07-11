@@ -35,7 +35,7 @@ impl Preserver {
 }
 
 impl Visit for Preserver {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_block_stmt(&mut self, n: &BlockStmt) {
         let old_top_level = self.in_top_level;

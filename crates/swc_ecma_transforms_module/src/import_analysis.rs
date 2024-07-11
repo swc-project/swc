@@ -38,7 +38,7 @@ impl VisitMut for ImportAnalyzer {
 }
 
 impl Visit for ImportAnalyzer {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_module_items(&mut self, n: &[ModuleItem]) {
         for item in n.iter() {

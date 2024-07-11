@@ -164,7 +164,7 @@ struct RestVisitor {
 
 #[swc_trace]
 impl Visit for RestVisitor {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_object_pat_prop(&mut self, prop: &ObjectPatProp) {
         match *prop {

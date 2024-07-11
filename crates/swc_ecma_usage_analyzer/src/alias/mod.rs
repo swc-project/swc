@@ -120,7 +120,7 @@ impl InfectionCollector<'_> {
 }
 
 impl Visit for InfectionCollector<'_> {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_bin_expr(&mut self, e: &BinExpr) {
         match e.op {

@@ -744,7 +744,7 @@ struct IdentListVisitor<'a, 'b> {
 }
 
 impl Visit for IdentListVisitor<'_, '_> {
-    noop_visit_type!();
+    standard_only_visit!();
 
     visit_obj_and_computed!();
 
@@ -759,7 +759,7 @@ struct WriteVisitor<'a, 'b> {
 }
 
 impl Visit for WriteVisitor<'_, '_> {
-    noop_visit_type!();
+    standard_only_visit!();
 
     visit_obj_and_computed!();
 

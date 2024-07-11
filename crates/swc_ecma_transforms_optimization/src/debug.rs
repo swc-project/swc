@@ -29,7 +29,7 @@ impl Drop for Ctx<'_> {
 pub struct AssertValid;
 
 impl Visit for AssertValid {
-    noop_visit_type!();
+    standard_only_visit!();
 
     #[cfg(debug_assertions)]
     fn visit_expr(&mut self, n: &Expr) {

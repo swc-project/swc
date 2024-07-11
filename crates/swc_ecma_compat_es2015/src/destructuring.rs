@@ -1246,7 +1246,7 @@ struct DestructuringVisitor {
 }
 
 impl Visit for DestructuringVisitor {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_assign_target_pat(&mut self, _: &AssignTargetPat) {
         self.found = true;

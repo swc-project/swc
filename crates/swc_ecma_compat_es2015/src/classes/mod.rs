@@ -1229,7 +1229,7 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     }
 
     impl Visit for SuperFinder {
-        noop_visit_type!();
+        standard_only_visit!();
 
         fn visit_callee(&mut self, node: &Callee) {
             match *node {
@@ -1284,7 +1284,7 @@ struct ClassFinder {
 }
 
 impl Visit for ClassFinder {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_class(&mut self, _: &Class) {
         self.found = true

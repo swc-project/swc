@@ -299,7 +299,7 @@ pub(super) struct VarWithOutInitCounter {
 }
 
 impl Visit for VarWithOutInitCounter {
-    noop_visit_type!();
+    standard_only_visit!();
 
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 
