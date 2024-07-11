@@ -3111,8 +3111,6 @@ impl<T> VisitMut for RefRewriter<T>
 where
     T: QueryRef,
 {
-    standard_only_visit_mut!();
-
     /// replace bar in binding pattern
     /// input:
     /// ```JavaScript
