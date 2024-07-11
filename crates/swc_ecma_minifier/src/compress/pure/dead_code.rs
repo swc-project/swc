@@ -246,7 +246,7 @@ impl Pure<'_> {
                 |(mut decls, mut hoisted_fns, mut new_stmts), stmt| {
                     match stmt.take().try_into_stmt() {
                         Ok(Stmt::Decl(Decl::Fn(f))) => {
-                            hoisted_fns.push(f.into());
+                            hoisted_fns.push(T::from(Stmt::from(f)));
                         }
                         Ok(t) => {
                             let ids = extract_var_ids(&t).into_iter().map(|i| VarDeclarator {
@@ -264,16 +264,13 @@ impl Pure<'_> {
             );
 
             if !decls.is_empty() {
-                new_stmts.push(
-                    VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls,
-                        declare: false,
-                        ..Default::default()
-                    }
-                    .into(),
-                );
+                new_stmts.push(T::from(Stmt::from(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls,
+                    declare: false,
+                    ..Default::default()
+                })));
             }
 
             new_stmts.extend(stmts.drain(..=idx));
