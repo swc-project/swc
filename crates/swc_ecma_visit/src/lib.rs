@@ -646,7 +646,6 @@ define!({
         TsTypeAlias(Box<TsTypeAliasDecl>),
         TsEnum(Box<TsEnumDecl>),
         TsModule(Box<TsModuleDecl>),
-        Invalid(Invalid),
     }
     pub struct FnDecl {
         pub ident: Ident,

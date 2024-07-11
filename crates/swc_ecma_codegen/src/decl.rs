@@ -26,7 +26,6 @@ where
             Decl::TsInterface(ref n) => emit!(n),
             Decl::TsModule(ref n) => emit!(n),
             Decl::TsTypeAlias(ref n) => emit!(n),
-            Decl::Invalid(ref n) => emit!(n),
         }
     }
 
