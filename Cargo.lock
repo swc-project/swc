@@ -4658,7 +4658,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.183.1"
+version = "0.183.2"
 dependencies = [
  "Inflector",
  "anyhow",
