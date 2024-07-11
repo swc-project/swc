@@ -779,13 +779,13 @@ impl VisitMut for Fixer<'_> {
         self.in_for_stmt_head = in_for_stmt_head;
     }
 
-    fn visit_mut_params(&mut self, n: &mut std::vec::Vec<Param>) {
+    fn visit_mut_params(&mut self, n: &mut Vec<Param>) {
         let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
         n.visit_mut_children_with(self);
         self.in_for_stmt_head = in_for_stmt_head;
     }
 
-    fn visit_mut_expr_or_spreads(&mut self, n: &mut std::vec::Vec<ExprOrSpread>) {
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
         let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
         n.visit_mut_children_with(self);
         self.in_for_stmt_head = in_for_stmt_head;
