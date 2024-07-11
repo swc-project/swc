@@ -366,8 +366,8 @@ class TextProtoReader {
         return n;
     }
 }
-var Status;
-(function(Status) {})(Status || (Status = {}));
+let Status;
+Status || (Status = {});
 const STATUS_TEXT = new Map([]);
 function deferred() {
     let methods;
