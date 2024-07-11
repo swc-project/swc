@@ -107,9 +107,9 @@ pub struct Config {
 
 struct Data {
     key_prop: Box<PropName>,
-    method: Option<Expr>,
-    set: Option<Expr>,
-    get: Option<Expr>,
+    method: Option<Box<Expr>>,
+    set: Option<Box<Expr>>,
+    get: Option<Box<Expr>>,
 }
 
 #[swc_trace]
@@ -1297,7 +1297,7 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     !v.found
 }
 
-fn escape_keywords(mut e: Expr) -> Expr {
+fn escape_keywords(mut e: Box<Expr>) -> Box<Expr> {
     if let Expr::Fn(f) = &mut *e {
         if let Some(i) = &mut f.ident {
             let sym = Ident::verify_symbol(&i.sym);

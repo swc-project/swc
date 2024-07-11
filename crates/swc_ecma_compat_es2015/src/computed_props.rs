@@ -76,7 +76,7 @@ impl VisitMut for ComputedProps {
             let mark = Mark::fresh(Mark::root());
             let obj_ident = quote_ident!(SyntaxContext::empty().apply_mark(mark), *span, "_obj");
 
-            let mut exprs: Vec<Expr> = Vec::with_capacity(props.len() + 2);
+            let mut exprs: Vec<Box<Expr>> = Vec::with_capacity(props.len() + 2);
             let mutator_map = quote_ident!(
                 SyntaxContext::empty().apply_mark(mark),
                 *span,
