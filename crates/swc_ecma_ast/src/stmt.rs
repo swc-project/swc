@@ -113,6 +113,7 @@ boxed!(Stmt, [TryStmt]);
 macro_rules! stmt_from {
     ($($varant_ty:ty),*) => {
         $(
+            bridge_from!(Box<crate::Stmt>, crate::Stmt, $varant_ty);
             bridge_from!(crate::ModuleItem, crate::Stmt, $varant_ty);
         )*
     };

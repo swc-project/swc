@@ -188,8 +188,6 @@ macro_rules! test_de {
 macro_rules! boxed {
     ($T:ty, [$($variant_ty:ty),*]) => {
         $(
-            bridge_from!(Box<$T>, $T, $variant_ty);
-            bridge_from!(Box<$T>, $T, Box<$variant_ty>);
             bridge_from!($T, Box<$variant_ty>, $variant_ty);
         )*
     };
