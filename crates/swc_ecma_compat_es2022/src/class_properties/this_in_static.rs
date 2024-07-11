@@ -1,5 +1,5 @@
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{standard_only_visit_mut, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 pub(super) struct ThisInStaticFolder {

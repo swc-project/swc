@@ -8,7 +8,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{alias_ident_for, alias_if_required, prepend_stmt, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, standard_only_visit_mut, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 use super::Config;
