@@ -180,3 +180,19 @@ void 0;
     ():
         any=>
         1;
+
+{
+    (a, b, c: D = [] as any/*comment-1*/)/*comment-2*/:
+        /*comment-3*/any/*comment-4*/=>
+        1
+};
+
+type 任意の型 = any;
+
+():
+任意の型=>
+1;
+
+()/*comment-1*/:/*comment-2*/
+/*comment-3*/任意の型/*comment-4*/=>
+1;
