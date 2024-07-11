@@ -21,8 +21,8 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
-    standard_only_visit, standard_only_visit_mut, visit_mut_obj_and_computed,
-    visit_obj_and_computed, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_type, standard_only_visit_mut, visit_mut_obj_and_computed, visit_obj_and_computed,
+    Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::trace;
 
@@ -61,7 +61,7 @@ pub struct ThisVisitor {
 }
 
 impl Visit for ThisVisitor {
-    standard_only_visit!();
+    noop_visit_type!();
 
     /// Don't recurse into constructor
     fn visit_constructor(&mut self, _: &Constructor) {}
@@ -130,7 +130,7 @@ pub struct IdentRefFinder<'a> {
 }
 
 impl Visit for IdentRefFinder<'_> {
-    standard_only_visit!();
+    noop_visit_type!();
 
     fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
@@ -159,7 +159,7 @@ pub struct ArgumentsFinder {
 }
 
 impl Visit for ArgumentsFinder {
-    standard_only_visit!();
+    noop_visit_type!();
 
     /// Don't recurse into constructor
     fn visit_constructor(&mut self, _: &Constructor) {}
@@ -477,7 +477,7 @@ pub struct Hoister {
 }
 
 impl Visit for Hoister {
-    standard_only_visit!();
+    noop_visit_type!();
 
     fn visit_assign_expr(&mut self, node: &AssignExpr) {
         node.right.visit_children_with(self);
@@ -1711,7 +1711,7 @@ pub struct RestPatVisitor {
 }
 
 impl Visit for RestPatVisitor {
-    standard_only_visit!();
+    noop_visit_type!();
 
     fn visit_rest_pat(&mut self, _: &RestPat) {
         self.found = true;
@@ -1748,7 +1748,7 @@ pub struct LiteralVisitor {
 }
 
 impl Visit for LiteralVisitor {
-    standard_only_visit!();
+    noop_visit_type!();
 
     fn visit_array_lit(&mut self, e: &ArrayLit) {
         if !self.is_lit {
@@ -2368,7 +2368,7 @@ impl<F> Visit for BindingIdentifierVisitor<F>
 where
     F: for<'a> FnMut(&'a Ident),
 {
-    standard_only_visit!();
+    noop_visit_type!();
 
     /// No-op (we don't care about expressions)
     fn visit_expr(&mut self, _: &Expr) {}
@@ -2420,7 +2420,7 @@ pub struct IdentUsageFinder<'a> {
 }
 
 impl<'a> Visit for IdentUsageFinder<'a> {
-    standard_only_visit!();
+    noop_visit_type!();
 
     visit_obj_and_computed!();
 
@@ -2745,7 +2745,7 @@ impl<I> Visit for BindingCollector<I>
 where
     I: IdentLike + Eq + Hash + Send + Sync,
 {
-    standard_only_visit!();
+    noop_visit_type!();
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
         let old = self.is_pat_decl;
@@ -2880,7 +2880,7 @@ pub struct TopLevelAwait {
 }
 
 impl Visit for TopLevelAwait {
-    standard_only_visit!();
+    noop_visit_type!();
 
     fn visit_stmt(&mut self, n: &Stmt) {
         if !self.found {
