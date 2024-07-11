@@ -81,7 +81,7 @@ pat_to_other!(ArrayPat);
 pat_to_other!(ObjectPat);
 pat_to_other!(AssignPat);
 pat_to_other!(RestPat);
-pat_to_other!(Box<Expr>);
+pat_to_other!(Expr);
 
 #[ast_node("ArrayPattern")]
 #[derive(Eq, Hash, EqIgnoreSpan)]

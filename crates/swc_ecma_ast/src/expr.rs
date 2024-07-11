@@ -467,51 +467,6 @@ bridge_expr_from!(Ident, Id);
 bridge_expr_from!(FnExpr, Function);
 bridge_expr_from!(ClassExpr, Class);
 
-macro_rules! boxed_expr {
-    ($T:ty) => {
-        bridge_from!(Expr, Expr, $T);
-    };
-}
-
-boxed_expr!(ThisExpr);
-boxed_expr!(ArrayLit);
-boxed_expr!(ObjectLit);
-boxed_expr!(FnExpr);
-boxed_expr!(UnaryExpr);
-boxed_expr!(UpdateExpr);
-boxed_expr!(BinExpr);
-boxed_expr!(AssignExpr);
-boxed_expr!(MemberExpr);
-boxed_expr!(SuperPropExpr);
-boxed_expr!(CondExpr);
-boxed_expr!(CallExpr);
-boxed_expr!(NewExpr);
-boxed_expr!(SeqExpr);
-bridge_from!(Expr, Expr, Ident);
-boxed_expr!(Lit);
-boxed_expr!(Tpl);
-boxed_expr!(TaggedTpl);
-boxed_expr!(ArrowExpr);
-boxed_expr!(ClassExpr);
-boxed_expr!(YieldExpr);
-boxed_expr!(MetaPropExpr);
-boxed_expr!(AwaitExpr);
-boxed_expr!(ParenExpr);
-boxed_expr!(JSXMemberExpr);
-boxed_expr!(JSXNamespacedName);
-boxed_expr!(JSXEmptyExpr);
-boxed_expr!(Box<JSXElement>);
-boxed_expr!(JSXFragment);
-boxed_expr!(TsTypeAssertion);
-boxed_expr!(TsSatisfiesExpr);
-boxed_expr!(TsConstAssertion);
-boxed_expr!(TsNonNullExpr);
-boxed_expr!(TsAsExpr);
-boxed_expr!(TsInstantiation);
-boxed_expr!(PrivateName);
-boxed_expr!(OptChainExpr);
-boxed_expr!(Invalid);
-
 #[ast_node("ThisExpression")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -1571,7 +1526,6 @@ impl From<SimpleAssignTarget> for Expr {
     fn from(s: SimpleAssignTarget) -> Self {
         match s {
             SimpleAssignTarget::Ident(i) => i.into(),
-            SimpleAssignTarget::Ident(i) => i.into(),
             SimpleAssignTarget::Member(m) => m.into(),
             SimpleAssignTarget::SuperProp(s) => s.into(),
             SimpleAssignTarget::Paren(s) => s.into(),
@@ -1582,39 +1536,6 @@ impl From<SimpleAssignTarget> for Expr {
             SimpleAssignTarget::TsTypeAssertion(a) => a.into(),
             SimpleAssignTarget::TsInstantiation(a) => a.into(),
             SimpleAssignTarget::Invalid(i) => i.into(),
-            SimpleAssignTarget::Ident(i) => Box::new(Expr::Ident(i.into())),
-            SimpleAssignTarget::Member(m) => Box::new(Expr::Member(m)),
-            SimpleAssignTarget::SuperProp(s) => Box::new(Expr::SuperProp(s)),
-            SimpleAssignTarget::Paren(s) => Box::new(Expr::Paren(s)),
-            SimpleAssignTarget::OptChain(s) => Box::new(Expr::OptChain(s)),
-            SimpleAssignTarget::TsAs(a) => Box::new(Expr::TsAs(a)),
-            SimpleAssignTarget::TsSatisfies(s) => Box::new(Expr::TsSatisfies(s)),
-            SimpleAssignTarget::TsNonNull(n) => Box::new(Expr::TsNonNull(n)),
-            SimpleAssignTarget::TsTypeAssertion(a) => Box::new(Expr::TsTypeAssertion(a)),
-            SimpleAssignTarget::TsInstantiation(a) => Box::new(Expr::TsInstantiation(a)),
-            SimpleAssignTarget::Invalid(i) => Box::new(Expr::Invalid(i)),
-            SimpleAssignTarget::Ident(i) => (Expr::Ident(i.into())),
-            SimpleAssignTarget::Member(m) => (Expr::Member(m)),
-            SimpleAssignTarget::SuperProp(s) => (Expr::SuperProp(s)),
-            SimpleAssignTarget::Paren(s) => (Expr::Paren(s)),
-            SimpleAssignTarget::OptChain(s) => (Expr::OptChain(s)),
-            SimpleAssignTarget::TsAs(a) => (Expr::TsAs(a)),
-            SimpleAssignTarget::TsSatisfies(s) => (Expr::TsSatisfies(s)),
-            SimpleAssignTarget::TsNonNull(n) => (Expr::TsNonNull(n)),
-            SimpleAssignTarget::TsTypeAssertion(a) => (Expr::TsTypeAssertion(a)),
-            SimpleAssignTarget::TsInstantiation(a) => (Expr::TsInstantiation(a)),
-            SimpleAssignTarget::Invalid(i) => (Expr::Invalid(i)),
-            SimpleAssignTarget::Ident(i) => Expr::Ident(i.into()),
-            SimpleAssignTarget::Member(m) => Expr::Member(m),
-            SimpleAssignTarget::SuperProp(s) => Expr::SuperProp(s),
-            SimpleAssignTarget::Paren(s) => Expr::Paren(s),
-            SimpleAssignTarget::OptChain(s) => Expr::OptChain(s),
-            SimpleAssignTarget::TsAs(a) => Expr::TsAs(a),
-            SimpleAssignTarget::TsSatisfies(s) => Expr::TsSatisfies(s),
-            SimpleAssignTarget::TsNonNull(n) => Expr::TsNonNull(n),
-            SimpleAssignTarget::TsTypeAssertion(a) => Expr::TsTypeAssertion(a),
-            SimpleAssignTarget::TsInstantiation(a) => Expr::TsInstantiation(a),
-            SimpleAssignTarget::Invalid(i) => Expr::Invalid(i),
         }
     }
 }
