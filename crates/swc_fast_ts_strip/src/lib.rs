@@ -247,8 +247,11 @@ impl Visit for TsStrip {
             debug_assert_eq!(arrow.token, Token::Arrow);
             let span = span(r_paren.span.lo, arrow.span.lo);
 
-            let slice = self.get_src_slice(span).as_bytes();
-            if slice.contains(&b'\n') {
+            let slice = self.get_src_slice(span);
+            if slice
+                .chars()
+                .any(|c| matches!(c, '\u{000A}' | '\u{000D}' | '\u{2028}' | '\u{2029}'))
+            {
                 self.add_replacement(span);
 
                 // Instead of moving the arrow mark, we shift the right parenthesis to the next
