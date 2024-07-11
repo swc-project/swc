@@ -562,7 +562,7 @@ impl AssignFolder {
         &mut self,
         span: Span,
         mut pat: AssignPat,
-        right: &mut Box<Expr>,
+        right: &mut Expr,
     ) -> Expr {
         let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
 
@@ -1132,7 +1132,7 @@ fn make_ref_idx_expr(ref_ident: &Ident, i: usize) -> MemberExpr {
     ref_ident.clone().computed_member(i as f64)
 }
 
-fn make_ref_ident(c: Config, decls: &mut Vec<VarDeclarator>, init: Option<Box<Expr>>) -> Ident {
+fn make_ref_ident(c: Config, decls: &mut Vec<VarDeclarator>, init: Option<Expr>) -> Ident {
     make_ref_ident_for_array(c, decls, init, None)
 }
 
@@ -1140,7 +1140,7 @@ fn make_ref_ident(c: Config, decls: &mut Vec<VarDeclarator>, init: Option<Box<Ex
 fn make_ref_ident_for_array(
     c: Config,
     decls: &mut Vec<VarDeclarator>,
-    mut init: Option<Box<Expr>>,
+    mut init: Option<Expr>,
     elem_cnt: Option<usize>,
 ) -> Ident {
     if elem_cnt.is_none() {
@@ -1204,7 +1204,7 @@ fn make_ref_ident_for_array(
     ref_ident
 }
 
-fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>, mut computed: bool) -> Expr {
+fn make_ref_prop_expr(ref_ident: &Ident, prop: Expr, mut computed: bool) -> Expr {
     computed |= matches!(*prop, Expr::Lit(Lit::Num(..)) | Expr::Lit(Lit::Str(..)));
 
     MemberExpr {
@@ -1223,7 +1223,7 @@ fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>, mut computed: bool) ->
 }
 
 /// Creates `tmp === void 0 ? def_value : tmp`
-fn make_cond_expr(tmp: Ident, def_value: Box<Expr>) -> Expr {
+fn make_cond_expr(tmp: Ident, def_value: Expr) -> Expr {
     CondExpr {
         span: DUMMY_SP,
         test: BinExpr {

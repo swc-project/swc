@@ -1272,7 +1272,7 @@ impl VisitMut for Remover {
         })
     }
 
-    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Expr>) {
         self.maybe_par(cpu_count() * 8, n, |v, n| {
             n.visit_mut_with(v);
         })
@@ -1476,7 +1476,7 @@ impl Remover {
 ///  - [Some] if `e` has a side effect.
 ///  - [None] if `e` does not have a side effect.
 #[inline(never)]
-fn ignore_result(e: Box<Expr>, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Box<Expr>> {
+fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
     match *e {
         Expr::Lit(Lit::Num(..))
         | Expr::Lit(Lit::Bool(..))

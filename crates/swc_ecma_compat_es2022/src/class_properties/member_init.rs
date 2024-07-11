@@ -11,19 +11,19 @@ pub(super) enum MemberInit {
     PrivProp(PrivProp),
     PrivMethod(PrivMethod),
     PrivAccessor(PrivAccessor),
-    StaticBlock(Box<Expr>),
+    StaticBlock(Expr),
 }
 
 pub(super) struct PubProp {
     pub span: Span,
     pub name: PropName,
-    pub value: Box<Expr>,
+    pub value: Expr,
 }
 
 pub(super) struct PrivProp {
     pub span: Span,
     pub name: Ident,
-    pub value: Box<Expr>,
+    pub value: Expr,
 }
 
 pub(super) struct PrivMethod {
@@ -73,7 +73,7 @@ impl MemberInitRecord {
         }
     }
 
-    pub fn into_init(self) -> Vec<Box<Expr>> {
+    pub fn into_init(self) -> Vec<Expr> {
         let mut normal_init = vec![];
         let mut value_init = vec![];
         for init in self.record {
@@ -324,7 +324,7 @@ impl MemberInitRecord {
     }
 }
 
-fn get_value_desc(value: Box<Expr>) -> ObjectLit {
+fn get_value_desc(value: Expr) -> ObjectLit {
     ObjectLit {
         span: DUMMY_SP,
         props: vec![
@@ -362,7 +362,7 @@ fn get_accessor_desc(getter: Option<Ident>, setter: Option<Ident>) -> ObjectLit 
     }
 }
 
-fn get_method_desc(value: Box<Expr>) -> ObjectLit {
+fn get_method_desc(value: Expr) -> ObjectLit {
     ObjectLit {
         span: DUMMY_SP,
         props: vec![
