@@ -47,7 +47,7 @@ fn tr_config(
             has_decorators,
         ),
         resolver(unresolved_mark, top_level_mark, true),
-        typescript(config, top_level_mark),
+        typescript(config, unresolved_mark),
         jsx(
             t.cm.clone(),
             None::<NoopComments>,
