@@ -391,7 +391,7 @@ impl VisitMut for TemplateLiteral {
     fn visit_mut_module(&mut self, m: &mut Module) {
         m.visit_mut_children_with(self);
 
-        prepend_stmts(&mut m.body, self.added.drain(..).map(ModuleItem::from_stmt));
+        prepend_stmts(&mut m.body, self.added.drain(..).map(ModuleItem::from));
     }
 
     fn visit_mut_script(&mut self, m: &mut Script) {
