@@ -1,4 +1,4 @@
-export var util;
+export let util;
 (function(util) {
     const c = 3;
     function foo() {}

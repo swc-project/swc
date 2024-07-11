@@ -1,4 +1,4 @@
-var Test;
+let Test;
 (function(Test) {
     (function(Inner) {
         Inner.c = 3;

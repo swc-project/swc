@@ -1,4 +1,4 @@
-export var TEST;
+export let TEST;
 (function(TEST) {
     TEST.VALUE = "value";
 })(TEST || (TEST = {}));

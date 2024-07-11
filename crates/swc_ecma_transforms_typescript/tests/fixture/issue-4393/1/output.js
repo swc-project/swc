@@ -1,4 +1,4 @@
-var foo;
+let foo;
 (function(foo) {
     foo.bar = 0;
 })(foo || (foo = {}));

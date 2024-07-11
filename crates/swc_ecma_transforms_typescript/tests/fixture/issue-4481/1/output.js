@@ -1,5 +1,5 @@
 import * as I from "./ABC";
-export var IE;
+export let IE;
 (function(IE) {
     IE.A = I.A;
     IE.C = I.C;

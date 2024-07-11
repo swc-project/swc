@@ -1,11 +1,11 @@
-var X;
+let X;
 (function(X) {
     let Z;
     (function(Z) {
         Z.foo = 0;
     })(Z = X.Z || (X.Z = {}));
 })(X || (X = {}));
-var Y;
+let Y;
 (function(Y) {
     let Z;
     (function(Z) {

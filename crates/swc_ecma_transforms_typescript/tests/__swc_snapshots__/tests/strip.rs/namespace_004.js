@@ -1,4 +1,4 @@
-var MyNamespace;
+let MyNamespace;
 (function(MyNamespace) {
     let MyEnum;
     (function(MyEnum) {

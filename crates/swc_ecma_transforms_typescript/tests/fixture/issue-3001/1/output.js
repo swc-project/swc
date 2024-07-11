@@ -1,5 +1,5 @@
 var x = 4;
-var Foo;
+let Foo;
 (function(Foo) {
     Foo[Foo["a"] = 0] = "a";
     Foo[Foo["b"] = 0] = "b";

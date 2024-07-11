@@ -1,4 +1,4 @@
-var API;
+let API;
 (function(API) {
     API.url = "/";
     function update(value) {

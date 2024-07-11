@@ -1,23 +1,23 @@
-var D;
+let D;
 (function(D) {
     D[D["A"] = 0] = "A";
     D[D["B"] = 2] = "B";
 })(D || (D = {}));
 D.A = 5;
 console.log(D.A);
-var E;
+let E;
 console.log(1);
-var F;
-var G;
+let F;
+let G;
 (function(G) {
     G[G["A"] = 2] = "A";
 })(G || (G = {}));
 console.log(G.A);
-var H;
+let H;
 (function(H) {
     H[H["A"] = 2] = "A";
 })(H || (H = {}));
-var I;
+let I;
 (function(I) {
     I[I["A"] = H.A] = "A";
 })(I || (I = {}));

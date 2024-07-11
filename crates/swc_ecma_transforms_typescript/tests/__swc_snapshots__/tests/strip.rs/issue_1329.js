@@ -1,4 +1,4 @@
-var Test;
+let Test;
 (function(Test) {
     let DummyValues;
     (function(DummyValues) {

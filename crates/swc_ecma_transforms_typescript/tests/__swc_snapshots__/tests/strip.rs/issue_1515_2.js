@@ -1,4 +1,4 @@
-export var A;
+export let A;
 (function(A) {
     class B extends A {
     }

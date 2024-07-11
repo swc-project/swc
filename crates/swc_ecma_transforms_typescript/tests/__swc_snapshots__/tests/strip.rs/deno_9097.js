@@ -1,4 +1,4 @@
-export var util;
+export let util;
 (function(util) {
     function assertNever(_x) {
         throw new Error();
