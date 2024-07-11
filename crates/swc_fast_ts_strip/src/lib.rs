@@ -669,6 +669,7 @@ trait U8Helper {
 }
 
 impl U8Helper for u8 {
+    // Copy from std::core::num::u8
     #[inline]
     fn is_utf8_char_boundary(&self) -> bool {
         // This is bit magic equivalent to: b < 128 || b >= 192
