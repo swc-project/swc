@@ -6,7 +6,7 @@ use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     alias_ident_for, is_rest_arguments, prepend_stmt, private_ident, quote_ident, ExprFactory,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 struct ObjectSuper {

@@ -5,8 +5,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{should_work, Check};
 use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, standard_only_visit_mut, Fold, Visit,
-    VisitMut, VisitMutWith,
+    as_folder, standard_only_visit, standard_only_visit_mut, Fold, Visit, VisitMut, VisitMutWith,
 };
 use swc_trace_macro::swc_trace;
 
