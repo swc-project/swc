@@ -5,7 +5,7 @@ use rustc_hash::FxHasher;
 use swc_common::{comments::Comments, util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, standard_only_visit_mut, Fold, VisitMut, VisitMutWith};
 
 /// Fixes ast nodes before printing so semantics are preserved.
 ///
@@ -100,7 +100,7 @@ impl Fixer<'_> {
 }
 
 impl VisitMut for Fixer<'_> {
-    noop_visit_mut_type!();
+    standard_only_visit_mut!();
 
     array!(visit_mut_array_lit, ArrayLit);
 
